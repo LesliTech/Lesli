@@ -31,7 +31,7 @@ export default {
                     active: true,
                     default_path: "",
                     only_my_data: false,
-                    object_level_permission: 10,
+                    object_level_permission: 10
                 }
             }
         }
@@ -43,15 +43,14 @@ export default {
             translations: {
                 core: {
                     shared: I18n.t('core.shared'),
-                    roles: I18n.t('core.roles'),
+                    roles: I18n.t('core.roles')
                 }
-            }
+            },
+            submitting_form: false
         }
     },
     mounted() {
         this.getRoles()
-        this.role.active = true
-        this.role.only_my_data = false
     },
     methods: {
 
@@ -66,9 +65,11 @@ export default {
             }
         },
         putRole() {
+            this.submitting_form = true 
             this.http.put(this.url.admin("roles/:id", { id: this.role.id }), {
                 role: this.role
             }).then(result => {
+                this.submitting_form = false 
                 if (!result.successful) {
                     this.msg.warn(result.error.message)
                     return
@@ -77,14 +78,18 @@ export default {
             })
         },
         postRole() {
+            this.submitting_form = true
             this.http.post(this.url.admin("roles"), {
                 role: this.role
             }).then(result => {
+                this.submitting_form = false 
                 if (!result.successful) {
                     this.msg.warn(result.error.message)
                     return
                 }
                 this.msg.success(this.translations.core.roles.messages_success_role_created_successfully)
+                
+                this.$router.push(`/${result.data.id}`)
             })
         },
         getRoles() {
@@ -115,6 +120,10 @@ export default {
                 })
             })
 
+        },
+        
+        isSelected(level) {
+            return level === this.role.object_level_permission
         }
 
     }
@@ -122,108 +131,149 @@ export default {
 }
 </script>
 <template>
-    <div class="box">
-        <form @submit.prevent="submit">
-            <fieldset :disabled="!edit">
+    <section>
+        <component-header :title="translations.core.roles.view_text_new_role">
+            <div class="buttons">
+                <router-link class="button" to="/">
+                    <b-icon icon="list" size="is-small" />
+                    <span>{{ translations.core.roles.view_btn_roles_list }}</span>
+                </router-link>
+                <b-button v-if="role.id" class="button" @click.stop="$set(data, 'view_type', 'logs')">
+                    <b-icon icon="history" size="is-small" />
+                    <span>{{ translations.core.roles.view_btn_logs }}</span>
+                </b-button>
+                <b-button v-if="role.id" class="button" @click.stop="$set(data, 'view_type', 'simple')">
+                    <b-icon icon="cogs" size="is-small" />
+                    <span>{{ translations.core.roles.view_btn_edit_privilege_actions }}</span>
+                </b-button>
+            </div>            
+        </component-header>
+    
+        <div class="box">
+            <form @submit.prevent="submit">
+                <fieldset :disabled="!edit||submitting_form">
 
-                <div class="field">
-                    <label class="label">
-                        {{ translations.core.roles.column_name }}
-                        <sup class="has-text-danger">*</sup>
-                    </label>
-                    <div class="control">
-                        <input v-model="role.name" class="input" type="text" required />
+                    <div class="field">
+                        <label class="label">
+                            {{ translations.core.roles.column_name }}
+                            <sup class="has-text-danger">*</sup>
+                        </label>
+                            <div v-if="!role.id">
+                                <input
+                                    v-model="role.name"
+                                    class="input"
+                                    type="text"
+                                    required
+                                >
+                            </div>
+                            <div v-else class="control">
+                                <input
+                                    :value="object_utils.translateEnum(translations.core.roles, 'column_enum_role', role.name)"
+                                    class="input"
+                                    type="text"
+                                    required
+                                    :disabled="role.id"
+                                >
+                            </div>
                     </div>
-                </div>
 
-                <div class="field">
-                    <label class="label">{{ translations.core.roles.column_default_path }}</label>
-                    <div class="control">
-                        <input v-model="role.default_path" class="input" type="text" :placeholder="translations.core.roles.view_placeholder_default_path_at_login">
+                    <div class="field">
+                        <label class="label">{{ translations.core.roles.column_default_path }}</label>
+                        <div class="control">
+                            <input v-model="role.default_path" class="input" type="text" :placeholder="translations.core.roles.view_placeholder_default_path_at_login">
+                        </div>
+                            <p class="help"> {{ translations.core.roles.view_text_default_path_description }}</p>
                     </div>
-                     <p class="help">User will be redirected to this route always.</p>
-                </div>
 
-                <hr>
+                    <hr>
 
-                <div class="field">
-                    <label class="label">
-                        {{ translations.core.roles.view_text_hierarchical_level }}
-                        <sup class="has-text-danger">*</sup>
-                    </label>
-                    <b-menu>
-                        <b-menu-list>
-                            <b-menu-item 
-                                :disabled="index == 0 ? true : false"
-                                @click="setObjectLevelPermission(level.level)"
-                                :key="index" 
-                                v-for="(level, index) in options.levels">
-                                <template #label="props">
-                                    <span class="icon is-small">
-                                        <i :class="['fas', 
-                                            {'fa-chevron-right': !props.expanded},
-                                            {'fa-check': props.expanded}
-                                        ]"></i>
-                                    </span>
-                                    {{ `Level ${index + 1}` }}
-                                    {{ props.expanded ? '- selected' :  `(${level.roles.length})` }}
-                                </template>
+                    <div class="field">
+                        <label class="label">
+                            {{ translations.core.roles.view_text_hierarchical_level }}
+                            <sup class="has-text-danger">*</sup>
+                        </label>
+                        <b-menu>
+                            <b-menu-list>
                                 <b-menu-item 
-                                    disabled 
-                                    :label="role.name" 
-                                    :value="index" 
-                                    :key="role.id"
-                                    v-for="role in level.roles">
+                                    :active="isSelected(option.level)"
+                                    :disabled="index == 0 ? true : false"
+                                    @click="setObjectLevelPermission(option.level)"
+                                    :key="index" 
+                                    v-for="(option, index) in options.levels">
+                                    <template #label="props">
+                                        <span class="icon is-small">
+                                            <i :class="['fas', 
+                                                {'fa-chevron-right': !props.expanded},
+                                                {'fa-check': props.expanded}
+                                            ]"></i>
+                                        </span>
+                                        {{ `${translations.core.roles.view_text_level||''} ${index + 1}` }}
+                                        {{ (isSelected(option.level)||props.expanded)? `- ${translations.core.roles.view_text_selected||''}` :  `(${option.roles.length||0})` }}
+                                    </template>
+                                    <b-menu-item 
+                                        disabled 
+                                        :label="object_utils.translateEnum(translations.core.roles, 'column_enum_role', role.name)" 
+                                        :value="index" 
+                                        :key="role.id"
+                                        v-for="role in option.roles">
+                                    </b-menu-item>
                                 </b-menu-item>
-                            </b-menu-item>
-                        </b-menu-list>
-                    </b-menu>
-                </div>
+                            </b-menu-list>
+                        </b-menu>
+                    </div>
 
-                <hr>
+                    <hr>
 
-                <div class="field">
-                    <label class="label">
-                        {{ translations.core.roles.column_only_my_data }}
-                        <sup class="has-text-danger">*</sup>
-                    </label>
-                    <div class="control">
-                        <div class="select">
-                            <select v-model="role.only_my_data">
-                                <option value="true">{{ translations.core.roles.view_text_restrict_data_access }}</option>
-                                <option value="false">{{ translations.core.roles.view_text_allow_to_see_all_the_data }}</option>
-                            </select>
+                    <div class="field">
+                        <label class="label">
+                            {{ translations.core.roles.column_only_my_data }}
+                            <sup class="has-text-danger">*</sup>
+                        </label>
+                        <div class="control">
+                            <div class="select">
+                                <b-select v-model="role.only_my_data">
+                                    <option :value="true">{{ translations.core.roles.view_text_restrict_data_access }}</option>
+                                    <option :value="false">{{ translations.core.roles.view_text_allow_to_see_all_the_data }}</option>
+                                </b-select>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="field">
-                    <label class="label">
-                        {{ translations.core.roles.view_text_status }}
-                        <sup class="has-text-danger">*</sup>
-                    </label>
-                    <div class="control">
-                        <div class="select">
-                            <select v-model="role.active">
-                                <option value="true">{{ translations.core.roles.view_text_active }}</option>
-                                <option value="false">{{ translations.core.roles.view_text_disabled }}</option>
-                            </select>
+                    <div class="field">
+                        <label class="label">
+                            {{ translations.core.roles.view_text_status }}
+                            <sup class="has-text-danger">*</sup>
+                        </label>
+                        <div class="control">
+                            <div class="select">
+                                <b-select v-model="role.active">
+                                    <option :value="true">{{ translations.core.roles.view_text_active }}</option>
+                                    <option :value="false">{{ translations.core.roles.view_text_disabled }}</option>
+                                </b-select>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="field mt-6">
-                    <div class="control">
-                        <button class="button is-primary">
-                            <span class="icon">
-                                <i class="far fa-save"></i>
-                            </span>
-                            <span>{{ translations.core.shared.view_btn_save }}</span>
-                        </button>
+                    <div class="field mt-6">
+                        <div class="control">
+                            <p class="control">
+                                <button class="button is-primary">
+                                    <span v-if="submitting_form">
+                                        <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
+                                        &nbsp;
+                                        {{translations.core.shared.view_btn_saving}}
+                                    </span>
+                                    <span v-else>
+                                        <b-icon icon="save" size="is-small" />
+                                        &nbsp;
+                                        {{translations.core.shared.view_btn_save}}
+                                    </span>
+                                </button>
+                            </p>
+                        </div>
                     </div>
-                </div>
-
-            </fieldset>
-        </form>
-    </div>
+                </fieldset>
+            </form>
+        </div>
+    </section>
 </template>
