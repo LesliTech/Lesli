@@ -185,7 +185,7 @@ end
 group :test do
 
     # Adds support for Capybara system testing and selenium driver
-    #gem "capybara", ">= 2.15"
+    gem "capybara", ">= 2.15"
 
     #gem "selenium-webdriver"
 
@@ -194,6 +194,9 @@ group :test do
 
     gem "rails-controller-testing"
     gem "rails-ujs"
+
+    # Sprockets needs jquery to render views on test environment
+    gem "jquery-rails"
 
 end
 
