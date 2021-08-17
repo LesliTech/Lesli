@@ -192,6 +192,7 @@ export default {
                             {{ translations.core.roles.view_text_hierarchical_level }}
                             <sup class="has-text-danger">*</sup>
                         </label>
+                        <!--
                         <b-menu>
                             <b-menu-list>
                                 <b-menu-item 
@@ -220,6 +221,22 @@ export default {
                                 </b-menu-item>
                             </b-menu-list>
                         </b-menu>
+                        -->
+                        <ul class="hierarchical_level_selector">
+                            <li :class="{ 'has-background-info has-text-light' : isSelected(option.level) }"
+                                v-for="(option, index) in options.levels" :key="index"
+                                v-on:click="setObjectLevelPermission(option.level)">
+                                <span class="icon is-medium">
+                                    <i :class="['fas', isSelected(option.level) ? 'fa-check' : 'fa-chevron-right']"></i>
+                                </span>
+                                {{ `${translations.core.roles.view_text_level || 'Level' } ${ index + 1 }` }}
+                                <span 
+                                    v-if="option.roles.length"
+                                    :class="{ 'has-text-grey-light' : !isSelected(option.level) }">
+                                    - {{ option.roles.map(role => role.name).join(', ') }}
+                                </span>
+                            </li>
+                        </ul>
                     </div>
 
                     <hr>
