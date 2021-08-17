@@ -55,7 +55,10 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 RSpec.configure do |config|
-
+    # Ignore core login test if the engine builder has its own test 
+    login_test_path = "spec/views/devise/sessions/new.html.erb_spec.rb"   
+    config.exclude_pattern = login_test_path if File.exists? "#{Rails.root}/engines/#{LC::System::Info.instance[:code]}/#{login_test_path}"
+    
     # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
     #config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
