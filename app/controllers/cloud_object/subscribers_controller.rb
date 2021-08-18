@@ -1,4 +1,3 @@
-module CloudObject
 =begin
 
 Copyright (c) 2020, all rights reserved.
@@ -17,13 +16,12 @@ For more information read the license file including with this software.
 // · 
 
 =end
-    class SubscribersController < ApplicationLesliController
-        include Interfaces::Controllers::Subscribers
-        
-        before_action :show_deprecated_message
+class CloudObject::SubscribersController < ApplicationLesliController
+    include Interfaces::Controllers::Subscribers
+    
+    before_action :show_deprecated_message
 
-        def show_deprecated_message
-            LC::Debug.deprecation("Your SubscribersController must inherit from ApplicationLesliController and include Interfaces::Controllers::Subscribers instead")
-        end
+    def show_deprecated_message
+        LC::Debug.deprecation("Your SubscribersController must inherit from ApplicationLesliController and include Interfaces::Controllers::Subscribers instead")
     end
 end

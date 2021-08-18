@@ -16,14 +16,12 @@ For more information read the license file including with this software.
 // · 
 
 =end
-module CloudObject
-    class FilesController < ApplicationLesliController
-        include Interfaces::Controllers::Files
-        
-        before_action :show_deprecated_message
+class CloudObject::FilesController < ApplicationLesliController
+    include Interfaces::Controllers::Files
+    
+    before_action :show_deprecated_message
 
-        def show_deprecated_message
-            LC::Debug.deprecation("Your FilesController must inherit from ApplicationLesliController and include Interfaces::Controllers::Files instead")
-        end
+    def show_deprecated_message
+        LC::Debug.deprecation("Your FilesController must inherit from ApplicationLesliController and include Interfaces::Controllers::Files instead")
     end
 end
