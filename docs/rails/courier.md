@@ -8,7 +8,7 @@ As an example, let's say we are working on CloudDriver and we what to show all t
 
 ```ruby
 module CloudFocus
-    class Task < CloudObject::Base
+    class Task < CloudObject
         def self.index(current_user, query)
             []
         end
