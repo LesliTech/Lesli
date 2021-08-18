@@ -16,14 +16,12 @@ For more information read the license file including with this software.
 // · 
 
 =end
-module CloudObject
-    class ActivitiesController < ApplicationLesliController
-        include Interfaces::Controllers::Activities
-        
-        before_action :show_deprecated_message
+class CloudObject::ActivitiesController < ApplicationLesliController
+    include Interfaces::Controllers::Activities
+    
+    before_action :show_deprecated_message
 
-        def show_deprecated_message
-            LC::Debug.deprecation("Your ActivitiesController must inherit from ApplicationLesliController and include Interfaces::Controllers::Activities instead")
-        end
+    def show_deprecated_message
+        LC::Debug.deprecation("Your ActivitiesController must inherit from ApplicationLesliController and include Interfaces::Controllers::Activities instead")
     end
 end
