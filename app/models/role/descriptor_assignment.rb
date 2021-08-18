@@ -27,7 +27,7 @@ class Role::DescriptorAssignment < ApplicationLesliRecord
 
         
         current_user.account.role_descriptors.order(created_at: :asc)
-        .where.not("role_descriptors.name = ? or role_descriptors.name = ?", "admin", "owner")
+        .where.not("role_descriptors.name in (?)", ["admin", "owner"])
         .each do |role_descriptor|
             actions = {}            
             role_descriptor_actions = role_descriptor.privilege_actions
