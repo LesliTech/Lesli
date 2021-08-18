@@ -33,7 +33,7 @@ class WorkflowActions::CreateFocusTaskJob < ApplicationJob
             action.parse_input_data(replacement_values)
             input_data = action.input_data
 
-            # Defined in CloudObject::Base.focus_task_target
+            # Defined in CloudObject.focus_task_target
             task_target = cloud_object.focus_task_target
             model_id = task_target[:id]
             model_type = task_target[:class]
