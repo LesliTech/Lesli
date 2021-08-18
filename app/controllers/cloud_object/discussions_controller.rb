@@ -16,14 +16,12 @@ For more information read the license file including with this software.
 // · 
 
 =end
-module CloudObject
-    class DiscussionsController < ApplicationLesliController
-        include Interfaces::Controllers::Discussions
-        
-        before_action :show_deprecated_message
+class CloudObject::DiscussionsController < ApplicationLesliController
+    include Interfaces::Controllers::Discussions
+    
+    before_action :show_deprecated_message
 
-        def show_deprecated_message
-            LC::Debug.deprecation("Your DiscussionsController must inherit from ApplicationLesliController and include Interfaces::Controllers::Discussions instead")
-        end
+    def show_deprecated_message
+        LC::Debug.deprecation("Your DiscussionsController must inherit from ApplicationLesliController and include Interfaces::Controllers::Discussions instead")
     end
 end
