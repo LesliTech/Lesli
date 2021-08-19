@@ -17,13 +17,20 @@ For more information read the license file including with this software.
 
 %>
 
-<% if lesli_instance_code != "lesli" %>
-<section id="lesli-application" class="<%= lesli_instance_code %>-invites">
-    <%= render :template => "#{lesli_instance_code}/lesli/invites/new" %>
-</section>
+<% custom_app_page_clas = "#{ lesli_instance_code }-invites".downcase %>
+<% custom_app_page_path = "#{ lesli_instance_code }/lesli/invites/new" %>
+<% custom_app_page_exists = lookup_context.exists?(custom_app_page_path) %>
+
+
+<%# render custom view in builder module %>
+<% if custom_app_page_exists %>
+<main id="lesli-application" class="<%= custom_app_page_clas %>">
+    <%= render :template => custom_app_page_path %>
+</main>
 <% end %>
 
 
-<% if lesli_instance_code == "lesli" %>
+<%# core view for invites %>
+<% unless custom_app_page_exists %>
 <h3>There is no a view for invites path.</h3>
 <% end %>
