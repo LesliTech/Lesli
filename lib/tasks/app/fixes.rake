@@ -9,8 +9,11 @@ namespace :app do
             owner_role = account.roles.find_by(name: "owner")
             owner_role.descriptor_assignments.find_or_create_by!(descriptor: owner_descriptor)
             
-            admin_descriptor = account.role_descriptors.find_or_create_by(name: "admin")
-            admin_role = account.roles.find_by(name: "admin")
+            old_admin_descriptor = account.role_descriptors.find_by(name: "admin")
+            old_admin_descriptor.update(name: "sysadmin") if old_admin_descriptor.present?
+            
+            admin_descriptor = account.role_descriptors.find_or_create_by(name: "sysadmin")
+            admin_role = account.roles.find_by(name: "sysadmin")
             admin_role.descriptor_assignments.find_or_create_by!(descriptor: admin_descriptor)
             
             puts "FINISH"

@@ -103,7 +103,7 @@ class RoleDescriptorsController < ApplicationLesliController
         role_descriptor = current_user.account.role_descriptors.new(role_descriptor_params)
         
         # Validation for name restriction of default descriptors
-        if (["owner", "admin", "profile"].include? role_descriptor[:name]) 
+        if (["owner", "sysadmin", "profile"].include? role_descriptor[:name]) 
             respond_with_error(I18n.t("core.role_descriptors.message_danger_reserved_name"))
         end
         
@@ -176,7 +176,7 @@ class RoleDescriptorsController < ApplicationLesliController
     #     # This will either display nil or an instance of role_descriptor
     def set_role_descriptor
         @role_descriptor = current_user.account.role_descriptors
-        .where.not("role_descriptors.name in (?)", ["admin", "owner", "profile"]) # Add security that the default role_descriptor descriptors don't be edited
+        .where.not("role_descriptors.name in (?)", ["sysadmin", "owner", "profile"]) # Add security that the default role_descriptor descriptors don't be edited
         .find_by(id: params[:id])
     end
 
