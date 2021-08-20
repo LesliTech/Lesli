@@ -1,7 +1,7 @@
 namespace :app do
     namespace :fixes do
         desc "Create default role descriptors"
-        task default_role_descriptors: :environment do
+        task roles: :environment do
             company_name = Rails.application.config.lesli_settings["account"]["company"]["name"]
             account = Account.find_by(company_name: company_name)
             
@@ -12,9 +12,15 @@ namespace :app do
             old_admin_descriptor = account.role_descriptors.find_by(name: "admin")
             old_admin_descriptor.update(name: "sysadmin") if old_admin_descriptor.present?
             
-            admin_descriptor = account.role_descriptors.find_or_create_by(name: "sysadmin")
-            admin_role = account.roles.find_by(name: "sysadmin")
-            admin_role.descriptor_assignments.find_or_create_by!(descriptor: admin_descriptor)
+            sysadmin_descriptor = account.role_descriptors.find_or_create_by(name: "sysadmin")
+            sysadmin_role = account.roles.find_or_create_by(name: "sysadmin")
+            sysadmin_role.descriptor_assignments.find_or_create_by!(descriptor: sysadmin_descriptor)
+            
+            sysadmin_user = User.find_by(email: Rails.application.config.lesli_settings["account"]["user"]["email"])
+            sysadmin_user.user_roles.find_or_create_by({ role: sysadmin_role }) if sysadmin_user.present?
+            
+            test_user = User.find_by(email: "test@lesli.cloud")
+            test_user.user_roles.find_or_create_by({ role: sysadmin_role }) if test_user.present?
             
             puts "FINISH"
         end
