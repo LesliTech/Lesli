@@ -52,7 +52,7 @@ class CloudObject::ActionsController < ApplicationLesliController
     #             instructions: "Benchmark server performance"
     #         }
     #     };
-    this.http.post(`127.0.0.1/help/tickets/${ticket_id}/actions`, data);
+    #     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/actions`, data);
     def create
         dynamic_info = self.class.dynamic_info
         module_name = dynamic_info[:module_name]
@@ -94,7 +94,7 @@ class CloudObject::ActionsController < ApplicationLesliController
     #             complete: true
     #         }
     #     };
-    this.http.put(`127.0.0.1/help/tickets/${ticket_id}/actions/${action_id}`, data);
+    #     this.http.put(`127.0.0.1/help/tickets/${ticket_id}/actions/${action_id}`, data);
     def update
         return respond_with_not_found unless @cloud_object_action
 
