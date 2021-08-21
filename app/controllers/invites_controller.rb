@@ -18,6 +18,7 @@ For more information read the license file including with this software.
 =end
 
 class InvitesController < ApplicationController
+    skip_before_action :verify_authenticity_token
     include Application::Responder
     include Application::Logger
     
@@ -35,12 +36,26 @@ class InvitesController < ApplicationController
     # POST /invites
     def create
         invite = Invite.new(invite_params)
+        success = invite.save
 
-        if invite.save
-            respond_with_successful(invite)
-        else
-            respond_with_error(invite.errors.full_messages.to_sentence)
-        end
+        respond_to do |format|
+            format.html do 
+                if success
+                    flash[:success] = "record was successfully saved"
+                else
+                    flash[:error] = "error"
+                end 
+                redirect_to root_unauthenticated_path and return 
+            end 
+            format.json do 
+                if success
+                    respond_with_successful(invite) if success
+                else
+                    respond_with_error(invite.errors.full_messages.to_sentence)
+                end
+            end 
+        end 
+
     end
 
     private
