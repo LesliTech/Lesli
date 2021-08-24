@@ -37,10 +37,9 @@ class RoleDescriptor < ApplicationLesliRecord
                 controller_actions.each do |action|                       
                     system_action = controller.actions.find_or_create_by(name: action)
                     role_descriptor_action = self.privilege_actions.find_or_create_by( 
-                        system_action: system_action
+                        system_action: system_action,
+                        status: true
                     )
-
-                    role_descriptor_action.update(status: true)
                 end
             end
         end
