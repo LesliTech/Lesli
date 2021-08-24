@@ -109,13 +109,6 @@ class Account < ApplicationRecord
             role.initialize_role_privileges
 
         end
-
-
-        # create default descriptors
-        self.role_descriptors.find_or_create_by(name: "owner")
-        self.role_descriptors.find_or_create_by(name: "admin")
-
-
     end
 
     def initialize_account_for_engines
