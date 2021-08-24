@@ -38,9 +38,9 @@ module LC
                     next if route[:controller].include? "action_mailbox"
                     next if route[:controller].include? "active_storage"
                     
-                    controller_list[route[:controller]] = { actions: [] } unless controller_list[route[:controller]]
+                    controller_list[route[:controller]] = [] unless controller_list[route[:controller]]
                     
-                    controller_list[route[:controller]][:actions].push(route[:action])
+                    controller_list[route[:controller]].push(route[:action])
                 end
 
                 Rails.configuration.lesli_settings["engines"].each do |engine|
@@ -49,9 +49,9 @@ module LC
                     routes = "#{engine[:name]}::Engine".constantize.routes.routes.each do |route| 
                         route = route.defaults 
                         
-                        controller_list[route[:controller]] = { actions: []} if controller_list[route[:controller]].blank?
+                        controller_list[route[:controller]] = [] if controller_list[route[:controller]].blank?
                         
-                        controller_list[route[:controller]][:actions].push(route[:action])
+                        controller_list[route[:controller]].push(route[:action])
 
                     end
                 end
