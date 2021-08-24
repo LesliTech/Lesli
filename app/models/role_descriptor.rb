@@ -28,7 +28,7 @@ class RoleDescriptor < ApplicationLesliRecord
     def add_privilege_actions   
         default_role_descriptor_actions = RoleDescriptor::DefaultPrivilegeActionsService.new
           
-        if (self.name == "admin" ||self.name == "owner")
+        if (self.name == "sysadmin" ||self.name == "owner")
             controllers = LC::System::Controllers.scan
             
             controllers.each do |controller_name, controller_actions|                 
@@ -75,7 +75,7 @@ class RoleDescriptor < ApplicationLesliRecord
             ) as actions 
                 on actions.role_descriptor_id = role_descriptors.id
         ")
-        .where.not("role_descriptors.name in (?)", ["admin", "owner", "profile"])
+        .where.not("role_descriptors.name in (?)", ["sysadmin", "owner", "profile"])
 
         role_descriptors = role_descriptors.where("
             trim(lower(role_descriptors.name)) like '%#{query[:filters][:search].downcase}%' or  
@@ -104,7 +104,7 @@ class RoleDescriptor < ApplicationLesliRecord
             :created_at,
             :role_descriptors_id
         )
-        .where.not("role_descriptors.name in (?)", ["admin", "owner", "profile"]) # Role descriptors which a user is not able to edit edit
+        .where.not("role_descriptors.name in (?)", ["sysadmin", "owner", "profile"]) # Role descriptors which a user is not able to edit edit
         
         return role_descriptors
     end
