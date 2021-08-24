@@ -330,7 +330,7 @@ class User < ApplicationLesliRecord
         # check if the current_user can assign this role, current user cannot assign role if
         #   role to assign has greater object level permission than the greater role assigned to the current user
         #   role to assign is the same of the greater role assigned to the current user
-        #   current user is not admin or owner
+        #   current user is not sysadmin or owner
         self.roles.each do |current_role|
             return true if current_role.object_level_permission > role.object_level_permission
             return true if current_role.name == "owner"
@@ -604,7 +604,7 @@ class User < ApplicationLesliRecord
             active: user[:active],
             created_at: user[:created_at],
             updated_at: user[:updated_at],
-            editable_security: current_user && current_user.has_roles?("owner", "admin"),
+            editable_security: current_user && current_user.has_roles?("owner", "sysadmin"),
             roles: user.roles.map { |r| { id: r[:id], name: r[:name] } },
             full_name: user.full_name,
             detail_attributes: {

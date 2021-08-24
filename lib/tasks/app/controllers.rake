@@ -22,7 +22,7 @@ namespace :app do
                         
                         if (system_action.save)   
                             Account.all.each do |account|                      
-                                account.role_descriptors.where("name in (?)", ["owner", "admin"]).each do |descriptor|
+                                account.role_descriptors.where("name in (?)", ["owner", "sysadmin"]).each do |descriptor|
                                     role_descriptor_action = descriptor.privilege_actions.find_or_create_by(system_action: system_action)
                                     
                                     role_descriptor_action.update(status: true)
