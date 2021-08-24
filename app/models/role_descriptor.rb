@@ -23,6 +23,37 @@ class RoleDescriptor < ApplicationLesliRecord
     belongs_to :user_creator,   foreign_key: "users_id",            class_name: "::User",   optional: true
     belongs_to :account,        foreign_key: "accounts_id",         class_name: "Account"  
     
+    after_create :add_privilege_actions
+    
+    def add_privilege_actions   
+        default_role_descriptor_actions = RoleDescriptor::DefaultPrivilegeActionsService.new
+          
+        if (self.name == "sysadmin" ||self.name == "owner")
+            controllers = LC::System::Controllers.scan
+            
+            controllers.each do |controller_name, controller_actions|                 
+                controller = SystemController.find_or_create_by(name: controller_name)      
+                
+                controller_actions.each do |action|                       
+                    system_action = controller.actions.find_or_create_by(name: action)
+                    role_descriptor_action = self.privilege_actions.find_or_create_by( 
+                        system_action: system_action,
+                        status: true
+                    )
+                end
+            end
+        end
+        
+        if (RoleDescriptor::DefaultPrivilegeActionsService.method_defined? "#{self.name}_actions") # Adding privileges if the method is defined on the class
+            RoleDescriptor::DefaultPrivilegeActionsService.new.send("#{self.name}_actions").each do |system_action|
+                self.privilege_actions.find_or_create_by(
+                    category: RoleDescriptor::PrivilegeAction.categories["update"], 
+                    system_action: system_action
+                ).update(status: TRUE)
+            end
+        end
+    end
+    
     def self.index(current_user, query)
         role_descriptors = current_user.account.role_descriptors.select(
             :id,
