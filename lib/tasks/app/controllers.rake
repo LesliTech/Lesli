@@ -11,64 +11,55 @@ namespace :app do
 
             threads = []
 
-            controllers.each do |controller_name, value|
-                controller = SystemController.find_or_initialize_by(name: controller_name)
+            controllers.each do |controller_name, controller_actions|
+                controller = SystemController.find_or_create_by(name: controller_name)
 
-                puts "setting up actions for the controller: #{controller_name}"
+                puts "SETTING UP ACTIONS FOR THE CONTROLLER: #{controller_name}"
                 
-                if (controller.save)
-                    value[:actions].each do |action|
-                        system_action = controller.actions.find_or_initialize_by(name: action)
+                controller_actions.each do |action|
+                    threads << Thread.new do 
+                        system_action = controller.actions.find_or_create_by(name: action)
                         
                         if (system_action.save)   
                             Account.all.each do |account|                      
                                 account.role_descriptors.where("name in (?)", ["owner", "admin"]).each do |descriptor|
-                                    role_descriptor_action = descriptor.privilege_actions.new(system_action: system_action, status: true)
-
-                                    role_descriptor_action.save!
+                                    role_descriptor_action = descriptor.privilege_actions.find_or_create_by(system_action: system_action)
+                                    
+                                    role_descriptor_action.update(status: true)
                                 end
                             end
                         end
                     end
                 end
+                
+                threads.map(&:join)
             end    
                     
-            puts  "FINISH SCAN AT: #{Time.now}"
+            puts "FINISH SCAN AT: #{Time.now}"
             
             add_default_privilege_actions() # add actions of defaults role descriptors
         end
         
         def add_default_privilege_actions()
+            actions = RoleDescriptor::DefaultPrivilegeActionsService.new.profile_actions
+            
             Account.all.each do |account|  
-                add_profile_privileges(account)
+                add_profile_privileges(account, actions)
             end
         end
         
-        def add_profile_privileges(account)
+        def add_profile_privileges(account, actions)
             puts "ADDING DEFAULT PRIVILEGE ACTIONS FOR PROFILE DESCRIPTOR"
             
             profile_descriptor = account.role_descriptors.find_or_create_by(name: "profile")
             
             if (profile_descriptor) 
-
-                [   
-                    {controller: "profiles", actions: ["show"] },
-                    {controller: "users",    actions: ["options", "update"] },
-                    {controller: "user/sessions", actions: ["index"] }
-                ].each do |privilege|
-                    privilege[:actions].each do |action|
-                    
-                        system_action = SystemController::Action.joins(:system_controller)
-                        .where("system_controllers.name = ?", privilege[:controller])
-                        .where("system_controller_actions.name = ?", action)
-                        .first
-                        
-                        profile_descriptor.privilege_actions.find_or_create_by(
-                            category: RoleDescriptor::PrivilegeAction.categories["update"], 
-                            system_action: system_action
-                        ).update(status: TRUE) if system_action
-                    end
-                end 
+                actions.each do |system_action|
+                    profile_descriptor.privilege_actions.find_or_create_by(
+                        category: RoleDescriptor::PrivilegeAction.categories["update"], 
+                        system_action: system_action
+                    ).update(status: TRUE)
+                end
             end 
         end
     end
