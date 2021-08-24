@@ -19,8 +19,15 @@ For more information read the license file including with this software.
 
 module CustomizationHelper
 
-    def customization_instance_logo
-        image_tag(@account[:customization][:logo], alt: "#{@account[:company][:name]} logo")
+    def customization_instance_logo(mode: "web", options: {alt: "Logo"})
+        logo_path = "#{lesli_instance_code}/brand/app-logo-desktop.svg"
+        logo_path = @account[:customization][:logo] if @account[:customization] && @account[:customization][:logo]
+
+        if mode == "web"
+            image_tag(logo_path, options)
+        else
+            wicked_pdf_image_tag(logo_path, options)
+        end
     end
 
 end
