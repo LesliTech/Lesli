@@ -21,7 +21,7 @@ export default {
     data() {
         return {
             translations: {
-                shared: I18n.t('deutscheleibrenten.shared')
+                shared: I18n.t('core.shared')
             },
         }
     },
@@ -44,7 +44,7 @@ export default {
             <span class="loading-animation">
                 <hr/><hr/><hr/><hr/>
             </span>
-            <span :class="'is-size-'+size">{{ translations.shared.text_loading }}...</span>
+            <span :class="'is-size-'+size">{{ translations.shared.view_text_loading }}...</span>
         </p>
     </div>
 </template>
