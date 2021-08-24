@@ -26,17 +26,17 @@ RSpec.describe "POST /administration/users/:id/roles", type: :request do
 
     before(:all) do
         @user_role_level_max = @user.roles.map(&:object_level_permission).max()
-        @admin_role_olp = Role.find_by(:name => "admin").object_level_permission
+        @admin_role_olp = Role.find_by(:name => "sysadmin").object_level_permission
 
 
         post("/administration/users/#{@user.id}/roles.json", params: {
             user_role: {
-                id: @user.account.roles.find_by(name: "admin").id
+                id: @user.account.roles.find_by(name: "sysadmin").id
             }
         })
     end
 
-    it "Add admin role to user" do
+    it "Add sysadmin role to user" do
         @response_body = JSON.parse(response.body)
 
         if @user_role_level_max > @admin_role_olp
@@ -61,7 +61,7 @@ RSpec.describe "POST /administration/users/:id/roles", type: :request do
             password_confirmation: DateTime.now.strftime('%s')
         })
 
-        user.user_roles.create({ role: @user.account.roles.find_by(name: "admin") })
+        user.user_roles.create({ role: @user.account.roles.find_by(name: "sysadmin") })
 
         # get the guest role
         role = @user.account.roles.find_by(name: "guest")
@@ -77,7 +77,7 @@ RSpec.describe "POST /administration/users/:id/roles", type: :request do
 
     include_examples 'successful standard json response'
 
-    it "Add a lower role to a user that is admin" do
+    it "Add a lower role to a user that is sysadmin" do
         expect(@response_body["successful"]).to eql(true)
     end
 
@@ -98,8 +98,8 @@ RSpec.describe "POST /administration/users/:id/roles", type: :request do
         })
         user.user_roles.create({ role: @user.account.roles.find_by(name: "limited") })
 
-        # get the admin role
-        @admin_role = @user.account.roles.find_by(name: "admin")
+        # get the sysadmin role
+        @admin_role = @user.account.roles.find_by(name: "sysadmin")
 
         # Add the role to the user
         post("/administration/users/#{user.id}/roles.json", params: {
@@ -110,7 +110,7 @@ RSpec.describe "POST /administration/users/:id/roles", type: :request do
 
     end
 
-    it "Add admin role to a user with limited role" do
+    it "Add sysadmin role to a user with limited role" do
         @response_body = JSON.parse(response.body)
 
         if @user_role_level_max > @admin_role.object_level_permission
@@ -143,8 +143,8 @@ RSpec.describe "POST /administration/users/:id/roles", type: :request do
         # do login with my new brand test user
         sign_in user
 
-        # get the admin role
-        admin_role = @user.account.roles.find_by(name: "admin")
+        # get the sysadmin role
+        admin_role = @user.account.roles.find_by(name: "sysadmin")
 
         # Add the role to the user
         post("/administration/users/#{user.id}/roles.json", params: {
@@ -157,7 +157,7 @@ RSpec.describe "POST /administration/users/:id/roles", type: :request do
 
     include_examples 'unauthorized standard json response'
 
-    it "Add admin role to a user with limited role when you don't have the proper privileges" do
+    it "Add sysadmin role to a user with limited role when you don't have the proper privileges" do
         expect(@response_body["successful"]).to eql(false)
     end
 
@@ -220,7 +220,7 @@ RSpec.describe "POST /administration/users/:id/roles", type: :request do
 
     end
 
-    it "Add owner role to admin user itself" do
+    it "Add owner role to sysadmin user itself" do
         @response_body = JSON.parse(response.body)
 
         if @user_role_level_max > @owner_role_olp
@@ -248,7 +248,7 @@ RSpec.describe "POST /administration/users/:id/roles", type: :request do
 
     end
 
-    it "Add owner role to admin user" do
+    it "Add owner role to sysadmin user" do
         @response_body = JSON.parse(response.body)
 
         if @user_role_level_max > @owner_role_olp

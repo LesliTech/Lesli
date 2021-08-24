@@ -51,10 +51,10 @@ RSpec.describe 'GET:/administration/users/list.json', type: :request do
 
     it "is expected to respond with total of user with a specific role" do
 
-        ['owner', 'admin', 'api', 'guest', 'limited'].each do |role|
+        ['owner', 'sysadmin', 'api', 'guest', 'limited'].each do |role|
     
             get "/administration/users/list.json?role=#{role}"
-    
+            
             expect_json_response_successful
     
             users_by_role_in_database = @current_user.account.users.joins(:roles).where("roles.name = ?", role).count
