@@ -61,3 +61,4 @@ server {
 - `sudo ln -s /etc/nginx/sites-available/dev.lesli.cloud.conf /etc/nginx/sites-enabled/`
 - now test your configuration with the command `sudo nginx -t`
 - if all is fine restart nginx service `sudo service nginx restart`
+- get ssl certificates `sudo certbot`
