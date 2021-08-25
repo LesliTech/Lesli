@@ -212,6 +212,8 @@ module LC
         def self.reset_settings
             @settings = Rails.application.config.lesli_settings["configuration"]["datetime"]
             @settings_loaded = true
+            
+            @settings
         end
  
         def self.verify_settings
