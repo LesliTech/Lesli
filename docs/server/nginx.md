@@ -18,8 +18,8 @@ server {
     index index.html index.htm index.nginx-debian.html;
 
     server_name dev.lesli.cloud;
-    access_log /var/www/logs/dev.lesli.cloud.access.log;
-    error_log /var/www/logs/dev.lesli.cloud.error.log;
+    access_log /var/log/nginx/dev.lesli.cloud.access.log;
+    error_log /var/log/nginx/dev.lesli.cloud.error.log;
 
     passenger_enabled on;
     passenger_ruby /home/ubuntu/.rvm/gems/ruby-2.7.2/wrappers/ruby;
@@ -61,3 +61,4 @@ server {
 - `sudo ln -s /etc/nginx/sites-available/dev.lesli.cloud.conf /etc/nginx/sites-enabled/`
 - now test your configuration with the command `sudo nginx -t`
 - if all is fine restart nginx service `sudo service nginx restart`
+- get ssl certificates `sudo certbot`
