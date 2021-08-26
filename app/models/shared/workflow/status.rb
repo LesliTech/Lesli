@@ -89,21 +89,11 @@ For more information read the license file including with this software.
 
             ids = next_statuses.split("|").map(&:to_i)
 
-            grant_destroy = false
-            current_user.user_roles
-            .joins(:role)
-            .joins("inner join role_privileges as rp on rp.roles_id = roles.id")
-            .where("rp.grant_object = ?", "#{module_underscore}/#{cloud_object.class.name.split("::").last.underscore.pluralize}")
-            .select("rp.grant_destroy")
-            .each do |privilege|
-                if privilege.grant_destroy
-                    grant_destroy = true
-                    break
-                end
-            end
+            controller = "#{module_underscore}/#{cloud_object.class.name.split("::").last.underscore.pluralize}"
+            destroy = current_user.has_privileges?([controller], ["destroy"])
             
             workflow_including_deleted.statuses.where(id: ids).order(number: :asc).order(id: :asc).filter_map do |status|
-                if status.to_be_deleted? && ! grant_destroy
+                if status.to_be_deleted? && !destroy
                     nil
                 else
                     status
