@@ -75,6 +75,9 @@ class Users::SessionsController < Devise::SessionsController
         # do a user login
         sign_in(:user, resource)
 
+        # register or sync the current_user with the user representation on Firebase
+        Courier::One::Firebase::User.sync_user(resource) if defined? CloudOne
+
         # register a new unique session
         current_session = resource.sessions.create({
             :user_agent => get_user_agent,
