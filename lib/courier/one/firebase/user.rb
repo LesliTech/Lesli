@@ -52,6 +52,11 @@ module Courier
                     CloudOne::Firebase::User.generated_password(current_user, email)
                 end
 
+                def self.change_password(current_user, prev_password, new_password)
+                    return unless defined? CloudOne
+                    CloudOne::Firebase::User.change_password(current_user, prev_password, new_password)
+                end
+
             end
         end
     end

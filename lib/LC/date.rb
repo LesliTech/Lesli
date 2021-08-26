@@ -39,6 +39,7 @@ module LC
             "time_zone" => "Europe/Berlin", 
             "start_week_on" => "monday"
         }
+        @settings_loaded = false
 
         def self.db_timestamps table=""
 
@@ -210,10 +211,13 @@ module LC
         
         def self.reset_settings
             @settings = Rails.application.config.lesli_settings["configuration"]["datetime"]
+            @settings_loaded = true
+            
+            @settings
         end
  
         def self.verify_settings
-            return if @settings && (!@settings.empty?)
+            return if @settings_loaded
             self.reset_settings
         end
 
