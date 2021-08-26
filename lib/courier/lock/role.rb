@@ -17,21 +17,12 @@ For more information read the license file including with this software.
 
 =end
 module Courier
-
     module Lock
-
         class Role
 
-            def self.privilege(current_user, controller, grant)
-                privilege = current_user.account.lock.users
-                            .find_by(users_id: current_user.id)
-                            .role
-                            .privileges
-                            .where("grant_object_name = ? and #{grant} = ?", controller, true)
-                            .first
+            def self.privilege(current_user, controller, action)
+                return current_user.has_privileges?([controller], [action])
             end
         end
-
     end
-    
 end
