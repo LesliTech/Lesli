@@ -50,7 +50,7 @@ app({
     },
     methods: {
 
-        build_redirect_url() {
+        build_redirect_url(default_path = null) {
 
             // redirect to the root of the domain by default
             let redirect_url = "/"
@@ -64,6 +64,12 @@ app({
 
             }
 
+            // redirect to the default path if: 
+            //      - there is no query params with redirection
+            if (!redirect_url && default_path) {
+                redirect_url = default_path   
+            }
+            
             // redirect to the root if: 
             //      - error parsing redirection route
             //      - there is no query params with redirection
@@ -96,7 +102,7 @@ app({
 
                 // If login went successful, redirect to root
                 if (response.successful){
-                    this.url.go(this.build_redirect_url())
+                    this.url.go(this.build_redirect_url(response.data.default_path))
                     return
                 }
 
