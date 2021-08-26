@@ -89,8 +89,9 @@ class Users::SessionsController < Devise::SessionsController
         # register a successful sign-in log for the current user
         resource.logs.create({ user_sessions_id: session[:user_session_id], title: "session_creation_successful" })
 
-        respond_with_successful()
-
+        respond_with_successful({
+            default_path: resource.roles.first.default_path
+        })
     end
 
     def destroy
