@@ -21,9 +21,9 @@ module Courier
     module One
         class UserService
 
-            def self.current_user_external_uid(current_user, service_name)
+            def self.find_user_service(current_user, service_name)
                 return unless defined? CloudOne
-                CloudOne::UserService.current_user_external_uid(current_user, service_name)
+                CloudOne::UserService.find_user_service(current_user, service_name)
             end
 
         end
