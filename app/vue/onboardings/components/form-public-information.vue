@@ -37,9 +37,7 @@ export default {
 <template>
     <div class="card">
         <div class="card-header">
-            <p class="card-header-title">
-                {{ translations.core.onboardings.view_title_public_information }}
-            </p>
+            <h3>{{ translations.core.onboardings.view_title_public_information }}</h3>
         </div>
         <div class="card-content">
             <div class="columns is-marginless has-border-bottom">
@@ -118,6 +116,7 @@ export default {
                     <b-input name="facebook" v-model="data.account.facebook"></b-input>
                 </div>
             </div>
+
         </div>
     </div>
 </template>

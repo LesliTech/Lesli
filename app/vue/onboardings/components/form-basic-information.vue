@@ -64,7 +64,9 @@ export default {
                         <input class="input" name="company-tag-line" v-model="data.account.company_tag_line" />
                     </div>
                 </div>
+
             </form>
+            
         </div>
     </div>
 </template>
