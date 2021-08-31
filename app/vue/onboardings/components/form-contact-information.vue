@@ -59,9 +59,7 @@ export default {
 <template>
     <div class="card">
         <div class="card-header">
-            <p class="card-header-title">
-                {{ translations.core.onboardings.view_title_contact_information }}
-            </p>
+            <h3>{{ translations.core.onboardings.view_title_contact_information }}</h3>
         </div>
         <div class="card-content">
             <div class="columns is-marginless has-border-bottom">
@@ -134,6 +132,7 @@ export default {
                 </div>
             </div>
 
+            <!--
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
@@ -166,6 +165,8 @@ export default {
                     <b-input name="phone-number-4" v-model="data.account.phone_number_4"></b-input>
                 </div>
             </div>
+            -->
+
         </div>
     </div>
 </template>
