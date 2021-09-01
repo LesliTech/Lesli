@@ -32,6 +32,7 @@ class CloudObject::Activity < ApplicationLesliRecord
         action_workflow_action_failed:  "action_workflow_action_failed",
         action_email_sent:              "action_email_sent",
         action_create_file:             "action_create_file",
+        action_update_file:             "action_update_file",
         action_destroy_file:            "action_destroy_file"
     }
 

@@ -102,10 +102,6 @@ module Interfaces::Controllers::Files
         decode_and_verify_file(new_file_params) do |verified_file_params|
             file = file_model.new(verified_file_params)
 
-            # We calculate the file size in MB
-            file_size = verified_file_params[:attachment].size
-            file.size_mb = file_size.to_f / (1024*1024)
-
             if file.save
                 # Setting the file name in case it's blank and updating the file in case the filename changed
                 if file.name.blank?
@@ -165,29 +161,26 @@ module Interfaces::Controllers::Files
 
         # Verifying the extension of the file. If it's valid, the block will be executed
         decode_and_verify_file(file_params) do |verified_file_params|
-            # We calculate the file size in MB
-            verified_file_params[:size_mb] = verified_file_params[:attachment].size.to_f / (1024*1024) if verified_file_params[:attachment]
-            
-            if file.update(verified_file_params)
+            if @file.update(verified_file_params)
 
                 # Registering an activity in the cloud_object
-                file.cloud_object.activities.create(
+                @file.cloud_object.activities.create(
                     user_creator: current_user,
                     category: "action_update_file",
-                    description: "#{file.name} - #{file.attachment_identifier}"
+                    description: "#{@file.name} - #{@file.attachment_identifier}"
                 )
 
                 # Setting up file uploader to upload in background
-                Files::AwsUploadJob.perform_later(file)
+                Files::AwsUploadJob.perform_later(@file)
                 
                 if block_given?
-                    yield(cloud_object, file)
+                    yield(cloud_object, @file)
                 else
                     # Returning the 200 HTTP response
-                    respond_with_successful(file)
+                    respond_with_successful(@file)
                 end
             else
-                respond_with_error(file.errors.full_messages.to_sentence)
+                respond_with_error(@file.errors.full_messages.to_sentence)
             end
         end
     end
@@ -301,36 +294,48 @@ module Interfaces::Controllers::Files
         # Verifying the extension of the file
         extension = ""
 
-        if file_params[:attachment].is_a? String
-            # Base64 images
-            file_name = file_params[:name]
-            file_name = file_name.downcase.gsub(" ","_")
+        if file_params[:attachment]
+            if file_params[:attachment].is_a? String
+                # Base64 images
 
-            img_from_base64 = Base64.decode64(file_params[:attachment])
+                if file_params[:name]
+                    file_name = file_params[:name].downcase.gsub(" ","_")
+                elsif @file
+                    file_name = @file.name.downcase.gsub(" ","_")
+                else
+                    file_name = "file_#{DateTime.now.strftime("%Y%m%d%H%M%S")}"
+                end
 
-            begin
-                extension = /(png|jpg|jpeg|exif|jfif)/.match(img_from_base64[0,16].downcase)[0]
-            rescue
-                return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed"))
+                img_from_base64 = Base64.decode64(file_params[:attachment])
+
+                begin
+                    extension = /(png|jpg|jpeg|exif|jfif)/.match(img_from_base64[0,16].downcase)[0]
+                rescue
+                    return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed"))
+                end
+
+                # Due a encode issue, jpeg images are sent as jfif
+                extension = "jpeg" if extension == "jfif"
+                extension = "png"  if extension == "exif"
+
+                return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed")) unless file_model.verify_file_extension(extension)
+
+                file_path = Rails.root.join("public", "uploads", "tmp", file_name << '.' << extension)
+                File.open(file_path, 'wb') do|f|
+                    f.write(img_from_base64)
+                end
+
+                file_params[:attachment] = File.open(Rails.root.join(file_path), "rb")
+                file_params[:size_mb] = file_params[:attachment].size.to_f / (1024*1024)
+                FileUtils.rm_rf(Rails.root.join(file_path))
+            else
+                extension = file_params[:attachment].original_filename
+                file_params[:size_mb] = file_params[:attachment].size.to_f / (1024*1024)
+
+                return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed")) unless file_model.verify_file_extension(extension)
             end
 
-            # Due a encode issue, jpeg images are sent as jfif
-            extension = "jpeg" if extension == "jfif"
-            extension = "png"  if extension == "exif"
-
-            return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed")) unless file_model.verify_file_extension(extension)
-
-            file_path = Rails.root.join("public", "uploads", "tmp", file_name << '.' << extension)
-            File.open(file_path, 'wb') do|f|
-                f.write(img_from_base64)
-            end
-
-            file_params[:attachment] = File.open(Rails.root.join(file_path), "rb")
-            FileUtils.rm_rf(Rails.root.join(file_path))
-        else
-            extension = file_params[:attachment].original_filename if file_params[:attachment]
-
-            return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed")) unless file_model.verify_file_extension(extension)
+            file_params[:external_url] = nil
         end
 
         if block_given?
