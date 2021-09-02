@@ -17,6 +17,9 @@
     "name": "file_type",
     "type": "string"
 },{
+    "name": "extension_type",
+    "type": "string"
+},{
     "name": "deleted_at",
     "type": "datetime",
     "index": true
