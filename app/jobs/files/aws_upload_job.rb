@@ -4,7 +4,7 @@ class Files::AwsUploadJob < ApplicationJob
     def perform(file)
         begin
             if file.public
-                if file.attachment.file && !file.attachment_public.file
+                if file.attachment.file && (!file.attachment_public.file || (file.attachment_public_identifier != file.attachment_identifier))
                     file.update!(attachment_public: file.attachment)
 
                     if file.attachment_public
@@ -16,7 +16,7 @@ class Files::AwsUploadJob < ApplicationJob
                     end
                 end
             else
-                if file.attachment.file && !file.attachment_s3.file
+                if file.attachment.file && (!file.attachment_s3.file || (file.attachment_s3_identifier != file.attachment_identifier))
                     file.update!(attachment_s3: file.attachment)
 
                     if file.attachment_s3
