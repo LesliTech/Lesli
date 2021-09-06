@@ -40,9 +40,12 @@ module Interfaces::Controllers::Files
                     "#{cloud_object_model.table_name}_id".to_sym => params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym]
                 ).order(id: :desc).map do |file|
                     file_attributes = file.attributes
+                    file_attributes["user_creator_name"] = file.user_creator&.full_name
                     file_attributes["public_url"] = file.attachment_public.url if file.attachment_public
                     file_attributes["created_at_raw"] = file_attributes["created_at"]
-                    file_attributes["created_at"] = LC::Date.to_string_datetime(file_attributes["created_at"])
+                    file_attributes["created_at"] = LC::Date2.new(file_attributes["created_at"]).date_time.to_s
+                    file_attributes["updated_at_raw"] = file_attributes["updated_at"]
+                    file_attributes["updated_at"] = LC::Date2.new(file_attributes["updated_at"]).date_time.to_s
                     file_attributes["editable"] = file.is_editable_by?(current_user)
                     file_attributes
                 end
@@ -167,7 +170,7 @@ module Interfaces::Controllers::Files
                 Files::AwsUploadJob.perform_later(@file)
                 
                 if block_given?
-                    yield(cloud_object, @file)
+                    yield(@cloud_object, @file)
                 else
                     # Registering an activity in the cloud_object
                     @file.cloud_object.activities.create(
