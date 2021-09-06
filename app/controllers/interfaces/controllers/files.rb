@@ -114,19 +114,19 @@ module Interfaces::Controllers::Files
 
                 cloud_object = file.cloud_object
 
-                # Registering an activity in the cloud_object
-                cloud_object.activities.create(
-                    user_creator: current_user,
-                    category: "action_create_file",
-                    description: "#{file.name} - #{file.attachment_identifier}"
-                )
-
                 # Setting up file uploader to upload in background
                 Files::AwsUploadJob.perform_later(file)
                 
                 if block_given?
                     yield(cloud_object, file)
                 else
+                    # Registering an activity in the cloud_object
+                    cloud_object.activities.create(
+                        user_creator: current_user,
+                        category: "action_create_file",
+                        description: "#{file.name} - #{file.attachment_identifier}"
+                    )
+
                     # Returning the 200 HTTP response
                     respond_with_successful(file)
                 end
@@ -163,19 +163,19 @@ module Interfaces::Controllers::Files
         decode_and_verify_file(file_params) do |verified_file_params|
             if @file.update(verified_file_params)
 
-                # Registering an activity in the cloud_object
-                @file.cloud_object.activities.create(
-                    user_creator: current_user,
-                    category: "action_update_file",
-                    description: "#{@file.name} - #{@file.attachment_identifier}"
-                )
-
                 # Setting up file uploader to upload in background
                 Files::AwsUploadJob.perform_later(@file)
                 
                 if block_given?
                     yield(cloud_object, @file)
                 else
+                    # Registering an activity in the cloud_object
+                    @file.cloud_object.activities.create(
+                        user_creator: current_user,
+                        category: "action_update_file",
+                        description: "#{@file.name} - #{@file.attachment_identifier}"
+                    )
+
                     # Returning the 200 HTTP response
                     respond_with_successful(@file)
                 end
@@ -232,16 +232,16 @@ module Interfaces::Controllers::Files
         return respond_with_unauthorized unless @file.is_editable_by?(current_user)
 
         if @file.destroy
-            # Registering an activity in the cloud_object
-            @file.cloud_object.activities.create(
-                user_creator: current_user,
-                category: "action_destroy_file",
-                description: @file.name
-            )
-
             if block_given?
                 yield
             else
+                # Registering an activity in the cloud_object
+                @file.cloud_object.activities.create(
+                    user_creator: current_user,
+                    category: "action_destroy_file",
+                    description: @file.name
+                )
+                
                 respond_with_successful
             end
         else
