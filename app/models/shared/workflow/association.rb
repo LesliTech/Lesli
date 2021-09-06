@@ -1,4 +1,3 @@
-module Shared
 =begin
 
 Copyright (c) 2020, all rights reserved.
@@ -17,6 +16,7 @@ For more information read the license file including with this software.
 // · 
 
 =end
+module Shared
     class Workflow::Association < ApplicationLesliRecord
         self.abstract_class = true
 
@@ -24,40 +24,38 @@ For more information read the license file including with this software.
 
         after_create    :verify_uniqueness
 
-=begin
-@return [Array] Array of global associations
-@param account [::Account] The account of the user that made this request
-@description Returns an array of possible global and specific associations
-@example 
-    # Imagine we are in CloudHouse, workflows are available for projects, properties, companies,
-    # and employees. Imagine that the only non global association is for projects, and it's based on
-    # project types, and imagine there are 2 project types.
-    options = CloudHouse::Workflow::Association.options
-    puts options.to_json # will display something similar to
-    #[
-    #    {"name":"Property", "workflow_for":"property", "details":[]},
-    #    {"name":"Employee", "workflow_for":"employee","details":[]},
-    #    {"name":"Company", "workflow_for":"property", "details":[]},
-    #    {
-    #        "name":"Project",
-    #        "workflow_for": "project"
-    #        "details":[
-    #            {
-    #                "name":"project_type",
-    #                "list":[
-    #                    {
-    #                        "id":1,
-    #                        "name":"Maintenance"
-    #                    },{
-    #                        "id":2,
-    #                        "name":"Sale"
-    #                    }
-    #                ]
-    #            }
-    #        ]
-    #    }
-    #]
-=end
+        # @return [Array] Array of global associations
+        # @param account [::Account] The account of the user that made this request
+        # @description Returns an array of possible global and specific associations
+        # @example 
+        #     # Imagine we are in CloudHouse, workflows are available for projects, properties, companies,
+        #     # and employees. Imagine that the only non global association is for projects, and it's based on
+        #     # project types, and imagine there are 2 project types.
+        #     options = CloudHouse::Workflow::Association.options
+        #     puts options.to_json # will display something similar to
+        #     #[
+        #     #    {"name":"Property", "workflow_for":"property", "details":[]},
+        #     #    {"name":"Employee", "workflow_for":"employee","details":[]},
+        #     #    {"name":"Company", "workflow_for":"property", "details":[]},
+        #     #    {
+        #     #        "name":"Project",
+        #     #        "workflow_for": "project"
+        #     #        "details":[
+        #     #            {
+        #     #                "name":"project_type",
+        #     #                "list":[
+        #     #                    {
+        #     #                        "id":1,
+        #     #                        "name":"Maintenance"
+        #     #                    },{
+        #     #                        "id":2,
+        #     #                        "name":"Sale"
+        #     #                    }
+        #     #                ]
+        #     #            }
+        #     #        ]
+        #     #    }
+        #     #]
         def self.options(account)
             module_name = self.dynamic_info[:module_name]
             translations_module = module_name.gsub("cloud_","").gsub("_cloud","").gsub("_","")
@@ -131,35 +129,47 @@ For more information read the license file including with this software.
             associations
         end
 
-=begin
-@return [Hash] list of associations of this related to the *workflow*
-@param workflow [Shared::Workflow] The workflow to which the associations are to be shown
-@description Selects all the associations and formats them so the user can understand them. If the
-    association is not global, goes to the respective table of the detail (specified by the subclass's method
-    *object_association_details*) and selects the identifier, to display it to the user if an understandable format.
-@example
-    # Imagine we are in CloodHouse, and we have 1 workflow associated to projects, companies and properties,
-    # and the project association is only to the projects that have th *maintenance* type.
-    workflow = CloudHouse::Workflow.find(1)
-    puts CloudHouse::Workflow::Asociation.list(workflow).to_json
-    # will display something like 
-    #[
-    #    {
-    #        "id":1,
-    #        "workflow_for":"Projects",
-    #        "global":false,
-    #        "details":" Project type: Maintenance"
-    #    },{
-    #        "id":2,
-    #        "workflow_for":"Companies",
-    #        "global":true
-    #    },{
-    #        "id":3,
-    #        "workflow_for":"Properties",
-    #        "global":true,
-    #    }
-    #]
-=end
+        # @return [Hash] A list of all available associations that can be created
+        # @description Returns a hash where the key is the condensed name of the association and the value is the same.
+        #     This previously was an enum that was changed due to issues with the new version of rails 6.1.0. This method must
+        #     be overrided by it's child classes
+        # @example
+        #     # Since this is an abstract class, we provide an example using a real engine
+        #     CloudProposal::Workflow.first.associations.create!(
+        #         workflow_for: CloudProposal::Workflow::Association.object_associations[:quotation],
+        #         global: true
+        #     )
+        def self.object_associations
+            return {}
+        end
+
+        # @return [Hash] list of associations of this related to the *workflow*
+        # @param workflow [Shared::Workflow] The workflow to which the associations are to be shown
+        # @description Selects all the associations and formats them so the user can understand them. If the
+        #     association is not global, goes to the respective table of the detail (specified by the subclass's method
+        #     *object_association_details*) and selects the identifier, to display it to the user if an understandable format.
+        # @example
+        #     # Imagine we are in CloodHouse, and we have 1 workflow associated to projects, companies and properties,
+        #     # and the project association is only to the projects that have th *maintenance* type.
+        #     workflow = CloudHouse::Workflow.find(1)
+        #     puts CloudHouse::Workflow::Asociation.list(workflow).to_json
+        #     # will display something like 
+        #     #[
+        #     #    {
+        #     #        "id":1,
+        #     #        "workflow_for":"Projects",
+        #     #        "global":false,
+        #     #        "details":" Project type: Maintenance"
+        #     #    },{
+        #     #        "id":2,
+        #     #        "workflow_for":"Companies",
+        #     #        "global":true
+        #     #    },{
+        #     #        "id":3,
+        #     #        "workflow_for":"Properties",
+        #     #        "global":true,
+        #     #    }
+        #     #]
         def self.list(workflow)
             module_name = self.dynamic_info[:module_name].gsub("cloud_", "").gsub("_cloud","").gsub("_","")
             translations_module = module_name.gsub("cloud_","").gsub("_cloud","").gsub("_","")
@@ -210,14 +220,12 @@ For more information read the license file including with this software.
             end
         end
 
-=begin
-@return [Hash] Hash that contains information about the class
-@description Returns dynamic information based on the current implementation of this abstract class
-@example
-    # Imagine the current class is an instance of CloudHelp::Workflow::Association < Shared::Workflow::Association
-    info = dynamic_info
-    puts info[:module_name] # will print 'help'
-=end
+        # @return [Hash] Hash that contains information about the class
+        # @description Returns dynamic information based on the current implementation of this abstract class
+        # @example
+        #     # Imagine the current class is an instance of CloudHelp::Workflow::Association < Shared::Workflow::Association
+        #     info = dynamic_info
+        #     puts info[:module_name] # will print 'help'
         def self.dynamic_info
             module_info = self.lesli_classname().split("::")
             module_name = module_info[0].underscore
@@ -229,42 +237,38 @@ For more information read the license file including with this software.
 
         protected
 
-=begin
-@return [Array] Array of hashes, each hash contains information about the association detail of this workflow
-    (like class, primary key, identifier, etc.)
-@param association_name [String] The name of the association
-@description A workflow can be associated to a specific class, based on certain field. For example, one workflow can be
-    assigned to purchase projects, and another workflow can be assigned to sale projects. This method returns the details
-    to create that specific association
-@example
-    # Imagine you want to associate a workflow to a project based on it's type, then you should execute
-    association_details = Workflow::Association.object_association_details('project')
-    puts association_details.to_json # Will display something like
-    # [{
-    #     "name": "project_type",
-    #     "class": "CloudHouse::Catalog::ProjectType",
-    #     "key": :"cloud_house_catalog_project_types_id",
-    #     "identifier": :"name"
-    # }]
-    # Where "name" is the name of the association detail, class is the Rails class of the model, key is the primary key of that table,
-    # and identifier is a field, in that table, that allows the user to identify one entry from the other. In this example "name" will have
-    # values like "sale", "purchase", "repair", etc.
-=end
+        # @return [Array] Array of hashes, each hash contains information about the association detail of this workflow
+        #     (like class, primary key, identifier, etc.)
+        # @param association_name [String] The name of the association
+        # @description A workflow can be associated to a specific class, based on certain field. For example, one workflow can be
+        #     assigned to purchase projects, and another workflow can be assigned to sale projects. This method returns the details
+        #     to create that specific association
+        # @example
+        #     # Imagine you want to associate a workflow to a project based on it's type, then you should execute
+        #     association_details = Workflow::Association.object_association_details('project')
+        #     puts association_details.to_json # Will display something like
+        #     # [{
+        #     #     "name": "project_type",
+        #     #     "class": "CloudHouse::Catalog::ProjectType",
+        #     #     "key": :"cloud_house_catalog_project_types_id",
+        #     #     "identifier": :"name"
+        #     # }]
+        #     # Where "name" is the name of the association detail, class is the Rails class of the model, key is the primary key of that table,
+        #     # and identifier is a field, in that table, that allows the user to identify one entry from the other. In this example "name" will have
+        #     # values like "sale", "purchase", "repair", etc.
         def self.object_association_details(association_name)
             return []
         end
 
         
-=begin
-@return [void]
-@description Checks the workflow associations table for entries that have the exact same association
-    and deletes them. This is an *after_create* action and should not be called manually
-@example
-    workflow = CloudHouse::Workflow.find(1)
-    workflow.associations.create(workflow_for: 'project', global: true)
-    workflow.associations.create(workflow_for: 'project', global: true) # When this association is created, the old
-    # will be deleted
-=end
+        # @return [void]
+        # @description Checks the workflow associations table for entries that have the exact same association
+        #     and deletes them. This is an *after_create* action and should not be called manually
+        # @example
+        #     workflow = CloudHouse::Workflow.find(1)
+        #     workflow.associations.create(workflow_for: 'project', global: true)
+        #     workflow.associations.create(workflow_for: 'project', global: true) # When this association is created, the old
+        #     # will be deleted
         def verify_uniqueness
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
