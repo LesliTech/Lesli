@@ -138,7 +138,14 @@ module HtmlHelper
         navigation_engine_item text, icon_path, cloud_talk.root_path, controller_path.include?("cloud_talk")
     end
 
-
+    # 03.11 Storage engine
+    def navigation_engine_storage text: "Storage", icon_path: "cloud_storage/storage-logo.svg"
+        unless defined? CloudStorage
+            return ""
+        end
+        navigation_engine_item text, icon_path, cloud_storage.root_path, controller_path.include?("cloud_storage")
+    end
+    
     # FINANCE
 
     # 04.01 Books engine

@@ -56,7 +56,7 @@ RSpec.describe "GET:/administration/users/:id/resources/become.json with a the c
 
     before(:all) do
         # We create a user with no privileges and attempt to become another user
-        crm_email = "crm.admin@deutsche-leibrenten.de"
+        crm_email = Rails.application.config.lesli_settings["account"]["user"]["email"]
         crm_user = User.find_by(email: crm_email)
 
         unless crm_user
@@ -69,7 +69,7 @@ RSpec.describe "GET:/administration/users/:id/resources/become.json with a the c
         end
 
         
-        crm_user.user_roles.create({ role: @user.account.roles.find_by(name: "admin") })
+        crm_user.user_roles.create({ role: @user.account.roles.find_by(name: "sysadmin") })
         crm_user.confirm
         sign_in crm_user
 

@@ -90,7 +90,7 @@ module LC
         end
 
         # return query string to get timestamps columns from database
-        def db_timestamps table="", column_alias="updated_at_date"
+        def db_timestamps table="", column_alias="updated_at_date", date_column = "created_at"
 
             # avoid ambiguous columns
             table = table.concat(".") if table != ""
@@ -98,7 +98,7 @@ module LC
             # get right format for dates
             format = self.db_format
             
-            "TO_CHAR(#{table}created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as created_at_date, TO_CHAR(#{table}updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as #{column_alias}"
+            "TO_CHAR(#{table}#{date_column} at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as created_at_date, TO_CHAR(#{table}updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as #{column_alias}"
 
         end
 

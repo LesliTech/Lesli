@@ -18,7 +18,6 @@ For more information read the license file including with this software.
 %>
 
 
-<% custom_app_page_clas = "#{ lesli_instance_code }-passwords-new".downcase %>
 <% custom_app_page_path = "#{ lesli_instance_code }/lesli/devise/passwords/new" %>
 <% custom_app_page_exists = lookup_context.exists?(custom_app_page_path) %>
 
@@ -26,7 +25,7 @@ For more information read the license file including with this software.
 
 <%# render custom view in builder module %>
 <% if custom_app_page_exists %>
-<main id="lesli-application" class="<%= custom_app_page_clas %>">
+<main id="lesli-application">
     <%= render :template => custom_app_page_path %>
 </main>
 <% end %>
@@ -35,7 +34,7 @@ For more information read the license file including with this software.
 
 <%# core view for passses %>
 <% unless custom_app_page_exists %>
-<main id="lesli-application" class="lesli">
+<main id="lesli-application">
     <section class="hero is-fullheight">
         <div class="hero-head">
             <div class="form-title has-text-centered">

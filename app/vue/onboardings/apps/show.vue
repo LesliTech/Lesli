@@ -117,27 +117,27 @@ export default {
                 <b-step-item icon="building">
                     <component-form-basic-information></component-form-basic-information>
                 </b-step-item>
-                <b-step-item icon="account-key">
+                <b-step-item icon="phone">
                     <component-form-contact-information></component-form-contact-information>
                 </b-step-item>
-                <b-step-item icon="account-key">
+                <b-step-item icon="envelope">
                     <component-form-public-information></component-form-public-information>
                 </b-step-item>
-                <b-step-item icon="account-key">
+                <b-step-item icon="clock">
                     <component-form-datetime-formats></component-form-datetime-formats>
                 </b-step-item>
+                <!-- 
                 <b-step-item icon="account-key">
                     <component-form-invite-users></component-form-invite-users>
-                </b-step-item>
-                <b-step-item icon="account-key">
+                </b-step-item> 
+                -->
+                <b-step-item icon="smile-beam">
                     <div class="card">
+                        <div class="card-header">
+                            <h3>{{ translations.core.onboardings.view_text_welcome }}</h3>
+                        </div>
                         <div class="card-content">
                             <form @submit.prevent="finishConfiguration()">
-                                <div class="welcome-title has-text-centered">
-                                    <h3>{{ translations.core.onboardings.view_text_welcome }}</h3>
-                                </div>
-
-                                <br />
                                 <div class="has-text-centered">
                                     <button class="button is-primary">
                                         <span>

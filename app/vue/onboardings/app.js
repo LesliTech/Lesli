@@ -23,7 +23,7 @@ import app from "LesliVue/app"
 
 
 // · 
-import showOnboarding from "./pages/show.vue"
+import showOnboarding from "./apps/show.vue"
 
 
 // · 
