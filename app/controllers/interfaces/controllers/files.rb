@@ -40,9 +40,12 @@ module Interfaces::Controllers::Files
                     "#{cloud_object_model.table_name}_id".to_sym => params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym]
                 ).order(id: :desc).map do |file|
                     file_attributes = file.attributes
+                    file_attributes["user_creator_name"] = file.user_creator&.full_name
                     file_attributes["public_url"] = file.attachment_public.url if file.attachment_public
                     file_attributes["created_at_raw"] = file_attributes["created_at"]
-                    file_attributes["created_at"] = LC::Date.to_string_datetime(file_attributes["created_at"])
+                    file_attributes["created_at"] = LC::Date2.new(file_attributes["created_at"]).date_time.to_s
+                    file_attributes["updated_at_raw"] = file_attributes["updated_at"]
+                    file_attributes["updated_at"] = LC::Date2.new(file_attributes["updated_at"]).date_time.to_s
                     file_attributes["editable"] = file.is_editable_by?(current_user)
                     file_attributes
                 end
@@ -114,19 +117,19 @@ module Interfaces::Controllers::Files
 
                 cloud_object = file.cloud_object
 
-                # Registering an activity in the cloud_object
-                cloud_object.activities.create(
-                    user_creator: current_user,
-                    category: "action_create_file",
-                    description: "#{file.name} - #{file.attachment_identifier}"
-                )
-
                 # Setting up file uploader to upload in background
                 Files::AwsUploadJob.perform_later(file)
                 
                 if block_given?
                     yield(cloud_object, file)
                 else
+                    # Registering an activity in the cloud_object
+                    cloud_object.activities.create(
+                        user_creator: current_user,
+                        category: "action_create_file",
+                        description: "#{file.name} - #{file.attachment_identifier}"
+                    )
+
                     # Returning the 200 HTTP response
                     respond_with_successful(file)
                 end
@@ -163,19 +166,19 @@ module Interfaces::Controllers::Files
         decode_and_verify_file(file_params) do |verified_file_params|
             if @file.update(verified_file_params)
 
-                # Registering an activity in the cloud_object
-                @file.cloud_object.activities.create(
-                    user_creator: current_user,
-                    category: "action_update_file",
-                    description: "#{@file.name} - #{@file.attachment_identifier}"
-                )
-
                 # Setting up file uploader to upload in background
                 Files::AwsUploadJob.perform_later(@file)
                 
                 if block_given?
-                    yield(cloud_object, @file)
+                    yield(@cloud_object, @file)
                 else
+                    # Registering an activity in the cloud_object
+                    @file.cloud_object.activities.create(
+                        user_creator: current_user,
+                        category: "action_update_file",
+                        description: "#{@file.name} - #{@file.attachment_identifier}"
+                    )
+
                     # Returning the 200 HTTP response
                     respond_with_successful(@file)
                 end
@@ -232,16 +235,16 @@ module Interfaces::Controllers::Files
         return respond_with_unauthorized unless @file.is_editable_by?(current_user)
 
         if @file.destroy
-            # Registering an activity in the cloud_object
-            @file.cloud_object.activities.create(
-                user_creator: current_user,
-                category: "action_destroy_file",
-                description: @file.name
-            )
-
             if block_given?
-                yield
+                yield(@cloud_object, @file)
             else
+                # Registering an activity in the cloud_object
+                @file.cloud_object.activities.create(
+                    user_creator: current_user,
+                    category: "action_destroy_file",
+                    description: @file.name
+                )
+                
                 respond_with_successful
             end
         else
@@ -406,16 +409,10 @@ module Interfaces::Controllers::Files
     #     set_file
     #     puts @file # will display an instance of CloudHelp:Ticket::File
     def set_file
-        file_model = file_model() # If there is a custom file model, it must be returned in this method
-        cloud_object_model = file_model.cloud_object_model
-        account_model = cloud_object_model.reflect_on_association(:account).klass
-
-        @file = file_model.joins(:cloud_object).where(
-            "#{cloud_object_model.table_name}.id = #{params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym]}",
-            "#{cloud_object_model.table_name}.#{account_model.table_name}_id = #{current_user.account.id}"
-        ).find_by(
-            id: params[:id]
-        )
+        set_cloud_object
+        return unless @cloud_object
+        
+        @file = @cloud_object.files.find_by(id: params[:id])
     end
 
     # @return [Parameters] Allowed parameters for the file
