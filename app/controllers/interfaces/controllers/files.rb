@@ -236,7 +236,7 @@ module Interfaces::Controllers::Files
 
         if @file.destroy
             if block_given?
-                yield
+                yield(@cloud_object, @file)
             else
                 # Registering an activity in the cloud_object
                 @file.cloud_object.activities.create(
@@ -409,16 +409,10 @@ module Interfaces::Controllers::Files
     #     set_file
     #     puts @file # will display an instance of CloudHelp:Ticket::File
     def set_file
-        file_model = file_model() # If there is a custom file model, it must be returned in this method
-        cloud_object_model = file_model.cloud_object_model
-        account_model = cloud_object_model.reflect_on_association(:account).klass
-
-        @file = file_model.joins(:cloud_object).where(
-            "#{cloud_object_model.table_name}.id = #{params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym]}",
-            "#{cloud_object_model.table_name}.#{account_model.table_name}_id = #{current_user.account.id}"
-        ).find_by(
-            id: params[:id]
-        )
+        set_cloud_object
+        return unless @cloud_object
+        
+        @file = @cloud_object.files.find_by(id: params[:id])
     end
 
     # @return [Parameters] Allowed parameters for the file
