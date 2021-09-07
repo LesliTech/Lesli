@@ -40,9 +40,12 @@ module Interfaces::Controllers::Files
                     "#{cloud_object_model.table_name}_id".to_sym => params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym]
                 ).order(id: :desc).map do |file|
                     file_attributes = file.attributes
+                    file_attributes["user_creator_name"] = file.user_creator&.full_name
                     file_attributes["public_url"] = file.attachment_public.url if file.attachment_public
                     file_attributes["created_at_raw"] = file_attributes["created_at"]
-                    file_attributes["created_at"] = LC::Date.to_string_datetime(file_attributes["created_at"])
+                    file_attributes["created_at"] = LC::Date2.new(file_attributes["created_at"]).date_time.to_s
+                    file_attributes["updated_at_raw"] = file_attributes["updated_at"]
+                    file_attributes["updated_at"] = LC::Date2.new(file_attributes["updated_at"]).date_time.to_s
                     file_attributes["editable"] = file.is_editable_by?(current_user)
                     file_attributes
                 end
@@ -98,80 +101,90 @@ module Interfaces::Controllers::Files
             cloud_object: @cloud_object
         )
 
-        # Verifying the extension of the file
-        extension = ""
+        # Verifying the extension of the file. If it's valid, the block will be executed
+        decode_and_verify_file(new_file_params) do |verified_file_params|
+            file = file_model.new(verified_file_params)
 
-        if new_file_params[:attachment].is_a? String
-            # Base64 images
-            file_name = new_file_params[:name]
-            file_name = file_name.downcase.gsub(" ","_")
+            if file.save
+                # Setting the file name in case it's blank and updating the file in case the filename changed
+                if file.name.blank?
+                    file.update(
+                        name: params["#{cloud_object_model.name.demodulize.underscore}_file".to_sym][:attachment].original_filename
+                    )
+                else
+                    file.update({})
+                end
 
-            img_from_base64 = Base64.decode64(new_file_params[:attachment])
+                cloud_object = file.cloud_object
 
-            begin
-                extension = /(png|jpg|jpeg|exif|jfif)/.match(img_from_base64[0,16].downcase)[0]
-            rescue
-                return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed"))
+                # Setting up file uploader to upload in background
+                Files::AwsUploadJob.perform_later(file)
+                
+                if block_given?
+                    yield(cloud_object, file)
+                else
+                    # Registering an activity in the cloud_object
+                    cloud_object.activities.create(
+                        user_creator: current_user,
+                        category: "action_create_file",
+                        description: "#{file.name} - #{file.attachment_identifier}"
+                    )
+
+                    # Returning the 200 HTTP response
+                    respond_with_successful(file)
+                end
+            else
+                respond_with_error(file.errors.full_messages.to_sentence)
             end
-
-            # Due a encode issue, jpeg images are sent as jfif
-            extension = "jpeg" if extension == "jfif"
-            extension = "png"  if extension == "exif"
-
-            return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed")) unless file_model.verify_file_extension(extension)
-
-            file_path = Rails.root.join("public", "uploads", "tmp", file_name << '.' << extension)
-            File.open(file_path, 'wb') do|f|
-                f.write(img_from_base64)
-            end
-
-            new_file_params[:attachment] = File.open(Rails.root.join(file_path), "rb")
-
-            file = file_model.new(new_file_params)
-
-            FileUtils.rm_rf(Rails.root.join(file_path))
-        else
-            extension = new_file_params[:attachment].original_filename if new_file_params[:attachment]
-
-            return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed")) unless file_model.verify_file_extension(extension)
-
-            file = file_model.new(new_file_params)
         end
+    end
 
-        # We calculate the file size in MB
-        file_size = new_file_params[:attachment].size
-        file.size_mb = file_size.to_f / (1024*1024)
+    # @controller_action_param :attachment [File] The uploaded attachment
+    # @controller_action_param :name [String] The name to be displayed
+    # @controller_action_param :file_type [String] The file type of 
+    # @return [Json] Json that contains wheter the creation of the file was successful or not. 
+    #     If it is not successful, it returs an error message
+    # @description Updates an existing file associated to a *cloud_object*. The id of the 
+    #     *cloud_object* is within the *params* attribute. If the child class provides a block, the function is
+    #     yielded sending the cloud_object as first param, and the file as second param.
+    #     The block given *must* return the HTTP response
+    # @example
+    #     # Executing this controller's action from javascript's frontend
+    #     let ticket_id = 1;
+    #     let data = {
+    #         ticket_file: {
+    #             file: FILE_CONTENT
+    #             name: "contract_information"
+    #         }
+    #     };
+    #     this.http.put(`127.0.0.1/help/tickets/${ticket_id}/files`, data);
+    def update
+        set_file
+        return respond_with_not_found unless @file
 
-        if file.save
-            # Setting the file name in case it's blank and updating the file in case the filename changed
-            if file.name.blank?
-                file.update(
-                    name: params["#{cloud_object_model.name.demodulize.underscore}_file".to_sym][:attachment].original_filename
-                )
+        # Verifying the extension of the file. If it's valid, the block will be executed
+        decode_and_verify_file(file_params) do |verified_file_params|
+            if @file.update(verified_file_params)
+
+                # Setting up file uploader to upload in background
+                Files::AwsUploadJob.perform_later(@file)
+                
+                if block_given?
+                    yield(@cloud_object, @file)
+                else
+                    # Registering an activity in the cloud_object
+                    @file.cloud_object.activities.create(
+                        user_creator: current_user,
+                        category: "action_update_file",
+                        description: "#{@file.name} - #{@file.attachment_identifier}"
+                    )
+
+                    # Returning the 200 HTTP response
+                    respond_with_successful(@file)
+                end
             else
-                file.update({})
+                respond_with_error(@file.errors.full_messages.to_sentence)
             end
-
-            cloud_object = file.cloud_object
-
-            # Registering an activity in the cloud_object
-            cloud_object.activities.create(
-                user_creator: current_user,
-                category: "action_create_file",
-                description: file.name
-            )
-
-            # Setting up file uploader to upload in background
-            Files::AwsUploadJob.perform_later(file)
-            
-            if block_given?
-                yield(cloud_object, file)
-            else
-                # Returning the 200 HTTP response
-                respond_with_successful(file)
-            end
-        else
-            respond_with_error(file.errors.full_messages.to_sentence)
         end
     end
 
@@ -222,16 +235,16 @@ module Interfaces::Controllers::Files
         return respond_with_unauthorized unless @file.is_editable_by?(current_user)
 
         if @file.destroy
-            # Registering an activity in the cloud_object
-            @file.cloud_object.activities.create(
-                user_creator: current_user,
-                category: "action_destroy_file",
-                description: @file.name
-            )
-
             if block_given?
-                yield
+                yield(@cloud_object, @file)
             else
+                # Registering an activity in the cloud_object
+                @file.cloud_object.activities.create(
+                    user_creator: current_user,
+                    category: "action_destroy_file",
+                    description: @file.name
+                )
+                
                 respond_with_successful
             end
         else
@@ -278,6 +291,60 @@ module Interfaces::Controllers::Files
     end
 
     protected
+
+    def decode_and_verify_file(file_params)
+
+        # Verifying the extension of the file
+        extension = ""
+
+        if file_params[:attachment]
+            if file_params[:attachment].is_a? String
+                # Base64 images
+
+                if file_params[:name]
+                    file_name = file_params[:name].downcase.gsub(" ","_")
+                elsif @file
+                    file_name = @file.name.downcase.gsub(" ","_")
+                else
+                    file_name = "file_#{DateTime.now.strftime("%Y%m%d%H%M%S")}"
+                end
+
+                img_from_base64 = Base64.decode64(file_params[:attachment])
+
+                begin
+                    extension = /(png|jpg|jpeg|exif|jfif)/.match(img_from_base64[0,16].downcase)[0]
+                rescue
+                    return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed"))
+                end
+
+                # Due a encode issue, jpeg images are sent as jfif
+                extension = "jpeg" if extension == "jfif"
+                extension = "png"  if extension == "exif"
+
+                return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed")) unless file_model.verify_file_extension(extension)
+
+                file_path = Rails.root.join("public", "uploads", "tmp", file_name << '.' << extension)
+                File.open(file_path, 'wb') do|f|
+                    f.write(img_from_base64)
+                end
+
+                file_params[:attachment] = File.open(Rails.root.join(file_path), "rb")
+                file_params[:size_mb] = file_params[:attachment].size.to_f / (1024*1024)
+                FileUtils.rm_rf(Rails.root.join(file_path))
+            else
+                extension = file_params[:attachment].original_filename
+                file_params[:size_mb] = file_params[:attachment].size.to_f / (1024*1024)
+
+                return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed")) unless file_model.verify_file_extension(extension)
+            end
+
+            file_params[:external_url] = nil
+        end
+
+        if block_given?
+            yield(file_params)
+        end
+    end
 
     # @return [void]
     # @description This function handles the zip download based on the type of attachment that the file has.
@@ -342,16 +409,10 @@ module Interfaces::Controllers::Files
     #     set_file
     #     puts @file # will display an instance of CloudHelp:Ticket::File
     def set_file
-        file_model = file_model() # If there is a custom file model, it must be returned in this method
-        cloud_object_model = file_model.cloud_object_model
-        account_model = cloud_object_model.reflect_on_association(:account).klass
-
-        @file = file_model.joins(:cloud_object).where(
-            "#{cloud_object_model.table_name}.id = #{params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym]}",
-            "#{cloud_object_model.table_name}.#{account_model.table_name}_id = #{current_user.account.id}"
-        ).find_by(
-            id: params[:id]
-        )
+        set_cloud_object
+        return unless @cloud_object
+        
+        @file = @cloud_object.files.find_by(id: params[:id])
     end
 
     # @return [Parameters] Allowed parameters for the file

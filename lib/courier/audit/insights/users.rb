@@ -1,4 +1,4 @@
-<%#
+=begin
 
 Copyright (c) 2020, all rights reserved.
 
@@ -15,5 +15,19 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-%>
-<router-view></router-view>
+=end
+
+module Courier
+    module Audit
+        module Insights
+            class Users
+                def self.index(current_user, query)
+                    return [] unless defined? CloudAudit
+                    cat = query.dig(:filters, :cat) || "by_role"
+                    return CloudAudit::Insights::User.by_role(current_user, query) if cat == "by_role"
+                    return CloudAudit::Insights::User.by_role_date(current_user, query) if cat == "by_role_date"
+                end
+            end
+        end
+    end
+end

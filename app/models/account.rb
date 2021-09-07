@@ -54,6 +54,7 @@ class Account < ApplicationRecord
     has_one :portal,     class_name: "CloudPortal::Account",     foreign_key: "id"
     has_one :proposal,   class_name: "CloudProposal::Account",   foreign_key: "id"
     has_one :dispatcher, class_name: "CloudDispatcher::Account", foreign_key: "id"
+    has_one :storage,    class_name: "CloudStorage::Account",    foreign_key: "id"
 
     after_create :initialize_account
     after_create :initialize_account_for_engines
@@ -83,7 +84,7 @@ class Account < ApplicationRecord
 
         # create role descriptors
         self.role_descriptors.find_or_create_by(name: "owner")
-        self.role_descriptors.find_or_create_by(name: "admin")
+        self.role_descriptors.find_or_create_by(name: "sysadmin")
         self.role_descriptors.find_or_create_by(name: "profile")
 
         # create default roles
@@ -91,13 +92,13 @@ class Account < ApplicationRecord
         account_roles.append "api"     # api-access only
         account_roles.append "guest"   # read-only
         account_roles.append "limited" # access only to user profile
-        account_roles.prepend "admin"  # platform administrator role
+        account_roles.prepend "sysadmin"  # platform administrator role
         account_roles.prepend "owner"  # super admin role
         account_roles.uniq.each do |role_name|
 
             object_level_permission = 10
             object_level_permission = 2147483647 if role_name == "owner"
-            object_level_permission = 1000 if role_name == "admin"
+            object_level_permission = 1000 if role_name == "sysadmin"
 
             role = Role.create({
                 account: self,
@@ -109,13 +110,6 @@ class Account < ApplicationRecord
             role.initialize_role_privileges
 
         end
-
-
-        # create default descriptors
-        self.role_descriptors.find_or_create_by(name: "owner")
-        self.role_descriptors.find_or_create_by(name: "admin")
-
-
     end
 
     def initialize_account_for_engines
@@ -208,6 +202,14 @@ class Account < ApplicationRecord
             end
         end
 
+        if defined? CloudStorage
+            if self.storage.blank?
+                self.storage = CloudStorage::Account.new
+                self.storage.account = self
+                self.storage.save!
+            end
+        end
+        
         if defined? CloudHouse
             if self.house.blank?
                 self.house = CloudHouse::Account.new
