@@ -19,20 +19,18 @@ For more information read the license file including with this software.
 
 
 // · Include Lesli CSS
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "lesli-css/";
 
 
 
 // · Configuration
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "../settings/variables.scss";
-
+@import "../bulma/loader.scss";
 
 
 // · Include Bulma 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@import "../bulma/loader.scss";
+@include lesli-css-normalize;
+@include lesli-css-fonts-standard;
 
 
 
