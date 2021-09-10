@@ -1,4 +1,4 @@
-/*
+=begin
 
 Copyright (c) 2020, all rights reserved.
 
@@ -15,30 +15,19 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-*/
+=end
 
-// · 
-@import "lesli-css/";
-
-
-// · 
-@import "./settings/colors.scss";
-@import "./layout/application-header";
-@import "./layout/application-navigation";
-@import "./components/tabs.scss";
-@import "./components/status.scss";
-@import "./components/summary.scss";
-@import "./components/calendar.scss";
-@import "./components/quickview.scss";
-
-
-
-body.deutsche_leibrenten.profiles.show main aside.application-sidebar nav ul {
-    display: none;
-    font-size: 0;
-}
-
-aside.application-sidebar nav li a i {
-    text-align: left;
-    width: 2rem;
-}
+module Courier
+    module Audit
+        module Insights
+            class Users
+                def self.index(current_user, query)
+                    return [] unless defined? CloudAudit
+                    cat = query.dig(:filters, :cat) || "by_role"
+                    return CloudAudit::Insights::User.by_role(current_user, query) if cat == "by_role"
+                    return CloudAudit::Insights::User.by_role_date(current_user, query) if cat == "by_role_date"
+                end
+            end
+        end
+    end
+end
