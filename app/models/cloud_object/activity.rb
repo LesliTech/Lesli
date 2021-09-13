@@ -82,6 +82,8 @@ class CloudObject::Activity < ApplicationLesliRecord
                 value_to: cloud_object.status&.name
             )
         end
+
+        yield if block_given?
     end
 
     # @return [void]
@@ -97,6 +99,8 @@ class CloudObject::Activity < ApplicationLesliRecord
             user_creator: current_user,
             category: "action_show"
         )
+
+        yield if block_given?
     end
 
     # @return [void]
@@ -129,6 +133,8 @@ class CloudObject::Activity < ApplicationLesliRecord
                 update_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key], category)
             end
         end
+
+        yield if block_given?
     end
 
     # @return [void]
@@ -144,6 +150,8 @@ class CloudObject::Activity < ApplicationLesliRecord
             user_creator: current_user,
             category: "action_destroy"
         )
+
+        yield if block_given?
     end
 
     protected
