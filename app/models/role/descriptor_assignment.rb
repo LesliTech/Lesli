@@ -21,6 +21,10 @@ class Role::DescriptorAssignment < ApplicationLesliRecord
     
     has_many   :privilege_actions,  through: :descriptor
     
+    has_many   :privilege_actions, -> (_) {
+        where("role_descriptor_privilege_actions.category = role_descriptor_assignments.category")
+    },  through: :descriptor
+    
     def self.options(current_user)
         descriptors = []
         categories_name = RoleDescriptor::PrivilegeAction.categories.map{|k, _| k}
