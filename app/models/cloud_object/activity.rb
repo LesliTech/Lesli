@@ -82,6 +82,25 @@ class CloudObject::Activity < ApplicationLesliRecord
                 value_to: cloud_object.status&.name
             )
         end
+
+        yield if block_given?
+    end
+
+    # @return [void]
+    # @param current_user [::User] The user that created the cloud_object
+    # @param cloud_object [CloudModule::Model] The cloud_object that was shown
+    # @description Creates an activity for this cloud_object indicating who view it.
+    # Example
+    #   params = {...}
+    #   ticket = CloudHelp::Ticket.create(params)
+    #   CloudHelp::Ticket.log_show(User.first, ticket)
+    def self.log_show(current_user, cloud_object)
+        cloud_object.activities.create(
+            user_creator: current_user,
+            category: "action_show"
+        )
+
+        yield if block_given?
     end
 
     # @return [void]
@@ -114,6 +133,8 @@ class CloudObject::Activity < ApplicationLesliRecord
                 update_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key], category)
             end
         end
+
+        yield if block_given?
     end
 
     # @return [void]
@@ -129,6 +150,8 @@ class CloudObject::Activity < ApplicationLesliRecord
             user_creator: current_user,
             category: "action_destroy"
         )
+
+        yield if block_given?
     end
 
     protected
