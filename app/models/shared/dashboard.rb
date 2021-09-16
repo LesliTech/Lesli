@@ -169,8 +169,12 @@ module Shared
         def verify_default_dashboard
             if default
                 dashboards = self.class.where.not(id: id).where(account: account)
-                puts dashboards.to_json
                 self.class.where.not(id: id).where(account: account).update_all(default: false)
+            end
+
+            unless self.class.where(account: account).find_by(default: true)
+                errors.add(:base, I18n.t("core.dashboards.messages_danger_default_dashboard_must_exist"))
+                raise ActiveRecord::Rollback
             end
         end
         
