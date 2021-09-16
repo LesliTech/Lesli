@@ -100,12 +100,6 @@ export default {
         window.removeEventListener('scroll', this.handleScroll);
     },
 
-    watch: {
-        'data.global.cloud_bell_notifications': function(val) {
-            this.cloud_bell_notifications = val
-        }
-    },
-
     computed: {
         supportedBrowser(){
             if(this.browser_data.name == 'Microsoft Edge' && this.browser_data.version < 84){
