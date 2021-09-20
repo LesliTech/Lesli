@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 %>
 
@@ -51,7 +51,7 @@ For more information read the license file including with this software.
 
     <%# notifications icon indicator %>
     <% if defined?(CloudBell) %>
-    <template v-slot:announcements>
+    <template v-slot:announcements v-if="abilities.privilege('announcements', 'cloud_bell')['create']">
         <a class="navbar-item header-notification-indicator" @click="data.global.show_panel_announcement = true">
             <i class="fas fa-bullhorn"></i>
         </a>
@@ -81,7 +81,7 @@ For more information read the license file including with this software.
         </a>
     </template>
     <% end %>
-    
+
 
     <%# engines panel %>
     <template v-slot:engines>
@@ -109,5 +109,5 @@ For more information read the license file including with this software.
     <% if custom_header_partial_exists %>
     <%= render partial: custom_header_partial_path %>
     <% end %>
-    
+
 </application-component-header>
