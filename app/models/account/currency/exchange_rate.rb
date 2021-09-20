@@ -26,7 +26,7 @@ class Account::Currency::ExchangeRate < ApplicationLesliRecord
             .select(
                 :id,
                 :exchange_rate,
-                :account_currency_id,
+                :account_currencies_id,
                 :valid_from,
                 :valid_to,
                 LC::Date2.new.date_time.db_column("valid_from"),
@@ -50,7 +50,7 @@ class Account::Currency::ExchangeRate < ApplicationLesliRecord
             valid_from: self.valid_from,
             valid_to: self.valid_to,
             created_at: LC::Date.to_string_datetime(self.created_at),
-            account_currency_id: self.account_currency_id,
+            account_currencies_id: self.account_currencies_id,
             valid_from_string: LC::Date.to_string_datetime(self.valid_from),
             valid_to_string: LC::Date.to_string_datetime(self.valid_to),
             created_at_string: LC::Date.to_string_datetime(self.created_at),
