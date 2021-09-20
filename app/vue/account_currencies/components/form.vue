@@ -379,10 +379,33 @@ export default {
                                 <template v-slot:label>
                                     &nbsp;
                                 </template>
-                                Actions go here
+                                <div class="has-text-right">
+                                    <b-button size="is-small">
+                                        <b-icon size="is-small" icon="edit"></b-icon>
+                                    </b-button>
+                                    <b-button size="is-small" type="is-danger">
+                                        <b-icon size="is-small" icon="trash-alt"></b-icon>
+                                    </b-button>
+                                </div>
                             </b-table-column>
                         </template>
                     </b-table>
+                    <b-pagination
+                        :simple="false"
+                        :total="pagination.count_total"
+                        :current.sync="pagination.current_page"
+                        :range-before="pagination_config.range_before"
+                        :range-after="pagination_config.range_after"
+                        :per-page="pagination_config.per_page"
+                        order="is-centered"
+                        icon-prev="chevron-left"
+                        icon-next="chevron-right"
+                        aria-next-label="Next page"
+                        aria-previous-label="Previous page"
+                        aria-page-label="Page"
+                        aria-current-label="Current page"
+                    >
+                    </b-pagination>
                 </b-tab-item>
             </b-tabs>
         </div>
