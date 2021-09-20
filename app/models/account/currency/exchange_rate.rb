@@ -22,7 +22,7 @@ class Account::Currency::ExchangeRate < ApplicationLesliRecord
         exchange_rates = currency.exchange_rates
             .page(query[:pagination][:page])
             .per(query[:pagination][:perPage])
-            .order(:updated_at)
+            .order(valid_to: :desc)
             .select(
                 :id,
                 :exchange_rate,
@@ -39,7 +39,13 @@ class Account::Currency::ExchangeRate < ApplicationLesliRecord
             exchange_rates.total_pages,
             exchange_rates.total_count,
             exchange_rates.length,
-            exchange_rates
+            exchange_rates.map do |exchange_rate|
+                exchange_rate_attributes = exchange_rate.attributes
+                exchange_rate_attributes["valid_from_text"] = LC::Date.to_string_datetime(exchange_rate_attributes["valid_from"])
+                exchange_rate_attributes["valid_to_text"] = LC::Date.to_string_datetime(exchange_rate_attributes["valid_to"])
+
+                exchange_rate_attributes
+            end
         )
     end
 
