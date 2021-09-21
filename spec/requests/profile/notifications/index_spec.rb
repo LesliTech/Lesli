@@ -44,8 +44,9 @@ RSpec.describe 'GET:/administration/profile/notifications.json', type: :request 
         remote_count = response_body['data']['pagination']['count_total'] if defined?(CloudBell)
         remote_count = response_body['data'].size if not defined?(CloudBell)
 
-        expect(local_count).to be >=(1)
-        expect(remote_count).to be >=(1)
+        expect(local_count).to be >=(1) if  defined?(CloudBell)
+        expect(remote_count).to be >=(1) if defined?(CloudBell)
+
         expect(remote_count).to eql(local_count)
 
     end
