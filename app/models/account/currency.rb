@@ -65,19 +65,18 @@ class Account::Currency < ApplicationLesliRecord
                     from account_currency_exchange_rates inner join(
                         select account_currencies_id, max(id) as id
                         from account_currency_exchange_rates 
+                        where deleted_at is null and
+                        (valid_from <= '#{current_date.to_s(:db)}' or valid_from is null) and
+                        valid_to >= '#{current_date.to_s(:db)}'
                         group by account_currencies_id
                     ) as latest_exchange_rate on latest_exchange_rate.id = account_currency_exchange_rates.id
                 ) as exchange_rates on
-                    exchange_rates.account_currencies_id = account_currencies.id and
-                    (exchange_rates.valid_from <= '#{current_date.to_s(:db)}' or exchange_rates.valid_from is null) and
-                    exchange_rates.valid_to >= '#{current_date.to_s(:db)}'
+                    exchange_rates.account_currencies_id = account_currencies.id
             ")
             .select(
                 :valid_from,
                 :valid_to,
-                :exchange_rate,
-                LC::Date2.new.date_time.db_column("valid_from"),
-                LC::Date2.new.date_time.db_column("valid_to")
+                :exchange_rate
             )
         end
 
@@ -111,6 +110,8 @@ class Account::Currency < ApplicationLesliRecord
             currencies.length,
             currencies.map do |currency|
                 currency_attributes = currency.attributes
+                currency_attributes["valid_from_text"] = LC::Date.to_string_datetime(currency_attributes["valid_from"])
+                currency_attributes["valid_to_text"] = LC::Date.to_string_datetime(currency_attributes["valid_to"])
                 currency_attributes["descriptive_name"] = "#{currency.name} (#{currency.symbol})"
 
                 currency_attributes

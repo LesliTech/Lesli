@@ -19,20 +19,28 @@ class Account::Currency::ExchangeRate < ApplicationLesliRecord
     belongs_to :currency, inverse_of: :exchange_rates, foreign_key: "account_currencies_id"
 
     def self.index(current_user, query, currency)
+        current_date = LC::Date.now
+
+        active_exchange_rate_id = currency.exchange_rates.where(
+            "(valid_from is null or valid_from <= ?) and valid_to >= ?",
+            current_date,
+            current_date
+        ).maximum(:id)
+
         exchange_rates = currency.exchange_rates
-            .page(query[:pagination][:page])
-            .per(query[:pagination][:perPage])
-            .order(valid_to: :desc)
-            .select(
-                :id,
-                :exchange_rate,
-                :account_currencies_id,
-                :valid_from,
-                :valid_to,
-                LC::Date2.new.date_time.db_column("valid_from"),
-                LC::Date2.new.date_time.db_column("valid_to"),
-                LC::Date2.new.date_time.db_timestamps
-            )
+        .page(query[:pagination][:page])
+        .per(query[:pagination][:perPage])
+        .order(valid_to: :desc)
+        .select(
+            :id,
+            :exchange_rate,
+            :account_currencies_id,
+            :valid_from,
+            :valid_to,
+            LC::Date2.new.date_time.db_column("valid_from"),
+            LC::Date2.new.date_time.db_column("valid_to"),
+            LC::Date2.new.date_time.db_timestamps
+        )
 
         LC::Response.pagination(
             exchange_rates.current_page,
@@ -40,9 +48,11 @@ class Account::Currency::ExchangeRate < ApplicationLesliRecord
             exchange_rates.total_count,
             exchange_rates.length,
             exchange_rates.map do |exchange_rate|
+                
                 exchange_rate_attributes = exchange_rate.attributes
                 exchange_rate_attributes["valid_from_text"] = LC::Date.to_string_datetime(exchange_rate_attributes["valid_from"])
                 exchange_rate_attributes["valid_to_text"] = LC::Date.to_string_datetime(exchange_rate_attributes["valid_to"])
+                exchange_rate_attributes["active"] = true if exchange_rate.id == active_exchange_rate_id
 
                 exchange_rate_attributes
             end
