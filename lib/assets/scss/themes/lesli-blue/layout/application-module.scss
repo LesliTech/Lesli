@@ -19,28 +19,8 @@ For more information read the license file including with this software.
 
 @import "lesli-css/";
 
-
 .application-modules .sidebar-content {
-    background-color: lesli-css-color(solid, white);
-
-    .module {
-        width: 100%;
-        > a {
-            width: 82px;
-            text-align: center;
-            display: inline-block;
-            margin-bottom: 1.6rem;
-
-            img {
-                display: block;
-                margin: 0 auto .4rem;
-                width: 30px;
-            }
-
-            span {
-                font-size: .9rem;
-            }
-
-        }
+    .header p {
+        color: lesli-css-color-theme(secondary);
     }
 }
