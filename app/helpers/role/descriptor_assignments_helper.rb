@@ -1,2 +1,0 @@
-module Role::DescriptorAssignmentsHelper
-end

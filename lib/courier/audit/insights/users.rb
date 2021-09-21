@@ -23,9 +23,15 @@ module Courier
             class Users
                 def self.index(current_user, query)
                     return [] unless defined? CloudAudit
-                    cat = query.dig(:filters, :cat) || "by_role"
+                    cat = query.dig(:filters, :cat)
                     return CloudAudit::Insights::User.by_role(current_user, query) if cat == "by_role"
                     return CloudAudit::Insights::User.by_role_date(current_user, query) if cat == "by_role_date"
+                    if !cat 
+                        return {
+                            :by_role => CloudAudit::Insights::User.by_role(current_user, query),
+                            :by_role_date => CloudAudit::Insights::User.by_role_date(current_user, query),
+                        }
+                    end
                 end
             end
         end

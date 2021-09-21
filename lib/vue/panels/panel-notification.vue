@@ -27,13 +27,13 @@ export default {
             translations: {
                 notifications: I18n.t("bell.notifications")
             },
-            open: false,
             notifications: []
         }
     },
 
     mounted() {
 
+        this.data.global.cloud_bell_notifications = this.lesli.notifications
         this.prepareDesktopNotification();
         this.startListeners();
         
@@ -70,6 +70,9 @@ export default {
         startListeners() {
             this.wss.onmessage = (message) => {
 
+                this.data.global.cloud_bell_notifications++
+
+                // data comes as binary with a json as string
                 let data = JSON.parse(message.data)
 
                 if (!data.subject) {
@@ -123,14 +126,12 @@ export default {
     },
     watch: {
 
-        // update notification count in the main header
+        // update notification count in the main header after mark a notification as read
         'notifications.pagination.count_total': function (val) {
             this.data.global.cloud_bell_notifications = val
         },
-        'data.global.cloud_bell_notification': function(notification) {
-            this.msg.info(notification.subject)
-            var notification = new Notification(notification.subject);
-        },
+
+        // get user notifications every time the user opens the notifications panel
         'data.global.show_panel_notifications': function(open) {
             if (open) {
                 this.getNotifications()
