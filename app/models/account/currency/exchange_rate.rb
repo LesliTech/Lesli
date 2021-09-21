@@ -57,9 +57,9 @@ class Account::Currency::ExchangeRate < ApplicationLesliRecord
             valid_to: self.valid_to,
             created_at: LC::Date.to_string_datetime(self.created_at),
             account_currencies_id: self.account_currencies_id,
-            valid_from_string: LC::Date.to_string_datetime(self.valid_from),
-            valid_to_string: LC::Date.to_string_datetime(self.valid_to),
-            created_at_string: LC::Date.to_string_datetime(self.created_at),
+            valid_from_text: LC::Date.to_string_datetime(self.valid_from),
+            valid_to_text: LC::Date.to_string_datetime(self.valid_to),
+            created_at_text: LC::Date.to_string_datetime(self.created_at),
         }
     end
 end

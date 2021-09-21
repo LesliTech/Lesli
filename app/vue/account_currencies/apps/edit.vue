@@ -61,6 +61,7 @@ export default {
         setAccountCurrencyId(){
             this.account_currency_id = this.$route.params.id
         },
+
         getAccountCurrency() {
             this.http.get(this.url.admin("account/currencies/:id", { id: this.account_currency_id  })).then(result => {
                 if (result.successful) {
@@ -74,12 +75,22 @@ export default {
                 console.log(error)
             })
         }
+    },
+
+    computed: {
+        currencyName(){
+            if(this.account_currency){
+                return `${this.account_currency.name} (${this.account_currency.symbol}) - ${this.account_currency.country_alpha_3}`
+            }else{
+                return this.translations.core.account.currencies.view_text_title
+            }
+        }
     }
 }
 </script>
 <template>
     <section class="application-component">
-        <component-header :title="translations.core.account.currencies.view_text_title" >
+        <component-header :title="currencyName" >
             <div class="navbar-item">
                 <div class="buttons">
                     <router-link class="button" to="/">
