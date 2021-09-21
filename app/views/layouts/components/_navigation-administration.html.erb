@@ -46,8 +46,12 @@ For more information read the license file including with this software.
     
     <%= navigation_item(main_app.account_cronos_path) do %>
         <i class="fas fa-hourglass-half"></i>
-        <%# <span><%= I18n.t("core.shared.sidebar_nav_cronos") % ></span> %>
-        <span>Cronos</span>
+        <span><%= I18n.t("core.shared.sidebar_nav_cronos") %></span>
+    <% end %>
+
+    <%= navigation_item(main_app.account_currencies_path) do %>
+        <i class="fas fa-coins"></i>
+        <span><%= I18n.t("core.shared.sidebar_nav_currencies") %></span>
     <% end %>
 
     <%= navigation_item(main_app.account_settings_path) do %>
