@@ -22,34 +22,16 @@ For more information read the license file including with this software.
 // · 
 export default {
 
-    data() {
-        return {
-            open: false,
-            right: true,
-            overlay: false,
-            fullwidth: false,
-            fullheight: true,
-            translations: {}
-        }
-    },
-    watch: {
-
-        'data.global.show_panel_engines': function() {
-            this.open = true
-        }
-
-    }
 }
 </script>
 <template>
     <section>
         <b-sidebar
             class="application-modules"
-            :fullheight="fullheight"
-            :fullwidth="fullwidth"
-            :overlay="overlay"
-            :right="right"
-            :open.sync="open">
+            :open.sync="data.global.show_panel_engines"
+            :right="true"
+            :overlay="false"
+            :fullheight="true">
             <div class="header">
                 <slot name="header"></slot>
             </div>
