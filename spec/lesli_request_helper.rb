@@ -28,6 +28,17 @@ RSpec.shared_context 'request user authentication' do
 
     # Creates a new valid user session
     before(:each) do
+        @query = {
+            search: "",
+            filters: {},
+            pagination: {
+                perPage: 15,
+                page: 1,
+                order: "desc",
+                orderBy: "id",
+                orderColumn: "id"
+            }
+        }
         @current_user = User.find_by(email: Rails.application.config.lesli_settings["account"]["user"]["email"])
         sign_in @current_user
     end

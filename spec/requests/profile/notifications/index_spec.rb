@@ -17,33 +17,38 @@ For more information read the license file including with this software.
 
 =end
 
-require 'rails_helper'
-require 'spec_helper'
-require 'byebug'
+
+# include helpers, configuration & initializers for request tests
+require 'lesli_request_helper'
 
 
+#
 RSpec.describe 'GET:/administration/profile/notifications.json', type: :request do
-    include_context 'user authentication'
     
-    before(:all) do
+    include_context 'request user authentication'
+    
+    it 'is expected to respond with all the user\'s notifications' do
+
         # register a notification to the user, so we have at least one active notification
-        Courier::Bell::Notification.new(@user, "notification from rspec")
+        Courier::Bell::Notification.new(@current_user, "notification from rspec")
 
         # ask for the list of notifications fo the current user
         get '/administration/profile/notifications.json'
-    end
 
-    include_examples 'successful standard json response'
+        local_count = Courier::Bell::Notification.count(@current_user, true)
 
-    it 'is expected to respond with all the user\'s notifications' do
+        expect_json_response_successful
 
-        local_count = Courier::Bell::Notification.count(@user, true)
+        response_body = response_json
 
-        remote_count = @response_body["data"]["pagination"]["count_total"] if defined?(CloudBell)
-        remote_count = @response_body["data"].size if not defined?(CloudBell)
+        remote_count = response_body['data']['pagination']['count_total'] if defined?(CloudBell)
+        remote_count = response_body['data'].size if not defined?(CloudBell)
+
+        expect(local_count).to be >=(1) if  defined?(CloudBell)
+        expect(remote_count).to be >=(1) if defined?(CloudBell)
 
         expect(remote_count).to eql(local_count)
-        expect(remote_count).to be >=(local_count)
 
     end
+
 end
