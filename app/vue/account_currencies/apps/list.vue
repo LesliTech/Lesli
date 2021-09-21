@@ -45,6 +45,7 @@ export default {
                     shared: I18n.t('core.shared'),
                     account: {
                         currencies: I18n.t("core.account/currencies"),
+                        exchange_rates: I18n.t("core.account/currency/exchange_rates")
                     }
                 }
             }
@@ -61,14 +62,14 @@ export default {
                 perPage: this.pagination_config.per_page,
                 page: this.pagination.current_page,
             }
-
-            this.http.get(this.url.admin("account/currencies").filters(
-                {
-                  include: {
-                    only: "exchange_rates"
-                  }
+            let filters = {
+                include: {
+                only: "exchange_rates"
                 }
-            ), {params}).then(result => {
+            }
+            let url = this.url.admin("account/currencies").filters(filters)
+
+            this.http.get(url, params).then(result => {
                 if (result.successful) {
                     this.currencies = result.data.records;
                     this.pagination = result.data.pagination;
@@ -133,6 +134,15 @@ export default {
                         </b-table-column>
                         <b-table-column :label="translations.core.account.currencies.column_country_alpha_3" field="lower(country_alpha_3)">
                             <small>{{ props.row.country_alpha_3 }}</small>
+                        </b-table-column>
+                        <b-table-column :label="translations.core.account.exchange_rates.column_valid_from">
+                            <small>{{ props.row.valid_from_string }}</small>
+                        </b-table-column>
+                        <b-table-column :label="translations.core.account.exchange_rates.column_valid_to">
+                            <small>{{ props.row.valid_to_string }}</small>
+                        </b-table-column>
+                        <b-table-column :label="translations.core.account.exchange_rates.column_exchange_rate">
+                            <small>{{ props.row.exchange_rate }}</small>
                         </b-table-column>
                     </template>
                 </b-table>
