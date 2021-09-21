@@ -33,7 +33,8 @@ RSpec.describe 'PUT:/administration/profile/notifications/:id.json', type: :requ
         notification = Courier::Bell::Notification.new(@current_user, "notification from rspec")
 
         # if CloudBell is not installed we'll work with zero as ID
-        notification_id = notification ? notification[:id] : 0
+        notification_id = notification
+        notification_id = notification[:id] if defined?(CloudBell)
 
         # mark notification as read
         put "/administration/profile/notifications/#{ notification_id }.json"
@@ -99,3 +100,4 @@ RSpec.describe 'PUT:/administration/profile/notifications/:id.json', type: :requ
 
     end
 end
+
