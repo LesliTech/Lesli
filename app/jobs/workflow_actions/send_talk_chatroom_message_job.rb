@@ -46,11 +46,13 @@ class WorkflowActions::SendTalkChatroomMessageJob < ApplicationJob
 
             class_data = cloud_object.class.name.split("::")
 
-            Courier::One::Firebase::Chatroom.send_message(
-                sender_user,
-                cloud_object.chatroom_external_id,
-                input_data["message_text"]
-            )
+            message_params = {
+                sender_user: sender_user,
+                chatroom_uid: cloud_object.chatroom_external_id,
+                message_text: input_data["message_text"]
+            }
+
+            Courier::Talk::Chatroom.send_message(current_user, message_params)
 
         rescue StandardError => e
             if action.configuration["log_errors"]

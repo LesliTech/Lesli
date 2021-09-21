@@ -57,17 +57,28 @@ class Account::Currency < ApplicationLesliRecord
         # })
         if filters[:include] && filters[:include][:only].present? && filters[:include][:only] == "exchange_rates"
             current_date = LC::Date.now
+
             currencies = currencies
-                .joins(:exchange_rates)
-                .where("account_currency_exchange_rates.valid_from <= ?", current_date)
-                .where("account_currency_exchange_rates.valid_to >= ?", current_date)
-                .select(
-                    :valid_from,
-                    :valid_to,
-                    :exchange_rate,
-                    LC::Date2.new.date_time.db_column("valid_from"),
-                    LC::Date2.new.date_time.db_column("valid_to")
-                )
+            .joins("
+                left join (
+                    select exchange_rate, valid_from, valid_to, account_currency_exchange_rates.account_currencies_id
+                    from account_currency_exchange_rates inner join(
+                        select account_currencies_id, max(id) as id
+                        from account_currency_exchange_rates 
+                        group by account_currencies_id
+                    ) as latest_exchange_rate on latest_exchange_rate.id = account_currency_exchange_rates.id
+                ) as exchange_rates on
+                    exchange_rates.account_currencies_id = account_currencies.id and
+                    (exchange_rates.valid_from <= '#{current_date.to_s(:db)}' or exchange_rates.valid_from is null) and
+                    exchange_rates.valid_to >= '#{current_date.to_s(:db)}'
+            ")
+            .select(
+                :valid_from,
+                :valid_to,
+                :exchange_rate,
+                LC::Date2.new.date_time.db_column("valid_from"),
+                LC::Date2.new.date_time.db_column("valid_to")
+            )
         end
 
         currencies = currencies
