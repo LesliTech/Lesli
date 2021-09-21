@@ -27,7 +27,6 @@ export default {
             translations: {
                 notifications: I18n.t("bell.notifications")
             },
-            open: false,
             notifications: []
         }
     },
