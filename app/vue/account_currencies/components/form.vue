@@ -87,15 +87,25 @@ export default {
         },
 
         getExchangeRates(){
+            if(! this.account_currency_id){
+                return
+            }
+            
             let params = {
                 perPage: this.pagination_config.per_page,
                 page: this.pagination.current_page,
             }
-            let url = this.url.admin('account/currencies/:currency_id/exchange_rates', {currency_id: this.account_currency_id})
+            let url = this.url.admin(
+                'account/currencies/:currency_id/exchange_rates', 
+                {currency_id: this.account_currency_id}
+            ).paginate(
+                this.pagination.current_page, this.pagination_config.per_page
+            )
+            this.loading.exchange_rates = true
 
             this.http.get(url, params).then(result => {
                 if (result.successful) {
-                    this.exchange_rates = result.data.records
+                    this.exchange_rates = this.parseExchangeRates(result.data.records)
                     this.pagination = result.data.pagination
                 } else {
                     return this.msg.error(result.error.message)
@@ -103,8 +113,18 @@ export default {
             }).catch(error => {
                 console.log(error)
             }).finally(() => {
-                this.loading = false
+                this.loading.exchange_rates = false
             })
+        },
+
+        parseExchangeRates(exchange_rates){
+            exchange_rates.forEach((exchange_rate)=>{
+                exchange_rate.valid_from_new = exchange_rate.valid_from
+                exchange_rate.valid_to_new = exchange_rate.valid_to
+                exchange_rate.exchange_rate_new = exchange_rate.exchange_rate
+            })
+
+            return exchange_rates
         },
 
         submitCurrency(event){
@@ -132,6 +152,7 @@ export default {
             this.http.post(url, data).then(result => {
                 if (result.successful) {
                     this.clearExchangeRate()
+                    this.getExchangeRates()
                     this.msg.success(this.translations.core.account.exchange_rates.messages_success_exchange_rate_created)
                 }else{
                     this.msg.error(result.error.message)
@@ -140,6 +161,45 @@ export default {
                 console.log(error)
             }).finally(()=>{
                 this.submit.exchange_rate = false 
+            })
+        },
+        
+        putExchangeRate(exchange_rate){
+            if((! exchange_rate.valid_to_new) || (!exchange_rate.exchange_rate_new)){
+                this.msg.warn(this.translations.core.account.exchange_rates.messages_warning_required_fields_empty)
+                return
+            }
+            
+            let url = this.url.admin(
+                'account/currencies/:currency_id/exchange_rates/:id',
+                {currency_id: this.account_currency_id, id: exchange_rate.id}
+            )
+            let data = {
+                currency_exchange_rate: {
+                    valid_from: exchange_rate.valid_from_new,
+                    valid_to: exchange_rate.valid_to_new,
+                    exchange_rate: exchange_rate.exchange_rate_new
+                }
+            }
+            this.$set(exchange_rate, 'submitting', true)
+
+            this.http.put(url, data).then(result => {
+                if (result.successful) {
+                    this.$set(exchange_rate, 'editing', false)
+                    for(let key in exchange_rate){
+                        if(result.data[key]){
+                            this.$set(exchange_rate, key, result.data[key])
+                        }
+                    }
+
+                    this.msg.success(this.translations.core.account.exchange_rates.messages_success_exchange_rate_updated)
+                }else{
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            }).finally(()=>{
+                this.$set(exchange_rate, 'submitting', false)
             })
         },
 
@@ -188,6 +248,74 @@ export default {
                 this.submit.currency = false
             })
 
+        },
+
+        confirmExchangeRateDeletion(exchange_rate){
+            this.$buefy.dialog.confirm({
+                title: this.translations.core.account.exchange_rates.view_text_confirm_deletion_title,
+                message: this.translations.core.account.exchange_rates.view_text_confirm_deletion_body,
+                confirmText: this.translations.core.shared.view_btn_delete,
+                cancelText: this.translations.core.shared.view_btn_cancel,
+                type: 'is-danger',
+                hasIcon: true,
+                onConfirm: () => {
+                    this.deleteExchangeRate(exchange_rate)
+                }
+            })
+        },
+
+        deleteExchangeRate(exchange_rate){
+
+            let url = this.url.admin(
+                'account/currencies/:currency_id/exchange_rates/:id',
+                {currency_id: this.account_currency_id, id: exchange_rate.id}
+            )
+            this.$set(exchange_rate, 'submitting', true)
+
+            this.http.delete(url).then(result => {
+                if (result.successful) {
+                    this.getExchangeRates()
+                    this.msg.success(this.translations.core.account.exchange_rates.messages_success_exchange_rate_deleted)
+                }else{
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            }).finally(()=>{
+                this.$set(exchange_rate, 'submitting', true)
+            })
+        },
+
+        toggleExchangeRateEditForm(exchange_rate){
+            this.$set(exchange_rate, 'editing', ! exchange_rate.editing)
+        },
+
+        deleteCurrency() {
+            let url = this.url.admin('account/currencies/:id', {id: this.account_currency_id})
+            this.submit.currency = true 
+
+            this.http.delete(url).then(result => {
+                if (result.successful) {
+                    this.msg.success(this.translations.core.account.currencies.messages_success_currency_deleted)
+                    this.$router.push('/')
+                }else{
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            }).finally(()=>{
+                this.submit.currency = false 
+            })
+        }
+    },
+
+    watch: {
+        'pagination.current_page'(){
+            this.getExchangeRates()
+        },
+
+        'pagination.per_page'(){
+            this.getExchangeRates()
         }
     }
 }
@@ -298,7 +426,7 @@ export default {
                                 </div>
                                 <div class="column is-4">
 
-                                    <!-- Symbol -->
+                                    <!-- Valid to -->
                                     <div class="field">
                                         <label class="label">{{ translations.core.account.exchange_rates.column_valid_to }}
                                             <sup class="has-text-danger">*</sup>
@@ -324,7 +452,7 @@ export default {
                                 </div>
                                 <div class="column is-4">
 
-                                    <!-- Country Code -->
+                                    <!-- Exchange rate -->
                                     <div class="field">
                                         <label class="label">{{ translations.core.account.exchange_rates.column_exchange_rate }}
                                             <sup class="has-text-danger">*</sup>
@@ -361,51 +489,152 @@ export default {
                     <hr>
                     <component-data-loading v-if="loading.exchange_rates"> </component-data-loading>
                     <component-data-empty v-if="!loading.exchange_rates && exchange_rates.length === 0"> </component-data-empty>
-                    <b-table
-                        v-if="!loading.exchange_rates && exchange_rates.length > 0"
-                        :data="exchange_rates"
-                    >
-                        <template v-slot="props">
-                            <b-table-column :label="translations.core.account.exchange_rates.column_valid_from" field="valid_from">
-                                <small>{{ props.row.valid_from_text }}</small>
-                            </b-table-column>
-                            <b-table-column :label="translations.core.account.exchange_rates.column_valid_to" field="valid_to">
-                                <small>{{ props.row.valid_to_text }}</small>
-                            </b-table-column>
-                            <b-table-column :label="translations.core.account.exchange_rates.column_exchange_rate" field="exchange_rate">
-                                <small>{{ props.row.exchange_rate }}</small>
-                            </b-table-column>
-                            <b-table-column field="actions">
-                                <template v-slot:label>
-                                    &nbsp;
-                                </template>
-                                <div class="has-text-right">
-                                    <b-button size="is-small">
-                                        <b-icon size="is-small" icon="edit"></b-icon>
-                                    </b-button>
-                                    <b-button size="is-small" type="is-danger">
-                                        <b-icon size="is-small" icon="trash-alt"></b-icon>
-                                    </b-button>
-                                </div>
-                            </b-table-column>
-                        </template>
-                    </b-table>
-                    <b-pagination
-                        :simple="false"
-                        :total="pagination.count_total"
-                        :current.sync="pagination.current_page"
-                        :range-before="pagination_config.range_before"
-                        :range-after="pagination_config.range_after"
-                        :per-page="pagination_config.per_page"
-                        order="is-centered"
-                        icon-prev="chevron-left"
-                        icon-next="chevron-right"
-                        aria-next-label="Next page"
-                        aria-previous-label="Previous page"
-                        aria-page-label="Page"
-                        aria-current-label="Current page"
-                    >
-                    </b-pagination>
+                        <b-table
+                            v-if="!loading.exchange_rates && exchange_rates.length > 0"
+                            :data="exchange_rates"
+                        >
+                            <template v-slot="props">
+                                <b-table-column :label="translations.core.account.exchange_rates.column_valid_from" field="valid_from">
+                                    
+                                    <!-- Valid From -->
+                                    <div v-if="props.row.editing" class="field">
+                                        <div class="control">
+                                            <vc-date-picker
+                                                v-model="props.row.valid_from_new"
+                                                :locale="date.vcDatepickerConfig()"
+                                                :popover="{ visibility: 'focus' }"
+                                                mode="dateTime"
+                                            >
+                                                <template v-slot="{ inputValue, inputEvents }">
+                                                    <input
+                                                        class="input is-default"
+                                                        v-on="inputEvents"
+                                                        :value="inputValue"
+                                                        :placeholder="translations.core.shared.text_select_date"
+                                                    />
+                                                </template>
+                                            </vc-date-picker>
+                                        </div>
+                                    </div>
+                                    <small v-else>{{ props.row.valid_from_text }}</small>
+
+                                </b-table-column>
+                                <b-table-column :label="translations.core.account.exchange_rates.column_valid_to" field="valid_to">
+
+                                    <!-- Valid to -->
+                                    <div v-if="props.row.editing" class="field">
+                                        <div class="control">
+
+                                            
+                                            <vc-date-picker
+                                                v-model="props.row.valid_to_new"
+                                                :locale="date.vcDatepickerConfig()"
+                                                :popover="{ visibility: 'focus' }"
+                                                mode="dateTime"
+                                            >
+                                                <template v-slot="{ inputValue, inputEvents }">
+                                                    <input
+                                                        class="input is-default"
+                                                        v-on="inputEvents"
+                                                        :value="inputValue"
+                                                        :placeholder="translations.core.shared.text_select_date"
+                                                    />
+                                                </template>
+                                            </vc-date-picker>
+                                        </div>
+                                    </div>
+                                    <small v-else>{{ props.row.valid_to_text }}</small>
+                                </b-table-column>
+                                <b-table-column :label="translations.core.account.exchange_rates.column_exchange_rate" field="exchange_rate">
+                                    
+                                    <!-- Exchange rate -->
+                                    <div v-if="props.row.editing" class="field">
+                                        <div class="control">
+                                            <b-input
+                                                v-model="props.row.exchange_rate_new"
+                                                required
+                                                type="number"
+                                                min="0"
+                                                step="0.01"
+                                            >
+                                            </b-input>
+                                        </div>
+                                    </div>
+                                    <small v-else>
+                                        {{ parseFloat(props.row.exchange_rate).toFixed(2) }}
+                                        &nbsp;
+                                        <span class="has-text-success" v-if="props.row.active">
+                                            ({{translations.core.account.exchange_rates.view_text_active}})
+                                        </span>
+                                    </small>
+                                </b-table-column>
+                                <b-table-column field="actions">
+                                    <template v-slot:label>
+                                        &nbsp;
+                                    </template>
+                                    <div v-if="props.row.editing" class="has-text-right">
+                                        <b-button size="is-small" type="is-primary" :disabled="props.row.submitting" @click="putExchangeRate(props.row)">
+                                            <b-icon v-if="props.row.submitting" size="is-small" icon="circle-notch" custom-class="fa-spin"></b-icon>
+                                            <b-icon v-else size="is-small" icon="save"></b-icon>
+                                            <span>{{translations.core.shared.view_btn_save}}</span>
+                                        </b-button>
+                                        <b-button :disabled="props.row.submitting" size="is-small" @click="toggleExchangeRateEditForm(props.row)">
+                                            <b-icon v-if="props.row.submitting" size="is-small" icon="circle-notch" custom-class="fa-spin"></b-icon>
+                                            <b-icon v-else size="is-small" icon="times"></b-icon>
+                                            <span>{{translations.core.shared.view_btn_cancel}}</span>
+                                        </b-button>
+                                    </div>
+                                    <div v-else class="has-text-right">
+                                        <b-button size="is-small" :disabled="props.row.submitting" @click="toggleExchangeRateEditForm(props.row)">
+                                            <b-icon v-if="props.row.submitting" size="is-small" icon="circle-notch" custom-class="fa-spin"></b-icon>
+                                            <b-icon v-else size="is-small" icon="edit"></b-icon>
+                                            <span>{{translations.core.shared.view_btn_edit}}</span>
+                                        </b-button>
+                                        <b-button :disabled="props.row.submitting" size="is-small" type="is-danger" @click="confirmExchangeRateDeletion(props.row)">
+                                            <b-icon v-if="props.row.submitting" size="is-small" icon="circle-notch" custom-class="fa-spin"></b-icon>
+                                            <b-icon v-else size="is-small" icon="trash-alt"></b-icon>
+                                            <span>{{translations.core.shared.view_btn_delete}}</span>
+                                        </b-button>
+                                    </div>
+                                </b-table-column>
+                            </template>
+                        </b-table>
+                        <hr>
+                        <b-pagination
+                            :simple="false"
+                            :total="pagination.count_total"
+                            :current.sync="pagination.current_page"
+                            :range-before="pagination_config.range_before"
+                            :range-after="pagination_config.range_after"
+                            :per-page="pagination_config.per_page"
+                            order="is-centered"
+                            icon-prev="chevron-left"
+                            icon-next="chevron-right"
+                            aria-next-label="Next page"
+                            aria-previous-label="Previous page"
+                            aria-page-label="Page"
+                            aria-current-label="Current page"
+                        >
+                        </b-pagination>
+                </b-tab-item>
+                <b-tab-item :label="translations.core.shared.view_tab_title_delete_section" v-if="viewType != 'new'">
+                    <span class="has-text-danger">
+                        {{translations.core.account.currencies.view_text_delete_confirmation}}
+                    </span>
+                    <br>
+                    <br>
+                    <!---------------------------------- START DELETE BUTTON ---------------------------------->
+                    <b-field>
+                        <b-button type="is-danger" @click="deleteCurrency" expanded class="submit-button" :disabled="submit.currency">
+                            <span v-if="submit.currency">
+                                <i class="fas fa-spin fa-circle-notch"></i> {{translations.core.shared.view_btn_deleting}}
+                            </span>
+                            <span v-else>
+                                <i class="fas fa-trash-alt"></i> {{translations.core.shared.view_btn_delete}}
+                            </span>
+                        </b-button>
+                    </b-field>
+                    <!----------------------------------  END DELETE BUTTON  ---------------------------------->
                 </b-tab-item>
             </b-tabs>
         </div>
