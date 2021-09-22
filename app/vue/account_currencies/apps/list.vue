@@ -59,9 +59,7 @@ export default {
     methods: {
         getCurrencies() {
             let filters = {
-                include: {
-                    only: "exchange_rates"
-                }
+                include: "exchange_rates"
             }
             let url = this.url.admin("account/currencies").filters(filters).paginate(
                 this.pagination.current_page, this.pagination_config.per_page
