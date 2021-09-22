@@ -288,6 +288,24 @@ export default {
 
         toggleExchangeRateEditForm(exchange_rate){
             this.$set(exchange_rate, 'editing', ! exchange_rate.editing)
+        },
+
+        deleteCurrency() {
+            let url = this.url.admin('account/currencies/:id', {id: this.account_currency_id})
+            this.submit.currency = true 
+
+            this.http.delete(url).then(result => {
+                if (result.successful) {
+                    this.msg.success(this.translations.core.account.currencies.messages_success_currency_deleted)
+                    this.$router.push('/')
+                }else{
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            }).finally(()=>{
+                this.submit.currency = false 
+            })
         }
     },
 
@@ -598,6 +616,25 @@ export default {
                             aria-current-label="Current page"
                         >
                         </b-pagination>
+                </b-tab-item>
+                <b-tab-item :label="translations.core.shared.view_tab_title_delete_section" v-if="viewType != 'new'">
+                    <span class="has-text-danger">
+                        {{translations.core.account.currencies.view_text_delete_confirmation}}
+                    </span>
+                    <br>
+                    <br>
+                    <!---------------------------------- START DELETE BUTTON ---------------------------------->
+                    <b-field>
+                        <b-button type="is-danger" @click="deleteCurrency" expanded class="submit-button" :disabled="submit.currency">
+                            <span v-if="submit.currency">
+                                <i class="fas fa-spin fa-circle-notch"></i> {{translations.core.shared.view_btn_deleting}}
+                            </span>
+                            <span v-else>
+                                <i class="fas fa-trash-alt"></i> {{translations.core.shared.view_btn_delete}}
+                            </span>
+                        </b-button>
+                    </b-field>
+                    <!----------------------------------  END DELETE BUTTON  ---------------------------------->
                 </b-tab-item>
             </b-tabs>
         </div>
