@@ -55,7 +55,7 @@ class Account::Currency < ApplicationLesliRecord
         #       only: "exchange_rates"
         #   }
         # })
-        if filters[:include] && filters[:include][:only].present? && filters[:include][:only] == "exchange_rates"
+        if filters[:include] && filters[:include] == "exchange_rates"
             current_date = LC::Date.now
 
             currencies = currencies
@@ -112,7 +112,7 @@ class Account::Currency < ApplicationLesliRecord
                 currency_attributes = currency.attributes
                 currency_attributes["valid_from_text"] = LC::Date.to_string_datetime(currency_attributes["valid_from"])
                 currency_attributes["valid_to_text"] = LC::Date.to_string_datetime(currency_attributes["valid_to"])
-                currency_attributes["descriptive_name"] = "#{currency.name} (#{currency.symbol})"
+                currency_attributes["descriptive_name"] = "#{currency.country_alpha_3} (#{currency.symbol})"
 
                 currency_attributes
             end
