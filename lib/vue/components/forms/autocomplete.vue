@@ -42,6 +42,13 @@ export default {
             default: 'id'
         },
 
+        // The backend param that is used to filter the results. Defaults to
+        // search
+        searchParam: {
+            type: String,
+            default: 'search'
+        },
+
         textField: {
             type: String,
             default: 'value'
@@ -153,7 +160,7 @@ export default {
         },
 
         loadOptions() {
-            let params = `filters[search]=${this.search.toLowerCase()}`
+            let params = `filters[${this.searchParam}]=${this.search.toLowerCase()}`
             if(this.queryParams){
                 params+=`&${this.queryParams}`
             }
