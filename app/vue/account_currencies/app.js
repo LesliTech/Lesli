@@ -25,7 +25,6 @@ import app from "LesliVue/app"
 // · Import apps
 import appList from "./apps/list.vue"
 import appNew from "./apps/new.vue"
-import appShow from "./apps/show.vue"
 import appEdit from "./apps/edit.vue"
 
 
@@ -38,9 +37,6 @@ app("Lesli", "[currencies]", "/administration/account/currencies", [{
     component: appNew
 }, {
     path: "/:id",
-    component: appShow
-},{
-    path: "/:id/edit",
     component: appEdit
 }],{
     account_currency: null,

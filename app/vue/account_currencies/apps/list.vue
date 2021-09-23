@@ -58,28 +58,25 @@ export default {
 
     methods: {
         getCurrencies() {
-            let params = {
-                perPage: this.pagination_config.per_page,
-                page: this.pagination.current_page,
-            }
             let filters = {
-                include: {
-                only: "exchange_rates"
-                }
+                include: "exchange_rates"
             }
-            let url = this.url.admin("account/currencies").filters(filters)
+            let url = this.url.admin("account/currencies").filters(filters).paginate(
+                this.pagination.current_page, this.pagination_config.per_page
+            )
+            this.loading = true
 
-            this.http.get(url, params).then(result => {
+            this.http.get(url).then(result => {
                 if (result.successful) {
-                    this.currencies = result.data.records;
-                    this.pagination = result.data.pagination;
+                    this.currencies = result.data.records
+                    this.pagination = result.data.pagination
                 } else {
-                    return this.msg.error(result.error.message);
+                    return this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
             }).finally(() => {
-                this.loading = false;
+                this.loading = false
             })
         },
 
@@ -115,53 +112,54 @@ export default {
             </div>
         </component-header>
 
-        <component-data-loading v-if="loading"> </component-data-loading>
-        <component-data-empty v-if="!loading && currencies.length === 0"> </component-data-empty>
-        <div class="card" v-if="currencies.length > 0">
+        <div class="card">
             <div class="card-content">
-                <b-table
-                    :data="currencies"
-                    :hoverable="true"
-                    v-if="!loading && currencies.length > 0"
-                    @click="showObject"
-                >
-                    <template v-slot="props">
-                        <b-table-column :label="translations.core.account.currencies.column_name" field="lower(name)">
-                            <small>{{ props.row.name }}</small>
-                        </b-table-column>
-                        <b-table-column :label="translations.core.account.currencies.column_symbol" field="lower(symbol)">
-                            <small>{{ props.row.symbol }}</small>
-                        </b-table-column>
-                        <b-table-column :label="translations.core.account.currencies.column_country_alpha_3" field="lower(country_alpha_3)">
-                            <small>{{ props.row.country_alpha_3 }}</small>
-                        </b-table-column>
-                        <b-table-column :label="translations.core.account.exchange_rates.column_valid_from">
-                            <small>{{ props.row.valid_from_string }}</small>
-                        </b-table-column>
-                        <b-table-column :label="translations.core.account.exchange_rates.column_valid_to">
-                            <small>{{ props.row.valid_to_string }}</small>
-                        </b-table-column>
-                        <b-table-column :label="translations.core.account.exchange_rates.column_exchange_rate">
-                            <small>{{ props.row.exchange_rate }}</small>
-                        </b-table-column>
-                    </template>
-                </b-table>
-                <b-pagination
-                    :simple="false"
-                    :total="pagination.count_total"
-                    :current.sync="pagination.current_page"
-                    :range-before="pagination_config.range_before"
-                    :range-after="pagination_config.range_after"
-                    :per-page="pagination_config.per_page"
-                    order="is-centered"
-                    icon-prev="chevron-left"
-                    icon-next="chevron-right"
-                    aria-next-label="Next page"
-                    aria-previous-label="Previous page"
-                    aria-page-label="Page"
-                    aria-current-label="Current page"
-                >
-                </b-pagination>
+                <component-data-loading v-if="loading"> </component-data-loading>
+                <component-data-empty v-if="!loading && currencies.length === 0"> </component-data-empty>
+                    <b-table
+                        v-if="!loading && currencies.length > 0"
+                        :data="currencies"
+                        :hoverable="true"
+                        @click="showObject"
+                    >
+                        <template v-slot="props">
+                            <b-table-column :label="translations.core.account.currencies.column_name" field="lower(name)">
+                                <small>{{ props.row.name }}</small>
+                            </b-table-column>
+                            <b-table-column :label="translations.core.account.currencies.column_symbol" field="lower(symbol)">
+                                <small>{{ props.row.symbol }}</small>
+                            </b-table-column>
+                            <b-table-column :label="translations.core.account.currencies.column_country_alpha_3" field="lower(country_alpha_3)">
+                                <small>{{ props.row.country_alpha_3 }}</small>
+                            </b-table-column>
+                            <b-table-column :label="translations.core.account.exchange_rates.column_valid_from">
+                                <small>{{ props.row.valid_from_text }}</small>
+                            </b-table-column>
+                            <b-table-column :label="translations.core.account.exchange_rates.column_valid_to">
+                                <small>{{ props.row.valid_to_text }}</small>
+                            </b-table-column>
+                            <b-table-column :label="translations.core.account.exchange_rates.column_exchange_rate">
+                                <small>{{ props.row.exchange_rate }}</small>
+                            </b-table-column>
+                        </template>
+                    </b-table>
+                    <hr>
+                    <b-pagination
+                        :simple="false"
+                        :total="pagination.count_total"
+                        :current.sync="pagination.current_page"
+                        :range-before="pagination_config.range_before"
+                        :range-after="pagination_config.range_after"
+                        :per-page="pagination_config.per_page"
+                        order="is-centered"
+                        icon-prev="chevron-left"
+                        icon-next="chevron-right"
+                        aria-next-label="Next page"
+                        aria-previous-label="Previous page"
+                        aria-page-label="Page"
+                        aria-current-label="Current page"
+                    >
+                    </b-pagination>
             </div>
         </div>
     </section>
