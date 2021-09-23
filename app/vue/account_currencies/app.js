@@ -22,26 +22,22 @@ For more information read the license file including with this software.
 import app from "LesliVue/app"
 
 
-// · Import pages
-import pageList from "./pages/list.vue"
-import pageNew from "./pages/new.vue"
-import pageShow from "./pages/show.vue"
-import pageEdit from "./pages/edit.vue"
+// · Import apps
+import appList from "./apps/list.vue"
+import appNew from "./apps/new.vue"
+import appEdit from "./apps/edit.vue"
 
 
 // · Cloud app
 app("Lesli", "[currencies]", "/administration/account/currencies", [{
     path: "/",
-    component: pageList
+    component: appList
 }, {
     path: "/new",
-    component: pageNew
+    component: appNew
 }, {
     path: "/:id",
-    component: pageShow
-},{
-    path: "/:id/edit",
-    component: pageEdit
+    component: appEdit
 }],{
     account_currency: null,
     reload: {

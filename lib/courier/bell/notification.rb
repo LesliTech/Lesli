@@ -36,38 +36,17 @@ module Courier
                 CloudBell::Notification.read(current_user, id)
             end
 
-            def self.new(user, subject, role_names:nil, body:nil, url:nil, kind:nil, category:nil, sender: "push")
-                return if not defined? CloudBell
-
-                if not user or role_names
-                    notifications = []
-                    User.joins(:roles).where("roles.name in (?)", role_names).each do |user|
-                        notification = user.account.bell.notifications.create({
-                            subject: subject,
-                            body: body,
-                            kind: category || kind,
-                            user: user,
-                            url: url,
-                            sender: sender
-                        })
-
-                        notifications.append({ id: notification.id })
-                    end
-
-                    return notifications
-                else
-                    notification = user.account.bell.notifications.create({
-                        subject: subject,
-                        body: body,
-                        kind: category || kind,
-                        user: user,
-                        url: url,
-                        sender: sender
-                    })
-
-                    return { id: notification.id }
-                end
-
+            def self.new(user, subject, role_names:nil, user_receiver_emails:nil, body:nil, url:nil, category:'info')
+                return 0 if not defined? CloudBell
+                CloudBell::NotificationService.generate(
+                    user,
+                    subject,
+                    role_names: role_names,
+                    user_receiver_emails: user_receiver_emails,
+                    category: (category || 'info'),
+                    body: body,
+                    url: url
+                )
             end
 
         end

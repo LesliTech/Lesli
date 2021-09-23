@@ -55,19 +55,29 @@ class Account::Currency < ApplicationLesliRecord
         #       only: "exchange_rates"
         #   }
         # })
-        if filters[:include] && filters[:include][:only].present? && filters[:include][:only] == "exchange_rates"
+        if filters[:include] && filters[:include] == "exchange_rates"
             current_date = LC::Date.now
+
             currencies = currencies
-                .joins(:exchange_rates)
-                .where("account_currency_exchange_rates.valid_from <= ?", current_date)
-                .where("account_currency_exchange_rates.valid_to >= ?", current_date)
-                .select(
-                    :valid_from,
-                    :valid_to,
-                    :exchange_rate,
-                    LC::Date2.new.date_time.db_column("valid_from"),
-                    LC::Date2.new.date_time.db_column("valid_to")
-                )
+            .joins("
+                left join (
+                    select exchange_rate, valid_from, valid_to, account_currency_exchange_rates.account_currencies_id
+                    from account_currency_exchange_rates inner join(
+                        select account_currencies_id, max(id) as id
+                        from account_currency_exchange_rates 
+                        where deleted_at is null and
+                        (valid_from <= '#{current_date.to_s(:db)}' or valid_from is null) and
+                        valid_to >= '#{current_date.to_s(:db)}'
+                        group by account_currencies_id
+                    ) as latest_exchange_rate on latest_exchange_rate.id = account_currency_exchange_rates.id
+                ) as exchange_rates on
+                    exchange_rates.account_currencies_id = account_currencies.id
+            ")
+            .select(
+                :valid_from,
+                :valid_to,
+                :exchange_rate
+            )
         end
 
         currencies = currencies
@@ -100,7 +110,9 @@ class Account::Currency < ApplicationLesliRecord
             currencies.length,
             currencies.map do |currency|
                 currency_attributes = currency.attributes
-                currency_attributes["descriptive_name"] = "#{currency.name} (#{currency.symbol})"
+                currency_attributes["valid_from_text"] = LC::Date.to_string_datetime(currency_attributes["valid_from"])
+                currency_attributes["valid_to_text"] = LC::Date.to_string_datetime(currency_attributes["valid_to"])
+                currency_attributes["descriptive_name"] = "#{currency.country_alpha_3} (#{currency.symbol})"
 
                 currency_attributes
             end
