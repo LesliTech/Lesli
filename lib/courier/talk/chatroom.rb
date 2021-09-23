@@ -18,21 +18,19 @@ For more information read the license file including with this software.
 =end
 
 module Courier
-    module One
-        module Firebase
-            class Chatroom
+    module Talk
+        class Chatroom
 
-                def self.create(current_user, members, chat_name=nil, type="normal", anonymous=false, user_uid=nil)
-                    return unless defined? CloudOne
-                    CloudOne::Firebase::Chatroom.create(current_user, members, chat_name, type, anonymous, user_uid)
-                end
-
-                def self.send_message(sender_user, chatroom_uid, message_text)
-                    return unless defined? CloudOne
-                    CloudOne::Firebase::Chatroom.send_message(sender_user, chatroom_uid, message_text)
-                end
-
+            def self.create(current_user, params)
+                return unless defined? CloudTalk
+                CloudTalk::Chatroom.create(current_user, params)
             end
+
+            def self.send_message(current_user, params)
+                return unless defined? CloudTalk
+                CloudTalk::Chatroom.send_message(current_user, params)
+            end
+
         end
     end
 end
