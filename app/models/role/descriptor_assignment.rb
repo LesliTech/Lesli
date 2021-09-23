@@ -20,7 +20,11 @@ class Role::DescriptorAssignment < ApplicationLesliRecord
     belongs_to :descriptor,         foreign_key: "role_descriptors_id",  class_name: "::RoleDescriptor"
 
     has_many   :privilege_actions, -> (_) {
-        where("role_descriptor_privilege_actions.category = role_descriptor_assignments.category")
+        where("
+            (role_descriptor_privilege_actions.category = role_descriptor_assignments.category)
+            or
+            (role_descriptor_privilege_actions.category is null and role_descriptor_assignments.category is null)
+        ")
     },  through: :descriptor
 
     def self.options(current_user)
