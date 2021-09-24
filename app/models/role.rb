@@ -119,10 +119,6 @@ class Role < ApplicationLesliRecord
         self.descriptor_assignments.find_or_create_by(descriptor: self.account.role_descriptors.find_by(name: "profile"))    
     end
 
-    def privilege_actions
-        self.role_privilege_actions
-    end
-
     # @return [Boolean]
     # @description Returns if a role it is assigned to users.
     def has_users?
