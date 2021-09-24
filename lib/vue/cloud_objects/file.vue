@@ -56,6 +56,10 @@ export default {
         showListFilesTab: {
             type: Boolean,
             default: true
+        },
+        showCardHeader: {
+            type: Boolean,
+            default: true
         }
     },
 
@@ -115,7 +119,7 @@ export default {
 </script>
 <template>
     <div class="card">
-        <div class="card-header">
+        <div v-if="showCardHeader" class="card-header">
             <div class="card-header-title is-shadowless">
                 <h4 class=" title is-4">
                     {{ translations.core.view_text_files }}
