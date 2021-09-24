@@ -174,11 +174,11 @@ export default {
 </script>
 <template>
     <div class="component-richtext-editor">
-        <div class="editor-node" ref="editorNode"></div>
+        <div :class="['editor-node', {'preview-mode': mode == 'read'}]" ref="editorNode"></div>
     </div>
 </template>
 <style lang="css" scope>
-.ql-editor {
-    height: 100px;
+.editor-node.preview-mode .ql-editor {
+    height: 100%;
 }
 </style>
