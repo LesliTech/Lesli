@@ -199,6 +199,8 @@ class User < ApplicationLesliRecord
                 ) AS grouped_privileges
             ")
             .first["value"]
+            
+            return false if granted.blank?
 
             return granted
 

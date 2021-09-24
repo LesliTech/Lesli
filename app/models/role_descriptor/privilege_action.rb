@@ -16,8 +16,8 @@ For more information read the license file including with this software.
 
 =end
 class RoleDescriptor::PrivilegeAction < ApplicationLesliRecord
-    belongs_to :role_descriptor,    foreign_key: "role_descriptors_id",             class_name: "RoleDescriptor"  
-    belongs_to :system_action,      foreign_key: "system_controller_actions_id",    class_name: "SystemController::Action"
+    belongs_to :role_descriptor,    foreign_key: "role_descriptors_id",             class_name: "::RoleDescriptor"  
+    belongs_to :system_action,      foreign_key: "system_controller_actions_id",    class_name: "::SystemController::Action"
     
     enum category: {
         index:   'index',
