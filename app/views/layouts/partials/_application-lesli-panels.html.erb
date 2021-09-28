@@ -22,9 +22,9 @@ For more information read the license file including with this software.
 <% custom_engine_navigation_partial_exists = lookup_context.exists?(custom_engine_navigation_partial_path, nil, true) %>
 
 <% if custom_engine_navigation_partial_exists %>
-    <application-component-panel-engine>
+    <application-component-panel-engines>
         <%= render partial: custom_engine_navigation_partial_path %>
-    </application-component-panel-engine>
+    </application-component-panel-engines>
 <% end %>
 
 
