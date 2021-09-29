@@ -29,8 +29,8 @@ modules:
 # Information about the main account in the platform
 account: 
     user: 
-        name: "Lesli Default"
-        email: "lesli_default@lesli.cloud"
+        name: "Lesli Admin"
+        email: "admin@lesli.cloud"
     company: 
         name: "LesliCloud"
         email: "hello@lesli.tech"
