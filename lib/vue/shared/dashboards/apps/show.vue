@@ -23,11 +23,13 @@ For more information read the license file including with this software.
 import componentBaseTable from "LesliWidgets/base/table.vue"
 
 import componentCoreHelloWorld from "LesliWidgets/core/hello-world.vue"
+import componentCoreWorldClock from "LesliWidgets/core/world-clock.vue"
 import componentCoreListSessions from "LesliWidgets/core/list-sessions.vue"
 import componentDriverShowToday from "LesliWidgets/cloud_driver/show-today.vue"
 import componentDriverListEvents from "LesliWidgets/cloud_driver/list-events.vue"
 import componentDriverShowCalendar from "LesliWidgets/cloud_driver/show-calendar.vue"
 import componentFocusChartTasks from "LesliWidgets/cloud_focus/chart-tasks.vue"
+
 
 
 // · 
@@ -36,6 +38,7 @@ export default {
         'component-base-table': componentBaseTable,
 
         'component-core-hello-world': componentCoreHelloWorld,
+        'component-core-world-clock': componentCoreWorldClock,
         'component-core-list-sessions': componentCoreListSessions,
 
         'component-driver-show-today': componentDriverShowToday,
@@ -103,6 +106,13 @@ export default {
                     columns: ['user_agent', 'created_at_date']
                 },
                 query_configuration: {"filters":{},"pagination":{"per_page":6}}
+            }, {
+                name: "World clock",
+                component_id: 'core-world-clock',
+                layout: 4,
+                custom_configuration: {
+                    time_zones: ['UTC', 'America/Guatemala', 'America/New_York', 'Europe/Berlin']
+                }
             }]
         }
     },
