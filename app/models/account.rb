@@ -62,7 +62,12 @@ class Account < ApplicationRecord
     after_create :initialize_settings
 
     # account status
-    enum status: [:registered, :active, :suspended]
+    enum status: [
+        :registered, 
+        :onboarding,
+        :active, 
+        :suspended
+    ]
 
 
     # company region (GDPR)
@@ -108,8 +113,9 @@ class Account < ApplicationRecord
             })
 
             role.initialize_role_privileges
-
         end
+
+        self.onboarding!
     end
 
     def initialize_account_for_engines
