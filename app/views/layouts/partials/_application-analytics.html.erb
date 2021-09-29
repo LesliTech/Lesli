@@ -16,8 +16,8 @@ For more information read the license file including with this software.
 // · 
 
 %>
-<% # Support only motomo for intranet tracking - 7 development default %>
-<% tracking_id = Rails.application.credentials.providers[:motomo] || 7 %>
+<% # Support only Matomo for intranet tracking - 7 development default %>
+<% tracking_id = Rails.application.credentials.providers[:matomo] || 7 %>
 
 <% # check if analytics is enabled in the settings file %>
 <% enable_analytics = Rails.application.config.lesli_settings["security"]["enable_analytics"] %>
@@ -30,7 +30,7 @@ For more information read the license file including with this software.
         _paq.push(['trackPageView']);
         _paq.push(['enableLinkTracking']);
 
-    function loadMotomoAnalytics() {
+    function loadMatomoAnalytics() {
 
         var u = "//analytics.lesli.tech/";
 
@@ -49,7 +49,7 @@ For more information read the license file including with this software.
 
     }
 
-    setTimeout(() => { loadMotomoAnalytics() }, 2000);
+    setTimeout(() => { loadMatomoAnalytics() }, 4000);
     
 </script>
 

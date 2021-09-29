@@ -62,6 +62,8 @@ class DevGithub < LesliTasks
         # for every installed engine
         Lesli::engines.each do |engine|
 
+            next if engine[:code] != 'demo_engine_devops'
+
             engine_path = Rails.root.join("engines", engine[:code])
 
             next unless File.exists?(engine_path)
@@ -108,7 +110,7 @@ class DevGithub < LesliTasks
 
             end
 
-            message("cd ./engines/#{engine[:code]} && git add --all && git commit -m \"ci: update github workflows and actions\"")
+            #message("cd ./engines/#{engine[:code]} && git add --all && git commit -m \"ci: update github workflows and actions\"")
             #command("cd ./engines/#{engine[:code]} && git add --all && git commit -m \"ci: update github workflows and actions\"")
 
         end
