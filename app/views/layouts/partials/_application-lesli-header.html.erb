@@ -60,12 +60,12 @@ For more information read the license file including with this software.
 
 
     <%# tasks icon indicator %>
-    <% if !defined?(CloudFocus) %>
+    <% if defined?(CloudFocus) %>
     <template v-slot:tasks>
         <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_support = true">
             <i v-if="lesli.tasks > 0" class="fas fa-tasks has-text-link"></i>
             <i v-if="lesli.tasks == 0" class="fas fa-tasks"></i>
-            <span>{{ lesli.tasks }}</span>
+            <span v-if="lesli.tasks > 0">{{ lesli.tasks }}</span>
         </a>
     </template>
     <% end %>
@@ -77,7 +77,7 @@ For more information read the license file including with this software.
         <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_notifications = true">
             <i v-if="lesli.notifications > 0" class="fas fa-bell has-text-link"></i>
             <i v-if="lesli.notifications == 0" class="far fa-bell"></i>
-            <span>{{ data.global.cloud_bell_notifications }}</span>
+            <span v-if="data.global.cloud_bell_notifications > 0">{{ data.global.cloud_bell_notifications }}</span>
         </a>
     </template>
     <% end %>

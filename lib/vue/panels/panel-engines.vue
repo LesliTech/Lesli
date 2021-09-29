@@ -27,16 +27,21 @@ export default {
 <template>
     <section>
         <b-sidebar
-            class="application-modules"
+            class="application-panel-engines"
             :open.sync="data.global.show_panel_engines"
             :right="true"
             :overlay="false"
             :fullheight="true">
-            <div class="header">
+            <div class="panel-title">
                 <slot name="header"></slot>
             </div>
-            <div class="content">
-                <slot></slot>
+            <div class="panel-content">
+                <div class="links">
+                    <slot></slot>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <slot name="footer"></slot>
             </div>
         </b-sidebar>
     </section>
