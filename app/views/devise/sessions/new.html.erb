@@ -94,13 +94,15 @@ For more information read the license file including with this software.
 
                         </form>
 
-                        <%= link_to "Reset password", new_user_password_path, :class => "password-new" %>
-                        <br>
-                        <%= link_to "Request a pass", new_pass_path, :class => "pass-new" %>
-                        <br>
-                        <%= link_to "Request an otp", new_otp_path, :class => "otp-new" %>
-                        <hr>
-                        <%= link_to "Create account", new_user_registration_path, :class => "register-new" %>
+                        <div class="links">
+                            <%= link_to "Reset password", new_user_password_path, :class => "password-new" %>
+                            <br>
+                            <%= link_to "Request a pass", new_pass_path, :class => "pass-new" %>
+                            <br>
+                            <%= link_to "Request an otp", new_otp_path, :class => "otp-new" %>
+                            <hr>
+                            <%= link_to "Create account", new_user_registration_path, :class => "register-new" %>
+                        </div>
                     </div>
                 </div>
                 <div class="column has-solution-background">
