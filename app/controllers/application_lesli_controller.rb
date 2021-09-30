@@ -58,7 +58,7 @@ class ApplicationLesliController < ApplicationController
 
     def verify_account
         return unless request[:format] == "html" || request[:format].blank?
-        redirect_to "/onboarding" if @account[:onboarding]
+        redirect_to "/onboarding" if current_user.account.onboarding?
     end
 
 
@@ -82,9 +82,6 @@ class ApplicationLesliController < ApplicationController
 
 
         return @account if current_user.account.blank?
-
-        @account[:onboarding] = current_user.account.onboarding?
-
 
         # add company information (account)
         @account[:company] = {
