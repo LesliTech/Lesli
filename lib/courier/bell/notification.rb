@@ -36,14 +36,15 @@ module Courier
                 CloudBell::Notification.read(current_user, id)
             end
 
-            def self.new(user, subject, role_names:nil, user_receiver_email:nil, body:nil, url:nil, category:'info')
+            def self.new(user, subject, body:nil, url:nil, category:nil, user_receiver_id:nil, role_receiver_names:nil, user_receiver_emails:nil)
                 return 0 if not defined? CloudBell
                 CloudBell::NotificationService.generate(
                     user,
                     subject,
-                    role_names: role_names,
-                    #user_receiver_emails: user_receiver_email,
-                    category: (category || 'info'),
+                    user_receiver_id: user_receiver_id,
+                    role_receiver_names: role_receiver_names,
+                    user_receiver_emails: user_receiver_emails,
+                    category: category,
                     body: body,
                     url: url
                 )
