@@ -29,8 +29,8 @@ modules:
 # Information about the main account in the platform
 account: 
     user: 
-        name: "Lesli Development"
-        email: "dev@lesli.cloud"
+        name: "Lesli Admin"
+        email: "admin@lesli.cloud"
     company: 
         name: "LesliCloud"
         email: "hello@lesli.tech"
@@ -82,8 +82,9 @@ security:
         expiration_time_days: 7
         development: "lesli"
     roles:
-        - "Administration"
-        - "Sales & Marketing"
+    # Add any role you may want to initialize here
+    #      - "Administration"
+    #      - "Sales & Marketing"
 
 
 # Configuration by environment

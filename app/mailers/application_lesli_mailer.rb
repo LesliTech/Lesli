@@ -76,7 +76,12 @@ class ApplicationLesliMailer < ActionMailer::Base
 
         instance = Rails.application.config.lesli_settings["instance"]
 
-        @custom[:logo] = "#{instance[:code]}/brand/app-logo.svg"
+        # lesli is the code used for the core. If there are no builder engines,
+        # the instance namespace is "/"
+        instance_path = ""
+        instance_path = "#{instance[:code]}/" if instance[:code] != "lesli"
+
+        @custom[:logo] = "#{instance_path}brand/app-logo.svg"
         
         return if params[:user].blank?
 
