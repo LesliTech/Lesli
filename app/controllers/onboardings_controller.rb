@@ -17,6 +17,7 @@ For more information read the license file including with this software.
 =end
 
 class OnboardingsController < ApplicationLesliController
+    skip_before_action :verify_account
 
     # GET /onboarding
     def show
@@ -39,6 +40,7 @@ class OnboardingsController < ApplicationLesliController
         account = Account.find_by_id(@current_user.account.id)
 
         if account.update(onboarding_params[:account]) && account.settings.update(@current_user, onboarding_params[:account_settings])
+            account.active!
             respond_with_successful(account)
         else
             respond_with_error(account.errors.full_messages.to_sentence)

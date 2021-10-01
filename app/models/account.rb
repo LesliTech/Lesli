@@ -62,7 +62,12 @@ class Account < ApplicationRecord
     after_create :initialize_settings
 
     # account status
-    enum status: [:registered, :active, :suspended]
+    enum status: [
+        :registered, 
+        :onboarding,
+        :active, 
+        :suspended
+    ]
 
 
     # company region (GDPR)
@@ -88,9 +93,9 @@ class Account < ApplicationRecord
         self.role_descriptors.find_or_create_by(name: "profile")
 
         # create default roles
-        account_roles = Rails.application.config.lesli_settings["security"]["roles"]
-        account_roles.append "api"     # api-access only
-        account_roles.append "guest"   # read-only
+        account_roles = Rails.application.config.lesli_settings["security"]["roles"] || []
+        account_roles.append "api" # api-access only
+        account_roles.append "guest" # read-only
         account_roles.append "limited" # access only to user profile
         account_roles.prepend "sysadmin"  # platform administrator role
         account_roles.prepend "owner"  # super admin role
@@ -108,8 +113,9 @@ class Account < ApplicationRecord
             })
 
             role.initialize_role_privileges
-
         end
+
+        self.onboarding!
     end
 
     def initialize_account_for_engines
