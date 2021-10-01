@@ -92,18 +92,21 @@ class UserMailer < ApplicationLesliMailer
 
 
     #
-    def pass
+    def pass(template_name: "pass")
         user = params[:user]
         token = params[:token]
         build_data_from_params(params, {
                 url: "/pass?t=#{token}",
                 user: {
-                        full_name: user.full_name
+                    full_name: user.full_name
                 }
         })
-        mail(to: email_address_with_name(user.email, user.full_name), subject: I18n.t("core.passes.mailer_login_link_instructions"))
+        mail(
+            to: email_address_with_name(user.email, user.full_name),
+            subject: I18n.t("core.passes.mailer_login_link_instructions"),
+            template_name: template_name
+        )
     end
-
 
     #
     def otp
