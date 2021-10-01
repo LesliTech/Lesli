@@ -86,20 +86,41 @@ export default {
             });
         },
 
-        finishConfiguration() {
-            this.http.post(this.url.to("onboarding"), {
+        finishConfiguration(skipped = false) {
+            this.http.post(this.url.lesli("onboarding"), {
                 account: this.data.account,
                 account_settings: this.data.account_settings
             }).then(result => {
-                if (!result.successful) {
+                if (result.successful) {
+                    if(skipped){
+                        this.msg.info(this.translations.core.onboardings.messages_info_onboarding_process_skipped)
+                    }else{
+                        this.msg.success(this.translations.core.account.settings.messages_success_settings_saved_successfully)
+                    }
+                    this.url.go(this.url.admin(''))
+                }else{
                     this.msg.error(result.error.message)
-                    return
                 }
-                this.msg.info(this.translations.core.account.settings.messages_success_settings_saved_successfully)
-                this.url.go(this.url.admin("/"))
             }).catch(error => {
                 console.log(error)
             })
+        },
+
+        showSkipModal(event){
+            if(event){
+                event.preventDefault()
+            }
+
+            this.$buefy.dialog.confirm({
+                    title: this.translations.core.onboardings.view_text_skip_onboarding_title,
+                    message: this.translations.core.onboardings.view_text_skip_onboarding_body,
+                    cancelText: this.translations.core.shared.view_btn_cancel,
+                    confirmText: this.translations.core.shared.view_btn_accept,
+                    type: 'is-warning',
+                    onConfirm: () => {
+                        this.finishConfiguration(true)
+                    }
+                })
         }
     }
 
@@ -113,25 +134,20 @@ export default {
                     <img class="app-logo" :src="logo" alt="App logo">
                 </a>
             </figure>
-            <b-steps type="is-info" icon-pack="fas">
-                <b-step-item icon="building">
+            <b-steps type="is-info" icon-pack="fas" >
+                <b-step-item clickable icon="building">
                     <component-form-basic-information></component-form-basic-information>
                 </b-step-item>
-                <b-step-item icon="phone">
+                <b-step-item clickable icon="phone">
                     <component-form-contact-information></component-form-contact-information>
                 </b-step-item>
-                <b-step-item icon="envelope">
+                <b-step-item clickable icon="envelope">
                     <component-form-public-information></component-form-public-information>
                 </b-step-item>
-                <b-step-item icon="clock">
+                <b-step-item clickable icon="clock">
                     <component-form-datetime-formats></component-form-datetime-formats>
                 </b-step-item>
-                <!-- 
-                <b-step-item icon="account-key">
-                    <component-form-invite-users></component-form-invite-users>
-                </b-step-item> 
-                -->
-                <b-step-item icon="smile-beam">
+                <b-step-item clickable icon="smile-beam">
                     <div class="card">
                         <div class="card-header">
                             <h3>{{ translations.core.onboardings.view_text_welcome }}</h3>
@@ -149,6 +165,7 @@ export default {
                         </div>
                     </div>
                 </b-step-item>
+                <a href="#" @click="showSkipModal"> <small>{{translations.core.onboardings.view_text_skip_process}}</small></a>
             </b-steps>
         </div>
     </section>
