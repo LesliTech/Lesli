@@ -15,6 +15,13 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
+scp -i app.mitwerken.de.pem ubuntu@app.mitwerken.de:/var/www/app.mitwerken.de/config/credentials/production.key production.key
+scp -i app.mitwerken.de.pem ubuntu@app.mitwerken.de:/var/www/app.mitwerken.de/config/credentials/production.yml.enc production.yml.enc
+
+
+scp -i app.mitwerken.de.pem production.key ubuntu@app.mitwerken.de:/var/www/app.mitwerken.de/config/credentials/production.key
+scp -i app.mitwerken.de.pem production.yml.enc ubuntu@app.mitwerken.de:/var/www/app.mitwerken.de/config/credentials/production.yml.enc
+
 =end
 
 require "./lesli"
@@ -70,6 +77,8 @@ namespace :dev do
             #du -chs engines/**/app/assets/javascripts/**/*.js app/assets/javascripts/**/*.js | sort -h
 
             #du -chs storage/**/**/*.* | sort -h
+
+            #du -sh * | sort -h
 
             #find . -type f -printf "%s\t%p\n" | sort -n | tail -1
 
