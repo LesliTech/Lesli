@@ -37,7 +37,7 @@ module Courier
             end
 
             def self.new(user, subject, body:nil, url:nil, category:nil, user_receiver_id:nil, role_receiver_names:nil, user_receiver_emails:nil)
-                return 0 if not defined? CloudBell
+                return { :id => 0 } if not defined? CloudBell
                 CloudBell::NotificationService.generate(
                     user,
                     subject,
