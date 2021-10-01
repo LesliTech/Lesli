@@ -33,8 +33,7 @@ RSpec.describe 'PUT:/administration/profile/notifications/:id.json', type: :requ
         notification = Courier::Bell::Notification.new(@current_user, "notification from rspec")
 
         # if CloudBell is not installed we'll work with zero as ID
-        notification_id = notification
-        notification_id = notification[:id] if defined?(CloudBell)
+        notification_id = notification[:id][0]
 
         # mark notification as read
         put "/administration/profile/notifications/#{ notification_id }.json"
@@ -84,7 +83,7 @@ RSpec.describe 'PUT:/administration/profile/notifications/:id.json', type: :requ
     it 'is expected to respond with total notifications marked as read' do
 
         # register a notification to all the users of a rol
-        notifications = Courier::Bell::Notification.new(nil, "notification from rspec", role_receiver_names: ["owner"])
+        notifications = Courier::Bell::Notification.new(@current_user, "notification from rspec", role_receiver_names: ["owner"])
 
         # get number of active notifications
         local_count = Courier::Bell::Notification.count(@current_user, true)
