@@ -23,6 +23,40 @@ namespace :app do
 
     namespace :deploy do
 
+        desc "Sends a first access link to 'owner' users for new accounts"
+        task send_first_access_links: :environment do
+            instance = Rails.application.config.lesli_settings["instance"][:name]
+            account = Account.find_by(company_name: Rails.application.config.lesli_settings["account"]["company"]["name"])
+
+            next unless account
+            next unless instance == "Lesli" || instance == "LesliCloud"
+            next unless account.onboarding?
+
+            account.users.joins(:user_roles => :roles).where("roles.name = ?", "owner").each do |user|
+                puts "Sending a first access link to user #{user.email}"
+
+                # We generate and send a first access link to owner users only
+                pass = user.access_codes.new({ token_type: "pass" })
+                raw, enc = Devise.token_generator.generate(pass.class, :token)
+                pass.token = enc
+
+                if pass.save
+
+                    user.logs.create({
+                        title: "pass_creation_successful",
+                        description: "pass_for_initial_login_link"
+                    })
+
+                    UserMailer.with(user: user, token: raw).pass(template_name: "first_access").deliver_now
+                else
+                    user.logs.create({
+                        title: "pass_creation_error",
+                        description: pass.errors.full_messages.to_sentence
+                    })
+                end
+            end
+        end
+
         task after: :environment do
             Rake::Task["babel:scan"].invoke if defined?(CloudBabel)
             Rake::Task["app:controllers:build"].invoke 
