@@ -52,32 +52,5 @@ def create_development_user dev_user, password=nil
 
         user.account.user = user
         user.account.save!
-
-        # If the user is an owner, we send a login link
-        if role_name == "owner"
-            send_login_link(user)
-        end
     end
 end
-
-def send_login_link(user)
-    pass = user.access_codes.new({ token_type: "pass" })
-    raw, enc = Devise.token_generator.generate(pass.class, :token)
-    pass.token = enc
-
-    if pass.save
-
-        user.logs.create({
-            title: "pass_creation_successful",
-            description: "pass_for_initial_login_link"
-        })
-
-        UserMailer.with(user: user, token: raw).pass(template_name: "first_access").deliver_now
-    else
-        user.logs.create({
-            title: "pass_creation_error",
-            description: pass.errors.full_messages.to_sentence
-        })
-    end
-end
-
