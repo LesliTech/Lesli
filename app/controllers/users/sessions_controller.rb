@@ -94,7 +94,7 @@ class Users::SessionsController < Devise::SessionsController
 
 
         default_path = resource.roles.first.default_path
-        if (request[:format] == "html" || request[:format].blank?) && current_user.account.onboarding? && current_user.has_roles?(["owner"])
+        if current_user.account.onboarding? && current_user.has_roles?("owner")
             default_path = "/onboarding"
         end
 
