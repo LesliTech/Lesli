@@ -31,7 +31,6 @@ class ApplicationLesliController < ApplicationController
     before_action :set_helpers_for_request
     before_action :set_helpers_for_account
     before_action :set_customization
-    before_action :verify_account
 
     after_action  :log_user_requests
 
@@ -55,12 +54,6 @@ class ApplicationLesliController < ApplicationController
 
 
     private
-
-    def verify_account
-        return unless request[:format] == "html" || request[:format].blank?
-        redirect_to "/onboarding" if current_user.account.onboarding?
-    end
-
 
     # Set default query params for:
     #   pagination
