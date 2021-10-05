@@ -39,4 +39,5 @@ if Rails.application.config.lesli_settings["instance"] != "Lesli"
 end
 
 # exec rake standard deploy task
-system "rake app:deploy:after"
+Rake.application.invoke_task("app:deploy:send_first_access_links")
+Rake.application.invoke_task("app:deploy:after")
