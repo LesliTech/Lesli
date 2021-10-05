@@ -28,8 +28,10 @@ For more information read the license file including with this software.
     <%# load logos %>
     <template v-slot:brand>
         <a class="brand" href="/">
-            <%= image_tag "#{lesli_instance_code}/brand/app-logo-touch.svg", alt: "App logo", :class => "is-hidden-desktop" %>
+            <% if lesli_instance_code != 'lesli' %>
+            <%= image_tag "#{lesli_instance_code}/brand/app-logo-icon.svg", alt: "App logo", :class => "is-hidden-desktop" %>
             <%= image_tag "#{lesli_instance_code}/brand/app-logo-desktop.svg", alt: "App logo", :class => "is-hidden-touch" %>
+            <% end %>
         </a>
     </template>
 
