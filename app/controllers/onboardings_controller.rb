@@ -17,7 +17,6 @@ For more information read the license file including with this software.
 =end
 
 class OnboardingsController < ApplicationLesliController
-    skip_before_action :verify_account
 
     # GET /onboarding
     def show
