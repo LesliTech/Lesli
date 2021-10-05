@@ -80,19 +80,17 @@ export default {
                         </label>
                     </div>
                     <div class="field-body">
-                        <div class="field">
-                            <div class="control">
-                                <div class="select">
-                                    <select v-model="settings.password_enforce_complexity">
-                                        <option value="1">Enabled</option>
-                                        <option value="0">Disabled</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <p><small class="has-text-info">
-                                IMPORTANT: {{ translations.core.account.settings.view_text_password_complex_description }}
-                            </small></p>
-                        </div>
+                        <b-field>
+                            <b-select v-model="settings.password_enforce_complexity" expanded>
+                                <option value="1">{{translations.core.account.settings.view_text_password_enforcement_enabled}}</option>
+                                <option value="0">{{translations.core.account.settings.view_text_password_enforcement_disabled}}</option>
+                            </b-select>
+                            <template v-slot:message>
+                                <p class="has-text-info">
+                                    {{ translations.core.account.settings.view_text_password_complex_description }}
+                                </p>
+                            </template>
+                        </b-field>
                     </div>
                 </div>
 
