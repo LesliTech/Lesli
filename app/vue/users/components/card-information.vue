@@ -86,7 +86,7 @@ export default {
             })
         },
 
-        confirmUserDeletion() {
+        confirmMarkUserAsDeleted() {
             window.scrollTo(0,0)
             this.$buefy.dialog.confirm({
                 title: this.translations.core.users.messages_danger_delete_user,
@@ -95,11 +95,11 @@ export default {
                 cancelText: this.translations.core.users.messages_danger_delete_user_cancel,
                 type: 'is-danger',
                 hasIcon: true,
-                onConfirm: () => this.deleteUser()
+                onConfirm: () => this.markUserAsDeleted()
             })
         },
 
-        deleteUser() {
+        markUserAsDeleted() {
             this.http.delete(this.url.admin("/users/:user_id", {
                 user_id: this.user.id
             })).then(result => {
@@ -180,9 +180,9 @@ export default {
                             <span> {{ translations.core.users.view_btn_revoke_access }} </span>
                         </button>
 
-                        <button class="button is-white is-small" @click="confirmUserDeletion()">
+                        <button class="button is-white is-small" @click="confirmMarkUserAsDeleted()">
                             <span class="icon"><i class="fas fa-user-slash"></i></span>
-                            <span> {{ translations.core.users.view_btn_delete_user }} </span>
+                            <span> {{ translations.core.users.view_btn_mark_user_as_deleted }} </span>
                         </button>
                     </div>
                 </template>
