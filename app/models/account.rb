@@ -319,5 +319,4 @@ class Account < ApplicationRecord
     # Especific associations for dedicated instances
     # This modules does not belongs to Lesli core, thats why we have the association here
     has_one :mitwerken, class_name: "MitwerkenCloud::Account", foreign_key: "id"
-
 end

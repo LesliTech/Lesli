@@ -172,3 +172,78 @@ RSpec.describe Users::SessionsController, type: :controller do
     end
 
 end
+
+
+RSpec.describe Users::SessionsController, type: :controller do
+    before :each do
+        request.env["HTTP_ACCEPT"] = "application/json"
+        request.env["devise.mapping"] = Devise.mappings[:user]
+
+        # creates a new user for every test
+        @account = Account.create!
+        @account.onboarding!
+
+        @password = Faker::Internet.password
+        @user = @account.users.create!({
+            email: Faker::Internet.email,
+            password: @password,
+            password_confirmation: @password
+        })
+        user_roles = @user.user_roles.create({ role: @account.roles.find_by(name: "owner") })
+        user_roles.roles.update(active: true)
+        @user.confirm
+
+    end
+
+    it "login using an owner role to an account in onboarding process" do
+
+        post :create, params: {
+            "user": {
+                "email": @user.email,
+                "password": @password
+            }
+        }
+
+        expect_json_response_successful
+
+        response_json = JSON.parse(response.body)
+        expect(response_json["data"]["default_path"]).to eql("/onboarding")
+    end
+end
+
+RSpec.describe Users::SessionsController, type: :controller do
+    before :each do
+        request.env["HTTP_ACCEPT"] = "application/json"
+        request.env["devise.mapping"] = Devise.mappings[:user]
+
+        # creates a new user for every test
+        @account = Account.create!
+        @account.onboarding!
+
+        @password = Faker::Internet.password
+        @user = @account.users.create!({
+            email: Faker::Internet.email,
+            password: @password,
+            password_confirmation: @password
+        })
+        user_roles = @user.user_roles.create({ role: @account.roles.find_by(name: "limited") })
+        user_roles.roles.update(active: true)
+        @user.confirm
+
+    end
+
+    it "login using a limited role to an account in onboarding process" do
+
+        post :create, params: {
+            "user": {
+                "email": @user.email,
+                "password": @password
+            }
+        }
+
+        expect_json_response_successful
+
+        response_json = JSON.parse(response.body)
+        expect(response_json["data"]["default_path"]).not_to eql("/onboarding")
+    end
+end
