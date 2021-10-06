@@ -739,5 +739,4 @@ class User < ApplicationLesliRecord
     def send_welcome_email
         LC::Debug.deprecation("use generate_reset_password_token instead and build the email manually")
     end
-
 end

@@ -1,6 +1,6 @@
 namespace :deploy do
+
     desc "Deploys the latest changes to the app and creates a backup for it in lesli/../lesli_previous"
-    
     task execute: :environment do
         source_path = Rails.root.to_s
         destination_path = Rails.root.join("..", "lesli_previous")
