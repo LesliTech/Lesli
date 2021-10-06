@@ -118,13 +118,20 @@ class ApplicationLesliController < ApplicationController
         return unless Lesli.instance[:code] == "lesli_cloud"
 
         @account[:customization] = Rails.cache.fetch("customization", expires_in: 12.hours) do
-            custom_logo = current_user.account.files.where(name: "company_logo").last
-            custom_logo = custom_logo.attachment.url if custom_logo
-            {
-                logo: custom_logo
-            }
-        end
+            logos = {}
+            Account::File.file_types.keys.each do |logo_identifier|
 
+                custom_logo = current_user.account.files.where(file_type: logo_identifier).order(id: :asc).last
+                next unless custom_logo
+
+                custom_logo_url = "/administration/account/files/#{custom_logo.id}"
+                custom_logo_url = custom_logo.attachment_public_url if custom_logo.attachment_public
+
+                logos[logo_identifier.to_sym] = custom_logo_url
+            end
+
+            logos
+        end
     end
 
 

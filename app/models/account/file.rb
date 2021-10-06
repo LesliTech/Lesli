@@ -47,6 +47,10 @@ class Account::File < CloudObject::File
         super
     end
 
+    def self.refresh_cache
+        Rails.cache.delete('customization')
+    end
+
     protected
 
     # @return [Boolean] True if the objects on this class should be publicly accessible. False otherwise.

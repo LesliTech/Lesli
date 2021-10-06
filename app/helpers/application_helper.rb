@@ -147,9 +147,7 @@ module ApplicationHelper
     end
 
     def favicon
-        icon_path = "#{lesli_instance_code}/brand/favicon.svg" 
-        icon_path = "/brand/favicon.svg" if lesli_instance_code == "lesli"
-        icon_path = image_url(icon_path)
+        icon_path = customization_instance_logo_url(logo: "favicon_svg")
         ("
         <link href=\"#{icon_path}\" rel=\"alternate icon\">
         <link href=\"#{icon_path}\" rel=\"icon\" type=\"image/svg+xml\">
