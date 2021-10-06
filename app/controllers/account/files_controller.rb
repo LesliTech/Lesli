@@ -74,6 +74,7 @@ class Account::FilesController < ApplicationLesliController
             # Setting up file uploader to upload in background
             Files::AwsUploadJob.perform_later(account_file)
 
+            Account::File.refresh_cache
             respond_with_successful(account_file)
         else
             respond_with_error(account_file.errors.full_messages.to_sentence)
@@ -96,6 +97,7 @@ class Account::FilesController < ApplicationLesliController
         return respond_with_not_found unless @account_file
 
         if @account_file.destroy
+            Account::File.refresh_cache
             respond_with_successful
         else
             respond_with_error(@account_file.errors.full_messages.to_sentence)
