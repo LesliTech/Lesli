@@ -82,12 +82,6 @@ module RoutesApp
                         collection do
                             get :options
                         end
-
-                        member do
-                            scope :resources do
-                                delete :company_logo
-                            end
-                        end
                     end
 
                     # user maintenance
