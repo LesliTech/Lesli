@@ -162,21 +162,6 @@ class CloudObject::File < ApplicationLesliRecord
         self.reflect_on_association(:cloud_object).klass
     end
 
-    # @return [Boolean] Wheter you should filter these files using the account of the engine
-    # @description This flag indicates if you should filter the files by the id of the account associated to
-    #     current_user (or other account id). This is standard for all cloud_objects, however, there are special cases
-    #     like Account::Files in which the parent of the file (Account) is not really a cloud_object, but a core entity, 
-    #     so it doesn't have an account
-    # @example
-    #     # Imagine cloud_object is an instance of CloudHouse::Project
-    #     cloud_object.files.index(current_user, {}) # This will filter by, cloud_house_projects_id, and cloud_house_account_id
-
-    #     # Now imagine cloud_object is an instance of Account
-    #     cloud_object.files.index(current_user, {}) # This will filter only by accounts_id, which is the key of the cloud_object
-    def self.filter_by_account?
-        return true
-    end
-
     # @return [String] The lesli classname associated with this new_record
     # @description Some objects inherit the functionality fron other parent objects. Deutsche Leibrenten is a clear example of this.
     #     This method ensures that the associations obtained by child methods that do not follw the lesli standard, will use a class

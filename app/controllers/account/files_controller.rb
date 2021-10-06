@@ -35,19 +35,21 @@ class Account::FilesController < ApplicationLesliController
 
         disposition = "inline"
         disposition = "attachment" if params["download"]
-
+        
         # Sending file using CarrierWave
         if @account_file.attachment_s3.file
-            file_name = @account_file.attachment_s3.file.filename
-            file_data = @account_file.attachment_s3.read
+
+            # We either get the file from AWS and serve it ourselves or provide a direct AWS link with expiration time
+            if @account_file.size_mb && @account_file.size_mb > Account::File.size_threshold
+                redirect_to @account_file.refresh_external_url
+            else
+                send_data(@account_file.attachment_s3.read, filename: @account_file.attachment_s3_identifier, disposition: disposition, stream: "true")
+            end
+        elsif @account_file.attachment_public.file
+            redirect_to @account_file.attachment_public_url
         else
-            file_name = @account_file.attachment.file.filename
-            file_data = @account_file.attachment.read
+            send_data(@account_file.attachment.read, filename: @account_file.attachment_identifier, disposition: disposition, stream: "true")
         end
-
-        file_name = @account_file.name||file_name
-
-        send_data(file_data, filename: file_name, disposition: disposition, stream: "true")
     end
 
     # GET /account/files/new

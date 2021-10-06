@@ -32,8 +32,7 @@ export default {
             new_file: {
                 url: null
             },
-            branding_logos: {},
-            file: {}
+            branding_logos: {}
         }
     },
     mounted() {
@@ -48,6 +47,8 @@ export default {
                     name: this.translations.core.account.files.view_text_file_app_icon_svg_name,
                     description: this.translations.core.account.files.view_text_file_app_icon_svg_description,
                     format: this.translations.core.account.files.view_text_file_format_svg,
+                    accept: ".svg",
+                    submitting: false,
                     file: null
                 },
                 app_logo_svg: {
@@ -55,6 +56,8 @@ export default {
                     name: this.translations.core.account.files.view_text_file_app_logo_svg_name,
                     description: this.translations.core.account.files.view_text_file_app_logo_svg_description,
                     format: this.translations.core.account.files.view_text_file_format_svg,
+                    accept: ".svg",
+                    submitting: false,
                     file: null
                 },
                 app_logo_png: {
@@ -62,6 +65,8 @@ export default {
                     name: this.translations.core.account.files.view_text_file_app_logo_png_name,
                     description: this.translations.core.account.files.view_text_file_app_logo_png_description,
                     format: this.translations.core.account.files.view_text_file_format_png,
+                    accept: ".png",
+                    submitting: false,
                     file: null
                 },
                 app_logo_desktop_svg: {
@@ -69,13 +74,17 @@ export default {
                     name: this.translations.core.account.files.view_text_file_app_logo_desktop_svg_name,
                     description: this.translations.core.account.files.view_text_file_app_logo_desktop_svg_description,
                     format: this.translations.core.account.files.view_text_file_format_svg,
+                    accept: ".svg",
+                    submitting: false,
                     file: null
                 },
                 favicon_svg: {
                     identifier: 'favicon_svg',
                     name: this.translations.core.account.files.view_text_file_favicon_svg_name,
                     description: this.translations.core.account.files.view_text_file_favicon_svg_description,
-                    format: this.translations.core.account.files.view_text_file_format_ico,
+                    format: this.translations.core.account.files.view_text_file_format_svg,
+                    accept: ".svg",
+                    submitting: false,
                     file: null
                 }
             }
@@ -108,8 +117,8 @@ export default {
             }
         },
         processFile(event, logo) {
-            this.file = event.target.files[0]
-            this.new_file.url = URL.createObjectURL(this.file)
+            this.new_file = event.target.files[0]
+            this.new_file.url = URL.createObjectURL(this.new_file)
 
             this.postFile(logo)
         },
@@ -122,20 +131,52 @@ export default {
             const formData = new FormData();
             formData.append('account_file[name]', logo.identifier)
             formData.append('account_file[file_type]', logo.identifier)
-            formData.append('account_file[attachment]', this.file)
+            formData.append('account_file[attachment]', this.new_file)
 
-            this.http.post(this.url.admin('account/files'), formData).then((result) => {
+            let url = this.url.admin('account/files')
+            logo.submitting = true
+
+            this.http.post(url, formData).then((result) => {
                 if(result.successful){
+                    this.$set(logo, 'file', result.data)
                     this.msg.success(this.translations.core.account.settings.messages_success_image_uploaded_successfully)
                 }else{
                     this.msg.error(result.error.message)
                 }
+            }).finally(()=>{
+                logo.submitting = false
             })
 
         },
-        deleteFile() {
-            this.http.delete(this.url.admin('account/resources/company_logo')).then(result => {
-                this.msg.info(this.translations.core.account.settings.messages_info_image_removed_successfully)
+        confirmFileDeletion(logo){
+            this.$buefy.dialog.confirm({
+                title: `${this.translations.core.account.files.messages_danger_delete_confirmation_title}: ${logo.name}`,
+                message: this.translations.core.account.files.messages_danger_delete_confirmation_body,
+                cancelText: this.translations.core.shared.view_btn_cancel,
+                confirmText: this.translations.core.shared.view_btn_accept,
+                type: 'is-danger',
+                onConfirm: () => {
+                    this.deleteFile(logo)
+                }
+            })
+        },
+        deleteFile(logo) {
+            if(! logo.file || ! logo.file.id){
+                return
+            }
+
+            let url = this.url.admin(`account/files/${logo.file.id}`)
+            logo.submitting = true
+
+            this.http.delete(url).then(result => {
+                if(result.successful){
+                    this.$set(logo, 'file', null)
+                    this.msg.info(this.translations.core.account.settings.messages_info_image_removed_successfully)
+                }else{
+                    this.msg.error(result.error.message)
+                }
+            }).finally(()=>{
+                logo.submitting = false
             })
         }
 
@@ -166,13 +207,16 @@ export default {
                             <td>
                                 <div v-if="! logo.file || ! logo.file.id" class="field file">
                                     <label class="upload control is-expanded">
-                                        <a class="button is-small is-outlined is-primary is-fullwidth is-justify-content-center">
-                                            <span class="file-icon">
-                                                <i class="fas fa-upload"></i>
-                                            </span>
+                                        <a
+                                            :disabled="logo.submitting"
+                                            class="button is-small is-outlined is-primary is-fullwidth is-justify-content-center"
+                                        >
+                                            <b-icon v-if="logo.submitting" size="is-small" icon="circle-notch" custom-class="fa-spin">
+                                            </b-icon>
+                                            <b-icon v-else icon="upload" size="is-small"></b-icon>
                                             <span>{{ translations.core.account.files.view_btn_browse_files }}</span>
                                         </a>
-                                        <input class="file-input" type="file" @change="processFile($event, logo)">
+                                        <input :accept="logo.accept" class="file-input" type="file" @change="processFile($event, logo)">
                                     </label>
                                 </div>
                             </td>
@@ -180,10 +224,13 @@ export default {
                                 <a  
                                     v-if="logo.file && logo.file.id"
                                     class="button is-outlined is-fullwidth is-small"
-                                    @click="deleteFile(logo)"
-                                    href="#"
+                                    :href="`/administration/account/files/${logo.file.id}`"
+                                    target="_blank"
+                                    :disabled="logo.submitting"
                                 >
-                                    <b-icon size="is-small" icon="download">
+                                    <b-icon v-if="logo.submitting" size="is-small" icon="circle-notch" custom-class="fa-spin">
+                                    </b-icon>
+                                    <b-icon v-else size="is-small" icon="download">
                                     </b-icon>
                                     <span>{{ translations.core.shared.view_btn_download }}</span>
                                 </a>
@@ -194,10 +241,13 @@ export default {
                                     size="is-small" type="is-danger"
                                     outlined
                                     expanded
-                                    @click="deleteFile(logo)"
+                                    :disabled="logo.submitting"
+                                    @click="confirmFileDeletion(logo)"
                                     native-type="button"
                                 >
-                                    <b-icon size="is-small" icon="trash-alt">
+                                    <b-icon v-if="logo.submitting" size="is-small" icon="circle-notch" custom-class="fa-spin">
+                                    </b-icon>
+                                    <b-icon v-else size="is-small" icon="trash-alt">
                                     </b-icon>
                                     <span>{{ translations.core.shared.view_btn_delete }}</span>
                                 </b-button>
