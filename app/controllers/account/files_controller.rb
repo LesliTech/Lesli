@@ -62,11 +62,15 @@ class Account::FilesController < ApplicationLesliController
     def create
 
         account_file = current_user.account.files.new(account_file_params)
+        account_file.user_creator = current_user
 
         if account_file.save
             # IMPORTANT: This update is neccesary after the save so the file can have
             # its id on its name and be always unique
             account_file.update({})
+
+            # Setting up file uploader to upload in background
+            Files::AwsUploadJob.perform_later(account_file)
 
             respond_with_successful(account_file)
         else
