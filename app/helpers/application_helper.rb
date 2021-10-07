@@ -147,7 +147,7 @@ module ApplicationHelper
     end
 
     def favicon
-        icon_path = customization_instance_logo_url(logo: "favicon_svg")
+        icon_path = customization_instance_logo_url(logo: "favicon")
         ("
         <link href=\"#{icon_path}\" rel=\"alternate icon\">
         <link href=\"#{icon_path}\" rel=\"icon\" type=\"image/svg+xml\">
