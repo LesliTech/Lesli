@@ -117,6 +117,7 @@ class ApplicationLesliController < ApplicationController
 
         return unless Lesli.instance[:code] == "lesli_cloud"
 
+        @account[:customization] = {}
         logos = {}
         logo_identifiers = Account::File.file_types.keys
         custom_logos = current_user.account.files.where("file_type in (?)", logo_identifiers).order(id: :desc).all
@@ -131,7 +132,7 @@ class ApplicationLesliController < ApplicationController
             logos[logo_identifier.to_sym] = custom_logo_url
         end
 
-        @account[:customization] = logos
+        @account[:customization][:logos] = logos
     end
 
 

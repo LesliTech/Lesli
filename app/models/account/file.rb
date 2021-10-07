@@ -20,11 +20,9 @@ For more information read the license file including with this software.
 class Account::File < CloudObject::File
 
     enum file_type: {
-        app_icon_svg: "app_icon_svg",
-        app_logo_svg: "app_logo_svg",
-        app_logo_png: "app_logo_png",
-        app_logo_desktop_svg: "app_logo_desktop_svg",
-        favicon_svg: "favicon_svg"
+        app_icon: "app_icon",
+        app_logo: "app_logo",
+        favicon: "favicon"
     }
 
 

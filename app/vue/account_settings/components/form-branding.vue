@@ -42,48 +42,30 @@ export default {
     methods: {
         initializeBrandingLogos(){
             this.branding_logos = {
-                app_icon_svg: {
-                    identifier: 'app_icon_svg',
-                    name: this.translations.core.account.files.view_text_file_app_icon_svg_name,
-                    description: this.translations.core.account.files.view_text_file_app_icon_svg_description,
-                    format: this.translations.core.account.files.view_text_file_format_svg,
-                    accept: ".svg",
+                app_icon: {
+                    identifier: 'app_icon',
+                    name: this.translations.core.account.files.column_enum_file_type_app_icon,
+                    description: this.translations.core.account.files.view_text_file_type_app_icon_description,
+                    format: this.translations.core.account.files.view_text_svg_png_formats,
+                    accept: ".svg, .png",
                     submitting: false,
                     file: null
                 },
-                app_logo_svg: {
-                    identifier: 'app_logo_svg',
-                    name: this.translations.core.account.files.view_text_file_app_logo_svg_name,
-                    description: this.translations.core.account.files.view_text_file_app_logo_svg_description,
-                    format: this.translations.core.account.files.view_text_file_format_svg,
-                    accept: ".svg",
+                app_logo: {
+                    identifier: 'app_logo',
+                    name: this.translations.core.account.files.column_enum_file_type_app_logo,
+                    description: this.translations.core.account.files.view_text_file_type_app_logo_description,
+                    format: this.translations.core.account.files.view_text_svg_png_formats,
+                    accept: ".svg, .png",
                     submitting: false,
                     file: null
                 },
-                app_logo_png: {
-                    identifier: 'app_logo_png',
-                    name: this.translations.core.account.files.view_text_file_app_logo_png_name,
-                    description: this.translations.core.account.files.view_text_file_app_logo_png_description,
-                    format: this.translations.core.account.files.view_text_file_format_png,
-                    accept: ".png",
-                    submitting: false,
-                    file: null
-                },
-                app_logo_desktop_svg: {
-                    identifier: 'app_logo_desktop_svg',
-                    name: this.translations.core.account.files.view_text_file_app_logo_desktop_svg_name,
-                    description: this.translations.core.account.files.view_text_file_app_logo_desktop_svg_description,
-                    format: this.translations.core.account.files.view_text_file_format_svg,
-                    accept: ".svg",
-                    submitting: false,
-                    file: null
-                },
-                favicon_svg: {
-                    identifier: 'favicon_svg',
-                    name: this.translations.core.account.files.view_text_file_favicon_svg_name,
-                    description: this.translations.core.account.files.view_text_file_favicon_svg_description,
-                    format: this.translations.core.account.files.view_text_file_format_svg,
-                    accept: ".svg",
+                favicon: {
+                    identifier: 'favicon',
+                    name: this.translations.core.account.files.column_enum_file_type_favicon,
+                    description: this.translations.core.account.files.view_text_file_type_favicon_description,
+                    format: this.translations.core.account.files.view_text_svg_png_ico_formats,
+                    accept: ".svg, .png, .ico",
                     submitting: false,
                     file: null
                 }
