@@ -19,18 +19,21 @@ For more information read the license file including with this software.
 
 
 // · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 #lesli-application {
-    padding-top: var(--application-header-height);
+    padding-top: var(--app-header-height);
 }
 
 
+
 // · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 section.application-component {
     width: 100%;
     padding-top: 0;
     padding-left: 2rem;
     padding-right: 2rem;
-    margin-left: var(--application-navigation-width);
-    max-width: calc(100% - var(--application-navigation-width));
-    min-height: calc(100vh - var(--application-header-height) - var(--application-footer-height));
+    margin-left: var(--app-navigation-width);
+    max-width: calc(100% - var(--app-navigation-width));
+    min-height: calc(100vh - var(--app-header-height) - var(--app-footer-height));
 }
