@@ -17,18 +17,20 @@ For more information read the license file including with this software.
 // · 
 */
 
+
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 header.application-header {
     top: 0;
     right: 0;
     z-index: 40;
     position: fixed;
-    background-color: white;
-    width: calc(100% - var(--application-navigation-width));
-    height: var(--application-header-height);
+    height: var(--app-header-height);
+    width: calc(100% - var(--app-navigation-width));
 
     .scrolling-header-navigation {
         box-shadow: 0 0 0.125em 0 rgba(0, 0, 0, 0.25);
-        background: white;
+        background: #f3f7fd;
     }
 
     .header-navigation {
@@ -42,7 +44,7 @@ header.application-header {
     .header-right {
         display: flex;
         align-items: center;
-        height: var(--application-header-height);
+        height: var(--app-header-height);
         .dropdown-menu .dropdown-content {
             width: 100%;
         }
@@ -62,6 +64,16 @@ header.application-header {
     }
 
     .header-right {
+
+        // control container
+        .navbar-item {
+            padding: 0.5rem 0.9rem;
+
+            &:hover {
+                color: darken(lesli-css-color(blue), 5);
+                background-color: transparent;
+            }
+        }
 
         // Notification icon & count
         .header-notification-indicator {
@@ -103,28 +115,26 @@ header.application-header {
 }
 
 
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 @include lesli-css-breakpoint("desktop") {
-    header.application-header2 {
-        .navbar-end {
-            a.notification-indicator {
-                position: relative;
-                span {
-                    top: 10px;
-                    right: 8px;
-                    width: 12px;
-                    height: 14px;
-                    font-size: 10px;
-                    text-align: center;
-                    border-radius: 50%;
-                    background-color: lesli-css-color(berry, 300);
-                    color: lesli-css-color(silver, 100);
-                    font-family: sans-serif;
-                    position: absolute;
-                }
-            }
-            i {
-                font-size: 1.2rem;
-            }
+    header.application-header {
+        // adjust the header width to the floating navigatino menu
+        .navbar-brand {
+            margin-left: .5rem;
+        }
+    }
+}
+
+
+
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+@include lesli-css-breakpoint("widescreen") {
+    header.application-header {
+        // adjust the header width to the floating navigatino menu
+        .navbar-brand {
+            margin-left: 1rem;
         }
     }
 }

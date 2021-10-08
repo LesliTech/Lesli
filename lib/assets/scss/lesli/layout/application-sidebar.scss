@@ -20,7 +20,9 @@ For more information read the license file including with this software.
 @import "lesli-css/";
 
 
+
 // · Navigation sidebar - new
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 aside.application-sidebar {
     position: fixed;
     top: 0;
@@ -30,13 +32,12 @@ aside.application-sidebar {
     display: flex;
     flex-direction: column;
     transition: all linear .2s;
-    
-    width: var(--application-navigation-width);
+    width: var(--app-navigation-width);
 
     // logo
     a.brand {
         padding: .4rem;
-        max-height: var(--application-header-height);
+        max-height: var(--app-header-height);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -70,17 +71,18 @@ aside.application-sidebar {
             // nav link
             a {
                 font-size: 1rem;
+                padding: 1.2rem 0;
                 border-radius: 0px;
-                transition: all linear .2s;
                 align-items: center;
                 text-align: center;
-                padding: 1.2rem 0;
+                transition: all linear .2s;
 
                 i {
                     width: 3rem;
                     font-size: 1.2rem;
                     text-align: center;
                     position: relative;
+                    transition: all linear .2s;
 
                     &.flag-icon {
                         height: 16px;
@@ -136,6 +138,8 @@ aside.application-sidebar {
 
 
 
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 @include lesli-css-breakpoint("tablet") {
 
     aside.application-sidebar {
@@ -153,6 +157,10 @@ aside.application-sidebar {
     }
 }
 
+
+
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 @include lesli-css-breakpoint("desktop") {
 
     aside.application-sidebar {

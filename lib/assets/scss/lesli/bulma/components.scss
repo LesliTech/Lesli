@@ -16,7 +16,9 @@ For more information read the license file including with this software.
 */
 
 
+
 // · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 .panel {
     background-color: get-lesli-css-color(standard, white);
     .panel-heading {
@@ -34,20 +36,26 @@ For more information read the license file including with this software.
 }
 
 
-//
+
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 .card {
     overflow: unset;
 }
 
 
+
 // · quickview
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 body #lesli-application .quickview,
 body #lesli-application .application-component .quickview {
     z-index: 75;
 }
 
 
+
 // · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 div.select {
     &::after {
         border-color: rgb(100,100,100) !important;
@@ -55,7 +63,9 @@ div.select {
 }
 
 
+
 // · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 section.application-component {
     & > div.b-tabs:not(.is-vertical) {
 
