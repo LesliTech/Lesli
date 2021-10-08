@@ -23,63 +23,7 @@ For more information read the license file including with this software.
 
 
 // · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 header.application-header {
-    background-color: transparent;
-
-    .scrolling-header-navigation {
-        background-color: #f3f7fd;
-    }
-    .navbar {
-        background-color: transparent;
-    }
-
-    .navbar-brand {
-        .apps_switch span.icon {
-            width: 60px;
-        }
-        img {
-            max-height: 35px;
-        }
-    }
-
-    .navbar-start input {
-        background-color: transparent;
-        border: none;
-    }
-
-    .header-right {
-
-        .navbar-item {
-            padding: 0.5rem 0.9rem;
-
-            &:hover {
-                color: darken(lesli-css-color(blue), 5);
-                background-color: transparent;
-            }
-        }
-
-    }
-    
-}
-
-
-// · 
-@include lesli-css-breakpoint("desktop") {
-    header.application-header {
-        // adjust the header width to the floating navigatino menu
-        .navbar-brand {
-            margin-left: .5rem;
-        }
-    }
-}
-
-
-// ·
-@include lesli-css-breakpoint("widescreen") {
-    header.application-header {
-        // adjust the header width to the floating navigatino menu
-        .navbar-brand {
-            margin-left: 1rem;
-        }
-    }
+    background-color: var(--app-theme-color-layout-header);
 }
