@@ -16,10 +16,43 @@ For more information read the license file including with this software.
 // · 
 
 %>
+
+
+<% 
+
+    # Defining color customization 
+    # colors will be override with the ones defined in the database if custom colors exists
+    # if there is no custom colors defined, the var() function will return the lesli colors
+    @colors = {
+        theme_color_primary: 'red',
+        theme_color_secondary: 'blue',
+        theme_color_layout_header: 'yellow',
+        theme_color_layout_sidebar: 'lightgreen',
+        theme_color_layout_background: 'skyblue',
+        theme_font_color: 'red',
+        theme_font_size: '11px',
+    }
+
+    # comment this line once the integration with the backend is done
+    @colors = { }
+
+%>
+
+<style>
+
+:root {
+
+    /* Defining color palette */
+    <% @colors.each_pair do |key, value| %>
+    <%= "--app-#{ key.to_s.gsub('_','-') }: #{ value.to_s };" %>
+    <% end %>
+}
+
+</style>
+
 <%= stylesheet_link_tag "lesli/templates/application", media: "all" %>
-<%= stylesheet_link_tag application_stylesheet_theme_path(), media: "all" %> 
 <%= stylesheet_link_tag application_stylesheet_path(), media: "all" %>
-<%#= stylesheet_link_tag controller_path, media: "all" %>
+<%= stylesheet_link_tag application_stylesheet_theme_path(), media: "all" %> 
 <% if Rails.env == "development" %>
 <%= stylesheet_link_tag "lesli/templates/development", media: "all" %>
 <% end %>
