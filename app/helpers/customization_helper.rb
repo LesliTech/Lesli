@@ -29,15 +29,36 @@ module CustomizationHelper
     #     <div class="image">
     #         <%= customization_instance_logo(options: { alt: "#{@company.company_name}", width: "100" })%>
     #     </div>
-    def customization_instance_logo(mode: "web", options: {alt: "Logo"})
-        logo_path = "#{lesli_instance_code}/brand/app-logo-desktop.svg"
-        logo_path = @account[:customization][:logo] if @account[:customization] && @account[:customization][:logo]
+    def customization_instance_logo(tag: false, logo: "app_logo", variant: "light", mode: "web", options: {alt: "Logo"})
+        logo_path = "#{lesli_instance_code}/brand/#{default_logos[logo]}"
+        logo_path = "brand/#{default_logos[logo]}" if lesli_instance_code == "lesli"
+
+        logo_path = @account[:customization][:logos][logo.to_sym] if @account[:customization] && @account[:customization][:logos] && @account[:customization][:logos][logo.to_sym]
 
         if mode == "pdf"
             wicked_pdf_image_tag(logo_path, options)
         else
-            image_tag(logo_path, options)
+            if tag
+                image_tag(logo_path, options)
+            else
+                image_url(logo_path, options)
+            end
         end
     end
 
+    def customization_instance_logo_tag(logo: "app_logo", variant: "light", mode: "web", options: {alt: "Logo"})
+        customization_instance_logo(tag: true, logo: logo, variant: variant, mode: mode, options: options)
+    end
+
+    def customization_instance_logo_url(logo: "app_logo", variant: "light", mode: "web", options: {alt: "Logo"})
+        customization_instance_logo(tag: false, logo: logo, variant: variant, mode: mode, options: options)
+    end
+
+    def default_logos
+        {
+            "app_icon" => "app-icon.svg",
+            "app_logo" => "app-logo.svg",
+            "favicon" => "favicon.svg"
+        }
+    end
 end

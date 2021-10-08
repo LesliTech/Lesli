@@ -215,6 +215,8 @@ module Interfaces::Controllers::Files
             else
                 send_data(@file.attachment_s3.read, filename: @file.attachment_s3_identifier, disposition: disposition, stream: "true")
             end
+        elsif @file.attachment_public.file
+            redirect_to @file.attachment_public_url
         else
             send_data(@file.attachment.read, filename: @file.attachment_identifier, disposition: disposition, stream: "true")
         end
@@ -271,9 +273,7 @@ module Interfaces::Controllers::Files
     #     # Executing this controller's action from javascript's frontend
     #     this.http.get('127.0.0.1/house/projects/1/resources/files-zip-download&ids=1,2,3,4');
     def zip_download
-        def show_deprecated_message
-            LC::Debug.deprecation "Use the index method with application/zip instead"
-        end
+        LC::Debug.deprecation "Use the index method with application/zip instead"
 
         file_model = file_model() # If there is a custom file model, it must be returned in this method
         cloud_object_model = file_model.cloud_object_model

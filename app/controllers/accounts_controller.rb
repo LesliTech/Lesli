@@ -90,10 +90,6 @@ class AccountsController < ApplicationLesliController
         end
     end
 
-    def company_logo
-        respond_with_successful(current_user.account.files.where(name: "company_logo").delete_all)
-    end
-
     def options
         respond_with_successful(current_user.account.options(@current_user, @query))
     end
