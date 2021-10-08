@@ -51,11 +51,8 @@ class Account::Setting < ApplicationRecord
         account.settings.create!(name: 'datetime_format_date_time_words', value: datetime["formats"]["date_time_words"]) 
     end
 
-    def self.index(current_user, query)
-        
-        query_filters = []
-
-        theme_settings = [
+    def self.theme_settings_keys
+        [
             'theme_color_primary',
             'theme_color_secondary',
             'theme_color_layout_header',
@@ -64,6 +61,13 @@ class Account::Setting < ApplicationRecord
             'theme_font_size',
             'theme_font_color'
         ]
+    end
+
+    def self.index(current_user, query)
+        
+        query_filters = []
+
+        theme_settings = self.theme_settings_keys
 
         time_settings = [
             'date_format',
