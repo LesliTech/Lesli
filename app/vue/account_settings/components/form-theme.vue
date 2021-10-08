@@ -1,66 +1,118 @@
 <script>
-/*
 
-Copyright (c) 2021, all rights reserved.
-
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
-pictures and any other information belongs to the owner of this platform.
-
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
-
-For more information read the license file including with this software.
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
-
-*/
 export default {
-    data() {
+    data(){
         return {
+            loading: true,
+            submitting_form: false,
             translations: {
                 core: {
                     shared: I18n.t('core.shared'),
                     account: {
-                        settings: I18n.t("core.account/settings"),
+                        settings: I18n.t('core.account/settings'),
                     }
                 }
             },
-            color: '#64baff'
+            settings: {
+                'theme_color_primary': null,
+                'theme_color_secondary': null,
+                'theme_color_layout_header': null,
+                'theme_color_layout_sidebar': null,
+                'theme_color_layout_background': null,
+                'theme_font_size': null,
+                'theme_font_color': null
+            }
         }
     },
+    mounted() {
+        window.settings = this.translations.core.account.settings
+        this.getSettings();
+    },
     methods: {
-        postTheme() {
-            this.http.put(this.url.admin("account/settings"), {
-                settings: {
-                    "theme_primary_color": this.color
+        parseSettings(settings_raw){
+            settings_raw.forEach(setting_raw => {
+                if (setting_raw.name in this.settings){
+                    this.settings[setting_raw.name] = setting_raw.value
                 }
+            });
+        },
+        getSettings(){
+            let filters = {
+                theme: true
+            }
+            let url = this.url.admin('account/settings').filters(filters)
+
+            this.http.get(url).then(result => {
+                if (result.successful) {
+                    this.parseSettings(result.data);
+                }else{
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            }).finally(() => {
+                this.loading = false
+            })
+        },
+        postSettings() {
+            this.submitting_form = true
+            this.http.post(this.url.admin('account/settings'), {
+                settings: this.settings
             }).then(result => {
                 if (!result.successful) {
                     this.msg.error(result.error.message)
                     return
                 }
-                this.msg.info(this.translations.core.account.settings.messages_info_color_saved_successfully)
+                this.msg.success(this.translations.core.account.settings.messages_success_settings_saved_successfully)
+            }).catch(error => {
+                console.log(error)
+            }).finally(() => {
+                this.submitting_form = false
             })
-        }
-    },
-    watch: {
-        color() {
-            this.postTheme()
+        },
+        toggleHelp(){
+            console.log(this.translations.core.account.settings.view_text_column_datetime_coding)
         }
     }
-
 }
 </script>
 <template>
-    <div class="box settings-theme">
-        <div class="field">
-            <label class="label">{{ translations.core.account.settings.view_text_theme_primary_color }} {{ color }}</label>
-            <div class="control">
-                <input v-model="color" class="input" type="color" placeholder="Select color">
-            </div>
-        </div>
+    <div class="box pr-6 settings-general">
+        <form class="pr-6 mr-6" @submit.prevent="postSettings()">
+            <fieldset class="py-5 pl-2 pr-6 mr-6">
+                
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">
+                            {{ translations.core.account.settings.column_theme_color_primary }}
+                        </label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="color" v-model="settings.theme_color_primary">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-grouped is-grouped-right">
+                    <div class="control">
+                        <button class="button is-primary">
+                            <span v-if="submitting_form">
+                                <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
+                                &nbsp;
+                                {{translations.core.shared.view_btn_saving}}
+                            </span>
+                            <span v-else>
+                                <b-icon icon="save" size="is-small" />
+                                &nbsp;
+                                {{translations.core.shared.view_btn_save}}
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
     </div>
 </template>
