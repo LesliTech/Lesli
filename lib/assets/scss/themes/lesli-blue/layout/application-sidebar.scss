@@ -23,7 +23,9 @@ For more information read the license file including with this software.
 @import "../settings/helpers.scss";
 
 
+
 // · Navigation sidebar
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 aside.application-sidebar {
     border-right: 1px solid rgba(lesli-css-color(slate, 100), .4);
 
@@ -32,7 +34,6 @@ aside.application-sidebar {
         li {
 
             a {
-                color: lesli-css-color(slate, 500);
                 color: lesli-css-color(slate, 900);
                 transition: all linear .2s;
 

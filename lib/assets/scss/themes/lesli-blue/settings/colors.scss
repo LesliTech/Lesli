@@ -23,6 +23,7 @@ For more information read the license file including with this software.
 
 
 // · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 @function lesli-css-color-theme($variant, $pallete: "app") {
 
     $lesli-cloud-colors: (
@@ -34,17 +35,6 @@ For more information read the license file including with this software.
             complement_three:#3a925b,
             complement_gray_light: #f1f1f1,
             complement_blue_light: #edf6ff
-        ),
-        collection2: (
-            administration: lesli-css-color(blue),
-            intelligence: lesli-css-color(bubble),
-            productivity: lesli-css-color(lime),
-            integration: lesli-css-color(mint),
-            analytics: lesli-css-color(berry),
-            security: lesli-css-color(slate),
-            finance: lesli-css-color(orange),
-            sales: lesli-css-color(grape),
-            it: lesli-css-color(banana)
         ),
         collection: (
             administration: #3b6cff,

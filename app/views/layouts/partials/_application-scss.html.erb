@@ -16,10 +16,34 @@ For more information read the license file including with this software.
 // · 
 
 %>
+
+<%
+
+# Defining color customization
+
+=begin
+
+:root {
+
+--app-theme-color-primary: red;
+--app-theme-color-secondary: blue;
+
+--app-theme-color-layout-header: yellow;
+--app-theme-color-layout-sidebar: lightgreen:
+--app-theme-color-layout-background: skyblue
+
+--app-theme-font-size: 11px;
+--app-theme-font-color: silver;
+
+}
+
+=end
+
+%>
+
 <%= stylesheet_link_tag "lesli/templates/application", media: "all" %>
-<%= stylesheet_link_tag application_stylesheet_theme_path(), media: "all" %> 
+<%#= stylesheet_link_tag application_stylesheet_theme_path(), media: "all" %> 
 <%= stylesheet_link_tag application_stylesheet_path(), media: "all" %>
-<%#= stylesheet_link_tag controller_path, media: "all" %>
 <% if Rails.env == "development" %>
 <%= stylesheet_link_tag "lesli/templates/development", media: "all" %>
 <% end %>
