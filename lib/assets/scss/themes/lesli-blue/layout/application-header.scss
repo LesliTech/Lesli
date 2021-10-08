@@ -25,14 +25,5 @@ For more information read the license file including with this software.
 // · 
 // · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 header.application-header {
-    background-color: transparent;
-
-    .scrolling-header-navigation {
-        background-color: #f3f7fd;
-    }
-
-    .navbar {
-        background-color: transparent;
-    }
-
+    background-color: var(--app-theme-color-layout-header);
 }

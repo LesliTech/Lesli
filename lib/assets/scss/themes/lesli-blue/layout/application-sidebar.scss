@@ -28,51 +28,40 @@ For more information read the license file including with this software.
 // · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 aside.application-sidebar {
     border-right: 1px solid rgba(lesli-css-color(slate, 100), .4);
+    background-color: var(--app-theme-color-layout-sidebar);
 
-    nav {
-        
-        li {
+    nav li {
 
-            a {
-                color: lesli-css-color(slate, 900);
-                transition: all linear .2s;
+        a {
+            color: lesli-css-color-theme(secondary);
 
-                &.is-active {
-                    background-color: inherit;
-                    color: inherit;
-                }
-
-                // active sidebar navigation items
-                &.route-is-active {
-                    background-color: darken(#f3f7fd, 4);
-                    color: lesli-css-color(slate, 900);
-                    i {
-                        color: lesli-css-color-theme(primary);
-                    }
-                }
-
-                // highlight sidebar navigation item on hover
-                &:not(.route-is-active):hover {
-                    background-color: transparent;
-                    color: lesli-css-color(slate, 900);
-                    i {
-                        color: lesli-css-color-theme(primary);
-                    }
-                }
-
-                //
-                i {
-                    color: lesli-css-color(slate, 100);
-                    transition: all linear .2s;
-                }
-
+            // highlight sidebar navigation item when selected
+            &.is-active,        // rails routes
+            &.route-is-active   // vue routes
+            {
+                background-color: darken(#f3f7fd, 4);
+                color: lesli-css-color-theme(secondary);
+                i { color: lesli-css-color-theme(primary); }
             }
-   
+
+            // highlight sidebar navigation item on hover
+            &:not(.is-active):hover         // rails routes
+            &:not(.route-is-active):hover   // vue routes
+            {
+                background-color: transparent;
+                color: lesli-css-color(slate, 900);
+                i { color: lesli-css-color-theme(primary); }
+            }
+
+            //
+            i {
+                color: lesli-css-color-theme(secondary);
+            }
+
         }
 
         hr {
-            //margin: .8rem 0;
-            border-top: 1px solid rgba(lesli-css-get-color(slate, 100), .4);
+            border-top: 1px solid rgba(lesli-css-color-theme(secondary), .4);
         }
 
     }

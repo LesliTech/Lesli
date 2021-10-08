@@ -32,7 +32,6 @@ aside.application-sidebar {
     display: flex;
     flex-direction: column;
     transition: all linear .2s;
-    
     width: var(--app-navigation-width);
 
     // logo
@@ -83,6 +82,7 @@ aside.application-sidebar {
                     font-size: 1.2rem;
                     text-align: center;
                     position: relative;
+                    transition: all linear .2s;
 
                     &.flag-icon {
                         height: 16px;

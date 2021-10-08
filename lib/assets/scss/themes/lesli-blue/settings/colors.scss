@@ -29,12 +29,13 @@ For more information read the license file including with this software.
     $lesli-cloud-colors: (
         app: (
             primary: darken(lesli-css-color(blue), 5),
-            secondary:#172347,
+            secondary: #172347,
             complement_one:  #62cab6,
             complement_two:  #55b997,
             complement_three:#3a925b,
             complement_gray_light: #f1f1f1,
             complement_blue_light: #edf6ff
+
         ),
         collection: (
             administration: #3b6cff,
