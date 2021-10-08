@@ -27,7 +27,7 @@ RSpec.describe "POST:/administration/account/files", type: :request do
 
     before(:all) do
         @name = "company_logo"
-        @file_type = "png"
+        @file_type = "app_logo"
         @attachment = fixture_file_upload("lesli-icon.png", "image/png")
 
         post("/administration/account/files.json", params: {

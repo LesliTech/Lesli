@@ -59,7 +59,7 @@ module RoutesApp
                     resource :account, only: [:show] do
                         scope module: :account do
 
-                            resources :files, only: [:index, :show, :new, :create]
+                            resources :files, only: [:index, :show, :new, :create, :destroy]
 
                             resource :settings do
                                 collection do
@@ -81,12 +81,6 @@ module RoutesApp
 
                         collection do
                             get :options
-                        end
-
-                        member do
-                            scope :resources do
-                                delete :company_logo
-                            end
                         end
                     end
 
