@@ -112,19 +112,27 @@ class ApplicationLesliController < ApplicationController
     # set customization only for lesli_cloud instance
     def set_customization
 
-        # @account is only for html requests
-        return if !request.format.html?
+        # @account is only for html and pdf requests
+        return unless (request.format.html? || request.format.pdf?)
 
         return unless Lesli.instance[:code] == "lesli_cloud"
 
-        @account[:customization] = Rails.cache.fetch("customization", expires_in: 12.hours) do
-            custom_logo = current_user.account.files.where(name: "company_logo").last
-            custom_logo = custom_logo.attachment.url if custom_logo
-            {
-                logo: custom_logo
-            }
+        @account[:customization] = {}
+        logos = {}
+        logo_identifiers = Account::File.file_types.keys
+        custom_logos = current_user.account.files.where("file_type in (?)", logo_identifiers).order(id: :desc).all
+
+        logo_identifiers.each do |logo_identifier|
+            custom_logo = custom_logos.find { |logo| logo.file_type == logo_identifier}
+            next unless custom_logo
+
+            custom_logo_url = "/administration/account/files/#{custom_logo.id}"
+            custom_logo_url = custom_logo.attachment_public_url if custom_logo.attachment_public
+
+            logos[logo_identifier.to_sym] = custom_logo_url
         end
 
+        @account[:customization][:logos] = logos
     end
 
 

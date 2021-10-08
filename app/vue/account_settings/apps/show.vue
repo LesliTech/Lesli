@@ -35,7 +35,6 @@ export default {
     },
     data() {
         return {
-            tab: 0,
             translations: {
                 core: {
                     shared: I18n.t('core.shared'),
@@ -54,7 +53,7 @@ export default {
 <template>
     <section class="application-component">
         <component-header :title="translations.core.account.settings.view_title_account_settings"></component-header>
-        <b-tabs v-model="tab">
+        <b-tabs>
             <!--
             <b-tab-item icon-pack="fas" icon="cog" :label="translations.core.account.settings.view_tab_title_general">
             </b-tab-item>
