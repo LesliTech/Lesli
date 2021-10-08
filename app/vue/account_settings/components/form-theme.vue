@@ -96,6 +96,81 @@ export default {
                     </div>
                 </div>
 
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">
+                            {{ translations.core.account.settings.column_theme_color_secondary }}
+                        </label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="color" v-model="settings.theme_color_secondary">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">
+                            {{ translations.core.account.settings.column_theme_color_layout_header }}
+                        </label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="color" v-model="settings.theme_color_layout_header">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">
+                            {{ translations.core.account.settings.column_theme_color_layout_sidebar}}
+                        </label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="color" v-model="settings.theme_color_layout_sidebar">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">
+                            {{ translations.core.account.settings.column_theme_color_layout_background}}
+                        </label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="color" v-model="settings.theme_color_layout_background">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">
+                            {{ translations.core.account.settings.column_theme_font_color}}
+                        </label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="color" v-model="settings.theme_font_color">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="field is-grouped is-grouped-right">
                     <div class="control">
                         <button class="button is-primary">
