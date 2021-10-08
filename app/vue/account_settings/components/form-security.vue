@@ -50,9 +50,9 @@ export default {
                 this.loading = false
             })
         },
-        putSettings() {
+        postSettings() {
             this.submitting_form = true
-            this.http.put(this.url.admin("account/settings"), {
+            this.http.post(this.url.admin("account/settings"), {
                 settings: this.settings
             }).then(result => {
                 if (!result.successful) {
@@ -71,7 +71,7 @@ export default {
 </script>
 <template>
     <div class="box pr-6 settings-general">
-        <form class="pr-6 mr-6" @submit.prevent="putSettings()">
+        <form class="pr-6 mr-6" @submit.prevent="postSettings()">
             <fieldset class="py-5 pl-2 pr-6 mr-6">
                 <div class="field is-horizontal mb-5">
                     <div class="field-label is-normal">

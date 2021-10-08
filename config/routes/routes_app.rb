@@ -61,7 +61,7 @@ module RoutesApp
 
                             resources :files, only: [:index, :show, :new, :create, :destroy]
 
-                            resource :settings do
+                            resources :settings do
                                 collection do
                                     get :options
                                 end

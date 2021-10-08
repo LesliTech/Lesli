@@ -51,13 +51,18 @@ class Account::Setting < ApplicationRecord
         account.settings.create!(name: 'datetime_format_date_time_words', value: datetime["formats"]["date_time_words"]) 
     end
 
-    def self.list(current_user, query)
+    def self.index(current_user, query)
         
         query_filters = []
 
         theme_settings = [
-            'theme',
-            'theme_variation'
+            'theme_color_primary',
+            'theme_color_secondary',
+            'theme_color_layout_header',
+            'theme_color_layout_sidebar',
+            'theme_color_layout_background',
+            'theme_font_size',
+            'theme_font_color'
         ]
 
         time_settings = [
@@ -87,29 +92,29 @@ class Account::Setting < ApplicationRecord
         # filter[:password] will indicate if must show password settings.
         # For example, filter[:theme] = true
 
-        if query[:filters][:theme] == 'true'
+        if query[:filters][:theme] == "true"
             theme_settings.map do |setting_name|
                 query_filters.push("name = '#{setting_name}'")
             end
         end
 
-        if query[:filters][:time] == 'true'
+        if query[:filters][:time] == "true"
             time_settings.map do |setting_name|
                 query_filters.push("name = '#{setting_name}'")
             end
         end
 
-        if query[:filters][:password] == 'true'
+        if query[:filters][:password] == "true"
             password_settings.map do |setting_name|
                 query_filters.push("name = '#{setting_name}'")
             end
         end
 
-        if query[:filters][:goals] == 'true'
+        if query[:filters][:goals] == "true"
             query_filters.push("name = 'configuration_dashboard_goals'")
         end
 
-        if query[:filters][:currency] == 'true'
+        if query[:filters][:currency] == "true"
             currency_settings.map do |setting_name|
                 query_filters.push("name = '#{setting_name}'")
             end
