@@ -94,11 +94,11 @@ class Account < ApplicationRecord
 
         # create default roles
         account_roles = Rails.application.config.lesli_settings["security"]["roles"] || []
-        account_roles.append "api" # api-access only
-        account_roles.append "guest" # read-only
-        account_roles.append "limited" # access only to user profile
-        account_roles.prepend "sysadmin"  # platform administrator role
-        account_roles.prepend "owner"  # super admin role
+        account_roles.append "api"       # api-access only
+        account_roles.append "guest"     # read-only
+        account_roles.append "limited"   # access only to user profile
+        account_roles.prepend "sysadmin" # platform administrator role
+        account_roles.prepend "owner"    # super admin role
         account_roles.uniq.each do |role_name|
 
             object_level_permission = 10
