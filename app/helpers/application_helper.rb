@@ -54,8 +54,8 @@ module ApplicationHelper
         # this.data and remove this.bus before enabling help for a global JS file
         if [
             "cloud_text", "cloud_house", "cloud_driver", 
-            "cloud_focus", "cloud_babel", "cloud_audit",
-            "cloud_realty", "cloud_bell", "cloud_mailer"
+            "cloud_babel", "cloud_audit", "cloud_realty",
+            "cloud_bell", "cloud_mailer"
         ].include?(cloud_module)
             return [cloud_module, [cloud_module, "app"].join("_")].join("/")
         end
@@ -72,8 +72,8 @@ module ApplicationHelper
         # this.data and remove this.bus before enabling help for a global JS file
         if [
             "cloud_text", "cloud_house", "cloud_driver", 
-            "cloud_focus", "cloud_babel", "cloud_audit",
-            "cloud_realty", "cloud_bell", "cloud_mailer"
+            "cloud_babel", "cloud_audit", "cloud_realty",
+            "cloud_bell", "cloud_mailer"
         ].include?(cloud_module)
             return [cloud_module, [cloud_module, "app"].join("_")].join("/")
         end
@@ -147,9 +147,7 @@ module ApplicationHelper
     end
 
     def favicon
-        icon_path = "#{lesli_instance_code}/brand/favicon.svg" 
-        icon_path = "/brand/favicon.svg" if lesli_instance_code == "lesli"
-        icon_path = image_url(icon_path)
+        icon_path = customization_instance_logo_url(logo: "favicon")
         ("
         <link href=\"#{icon_path}\" rel=\"alternate icon\">
         <link href=\"#{icon_path}\" rel=\"icon\" type=\"image/svg+xml\">

@@ -248,8 +248,8 @@ module.exports = env => {
         // this.data and remove this.bus before enabling help for a global JS file
         if ([
                 "cloud_text", "cloud_house", "cloud_driver", 
-                "cloud_focus", "cloud_babel", "cloud_audit",
-                "cloud_realty", "cloud_bell", "cloud_mailer"
+                "cloud_babel", "cloud_audit","cloud_realty",
+                "cloud_bell", "cloud_mailer"
             ].includes(engine)) {
 
             let filePath = "./"+path.join("./engines", engine, "app", "vue", "app.js")

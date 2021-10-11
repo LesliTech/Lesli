@@ -35,7 +35,6 @@ export default {
     },
     data() {
         return {
-            tab: 0,
             translations: {
                 core: {
                     shared: I18n.t('core.shared'),
@@ -54,21 +53,36 @@ export default {
 <template>
     <section class="application-component">
         <component-header :title="translations.core.account.settings.view_title_account_settings"></component-header>
-        <b-tabs v-model="tab">
+        <b-tabs>
             <!--
             <b-tab-item icon-pack="fas" icon="cog" :label="translations.core.account.settings.view_tab_title_general">
             </b-tab-item>
             -->
-            <b-tab-item icon-pack="fas" icon="lock" label="Security">
+            <b-tab-item>
+                <template v-slot:header>
+                    <b-icon size="is-small" icon="lock">
+                    </b-icon>
+                    <span>{{translations.core.account.settings.view_tab_title_security_settings}}</span>
+                </template>
                 <component-form-security></component-form-security>
             </b-tab-item>
-            <b-tab-item icon-pack="fas" icon="clock" :label="translations.core.account.settings.view_tab_title_time_settings">
+            <b-tab-item>
+                <template v-slot:header>
+                    <b-icon size="is-small" icon="clock">
+                    </b-icon>
+                    <span>{{translations.core.account.settings.view_tab_title_time_settings}}</span>
+                </template>
                 <component-form-time></component-form-time>
             </b-tab-item>
-            <!--
-            <b-tab-item icon-pack="fas" icon="palette" :label="translations.core.account.settings.view_tab_title_branding">
+            <b-tab-item>
+                <template v-slot:header>
+                    <b-icon size="is-small" icon="images">
+                    </b-icon>
+                    <span>{{translations.core.account.settings.view_tab_title_branding}}</span>
+                </template>
                 <component-form-branding></component-form-branding>
             </b-tab-item> 
+            <!--
             <b-tab-item icon-pack="fas" icon="paint-brush" :label="translations.core.account.settings.view_tab_title_theme">
                 <component-form-theme></component-form-theme>
             </b-tab-item>

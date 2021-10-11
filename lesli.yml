@@ -22,8 +22,7 @@ info:
 
 
 # required modules
-modules:
-    cloud_babel: "~> 0.1.0"
+modules: []
 
 
 # Information about the main account in the platform
