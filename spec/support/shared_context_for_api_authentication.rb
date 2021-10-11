@@ -30,7 +30,7 @@ RSpec.shared_context 'api authentication' do
         if @token.blank?
 
             # get JWT for api authentication
-            post '/api/authentication', params: {
+            post '/api/users/authentication', params: {
                 authentication: {
                     "email": "api@lesli.cloud",
                     "password": password,
