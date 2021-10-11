@@ -33,7 +33,6 @@ For more information read the license file including with this software.
 
 
 // · Include Bulma 
-
 @import "../bulma/elements.scss";
 @import "../bulma/components.scss";
 @import "../bulma/extensions.scss";
@@ -78,10 +77,17 @@ For more information read the license file including with this software.
 @import "../components/component-toolbar.scss";
 
 
+// · 
+body,
+html {
+    font-size: var(--app-theme-font-size, 16px)
+}
+
 
 // · 
 body {
-    background-color: darken(lesli-css-color(silver, 100),4);
+    color: var(--app-theme-font-color, #1c2540);    
+    background-color: var(--app-theme-color-layout-background, #f3f7fd);
 }
 
 
@@ -89,8 +95,3 @@ body {
 ::-ms-clear {
     display: none;
 }
-
-
-
-// · Uncomment to load development colors
-// @import "../helpers/development.scss"

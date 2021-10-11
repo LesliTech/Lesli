@@ -17,18 +17,41 @@ For more information read the license file including with this software.
 
 =end
 
-class Account::File < ApplicationLesliRecord
-    mount_uploader :attachment_s3,  AwsUploader
-    mount_uploader :attachment,     LocalUploader
+class Account::File < CloudObject::File
+
+    enum file_type: {
+        app_icon: "app_icon",
+        app_logo: "app_logo",
+        favicon: "favicon"
+    }
 
 
-    belongs_to :account, foreign_key: "account_id"
-    belongs_to :cloud_object, class_name: "::Account", foreign_key: "account_id"
-    belongs_to :user_creator, class_name: "::User", foreign_key: "users_id", optional: true
+    belongs_to :account, foreign_key: "accounts_id"
+    belongs_to :cloud_object, class_name: "::Account", foreign_key: "accounts_id"
+
+    def self.index(current_user, query)
+        data = current_user.account.files
+
+        if query[:filters]["only"] == "logos"
+            data = data.where("file_type in (?)", self.file_types.keys)
+        end
+
+        data
+    end
 
     def destroy
         update(attachment: nil, attachment_s3: nil)
 
         super
+    end
+
+    protected
+
+    # @return [Boolean] True if the objects on this class should be publicly accessible. False otherwise.
+    # @descriptions This method returns whether all the objects on this model are publicly accessible. By default, they are not
+    # @example
+    #     CloudHelp::Ticket::File.public_accesibility # This will return false, unless this method is overriden on that specific model
+    def self.public_accesibility
+        return true
     end
 end

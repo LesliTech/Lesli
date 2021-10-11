@@ -69,7 +69,12 @@ Rails.application.configure do
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
-  #config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  # Disable file watcher to reduce CPU used by ruby
+  # this affects mostly to some SASS files, specifically the ones of the core.
+  # to see the changes after modify lib/assets/lesli we have to restart the server
+  # or delete the assets cache folder 
+  # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true

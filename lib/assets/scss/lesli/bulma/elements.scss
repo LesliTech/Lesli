@@ -18,14 +18,17 @@ For more information read the license file including with this software.
 */
 
 
+
 // · Buttons
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 .button:focus {
     box-shadow: none !important;
 }
 
 
+
 // · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 .button.is-info.is-light {
     background-color:#eef6fc;
     color:#1d72aa
@@ -43,7 +46,10 @@ For more information read the license file including with this software.
     color:#1d72aa
 }
 
+
+
 // · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 .button.is-danger.is-light {
     background-color:#feecf0;
     color:#cc0f35;
@@ -61,14 +67,18 @@ For more information read the license file including with this software.
     color:#cc0f35
 }
 
+
+
 // · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 .card-header-icon .button.is-static {
     cursor: none;
 }
 
 
+
 // · Alerts, Notices and Toasts
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 .notices {
 
     .toast {
@@ -78,8 +88,10 @@ For more information read the license file including with this software.
 
 }
 
+
+
 // · Tables
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 table.table.is-hoverable {
 
     tbody tr:hover {

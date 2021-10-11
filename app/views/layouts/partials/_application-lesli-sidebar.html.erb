@@ -28,21 +28,21 @@ For more information read the license file including with this software.
     <%# load logos %>
     <template v-slot:brand>
         <a class="brand" href="/">
-            <%= image_tag "#{lesli_instance_code}/brand/app-logo-touch.svg", alt: "App logo", :class => "is-hidden-desktop" %>
-            <%= image_tag "#{lesli_instance_code}/brand/app-logo-desktop.svg", alt: "App logo", :class => "is-hidden-touch" %>
+            <%= customization_instance_logo_tag(logo: "app_icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
+            <%= customization_instance_logo_tag(logo: "app_logo", options: {alt: "App logo", class: "is-hidden-touch"}) %>
         </a>
     </template>
-
-    <%# Context message, set this message at the root of the lesli.yml or lesli.server.yml file Ej: context: "Hallo"%>
-    <% unless Rails.application.config.lesli_settings['context'].blank? %>
-    <p class="has-background-warning has-text-centered py-2">
-        <%= Rails.application.config.lesli_settings['context'] %>
-    </p>
-    <% end %>
 
     <%# render navigation partial %>
     <% if custom_navigation_exists %>
     <%= render partial: custom_navigation_path %>
+    <% end %>
+
+    <%# Context message, set this message at the root of the lesli.yml or lesli.server.yml file Ej: context: "Hallo"%>
+    <% unless Rails.application.config.lesli_settings['context'].blank? %>
+    <p v-cloak class="has-background-warning has-text-centered py-2">
+        <%= Rails.application.config.lesli_settings['context'] %>
+    </p>
     <% end %>
 
 </application-component-sidebar>

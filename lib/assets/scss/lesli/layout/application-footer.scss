@@ -17,6 +17,9 @@ For more information read the license file including with this software.
 
 */
 
+
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 footer.application-footer {
     width: 100%;
     padding: .5rem;
@@ -29,7 +32,7 @@ footer.application-footer {
     .navbar {
         padding-left: .1rem;
         background-color: transparent;
-        margin-left: var(--application-navigation-width);
+        margin-left: var(--app-navigation-width);
 
         .navbar-start {
             flex: 1;
@@ -63,17 +66,18 @@ footer.application-footer {
 
 
 
-
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 section.application-commands {
     position: absolute;
     z-index: 98;
 
     width: 100%;
     padding: 1.2rem;
-    top: var(--application-header-height);
-    margin-left: var(--application-navigation-width);
-    max-width: calc(100% - var(--application-navigation-width) - 30px);
-    min-height: calc(100vh - var(--application-header-height) - var(--application-footer-height));
+    top: var(--app-header-height);
+    margin-left: var(--app-navigation-width);
+    max-width: calc(100% - var(--app-navigation-width) - 30px);
+    min-height: calc(100vh - var(--app-header-height) - var(--app-footer-height));
     background-color: lesli-css-color(blue);
 
     .content {
