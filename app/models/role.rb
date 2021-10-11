@@ -112,7 +112,7 @@ class Role < ApplicationLesliRecord
     #   # This method will be called automatically within an after_create callback
     #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
     def initialize_role_privileges       
-        if (self.name == "sysadmin" ||self.name == "owner")
+        if (self.name == "sysadmin" || self.name == "owner")
             self.descriptor_assignments.find_or_create_by(descriptor: self.account.role_descriptors.find_by(name: self.name))    
         end
         
