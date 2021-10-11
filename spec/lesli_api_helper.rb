@@ -50,7 +50,7 @@ RSpec.shared_context 'request api authentication' do
         if @token.blank?
 
             # get JWT for api authentication
-            post '/api/authentication', params: {
+            post '/api/users/authentication', params: {
                 authentication: {
                     "email": @current_user.email,
                     "password": password,
@@ -78,7 +78,7 @@ RSpec.shared_context 'request api authentication' do
     # Overwrite post method to include authorization headers
     def post(path, params:nil, headers:nil)
 
-        if path == '/api/authentication'
+        if path == '/api/users/authentication'
             super(path, :params => params)
             return 0
         end
