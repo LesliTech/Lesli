@@ -37,20 +37,14 @@ aside.application-sidebar {
             color: lesli-css-color-theme(secondary);
 
             // highlight sidebar navigation item when selected
-            &.is-active,        // rails routes
-            &.route-is-active   // vue routes
-            {
-                background-color: darken(#f3f7fd, 4);
-                color: lesli-css-color-theme(secondary);
-                i { color: lesli-css-color-theme(primary); }
-            }
-
             // highlight sidebar navigation item on hover
-            &:not(.is-active):hover         // rails routes
+            &.is-active,                    // rails routes
+            &.route-is-active,              // vue routes
+            &:not(.is-active):hover,        // rails routes
             &:not(.route-is-active):hover   // vue routes
             {
-                background-color: transparent;
-                color: lesli-css-color(slate, 900);
+                background-color: darken(#f3f7fd, 8);
+                color: lesli-css-color-theme(secondary);
                 i { color: lesli-css-color-theme(primary); }
             }
 

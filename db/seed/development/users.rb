@@ -24,12 +24,12 @@ create_development_user(["owner", "mr", user["name"], "", user["email"]])
 
 # core development users
 [
-    ["owner",   "mr", "Owner",  "user", "owner@lesli.cloud"],
-    ["sysadmin",   "mr", "SysAdmin",  "user", "admin@lesli.cloud"],
-    ["limited", "mr", "Limited","user", "limited@lesli.cloud"],
-    ["guest",   "mr", "Guest",  "user", "guest@lesli.cloud"],
-    ["sysadmin",   "mr", "Test",   "user", "test@lesli.cloud"],
-    ["api",     "mr", "API",    "user", "api@lesli.cloud"],
+    ["owner",   "mr", "Owner",   "user", "owner@lesli.cloud"],
+    ["sysadmin","mr", "SysAdmin","user", "admin@lesli.cloud"],
+    ["limited", "mr", "Limited", "user", "limited@lesli.cloud"],
+    ["guest",   "mr", "Guest",   "user", "guest@lesli.cloud"],
+    ["sysadmin","mr", "Test",    "user", "test@lesli.cloud"],
+    ["api",     "mr", "API",     "user", "api@lesli.cloud"],
 ].each do |user|
 
     create_development_user(user)
