@@ -32,7 +32,7 @@ export default {
     
     mounted(){
         if (this.announcements_abilities.list) {
-            this.getAnnouncements()   
+            setTimeout(() => { this.getAnnouncements() }, 1500);
         }
     },
     
