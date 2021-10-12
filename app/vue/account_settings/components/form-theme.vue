@@ -73,6 +73,12 @@ export default {
         toggleHelp(){
             console.log(this.translations.core.account.settings.view_text_column_datetime_coding)
         }
+    },
+
+    watch: {
+        'settings.theme_color_layout_header'(){
+            document.querySelector(':root').style.setProperty('--app-theme-color-layout-header', this.settings.theme_color_layout_header);
+        }
     }
 }
 </script>
@@ -166,6 +172,21 @@ export default {
                         <div class="field">
                             <div class="control">
                                 <input class="input" type="color" v-model="settings.theme_font_color">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">
+                            {{ translations.core.account.settings.column_theme_font_size}}
+                        </label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" v-model="settings.theme_font_size">
                             </div>
                         </div>
                     </div>
