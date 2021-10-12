@@ -28,8 +28,7 @@ class RoleDescriptor < ApplicationLesliRecord
     after_commit :clear_cache 
 
     def clear_cache
-        Rails.cache.delete('current_user_has_privileges')
-        Rails.cache.delete('current_user_abilities_by_controller')
+        Rails.cache.delete(user_cache_key('abilities_by_controller'))
     end 
     
     def add_privilege_actions   
