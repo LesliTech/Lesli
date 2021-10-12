@@ -118,10 +118,10 @@ class ApplicationLesliController < ApplicationController
         return unless Lesli.instance[:code] == "lesli_cloud"
 
         @account[:customization] = {}
+        
         logos = {}
         logo_identifiers = Account::File.file_types.keys
         custom_logos = current_user.account.files.where("file_type in (?)", logo_identifiers).order(id: :desc).all
-
         logo_identifiers.each do |logo_identifier|
             custom_logo = custom_logos.find { |logo| logo.file_type == logo_identifier}
             next unless custom_logo
@@ -131,8 +131,18 @@ class ApplicationLesliController < ApplicationController
 
             logos[logo_identifier.to_sym] = custom_logo_url
         end
-
         @account[:customization][:logos] = logos
+
+        colors = {}
+        color_identifiers = ::Account::Setting.theme_settings_keys
+        custom_colors = current_user.account.settings.where("name in (?)", color_identifiers).all
+        color_identifiers.each do |color_identifier|
+            custom_color = custom_colors.find { |color| color.name == color_identifier}
+            next unless custom_color
+
+            colors[color_identifier.to_sym] = custom_color.value
+        end
+        @account[:customization][:colors] = colors
     end
 
 
