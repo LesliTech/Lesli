@@ -64,9 +64,9 @@ class ApplicationLesliController < ApplicationController
         return if !request.format.html?
 
         @account[:revision] = LC::System::Info.revision()
-        @account[:notifications] = Courier::Bell::Notification.count(current_user, true)        
-        @account[:announcements] = Courier::Bell::Announcement.count(current_user)
-        @account[:tasks] = Courier::Focus::Task.count(current_user)
+        @account[:notifications] = 0#Courier::Bell::Notification.count(current_user, true)        
+        #@account[:announcements] = Courier::Bell::Announcement.count(current_user)
+        @account[:tasks] = 0#Courier::Focus::Task.count(current_user)
         @account[:cable] = Rails.application.config.lesli_settings["security"]["enable_websockets"] || false
 
 
@@ -94,7 +94,11 @@ class ApplicationLesliController < ApplicationController
         }
 
         # set user abilities
-        abilities =  current_user.abilities_by_controller
+        # Due this method is executed on every request, we use low level cache to improve performance
+        abilities = Rails.cache.fetch('current_user_abilities_by_controller', expires_in: 12.hours) do
+            current_user.abilities_by_controller
+        end
+
         current_user_roles = current_user.roles
         
         # set user information
@@ -154,7 +158,10 @@ class ApplicationLesliController < ApplicationController
 
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
-        granted = current_user.has_privileges?([params[:controller]], [params[:action]])
+        # Due this method is executed on every request, we use low level cache to improve performance
+        granted = Rails.cache.fetch('current_user_has_privileges', expires_in: 12.hours) do
+            current_user.has_privileges?([params[:controller]], [params[:action]])
+        end
 
         # Check if user can be redirected to role default path
         can_redirect_to_default_path = -> () {
