@@ -88,3 +88,7 @@ end
 every :monday, at: '4:00 am' do
     rake 'deutsche_leibrenten:cron:send_report_companies_projects' if defined? DeutscheLeibrenten
 end
+
+every :sunday, at: '10:00 pm' do
+    rake 'mitwerken_cloud:cron:reports:new_users_weekly' if defined? MitwerkenCloud
+end
