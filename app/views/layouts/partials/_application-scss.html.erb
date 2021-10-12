@@ -32,7 +32,7 @@ For more information read the license file including with this software.
 
     /* Defining color palette */
     <% @colors.each_pair do |key, value| %>
-    <%= "--app-#{ key.to_s.gsub('_','-') }: #{ value.to_s };" %>
+        <%= "--app-#{ key.to_s.gsub('_','-') }: #{ value.to_s };" %>
     <% end %>
 }
 
