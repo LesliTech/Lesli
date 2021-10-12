@@ -127,8 +127,8 @@ class ApplicationLesliController < ApplicationController
             next unless custom_logo
 
             custom_logo_url = "/administration/account/files/#{custom_logo.id}"
-            custo_logo_url = custom_logo.attachment_url if custom_logo.attachment
-            custom_logo_url = custom_logo.attachment_public_url if custom_logo.attachment_public
+            custo_logo_url = custom_logo.attachment_url if custom_logo.attachment_identifier
+            custom_logo_url = custom_logo.attachment_public_url if custom_logo.attachment_public_identifier
 
             logos[logo_identifier.to_sym] = custom_logo_url
         end
