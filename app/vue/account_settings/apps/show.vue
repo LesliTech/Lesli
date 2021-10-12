@@ -81,11 +81,16 @@ export default {
                     <span>{{translations.core.account.settings.view_tab_title_branding}}</span>
                 </template>
                 <component-form-branding></component-form-branding>
-            </b-tab-item> 
-            <!--
-            <b-tab-item icon-pack="fas" icon="paint-brush" :label="translations.core.account.settings.view_tab_title_theme">
+            </b-tab-item>
+            <b-tab-item>
+                <template v-slot:header>
+                    <b-icon size="is-small" icon="paint-brush">
+                    </b-icon>
+                    <span>{{translations.core.account.settings.view_tab_title_theme}}</span>
+                </template>
                 <component-form-theme></component-form-theme>
             </b-tab-item>
+            <!--
             <b-tab-item icon-pack="fas" icon="coins" :label="translations.core.account.settings.view_tab_title_currency">
                 <component-form-currencies></component-form-currencies>
             </b-tab-item>
