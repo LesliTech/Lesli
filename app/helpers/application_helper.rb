@@ -53,9 +53,9 @@ module ApplicationHelper
         # @TODO: See Trello card 2450. We must migrate all functionallity to 
         # this.data and remove this.bus before enabling help for a global JS file
         if [
-            "cloud_text", "cloud_house", "cloud_driver", 
-            "cloud_babel", "cloud_audit", "cloud_realty",
-            "cloud_bell", "cloud_mailer"
+            "cloud_text", "cloud_house", "cloud_babel",
+            "cloud_audit", "cloud_realty", "cloud_bell",
+            "cloud_mailer"
         ].include?(cloud_module)
             return [cloud_module, [cloud_module, "app"].join("_")].join("/")
         end
@@ -71,9 +71,9 @@ module ApplicationHelper
         # @TODO: See Trello card 2450. We must migrate all functionallity to 
         # this.data and remove this.bus before enabling help for a global JS file
         if [
-            "cloud_text", "cloud_house", "cloud_driver", 
-            "cloud_babel", "cloud_audit", "cloud_realty",
-            "cloud_bell", "cloud_mailer"
+            "cloud_text", "cloud_house", "cloud_babel",
+            "cloud_audit", "cloud_realty", "cloud_bell",
+            "cloud_mailer"
         ].include?(cloud_module)
             return [cloud_module, [cloud_module, "app"].join("_")].join("/")
         end
