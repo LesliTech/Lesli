@@ -87,7 +87,10 @@ class ApplicationLesliMailer < ActionMailer::Base
 
         custom_logo = params[:user].account.files.where(file_type: "app_logo").last
 
-        @custom[:logo] = custom_logo.attachment_public.url if custom_logo
+        if custom_logo
+            @custom[:logo] = custom_logo.attachment.url if custom_logo.attachment_identifier
+            @custom[:logo] = custom_logo.attachment_public.url if custom_logo.attachment_public_identifier
+        end
 
     end
 
