@@ -13,6 +13,15 @@ export default {
                     }
                 }
             },
+            old_settings: {
+                'theme_color_primary': null,
+                'theme_color_secondary': null,
+                'theme_color_layout_header': null,
+                'theme_color_layout_sidebar': null,
+                'theme_color_layout_background': null,
+                'theme_font_size': null,
+                'theme_font_color': null
+            },
             settings: {
                 'theme_color_primary': null,
                 'theme_color_secondary': null,
@@ -33,6 +42,7 @@ export default {
             settings_raw.forEach(setting_raw => {
                 if (setting_raw.name in this.settings){
                     this.settings[setting_raw.name] = setting_raw.value
+                    this.old_settings[setting_raw.name] = setting_raw.value
                 }
             });
         },
@@ -59,25 +69,50 @@ export default {
             this.http.post(this.url.admin('account/settings'), {
                 settings: this.settings
             }).then(result => {
-                if (!result.successful) {
+                if (result.successful) {
+                    this.old_settings = JSON.parse(JSON.stringify(this.settings))
+                    this.msg.success(this.translations.core.account.settings.messages_success_settings_saved_successfully)
+                }else{
                     this.msg.error(result.error.message)
-                    return
                 }
-                this.msg.success(this.translations.core.account.settings.messages_success_settings_saved_successfully)
             }).catch(error => {
                 console.log(error)
             }).finally(() => {
                 this.submitting_form = false
             })
         },
-        toggleHelp(){
-            console.log(this.translations.core.account.settings.view_text_column_datetime_coding)
+        clearSetting(setting_name){
+            this.settings[setting_name] = this.old_settings[setting_name]
         }
     },
 
     watch: {
         'settings.theme_color_layout_header'(){
             document.querySelector(':root').style.setProperty('--app-theme-color-layout-header', this.settings.theme_color_layout_header);
+        },
+
+        'settings.theme_color_primary'(){
+            document.querySelector(':root').style.setProperty('--app-theme-color-primary', this.settings.theme_color_primary);
+        },
+
+        'settings.theme_color_secondary'(){
+            document.querySelector(':root').style.setProperty('--app-theme-color-secondary', this.settings.theme_color_secondary);
+        },
+
+        'settings.theme_color_layout_sidebar'(){
+            document.querySelector(':root').style.setProperty('--app-theme-color-layout-sidebar', this.settings.theme_color_layout_sidebar);
+        },
+
+        'settings.theme_color_layout_background'(){
+            document.querySelector(':root').style.setProperty('--app-theme-color-layout-background', this.settings.theme_color_layout_background);
+        },
+
+        'settings.theme_font_size'(){
+            document.querySelector(':root').style.setProperty('--app-theme-font-size', this.settings.theme_font_size);
+        },
+
+        'settings.theme_font_color'(){
+            document.querySelector(':root').style.setProperty('--app-theme-font-color', this.settings.theme_font_color);
         }
     }
 }
@@ -94,9 +129,15 @@ export default {
                         </label>
                     </div>
                     <div class="field-body">
-                        <div class="field">
-                            <div class="control">
+                        <div class="field has-addons">
+                            <div class="control is-fullwidth">
                                 <input class="input" type="color" v-model="settings.theme_color_primary">
+                            </div>
+                            <div class="control">
+                                <button class="button" type="button" @click="clearSetting('theme_color_primary')">
+                                    <b-icon size="is-small" icon="undo"></b-icon>
+                                    <span>{{translations.core.account.settings.view_text_return_to_initial_value}}</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -109,9 +150,15 @@ export default {
                         </label>
                     </div>
                     <div class="field-body">
-                        <div class="field">
-                            <div class="control">
+                        <div class="field has-addons">
+                            <div class="control is-fullwidth">
                                 <input class="input" type="color" v-model="settings.theme_color_secondary">
+                            </div>
+                            <div class="control">
+                                <button class="button" type="button" @click="clearSetting('theme_color_secondary')">
+                                    <b-icon size="is-small" icon="undo"></b-icon>
+                                    <span>{{translations.core.account.settings.view_text_return_to_initial_value}}</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -124,9 +171,15 @@ export default {
                         </label>
                     </div>
                     <div class="field-body">
-                        <div class="field">
-                            <div class="control">
+                        <div class="field has-addons">
+                            <div class="control is-fullwidth">
                                 <input class="input" type="color" v-model="settings.theme_color_layout_header">
+                            </div>
+                            <div class="control">
+                                <button class="button" type="button" @click="clearSetting('theme_color_layout_header')">
+                                    <b-icon size="is-small" icon="undo"></b-icon>
+                                    <span>{{translations.core.account.settings.view_text_return_to_initial_value}}</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -139,9 +192,15 @@ export default {
                         </label>
                     </div>
                     <div class="field-body">
-                        <div class="field">
-                            <div class="control">
+                        <div class="field has-addons">
+                            <div class="control is-fullwidth">
                                 <input class="input" type="color" v-model="settings.theme_color_layout_sidebar">
+                            </div>
+                            <div class="control">
+                                <button class="button" type="button" @click="clearSetting('theme_color_layout_sidebar')">
+                                    <b-icon size="is-small" icon="undo"></b-icon>
+                                    <span>{{translations.core.account.settings.view_text_return_to_initial_value}}</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -154,9 +213,15 @@ export default {
                         </label>
                     </div>
                     <div class="field-body">
-                        <div class="field">
-                            <div class="control">
+                        <div class="field has-addons">
+                            <div class="control is-fullwidth">
                                 <input class="input" type="color" v-model="settings.theme_color_layout_background">
+                            </div>
+                            <div class="control">
+                                <button class="button" type="button" @click="clearSetting('theme_color_layout_background')">
+                                    <b-icon size="is-small" icon="undo"></b-icon>
+                                    <span>{{translations.core.account.settings.view_text_return_to_initial_value}}</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -169,9 +234,15 @@ export default {
                         </label>
                     </div>
                     <div class="field-body">
-                        <div class="field">
-                            <div class="control">
+                        <div class="field has-addons">
+                            <div class="control is-fullwidth">
                                 <input class="input" type="color" v-model="settings.theme_font_color">
+                            </div>
+                            <div class="control">
+                                <button class="button" type="button" @click="clearSetting('theme_font_color')">
+                                    <b-icon size="is-small" icon="undo"></b-icon>
+                                    <span>{{translations.core.account.settings.view_text_return_to_initial_value}}</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -184,9 +255,15 @@ export default {
                         </label>
                     </div>
                     <div class="field-body">
-                        <div class="field">
-                            <div class="control">
+                        <div class="field has-addons">
+                            <div class="control is-fullwidth">
                                 <input class="input" type="text" v-model="settings.theme_font_size">
+                            </div>
+                            <div class="control">
+                                <button class="button" type="button" @click="clearSetting('theme_font_size')">
+                                    <b-icon size="is-small" icon="undo"></b-icon>
+                                    <span>{{translations.core.account.settings.view_text_return_to_initial_value}}</span>
+                                </button>
                             </div>
                         </div>
                     </div>
