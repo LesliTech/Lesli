@@ -145,9 +145,6 @@ class ApplicationLesliController < ApplicationController
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
     def authorize_privileges
 
-        # Memoize current user for models
-        ApplicationLesliRecord.set_current_user(current_user)
-
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
         # Due this method is executed on every request, we use low level cache to improve performance
