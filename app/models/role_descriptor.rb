@@ -24,6 +24,12 @@ class RoleDescriptor < ApplicationLesliRecord
     belongs_to :account,        foreign_key: "accounts_id",         class_name: "Account"  
     
     after_create :add_privilege_actions
+
+    after_commit :clear_cache 
+
+    def clear_cache
+        Rails.cache.delete(user_cache_key('abilities_by_controller'))
+    end 
     
     def add_privilege_actions   
         default_role_descriptor_actions = RoleDescriptor::DefaultPrivilegeActionsService.new
