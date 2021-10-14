@@ -224,7 +224,7 @@ class User < ApplicationLesliRecord
         # Due this method is executed on every HTML request, we use low level cache to improve performance
         # It is not usual to the privileges to change so often, however the cache will be deleted
         # after every commit on roles, role descriptors and privileges
-        Rails.cache.fetch(user_cache_key, expires_in: 12.hours) do 
+        #Rails.cache.fetch(user_cache_key(abilities_by_controller, self), expires_in: 12.hours) do 
 
             abilities = {}
 
@@ -265,7 +265,7 @@ class User < ApplicationLesliRecord
 
             abilities
 
-        end
+        #end
     end
 
 

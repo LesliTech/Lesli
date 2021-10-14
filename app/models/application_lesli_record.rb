@@ -19,24 +19,17 @@ For more information read the license file including with this software.
 
 class ApplicationLesliRecord < ApplicationRecord
 
-    # Memoize current user for models
-    @@current_user = nil
-
     self.abstract_class = true
 
     acts_as_paranoid
 
     # before_validation :custom_validations
 
-    # Memoize current user for models
-    def self.set_current_user current_user
-        @@current_user = current_user
-    end
-
     # Low level cache key builder
-    def user_cache_key key=nil
-        return 'user' << @@current_user.id.to_s << '-' << key if key
-        return 'user' << @@current_user.id.to_s << '-' << caller_locations.first.label
+    def user_cache_key key, current_user:nil, account:nil
+        return 'user' << current_user.id.to_s <<  key if current_user
+        return 'account' << account.id.to_s  << key if account
+        return nil
     end
 
     # @description Run user defined validations over database columns
