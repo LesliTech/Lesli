@@ -52,20 +52,17 @@ class ApplicationLesliController < ApplicationController
         return self.name
     end
 
-
     private
 
     # Set default query params for:
     #   pagination
     def set_helpers_for_account
 
-
         # @account is only for html requests
         return if !request.format.html?
 
         @account[:revision] = LC::System::Info.revision()
-        @account[:notifications] = Courier::Bell::Notification.count(current_user, true)        
-        @account[:announcements] = Courier::Bell::Announcement.count(current_user)
+        @account[:notifications] = Courier::Bell::Notification.count(current_user, true)
         @account[:tasks] = Courier::Focus::Task.count(current_user)
         @account[:cable] = Rails.application.config.lesli_settings["security"]["enable_websockets"] || false
 
@@ -92,19 +89,15 @@ class ApplicationLesliController < ApplicationController
             currency: (Rails.application.config.lesli_settings["configuration"]["currency"] || {})
                 .merge({ locale: Rails.application.config.lesli_settings["env"]["default_locale"] })
         }
-
-        # set user abilities
-        abilities =  current_user.abilities_by_controller
-        current_user_roles = current_user.roles
         
         # set user information
         @account[:current_user] = {
             id: current_user.id,
             email: current_user.email,
             full_name: current_user.full_name,
-            roles: current_user_roles.map(&:name),
-            abilities: abilities,
-            max_object_level_permission: current_user_roles.map(&:object_level_permission).max
+            roles: current_user.roles.map(&:name),
+            abilities: current_user.abilities_by_controller,
+            max_object_level_permission: current_user.roles.map(&:object_level_permission).max
         }
     end
 
@@ -127,8 +120,8 @@ class ApplicationLesliController < ApplicationController
             next unless custom_logo
 
             custom_logo_url = "/administration/account/files/#{custom_logo.id}"
-            custo_logo_url = custom_logo.attachment_url if custom_logo.attachment
-            custom_logo_url = custom_logo.attachment_public_url if custom_logo.attachment_public
+            custo_logo_url = custom_logo.attachment_url if custom_logo.attachment_identifier
+            custom_logo_url = custom_logo.attachment_public_url if custom_logo.attachment_public_identifier
 
             logos[logo_identifier.to_sym] = custom_logo_url
         end
@@ -154,7 +147,10 @@ class ApplicationLesliController < ApplicationController
 
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
-        granted = current_user.has_privileges?([params[:controller]], [params[:action]])
+        # Due this method is executed on every request, we use low level cache to improve performance
+        granted = Rails.cache.fetch('current_user_has_privileges', expires_in: 12.hours) do
+            current_user.has_privileges?([params[:controller]], [params[:action]])
+        end
 
         # Check if user can be redirected to role default path
         can_redirect_to_default_path = -> () {
