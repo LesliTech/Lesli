@@ -145,6 +145,7 @@ class User < ApplicationLesliRecord
     #
     #     current_user.has_privileges?(controllers, actions)
     def has_privileges?(controllers, actions)         
+
         begin
 
             # This query fetch all the privileges actions that the user have through role descriptor assignments
@@ -210,6 +211,7 @@ class User < ApplicationLesliRecord
             return false
 
         end
+
     end
 
     # @return [Hash]
@@ -218,44 +220,52 @@ class User < ApplicationLesliRecord
     # @examples
     #     current_user.abilities_by_controller
     def abilities_by_controller
-        abilities = {}
 
-        # Evaluate role privileges
-        self.role_privilege_actions
-        .select("
-            bool_or(role_descriptor_privilege_actions.status) as value,
-            system_controller_actions.name as action,
-            system_controllers.name as controller
-        ")
-        .joins(system_action: [:system_controller])
-        .group("
-            system_controller_actions.name,
-            system_controllers.name
-        ")
-        .each do |route|
-            abilities[route["controller"]] = {} if abilities[route["controller"]].nil?
-            abilities[route["controller"]][route["action"]] = route["value"]
-        end
+        # Due this method is executed on every HTML request, we use low level cache to improve performance
+        # It is not usual to the privileges to change so often, however the cache will be deleted
+        # after every commit on roles, role descriptors and privileges
+        #Rails.cache.fetch(user_cache_key(abilities_by_controller, self), expires_in: 12.hours) do 
 
-        # Evaluate user privileges
-        self.user_privilege_actions
-        .select("
-            bool_or(status) as value,
-            system_controller_actions.name as action,
-            system_controllers.name as controller
-        ")
-        .joins(system_action: [:system_controller])
-        .group("
-            system_controller_actions.name,
-            system_controllers.name
-        ")
-        .each do |route|
-            abilities[route["controller"]] = {} if abilities[route["controller"]].nil?
-            # If privilege is granted by role or by user keep it as granted
-            abilities[route["controller"]][route["action"]] = abilities[route["controller"]][route["action"]] || route["value"]
-        end
+            abilities = {}
 
-        abilities
+            # Evaluate role privileges
+            self.role_privilege_actions
+            .select("
+                bool_or(role_descriptor_privilege_actions.status) as value,
+                system_controller_actions.name as action,
+                system_controllers.name as controller
+            ")
+            .joins(system_action: [:system_controller])
+            .group("
+                system_controller_actions.name,
+                system_controllers.name
+            ")
+            .each do |route|
+                abilities[route["controller"]] = {} if abilities[route["controller"]].nil?
+                abilities[route["controller"]][route["action"]] = route["value"]
+            end
+
+            # Evaluate user privileges
+            self.user_privilege_actions
+            .select("
+                bool_or(status) as value,
+                system_controller_actions.name as action,
+                system_controllers.name as controller
+            ")
+            .joins(system_action: [:system_controller])
+            .group("
+                system_controller_actions.name,
+                system_controllers.name
+            ")
+            .each do |route|
+                abilities[route["controller"]] = {} if abilities[route["controller"]].nil?
+                # If privilege is granted by role or by user keep it as granted
+                abilities[route["controller"]][route["action"]] = abilities[route["controller"]][route["action"]] || route["value"]
+            end
+
+            abilities
+
+        #end
     end
 
 
