@@ -137,15 +137,16 @@ class RolesController < ApplicationLesliController
         return respond_with_not_found unless @role
 
         user_role_level_max = current_user.roles.map(&:object_level_permission).max()
+        is_not_owner = current_user.roles.find_by(name: 'owner').blank?
 
         # check if user can work with that object level permission
-        if @role.object_level_permission > user_role_level_max
+        if @role.object_level_permission > user_role_level_max && is_not_owner
             return respond_with_error(I18n.t("core.roles.messages_danger_object_level_permission_too_high"))
         end
 
         # if user tries to change level of a role with a highest level he can work with
         if !role_params[:object_level_permission].blank?
-            if role_params[:object_level_permission] >= user_role_level_max
+            if role_params[:object_level_permission] >= user_role_level_max && is_not_owner
                 return respond_with_error(I18n.t("core.roles.messages_danger_object_level_permission_too_high"))
             end
         end
