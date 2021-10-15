@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 class CloudObject::Subscriber < ApplicationLesliRecord
@@ -50,7 +50,7 @@ class CloudObject::Subscriber < ApplicationLesliRecord
     }
     validates :action, presence: true, inclusion: { in: :action }
 
-    
+
     # @attribute [Enumerable<Symbol>] notification_type
     #     @return [:web, :email]
     enum notification_type: {
@@ -81,7 +81,7 @@ class CloudObject::Subscriber < ApplicationLesliRecord
                 notification_type: self.notification_types[notification_type]
             )
         end
-        
+
         self.actions.values.each do |action|
             cloud_object.subscribers.create(
                 user_creator: user,
@@ -90,14 +90,14 @@ class CloudObject::Subscriber < ApplicationLesliRecord
             )
         end
     end
-    
 
-    
+
+
     # @param cloud_object [ApplicationRecord] Cloud object to which an user can subscribe to
     # @param subject [String] The subject that will be shown in the notification
     # @param action [Symbol] A valid action from this class's *action* enum
     # @return [void]
-    # @description Notifies all the users subscribed to the *cloud_object*'s *action* using the *Courier* engine except the 
+    # @description Notifies all the users subscribed to the *cloud_object*'s *action* using the *Courier* engine except the
     #     user that triggered the notification
     # @example
     #     ticket = CloudHelp::Ticket.find( 1 )
@@ -115,7 +115,7 @@ class CloudObject::Subscriber < ApplicationLesliRecord
                 body: body,
                 url: url,
                 category: "info",
-                sender: subscriber.notification_type
+                channel: subscriber.notification_type
             )
         end
     end
@@ -123,8 +123,8 @@ class CloudObject::Subscriber < ApplicationLesliRecord
     # @param cloud_object [ApplicationRecord] Cloud object to which an user can subscribe to
     # @param user [User] The user that is subscribing to the *cloud_object*
     # @return [Array] Array of subscriptions. There is one subscription per *action*.
-    # @description Generates an array of subscription, Each element contains a subscription *action*, 
-    #     information about wheter the *user* is subscribed or not and, if the user is subscribed, 
+    # @description Generates an array of subscription, Each element contains a subscription *action*,
+    #     information about wheter the *user* is subscribed or not and, if the user is subscribed,
     #     the notification type of the subscription
     # @example
     #     ticket = CloudHelp::Ticket.find( 1 )
