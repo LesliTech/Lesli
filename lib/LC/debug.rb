@@ -97,6 +97,10 @@ module LC
         def self.simple_msg message
             puts message
         end
+
+        def self.separator 
+            puts '-*-     -*-     -*-     -*-     -*-     -*-     -*-     -*-'
+        end 
         
         private
 

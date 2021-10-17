@@ -22,47 +22,20 @@ class Account::SettingsController < ApplicationLesliController
 
     # GET /settings
     def index
-    end
-
-    # GET /settings/1
-    def show
         respond_to do |format|
             format.html {}
             format.json {
-                respond_with_successful(Account::Setting.list(current_user, @query))
+                respond_with_successful(Account::Setting.index(current_user, @query))
             }
         end
     end
 
-    # POST /settings
-    def create
-
-        # check if setting exists
-        setting = Account::Setting.find_by(name: setting_params[:name])
-
-        # update settings if exists
-        if setting
-            if setting.update(setting_params)
-                respond_with_successful(setting)
-            else
-                respond_with_error("Error on create settings", setting.errors)
-            end
-        end
-        
-        # create settings if does not exist
-        if setting.blank?
-            setting = current_user.account.settings.new(setting_params)
-            if setting.save
-                respond_with_successful(setting)
-            else
-                respond_with_error("Error on create settings", setting.errors) 
-            end
-        end
-
+    # GET /settings/1
+    def show
     end
 
-    # PATCH/PUT /settings/
-    def update
+    # POST /settings
+    def create
         if params[:settings].empty?
             return respond_with_not_found
         end
@@ -75,6 +48,7 @@ class Account::SettingsController < ApplicationLesliController
                 current_user.account.settings.create!(name: key, value: value)
             end
         end
+
         respond_with_successful
     end
 
@@ -106,10 +80,4 @@ class Account::SettingsController < ApplicationLesliController
     def set_account_setting
         @setting = current_user.account.settings.find_by(id: params[:id])
     end
-
-    # Only allow a trusted parameter "white list" through.
-    def setting_params
-        params.require(:settings)
-    end
-    
 end

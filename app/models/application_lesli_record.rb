@@ -18,11 +18,19 @@ For more information read the license file including with this software.
 =end
 
 class ApplicationLesliRecord < ApplicationRecord
+
     self.abstract_class = true
 
     acts_as_paranoid
 
     # before_validation :custom_validations
+
+    # Low level cache key builder
+    def user_cache_key key, current_user:nil, account:nil
+        return 'user' << current_user.id.to_s <<  key if current_user
+        return 'account' << account.id.to_s  << key if account
+        return nil
+    end
 
     # @description Run user defined validations over database columns
     def custom_validations
