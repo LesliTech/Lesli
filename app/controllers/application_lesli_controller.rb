@@ -52,20 +52,17 @@ class ApplicationLesliController < ApplicationController
         return self.name
     end
 
-
     private
 
     # Set default query params for:
     #   pagination
     def set_helpers_for_account
 
-
         # @account is only for html requests
         return if !request.format.html?
 
         @account[:revision] = LC::System::Info.revision()
-        @account[:notifications] = Courier::Bell::Notification.count(current_user, true)        
-        @account[:announcements] = Courier::Bell::Announcement.count(current_user)
+        @account[:notifications] = Courier::Bell::Notification.count(current_user, true)
         @account[:tasks] = Courier::Focus::Task.count(current_user)
         @account[:cable] = Rails.application.config.lesli_settings["security"]["enable_websockets"] || false
 
@@ -92,19 +89,15 @@ class ApplicationLesliController < ApplicationController
             currency: (Rails.application.config.lesli_settings["configuration"]["currency"] || {})
                 .merge({ locale: Rails.application.config.lesli_settings["env"]["default_locale"] })
         }
-
-        # set user abilities
-        abilities =  current_user.abilities_by_controller
-        current_user_roles = current_user.roles
         
         # set user information
         @account[:current_user] = {
             id: current_user.id,
             email: current_user.email,
             full_name: current_user.full_name,
-            roles: current_user_roles.map(&:name),
-            abilities: abilities,
-            max_object_level_permission: current_user_roles.map(&:object_level_permission).max
+            roles: current_user.roles.map(&:name),
+            abilities: current_user.abilities_by_controller,
+            max_object_level_permission: current_user.roles.map(&:object_level_permission).max
         }
     end
 
@@ -118,21 +111,32 @@ class ApplicationLesliController < ApplicationController
         return unless Lesli.instance[:code] == "lesli_cloud"
 
         @account[:customization] = {}
+        
         logos = {}
         logo_identifiers = Account::File.file_types.keys
         custom_logos = current_user.account.files.where("file_type in (?)", logo_identifiers).order(id: :desc).all
-
         logo_identifiers.each do |logo_identifier|
             custom_logo = custom_logos.find { |logo| logo.file_type == logo_identifier}
             next unless custom_logo
 
             custom_logo_url = "/administration/account/files/#{custom_logo.id}"
-            custom_logo_url = custom_logo.attachment_public_url if custom_logo.attachment_public
+            custo_logo_url = custom_logo.attachment_url if custom_logo.attachment_identifier
+            custom_logo_url = custom_logo.attachment_public_url if custom_logo.attachment_public_identifier
 
             logos[logo_identifier.to_sym] = custom_logo_url
         end
-
         @account[:customization][:logos] = logos
+
+        colors = {}
+        color_identifiers = ::Account::Setting.theme_settings_keys
+        custom_colors = current_user.account.settings.where("name in (?)", color_identifiers).all
+        color_identifiers.each do |color_identifier|
+            custom_color = custom_colors.find { |color| color.name == color_identifier}
+            next unless custom_color
+
+            colors[color_identifier.to_sym] = custom_color.value
+        end
+        @account[:customization][:colors] = colors
     end
 
 
@@ -143,7 +147,10 @@ class ApplicationLesliController < ApplicationController
 
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
-        granted = current_user.has_privileges?([params[:controller]], [params[:action]])
+        # Due this method is executed on every request, we use low level cache to improve performance
+        granted = Rails.cache.fetch('current_user_has_privileges', expires_in: 12.hours) do
+            current_user.has_privileges?([params[:controller]], [params[:action]])
+        end
 
         # Check if user can be redirected to role default path
         can_redirect_to_default_path = -> () {
