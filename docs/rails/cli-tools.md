@@ -1,6 +1,7 @@
 # CLI Tools
 
 ```
+    enable/disable maintenance user
     reset passwords
     block/unblock users
     inactivate all users
