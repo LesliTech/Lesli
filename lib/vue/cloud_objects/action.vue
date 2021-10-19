@@ -95,13 +95,13 @@ export default {
             for(let key in actions){
                 actions[key] = {
                     new_action: {
+                        submitting: false,
                         instructions: ''
                     },
                     actions: actions[key]
                 }
             }
 
-            console.log(JSON.stringify(actions))
             return actions
         },
 
@@ -116,7 +116,7 @@ export default {
             }
 
             if(this.groupNameValid()){
-                this.$set(this.action_groups, this.new_group_name, {new_action: {instructions: ''}, actions: []})
+                this.$set(this.action_groups, this.new_group_name, {new_action: {instructions: '', submitting: false}, actions: []})
                 this.$nextTick(()=>{
                     this.$refs[`input-new-action-${this.downcase(this.new_group_name)}`][0].focus()
                     this.new_group_name = ''
@@ -143,16 +143,11 @@ export default {
                 group: group_name
             }
             let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/actions`
-            this.submitting_form = true
+            group.new_action.submitting = true
 
             this.http.post(url, data).then(result => {
                 if (result.successful) {
-                    group.actions.push({
-                        instructions: result.data.instructions,
-                        complete: result.data.complete,
-                        user_creator_name: result.data.user_creator_name,
-                        created_at_text: result.data.created_at_text
-                    })
+                    group.actions.push(result.data)
                     group.new_action.instructions = ''
 
                     this.msg.success('(T) Action created successfully')
@@ -162,7 +157,67 @@ export default {
             }).catch(error => {
                 console.log(error)
             }).finally(()=>{
-                this.submitting_form = false
+                group.new_action.submitting = false
+            })
+        },
+
+        putAction(action){
+            let data = {}
+            data[`${this.object_name.singular}_action`] = {
+                complete: action.complete
+            }
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/actions/${action.id}`
+            this.$set(action, 'submitting', true)
+
+            this.http.put(url, data).then(result => {
+                if(result.successful) {
+                    this.msg.success('(T) Action updated successfully')
+                }else{
+                    action.complete = ! action.complete
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            }).finally(()=>{
+                this.$set(action, 'submitting', false)
+            })
+        },
+
+        confirmDeletion(group, action){
+            this.$buefy.dialog.confirm({
+                title: '(T) Delete Quick Action',
+                message: '(T)Are you sure you want to delete this quick action? If this is the only action on the group, it will also be removed.',
+                cancelText: this.translations.core.view_btn_cancel,
+                confirmText: this.translations.core.view_btn_accept,
+                type: 'is-danger',
+                onConfirm: () => {
+                    this.deleteAction(group, action)
+                }
+            })
+        },
+
+        deleteAction(group, deleted_action){
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/actions/${deleted_action.id}`
+            this.$set(deleted_action, 'submitting', true)
+
+            this.http.delete(url).then(result => {
+                if(result.successful) {
+                    group.actions = group.actions.filter((action)=>{
+                        return action.id != deleted_action.id
+                    })
+
+                    if(group.actions.length == 0){
+                        delete this.action_groups[deleted_action.group]
+                    }
+
+                    this.msg.success('(T) Action deleted successfully')
+                }else{
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            }).finally(()=>{
+                this.$set(deleted_action, 'submitting', false)
             })
         },
 
@@ -178,9 +233,9 @@ export default {
             return group.actions.filter(action => action.complete).length
         },
 
-        completedGroup(group){{
+        completedGroup(group){
             return this.completedActions(group) == group.actions.length
-        }}
+        }
     },
 
     watch: {
@@ -211,7 +266,7 @@ export default {
                 <component-data-loading v-if="loading"></component-data-loading>
                 <div class="columns is-multiline" v-else>
                     
-                    <div class="column is-4" v-for="(group, name, index) in action_groups" :key="name">
+                    <div class="column is-6" v-for="(group, name, index) in action_groups" :key="name">
                         <b-collapse class="card" animation="slide" :aria-id="`action-group-${index}`">
                             <template v-slot:trigger>
                                 <div
@@ -233,32 +288,44 @@ export default {
                             <div class="card-content">
                                 <div class="content">
                                     <form @submit="createAction($event, name)">
-                                        <b-field label-position="on-border">
-                                            <template v-slot:label>
-                                                (T) Add a new Action <sup class="has-text-danger">*</sup>
-                                            </template>
-                                            <b-input :ref="`input-new-action-${downcase(name)}`" type="text" expanded v-model="group.new_action.instructions">
-                                            </b-input>
-                                            <p class="control">
-                                                <b-button native-type="submit" expanded class="has-text-centered">
-                                                    <b-icon icon="plus"></b-icon>
-                                                    <span>(T) Add</span>
-                                                </b-button>
-                                            </p>
-                                        </b-field>
-                                        <hr>
-                                        <b-field v-for="(action, index) in group.actions" :key="index">
-                                            <b-checkbox v-model="action.complete">
-                                                {{action.instructions}}
-                                                <sub><small>{{action.user_creator_name}} - {{action.created_at_text}}</small></sub>
-                                            </b-checkbox>
-                                        </b-field>
+                                        <fieldset :disabled="group.new_action.submitting">
+                                            <b-field label-position="on-border">
+                                                <template v-slot:label>
+                                                    (T) Add a new Action <sup class="has-text-danger">*</sup>
+                                                </template>
+                                                <b-input :ref="`input-new-action-${downcase(name)}`" type="text" expanded v-model="group.new_action.instructions">
+                                                </b-input>
+                                                <p class="control">
+                                                    <b-button native-type="submit" :disabled="group.new_action.submitting" expanded class="has-text-centered">
+                                                        <b-icon v-if="group.new_action.submitting" custom-class="spin" icon="circle-notch"></b-icon>
+                                                        <b-icon v-else icon="plus"></b-icon>
+                                                        <span>(T) Add</span>
+                                                    </b-button>
+                                                </p>
+                                            </b-field>
+                                        </fieldset>
                                     </form>
+                                    <hr>
+                                    <div class="panel-block is-justify-content-space-between" v-for="(action, index) in group.actions" :key="index">
+                                        <div class="is-pulled-left">
+                                            <b-field>
+                                                <b-checkbox :disabled="action.submitting" v-model="action.complete" @input="putAction(action)">
+                                                    {{action.instructions}}
+                                                    <br>
+                                                    <sub><small>{{action.user_creator_name}} - {{action.created_at_text}}</small></sub>
+                                                </b-checkbox>
+                                            </b-field>
+                                        </div>
+                                        <div class="is-pulled-right">
+                                            <button v-if="! action.submitting" class="delete is-small" @click="confirmDeletion(group, action)"></button>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </b-collapse>
                     </div>
-                    <div class="column is-4">
+                    <div class="column is-6">
                         <form @submit="createGroup">
                             <b-field label-position="on-border">
                                 <template v-slot:label>
