@@ -1,5 +1,6 @@
 <script>
 /*
+
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -13,16 +14,13 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
-*/
-
-
-// · List of Imported Components
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentFormAction from './actions/form.vue'
-
-
 // · 
+
+*/
+import componentActionForm from "./actions/form.vue"
+import componentActionList from "./actions/list.vue"
+
+
 export default {
     props: {
         cloudModule: {
@@ -35,106 +33,33 @@ export default {
     },
 
     components: {
-        'component-form-action': componentFormAction
+        'component-action-form': componentActionForm,
+        'component-action-list': componentActionList
     },
 
-    data() {
+    data(){
         return {
-            show: false,
-            actions: []
-        }
-    },
-
-    mounted() {
-        this.mountListeners()
-        this.parseCloudModule()
-        this.getActions()
-    },
-
-    methods: {
-
-        mountListeners(){
-            this.bus.subscribe(`post:/${this.cloudModule}/actions`, () => {
-                this.getActions()
-            })
-            this.bus.subscribe("show:/module/app/actions", () => this.show = !this.show )
-        },
-
-        parseCloudModule(){
-            let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
-            this.object_name = parsed_data.cloud_object_name
-            this.module_name = parsed_data.cloud_module_name
-        },
-
-        getActions() {
-            if(this.cloudId){
-                let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/actions`
-
-                this.http.get(url).then(result => {
-                    if (result.successful) {
-                        this.actions = result.data
-                    }
-                }).catch(error => {
-                    console.log(error)
-                })
+            translations: {
+                core: I18n.t('core.shared')
             }
-        },
-
-        patchAction(action) {
-            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/actions/${action.id}`
-            let form_data =  { }
-            form_data[`${this.object_name.singular}_action`] = action
-
-            this.http.patch(url, form_data).then(result => {
-                if (result.successful) {
-                    if (action.complete == true) {
-                        this.msg.info('Task marked as completed!')
-                    }else{
-                        this.msg.info('Task marked as not completed!')
-                    }
-                }
-            }).catch(error => {
-                console.log(error)
-            })
-        }
-
-    },
-
-    watch: {
-        cloudId(){
-            this.getActions()
         }
     }
 }
 </script>
 <template>
     <section>
-        <div :class="[{ 'is-active': show }, 'quickview']">
-            <header class="quickview-header" @click="show = false">
-                <p class="title">Actions</p>
-                <i class="fas fa-chevron-right"></i>
-            </header>
-            <div class="quickview-body">
-                <div class="quickview-block">
-                    <div class="section">
-                        <component-form-action class="box" :cloudModule="cloudModule" :cloudId="cloudId"/>
-                        <ul class="menu-list">
-                            <li class="field" v-for="action in actions" :key="action.id">
-                                <input
-                                    :id="`action-${action.id}`"
-                                    class="is-checkradio"
-                                    type="checkbox"
-                                    v-model="action.complete"
-                                    @change="patchAction(action)"
-                                >
-                                <label :for="`action-${action.id}`">{{ action.instructions }}</label>
-                            </li>
-                        </ul>
-                    </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-title is-shadowless">
+                    <h4 class=" title is-4">
+                        {{translations.core.view_text_quick_actions}}
+                    </h4>
                 </div>
             </div>
-            <footer class="quickview-footer">
-            </footer>
+            <div class="card-content">
+                <component-action-form :cloud-module="cloudModule" :cloud-id="cloudId" />
+                <component-action-list :cloud-module="cloudModule" :cloud-id="cloudId" />
+            </div>
         </div>
     </section>
 </template>
