@@ -2,8 +2,8 @@
     "name": "instructions",
     "type": "string"
 },{
-    "name": "deadline",
-    "type": "datetime"
+    "name": "group",
+    "type": "string"
 },{
     "name": "complete",
     "type": "boolean"
