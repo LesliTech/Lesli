@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -24,6 +24,7 @@ var fs = require("fs")
 var path = require("path")  
 var yaml = require("js-yaml")
 var dayjs = require("dayjs")
+var debug = require("lesli-js/debug-browser")
 var webpack = require("webpack")
 var TerserPlugin = require("terser-webpack-plugin")
 var VueLoaderPlugin = require("vue-loader/lib/plugin")
@@ -34,17 +35,22 @@ var webpackConfig = []
 // · 
 module.exports = env => {
 
+
     // get specific modules to work with, example: npm run webpack -- babel bell 
     var requested_modules = process.argv.slice(5)
+
 
     // set mode
     env.mode = env.mode ? env.mode : "development"
     env.watch = env.watch ? env.watch : false
 
-    // set mode boolean
+
+    // set production boolean
     var production = env.mode == "production" ? true : false
 
-    // · 
+
+    // default webpack configuration
+    // IMPORTANT: engines will duplicate this configuration to compile their own vue apps
     var webpackbase = {
         watch: env.watch == "true",
         mode: production ? "production" : "development",
@@ -175,26 +181,33 @@ module.exports = env => {
             new webpack.DefinePlugin({
                 lesli_app_mode_production: JSON.stringify(production),
                 lesli_app_mode_development: JSON.stringify(!production),
-                lesli_app_compilation: JSON.stringify(get_compilation_time())
+                lesli_app_compilation: JSON.stringify(
+                    `[BUILD] (core) ${dayjs().format("YYMMDD.HHmm").toString()} `
+                )
             })
         ]
         
     }
 
+
+    // push webpack configuration for core app
     webpackConfig.push(webpackbase)
 
-    if (!fs.existsSync("./engines")) {
-        return webpackConfig
-    }
 
-    // get & parse engine information files (lesli.yml)
-    let engines = fs.readdirSync("./engines").filter(directory => directory != ".gitkeep").filter(engine => {
+    // exit configuration builder if no engines installed
+    if (!fs.existsSync("./engines")) { return webpackConfig; }
 
+
+    // iterate over installed engines (only folders)
+    let engines = fs.readdirSync("./engines") 
+    .filter(directory => directory != ".gitkeep")
+    .filter(engine => {
+
+        // get and parse engine information files (lesli.yml)
         let engine_info_file_path = `./engines/${engine}/lesli.yml`
 
-        if (!fs.existsSync(engine_info_file_path)) {
-            return false
-        }
+        // exit configuration builder if no lesli.yml found
+        if (!fs.existsSync(engine_info_file_path)) { return false }
 
         // load raw file content
         let rawdata = fs.readFileSync(engine_info_file_path)
@@ -202,10 +215,8 @@ module.exports = env => {
         // parse file content 
         let engine_info = yaml.load(rawdata)
         
-
-        if (engine_info.info.load == false) {
-            return false
-        }
+        // exit configuration builder if engine is not setted to load
+        if (engine_info.info.load == false) { return false }
 
         // check if user sent specific modules to work with
         if (requested_modules.length > 0) {
@@ -217,25 +228,9 @@ module.exports = env => {
                 if (engine_info.info.type != "builder") {
                     return false
                 }
+
             }
-        }
 
-        return engine_info.info.code == engine
-
-    })
-
-    engines.forEach(engine => {
-
-        let webpackEngine = Object.assign({}, webpackbase)
-        webpackEngine.output = Object.assign({}, webpackbase.output)
-
-        // remove entries from previous engine
-        webpackEngine.output.filename = ""
-        webpackEngine.entry = {}
-        
-        // if engine is not a dir
-        if ([".gitkeep"].includes(engine)) {
-            return
         }
 
         // check if vue folder exists for given engine
@@ -243,6 +238,31 @@ module.exports = env => {
             return
         }
 
+        // include engine into the collections of active engines
+        return engine_info.info.code == engine
+
+    })
+
+
+    // Build webpack configuration for every installed engine
+    engines.forEach(engine => {
+
+        // clone webpack base configuration
+        let webpackEngine = Object.assign({}, webpackbase)
+
+        // ensure to clone output configuration
+        webpackEngine.output = Object.assign({}, webpackbase.output)
+
+        //
+        let bm = `[BUILD] (${engine}) ${dayjs().format("YYMMDD.HHmm").toString()} `
+        webpackEngine.plugins[1].definitions.lesli_app_compilation = JSON.stringify(bm)
+
+
+        // remove entry files from previous engine
+        webpackEngine.output.filename = ""
+        webpackEngine.entry = {}
+
+    
         // get app directories
         // @TODO: See Trello card 2450. We must migrate all functionallity to 
         // this.data and remove this.bus before enabling help for a global JS file
@@ -300,46 +320,7 @@ module.exports = env => {
 
         }
 
-        update_software_version(engine, env)
-
     })
-
-    // · 
-    function get_compilation_time() {
-
-        return dayjs().format("YYYYMMDD.HHmm")
-
-    }
-
-    // · Update compilation version for frontend and backend
-    function update_software_version(engine, env) {
-
-        // do not change if development
-        if (env.mode != "production") {
-            return 
-        }
-
-        //let engine_info = JSON.parse(webpackConfig[0].plugins[1].definitions.leslicloud_app_info)
-        let engine_version_file = `./engines/${engine}/lib/${engine}/version.rb`
-
-        fs.readFile(engine_version_file, "utf8", (err, data) => {
-
-            if (err) {
-                return console.log(err)
-            }
-
-            data = data.split("\n")
-
-            data[2] = `    BUILD = \"${get_compilation_time()}\"`
-            data[3] = 'end'
-
-            fs.writeFile(engine_version_file, data.join("\n"), "utf8", function (err) {
-                if (err) return console.log(err)
-            })
-
-        })
-
-    }
 
     return webpackConfig
 
