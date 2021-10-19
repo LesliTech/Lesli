@@ -100,7 +100,6 @@ module.exports = env => {
             
             "settings/workflows_app": "./app/vue/settings/workflows/app.js"
         },
-        entry: {"users/sessions": "./app/vue/users/sessions.js",},
         output: {
             path: __dirname,
             filename: "app/assets/javascripts/[name].js"

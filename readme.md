@@ -6,7 +6,7 @@
 
 <hr/>
 
-Version 0.1.0-alpha
+Version 1.0.0  
 
 
 #### Documentation

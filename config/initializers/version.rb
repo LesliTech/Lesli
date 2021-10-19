@@ -1,6 +1,5 @@
 module Lesli
     class Application
-        VERSION = "0.9.1"
-        BUILD = ""
+        VERSION = "1.0.0"
     end
 end 
