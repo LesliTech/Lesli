@@ -24,6 +24,7 @@ var fs = require("fs")
 var path = require("path")  
 var yaml = require("js-yaml")
 var dayjs = require("dayjs")
+var debug = require("lesli-js/debug-browser")
 var webpack = require("webpack")
 var TerserPlugin = require("terser-webpack-plugin")
 var VueLoaderPlugin = require("vue-loader/lib/plugin")
@@ -99,6 +100,7 @@ module.exports = env => {
             
             "settings/workflows_app": "./app/vue/settings/workflows/app.js"
         },
+        entry: {"users/sessions": "./app/vue/users/sessions.js",},
         output: {
             path: __dirname,
             filename: "app/assets/javascripts/[name].js"
@@ -180,7 +182,9 @@ module.exports = env => {
             new webpack.DefinePlugin({
                 lesli_app_mode_production: JSON.stringify(production),
                 lesli_app_mode_development: JSON.stringify(!production),
-                lesli_app_compilation: JSON.stringify(dayjs().format("YYMMDD.HHmm").toString())
+                lesli_app_compilation: JSON.stringify(
+                    `[BUILD] (core) ${dayjs().format("YYMMDD.HHmm").toString()} `
+                )
             })
         ]
         
@@ -249,6 +253,10 @@ module.exports = env => {
 
         // ensure to clone output configuration
         webpackEngine.output = Object.assign({}, webpackbase.output)
+
+        //
+        let bm = `[BUILD] (${engine}) ${dayjs().format("YYMMDD.HHmm").toString()} `
+        webpackEngine.plugins[1].definitions.lesli_app_compilation = JSON.stringify(bm)
 
 
         // remove entry files from previous engine
