@@ -116,7 +116,7 @@ module Interfaces::Controllers::Actions
         return respond_with_unauthorized unless @action.is_editable_by?(current_user)
 
         if @action.update(action_params)
-            respond_with_successful
+            respond_with_successful(@action.show(current_user))
         else
             respond_with_error(@action.errors.full_messages.to_sentence)
         end
