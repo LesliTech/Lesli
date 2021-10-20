@@ -111,7 +111,7 @@ export default {
             }
 
             if(! this.new_group_name){
-                this.msg.warn('(T) You need to set a new name for the group')
+                this.msg.warn(this.translations.core.messages_warning_cloud_object_actions_group_empty)
                 return
             }
 
@@ -122,7 +122,7 @@ export default {
                     this.new_group_name = ''
                 })
             }else{
-                this.msg.warn('(T) The group name you selected is already taken')
+                this.msg.warn(this.translations.core.messages_warning_cloud_object_actions_group_taken)
             }
         },
 
@@ -133,7 +133,7 @@ export default {
 
             let group = this.action_groups[group_name]
             if(! group.new_action.instructions){
-                this.msg.warn('(T) You need to set instructions for the action')
+                this.msg.warn(this.translations.core.messages_warning_cloud_object_actions_instructions_empty)
                 return
             }
 
@@ -150,7 +150,7 @@ export default {
                     group.actions.push(result.data)
                     group.new_action.instructions = ''
 
-                    this.msg.success('(T) Action created successfully')
+                    this.msg.success(this.translations.core.messages_success_cloud_object_actions_created)
                 }else{
                     this.msg.error(result.error.message)
                 }
@@ -171,7 +171,7 @@ export default {
 
             this.http.put(url, data).then(result => {
                 if(result.successful) {
-                    this.msg.success('(T) Action updated successfully')
+                    this.msg.success(this.translations.core.messages_success_cloud_object_actions_updated)
                 }else{
                     action.complete = ! action.complete
                     this.msg.error(result.error.message)
@@ -185,8 +185,8 @@ export default {
 
         confirmDeletion(group, action){
             this.$buefy.dialog.confirm({
-                title: '(T) Delete Quick Action',
-                message: '(T)Are you sure you want to delete this quick action? If this is the only action on the group, it will also be removed.',
+                title: this.translations.core.view_text_cloud_object_actions_delete_confirmation_title,
+                message: this.translations.core.view_text_cloud_object_actions_delete_confirmation_body,
                 cancelText: this.translations.core.view_btn_cancel,
                 confirmText: this.translations.core.view_btn_accept,
                 type: 'is-danger',
@@ -210,7 +210,7 @@ export default {
                         delete this.action_groups[deleted_action.group]
                     }
 
-                    this.msg.success('(T) Action deleted successfully')
+                    this.msg.success(this.translations.core.messages_success_cloud_object_actions_destroyed)
                 }else{
                     this.msg.error(result.error.message)
                 }
@@ -291,7 +291,7 @@ export default {
                                         <fieldset :disabled="group.new_action.submitting">
                                             <b-field label-position="on-border">
                                                 <template v-slot:label>
-                                                    (T) Add a new Action <sup class="has-text-danger">*</sup>
+                                                    {{translations.core.view_text_cloud_object_actions_add_new}}<sup class="has-text-danger">*</sup>
                                                 </template>
                                                 <b-input :ref="`input-new-action-${downcase(name)}`" type="text" expanded v-model="group.new_action.instructions">
                                                 </b-input>
@@ -299,7 +299,7 @@ export default {
                                                     <b-button native-type="submit" :disabled="group.new_action.submitting" expanded class="has-text-centered">
                                                         <b-icon v-if="group.new_action.submitting" custom-class="spin" icon="circle-notch"></b-icon>
                                                         <b-icon v-else icon="plus"></b-icon>
-                                                        <span>(T) Add</span>
+                                                        <span>{{translations.core.view_btn_add}}</span>
                                                     </b-button>
                                                 </p>
                                             </b-field>
@@ -329,14 +329,14 @@ export default {
                         <form @submit="createGroup">
                             <b-field label-position="on-border">
                                 <template v-slot:label>
-                                    (T) Add a new Group <sup class="has-text-danger">*</sup>
+                                    {{translations.core.view_text_cloud_object_actions_add_new_group}}<sup class="has-text-danger">*</sup>
                                 </template>
                                 <b-input type="text" expanded v-model="new_group_name">
                                 </b-input>
                                 <p class="control">
                                     <b-button native-type="submit" expanded class="has-text-centered">
                                         <b-icon icon="plus"></b-icon>
-                                        <span>(T) Add</span>
+                                        <span>{{translations.core.view_btn_add}}</span>
                                     </b-button>
                                 </p>
                             </b-field>
