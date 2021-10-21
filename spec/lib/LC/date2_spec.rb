@@ -201,13 +201,13 @@ RSpec.describe "LC::Date2.new", type: :model do
 
     it "should parse a new date_words for database timestamps" do 
         datetime = LC::Date2.new.date_words.db_timestamps
-        querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '%A, %B DD, YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '%a, %B DD, YYYY') as updated_at_date"
+        querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '%A, %B DD, YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '%A, %B DD, YYYY') as updated_at_date"
         expect(datetime).to eql(querystring)
     end
 
     it "should parse a new date_time_words for database timestamps" do 
         datetime = LC::Date2.new.date_time_words.db_timestamps
-        querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '%A, %B DD, YYYY, HH24:MI') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '%a, %B DD, YYYY, HH24:MI') as updated_at_date"
+        querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '%A, %B DD, YYYY, HH24:MI') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '%A, %B DD, YYYY, HH24:MI') as updated_at_date"
         expect(datetime).to eql(querystring)
     end
 
