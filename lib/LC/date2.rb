@@ -40,8 +40,8 @@ module LC
                     "date" => "%d.%m.%Y",
                     "time" => "%H:%M",
                     "date_time" => "%d.%m.%Y %H:%M",
-                    "date_words" => "%a, %B %d, %Y",
-                    "date_time_words" => "%a, %B %d, %Y, %H:%M",
+                    "date_words" => "%A, %B %d, %Y",
+                    "date_time_words" => "%A, %B %d, %Y, %H:%M",
                 }
             }
 
