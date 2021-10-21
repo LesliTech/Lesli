@@ -51,7 +51,7 @@ class CloudObject::Notifier
                 subject: "",
                 body: "",
                 url: "",
-                kind: "info",
+                category: "info",
                 channel: subscriber.notification_type
             }
 
@@ -63,7 +63,7 @@ class CloudObject::Notifier
                 payload[:subject],
                 body: payload[:body],
                 url: payload[:url],
-                kind: payload[:info],
+                category: payload[:info],
                 channel: payload[:channel]
             )
         end
