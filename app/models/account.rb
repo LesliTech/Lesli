@@ -215,6 +215,14 @@ class Account < ApplicationRecord
                 self.storage.save!
             end
         end
+
+        if defined? CloudBooks
+            if self.books.blank?
+                self.books = CloudBooks::Account.new
+                self.books.account = self
+                self.books.save!
+            end
+        end
         
         if defined? CloudHouse
             if self.house.blank?
