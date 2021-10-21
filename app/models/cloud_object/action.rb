@@ -18,12 +18,37 @@ For more information read the license file including with this software.
 =end
 class CloudObject::Action < ApplicationLesliRecord
     self.abstract_class = true
+
     belongs_to :user_creator, class_name: "::User", foreign_key: "users_id"
-    
-    # @return [User] This method will always return nil
-    # @description At the current time, this is a dummy method that returns nil, so the function is_editable_by? in
-    #   ApplicationLesliRecord will work without issues
-    def user_main
-        return nil
+
+    # @return [Class] The class of the association 'belongs_to'
+    # @description All actions belong to a *cloud_object*. This method returns the specific class of
+    #     that cloud_object.
+    # @example
+    #     puts DeutscheLeibrenten::Project::File.cloud_object_model.new # This will display an instance of DeutscheLeibrenten::Project
+    def self.cloud_object_model
+        self.reflect_on_association(:cloud_object).klass
+    end
+
+    def self.index(curren_user, cloud_object)
+        action_groups = {}
+        cloud_object.actions.order(group: :asc).map do |action|
+            action_attributes = action.attributes.merge({
+                "user_creator_name" => action.user_creator.full_name,
+                "created_at_text" => LC::Date.to_string(action.created_at)
+            })
+            action_groups[action.group] = [] unless action_groups[action.group]
+            
+            action_groups[action.group].push(action_attributes)
+        end
+
+        action_groups
+    end
+
+    def show(current_user)
+        attributes.merge({
+            "user_creator_name" => user_creator.full_name,
+            "created_at_text" => LC::Date.to_string(created_at)
+        })
     end
 end
