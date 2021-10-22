@@ -97,7 +97,7 @@ export default {
                     }else{
                         this.msg.success(this.translations.core.account.settings.messages_success_settings_saved_successfully)
                     }
-                    this.url.go(this.url.admin(''))
+                    this.url.go(this.url.lesli(''))
                 }else{
                     this.msg.error(result.error.message)
                 }
