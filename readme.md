@@ -1,5 +1,5 @@
 <p align="center">
-    <img width="250" alt="Lesli logo" src="https://cdn.lesli.tech/lesli/brand/lesli-logo.svg" />
+    <img width="200" alt="Lesli logo" src="./app/assets/images/brand/app-logo.svg" />
 </p>
 
 <h3 align="center">Your Smart Business Assistant</h3>
@@ -18,7 +18,7 @@ Version 1.0.0
 
 #### License
 -------
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
