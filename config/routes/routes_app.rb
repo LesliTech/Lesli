@@ -29,186 +29,183 @@ module RoutesApp
             # Invitation requests - users ask to join a company
             resource :invite, only: [:show, :create]
 
+            authenticated :user do
 
-            # Skip authentication so the platform que redirect after login
-            # to the requested url
-            #authenticated :user do
+                resource  :account, only: [:new, :create, :show]
 
-            resource  :account, only: [:new, :create, :show]
-
-            resource :onboarding do
-                collection do
-                    post :invite
-                end
-            end
-
-            # Lesli core administration components
-            scope :administration do
-
-                root to: "accounts#show", as: :root_administration
-
-                # Lesli user profile
-                resource :profile, only: [:show] do
-                    scope module: :profile do
-                        resources :notifications, only: [:index, :update]
-                        resources :subscriptions, only: [:index, :destroy, :update] do
-                            collection do
-                                get :options
-                            end
-                        end
+                resource :onboarding do
+                    collection do
+                        post :invite
                     end
-
                 end
 
-                # account management
-                resource :account, only: [:show] do
-                    scope module: :account do
+                # Lesli core administration components
+                scope :administration do
 
-                        resources :files, only: [:index, :show, :new, :create, :destroy]
+                    root to: "accounts#show", as: :root_administration
 
-                        resources :settings do
-                            collection do
-                                get :options
-                            end
-                        end
-
-                        resources :integrations, only: [:index, :show, :new, :create]
-                        resources :locations, only: [:index, :show, :create]
-                        resources :cronos
-
-                        resources :currencies do
-                            scope module: :currency do
-                                resources :exchange_rates
+                    # Lesli user profile
+                    resource :profile, only: [:show] do
+                        scope module: :profile do
+                            resources :notifications, only: [:index, :update]
+                            resources :subscriptions, only: [:index, :destroy, :update] do
+                                collection do
+                                    get :options
+                                end
                             end
                         end
 
                     end
 
-                    collection do
-                        get :options
-                    end
-                end
+                    # account management
+                    resource :account, only: [:show] do
+                        scope module: :account do
 
-                # user maintenance
-                resources :users, only: [:index, :show, :update, :create, :destroy] do
+                            resources :files, only: [:index, :show, :new, :create, :destroy]
 
-                    scope module: :user do
-                        # user sessions
-                        resources :sessions, only: [:index, :destroy]
+                            resources :settings do
+                                collection do
+                                    get :options
+                                end
+                            end
 
-                        # user role assignments
-                        resources :roles, only: [:create, :destroy]
+                            resources :integrations, only: [:index, :show, :new, :create]
+                            resources :locations, only: [:index, :show, :create]
+                            resources :cronos
 
-                        # user shortcuts
-                        resources :shortcuts, only: [:index, :create, :update, :destroy]
-                    end
+                            resources :currencies do
+                                scope module: :currency do
+                                    resources :exchange_rates
+                                end
+                            end
 
-                    # user helper resources
-                    member do
-                        scope :resources do
-                            get  :become
-                            post :logout
-                            post :lock
-                            post :password
                         end
-                    end
 
-                    collection do
-                        get :options
-                        get :list
-                    end
-
-                    member do
-                        scope :actions do
-                            put :email
-                        end
-                    end
-                end
-
-                # roles & privileges management
-                resources :roles do
-                    scope module: :role do
-                        resources :privileges
-                        resources :activities
-                        resources :descriptor_assignments
-                        collection do
-                            get "/activities/options",                   to: "/role/activities#options"
-                            get "/descriptor_assignments/options",        to: "/role/descriptor_assignments#options"
-                        end
-                    end
-
-                    collection do
-                        get :list
-                        get :options
-                        get "/privilege_actions/options",               to: "role/privilege_actions#options"
-                    end
-                end
-
-                # role descriptors
-                resources :role_descriptors do
-                    scope module: :role_descriptor do
-                        resources :privilege_actions
-                    end
-                    collection do
-                        get :list
-                    end
-                    collection do
-                        get "/privilege_actions/options",        to: "role_descriptor/privilege_actions#options"
-                    end
-                end
-
-                # template generators
-                namespace :template do
-                    resources :documents do
                         collection do
                             get :options
                         end
-                        scope :resources do
-                            member do
-                                post :generate
-                            end
-                        end
                     end
-                    resources :audience_documents do
-                        collection do
-                            get :options
+
+                    # user maintenance
+                    resources :users, only: [:index, :show, :update, :create, :destroy] do
+
+                        scope module: :user do
+                            # user sessions
+                            resources :sessions, only: [:index, :destroy]
+
+                            # user role assignments
+                            resources :roles, only: [:create, :destroy]
+
+                            # user shortcuts
+                            resources :shortcuts, only: [:index, :create, :update, :destroy]
                         end
+
+                        # user helper resources
                         member do
                             scope :resources do
-                                post :generate_file
+                                get  :become
+                                post :logout
+                                post :lock
+                                post :password
+                            end
+                        end
+
+                        collection do
+                            get :options
+                            get :list
+                        end
+
+                        member do
+                            scope :actions do
+                                put :email
                             end
                         end
                     end
-                    resources :variables
-                    resources :mappings
+
+                    # roles & privileges management
+                    resources :roles do
+                        scope module: :role do
+                            resources :privileges
+                            resources :activities
+                            resources :descriptor_assignments
+                            collection do
+                                get "/activities/options",                   to: "/role/activities#options"
+                                get "/descriptor_assignments/options",        to: "/role/descriptor_assignments#options"
+                            end
+                        end
+
+                        collection do
+                            get :list
+                            get :options
+                            get "/privilege_actions/options",               to: "role/privilege_actions#options"
+                        end
+                    end
+
+                    # role descriptors
+                    resources :role_descriptors do
+                        scope module: :role_descriptor do
+                            resources :privilege_actions
+                        end
+                        collection do
+                            get :list
+                        end
+                        collection do
+                            get "/privilege_actions/options",        to: "role_descriptor/privilege_actions#options"
+                        end
+                    end
+
+                    # template generators
+                    namespace :template do
+                        resources :documents do
+                            collection do
+                                get :options
+                            end
+                            scope :resources do
+                                member do
+                                    post :generate
+                                end
+                            end
+                        end
+                        resources :audience_documents do
+                            collection do
+                                get :options
+                            end
+                            member do
+                                scope :resources do
+                                    post :generate_file
+                                end
+                            end
+                        end
+                        resources :variables
+                        resources :mappings
+                    end
+
+                    resources :workflows do
+                        member do
+                            get "actions/options",          to: "workflow/actions#options"
+                        end
+                        collection do
+                            post "list" => :index
+                            get  "associations/options",    to: "workflow/associations#options"
+                            get "/resources/transition-options/:cloud_object_name/:cloud_object_id", to: "workflows#transition_options"
+                        end
+                        scope module: :workflow do
+                            resources :associations
+                            resources :actions
+                            resources :statuses
+                        end
+                    end
+
                 end
 
-                resources :workflows do
-                    member do
-                        get "actions/options",          to: "workflow/actions#options"
-                    end
-                    collection do
-                        post "list" => :index
-                        get  "associations/options",    to: "workflow/associations#options"
-                        get "/resources/transition-options/:cloud_object_name/:cloud_object_id", to: "workflows#transition_options"
-                    end
-                    scope module: :workflow do
-                        resources :associations
-                        resources :actions
-                        resources :statuses
-                    end
+                scope :about do
+                    get "version", to: "abouts#version"
+                    get "system-requirements", to: "abouts#system_requirements"
                 end
 
+                get "dashboard", to: "abouts#dashboard"
+
             end
-
-            scope :about do
-                get "version", to: "abouts#version"
-                get "system-requirements", to: "abouts#system_requirements"
-            end
-
-            get "dashboard", to: "abouts#dashboard"
-
-            #end
 
         end
     end
