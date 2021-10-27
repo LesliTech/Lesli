@@ -56,10 +56,10 @@ class LesliCliRake < LesliTasks
 
         email = email[0]
 
-        password_length = 24
-        password = Devise.friendly_token.first(password_length)
-        user = User.new(:email => email, :password => password, :password_confirmation => password)
-        user.skip_confirmation!
+        #password_length = 24
+        #password = Devise.friendly_token.first(password_length)
+        #user = User.new(:email => email, :password => password, :password_confirmation => password)
+        #user.skip_confirmation!
 
         if user.save
             message_cow("User created successfully")
@@ -84,7 +84,6 @@ class LesliCliRake < LesliTasks
         message("my list of users")
         message_separator
         message_cow("Users listed successfully")
-        p to_table User.all
 
     end
 
