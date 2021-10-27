@@ -269,7 +269,7 @@ module.exports = env => {
         if ([
                 "cloud_text", "cloud_house", "cloud_babel",
                 "cloud_audit","cloud_realty", "cloud_bell",
-                "cloud_mailer"
+                "cloud_mailer", "cloud_kb"
             ].includes(engine)) {
 
             let filePath = "./"+path.join("./engines", engine, "app", "vue", "app.js")
