@@ -69,16 +69,4 @@ class LesliTasks
         system command
     end
 
-    def self.render_cow
-        %(
---------------------------------
-< Process completed successfully >
---------------------------------
-\\
- \\    \\ /\\
-      ( )
-    .( o ).
-        )
-    end
-
 end
