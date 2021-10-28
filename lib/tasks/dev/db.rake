@@ -17,104 +17,60 @@ For more information read the license file including with this software.
 
 =end
 
-namespace :dev do
+require "./lib/tasks/lesli_tasks"
 
-    namespace :db do
+class Db < LesliTasks
 
-        desc "Database hard-reset"
-        task reset: :environment do
+    def initialize
+        namespace :dev2 do
+            namespace :db do
 
-            #system "rails db:environment:set RAILS_ENV=development"
-            system "rake db:drop" 
-            system "rake db:create" 
-            system "rake db:migrate" 
-            system "rake db:seed" 
+                desc ""
+                task :reset => :environment do |task, args|
+                    ARGV.each { |a| task a.to_sym do ; end }
+        
+                    env = 'development'
+                    env = ARGV[1] if not ARGV[1].blank?
 
-        end
+                    # execute command
+                    reset env
+        
+                end
 
-        desc ""
-        task restore: :environment do
-            #rake db:drop
-            #rake db:create
-            #psql -U lesli -d leibrenten_development < leslicloud_production.dump
-        end
-
-        desc "Create a backup of database"
-        task :backup, [:filename] => [:environment] do |task, args|
-            # default postgres configuration
-            username = "postgres"
-            password = ""
-            host = "localhost"
-            port = "5432"
-            filename = "leslicloud_production.dump"
-
-            unless args[:filename].blank?
-                filename = args[:filename] + ".dump"
             end
 
-            database = Rails.application.credentials.db[:database]
-            username = Rails.application.credentials.db[:username] unless Rails.application.credentials.db[:username].blank? 
-            host = Rails.application.credentials.db[:host] unless Rails.application.credentials.db[:host].blank? 
-            port = Rails.application.credentials.db[:port] unless Rails.application.credentials.db[:port].blank? 
-            password = "PGPASSWORD=#{Rails.application.credentials.db[:password]}" unless Rails.application.credentials.db[:password].blank?
-            
-            system "exec #{password} pg_dump -h #{host} -p #{port} -d #{database} -U #{username} > #{Rails.root}/#{filename}"
         end
 
-        desc "Restore database from backup"
-        task :restore_backup, [:server_host, :server_username, :key_path, :ruby_version] => [:environment] do |task, args|
-
-            return if Rails.env == "production" 
-
-            server_host = args[:server_host]
-            return if server_host.blank?
-            
-            ruby_version = RUBY_VERSION
-            app_path = "/var/www/lesli"
-            server_username = "ubuntu" 
-            key_path = "#{ENV["HOME"]}/Desktop/#{server_host}.pem"
-            filename="leslicloud_production.dump"
-            directory="#{ENV["HOME"]}/Desktop/backups"
-
-            server_username args[:server_username] unless args[:server_username].blank? 
-            key_path = args[:key_path] unless args[:key_path].blank?
-            ruby_version = args[:ruby_version] unless args[:ruby_version].blank?
-
-            # default postgres configuration
-            username = "postgres"
-            host = "localhost"
-            port = "5432"
-            filename = "leslicloud_production.dump"
-
-            unless args[:filename].blank?
-                filename = args[:filename] + ".dump"
-            end
-
-            database = Rails.application.credentials.db[:database]
-            username = Rails.application.credentials.db[:username] unless Rails.application.credentials.db[:username].blank? 
-            host = Rails.application.credentials.db[:host] unless Rails.application.credentials.db[:host].blank? 
-            port = Rails.application.credentials.db[:port] unless Rails.application.credentials.db[:port].blank? 
-
-            puts "trying to connect with #{server_host} ... \n"
-
-            system "ssh #{server_username}@#{server_host} -i #{key_path} 'cd #{app_path}; echo RAILS_ENV=production /home/ubuntu/.rvm/gems/#{RUBY_VERSION}/wrappers/rake RAILS_ENV=production rake dev:db:backup[#{filename}]'"
-
-            puts "downloading backup ... \n"
-            Dir.mkdir(directory) unless File.exists?(directory)
-            
-            system "wait && scp -i #{key_path} #{server_username}@#{server_host}:#{app_path}/#{filename} #{directory}/#{filename}"
-
-            puts "restoring database ... \n"
-            system "ps -ef | grep postgres |pgrep #{database} | xargs -I {} sh -c 'sudo kill -9 {}'"
-
-            puts "drop database \n"
-            system "rake db:drop DISABLE_DATABASE_ENVIRONMENT_CHECK=1 RAILS_ENV=development"
-
-            puts "create database ... \n"
-            system "rake db:create" 
-
-            system "psql -U #{username} -d #{database} < #{directory}/#{filename}"
-            puts "database restored successfully"
-        end
     end
+
+
+
+    private
+
+
+
+    # Push code to remote branch/origin for all engines
+    def reset environment
+
+        LC::Debug.msgc("Reset database for #{environment}")
+
+        message("drop database")
+        command("rake db:drop RAILS_ENV=#{environment}")
+
+        message("create database")
+        command("rake db:create RAILS_ENV=#{environment}")
+
+        message("migrate database")
+        command("rake db:migrate RAILS_ENV=#{environment}")
+
+        message("seed database")
+        command("rake db:seed RAILS_ENV=#{environment}")
+
+        message_separator
+        message_cow
+
+    end
+
 end
+
+Db.new
