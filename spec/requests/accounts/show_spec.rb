@@ -20,17 +20,19 @@ require 'rails_helper'
 require 'spec_helper'
 require 'byebug'
 
-RSpec.describe "GET:/administration.json", type: :request do
+RSpec.describe "GET:/account.json", type: :request do
 
     include_context 'user authentication'
 
     before(:all) do
-        get("/administration.json")
+        get("/account.json")
     end
 
     include_examples 'successful standard json response'
 
     it "is expected to return with administration account(s)" do
+
+        puts @response_body
 
         expect(@response_body_data).to be_a(Hash)
         
