@@ -41,6 +41,11 @@ RSpec.describe "lesli_settings.yml" do
         expect(@lesli_settings["info"]["github"]).to have_key("ssh_backup")
     end
 
+    it "expect to have a section for modules settings" do 
+        expect(@lesli_settings).to have_key("modules")
+        expect(@lesli_settings["modules"]).to be_an(Array)
+    end
+
     it "expect to have a section for account settings" do
         expect(@lesli_settings).to have_key("account") 
         expect(@lesli_settings["account"]).to have_key("user") 
@@ -120,6 +125,12 @@ RSpec.describe "lesli_settings.yml" do
         expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date_time_words"]).to be_a(String)
     end
 
+    it "expect to have a section for notifications settings" do
+        expect(@lesli_settings["configuration"]).to have_key("notifications") 
+        expect(@lesli_settings["configuration"]["notifications"]).to have_key("sms") 
+        expect(@lesli_settings["configuration"]["notifications"]["sms"]).to be_in([true, false])
+    end
+
     it "expect to have a section for security settings" do
         expect(@lesli_settings).to have_key("security")
         expect(@lesli_settings["security"]).to have_key("password")
@@ -127,6 +138,7 @@ RSpec.describe "lesli_settings.yml" do
         expect(@lesli_settings["security"]["password"]).to have_key("minimum_length")
         expect(@lesli_settings["security"]["password"]).to have_key("expiration_time_days")
         
+        expect(@lesli_settings["security"]["password"]["development"]).to be_a(String)
         expect(@lesli_settings["security"]["password"]["minimum_length"]).to be_a(Numeric)
         expect(@lesli_settings["security"]["password"]["expiration_time_days"]).to be_a(Numeric)
         
@@ -160,12 +172,6 @@ RSpec.describe "lesli_settings.yml" do
             expect(@lesli_settings["security"]["roles"].size).to be >= (1) 
         end
         
-    end
-
-    it "expect to have a section for notifications settings" do
-        expect(@lesli_settings["configuration"]).to have_key("notifications") 
-        expect(@lesli_settings["configuration"]["notifications"]).to have_key("sms") 
-        expect(@lesli_settings["configuration"]["notifications"]["sms"]).to be_in([true, false])
     end
 
     it "expect to have a section for environment settings" do
