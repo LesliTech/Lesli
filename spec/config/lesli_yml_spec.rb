@@ -109,6 +109,9 @@ RSpec.describe "lesli_settings.yml" do
 
         expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("time")
         expect(@lesli_settings["configuration"]["datetime2"]["formats"]["time"]).to be_a(String)
+
+        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("date_time")
+        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date_time"]).to be_a(String)
         
         expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("date_words")
         expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date_words"]).to be_a(String)
@@ -121,7 +124,12 @@ RSpec.describe "lesli_settings.yml" do
         expect(@lesli_settings).to have_key("security")
         expect(@lesli_settings["security"]).to have_key("password")
         expect(@lesli_settings["security"]["password"]).to have_key("development")
-
+        expect(@lesli_settings["security"]["password"]).to have_key("minimum_length")
+        expect(@lesli_settings["security"]["password"]).to have_key("expiration_time_days")
+        
+        expect(@lesli_settings["security"]["password"]["minimum_length"]).to be_a(Numeric)
+        expect(@lesli_settings["security"]["password"]["expiration_time_days"]).to be_a(Numeric)
+        
         expect(@lesli_settings["security"]).to have_key("allow_multiaccount") 
         expect(@lesli_settings["security"]).to have_key("allow_registration") 
         expect(@lesli_settings["security"]).to have_key("allow_invitation") 
@@ -130,6 +138,8 @@ RSpec.describe "lesli_settings.yml" do
         expect(@lesli_settings["security"]).to have_key("enable_login_otp") 
         expect(@lesli_settings["security"]).to have_key("enable_becoming") 
         expect(@lesli_settings["security"]).to have_key("enable_debug") 
+        expect(@lesli_settings["security"]).to have_key("enable_analytics")
+        expect(@lesli_settings["security"]).to have_key("enable_commands")
         expect(@lesli_settings["security"]).to have_key("log_activity") 
 
         expect(@lesli_settings["security"]["allow_multiaccount"]).to be_in([true, false])
@@ -140,6 +150,8 @@ RSpec.describe "lesli_settings.yml" do
         expect(@lesli_settings["security"]["enable_login_otp"]).to be_in([true, false])
         expect(@lesli_settings["security"]["enable_becoming"]).to be_in([true, false])
         expect(@lesli_settings["security"]["enable_debug"]).to be_in([true, false])
+        expect(@lesli_settings["security"]["enable_analytics"]).to be_in([true, false])
+        expect(@lesli_settings["security"]["enable_commands"]).to be_in([true, false])
         expect(@lesli_settings["security"]["log_activity"]).to be_in([true, false])
 
         expect(@lesli_settings["security"]).to have_key("roles") 
