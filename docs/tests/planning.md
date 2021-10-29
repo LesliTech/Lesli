@@ -60,13 +60,13 @@ LesliBullet/
     - Remove all actions controllers that are not in use
 
 - Week 1
-    - (Rspec) Learn about Ruby
-    - (Rspec) Learn about Ruby on Rails
-    - (Rspec) Intro Lesli Core
-    - (Rspec) Learn about Rspec
-    - (Rspec) Read about Model tests - https://relishapp.com/rspec/rspec-rails/v/5-0/docs/model-specs
-    - (Rspec) Read about Request tests - https://relishapp.com/rspec/rspec-rails/v/5-0/docs/request-specs/request-spec
-    - (Rspec) Test Config files (database.yml, lesli.yml, lesli.rb)
+    - [x] (Rspec) Learn about Ruby
+    - [x] (Rspec) Learn about Ruby on Rails
+    - [x] (Rspec) Intro Lesli Core
+    - [x] (Rspec) Learn about Rspec
+    - [x] (Rspec) Read about Model tests - https://relishapp.com/rspec/rspec-rails/v/5-0/docs/model-specs
+    - [x] (Rspec) Read about Request tests - https://relishapp.com/rspec/rspec-rails/v/5-0/docs/request-specs/request-spec
+    - [x] (Rspec) Test Config files (database.yml, lesli.yml, lesli.rb)
     - (Rspec) Request Test controllers/application_controller
     - (Rspec) Request Test controllers/application_lesli_controller
     - (Rspec) Request Test controllers/abouts_controller
