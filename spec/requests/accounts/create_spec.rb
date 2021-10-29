@@ -45,7 +45,6 @@ RSpec.describe "POST:/account.json", type: :request do
     before(:all) do 
 
         @company_name = Faker::Company.name 
-        puts @company_name
 
         post("/account.json", params: {
             account: {
@@ -58,7 +57,7 @@ RSpec.describe "POST:/account.json", type: :request do
 
     it "is expected to return with account created & data nil" do 
 
-        # data key should be nil
+        # data should be nil
         expect(@response_body_data).to be_nil
     end
 end
