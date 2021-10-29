@@ -30,9 +30,7 @@ RSpec.describe "GET:/account.json", type: :request do
 
     include_examples 'successful standard json response'
 
-    it "is expected to return with administration account(s)" do
-
-        puts @response_body
+    it "is expected to return with a hash administration account with all keys and values" do
 
         expect(@response_body_data).to be_a(Hash)
         
