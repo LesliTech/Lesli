@@ -58,10 +58,10 @@ Rails.application.routes.draw do
     mount CloudPortal::Engine => "/portal" if defined?(CloudPortal)
     mount CloudRealty::Engine => "/realty" if defined?(CloudRealty)
     mount CloudThings::Engine => "/inventory" if defined?(CloudThings)
+    mount CloudStorage::Engine => "/storage" if defined?(CloudStorage)
     mount CloudInsights::Engine => "/insights" if defined?(CloudInsights)
     mount CloudProposal::Engine => "/proposal" if defined?(CloudProposal)
     mount CloudDevelopment::Engine => "/development" if defined?(CloudDevelopment)
-    mount CloudStorage::Engine => "/storage" if defined?(CloudStorage)
     
     mount CloudShared::Engine => "/shared" if defined?(CloudShared)
     mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
