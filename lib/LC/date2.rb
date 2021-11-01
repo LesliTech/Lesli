@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -23,7 +23,7 @@ module LC
     class Date2
 
         def initialize(datetime = Time.current, format = "%Y-%m-%d %H:%M:%S")
-            
+
 
             # NOTE: user should be able to change this through settings table
             # get initial datetime configuration
@@ -34,14 +34,14 @@ module LC
             # if you need a different date format you should change it in the config file
             # Check the docs for more information: /development/docs/rails-lib-time
             @settings = {
-                "time_zone" => config["time_zone"], 
+                "time_zone" => config["time_zone"],
                 "start_week_on" => config["start_week_on"],
                 "format": {
                     "date" => "%d.%m.%Y",
                     "time" => "%H:%M",
                     "date_time" => "%d.%m.%Y %H:%M",
-                    "date_words" => "%a, %B %d, %Y",
-                    "date_time_words" => "%a, %B %d, %Y, %H:%M",
+                    "date_words" => "%A, %B %d, %Y",
+                    "date_time_words" => "%A, %B %d, %Y, %H:%M",
                 }
             }
 
@@ -60,19 +60,19 @@ module LC
         end
 
         # set date format and return Date2 instance
-        def date 
+        def date
             set_format("date")
             self
-        end 
+        end
 
         # set time format and return Date2 instance
-        def time 
+        def time
             set_format("time")
             self
         end
 
         # set date_time format and return Date2 instance
-        def date_time 
+        def date_time
             set_format("date_time")
             self
         end
@@ -90,22 +90,22 @@ module LC
         end
 
         # return query string to get timestamps columns from database
-        def db_timestamps table="", column_alias="updated_at_date", date_column = "created_at"
+        def db_timestamps table=""
 
             # avoid ambiguous columns
             table = table.concat(".") if table != ""
 
             # get right format for dates
             format = self.db_format
-            
-            "TO_CHAR(#{table}#{date_column} at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as created_at_date, TO_CHAR(#{table}updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as #{column_alias}"
+
+            "TO_CHAR(#{table}created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as created_at_date, TO_CHAR(#{table}updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as updated_at_date"
 
         end
 
         # return query string to get a datetime column from database
         def db_column column, table=""
             format = self.db_format
-            "TO_CHAR(#{column} at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as #{column}_string" 
+            "TO_CHAR(#{column} at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as #{column}_string"
         end
 
         # convert a datetime object to string representation using defined format
@@ -117,7 +117,7 @@ module LC
             @datetime
         end
 
-        private 
+        private
 
 
         # get datetime object or string datetime and return a datetime object
@@ -126,17 +126,16 @@ module LC
             return datetime if datetime.is_a?(Time)
 
             return ::DateTime.iso8601(datetime) if datetime.is_a?(String) and datetime.size == 25 and datetime[10] == "T"
-                
-            return ::DateTime.strptime(datetime, format)
 
+            return ::DateTime.strptime(datetime, format)
         end
 
-        
+
         def set_format format
             @format = @settings[:format][format || "date"]
         end
 
-        
+
         def db_format
             format = @format
 

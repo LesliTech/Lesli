@@ -89,7 +89,7 @@ export default {
                 console.log(error)
             })
         },
-        
+
         getPrivilegeGroups(){
             let url = this.url.admin('role_descriptors/list')
             this.http.get(url).then(result => {
@@ -97,13 +97,13 @@ export default {
                     this.msg.error(result.error.message)
                     return
                 }
-                
-                this.role_descriptors = result.data.filter((e) => 
+
+                this.role_descriptors = result.data.filter((e) =>
                     e.role_descriptors_id === null && e.id !== this.role_descriptor.id
                 )
             }).catch(error => {
                 console.log(error)
-            }) 
+            })
         }
     }
 }
@@ -113,16 +113,16 @@ export default {
     <form @submit.prevent="submitForm">
         <fieldset :disabled="submitting_form">
             <b-field>
-                <template v-slot:label> 
-                    {{ translations.core.view_text_name }} 
-                    <sup class="has-text-danger">*</sup> 
+                <template v-slot:label>
+                    {{ translations.core.view_text_name }}
+                    <sup class="has-text-danger">*</sup>
                 </template>
                 <b-input type="text" placeholder="" v-model="role_descriptor.name" required></b-input>
             </b-field>
 
             <b-field :label="translations.role_descriptors.view_text_assign_parent_descriptor" v-if="role_descriptors.length > 0">
                 <b-select v-model="role_descriptor.role_descriptors_id" expanded>
-                    <option :value="null"> {{ translations.core.view_text_none }} </option> 
+                    <option :value="null"> {{ translations.core.view_text_none }} </option>
                     <option
                         v-for="role_descriptor in role_descriptors"
                         :value="role_descriptor.id"
@@ -131,7 +131,7 @@ export default {
                     </option>
                 </b-select>
             </b-field>
-            
+
             <b-field :label="translations.role_descriptors.column_description">
                 <b-input v-model="role_descriptor.description" type="textarea"></b-input>
             </b-field>
