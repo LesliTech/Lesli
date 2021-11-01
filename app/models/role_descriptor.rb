@@ -67,7 +67,7 @@ class RoleDescriptor < ApplicationLesliRecord
             :description,
             :created_at,
             "coalesce(actions.total, 0) as actions_length",
-            LC::Date2.new.date_time.db_timestamps
+            LC::Date2.new.date_time.db_timestamps("role_descriptors")
         )
         .left_joins(:user_creator)
         .joins("
@@ -121,7 +121,7 @@ class RoleDescriptor < ApplicationLesliRecord
             :name,
             :description,
             :role_descriptors_id,
-            LC::Date2.new.date_time.db_timestamps
+            LC::Date2.new.date_time.db_timestamps("role_descriptors")
         ).find(id)
     end
 
