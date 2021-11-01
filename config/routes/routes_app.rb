@@ -22,9 +22,11 @@ module RoutesApp
         router.instance_exec do
 
 
-            # Alternative logins - magic links
+            # Alternative logins
             resource :otp,  only: [:show, :new, :create]
             resource :pass, only: [:show, :new, :create]
+
+            # Invitation requests - users ask to join a company
             resource :invite, only: [:show, :create]
 
             authenticated :user do
@@ -196,9 +198,12 @@ module RoutesApp
 
                 end
 
-                get "version", to: "abouts#version"
+                scope :about do
+                    get "version", to: "abouts#version"
+                    get "system-requirements", to: "abouts#system_requirements"
+                end
+
                 get "dashboard", to: "abouts#dashboard"
-                get "system-requirements", to: "abouts#system_requirements"
 
             end
 

@@ -2,9 +2,9 @@
 
 Copyright (c) 2021, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 */
 
@@ -21,7 +21,7 @@ For more information read the license file including with this software.
 
 // · Including plugins and dependencies
 var fs = require("fs")
-var path = require("path")  
+var path = require("path")
 var yaml = require("js-yaml")
 var dayjs = require("dayjs")
 var debug = require("lesli-js/debug-browser")
@@ -32,11 +32,11 @@ var webpackConfig = []
 
 
 
-// · 
+// ·
 module.exports = env => {
 
 
-    // get specific modules to work with, example: npm run webpack -- babel bell 
+    // get specific modules to work with, example: npm run webpack -- babel bell
     var requested_modules = process.argv.slice(5)
 
 
@@ -55,7 +55,7 @@ module.exports = env => {
         watch: env.watch == "true",
         mode: production ? "production" : "development",
         performance: { hints: false },
-        optimization: { 
+        optimization: {
             minimize: production,
             minimizer: [
                 new TerserPlugin({
@@ -77,7 +77,7 @@ module.exports = env => {
             "account/currencies_app": "./app/vue/account_currencies/app.js",
             "account/integrations_app": "./app/vue/account_integrations/app.js",
             "account/currency_exchange_rates_app": "./app/vue/account_exchange_rates/app.js",
-            
+
             "dashboards/app": "./app/vue/dashboards/app.js",
             "profiles/app": "./app/vue/profiles/app.js",
             "websites/app": "./app/vue/websites/app.js",
@@ -85,7 +85,7 @@ module.exports = env => {
             "users/app": "./app/vue/users/app.js",
             "roles/app": "./app/vue/roles/app.js",
             "role_descriptors/app": "./app/vue/role_descriptors/app.js",
-            
+
             "invites/app": "./app/vue/invites/app.js",
             "passes/app": "./app/vue/passes/app.js",
             "otps/app": "./app/vue/otps/app.js",
@@ -97,7 +97,7 @@ module.exports = env => {
             "onboardings/app": "./app/vue/onboardings/app.js",
 
             "errors/app": "./app/vue/errors/app.js",
-            
+
             "settings/workflows_app": "./app/vue/settings/workflows/app.js"
         },
         output: {
@@ -111,7 +111,7 @@ module.exports = env => {
                 vue: production ? "vue/dist/vue.min.js" : "vue/dist/vue.js",
 
                 // DEPRECATED
-                LesliCloud: path.resolve(__dirname, "./app"),           
+                LesliCloud: path.resolve(__dirname, "./app"),
                 LesliCoreVue: path.resolve(__dirname, "./lib/vue"),
                 LesliCloudHouse: path.resolve(__dirname, "./engines/cloud_house/app"),
                 LesliCloudFocus: path.resolve(__dirname, "./engines/cloud_focus/app"),
@@ -120,10 +120,10 @@ module.exports = env => {
 
 
                 // Resolve alias for core resources
-                Lesli: path.resolve(__dirname, "./app"), 
-                LesliVue: path.resolve(__dirname, "./lib/vue"), 
-                LesliWidgets: path.resolve(__dirname, "./lib/vue/widgets"), 
-                
+                Lesli: path.resolve(__dirname, "./app"),
+                LesliVue: path.resolve(__dirname, "./lib/vue"),
+                LesliWidgets: path.resolve(__dirname, "./lib/vue/widgets"),
+
 
                 // Resolve alias for module resources
                 CloudHelp: path.resolve(__dirname, "./engines/cloud_help/app"),
@@ -186,7 +186,7 @@ module.exports = env => {
                 )
             })
         ]
-        
+
     }
 
 
@@ -199,7 +199,7 @@ module.exports = env => {
 
 
     // iterate over installed engines (only folders)
-    let engines = fs.readdirSync("./engines") 
+    let engines = fs.readdirSync("./engines")
     .filter(directory => directory != ".gitkeep")
     .filter(engine => {
 
@@ -212,9 +212,9 @@ module.exports = env => {
         // load raw file content
         let rawdata = fs.readFileSync(engine_info_file_path)
 
-        // parse file content 
+        // parse file content
         let engine_info = yaml.load(rawdata)
-        
+
         // exit configuration builder if engine is not setted to load
         if (engine_info.info.load == false) { return false }
 
@@ -262,9 +262,9 @@ module.exports = env => {
         webpackEngine.output.filename = ""
         webpackEngine.entry = {}
 
-    
+
         // get app directories
-        // @TODO: See Trello card 2450. We must migrate all functionallity to 
+        // @TODO: See Trello card 2450. We must migrate all functionallity to
         // this.data and remove this.bus before enabling help for a global JS file
         if ([
                 "cloud_text", "cloud_house", "cloud_babel",
@@ -286,7 +286,7 @@ module.exports = env => {
             fs.readdirSync(path.join("./engines", engine, "app", "vue")).forEach(app => {
 
                 if (app == "app.js") {
-                    return 
+                    return
                 }
 
                 fs.readdirSync(path.join("./engines", engine, "app", "vue", app)).forEach(action => {
@@ -294,18 +294,18 @@ module.exports = env => {
                     if (!action.endsWith(".js")) {
                         return
                     }
-    
+
                     let filePath = "./"+path.join("./engines", engine, "app", "vue", app, action)
                     let fileName = [app, action.replace(".js","")].join("_")
-    
+
                     webpackEngine.entry[fileName] = filePath
-    
+
                 })
-    
+
             })
 
         }
-        
+
         if (Object.keys(webpackEngine.entry).length > 0) {
 
             // javascripts engine folder

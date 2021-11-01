@@ -189,6 +189,14 @@ module HtmlHelper
 
     # IT & HELP DESK
 
+    # 07.01 Kb engine
+    def navigation_engine_kb text: "Kb", icon_path: "cloud_kb/kb-logo.svg"
+        unless defined? CloudKb
+            return ""
+        end
+        navigation_engine_item text, icon_path, cloud_kb.root_path, controller_path.include?("cloud_kb")
+    end
+
     # 07.02 Help engine
     def navigation_engine_help text: "Help", icon_path: "cloud_help/help-logo.svg"
         unless defined? CloudHelp
