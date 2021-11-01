@@ -128,7 +128,7 @@ export default {
         gotoRoleDescriptor(role_descriptor) {
             this.$router.push(`${role_descriptor.id}`)
         },
-        
+
         confirmRoleDescriptorDeletion(role_descriptor){
             this.$buefy.dialog.confirm({
                 title: this.translations.role_descriptors.view_text_confirm_deletion_title,
@@ -236,7 +236,7 @@ export default {
                                     </span>
                                 </span>
                             </template>
-                            {{props.row.created_at_text}}
+                            {{props.row.created_at_date}}
                         </b-table-column>
 
                         <b-table-column field="actions_length" :label="translations.role_descriptors.view_text_actions_length" sortable>
@@ -251,7 +251,7 @@ export default {
                             </template>
                             {{props.row.actions_length}}
                         </b-table-column>
-                        
+
                         <b-table-column :label="translations.core.view_table_header_actions">
                             <span>
                                 <b-button type="is-danger" outlined @click.stop="confirmRoleDescriptorDeletion(props.row)">
