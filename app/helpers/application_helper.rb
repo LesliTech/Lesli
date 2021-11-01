@@ -1,10 +1,10 @@
 =begin
-    
+
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -35,7 +35,7 @@ module ApplicationHelper
 
         unless Rails.application.config.lesli_settings["configuration"]["theme"].blank?
             theme = [
-                "themes", 
+                "themes",
                 Rails.application.config.lesli_settings["configuration"]["theme"],
                 Rails.application.config.lesli_settings["configuration"]["theme"]
             ].join("/")
@@ -50,7 +50,7 @@ module ApplicationHelper
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
-        # @TODO: See Trello card 2450. We must migrate all functionallity to 
+        # @TODO: See Trello card 2450. We must migrate all functionallity to
         # this.data and remove this.bus before enabling help for a global JS file
         if [
             "cloud_text", "cloud_house", "cloud_babel",
@@ -68,7 +68,7 @@ module ApplicationHelper
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
-        # @TODO: See Trello card 2450. We must migrate all functionallity to 
+        # @TODO: See Trello card 2450. We must migrate all functionallity to
         # this.data and remove this.bus before enabling help for a global JS file
         if [
             "cloud_text", "cloud_house", "cloud_babel",
@@ -81,7 +81,7 @@ module ApplicationHelper
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
         [cloud_module, path_segments.push("app").compact().join("_")].join("/")
-        
+
     end
 
     def lesli_engine()
@@ -90,14 +90,14 @@ module ApplicationHelper
 
     def is_lesli_engine_administration?
         ["accounts", "account", "roles", "profiles", "users", "abouts", "settings", "cronos", "onboarding", "role_descriptors"].include?(lesli_engine)
-    end 
+    end
 
     def is_lesli_engine?(engine=nil)
         current_engine = lesli_engine
         return current_engine == engine if not engine.blank?
         return false if is_lesli_engine_administration?
         return true
-    end 
+    end
 
     # return the name of the engine loaded for the current path
     # this helper return the name of the engine of the code we are running on
@@ -152,7 +152,7 @@ module ApplicationHelper
         <link href=\"#{icon_path}\" rel=\"alternate icon\">
         <link href=\"#{icon_path}\" rel=\"icon\" type=\"image/svg+xml\">
         <link href=\"#{icon_path}\" rel=\"mask-icon\" color=\"#ff8a01\">
-        ").html_safe        
+        ").html_safe
     end
 
     def is_lesli_instance?(instance=nil, engine=nil)
@@ -170,7 +170,7 @@ module ApplicationHelper
 
         # validate instance and engine
         if Rails.application.config.lesli_settings["info"]["name"] == instance and current_engine == engine
-            return true 
+            return true
         end
 
         return false

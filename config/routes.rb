@@ -39,6 +39,7 @@ Rails.application.routes.draw do
     extend RoutesBuilder
     extend RoutesApp
 
+    mount CloudKb::Engine    => "/kb"    if defined?(CloudKb)
     mount CloudOne::Engine    => "/one"    if defined?(CloudOne)
     mount CloudWork::Engine   => "/work"   if defined?(CloudWork)
     mount CloudTeam::Engine   => "/team"   if defined?(CloudTeam)

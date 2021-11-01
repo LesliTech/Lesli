@@ -17,175 +17,301 @@ For more information read the license file including with this software.
 
 =end
 
-require "./lesli"
+require "./lib/tasks/lesli_tasks"
 
-namespace :dev do
+class DevGit < LesliTasks
+    
 
-    namespace :git do
+    def initialize
+        namespace :dev2 do        
+            namespace :git do
 
-        desc "Push everything to github master"
-        task push: :environment do
+                desc "Push code to remote branch/origin for all engines"
+                task :push => :environment do |task, args|
+                    ARGV.each { |a| task a.to_sym do ; end }
+        
+                    # execute command
+                    push 
+        
+                end
 
-            # push all engines
-            Lesli::engines.each do |engine|
-                engine_path = Rails.root.join('engines', engine[:code])
-                puts ""; puts ""; puts "";
-                puts "Working with: #{engine[:name]}"
-                system "cd ./engines/#{engine[:code]} && git push origin master" if File.exists?(engine_path)
-            end
-            
-            # push core to github
-            puts ""; puts ""; puts "";
-            puts "Working with: Lesli"
-            system "git push github master"
+                desc "Pull code from origin master from all engines"
+                task :pull => :environment do |task, args|
+                    ARGV.each { |a| task a.to_sym do ; end }
 
-        end
+                    # execute command
+                    pull
+                    
+                end
 
-        desc "Pull everything from github master. If you add the 'force' argument, it will force a reset and a checkout to master"
-        task :pull, [:force] => :environment do |task, args|
-            force_command = ""
-            force_command = " git reset --hard && git checkout master && " if args[:force]
+                desc "Commit pending changes from all engines"
+                task commit: :environment do
+                    ARGV.each { |a| task a.to_sym do ; end }
 
-            Lesli::engines.each do |engine|
+                    # default params
+                    git_message = "add updates from development"
 
-                # build engine path
-                engine_path = Rails.root.join('engines', engine[:code])
+                    # get params sent by user
+                    git_message = ARGV[1] if not ARGV[1].blank?
 
-                # pull from master
-                puts ""; puts ""; puts "";
-                puts "Working with: #{engine[:name]}"
-                result = `cd ./engines/#{engine[:code]} && #{force_command} git pull origin master` if File.exists?(engine_path)
+                    # execute command
+                    commit git_message
+        
+                end
 
-            end
+                desc "Checkout all engines to a different branch"
+                task :checkout => :environment do |task, args|
+                    ARGV.each { |a| task a.to_sym do ; end }
 
-            # pull from master
-            puts ""; puts ""; puts "";
-            puts "Working with: Lesli"
-            system "#{force_command} git pull origin master"
+                    # default params
+                    force = false
+                    branch = "master"
 
-        end
+                    # get params sent by user
+                    branch = ARGV[1] if not ARGV[1].blank?
+                    force = ARGV[2] == "force"
 
-        desc "Commit everything to github master"
-        task commit: :environment do
-
-            # push all engines
-            Lesli::engines.each do |engine|
-                engine_path = Rails.root.join('engines', engine[:code])
-                puts ""; puts ""; puts "";
-                puts "Working with: #{engine[:name]}"
-                system "cd ./engines/#{engine[:code]} && git add --all && git commit -m \"add updates from development\""
-
-            end
-            
-            # push core to github
-            puts ""; puts ""; puts "";
-            puts "Working with: Lesli"
-
-            # commit any possible pending change
-            system "git add --all && git commit -m \"dev update\""
-
-            Rake::Task["dev:git:vendors"].invoke
-
-        end
-
-        desc ""
-        task backup: :environment do
-
-            Lesli::engines.each do |engine|
-                engine_path = Rails.root.join('engines', engine[:code])
-
-                puts ""; puts ""; puts "";
-                puts "Working with: #{engine[:name]}"
-                system "cd ./engines/#{engine[:code]} && git push backup master" if File.exists?(engine_path)
-            end
-
-            puts ""; puts ""; puts "";
-            puts "Working with: Lesli"
-            system "git push backup master"
-
-        end
-
-        desc "Add github origin"
-        task add_origin: :environment do
-
-            Lesli::engines.each do |engine|
-
-                # build engine path
-                engine_path = Rails.root.join('engines', engine[:code])
-
-                # next if engine folder does not exist
-                next unless File.exists?(engine_path)
-
-                ["github", "origin", "lesli", "backup"].each do |origin|
-
-                    remote = engine[:github]['ssh'] if origin == "github"
-                    remote = engine[:github]['ssh'] if origin == "origin"
-                    remote = engine[:github]['ssh_backup'] if origin == "lesli"
-                    remote = engine[:github]['ssh_backup'] if origin == "backup"
-
-                    puts ""; puts ""; puts "";
-                    exec_command "cd ./engines/#{engine[:code]} && git remote add #{origin} #{remote}" 
+                    # execute command
+                    checkout branch, force
 
                 end
 
-            end
+                desc "Push code to backup repositories for all engines"
+                task :backup => :environment do |task, args|
+                    ARGV.each { |a| task a.to_sym do ; end }
+        
+                    # execute command
+                    push "backup", "master"
+        
+                end
 
-            exec_command "git remote add github git@github.com:leitfaden/Lesli.git" 
-            exec_command "git remote add origin git@github.com:leitfaden/Lesli.git" 
-            exec_command "git remote add backup git@github.com:LesliTech/Lesli.git" 
-            exec_command "git remote add lesli git@github.com:LesliTech/Lesli.git" 
+                desc "Update vendor from node_modules"
+                task :vendor => :environment do |task, args|
+                    ARGV.each { |a| task a.to_sym do ; end }
+        
+                    # execute command
+                    vendor
+        
+                end
+
+                desc "Add origins"
+                task :origin => :environment do |task, args|
+                    ARGV.each { |a| task a.to_sym do ; end }
+        
+                    # default params
+                    force = false
+                    engine = "all"
+
+                    # get params sent by user
+                    engine = ARGV[1] if not ARGV[1].blank?
+                    force = ARGV[2] == "all"
+
+                    # execute command
+                    origin(engine, force)
+        
+                end
+
+            end
+        end
+    end
+
+
+    
+    private
+
+
+
+    # Push code to remote branch/origin for all engines
+    def push origin="origin", branch="ldonis"
+
+        # for every installed engine
+        Lesli::engines.each do |engine|
+
+            #build engine path
+            engine_path = Rails.root.join("engines", engine[:code])
+
+            next unless File.exists?(engine_path)
+            
+            message_separator
+            message("Working with: #{engine[:code]}")
+
+            command("cd ./engines/#{engine[:code]} && git push #{ origin } #{ branch }")
 
         end
 
-        desc ""
-        task checkout_master: :environment do
+        message("Working with: Lesli")
 
-            Lesli::engines.each do |engine|
+        # commit any possible pending change
+        command("git push #{ origin } #{ branch }")
 
-                # build engine path
-                engine_path = Rails.root.join('engines', engine[:code])
+        message_separator
+        message_cow
 
-                # pull from master
-                puts ""; puts ""; puts "";
-                puts "Working with: #{engine[:name]}"
-                exec_command `cd ./engines/#{engine[:code]} && git checkout master` if File.exists?(engine_path)
+    end
 
-            end
 
-            # pull from master
-            puts ""; puts ""; puts "";
-            puts "Working with: Lesli"
-            system "git pull origin master"
 
-        end
+    # Pull code from origin master from all engines
+    def pull
 
-        desc ""
-        task vendors: :environment do 
+        # for every installed engine
+        Lesli::engines.each do |engine|
 
-            # copy vendor dependencies (only css files are required)
-            system "rm -r vendor/*"
+            #build engine path
+            engine_path = Rails.root.join("engines", engine[:code])
 
-            ["buefy", "bulma", "bulma-o-steps", "bulma-extensions", "quill", "@fullcalendar", "lesli-css"].each do |package|
-                FileUtils.cp_r "node_modules/#{package}/", "vendor/", :verbose => true
-            end
+            next unless File.exists?(engine_path)
+            
+            message_separator
+            message("Working with: #{engine[:code]}")
 
-            Dir.glob("vendor/**/*").each do |file|
-                FileUtils.rm(file, :verbose => true) if file.index("package.json")
-                FileUtils.rm(file, :verbose => true) if file.index("package-lock.json")
-            end
-
-            # commit any change in vendor
-            #system "git add --all && git commit -m \"Update npm dependencies (vendors)\""
+            command("cd ./engines/#{engine[:code]} && git pull origin master")
 
         end
 
-        def exec_command command
-            begin
-                system command
-            rescue
-            end
+        message("Working with: Lesli")
+
+        # commit any possible pending change
+        command("git pull origin master")
+
+        message_separator
+        message_cow
+
+    end
+
+
+
+    # Commit pending changes from all engines
+    def commit git_message
+
+        # for every installed engine
+        Lesli::engines.each do |engine|
+
+            #build engine path
+            engine_path = Rails.root.join("engines", engine["name"])
+
+            next unless File.exists?(engine_path)
+            
+            message_separator
+            message("Working with: #{engine['name']}")
+            command("cd ./engines/#{engine['name']} && git add --all && git commit -m \"#{ git_message }\"")
+
         end
+
+        message_separator
+        message("Working with: Lesli")
+
+        # commit any possible pending change
+        command("git add --all && git commit -m \"#{ git_message }\"")
+
+        message_separator
+        message_cow
+
+    end
+
+    def checkout branch, force
+
+        # for every installed engine
+        Lesli::engines.each do |engine|
+
+            # build engine path
+            engine_path = Rails.root.join("engines", engine[:code])
+
+            next unless File.exists?(engine_path)
+
+            message_separator
+            message "Working with: #{engine[:code]}"
+            
+            command("cd ./engines/#{engine[:code]} && git reset --hard") if force
+            command("cd ./engines/#{engine[:code]} && git checkout #{ branch }")
+
+        end
+
+        message("Working with: Lesli")
+
+        command("git checkout #{ branch }")
+
+        message_separator
+        message_cow
+
+    end
+
+    def vendor
+
+        # copy vendor dependencies (only css files are required)
+        command("rm -r vendor/*")
+
+        [
+            "buefy", 
+            "bulma", 
+            "quill", 
+            "lesli-css",
+            "@fullcalendar", 
+            "bulma-o-steps", 
+            "bulma-extensions", 
+            "foundation-emails",
+            "remixicon"
+        ].each do |package|
+            FileUtils.cp_r "node_modules/#{package}/", "vendor/#{package}", :verbose => true
+        end
+
+        Dir.glob("vendor/**/*").each do |file|
+            FileUtils.rm(file, :verbose => true) if file.index("README.md")
+            FileUtils.rm(file, :verbose => true) if file.index("LICENSE")
+            FileUtils.rm(file, :verbose => true) if file.index("CHANGELOG.md")
+            FileUtils.rm(file, :verbose => true) if file.index("CONTRIBUTING.md")
+            FileUtils.rm(file, :verbose => true) if file.index("package.json")
+            FileUtils.rm(file, :verbose => true) if file.index("package-lock.json")
+            FileUtils.rm(file, :verbose => true) if file.end_with?(".spec.js")
+        end
+
+        # commit any change in vendor
+        command("git add vendor && git commit -m \"vendor: update npm dependencies (vendors)\" vendor")
+
+    end
+
+    def origin engine_name, force
+
+        # for every installed engine
+        Lesli::engines.each do |engine|
+
+            break if engine_name == "core"
+
+            # build engine path
+            engine_path = Rails.root.join("engines", engine[:code])
+
+            next unless File.exists?(engine_path)
+
+            next if (engine_name != "all" && engine_name != engine[:code])
+
+            ["github", "origin", "lesli", "backup"].each do |origin|
+
+                remote = engine[:github]['ssh'] if origin == "github"
+                remote = engine[:github]['ssh'] if origin == "origin"
+                remote = engine[:github]['ssh_backup'] if origin == "lesli"
+                remote = engine[:github]['ssh_backup'] if origin == "backup"
+
+                message("working with: #{engine[:code]} -> #{remote}")
+                command("cd ./engines/#{engine[:code]} && git remote add #{origin} #{remote}") 
+
+            end
+
+        end
+
+        if engine_name == "core" || engine_name == "all"
+            message("working with core")
+            command("git remote add github git@github.com:leitfaden/Lesli.git") 
+            command("git remote add origin git@github.com:leitfaden/Lesli.git") 
+            command("git remote add backup git@github.com:LesliTech/Lesli.git") 
+            command("git remote add lesli git@github.com:LesliTech/Lesli.git") 
+        end
+
+        message_separator
+        message_cow
 
     end
 
 end
+
+# Instantiate the class to define the tasks:
+DevGit.new
