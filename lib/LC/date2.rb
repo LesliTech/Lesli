@@ -125,7 +125,9 @@ module LC
 
             return datetime if datetime.is_a?(Time)
 
-            return ::DateTime.iso8601(datetime) if datetime.is_a?(String) and datetime.size == 25 and datetime[10] == "T"
+            if datetime.is_a?(String) and datetime.size == 25 and datetime[10] == "T"
+                return ::DateTime.iso8601(datetime) 
+            end 
 
             return ::DateTime.strptime(datetime, format)
         end
