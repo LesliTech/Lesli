@@ -30,7 +30,7 @@ module RoutesApp
             resource :invite, only: [:show, :create]
 
             # Initial settings for account
-            resource :onboarding, only: [:show]
+            resource :onboarding, only: [:show, :create]
 
             # Administration area for core settings
             scope :administration do
