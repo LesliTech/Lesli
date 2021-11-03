@@ -20,6 +20,8 @@ require 'rails_helper'
 require 'spec_helper'
 require 'byebug'
 
+
+# Pending to delete, unnecessary test
 RSpec.describe "POST:/account.json", type: :request do
     include_context 'user authentication'
 
