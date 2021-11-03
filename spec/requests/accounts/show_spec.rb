@@ -20,12 +20,12 @@ require 'rails_helper'
 require 'spec_helper'
 require 'byebug'
 
-RSpec.describe "GET:/account.json", type: :request do
+RSpec.describe "GET:/administration/account.json", type: :request do
 
     include_context 'user authentication'
 
     before(:all) do
-        get("/account.json")
+        get("/administration/account.json")
     end
 
     include_examples 'successful standard json response'
