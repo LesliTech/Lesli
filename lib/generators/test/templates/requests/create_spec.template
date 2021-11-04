@@ -23,7 +23,7 @@ RSpec.describe 'POST:[[url]]', type: :request do
 
     include_examples 'successful standard json response'
 
-    it 'is expected to test users in a loop' do
+    it 'is expected to test the creation of the record' do
         expect(@response_body["data"]["id"]).to be > 0
     end
 
