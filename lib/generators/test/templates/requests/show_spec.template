@@ -20,11 +20,7 @@ RSpec.describe "GET:[[url]]/:id.json", type: :request do
     include_examples "successful standard json response"
 
     it "is expected to respond with the record data" do
-        expect(@response_body["data"]).to eql([[model]].find_by_id(1))
-
-        @[[controller]].each do |key, value|
-            expect(@response_body["data"][key.to_s]).to eq(value)
-        end
+        expect(@response_body["data"]).to eql([[model]].find_by_id(@[[controller]].id))
     end
 
 end
