@@ -2,25 +2,23 @@
 
 [[license]]
 =end
-
-
-require 'rails_helper'
-require 'spec_helper'
-require 'byebug'
+require "rails_helper"
+require "spec_helper"
+require "byebug"
 
 
 RSpec.describe "PUT:[[url]]/:id", type: :request do
-    include_context 'user authentication'
+    include_context "user authentication"
 
     before(:all) do
-        put "[[url]]/1.json", params: {
+        put("[[url]]/:id.json", params: {
             [[controller]]: {
 
             }
-        }
+        })
     end
 
-    include_examples 'successful standard json response'
+    include_examples "successful standard json response"
 
     it "is expected to update record" do
     end

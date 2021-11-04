@@ -2,23 +2,22 @@
 
 [[license]]
 =end
+require "rails_helper"
+require "spec_helper"
+require "byebug"
 
-require 'rails_helper'
-require 'spec_helper'
-require 'byebug'
 
-
-RSpec.describe 'GET:[[url]]/:id.json', type: :request do
-    include_context 'user authentication'
+RSpec.describe "GET:[[url]]/:id.json", type: :request do
+    include_context "user authentication"
 
     before(:all) do
-        get '[[url]]/1.json'
+        get("[[url]]/:id.json")
     end
 
-    include_examples 'successful standard json response'
+    include_examples "successful standard json response"
 
-    it 'is expected to respond with the record data' do
-        expect(@response_body["data"]).to eql([[controller]].find(1))
+    it "is expected to respond with the record data" do
+        expect(@response_body["data"]).to eql([[model]].find_by_id(1))
     end
 
 end
