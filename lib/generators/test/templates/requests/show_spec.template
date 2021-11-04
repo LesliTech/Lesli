@@ -21,6 +21,12 @@ RSpec.describe "GET:[[url]]/:id.json", type: :request do
 
     it "is expected to respond with the record data" do
         expect(@response_body["data"]).to eql([[model]].find_by_id(@[[controller]].id))
+
+        @[[controller]].attributes.each do |key, value|
+            next if ["created_at", "updated_at"].include? key
+
+            expect(@response_body["data"][key.to_s]).to eq(value)
+        end
     end
 
 end
