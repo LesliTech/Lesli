@@ -12,18 +12,17 @@ require 'byebug'
 RSpec.describe "PUT:[[url]]/:id", type: :request do
     include_context 'user authentication'
 
-    it "Change user password" do
+    before(:all) do
+        put "[[url]]/1.json", params: {
+            [[controller]]: {
 
-        before(:all) do
-            put "[[url]]/1.json", params: {
-                [[controller]]: {
-
-                }
             }
-        end
+        }
+    end
 
-        include_examples 'successful standard json response'
+    include_examples 'successful standard json response'
 
+    it "is expected to update record" do
     end
 
 end
