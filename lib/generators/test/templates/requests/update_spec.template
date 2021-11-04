@@ -7,20 +7,26 @@ require "spec_helper"
 require "byebug"
 
 
-RSpec.describe "PUT:[[url]]/:id", type: :request do
+RSpec.describe "PUT:[[url]]/:id.json", type: :request do
     include_context "user authentication"
 
     before(:all) do
-        put("[[url]]/:id.json", params: {
-            [[controller]]: {
+        @[[controller]] = [[model]].new()
+        @[[controller]].save
 
-            }
+        @[[controller]]_params = {}
+
+        put("[[url]]/#{@[[controller]].id}.json", params: {
+            [[controller]]: @[[controller]]_params
         })
     end
 
     include_examples "successful standard json response"
 
     it "is expected to update record" do
+        @[[controller]]_params.each do |key, value|
+            expect(@response_body["data"][key.to_s]).to eq(value)
+        end
     end
 
 end
