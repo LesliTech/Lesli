@@ -26,8 +26,8 @@ For more information read the license file including with this software.
 
 @account[:view_id] = "#{params[:controller].gsub("/", "_")}_#{params[:action]}"
 @account[:engine] = lesli_engine_or_instance
-@account[:app] = params[:controller]
 @account[:url] = { root: request.base_url.to_s,  path: request.path }
+@account[:app] = params[:controller]
 
 %>
 
@@ -36,7 +36,9 @@ For more information read the license file including with this software.
 
 <% if user_signed_in? %>
 <script>
+
     <% # special data for authenticated users  %>
     const shortcuts = <%= current_user.shortcuts.select(:id, :name, :url).to_json.html_safe %>
+
 </script>
 <% end %>

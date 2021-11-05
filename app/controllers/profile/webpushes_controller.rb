@@ -20,15 +20,28 @@ For more information read the license file including with this software.
 class Profile::WebpushesController < ApplicationLesliController
     before_action :set_profile_webpush, only: [:show, :update, :destroy]
 
+    def index
+        webpushes = current_user.webpushes.select(:id, :user_agent, :active, LC::Date2.new.date_time.db_timestamps)
+        respond_with_successful(webpushes)
+    end
+
     # POST /profile/webpushes
     def create
-        user_webpush = User::Webpush.new(profile_webpush_params)
+
+        # check if webpush is already registered
+        user_webpush = current_user.webpushes.find_by(:endpoint => profile_webpush_params[:endpoint])
+        return respond_with_successful(user_webpush) unless user_webpush.blank?
+
+        # register webpush
+        user_webpush = current_user.webpushes.new(profile_webpush_params)
         user_webpush.user_agent = get_user_agent
-        if user_webpush.save
-            respond_with_successful(user_webpush)
-        else
-            respond_with_error(user_webpush.errors.full_messages.to_sentence)
-        end
+        
+        # respond with successful if able to sabe webpush
+        return respond_with_successful(user_webpush) if user_webpush.save
+
+        # respond if error
+        respond_with_error(user_webpush.errors.full_messages.to_sentence)
+
     end
 
     private
@@ -42,4 +55,5 @@ class Profile::WebpushesController < ApplicationLesliController
     def profile_webpush_params
         params.require(:profile_webpush).permit(:endpoint, :auth_key, :p256dh_key)
     end
+
 end
