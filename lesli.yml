@@ -67,7 +67,7 @@ configuration:
 security:
     log_activity: true
     enable_debug: false
-    enable_pushes: true
+    enable_pushes: false
     enable_commands: true
     enable_becoming: false
     enable_analytics: true
