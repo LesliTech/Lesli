@@ -16,11 +16,5 @@ For more information read the license file including with this software.
 
 =end
 class User::Webpush < ApplicationLesliRecord
-    def self.index(current_user, query)
-        []
-    end
-
-    def show(current_user, query)
-        self
-    end
+    belongs_to :user, foreign_key: "users_id"
 end

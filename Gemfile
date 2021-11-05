@@ -122,7 +122,9 @@ gem "ruby_cowsay"
 gem 'fast_jsonparser'
 
 gem 'active_record_union'
-#gem "webpush", "= 1.1.0"
+
+gem "webpush", "= 1.1.0"
+
 group :development, :test do
 
     # Fake data generator 
