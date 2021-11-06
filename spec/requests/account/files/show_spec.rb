@@ -54,3 +54,27 @@ RSpec.describe "GET:/administration/account/files/:id", type: :request do
 
 
 end
+
+RSpec.describe "GET:/administration/account/files/:id", type: :request do 
+    include_context "user authentication"
+
+    before(:all) do 
+        # Set file id that does not exist
+        @invalid_file_id = @user.account.files.all.order(id: :asc).last["id"] + 1
+
+        get "/administration/account/files/#{@invalid_file_id}.json"
+    end 
+
+    include_examples "not found standard json response"
+
+    it "is expected to respond with not found" do 
+        expect(@response_body).to have_key("error")
+        expect(@response_body["error"]).to be_a(Hash)
+
+        expect(@response_body["error"]).to have_key("message")
+        expect(@response_body["error"]["message"]).to be_a(String)
+        
+        expect(@response_body["error"]).to have_key("details")
+        expect(@response_body["error"]["details"]).to be_a(Array)
+    end
+end
