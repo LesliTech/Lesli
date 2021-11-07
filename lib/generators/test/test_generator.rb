@@ -2,9 +2,9 @@
 
 Copyright (c) 2021, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -26,7 +26,7 @@ class TestGenerator < Rails::Generators::NamedBase
     end
 
     def generate_standard_request_tests
-        ["create", "index", "show", "update"].each do |test_name|
+        ["create", "destroy", "index", "show", "update"].each do |test_name|
 
             test_name = test_name + "_spec"
             test_file = test_name + ".rb"
@@ -35,6 +35,7 @@ class TestGenerator < Rails::Generators::NamedBase
             copy_file("requests/#{test_name}.template", destination_path)
             gsub_file(destination_path, "[[license]]", @license)
             gsub_file(destination_path, "[[url]]", @info[:url])
+            gsub_file(destination_path, "[[model]]", @info[:model])
             gsub_file(destination_path, "[[controller]]", @info[:controller])
             gsub_file(destination_path, "[[engine_name]]", @info[:engine_name])
 
@@ -44,7 +45,7 @@ class TestGenerator < Rails::Generators::NamedBase
     def generate_standard_version_test
 
         return if @info[:engine] == "core"
-        
+
         destination_path = @info[:path].join("../", "../", "lib", "version_spec.rb")
 
         # standard test already exists
@@ -57,7 +58,7 @@ class TestGenerator < Rails::Generators::NamedBase
     end
 
 
-    private 
+    private
 
 
     def parse_information
@@ -67,6 +68,7 @@ class TestGenerator < Rails::Generators::NamedBase
 
         engine = module_controller[0]
         controller = module_controller[1]
+        model = get_model(module_controller)
 
         if module_controller[0] == "core"
             path = Rails.root.join(base_path, controller)
@@ -80,11 +82,19 @@ class TestGenerator < Rails::Generators::NamedBase
         return {
             url: url,
             path: path,
+            model: model,
             engine: engine,
             controller: controller,
             engine_name: engine.camelize
         }
 
+    end
+
+    def get_model(controller)
+        engine = controller[0].split("_").map { |word|  word.capitalize() }.join("")
+        model = controller[1].capitalize()
+
+        return engine + "::" + model
     end
 
 end
