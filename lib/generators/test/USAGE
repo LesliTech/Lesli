@@ -6,6 +6,7 @@ Example:
 
     This will create:
         /engines/cloud_focus/spec/requests/tasks/create_spec.rb
+        /engines/cloud_focus/spec/requests/tasks/destroy_spec.rb
         /engines/cloud_focus/spec/requests/tasks/index_spec.rb
         /engines/cloud_focus/spec/requests/tasks/show_spec.rb
         /engines/cloud_focus/spec/requests/tasks/update_spec.rb
@@ -16,6 +17,7 @@ Example:
 
     This will create:
         /engines/cloud_development/spec/requests/abouts/create_spec.rb
+        /engines/cloud_development/spec/requests/abouts/destroy_spec.rb
         /engines/cloud_development/spec/requests/abouts/index_spec.rb
         /engines/cloud_development/spec/requests/abouts/show_spec.rb
         /engines/cloud_development/spec/requests/abouts/update_spec.rb
@@ -26,6 +28,7 @@ Example:
 
     This will create:
         /spec/requests/settings/create_spec.rb
+        /spec/requests/settings/destroy_spec.rb
         /spec/requests/settings/index_spec.rb
         /spec/requests/settings/show_spec.rb
         /spec/requests/settings/update_spec.rb
