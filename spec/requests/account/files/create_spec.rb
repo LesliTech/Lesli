@@ -114,7 +114,37 @@ RSpec.describe "POST:/administration/account/files", type: :request do
 
     include_examples "error standard json response"
 
-    it "is expected to respond with error" do 
+    it "is expected to respond with error when params are empty strings" do 
+        expect(@response_body).to have_key("error")
+        expect(@response_body["error"]).to be_a(Hash)
+
+        expect(@response_body["error"]).to have_key("message")
+        expect(@response_body["error"]["message"]).to be_a(String)
+        
+        expect(@response_body["error"]).to have_key("details")
+        expect(@response_body["error"]["details"]).to be_a(Array)
+    end
+end 
+
+RSpec.describe "POST:/administration/account/files", type: :request do 
+    include ActionDispatch::TestProcess::FixtureFile
+    include_context "user authentication"
+
+    before(:all) do 
+
+        post("/administration/account/files.json", params: {
+            account_file: {
+                # without params, should return error response
+                name: nil,
+                file_type: nil,
+                attachment: nil
+            }
+        })
+    end
+
+    include_examples "error standard json response"
+
+    it "is expected to respond with error when params are nil" do 
         expect(@response_body).to have_key("error")
         expect(@response_body["error"]).to be_a(Hash)
 
