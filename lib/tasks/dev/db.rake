@@ -22,7 +22,7 @@ require "./lib/tasks/lesli_tasks"
 class Db < LesliTasks
 
     def initialize
-        namespace :dev2 do
+        namespace :dev do
             namespace :db do
 
                 desc ""
