@@ -23,7 +23,7 @@ class DevGithub < LesliTasks
     
 
     def initialize
-        namespace :dev2 do        
+        namespace :dev do        
             namespace :github do
 
                 desc "Distribute github workflows and actions to all the installed engines"
