@@ -16,4 +16,12 @@ For more information read the license file including with this software.
 // · 
 
 %> 
+<% # vapid key for web push notifications  %>
+<% content_for :application_custom_assets do %>
+<% if @account[:pushs] %>
+<script>
+const vapid = new Uint8Array(<%= Base64.urlsafe_decode64(Rails.application.credentials.services[:vapid][:public_key]).bytes %>);
+</script>
+<% end %>
+<% end %>
 <router-view></router-view>
