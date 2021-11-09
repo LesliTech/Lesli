@@ -252,9 +252,6 @@ RSpec.describe "Lesli::settings" do
         expect(@lesli_settings["security"]).to have_key("enable_login_otp")
         expect(@lesli_settings["security"]["enable_login_otp"]).to be_in([true, false])
 
-        expect(@lesli_settings["security"]).to have_key("enable_websockets")
-        expect(@lesli_settings["security"]["enable_websockets"]).to be_in([true, false])
-
         expect(@lesli_settings["security"]).to have_key("enable_login_link")
         expect(@lesli_settings["security"]["enable_login_link"]).to be_in([true, false])
 
