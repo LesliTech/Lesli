@@ -17,34 +17,34 @@ For more information read the license file including with this software.
 =end
 
 
-require "rails_helper"
-require "spec_helper"
-require "byebug" 
+# require "rails_helper"
+# require "spec_helper"
+# require "byebug" 
 
-RSpec.describe "GET:/administration/account/integrations", type: :request do 
+# RSpec.describe "GET:/administration/account/integrations", type: :request do 
 
-    include_context "user authentication"
+#     include_context "user authentication"
 
-    before(:all) do 
+#     before(:all) do 
 
-        # @name = "testing"
+#         @name = "testing"
 
-        # @integration = @user.account.integrations.new({
-        #     name: @name
-        # })
+#         @integration = @user.account.integrations.new({
+#             name: @name
+#         })
 
-        # @integration.save
+#         @integration.save
 
 
-        get "/administration/account/integrations.json"
-    end
+#         get "/administration/account/integrations.json"
+#     end
 
-    include_examples "successful standard json response"
+#     include_examples "successful standard json response"
 
-    it "is expected to respond with integrations" do 
+#     it "is expected to respond with integrations" do 
 
-        puts @response_body
+#         puts @response_body
 
-    end
+#     end
 
-end
+# end
