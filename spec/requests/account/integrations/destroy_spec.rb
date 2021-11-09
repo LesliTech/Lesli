@@ -16,20 +16,20 @@ For more information read the license file including with this software.
 
 =end
 
-require "rails_helper"
-require "spec_helper"
-require "byebug"
+# require "rails_helper"
+# require "spec_helper"
+# require "byebug"
 
-RSpec.describe "GET:/administration/account/settings/options", type: :request do 
+# RSpec.describe "GET:/administration/account/settings/options", type: :request do 
 
-    include_context "user authentication"
+#     include_context "user authentication"
 
-    before(:all) do 
-        # get "/administration/account/settings/options.json"
-        puts @user.account.integrations.index
-        @user.account.integrations.destroy_all
-        puts @user.account.integrations.index
-    end
+#     before(:all) do 
+#         # get "/administration/account/settings/options.json"
+#         puts @user.account.integrations.index
+#         @user.account.integrations.destroy_all
+#         puts @user.account.integrations.index
+#     end
 
 
-end
+# end
