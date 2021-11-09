@@ -2,7 +2,7 @@
 
 Lesli cli has commands, actions and arguments. Arguments are optional, while commands and actions are required. The syntax is:
 
-```shell
+```bash
 rails lesli command action [arguments]
 ```
 
