@@ -21,9 +21,10 @@ For more information read the license file including with this software.
 
 // · Component list
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentAction from 'LesliVue/shared/workflows/components/action.vue'
-import componentWorkflowChart from 'LesliVue/shared/workflows/components/chart.vue'
+import componentAssociation from 'LesliVue/shared/workflows/components/association.vue'
 import componentStatusName from 'LesliVue/shared/workflows/components/status-name.vue'
+import componentWorkflowChart from 'LesliVue/shared/workflows/components/chart.vue'
+import componentAction from 'LesliVue/shared/workflows/components/action.vue'
 
 export default {
     props: {
@@ -54,6 +55,7 @@ export default {
 
     components: {
         'component-workflow-chart': componentWorkflowChart,
+        'component-association': componentAssociation,
         'component-status-name': componentStatusName,
         'component-action': componentAction
     },
@@ -422,6 +424,25 @@ export default {
             }).finally(()=>{
                 this.submitting = false
             })
+        },
+
+        patchWorkflowDefault() {
+            let url = `${this.main_route}/${this.workflow_id}`
+            let data = {
+                workflow: {
+                    default: true
+                }
+            }
+            this.http.patch(url, data).then(result => {
+                if(result.successful){
+                    this.workflow.default = true
+                    this.msg.success(this.translations.workflows.messages_success_workflow_set_as_default)
+                } else {
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            })
         }
     },
 
@@ -491,7 +512,7 @@ export default {
             <b-tabs v-model="active_tab">
                 <b-tab-item :label="translations.workflows.view_tab_title_edition_mode">
                     <div class="columns">
-                        <div class="column is-12">
+                        <div :class="{'column is-12' :viewType == 'new', 'column is-10': viewType == 'edit'}">
                             <b-field :label="translations.workflows.column_name">
                                 <input
                                     class="input"
@@ -501,6 +522,14 @@ export default {
                                     ref="input-workflow-name"
                                     required
                                 />
+                            </b-field>
+                        </div>
+                        <div v-if="viewType == 'edit'" class="column is-2">
+                            <b-field :label="translations.workflows.column_default">
+                                <b-checkbox v-model="workflow.default" @change.native="patchWorkflowDefault">
+                                    <span v-if="workflow.default">{{translations.core.view_text_yes}}</span>
+                                    <span v-else>{{translations.core.view_text_no}}</span>
+                                </b-checkbox>
                             </b-field>
                         </div>
                     </div>
@@ -684,6 +713,15 @@ export default {
                         statuses-translations-path="core.shared"
                     >
                     </component-action>
+                </b-tab-item>
+                <b-tab-item :label="translations.workflows.view_btn_workflow_associations">
+                    <component-association
+                        :engine-namespace="engineNamespace"
+                        :workflow-id="workflow_id"
+                        :translations-path="`${translations_path}.workflow/associations`"
+                        statuses-translations-path="core.shared"
+                    >
+                    </component-association>
                 </b-tab-item>
                 <b-tab-item :label="translations.core.view_tab_title_delete_section" v-if="! workflow.deletion_protection">
                     <span class="has-text-danger">
