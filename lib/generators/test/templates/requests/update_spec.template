@@ -2,28 +2,31 @@
 
 [[license]]
 =end
+require "rails_helper"
+require "spec_helper"
+require "byebug"
 
 
-require 'rails_helper'
-require 'spec_helper'
-require 'byebug'
+RSpec.describe "PUT:[[url]]/:id.json", type: :request do
+    include_context "user authentication"
 
+    before(:all) do
+        @[[controller]] = [[model]].new()
+        @[[controller]].save
 
-RSpec.describe "PUT:[[url]]/:id", type: :request do
-    include_context 'user authentication'
+        @[[controller]]_params = {}
 
-    it "Change user password" do
+        put("[[url]]/#{@[[controller]].id}.json", params: {
+            [[controller]]: @[[controller]]_params
+        })
+    end
 
-        before(:all) do
-            put "[[url]]/1.json", params: {
-                [[controller]]: {
+    include_examples "successful standard json response"
 
-                }
-            }
+    it "is expected to update record" do
+        @[[controller]]_params.each do |key, value|
+            expect(@response_body["data"][key.to_s]).to eq(value)
         end
-
-        include_examples 'successful standard json response'
-
     end
 
 end

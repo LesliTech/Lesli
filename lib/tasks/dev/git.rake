@@ -23,7 +23,7 @@ class DevGit < LesliTasks
     
 
     def initialize
-        namespace :dev2 do        
+        namespace :dev do        
             namespace :git do
 
                 desc "Push code to remote branch/origin for all engines"
