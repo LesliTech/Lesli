@@ -2,7 +2,7 @@
 # Rails credentials
 
 
-```shell
+```bash
 # Ubuntu:
 EDITOR="code --wait" rails credentials:edit --environment development
 EDITOR="code --wait" rails credentials:edit --environment production

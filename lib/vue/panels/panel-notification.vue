@@ -32,11 +32,7 @@ export default {
     },
 
     mounted() {
-
         this.data.global.cloud_bell_notifications = this.lesli.notifications
-        this.prepareDesktopNotification();
-        this.startListeners();
-        
     },
 
     beforeDestroy() {
@@ -44,55 +40,6 @@ export default {
     },
 
     methods: {
-
-        prepareDesktopNotification() {
-
-            if (!("Notification" in window)) {
-                console.log("This browser does not support desktop notification");
-                return
-            }
-
-            // Let's check whether notification permissions have already been granted
-            if (Notification.permission === "granted") {
-                // If it's okay let's create a notification
-                return
-            }
-
-            // Otherwise, we need to ask the user for permission
-            if (Notification.permission !== "denied") {
-                Notification.requestPermission().then(function (permission) {
-                    console.log(permission)
-                })
-            }
-
-        },
-
-        startListeners() {
-            this.wss.onmessage = (message) => {
-
-                this.data.global.cloud_bell_notifications++
-
-                // data comes as binary with a json as string
-                let data = JSON.parse(message.data)
-
-                if (!data.subject) {
-                    return 
-                }
-
-                var notification = new Notification(data.subject, {
-                    lang: I18n.locale,
-                    body: data.body,
-                    data: data.url
-                });
-
-                if (!data.url) { return }
-
-                notification.onclick = function(e) {
-                    window.location.href = e.target.data
-                }
-
-            } 
-        },
 
         getNotifications() {
             this.http.get(this.url.profile("notifications")).then(result => {

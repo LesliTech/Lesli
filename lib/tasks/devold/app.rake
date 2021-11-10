@@ -26,7 +26,7 @@ scp -i app.mitwerken.de.pem production.yml.enc ubuntu@app.mitwerken.de:/var/www/
 
 require "./lesli"
 
-namespace :dev do
+namespace :devold do
 
     namespace :app do
 
