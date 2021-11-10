@@ -47,10 +47,6 @@ export default {
 
     methods: {
         setSubscriptions(){
-            this.bus.subscribe('show:/module/workflows/action', () => {
-                this.show = ! this.show
-            })
-
             this.bus.subscribe('show:/module/workflow/action/edit', () => {
                 this.active_tab = 2
             })
@@ -66,7 +62,6 @@ export default {
     },
 
     beforeDestroy(){
-        this.bus.$off('show:/module/workflows/action')
         this.bus.$off('show:/module/workflow/action/edit')
         this.bus.$off('destroy:/module/workflow/action')
     }

@@ -21,7 +21,7 @@ For more information read the license file including with this software.
 // · Component list
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import componentChart from 'LesliVue/shared/workflows/components/chart.vue'
-import componentAssociation from 'LesliVue/shared/workflows/components/association.vue'
+
 export default {
     props: {
         cloudEngine: {
@@ -46,8 +46,7 @@ export default {
     },
 
     components: {
-        'component-chart': componentChart,
-        'component-association': componentAssociation
+        'component-chart': componentChart
     },
 
     data() {
@@ -105,10 +104,6 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
-        },
-
-        publishShowWorkflowAssociation(){
-            this.bus.publish('show:/module/workflows/association')
         },
 
         patchWorkflowDefault() {
@@ -318,11 +313,5 @@ export default {
                 </div>
             </div>
         </div>
-        <component-association
-            :engine-namespace="engineNamespace"
-            :workflow-id="workflow_id"
-            :translations-path="`${translations_path}.workflow/associations`"
-        >
-        </component-association>
     </section>
 </template>
