@@ -21,18 +21,20 @@ For more information read the license file including with this software.
 import componentInformationCard from "Lesli/vue/users/components/card-information.vue"
 import componentInformationForm from "Lesli/vue/users/components/form-information.vue"
 import componentSecurityForm from "Lesli/vue/users/components/form-security.vue"
-import componentSessionManagement from "Lesli/vue/users/components/management-sessions.vue"
+import componentManagementSessions from "Lesli/vue/users/components/management-sessions.vue"
+import componentManagementNotifications from "Lesli/vue/profiles/components/management-notifications.vue"
 import componentSubscriptions from "Lesli/vue/users/components/subscriptions.vue"
 
 
 // ·
 export default {
     components: {
+        'component-security-form': componentSecurityForm,
+        'component-subscriptions': componentSubscriptions,
         'component-information-card': componentInformationCard,
         'component-information-form': componentInformationForm,
-        'component-security-form': componentSecurityForm,
-        'component-session-management': componentSessionManagement,
-        'component-subscriptions': componentSubscriptions
+        'component-management-sessions': componentManagementSessions,
+        'component-management-notifications': componentManagementNotifications
     },
     data() {
         return {
@@ -44,7 +46,7 @@ export default {
                 engines: null
             },
             ready: false,
-            active_tab: 0,
+            active_tab: 5,
             translations: {
                 core: {
                     users: I18n.t('core.users'),
@@ -101,7 +103,10 @@ export default {
                 <component-security-form></component-security-form>
             </b-tab-item>
             <b-tab-item :label="translations.core.users.view_tab_title_session_management">
-                <component-session-management v-if="user_id" :user_id="user_id"></component-session-management>
+                <component-management-sessions v-if="user_id" :user_id="user_id"></component-management-sessions>
+            </b-tab-item>
+            <b-tab-item :label="'Notifications management'">
+                <component-management-notifications v-if="user_id" :user_id="user_id"></component-management-notifications>
             </b-tab-item>
         </b-tabs>
     </section>
