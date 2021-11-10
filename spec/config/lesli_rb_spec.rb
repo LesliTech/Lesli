@@ -31,7 +31,7 @@ RSpec.describe "Lesli::engines" do
         unless @lesli_engines.empty?
             
             @lesli_engines.each do |engine|
-                puts engine
+
                 expect(engine).to have_key(:type)
                 expect(engine[:type]).to be_a(String)
     
