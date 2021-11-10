@@ -41,7 +41,7 @@ module Courier
                 CloudBell::NotificationService.generate(
                     user,
                     subject,
-                    url: url,
+                    #url: url,
                     body: body,
                     media: media,
                     payload: payload,
