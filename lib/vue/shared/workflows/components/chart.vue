@@ -62,6 +62,7 @@ export default {
         this.setCloudParams()
         this.setTranslations()
         this.verifyWorkflow()
+        this.setFirstStatus()
         this.displayWorkflow()
     },
     methods: {
@@ -81,14 +82,23 @@ export default {
             }
         },
 
+        setFirstStatus(){
+            let first_status = Object.values(this.workflow_data)[0]
+            if(first_status){
+                this.selected_status_id = first_status.id
+            }
+        },
+
         getIcon(node){
             let icon = ''
             if(node.status_type == 'initial'){
                 icon = 'fas:fa-play-circle'
-            }else if(node.status_type == 'completed_successfully' || node.status_type == 'completed_unsuccessfully'){
-                icon = 'fas:fa-check-circle'
+            }else if(node.status_type == 'completed_successfully'){
+                icon = 'fas:fa-times-circle'
+            }else if(node.status_type == 'completed_unsuccessfully'){
+                icon = 'fas:fa-times-circle'
             }else if(node.status_type == 'to_be_deleted'){
-                icon = 'fas:fa-exclamation-circle'
+                icon = 'fas:fa-eraser'
             }
             return icon
         },
@@ -147,7 +157,7 @@ export default {
 
                 previous_statuses.forEach((previous_status)=>{
                     data.push({
-                        id: `P${previous_status.id}`,
+                        id: previous_status.id,
                         text: `${this.getIcon(previous_status)} ${this.getNodeName(previous_status)}`,
                         next: [this.selected_status_id],
                         style: this.getStyle(previous_status)
@@ -176,8 +186,6 @@ export default {
             }else{
                 style += ', stroke:#000000'
             }
-
-            console.log(style)
 
             return style
         },
@@ -222,8 +230,13 @@ export default {
     <div class="columns is-multiline">
         <div class="column is-12">
             <b-field>
+                <template v-slot:label>
+                    <div class="has-text-left">
+                        {{translations.workflows.view_text_select_workflow_status}}
+                    </div>
+                </template>
                 <div class="control is-expanded">
-                    <span class="select is-fullwidth is-empty">
+                    <span class="select is-fullwidth">
                         <select v-model="selected_status_id">
                             <option
                                 :value="null"
@@ -259,8 +272,11 @@ export default {
     </div>
     
 </template>
-<style scoped>
+<style>
 .workflow-chart{
     overflow-x: auto;
+}
+.output .nodes .node .label g foreignObject div{
+    font-size: 0.88rem;
 }
 </style>
