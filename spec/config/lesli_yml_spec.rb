@@ -43,7 +43,14 @@ RSpec.describe "lesli_settings.yml" do
 
     it "expect to have a section for modules settings" do 
         expect(@lesli_settings).to have_key("modules")
-        expect(@lesli_settings["modules"]).to be_an(Array)
+
+        if @lesli_settings["modules"].kind_of?(Array) 
+            expect(@lesli_settings["modules"]).to be_an(Array)
+        else 
+            expect(@lesli_settings["modules"]).to be_an(Hash)
+            expect(@lesli_settings["modules"].keys.count).to eql(20)
+        end
+
     end
 
     it "expect to have a section for account settings" do
@@ -167,7 +174,9 @@ RSpec.describe "lesli_settings.yml" do
         expect(@lesli_settings["security"]).to have_key("roles") 
         if @lesli_settings["security"]["roles"]
             expect(@lesli_settings["security"]["roles"]).to be_an(Array)
-            expect(@lesli_settings["security"]["roles"].size).to be >= (1) 
+            unless expect(@lesli_settings["security"]["roles"]).empty?
+                expect(@lesli_settings["security"]["roles"].size).to be >= (1) 
+            end
         end
         
     end
