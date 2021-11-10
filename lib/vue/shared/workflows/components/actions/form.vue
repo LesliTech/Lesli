@@ -282,14 +282,51 @@ export default {
         </article>
         <component-data-loading v-if="loading" />
         <form v-if="!loading && (viewType == 'new' || action_id)" @submit="submitAction">
-            <div class="field">
-                <label class="label">{{translations.actions.column_name}}<sup class="has-text-danger">*</sup></label>
-                <div class="control">
-                    <input class="input" type="text" v-model="action.name" required>
+            <div class="columns is-multiline">
+                <div class="column is-12 has-text-right">
+                    <b-field>
+                        <template v-slot:label>
+                            &nbsp;
+                        </template>
+                        <b-button v-if="viewType == 'edit'" type="is-danger" outlined native-type="button" @click="deleteAction">
+                            <i class="fas fa-trash-alt"></i>
+                            {{translations.core.view_btn_delete}}
+                        </b-button>
+                    </b-field>
                 </div>
-            </div>
-            <div class="columns">
-                <div class="column is-5">
+                <div class="column is-8">
+                    <div class="field">
+                        <label class="label">{{translations.actions.column_name}}<sup class="has-text-danger">*</sup></label>
+                        <div class="control">
+                            <input class="input" type="text" v-model="action.name" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-2">
+                    <div class="field">
+                        <label class="label">{{translations.actions.column_active}}</label>
+                        <b-select expanded v-model="action.active">
+                            <option :value="true">{{translations.core.view_text_yes}}</option>
+                            <option :value="false">{{translations.core.view_text_no}}</option>
+                        </b-select>
+                    </div>
+                </div>
+                <div class="column is-2">
+                    <div class="field">
+                        <label class="label">{{translations.actions.column_execute_immediately}}</label>
+                        <div class="control">
+                            <b-checkbox v-model="action.execute_immediately" >
+                                <span v-if="action.execute_immediately">
+                                    {{translations.core.view_text_yes}}
+                                </span>
+                                <span v-else>
+                                    {{translations.core.view_text_no}}
+                                </span>
+                            </b-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-4">
                     <div class="field">
                         <label class="label">{{translations.actions.column_initial_status_id}}</label>
                         <b-select expanded v-model="action.initial_status_id">
@@ -307,7 +344,7 @@ export default {
                         </b-select>
                     </div>
                 </div>
-                <div class="column is-5">
+                <div class="column is-4">
                     <div class="field">
                         <label class="label">{{translations.actions.column_final_status_id}}<sup class="has-text-danger">*</sup></label>
                         <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="action.final_status_id" required>
@@ -325,18 +362,7 @@ export default {
                         </b-select>
                     </div>
                 </div>
-                <div class="column is-2">
-                    <div class="field">
-                        <label class="label">{{translations.actions.column_active}}</label>
-                        <b-select expanded v-model="action.active">
-                            <option :value="true">{{translations.core.view_text_yes}}</option>
-                            <option :value="false">{{translations.core.view_text_no}}</option>
-                        </b-select>
-                    </div>
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column is-8">
+                <div class="column is-4">
                     <div class="field">
                     <label class="label">{{translations.actions.column_action_type}}<sup class="has-text-danger">*</sup></label>
                         <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="action.action_type" required :disabled="viewType == 'edit'">
@@ -351,21 +377,6 @@ export default {
                                 }}</small>
                             </option>
                         </b-select>
-                    </div>
-                </div>
-                <div class="column is-4">
-                    <div class="field">
-                        <label class="label">{{translations.actions.column_execute_immediately}}</label>
-                        <div class="control">
-                            <b-checkbox v-model="action.execute_immediately" >
-                                <span v-if="action.execute_immediately">
-                                    {{translations.core.view_text_yes}}
-                                </span>
-                                <span v-else>
-                                    {{translations.core.view_text_no}}
-                                </span>
-                            </b-checkbox>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -443,15 +454,6 @@ export default {
                     <i class="fas fa-save"></i>
                     {{translations.core.view_btn_save}}
                 </b-button>
-            </div>
-            <div v-if="viewType == 'edit'">
-                <hr>
-                <div class="buttons">
-                    <b-button type="is-danger" outlined native-type="button" @click="deleteAction">
-                        <i class="fas fa-trash-alt"></i>
-                        {{translations.core.view_btn_delete}}
-                    </b-button>
-                </div>
             </div>
         </form>
     </div>
