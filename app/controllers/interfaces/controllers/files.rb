@@ -440,8 +440,8 @@ module Interfaces::Controllers::Files
         file_model = file_model() # If there is a custom file model, it must be returned in this method
         cloud_object_model = file_model.cloud_object_model
 
-        params.require(
-            "#{cloud_object_model.name.demodulize.underscore}_file".to_sym
+        params.fetch(
+            "#{cloud_object_model.name.demodulize.underscore}_file".to_sym, {}
         ).permit(
             :name,
             :attachment,
