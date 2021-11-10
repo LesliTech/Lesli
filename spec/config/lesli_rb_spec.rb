@@ -31,22 +31,22 @@ RSpec.describe "Lesli::engines" do
         unless @lesli_engines.empty?
             
             @lesli_engines.each do |engine|
-
-                expect(engine).to have_key("type")
-                expect(engine["type"]).to be_a(String)
+                puts engine
+                expect(engine).to have_key(:type)
+                expect(engine[:type]).to be_a(String)
     
-                expect(engine).to have_key("code")
-                expect(engine["code"]).to be_a(String)
+                expect(engine).to have_key(:code)
+                expect(engine[:code]).to be_a(String)
                 
-                expect(engine).to have_key("name")
-                expect(engine["name"]).to be_a(String)
+                expect(engine).to have_key(:name)
+                expect(engine[:name]).to be_a(String)
                 
-                expect(engine).to have_key("version")
+                expect(engine).to have_key(:version)
     
-                if engine["type"] == "engine" || engine["type"] == "builder"
-                    expect(engine).to have_key("github")
-                    expect(engine["version"]).to be_a(String)
-                    expect(engine["version"]).to eql("latest")
+                if engine[:type] == "engine" || engine[:type] == "builder"
+                    expect(engine).to have_key(:github)
+                    expect(engine[:version]).to be_a(String)
+                    expect(engine[:version]).to eql("latest")
                 end
             end
         end
