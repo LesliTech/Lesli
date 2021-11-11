@@ -85,3 +85,37 @@ RSpec.describe "GET:/administration/account/integrations", type: :request do
     end
 
 end
+
+
+# RSpec.describe "GET:/administration/account/integrations", type: :request do 
+#     include_context "user authentication"
+
+#     before(:all) do 
+#         post("/administration/account/integrations.json", params: {
+#             account_integration: {
+#                 name: data[:name]
+#             }
+#         })
+
+#         # get an id that does not exist in the db
+#         @invalid_id =  @user.account.integrations.all.order(id: :asc).last["id"].to_i + 1
+
+#         get "/administration/account/integrations/#{@invalid_id}.json"
+#     end
+
+#     include_examples "error standard json response"
+
+#     it "is expected to respond with error when an invalid id to show is given" do 
+#         expect(@response_body).to have_key("error")
+#         expect(@response_body["error"]).to be_a(Hash)
+
+#         expect(@response_body["error"]).to have_key("message")
+#         expect(@response_body["error"]["message"]).to be_a(String)
+
+#         expect(@response_body["error"]).to have_key("details")
+#         expect(@response_body["error"]["details"]).to be_a(Array)
+
+#     end
+# end
+
+
