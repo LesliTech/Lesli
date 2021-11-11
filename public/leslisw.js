@@ -1,1 +1,1 @@
-self.addEventListener("push",(function(i){if(self.Notification&&"granted"===self.Notification.permission){var t={};i.data&&(t=i.data.json());var a=t.title,o=t.body||"",n=t.tag||"lesli";i.waitUntil(self.registration.showNotification(a,{icon:"",body:o,tag:n}))}}));
+self.addEventListener("push",(function(i){if(self.Notification&&"granted"===self.Notification.permission){var t={};i.data&&(t=i.data.json()),console.log(t);var o=t.subject||"",a=t.tag||"lesli",n=t.body||"";i.waitUntil(self.registration.showNotification(o,{icon:"",body:n,tag:a}))}}));
