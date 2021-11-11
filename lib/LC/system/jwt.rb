@@ -24,9 +24,20 @@ module LC
         class Jwt
 
             @algorithm = "HS512"
-            @jwt_secret = Rails.application.credentials.services[:jwt][:secret]
+            @jwt_secret = Rails.application.credentials.dig(:services, :jwt, :secret)
+
+            # if no jwt key found in secret, use the rails key base as workaround
+            # report to the user the missing key
+            if @jwt_secret.blank?
+                Honeybadger.notify("JWT secret not found")
+                @jwt_secret = Rails.application.credentials.dig(:secret_key_base)
+            end
 
             def self.encode(payload)
+
+                # if no secret found stop the process
+                #raise "JWT secret not found" if @jwt_secret.blank?
+                
                 payload[:exp] = 24.hours.from_now if payload[:exp].blank?
                 payload[:exp] = payload[:exp].to_i
                 payload[:iat] = Time.now.to_i
@@ -39,9 +50,13 @@ module LC
                     }
                 )
                 LC::Response.service(true, token)
+            rescue => error
+                LC::Debug.msg error
+                Honeybadger.notify(error)
             end
 
             def self.decode(token)
+                
                 LC::Response.service(true, JWT.decode(token, @jwt_secret, true, { 
                     algorithm: @algorithm
                 }))
