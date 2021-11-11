@@ -80,8 +80,7 @@ security:
         minimum_length: 8
         expiration_time_days: 7
         development: "lesli"
-    roles:
-        - "sysadmin"
+    roles: []
     # Add any role you may want to initialize here
     #   - "Administration"
     #   - "Sales & Marketing"
