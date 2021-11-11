@@ -17,9 +17,9 @@ For more information read the license file including with this software.
 =end
 
 
-# require "rails_helper"
-# require "spec_helper"
-# require "byebug" 
+require "rails_helper"
+require "spec_helper"
+require "byebug" 
 
 [
     {
@@ -197,7 +197,7 @@ end
 
 #     before(:all) do 
 #         # get an id that does no exist
-#         @id = @user.account.integrations.all.order(id: :asc).to_json.last["id"] || 1
+#         @id = @user.account.integrations.all.order(id: :asc).last["id"] || 1
         
         
 #         post("/administration/account/integrations.json", params: {
