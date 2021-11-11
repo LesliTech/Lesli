@@ -59,39 +59,127 @@ LesliBullet/
     - Minimum 2 tests for each method (one successful and another unsuccessful)
     - Remove all actions controllers that are not in use
 
-- Week 1
-    - [x] (Rspec) Learn about Ruby
-    - [x] (Rspec) Learn about Ruby on Rails
-    - [x] (Rspec) Intro Lesli Core
-    - [x] (Rspec) Learn about Rspec
-    - [x] (Rspec) Read about Model tests - https://relishapp.com/rspec/rspec-rails/v/5-0/docs/model-specs
-    - [x] (Rspec) Read about Request tests - https://relishapp.com/rspec/rspec-rails/v/5-0/docs/request-specs/request-spec
-    - [x] (Rspec) Test Config files (database.yml, lesli.yml, lesli.rb)
+- 25/10/2021 y 01/11/2021
+    - (Rspec) Learn about Ruby
+    - (Rspec) Learn about Ruby on Rails
+    - (Rspec) Intro Lesli Core
+    - (Rspec) Learn about Rspec
+    - (Rspec) Read about Model tests - https://relishapp.com/rspec/rspec-rails/v/5-0/docs/model-specs
+    - (Rspec) Read about Request tests - https://relishapp.com/rspec/rspec-rails/v/5-0/docs/request-specs/request-spec
+    - (Rspec) Test Config files (database.yml, lesli.yml, lesli.rb)
+    - (Rspec) Request Test controllers/accounts_controller
+        - show, create, update, destroy, options
+    - (Rspec) Request Test controllers/account/files_controller
+        - index, show, create, update, destroy
+
+- 08/11/2021
+    - (Rspec) Request Test controllers/account/settings_controller
+        - index, create, destroy, options
+    - (Rspec) Request Test controllers/account/integrations_controller
+        - index, show, create, update, destroy
+    - (Rspec) Request Test controllers/abouts_controller
+        - version
+    - (Rspec) Request Test controllers/account/locations_controller
+        - index, show, create
+
+- 15/11/2021
+    - (Rspec) Request Test controllers/account/activities_controller
+        - index, create, update, destroy
+    - (Rspec) Request Test controllers/account/currencies_controller
+        - index, show, create, update, destroy, list
+    - (Rspec) Request Test controllers/account/currency/exchange_rates_controller
+        - index, show, create, update, destroy
+    - (Rspec) Request Test controllers/account/cronos_controller
+        - index, show, create, update, destroy
+
+- 22/11/2021
+    - (Rspec) Request Test controllers/errors_controller
+        - unauthorized, not_found, internal_server_error
+    - (Rspec) Request Test controllers/invites_controller
+        - show, create
+    - (Rspec) Request Test controllers/onboardings_controller
+        - show, create, invite
+    - (Rspec) Request Test controllers/otps_controller
+        - show, create
+    - (Rspec) Request Test controllers/passes_controller
+        - show, create
+
+- 29/11/2021
+    - (Rspec) Request Test controllers/profiles_controller
+        - show
+    - (Rspec) Request Test controllers/profile/notifications_controller
+        - index, update
+    - (Rspec) Request Test controllers/profile/subscriptions_controller
+        - index, options
+    - (Rspec) Request Test controllers/profile/webpushes_controller
+        - index, create
+    - (Rspec) Request Test controllers/role_descriptors_controller
+        - list, index, show, create, update, destroy
+
+- 06/12/2021
+    - (Rspec) Request Test controllers/role_descriptor/activities_controller
+        - index, show, create, update, destroy
+    - (Rspec) Request Test controllers/role_descriptor/provilege_actions_controller
+        - index, create, update, options
+    - (Rspec) Request Test controllers/roles_controller
+        - list, index, show, create, update, destroy, options, roles_old_2, roles_old
+    - (Rspec) Request Test controllers/role/activities_controller
+        - index, options
+
+- 13/12/2021
+    - (Rspec) Request Test controllers/role/descriptor_assignments_controller
+        - index, create, destroy, options
+    - (Rspec) Request Test controllers/role/overrides_controller
+    - (Rspec) Request Test controllers/system_activities_controller
+    - (Rspec) Request Test controllers/system_controllers_controller
+        - index, show, create, update, destroy
+    - (Rspec) Request Test controllers/system_controllers/actions_controller
+        - index, show, create, update, destroy
+
+- 20/12/2021
+    - (Rspec) Request Test controllers/users_controller
+        - list, index, show, create, update, destroy, options, become, logout, lock, password, email
+    - (Rspec) Request Test controllers/users/confirmations_controller
+        - show, create
+    - (Rspec) Request Test controllers/users/passwords_controller
+        - create, update
+    - (Rspec) Request Test controllers/users/registrations_controller
+        - create, update
+    - (Rspec) Request Test controllers/users/sessions_controller
+        - create, destroy
+
+- 03/01/2022
+    - (Rspec) Request Test controllers/user/access_codes_controller
+        - index, show, create, update, destroy
+    - (Rspec) Request Test controllers/user/activities_controller
+    - (Rspec) Request Test controllers/user/details_controller
+    - (Rspec) Request Test controllers/user/logs_controller
+    - (Rspec) Request Test controllers/user/passwords_controller
+        - update
+    - (Rspec) Request Test controllers/user/privilege_actions_controller
+        - index, show, create, update, destroy
+    - (Rspec) Request Test controllers/user/requests_controller
+    - (Rspec) Request Test controllers/user/roles_controller
+        - create, destroy
+    - (Rspec) Request Test controllers/user/sessions_controller
+        - index, destroy
+    - (Rspec) Request Test controllers/user/settings_controller
+    - (Rspec) Request Test controllers/user/shortcuts_controller
+        - index, create, update, destroy
+
+    (PLANNING IN PROGRESS)
+    - (Rspec) Request Test controllers/templates y template/
     - (Rspec) Request Test controllers/application_controller
     - (Rspec) Request Test controllers/application_lesli_controller
-    - (Rspec) Request Test controllers/abouts_controller
-    - (Rspec) Request Test controllers/accounts_controller and account/
-- Week 2
-    - (Rspec) Request Test controllers/users/
-    - (Rspec) Request Test controllers/errors_controller
-    - (Rspec) Request Test controllers/invites_controller
-    - (Rspec) Request Test controllers/onboardings_controller
-    - (Rspec) Request Test controllers/otps_controller
-- Week 3
-    - (Rspec) Request Test controllers/passes_controller
-    - (Rspec) Request Test controllers/profiles_controller and profile/
-    - (Rspec) Request Test controllers/role_descriptors_controller and role_descriptor/
-    - (Rspec) Request Test controllers/roles_controller and role/
-    - (Rspec) Request Test controllers/users_controller and user/
     - (Rspec) Model Test controllers/concerns/
-- Week 4
+    - (Rspec) Model Test controllers/shared/
+    - (Rspec) Model Test controllers/interfaces/
     - (Rspec) Model Test models/account and account/
     - (Rspec) Model Test models/application_lesli_record
     - (Rspec) Model Test models/cloud_object and cloud_object/
     - (Rspec) Model Test models/role_descriptor and role_descriptor/
     - (Rspec) Model Test models/role and role/
     - (Rspec) Model Test models/system_activity
-- Week 5
     - (Rspec) Model Test models/user and user/
     - (Rspec) Model Test models/profile/
     - (Rspec) Model Test models/shared/
@@ -99,12 +187,11 @@ LesliBullet/
     - (Rspec) Model Test services/user_validation_service
     - (Rspec) Model Test services/cloud_object/
     - (Rspec) Model Test services/role_descriptor
-- Week 6
-    (PLANNING IN PROGRESS)
     - (Rspec) Helper tests - https://relishapp.com/rspec/rspec-rails/v/5-0/docs/helper-specs/helper-spec
     - (Rspec) Controller tests - https://relishapp.com/rspec/rspec-rails/v/5-0/docs/controller-specs
     - (Rspec) Assets tests - Rails.application.assets.find_asset “my_image.png”
     - (Rspec) Model tests lib/
+
 - Week #
     - (LesliShield) Learn about Playwright
     - (LesliShield) Login
