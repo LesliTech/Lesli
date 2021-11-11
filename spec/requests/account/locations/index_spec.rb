@@ -61,43 +61,43 @@ RSpec.describe "GET:/administration/account/locations", type: :request do
 
         expect(@response_body_data.last).to have_key("name")
         expect(@response_body_data.last["name"]).to be_a(String)
-        expect(@response_body_data.last["name"]).to eq(@data[:name])
+        expect(@response_body_data.last["name"]).to eq(@location[:name])
 
         expect(@response_body_data.last).to have_key("short_name")
         expect(@response_body_data.last["short_name"]).to be_nil
-        expect(@response_body_data.last["short_name"]).to eq(@data[:short_name])
+        expect(@response_body_data.last["short_name"]).to eq(@location[:short_name])
 
         expect(@response_body_data.last).to have_key("postal_code")
         expect(@response_body_data.last["postal_code"]).to be_nil
-        expect(@response_body_data.last["postal_code"]).to eq(@data[:postal_code])
+        expect(@response_body_data.last["postal_code"]).to eq(@location[:postal_code])
 
         expect(@response_body_data.last).to have_key("latitude")
         expect(@response_body_data.last["latitude"]).to be_nil
-        expect(@response_body_data.last["latitude"]).to eq(@data[:latitude])
+        expect(@response_body_data.last["latitude"]).to eq(@location[:latitude])
 
         expect(@response_body_data.last).to have_key("longitude")
         expect(@response_body_data.last["longitude"]).to be_nil
-        expect(@response_body_data.last["longitude"]).to eq(@data[:longitude])
+        expect(@response_body_data.last["longitude"]).to eq(@location[:longitude])
 
         expect(@response_body_data.last).to have_key("code")
         expect(@response_body_data.last["code"]).to be_nil
-        expect(@response_body_data.last["code"]).to eq(@data[:code])
+        expect(@response_body_data.last["code"]).to eq(@location[:code])
 
         expect(@response_body_data.last).to have_key("calling_code")
         expect(@response_body_data.last["calling_code"]).to be_nil
-        expect(@response_body_data.last["calling_code"]).to eq(@data[:calling_code])
+        expect(@response_body_data.last["calling_code"]).to eq(@location[:calling_code])
 
         expect(@response_body_data.last).to have_key("level")
         expect(@response_body_data.last["level"]).to be_a(String)
-        expect(@response_body_data.last["level"]).to eq(@data[:level])
+        expect(@response_body_data.last["level"]).to eq(@location[:level])
 
         expect(@response_body_data.last).to have_key("native_level")
         expect(@response_body_data.last["native_level"]).to be_nil
-        expect(@response_body_data.last["native_level"]).to eq(@data[:native_level])
+        expect(@response_body_data.last["native_level"]).to eq(@location[:native_level])
 
         expect(@response_body_data.last).to have_key("parent_id")
         expect(@response_body_data.last["parent_id"]).to be_nil
-        expect(@response_body_data.last["parent_id"]).to eq(@data[:parent_id])
+        expect(@response_body_data.last["parent_id"]).to eq(@location[:parent_id])
 
         expect(@response_body_data.last).to have_key("deleted_at")
         expect(@response_body_data.last["deleted_at"]).to be_nil
@@ -111,7 +111,7 @@ RSpec.describe "GET:/administration/account/locations", type: :request do
         expect(@response_body_data.last).to have_key("accounts_id")
         expect(@response_body_data.last["accounts_id"]).to be_a(Numeric)
         expect(@response_body_data.last["accounts_id"]).to eql(@user.account.id)
-        expect(@response_body_data.last["accounts_id"]).to eq(@data[:accounts_id])
+        expect(@response_body_data.last["accounts_id"]).to eq(@location[:accounts_id])
     end
 
 end
