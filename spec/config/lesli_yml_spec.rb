@@ -48,7 +48,8 @@ RSpec.describe "lesli_settings.yml" do
             expect(@lesli_settings["modules"]).to be_an(Array)
         else 
             expect(@lesli_settings["modules"]).to be_an(Hash)
-            expect(@lesli_settings["modules"].keys.count).to eql(20)
+            expect(@lesli_settings["modules"].keys.count).to be > 0
+            expect(@lesli_settings["modules"].keys.count).to be < 50
         end
 
     end
@@ -174,8 +175,8 @@ RSpec.describe "lesli_settings.yml" do
         expect(@lesli_settings["security"]).to have_key("roles") 
         if @lesli_settings["security"]["roles"]
             expect(@lesli_settings["security"]["roles"]).to be_an(Array)
-            unless expect(@lesli_settings["security"]["roles"]).empty?
-                expect(@lesli_settings["security"]["roles"].size).to be >= (1) 
+            unless @lesli_settings["security"]["roles"].empty?
+                expect(@lesli_settings["security"]["roles"].size).to be > 1 
             end
         end
         
