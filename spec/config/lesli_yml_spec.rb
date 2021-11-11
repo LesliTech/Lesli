@@ -174,13 +174,7 @@ RSpec.describe "lesli_settings.yml" do
         expect(@lesli_settings["security"]).to have_key("roles")
         if @lesli_settings["security"]["roles"]
             expect(@lesli_settings["security"]["roles"]).to be_an(Array)
-<<<<<<< HEAD
             expect(@lesli_settings["security"]["roles"].size).to be >= (0)
-=======
-            unless @lesli_settings["security"]["roles"].empty?
-                expect(@lesli_settings["security"]["roles"].size).to be > 1 
-            end
->>>>>>> 5712a99a04e5d23add537af3576a5dceca3278ff
         end
 
     end
