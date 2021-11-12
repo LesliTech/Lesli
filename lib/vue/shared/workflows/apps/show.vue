@@ -216,10 +216,10 @@ export default {
                 </div>
             </div>
         </nav>
-        <div class="card">
-            <div class="card-content">
-                <b-tabs v-model="active_tab">
-                    <b-tab-item :label="translations.workflows.view_tab_title_edition_mode">
+        <b-tabs vertical v-model="active_tab">
+            <b-tab-item :label="translations.workflows.view_tab_title_edition_mode">
+                <div class="card">
+                    <div class="card-content">
                         <div class="columns">
                             <div class="column is-6">
                                 <h5 class="title is-5">
@@ -289,8 +289,12 @@ export default {
                                 </div>
                             </div>
                         </div>
-                    </b-tab-item>
-                    <b-tab-item  :label="translations.workflows.view_tab_title_graphic_mode">
+                    </div>
+                </div>
+            </b-tab-item>
+            <b-tab-item  :label="translations.workflows.view_tab_title_graphic_mode">
+                <div class="card">
+                    <div class="card-content">
                         <component-chart
                             v-if="active_tab == 1"
                             class="has-text-centered"
@@ -299,19 +303,9 @@ export default {
                             :workflow="workflow"
                         >
                         </component-chart>
-                    </b-tab-item>
-                </b-tabs>
-                <div class="columns">
-                    <div class="column">
-                        <small>
-                            <span class="has-text-weight-bold">
-                                {{translations.core.column_created_at}}:
-                            </span>
-                            {{ workflow.created_at }}
-                        </small>
                     </div>
                 </div>
-            </div>
-        </div>
+            </b-tab-item>
+        </b-tabs>
     </section>
 </template>
