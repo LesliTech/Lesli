@@ -28,7 +28,8 @@ export default {
             new_association: {
                 workflow_for: null,
                 global: false
-            }
+            },
+            submitting: false
         }
     },
 
@@ -88,6 +89,7 @@ export default {
             let data = {
                 workflow_association: this.new_association
             }
+            this.submitting = true
 
             this.http.post(this.endpoint, data).then(result => {
                 if (result.successful) {
@@ -99,6 +101,8 @@ export default {
                 }
             }).catch(error => {
                 console.log(error)
+            }).finally(()=>{
+                this.submitting = false
             })
         },
 
@@ -121,6 +125,19 @@ export default {
             this.deleteExtraAssociationFields()
         },
 
+        confirmAssociationDeletion(association){
+            this.$buefy.dialog.confirm({
+                title: this.translations.associations.messages_danger_delete_confirmation_title,
+                message: this.translations.associations.messages_danger_delete_confirmation_body,
+                cancelText: this.translations.core.view_btn_cancel,
+                confirmText: this.translations.core.view_btn_accept,
+                type: 'is-danger',
+                onConfirm: () => {
+                    this.deleteAssociation(association)
+                }
+            })
+        },
+
         deleteAssociation(association){
             let url = `${this.endpoint}/${association.id}`
             this.http.delete(url).then(result => {
@@ -133,7 +150,7 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
-        }
+        },
     },
 
     computed: {
@@ -175,8 +192,12 @@ export default {
         <h5 class="title is-5">{{translations.associations.view_title_main}}</h5>
         <form @submit="postAssociation">
             <div class="columns">
-                <div class="column is-4">
-                    <b-field :label="translations.associations.view_title_assign_to">
+                <div class="column is-3">
+                    <b-field :message="translations.associations.view_text_column_workflow_for_description">
+                        <template v-slot:label>
+                            {{translations.associations.view_title_assign_to}}
+                            <sup class="has-text-danger">*</sup>
+                        </template>
                         <b-select expanded :placeholder="translations.associations.view_placeholder_select_resource" v-model="new_association.workflow_for" required>
                             <option
                                 v-for="association in association_options"
@@ -188,8 +209,16 @@ export default {
                         </b-select>
                     </b-field>
                 </div>
-                <div class="column is-2">
+                <div class="column is-3">
                     <b-field v-if="new_association.workflow_for" :label="translations.associations.column_global">
+                        <template v-slot:message>
+                            <span v-if="detailedAssociationsAvailable">
+                                {{translations.associations.view_text_specific_options_available}}
+                            </span>
+                            <span v-else>
+                                {{translations.associations.view_text_only_global_option_available}}
+                            </span>
+                        </template>
                         <b-checkbox
                             v-model="new_association.global"
                             :disabled="! detailedAssociationsAvailable"
@@ -226,13 +255,22 @@ export default {
                 </div>
             </div>
             <b-field>
-                <b-button expanded type="is-primary" native-type="submit">
-                    {{translations.core.view_btn_save}}
+                <b-button expanded type="is-primary" native-type="submit" :disabled="submitting">
+                    <span v-if="submitting">
+                        <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small"></b-icon>
+                        <span>{{translations.core.view_btn_saving}}</span>
+                        
+                    </span>
+                    <span v-else>
+                        <b-icon icon="save" size="is-small"></b-icon>
+                        <span>{{translations.core.view_btn_save}}</span>
+                    </span>
                 </b-button>
             </b-field>
         </form>
         <hr>
-        <b-table :data="associations">
+
+        <b-table v-if="associations.length > 0" :data="associations">
             <template slot-scope="props">
                 <b-table-column field="workflow_for" :label="translations.associations.column_workflow_for">
                     {{ object_utils.translateEnum(translations.main, 'column_enum_association', props.row.workflow_for) }}
@@ -249,9 +287,12 @@ export default {
                     {{props.row.details}}
                 </b-table-column>
                 <b-table-column field="close" label="">
-                    <a class="delete is-small" role="button" @click="deleteAssociation(props.row)"></a>
+                    <a class="delete is-small" role="button" @click="confirmAssociationDeletion(props.row)"></a>
                 </b-table-column>
             </template>
         </b-table>
+        <span v-else class="has-text-grey">
+            {{translations.associations.view_text_no_associations_set}}
+        </span>
     </div>
 </template>

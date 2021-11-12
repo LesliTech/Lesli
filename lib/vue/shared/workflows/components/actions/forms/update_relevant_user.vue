@@ -122,7 +122,7 @@ export default {
         },
 
         filteredBranchOfficeUsers(){
-            return this.filteredUsers('user_reviewer')
+            return this.filteredUsers('user_branch_office')
         }
     }
 }
@@ -134,7 +134,7 @@ export default {
                 {{translations.actions.view_title_update_user_main}}
             </h4>
             <div class="columns">
-                <div class="column is-9">
+                <div class="column is-5">
                     <b-field
                         :label="translations.actions.view_title_select_concerning_user_type"
                         :message="translations.actions.view_text_select_concerning_user_type_description"
@@ -156,7 +156,27 @@ export default {
                         </b-select>
                     </b-field>
                 </div>
-                <div class="column is-3">
+                <div class="column is-5">
+                    <div v-if="workflow_action.input_data.relevant_user_flags.user_main == 'custom'">
+                        <label class="label">
+                            {{translations.actions.view_placeholder_select_employee}}
+                            <sup class="has-text-danger">*</sup>
+                        </label>
+                        <b-field grouped >
+                            <b-autocomplete
+                                expanded
+                                required
+                                :placeholder="translations.actions.view_placeholder_select_employee"
+                                v-model="workflow_action.input_data.relevant_user_values.user_main.name"
+                                field="name"
+                                @select="(option, event)=>{selectUser(option, 'user_main')}"
+                                :data="filteredMainUsers"
+                            >
+                            </b-autocomplete>
+                        </b-field>
+                    </div>
+                </div>
+                <div class="column is-2">
                     <b-field>
                         <template v-slot:label> &nbsp; </template>
                         <b-button expanded @click="clearSelectedUser('user_main')">
@@ -165,25 +185,6 @@ export default {
                         </b-button>
                     </b-field>
                 </div>
-            </div>
-            <div v-if="workflow_action.input_data.relevant_user_flags.user_main == 'custom'">
-                <label class="label">
-                    {{translations.actions.view_placeholder_select_employee}}
-                    <sup class="has-text-danger">*</sup>
-                </label>
-                <b-field grouped >
-                    <b-autocomplete
-                        expanded
-                        required
-                        ref="autocomplete"
-                        :placeholder="translations.actions.view_placeholder_select_employee"
-                        v-model="workflow_action.input_data.relevant_user_values.user_main.name"
-                        field="name"
-                        @select="(option, event)=>{selectUser(option, 'user_main')}"
-                        :data="filteredMainUsers"
-                    >
-                    </b-autocomplete>
-                </b-field>
             </div>
         </div>
 
@@ -194,7 +195,7 @@ export default {
                 {{translations.actions.view_title_update_user_reviewer}}
             </h4>
             <div class="columns">
-                <div class="column is-9">
+                <div class="column is-5">
                     <b-field
                         :label="translations.actions.view_title_select_concerning_user_type"
                         :message="translations.actions.view_text_select_concerning_user_type_description_with_nonexistant_field_warning"
@@ -216,7 +217,27 @@ export default {
                         </b-select>
                     </b-field>
                 </div>
-                <div class="column is-3">
+                <div class="column is-5">
+                    <div v-if="workflow_action.input_data.relevant_user_flags.user_reviewer == 'custom'">
+                        <label class="label">
+                            {{translations.actions.view_placeholder_select_employee}}
+                            <sup class="has-text-danger">*</sup>
+                        </label>
+                        <b-field grouped >
+                            <b-autocomplete
+                                expanded
+                                required
+                                :placeholder="translations.actions.view_placeholder_select_employee"
+                                v-model="workflow_action.input_data.relevant_user_values.user_reviewer.name"
+                                field="name"
+                                @select="(option, event)=>{selectUser(option, 'user_reviewer')}"
+                                :data="filteredReviewerUsers"
+                            >
+                            </b-autocomplete>
+                        </b-field>
+                    </div>
+                </div>
+                <div class="column is-2">
                     <b-field>
                         <template v-slot:label> &nbsp; </template>
                         <b-button expanded @click="clearSelectedUser('user_reviewer')">
@@ -225,25 +246,6 @@ export default {
                         </b-button>
                     </b-field>
                 </div>
-            </div>
-            <div v-if="workflow_action.input_data.relevant_user_flags.user_reviewer == 'custom'">
-                <label class="label">
-                    {{translations.actions.view_placeholder_select_employee}}
-                    <sup class="has-text-danger">*</sup>
-                </label>
-                <b-field grouped >
-                    <b-autocomplete
-                        expanded
-                        required
-                        ref="autocomplete"
-                        :placeholder="translations.actions.view_placeholder_select_employee"
-                        v-model="workflow_action.input_data.relevant_user_values.user_reviewer.name"
-                        field="name"
-                        @select="(option, event)=>{selectUser(option, 'user_reviewer')}"
-                        :data="filteredReviewerUsers"
-                    >
-                    </b-autocomplete>
-                </b-field>
             </div>
         </div>
 
@@ -254,7 +256,7 @@ export default {
                 {{translations.actions.view_title_update_user_branch_office}}
             </h4>
             <div class="columns">
-                <div class="column is-9">
+                <div class="column is-5">
                     <b-field
                         :label="translations.actions.view_title_select_concerning_user_type"
                         :message="translations.actions.view_text_select_concerning_user_type_description_with_nonexistant_field_warning"
@@ -276,7 +278,27 @@ export default {
                         </b-select>
                     </b-field>
                 </div>
-                <div class="column is-3">
+                <div class="column is-5">
+                    <div v-if="workflow_action.input_data.relevant_user_flags.user_branch_office == 'custom'">
+                        <label class="label">
+                            {{translations.actions.view_placeholder_select_employee}}
+                            <sup class="has-text-danger">*</sup>
+                        </label>
+                        <b-field grouped >
+                            <b-autocomplete
+                                expanded
+                                required
+                                :placeholder="translations.actions.view_placeholder_select_employee"
+                                v-model="workflow_action.input_data.relevant_user_values.user_branch_office.name"
+                                field="name"
+                                @select="(option, event)=>{selectUser(option, 'user_branch_office')}"
+                                :data="filteredBranchOfficeUsers"
+                            >
+                            </b-autocomplete>
+                        </b-field>
+                    </div>
+                </div>
+                <div class="column is-2">
                     <b-field>
                         <template v-slot:label> &nbsp; </template>
                         <b-button expanded @click="clearSelectedUser('user_branch_office')">
@@ -285,25 +307,6 @@ export default {
                         </b-button>
                     </b-field>
                 </div>
-            </div>
-            <div v-if="workflow_action.input_data.relevant_user_flags.user_branch_office == 'custom'">
-                <label class="label">
-                    {{translations.actions.view_placeholder_select_employee}}
-                    <sup class="has-text-danger">*</sup>
-                </label>
-                <b-field grouped >
-                    <b-autocomplete
-                        expanded
-                        required
-                        ref="autocomplete"
-                        :placeholder="translations.actions.view_placeholder_select_employee"
-                        v-model="workflow_action.input_data.relevant_user_values.user_branch_office.name"
-                        field="name"
-                        @select="(option, event)=>{selectUser(option, 'user_branch_office')}"
-                        :data="filteredBranchOfficeUsers"
-                    >
-                    </b-autocomplete>
-                </b-field>
             </div>
         </div>
 

@@ -82,42 +82,50 @@ export default {
 </script>
 <template>
     <section v-if="workflow_action">
-        <div class="field">
-            <label class="label">{{ translations.actions.view_text_sender_user }}<sup class="has-text-danger">*</sup></label>
-            <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.concerning_users.type" required>
-                <option
-                    v-for="concerning_user_type in options.concerning_user_types"
-                    :value="concerning_user_type.value"
-                    :key="concerning_user_type.value"
-                >
-                    <small>
-                        {{ object_utils.translateEnum(translations.actions, 'column_enum_concerning_user_types', concerning_user_type.text) }}
-                    </small>
-                </option>
-            </b-select>
-            <p v-if="workflow_action.concerning_users.type == 'reviewer' || workflow_action.concerning_users.type == 'branch_office'" class="help">
-                {{translations.actions.view_text_concerning_user_can_be_unavailable}}
-            </p>
-        </div>
-        <div class="field" v-if="workflow_action.concerning_users.type == 'custom'">
-            <label class="label">{{ translations.actions.view_title_employee }}<sup class="has-text-danger">*</sup></label>
-            <div class="control">
-                <b-autocomplete
-                    :placeholder="translations.actions.view_placeholder_select_employee"
-                    v-model="workflow_action.concerning_users.list[0].name"
-                    required
-                    field="name"
-                    @select="user => workflow_action.concerning_users.list[0].id = user.id"
-                    :data="filteredUsers"
-                >
-                </b-autocomplete>
+        <div class="columns is-multiline">
+            <div class="column is-6">
+                <div class="field">
+                    <label class="label">{{ translations.actions.view_text_sender_user }}<sup class="has-text-danger">*</sup></label>
+                    <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.concerning_users.type" required>
+                        <option
+                            v-for="concerning_user_type in options.concerning_user_types"
+                            :value="concerning_user_type.value"
+                            :key="concerning_user_type.value"
+                        >
+                            <small>
+                                {{ object_utils.translateEnum(translations.actions, 'column_enum_concerning_user_types', concerning_user_type.text) }}
+                            </small>
+                        </option>
+                    </b-select>
+                    <p v-if="workflow_action.concerning_users.type == 'reviewer' || workflow_action.concerning_users.type == 'branch_office'" class="help">
+                        {{translations.actions.view_text_concerning_user_can_be_unavailable}}
+                    </p>
+                </div>
             </div>
-        </div>
-        <div class="field">
-            <label class="label">{{ translations.actions.view_text_message_content }}</label>
-            <div class="control">
-                <b-input type="textarea" v-model="workflow_action.input_data.message_text">
-                </b-input>
+            <div class="column is-6">
+                <div class="field" v-if="workflow_action.concerning_users.type == 'custom'">
+                    <label class="label">{{ translations.actions.view_title_employee }}<sup class="has-text-danger">*</sup></label>
+                    <div class="control">
+                        <b-autocomplete
+                            :placeholder="translations.actions.view_placeholder_select_employee"
+                            v-model="workflow_action.concerning_users.list[0].name"
+                            required
+                            field="name"
+                            @select="user => workflow_action.concerning_users.list[0].id = user.id"
+                            :data="filteredUsers"
+                        >
+                        </b-autocomplete>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-12">
+                <div class="field">
+                    <label class="label">{{ translations.actions.view_text_message_content }}</label>
+                    <div class="control">
+                        <b-input type="textarea" v-model="workflow_action.input_data.message_text">
+                        </b-input>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
