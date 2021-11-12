@@ -78,14 +78,14 @@ CarrierWave.configure do |config|
     aws_credetials = {
         provider: "AWS",
         path_style: true,
-        aws_access_key_id:     Rails.application.credentials.providers[:aws][:access_key_id],
-        aws_secret_access_key: Rails.application.credentials.providers[:aws][:secret_access_key],
-        region:                Rails.application.credentials.providers[:aws][:region]
+        aws_access_key_id:     Rails.application.credentials.dig(:providers, :aws, :access_key_id),
+        aws_secret_access_key: Rails.application.credentials.dig(:providers, :aws, :secret_access_key),
+        region:                Rails.application.credentials.dig(:providers, :aws, :region)
     }
-    aws_bucket = Rails.application.credentials.providers[:aws][:bucket]
+    aws_bucket = Rails.application.credentials.dig(:providers, :aws, :bucket)
 
     # However, if there are specfic credentials, those will be used
-    if Rails.application.credentials.providers[:aws][:s3]
+    if Rails.application.credentials.dig(:providers, :aws, :s3)
         aws_credetials[:aws_access_key_id] = Rails.application.credentials.providers[:aws][:s3][:access_key_id]
         aws_credetials[:aws_secret_access_key] = Rails.application.credentials.providers[:aws][:s3][:secret_access_key]
         aws_credetials[:region] = Rails.application.credentials.providers[:aws][:s3][:region]
