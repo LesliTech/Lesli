@@ -112,3 +112,115 @@ RSpec.describe "POST:/administration/account/locations", type: :request do
     end
 
 end
+
+# RSpec.describe "POST:/administration/account/locations" do 
+
+#     include_context "user authentication"
+
+#     before(:all) do 
+#         post("/administration/account/locations.json", params: {})
+#     end
+
+#     include_examples "error standard json response"
+
+#     it "is expected to respond with an error response when there are no parameters(location should exists)" do 
+#         expect(@response_body).to have_key("error")
+#         expect(@response_body["error"]).to be_a(Hash)
+
+#         expect(@response_body["error"]).to have_key("message")
+#         expect(@response_body["error"]["message"]).to be_a(String)
+
+#         expect(@response_body["error"]).to have_key("details")
+#         expect(@response_body["error"]["details"]).to be_a(Array)
+#     end
+# end 
+
+# RSpec.describe "POST:/administration/account/locations" do 
+
+#     include_context "user authentication"
+
+#     before(:all) do 
+#         @new_location_data = {}
+
+#         post("/administration/account/locations.json", params: {
+#             location: @new_location_data
+#         })
+#     end
+
+#     include_examples "error standard json response"
+
+#     it "is expected to respond with an error response when the location hash does not have any key" do 
+#         expect(@response_body).to have_key("error")
+#         expect(@response_body["error"]).to be_a(Hash)
+
+#         expect(@response_body["error"]).to have_key("message")
+#         expect(@response_body["error"]["message"]).to be_a(String)
+
+#         expect(@response_body["error"]).to have_key("details")
+#         expect(@response_body["error"]["details"]).to be_a(Array)
+#     end
+
+# end 
+
+
+# RSpec.describe "POST:/administration/account/locations" do 
+
+#     include_context "user authentication"
+
+#     before(:all) do 
+#         @new_location_data = {
+#             :name => nil,
+#             :level => nil,
+#         }
+
+#         post("/administration/account/locations.json", params: {
+#             location: @new_location_data
+#         })
+
+#     end
+
+#     include_examples "error standard json response"
+
+#     it "is expected to respond with an error response when all params are nil" do 
+#         expect(@response_body).to have_key("error")
+#         expect(@response_body["error"]).to be_a(Hash)
+
+#         expect(@response_body["error"]).to have_key("message")
+#         expect(@response_body["error"]["message"]).to be_a(String)
+
+#         expect(@response_body["error"]).to have_key("details")
+#         expect(@response_body["error"]["details"]).to be_a(Array)
+#     end
+
+# end 
+
+# RSpec.describe "POST:/administration/account/locations" do 
+
+#     include_context "user authentication"
+
+#     before(:all) do 
+#         @new_location_data = {
+#             :name => "",
+#             :level => "",
+#         }
+
+#         post("/administration/account/locations.json", params: {
+#             location: @new_location_data
+#         })
+
+#     end
+
+#     include_examples "error standard json response"
+
+#     it "is expected to respond with an error response when all params are empty strings" do 
+#         expect(@response_body).to have_key("error")
+#         expect(@response_body["error"]).to be_a(Hash)
+
+#         expect(@response_body["error"]).to have_key("message")
+#         expect(@response_body["error"]["message"]).to be_a(String)
+
+#         expect(@response_body["error"]).to have_key("details")
+#         expect(@response_body["error"]["details"]).to be_a(Array)
+#     end
+
+# end 

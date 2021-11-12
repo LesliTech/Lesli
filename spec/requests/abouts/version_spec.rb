@@ -30,10 +30,10 @@ For more information read the license file including with this software.
 #         get "/about/version.json"
 #     end
 
-#     include_examples 'successful standard json response'
+#     # include_examples 'successful standard json response'
 
 #     it "is expected to respond with app version" do 
-
+#         puts response.body
 #     end
 
 
