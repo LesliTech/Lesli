@@ -79,6 +79,7 @@ export default {
             to_be_deleted_statuses: {},
             main_route: null,
             submitting: false,
+            submitting_status: false,
             translations_path: null
         }
     },
@@ -156,6 +157,7 @@ export default {
             let data = {
                 workflow_status: new_status
             }
+            this.submitting_status = true
 
             let url = `${this.main_route}/${this.workflow_id}/statuses`
             this.http.post(url, data).then(result => {
@@ -171,6 +173,8 @@ export default {
                 }
             }).catch(error => {
                 console.log(error)
+            }).finally(()=>{
+                this.submitting_status = false
             })
         },
 
@@ -199,7 +203,7 @@ export default {
             }
             this.selected_workflow_status = {}
             this.rerender_chart = true
-            this.msg.info(this.translations.workflows.messages_info_status_deleted)
+            this.msg.warn(this.translations.workflows.messages_info_status_deleted)
         },
 
         addFollowUpStatus(){
@@ -507,10 +511,11 @@ export default {
 }
 </script>
 <template>
-    <div class="card" v-if="workflow">
-        <div class="card-content">
-            <b-tabs v-model="active_tab">
-                <b-tab-item :label="translations.workflows.view_tab_title_edition_mode">
+    <b-tabs v-if="workflow" vertical v-model="active_tab">
+        <b-tab-item :label="translations.workflows.view_tab_title_edition_mode">
+            <div class="card" >
+                <div class="card-content">
+                    <h5 class="title is-5">{{translations.workflows.view_title_workflow_configuration}}</h5>
                     <div class="columns">
                         <div :class="{'column is-12' :viewType == 'new', 'column is-10': viewType == 'edit'}">
                             <b-field :label="translations.workflows.column_name">
@@ -533,6 +538,7 @@ export default {
                             </b-field>
                         </div>
                     </div>
+                    <hr>
                     <form @submit="addStatusToWorkflow">
                         <div class="columns">
                             <div class="column is-11">
@@ -546,15 +552,15 @@ export default {
                                     <template v-slot:label>
                                         &nbsp;
                                     </template>
-                                    <b-button type="is-primary" native-type="submit" expanded class="submit-button">
-                                        <i class="fas fa-plus-square">
-                                        </i>
+                                    <b-button :disabled="submitting_status" type="is-primary" native-type="submit" expanded class="submit-button">
+                                        <i v-if="submitting_status" class="fas fa-circle-notch fa-spin"> </i>
+                                        <i v-else class="fas fa-plus-square"> </i>
                                     </b-button>
                                 </b-field>
                             </div>
                         </div>
                     </form>
-                    <hr>
+                    <br>
                     <form @submit="verifyAndSubmitWorkflow">
                         <div class="columns">
                             <div class="column is-7">
@@ -694,8 +700,12 @@ export default {
                             </div>
                         </div>
                     </form>
-                </b-tab-item>
-                <b-tab-item :label="translations.workflows.view_tab_title_graphic_mode">
+                </div>
+            </div>
+        </b-tab-item>
+        <b-tab-item :label="translations.workflows.view_tab_title_graphic_mode">
+            <div class="card">
+                <div class="card-content">
                     <component-workflow-chart
                         v-if="active_tab == 1"
                         class="has-text-centered"
@@ -704,8 +714,12 @@ export default {
                         :workflow="workflow"
                         :rerender.sync="rerender_chart"
                     />
-                </b-tab-item>
-                <b-tab-item :label="translations.workflows.view_btn_workflow_actions">
+                </div>
+            </div>
+        </b-tab-item>
+        <b-tab-item :label="translations.workflows.view_btn_workflow_actions">
+            <div class="card">
+                <div class="card-content">
                     <component-action
                         :engine-namespace="engineNamespace"
                         :workflow-id="workflow_id"
@@ -713,8 +727,12 @@ export default {
                         statuses-translations-path="core.shared"
                     >
                     </component-action>
-                </b-tab-item>
-                <b-tab-item :label="translations.workflows.view_btn_workflow_associations">
+                </div>
+            </div>
+        </b-tab-item>
+        <b-tab-item :label="translations.workflows.view_btn_workflow_associations">
+            <div class="card">
+                <div class="card-content">
                     <component-association
                         :engine-namespace="engineNamespace"
                         :workflow-id="workflow_id"
@@ -722,8 +740,13 @@ export default {
                         statuses-translations-path="core.shared"
                     >
                     </component-association>
-                </b-tab-item>
-                <b-tab-item :label="translations.core.view_tab_title_delete_section" v-if="! workflow.deletion_protection">
+                </div>
+            </div>
+        </b-tab-item>
+        <b-tab-item :label="translations.core.view_tab_title_delete_section" v-if="! workflow.deletion_protection">
+            <div class="card">
+                <div class="card-content">
+                    <h5 class="title is-5">{{translations.workflows.view_title_delete_workflow}}</h5>
                     <span class="has-text-danger">
                         {{translations.workflows.messages_danger_delete_workflow_description}}
                     </span>
@@ -739,8 +762,8 @@ export default {
                             </span>
                         </b-button>
                     </b-field>
-                </b-tab-item>
-            </b-tabs>
-        </div>
-    </div>
+                </div>
+            </div>
+        </b-tab-item>
+    </b-tabs>
 </template>

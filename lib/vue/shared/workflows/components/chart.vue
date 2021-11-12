@@ -227,50 +227,55 @@ export default {
 }
 </script>
 <template>
-    <div class="columns is-multiline">
-        <div class="column is-12">
-            <b-field>
-                <template v-slot:label>
-                    <div class="has-text-left">
-                        {{translations.workflows.view_text_select_workflow_status}}
-                    </div>
-                </template>
-                <div class="control is-expanded">
-                    <span class="select is-fullwidth">
-                        <select v-model="selected_status_id">
-                            <option
-                                :value="null"
-                                hidden
-                                disabled
-                            >
-                                {{translations.workflows.view_placeholder_select_status_to_view_chart}}
-                            </option>
-                            <option
-                                v-for="status in orderedWorkflowStatuses"
-                                :value="status.id"
-                                :key="status.id" 
-                            >
-                                {{
-                                    object_utils.translateEnum(translations.core, 'column_enum_status', status.name, null) ||
-                                    object_utils.translateEnum(translations.main, 'status', status.name)
-                                }}
-                            </option>
-                        </select>
-                    </span>
-                </div>
-            </b-field>
+    <div>
+        <div class="has-text-left">
+            <h5 class="title is-5">{{translations.workflows.view_title_chart_mode}}</h5>
         </div>
-        <div class="column is-12">
-            <vue-mermaid
-                class="workflow-chart"
-                v-if="workflow_data"
-                :nodes="parsed_workflow"
-                type="graph LR"
-            >
-            </vue-mermaid>
+        <br>
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <b-field>
+                    <template v-slot:label>
+                        <div class="has-text-left">
+                            {{translations.workflows.view_text_select_workflow_status}}
+                        </div>
+                    </template>
+                    <div class="control is-expanded">
+                        <span class="select is-fullwidth">
+                            <select v-model="selected_status_id">
+                                <option
+                                    :value="null"
+                                    hidden
+                                    disabled
+                                >
+                                    {{translations.workflows.view_placeholder_select_status_to_view_chart}}
+                                </option>
+                                <option
+                                    v-for="status in orderedWorkflowStatuses"
+                                    :value="status.id"
+                                    :key="status.id" 
+                                >
+                                    {{
+                                        object_utils.translateEnum(translations.core, 'column_enum_status', status.name, null) ||
+                                        object_utils.translateEnum(translations.main, 'status', status.name)
+                                    }}
+                                </option>
+                            </select>
+                        </span>
+                    </div>
+                </b-field>
+            </div>
+            <div class="column is-12">
+                <vue-mermaid
+                    class="workflow-chart"
+                    v-if="workflow_data"
+                    :nodes="parsed_workflow"
+                    type="graph LR"
+                >
+                </vue-mermaid>
+            </div>
         </div>
     </div>
-    
 </template>
 <style>
 .workflow-chart{
