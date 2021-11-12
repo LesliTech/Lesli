@@ -51,6 +51,8 @@ RSpec.describe "GET:/administration/account/locations", type: :request do
     include_examples "successful standard json response"
 
     it "is expected to return with a list of locations created" do
+        puts LC::Debug.msg @response_body_data
+        
         expect(@response_body_data).to be_an(Array)
         expect(@response_body_data.length).to be > 0
 
