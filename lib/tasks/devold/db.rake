@@ -17,27 +17,9 @@ For more information read the license file including with this software.
 
 =end
 
-namespace :dev do
+namespace :devold do
 
     namespace :db do
-
-        desc "Database hard-reset"
-        task reset: :environment do
-
-            #system "rails db:environment:set RAILS_ENV=development"
-            system "rake db:drop" 
-            system "rake db:create" 
-            system "rake db:migrate" 
-            system "rake db:seed" 
-
-        end
-
-        desc ""
-        task restore: :environment do
-            #rake db:drop
-            #rake db:create
-            #psql -U lesli -d leibrenten_development < leslicloud_production.dump
-        end
 
         desc "Create a backup of database"
         task :backup, [:filename] => [:environment] do |task, args|

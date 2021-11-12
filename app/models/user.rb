@@ -42,6 +42,7 @@ class User < ApplicationLesliRecord
     has_many :settings,     foreign_key: "users_id"
     has_many :sessions,     foreign_key: "users_id"
     has_many :requests,     foreign_key: "users_id"
+    has_many :webpushes,    foreign_key: "users_id"
     has_many :shortcuts,    foreign_key: "users_id"
     has_many :activities,   foreign_key: "users_id"
     has_one  :integration,  foreign_key: "users_id"
