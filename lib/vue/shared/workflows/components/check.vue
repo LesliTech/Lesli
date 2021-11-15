@@ -1,25 +1,7 @@
 <script>
-/*
-
-Copyright (c) 2020, all rights reserved.
-
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
-pictures and any other information belongs to the owner of this platform.
-
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
-
-For more information read the license file including with this software.
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-
-*/
-import componentList from './actions/list.vue'
-import componentEdit from './actions/edit.vue'
-import componentNew from './actions/new.vue'
+import componentList from './checks/list.vue'
+import componentEdit from './checks/edit.vue'
+import componentNew from './checks/new.vue'
 
 export default {
     props: {
@@ -51,10 +33,10 @@ export default {
             show: false,
             translations: {
                 core: I18n.t('core.shared'),
-                actions: I18n.t('core.workflow/actions')
+                checks: I18n.t('core.workflow/checks')
             },
             active_tab: 0,
-            action_selected: false
+            check_selected: false
         }
     },
 
@@ -65,11 +47,11 @@ export default {
 
     methods: {
         setSubscriptions(){
-            this.bus.subscribe('show:/module/workflow/action/edit', () => {
+            this.bus.subscribe('show:/module/workflow/check/edit', () => {
                 this.active_tab = 2
             })
 
-            this.bus.subscribe('destroy:/module/workflow/action', ()=>{
+            this.bus.subscribe('destroy:/module/workflow/check', ()=>{
                 this.active_tab = 0
             })
         },
@@ -80,26 +62,26 @@ export default {
     },
 
     beforeDestroy(){
-        this.bus.$off('show:/module/workflow/action/edit')
-        this.bus.$off('destroy:/module/workflow/action')
+        this.bus.$off('show:/module/workflow/check/edit')
+        this.bus.$off('destroy:/module/workflow/check')
     }
 }
 </script>
 <template>
-    <div v-if="translations.actions">
-        <h5 class="title is-5">{{translations.actions.view_title_main}}</h5>
+    <div v-if="translations.checks">
+        <h5 class="title is-5">{{translations.checks.view_title_main}}</h5>
         <b-tabs expanded v-model="active_tab">
-            <b-tab-item :label="translations.actions.view_tab_title_list">
+            <b-tab-item :label="translations.checks.view_tab_title_list">
                 <component-list
                     :engine-namespace="engineNamespace"
                     :workflow-id="workflowId"
+                    :check-selected.sync="check_selected"
                     :translations-path="translationsPath"
                     :statuses-translations-path="statusesTranslationsPath"
-                    :action-selected.sync="action_selected"
                 >
                 </component-list>
             </b-tab-item>
-            <b-tab-item :label="translations.actions.view_tab_title_new">
+            <b-tab-item :label="translations.checks.view_tab_title_new">
                 <component-new
                     :engine-namespace="engineNamespace"
                     :workflow-id="workflowId"
@@ -108,7 +90,7 @@ export default {
                 >
                 </component-new>
             </b-tab-item>
-            <b-tab-item :label="translations.actions.view_tab_title_edit" :disabled="! action_selected">
+            <b-tab-item :label="translations.checks.view_tab_title_edit" :disabled="! check_selected">
                 <component-edit
                     :engine-namespace="engineNamespace"
                     :workflow-id="workflowId"
