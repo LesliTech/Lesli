@@ -72,7 +72,8 @@ export default {
                 statuses: []
             },
             transition_statuses: [],
-            loading: false
+            loading: false,
+            submitting: false
         }
     },
 
@@ -163,6 +164,7 @@ export default {
             let data = {
                 workflow_action: this.action
             }
+            this.submitting = true
 
             this.http.post(this.main_route, data).then(result => {
                 if (result.successful) {
@@ -175,6 +177,8 @@ export default {
                 }
             }).catch(error => {
                 console.log(error)
+            }).finally(()=>{
+                this.submitting = false
             })
         },
 
@@ -184,6 +188,7 @@ export default {
             let data = {
                 workflow_action: this.action
             }
+            this.submitting = true
 
             this.http.put(url, data).then(result => {
                 if (result.successful) {
@@ -193,6 +198,8 @@ export default {
                 }
             }).catch(error => {
                 console.log(error)
+            }).finally(()=>{
+                this.submitting = false
             })
         },
 
@@ -282,177 +289,185 @@ export default {
         </article>
         <component-data-loading v-if="loading" />
         <form v-if="!loading && (viewType == 'new' || action_id)" @submit="submitAction">
-            <div class="field">
-                <label class="label">{{translations.actions.column_name}}<sup class="has-text-danger">*</sup></label>
-                <div class="control">
-                    <input class="input" type="text" v-model="action.name" required>
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column is-5">
-                    <div class="field">
-                        <label class="label">{{translations.actions.column_initial_status_id}}</label>
-                        <b-select expanded v-model="action.initial_status_id">
-                            <option
-                                v-for="status in initialStatuses"
-                                :value="status.id"
-                                :key="status.id"
-                            >
-                                <small>{{
-                                    object_utils.translateEnum(translations.core, 'column_enum_status', status.name, null) ||
-                                    object_utils.translateEnum(translations.statuses, 'column_enum_status', status.name, null) ||
-                                    object_utils.translateEnum(translations.statuses, 'status', status.name)
-                                }}</small>
-                            </option>
-                        </b-select>
+            <fieldset :disabled="submitting">
+                <div class="columns is-multiline">
+                    <div class="column is-12 has-text-right">
+                            <b-button v-if="viewType == 'edit'" type="is-danger" outlined native-type="button" @click="deleteAction">
+                                <i class="fas fa-trash-alt"></i>
+                                {{translations.core.view_btn_delete}}
+                            </b-button>
+                        </b-field>
                     </div>
-                </div>
-                <div class="column is-5">
-                    <div class="field">
-                        <label class="label">{{translations.actions.column_final_status_id}}<sup class="has-text-danger">*</sup></label>
-                        <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="action.final_status_id" required>
-                            <option
-                                v-for="status in transition_statuses"
-                                :value="status.id"
-                                :key="status.id"
-                            >
-                                <small>{{
-                                    object_utils.translateEnum(translations.core, 'column_enum_status', status.name, null) ||
-                                    object_utils.translateEnum(translations.statuses, 'column_enum_status', status.name, null) ||
-                                    object_utils.translateEnum(translations.statuses, 'status', status.name)
-                                }}</small>
-                            </option>
-                        </b-select>
-                    </div>
-                </div>
-                <div class="column is-2">
-                    <div class="field">
-                        <label class="label">{{translations.actions.column_active}}</label>
-                        <b-select expanded v-model="action.active">
-                            <option :value="true">{{translations.core.view_text_yes}}</option>
-                            <option :value="false">{{translations.core.view_text_no}}</option>
-                        </b-select>
-                    </div>
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column is-8">
-                    <div class="field">
-                    <label class="label">{{translations.actions.column_action_type}}<sup class="has-text-danger">*</sup></label>
-                        <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="action.action_type" required :disabled="viewType == 'edit'">
-                            <option
-                                v-for="type in options.action_types"
-                                :value="type.value"
-                                :key="type.value"
-                            >   
-                                <small>{{
-                                    object_utils.translateEnum(translations.actions, 'column_enum_action_type', type.text, null) ||
-                                    object_utils.translateEnum(translations.main, 'column_enum_action_type', type.text)
-                                }}</small>
-                            </option>
-                        </b-select>
-                    </div>
-                </div>
-                <div class="column is-4">
-                    <div class="field">
-                        <label class="label">{{translations.actions.column_execute_immediately}}</label>
-                        <div class="control">
-                            <b-checkbox v-model="action.execute_immediately" >
-                                <span v-if="action.execute_immediately">
-                                    {{translations.core.view_text_yes}}
-                                </span>
-                                <span v-else>
-                                    {{translations.core.view_text_no}}
-                                </span>
-                            </b-checkbox>
+                    <div class="column is-8">
+                        <div class="field">
+                            <label class="label">{{translations.actions.column_name}}<sup class="has-text-danger">*</sup></label>
+                            <div class="control">
+                                <input class="input" type="text" v-model="action.name" required>
+                            </div>
                         </div>
                     </div>
+                    <div class="column is-2">
+                        <div class="field">
+                            <label class="label">{{translations.actions.column_active}}</label>
+                            <b-select expanded v-model="action.active">
+                                <option :value="true">{{translations.core.view_text_yes}}</option>
+                                <option :value="false">{{translations.core.view_text_no}}</option>
+                            </b-select>
+                        </div>
+                    </div>
+                    <div class="column is-2">
+                        <div class="field">
+                            <label class="label">{{translations.actions.column_execute_immediately}}</label>
+                            <div class="control">
+                                <b-checkbox v-model="action.execute_immediately" >
+                                    <span v-if="action.execute_immediately">
+                                        {{translations.core.view_text_yes}}
+                                    </span>
+                                    <span v-else>
+                                        {{translations.core.view_text_no}}
+                                    </span>
+                                </b-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-4">
+                        <div class="field">
+                            <label class="label">{{translations.actions.column_initial_status_id}}</label>
+                            <b-select expanded v-model="action.initial_status_id">
+                                <option
+                                    v-for="status in initialStatuses"
+                                    :value="status.id"
+                                    :key="status.id"
+                                >
+                                    <small>{{
+                                        object_utils.translateEnum(translations.core, 'column_enum_status', status.name, null) ||
+                                        object_utils.translateEnum(translations.statuses, 'column_enum_status', status.name, null) ||
+                                        object_utils.translateEnum(translations.statuses, 'status', status.name)
+                                    }}</small>
+                                </option>
+                            </b-select>
+                        </div>
+                    </div>
+                    <div class="column is-4">
+                        <div class="field">
+                            <label class="label">{{translations.actions.column_final_status_id}}<sup class="has-text-danger">*</sup></label>
+                            <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="action.final_status_id" required>
+                                <option
+                                    v-for="status in transition_statuses"
+                                    :value="status.id"
+                                    :key="status.id"
+                                >
+                                    <small>{{
+                                        object_utils.translateEnum(translations.core, 'column_enum_status', status.name, null) ||
+                                        object_utils.translateEnum(translations.statuses, 'column_enum_status', status.name, null) ||
+                                        object_utils.translateEnum(translations.statuses, 'status', status.name)
+                                    }}</small>
+                                </option>
+                            </b-select>
+                        </div>
+                    </div>
+                    <div class="column is-4">
+                        <b-field :message="translations.actions.view_text_column_action_type_description">
+                            <template v-slot:label>
+                                {{translations.actions.column_action_type}}<sup class="has-text-danger">*</sup>
+                            </template>
+                            <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="action.action_type" required :disabled="viewType == 'edit'">
+                                <option
+                                    v-for="type in options.action_types"
+                                    :value="type.value"
+                                    :key="type.value"
+                                >   
+                                    <small>{{
+                                        object_utils.translateEnum(translations.actions, 'column_enum_action_type', type.text, null) ||
+                                        object_utils.translateEnum(translations.main, 'column_enum_action_type', type.text)
+                                    }}</small>
+                                </option>
+                            </b-select>
+                        </b-field>
+                    </div>
                 </div>
-            </div>
-            <hr>
-            <component-form-create-bell-notification
-                v-if="action.action_type == 'create_bell_notification'"
-                :options="options"
-                :workflow-id="workflowId"
-                :translations-path="translationsPath"
-                :workflow-action="action"
-                :view-type="viewType"
-            ></component-form-create-bell-notification>
-            <component-form-create-focus-task
-                v-if="action.action_type == 'create_focus_task'"
-                :options="options"
-                :workflow-id="workflowId"
-                :translations-path="translationsPath"
-                :workflow-action="action"
-                :view-type="viewType"
-            ></component-form-create-focus-task>
-            <component-form-send-core-email
-                v-if="action.action_type == 'send_core_email'"
-                :options="options"
-                :workflow-id="workflowId"
-                :translations-path="translationsPath"
-                :workflow-action="action"
-                :view-type="viewType"
-            ></component-form-send-core-email>
-            <component-form-create-cloud-object-file
-                v-if="action.action_type == 'create_cloud_object_file'"
-                :options="options"
-                :workflow-id="workflowId"
-                :translations-path="translationsPath"
-                :workflow-action="action"
-                :view-type="viewType"
-                :engine-namespace="engineNamespace"
-            ></component-form-create-cloud-object-file>
-            <component-form-create-and-send-cloud-object-file
-                v-if="action.action_type == 'create_and_send_cloud_object_file'"
-                :options="options"
-                :workflow-id="workflowId"
-                :translations-path="translationsPath"
-                :workflow-action="action"
-                :view-type="viewType"
-                :engine-namespace="engineNamespace"
-            ></component-form-create-and-send-cloud-object-file>
-            <component-form-cloud-object-clone
-                v-if="action.action_type == 'cloud_object_clone'"
-                :options="options"
-                :workflow-id="workflowId"
-                :translations-path="translationsPath"
-                :workflow-action="action"
-                :view-type="viewType"
-                :engine-namespace="engineNamespace"
-            ></component-form-cloud-object-clone>
-            <component-form-send-talk-chatroom-message
-                v-if="action.action_type == 'send_talk_chatroom_message'"
-                :options="options"
-                :workflow-id="workflowId"
-                :translations-path="translationsPath"
-                :workflow-action="action"
-                :view-type="viewType"
-            ></component-form-send-talk-chatroom-message>
-            <component-form-update-relevant-user
-                v-if="action.action_type == 'update_relevant_user'"
-                :options="options"
-                :workflow-id="workflowId"
-                :translations-path="translationsPath"
-                :workflow-action="action"
-                :view-type="viewType"
-            ></component-form-update-relevant-user>
-            <br>
-            <div class="buttons">
-                <b-button type="is-primary" expanded native-type="submit">
-                    <i class="fas fa-save"></i>
-                    {{translations.core.view_btn_save}}
-                </b-button>
-            </div>
-            <div v-if="viewType == 'edit'">
                 <hr>
+                <component-form-create-bell-notification
+                    v-if="action.action_type == 'create_bell_notification'"
+                    :options="options"
+                    :workflow-id="workflowId"
+                    :translations-path="translationsPath"
+                    :workflow-action="action"
+                    :view-type="viewType"
+                ></component-form-create-bell-notification>
+                <component-form-create-focus-task
+                    v-if="action.action_type == 'create_focus_task'"
+                    :options="options"
+                    :workflow-id="workflowId"
+                    :translations-path="translationsPath"
+                    :workflow-action="action"
+                    :view-type="viewType"
+                ></component-form-create-focus-task>
+                <component-form-send-core-email
+                    v-if="action.action_type == 'send_core_email'"
+                    :options="options"
+                    :workflow-id="workflowId"
+                    :translations-path="translationsPath"
+                    :workflow-action="action"
+                    :view-type="viewType"
+                ></component-form-send-core-email>
+                <component-form-create-cloud-object-file
+                    v-if="action.action_type == 'create_cloud_object_file'"
+                    :options="options"
+                    :workflow-id="workflowId"
+                    :translations-path="translationsPath"
+                    :workflow-action="action"
+                    :view-type="viewType"
+                    :engine-namespace="engineNamespace"
+                ></component-form-create-cloud-object-file>
+                <component-form-create-and-send-cloud-object-file
+                    v-if="action.action_type == 'create_and_send_cloud_object_file'"
+                    :options="options"
+                    :workflow-id="workflowId"
+                    :translations-path="translationsPath"
+                    :workflow-action="action"
+                    :view-type="viewType"
+                    :engine-namespace="engineNamespace"
+                ></component-form-create-and-send-cloud-object-file>
+                <component-form-cloud-object-clone
+                    v-if="action.action_type == 'cloud_object_clone'"
+                    :options="options"
+                    :workflow-id="workflowId"
+                    :translations-path="translationsPath"
+                    :workflow-action="action"
+                    :view-type="viewType"
+                    :engine-namespace="engineNamespace"
+                ></component-form-cloud-object-clone>
+                <component-form-send-talk-chatroom-message
+                    v-if="action.action_type == 'send_talk_chatroom_message'"
+                    :options="options"
+                    :workflow-id="workflowId"
+                    :translations-path="translationsPath"
+                    :workflow-action="action"
+                    :view-type="viewType"
+                ></component-form-send-talk-chatroom-message>
+                <component-form-update-relevant-user
+                    v-if="action.action_type == 'update_relevant_user'"
+                    :options="options"
+                    :workflow-id="workflowId"
+                    :translations-path="translationsPath"
+                    :workflow-action="action"
+                    :view-type="viewType"
+                ></component-form-update-relevant-user>
+                <br>
                 <div class="buttons">
-                    <b-button type="is-danger" outlined native-type="button" @click="deleteAction">
-                        <i class="fas fa-trash-alt"></i>
-                        {{translations.core.view_btn_delete}}
+                    <b-button type="is-primary" expanded native-type="submit">
+                        <span v-if="submitting">
+                            <b-icon icon="circle-notch"  custom-class="fa-spin" size="is-small"></b-icon>
+                            <span>{{translations.core.view_btn_save}}</span>
+                        </span>
+                        <span v-else>
+                            <b-icon icon="save" size="is-small"></b-icon>
+                            <span>{{translations.core.view_btn_save}}</span>
+                        </span>
                     </b-button>
                 </div>
-            </div>
+            </fieldset>
         </form>
     </div>
 </template>
