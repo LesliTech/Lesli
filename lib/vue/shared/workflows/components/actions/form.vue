@@ -291,11 +291,10 @@ export default {
             <fieldset :disabled="submitting">
                 <div class="columns is-multiline">
                     <div class="column is-12 has-text-right">
-                            <b-button v-if="viewType == 'edit'" type="is-danger" outlined native-type="button" @click="deleteAction">
-                                <i class="fas fa-trash-alt"></i>
-                                {{translations.core.view_btn_delete}}
-                            </b-button>
-                        </b-field>
+                        <b-button v-if="viewType == 'edit'" type="is-danger" outlined native-type="button" @click="deleteAction">
+                            <i class="fas fa-trash-alt"></i>
+                            {{translations.core.view_btn_delete}}
+                        </b-button>
                     </div>
                     <div class="column is-8">
                         <div class="field">
