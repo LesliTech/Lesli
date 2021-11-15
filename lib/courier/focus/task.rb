@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -56,7 +56,7 @@ module Courier
                 return [] unless defined? CloudFocus
                 CloudFocus::Task.index(current_user, query)
             end
-            
+
             # This courier method is used mainly by the workflow actions to create tasks from other engines
             def self.tasks_new(current_user, task_params, send_email)
                 return unless defined? CloudFocus
@@ -67,7 +67,7 @@ module Courier
                 task.set_workflow
                 if task.save!
                     if send_email
-                        CloudFocus::TaskService::SendNotifications.send_email_for_new_task(task)
+                        CloudFocus::TaskService.send_email_for_new_task(task)
                     else
                         CloudFocus::Task.send_notification_new(task)
                     end
