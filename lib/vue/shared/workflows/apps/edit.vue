@@ -58,7 +58,8 @@ export default {
                 workflows: I18n.t('core.workflows'),
                 core: I18n.t('core.shared')
             },
-            workflow_id: null
+            workflow_id: null,
+            workflow_name: null
         }
     },
 
@@ -69,7 +70,7 @@ export default {
     methods: {
         setWorkflowId(){
             this.workflow_id = this.$route.params.id
-        }
+        },
     }
 }
 </script>
@@ -80,7 +81,7 @@ export default {
                 <div class="navbar-start">
                     <div class="navbar-item">
                         <h4 class="is-size-3">
-                            {{translations.workflows.view_title_main}}
+                            {{workflow_name}}
                         </h4>
                     </div>
                 </div>
@@ -100,7 +101,13 @@ export default {
                 </div>
             </div>
         </nav>
-        <component-form :engine-namespace="engineNamespace" :translations-path="translationsPath" :app-mount-path="appMountPath">
+        <component-form
+            view-type="edit"
+            :engine-namespace="engineNamespace"
+            :translations-path="translationsPath"
+            :app-mount-path="appMountPath"
+            :workflow-name.sync="workflow_name"
+        >
         </component-form>
     </section>
 </template>

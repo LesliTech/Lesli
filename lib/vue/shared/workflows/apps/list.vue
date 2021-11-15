@@ -159,7 +159,11 @@ export default {
         //      // Asume the id of the Workflow is 4
         //      // The user will be redirected to the url /crm/workflows/4
         showWorkflow(workflow) {
-            this.$router.push(`${this.appMountPath}/${workflow.id}`)
+            if(this.workflows_abilities.update){
+                this.$router.push(`${this.appMountPath}/${workflow.id}/edit`)
+            }else{
+                this.$router.push(`${this.appMountPath}/${workflow.id}`)
+            }
         },
 
         sortWorkflows(field, order){
