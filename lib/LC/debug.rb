@@ -112,6 +112,8 @@ module LC
 
         def self.table data
 
+            return unless data.size > 0
+
             # get the available characters in terminal width
             terminal_width = `tput cols`.to_i
 

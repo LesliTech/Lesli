@@ -54,12 +54,7 @@ class LesliCliRake < LesliTasks
 
     def status params
 
-        return 
         revision = LC::System::Info.revision()
-
-        #puts 'Instance: ' << Rails.application.config.lesli[:instance][:name]
-        #puts 'Version: ' << revision[:version]
-        #puts 'Build: ' << revision[:build]
 
         LC::Debug.msgc(
             'Instance: ' << Rails.application.config.lesli[:instance][:name],
@@ -72,20 +67,6 @@ class LesliCliRake < LesliTasks
         LC::Debug.table (Lesli::engines.map { |engine| 
             {:engine => engine[:code],:version => "#{engine[:version]} (#{engine[:type]})"}
         })
-
-        LC::Debug.table ([{
-            :id => '1',
-            :name => 'Luis',
-            :email => 'ldonis@lomax'
-        },{
-            :id => '2',
-            :name => 'Diego',
-            :email => 'Diego@lomax'
-        },{
-            :id => '3',
-            :name => 'Panchís',
-            :email => 'panchis@lomax'
-        }])
 
         LC::Debug.separator_blank
 
