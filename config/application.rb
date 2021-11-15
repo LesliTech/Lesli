@@ -47,11 +47,15 @@ module Lesli
         # Initialize configuration defaults for originally generated Rails version.
         config.load_defaults 6.0
 
-        config.lesli_settings = Lesli::settings(Rails.env)
+        # deprecated, will be deleted at January, 2022
+        config.lesli_settings = Lesli::settings(Rails.env) 
+
+        # Lesli configuration 
+        config.lesli = Lesli::settings(Rails.env).deep_symbolize_keys
 
         # Settings in config/environments/* take precedence over those specified here.
-        config.i18n.default_locale = config.lesli_settings["env"]["default_locale"]
-        config.i18n.available_locales = config.lesli_settings["configuration"]["locales"]
+        config.i18n.default_locale = config.lesli.dig(:env, :default_locale)
+        config.i18n.available_locales = config.lesli.dig(:configuration, :locales)
         config.i18n.load_path += Dir[Rails.root.join("config", "locales", "**", "*.{rb,yml}")]
         config.i18n.load_path += Dir[Rails.root.join("engines", "*", "config", "locales", "**", "*.{rb,yml}")]
         config.autoload_paths += Dir[Rails.root.join("config", "routes")]
@@ -83,7 +87,6 @@ module Lesli
             end
         end
 
-        # Haml is deprecated, but we still have it until we change all files to erb
         config.generators.system_tests = nil
         config.generators do |g|
             g.helper false
