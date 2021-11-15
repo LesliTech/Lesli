@@ -74,6 +74,29 @@ bundle exec rake i18n:js:export RAILS_ENV=production
 ```
 
 
+__Work with file system__
+
+```bash
+# copy remote credentials (example)
+scp -i app.mitwerken.de.pem ubuntu@app.mitwerken.de:/var/www/app.mitwerken.de/config/credentials/production.key production.key
+scp -i app.mitwerken.de.pem ubuntu@app.mitwerken.de:/var/www/app.mitwerken.de/config/credentials/production.yml.enc production.yml.enc
+
+scp -i app.mitwerken.de.pem production.key ubuntu@app.mitwerken.de:/var/www/app.mitwerken.de/config/credentials/production.key
+scp -i app.mitwerken.de.pem production.yml.enc ubuntu@app.mitwerken.de:/var/www/app.mitwerken.de/config/credentials/production.yml.enc
+
+
+# search for the largest file and sort the result by size
+du -chs engines/**/app/assets/javascripts/**/*.js app/assets/javascripts/**/*.js | sort -h
+
+# search for the largest file in the inmediate child directory and sort the result by size
+du -chs */*.* | sort -h
+
+# find the 5 largest files (ubuntu only)
+find . -type f -printf "%s\t%p\n" | sort -n | tail -5
+```
+
+
+
 
 ### General troubleshooting 
 
@@ -86,7 +109,6 @@ sudo apt-get -y install libpq-dev
 ```
 
 
-
 __Error running puma__
 It seems that the latest version of XCode tools (12 Beta 3) installs a version of Clang (the C compiler used by default on MacOS) that throws an error on implicit functions used on the native extension code of Puma.  
   
@@ -96,3 +118,4 @@ Try running:
 bundle config build.puma --with-cflags="-Wno-error=implicit-function-declaration"
 bundle install
 ````
+
