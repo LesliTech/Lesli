@@ -66,7 +66,7 @@ export default {
                         callback()
                     }
                 }else{
-                    this.msg.error(this.translations.actions.messages_warning_send_core_email_address_empty)
+                    this.msg.warn(this.translations.actions.messages_warning_send_core_email_address_empty)
                 }
             })
         },
@@ -80,12 +80,15 @@ export default {
 
             if(! copy.concerning_users.list){
                 copy.concerning_users.list = []
+            }else{
+                copy.concerning_users.list = copy.concerning_users.list.filter(user => user.email)
             }
 
             copy.configuration = {
                 mailer: "::DeutscheLeibrentenMailer"
             }
             this.workflow_action = copy
+            console.log(JSON.stringify(this.workflow_action))
         },
 
         getUsers(){

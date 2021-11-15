@@ -215,187 +215,187 @@ export default {
 </script>
 <template>
     <section v-if="workflow_action">
-        <div class="email-section">
-            <div class="field">
-                <label class="label">{{translations.actions.column_subject}}
-                    <sup class="has-text-danger">*</sup>
-                    <span class="is-pulled-right">
-                        <b-tooltip :label="translations.actions.messages_info_tooltip_add_resource_identifier_reference" size="is-small" position="is-left" type="is-light">
-                            <b-button size="is-small" @click="addReference('global_identifier', 'subject')">
-                                <b-icon size="is-small" icon="barcode">
+        <div v-if="action_unavailable" class="has-text-centered">
+            <i class="fas fa-exclamation-triangle fa-lg"></i>
+            <br>
+            {{translations.actions.view_text_no_templates_available}}
+        </div>
+        <div v-else>
+            <div class="email-section">
+                <div class="field">
+                    <label class="label">{{translations.actions.column_subject}}
+                        <sup class="has-text-danger">*</sup>
+                        <span class="is-pulled-right">
+                            <b-tooltip :label="translations.actions.messages_info_tooltip_add_resource_identifier_reference" size="is-small" position="is-left" type="is-light">
+                                <b-button size="is-small" @click="addReference('global_identifier', 'subject')">
+                                    <b-icon size="is-small" icon="barcode">
+                                    </b-icon>
+                                </b-button>
+                            </b-tooltip>
+                            <b-tooltip :label="translations.actions.messages_info_tooltip_add_status_reference" size="is-small" position="is-left" type="is-light">
+                                <b-button size="is-small" @click="addReference('status', 'subject')">
+                                    <b-icon size="is-small" icon="project-diagram">
+                                    </b-icon>
+                                </b-button>
+                            </b-tooltip>
+                            <b-tooltip :label="translations.actions.messages_info_tooltip_add_current_user_reference" size="is-small" position="is-left" type="is-light">
+                                <b-button size="is-small" @click="addReference('current_user', 'subject')">
+                                    <b-icon size="is-small" icon="user-circle">
+                                    </b-icon>
+                                </b-button>
+                            </b-tooltip>
+                            <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_creator_reference" size="is-small" position="is-left" type="is-light">
+                                <b-button size="is-small" @click="addReference('user_creator', 'subject')">
+                                    <b-icon size="is-small" icon="user-tie">
+                                    </b-icon>
+                                </b-button>
+                            </b-tooltip>
+                            <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_reviewer_reference" size="is-small" position="is-left" type="is-light">
+                                <b-button size="is-small" @click="addReference('user_reviewer', 'subject')">
+                                    <b-icon size="is-small" icon="user-check">
+                                    </b-icon>
+                                </b-button>
+                            </b-tooltip>
+                            <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_branch_office_reference" size="is-small" position="is-left" type="is-light">
+                                <b-button size="is-small" @click="addReference('user_branch_office', 'subject')">
+                                    <b-icon size="is-small" icon="user-tag">
+                                    </b-icon>
+                                </b-button>
+                            </b-tooltip>
+                        </span>
+                    </label>
+                    <div class="control">
+                        <input class="input" type="text" v-model="workflow_action.input_data.subject" required>
+                    </div>
+                </div>
+                <div class="field">
+
+                    <label class="label">
+                        {{translations.actions.column_body}}<sup class="has-text-danger">*</sup>
+                        <span class="is-pulled-right">
+                            <b-tooltip :label="translations.actions.messages_info_tooltip_add_resource_identifier_reference" size="is-small" position="is-left" type="is-light">
+                                <b-button size="is-small" @click="addReference('global_identifier', 'body')">
+                                    <b-icon size="is-small" icon="barcode">
+                                    </b-icon>
+                                </b-button>
+                            </b-tooltip>
+                            <b-tooltip :label="translations.actions.messages_info_tooltip_add_status_reference" size="is-small" position="is-left" type="is-light">
+                                <b-button size="is-small" @click="addReference('status', 'body')">
+                                    <b-icon size="is-small" icon="project-diagram">
+                                    </b-icon>
+                                </b-button>
+                            </b-tooltip>
+                            <b-tooltip :label="translations.actions.messages_info_tooltip_add_current_user_reference" size="is-small" position="is-left" type="is-light">
+                                <b-button size="is-small" @click="addReference('current_user', 'body')">
+                                    <b-icon size="is-small" icon="user-circle">
+                                    </b-icon>
+                                </b-button>
+                            </b-tooltip>
+                            <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_creator_reference" size="is-small" position="is-left" type="is-light">
+                                <b-button size="is-small" @click="addReference('user_creator', 'body')">
+                                    <b-icon size="is-small" icon="user-tie">
+                                    </b-icon>
+                                </b-button>
+                            </b-tooltip>
+                            <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_reviewer_reference" size="is-small" position="is-left" type="is-light">
+                                <b-button size="is-small" @click="addReference('user_reviewer', 'body')">
+                                    <b-icon size="is-small" icon="user-check">
+                                    </b-icon>
+                                </b-button>
+                            </b-tooltip>
+                            <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_branch_office_reference" size="is-small" position="is-left" type="is-light">
+                                <b-button size="is-small" @click="addReference('user_branch_office', 'body')">
+                                    <b-icon size="is-small" icon="user-tag">
+                                    </b-icon>
+                                </b-button>
+                            </b-tooltip>
+                        </span>
+                    </label>
+                    <b-input expanded type="textarea" v-model="workflow_action.input_data.body" required>
+                    </b-input>
+                </div>
+                <b-field :label="translations.actions.column_add_link_to_email">
+                    <b-select expanded v-model="workflow_action.input_data.system_url">
+                        <option
+                            v-for="url in link_options.system_urls"
+                            :key="url.name"
+                            :value="url.endpoint"
+                        >
+                            {{object_utils.translateEnum(translations.actions, 'column_enum_add_link_to_email', url.name)}}
+                        </option>
+                    </b-select>
+                </b-field>
+                <div class="field">
+                    <label class="label">{{translations.actions.column_send_email_to}}<sup class="has-text-danger">*</sup></label>
+                    <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.concerning_users.type" required>
+                        <option
+                            v-for="concerning_user_type in options.concerning_user_types"
+                            :value="concerning_user_type.value"
+                            :key="concerning_user_type.value"
+                        >
+                            <small>
+                                {{ object_utils.translateEnum(translations.actions, 'column_enum_concerning_user_types', concerning_user_type.text) }}
+                            </small>
+                        </option>
+                    </b-select>
+                    <p v-if="workflow_action.concerning_users.type == 'reviewer' || workflow_action.concerning_users.type == 'branch_office'" class="help">
+                        {{translations.actions.view_text_concerning_user_can_be_unavailable}}
+                    </p>
+                </div>
+                <div v-if="workflow_action.concerning_users.type == 'custom'">
+                    <label class="label">{{translations.actions.column_select_employee_or_email_address}}</label>
+                    <b-field grouped >
+                        <b-autocomplete
+                            expanded
+                            ref="autocomplete"
+                            :placeholder="translations.actions.view_placeholder_select_employee"
+                            v-model="selected_user"
+                            field="name"
+                            @select="addUserToList"
+                            :data="filteredUsers"
+                        >
+                        </b-autocomplete>
+                        <p class="control">
+                            <b-button native-type="button" outlined @click="addEmailToList">
+                                <b-icon size="is-small" icon="plus">
                                 </b-icon>
+                                &nbsp;
+                                {{translations.actions.view_btn_add_email_address}}
                             </b-button>
-                        </b-tooltip>
-                        <b-tooltip :label="translations.actions.messages_info_tooltip_add_status_reference" size="is-small" position="is-left" type="is-light">
-                            <b-button size="is-small" @click="addReference('status', 'subject')">
-                                <b-icon size="is-small" icon="project-diagram">
-                                </b-icon>
-                            </b-button>
-                        </b-tooltip>
-                        <b-tooltip :label="translations.actions.messages_info_tooltip_add_current_user_reference" size="is-small" position="is-left" type="is-light">
-                            <b-button size="is-small" @click="addReference('current_user', 'subject')">
-                                <b-icon size="is-small" icon="user-circle">
-                                </b-icon>
-                            </b-button>
-                        </b-tooltip>
-                        <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_creator_reference" size="is-small" position="is-left" type="is-light">
-                            <b-button size="is-small" @click="addReference('user_creator', 'subject')">
-                                <b-icon size="is-small" icon="user-tie">
-                                </b-icon>
-                            </b-button>
-                        </b-tooltip>
-                        <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_reviewer_reference" size="is-small" position="is-left" type="is-light">
-                            <b-button size="is-small" @click="addReference('user_reviewer', 'subject')">
-                                <b-icon size="is-small" icon="user-check">
-                                </b-icon>
-                            </b-button>
-                        </b-tooltip>
-                        <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_branch_office_reference" size="is-small" position="is-left" type="is-light">
-                            <b-button size="is-small" @click="addReference('user_branch_office', 'subject')">
-                                <b-icon size="is-small" icon="user-tag">
-                                </b-icon>
-                            </b-button>
-                        </b-tooltip>
-                    </span>
-                </label>
-                <div class="control">
-                    <input class="input" type="text" v-model="workflow_action.input_data.subject" required>
+                        </p>
+                    </b-field>
+                    <b-table
+                        :data="workflow_action.concerning_users.list"
+                        paginated
+                        :per-page="pagination.per_page"
+                        :current-page.sync="pagination.current_page"
+                        :pagination-simple="false"
+                        pagination-position="bottom"
+                        aria-next-label="Next page"
+                        aria-previous-label="Previous page"
+                        aria-page-label="Page"
+                        aria-current-label="Current page"
+                    >
+                        <template slot-scope="props">
+                            <b-table-column field="name" :label="translations.core.view_text_name" sortable>
+                                <span v-if="props.row.name">
+                                    {{ props.row.name }}
+                                </span>
+                                <span v-else>
+                                    {{translations.core.view_text_not_applicable}}
+                                </span>
+                            </b-table-column>
+                            <b-table-column field="email" :label="translations.core.view_text_email" sortable>
+                                {{ props.row.email }}
+                            </b-table-column>
+                            <b-table-column field="actions" :label="translations.core.view_btn_delete" sortable numeric>
+                                <a class="delete" role="button" @click="removeUserFromList(props.row)"></a>
+                            </b-table-column>
+                        </template>
+                    </b-table>
                 </div>
             </div>
-            <div class="field">
-
-                <label class="label">
-                    {{translations.actions.column_body}}<sup class="has-text-danger">*</sup>
-                    <span class="is-pulled-right">
-                        <b-tooltip :label="translations.actions.messages_info_tooltip_add_resource_identifier_reference" size="is-small" position="is-left" type="is-light">
-                            <b-button size="is-small" @click="addReference('global_identifier', 'body')">
-                                <b-icon size="is-small" icon="barcode">
-                                </b-icon>
-                            </b-button>
-                        </b-tooltip>
-                        <b-tooltip :label="translations.actions.messages_info_tooltip_add_status_reference" size="is-small" position="is-left" type="is-light">
-                            <b-button size="is-small" @click="addReference('status', 'body')">
-                                <b-icon size="is-small" icon="project-diagram">
-                                </b-icon>
-                            </b-button>
-                        </b-tooltip>
-                        <b-tooltip :label="translations.actions.messages_info_tooltip_add_current_user_reference" size="is-small" position="is-left" type="is-light">
-                            <b-button size="is-small" @click="addReference('current_user', 'body')">
-                                <b-icon size="is-small" icon="user-circle">
-                                </b-icon>
-                            </b-button>
-                        </b-tooltip>
-                        <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_creator_reference" size="is-small" position="is-left" type="is-light">
-                            <b-button size="is-small" @click="addReference('user_creator', 'body')">
-                                <b-icon size="is-small" icon="user-tie">
-                                </b-icon>
-                            </b-button>
-                        </b-tooltip>
-                        <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_reviewer_reference" size="is-small" position="is-left" type="is-light">
-                            <b-button size="is-small" @click="addReference('user_reviewer', 'body')">
-                                <b-icon size="is-small" icon="user-check">
-                                </b-icon>
-                            </b-button>
-                        </b-tooltip>
-                        <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_branch_office_reference" size="is-small" position="is-left" type="is-light">
-                            <b-button size="is-small" @click="addReference('user_branch_office', 'body')">
-                                <b-icon size="is-small" icon="user-tag">
-                                </b-icon>
-                            </b-button>
-                        </b-tooltip>
-                    </span>
-                </label>
-                <b-input expanded type="textarea" v-model="workflow_action.input_data.body" required>
-                </b-input>
-            </div>
-            <b-field :label="translations.actions.column_add_link_to_email">
-                <b-select expanded v-model="workflow_action.input_data.system_url">
-                    <option
-                        v-for="url in link_options.system_urls"
-                        :key="url.name"
-                        :value="url.endpoint"
-                    >
-                        {{object_utils.translateEnum(translations.actions, 'column_enum_add_link_to_email', url.name)}}
-                    </option>
-                </b-select>
-            </b-field>
-            <div class="field">
-                <label class="label">{{translations.actions.column_send_email_to}}<sup class="has-text-danger">*</sup></label>
-                <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.concerning_users.type" required>
-                    <option
-                        v-for="concerning_user_type in options.concerning_user_types"
-                        :value="concerning_user_type.value"
-                        :key="concerning_user_type.value"
-                    >
-                        <small>
-                            {{ object_utils.translateEnum(translations.actions, 'column_enum_concerning_user_types', concerning_user_type.text) }}
-                        </small>
-                    </option>
-                </b-select>
-                <p v-if="workflow_action.concerning_users.type == 'reviewer' || workflow_action.concerning_users.type == 'branch_office'" class="help">
-                    {{translations.actions.view_text_concerning_user_can_be_unavailable}}
-                </p>
-            </div>
-            <div v-if="workflow_action.concerning_users.type == 'custom'">
-                <label class="label">{{translations.actions.column_select_employee_or_email_address}}</label>
-                <b-field grouped >
-                    <b-autocomplete
-                        expanded
-                        ref="autocomplete"
-                        :placeholder="translations.actions.view_placeholder_select_employee"
-                        v-model="selected_user"
-                        field="name"
-                        @select="addUserToList"
-                        :data="filteredUsers"
-                    >
-                    </b-autocomplete>
-                    <p class="control">
-                        <b-button native-type="button" outlined @click="addEmailToList">
-                            <b-icon size="is-small" icon="plus">
-                            </b-icon>
-                            &nbsp;
-                            {{translations.actions.view_btn_add_email_address}}
-                        </b-button>
-                    </p>
-                </b-field>
-                <b-table
-                    :data="workflow_action.concerning_users.list"
-                    paginated
-                    :per-page="pagination.per_page"
-                    :current-page.sync="pagination.current_page"
-                    :pagination-simple="false"
-                    pagination-position="bottom"
-                    aria-next-label="Next page"
-                    aria-previous-label="Previous page"
-                    aria-page-label="Page"
-                    aria-current-label="Current page"
-                >
-                    <template slot-scope="props">
-                        <b-table-column field="name" :label="translations.core.view_text_name" sortable>
-                            <span v-if="props.row.name">
-                                {{ props.row.name }}
-                            </span>
-                            <span v-else>
-                                {{translations.core.view_text_not_applicable}}
-                            </span>
-                        </b-table-column>
-                        <b-table-column field="email" :label="translations.core.view_text_email" sortable>
-                            {{ props.row.email }}
-                        </b-table-column>
-                        <b-table-column field="actions" :label="translations.core.view_btn_delete" sortable numeric>
-                            <a class="delete" role="button" @click="removeUserFromList(props.row)"></a>
-                        </b-table-column>
-                    </template>
-                </b-table>
-            </div>
-        </div>
-        <div class="file-section">
-            <div v-if="action_unavailable" class="has-text-centered">
-                <i class="fas fa-exclamation-triangle fa-lg"></i>
-                <br>
-                {{translations.actions.view_text_no_templates_available}}
-            </div>
-            <div v-else>
+            <div class="file-section">
                 <div class="field">
                     <label class="label">{{translations.actions.column_template}}<sup class="has-text-danger">*</sup></label>
                     <b-select :placeholder="translations.actions.view_placeholder_template" expanded v-model="workflow_action.input_data.template_id" required>

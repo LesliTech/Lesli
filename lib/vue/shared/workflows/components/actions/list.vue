@@ -145,11 +145,15 @@ export default {
                         object_utils.translateEnum(translations.statuses, 'status', props.row.final_status_name)
                     }}</small>
                 </b-table-column>
-                <b-table-column :label="translations.actions.column_active" class="has-text-centered">
-                    <b-icon v-if="props.row.active" icon="check-circle" type="is-success" size="is-small">
-                    </b-icon>
-                    <b-icon v-else icon="times-circle" type="is-warning" size="is-small">
-                    </b-icon>
+                <b-table-column class="has-text-centered">
+                    <span v-if="props.row.active" class="has-text-success">
+                        <span>{{translations.actions.view_text_active}}</span>
+                        <b-icon icon="check-circle" type="is-success" size="is-small"></b-icon>
+                    </span>
+                    <span v-else class="has-text-grey">
+                        <span>{{translations.actions.view_text_inactive}}</span>
+                        <b-icon icon="check-circle" size="is-small"></b-icon>
+                    </span>
                 </b-table-column>
             </template>
         </b-table>

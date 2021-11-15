@@ -98,14 +98,16 @@ export default {
 </script>
 <template>
     <section v-if="workflow_action">
-        <div class="field">
-            <label class="label">{{translations.bell.column_subject}}<sup class="has-text-danger">*</sup></label>
-            <div class="control">
-                <input class="input" type="text" v-model="workflow_action.input_data.subject" required>
+        <div class="columns is-multiline">
+            <div class="column is-9">
+                <div class="field">
+                    <label class="label">{{translations.bell.column_subject}}<sup class="has-text-danger">*</sup></label>
+                    <div class="control">
+                        <input class="input" type="text" v-model="workflow_action.input_data.subject" required>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="columns">
-            <div class="column is-5">
+            <div class="column is-3">
                 <div class="field">
                     <label class="label">{{translations.bell.column_category}}<sup class="has-text-danger">*</sup></label>
                     <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.input_data.category" required>
@@ -119,7 +121,16 @@ export default {
                     </b-select>
                 </div> 
             </div>
-            <div class="column is-7">
+            <div class="column is-12">
+                <div class="field">
+                    <label class="label">{{translations.bell.column_body}}</label>
+                    <div class="control">
+                        <b-input type="textarea" v-model="workflow_action.input_data.body">
+                        </b-input>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
                 <label class="label">{{translations.actions.column_send_notification_to}}<sup class="has-text-danger">*</sup></label>
                 <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.concerning_users.type" required>
                     <option
@@ -136,26 +147,21 @@ export default {
                     {{translations.actions.view_text_concerning_user_can_be_unavailable}}
                 </p>
             </div>
-        </div>
-        <div class="field" v-if="workflow_action.concerning_users.type == 'custom'">
-            <label class="label">{{translations.actions.view_title_employee}}<sup class="has-text-danger">*</sup></label>
-            <div class="control">
-                <b-autocomplete
-                    :placeholder="translations.actions.view_placeholder_select_employee"
-                    v-model="workflow_action.concerning_users.list[0].name"
-                    required
-                    field="name"
-                    @select="user => workflow_action.concerning_users.list[0].id = user.id"
-                    :data="filteredUsers"
-                >
-                </b-autocomplete>
-            </div>
-        </div>
-        <div class="field">
-            <label class="label">{{translations.bell.column_body}}</label>
-            <div class="control">
-                <b-input type="textarea" v-model="workflow_action.input_data.body">
-                </b-input>
+            <div class="column is-6">
+                <div class="field" v-if="workflow_action.concerning_users.type == 'custom'">
+                    <label class="label">{{translations.actions.view_title_employee}}<sup class="has-text-danger">*</sup></label>
+                    <div class="control">
+                        <b-autocomplete
+                            :placeholder="translations.actions.view_placeholder_select_employee"
+                            v-model="workflow_action.concerning_users.list[0].name"
+                            required
+                            field="name"
+                            @select="user => workflow_action.concerning_users.list[0].id = user.id"
+                            :data="filteredUsers"
+                        >
+                        </b-autocomplete>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
