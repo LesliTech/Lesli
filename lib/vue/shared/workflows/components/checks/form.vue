@@ -26,7 +26,13 @@ export default {
         engineNamespace: {
             required: true
         },
+
         translationsPath: {
+            required: true,
+            type: String
+        },
+        
+        viewType: {
             required: true,
             type: String
         }
@@ -48,7 +54,7 @@ export default {
             loading: false,
             submitting: false,
             active_tab: 0,
-            new_check: {
+            check: {
                 name: '',
                 active: false,
                 initial_status_id: null,
@@ -63,6 +69,8 @@ export default {
     mounted(){
         this.setMainRoute()
         this.setTranslations()
+        this.setEmptyTransition()
+        this.setSubscriptions()
         this.getCheckOptions()
     },
 
@@ -76,18 +84,35 @@ export default {
             
         },
 
+        setEmptyTransition(){
+            this.transition_statuses.push({
+                id: null,
+                name: this.translations.core.view_text_none,
+                number: null
+            })
+        },
+
         setTranslations(){
             this.$set(this.translations, 'main', I18n.t(this.translationsPath))
         },
 
-        getCheckOptions(){
-            let url = `${this.main_route}/options.json`
+        setSubscriptions(){
+            if(this.viewType == 'edit'){
+                this.bus.subscribe('show:/module/workflow/check/edit', (check)=>{
+                    this.check_id = check.id
+                    this.getWorkflowCheck()
+                })
+            }
+        },
+
+        getWorkflowCheck(){
             this.loading = true
+            this.resetCheck()
+            let url = `${this.main_route}/${this.check_id}.json`
 
             this.http.get(url).then(result => {
                 if (result.successful) {
-                    this.options = result.data
-                    this.transition_statuses = Object.values(result.data.statuses)
+                    this.check = result.data
                 }else{
                     this.msg.error(result.error.message)
                 }
@@ -98,19 +123,46 @@ export default {
             })
         },
 
-        postCheck(event){
+        getCheckOptions(){
+            let url = `${this.main_route}/options.json`
+            this.loading = true
+
+            this.http.get(url).then(result => {
+                if (result.successful) {
+                    this.options = result.data
+                }else{
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            }).finally(()=>{
+                this.loading = false
+            })
+        },
+
+        submitCheck(event){
             if(event){
                 event.preventDefault()
             }
 
+            if(this.check_id){
+                this.putCheck()
+            }else{
+                this.postCheck()
+            }
+        },
+
+        postCheck(){
             let data = {
-                workflow_check: this.new_check
+                workflow_check: this.check
             }
             this.submitting = true
 
             this.http.post(this.main_route, data).then(result => {
                 if (result.successful) {
                     this.msg.success(this.translations.checks.messages_success_check_created)
+                    this.bus.publish('post:/module/workflow/check', result.data)
+                    this.bus.publish('show:/module/workflow/check/edit', result.data)
                     this.resetCheck()
                 }else{
                     this.msg.error(result.error.message)
@@ -122,8 +174,45 @@ export default {
             })
         },
 
+        putCheck(){
+            let url = `${this.main_route}/${this.check_id}`
+
+            let data = {
+                workflow_check: this.check
+            }
+            this.submitting = true
+
+            this.http.put(url, data).then(result => {
+                if (result.successful) {
+                    this.msg.success(this.translations.checks.messages_success_check_updated)
+                }else{
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            }).finally(()=>{
+                this.submitting = false
+            })
+        },
+
+        deleteCheck(){
+            let url = `${this.main_route}/${this.check_id}`
+
+            this.http.delete(url).then(result => {
+                if (result.successful) {
+                    this.msg.success(this.translations.checks.messages_info_check_destroyed)
+                    this.bus.publish('destroy:/module/workflow/check', this.check)
+                    this.check_id = null
+                }else{
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
         resetCheck(){
-            this.new_check = {
+            this.check = {
                 name: '',
                 active: false,
                 initial_status_id: null,
@@ -136,18 +225,18 @@ export default {
 
         selectUser(user){
             if(user){
-                this.new_check.users_id = user.id
+                this.check.users_id = user.id
             }else{
-                this.new_check.users_id = null
+                this.check.users_id = null
             }
         }
     },
 
     watch: {
-        'new_check.initial_status_id'(){
+        'check.initial_status_id'(){
             let transition_statuses = []
-            if(this.new_check.initial_status_id){
-                let initial_status = this.options.statuses[this.new_check.initial_status_id]
+            if(this.check.initial_status_id){
+                let initial_status = this.options.statuses[this.check.initial_status_id]
                 if(initial_status){
                     initial_status.next_statuses.forEach((status_id) => {
                         transition_statuses.push(this.options.statuses[status_id])
@@ -156,6 +245,12 @@ export default {
             }else{
                 transition_statuses = Object.values(this.options.statuses)
             }
+            transition_statuses.unshift({
+                id: null,
+                name: this.translations.core.view_text_none,
+                number: null
+            })
+
             this.transition_statuses = transition_statuses
         }
     },
@@ -164,11 +259,6 @@ export default {
         initialStatuses(){
             if(this.options.statuses){
                 let initial_statuses = Object.values(this.options.statuses)
-                initial_statuses.unshift({
-                    id: null,
-                    name: this.translations.core.view_text_none,
-                    number: null
-                })
                 return initial_statuses
             }else{
                 return []
@@ -177,7 +267,7 @@ export default {
 
         filteredUsers(){
             return this.options.users.filter((user) => {
-                return (user.name || "").toLowerCase().includes((this.new_check.user_name || "").toLowerCase())
+                return (user.name || "").toLowerCase().includes((this.check.user_name || "").toLowerCase())
             })
         }
     }
@@ -185,24 +275,22 @@ export default {
 </script>
 <template>
     <div v-if="translations.checks">
-        <h5 class="title is-5">{{translations.checks.view_title_main}}</h5>
-
         <component-data-loading v-if="loading" />
-        <form v-if="!loading" @submit="postCheck">
+        <form v-if="!loading" @submit="submitCheck">
             <fieldset :disabled="submitting">
                 <div class="columns is-multiline">
                     <div class="column is-4">
                         <div class="field">
                             <label class="label">{{translations.checks.column_name}}<sup class="has-text-danger">*</sup></label>
                             <div class="control">
-                                <input class="input" type="text" v-model="new_check.name" required>
+                                <input class="input" type="text" v-model="check.name" required>
                             </div>
                         </div>
                     </div>
                     <div class="column is-2">
                         <div class="field">
                             <label class="label">{{translations.checks.column_active}}</label>
-                            <b-select expanded v-model="new_check.active">
+                            <b-select expanded v-model="check.active">
                                 <option :value="true">{{translations.core.view_text_yes}}</option>
                                 <option :value="false">{{translations.core.view_text_no}}</option>
                             </b-select>
@@ -211,7 +299,7 @@ export default {
                     <div class="column is-3">
                         <div class="field">
                             <label class="label">{{translations.checks.column_initial_status_id}}<sup class="has-text-danger">*</sup></label>
-                            <b-select expanded v-model="new_check.initial_status_id" required>
+                            <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="check.initial_status_id" required>
                                 <option
                                     v-for="status in initialStatuses"
                                     :value="status.id"
@@ -229,7 +317,7 @@ export default {
                     <div class="column is-3">
                         <div class="field">
                             <label class="label">{{translations.checks.column_final_status_id}}</label>
-                            <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="new_check.final_status_id">
+                            <b-select expanded v-model="check.final_status_id">
                                 <option
                                     v-for="status in transition_statuses"
                                     :value="status.id"
@@ -246,7 +334,7 @@ export default {
                     </div>
                     <div class="column is-4">
                         <b-field :message="translations.checks.view_text_column_roles_id_description" :label="translations.checks.column_roles_id">
-                            <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="new_check.roles_id">
+                            <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="check.roles_id">
                                 <option
                                     v-for="role in options.roles"
                                     :value="role.id"
@@ -260,7 +348,7 @@ export default {
 
                     <div class="column is-4">
                         <label class="label">{{translations.checks.column_user_type}}<sup class="has-text-danger">*</sup></label>
-                        <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="new_check.user_type" required>
+                        <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="check.user_type" required>
                             <option
                                 v-for="user_type in options.user_types"
                                 :value="user_type.value"
@@ -274,12 +362,12 @@ export default {
                     </div>
 
                     <div class="column is-4">
-                        <div class="field" v-if="new_check.user_type == 'custom'">
+                        <div class="field" v-if="check.user_type == 'custom'">
                             <label class="label">{{translations.checks.column_users_id}}<sup class="has-text-danger">*</sup></label>
                             <div class="control">
                                 <b-autocomplete
                                     :placeholder="translations.core.view_placeholder_select_option"
-                                    v-model="new_check.user_name"
+                                    v-model="check.user_name"
                                     required
                                     keep-first
                                     field="name"
@@ -291,21 +379,18 @@ export default {
                         </div>
                     </div>
 
-
-
-
-                </div>
-                <div class="column is-12">
-                    <b-button type="is-primary" expanded native-type="submit">
-                        <span v-if="submitting">
-                            <b-icon icon="circle-notch"  custom-class="fa-spin" size="is-small"></b-icon>
-                            <span>{{translations.core.view_btn_save}}</span>
-                        </span>
-                        <span v-else>
-                            <b-icon icon="save" size="is-small"></b-icon>
-                            <span>{{translations.core.view_btn_save}}</span>
-                        </span>
-                    </b-button>
+                    <div class="column is-12">
+                        <b-button type="is-primary" expanded native-type="submit">
+                            <span v-if="submitting">
+                                <b-icon icon="circle-notch"  custom-class="fa-spin" size="is-small"></b-icon>
+                                <span>{{translations.core.view_btn_save}}</span>
+                            </span>
+                            <span v-else>
+                                <b-icon icon="save" size="is-small"></b-icon>
+                                <span>{{translations.core.view_btn_save}}</span>
+                            </span>
+                        </b-button>
+                    </div>
                 </div>
             </fieldset>
         </form>

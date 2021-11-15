@@ -32,9 +32,9 @@ module Shared
             full_module_name = dynamic_info_[:full_module_name].underscore
 
             workflow.checks.joins(
-                "left join #{full_module_name}_workflow_statuses WSI on WSI.id = #{full_module_name}_workflow_checks.initial_status_id"
+                "inner join #{full_module_name}_workflow_statuses WSI on WSI.id = #{full_module_name}_workflow_checks.initial_status_id"
             ).joins(
-                "inner join #{full_module_name}_workflow_statuses WSF on WSF.id = #{full_module_name}_workflow_checks.final_status_id"
+                "left join #{full_module_name}_workflow_statuses WSF on WSF.id = #{full_module_name}_workflow_checks.final_status_id"
             ).joins(
                 "left join roles r on r.id = #{full_module_name}_workflow_checks.roles_id"
             ).joins(
@@ -55,8 +55,11 @@ module Shared
             ).order(id: :desc)
         end
 
-        def show
-            self
+        def show(current_user, query)
+            data = self.attributes
+            data["user_name"] = user.full_name if user
+
+            data
         end
 
         def self.options(current_user, query, workflow)

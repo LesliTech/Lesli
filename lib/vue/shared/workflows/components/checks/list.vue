@@ -44,7 +44,8 @@ export default {
         return {
             translations: {
                 core: I18n.t('core.shared'),
-                checks: I18n.t('core.workflow/checks')
+                checks: I18n.t('core.workflow/checks'),
+                roles: I18n.t('core.roles')
             },
             main_route: '',
             checks: [],
@@ -134,8 +135,16 @@ export default {
 </script>
 <template>
     <div class="tab-content">
-        <component-data-empty v-if="loading">
-        </component-data-empty>
+        <div class="columns">
+            <div class="column is-12 has-text-right">
+                <b-button @click="getWorkflowChecks" :disabled="loading">
+                    <b-icon icon="sync" :class="{'fa-spin': loading}"></b-icon>
+                    <span>{{translations.core.view_btn_reload}}</span>
+                </b-button>
+            </div>
+        </div>
+        <component-data-loading v-if="loading">
+        </component-data-loading>
         <component-data-empty v-if="checks.length == 0 && !loading">
         </component-data-empty>
         <b-table :data="checksPage" @click="showCheck" hoverable v-if="!loading && checks.length > 0">
@@ -158,7 +167,7 @@ export default {
                     }}</small>
                 </b-table-column>
                 <b-table-column field="role_name" :label="translations.checks.column_roles_id">
-                    <small>{{ props.row.role_name }}</small>
+                    <small>{{ object_utils.translateEnum(translations.roles, 'column_enum_role', props.row.role_name) }}</small>
                 </b-table-column>
                 <b-table-column field="user_type" :label="translations.checks.column_user_type">
                     <small>{{ object_utils.translateEnum(translations.checks, 'column_enum_user_type', props.row.user_type) }}</small>

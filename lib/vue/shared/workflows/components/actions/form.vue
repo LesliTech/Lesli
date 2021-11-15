@@ -65,7 +65,6 @@ export default {
                     ]
                 },
                 configuration: {}
-
             },
             action_id: null,
             options: {
