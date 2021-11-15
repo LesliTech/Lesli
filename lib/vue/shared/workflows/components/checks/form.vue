@@ -195,12 +195,23 @@ export default {
             })
         },
 
+        confirmCheckDeletion(){
+            this.$buefy.dialog.confirm({
+                    title: this.translations.checks.messages_danger_delete_confirmation_title,
+                    message: this.translations.checks.messages_danger_delete_confirmation_body,
+                    cancelText: this.translations.core.view_btn_cancel,
+                    confirmText: this.translations.core.view_btn_accept,
+                    type: 'is-danger',
+                    onConfirm: () => this.deleteCheck()
+                })
+        },
+
         deleteCheck(){
             let url = `${this.main_route}/${this.check_id}`
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.msg.success(this.translations.checks.messages_info_check_destroyed)
+                    this.msg.success(this.translations.checks.messages_success_check_destroyed)
                     this.bus.publish('destroy:/module/workflow/check', this.check)
                     this.check_id = null
                 }else{
@@ -279,6 +290,12 @@ export default {
         <form v-if="!loading" @submit="submitCheck">
             <fieldset :disabled="submitting">
                 <div class="columns is-multiline">
+                    <div class="column is-12 has-text-right">
+                        <b-button v-if="viewType == 'edit'" type="is-danger" outlined native-type="button" @click="confirmCheckDeletion">
+                            <i class="fas fa-trash-alt"></i>
+                            {{translations.core.view_btn_delete}}
+                        </b-button>
+                    </div>
                     <div class="column is-4">
                         <div class="field">
                             <label class="label">{{translations.checks.column_name}}<sup class="has-text-danger">*</sup></label>
