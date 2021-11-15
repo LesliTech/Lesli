@@ -80,6 +80,17 @@ module Shared
             end
         end
 
+        def show
+            respond_to do |format|
+                format.json do
+                    set_workflow_check
+                    return respond_with_not_found unless @workflow_check
+                    
+                    respond_with_successful(@workflow_check.show(current_user, @query))
+                end
+            end
+        end
+
         # @controller_action_param :name [String] The name of the *check*
         # @controller_action_param :active [Boolean] Defaults to false. Indicates if the check is to be ignored or not
         # @controller_action_param :initial_status_id [BigInt] The id of the status in which the check will initiate (can be empty)

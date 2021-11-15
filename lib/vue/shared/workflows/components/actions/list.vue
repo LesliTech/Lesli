@@ -116,8 +116,8 @@ export default {
 </script>
 <template>
     <div class="tab-content">
-        <component-data-empty v-if="loading">
-        </component-data-empty>
+        <component-data-loading v-if="loading">
+        </component-data-loading>
         <component-data-empty v-if="actions.length == 0 && !loading">
         </component-data-empty>
         <b-table :data="actionsPage" @click="showAction" hoverable v-if="!loading && actions.length > 0">
