@@ -32,9 +32,7 @@ class RoleDescriptor < ApplicationLesliRecord
     end
 
     def add_privilege_actions
-        default_role_descriptor_actions = RoleDescriptor::DefaultPrivilegeActionsService.new
-
-        if (self.name == "sysadmin" ||self.name == "owner")
+        if (self.name == "sysadmin" ||self.name == "owner") # add all actions
             controllers = LC::System::Controllers.scan
 
             controllers.each do |controller_name, controller_actions|
@@ -50,12 +48,18 @@ class RoleDescriptor < ApplicationLesliRecord
             end
         end
 
+        # search method that matchs with the role descriptor name
         if (RoleDescriptor::DefaultPrivilegeActionsService.method_defined? "#{self.name}_actions") # Adding privileges if the method is defined on the class
-            RoleDescriptor::DefaultPrivilegeActionsService.new.send("#{self.name}_actions").each do |system_action|
-                self.privilege_actions.find_or_create_by(
-                    category: RoleDescriptor::PrivilegeAction.categories["update"],
-                    system_action: system_action
-                ).update(status: TRUE)
+            RoleDescriptor::DefaultPrivilegeActionsService.new.send("#{self.name}_actions").each do |privilege|
+                privilege[:actions].each do |system_action|
+                    action = self.privilege_actions.find_or_initialize_by(
+                        category: privilege[:category],
+                        system_action: system_action
+                    )
+
+                    action.status = true
+                    action.save
+                end
             end
         end
     end
