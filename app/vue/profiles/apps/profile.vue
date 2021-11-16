@@ -46,7 +46,7 @@ export default {
                 engines: null
             },
             ready: false,
-            active_tab: 5,
+            active_tab: 0,
             translations: {
                 core: {
                     users: I18n.t('core.users'),
@@ -105,7 +105,7 @@ export default {
             <b-tab-item :label="translations.core.users.view_tab_title_session_management">
                 <component-management-sessions v-if="user_id" :user_id="user_id"></component-management-sessions>
             </b-tab-item>
-            <b-tab-item :label="'Notifications management'">
+            <b-tab-item :label="'Notifications management'" v-if="lesli.pushs">
                 <component-management-notifications v-if="user_id" :user_id="user_id"></component-management-notifications>
             </b-tab-item>
         </b-tabs>
