@@ -18,6 +18,9 @@ Rails.application.configure do
     if errors.size > 0
         LC::Debug.fatal(*errors);  exit; 
     end
+=begin 
+
+    * * * MOVE THIS TO SYSTEM CLI METHOD * * *
 
     optionals = {
         services: {
@@ -99,13 +102,22 @@ Rails.application.configure do
     warns = compare(optionals, Rails.application.credentials.config, warns)
     
     LC::Debug.warn(*warns, "Some services may not work as spected.")
-    
-    puts ""; puts ""; puts "";
-    puts "Loading installed engines: "
-    puts '---     ---     ---     ---     ---'
-    Lesli::engines.each do |engine|
-    puts "- #{engine[:code]} #{engine[:version]} (#{engine[:type]})"
-    end
-    puts ""; puts "";
+=end
+
+    revision = LC::System::Info.revision()
+    engines = Lesli::engines.map { |engine| { 
+        :engine => engine[:code], :version => "#{engine[:version]} (#{engine[:type]})" 
+    }}
+
+    LC::Debug.separator_blank(3)
+    LC::Debug.msgc(
+        'Instance: ' << Rails.application.config.lesli[:instance][:name],
+        'Version: ' << revision[:version],
+        'Build: ' << revision[:build]
+    )
+
+    LC::Debug.separator_blank
+    LC::Debug.table (engines)
+    LC::Debug.separator_blank(2)
 
 end
