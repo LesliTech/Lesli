@@ -103,7 +103,7 @@ export default {
                         class="b-tooltip-multiline"
                         type="is-info"
                         size="is-small"
-                        :label="translations.core.account.settings.view_text_column_datetime_coding.replace(/n#/g,'\n#')"
+                        :label="translations.core.account.settings.view_text_column_datetime_coding.replace(/#n/g,'\n')"
                         :always="help_toggled"
                         position="is-left"
                         multilined
