@@ -129,6 +129,7 @@ class User < ApplicationLesliRecord
 
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
+    # @param *roles [String] One or more roles to be checked
     # check role of the user
     def has_roles? *roles
         !roles.intersection(self.roles.map{ |r| r[:name] }).empty?
