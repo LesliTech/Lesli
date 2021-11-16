@@ -40,6 +40,7 @@ export default {
                 range_before: 3,
                 range_after: 3,
             },
+            vapid: false
         }
     },
     mounted(){
@@ -48,6 +49,12 @@ export default {
     },
 
     methods: {
+
+        initVapid() {
+            if (typeof vapid !== 'undefined') {
+                this.vapid = vapid // defined on show view file
+            }
+        },
 
         getWebpushes() {
             this.loading = true;
@@ -72,7 +79,7 @@ export default {
 
         registerServiceWorker() {
 
-            if (!vapid) {
+            if (!this.vapid) {
                 return
             }
 
@@ -102,7 +109,7 @@ export default {
                 // request pushManager registration using vapid to authenticate the server
                 return serviceWorkerRegistration.pushManager.subscribe({
                     userVisibleOnly: true,
-                    applicationServerKey: vapid // registered on data partial
+                    applicationServerKey: this.vapid
                 })
 
             }).then((sub) => {
