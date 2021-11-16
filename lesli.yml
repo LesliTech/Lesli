@@ -43,7 +43,7 @@ configuration:
     theme: "lesli-blue"
     locales:
         en: "English"
-        es: "Español"
+        es: "Spanish"
     datetime: 
         date_format: "%d.%m.%Y"
         date_format_full: "%a, %B %d, %Y"
@@ -67,11 +67,11 @@ configuration:
 security:
     log_activity: true
     enable_debug: false
+    enable_pushes: false
     enable_commands: true
     enable_becoming: false
     enable_analytics: true
     enable_login_otp: true
-    enable_websockets: true
     enable_login_link: true
     allow_multiaccount: true
     allow_registration: true
@@ -80,10 +80,10 @@ security:
         minimum_length: 8
         expiration_time_days: 7
         development: "lesli"
-    roles:
+    roles: []
     # Add any role you may want to initialize here
-    #      - "Administration"
-    #      - "Sales & Marketing"
+    #   - "Administration"
+    #   - "Sales & Marketing"
 
 
 # Configuration by environment

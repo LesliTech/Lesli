@@ -42,6 +42,9 @@ module RoutesApp
                 resource :profile, only: [:show] do
                     scope module: :profile do
 
+                        # subscriptions to web push notifications
+                        resources :webpushes, only: [:index, :create]
+
                         # current user notifications
                         resources :notifications, only: [:index, :update]
 
@@ -63,7 +66,7 @@ module RoutesApp
                         resources :files, only: [:index, :show, :new, :create, :destroy]
 
                         # account global settings
-                        resources :settings, only: [:show, :update] do
+                        resources :settings, only: [:index, :show, :update] do
                             collection do
                                 get :options
                             end
