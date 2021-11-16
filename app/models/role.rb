@@ -25,9 +25,10 @@ class Role < ApplicationLesliRecord
     has_many :activities,               foreign_key: "roles_id"
     has_many :descriptor_assignments,   foreign_key: "roles_id",    class_name: "DescriptorAssignment",  dependent: :delete_all
     has_many :privilege_actions,        through: :descriptor_assignments
-    
-    after_create :generate_code,
-    
+
+    after_create :generate_code
+    before_create :init_default_path
+
     def generate_code
         role_code = name
             .downcase                           # string to lowercase
@@ -40,23 +41,27 @@ class Role < ApplicationLesliRecord
         self.update_attribute('code', role_code)
     end
 
+    def init_default_path
+        self.default_path ||= "/administration/profile"
+    end
+
     def self.list current_user, query
 
         role_max = current_user.roles.map(&:object_level_permission).max()
-        
+
         unless query[:filters][:object_level_permission].blank?
             role_max = query[:filters][:object_level_permission] if query[:filters][:object_level_permission].to_i <= role_max
         end
 
         roles = current_user.account.roles.select(:id, :name, :object_level_permission)
-        
+
         roles = roles.where("object_level_permission <= ?", role_max)
         roles = roles.order(object_level_permission: :desc, name: :asc)
     end
 
     def self.index(current_user, query)
         role_max = current_user.roles.map(&:object_level_permission).max()
-        
+
         roles = current_user.account.roles
         .joins("
             left join (
@@ -77,14 +82,14 @@ class Role < ApplicationLesliRecord
 
         unless query[:filters].blank?
             roles = roles.where("lower(roles.name) like ?", "%#{query[:filters][:text].downcase.strip}%") unless query[:filters][:text].blank?
-            
+
             unless query[:filters][:object_level_permission].blank?
                 role_max = query[:filters][:object_level_permission] if query[:filters][:object_level_permission].to_i <= role_max
             end
-        
+
             roles = roles.where("roles.object_level_permission <= ?", role_max)
         end
-        
+
         roles = roles
             .page(query[:pagination][:page])
             .per(query[:pagination][:perPage])
@@ -97,7 +102,6 @@ class Role < ApplicationLesliRecord
             roles.length,
             roles
         )
-
     end
 
     def show
@@ -111,12 +115,15 @@ class Role < ApplicationLesliRecord
     #   role = Role.new(detail_attributes: {name: "test_role", object_level_permission: 10})
     #   # This method will be called automatically within an after_create callback
     #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
-    def initialize_role_privileges       
+    def initialize_role_privileges
         if (self.name == "sysadmin" || self.name == "owner")
-            self.descriptor_assignments.find_or_create_by(descriptor: self.account.role_descriptors.find_by(name: self.name))    
+            self.descriptor_assignments.find_or_create_by(descriptor: self.account.role_descriptors.find_by(name: self.name))
         end
-        
-        self.descriptor_assignments.find_or_create_by(descriptor: self.account.role_descriptors.find_by(name: "profile"))    
+
+        # assign profile descriptor
+        ["show"].each do |category|
+            self.descriptor_assignments.find_or_create_by(descriptor: self.account.role_descriptors.find_by(name: "profile"), category: category)
+        end
     end
 
     # @return [Boolean]
