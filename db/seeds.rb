@@ -24,6 +24,9 @@ load "#{Rails.root}/db/seed/tools.rb"
 
 load "#{Rails.root}/db/seed/#{Rails.env.downcase}.rb"
 
+# exec rake standard deploy task
+Rake.application.invoke_task("app:deploy:after")
+
 if Rails.application.config.lesli_settings["instance"] != "Lesli"
 
     # Every instance (builder module) is loaded into the platform using the same 
@@ -37,6 +40,3 @@ if Rails.application.config.lesli_settings["instance"] != "Lesli"
     end
     
 end
-
-# exec rake standard deploy task
-Rake.application.invoke_task("app:deploy:after")
