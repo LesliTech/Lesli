@@ -35,7 +35,8 @@ export default {
 
         putUserRole() {
             setTimeout(() => {
-                this.http.post(`/administration/users/${this.data.user.id}/roles.json`, {
+                const url = this.url.admin('users/:user_id/roles', {user_id: this.data.user.id})
+                this.http.post(url, {
                     user_role: {
                         id: this.role_selected.id
                     }
@@ -52,8 +53,17 @@ export default {
         },
 
         deleteUserRole(id) {
-            this.http.delete(`/administration/users/${this.data.user.id}/roles/${id}.json`).then(result => {
+            const url = this.url.admin('users/:user_id/roles/:id', {user_id: this.data.user.id, id: id})
+
+            this.http.delete(url).then(result => {
+                if (!result.successful) {
+                    this.msg.error(result.error.message)
+                    return
+                }
+
                 this.data.user.roles = result.data
+            }).catch(error => {
+                console.log(error)
             })
         }
 
