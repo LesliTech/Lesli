@@ -31,7 +31,7 @@ module CustomizationHelper
     #     </div>
     def customization_instance_logo(tag: false, logo: "app_logo", variant: "light", mode: "web", options: {alt: "Logo"})
         logo_path = "#{lesli_instance_code}/brand/#{default_logos[logo]}"
-        logo_path = "brand/#{default_logos[logo]}" if lesli_instance_code == "lesli"
+        logo_path = "lesli/brand/#{default_logos[logo]}" if lesli_instance_code == "lesli"
 
         logo_path = @account[:customization][:logos][logo.to_sym] if @account[:customization] && @account[:customization][:logos] && @account[:customization][:logos][logo.to_sym]
 
