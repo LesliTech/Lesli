@@ -52,19 +52,19 @@ class Db < LesliTasks
     # Push code to remote branch/origin for all engines
     def reset environment
 
-        LC::Debug.msgc("Reset database for #{environment}")
+        message("Reset database for #{environment}")
 
         message("drop database")
-        command("rake db:drop RAILS_ENV=#{environment}")
+        Rake::Task['db:drop'].invoke
 
         message("create database")
-        command("rake db:create RAILS_ENV=#{environment}")
+        Rake::Task['db:create'].invoke
 
         message("migrate database")
-        command("rake db:migrate RAILS_ENV=#{environment}")
+        Rake::Task['db:migrate'].invoke
 
         message("seed database")
-        command("rake db:seed RAILS_ENV=#{environment}")
+        Rake::Task['db:seed'].invoke
 
         message_separator
         message_cow
