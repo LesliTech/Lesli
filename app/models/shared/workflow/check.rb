@@ -21,7 +21,7 @@ module Shared
         self.abstract_class = true
 
         enum user_type: {
-            none: "none",
+            null: "null",
             custom: "custom",
             creator: "creator",
             main: "main"
