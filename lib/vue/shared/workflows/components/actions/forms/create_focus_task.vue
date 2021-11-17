@@ -210,8 +210,8 @@ export default {
                 <b-input type="textarea" v-model="workflow_action.input_data.description"></b-input>
             </div>
         </div>
-        <div class="columns">
-            <div class="column is-7">
+        <div class="columns is-multiline">
+            <div class="column is-4">
                 <label class="label">{{translations.actions.column_task_type}}<sup class="has-text-danger">*</sup></label>
                 <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.input_data.task_type" required>
                     <option
@@ -226,7 +226,7 @@ export default {
                     </option>
                 </b-select>
             </div>
-            <div class="column is-5">
+            <div class="column is-4">
                 <label class="label">{{translations.tasks.column_importance}}<sup class="has-text-danger">*</sup></label>
                 <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.input_data.importance" required>
                     <option
@@ -241,14 +241,11 @@ export default {
                     </option>
                 </b-select>
             </div>
-        </div>
-        
-        <div class="columns">
-            <div class="column is-6">
+            <div class="column is-4">
                 <label class="label">{{translations.actions.column_days_until_deadline}}<sup class="has-text-danger">*</sup></label>
                 <b-input v-model="workflow_action.input_data.days_until_deadline" type="number" min="0" step="1" required></b-input>
             </div>
-            <div class="column is-6">
+            <div class="column is-4">
                 <label class="label">{{translations.actions.column_assign_task_to}}<sup class="has-text-danger">*</sup></label>
                 <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.concerning_users.type" required>
                     <option
@@ -265,25 +262,23 @@ export default {
                     {{translations.actions.view_text_concerning_user_can_be_unavailable}}
                 </p>
             </div>
-        </div>
-        
-        <div class="field" v-if="workflow_action.concerning_users.type == 'custom'">
-            <label class="label">{{translations.actions.view_title_employee}}<sup class="has-text-danger">*</sup></label>
-            <div class="control">
-                <b-autocomplete
-                    :placeholder="translations.actions.view_placeholder_select_employee"
-                    v-model="workflow_action.concerning_users.list[0].name"
-                    required
-                    field="name"
-                    @select="user => workflow_action.concerning_users.list[0].id = user.id"
-                    :data="filteredUsers"
-                >
-                </b-autocomplete>
-            </div>
-        </div>
-        
-        <div class="columns">
             <div class="column is-4">
+                <div class="field" v-if="workflow_action.concerning_users.type == 'custom'">
+                    <label class="label">{{translations.actions.view_title_employee}}<sup class="has-text-danger">*</sup></label>
+                    <div class="control">
+                        <b-autocomplete
+                            :placeholder="translations.actions.view_placeholder_select_employee"
+                            v-model="workflow_action.concerning_users.list[0].name"
+                            required
+                            field="name"
+                            @select="user => workflow_action.concerning_users.list[0].id = user.id"
+                            :data="filteredUsers"
+                        >
+                        </b-autocomplete>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-2">
                 <div class="field">
                     <label class="label">{{translations.actions.view_title_send_task_notification_email}}</label>
                     <div class="control">
@@ -298,7 +293,7 @@ export default {
                     </div>
                 </div>
             </div>
-            <div class="column is-4">
+            <div class="column is-2">
                 <div class="field">
                     <label class="label">{{translations.actions.view_title_log_task_errors}}</label>
                     <div class="control">

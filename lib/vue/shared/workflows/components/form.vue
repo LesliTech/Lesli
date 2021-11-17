@@ -21,11 +21,18 @@ For more information read the license file including with this software.
 
 // · Component list
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentWorkflowChart from "LesliVue/shared/workflows/components/chart.vue"
-import componentStatusName from "LesliVue/shared/workflows/components/status-name.vue"
+import componentAssociation from 'LesliVue/shared/workflows/components/association.vue'
+import componentStatusName from 'LesliVue/shared/workflows/components/status-name.vue'
+import componentWorkflowChart from 'LesliVue/shared/workflows/components/chart.vue'
+import componentAction from 'LesliVue/shared/workflows/components/action.vue'
 
 export default {
     props: {
+        viewType: {
+            type: String,
+            default: 'new'
+        },
+
         engineNamespace: {
             type: String,
             required: true
@@ -39,12 +46,18 @@ export default {
         appMountPath: {
             type: String,
             required: true
+        },
+
+        workflowName: {
+            type: String
         }
     },
 
     components: {
         'component-workflow-chart': componentWorkflowChart,
-        'component-status-name': componentStatusName
+        'component-association': componentAssociation,
+        'component-status-name': componentStatusName,
+        'component-action': componentAction
     },
 
     data() {
@@ -64,7 +77,10 @@ export default {
             active_tab: 0,
             cloud_engine: 'crm',
             to_be_deleted_statuses: {},
-            main_route: null
+            main_route: null,
+            submitting: false,
+            submitting_status: false,
+            translations_path: null
         }
     },
     mounted() {
@@ -74,13 +90,13 @@ export default {
     },
     methods: {
         setTranslations(){
-            let translations_path = this.translationsPath
-            if(! translations_path){
-                translations_path = this.engineNamespace
+            this.translations_path = this.translationsPath
+            if(! this.translations_path){
+                this.translations_path = this.engineNamespace
             }
 
-            this.$set(this.translations, 'main', I18n.t(`${translations_path}.workflows`))
-            this.$set(this.translations, 'shared', I18n.t(`${translations_path}.shared`))
+            this.$set(this.translations, 'main', I18n.t(`${this.translations_path}.workflows`))
+            this.$set(this.translations, 'shared', I18n.t(`${this.translations_path}.shared`))
         },
 
         setMainRoute(){
@@ -141,6 +157,7 @@ export default {
             let data = {
                 workflow_status: new_status
             }
+            this.submitting_status = true
 
             let url = `${this.main_route}/${this.workflow_id}/statuses`
             this.http.post(url, data).then(result => {
@@ -156,6 +173,8 @@ export default {
                 }
             }).catch(error => {
                 console.log(error)
+            }).finally(()=>{
+                this.submitting_status = false
             })
         },
 
@@ -184,7 +203,7 @@ export default {
             }
             this.selected_workflow_status = {}
             this.rerender_chart = true
-            this.msg.info(this.translations.workflows.messages_info_status_deleted)
+            this.msg.warn(this.translations.workflows.messages_info_status_deleted)
         },
 
         addFollowUpStatus(){
@@ -277,6 +296,8 @@ export default {
                     }
                 }
 
+                this.submitting = true
+
                 this.http.post(`${this.main_route}`, data).then(result => {
                     if (result.successful) {
                         this.msg.success(this.translations.workflows.messages_success_workflow_created)
@@ -288,6 +309,8 @@ export default {
                     }
                 }).catch(error => {
                     console.log(error)
+                }).finally(()=>{
+                    this.submitting = false
                 })
             }else{
                 this.$refs['input-workflow-name'].focus()
@@ -305,6 +328,7 @@ export default {
                 }
             }
             let url = `${this.main_route}/${this.workflow_id}`
+            this.submitting = true
 
             this.http.put(url, data).then(result => {
                 if (result.successful) {
@@ -314,6 +338,8 @@ export default {
                 }
             }).catch(error => {
                 console.log(error)
+            }).finally(()=>{
+                this.submitting = false
             })
         },
 
@@ -384,8 +410,43 @@ export default {
                     delete this.to_be_deleted_statuses[selected_status.name]
                 }
             }
+        },
 
-            document.getElementById(`${new_status_type}_button_${selected_status.id}`).blur()
+        deleteWorkflow(){
+            let url = `${this.main_route}/${this.workflow_id}`
+            this.submitting = true
+
+            this.http.delete(url).then(result => {
+                if(result.successful){
+                    this.msg.success(this.translations.workflows.messages_info_workflow_deleted)
+                    this.$router.push(`${this.appMountPath}/`)
+                }else{
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            }).finally(()=>{
+                this.submitting = false
+            })
+        },
+
+        patchWorkflowDefault() {
+            let url = `${this.main_route}/${this.workflow_id}`
+            let data = {
+                workflow: {
+                    default: true
+                }
+            }
+            this.http.patch(url, data).then(result => {
+                if(result.successful){
+                    this.workflow.default = true
+                    this.msg.success(this.translations.workflows.messages_success_workflow_set_as_default)
+                } else {
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            })
         }
     },
 
@@ -402,7 +463,9 @@ export default {
                     next_statuses.push(this.workflow.statuses[id])
                 })
             }
-            return next_statuses
+            return next_statuses.sort(function(status_1, status_2){
+                return (status_1.number || 0) - (status_2.number || 0)
+            })
         },
 
         possibleFollowUpStatuses(){
@@ -438,26 +501,23 @@ export default {
                 return (status_1.number || 0) - (status_2.number || 0)
             })
         }
+    },
+
+    watch: {
+        'workflow.name'(){
+            this.$emit('update:workflow-name', this.workflow.name)
+        }
     }
 }
 </script>
 <template>
-    <div class="card" v-if="workflow">
-        <div class="card-header">
-            <h2 class="card-header-title">
-                <span v-if="workflow.name">
-                    {{workflow.name}}
-                </span>
-                <span v-else>
-                    {{translations.workflows.view_title_main}}
-                </span>
-            </h2>
-        </div>
-        <div class="card-content">
-            <b-tabs v-model="active_tab">
-                <b-tab-item :label="translations.workflows.view_tab_title_edition_mode">
+    <b-tabs v-if="workflow" vertical v-model="active_tab">
+        <b-tab-item :label="translations.workflows.view_tab_title_edition_mode">
+            <div class="card" >
+                <div class="card-content">
+                    <h5 class="title is-5">{{translations.workflows.view_title_workflow_configuration}}</h5>
                     <div class="columns">
-                        <div class="column is-12">
+                        <div :class="{'column is-12' :viewType == 'new', 'column is-10': viewType == 'edit'}">
                             <b-field :label="translations.workflows.column_name">
                                 <input
                                     class="input"
@@ -469,7 +529,16 @@ export default {
                                 />
                             </b-field>
                         </div>
+                        <div v-if="viewType == 'edit'" class="column is-2">
+                            <b-field :label="translations.workflows.column_default">
+                                <b-checkbox v-model="workflow.default" @change.native="patchWorkflowDefault">
+                                    <span v-if="workflow.default">{{translations.core.view_text_yes}}</span>
+                                    <span v-else>{{translations.core.view_text_no}}</span>
+                                </b-checkbox>
+                            </b-field>
+                        </div>
                     </div>
+                    <hr>
                     <form @submit="addStatusToWorkflow">
                         <div class="columns">
                             <div class="column is-11">
@@ -483,15 +552,15 @@ export default {
                                     <template v-slot:label>
                                         &nbsp;
                                     </template>
-                                    <b-button type="is-primary" native-type="submit" expanded class="submit-button">
-                                        <i class="fas fa-plus-square">
-                                        </i>
+                                    <b-button :disabled="submitting_status" type="is-primary" native-type="submit" expanded class="submit-button">
+                                        <i v-if="submitting_status" class="fas fa-circle-notch fa-spin"> </i>
+                                        <i v-else class="fas fa-plus-square"> </i>
                                     </b-button>
                                 </b-field>
                             </div>
                         </div>
                     </form>
-                    <hr>
+                    <br>
                     <form @submit="verifyAndSubmitWorkflow">
                         <div class="columns">
                             <div class="column is-7">
@@ -514,55 +583,45 @@ export default {
                                                 <b-input size="is-small" type="text" pattern="\d+" v-model="status.new_number"></b-input>
                                             </div>
                                             <div class="column is-paddingless-left is-3">
-                                                <span class="is-pulled-right">
+                                                <span class="is-pulled-right has-background-white">
+                                                    &nbsp;
                                                     <b-tooltip position="is-top" :label="translations.workflows.messages_info_tooltip_status_initial" type="is-primary">
-                                                        <b-button
+                                                        <b-icon
+                                                            @click.native="selectAsInitial(status)"
                                                             size="is-small"
-                                                            type="is-primary"
-                                                            :outlined="status.status_type != 'initial'"
-                                                            :disabled="status.status_type == 'initial'"
-                                                            @click="selectAsInitial(status)"
+                                                            icon="play-circle"
+                                                            :class="{'has-text-grey-light': status.status_type != 'initial', 'has-text-primary': status.status_type == 'initial'}"
                                                         >
-                                                            <b-icon size="is-small" icon="play-circle">
-                                                            </b-icon>
-                                                        </b-button>
+                                                        </b-icon>
                                                     </b-tooltip>
                                                     <b-tooltip position="is-top" :label="translations.workflows.messages_info_tooltip_status_completed_successfully" type="is-success">
-                                                        <b-button
-                                                            :id="`completed_successfully_button_${status.id}`" 
-                                                            size="is-small" type="is-success"
-                                                            :outlined="status.status_type != 'completed_successfully'"
-                                                            :disabled="status.status_type == 'initial'"
-                                                            @click="changeStatusType(status, 'completed_successfully')"
+                                                        <b-icon
+                                                            size="is-small"
+                                                            icon="check-circle"
+                                                            @click.native="changeStatusType(status, 'completed_successfully')"
+                                                            :class="{'has-text-grey-light': status.status_type != 'completed_successfully', 'has-text-success': status.status_type == 'completed_successfully'}"
                                                         >
-                                                            <b-icon size="is-small" icon="check-circle">
-                                                            </b-icon>
-                                                        </b-button>
+                                                        </b-icon>
                                                     </b-tooltip>
                                                     <b-tooltip position="is-top" :label="translations.workflows.messages_info_tooltip_status_completed_unsuccessfully" type="is-warning">
-                                                        <b-button
-                                                            :id="`completed_unsuccessfully_button_${status.id}`" 
-                                                            size="is-small"  type="is-warning"
-                                                            :outlined="status.status_type != 'completed_unsuccessfully'"
-                                                            :disabled="status.status_type == 'initial'"
-                                                            @click="changeStatusType(status, 'completed_unsuccessfully')"
+                                                        <b-icon
+                                                            size="is-small"
+                                                            icon="times-circle"
+                                                            @click.native="changeStatusType(status, 'completed_unsuccessfully')"
+                                                            :class="{'has-text-grey-light': status.status_type != 'completed_unsuccessfully', 'has-text-warning': status.status_type == 'completed_unsuccessfully'}"
                                                         >
-                                                            <b-icon size="is-small" icon="check-circle">
-                                                            </b-icon>
-                                                        </b-button>
+                                                        </b-icon>
                                                     </b-tooltip>
                                                     <b-tooltip position="is-top" :label="translations.workflows.messages_info_tooltip_status_to_be_deleted" type="is-danger">
-                                                        <b-button
-                                                            :id="`to_be_deleted_button_${status.id}`" 
-                                                            size="is-small" type="is-danger"
-                                                            :outlined="status.status_type != 'to_be_deleted'"
-                                                            :disabled="status.status_type == 'initial'"
-                                                            @click="changeStatusType(status, 'to_be_deleted')"
+                                                        <b-icon
+                                                            size="is-small"
+                                                            icon="eraser"
+                                                            @click.native="changeStatusType(status, 'to_be_deleted')"
+                                                            :class="{'has-text-grey-light': status.status_type != 'to_be_deleted', 'has-text-danger': status.status_type == 'to_be_deleted'}"
                                                         >
-                                                            <b-icon size="is-small" icon="exclamation-circle">
-                                                            </b-icon>
-                                                        </b-button>
+                                                        </b-icon>
                                                     </b-tooltip>
+                                                    &nbsp;
                                                 </span>
                                             </div>
                                         </div>
@@ -610,6 +669,7 @@ export default {
                                         </span>
                                         <div class="menu-list is-hoverable">
                                             <a v-for="(workflow_status, key) in nextStatusesOfSelectedStatus" :key="key" class="list-item">
+                                                {{workflow_status.number}} -
                                                 {{object_utils.translateEnum(translations.core, 'column_enum_status', workflow_status.name)}}
                                                 <button type="button" class="delete is-pulled-right" @click="deleteFollowUpStatus(workflow_status)">
                                                 </button>
@@ -623,18 +683,29 @@ export default {
                             <div class="column">
                                 <div class="field">
                                     <div class="actions has-text-right">
-                                        <b-button type="is-primary" expanded native-type="submit" class="submit-button">
-                                            <i class="fas fa-save"></i>
-                                            &nbsp;
-                                            {{translations.core.view_btn_save}}
+                                        <b-button :disabled="submitting" type="is-primary" expanded native-type="submit" class="submit-button">
+                                            <span v-if="submitting">
+                                                <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small">
+                                                </b-icon>
+                                                <span> {{translations.core.view_btn_saving}} </span>
+                                            </span>
+                                            <span v-else>
+                                                <b-icon icon="save" size="is-small">
+                                                </b-icon>
+                                                <span> {{translations.core.view_btn_save}} </span>
+                                            </span>
                                         </b-button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </form>
-                </b-tab-item>
-                <b-tab-item :label="translations.workflows.view_tab_title_graphic_mode">
+                </div>
+            </div>
+        </b-tab-item>
+        <b-tab-item :label="translations.workflows.view_tab_title_graphic_mode">
+            <div class="card">
+                <div class="card-content">
                     <component-workflow-chart
                         v-if="active_tab == 1"
                         class="has-text-centered"
@@ -643,8 +714,56 @@ export default {
                         :workflow="workflow"
                         :rerender.sync="rerender_chart"
                     />
-                </b-tab-item>
-            </b-tabs>
-        </div>
-    </div>
+                </div>
+            </div>
+        </b-tab-item>
+        <b-tab-item :label="translations.workflows.view_btn_workflow_actions">
+            <div class="card">
+                <div class="card-content">
+                    <component-action
+                        :engine-namespace="engineNamespace"
+                        :workflow-id="workflow_id"
+                        :translations-path="`${translations_path}.workflow/actions`"
+                        statuses-translations-path="core.shared"
+                    >
+                    </component-action>
+                </div>
+            </div>
+        </b-tab-item>
+        <b-tab-item :label="translations.workflows.view_btn_workflow_associations">
+            <div class="card">
+                <div class="card-content">
+                    <component-association
+                        :engine-namespace="engineNamespace"
+                        :workflow-id="workflow_id"
+                        :translations-path="`${translations_path}.workflow/associations`"
+                        statuses-translations-path="core.shared"
+                    >
+                    </component-association>
+                </div>
+            </div>
+        </b-tab-item>
+        <b-tab-item :label="translations.core.view_tab_title_delete_section" v-if="! workflow.deletion_protection">
+            <div class="card">
+                <div class="card-content">
+                    <h5 class="title is-5">{{translations.workflows.view_title_delete_workflow}}</h5>
+                    <span class="has-text-danger">
+                        {{translations.workflows.messages_danger_delete_workflow_description}}
+                    </span>
+                    <br>
+                    <br>
+                    <b-field v-if="viewType != 'new'">
+                        <b-button type="is-danger" @click="deleteWorkflow" expanded class="submit-button" :disabled="submitting">
+                            <span v-if="submitting">
+                                <i class="fas fa-spin fa-circle-notch"></i> {{translations.core.view_btn_deleting}}
+                            </span>
+                            <span v-else>
+                                <i class="fas fa-trash-alt"></i> {{translations.core.view_btn_delete}}
+                            </span>
+                        </b-button>
+                    </b-field>
+                </div>
+            </div>
+        </b-tab-item>
+    </b-tabs>
 </template>

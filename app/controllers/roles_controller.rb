@@ -105,7 +105,7 @@ class RolesController < ApplicationLesliController
 
         # check if user can work with that object level permission
         if role.object_level_permission >= current_user.roles.map(&:object_level_permission).max()
-            respond_with_error(I18n.t("core.roles.messages_danger_object_level_permission_too_high"))
+            respond_with_error(I18n.t("core.roles.messages_danger_creating_role_object_level_permission_too_high"))
             return
         end
 
@@ -141,13 +141,13 @@ class RolesController < ApplicationLesliController
 
         # check if user can work with that object level permission
         if @role.object_level_permission > user_role_level_max && is_not_owner
-            return respond_with_error(I18n.t("core.roles.messages_danger_object_level_permission_too_high"))
+            return respond_with_error(I18n.t("core.roles.messages_danger_updating_role_object_level_permission_too_high"))
         end
 
         # if user tries to change level of a role with a highest level he can work with
         if !role_params[:object_level_permission].blank?
             if role_params[:object_level_permission] >= user_role_level_max && is_not_owner
-                return respond_with_error(I18n.t("core.roles.messages_danger_object_level_permission_too_high"))
+                return respond_with_error(I18n.t("core.roles.messages_danger_updating_role_object_level_permission_too_high"))
             end
         end
 
@@ -214,7 +214,7 @@ class RolesController < ApplicationLesliController
         current_user.account.roles.select(:id, :name, :object_level_permission).each do |role|
             if levels.has_key?(role.object_level_permission)
                 levels[role.object_level_permission].push(role)
-            end 
+            end
         end
 
         levels.keys.each do |key|
@@ -222,7 +222,7 @@ class RolesController < ApplicationLesliController
                 level: key,
                 roles: levels[key]
             })
-        end 
+        end
 
         respond_with_successful({ levels: levels_sorted })
 
@@ -234,12 +234,12 @@ class RolesController < ApplicationLesliController
         roles = current_user.account.roles.order(object_level_permission: :desc)
         roles.each do |role|
             unless roles_final.has_key?(role.object_level_permission)
-                roles_final[role.object_level_permission] = [] 
+                roles_final[role.object_level_permission] = []
             end
             roles_final[role.object_level_permission].push(role)
             roles_final[role.object_level_permission] = []
         end
-        
+
         current_level = 0
         previous_level = 0
 
@@ -258,7 +258,7 @@ class RolesController < ApplicationLesliController
         roles_final = []
         roles = current_user.account.roles
         roles_total = roles.length
-        
+
         roles.each_with_index do |role, index|
             roles_final.push({
                 id: role.id,
@@ -272,7 +272,7 @@ class RolesController < ApplicationLesliController
 
                 level = (role.object_level_permission + next_olp) / 2
 
-                if (role.object_level_permission == level) 
+                if (role.object_level_permission == level)
                     next;
                 end
 
@@ -285,8 +285,8 @@ class RolesController < ApplicationLesliController
 
         end
         roles_final
-    end 
-    
+    end
+
     private
 
     # @return [void]

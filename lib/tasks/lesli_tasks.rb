@@ -27,13 +27,6 @@ require "./lesli"
 class LesliTasks
     include Rake::DSL
 
-
-    # prints a simple plain message
-    def message message
-        puts message
-    end
-
-
     # print a message with a cow character
     def message_cow message = "Process completed successfully"
 
@@ -48,24 +41,16 @@ class LesliTasks
         
     end
 
-    
-    # print a default error message
-    def message_error message = "Error executing process"
-        message message
+    def message message
+        LC::Debug.msgc message
     end
 
-
-    # print blank spaces to add space between messages
-    def message_separator include_line=true
-        puts "";
-        message "---   ---   ---   ---   ---   ---   ---   ---   ---   ---" if include_line
-        puts ""; puts "";
-    end
-
+    def message_separator
+        LC::Debug.separator_blank
+    end 
 
     # execute shell commands
     def command command
-        #message command
         system command
     end
 
