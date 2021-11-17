@@ -47,8 +47,11 @@ module Lesli
 
     def Lesli.engines
 
-        # list of installed builders, engines and gems
+        # list of installed engines (cloned repos)
         engines = []
+
+        # list of required gems
+        gems = []
 
         # builder lesli.yml file configuration
         builder_settings = {}
@@ -96,7 +99,7 @@ module Lesli
                 code: engine_info["code"],
                 name: engine_info["name"],
                 version: "latest",
-                github: engine_info["github"]
+                #github: engine_info["github"]
             })
 
         end
@@ -107,11 +110,8 @@ module Lesli
             # add required engine-gem like to the engines collection
             builder_settings["modules"].each do |gem|
 
-                # if required gem is already in the engines collection
-                next if engines.find { |engine| engine[:code] == gem[0]}
-
                 # add gem to the installed engines collection
-                engines.push({
+                gems.push({
                     type: "gem",
                     code: gem[0],
                     name: gem[0].split('_').collect(&:capitalize).join, # Convert to CamelCase
@@ -129,19 +129,11 @@ module Lesli
         if settings_server.key?("modules")
 
             # Server defined modules has priority over the other settings files
-            engines = []
-
-            # register builder engine
-            engines.push({
-                type: builder_settings.dig("info", "type"),
-                code: builder_settings.dig("info", "code"),
-                name: builder_settings.dig("info", "name"),
-                version: "latest"
-            })
+            gems = []
 
             # asign gems to engines definition
             settings_server["modules"].each do |gem|
-                engines.push({
+                gems.push({
                     type: "gem",
                     code: gem[0],
                     name: gem[0].split('_').collect(&:capitalize).join, # Convert to CamelCase
@@ -149,6 +141,18 @@ module Lesli
                 })
             end
 
+        end
+
+        # load gems into the engine collection
+        gems.each do |gem|
+            # ignore gem if is already in the engines collection as cloned repo
+            next if engines.find { |engine| engine[:code] == gem[:code]}
+            engines.push({
+                type: "gem",
+                code: gem[:code],
+                name: gem[:name],
+                version: gem[:version]
+            })
         end
 
         engines
