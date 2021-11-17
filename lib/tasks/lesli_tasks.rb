@@ -41,4 +41,17 @@ class LesliTasks
         
     end
 
+    def message message
+        LC::Debug.msgc message
+    end
+
+    def message_separator
+        LC::Debug.separator_blank
+    end 
+
+    # execute shell commands
+    def command command
+        system command
+    end
+
 end

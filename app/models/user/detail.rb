@@ -25,7 +25,8 @@ class User::Detail < ApplicationLesliRecord
 
     enum salutation: {
         mr: 'mr',
-        mrs: 'mrs'
+        mrs: 'mrs',
+        ms: 'ms'
     }
 
     def update_associated_record
