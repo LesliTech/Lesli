@@ -43,7 +43,8 @@ export default {
             ticket: {
                 cloud_help_catalog_ticket_types_id: null,
                 subject: '',
-                description: null
+                description: null,
+                reference_url: null
             }
         }
     },
@@ -58,6 +59,7 @@ export default {
                 ticket: JSON.parse(JSON.stringify(this.ticket))
             }
             data.ticket.description = JSON.stringify(data.ticket.description)
+            data.ticket.reference_url = window.location.href
             this.submitting = true
             let url = `${this.main_route}.json`
 
