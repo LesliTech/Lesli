@@ -1,4 +1,4 @@
-<script>
+`<script>
 /*
 
 Copyright (c) 2020, all rights reserved.
@@ -350,8 +350,17 @@ export default {
                         </div>
                     </div>
                     <div class="column is-4">
-                        <b-field :message="translations.checks.view_text_column_roles_id_description" :label="translations.checks.column_roles_id">
-                            <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="check.roles_id">
+                        <b-field :message="translations.checks.view_text_column_roles_id_description">
+                            <template v-slot:label>
+                                <span>{{translations.checks.column_roles_id}}</span>
+                                <sup v-if="check.user_type == 'null' || check.user_type == null" class="has-text-danger">*</sup>
+                            </template>
+                            <b-select
+                                :placeholder="translations.core.view_placeholder_select_option"
+                                expanded
+                                v-model="check.roles_id"
+                                :required="check.user_type == 'null' || check.user_type == null"
+                            >
                                 <option
                                     v-for="role in options.roles"
                                     :value="role.id"
@@ -364,7 +373,7 @@ export default {
                     </div>
 
                     <div class="column is-4">
-                        <label class="label">{{translations.checks.column_user_type}}<sup class="has-text-danger">*</sup></label>
+                        <label class="label">{{translations.checks.column_user_type}}</label>
                         <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="check.user_type" required>
                             <option
                                 v-for="user_type in options.user_types"
@@ -413,3 +422,4 @@ export default {
         </form>
     </div>
 </template>
+`
