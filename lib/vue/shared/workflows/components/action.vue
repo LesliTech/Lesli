@@ -47,10 +47,6 @@ export default {
 
     methods: {
         setSubscriptions(){
-            this.bus.subscribe('show:/module/workflows/action', () => {
-                this.show = ! this.show
-            })
-
             this.bus.subscribe('show:/module/workflow/action/edit', () => {
                 this.active_tab = 2
             })
@@ -66,49 +62,43 @@ export default {
     },
 
     beforeDestroy(){
-        this.bus.$off('show:/module/workflows/action')
         this.bus.$off('show:/module/workflow/action/edit')
         this.bus.$off('destroy:/module/workflow/action')
     }
 }
 </script>
 <template>
-    <div :class="[{ 'is-active': show }, 'quickview', 'is-size-large']" v-if="translations.actions">
-        <header class="quickview-header">
-            <h4 class="title">{{translations.actions.view_title_main}}</h4>
-            <span class="delete" @click="show = false"></span>
-        </header>
-        <div class="quickview-body">
-            <b-tabs expanded v-model="active_tab">
-                <b-tab-item :label="translations.actions.view_tab_title_list">
-                    <component-list
-                        :engine-namespace="engineNamespace"
-                        :workflow-id="workflowId"
-                        :translations-path="translationsPath"
-                        :statuses-translations-path="statusesTranslationsPath"
-                        :action-selected.sync="action_selected"
-                    >
-                    </component-list>
-                </b-tab-item>
-                <b-tab-item :label="translations.actions.view_tab_title_new">
-                    <component-new
-                        :engine-namespace="engineNamespace"
-                        :workflow-id="workflowId"
-                        :translations-path="translationsPath"
-                        :statuses-translations-path="statusesTranslationsPath"
-                    >
-                    </component-new>
-                </b-tab-item>
-                <b-tab-item :label="translations.actions.view_tab_title_edit" :disabled="! action_selected">
-                    <component-edit
-                        :engine-namespace="engineNamespace"
-                        :workflow-id="workflowId"
-                        :translations-path="translationsPath"
-                        :statuses-translations-path="statusesTranslationsPath"
-                    >
-                    </component-edit>
-                </b-tab-item>
-            </b-tabs>
-        </div>
+    <div v-if="translations.actions">
+        <h5 class="title is-5">{{translations.actions.view_title_main}}</h5>
+        <b-tabs expanded v-model="active_tab">
+            <b-tab-item :label="translations.actions.view_tab_title_list">
+                <component-list
+                    :engine-namespace="engineNamespace"
+                    :workflow-id="workflowId"
+                    :translations-path="translationsPath"
+                    :statuses-translations-path="statusesTranslationsPath"
+                    :action-selected.sync="action_selected"
+                >
+                </component-list>
+            </b-tab-item>
+            <b-tab-item :label="translations.actions.view_tab_title_new">
+                <component-new
+                    :engine-namespace="engineNamespace"
+                    :workflow-id="workflowId"
+                    :translations-path="translationsPath"
+                    :statuses-translations-path="statusesTranslationsPath"
+                >
+                </component-new>
+            </b-tab-item>
+            <b-tab-item :label="translations.actions.view_tab_title_edit" :disabled="! action_selected">
+                <component-edit
+                    :engine-namespace="engineNamespace"
+                    :workflow-id="workflowId"
+                    :translations-path="translationsPath"
+                    :statuses-translations-path="statusesTranslationsPath"
+                >
+                </component-edit>
+            </b-tab-item>
+        </b-tabs>
     </div>
 </template>
