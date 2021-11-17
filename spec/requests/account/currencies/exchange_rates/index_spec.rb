@@ -99,13 +99,13 @@ RSpec.describe "GET:/administration/account/currencies/:currency_id/exchange_rat
         expect(@response_body_data["records"].last).to have_key("valid_from")
         expect(@response_body_data["records"].last["valid_from"]).to be_a(String)
         expect(DateTime.parse(@response_body_data["records"].last["valid_from"]).to_i).to be > 0
-        expect(DateTime.parse(@response_body_data["records"].last["valid_from"]).to_i).to be < (Time.now.to_i)
+        expect(DateTime.parse(@response_body_data["records"].last["valid_from"]).to_i).to be <= (DateTime.parse(Time.now.strftime("%F %H:%M:%S")).to_i)
         expect(DateTime.parse(@response_body_data["records"].last["valid_from"])).to eql(DateTime.parse((new_exchange_rates.last[:valid_from])))
         
         expect(@response_body_data["records"].last).to have_key("valid_to")
         expect(@response_body_data["records"].last["valid_to"]).to be_a(String)
         expect(DateTime.parse(@response_body_data["records"].last["valid_to"]).to_i).to be > 0
-        expect(DateTime.parse(@response_body_data["records"].last["valid_to"]).to_i).to be < (Time.now.to_i)
+        expect(DateTime.parse(@response_body_data["records"].last["valid_to"]).to_i).to be <= (DateTime.parse(Time.now.strftime("%F %H:%M:%S")).to_i)
         expect(DateTime.parse(@response_body_data["records"].last["valid_to"])).to eql(DateTime.parse((new_exchange_rates.last[:valid_to])))
 
         expect(@response_body_data["records"].last).to have_key("account_currencies_id")
@@ -115,12 +115,12 @@ RSpec.describe "GET:/administration/account/currencies/:currency_id/exchange_rat
         expect(@response_body_data["records"].last).to have_key("valid_from_string")
         expect(@response_body_data["records"].last["valid_from_string"]).to be_a(String)
         expect(DateTime.parse(@response_body_data["records"].last["valid_from_string"]).to_i).to be > 0
-        expect(DateTime.parse(@response_body_data["records"].last["valid_from_string"]).to_i).to be < (Time.now.to_i)
+        expect(DateTime.parse(@response_body_data["records"].last["valid_from_string"]).to_i).to be <= (DateTime.parse(Time.now.strftime("%F %H:%M:%S")).to_i)
 
         expect(@response_body_data["records"].last).to have_key("valid_to_string")
         expect(@response_body_data["records"].last["valid_to_string"]).to be_a(String)
         expect(DateTime.parse(@response_body_data["records"].last["valid_to_string"]).to_i).to be > 0
-        expect(DateTime.parse(@response_body_data["records"].last["valid_to_string"]).to_i).to be < (Time.now.to_i)
+        expect(DateTime.parse(@response_body_data["records"].last["valid_to_string"]).to_i).to be <= (DateTime.parse(Time.now.strftime("%F %H:%M:%S")).to_i)
 
         expect(@response_body_data["records"].last).to have_key("valid_from_text")
         expect(@response_body_data["records"].last["valid_from_text"]).to be_a(String)
@@ -136,12 +136,11 @@ RSpec.describe "GET:/administration/account/currencies/:currency_id/exchange_rat
     
         expect(@response_body_data["records"].last).to have_key("created_at_date")
         expect(@response_body_data["records"].last["created_at_date"]).to be_a(String)
-        expect(@response_body_data["records"].last["created_at_date"].to_i).to be > 0
-        expect(@response_body_data["records"].last["created_at_date"].to_i).to be < (Time.now.to_i)
+        expect(DateTime.parse(@response_body_data["records"].last["created_at_date"]).to_i).to be > 0
 
         expect(@response_body_data["records"].last).to have_key("updated_at_date")
         expect(@response_body_data["records"].last["updated_at_date"]).to be_a(String)
         expect(DateTime.parse(@response_body_data["records"].last["updated_at_date"]).to_i).to be > 0
-        expect(DateTime.parse(@response_body_data["records"].last["updated_at_date"]).to_i).to be < (Time.now.to_i)
+        expect(DateTime.parse(@response_body_data["records"].last["updated_at_date"]).to_i).to be <= (DateTime.parse(Time.now.strftime("%F %H:%M:%S")).to_i)
     end
 end

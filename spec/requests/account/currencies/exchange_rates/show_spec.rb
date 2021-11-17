@@ -58,18 +58,17 @@ RSpec.describe "GET:/administration/account/currencies/:currency_id/exchange_rat
 
         expect(@response_body_data).to have_key("valid_from")
         expect(@response_body_data["valid_from"]).to be_a(String)
-        expect(@response_body_data["valid_from"].to_i).to be > 0
-        expect(@response_body_data["valid_from"].to_i).to be < (Time.now.to_i)
+        expect(DateTime.parse(@response_body_data["valid_from"]).to_i).to be > 0
+        expect(DateTime.parse(@response_body_data["valid_from"]).to_i).to be <= (DateTime.parse(Time.now.strftime("%F %H:%M:%S")).to_i)
         
         expect(@response_body_data).to have_key("valid_to")
         expect(@response_body_data["valid_to"]).to be_a(String)
-        expect(@response_body_data["valid_to"].to_i).to be > 0
-        expect(@response_body_data["valid_to"].to_i).to be < (Time.now.to_i)
+        expect(DateTime.parse(@response_body_data["valid_to"]).to_i).to be > 0
+        expect(DateTime.parse(@response_body_data["valid_to"]).to_i).to be <= (DateTime.parse(Time.now.strftime("%F %H:%M:%S")).to_i)
 
         expect(@response_body_data).to have_key("created_at")
         expect(@response_body_data["created_at"]).to be_a(String)
-        expect(@response_body_data["created_at"].to_i).to be > 0
-        expect(@response_body_data["created_at"].to_i).to be < (Time.now.to_i)
+        expect(DateTime.parse(@response_body_data["created_at"]).to_i).to be > 0
 
         expect(@response_body_data).to have_key("account_currencies_id")
         expect(@response_body_data["account_currencies_id"]).to be_a(Numeric)
@@ -105,7 +104,7 @@ RSpec.describe "GET:/administration/account/currencies/:currency_id/exchange_rat
             users_id: @user.id
         })
 
-        #there is no currency with ID = 1, therefore should return with not fund
+        #there is no currency with ID = 1, therefore should return with not found
         get "/administration/account/currencies/#{@new_currency.id}/exchange_rates/1.json"
     end
 
