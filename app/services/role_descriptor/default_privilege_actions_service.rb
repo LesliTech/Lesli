@@ -42,7 +42,7 @@ class RoleDescriptor::DefaultPrivilegeActionsService
                 contollers: [
                     {name: "profiles", actions: ["show"] }, # enable profile view
                     {name: "users", actions: ["options"] },
-                    {name: "profile/subscriptions", actions: ["options"] }, # enable profile subscriptions
+                    {name: "profile/subscriptions", actions: ["options", "index"] }, # enable profile subscriptions
                     {name: "user/sessions", actions: ["index"] } # seession management
                 ]
             },
