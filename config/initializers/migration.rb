@@ -7,7 +7,7 @@ module ActiveRecord
         # Important notes!!
         # - This function is called each time that you run rake db:migrate
         # - when a migration could has the same class name?
-        #   - Migrations names can be duplicated for any change on a table
+        #   - Migration name can be duplicated for any change on a table
         # Example
         # > v1.0
         #   0010000310_create_users.rb -> class name: CreateUsers
@@ -19,7 +19,7 @@ module ActiveRecord
         def validate(migrations)
             name, = migrations.group_by(&:name).find { |_, v| v.length > 1 } # obtain duplicated migrations
 
-            if (!name&.starts_with? "Alter") # validate if migration starts with Alter
+            if (!name&.starts_with? "Alter") # validate if migration name doesn't starts with Alter
                 # validate migration name
                 raise DuplicateMigrationNameError.new(name) if name
             end
