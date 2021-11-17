@@ -42,6 +42,11 @@ module Courier
                 CloudHelp::Ticket.tickets_with_deadline(current_user, query)
             end
 
+            def self.count(current_user)
+                return 0 if not defined? CloudHelp
+                CloudHelp::Ticket.count(current_user)
+            end
+
         end
     end
 end

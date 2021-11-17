@@ -45,7 +45,9 @@ export default {
                 subject: '',
                 description: null,
                 reference_url: null
-            }
+            },
+            tickets: [],
+            loading: false
         }
     },
 
@@ -66,7 +68,6 @@ export default {
             this.http.post(url, data).then(result => {
                 this.submitting = false
                 if (result.successful) {
-                    this.data.global.show_support_sidebar = false
                     this.msg.success(this.translations.main.messages_info_ticket_created)
                     this.resetForm()
                 } else {
@@ -74,6 +75,8 @@ export default {
                 }
             }).catch(error => {
                 console.log(error)
+            }).finally(()=>{
+                this.data.global.show_panel_support = false
             })
         },
 
@@ -97,15 +100,51 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
+        },
+
+        getLatestTickets(){
+            this.loading = true
+
+            let url = this.url.help('tickets').order(
+                'id',
+                'desc'
+            ).paginate(
+                1,
+                3
+            ).filters({
+                search_type: 'active',
+                user_type: 'own'
+            })
+
+            this.http.get(url).then(result => {
+                if (result.successful) {
+                    this.tickets = result.data.tickets
+                }else{
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            }).finally(()=>{
+                this.loading = false
+            })
+        },
+
+        showTicket(ticket){
+            this.url.go(`/help/tickets/${ticket.id}`)
         }
     },
 
     watch: {
         'data.global.show_panel_support'() {
             // If the component is shown, and hasn't loaded
-            if(this.data.global.show_panel_support && !this.loaded){
-                this.getTicketOptions()
+            if(this.data.global.show_panel_support){
+                this.getLatestTickets()
+
+                if(!this.loaded){
+                    this.getTicketOptions()
+                }
             }
+
         }
     }
 
@@ -117,20 +156,40 @@ export default {
         :open.sync="data.global.show_panel_support"
         class="application-panel-support"
         fullheight
-        right>
+        right
+    >
         <div class="sidebar-content">
-            <form @submit="postTicket">
-                <h5 class="title is-5">
-                    <div class="columns">
-                        <div class="column is-10">
-                            {{translations.main.view_title_quick_creation}}
-                        </div>
-                        <div class="column is-2">
-                            <button type="button" class="is-pulled-right delete" @click="() => data.global.show_panel_support = false">
-                            </button>
-                        </div>
+            <h5 class="title is-5">
+                <div class="columns">
+                    <div class="column is-10">
+                        {{translations.main.view_title_latest_tickets}}
                     </div>
-                </h5>
+                    <div class="column is-2">
+                        <button type="button" class="is-pulled-right delete" @click="() => data.global.show_panel_support = false">
+                        </button>
+                    </div>
+                </div>
+            </h5>
+            <component-data-loading v-if="loading"></component-data-loading>
+            <component-data-empty v-if="! loading && tickets.length == 0"></component-data-empty>
+            <b-table v-if="! loading && tickets.length > 0" :data="tickets" striped narrowed bordered @click="showTicket">
+                <template slot-scope="props">
+                    <b-table-column field="subject" :label="translations.main.column_subject" >
+                        <a :href="`/help/tickets/${props.row.id}`">
+                            {{ props.row.subject }}
+                        </a>
+                    </b-table-column>
+                    <b-table-column field="status_name" :label="translations.main.column_cloud_help_workflow_statuses_id">
+                        <a :href="`/help/tickets/${props.row.id}`">
+                            {{object_utils.translateEnum(translations.core, 'column_enum_status', props.row.status_name)}}
+                        </a>
+                    </b-table-column>
+                </template>
+            </b-table>
+
+            <div class="is-divider"></div>
+            <h6 class="title is-6">{{translations.main.view_title_quick_creation}}</h6>
+            <form @submit="postTicket">
                 <fieldset :disabled="submitting">
                     <b-field>
                         <template v-slot:label>
@@ -165,7 +224,7 @@ export default {
                             </component-rich-text-editor>
                         </div>
                     </div>
-                    <div class="buttons">
+                    <div class="field">
                         <b-button class="submit-button" type="is-primary" native-type="submit" expanded :disabled="submitting">
                             <span v-if="submitting">
                                 <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small">
@@ -184,12 +243,23 @@ export default {
         </div>
     </b-sidebar>
 </template>
-<style scoped>
+<style>
 .text-editor-container {
     max-height: 20rem;
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: thin;
     scrollbar-color: #cccccc #ffffff;
+}
+.is-divider {
+    display: block;
+    position: relative;
+    border-top: .1rem solid #dbdbdb;
+    height: .1rem;
+    margin: 1.1rem 0;
+    text-align: center;
+}
+section.component-data-empty div {
+    padding: 0.1rem;
 }
 </style>
