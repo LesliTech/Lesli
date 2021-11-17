@@ -61,7 +61,7 @@ export default {
         getRoles() {
             const url = this.url.admin('roles/list').filters({
                 object_level_permission: this.role.object_level_permission
-            }) 
+            })
 
             this.http.get(url).then(result => {
                 if (!result.successful) {
@@ -78,12 +78,12 @@ export default {
             let form_data = {
                 role: this.role
             }
-            
+
             const url = this.url.admin('roles')
 
             this.submitting_form = true
             this.msg.info(this.translations.core.roles.messages_info_waiting_role_creation)
-            
+
             this.http.post(url, form_data).then(result => {
                 if (result.successful) {
                     this.msg.success(this.translations.core.roles.messages_success_created)
@@ -102,7 +102,7 @@ export default {
             let form_data = {
                 role: this.role
             }
-            
+
             const url = this.url.admin('roles/:id', {id: this.role.id})
 
             this.http.put(url, form_data).then(result => {
@@ -180,7 +180,7 @@ export default {
                                 <input v-model="role.default_path" class="input" type="text" :placeholder="translations.core.roles.view_placeholder_default_path_at_login">
                             </div>
                         </div>
-                
+
                         <div class="columns">
                             <div class="column is-10">
                                 <b-field :message="translations.core.roles.view_text_object_level_permission_description">
