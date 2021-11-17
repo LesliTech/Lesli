@@ -19,42 +19,60 @@ For more information read the license file including with this software.
 
 class RoleDescriptor::DefaultPrivilegeActionsService
 
-    # @description This class is use to fetch the default privileges o a specific role descriptor
+    # @description This class is use to add the default actions to a descriptor
     # the privilege  actions are fetched using the same name of the role descriptor and adding the suffix _actions
     # Example
     # actions = RoleDescriptor::DefaultPrivilegeActionsService["#{role_descriptor_name}_actions"]
     def initialize
     end
 
-    # @return Array[Hash<category[String], actions[SystemController::Action]>]
+    # @return [void]
+    # @param role_descriptor [RoleDescriptor] The role_descriptor on wich we want to add the system actions
     # @description Return the list of privilege actions defined for
     # profile descriptor
     # Example
-    # actions = RoleDescriptor::DefaultPrivilegeActionsService.profile_actions
-    def profile_actions
-        actions = []
+    # RoleDescriptor::DefaultPrivilegeActionsService.add_profile_actions(RoleDescriptor.last)
+    def add_profile_actions(role_descriptor)
+        privileges = []
 
-        # finding the actions needeed on the controllers
+        # Adding default system actions for profile descriptor
         [
-            {controller: "profiles", actions: ["show"] }, # enable profile view
-            {controller: "profile/subscriptions", actions: ["options"] }, # enable profile subscriptions
-            {controller: "users",    actions: ["options", "update"] }, # enable user edition
-            {controller: "user/sessions", actions: ["index"] } # seession management
-        ].each do |privilege|
-            privilege[:actions].each do |action|
+            {
+                category: "show",
+                contollers: [
+                    {name: "profiles", actions: ["show"] }, # enable profile view
+                    {name: "users", actions: ["options"] },
+                    {name: "profile/subscriptions", actions: ["options"] }, # enable profile subscriptions
+                    {name: "user/sessions", actions: ["index"] } # seession management
+                ]
+            },
+            {
+                category: "update",
+                contollers: [
+                    {name: "users", actions: ["options", "update"] }, # enable user edition
+                ]
+            }
+        ].each do |data|
+            data[:contollers].each do |controller|
+                controller[:actions].each do |action_name|
+                    system_action = SystemController::Action.joins(:system_controller)
+                    .where("system_controllers.name = ?", controller[:name])
+                    .where("system_controller_actions.name = ?", action_name)
+                    .first # find system action
 
-                system_action = SystemController::Action.joins(:system_controller)
-                .where("system_controllers.name = ?", privilege[:controller])
-                .where("system_controller_actions.name = ?", action)
-                .first
+                    if (system_action)
+                        action = role_descriptor
+                        .privilege_actions
+                        .find_or_initialize_by(
+                            category: data[:category],
+                            system_action: system_action
+                        )
 
-                actions.push(system_action) if system_action
+                        action.status = true
+                        action.save
+                    end
+                end
             end
         end
-
-        return [
-            category: "show",
-            actions: actions
-        ]
     end
 end

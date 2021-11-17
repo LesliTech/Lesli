@@ -117,12 +117,19 @@ class Role < ApplicationLesliRecord
     #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
     def initialize_role_privileges
         if (self.name == "sysadmin" || self.name == "owner")
-            self.descriptor_assignments.find_or_create_by(descriptor: self.account.role_descriptors.find_by(name: self.name))
+            self.descriptor_assignments
+            .find_or_create_by(
+                descriptor: self.account.role_descriptors.find_by(name: self.name)
+            )
         end
 
-        # assign profile descriptor
-        ["show"].each do |category|
-            self.descriptor_assignments.find_or_create_by(descriptor: self.account.role_descriptors.find_by(name: "profile"), category: category)
+        # assign ["show", "update"] actions from profile descriptor to the role
+        ["show", "update"].each do |category|
+            self.descriptor_assignments
+            .find_or_create_by(
+                descriptor: self.account.role_descriptors.find_by(name: "profile"),
+                category: category
+            )
         end
     end
 

@@ -49,18 +49,9 @@ class RoleDescriptor < ApplicationLesliRecord
         end
 
         # search method that matchs with the role descriptor name
-        if (RoleDescriptor::DefaultPrivilegeActionsService.method_defined? "#{self.name}_actions") # Adding privileges if the method is defined on the class
-            RoleDescriptor::DefaultPrivilegeActionsService.new.send("#{self.name}_actions").each do |privilege|
-                privilege[:actions].each do |system_action|
-                    action = self.privilege_actions.find_or_initialize_by(
-                        category: privilege[:category],
-                        system_action: system_action
-                    )
-
-                    action.status = true
-                    action.save
-                end
-            end
+        method_name = "add_#{self.name}_actions"
+        if (RoleDescriptor::DefaultPrivilegeActionsService.method_defined? method_name) # Adding privileges if the method is defined on the class
+            RoleDescriptor::DefaultPrivilegeActionsService.new.send(method_name, self)
         end
     end
 
