@@ -37,6 +37,8 @@ All the new version for Core, Builders and Modules are created automatically thr
 If minor version upgrade is necessary, the last commit must include the tag "#minor"
 If major version upgrade is necessary, the last commit must include the tag "#major"
 
+You can modify the README.md file of the engine, the reflect the current version and ad the #minor text to the commit 
+
 ## Changelog
 Today there is no automatic way to generate a changelong based on github commits/pull requests, so changelong must be created manually adding a friendly and general (but undestandable) description of changes released with the version.
 

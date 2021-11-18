@@ -61,7 +61,7 @@ Every change (version) of the database should be in their own folder, the folder
 | version 1.0   |   0100000310_create_test  (base migration)
 | version 1.1   |   0100000311_alter_test   (add a new field)
 | version 1.2   |   0100000312_alter_test   (add a new field)
-| version 1.3   |   0100000313_alter_test   (change field from string to integer)
+| version 2.0   |   0100000320_alter_test   (change field from string to integer)
 
 ## Database versioning standard
 
