@@ -75,6 +75,12 @@ export default {
                 event.preventDefault()
             }
 
+            if(! this.discussion.content || this.discussion.content.trim().length == 0){
+                this.msg.warn(this.translations.core.messages_warning_cloud_object_discussion_must_exist)
+                this.$refs['input-comment'].focus()
+                return
+            }
+
             let form_data = {}
             form_data[`${this.object_name.singular}_discussion`] = this.discussion
             let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions.json`
@@ -100,27 +106,39 @@ export default {
 <template>
     <form @submit="postDiscussion">
         <fieldset :disabled="submitting_form">
-            <b-field grouped>
-                <b-input 
-                    required :placeholder="translations.core.view_placeholder_discussions_add_comment" 
+            <b-field grouped label-position="on-border" :label="translations.core.view_placeholder_discussions_add_comment">
+                <b-input
                     ref="input-comment" 
+                    type="textarea"
+                    size="is-small"
+                    rows="2"
                     v-model="discussion.content" 
                     expanded
                 >
                 </b-input>
                 <p class="control">
-                    <b-button type="is-primary" native-type="submit">
+                    <b-button type="is-primary" native-type="submit" class="submit-button">
                         <span v-if="submitting_form">
                             <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
                             &nbsp;
                             {{translations.core.view_btn_saving}}
                         </span>
                         <span v-else>
+                            <b-icon icon="save" size="is-small" />
+                            &nbsp;
                             {{translations.core.view_btn_save}}
                         </span>
                     </b-button>
                 </p>
             </b-field>
         </fieldset>
+        <hr>
     </form>
 </template>
+<style scoped>
+.submit-button {
+    top: 100%;
+    -ms-transform: translateY(-100%);
+    transform: translateY(-100%); 
+}
+</style>

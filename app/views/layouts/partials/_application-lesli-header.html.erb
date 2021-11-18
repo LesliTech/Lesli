@@ -62,13 +62,22 @@ For more information read the license file including with this software.
     <%# tasks icon indicator %>
     <% if defined?(CloudFocus) %>
     <template v-slot:tasks>
-        <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_support = true">
+        <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_tasks = true">
             <i v-if="lesli.tasks > 0" class="fas fa-tasks has-text-link"></i>
             <i v-if="lesli.tasks == 0" class="fas fa-tasks"></i>
             <span v-if="lesli.tasks > 0">{{ lesli.tasks }}</span>
         </a>
     </template>
     <% end %>
+
+    <%# tickets icon indicator %>
+    <template v-slot:tickets>
+        <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_support = true">
+            <i v-if="lesli.tickets > 0" class="fas fa-ticket-alt has-text-link"></i>
+            <i v-if="lesli.tickets == 0" class="fas fa-ticket-alt"></i>
+            <span v-if="lesli.tickets > 0">{{ lesli.tickets }}</span>
+        </a>
+    </template>
 
 
     <%# notifications icon indicator %>
