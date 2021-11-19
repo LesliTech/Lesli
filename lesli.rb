@@ -98,8 +98,7 @@ module Lesli
                 type: engine_info["type"] || "engine",
                 code: engine_info["code"],
                 name: engine_info["name"],
-                version: "latest",
-                #github: engine_info["github"]
+                version: "latest"
             })
 
         end
