@@ -43,6 +43,7 @@ module Courier
             end
 
             def self.count(current_user)
+                return 0 # (workaround) count method of help is not working
                 return 0 if not defined? CloudHelp
                 CloudHelp::Ticket.count(current_user)
             end
