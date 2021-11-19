@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -24,7 +24,7 @@ module Docm
             # @param index [Integer] the index of excel column
             # @example
             # column_name = Docm::Generator::XlsxPivote.column_name(10)
-            # puts column_name 
+            # puts column_name
             # will print something like: 'J'
             def self.column_name index
                 dividend = index
@@ -48,8 +48,8 @@ module Docm
             # @example
             # xlsx_datasets = [
             #                     [
-            #                         "Information", 
-            #                         { 
+            #                         "Information",
+            #                         {
             #                             headers: [:name, :year, :sales, :city],
             #                             rows: [["Diego", 1997, 20, "Guatemala"],
             #                                    ["Luis", 1990, 12, "Costa Rica"],
@@ -65,10 +65,10 @@ module Docm
             #     data: [{:ref => "sales", :subtotal => "count"}],
             #     pages: ["city"]
             # }
-            # 
+            #
             # Docm::Generator::XlsxPivote.generate(
-            #     "report", 
-            #     xlsx_datasets, 
+            #     "report",
+            #     xlsx_datasets,
             #     pivote_table
             # )
             def self.generate filename, xlsx_datasets, pivote_table
@@ -91,7 +91,7 @@ module Docm
                     end
                 end
 
-                #create pivote table in different sheet
+                #create pivote table in a different sheet
                 axlsx.workbook.add_worksheet(:name => pivote_table[:sheetname]) do |sheet|
                     pivot_table = Axlsx::PivotTable.new 'A4', "A1:#{column_name(columns_length)}#{rows_length}", axlsx.workbook.worksheets[0]
                     pivot_table.rows = pivote_table[:rows]
@@ -122,4 +122,4 @@ module Docm
             end
         end
     end
-end    
+end

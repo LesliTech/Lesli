@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -23,10 +23,23 @@ module Docm
 
             # @return [String] The path where the generated xlsx file is located
             # @param filename [String] the name of the generated file
-            # @param xlsx_datasets [Array] The datasets to be recorded into the xlsx file. Each dataset 
+            # @param xlsx_datasets [Array] The datasets to be recorded into the xlsx file. Each dataset
             #     represents a worksheet.
             # @param style_data [Hash] The styles to be added to the worksheet. To know more about the style
             #     format, refer to the documentation in rails/xlsx-styles
+            # @param pivote_table_data [Hash] The options to add a pivote table at the final of the worksheet.
+            #   {
+            #       sheet_reference<Integer>: The sheet from where extract the data.
+            #       sheet_name<String>: The name of the sheet.
+            #       rows<Array>: The rows of the pivote table.
+            #       columns<Array>: The columns of the pivote table.
+            #       data<Hash>: {
+            #           ref: column_name,
+            #           subtotal: [count, average, max, min, product, ...]
+            #       }
+            #       pages<Array>: The Filters of pivote table.
+            #   }
+            #
             # @description Generates a normal xlsx file with the content received in **xlsx_datasets** and adds
             #     the respective styles if **style_data** is received as an argument
             # @example
@@ -38,11 +51,11 @@ module Docm
             #         data,
             #         style_data: XlsxReport::StyleService.daily_changes
             #     )
-            def self.generate(filename, xlsx_datasets, style_data: nil)
+            def self.generate(filename, xlsx_datasets, style_data: nil, pivote_table_data: nil)
                 style_data = {styles: {}, sheets: [{rows: []}]} unless style_data
                 axlsx = Axlsx::Package.new
                 workbook = axlsx.workbook
-                
+
                 # We take the styles sent as hash, and turn them insto workbook styles
                 style_data[:styles].each do |style_name, data|
                     style_data[:styles][style_name] = workbook.styles.add_style(data)
@@ -63,7 +76,7 @@ module Docm
                     else
                         sheet_styles = JSON.parse(static_sheet_styles.to_json).deep_symbolize_keys
                     end
-                    
+
                     workbook.add_worksheet(:name => xlsx_data[0]) do |sheet|
 
                         # Separating headers and rows into 2 different keys is now deprecated. We should put all the
@@ -86,11 +99,31 @@ module Docm
                         end
 
                         x = self.expand_widths(sheet_styles[:widths], expanded_row_styles.length)
-                        
+
                         sheet.column_widths(*x)
                     end
 
-                    
+
+
+                    unless pivote_table_data.blank?
+                        rows_length = xlsx_data[1]["rows"].length + 1 #header
+                        columns_length = xlsx_data[1]["headers"].length
+
+                        #create pivote table in a different sheet
+                        axlsx.workbook.add_worksheet(:name => pivote_table_data[:sheet_name]) do |sheet|
+                            pivot_table = Axlsx::PivotTable.new(
+                                'A4', # pivote table starts at A4
+                                "A1:#{column_name(columns_length)}#{rows_length}", # pivote table ends at
+                                axlsx.workbook.worksheets[pivote_table_data[:reference_sheet]]
+                            )
+
+                            pivot_table.rows = pivote_table_data[:rows]
+                            pivot_table.columns = pivote_table_data[:columns]
+                            pivot_table.data = pivote_table_data[:data]
+                            pivot_table.pages = pivote_table_data[:pages]
+                            sheet.pivot_tables << pivot_table
+                        end
+                    end
                 end
 
                 # Saving excel file on the server disk for every user
@@ -136,7 +169,7 @@ module Docm
                 return widths
             end
 
-            # @return [Array] An array the same length as the row to be recorded, containing 
+            # @return [Array] An array the same length as the row to be recorded, containing
             #     the respective styles for each column of the row
             # @param row [Array] Array containing the next row to be recorded into the xlsx sheet.
             #     This row is only used to determine how many columns are in the row
@@ -187,13 +220,34 @@ module Docm
                         expanded_styles.push(nil)
                     end
 
-                    if column_style[:end_column] && column_style[:end_column] <= column_index 
+                    if column_style[:end_column] && column_style[:end_column] <= column_index
                         column_style = column_styles.shift
                     end
                 end
 
                 expanded_styles
             end
+
+            # @param index [Integer] the index of excel column
+            # @example
+            # column_name = Docm::Generator::XlsxPivote.column_name(10)
+            # puts column_name
+            # will print something like: 'J'
+            def self.column_name index
+                dividend = index
+                max_index = 26 #length of alphabet
+                offset = 65 #ascii code of A
+                modulo = 0
+                column_name = ""
+
+                while (dividend > 0)
+                    modulo = (dividend - 1) % max_index
+                    column_name = (offset + modulo).chr + column_name
+                    dividend = (dividend - modulo) / max_index
+                end
+
+                return column_name
+            end
         end
     end
-end    
+end
