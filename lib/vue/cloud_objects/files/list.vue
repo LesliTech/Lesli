@@ -91,6 +91,7 @@ export default {
                 this.loading = false
                 if (result.successful) {
                     this.files = result.data
+                    this.$set(this.data, 'files_count', this.files.length)
                 }else{
                     this.msg.error(result.error.message)
                 }

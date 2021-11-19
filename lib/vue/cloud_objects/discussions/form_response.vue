@@ -97,8 +97,17 @@ export default {
                 <label class="label">
                     {{translations.core.view_text_discussions_add_response}}
                 </label>
-                <div class="control is-clearfix is-expanded is-small">
-                    <input class="input" type="input" autocomplete="on" ref="input" v-model="discussion.content"/>
+                <div class="control is-clearfix is-expanded is-small is-marginless">
+                    <b-input
+                        autocomplete="off"
+                        ref="input" 
+                        type="textarea"
+                        size="is-small"
+                        rows="1"
+                        v-model="discussion.content" 
+                        expanded
+                    >
+                    </b-input>
                 </div>
                 <p class="control">
                     <button class="button is-primary" type="submit" :disabled="discussion.content == ''">
@@ -109,3 +118,8 @@ export default {
         </form>
     </section>
 </template>
+<style scoped>
+button {
+    height: 100%;
+}
+</style>

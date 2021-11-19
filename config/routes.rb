@@ -62,7 +62,7 @@ Rails.application.routes.draw do
     mount CloudInsights::Engine => "/insights" if defined?(CloudInsights)
     mount CloudProposal::Engine => "/proposal" if defined?(CloudProposal)
     mount CloudDevelopment::Engine => "/development" if defined?(CloudDevelopment)
-    
+
     mount CloudShared::Engine => "/shared" if defined?(CloudShared)
     mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
     mount CloudFederation::Engine => "/cloud" if defined?(CloudFederation)
@@ -75,7 +75,7 @@ Rails.application.routes.draw do
         root to: redirect("/dashboard"), as: :root_authenticated
     end
 
-    unauthenticated :user do 
+    unauthenticated :user do
         root to: "websites#show", as: :root_unauthenticated
     end
 
