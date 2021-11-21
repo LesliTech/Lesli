@@ -29,7 +29,7 @@ module Docm
             #     format, refer to the documentation in rails/xlsx-styles
             # @param pivote_table_data [Hash] The options to add a pivote table at the final of the worksheet.
             #   {
-            #       sheet_reference<Integer>: The sheet from where extract the data.
+            #       sheet_source<Integer>: The sheet from where extract the data.
             #       sheet_name<String>: The name of the sheet.
             #       rows<Array>: The rows of the pivote table.
             #       columns<Array>: The columns of the pivote table.
@@ -102,27 +102,25 @@ module Docm
 
                         sheet.column_widths(*x)
                     end
+                end
 
+                unless pivote_table_data.blank?
+                    rows_length = xlsx_datasets[pivote_table_data[:sheet_source]][1]["rows"].length + 1 #header
+                    columns_length = xlsx_datasets[pivote_table_data[:sheet_source]][1]["headers"].length
 
+                    #create pivote table in a different sheet
+                    axlsx.workbook.add_worksheet(:name => pivote_table_data[:sheet_name]) do |sheet|
+                        pivot_table = Axlsx::PivotTable.new(
+                            'A4', # pivote table starts at A4
+                            "A1:#{column_name(columns_length)}#{rows_length}", # pivote table ends at
+                            axlsx.workbook.worksheets[pivote_table_data[:sheet_source]], # use sheet source
+                        )
 
-                    unless pivote_table_data.blank?
-                        rows_length = xlsx_data[1]["rows"].length + 1 #header
-                        columns_length = xlsx_data[1]["headers"].length
-
-                        #create pivote table in a different sheet
-                        axlsx.workbook.add_worksheet(:name => pivote_table_data[:sheet_name]) do |sheet|
-                            pivot_table = Axlsx::PivotTable.new(
-                                'A4', # pivote table starts at A4
-                                "A1:#{column_name(columns_length)}#{rows_length}", # pivote table ends at
-                                axlsx.workbook.worksheets[pivote_table_data[:reference_sheet]]
-                            )
-
-                            pivot_table.rows = pivote_table_data[:rows]
-                            pivot_table.columns = pivote_table_data[:columns]
-                            pivot_table.data = pivote_table_data[:data]
-                            pivot_table.pages = pivote_table_data[:pages]
-                            sheet.pivot_tables << pivot_table
-                        end
+                        pivot_table.rows = pivote_table_data[:rows]
+                        pivot_table.columns = pivote_table_data[:columns]
+                        pivot_table.data = pivote_table_data[:data]
+                        pivot_table.pages = pivote_table_data[:pages]
+                        sheet.pivot_tables << pivot_table
                     end
                 end
 
