@@ -71,6 +71,7 @@ For more information read the license file including with this software.
     <% end %>
 
     <%# tickets icon indicator %>
+    <% if defined?(CloudHelp) %>
     <template v-slot:tickets>
         <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_support = true">
             <i v-if="lesli.tickets > 0" class="fas fa-ticket-alt has-text-link"></i>
@@ -78,6 +79,7 @@ For more information read the license file including with this software.
             <span v-if="lesli.tickets > 0">{{ lesli.tickets }}</span>
         </a>
     </template>
+    <% end %>
 
 
     <%# notifications icon indicator %>
