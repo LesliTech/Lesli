@@ -105,7 +105,7 @@ gem "libreconv"
 gem "jwt"
 
 # Excel file generator gems
-gem "axlsx"
+gem "caxlsx"
 
 gem "caxlsx_rails"
 
@@ -127,7 +127,7 @@ gem "webpush", "= 1.1.0"
 
 group :development, :test do
 
-    # Fake data generator 
+    # Fake data generator
     # https://github.com/faker-ruby/faker
     gem "faker"
 
@@ -150,7 +150,7 @@ group :development, :test do
     # Code coverage
     # https://github.com/simplecov-ruby/simplecov
     gem 'simplecov', require: false
-    
+
     # Code coverage stats in the console
     # https://github.com/chetan/simplecov-console
     gem 'simplecov-console', require: false
