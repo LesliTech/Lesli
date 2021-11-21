@@ -152,10 +152,10 @@ Rails.application.configure do
     if config.action_mailer.delivery_method == :smtp
         config.action_mailer.smtp_settings = {
             authentication: :plain,
-            port: Rails.application.credentials.providers[:mailgun][:smtp][:port],
-            address: Rails.application.credentials.providers[:mailgun][:smtp][:address],
-            password: Rails.application.credentials.providers[:mailgun][:smtp][:password],
-            user_name: Rails.application.credentials.providers[:mailgun][:smtp][:user_name]
+            port: Rails.application.credentials.dig(:providers, :mailgun, :smtp, :port),
+            address: Rails.application.credentials.dig(:providers, :mailgun, :smtp, :address),
+            password: Rails.application.credentials.dig(:providers, :mailgun, :smtp, :password),
+            user_name: Rails.application.credentials.dig(:providers, :mailgun, :smtp, :user_name)
         }
     end
 
