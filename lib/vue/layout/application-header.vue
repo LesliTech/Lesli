@@ -140,6 +140,7 @@ export default {
                 <slot></slot>
                 <slot name="languages"></slot>
                 <slot name="announcements"></slot>
+                <slot name="tickets"></slot>
                 <slot name="tasks"></slot>
                 <slot name="notifications"></slot>
                 <slot name="engines"></slot>
