@@ -99,7 +99,7 @@ module Lesli
                 code: engine_info["code"],
                 name: engine_info["name"],
                 version: "latest",
-                #github: engine_info["github"]
+                github: engine_info["github"]
             })
 
         end
