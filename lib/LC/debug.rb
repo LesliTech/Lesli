@@ -123,6 +123,9 @@ module LC
             # get the available space for every column
             col_width = (terminal_width / cols) - 1
 
+            # validate that we have minimum space to render the table
+            return if col_width <= 0
+
             # separator for every column and row
             separator = ('| ' << ('- ' * (col_width / 2)))
 
