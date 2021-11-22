@@ -55,6 +55,7 @@ class Account < ApplicationRecord
     has_one :proposal,   class_name: "CloudProposal::Account",   foreign_key: "id"
     has_one :dispatcher, class_name: "CloudDispatcher::Account", foreign_key: "id"
     has_one :storage,    class_name: "CloudStorage::Account",    foreign_key: "id"
+    has_one :fun,        class_name: "CloudFun::Account",        foreign_key: "id"
 
     after_create :initialize_account
     after_create :initialize_account_for_engines
@@ -280,6 +281,14 @@ class Account < ApplicationRecord
                 self.portal = CloudPortal::Account.new
                 self.portal.account = self
                 self.portal.save!
+            end
+        end
+
+        if defined? CloudFun
+            if self.fun.blank?
+                self.fun = CloudFun::Account.new
+                self.fun.account = self
+                self.fun.save!
             end
         end
 
