@@ -21,7 +21,7 @@ For more information read the license file including with this software.
 def create_development_user dev_user, password=nil
 
     # get password
-    if not password
+    if password.blank?
         password = Rails.application.config.lesli_settings["security"]["password"]["development"]
         password = password + Time.now.year.to_s + "$"
     end

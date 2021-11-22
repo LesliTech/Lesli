@@ -247,10 +247,10 @@ module.exports = env => {
     // Build webpack configuration for every installed engine
     engines.forEach(engine => {
 
-        // clone webpack base configuration
+        // clone webpack base configuration (shallow copy) 
         let webpackEngine = Object.assign({}, webpackbase)
 
-        // ensure to clone output configuration
+        // ensure to clone output configuration (shallow copy) 
         webpackEngine.output = Object.assign({}, webpackbase.output)
 
         //
@@ -323,13 +323,12 @@ module.exports = env => {
     })
 
  
-    // let webpacksw = Object.assign({}, webpackbase)
-    // webpacksw.output = Object.assign({}, webpackbase.output)
-    // webpacksw.output.filename = "public/leslisw.js"
-    // webpacksw.entry = "./lib/assets/javascripts/leslisw.js"
-    // webpacksw.optimization.minimize = true
-    // webpacksw.mode = "production"
-    // webpackConfig.push(webpacksw)
+    let webpacksw = Object.assign({}, webpackbase)
+    webpacksw.output = Object.assign({}, webpackbase.output)
+    webpacksw.output.filename = "public/leslisw.js"
+    webpacksw.entry = "./lib/assets/javascripts/leslisw.js"
+
+    webpackConfig.push(webpacksw)
 
 
     return webpackConfig
