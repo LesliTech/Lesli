@@ -284,6 +284,14 @@ class Account < ApplicationRecord
             end
         end
 
+        if defined? CloudFun
+            if self.fun.blank?
+                self.fun = CloudFun::Account.new
+                self.fun.account = self
+                self.fun.save!
+            end
+        end
+
     end
 
     def initialize_account_for_instance
