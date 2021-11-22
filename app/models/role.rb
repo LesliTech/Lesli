@@ -42,7 +42,9 @@ class Role < ApplicationLesliRecord
     end
 
     def init_default_path
-        self.default_path ||= "/administration/profile"
+        if ["limited", "guest"].include? self.name
+            self.default_path ||= "/administration/profile" # profile path
+        end
     end
 
     def self.list current_user, query
