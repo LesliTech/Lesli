@@ -21,7 +21,7 @@ module Shared
         self.abstract_class = true
 
         enum user_type: {
-            null: "null",
+            any: "any",
             custom: "custom",
             creator: "creator",
             main: "main"
@@ -53,7 +53,7 @@ module Shared
                 "r.name as role_name",
                 "#{full_module_name}_workflow_checks.users_id as user_id",
                 "concat(ud.first_name, ' ', ud.last_name) as user_name"
-            ).order(id: :desc)
+            ).order(id: :asc)
         end
 
         def show(current_user, query)
@@ -69,8 +69,8 @@ module Shared
             workflow.statuses.order(number: :asc).each do |status|
                 next_statuses = []
                 if status.next_statuses
-                    next_statuses = status.next_statuses.split("|").map do |nex_status|
-                        nex_status.to_i
+                    next_statuses = status.next_statuses.split("|").map do |next_status|
+                        next_status.to_i
                     end
                 end
 

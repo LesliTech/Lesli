@@ -48,7 +48,6 @@ export default {
                 roles: I18n.t('core.roles')
             },
             main_route: '',
-            checks: [],
             loading: false,
             pagination: {
                 current_page: 1,
@@ -63,7 +62,6 @@ export default {
         this.setMainRoute()
         this.setTranslations()
         this.getWorkflowChecks()
-        this.setSubscriptions()
     },
 
     methods: {
@@ -87,7 +85,7 @@ export default {
             this.http.get(url).then(result => {
                 this.loading = false
                 if (result.successful) {
-                    this.checks = result.data
+                    this.data.checks.records = result.data
                 }else{
                     this.msg.error(result.error.message)
                 }
@@ -97,38 +95,29 @@ export default {
         },
 
         showCheck(check){
-            this.$emit('update:check-selected', true)
-            this.bus.publish('show:/module/workflow/check/edit', check)
-        },
-
-        setSubscriptions(){
-            this.bus.subscribe('post:/module/workflow/check', ()=>{
-                this.$emit('update:check-selected', true)
-                this.getWorkflowChecks()
-            })
-
-            
-            this.bus.subscribe('destroy:/module/workflow/check', (deleted_check)=>{
-            this.$emit('update:check-selected', false)
-                this.checks = this.checks.filter(check => check.id != deleted_check.id)
-            })
+            this.data.checks.active_tab = 2
+            this.data.checks.selected_record_id = check.id
         }
-    },
-
-    beforeDestroy(){
-        this.bus.$off('post:/module/workflow/check')
-        this.bus.$off('destroy:/module/workflow/check')
     },
 
     computed: {
         checksPage(){
-            if(this.checks.length <= this.pagination.per_page){
-                return this.checks
+            if(this.data.checks.records.length <= this.pagination.per_page){
+                return this.data.checks.records
             }
 
             let start = (this.pagination.current_page - 1) * this.pagination.per_page
             let end = this.pagination.current_page * this.pagination.per_page
-            return this.checks.slice(start, end)
+            return this.data.checks.records.slice(start, end)
+        }
+    },
+
+    watch: {
+        'data.checks.reload'(){
+            if(this.data.checks.reload){
+                this.getWorkflowChecks()
+                this.data.checks.reload = false
+            }
         }
     }
 }
@@ -145,9 +134,9 @@ export default {
         </div>
         <component-data-loading v-if="loading">
         </component-data-loading>
-        <component-data-empty v-if="checks.length == 0 && !loading">
+        <component-data-empty v-if="data.checks.records.length == 0 && !loading">
         </component-data-empty>
-        <b-table :data="checksPage" @click="showCheck" hoverable v-if="!loading && checks.length > 0">
+        <b-table :data="checksPage" @click="showCheck" hoverable v-if="!loading && data.checks.records.length > 0">
             <template slot-scope="props">
                 <b-table-column field="name" :label="translations.checks.column_name">
                     <small>{{ props.row.name }}</small>
@@ -190,7 +179,7 @@ export default {
         <hr>
         <b-pagination
             :simple="false"
-            :total="checks.length"
+            :total="data.checks.records.length"
             :current.sync="pagination.current_page"
             :range-before="pagination.range_before"
             :range-after="pagination.range_after"

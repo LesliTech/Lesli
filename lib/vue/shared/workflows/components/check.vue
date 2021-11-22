@@ -41,36 +41,20 @@ export default {
     },
 
     mounted(){
-        this.setSubscriptions()
         this.setTranslations()
     },
 
     methods: {
-        setSubscriptions(){
-            this.bus.subscribe('show:/module/workflow/check/edit', () => {
-                this.active_tab = 2
-            })
-
-            this.bus.subscribe('destroy:/module/workflow/check', ()=>{
-                this.active_tab = 0
-            })
-        },
-
         setTranslations(){
             this.$set(this.translations, 'main', I18n.t(this.translationsPath))
         }
-    },
-
-    beforeDestroy(){
-        this.bus.$off('show:/module/workflow/check/edit')
-        this.bus.$off('destroy:/module/workflow/check')
     }
 }
 </script>
 <template>
     <div v-if="translations.checks">
         <h5 class="title is-5">{{translations.checks.view_title_main}}</h5>
-        <b-tabs expanded v-model="active_tab">
+        <b-tabs expanded v-model="data.checks.active_tab">
             <b-tab-item :label="translations.checks.view_tab_title_list">
                 <component-list
                     :engine-namespace="engineNamespace"
@@ -90,7 +74,7 @@ export default {
                 >
                 </component-new>
             </b-tab-item>
-            <b-tab-item :label="translations.checks.view_tab_title_edit" :disabled="! check_selected">
+            <b-tab-item :label="translations.checks.view_tab_title_edit" :disabled="! data.checks.selected_record_id">
                 <component-edit
                     :engine-namespace="engineNamespace"
                     :workflow-id="workflowId"
