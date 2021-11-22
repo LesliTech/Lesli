@@ -20,7 +20,7 @@ Each engine of Lesli has it's own migration prefix which conforms the first 4 di
 - 03.08. [**CloudBell**](https://github.com/leitfaden/cloud_bell/blob/master/docs/database.md)
 - 03.10. [**CloudTalk**](https://github.com/leitfaden/cloud_talk/blob/master/docs/database.md)
 - 03.11. [**CloudStorage**](https://github.com/leitfaden/cloud_storage/blob/master/docs/database.md)
-- 03.12. [**CloudFun**](https://github.com/leitfaden/cloud_fun/blob/master/docs/database.md)
+
 
 ### Finance
 - 04.03. [**CloudThings**](https://github.com/leitfaden/cloud_things/blob/master/docs/database.md)
