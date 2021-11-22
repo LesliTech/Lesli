@@ -25,6 +25,7 @@ import componentAssociation from 'LesliVue/shared/workflows/components/associati
 import componentStatusName from 'LesliVue/shared/workflows/components/status-name.vue'
 import componentWorkflowChart from 'LesliVue/shared/workflows/components/chart.vue'
 import componentAction from 'LesliVue/shared/workflows/components/action.vue'
+import componentCheck from 'LesliVue/shared/workflows/components/check.vue'
 
 export default {
     props: {
@@ -57,7 +58,8 @@ export default {
         'component-workflow-chart': componentWorkflowChart,
         'component-association': componentAssociation,
         'component-status-name': componentStatusName,
-        'component-action': componentAction
+        'component-action': componentAction,
+        'component-check': componentCheck
     },
 
     data() {
@@ -727,6 +729,19 @@ export default {
                         statuses-translations-path="core.shared"
                     >
                     </component-action>
+                </div>
+            </div>
+        </b-tab-item>
+        <b-tab-item :label="translations.workflows.view_tab_title_checks">
+            <div class="card">
+                <div class="card-content">
+                    <component-check
+                        :engine-namespace="engineNamespace"
+                        :workflow-id="workflow_id"
+                        :translations-path="`${translations_path}.workflow/checks`"
+                        statuses-translations-path="core.shared"
+                    >
+                    </component-check>
                 </div>
             </div>
         </b-tab-item>
