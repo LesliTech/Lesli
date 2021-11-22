@@ -21,13 +21,40 @@ require "yaml"
 
 module Lesli
 
+    def Lesli.settings_server
+
+        server_settings = {}
+
+        # specific settings for server, override core and instance settings
+        if File.exist?(File.join("./lesli.server.yml"))
+
+            begin
+
+                server_settings = YAML.load_file("./lesli.server.yml")
+
+                # overwrite core and instance settings with specific settings for server
+                lesli_settings = lesli_settings.deep_merge(server_settings) 
+
+            rescue => exception
+
+            end
+
+        end
+
+        server_settings
+
+    end
+
     def Lesli.engines
 
-        # list of installed builders, engines and gems
+        # list of installed engines (cloned repos)
         engines = []
 
+        # list of required gems
+        gems = []
+
         # builder lesli.yml file configuration
-        builder_lesli_file = {}
+        builder_settings = {}
         
         # return empty if engine folder does not exists
         return [] if not Dir.exist?("./engines")
@@ -58,7 +85,7 @@ module Lesli
             engine_info = engine_lesli_file["info"]
 
             # save copy of lesli.yml of the builder engine
-            builder_lesli_file = engine_lesli_file if engine_info["type"] == "builder"
+            builder_settings = engine_lesli_file if engine_info["type"] == "builder"
 
             # next if engine name does not match
             next unless engine_info["code"] == engine
@@ -77,22 +104,55 @@ module Lesli
 
         end
 
-        return engines unless builder_lesli_file.has_key?("modules")
+        # defined empty array if no modules defined for builder
+        if builder_settings.key?("modules")
 
-        # add required engine-gem like to the engines collection
-        builder_lesli_file["modules"].each do |gem|
+            # add required engine-gem like to the engines collection
+            builder_settings["modules"].each do |gem|
 
-            # if required gem is already in the engines collection
-            next if engines.find { |engine| engine[:code] == gem[0]}
+                # add gem to the installed engines collection
+                gems.push({
+                    type: "gem",
+                    code: gem[0],
+                    name: gem[0].split('_').collect(&:capitalize).join, # Convert to CamelCase
+                    version: gem[1]
+                })
+                
+            end
 
-            # add gem to the installed engines collection
+        end
+
+        # get specific server settings
+        settings_server = settings_server()
+
+        # check if custom engines defined in lesli.server.yml
+        if settings_server.key?("modules")
+
+            # Server defined modules has priority over the other settings files
+            gems = []
+
+            # asign gems to engines definition
+            settings_server["modules"].each do |gem|
+                gems.push({
+                    type: "gem",
+                    code: gem[0],
+                    name: gem[0].split('_').collect(&:capitalize).join, # Convert to CamelCase
+                    version: gem[1]
+                })
+            end
+
+        end
+
+        # load gems into the engine collection
+        gems.each do |gem|
+            # ignore gem if is already in the engines collection as cloned repo
+            next if engines.find { |engine| engine[:code] == gem[:code]}
             engines.push({
                 type: "gem",
-                code: gem[0],
-                name: gem[0].split('_').collect(&:capitalize).join, # Convert to CamelCase
-                version: gem[1]
+                code: gem[:code],
+                name: gem[:name],
+                version: gem[:version]
             })
-            
         end
 
         engines

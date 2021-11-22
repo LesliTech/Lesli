@@ -244,7 +244,7 @@ export default {
                                 </p>
                                 <div>
                                     <b v-if="discussion.data.response_to">{{discussion.data.response_to}}</b>
-                                    <span v-html="discussion.data.content"></span>
+                                    <span class="multiline-comment"  v-html="discussion.data.content"></span>
                                 </div>
                                 <div class="has-text-right">
                                     <a
@@ -295,7 +295,7 @@ export default {
                                                         <span class="has-text-weight-bold" v-if="response.response_to">
                                                             @{{response.response_to}}
                                                         </span>
-                                                        <span v-html="response.content"></span>
+                                                        <span class="multiline-comment" v-html="response.content"></span>
                                                     </div>
                                                     <div class="has-text-right">
                                                         <a
@@ -350,5 +350,9 @@ export default {
     scrollbar-width: thin;
     scrollbar-color: #cccccc #ffffff;
     padding-right: 0.62rem;
+}
+
+.multiline-comment {
+    white-space: pre-wrap;
 }
 </style>

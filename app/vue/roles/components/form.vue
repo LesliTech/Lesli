@@ -2,9 +2,9 @@
 /*
 Copyright (c) 2021, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,9 +13,9 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
-TODO: 
+TODO:
 - Add "disbled class" to the owner level
 */
 export default {
@@ -65,13 +65,13 @@ export default {
             }
         },
         putRole() {
-            this.submitting_form = true 
+            this.submitting_form = true
             this.http.put(this.url.admin("roles/:id", { id: this.role.id }), {
                 role: this.role
             }).then(result => {
-                this.submitting_form = false 
+                this.submitting_form = false
                 if (!result.successful) {
-                    this.msg.warn(result.error.message)
+                    this.msg.error(result.error.message)
                     return
                 }
                 this.msg.success(this.translations.core.roles.messages_success_role_successfully_updated)
@@ -82,13 +82,13 @@ export default {
             this.http.post(this.url.admin("roles"), {
                 role: this.role
             }).then(result => {
-                this.submitting_form = false 
+                this.submitting_form = false
                 if (!result.successful) {
                     this.msg.warn(result.error.message)
                     return
                 }
                 this.msg.success(this.translations.core.roles.messages_success_role_created_successfully)
-                
+
                 this.$router.push(`/${result.data.id}`)
             })
         },
@@ -121,7 +121,13 @@ export default {
             })
 
         },
-        
+
+        getTitle(){
+            if (!this.role.id) return translations.core.roles.view_text_new_role
+
+            return this.role.name
+        },
+
         isSelected(level) {
             return level === this.role.object_level_permission
         }
@@ -132,7 +138,7 @@ export default {
 </script>
 <template>
     <section>
-        <component-header :title="translations.core.roles.view_text_new_role">
+        <component-header :title="getTitle()">
             <div class="buttons">
                 <router-link class="button" to="/">
                     <b-icon icon="list" size="is-small" />
@@ -146,9 +152,9 @@ export default {
                     <b-icon icon="cogs" size="is-small" />
                     <span>{{ translations.core.roles.view_btn_edit_privilege_actions }}</span>
                 </b-button>
-            </div>            
+            </div>
         </component-header>
-    
+
         <div class="box">
             <form @submit.prevent="submit">
                 <fieldset :disabled="!edit||submitting_form">
@@ -195,15 +201,15 @@ export default {
                         <!--
                         <b-menu>
                             <b-menu-list>
-                                <b-menu-item 
+                                <b-menu-item
                                     :active="isSelected(option.level)"
                                     :disabled="index == 0 ? true : false"
                                     @click="setObjectLevelPermission(option.level)"
-                                    :key="index" 
+                                    :key="index"
                                     v-for="(option, index) in options.levels">
                                     <template #label="props">
                                         <span class="icon is-small">
-                                            <i :class="['fas', 
+                                            <i :class="['fas',
                                                 {'fa-chevron-right': !props.expanded},
                                                 {'fa-check': props.expanded}
                                             ]"></i>
@@ -211,10 +217,10 @@ export default {
                                         {{ `${translations.core.roles.view_text_level||''} ${index + 1}` }}
                                         {{ (isSelected(option.level)||props.expanded)? `- ${translations.core.roles.view_text_selected||''}` :  `(${option.roles.length||0})` }}
                                     </template>
-                                    <b-menu-item 
-                                        disabled 
-                                        :label="object_utils.translateEnum(translations.core.roles, 'column_enum_role', role.name)" 
-                                        :value="index" 
+                                    <b-menu-item
+                                        disabled
+                                        :label="object_utils.translateEnum(translations.core.roles, 'column_enum_role', role.name)"
+                                        :value="index"
                                         :key="role.id"
                                         v-for="role in option.roles">
                                     </b-menu-item>
@@ -230,7 +236,7 @@ export default {
                                     <i :class="['fas', isSelected(option.level) ? 'fa-check' : 'fa-chevron-right']"></i>
                                 </span>
                                 {{ `${translations.core.roles.view_text_level || 'Level' } ${ index + 1 }` }}
-                                <span 
+                                <span
                                     v-if="option.roles.length"
                                     :class="{ 'has-text-grey-light' : !isSelected(option.level) }">
                                     - {{ option.roles.map(role => role.name).join(', ') }}

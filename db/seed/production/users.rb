@@ -19,8 +19,3 @@ For more information read the license file including with this software.
 
 
 # development user
-user = Rails.application.config.lesli_settings["account"]["user"]
-
-create_development_user(["owner", "mr", user["name"], "", user["email"]])
-
-LC::Debug.msg "Users successfully created"

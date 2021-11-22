@@ -22,14 +22,15 @@ info:
 
 
 # required modules
-modules: []
+modules:
+    cloud_babel: "~> 0.0.0"
 
 
 # Information about the main account in the platform
 account: 
     user: 
         name: "Lesli Admin"
-        email: "admin@lesli.cloud"
+        email: "hello@lesli.tech"
     company: 
         name: "LesliCloud"
         email: "hello@lesli.tech"
