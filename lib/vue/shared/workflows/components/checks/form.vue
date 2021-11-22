@@ -53,13 +53,13 @@ export default {
             transition_statuses: [],
             loading: false,
             submitting: false,
-            active_tab: 0,
             check: {
                 name: '',
                 active: false,
                 initial_status_id: null,
                 final_status_id: null,
                 users_id: null,
+                user_type: 'any',
                 user_name: '',
                 roles_id: null
             }
@@ -70,7 +70,6 @@ export default {
         this.setMainRoute()
         this.setTranslations()
         this.setEmptyTransition()
-        this.setSubscriptions()
         this.getCheckOptions()
     },
 
@@ -96,23 +95,13 @@ export default {
             this.$set(this.translations, 'main', I18n.t(this.translationsPath))
         },
 
-        setSubscriptions(){
-            if(this.viewType == 'edit'){
-                this.bus.subscribe('show:/module/workflow/check/edit', (check)=>{
-                    this.check_id = check.id
-                    this.getWorkflowCheck()
-                })
-            }
-        },
-
-        getWorkflowCheck(){
+        getCheckOptions(){
+            let url = `${this.main_route}/options.json`
             this.loading = true
-            this.resetCheck()
-            let url = `${this.main_route}/${this.check_id}.json`
 
             this.http.get(url).then(result => {
                 if (result.successful) {
-                    this.check = result.data
+                    this.options = result.data
                 }else{
                     this.msg.error(result.error.message)
                 }
@@ -123,13 +112,14 @@ export default {
             })
         },
 
-        getCheckOptions(){
-            let url = `${this.main_route}/options.json`
+        getWorkflowCheck(){
             this.loading = true
+            this.resetCheck()
+            let url = `${this.main_route}/${this.check_id}.json`
 
             this.http.get(url).then(result => {
                 if (result.successful) {
-                    this.options = result.data
+                    this.check = result.data
                 }else{
                     this.msg.error(result.error.message)
                 }
@@ -161,8 +151,11 @@ export default {
             this.http.post(this.main_route, data).then(result => {
                 if (result.successful) {
                     this.msg.success(this.translations.checks.messages_success_check_created)
-                    this.bus.publish('post:/module/workflow/check', result.data)
-                    this.bus.publish('show:/module/workflow/check/edit', result.data)
+
+                    this.data.checks.selected_record_id = result.data.id
+                    this.data.checks.records.push(result.data)
+                    this.data.checks.active_tab = 2
+
                     this.resetCheck()
                 }else{
                     this.msg.error(result.error.message)
@@ -185,6 +178,8 @@ export default {
             this.http.put(url, data).then(result => {
                 if (result.successful) {
                     this.msg.success(this.translations.checks.messages_success_check_updated)
+
+                    this.data.checks.reload = true
                 }else{
                     this.msg.error(result.error.message)
                 }
@@ -212,8 +207,14 @@ export default {
             this.http.delete(url).then(result => {
                 if (result.successful) {
                     this.msg.success(this.translations.checks.messages_success_check_destroyed)
-                    this.bus.publish('destroy:/module/workflow/check', this.check)
-                    this.check_id = null
+                    
+                    this.data.checks.records = this.data.checks.records.filter(check => check.id != this.data.checks.selected_record_id)
+                    this.data.checks.active_tab = 0
+
+                    this.$nextTick(()=>{
+                        this.check_id = null
+                        this.data.checks.selected_record_id = null
+                    })
                 }else{
                     this.msg.error(result.error.message)
                 }
@@ -263,6 +264,20 @@ export default {
             })
 
             this.transition_statuses = transition_statuses
+        },
+
+        'data.checks.selected_record_id'(){
+            if(this.viewType != 'edit'){
+                return
+            }
+
+            if(this.data.checks.selected_record_id){
+                this.check_id = this.data.checks.selected_record_id
+                this.getWorkflowCheck()
+            }else{
+                this.check_id = null
+                this.resetCheck()
+            }
         }
     },
 
@@ -353,14 +368,14 @@ export default {
                         <b-field :message="translations.checks.view_text_column_roles_id_description">
                             <template v-slot:label>
                                 <span>{{translations.checks.column_roles_id}}</span>
-                                <sup v-if="check.user_type == 'null' || check.user_type == null" class="has-text-danger">*</sup>
+                                <sup v-if="check.user_type == 'any' || check.user_type == null" class="has-text-danger">*</sup>
                             </template>
                             <b-select
-                                :placeholder="translations.core.view_placeholder_select_option"
                                 expanded
                                 v-model="check.roles_id"
-                                :required="check.user_type == 'null' || check.user_type == null"
+                                :required="check.user_type == 'any' || check.user_type == null"
                             >
+                                <option :value="null">{{translations.checks.view_text_any_role}}</option>
                                 <option
                                     v-for="role in options.roles"
                                     :value="role.id"
@@ -373,18 +388,28 @@ export default {
                     </div>
 
                     <div class="column is-4">
-                        <label class="label">{{translations.checks.column_user_type}}</label>
-                        <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="check.user_type" required>
-                            <option
-                                v-for="user_type in options.user_types"
-                                :value="user_type.value"
-                                :key="user_type.value"
+                        <b-field :message="translations.checks.view_text_column_user_type_description">
+                            <template v-slot:label>
+                                {{translations.checks.column_user_type}}
+                                <sup v-if="check.roles_id == null" class="has-text-danger">*</sup>
+                            </template>
+                            <b-select
+                                :placeholder="translations.core.view_placeholder_select_option"
+                                expanded
+                                v-model="check.user_type"
+                                :required="check.roles_id == null"
                             >
-                                <small>
-                                    {{ object_utils.translateEnum(translations.checks, 'column_enum_user_type', user_type.text) }}
-                                </small>
-                            </option>
-                        </b-select>
+                                <option
+                                    v-for="user_type in options.user_types"
+                                    :value="user_type.value"
+                                    :key="user_type.value"
+                                >
+                                    <small>
+                                        {{ object_utils.translateEnum(translations.checks, 'column_enum_user_type', user_type.text) }}
+                                    </small>
+                                </option>
+                            </b-select>
+                        </b-field>
                     </div>
 
                     <div class="column is-4">
