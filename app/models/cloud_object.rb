@@ -41,6 +41,46 @@ class CloudObject < ApplicationLesliRecord
         end
     end
 
+    def check_workflow_transitions(current_user, new_attributes)
+        status_model = self.class.reflect_on_association(:status).klass
+        status_key = "#{status_model.table_name}_id".to_sym
+
+        if new_attributes[status_key]
+
+            checks = status.workflow.checks
+            .where(initial_status: status)
+            .where("final_status_id is ? or final_status_id = ?", nil, new_attributes[status_key])
+            .select(:user_type, :users_id, :roles_id)
+
+            checks_passed = true
+
+            checks.each do |check|
+
+                # We check if the user has the correct role
+                next if check.role && current_user.has_roles?(check.role.name)
+
+                # We check if the user is the creator
+                next if check.creator? && user_creator == current_user
+
+                # We check if the user is the main user
+                next if check.main? && user_main == current_user
+
+                # We check if the user is the specific user
+                next if check.custom? && check.user && current_user == check.user
+
+                checks_passed = false
+                break
+            end
+
+            errors.add(:base, I18n.t("core.workflows.messages_warning_status_change_prevented_by_check"))
+
+            return checks_passed
+        end
+
+        return true
+        
+    end
+
     # @return [String]
     # @description Returns a string that represents and identifies this cloud_object from all other cloud_objects in the same account
     # @example

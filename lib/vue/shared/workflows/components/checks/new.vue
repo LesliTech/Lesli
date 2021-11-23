@@ -28,10 +28,12 @@ export default {
         engineNamespace: {
             required: true
         },
+
         translationsPath: {
             required: true,
             type: String
         },
+        
         statusesTranslationsPath: {
             required: true,
             type: String

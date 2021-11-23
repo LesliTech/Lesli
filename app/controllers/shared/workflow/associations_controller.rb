@@ -24,8 +24,8 @@ module Shared
 
 =begin
 @return [HTML|JSON] HTML view for listing all workflow associations or a Json that contains a list 
-    of all workflows associated to this *account*
-@description Retrieves and returns all workflow associations associated to a *CloudHelp::Account*. 
+    of all workflow associations associated to this *account* and *workflow*
+@description Retrieves and returns all workflow associations associated to a *CloudEngine::Account*. 
     The account is obtained directly from *current_user*. The HTTP request has to specify
     wheter the HTML or the JSON text should be rendered
 @example
