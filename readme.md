@@ -1,5 +1,5 @@
 <p align="center">
-    <img width="200" alt="Lesli logo" src="./app/assets/images/brand/app-logo.svg" />
+    <img width="200" alt="Lesli logo" src="./app/assets/images/lesli/brand/app-logo.svg" />
 </p>
 
 <h3 align="center">Your Smart Business Assistant</h3>
@@ -33,5 +33,5 @@ For more information read the license file including with this software.
 <br>
 
 <p align="center">
-    <img alt="Lesli logo" width="100" src="./app/assets/images/brand/lesli-icon.svg" />
+    <img alt="Lesli logo" width="100" src="./app/assets/images/lesli/brand/app-icon.svg" />
 </p>
