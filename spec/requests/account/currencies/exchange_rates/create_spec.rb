@@ -24,6 +24,9 @@ RSpec.describe "POST:/administration/account/currencies/:currency_id/exchange_ra
     include_context "user authentication"
 
     before(:all) do 
+        @valid_from = Time.now
+        @valid_to = Time.now
+
         # create a valid currency
         @new_currency = @user.account.currencies.create!({
             name: Faker::Currency.name,
@@ -35,8 +38,8 @@ RSpec.describe "POST:/administration/account/currencies/:currency_id/exchange_ra
 
         # create a valid exchange rate
         @exchange_rates_params = {
-            valid_from: Time.now.strftime("%F %H:%M:%S"),
-            valid_to: Time.now.strftime("%F %H:%M:%S"),
+            valid_from: @valid_from,
+            valid_to: @valid_to,
             exchange_rate: Faker::Number.decimal(l_digits: 1, r_digits: 3)
         }
 
@@ -48,7 +51,7 @@ RSpec.describe "POST:/administration/account/currencies/:currency_id/exchange_ra
 
     include_examples "successful standard json response"
 
-    it "is expected to respond with a exchange rate created successfully" do 
+    it "is expected to respond with a exchange rate created successfully" do
         expect(@response_body_data).to be_a(Hash)
 
         expect(@response_body_data).to have_key("id")
@@ -60,17 +63,14 @@ RSpec.describe "POST:/administration/account/currencies/:currency_id/exchange_ra
 
         expect(@response_body_data).to have_key("valid_from")
         expect(@response_body_data["valid_from"]).to be_a(String)
-        expect(DateTime.parse(@response_body_data["valid_from"]).to_i).to be > 0
-        expect(DateTime.parse(@response_body_data["valid_from"])).to eql(DateTime.parse((@exchange_rates_params[:valid_from])))
+        expect(LC::Date2.new(Time.parse(@response_body_data["valid_from"])).date_time.to_s).to eql(LC::Date2.new(@valid_from).date_time.to_s)
         
         expect(@response_body_data).to have_key("valid_to")
         expect(@response_body_data["valid_to"]).to be_a(String)
-        expect(DateTime.parse(@response_body_data["valid_to"]).to_i).to be > 0
-        expect(DateTime.parse(@response_body_data["valid_to"])).to eql(DateTime.parse((@exchange_rates_params[:valid_from])))
+        expect(LC::Date2.new(Time.parse(@response_body_data["valid_to"])).date_time.to_s).to eql(LC::Date2.new(@valid_to).date_time.to_s)
 
         expect(@response_body_data).to have_key("created_at")
         expect(@response_body_data["created_at"]).to be_a(String)
-        expect(DateTime.parse(@response_body_data["created_at"]).to_i).to be > 0
 
         expect(@response_body_data).to have_key("account_currencies_id")
         expect(@response_body_data["account_currencies_id"]).to be_a(Numeric)
@@ -78,15 +78,9 @@ RSpec.describe "POST:/administration/account/currencies/:currency_id/exchange_ra
 
         expect(@response_body_data).to have_key("valid_from_text")
         expect(@response_body_data["valid_from_text"]).to be_a(String)
-        expect(DateTime.parse(@response_body_data["valid_from_text"]).year).to eql(DateTime.parse(@response_body_data["valid_from"]).year)
-        expect(DateTime.parse(@response_body_data["valid_from_text"]).month).to eql(DateTime.parse(@response_body_data["valid_from"]).month)
-        expect(DateTime.parse(@response_body_data["valid_from_text"]).day).to eql(DateTime.parse(@response_body_data["valid_from"]).day)
 
         expect(@response_body_data).to have_key("valid_to_text")
         expect(@response_body_data["valid_to_text"]).to be_a(String)
-        expect(DateTime.parse(@response_body_data["valid_to_text"]).year).to eql(DateTime.parse(@response_body_data["valid_to"]).year)
-        expect(DateTime.parse(@response_body_data["valid_to_text"]).month).to eql(DateTime.parse(@response_body_data["valid_to"]).month)
-        expect(DateTime.parse(@response_body_data["valid_to_text"]).day).to eql(DateTime.parse(@response_body_data["valid_to"]).day)
 
         expect(@response_body_data).to have_key("created_at_text")
         expect(@response_body_data["created_at_text"]).to be_a(String)
