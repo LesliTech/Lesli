@@ -105,4 +105,4 @@ For more information read the license file including with this software.
 #         expect(@response_body["error"]).to have_key("details")
 #         expect(@response_body["error"]["details"]).to be_a(Array)
 #     end
-end
+# end
