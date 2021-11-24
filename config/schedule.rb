@@ -79,6 +79,10 @@ every :day, at: '10:50 pm' do
     rake 'deutsche_leibrenten:cron:delete_projects' if defined? DeutscheLeibrenten
 end
 
+every :day, at: '11:30 am' do
+    rake 'deutsche_leibrenten:cron:create_project_follow_up_reminder_task' if defined? DeutscheLeibrenten
+end
+
 
 # System Maintenance
 every :day, at: '11:10 pm' do
