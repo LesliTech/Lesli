@@ -1,4 +1,22 @@
 <script>
+/*
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+*/
 export default {
     props: {
         workflowId: {
@@ -16,7 +34,7 @@ export default {
             required: true,
             type: String
         },
-        actionSelected: {
+        checkSelected: {
             type: Boolean,
             default: false
         }
@@ -26,10 +44,10 @@ export default {
         return {
             translations: {
                 core: I18n.t('core.shared'),
-                actions: I18n.t('core.workflow/actions')
+                checks: I18n.t('core.workflow/checks'),
+                roles: I18n.t('core.roles')
             },
             main_route: '',
-            actions: [],
             loading: false,
             pagination: {
                 current_page: 1,
@@ -43,16 +61,15 @@ export default {
     mounted(){
         this.setMainRoute()
         this.setTranslations()
-        this.getWorkflowActions()
-        this.setSubscriptions()
+        this.getWorkflowChecks()
     },
 
     methods: {
         setMainRoute(){
             if(this.engineNamespace == '/'){
-                this.main_route = `/workflows/${this.workflowId}/actions`
+                this.main_route = `/workflows/${this.workflowId}/checks`
             }else{
-                this.main_route = `/${this.engineNamespace}/workflows/${this.workflowId}/actions`
+                this.main_route = `/${this.engineNamespace}/workflows/${this.workflowId}/checks`
             }
         },
 
@@ -61,14 +78,14 @@ export default {
             this.translations.statuses = I18n.t(this.statusesTranslationsPath)
         },
 
-        getWorkflowActions(){
+        getWorkflowChecks(){
             this.loading = true
             let url = `${this.main_route}.json`
 
             this.http.get(url).then(result => {
                 this.loading = false
                 if (result.successful) {
-                    this.actions = result.data
+                    this.data.checks.records = result.data
                 }else{
                     this.msg.error(result.error.message)
                 }
@@ -77,81 +94,83 @@ export default {
             })
         },
 
-        showAction(action){
-            this.$emit('update:action-selected', true)
-            this.bus.publish('show:/module/workflow/action/edit', action)
-        },
-
-        setSubscriptions(){
-            this.bus.subscribe('post:/module/workflow/action', ()=>{
-                this.$emit('update:action-selected', true)
-                this.getWorkflowActions()
-            })
-
-            
-            this.bus.subscribe('destroy:/module/workflow/action', (deleted_action)=>{
-            this.$emit('update:action-selected', false)
-                this.actions = this.actions.filter(action => action.id != deleted_action.id)
-            })
+        showCheck(check){
+            this.data.checks.active_tab = 2
+            this.data.checks.selected_record_id = check.id
         }
     },
 
-    beforeDestroy(){
-        this.bus.$off('post:/module/workflow/action')
-        this.bus.$off('destroy:/module/workflow/action')
-    },
-
     computed: {
-        actionsPage(){
-            if(this.actions.length <= this.pagination.per_page){
-                return this.actions
+        checksPage(){
+            if(this.data.checks.records.length <= this.pagination.per_page){
+                return this.data.checks.records
             }
 
             let start = (this.pagination.current_page - 1) * this.pagination.per_page
             let end = this.pagination.current_page * this.pagination.per_page
-            return this.actions.slice(start, end)
+            return this.data.checks.records.slice(start, end)
+        }
+    },
+
+    watch: {
+        'data.checks.reload'(){
+            if(this.data.checks.reload){
+                this.getWorkflowChecks()
+                this.data.checks.reload = false
+            }
         }
     }
 }
 </script>
 <template>
     <div class="tab-content">
+        <div class="columns">
+            <div class="column is-12 has-text-right">
+                <b-button @click="getWorkflowChecks" :disabled="loading">
+                    <b-icon icon="sync" :class="{'fa-spin': loading}"></b-icon>
+                    <span>{{translations.core.view_btn_reload}}</span>
+                </b-button>
+            </div>
+        </div>
         <component-data-loading v-if="loading">
         </component-data-loading>
-        <component-data-empty v-if="actions.length == 0 && !loading">
+        <component-data-empty v-if="data.checks.records.length == 0 && !loading">
         </component-data-empty>
-        <b-table :data="actionsPage" @click="showAction" hoverable v-if="!loading && actions.length > 0">
+        <b-table :data="checksPage" @click="showCheck" hoverable v-if="!loading && data.checks.records.length > 0">
             <template slot-scope="props">
-                <b-table-column field="name" :label="translations.actions.column_name">
+                <b-table-column field="name" :label="translations.checks.column_name">
                     <small>{{ props.row.name }}</small>
                 </b-table-column>
-                <b-table-column field="action_type" :label="translations.actions.column_action_type">
-                    <small>{{
-                        object_utils.translateEnum(translations.actions, 'column_enum_action_type', props.row.action_type, null) ||
-                        object_utils.translateEnum(translations.main, 'column_enum_action_type', props.row.action_type)
-                    }}</small>
-                </b-table-column>
-                <b-table-column field="initial_status_name" :label="translations.actions.column_initial_status_id">
+                <b-table-column field="initial_status_name" :label="translations.checks.column_initial_status_id">
                     <small>{{
                         object_utils.translateEnum(translations.core, 'column_enum_status', props.row.initial_status_name, null) ||
                         object_utils.translateEnum(translations.statuses, 'column_enum_status', props.row.initial_status_name, null) ||
                         object_utils.translateEnum(translations.statuses, 'status', props.row.initial_status_name)
                     }}</small>
                 </b-table-column>
-                <b-table-column field="final_status_name" :label="translations.actions.column_final_status_id">
+                <b-table-column field="final_status_name" :label="translations.checks.column_final_status_id">
                     <small>{{
                         object_utils.translateEnum(translations.core, 'column_enum_status', props.row.final_status_name, null) ||
                         object_utils.translateEnum(translations.statuses, 'column_enum_status', props.row.final_status_name, null) ||
                         object_utils.translateEnum(translations.statuses, 'status', props.row.final_status_name)
                     }}</small>
                 </b-table-column>
+                <b-table-column field="role_name" :label="translations.checks.column_roles_id">
+                    <small>{{ object_utils.translateEnum(translations.roles, 'column_enum_role', props.row.role_name) }}</small>
+                </b-table-column>
+                <b-table-column field="user_type" :label="translations.checks.column_user_type">
+                    <small>{{ object_utils.translateEnum(translations.checks, 'column_enum_user_type', props.row.user_type) }}</small>
+                </b-table-column>
+                <b-table-column field="user_name" :label="translations.checks.column_users_id">
+                    <small>{{ props.row.user_name }}</small>
+                </b-table-column>
                 <b-table-column class="has-text-centered">
                     <span v-if="props.row.active" class="has-text-success">
-                        <span>{{translations.actions.view_text_active}}</span>
+                        <span>{{translations.checks.view_text_active}}</span>
                         <b-icon icon="check-circle" type="is-success" size="is-small"></b-icon>
                     </span>
                     <span v-else class="has-text-grey">
-                        <span>{{translations.actions.view_text_inactive}}</span>
+                        <span>{{translations.checks.view_text_inactive}}</span>
                         <b-icon icon="check-circle" size="is-small"></b-icon>
                     </span>
                 </b-table-column>
@@ -160,7 +179,7 @@ export default {
         <hr>
         <b-pagination
             :simple="false"
-            :total="actions.length"
+            :total="data.checks.records.length"
             :current.sync="pagination.current_page"
             :range-before="pagination.range_before"
             :range-after="pagination.range_after"
