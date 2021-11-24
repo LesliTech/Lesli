@@ -4,17 +4,20 @@ class Axlsx::PivotTable
     # @return [String]
     # There is an issue with caxlsx gem when two data columns are added to pivote table
     # This function replaces parts of the string to generate the file correctly.
-    def to_xml_string()
+    def to_xml_string(zip = "")
         str = ""
-        orig_to_xml_string(str) # calling the original method
+        orig_to_xml_string(str)
 
         str.gsub!(
             '<colItems count="1"><i/></colItems>',
             '<colFields count="1"><field x="-2"/></colFields>',
-        )  # replace items
+        )
 
-        str.gsub!('dataOnRows="1"', "")
+        str.gsub!(
+            'dataOnRows="1"',
+            "",
+        )
 
-        str
+        zip << str
     end
 end

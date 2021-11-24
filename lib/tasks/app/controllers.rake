@@ -20,8 +20,7 @@ namespace :app do
                     if (system_action.save)
                         Account.all.each do |account|
                             account.role_descriptors.each do |role_descriptor|
-
-                                if ["owner", "sysadmin"].include? role_descriptor
+                                if ["owner", "sysadmin"].include? role_descriptor.name
                                     role_descriptor_action = role_descriptor.privilege_actions.find_or_create_by(system_action: system_action)
 
                                     role_descriptor_action.update(status: true)

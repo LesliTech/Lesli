@@ -24,6 +24,9 @@ RSpec.describe "PUT:/administration/account/currencies/:currency_id/exchange_rat
     include_context "user authentication"
 
     before(:all) do 
+        @new_valid_from = Time.now
+        @new_valid_to = Time.now
+
         # create a valid currency
         @new_currency = @user.account.currencies.create!({
             name: Faker::Currency.name,
@@ -35,16 +38,16 @@ RSpec.describe "PUT:/administration/account/currencies/:currency_id/exchange_rat
         
         # create a exchange rate that will be updated
         @exchange_rate = {
-            valid_from: Time.now.strftime("%F %H:%M:%S"),
-            valid_to: Time.now.strftime("%F %H:%M:%S"),
+            valid_from: Time.now,
+            valid_to: Time.now,
             exchange_rate: Faker::Number.decimal(l_digits: 1, r_digits: 3)
         }
 
         @currency_exchange_rate = @user.account.currencies.find_by(id: @new_currency.id).exchange_rates.create!(@exchange_rate)
 
         @new_data = {
-            valid_from: Time.now.strftime("%F %H:%M:%S"),
-            valid_to: Time.now.strftime("%F %H:%M:%S"),
+            valid_from: @new_valid_from,
+            valid_to: @new_valid_to,
             exchange_rate: Faker::Number.decimal(l_digits: 1, r_digits: 3)
         }
 
@@ -68,17 +71,14 @@ RSpec.describe "PUT:/administration/account/currencies/:currency_id/exchange_rat
 
         expect(@response_body_data).to have_key("valid_from")
         expect(@response_body_data["valid_from"]).to be_a(String)
-        expect(DateTime.parse(@response_body_data["valid_from"]).to_i).to be > 0
-        expect(DateTime.parse(@response_body_data["valid_from"]).to_i).to be <= (DateTime.parse(Time.now.strftime("%F %H:%M:%S")).to_i)
+        expect(LC::Date2.new(Time.parse(@response_body_data["valid_from"])).date_time.to_s).to eql(LC::Date2.new(@new_valid_from).date_time.to_s)
 
         expect(@response_body_data).to have_key("valid_to")
         expect(@response_body_data["valid_to"]).to be_a(String)
-        expect(DateTime.parse(@response_body_data["valid_to"]).to_i).to be > 0
-        expect(DateTime.parse(@response_body_data["valid_to"]).to_i).to be <= (DateTime.parse(Time.now.strftime("%F %H:%M:%S")).to_i)
+        expect(LC::Date2.new(Time.parse(@response_body_data["valid_to"])).date_time.to_s).to eql(LC::Date2.new(@new_valid_to).date_time.to_s)
 
         expect(@response_body_data).to have_key("created_at")
         expect(@response_body_data["created_at"]).to be_a(String)
-        expect(DateTime.parse(@response_body_data["created_at"]).to_i).to be > 0
 
         expect(@response_body_data).to have_key("account_currencies_id")
         expect(@response_body_data["account_currencies_id"]).to be_a(Numeric)
@@ -86,20 +86,12 @@ RSpec.describe "PUT:/administration/account/currencies/:currency_id/exchange_rat
 
         expect(@response_body_data).to have_key("valid_from_text")
         expect(@response_body_data["valid_from_text"]).to be_a(String)
-        expect(DateTime.parse(@response_body_data["valid_from_text"]).year).to eql(DateTime.parse(@response_body_data["valid_from"]).year)
-        expect(DateTime.parse(@response_body_data["valid_from_text"]).month).to eql(DateTime.parse(@response_body_data["valid_from"]).month)
-        expect(DateTime.parse(@response_body_data["valid_from_text"]).day).to eql(DateTime.parse(@response_body_data["valid_from"]).day)
 
         expect(@response_body_data).to have_key("valid_to_text")
         expect(@response_body_data["valid_to_text"]).to be_a(String)
-        expect(DateTime.parse(@response_body_data["valid_to_text"]).year).to eql(DateTime.parse(@response_body_data["valid_to"]).year)
-        expect(DateTime.parse(@response_body_data["valid_to_text"]).month).to eql(DateTime.parse(@response_body_data["valid_to"]).month)
-        expect(DateTime.parse(@response_body_data["valid_to_text"]).day).to eql(DateTime.parse(@response_body_data["valid_to"]).day)
 
         expect(@response_body_data).to have_key("created_at_text")
         expect(@response_body_data["created_at_text"]).to be_a(String)
-        expect(DateTime.parse(@response_body_data["created_at_text"]).to_i).to be > 0
-        expect(DateTime.parse(@response_body_data["created_at_text"])).to eql(DateTime.parse(@response_body_data["created_at"]))
     end
 end
 
@@ -107,11 +99,11 @@ end
 [
     {
         :key => "valid_from",
-        :value => Time.now.strftime("%F %H:%M:%S")
+        :value => Time.now
     },
     {
         :key => "valid_to",
-        :value => Time.now.strftime("%F %H:%M:%S")
+        :value => Time.now
     },
     {
         :key => "exchange_rate",
@@ -122,6 +114,9 @@ end
         include_context "user authentication"
     
         before(:all) do 
+            # save value
+            @key_value = field_to_patch[:value]
+
             # create a valid currency
             @new_currency = @user.account.currencies.create!({
                 name: Faker::Currency.name,
@@ -133,17 +128,16 @@ end
             
             # create a exchange rate that will be patched
             @exchange_rate = {
-                valid_from: Time.now.strftime("%F %H:%M:%S"),
-                valid_to: Time.now.strftime("%F %H:%M:%S"),
+                valid_from: @new_valid_from,
+                valid_to: @new_valid_to,
                 exchange_rate: Faker::Number.decimal(l_digits: 1, r_digits: 3)
             }
 
             @currency_exchange_rate = @user.account.currencies.find_by(id: @new_currency.id).exchange_rates.create!(@exchange_rate)
 
             @new_data = {
-                "#{field_to_patch[:key]}": field_to_patch[:value]
-            }
-
+                "#{field_to_patch[:key]}": @key_value 
+            } 
             # make request
             patch("/administration/account/currencies/#{@new_currency.id}/exchange_rates/#{@currency_exchange_rate.id}.json", params: {
                 currency_exchange_rate: @new_data
@@ -155,11 +149,11 @@ end
         it "is expected to respond with an exchange rate updated by the verb PATCH" do 
             expect(@response_body_data).to be_a(Hash)
             expect(@response_body_data).to have_key(field_to_patch[:key])
-
+            
             if field_to_patch[:key] == "exchange_rate"
-                expect(@response_body_data["#{field_to_patch[:key]}"].to_f).to eql(@new_data.values[0])
+                expect(@response_body_data["#{field_to_patch[:key]}"].to_f).to eql(@key_value)
             else 
-                expect(DateTime.parse(@response_body_data["#{field_to_patch[:key]}"])).to eql(DateTime.parse(@new_data.values[0]))
+                expect(LC::Date2.new(Time.parse(@response_body_data["#{field_to_patch[:key]}"])).date_time.to_s).to eql(LC::Date2.new(@key_value).date_time.to_s)
             end
         end
     end
