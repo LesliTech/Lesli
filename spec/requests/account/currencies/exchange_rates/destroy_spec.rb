@@ -34,8 +34,8 @@ RSpec.describe "DELETE:/administration/account/currencies/:currency_id/exchange_
         })
 
         @exchange_rates_params = {
-            valid_from: Time.now.strftime("%F %H:%M:%S"),
-            valid_to: Time.now.strftime("%F %H:%M:%S"),
+            valid_from: Time.now,
+            valid_to: Time.now,
             exchange_rate: Faker::Number.decimal(l_digits: 1, r_digits: 3)
         }
 
