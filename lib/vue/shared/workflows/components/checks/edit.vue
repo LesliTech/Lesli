@@ -50,7 +50,7 @@ export default {
             :engine-namespace="engineNamespace"
             :translations-path="translationsPath"
             :statuses-translations-path="statusesTranslationsPath"
-            view-type="new"
+            view-type="edit"
         >
         </component-form>
     </div>
