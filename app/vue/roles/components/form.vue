@@ -123,7 +123,7 @@ export default {
         },
 
         getTitle(){
-            if (!this.role.id) return translations.core.roles.view_text_new_role
+            if (!this.role.id) return this.translations.core.roles.view_text_new_role
 
             return this.role.name
         },
