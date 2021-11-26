@@ -28,7 +28,7 @@ require "#{RAILS_ROOT}/lesli.rb"
 
 # include all schedule.rb of each engine
 Lesli::engines().map do |engine|
-    schedule_path = "#{RAILS_ROOT}/engines/#{engine[:code]}/schedule.rb"
+    schedule_path = "#{RAILS_ROOT}/engines/#{engine[:code]}/config/schedule.rb"
 
     if(File.exist?(schedule_path)) # load file
         instance_eval(File.read(schedule_path), schedule_path)
