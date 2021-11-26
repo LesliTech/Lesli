@@ -22,73 +22,16 @@ For more information read the license file including with this software.
 
 
 // · 
-// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
-/*
-.application-panel {
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+.application-panel-notification {
 
-    .sidebar-background {
-        background: rgba(lesli-css-color(slate, 300), 0.86);
-        background: linear-gradient(to left,
-            rgba(lesli-css-color(silver, 900), 1),
-            rgba(lesli-css-color(silver), .3),
-        );
-    }
-
-    .sidebar-content {
-        background-color: lesli-css-color(solid, white);
-        padding: 1rem;
-        box-shadow: none;
-        width: 500px;
-        z-index: 50;
-
-        .panel-title {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            color: 1px solid lesli-css-color(slate, 300);
-            border-bottom: 1px solid lesli-css-color(slate, 100);
-
-            h4 {
-                flex: 1;
-                padding-left: 1.5rem;
-            }
-
-            span {
-                border-left: 1px solid silver;
-                &:hover {
-                    cursor: pointer;
-                }
-            }
-
+    .message {
+        margin-bottom: 0px;
+        .message-body {
+            border-radius: 0;
+            border-bottom-width: 1px;
+            background-color: white;
         }
-
-        .notification {
-            margin: 0;
-            background-color: lesli-css-color(solid, white);
-            / *
-            &.is-info {
-                border: 1px solid darken(#eef6fc, 4);
-                box-shadow: 0px 0px 2px 0px darken(#eef6fc, 10);
-            }
-
-            &.is-success {
-                border: 1px solid darken(#effaf3, 4);
-                box-shadow: 0px 0px 2px 0px darken(#effaf3, 10);
-            }
-
-            &.is-warning {
-                border: 1px solid darken(#fffbeb, 6);
-                box-shadow: 0px 0px 2px 0px darken(#fffbeb, 10);
-            }
-
-            &.is-danger {
-                border: 1px solid darken(#feecf0, 4);
-                box-shadow: 0px 0px 2px 0px darken(#feecf0, 10);
-            }
-            * /
-        }
-
     }
 
 }
-*/
