@@ -21,7 +21,7 @@ For more information read the license file including with this software.
 RAILS_ROOT = path
 
 #output file
-set :output, "#{RAILS_ROOT}/log/cron.log"
+set :output, "log/cron.log"
 
 # require needed to include active-record models and initializers.
 require "#{RAILS_ROOT}/lesli.rb"
