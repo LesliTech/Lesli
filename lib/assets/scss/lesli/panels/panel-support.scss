@@ -17,24 +17,4 @@ For more information read the license file including with this software.
 
 
 // · 
-// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
-.application-panel-support .sidebar-content {
-    padding-left: 10px;
-    padding-right: 25px;
-    padding-top: 15px;
-    box-shadow: none;
-    width: 500px;
-    z-index: 50;
-
-    .buttons {
-        position: absolute;
-        bottom: 0;
-        margin-bottom: 25px;
-        width: 92%;
-        margin-right: 4%;
-    }
-}
-
-.submit-button {
-    justify-content: center;
-}
+@import "./panel-template.scss";
