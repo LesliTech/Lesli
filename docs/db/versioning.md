@@ -150,8 +150,8 @@ end
 
 1. Add a new field on the table.
 
-```ruby
-  rails generate migration cre_test
+```bash
+  rails generate migration alter_tests
 ```
 
 2. Move the migration with a standard name.
