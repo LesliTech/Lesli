@@ -172,7 +172,7 @@ export default {
             </h5>
             <component-data-loading v-if="loading"></component-data-loading>
             <component-data-empty v-if="! loading && tickets.length == 0"></component-data-empty>
-            <b-table v-if="! loading && tickets.length > 0" :data="tickets" striped narrowed bordered @click="showTicket">
+            <b-table v-if="! loading && tickets.length > 0" :data="tickets" striped narrowed bordered @click="showTicket" hoverable>
                 <template slot-scope="props">
                     <b-table-column field="subject" :label="translations.main.column_subject" >
                         <a :href="`/help/tickets/${props.row.id}`">
