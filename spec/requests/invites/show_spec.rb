@@ -25,7 +25,7 @@ For more information read the license file including with this software.
 # require 'byebug'
 
 
-# RSpec.describe "GET:/invite/:id", type: :request do
+# RSpec.describe "GET:/invite", type: :request do
 
 #     include_context "user authentication"
 
