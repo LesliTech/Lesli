@@ -96,9 +96,7 @@ module.exports = env => {
             "users/confirmations": "./app/vue/users/confirmations.js",
             "onboardings/app": "./app/vue/onboardings/app.js",
 
-            "errors/app": "./app/vue/errors/app.js",
-
-            "settings/workflows_app": "./app/vue/settings/workflows/app.js"
+            "errors/app": "./app/vue/errors/app.js"
         },
         output: {
             path: __dirname,
