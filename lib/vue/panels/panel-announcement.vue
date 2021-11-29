@@ -189,21 +189,18 @@ export default {
         class="application-panel-announcement"
         :open.sync="data.global.show_panel_announcement"
         :right="true"
-        :overlay="false"
         :fullheight="true">
-        <div class="sidebar-content">
+        <div class="panel-title is-size-5">
+            <h4>
+                {{ translations.bell.announcements.view_title_creating_announcement }}
+            </h4>
+            <span class="icon is-large hover" @click="data.global.show_panel_announcement = false">
+                <i class="fas fa-lg fa-chevron-right"></i>
+            </span>
+        </div>
+
+        <div class="panel-content">
             <form @submit.prevent="formSubmit()">
-                <h5 class="title is-5">
-                    <div class="columns">
-                        <div class="column is-10">
-                            {{ translations.bell.announcements.view_title_creating_announcement }}
-                        </div>
-                        <div class="column is-2">
-                            <button type="button" class="is-pulled-right delete" @click="() => data.global.show_panel_announcement = false">
-                            </button>
-                        </div>
-                    </div>
-                </h5>
                 
                 <fieldset :disabled="submitting">
 
