@@ -34,6 +34,10 @@ sudo chown ubuntu public/ -R
 
 # make nginx user as owner of public folder
 sudo chown www-data:www-data public/ -R
+
+sudo chown www-data:www-data config/locales -R
+
+sudo chmod 755 config/locales -R
 ```
 
 

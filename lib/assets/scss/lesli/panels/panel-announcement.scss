@@ -16,19 +16,5 @@ For more information read the license file including with this software.
 */
 
 
-
 // · 
-// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
-.application-panel-announcement .sidebar-content {
-    padding-left: 10px;
-    padding-right: 25px;
-    padding-top: 0.5rem;
-    box-shadow: none;
-    width: 600px;
-    height: 100%;
-    z-index: 50;
-}
-
-.submit-button {
-    justify-content: center;
-}
+@import "./panel-template.scss";

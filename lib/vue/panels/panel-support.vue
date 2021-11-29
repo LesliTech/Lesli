@@ -152,23 +152,23 @@ export default {
 </script>
 <template>
     <b-sidebar
-        :overlay="false"
-        :open.sync="data.global.show_panel_support"
         class="application-panel-support"
-        fullheight
-        right
-    >
-        <div class="sidebar-content">
+        :open.sync="data.global.show_panel_support"
+        :right="true"
+        :fullheight="true">
+        <div class="panel-title is-size-5">
+            <h4>
+                Support tickets
+                
+            </h4>
+            <span class="icon is-large hover" @click="data.global.show_panel_support = false">
+                <i class="fas fa-lg fa-chevron-right"></i>
+            </span>
+        </div>
+
+        <div class="panel-content">
             <h5 class="title is-5">
-                <div class="columns">
-                    <div class="column is-10">
-                        {{translations.main.view_title_latest_tickets}}
-                    </div>
-                    <div class="column is-2">
-                        <button type="button" class="is-pulled-right delete" @click="() => data.global.show_panel_support = false">
-                        </button>
-                    </div>
-                </div>
+                {{ translations.main.view_title_latest_tickets }}
             </h5>
             <component-data-loading v-if="loading"></component-data-loading>
             <component-data-empty v-if="! loading && tickets.length == 0"></component-data-empty>
