@@ -1,5 +1,5 @@
 class Account::LocationsController < ApplicationLesliController
-    before_action :set_account_location, only: [:update, :destroy]
+    before_action :set_account_location, only: [:show, :update, :destroy]
  
     # GET /locations
     def index
