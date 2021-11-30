@@ -20,6 +20,8 @@ class Account::Currency < ApplicationLesliRecord
     belongs_to :user_main, foreign_key: "user_main_id", class_name: "User"
     belongs_to :user, foreign_key: "users_id", class_name: "User"
 
+    validates_presence_of  :name, uniqueness: true
+    validates_presence_of  :symbol
 
     has_many :exchange_rates, inverse_of: :currency, foreign_key: "account_currencies_id", class_name: "Account::Currency::ExchangeRate"
 
