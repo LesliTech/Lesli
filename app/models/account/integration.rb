@@ -22,6 +22,8 @@ class Account::Integration < ApplicationRecord
     belongs_to :user_main, foreign_key: "user_main_id", class_name: "User"
     belongs_to :user, foreign_key: "users_id"
 
+    validates :name, presence: true
+
     def self.index current_user
         current_user.account.integrations
         .joins("inner join users u on u.id = account_integrations.users_id")
