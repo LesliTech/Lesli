@@ -4,6 +4,8 @@ class Account::Location < ApplicationRecord
 
     has_many    :sub_locations,   class_name: "Location", foreign_key: "parent_id"
 
+    validates_presence_of :name
+
     enum level: {
         empty: "empty",
         continent: "continent",
@@ -31,11 +33,16 @@ class Account::Location < ApplicationRecord
             query_filters.push("LOWER(name) like '%#{query[:filters][:search]}%'")
         end
 
-        current_user.account.locations.where(query_filters.join(" and "))
+        locations = current_user.account.locations.where(query_filters.join(" and "))
+
+        if query[:pagination]
+            locations = locations.order("#{query[:pagination][:orderBy]} #{query[:pagination][:order]} NULLS LAST")
+        end
+
+        locations
     end
 
     def show
         self
     end
-
 end
