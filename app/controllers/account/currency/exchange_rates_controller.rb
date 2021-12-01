@@ -101,7 +101,7 @@ class Account::Currency::ExchangeRatesController < ApplicationLesliController
 
     # Only allow a list of trusted parameters through.
     def exchange_rate_params
-        params.require(:currency_exchange_rate).permit(
+        params.fetch(:currency_exchange_rate, {}).permit(
             :valid_from,
             :valid_to,
             :exchange_rate
