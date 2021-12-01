@@ -119,8 +119,9 @@ RSpec.describe "PATCH:/administration/account/cronos/:id", type: :request do
     include_context "user authentication"
 
     before(:all) do
-        @cronos = @user.account.cronos
-        @invalid_crono_id = @cronos.length + 1
+        # Look for an ID that does not exist
+        @cronos = @user.account.cronos.all.with_deleted.order(:id)
+        @invalid_crono_id = @cronos.empty? ? 1 : @cronos.last["id"] + 1
 
         patch("/administration/account/cronos/#{@invalid_crono_id}.json", params: {
             account_crono: {}
