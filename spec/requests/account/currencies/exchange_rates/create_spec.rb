@@ -120,110 +120,110 @@ RSpec.describe "POST:/administration/account/currencies/:currency_id/exchange_ra
     end
 end
 
-# RSpec.describe "POST:/administration/account/currencies/:currency_id/exchange_rate", type: :request do 
-#     include_context "user authentication"
+RSpec.describe "POST:/administration/account/currencies/:currency_id/exchange_rate", type: :request do 
+    include_context "user authentication"
 
-#     before(:all) do 
-#         # create a valid currency
-#         @new_currency = @user.account.currencies.create!({
-#             name: Faker::Currency.name,
-#             symbol: Faker::Currency.symbol,
-#             country_alpha_3: Faker::Currency.code,
-#             user_main_id: @user.id,
-#             users_id: @user.id
-#         })
+    before(:all) do 
+        # create a valid currency
+        @new_currency = @user.account.currencies.create!({
+            name: Faker::Currency.name,
+            symbol: Faker::Currency.symbol,
+            country_alpha_3: Faker::Currency.code,
+            user_main_id: @user.id,
+            users_id: @user.id
+        })
 
-#         # create a invalid exchange rate (all params will be nil)
-#         @exchange_rates_params = {
-#             valid_from: nil,
-#             valid_to: nil,
-#             exchange_rate: nil
-#         }
+        # create a invalid exchange rate (all params will be nil)
+        @exchange_rates_params = {
+            valid_from: nil,
+            valid_to: nil,
+            exchange_rate: nil
+        }
 
 
-#         post("/administration/account/currencies/#{@new_currency.id}/exchange_rates.json", params: {
-#             currency_exchange_rate: @exchange_rates_params
-#         })
-#     end
+        post("/administration/account/currencies/#{@new_currency.id}/exchange_rates.json", params: {
+            currency_exchange_rate: @exchange_rates_params
+        })
+    end
 
-#     include_examples "error standard json response"
+    include_examples "error standard json response"
 
-#     it "is expected to respond with error when params are nil" do
-#         expect(@response_body).to be_a(Hash)
+    it "is expected to respond with error when params are nil" do
+        expect(@response_body).to be_a(Hash)
 
-#         expect(@response_body).to have_key("error")
-#         expect(@response_body["error"].keys).to contain_exactly("message", "details")
+        expect(@response_body).to have_key("error")
+        expect(@response_body["error"].keys).to contain_exactly("message", "details")
         
-#         expect(@response_body["error"]["message"]).to be_a(String)
-#         expect(@response_body["error"]["details"]).to be_an(Array)
-#     end
-# end
+        expect(@response_body["error"]["message"]).to be_a(String)
+        expect(@response_body["error"]["details"]).to be_an(Array)
+    end
+end
 
 
-# RSpec.describe "POST:/administration/account/currencies/:currency_id/exchange_rate", type: :request do 
-#     include_context "user authentication"
+RSpec.describe "POST:/administration/account/currencies/:currency_id/exchange_rate", type: :request do 
+    include_context "user authentication"
 
-#     before(:all) do 
-#         # create a valid currency
-#         @new_currency = @user.account.currencies.create!({
-#             name: Faker::Currency.name,
-#             symbol: Faker::Currency.symbol,
-#             country_alpha_3: Faker::Currency.code,
-#             user_main_id: @user.id,
-#             users_id: @user.id
-#         })
+    before(:all) do 
+        # create a valid currency
+        @new_currency = @user.account.currencies.create!({
+            name: Faker::Currency.name,
+            symbol: Faker::Currency.symbol,
+            country_alpha_3: Faker::Currency.code,
+            user_main_id: @user.id,
+            users_id: @user.id
+        })
 
-#         # create a invalid exchange rate (all params will be empty strings)
-#         @exchange_rates_params = {
-#             valid_from: "",
-#             valid_to: "",
-#             exchange_rate: ""
-#         }
+        # create a invalid exchange rate (all params will be empty strings)
+        @exchange_rates_params = {
+            valid_from: "",
+            valid_to: "",
+            exchange_rate: ""
+        }
 
 
-#         post("/administration/account/currencies/#{@new_currency.id}/exchange_rates.json", params: {
-#             currency_exchange_rate: @exchange_rates_params
-#         })
-#     end
+        post("/administration/account/currencies/#{@new_currency.id}/exchange_rates.json", params: {
+            currency_exchange_rate: @exchange_rates_params
+        })
+    end
 
-#     include_examples "error standard json response"
+    include_examples "error standard json response"
 
-#     it "is expected to respond with error when params are nil" do
-#         expect(@response_body).to be_a(Hash)
+    it "is expected to respond with error when params are nil" do
+        expect(@response_body).to be_a(Hash)
 
-#         expect(@response_body).to have_key("error")
-#         expect(@response_body["error"].keys).to contain_exactly("message", "details")
+        expect(@response_body).to have_key("error")
+        expect(@response_body["error"].keys).to contain_exactly("message", "details")
         
-#         expect(@response_body["error"]["message"]).to be_a(String)
-#         expect(@response_body["error"]["details"]).to be_an(Array)
-#     end
-# end
+        expect(@response_body["error"]["message"]).to be_a(String)
+        expect(@response_body["error"]["details"]).to be_an(Array)
+    end
+end
 
-# RSpec.describe "POST:/administration/account/currencies/:currency_id/exchange_rate", type: :request do 
-#     include_context "user authentication"
+RSpec.describe "POST:/administration/account/currencies/:currency_id/exchange_rate", type: :request do 
+    include_context "user authentication"
 
-#     before(:all) do 
-#         # create a valid currency
-#         @new_currency = @user.account.currencies.create!({
-#             name: Faker::Currency.name,
-#             symbol: Faker::Currency.symbol,
-#             country_alpha_3: Faker::Currency.code,
-#             user_main_id: @user.id,
-#             users_id: @user.id
-#         })
+    before(:all) do 
+        # create a valid currency
+        @new_currency = @user.account.currencies.create!({
+            name: Faker::Currency.name,
+            symbol: Faker::Currency.symbol,
+            country_alpha_3: Faker::Currency.code,
+            user_main_id: @user.id,
+            users_id: @user.id
+        })
 
-#         post("/administration/account/currencies/#{@new_currency.id}/exchange_rates.json", params: {})
-#     end
+        post("/administration/account/currencies/#{@new_currency.id}/exchange_rates.json", params: {})
+    end
 
-#     include_examples "error standard json response"
+    include_examples "error standard json response"
 
-#     it "is expected to respond with error when params are not sent" do
-#         expect(@response_body).to be_a(Hash)
+    it "is expected to respond with error when params are not sent" do
+        expect(@response_body).to be_a(Hash)
 
-#         expect(@response_body).to have_key("error")
-#         expect(@response_body["error"].keys).to contain_exactly("message", "details")
+        expect(@response_body).to have_key("error")
+        expect(@response_body["error"].keys).to contain_exactly("message", "details")
         
-#         expect(@response_body["error"]["message"]).to be_a(String)
-#         expect(@response_body["error"]["details"]).to be_an(Array)
-#     end
-# end
+        expect(@response_body["error"]["message"]).to be_a(String)
+        expect(@response_body["error"]["details"]).to be_an(Array)
+    end
+end
