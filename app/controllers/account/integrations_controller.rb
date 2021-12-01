@@ -111,7 +111,7 @@ class Account::IntegrationsController < ApplicationLesliController
 
     # Only allow a trusted parameter "white list" through.
     def account_integration_params
-        params.require(:account_integration).permit(:id, :name)
+        params.require(:account_integration).permit(:name)
     end
 
 end
