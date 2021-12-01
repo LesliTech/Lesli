@@ -27,23 +27,19 @@ RSpec.describe 'PUT:/administration/profile/notifications/:id.json', type: :requ
 
     include_context 'request user authentication'
 
-    it 'is expected to respond with notification id marked as read' do
+    let(:response_body) { response_json }
+    # register a notification to the user, so we have at least one active notification
+    # if CloudBell is not installed we'll work with zero as ID
+    let(:notification_id) { Courier::Bell::Notification.new(@current_user, "notification from rspec")[:id][0] }
 
-        # register a notification to the user, so we have at least one active notification
-        notification = Courier::Bell::Notification.new(@current_user, "notification from rspec")
-
-        # if CloudBell is not installed we'll work with zero as ID
-        notification_id = notification[:id][0]
-
+    before do
         # mark notification as read
         put "/administration/profile/notifications/#{ notification_id }.json"
+    end
 
+    it 'is expected to respond with notification id marked as read' do
         expect_json_response_successful
-
-        response_body = response_json
-
         expect(response_body['data']).to eql(notification_id)
-
     end
 
 end
@@ -53,25 +49,23 @@ RSpec.describe 'PUT:/administration/profile/notifications/all.json', type: :requ
 
     include_context 'request user authentication'
 
-    it 'is expected to respond with total notifications marked as read' do
+    let(:response_body) { response_json }
+    # get number of active notifications
+    let(:local_count) { Courier::Bell::Notification.count(@current_user, true) }
 
+    before do
         # register some notifications to the user, so we have at least one active notification
         (1..12).each do |i|
             Courier::Bell::Notification.new(@current_user, "notification from rspec #{ i }")
         end
 
-        # get number of active notifications
-        local_count = Courier::Bell::Notification.count(@current_user, true)
-
         # mark notification as read
         put "/administration/profile/notifications/all.json"
+    end
 
+    it 'is expected to respond with total notifications marked as read' do
         expect_json_response_successful
-
-        response_body = response_json
-
         expect(response_body['data']).to eql(local_count)
-
     end
 end
 
@@ -80,23 +74,30 @@ RSpec.describe 'PUT:/administration/profile/notifications/:id.json', type: :requ
 
     include_context 'request user authentication'
 
-    it 'is expected to respond with total notifications marked as read' do
+    let(:response_body) { response_json }
+    # get number of active notifications
+    let(:local_count) { Courier::Bell::Notification.count(@current_user, true) }
 
+    before do
         # register a notification to all the users of a rol
         notifications = Courier::Bell::Notification.new(@current_user, "notification from rspec", role_receiver_names: ["owner"])
-
-        # get number of active notifications
-        local_count = Courier::Bell::Notification.count(@current_user, true)
-
         # mark notification as read
         put "/administration/profile/notifications/all.json"
+    end
 
+    it 'is expected to respond with total notifications marked as read' do
         expect_json_response_successful
-
-        response_body = response_json
-
         expect(response_body['data']).to eql(local_count)
+    end
+end
 
+RSpec.describe "GET:/administration/profile/notifications/:id.json", type: :request do
+    let(:login) { "/login" }
+    let(:notification_id) { Courier::Bell::Notification.new(@current_user, "notification from rspec")[:id][0] }
+    before { put "/administration/profile/notifications/#{ notification_id }.json" }
+
+    it "is expected to redirect to login when user is not authenticated" do
+        expect(response).to redirect_to(login)
     end
 end
 
