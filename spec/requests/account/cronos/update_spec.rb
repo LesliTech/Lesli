@@ -47,7 +47,7 @@ RSpec.describe "PATCH:/administration/account/cronos/:id", type: :request do
 
     it "is expected to respond with a crono updated with the verb PATCH" do
         expect(@response_body).to be_a(Hash)
-        expect(@response_body["data"].keys).to contain_exactly(
+        expect(@response_body_data.keys).to contain_exactly(
             "id",
             "name",
             "description",
@@ -68,7 +68,7 @@ RSpec.describe "PATCH:/administration/account/cronos/:id", type: :request do
 
         # Is expected to have been updated
         @new_data.each do |key, value|
-            expect(@response_body["data"][key.to_s]).to eql(value)
+            expect(@response_body_data[key.to_s]).to eql(value)
         end
     end
 end
