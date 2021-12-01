@@ -94,7 +94,6 @@ export default {
         class="application-panel-notification"
         :open.sync="data.global.show_panel_notifications"
         :right="true"
-        :overlay="true"
         :fullheight="true">
         <div class="panel-title is-size-5">
             <h4>
@@ -109,18 +108,19 @@ export default {
             </span>
         </div>
         <div
-            :class="['notification', 'is-'+notification.kind, 'is-light']"
+            :class="['message', 'is-'+notification.category]"
             v-for="notification in notifications.records" :key="notification.id">
-            <p :class="{'has-text-weight-bold': Boolean(notification.body)}">
-                {{ notification.subject }}
-            </p>
-            <p>{{ notification.body }}</p>
-            <p class="has-text-grey-light is-size-7">
-                {{ notification.created_at }} ago -
-                <a @click="putNotification(notification.id)">
-                    {{ translations.notifications.view_text_mark_as_read || 'mark as read' }}
-                </a>
-            </p>
+
+            <div class="message-body">
+                <strong>{{ notification.subject }}</strong>
+                <p>{{ notification.body }}</p>
+                <p class="has-text-grey-light is-size-7">
+                    {{ notification.created_at }} ago -
+                    <a @click="putNotification(notification.id)">
+                        {{ translations.notifications.view_text_mark_as_read || 'mark as read' }}
+                    </a>
+                </p>
+            </div>
         </div>
     </b-sidebar>
 </template>
