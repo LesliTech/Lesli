@@ -82,29 +82,29 @@ RSpec.describe "GET:/administration/account/currencies/:id", type: :request do
     end
 end
 
-# RSpec.describe "GET:/administration/account/currencies/:id", type: :request do 
+RSpec.describe "GET:/administration/account/currencies/:id", type: :request do 
 
-#     include_context "user authentication"
+    include_context "user authentication"
 
-#     before(:all) do 
-#         # Set currency id that does not exist
-#         @invalid_currency_id = @user.account.currencies.all.order(id: :asc).last["id"] + 1
+    before(:all) do 
+        # Set currency id that does not exist
+        @invalid_currency_id = @user.account.currencies.all.order(id: :asc).last["id"] + 1
 
-#         get "/administration/account/currencies/#{@invalid_currency_id}.json"
+        get "/administration/account/currencies/#{@invalid_currency_id}.json"
 
-#     end
+    end
 
-#     include_examples "not found standard json response"
+    include_examples "not found standard json response"
 
-#     it "is expected to respond with a currency not found when an invalid id is sent" do 
-#         expect(@response_body).to have_key("error")
-#         expect(@response_body["error"]).to be_a(Hash)
+    it "is expected to respond with a currency not found when an invalid id is sent" do 
+        expect(@response_body).to have_key("error")
+        expect(@response_body["error"]).to be_a(Hash)
 
-#         expect(@response_body["error"]).to have_key("message")
-#         expect(@response_body["error"]["message"]).to be_a(String)
+        expect(@response_body["error"]).to have_key("message")
+        expect(@response_body["error"]["message"]).to be_a(String)
         
-#         expect(@response_body["error"]).to have_key("details")
-#         expect(@response_body["error"]["details"]).to be_a(Array)
-#     end
+        expect(@response_body["error"]).to have_key("details")
+        expect(@response_body["error"]["details"]).to be_a(Array)
+    end
 
-# end
+end
