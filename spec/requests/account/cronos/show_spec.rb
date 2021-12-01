@@ -106,7 +106,7 @@ RSpec.describe "GET:/administration/account/cronos/:id", type: :request do
 
     before(:all) do
         # Look for an ID that does not exist
-        @cronos = @user.account.cronos.all.sort_by { |crono| crono.id }
+        @cronos = @user.account.cronos.all.with_deleted.order(:id)
         @invalid_crono_id = @cronos.empty? ? 1 : @cronos.last["id"] + 1
 
         get "/administration/account/cronos/#{@invalid_crono_id}.json"
