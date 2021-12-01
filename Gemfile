@@ -200,6 +200,9 @@ group :test do
     # Sprockets needs jquery to render views on test environment
     gem "jquery-rails"
 
+    # FactoryBot
+    # https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#configure-your-test-suite
+    gem 'factory_bot_rails'
 end
 
 Lesli::engines.each do |engine|
