@@ -2,9 +2,9 @@
 
 Copyright (c) 2021, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -53,6 +53,7 @@ class Account::CronosController < ApplicationLesliController
     def create
         account_crono = current_user.account.cronos.new(account_crono_params)
         account_crono.user = current_user
+
         if account_crono.save
             respond_with_successful(account_crono)
         else
@@ -86,11 +87,19 @@ class Account::CronosController < ApplicationLesliController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_account_crono
-        @account_crono = current_user.account.account_cronos.find(class_name, params[:id])
+        @account_crono = current_user.account.cronos.find_by(id: params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def account_crono_params
-        params.require(:account_crono).permit(:id, :name, :description, :minute, :hour, :day_of_month, :month, :day_of_week)
+        params.fetch(:account_crono, {}).permit(
+            :name,
+            :description,
+            :minute,
+            :hour,
+            :day_of_month,
+            :month,
+            :day_of_week
+        )
     end
 end
