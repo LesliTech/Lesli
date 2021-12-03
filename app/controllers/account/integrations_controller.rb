@@ -1,10 +1,11 @@
+
 =begin
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,12 +14,12 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
 class Account::IntegrationsController < ApplicationLesliController
-    before_action :set_account_integration, only: [:show, :edit, :update, :destroy]
+    before_action :set_account_integration, only: [:edit, :update, :destroy]
 
     # GET /account/integrations
     def index
@@ -32,7 +33,13 @@ class Account::IntegrationsController < ApplicationLesliController
     def show
         respond_to do |format|
             format.html {}
-            format.json { respond_with_successful(Account::Integration.show(current_user, params)) }
+            format.json {
+                set_account_integration
+
+                return respond_with_not_found unless @account_integration
+
+                respond_with_successful(@account_integration.show(current_user, params))
+            }
         end
     end
 
@@ -47,29 +54,27 @@ class Account::IntegrationsController < ApplicationLesliController
     # POST /account/integrations
     def create
         account_integration = current_user.account.integrations.new(account_integration_params)
-
-        user_integration_email = account_integration_params[:name]
-        .downcase                           # string to lowercase
-        .gsub(/[^0-9A-Za-z\s\-\_]/, "")     # remove special characters from string
-        .gsub(/\s+/, "-")                   # replace spaces or spaces with single dash
-        .concat("-", SecureRandom.hex(4), "@integrations")
-
-        # register a new integration-user
-        user = current_user.account.users.find_or_create_by(email: user_integration_email) do |user|
-            user.category = "integration"
-            user.active = true
-            user.confirm
-
-            user.user_roles.create({ role: ::Role.find_by(:name => "api") })
-
-            user.detail.first_name = account_integration_params[:name]
-            user.save!
-        end
-
         account_integration.user_main = current_user
-        account_integration.user = user 
 
         if account_integration.save
+            # register a new integration-user
+            email = Account::Integration.generate_random_email(account_integration_params[:name])
+
+            user = current_user.account.users.find_or_create_by(email: email) do |user|
+                user.category = "integration"
+                user.active = true
+                user.confirm
+
+                user.user_roles.create({ role: ::Role.find_by(:name => "api") })
+
+                user.detail.first_name = account_integration_params[:name]
+                user.save!
+            end
+
+            if (user.valid?)
+                account_integration.user = user
+                account_integration.save # update user assignment
+            end
 
             # register a new unique session
             current_session = user.sessions.create({
@@ -79,8 +84,7 @@ class Account::IntegrationsController < ApplicationLesliController
                 :last_used_at   => LC::Date.now
             })
 
-            respond_with_successful account_integration
-
+            respond_with_successful(account_integration)
         else
             respond_with_error account_integration.errors.full_messages.to_sentence
         end
@@ -88,25 +92,20 @@ class Account::IntegrationsController < ApplicationLesliController
 
     # PATCH/PUT /account/integrations/1
     def update
-        if @account_integration.update(account_integration_params)
-            redirect_to @account_integration, notice: 'Integration was successfully updated.'
-        else
-            render :edit
-        end
-    end
+        return respond_with_not_found unless @account_integration
 
-    # DELETE /account/integrations/1
-    def destroy
-        @account_integration.destroy
-        redirect_to account_integrations_url, notice: 'Integration was successfully destroyed.'
+        if @account_integration.update(account_currency_params)
+            respond_with_successful(@account_integration.show(current_user, @query))
+        else
+            respond_with_error(@account_integration.errors.full_messages.to_sentence)
+        end
     end
 
     private
 
     # Use callbacks to share common setup or constraints between actions.
     def set_account_integration
-        #current_user.account.integrations
-        #@account_integration = Account::Integration.find(params[:id])
+        @account_integration = current_user.account.integrations.find_by(id: params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
