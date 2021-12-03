@@ -23,19 +23,16 @@ require 'lesli_request_helper'
 RSpec.describe 'POST:/administration/profile/webpushes.json', type: :request do
 
     include_context 'request user authentication'
-    
-    it 'is expected to create a new webpush registrations' do
 
-        webpush = {
-            :endpoint => 'http://lesli.cloud/api/bell/notifications.json',
-            :auth_key => 'ABC123',
-            :p256dh_key => '123ABC'
-        }
+    let(:webpush) { attributes_for(:webpush, users_id: @current_user.id) }
 
+    before do 
         post('/administration/profile/webpushes.json', params: {
             :profile_webpush => webpush
         })
-
+    end
+    
+    it 'is expected to create a new webpush registrations' do
         expect_json_response_successful
 
         response_body = response_json()
