@@ -20,15 +20,21 @@ For more information read the license file including with this software.
 # path is a variable of wenever class that returns the current path of the application
 RAILS_ROOT = path
 
-#output file
+# output file
 set :output, "log/cron.log"
 
-# require needed to include active-record models and initializers.
+# config files
+require_relative "boot"
+
+# Gem class
+require 'rubygems'
+
+# Needed to fetch current engines
 require "#{RAILS_ROOT}/lesli.rb"
 
 # include all schedule.rb of each engine
 Lesli::engines().map do |engine|
-    schedule_path = "#{RAILS_ROOT}/engines/#{engine[:code]}/config/schedule.rb"
+    schedule_path = "#{Gem.loaded_specs[engine[:code]].full_gem_path}/config/schedule.rb"
 
     if(File.exist?(schedule_path)) # load file
         instance_eval(File.read(schedule_path), schedule_path)
