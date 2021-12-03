@@ -17,38 +17,24 @@ For more information read the license file including with this software.
 
 =end
 
-
 # include helpers, configuration & initializers for request tests
 require 'lesli_request_helper'
 
+RSpec.describe 'GET:/administration/profile/webpushes.json', type: :request do
 
-#
-RSpec.describe 'GET:/administration/profile/notifications.json', type: :request do
-    
     include_context 'request user authentication'
     
-    it 'is expected to respond with all the user\'s notifications' do
+    let(:random_number) { Faker::Number.between(from: 1, to: 5) }
+    let!(:webpushes) { create_list(:webpush, random_number, users_id: @current_user.id) }
+    let(:expect_count) { @current_user.webpushes.all.size }
+    let(:response_body) { response_json }
 
-        # register a notification to the user, so we have at least one active notification
-        Courier::Bell::Notification.new(@current_user, "notification from rspec")
+    before { get '/administration/profile/webpushes.json' }
 
-        # ask for the list of notifications fo the current user
-        get '/administration/profile/notifications.json'
-
-        local_count = Courier::Bell::Notification.count(@current_user, true)
-
+    it 'is expected to respond with all webpush registrations' do
         expect_json_response_successful
 
-        response_body = response_json
-
-        remote_count = response_body['data']['pagination']['count_total'] if defined?(CloudBell)
-        remote_count = response_body['data'].size if not defined?(CloudBell)
-
-        expect(local_count).to be >=(1) if  defined?(CloudBell)
-        expect(remote_count).to be >=(1) if defined?(CloudBell)
-
-        expect(remote_count).to eql(local_count)
-
+        expect(response_body['data'].length).to be >= random_number
+        expect(response_body['data'].length).to eql(expect_count)
     end
-
 end
