@@ -89,58 +89,58 @@ require "byebug"
 end
 
 
-# RSpec.describe "POST:/administration/account/currencies", type: :request do 
+RSpec.describe "POST:/administration/account/currencies", type: :request do 
 
-#     include_context "user authentication"
+    include_context "user authentication"
 
-#     before(:all) do
-#         post("/administration/account/currencies.json", params: {
-#             account_currency: {
-#                 name: "",
-#                 symbol: "",
-#                 country_alpha_3: "",
-#             }
-#         })
-#     end
+    before(:all) do
+        post("/administration/account/currencies.json", params: {
+            account_currency: {
+                name: "",
+                symbol: "",
+                country_alpha_3: "",
+            }
+        })
+    end
 
-#     include_examples "error standard json response"
+    include_examples "error standard json response"
 
-#     it "is expected to respond with error when params are empty strings" do 
-#         expect(@response_body).to have_key("error")
-#         expect(@response_body["error"]).to be_a(Hash)
+    it "is expected to respond with error when params are empty strings" do 
+        expect(@response_body).to have_key("error")
+        expect(@response_body["error"]).to be_a(Hash)
 
-#         expect(@response_body["error"]).to have_key("message")
-#         expect(@response_body["error"]["message"]).to be_a(String)
+        expect(@response_body["error"]).to have_key("message")
+        expect(@response_body["error"]["message"]).to be_a(String)
         
-#         expect(@response_body["error"]).to have_key("details")
-#         expect(@response_body["error"]["details"]).to be_a(Array)
-#     end
-# end
+        expect(@response_body["error"]).to have_key("details")
+        expect(@response_body["error"]["details"]).to be_a(Array)
+    end
+end
 
-# RSpec.describe "POST:/administration/account/currencies", type: :request do 
+RSpec.describe "POST:/administration/account/currencies", type: :request do 
 
-#     include_context "user authentication"
+    include_context "user authentication"
 
-#     before(:all) do
-#         post("/administration/account/currencies.json", params: {
-#             account_currency: {
-#                 name: nil,
-#                 symbol: nil,
-#                 country_alpha_3: nil,
-#             }
-#         })
-#     end
+    before(:all) do
+        post("/administration/account/currencies.json", params: {
+            account_currency: {
+                name: nil,
+                symbol: nil,
+                country_alpha_3: nil,
+            }
+        })
+    end
 
-#     include_examples "error standard json response"
+    include_examples "error standard json response"
 
-#     it "is expected to respond with error when params are nil" do 
-#         expect(@response_body).to have_key("error")
-#         expect(@response_body["error"]).to be_a(Hash)
+    it "is expected to respond with error when params are nil" do 
+        expect(@response_body).to have_key("error")
+        expect(@response_body["error"]).to be_a(Hash)
 
-#         expect(@response_body["error"]).to have_key("message")
-#         expect(@response_body["error"]["message"]).to be_a(String)
+        expect(@response_body["error"]).to have_key("message")
+        expect(@response_body["error"]["message"]).to be_a(String)
         
-#         expect(@response_body["error"]).to have_key("details")
-#         expect(@response_body["error"]["details"]).to be_a(Array)
-#     end
-# end
+        expect(@response_body["error"]).to have_key("details")
+        expect(@response_body["error"]["details"]).to be_a(Array)
+    end
+end

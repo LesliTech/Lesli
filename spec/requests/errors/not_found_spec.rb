@@ -28,7 +28,7 @@ end
 # When user is NOT authenticated
 RSpec.describe "Not found - GET:/404 when user is NOT authenticated", type: :request do
     before(:all) { get "/404.json" }
-    
+
     include_examples 'not found standard json response'
 end
 

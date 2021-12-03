@@ -23,10 +23,10 @@ class OnboardingsController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json do
-                return respond_with_not_found unless @current_user.account
+                return respond_with_not_found unless current_user.account
                 return respond_with_successful({
-                    account: @current_user.account,
-                    account_settings: @current_user.account.settings
+                    account: current_user.account,
+                    account_settings: current_user.account.settings
                 })
             end
         end
@@ -36,9 +36,9 @@ class OnboardingsController < ApplicationLesliController
     # POST /onboarding
     def create
 
-        account = Account.find_by_id(@current_user.account.id)
+        account = Account.find_by_id(current_user.account.id)
 
-        if account.update(onboarding_params[:account]) && account.settings.update(@current_user, onboarding_params[:account_settings])
+        if account.update(onboarding_params[:account]) && account.settings.update(current_user, onboarding_params[:account_settings])
             account.active!
             respond_with_successful(account)
         else
@@ -101,8 +101,27 @@ class OnboardingsController < ApplicationLesliController
 
 
     def onboarding_params
-        params.require(:onboarding).permit(
-            account: {},
+        accepted_params = params.fetch(:onboarding, {}).permit(
+            account: [
+                :status,
+                :company_name,
+                :company_name_legal,
+                :company_tag_line,
+                :country,
+                :address,
+                :region,
+                :website,
+                :phone_number_1,
+                :phone_number_2,
+                :phone_number_3,
+                :phone_number_4,
+                :public_email,
+                :github,
+                :twitter,
+                :youtube,
+                :linkedin,
+                :facebook
+            ],
             account_settings: [
                 :password_enforce_complexity,
                 :password_minimum_length,
@@ -120,6 +139,11 @@ class OnboardingsController < ApplicationLesliController
                 :datetime_format_date_time_words,
             ]
         )
+
+        accepted_params[:account] = {} unless accepted_params[:account]
+        accepted_params[:account_settings] = {} unless accepted_params[:account_settings]
+
+        return accepted_params
     end
 
     def invite_user_params
