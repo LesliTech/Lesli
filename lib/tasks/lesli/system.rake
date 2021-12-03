@@ -70,6 +70,12 @@ class LesliCliRake < LesliTasks
 
         LC::Debug.separator_blank
 
+        settings = Lesli::settings()
+
+        LC::Debug.table(settings.dig("configuration", "locales_available").map { |locale| 
+            { :language => locale[1], :code => locale[0] }
+        })        
+
     end
 
 end
