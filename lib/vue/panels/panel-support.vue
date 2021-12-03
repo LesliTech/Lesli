@@ -176,12 +176,12 @@ export default {
                 <template slot-scope="props">
                     <b-table-column field="subject" :label="translations.main.column_subject" >
                         <a :href="`/help/tickets/${props.row.id}`">
-                            {{ props.row.subject }}
+                            <small>{{ props.row.subject }}</small>
                         </a>
                     </b-table-column>
                     <b-table-column field="status_name" :label="translations.main.column_cloud_help_workflow_statuses_id">
                         <a :href="`/help/tickets/${props.row.id}`">
-                            {{object_utils.translateEnum(translations.core, 'column_enum_status', props.row.status_name)}}
+                            <small>{{object_utils.translateEnum(translations.core, 'column_enum_status', props.row.status_name)}}</small>
                         </a>
                     </b-table-column>
                 </template>
