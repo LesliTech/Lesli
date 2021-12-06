@@ -1,58 +1,21 @@
-class Account::ActivitiesController < ApplicationController
-  before_action :set_account_activity, only: [:show, :edit, :update, :destroy]
+=begin
 
-  # GET /account/activities
-  def index
-    @account_activities = Account::Activity.all
-  end
+Copyright (c) 2020, all rights reserved.
 
-  # GET /account/activities/1
-  def show
-  end
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
+pictures and any other information belongs to the owner of this platform.
 
-  # GET /account/activities/new
-  def new
-    @account_activity = Account::Activity.new
-  end
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
 
-  # GET /account/activities/1/edit
-  def edit
-  end
+For more information read the license file including with this software.
 
-  # POST /account/activities
-  def create
-    @account_activity = Account::Activity.new(account_activity_params)
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·
 
-    if @account_activity.save
-      redirect_to @account_activity, notice: 'Activity was successfully created.'
-    else
-      render :new
-    end
-  end
+=end
 
-  # PATCH/PUT /account/activities/1
-  def update
-    if @account_activity.update(account_activity_params)
-      redirect_to @account_activity, notice: 'Activity was successfully updated.'
-    else
-      render :edit
-    end
-  end
-
-  # DELETE /account/activities/1
-  def destroy
-    @account_activity.destroy
-    redirect_to account_activities_url, notice: 'Activity was successfully destroyed.'
-  end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_account_activity
-      @account_activity = Account::Activity.find(params[:id])
-    end
-
-    # Only allow a trusted parameter "white list" through.
-    def account_activity_params
-      params.fetch(:account_activity, {})
-    end
+class Account::ActivitiesController < ApplicationLesliController
 end
