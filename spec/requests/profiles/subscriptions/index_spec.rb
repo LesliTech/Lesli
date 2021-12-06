@@ -22,20 +22,6 @@ require 'spec_helper'
 require 'byebug'
 
 RSpec.describe "GET:/administration/profile/subscriptions.json", type: :request do
-    include_context "user authentication"
-
-    before(:all) { get "/administration/profile/subscriptions.json" }
-
-    include_examples "successful standard json response"
-
-    it "is expected to respond with ..." do 
-        expect(@response_body_data).to be_an(Array)
-
-        # PENDING TO CONTINUE TESTS
-    end
-end
-
-RSpec.describe "GET:/administration/profile/subscriptions.json", type: :request do
     let(:login) { "/login?r=/administration/profile/subscriptions.json" }
     before(:all) { get "/administration/profile/subscriptions.json" }
 
