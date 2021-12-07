@@ -26,8 +26,8 @@ RSpec.describe 'PUT:/administration/role_descriptors/:id.json', type: :request d
     include_context 'user authentication'
 
     before(:all) do
-        @role_descriptor = create(:role_descriptor, accounts_id: @user.account.id)
-        @new_data = attributes_for(:role_descriptor, accounts_id: @user.account.id)
+        @role_descriptor = create(:role_descriptor, account: @user.account)
+        @new_data = attributes_for(:role_descriptor, account: @user.account)
 
         put("/administration/role_descriptors/#{@role_descriptor.id}.json", params: {
             role_descriptor: @new_data
@@ -46,8 +46,8 @@ end
 #     include_context 'user authentication'
 
 #     before(:all) do
-#         @role_descriptor = create(:role_descriptor, accounts_id: @user.account.id)
-#         @new_data = attributes_for(:invalid_r_d, accounts_id: @user.account.id)
+#         @role_descriptor = create(:role_descriptor, account: @user.account)
+#         @new_data = attributes_for(:invalid_r_d, account: @user.account)
 
 #         put("/administration/role_descriptors/#{@role_descriptor.id}.json", params: {
 #             role_descriptor: @new_data
