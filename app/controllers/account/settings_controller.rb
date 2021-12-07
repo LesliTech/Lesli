@@ -36,8 +36,8 @@ class Account::SettingsController < ApplicationLesliController
 
     # POST /settings
     def create
-        if params[:settings].empty?
-            return respond_with_not_found
+        if params[:settings].blank?
+            return respond_with_error
         end
 
         params[:settings].each do |key, value|

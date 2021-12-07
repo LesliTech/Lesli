@@ -158,8 +158,7 @@ export default {
         :fullheight="true">
         <div class="panel-title is-size-5">
             <h4>
-                Support tickets
-                
+                {{ translations.main.view_text_support_tickets }}
             </h4>
             <span class="icon is-large hover" @click="data.global.show_panel_support = false">
                 <i class="fas fa-lg fa-chevron-right"></i>
@@ -167,27 +166,27 @@ export default {
         </div>
 
         <div class="panel-content">
-            <h5 class="title is-5">
-                {{ translations.main.view_title_latest_tickets }}
-            </h5>
-            <component-data-loading v-if="loading"></component-data-loading>
-            <component-data-empty v-if="! loading && tickets.length == 0"></component-data-empty>
-            <b-table v-if="! loading && tickets.length > 0" :data="tickets" striped narrowed bordered @click="showTicket" hoverable>
-                <template slot-scope="props">
-                    <b-table-column field="subject" :label="translations.main.column_subject" >
-                        <a :href="`/help/tickets/${props.row.id}`">
-                            <small>{{ props.row.subject }}</small>
-                        </a>
-                    </b-table-column>
-                    <b-table-column field="status_name" :label="translations.main.column_cloud_help_workflow_statuses_id">
-                        <a :href="`/help/tickets/${props.row.id}`">
-                            <small>{{object_utils.translateEnum(translations.core, 'column_enum_status', props.row.status_name)}}</small>
-                        </a>
-                    </b-table-column>
-                </template>
-            </b-table>
+            <template  v-if="tickets.length > 0">
+                <h6 class="title is-6">{{ translations.main.view_title_latest_tickets }}</h6>
+                <component-data-loading v-if="loading"></component-data-loading>
+                <component-data-empty v-if="! loading && tickets.length == 0"></component-data-empty>
+                <b-table v-if="! loading && tickets.length > 0" :data="tickets" striped narrowed bordered @click="showTicket" hoverable>
+                    <template slot-scope="props">
+                        <b-table-column field="subject" :label="translations.main.column_subject" >
+                            <a :href="`/help/tickets/${props.row.id}`">
+                                <small>{{ props.row.subject }}</small>
+                            </a>
+                        </b-table-column>
+                        <b-table-column field="status_name" :label="translations.main.column_cloud_help_workflow_statuses_id">
+                            <a :href="`/help/tickets/${props.row.id}`">
+                                <small>{{object_utils.translateEnum(translations.core, 'column_enum_status', props.row.status_name)}}</small>
+                            </a>
+                        </b-table-column>
+                    </template>
+                </b-table>
+                <div class="is-divider"></div>
+            </template>
 
-            <div class="is-divider"></div>
             <h6 class="title is-6">{{translations.main.view_title_quick_creation}}</h6>
             <form @submit="postTicket">
                 <fieldset :disabled="submitting">
