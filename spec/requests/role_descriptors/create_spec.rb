@@ -26,7 +26,7 @@ RSpec.describe 'POST:/administration/role_descriptors.json', type: :request do
     include_context 'user authentication'
 
     before(:all) do
-        @role_descriptor = attributes_for(:role_descriptor, accounts_id: @user.account.id)
+        @role_descriptor = attributes_for(:role_descriptor, account: @user.account)
 
         post('/administration/role_descriptors.json', params: {
             role_descriptor: @role_descriptor
@@ -46,7 +46,7 @@ end
 #     include_context 'user authentication'
 
 #     before(:all) do
-#         @role_descriptor = attributes_for(:invalid_r_d)
+#         @role_descriptor = attributes_for(:invalid_r_d, account: @user.account)
 
 #         post('/administration/role_descriptors.json', params: {
 #             role_descriptor: @role_descriptor
@@ -71,7 +71,7 @@ end
 #     include_context 'user authentication'
 
 #     before(:all) do
-#         @role_descriptor = attributes_for(:empty_str_r_d)
+#         @role_descriptor = attributes_for(:empty_str_r_d, account: @user.account)
 
 #         post('/administration/role_descriptors.json', params: {
 #             role_descriptor: @role_descriptor
