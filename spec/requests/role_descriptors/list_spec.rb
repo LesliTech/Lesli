@@ -27,7 +27,7 @@ RSpec.describe "GET:/administration/role_descriptors/list.json", type: :request 
 
     before(:all) do
         # Must exist at least one record in the DB
-        create(:role_descriptor, accounts_id: @user.account.id)
+        create(:role_descriptor, account: @user.account)
         get "/administration/role_descriptors/list.json"
     end
 
