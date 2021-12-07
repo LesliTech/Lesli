@@ -27,7 +27,7 @@ RSpec.describe "GET:/administration/role_descriptors/:id.json", type: :request d
     include_context "user authentication"
 
     before(:all) do
-        @role_descriptor = create(:role_descriptor, accounts_id: @user.account.id)
+        @role_descriptor = create(:role_descriptor, account: @user.account)
         get "/administration/role_descriptors/#{@role_descriptor.id}.json"
     end
 
@@ -66,7 +66,7 @@ RSpec.describe "GET:/administration/role_descriptors/:id.json", type: :request d
 
     before(:all) do
         # Look for an ID that does not exist
-        @invalid_id = create(:role_descriptor, accounts_id: @user.account.id).id + 1
+        @invalid_id = create(:role_descriptor, account: @user.account).id + 1
 
         get "/administration/role_descriptors/#{@invalid_id}.json"
     end

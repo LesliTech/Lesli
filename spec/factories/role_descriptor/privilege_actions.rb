@@ -19,24 +19,19 @@ For more information read the license file including with this software.
 
 
 FactoryBot.define do
-    # valid model
-    factory :role_descriptor, class: "RoleDescriptor" do
-        name { Faker::Lorem.word }
-        description { Faker::Lorem.paragraph }
-        account { association :account }
+
+    factory :privilege_action, class: "RoleDescriptor::PrivilegeAction" do
+        status { true }
+        category { "create" }
+        system_controller_actions_id { FactoryBot.create(:system_controller_action).id }
+        role_descriptors_id { FactoryBot.create(:role_descriptor).id }
     end
 
-    # nil params
-    factory :invalid_r_d, class: "RoleDescriptor" do
-        name { nil }
-        description { nil }
-        association :account
+    factory :invalid_privilege_action, class: "RoleDescriptor::PrivilegeAction" do
+        status { nil }
+        category { nil }
+        system_controller_actions_id { nil }
+        role_descriptors_id { nil }
     end
 
-    # empty string params
-    factory :empty_str_r_d, class: "RoleDescriptor" do
-        name { "" }
-        description { "" }
-        association :account
-    end
 end

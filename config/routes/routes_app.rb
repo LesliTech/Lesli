@@ -66,7 +66,7 @@ module RoutesApp
                         resources :files, only: [:index, :show, :new, :create, :destroy]
 
                         # account global settings
-                        resources :settings, only: [:index, :show] do
+                        resources :settings, only: [:index, :show, :create, :destroy] do
                             collection do
                                 get :options
                             end
