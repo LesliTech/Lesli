@@ -26,7 +26,7 @@ RSpec.describe 'GET:/administration/role_descriptors.json', type: :request do
     include_context 'user authentication'
 
     before(:all) do
-        create_list(:role_descriptor, 5, accounts_id: @user.account.id)
+        create_list(:role_descriptor, 5, account: @user.account)
 
         @default_role_descriptors = 3
         @expect_count = @user.account.role_descriptors.count - @default_role_descriptors

@@ -1,6 +1,5 @@
 =begin
-
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -17,48 +16,63 @@ For more information read the license file including with this software.
 
 =end
 
-require 'rails_helper'
-require 'spec_helper'
-require 'byebug'
+require "rails_helper"
+require "spec_helper"
+require "byebug"
 
-RSpec.describe "DELETE:/administration/role_descriptors/:id.json", type: :request do
+
+RSpec.describe "DELETE:/administration/account/settings/:id", type: :request do
 
     include_context "user authentication"
 
     before(:all) do
-        @role_descriptor = create(:role_descriptor, account: @user.account)
 
-        delete "/administration/role_descriptors/#{@role_descriptor.id}.json"
+        @setting_params = {
+            name: "color",
+            value: Faker::Color.hex_color,
+        }
+
+        @setting = @user.account.settings.create(@setting_params)
+
+        delete("/administration/account/settings/#{@setting.id}.json")
+
     end
 
     include_examples "successful standard json response"
 
-    it "is expected to have deleted a role descriptor successfully" do
-        expect(@response_body_data).to be_nil
+    it "is expected to have deleted the setting" do
+        expect(@response_body["data"]).to be_nil
+        # the setting should no longer be in the database
+        expect(@user.account.settings.find_by_id(@setting.id).to_json).to be_a(String)
+        expect(@user.account.settings.find_by_id(@setting.id).to_json).to eql("null")
+
     end
+
 end
 
-RSpec.describe "DELETE:/administration/role_descriptors/:id.json", type: :request do
+
+RSpec.describe "DELETE:/administration/account/settings/:id", type: :request do
 
     include_context "user authentication"
 
     before(:all) do
-        @invalid_id = create(:role_descriptor, account: @user.account).id + 1
+        # Set setting id that does not exist
+        @invalid_setting_id = @user.account.settings.all.order(id: :asc).last.id + 1
 
-        delete "/administration/role_descriptors/#{@invalid_id}.json"
+        delete("/administration/account/settings/#{@invalid_setting_id}.json")
     end
 
     include_examples "not found standard json response"
 
-    it "is expected to respond with not found when a record does not exist" do
+    it "is expected to respond with not found" do
         expect(@response_body).to have_key("error")
         expect(@response_body["error"]).to be_a(Hash)
 
         expect(@response_body["error"]).to have_key("message")
         expect(@response_body["error"]["message"]).to be_a(String)
-        
-        expect(@response_body["error"]).to have_key("details")
-        expect(@response_body["error"]["details"]).to be_an(Array)
-    end
-end
 
+        expect(@response_body["error"]).to have_key("details")
+        expect(@response_body["error"]["details"]).to be_a(Array)
+    end
+
+end
