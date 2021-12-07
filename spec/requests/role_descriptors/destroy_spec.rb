@@ -26,7 +26,7 @@ RSpec.describe "DELETE:/administration/role_descriptors/:id.json", type: :reques
     include_context "user authentication"
 
     before(:all) do
-        @role_descriptor = create(:role_descriptor, accounts_id: @user.account.id)
+        @role_descriptor = create(:role_descriptor, account: @user.account)
 
         delete "/administration/role_descriptors/#{@role_descriptor.id}.json"
     end
@@ -43,7 +43,7 @@ RSpec.describe "DELETE:/administration/role_descriptors/:id.json", type: :reques
     include_context "user authentication"
 
     before(:all) do
-        @invalid_id = create(:role_descriptor, accounts_id: @user.account.id).id + 1
+        @invalid_id = create(:role_descriptor, account: @user.account).id + 1
 
         delete "/administration/role_descriptors/#{@invalid_id}.json"
     end
