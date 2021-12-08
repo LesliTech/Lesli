@@ -29,7 +29,9 @@ class User < ApplicationLesliRecord
             :recoverable,
             :validatable,
             :confirmable,
-            :trackable
+            :trackable,
+            :omniauthable,
+            omniauth_providers: %i[google_oauth2]
 
 
     # users belongs to an account only and must have a role
@@ -68,7 +70,7 @@ class User < ApplicationLesliRecord
     #   system user
     #   integration apps
     enum category: { user: "user", integration: "integration" }
-    
+
     # @return [void]
     # @description Before creating a user we make sure there is no capitalized email
     def initialize_user
@@ -146,7 +148,7 @@ class User < ApplicationLesliRecord
     #     actions = ["index", "update"]
     #
     #     current_user.has_privileges?(controllers, actions)
-    def has_privileges?(controllers, actions)         
+    def has_privileges?(controllers, actions)
 
         begin
 
@@ -183,26 +185,26 @@ class User < ApplicationLesliRecord
             # privilege action is on true the permission is granted.
             # This is possible by the union of the two previous queries
             granted = ActiveRecord::Base.connection.exec_query("
-                select 
+                select
                     bool_and(grouped_privileges.status) as value
                 from (
                     select
                         privilege_actions.controller,
                         privilege_actions.action,
-                        BOOL_OR(privilege_actions.status) as status 
+                        BOOL_OR(privilege_actions.status) as status
                     from (
                         #{sql_role_privile_actions}
                         union
                         #{sql_user_privilege_actions}
-                    ) AS privilege_actions  
+                    ) AS privilege_actions
                     group by (
                         controller,
                         action
-                    ) 
+                    )
                 ) AS grouped_privileges
             ")
             .first["value"]
-            
+
             return false if granted.blank?
 
             return granted
@@ -226,7 +228,7 @@ class User < ApplicationLesliRecord
         # Due this method is executed on every HTML request, we use low level cache to improve performance
         # It is not usual to the privileges to change so often, however the cache will be deleted
         # after every commit on roles, role descriptors and privileges
-        #Rails.cache.fetch(user_cache_key(abilities_by_controller, self), expires_in: 12.hours) do 
+        #Rails.cache.fetch(user_cache_key(abilities_by_controller, self), expires_in: 12.hours) do
 
             abilities = {}
 
@@ -633,6 +635,31 @@ class User < ApplicationLesliRecord
                 work_address: user.detail[:work_address]
             }
         }
+
+    end
+
+    # @return [User] User record.
+    # @description This method find and update a user with external party authentication provider.
+    #       if the user did not exist is created with the data received from the auth provider.
+    def self.omniauth_registration(auth_params)
+
+        user = User.find_by(email: auth.info.email)
+
+        if user
+            user.provider = auth.provider
+            user.uid = auth.uid
+            user.save
+        else
+            user = User.create_with({
+                email: auth.info.email,
+                password: Devise.friendly_token[0, 20]
+            }).find_or_create_by({
+                provider: auth.provider,
+                uid: auth.uid,
+            })
+        end
+
+        user
 
     end
 

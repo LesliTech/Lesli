@@ -303,8 +303,12 @@ Devise.setup do |config|
     #    manager.failure_app = DeviseFailureApp
     #end
 
+
+    # Social Login
+    config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'], {}
+
 end
-  
+
 
 
 module Devise
