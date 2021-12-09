@@ -305,7 +305,10 @@ Devise.setup do |config|
 
 
     # Social Login
-    config.omniauth :google_oauth2, Rails.application.credentials.dig(:providers, :google, :client_id), Rails.application.credentials.dig(:providers, :google, :client_secret), {}
+    config.omniauth :google_oauth2, Rails.application.credentials.dig(:providers, :google, :client_id), Rails.application.credentials.dig(:providers, :google, :client_secret), {
+        prompt: 'consent',
+        scope: 'email,profile'
+    }
 
 end
 

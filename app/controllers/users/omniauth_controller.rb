@@ -17,6 +17,8 @@ For more information read the license file including with this software.
 
 =end
 class Users::OmniauthController < Devise::OmniauthCallbacksController
+    include Application::Responder
+    include Application::Logger
 
     def google_oauth2
 
@@ -25,15 +27,56 @@ class Users::OmniauthController < Devise::OmniauthCallbacksController
         user = User.omniauth_registration(auth_params)
 
         if user.persisted?
-            respond_with_successful()
+
+            sign_in(:user, user)
+
+            # register or sync the current_user with the user representation on Firebase
+            Courier::One::Firebase::User.sync_user(user) if defined? CloudOne
+
+            # register a new unique session
+            current_session = user.sessions.create({
+                :user_agent => get_user_agent,
+                :user_remote => request.remote_ip,
+                :session_source => "devise_standar_session",
+                :last_used_at => LC::Date.now
+            })
+
+            # make session id globally available
+            session[:user_session_id] = current_session[:id]
+
+            # register a successful sign-in log for the current user
+            user.logs.create({ user_sessions_id: session[:user_session_id], title: "session_creation_successful" })
+
+            default_path = user.roles.first.default_path
+
+            if current_user.account.onboarding? && current_user.has_roles?("owner")
+                default_path = "/onboarding"
+            end
+
+            return redirect_to(default_path) if default_path
+
+            redirect_to("/dashboard")
+
         else
-            respond_with_error(user.errors.full_messages.to_sentence)
+            redirect_to(new_user_session_path)
         end
 
     end
 
+    # def google_oauth2
+    #     @user = User.omniauth_registration(auth_params)
+
+    #     if @user.persisted?
+    #         flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Google'
+    #         sign_in_and_redirect @user, event: :authentication
+    #     else
+    #         session['devise.google_data'] = auth_params.except(:extra)
+    #         redirect_to new_user_registration_url, alert: @user.errors.full_messages.join("\n")
+    #     end
+    # end
+
     def failure
-        redirect_to "/dashboard"
+        redirect_to("/login")
     end
 
 end
