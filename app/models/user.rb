@@ -30,8 +30,7 @@ class User < ApplicationLesliRecord
             :validatable,
             :confirmable,
             :trackable,
-            :omniauthable,
-            omniauth_providers: %i[google_oauth2]
+            :omniauthable, omniauth_providers: [:google_oauth2]
 
 
     # users belongs to an account only and must have a role
