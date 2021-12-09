@@ -642,19 +642,19 @@ class User < ApplicationLesliRecord
     #       if the user did not exist is created with the data received from the auth provider.
     def self.omniauth_registration(auth_params)
 
-        user = User.find_by(email: auth.info.email)
+        user = User.find_by(email: auth_params.info.email)
 
         if user
-            user.provider = auth.provider
-            user.uid = auth.uid
+            user.provider = auth_params.provider
+            user.uid = auth_params.uid
             user.save
         else
             user = User.create_with({
-                email: auth.info.email,
+                email: auth_params.info.email,
                 password: Devise.friendly_token[0, 20]
             }).find_or_create_by({
-                provider: auth.provider,
-                uid: auth.uid,
+                provider: auth_params.provider,
+                uid: auth_params.uid,
             })
         end
 
