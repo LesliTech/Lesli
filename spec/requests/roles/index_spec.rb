@@ -35,3 +35,14 @@ RSpec.describe 'GET:/administration/roles.json', type: :request do
         expect(@response_body["data"]["pagination"]["count_total"]).to eql(@user.account.roles.count)
     end
 end
+
+RSpec.describe 'GET:/administration/roles.json', type: :request do
+    let(:login) { "/login?r=/administration/roles.json" }
+    before(:all) do
+        get '/administration/roles.json' 
+    end
+
+    it 'is expected to redirect to login when user is not authenticated' do
+        expect(response).to redirect_to(login)
+    end
+end
