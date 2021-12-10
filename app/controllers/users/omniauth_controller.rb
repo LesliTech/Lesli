@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 class Users::OmniauthController < Devise::OmniauthCallbacksController
@@ -30,7 +30,7 @@ class Users::OmniauthController < Devise::OmniauthCallbacksController
 
             sign_in(:user, user)
 
-            # register or sync the current_user with the user representation on Firebase
+            # register or sync the user with the user representation on Firebase
             Courier::One::Firebase::User.sync_user(user) if defined? CloudOne
 
             # register a new unique session
@@ -47,9 +47,9 @@ class Users::OmniauthController < Devise::OmniauthCallbacksController
             # register a successful sign-in log for the current user
             user.logs.create({ user_sessions_id: session[:user_session_id], title: "session_creation_successful" })
 
-            default_path = user.roles.first.default_path
+            default_path = user.roles.first&.default_path
 
-            if current_user.account.onboarding? && current_user.has_roles?("owner")
+            if user.account.onboarding? && user.has_roles?("owner")
                 default_path = "/onboarding"
             end
 
