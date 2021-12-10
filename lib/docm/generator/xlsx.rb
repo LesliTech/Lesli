@@ -51,7 +51,7 @@ module Docm
             #         data,
             #         style_data: XlsxReport::StyleService.daily_changes
             #     )
-            def self.generate(filename, xlsx_datasets, style_data: nil, pivote_table_data: nil)
+            def self.generate(filename, xlsx_datasets, style_data: nil, pivote_table_data: nil, title: nil)
                 style_data = {styles: {}, sheets: [{rows: []}]} unless style_data
                 axlsx = Axlsx::Package.new
                 workbook = axlsx.workbook
@@ -78,6 +78,20 @@ module Docm
                     end
 
                     workbook.add_worksheet(:name => xlsx_data[0]) do |sheet|
+
+                        # If there is a tible, we add it between 2 empty lines
+                        if title
+                            sheet.add_row
+                            
+                            sheet.add_row(
+                                [title[:text]].concat(Array.new(title[:colspan]-1, "")),
+                                style: [style_data[:styles][:title]].concat(Array.new(title[:colspan]-1, nil)),
+                                height: 25
+                            )
+                            sheet.merge_cells(sheet.rows.last.cells[(0..(title[:colspan] - 1))])
+
+                            sheet.add_row
+                        end
 
                         # Separating headers and rows into 2 different keys is now deprecated. We should put all the
                         # information into "rows"
