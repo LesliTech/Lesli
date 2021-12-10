@@ -20,11 +20,20 @@ For more information read the license file including with this software.
 
 FactoryBot.define do
 
+    # Valid role creation
     factory :role, class: "Role" do
         name { Faker::Lorem.word }
         active { true }
         object_level_permission { Faker::Number.number(digits: 4) }
-        account { association :account }
+        accounts_id { FactoryBot.create(:account) }
+    end
+
+    # Invalid role
+    factory :invalid_role, class: "Role" do
+        name { nil }
+        active { nil }
+        object_level_permission { nil }
+        accounts_id { FactoryBot.create(:account) }
     end
 
 end
