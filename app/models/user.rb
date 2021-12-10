@@ -649,13 +649,47 @@ class User < ApplicationLesliRecord
             user.uid = auth_params.uid
             user.save
         else
-            user = User.create_with({
-                email: auth_params.info.email,
-                password: Devise.friendly_token[0, 20]
-            }).find_or_create_by({
+            user = User.find_by({
                 provider: auth_params.provider,
                 uid: auth_params.uid,
             })
+
+            unless user
+                user = User.new({
+                    active: true,
+                    email: auth_params.info.email,
+                    password: Devise.friendly_token,
+                    provider: auth_params.provider,
+                    uid: auth_params.uid,
+                    detail_attributes: {
+                        first_name: auth_params.info.first_name,
+                        last_name: auth_params.info.last_name,
+                    }
+                })
+            end
+
+            unless user.account
+                user.account = Account.first # TODO: change this
+            end
+
+            user.confirm
+
+            if user.save
+                # role validation - if new user does not have any role assigned
+                if user.roles.blank?
+
+                    # assign limited role
+                    user.user_roles.create({ role: user.account.roles.find_by(:name => "limited") })
+
+                end
+
+                # saving logs with information about the creation of the user
+                user.logs.create({ description: "user_created_at " + LC::Date.to_string_datetime(LC::Date.datetime) })
+                user.logs.create({ description: "user_created_with_role " + user.user_roles.first.roles_id.to_s })
+
+                User.log_activity_create(user, user)
+            end
+
         end
 
         user
