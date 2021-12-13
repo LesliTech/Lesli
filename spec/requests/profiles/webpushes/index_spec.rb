@@ -24,25 +24,17 @@ RSpec.describe 'GET:/administration/profile/webpushes.json', type: :request do
 
     include_context 'request user authentication'
     
+    let(:random_number) { Faker::Number.between(from: 1, to: 5) }
+    let!(:webpushes) { create_list(:webpush, random_number, users_id: @current_user.id) }
+    let(:expect_count) { @current_user.webpushes.all.size }
+    let(:response_body) { response_json }
+
+    before { get '/administration/profile/webpushes.json' }
+
     it 'is expected to respond with all webpush registrations' do
-
-        Faker::Number.between(from: 1, to: 5).times do 
-            @current_user.webpushes.create(
-                :endpoint => 'http://lesli.cloud/api/bell/notifications.json',
-                :auth_key => 'ABC123',
-                :p256dh_key => '123ABC'
-            )
-        end
-
-        get '/administration/profile/webpushes.json'
-
         expect_json_response_successful
 
-        expect_count = @current_user.webpushes.all.size
-
-        response_body = response_json
-
+        expect(response_body['data'].length).to be >= random_number
         expect(response_body['data'].length).to eql(expect_count)
-
     end
 end

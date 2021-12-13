@@ -25,6 +25,13 @@ require 'byebug'
 RSpec.describe 'GET:/administration/roles/list.json', type: :request do
     include_context 'user authentication'
     
+    # get the roles user has level to work with
+    let(:roles_count) do
+        @user.account.roles
+        .where("object_level_permission <= ?", @user.roles.map(&:object_level_permission).max())
+        .count
+    end
+
     before(:all) do
         get '/administration/roles/list.json' 
     end
@@ -32,12 +39,30 @@ RSpec.describe 'GET:/administration/roles/list.json', type: :request do
     include_examples 'successful standard json response'
 
     it 'is expected to respond with the roles the user has level to work with' do
+        expect(@response_body_data).to be_an(Array)
+        expect(@response_body_data.count).to eql(roles_count)
 
-        # get the roles user has level to work with
-        roles_count = @user.account.roles
-        .where("object_level_permission <= ?", @user.roles.map(&:object_level_permission).max())
-        .count
+        expect(@response_body_data.first).to be_a(Hash)
+        expect(@response_body_data.first).to have_key("id")
+        expect(@response_body_data.first["id"]).to be_a(Numeric)
 
-        expect(@response_body["data"].count).to eql(roles_count)
+        expect(@response_body_data.first).to have_key("name")
+        expect(@response_body_data.first["name"]).to be_a(String)
+
+        expect(@response_body_data.first).to have_key("object_level_permission")
+        expect(@response_body_data.first["object_level_permission"]).to be_a(Numeric)
     end
 end
+
+
+RSpec.describe 'GET:/administration/roles/list.json', type: :request do
+    let(:login) { "/login?r=/administration/roles/list.json" }
+    before(:all) do
+        get '/administration/roles/list.json' 
+    end
+
+    it 'is expected to redirect to login when user is not authenticated' do
+        expect(response).to redirect_to(login)
+    end
+end
+

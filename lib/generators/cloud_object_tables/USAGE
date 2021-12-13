@@ -6,7 +6,7 @@ Arguments:
     DATABASE_CODE: The database code of the cloud_object. Only the first 6 digits. For example: "020412"
 
 Example:
-    rails generate vue_app cloud_house/company 020412
+    rails generate cloud_object_tables cloud_house/company 020412
 
     This will generate:
         /engines/cloud_house/app/models/action.rb
