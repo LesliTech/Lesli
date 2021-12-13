@@ -22,29 +22,52 @@ require 'spec_helper'
 require 'byebug'
 
 
-RSpec.describe 'PUT:/administration/role_descriptors/4.json', type: :request do
+RSpec.describe 'PUT:/administration/role_descriptors/:id.json', type: :request do
     include_context 'user authentication'
 
     before(:all) do
-        @name = Faker::Lorem.word
-        @description = Faker::Lorem.paragraph
+        @role_descriptor = create(:role_descriptor, account: @user.account)
+        @new_data = attributes_for(:role_descriptor, account: @user.account)
 
-        put('/administration/role_descriptors/4.json', params: {
-            role_descriptor: {
-                name: @name,
-                description: @description
-            }
+        put("/administration/role_descriptors/#{@role_descriptor.id}.json", params: {
+            role_descriptor: @new_data
         })
     end
 
     include_examples 'successful standard json response'
 
     it 'is expected to update a role descriptor' do
-        expect(@response_body['data']['name']).to eql(@name)
-        expect(@response_body['data']['description']).to eql(@description)
+        expect(@response_body['data']['name']).to eql(@new_data[:name])
+        expect(@response_body['data']['description']).to eql(@new_data[:description])
     end
-
 end
+
+# RSpec.describe 'PUT:/administration/role_descriptors/:id.json', type: :request do
+#     include_context 'user authentication'
+
+#     before(:all) do
+#         @role_descriptor = create(:role_descriptor, account: @user.account)
+#         @new_data = attributes_for(:invalid_r_d, account: @user.account)
+
+#         put("/administration/role_descriptors/#{@role_descriptor.id}.json", params: {
+#             role_descriptor: @new_data
+#         })
+#     end
+
+#     include_examples 'error standard json response'
+
+#     it 'is expected to not update when params are nil or empty' do
+#         expect(@response_body).to have_key("error")
+#         expect(@response_body["error"]).to be_a(Hash)
+
+#         expect(@response_body["error"]).to have_key("message")
+#         expect(@response_body["error"]["message"]).to be_a(String)
+        
+#         expect(@response_body["error"]).to have_key("details")
+#         expect(@response_body["error"]["details"]).to be_an(Array)
+#     end
+# end
+
 
 RSpec.describe 'POST:/administration/role_descriptors/4/privilege_actions.json', type: :request do
     include_context 'user authentication'

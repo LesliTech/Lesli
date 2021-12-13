@@ -1,20 +1,39 @@
+=begin
+
+Copyright (c) 2021, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·
+
+=end
+
 class Account::LocationsController < ApplicationLesliController
     before_action :set_account_location, only: [:show, :update, :destroy]
- 
+
     # GET /locations
     def index
         respond_with_successful(Account::Location.list(current_user, @query))
     end
- 
+
     # POST /locations
     def create
         location = Account::Location.new(location_params)
         location.account = current_user.account
- 
+
         if location.save
             respond_with_successful(location)
         else
-            respond_with_error(locations.errors.full_messages.to_sentence)
+            respond_with_error(location.errors.full_messages.to_sentence)
         end
     end
 
@@ -29,7 +48,7 @@ class Account::LocationsController < ApplicationLesliController
             }
         end
     end
- 
+
     private
 
     # @return [void]
@@ -42,7 +61,7 @@ class Account::LocationsController < ApplicationLesliController
     def set_account_location
         @location = current_user.account.locations.find_by(id: params[:id])
     end
- 
+
     # Only allow a trusted parameter "white list" through.
     def location_params
         params.fetch(:location, {}).permit(
@@ -58,4 +77,3 @@ class Account::LocationsController < ApplicationLesliController
         )
     end
  end
- 
