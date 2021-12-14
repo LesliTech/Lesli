@@ -117,7 +117,7 @@ class OtpsController < ApplicationController
                 description: "user_agent: #{get_user_agent}, user_remote: #{request.remote_ip}"
             })
 
-            UserMailer.with(user: @user, token: raw).otp.deliver_now
+            UserMailer.with(user: @user, token: raw).otp_instructions.deliver_now
 
             respond_with_successful(raw)
 
