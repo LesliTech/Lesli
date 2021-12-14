@@ -1,10 +1,10 @@
 =begin
-    
+
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,8 +13,8 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-  
+// ·
+
 =end
 class Role::Activity < CloudObject::Activity
     belongs_to :role,           foreign_key: "roles_id"
@@ -38,15 +38,17 @@ class Role::Activity < CloudObject::Activity
     end
 
     def self.index(role, query)
+        filters = query[:filters]||{}
+
         activities = role
                     .activities
                     .select(
                         "role_activities.id",
-                        "role_activities.description", 
+                        "role_activities.description",
                         "role_activities.value_from",
                         "role_activities.value_to",
                         "role_activities.field_name",
-                        "role_activities.category",         
+                        "role_activities.category",
                         "concat(user_details.first_name, ' ', user_details.last_name) as user_creator_name",
                         "#{LC::Date.db_to_char("role_activities.created_at", "created_at_raw")}",
                         "role_activities.created_at as created_at"
@@ -59,17 +61,17 @@ class Role::Activity < CloudObject::Activity
                     )
                     .joins(user_creator: [:detail])
 
-        query_text = query[:filters][:text].downcase
+        query_text = filters[:text]&.downcase
 
         activities = activities.where("
-            lower(role_activities.description) similar to '%#{query_text}%' or  
-            lower(user_details.first_name) similar to '%#{query_text}%' or 
+            lower(role_activities.description) similar to '%#{query_text}%' or
+            lower(user_details.first_name) similar to '%#{query_text}%' or
             lower(user_details.last_name) similar to '%#{query_text}%'
-        ") if not query_text.blank?  
+        ") if not query_text.blank?
 
         activities = activities.where("
-            role_activities.category = ?", query[:filters][:text_category]
-        ) if not (query[:filters][:text_category]).blank?
+            role_activities.category = ?", filters[:text_category]
+        ) if not (filters[:text_category]).blank?
 
         activities = activities.page(query[:pagination][:page])
         .per(query[:pagination][:perPage])
@@ -77,7 +79,7 @@ class Role::Activity < CloudObject::Activity
 
         acitvities_count = activities.total_count
 
-        activities = activities.map do |activity|  
+        activities = activities.map do |activity|
             {
                 id: activity["id"],
                 created_at_raw: activity["created_at_raw"],
@@ -94,10 +96,10 @@ class Role::Activity < CloudObject::Activity
             activities_count: acitvities_count,
             activities: activities
         }
-    end 
+    end
 
     def self.translate_activity_field(field_name, category, description)
-        return "" if field_name.blank? 
+        return "" if field_name.blank?
 
         if (category == "action_create_descriptor_assignment" || category == "action_destroy_descriptor_assignment")
             return I18n.t(".core.role_descriptors.view_text_description_#{field_name}", default: field_name)
@@ -107,19 +109,19 @@ class Role::Activity < CloudObject::Activity
     end
 
     def self.translate_activity_value(value, category, field_name)
-        return "" if value.blank? 
+        return "" if value.blank?
 
         if (category == "action_create_descriptor_assignment" || category == "action_destroy_descriptor_assignment")
             return I18n.t("core.roles.view_text_enabled") if value == "t"
 
-            return I18n.t("core.roles.view_text_disabled") 
+            return I18n.t("core.roles.view_text_disabled")
         else
             case field_name
             when "object_level_permission"
                 value = "max" if value == "2147483647"
 
                 return I18n.t("core.roles.view_text_object_level_permission_#{value}_description")
-            else 
+            else
                 return value
             end
         end
@@ -127,14 +129,14 @@ class Role::Activity < CloudObject::Activity
 
     def self.translate_activity_category(category)
         new_category = I18n.t("core.roles.column_enum_category_#{category}", default: new_category)
-        
+
         new_category
     end
-    
+
     #######################################################################################
     ##############################  Activities Log Methods   ##############################
     #######################################################################################
-        
+
     def self.log_create_descriptor_assignment(current_user, role, descriptor_assignment)
         self.log_descriptor_assignment(current_user, role, descriptor_assignment, "action_create_descriptor_assignment")
     end
