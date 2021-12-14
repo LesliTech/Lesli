@@ -29,6 +29,9 @@ class Role < ApplicationLesliRecord
     after_create :generate_code
     before_create :init_default_path
 
+    validates :name, presence: :true
+    validates :object_level_permission, presence: :true
+
     def generate_code
         role_code = name
             .downcase                           # string to lowercase
