@@ -118,7 +118,7 @@ class PassesController < ApplicationController
                 description: "user_agent: #{get_user_agent},user_remote: #{request.remote_ip}"
             })
 
-            UserMailer.with(user: @user, token: raw).pass.deliver_now
+            UserMailer.with(user: @user, token: raw).pass_instructions.deliver_now
 
             respond_with_successful()
 
