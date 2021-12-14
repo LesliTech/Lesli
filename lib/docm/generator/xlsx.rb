@@ -51,7 +51,7 @@ module Docm
             #         data,
             #         style_data: XlsxReport::StyleService.daily_changes
             #     )
-            def self.generate(filename, xlsx_datasets, style_data: nil, pivote_table_data: nil, title: nil)
+            def self.generate(filename, xlsx_datasets, style_data: nil, pivote_table_data: nil, title: nil, summary: nil)
                 style_data = {styles: {}, sheets: [{rows: []}]} unless style_data
                 axlsx = Axlsx::Package.new
                 workbook = axlsx.workbook
@@ -79,7 +79,7 @@ module Docm
 
                     workbook.add_worksheet(:name => xlsx_data[0]) do |sheet|
 
-                        # If there is a tible, we add it between 2 empty lines
+                        # If there is a title, we add it between 2 empty lines
                         if title
                             sheet.add_row
                             
@@ -89,6 +89,20 @@ module Docm
                                 height: 25
                             )
                             sheet.merge_cells(sheet.rows.last.cells[(0..(title[:colspan] - 1))])
+
+                            sheet.add_row
+                        end
+
+                        # If there is a summary, we add it between 2 empty lines
+                        if summary
+                            sheet.add_row
+                            
+                            sheet.add_row(
+                                [summary[:text]].concat(Array.new(summary[:colspan]-1, "")),
+                                style: [style_data[:styles][:summary]].concat(Array.new(summary[:colspan]-1, nil)),
+                                height: 20
+                            )
+                            sheet.merge_cells(sheet.rows.last.cells[(0..(summary[:colspan] - 1))])
 
                             sheet.add_row
                         end
