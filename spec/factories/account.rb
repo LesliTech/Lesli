@@ -17,24 +17,9 @@ For more information read the license file including with this software.
 
 =end
 
-class LesliMailer < ApplicationLesliMailer
 
-    def simple
-        user = params[:user]
-        build_data_from_params(params)
-        mail(to: email_address_with_name(user.email, user.full_name), subject: "TEST: simple email")
+FactoryBot.define do
+    factory :account, class: "Account" do
+        company_name { Faker::Lorem.word }
     end
-
-    def multiple
-        user = params[:user]
-        
-        recipients = build_recipients_from_params(params)
-        mail(
-            subject: "welcome email",
-            bcc: recipients[:bcc], 
-            cc: recipients[:cc], 
-            to: recipients[:to]
-        )
-    end
-
 end

@@ -1,5 +1,6 @@
 =begin
-Copyright (c) 2021, all rights reserved.
+
+Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -16,20 +17,9 @@ For more information read the license file including with this software.
 
 =end
 
-# require "rails_helper"
-# require "spec_helper"
-# require "byebug"
 
-# RSpec.describe "GET:/administration/account/settings/options", type: :request do 
-
-#     include_context "user authentication"
-
-#     before(:all) do 
-#         # get "/administration/account/settings/options.json"
-#         puts @user.account.integrations.index
-#         @user.account.integrations.destroy_all
-#         puts @user.account.integrations.index
-#     end
-
-
-# end
+FactoryBot.define do
+    factory :system_controller, class: "SystemController" do
+        name { Faker::Lorem.word }
+    end
+end

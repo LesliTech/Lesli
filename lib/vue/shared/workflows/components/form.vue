@@ -719,7 +719,7 @@ export default {
                 </div>
             </div>
         </b-tab-item>
-        <b-tab-item :label="translations.workflows.view_btn_workflow_actions">
+        <b-tab-item :label="translations.workflows.view_btn_workflow_actions" v-if="viewType != 'new'">
             <div class="card">
                 <div class="card-content">
                     <component-action
@@ -732,7 +732,7 @@ export default {
                 </div>
             </div>
         </b-tab-item>
-        <b-tab-item :label="translations.workflows.view_tab_title_checks">
+        <b-tab-item :label="translations.workflows.view_tab_title_checks" v-if="viewType != 'new'">
             <div class="card">
                 <div class="card-content">
                     <component-check
@@ -745,7 +745,7 @@ export default {
                 </div>
             </div>
         </b-tab-item>
-        <b-tab-item :label="translations.workflows.view_btn_workflow_associations">
+        <b-tab-item :label="translations.workflows.view_btn_workflow_associations" v-if="viewType != 'new'">
             <div class="card">
                 <div class="card-content">
                     <component-association
@@ -758,7 +758,7 @@ export default {
                 </div>
             </div>
         </b-tab-item>
-        <b-tab-item :label="translations.core.view_tab_title_delete_section" v-if="! workflow.deletion_protection">
+        <b-tab-item :label="translations.core.view_tab_title_delete_section" v-if="viewType != 'new' && (! workflow.deletion_protection)">
             <div class="card">
                 <div class="card-content">
                     <h5 class="title is-5">{{translations.workflows.view_title_delete_workflow}}</h5>
