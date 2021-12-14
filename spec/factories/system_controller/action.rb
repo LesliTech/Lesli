@@ -1,6 +1,6 @@
 =begin
-    
-Copyright (c) 2021, all rights reserved.
+
+Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,16 +14,13 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-    
+
 =end
 
-class CloudMailerCampaignMailerPreview < ActionMailer::Preview
 
-    def campaign
-        CloudMailer::CampaignsMailer.with(
-            user: User.first,
-            campaign: CloudMailer::Campaign.first
-        ).campaign
+FactoryBot.define do 
+    factory :system_controller_action, class: "SystemController::Action" do
+        name { Faker::Lorem.word }
+        association :system_controller
     end
-
 end
