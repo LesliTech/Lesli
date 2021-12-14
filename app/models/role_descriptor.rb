@@ -27,7 +27,7 @@ class RoleDescriptor < ApplicationLesliRecord
 
     after_commit :clear_cache
 
-    validates_presence_of :name
+    validates :name, presence: :true
 
     def clear_cache
         Rails.cache.delete(user_cache_key('abilities_by_controller'))
