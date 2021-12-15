@@ -22,21 +22,21 @@ require 'spec_helper'
 require 'byebug'
 
 
-# RSpec.describe 'DELETE:/administration/roles.json', type: :request do
-#     include_context 'user authentication'
+RSpec.describe 'DELETE:/administration/roles.json', type: :request do
+    include_context 'user authentication'
 
-#     before(:all) do
-#         @role = create(:role, account: @user.account, object_level_permission: 10)
+    before(:all) do
+        @role = create(:role, account: @user.account, object_level_permission: 10)
 
-#         delete "/administration/roles/#{@role.id}.json"
-#     end
+        delete "/administration/roles/#{@role.id}.json"
+    end
 
-#     # include_examples "successful standard json response"
+    include_examples "successful standard json response"
 
-#     it "is expected to have deleted a role successfully" do
-#         expect(@response_body_data).to be_nil
-#     end
-# end
+    it "is expected to have deleted a role successfully" do
+        expect(@response_body_data).to be_nil
+    end
+end
 
 RSpec.describe 'DELETE:/administration/roles.json', type: :request do
     include_context 'user authentication'
@@ -55,7 +55,7 @@ RSpec.describe 'DELETE:/administration/roles.json', type: :request do
 
         expect(@response_body["error"]).to have_key("message")
         expect(@response_body["error"]["message"]).to be_a(String)
-        
+
         expect(@response_body["error"]).to have_key("details")
         expect(@response_body["error"]["details"]).to be_a(Array)
     end
