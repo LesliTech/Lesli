@@ -42,55 +42,55 @@ RSpec.describe 'POST:/administration/role_descriptors.json', type: :request do
 end
 
 
-# RSpec.describe 'POST:/administration/role_descriptors.json', type: :request do
-#     include_context 'user authentication'
+RSpec.describe 'POST:/administration/role_descriptors.json', type: :request do
+    include_context 'user authentication'
 
-#     before(:all) do
-#         @role_descriptor = attributes_for(:invalid_r_d, account: @user.account)
+    before(:all) do
+        @role_descriptor = attributes_for(:invalid_r_d, account: @user.account)
 
-#         post('/administration/role_descriptors.json', params: {
-#             role_descriptor: @role_descriptor
-#         })
-#     end
+        post('/administration/role_descriptors.json', params: {
+            role_descriptor: @role_descriptor
+        })
+    end
 
-#     include_examples 'error standard json response'
+    include_examples 'error standard json response'
 
-#     it "is expected to respond with error when params are nil" do
-#         expect(@response_body).to have_key("error")
-#         expect(@response_body["error"]).to be_a(Hash)
+    it "is expected to respond with error when params are nil" do
+        expect(@response_body).to have_key("error")
+        expect(@response_body["error"]).to be_a(Hash)
 
-#         expect(@response_body["error"]).to have_key("message")
-#         expect(@response_body["error"]["message"]).to be_a(String)
-        
-#         expect(@response_body["error"]).to have_key("details")
-#         expect(@response_body["error"]["details"]).to be_a(Array)
-#     end
-# end
+        expect(@response_body["error"]).to have_key("message")
+        expect(@response_body["error"]["message"]).to be_a(String)
 
-# RSpec.describe 'POST:/administration/role_descriptors.json', type: :request do
-#     include_context 'user authentication'
+        expect(@response_body["error"]).to have_key("details")
+        expect(@response_body["error"]["details"]).to be_a(Array)
+    end
+end
 
-#     before(:all) do
-#         @role_descriptor = attributes_for(:empty_str_r_d, account: @user.account)
+RSpec.describe 'POST:/administration/role_descriptors.json', type: :request do
+    include_context 'user authentication'
 
-#         post('/administration/role_descriptors.json', params: {
-#             role_descriptor: @role_descriptor
-#         })
-#     end
+    before(:all) do
+        @role_descriptor = attributes_for(:empty_str_r_d, account: @user.account)
 
-#     include_examples 'error standard json response'
+        post('/administration/role_descriptors.json', params: {
+            role_descriptor: @role_descriptor
+        })
+    end
 
-#     it "is expected to respond with error when params are empty strings" do
-#         expect(@response_body).to have_key("error")
-#         expect(@response_body["error"]).to be_a(Hash)
+    include_examples 'error standard json response'
 
-#         expect(@response_body["error"]).to have_key("message")
-#         expect(@response_body["error"]["message"]).to be_a(String)
-        
-#         expect(@response_body["error"]).to have_key("details")
-#         expect(@response_body["error"]["details"]).to be_a(Array)
-#     end
-# end
+    it "is expected to respond with error when params are empty strings" do
+        expect(@response_body).to have_key("error")
+        expect(@response_body["error"]).to be_a(Hash)
+
+        expect(@response_body["error"]).to have_key("message")
+        expect(@response_body["error"]["message"]).to be_a(String)
+
+        expect(@response_body["error"]).to have_key("details")
+        expect(@response_body["error"]["details"]).to be_a(Array)
+    end
+end
 
 RSpec.describe 'POST:/administration/role_descriptors.json', type: :request do
     before(:all) do

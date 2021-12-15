@@ -26,8 +26,8 @@ RSpec.describe "POST:/administration/role_descriptors/:id/privilege_actions.json
 
     include_context "user authentication"
 
-    before(:all) do   
-        @role_descriptor = create(:role_descriptor, account: @user.account) 
+    before(:all) do
+        @role_descriptor = create(:role_descriptor, account: @user.account)
         @privilege_action = attributes_for(:privilege_action, role_descriptors_id: @role_descriptor.id)
 
         post("/administration/role_descriptors/#{@role_descriptor.id}/privilege_actions.json", params: {
@@ -77,7 +77,7 @@ RSpec.describe "POST:/administration/role_descriptors/:id/privilege_actions.json
     include_context "user authentication"
 
     before(:all) do
-        @role_descriptor = create(:role_descriptor, account: @user.account) 
+        @role_descriptor = create(:role_descriptor, account: @user.account)
         @privilege_action = attributes_for(:invalid_privilege_action, role_descriptors_id: @role_descriptor.id)
 
         post("/administration/role_descriptors/#{@role_descriptor.id}/privilege_actions.json", params: {
