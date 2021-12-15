@@ -12,10 +12,7 @@ export default {
         engineNamespace: {
             required: true
         },
-        translationsPath: {
-            required: true,
-            type: String
-        },
+        
         statusesTranslationsPath: {
             required: true,
             type: String
@@ -39,16 +36,6 @@ export default {
             check_selected: false
         }
     },
-
-    mounted(){
-        this.setTranslations()
-    },
-
-    methods: {
-        setTranslations(){
-            this.$set(this.translations, 'main', I18n.t(this.translationsPath))
-        }
-    }
 }
 </script>
 <template>
@@ -60,7 +47,6 @@ export default {
                     :engine-namespace="engineNamespace"
                     :workflow-id="workflowId"
                     :check-selected.sync="check_selected"
-                    :translations-path="translationsPath"
                     :statuses-translations-path="statusesTranslationsPath"
                 >
                 </component-list>
@@ -69,7 +55,6 @@ export default {
                 <component-new
                     :engine-namespace="engineNamespace"
                     :workflow-id="workflowId"
-                    :translations-path="translationsPath"
                     :statuses-translations-path="statusesTranslationsPath"
                 >
                 </component-new>
@@ -78,7 +63,6 @@ export default {
                 <component-edit
                     :engine-namespace="engineNamespace"
                     :workflow-id="workflowId"
-                    :translations-path="translationsPath"
                     :statuses-translations-path="statusesTranslationsPath"
                 >
                 </component-edit>

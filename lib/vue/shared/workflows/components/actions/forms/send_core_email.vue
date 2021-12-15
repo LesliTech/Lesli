@@ -88,7 +88,6 @@ export default {
                 mailer: "::DeutscheLeibrentenMailer"
             }
             this.workflow_action = copy
-            console.log(JSON.stringify(this.workflow_action))
         },
 
         getUsers(){
