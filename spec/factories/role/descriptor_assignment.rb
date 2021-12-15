@@ -1,4 +1,5 @@
 =begin
+
 Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
@@ -15,5 +16,21 @@ For more information read the license file including with this software.
 // ·
 
 =end
-class RoleDescriptor::ActivitiesController < ApplicationLesliController
+
+
+
+FactoryBot.define do
+
+    factory :role_descriptor_assignment, class: "Role::DescriptorAssignment" do
+        category { Faker::Lorem.word }
+        roles_id { nil } # this params must be given in the test
+        role_descriptors_id { nil } # this params must be given in the test
+    end
+
+    factory :invalid_role_descriptor_assignment, class: "Role::DescriptorAssignment" do
+        category { nil }
+        roles_id { nil }
+        role_descriptors_id { nil }
+    end
+
 end
