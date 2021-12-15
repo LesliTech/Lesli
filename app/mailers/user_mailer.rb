@@ -92,7 +92,7 @@ class UserMailer < ApplicationLesliMailer
 
 
     #
-    def pass(template_name: "pass")
+    def pass_instructions(template_name: "pass")
         user = params[:user]
         token = params[:token]
         build_data_from_params(params, {
@@ -109,7 +109,7 @@ class UserMailer < ApplicationLesliMailer
     end
 
     #
-    def otp
+    def otp_instructions
         user = params[:user]
         build_data_from_params(params, {
                 token: params[:token],

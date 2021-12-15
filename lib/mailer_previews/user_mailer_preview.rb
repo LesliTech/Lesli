@@ -35,7 +35,7 @@ class UserMailerPreview < ActionMailer::Preview
     end
 
     def pass
-        UserMailer.with(user: User.first, token: "my_token").pass
+        UserMailer.with(user: User.first, token: "my_token").pass_instructions
     end
 
 end

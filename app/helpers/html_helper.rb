@@ -38,10 +38,18 @@ module HtmlHelper
     end
 
     def navigation_engine_item text, icon_path, path, is_active = false
+
+        # get hidden modules if there are modules to hide
+        modules_hidden = Rails.application.config.lesli.dig(:modules_hidden) || []
+
+        # stop rendering module navigation if need to hide the module
+        return nil if modules_hidden.include?(path)
+
+        # render module navigation item :) 
         content_tag(:a, :href => path, :class => is_active ? "is-active": nil) do
-            image_tag(icon_path) +
-                    content_tag(:span, text)
+            image_tag(icon_path) + content_tag(:span, text)
         end
+
     end
 
     # 00.00 System administration
