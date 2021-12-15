@@ -31,34 +31,42 @@ aside.application-sidebar {
     border-right: 1px solid rgba(lesli-css-color(slate, 100), .4);
     background-color: var(--app-theme-color-layout-sidebar);
 
-    nav li {
+    nav.menu {
+        ul.menu-list {
+            li {
 
-        a {
-            color: lesli-css-color-theme(secondary);
+                // submenu
+                ul {
+                    background-color: lighten(lesli-css-get-color(blue, 100), 15);
+                }
 
-            // highlight sidebar navigation item when selected
-            // highlight sidebar navigation item on hover
-            &.is-active,                    // rails routes
-            &.route-is-active,              // vue routes
-            &:not(.is-active):hover,        // rails routes
-            &:not(.route-is-active):hover   // vue routes
-            {
-                background-color: darken(#f3f7fd, 8);
-                color: lesli-css-color-theme(secondary);
-                i { color: lesli-css-color-theme(primary); }
+                a {
+                    color: lesli-css-color-theme(secondary);
+
+                    // highlight sidebar navigation item when selected
+                    // highlight sidebar navigation item on hover
+                    &.is-active,                    // rails routes
+                    &.route-is-active,              // vue routes
+                    &:not(.is-active):hover,        // rails routes
+                    &:not(.route-is-active):hover   // vue routes
+                    {
+                        background-color: darken(#f3f7fd, 8);
+                        color: lesli-css-color-theme(secondary);
+                        i { color: lesli-css-color-theme(primary); }
+                    }
+
+                    //
+                    i {
+                        color: lesli-css-color-theme(secondary);
+                    }
+
+                }
+
+                hr {
+                    border-top: 1px solid rgba(lesli-css-color-theme(secondary), .4);
+                }
+
             }
-
-            //
-            i {
-                color: lesli-css-color-theme(secondary);
-            }
-
         }
-
-        hr {
-            border-top: 1px solid rgba(lesli-css-color-theme(secondary), .4);
-        }
-
     }
-
 }
