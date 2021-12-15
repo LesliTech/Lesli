@@ -17,19 +17,13 @@ For more information read the license file including with this software.
     
 =end
 
-class LesliMailerPreview < ActionMailer::Preview
+class CloudMailerPreview < ActionMailer::Preview
 
-    def simple
-        LesliMailer.with(user: User.first).simple
-    end
-
-    def multiple
-        LesliMailer.with(
+    def campaign
+        CloudMailer::CampaignsMailer.with(
             user: User.first,
-            to: [User.find(1), User.find(2)],
-            cc: [User.find(3), User.find(4)],
-            bcc: [User.find(5), User.find(5)]
-        )
+            campaign: CloudMailer::Campaign.first
+        ).campaign
     end
 
 end

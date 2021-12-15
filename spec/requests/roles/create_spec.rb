@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -112,27 +112,28 @@ RSpec.describe 'POST:/administration/roles.json', type: :request do
     end
 end
 
-# RSpec.describe "POT:/administration/roles.json", type: :request do
-#     include_context 'user authentication'
+RSpec.describe "POST:/administration/roles.json", type: :request do
+    include_context 'user authentication'
 
-#     before(:all) do
-#         @user_role_level_max = @user.roles.map(&:object_level_permission).max()
-#         @role = attributes_for(:invalid_role, account: @user.account, object_level_permission: nil) # the rest of params are nil
-#         post("/administration/roles.json", params: {
-#             role: @role
-#         })
-#     end
+    before(:all) do
+        @user_role_level_max = @user.roles.map(&:object_level_permission).max()
+        @role = attributes_for(:invalid_role, account: @user.account, object_level_permission: nil) # the rest of params are nil
 
-#     include_examples 'error standard json response'
+        post("/administration/roles.json", params: {
+            role: @role
+        })
+    end
 
-#     it "is expected to respond with error when params are nil" do
-#         expect(@response_body).to have_key("error")
-#         expect(@response_body["error"]).to be_a(Hash)
+    include_examples 'error standard json response'
 
-#         expect(@response_body["error"]).to have_key("message")
-#         expect(@response_body["error"]["message"]).to be_a(String)
-        
-#         expect(@response_body["error"]).to have_key("details")
-#         expect(@response_body["error"]["details"]).to be_a(Array)
-#     end
-# end
+    it "is expected to respond with error when params are nil" do
+        expect(@response_body).to have_key("error")
+        expect(@response_body["error"]).to be_a(Hash)
+
+        expect(@response_body["error"]).to have_key("message")
+        expect(@response_body["error"]["message"]).to be_a(String)
+
+        expect(@response_body["error"]).to have_key("details")
+        expect(@response_body["error"]["details"]).to be_a(Array)
+    end
+end

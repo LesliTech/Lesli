@@ -47,7 +47,7 @@ namespace :app do
                         description: "pass_for_initial_login_link"
                     })
 
-                    UserMailer.with(user: user, token: raw).pass(template_name: "first_access").deliver_now
+                    UserMailer.with(user: user, token: raw).pass_instructions(template_name: "first_access").deliver_now
                 else
                     user.logs.create({
                         title: "pass_creation_error",
