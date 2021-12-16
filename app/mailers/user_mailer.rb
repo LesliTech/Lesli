@@ -35,6 +35,22 @@ class UserMailer < ApplicationLesliMailer
         )
     end
 
+    
+    def first_access
+        user = params[:user]
+        token = params[:token]
+        build_data_from_params(params, {
+                url: "/pass?t=#{token}",
+                user: {
+                    full_name: user.full_name
+                }
+        })
+        mail(
+            to: email_address_with_name(user.email, user.full_name),
+            subject: I18n.t("core.passes.mailer_login_link_instructions")
+        )
+    end
+
 
     # Send confirmation instruction email with the link and token to validate the account
     def invitation_instructions
@@ -92,7 +108,7 @@ class UserMailer < ApplicationLesliMailer
 
 
     #
-    def pass_instructions(template_name: "pass")
+    def pass_instructions
         user = params[:user]
         token = params[:token]
         build_data_from_params(params, {
@@ -103,10 +119,10 @@ class UserMailer < ApplicationLesliMailer
         })
         mail(
             to: email_address_with_name(user.email, user.full_name),
-            subject: I18n.t("core.passes.mailer_login_link_instructions"),
-            template_name: template_name
+            subject: I18n.t("core.passes.mailer_login_link_instructions")
         )
     end
+
 
     #
     def otp_instructions
