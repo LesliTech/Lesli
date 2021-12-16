@@ -22,8 +22,6 @@ require 'spec_helper'
 require 'byebug'
 
 RSpec.describe "GET:/administration/profile/subscriptions/options.json", type: :request do
-    let(:notification_types) { CloudObject::Subscriber.notification_types }
-
     include_context "user authentication"
 
     before(:all) { get "/administration/profile/subscriptions/options.json" }
@@ -43,7 +41,7 @@ RSpec.describe "GET:/administration/profile/subscriptions/options.json", type: :
     it "is expected to respond with a section of notification types" do
         expect(@response_body_data).to have_key("notification_types")
         expect(@response_body_data["notification_types"]).to be_a(Hash)
-        expect(@response_body_data["notification_types"].keys.length).to eql(notification_types.keys.length) 
+        expect(@response_body_data["notification_types"].keys.length).to be > 0
     end
 end
 
