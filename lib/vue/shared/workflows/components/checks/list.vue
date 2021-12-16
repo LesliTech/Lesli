@@ -26,10 +26,6 @@ export default {
         engineNamespace: {
             required: true
         },
-        translationsPath: {
-            required: true,
-            type: String
-        },
         statusesTranslationsPath: {
             required: true,
             type: String
@@ -74,7 +70,6 @@ export default {
         },
 
         setTranslations(){
-            this.translations.main = I18n.t(this.translationsPath)
             this.translations.statuses = I18n.t(this.statusesTranslationsPath)
         },
 
