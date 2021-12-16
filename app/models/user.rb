@@ -45,6 +45,7 @@ class User < ApplicationLesliRecord
     has_many :requests,     foreign_key: "users_id"
     has_many :webpushes,    foreign_key: "users_id"
     has_many :shortcuts,    foreign_key: "users_id"
+    has_many :providers,    foreign_key: "users_id"
     has_many :activities,   foreign_key: "users_id"
     has_one  :integration,  foreign_key: "users_id"
     has_many :access_codes, foreign_key: "users_id"
@@ -645,49 +646,48 @@ class User < ApplicationLesliRecord
         user = User.find_by(email: auth_params.info.email)
 
         if user
-            user.provider = auth_params.provider
-            user.uid = auth_params.uid
-            user.save
+            user.providers.find_or_create_by({
+                provider: auth_params.provider,
+                uid: auth_params.uid
+            })
         else
-            user = User.find_by({
+            user_provider = User::Provider.find_by({
                 provider: auth_params.provider,
                 uid: auth_params.uid,
             })
+
+            user = user_provider.user if user_provider
 
             unless user
                 user = User.new({
                     active: true,
                     email: auth_params.info.email,
                     password: Devise.friendly_token,
-                    provider: auth_params.provider,
-                    uid: auth_params.uid,
                     detail_attributes: {
                         first_name: auth_params.info.first_name,
                         last_name: auth_params.info.last_name,
                     }
                 })
-            end
 
-            unless user.account
-                user.account = Account.first # TODO: change this
-            end
 
-            user.confirm
+                # if new account, launch account onboarding in another thread,
+                # so the user can continue with the registration process
+                Thread.new { UserRegistrationService.new(user).create_account } if user.account.blank?
 
-            if user.save
-                # role validation - if new user does not have any role assigned
-                if user.roles.blank?
+                user.confirm
 
-                    # assign limited role
-                    user.user_roles.create({ role: user.account.roles.find_by(:name => "limited") })
+                if user.save
 
+                    user.providers.create({
+                        provider: auth_params.provider,
+                        uid: auth_params.uid,
+                    })
+
+                    # saving logs with information about the creation of the user
+                    user.logs.create({ description: "user_created_at " + LC::Date.to_string_datetime(LC::Date.datetime) })
+
+                    User.log_activity_create(user, user)
                 end
-
-                # saving logs with information about the creation of the user
-                user.logs.create({ description: "user_created_at " + LC::Date.to_string_datetime(LC::Date.datetime) })
-                user.logs.create({ description: "user_created_with_role " + user.user_roles.first.roles_id.to_s })
-
-                User.log_activity_create(user, user)
             end
 
         end

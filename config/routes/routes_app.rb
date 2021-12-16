@@ -111,6 +111,10 @@ module RoutesApp
 
                         # shortcuts
                         resources :shortcuts, only: [:index, :create, :update, :destroy]
+
+                        # auth providers
+                        resources :providers, only: []
+
                     end
 
                     # user helper resources

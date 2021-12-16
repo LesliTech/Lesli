@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -17,9 +17,15 @@ For more information read the license file including with this software.
 
 =end
 
-class AlterUsers < ActiveRecord::Migration[6.1]
+class CreateUserProviders < ActiveRecord::Migration[6.1]
     def change
-        add_column :users, :provider, :string
-        add_column :users, :uid, :string
+        create_table :user_providers do |t|
+            t.string :provider
+            t.string :uid
+
+            t.datetime :deleted_at, index: true
+            t.timestamps
+        end
+        add_reference :user_providers, :users, foreign_key: true
     end
 end

@@ -49,7 +49,7 @@ class Users::OmniauthController < Devise::OmniauthCallbacksController
 
             default_path = user.roles.first&.default_path
 
-            if user.account.onboarding? && user.has_roles?("owner")
+            if user.account&.onboarding? && user.has_roles?("owner")
                 default_path = "/onboarding"
             end
 
