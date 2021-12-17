@@ -28,10 +28,6 @@ export default {
         engineNamespace: {
             required: true
         },
-        translationsPath: {
-            required: true,
-            type: String
-        },
         statusesTranslationsPath: {
             required: true,
             type: String
@@ -48,7 +44,6 @@ export default {
         <component-form
             :workflow-id="workflowId"
             :engine-namespace="engineNamespace"
-            :translations-path="translationsPath"
             :statuses-translations-path="statusesTranslationsPath"
             view-type="edit"
         >
