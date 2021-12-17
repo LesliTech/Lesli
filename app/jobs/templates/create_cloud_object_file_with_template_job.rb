@@ -36,7 +36,7 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
         # fetch data of cloud_object query
         query[:fields] = query[:fields].join(",")
         data = cloud_object.template_data(query)
-        
+
         #looking for method calls
         document_mappings.find_all {|mapping| mapping.variable_type == Template::Variable.variable_types[:method]}.each do |document_map|
             if ((defined? ("#{document_map["table_name"]}.#{document_map["table_alias"]}"||"").constantize) == "method" ) # validate if method is defined
@@ -52,7 +52,7 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
                 end
             end
         end
-        
+
         return if data.blank?
 
         #download file from s3
@@ -81,15 +81,15 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
                     value = LC::Currency.format(data[variable["name"].downcase])
                 else
                     value = data[variable["name"].downcase]
-                end     
+                end
             end
-            
-            xml_replace!(doc_template.instance_variable_get(:@document_content), "$$#{variable["name"]}", value)
+
+            xml_replace!(doc_template.instance_variable_get(:@document_content), "${#{variable["name"]}}", value)
         end
 
         tmp_file = File.new("#{Rails.root}/tmp/templates/#{document.name}", "w")
         doc_template.commit(tmp_file.path)
-        
+
         cloud_object_file = cloud_object.files.new(
             name: document.name,
             file_type: file_type,
