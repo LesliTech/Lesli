@@ -26,7 +26,7 @@ class Template::DocumentsController < ApplicationLesliController
 @example
     # Executing this controller's action from javascript's frontend
     let ticket_id = 1;
-    this.http.get(`127.0.0.1/panel/template/documents.json`);
+    this.http.get(`127.0.0.1/administration/template/documents.json`);
 =end
     def index
         respond_to do |format|
@@ -48,7 +48,7 @@ class Template::DocumentsController < ApplicationLesliController
 @example
     # Executing this controller's action from javascript's frontend
     let template_document_id = 1;
-    this.http.get(`127.0.0.1/panel/template/documents${template_document_id}.json`);
+    this.http.get(`127.0.0.1/administration/template/documents${template_document_id}.json`);
 =end
     def show
         respond_to do |format|
@@ -87,27 +87,33 @@ class Template::DocumentsController < ApplicationLesliController
             model_type: "CloudHouse::Company"
         }
     };
-    this.http.post(`127.0.0.1/panel/template/documents.json`, data);
+    this.http.post(`127.0.0.1/administration/template/documents.json`, data);
 =end
     def create
         file_name = params[:file][:attachment].original_filename.gsub(/\s+/, " ")
 
         document_variables = Template::Document.extract_text(params[:file][:attachment])
 
-        template_document = current_user.account.template.documents.create(
+        if (document_variables.blank?)
+            return respond_with_error(I18n.t("core.template/documents.error_document_without_variables"))
+        end
+
+        template_document = current_user.account.template.documents.new(
             name: file_name,
             model_type: params[:model_type]
         )
 
-        file_path = "storage/core/template/documents/#{template_document.id}-#{(file_name||"").gsub(/\s+/, "-")}"
-
-        if (document_variables.any?)
+        if (template_document.save)
             Template::Document.scan_variables(current_user, template_document, document_variables)
+
+            file_path = "storage/core/template/documents/#{template_document.id}-#{(file_name||"").gsub(/\s+/, "-")}"
+
+            Template::Document.upload_file(template_document, file_path, params[:file][:attachment])
+
+            respond_with_successful(template_document)
+        else
+            respond_with_error(template_document.errors.full_messages.to_sentence)
         end
-
-        Template::Document.upload_file(template_document, file_path, params[:file][:attachment])
-
-        respond_with_successful()
     end
 
 =begin
@@ -126,14 +132,16 @@ class Template::DocumentsController < ApplicationLesliController
     };
     let template_document_id = 1
 
-    this.http.put(`127.0.0.1/panel/template/documents/${template_document_id}.json`, data);
+    this.http.put(`127.0.0.1/administration/template/documents/${template_document_id}.json`, data);
 =end
     def update
         return respond_with_not_found unless @template_document
 
         document_variables = Template::Document.extract_text(params[:file][:attachment])
 
-        if (document_variables.any?)
+        if (document_variables.blank?)
+            return respond_with_error(I18n.t("core.template/documents.error_document_without_variables"))
+        else
             Template::Document.scan_variables(current_user, @template_document, document_variables)
         end
 
@@ -150,7 +158,7 @@ class Template::DocumentsController < ApplicationLesliController
         # Executing this controller's action from javascript's frontend
         let template_document_id = 1
 
-        this.http.delete(`127.0.0.1/panel/template/documents/${template_document_id}.json`, data);
+        this.http.delete(`127.0.0.1/administration/template/documents/${template_document_id}.json`, data);
 =end
     def destroy
         return respond_with_not_found unless @template_document
@@ -180,7 +188,7 @@ class Template::DocumentsController < ApplicationLesliController
         }
     };
     let template_document_id = 1
-    this.http.post(`127.0.0.1/panel/template/documents/${template_document_id}.json`, data);
+    this.http.post(`127.0.0.1/administration/template/documents/${template_document_id}.json`, data);
 =end
     def generate
         set_template_document
@@ -202,7 +210,7 @@ class Template::DocumentsController < ApplicationLesliController
     including the list of companies and contacts.
 @example
     # Executing this controller's action from javascript's frontend
-    this.http.get(`127.0.0.1/panel/template/documents/options.json`);
+    this.http.get(`127.0.0.1/administration/template/documents/options.json`);
 =end
     def options
         respond_with_successful(Template::Document.options)
