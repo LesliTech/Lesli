@@ -15,5 +15,6 @@ For more information read the license file including with this software.
 // ·
 
 =end
-class User::ProvidersController < ApplicationLesliController
+class User::AuthProvider < ApplicationLesliRecord
+    belongs_to :user, foreign_key: "users_id"
 end
