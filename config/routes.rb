@@ -32,7 +32,7 @@ Rails.application.routes.draw do
         :confirmations => "users/confirmations",
         :passwords => "users/passwords",
         :sessions => "users/sessions",
-        :omniauth_callbacks => "users/omniauth",
+        :omniauth_callbacks => "users/oauth",
     }
 
     get :language, to: "application#switch_locale"
