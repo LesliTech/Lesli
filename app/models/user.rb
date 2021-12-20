@@ -39,16 +39,17 @@ class User < ApplicationLesliRecord
 
 
     # users has activities and personal settings
-    has_many :logs,         foreign_key: "users_id", inverse_of: :user
-    has_many :settings,     foreign_key: "users_id"
-    has_many :sessions,     foreign_key: "users_id"
-    has_many :requests,     foreign_key: "users_id"
-    has_many :webpushes,    foreign_key: "users_id"
-    has_many :shortcuts,    foreign_key: "users_id"
-    has_many :providers,    foreign_key: "users_id"
-    has_many :activities,   foreign_key: "users_id"
-    has_one  :integration,  foreign_key: "users_id"
-    has_many :access_codes, foreign_key: "users_id"
+    has_many :logs,             foreign_key: "users_id", inverse_of: :user
+    has_many :settings,         foreign_key: "users_id"
+    has_many :sessions,         foreign_key: "users_id"
+    has_many :requests,         foreign_key: "users_id"
+    has_many :webpushes,        foreign_key: "users_id"
+    has_many :shortcuts,        foreign_key: "users_id"
+    has_many :activities,       foreign_key: "users_id"
+    has_one  :integration,      foreign_key: "users_id"
+    has_many :access_codes,     foreign_key: "users_id"
+    has_many :auth_providers,   foreign_key: "users_id"
+
     has_many :user_roles,               foreign_key: "users_id",    class_name: "User::Role"
     has_many :roles,                    through: :user_roles,       source: :roles
 
@@ -643,53 +644,59 @@ class User < ApplicationLesliRecord
     #       if the user did not exist is created with the data received from the auth provider.
     def self.omniauth_registration(auth_params)
 
+        # find the user by email provided
         user = User.find_by(email: auth_params.info.email)
 
         if user
-            user.providers.find_or_create_by({
+            # set a new provider for and existent user
+            user.auth_providers.find_or_create_by({
                 provider: auth_params.provider,
                 uid: auth_params.uid
             })
-        else
-            user_provider = User::Provider.find_by({
-                provider: auth_params.provider,
-                uid: auth_params.uid,
+
+            return user
+        end
+
+        # find the user by provided uid
+        user_auth_provider = User::AuthProvider.find_by({
+            provider: auth_params.provider,
+            uid: auth_params.uid,
+        })
+
+        user = user_auth_provider.user if user_auth_provider
+
+        unless user
+
+            # create user with provided data
+            user = User.new({
+                active: true,
+                email: auth_params.info.email,
+                password: Devise.friendly_token,
+                detail_attributes: {
+                    first_name: auth_params.info.first_name,
+                    last_name: auth_params.info.last_name,
+                }
             })
 
-            user = user_provider.user if user_provider
+            # if new account, launch account onboarding in another thread,
+            # so the user can continue with the registration process
+            Thread.new { UserRegistrationService.new(user).create_account } if user.account.blank?
 
-            unless user
-                user = User.new({
-                    active: true,
-                    email: auth_params.info.email,
-                    password: Devise.friendly_token,
-                    detail_attributes: {
-                        first_name: auth_params.info.first_name,
-                        last_name: auth_params.info.last_name,
-                    }
+            user.confirm
+
+            if user.save
+
+                # create provider for this user
+                user.auth_providers.create({
+                    provider: auth_params.provider,
+                    uid: auth_params.uid,
                 })
 
+                # saving logs with information about the creation of the user
+                user.logs.create({ description: "user_created_at " + LC::Date.to_string_datetime(LC::Date.datetime) })
 
-                # if new account, launch account onboarding in another thread,
-                # so the user can continue with the registration process
-                Thread.new { UserRegistrationService.new(user).create_account } if user.account.blank?
-
-                user.confirm
-
-                if user.save
-
-                    user.providers.create({
-                        provider: auth_params.provider,
-                        uid: auth_params.uid,
-                    })
-
-                    # saving logs with information about the creation of the user
-                    user.logs.create({ description: "user_created_at " + LC::Date.to_string_datetime(LC::Date.datetime) })
-
-                    User.log_activity_create(user, user)
-                end
+                User.log_activity_create(user, user)
             end
-
         end
 
         user
