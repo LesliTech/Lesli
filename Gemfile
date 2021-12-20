@@ -126,6 +126,7 @@ gem "webpush", "= 1.1.0"
 # Social Login
 gem "omniauth"
 gem "omniauth-google-oauth2"
+gem "omniauth-facebook"
 
 group :development, :test do
 

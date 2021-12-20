@@ -30,7 +30,7 @@ class User < ApplicationLesliRecord
             :validatable,
             :confirmable,
             :trackable,
-            :omniauthable, omniauth_providers: [:google_oauth2]
+            :omniauthable, omniauth_providers: [:google_oauth2, :facebook]
 
 
     # users belongs to an account only and must have a role
@@ -642,7 +642,7 @@ class User < ApplicationLesliRecord
     # @return [User] User record.
     # @description This method find and update a user with external party authentication provider.
     #       if the user did not exist is created with the data received from the auth provider.
-    def self.omniauth_registration(auth_params)
+    def self.oauth_registration(auth_params)
 
         # find the user by email provided
         user = User.find_by(email: auth_params.info.email)

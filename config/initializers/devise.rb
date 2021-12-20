@@ -310,6 +310,10 @@ Devise.setup do |config|
         scope: 'email,profile'
     }
 
+    config.omniauth :facebook, Rails.application.credentials.dig(:providers, :facebook, :client_id), Rails.application.credentials.dig(:providers, :facebook, :client_secret), {
+        scope: 'email,public_profile'
+    }
+
 end
 
 
