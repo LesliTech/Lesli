@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 // ·
 
 =end
-class Users::OmniauthController < Devise::OmniauthCallbacksController
+class Users::OauthController < Devise::OmniauthCallbacksController
     include Application::Responder
     include Application::Logger
 
