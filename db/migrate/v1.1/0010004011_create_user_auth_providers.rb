@@ -17,15 +17,15 @@ For more information read the license file including with this software.
 
 =end
 
-class CreateUserProviders < ActiveRecord::Migration[6.1]
+class CreateUserAuthProviders < ActiveRecord::Migration[6.1]
     def change
-        create_table :user_providers do |t|
+        create_table :user_auth_providers do |t|
             t.string :provider
             t.string :uid
 
             t.datetime :deleted_at, index: true
             t.timestamps
         end
-        add_reference :user_providers, :users, foreign_key: true
+        add_reference :user_auth_providers, :users, foreign_key: true
     end
 end
