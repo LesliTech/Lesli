@@ -104,7 +104,7 @@ class RolesController < ApplicationLesliController
         role = current_user.account.roles.new(role_params)
 
         # check if user can work with that object level permission
-        if role.object_level_permission >= current_user.roles.map(&:object_level_permission).max()
+        if role.object_level_permission.to_f >= current_user.roles.map(&:object_level_permission).max()
             respond_with_error(I18n.t("core.roles.messages_danger_creating_role_object_level_permission_too_high"))
             return
         end
@@ -116,7 +116,7 @@ class RolesController < ApplicationLesliController
 
             role.initialize_role_privileges
         else
-            respond_with_error(role.errors.full_messages)
+            respond_with_error(role.errors.full_messages.to_sentence)
         end
     end
 
@@ -146,7 +146,7 @@ class RolesController < ApplicationLesliController
 
         # if user tries to change level of a role with a highest level he can work with
         if !role_params[:object_level_permission].blank?
-            if role_params[:object_level_permission] >= user_role_level_max && is_not_owner
+            if (role_params[:object_level_permission].to_f) >= user_role_level_max && is_not_owner
                 return respond_with_error(I18n.t("core.roles.messages_danger_updating_role_object_level_permission_too_high"))
             end
         end
@@ -316,7 +316,7 @@ class RolesController < ApplicationLesliController
     #     #    "name": "Admin",
     #     #}
     def role_params
-        params.require(:role).permit(
+        params.fetch(:role, {}).permit(
             :name,
             :active,
             :only_my_data,

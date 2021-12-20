@@ -27,7 +27,7 @@ export default {
             required: true
         },
 
-        translationsPath: {
+        statusesTranslationsPath: {
             required: true,
             type: String
         },
@@ -92,7 +92,7 @@ export default {
         },
 
         setTranslations(){
-            this.$set(this.translations, 'main', I18n.t(this.translationsPath))
+            this.$set(this.translations, 'statuses', I18n.t(this.statusesTranslationsPath))
         },
 
         getCheckOptions(){

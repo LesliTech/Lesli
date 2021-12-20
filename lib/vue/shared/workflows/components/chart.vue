@@ -94,7 +94,7 @@ export default {
             if(node.status_type == 'initial'){
                 icon = 'fas:fa-play-circle'
             }else if(node.status_type == 'completed_successfully'){
-                icon = 'fas:fa-times-circle'
+                icon = 'fas:fa-check-circle'
             }else if(node.status_type == 'completed_unsuccessfully'){
                 icon = 'fas:fa-times-circle'
             }else if(node.status_type == 'to_be_deleted'){
