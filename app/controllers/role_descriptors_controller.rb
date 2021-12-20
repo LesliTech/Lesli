@@ -1,9 +1,9 @@
 =begin
 Copyright (c) 2021, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -12,7 +12,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 class RoleDescriptorsController < ApplicationLesliController
@@ -26,14 +26,14 @@ class RoleDescriptorsController < ApplicationLesliController
     #@example
     #    # Executing this controller's action from javascript's frontend
     #    this.http.get(`127.0.0.1/administration/role descriptors`);
-    def list 
+    def list
         respond_to do |format|
-            format.json { 
-                respond_with_successful(RoleDescriptor.list(current_user, @query)) 
+            format.json {
+                respond_with_successful(RoleDescriptor.list(current_user, @query))
             }
         end
     end
-    
+
     #@return [HTML|JSON] HTML view for listing all role descriptors or a Json that contains a list of all role descriptors
     #    associated to this *account*
     #@description Retrieves and returns all role descriptors associated to a *CloudHouse::Account*. The account
@@ -78,7 +78,7 @@ class RoleDescriptorsController < ApplicationLesliController
     #     this.url.go('/role descriptors/new')
     def new
     end
-    
+
     # @return [HTML] HTML view for editing the role_descriptor
     # @description returns an HTML view with a form so users edit an existing role_descriptor
     # @example
@@ -101,15 +101,15 @@ class RoleDescriptorsController < ApplicationLesliController
     #     this.http.post('127.0.0.1/administration/role descriptors', data);
     def create
         role_descriptor = current_user.account.role_descriptors.new(role_descriptor_params)
-        
+
         # Validation for name restriction of default descriptors
-        if (["owner", "sysadmin", "profile"].include? role_descriptor[:name]) 
+        if (["owner", "sysadmin", "profile"].include? role_descriptor[:name])
             respond_with_error(I18n.t("core.role_descriptors.message_danger_reserved_name"))
         end
-        
+
         if role_descriptor.save
             respond_with_successful(role_descriptor)
-            
+
             RoleDescriptor::Activity.log_create(current_user, role_descriptor)
         else
             respond_with_error(role_descriptor.errors.full_messages.to_sentence)
@@ -133,18 +133,18 @@ class RoleDescriptorsController < ApplicationLesliController
         return respond_with_not_found unless @role_descriptor
 
         old_attributes = @role_descriptor.attributes
-        
+
         if @role_descriptor.update(role_descriptor_params)
             new_attributes = @role_descriptor.attributes
-            
+
             respond_with_successful(@role_descriptor.show(current_user, @query))
-            
+
             RoleDescriptor::Activity.log_update(current_user, @role_descriptor, old_attributes, new_attributes)
         else
             respond_with_error(@role_descriptor.errors.full_messages.to_sentence)
         end
     end
-    
+
     # @return [Json] Json that contains wheter the role_descriptor was successfully deleted or not.
     #     If it it not successful, it returns an error message
     # @description Deletes an existing *role_descriptor* associated to the *current_user*'s *account*.
@@ -155,10 +155,10 @@ class RoleDescriptorsController < ApplicationLesliController
     def destroy
         return respond_with_not_found unless @role_descriptor
         return respond_with_error(I18n.t("core.role_descriptors.messages_danger_cannot_delete_due_to_roles_assigned")) if @role_descriptor.has_roles_assigned?
-        
+
         if @role_descriptor.destroy
             respond_with_successful
-            
+
             RoleDescriptor::Activity.log_destroy(current_user, @role_descriptor)
         else
             respond_with_error(@role_descriptor.errors.full_messages.to_sentence)
@@ -196,9 +196,8 @@ class RoleDescriptorsController < ApplicationLesliController
     #     #    "name": "Admin",
     #     #}
     def role_descriptor_params
-        params.require(:role_descriptor).permit(
-            :id, 
-            :name, 
+        params.fetch(:role_descriptor, {}).permit(
+            :name,
             :description,
             :role_descriptors_id
         )

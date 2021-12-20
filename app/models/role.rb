@@ -21,13 +21,15 @@ class Role < ApplicationLesliRecord
 
     belongs_to :account,                foreign_key: "accounts_id"
 
-    has_many :privileges,               foreign_key: "roles_id",    class_name: "Privilege",          dependent: :delete_all
     has_many :activities,               foreign_key: "roles_id"
     has_many :descriptor_assignments,   foreign_key: "roles_id",    class_name: "DescriptorAssignment",  dependent: :delete_all
     has_many :privilege_actions,        through: :descriptor_assignments
 
     after_create :generate_code
     before_create :init_default_path
+
+    validates :name, presence: :true
+    validates :object_level_permission, presence: :true
 
     def generate_code
         role_code = name

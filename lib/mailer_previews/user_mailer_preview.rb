@@ -23,6 +23,14 @@ class UserMailerPreview < ActionMailer::Preview
         UserMailer.with(user: User.first).welcome
     end
 
+    def first_access
+        
+    end
+
+    def invitation_instructions
+        UserMailer.with(user: User.first).invitation_instructions
+    end
+
     def reset_password_instructions
         UserMailer.with(
             user: User.first, 
@@ -30,12 +38,12 @@ class UserMailerPreview < ActionMailer::Preview
         ).reset_password_instructions
     end
 
-    def invitation_instructions
-        UserMailer.with(user: User.first).invitation_instructions
+    def pass_instructions
+        UserMailer.with(user: User.first, token: "my_token").pass_instructions
     end
 
-    def pass
-        UserMailer.with(user: User.first, token: "my_token").pass
+    def otp_instructions
+        UserMailer.with(user: User.first, token: "my_token").otp_instructions
     end
 
 end
