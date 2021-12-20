@@ -23,6 +23,7 @@ class Users::OauthController < Devise::OmniauthCallbacksController
     # This is the callbacks controller. This controller will be handling the third-party redirects back to our application.
     # It is a Devise convention to create a controller method named as the authentication strategy, this means that there
     # will be a method for each authentication strategy.
+    # Reference: https://www.digitalocean.com/community/tutorials/integrating-social-login-in-a-ruby-on-rails-application
 
     # Google callback
     def google_oauth2
