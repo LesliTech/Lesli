@@ -20,11 +20,32 @@ class Users::OauthController < Devise::OmniauthCallbacksController
     include Application::Responder
     include Application::Logger
 
-    def google_oauth2
+    # This is the callbacks controller. This controller will be handling the third-party redirects back to our application.
+    # It is a Devise convention to create a controller method named as the authentication strategy, this means that there
+    # will be a method for each authentication strategy.
 
+    # Google callback
+    def google_oauth2
+        authenticate
+    end
+
+    # Facebook callback
+    def facebook
+        authenticate
+    end
+
+    def failure
+        redirect_to("/login")
+    end
+
+    protected
+
+    def authenticate
+
+        # The user data provided by the third-party is available in the request environment variable request.env['omniauth.auth'].
         auth_params = request.env['omniauth.auth']
 
-        user = User.omniauth_registration(auth_params)
+        user = User.oauth_registration(auth_params)
 
         unless user.persisted?
             return redirect_to(new_user_session_path)
@@ -67,10 +88,6 @@ class Users::OauthController < Devise::OmniauthCallbacksController
 
         redirect_to("/dashboard")
 
-    end
-
-    def failure
-        redirect_to("/login")
     end
 
 end
