@@ -113,7 +113,7 @@ module RoutesApp
                         resources :shortcuts, only: [:index, :create, :update, :destroy]
 
                         # auth providers
-                        resources :providers, only: []
+                        resources :auth_providers, only: []
 
                     end
 
