@@ -88,16 +88,14 @@ gem "aws-sdk-rails" # TODO: remove this and install only ses
 gem "rubyzip", "~> 2.3.0"
 gem 'zip-zip' #backward compatibility
 
-# files reader
-gem 'yomu'
-
 # Generate pdf
 gem "prawn"
 gem 'prawn-table'
 gem "combine_pdf"
 
 # Adding docx var support
-gem 'docx_replace'
+gem "docx_replace"
+gem "doc_ripper" # text extractor
 
 # Convert files to pdf
 gem "libreconv"
