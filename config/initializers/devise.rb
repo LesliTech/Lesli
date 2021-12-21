@@ -303,8 +303,19 @@ Devise.setup do |config|
     #    manager.failure_app = DeviseFailureApp
     #end
 
+
+    # Social Login middleware
+    config.omniauth :google_oauth2, Rails.application.credentials.dig(:providers, :google, :client_id), Rails.application.credentials.dig(:providers, :google, :client_secret), {
+        prompt: 'consent',
+        scope: 'email,profile'
+    }
+
+    config.omniauth :facebook, Rails.application.credentials.dig(:providers, :facebook, :client_id), Rails.application.credentials.dig(:providers, :facebook, :client_secret), {
+        scope: 'email,public_profile'
+    }
+
 end
-  
+
 
 
 module Devise
