@@ -18,15 +18,15 @@ For more information read the license file including with this software.
 =end
 
 
-require 'rails_helper'
+require 'lesli_request_helper'
 require 'spec_helper'   
 require 'byebug'
 
 
 RSpec.describe "PUT:/", type: :request do
-    include_context "user authentication"
+    include_context 'request user authentication'
 
-    before(:all) do
+    before do
         @password = Faker::Alphanumeric.alpha(number: 20)
 
         # valid params
@@ -39,14 +39,16 @@ RSpec.describe "PUT:/", type: :request do
         put "/", params: { user: @registration }
     end
 
-    include_examples "successful standard json response"
+    it "is expected to respond with successful standard json response" do
+        expect_json_response_successful
+    end
 end
 
 
 RSpec.describe "PUT:/", type: :request do
-    include_context "user authentication"
+    include_context 'request user authentication'
 
-    before(:all) do
+    before do
         @password = Faker::Alphanumeric.alpha(number: 20)
 
         # empty strings params
@@ -59,14 +61,16 @@ RSpec.describe "PUT:/", type: :request do
         put "/", params: { user: @registration }
     end
 
-    include_examples "error standard json response"
+    it "is expected to respond with error standard json response" do
+        expect_json_response_error
+    end
 end
 
 
 RSpec.describe "PUT:/", type: :request do
-    include_context "user authentication"
+    include_context 'request user authentication'
 
-    before(:all) do
+    before do
         @password = Faker::Alphanumeric.alpha(number: 20)
 
         # nil params
@@ -79,5 +83,7 @@ RSpec.describe "PUT:/", type: :request do
         put "/", params: { user: @registration }
     end
 
-    include_examples "error standard json response"
+    it "is expected to respond with error standard json response" do
+        expect_json_response_error
+    end
 end
