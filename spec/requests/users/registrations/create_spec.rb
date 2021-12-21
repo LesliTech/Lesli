@@ -18,7 +18,8 @@ For more information read the license file including with this software.
 =end
 
 
-require 'rails_helper'
+
+require 'lesli_request_helper'
 require 'spec_helper'   
 require 'byebug'
 
@@ -37,10 +38,12 @@ RSpec.describe "POST:/", type: :request do
         post "/", params: { user: @registration }
     end
 
-    include_examples "successful standard json response"
+    it "is expected to respond with successful standard json response" do
+        expect_json_response_successful
+    end
 
     it "is expected to register a new user through registrations controller" do
-        expect(@response_body_data).to be_nil
+        expect(response_data).to be_nil
     end
 
 end
@@ -58,15 +61,17 @@ RSpec.describe "POST:/", type: :request do
         post "/", params: { user: @registration }
     end
 
-    include_examples "error standard json response"
+    it "is expected to respond with error standard json response" do
+        expect_json_response_error
+    end
 
     it "is expected to respond with error when params to register are blank" do
-        expect(@response_body["error"]).to be_a(Hash)
-        expect(@response_body["error"]).to have_key("message")
-        expect(@response_body["error"]["message"]).to be_a(String)
+        expect(response_error).to be_a(Hash)
+        expect(response_error).to have_key("message")
+        expect(response_error["message"]).to be_a(String)
 
-        expect(@response_body["error"]).to have_key("details")
-        expect(@response_body["error"]["details"]).to be_an(Array)
+        expect(response_error).to have_key("details")
+        expect(response_error["details"]).to be_an(Array)
     end
 
 end
@@ -84,15 +89,17 @@ RSpec.describe "POST:/", type: :request do
         post "/", params: { user: @registration }
     end
 
-    include_examples "error standard json response"
+    it "is expected to respond with error standard json response" do
+        expect_json_response_error
+    end
 
     it "is expected to respond with error when params to register are nil" do
-        expect(@response_body["error"]).to be_a(Hash)
-        expect(@response_body["error"]).to have_key("message")
-        expect(@response_body["error"]["message"]).to be_a(String)
+        expect(response_error).to be_a(Hash)
+        expect(response_error).to have_key("message")
+        expect(response_error["message"]).to be_a(String)
 
-        expect(@response_body["error"]).to have_key("details")
-        expect(@response_body["error"]["details"]).to be_an(Array)
+        expect(response_error).to have_key("details")
+        expect(response_error["details"]).to be_an(Array)
     end
 
 end

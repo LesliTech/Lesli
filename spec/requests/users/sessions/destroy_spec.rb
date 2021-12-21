@@ -18,14 +18,14 @@ For more information read the license file including with this software.
 =end
 
 
-require 'rails_helper'
+require 'lesli_request_helper'
 require 'spec_helper'   
 require 'byebug'
 
 RSpec.describe "GET:/logout.json", type: :request do
-    include_context "user authentication"
+    include_context 'request user authentication'
 
-    before(:all) do
+    before do
         get "/logout.json"
     end
 

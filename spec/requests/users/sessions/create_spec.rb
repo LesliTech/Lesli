@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 =end
 
 
-require 'rails_helper'
+require 'lesli_request_helper'
 require 'spec_helper'   
 require 'byebug'
 
@@ -40,17 +40,19 @@ RSpec.describe "POST:/login.json", type: :request do
         post "/login.json", params: { user: { email: @new_user.email, password: @new_user.password } }
     end
 
-    include_examples "successful standard json response"
+    it "is expected to respond with successful standard json response" do
+        expect_json_response_successful
+    end
 
     it "is expected to respond with a user logged" do
-        expect(@response_body_data).to be_a(Hash)
+        expect(response_data).to be_a(Hash)
 
-        expect(@response_body_data).to have_key("default_path")
-        expect(@response_body_data["default_path"]).to be_a(String)
+        expect(response_data).to have_key("default_path")
+        expect(response_data["default_path"]).to be_a(String)
     end
 
     it "is expected that the default path is onboarding" do
-        expect(@response_body_data["default_path"]).to eql("/onboarding")
+        expect(response_data["default_path"]).to eql("/onboarding")
     end
 end
 
@@ -59,17 +61,19 @@ RSpec.describe "POST:/login.json", type: :request do
         post "/login.json", params: { user: { email: "", password: "" } }
     end
 
-    include_examples "error standard json response"
+    it "is expected to respond with error standard json response" do
+        expect_json_response_error
+    end
 
     it "is expected to respond with error when the credentials are invalid" do
-        expect(@response_body["error"]).to be_a(Hash)
-        expect(@response_body["error"]).to have_key("message")
-        expect(@response_body["error"]["message"]).to be_a(String)
+        expect(response_error).to be_a(Hash)
+        expect(response_error).to have_key("message")
+        expect(response_error["message"]).to be_a(String)
     end
 end
 
 RSpec.describe "POST:/login.json", type: :request do
-    include_context "user authentication"
+    include_context 'user authentication'
 
     before(:all) do
         post "/login.json", params: { user: { email: "", password: "" } }
