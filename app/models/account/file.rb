@@ -22,9 +22,9 @@ class Account::File < CloudObject::File
     enum file_type: {
         app_icon: "app_icon",
         app_logo: "app_logo",
-        favicon: "favicon"
+        favicon: "favicon",
+        template: "template"
     }
-
 
     belongs_to :account, foreign_key: "accounts_id"
     belongs_to :cloud_object, class_name: "::Account", foreign_key: "accounts_id"

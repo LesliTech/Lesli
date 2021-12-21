@@ -94,10 +94,10 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
                         value = LC::Currency.format(data[variable["name"].downcase])
                     else
                         value = data[variable["name"].downcase]
-                    end     
+                    end
                 end
-                
-                xml_replace!(doc_template.instance_variable_get(:@document_content), "$$#{variable["name"]}", value)
+
+                xml_replace!(doc_template.instance_variable_get(:@document_content), "${#{variable["name"]}}", value)
             end
 
             tmp_file = Tempfile.new(["#{object.id}-#{document.name}".split(".docx")[0], '.docx'], "#{Rails.root}/tmp/templates/")
