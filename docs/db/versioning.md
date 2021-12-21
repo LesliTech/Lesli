@@ -102,7 +102,7 @@ Explanation:
 
 3. Move the migration with a standard name.
 ```bash
-  mv db/migrate/20211029165345_create_user_shortcuts.rb db/v1.1/migrate/01000003911_create_user_shortcuts.rb
+  mv db/migrate/20211029165345_create_user_shortcuts.rb db/migrate/v1.1/01000003911_create_user_shortcuts.rb
 ```
 
 3. Create table
@@ -156,7 +156,7 @@ end
 
 2. Move the migration with a standard name.
 ```bash
-  mv db/migrate/20211029165321_alter_tests.rb db/v1.1/migrate/0100000111_alter_tests.rb
+  mv db/migrate/20211029165321_alter_tests.rb db/migrate/v1.1/0100000111_alter_tests.rb
 ```
 
 3. Add a new column.
@@ -181,7 +181,7 @@ Example:
 
 2. Rename the migration with a standard name
 ```bash
-  mv db/migrate/20211029165321_drop_tests.rb db/v1.2/migrate/0100000112_drop_tests.rb
+  mv db/migrate/20211029165321_drop_tests.rb db/migrate/v1.2/0100000112_drop_tests.rb
 ```
 
 3. Drop table
