@@ -25,10 +25,25 @@ module Workflow
             data = params[:data]
             options = params[:options]
 
+            data[:href] = "#{default_url_options[:host]}#{data[:href]}" if data[:href]
+
+            if options[:attachment_files]
+                options[:attachment_files].each do |file|
+                    if file.attachment && file.attachment_identifier
+                        attachments[file.attachment_identifier] = file.attachment.read
+                    elsif file.attachment_s3 && file.attachment_s3_identifier
+                        attachments[file.attachment_s3_identifier] = file.attachment_s3.read
+                    end
+                end
+            end
+
+            self.build_data_from_params(params, data)
+
             mail(
                 to: email_address_with_name(user["email"], (user["name"] || user["email"])), 
                 subject: subject,
-                options: options
+                options: options,
+                data: data
             )
         end
     end

@@ -83,7 +83,7 @@ class ApplicationLesliMailer < ActionMailer::Base
 
         @custom[:logo] = "#{instance_path}brand/app-logo.svg"
         
-        return if params[:user].blank?
+        return if params[:user].blank? || params[:user].class.name != "User"
 
         custom_logo = params[:user].account.files.where(file_type: "app_logo").last
 
@@ -105,7 +105,7 @@ class ApplicationLesliMailer < ActionMailer::Base
             tag_line: "",
         }
 
-        return if params[:user].blank?
+        return if params[:user].blank? || params[:user].class.name != "User"
 
         @app[:company] = {
             id: params[:user].account.id,
