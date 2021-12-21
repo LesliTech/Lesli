@@ -2,6 +2,7 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
     queue_as :default
 
     def perform(current_user, cloud_object, action, attachment_files: nil, custom_href: nil)
+        begin
             replacement_values = {
                 "%global_identifier%" => cloud_object.global_identifier,
                 "%user_reviewer%" => (cloud_object.user_reviewer ? cloud_object.user_reviewer.full_name : ""),
@@ -69,6 +70,15 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
                 category: "action_email_sent",
                 description: emails.join(", ")
             )
+        rescue StandardError => e
+            if action.configuration["log_errors"]
+                cloud_object.activities.create(
+                    user_creator: current_user,
+                    category: "action_workflow_action_failed",
+                    description: e.message
+                )
+            end
+        end
     end
 
     def send_email(user, action, input_data, href, attachment_files)
