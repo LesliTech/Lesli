@@ -647,10 +647,13 @@ class User < ApplicationLesliRecord
         # find the user by email provided
         user = User.find_by(email: auth_params.info.email)
 
+        auth_provider = auth_params.provider
+        auth_provider = "Google" if auth_params.provider == "google_oauth2"
+
         if user
             # set a new provider for and existent user
             user.auth_providers.find_or_create_by({
-                provider: auth_params.provider,
+                provider: auth_provider,
                 uid: auth_params.uid
             })
 
@@ -659,7 +662,7 @@ class User < ApplicationLesliRecord
 
         # find the user by provided uid
         user_auth_provider = User::AuthProvider.find_by({
-            provider: auth_params.provider,
+            provider: auth_provider,
             uid: auth_params.uid,
         })
 
@@ -688,7 +691,7 @@ class User < ApplicationLesliRecord
 
                 # create provider for this user
                 user.auth_providers.create({
-                    provider: auth_params.provider,
+                    provider: auth_provider,
                     uid: auth_params.uid,
                 })
 
