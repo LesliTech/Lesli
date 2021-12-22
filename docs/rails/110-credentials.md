@@ -21,6 +21,7 @@ __Credentials file structure:__
 ```
 RailsApp/config/credentials/development.yml  
 
+instance: "lesli-localhost"
 db:
     database: ""
     username: ""
@@ -51,6 +52,8 @@ providers:
     google:
         maps_sdk_token: ""
         analytics: track_id
+        client_id: ""
+        client_secret: ""
     firebase:
         api_key: ""
         admin_sdk_private_key:
@@ -71,6 +74,9 @@ providers:
             storageBucket: ""
             messagingSenderId: ""
             appId: ""
+    facebook:
+        client_id: ""
+        client_secret: ""
     honey_badger:
         api_key: ""
         personal_token: ""
@@ -87,6 +93,7 @@ secret_key_base: "your-secret-key-base"
 
 __Example for development:__
 ```
+instance: "lesli-localhost"
 db:
     database: "database_name"
     username: "database_user"
