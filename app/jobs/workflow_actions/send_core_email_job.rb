@@ -20,7 +20,7 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
             if defined? DeutscheLeibrenten
                 href = "/crm#{cloud_object.urn}"
             else
-                href = "/#{class_data[0].underscore().gsub("Cloud", "")}/#{cloud_object.urn}"
+                href = "/#{class_data[0].gsub("Cloud", "").underscore()}/#{cloud_object.urn}"
             end
 
             href = custom_href if custom_href 
@@ -70,7 +70,6 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
                 category: "action_email_sent",
                 description: emails.join(", ")
             )
-            
         rescue StandardError => e
             if action.configuration["log_errors"]
                 cloud_object.activities.create(
@@ -92,15 +91,10 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
         
         options = {}
         if attachment_files && attachment_files.length > 0
-            options[:attachment_files] = attachment_files 
+            options[:attachment_files] = attachment_files
         end
 
-        mailer.generic(
-            user["email"],
-            input_data["subject"],
-            data,
-            template: action.template_path,
-            options: options
-        ).deliver_now
+
+        Workflow::ActionMailer.with({user: user, subject: input_data["subject"], data: data, options: options}).generic.deliver_now
     end
 end
