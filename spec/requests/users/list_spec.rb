@@ -73,8 +73,7 @@ RSpec.describe "GET:/administration/users/list.json", type: :request do
         expect(response_data.first["roles"].first).to have_key("active")
         expect(response_data.first["roles"].first["active"]).to be_in([true, false])
 
-        expect(response_data.first["roles"].first).to have_key("default_path")
-        expect(response_data.first["roles"].first["default_path"]).to be_nil
+        expect(response_data.first["roles"].first).to have_key("default_path") # this prop is nil in some cases and in others string
 
         expect(response_data.first["roles"].first).to have_key("only_my_data")
         expect(response_data.first["roles"].first["only_my_data"]).to be_in([true, false])
