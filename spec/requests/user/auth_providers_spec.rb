@@ -1,24 +1,6 @@
-<p align="center">
-    <img width="200" alt="Lesli logo" src="./app/assets/images/lesli/brand/app-logo.svg" />
-</p>
+=begin
 
-<h3 align="center">Your Smart Business Assistant</h3>
-
-<hr/>
-
-Version 1.2.0
-
-
-#### Documentation
-* [Database](./docs/database.md)
-* [Environment setup](./docs/entironment-setup.md)
-* [Core resources](./docs/core-resources.md)
-
-
-
-#### License
--------
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -30,8 +12,14 @@ transmission, publication is strictly forbidden.
 
 For more information read the license file including with this software.
 
-<br>
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·
 
-<p align="center">
-    <img alt="Lesli logo" width="100" src="./app/assets/images/lesli/brand/app-icon.svg" />
-</p>
+=end
+
+require "rails_helper"
+require "spec_helper"
+require "byebug"
+
+RSpec.describe "/user/auth_providers", type: :request do
+end
