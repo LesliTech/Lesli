@@ -53,4 +53,24 @@ module ResponseHelpers
         expect(response_json["error"]).to have_key('message') 
     end
 
+    def expect_json_response_not_found
+        @@response_json = nil
+        expect(response).to have_http_status(:not_found)
+        expect(response.content_type).to eq("application/json; charset=utf-8")
+        expect(response_json).to have_key('successful') 
+        expect(response_json['successful']).to eql(false)
+        expect(response_json).to have_key('error') 
+        expect(response_json["error"]).to have_key('message') 
+    end
+
+    def expect_json_response_unauthorized
+        @@response_json = nil
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.content_type).to eq("application/json; charset=utf-8")
+        expect(response_json).to have_key('successful') 
+        expect(response_json['successful']).to eql(false)
+        expect(response_json).to have_key('error') 
+        expect(response_json["error"]).to have_key('message') 
+    end
+
 end
