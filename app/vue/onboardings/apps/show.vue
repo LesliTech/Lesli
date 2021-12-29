@@ -112,15 +112,17 @@ export default {
             }
 
             this.$buefy.dialog.confirm({
-                    title: this.translations.core.onboardings.view_text_skip_onboarding_title,
-                    message: this.translations.core.onboardings.view_text_skip_onboarding_body,
-                    cancelText: this.translations.core.shared.view_btn_cancel,
-                    confirmText: this.translations.core.shared.view_btn_accept,
-                    type: 'is-warning',
-                    onConfirm: () => {
-                        this.finishConfiguration(true)
-                    }
-                })
+                title: this.translations.core.onboardings.view_text_skip_onboarding_title,
+                message: this.translations.core.onboardings.view_text_skip_onboarding_body,
+                cancelText: this.translations.core.shared.view_btn_cancel,
+                confirmText: this.translations.core.shared.view_btn_accept,
+                type: 'is-warning',
+                onConfirm: () => {
+                    this.finishConfiguration(true)
+                }
+            })
+
+            this.msg.dialog.warning(this.translations.core.onboardings.view_text_skip_onboarding_title)
         }
     }
 
