@@ -14,7 +14,7 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 =end
-class VueAppGenerator < Rails::Generators::Base
+class VueGenerator < Rails::Generators::Base
     source_root File.expand_path('templates', __dir__)
     argument :model, type: :string
 
@@ -80,6 +80,7 @@ class VueAppGenerator < Rails::Generators::Base
 
             copy_file("apps/#{app}_vue.template", destination_path)
             gsub_file(destination_path, "%license%", @license)
+            gsub_file(destination_path, "%engine%", @app_data[:engine])
             gsub_file(destination_path, "%app_route%", @app_data[:route])
             gsub_file(destination_path, "%underscore_resource%", @app_data[:underscore_resource])
             gsub_file(destination_path, "%underscore_resources%", @app_data[:underscore_resource].pluralize)
@@ -108,6 +109,7 @@ class VueAppGenerator < Rails::Generators::Base
 
             copy_file("components/#{component}_vue.template", destination_path)
             gsub_file(destination_path, "%license%", @license)
+            gsub_file(destination_path, "%engine%", @app_data[:engine])
             gsub_file(destination_path, "%app_route%", @app_data[:route])
             gsub_file(destination_path, "%underscore_resource%", @app_data[:underscore_resource])
             gsub_file(destination_path, "%underscore_resources%", @app_data[:underscore_resource].pluralize)
@@ -132,7 +134,7 @@ class VueAppGenerator < Rails::Generators::Base
 =end
     def parse_engine_data
         base_path = ""
-        name_data = model.split("::")
+        name_data = model.split("/")
         if name_data[0] != "Core"
             base_path+= "engines/#{name_data[0]}/"
         end
@@ -163,7 +165,7 @@ class VueAppGenerator < Rails::Generators::Base
         underscore_resource = []
         camel_case_resource = []
         
-        name_data = model.split("::")
+        name_data = model.split("/")
         engine = name_data.shift
 
         name_data = name_data.each_with_index.map do |string, index|
@@ -198,7 +200,8 @@ class VueAppGenerator < Rails::Generators::Base
             underscore_resource: underscore_resource,
             camel_case_resource: camel_case_resource,
             snake_case_resource: snake_case_resource,
-            humanized_resource: humanized_resource
+            humanized_resource: humanized_resource,
+            engine: engine
         }
         
     end
