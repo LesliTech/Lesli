@@ -122,7 +122,6 @@ export default {
                 }
             })
 
-            this.msg.dialog.warning(this.translations.core.onboardings.view_text_skip_onboarding_title)
         }
     }
 
