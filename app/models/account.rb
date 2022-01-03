@@ -284,6 +284,14 @@ class Account < ApplicationRecord
             end
         end
 
+        if defined? CloudWork
+            if self.work.blank?
+                self.work = CloudWork::Account.new
+                self.work.account = self
+                self.work.save!
+            end
+        end
+
     end
 
     def initialize_account_for_instance
