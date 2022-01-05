@@ -124,7 +124,7 @@ class Account::Setting < ApplicationRecord
             end
         end
 
-        current_user.account.settings.where(query_filters.join(" or "))
+        current_user.account.settings.order(name: :asc).where(query_filters.join(" or "))
 
     end
 
