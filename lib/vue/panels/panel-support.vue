@@ -166,7 +166,7 @@ export default {
         </div>
 
         <div class="panel-content">
-            <template  v-if="tickets.length > 0">
+            <template  v-if="loading || tickets.length > 0">
                 <h6 class="title is-6">{{ translations.main.view_title_latest_tickets }}</h6>
                 <component-data-loading v-if="loading"></component-data-loading>
                 <component-data-empty v-if="! loading && tickets.length == 0"></component-data-empty>
