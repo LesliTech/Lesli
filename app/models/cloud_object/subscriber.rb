@@ -54,8 +54,11 @@ class CloudObject::Subscriber < ApplicationLesliRecord
     # @attribute [Enumerable<Symbol>] notification_type
     #     @return [:web, :email]
     enum notification_type: {
-        web: "web",
-        email: "email"
+        email: "email",                 # notification sent by email only
+        webpush: "webpush",             # notification for web interface only
+        mobilepush: "mobilepush",       # notification for mobile only
+        mobiledialog: "mobiledialog",   # open a dialog in the main app screen
+        push: "push",                   # webpush & mobilepush
     }
     validates :notification_type, presence: true, inclusion: { in: :notification_type }
 
