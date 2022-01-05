@@ -18,31 +18,22 @@ For more information read the license file including with this software.
 =end
 
 
-#
-require "./lib/tasks/lesli_tasks"
+require "./lib/tasks/lesli_rake"
 
 
-#
-class LesliCliRake < LesliTasks
+class LesliSystemRake < LesliRake
 
     def initialize
         namespace :lesli do
 
-            desc ""
-            task :system => :environment do |task, args|
+            namespace :system
 
-                ARGV.each { |a| task a.to_sym do ; end }
-    
-                action = ARGV[0]
-                
-                # validate action to be executed
-                ['status'].include?(action)
+                desc ""
+                task :status => :environment do |task, args|
 
-                # delete first element of array
-                params = ARGV.drop(1)
-                
-                # execute requested action
-                self.send(action, params)
+                    self.status
+
+                end
 
             end
 
@@ -82,4 +73,4 @@ end
 
 
 #
-LesliCliRake.new
+LesliSystemRake.new
