@@ -36,7 +36,7 @@ class Account::SettingsController < ApplicationLesliController
 
     # POST /settings
     def create
-        if params[:settings].blank?
+        if params[:settings].blank? || params[:settings].empty?
             return respond_with_error(I18n.t("core.shared.messages_danger_settings_field_empty"))
         end
 
@@ -47,6 +47,23 @@ class Account::SettingsController < ApplicationLesliController
             else
                 current_user.account.settings.create!(name: key, value: value)
             end
+        end
+
+        respond_with_successful
+    end
+
+    # PATCH/PUT /settings/
+    def update
+        if params[:settings].blank? || params[:settings].empty?
+            return respond_with_error(I18n.t("core.shared.messages_danger_settings_field_empty"))
+        end
+
+        setting = current_user.account.settings.find_by(name: params[:settings][:name])
+
+        if setting.present?
+            setting.update_attribute(:value, params[:settings][:value])
+        else
+            return respond_with_not_found
         end
 
         respond_with_successful
