@@ -1,6 +1,8 @@
 =begin
-    
-Copyright (c) 2021, all rights reserved.
+
+Lesli
+
+Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,16 +16,15 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-    
+
 =end
 
-class DeviseMailerPreview < ActionMailer::Preview
+namespace :app do
 
-    def confirmation_instructions
-        record = User.first
-        token = "abcdef12345"
-        opts = {}
-        DeviseMailer.confirmation_instructions(record, token, opts)
+    task maintenance: :environment do
+        Rake::Task["cloud_babel:scan"].invoke if defined?(CloudBabel)
+        Rake::Task["app:engines:initialize_account"].invoke 
+        Rake::Task["app:controllers:build"].invoke 
     end
 
 end
