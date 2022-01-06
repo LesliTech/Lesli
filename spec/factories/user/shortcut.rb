@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -20,20 +20,27 @@ For more information read the license file including with this software.
 
 FactoryBot.define do
 
-    # Valid role creation
-    factory :role, class: "Role" do
+    factory :shortcut, class: "User::Shortcut" do
         name { Faker::Lorem.word }
-        active { true }
-        object_level_permission { Faker::Number.number(digits: 4) }
-        accounts_id { FactoryBot.create(:account).id }
+        icon { Faker::Internet.url }
+        url { Faker::Internet.url }
+        engine_code { Faker::Lorem.word }
     end
 
-    # Invalid role
-    factory :invalid_role, class: "Role" do
-        name { nil }
-        active { nil }
-        object_level_permission { nil }
-        accounts_id { FactoryBot.create(:account) }
+    factory :invalid_shortcut, class: "User::Shortcut" do
+        name { "" }
+        icon { "" }
+        url { "" }
+        engine_code { "" }
     end
+
+    factory :shortcut_nil_params, class: "User::Shortcut" do
+        name { nil }
+        icon { nil }
+        url { nil }
+        engine_code { nil }
+    end
+
+
 
 end
