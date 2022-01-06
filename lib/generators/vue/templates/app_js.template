@@ -4,7 +4,7 @@
 
 // · Import main app from core
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import app from 'LesliCoreVue/app'
+import app from 'LesliVue/app'
 
 
 // · Import common apps
