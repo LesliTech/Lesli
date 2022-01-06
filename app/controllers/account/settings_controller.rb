@@ -36,7 +36,7 @@ class Account::SettingsController < ApplicationLesliController
 
     # POST /settings
     def create
-        if params[:settings].blank? || params[:settings].empty?
+        if params[:settings].blank?
             return respond_with_error(I18n.t("core.shared.messages_danger_settings_field_empty"))
         end
 
