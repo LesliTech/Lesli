@@ -25,6 +25,25 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 .application-panel-notification {
 
+    .lesli-notification {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid findLightColor($info);
+
+        .icon {
+            height: 100%;
+            padding: 0 1.0rem;
+            background-color: findLightColor($info);
+            i { color: $info; }
+        }
+
+        .details {
+            flex-grow: 1;
+            padding: 1rem;
+        }
+
+    }
+
     .message {
         margin-bottom: 0px;
         .message-body {

@@ -1,0 +1,17 @@
+{
+    "name": "lesli",
+    "description": "Enterprise cloud platform",
+    "license": "All rights reserved",
+    "private": true,
+    "devDependencies": {
+
+        "lesli-js": "0.1.1",
+        "lesli-css": "0.9.2"
+
+    },
+    "scripts": {
+        "webpack:production": "webpack --progress --env mode=production",
+        "webpack:watch": "webpack --progress --env watch=true",
+        "webpack": "webpack --progress --env mode=development"
+    }
+}

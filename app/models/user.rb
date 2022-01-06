@@ -29,7 +29,8 @@ class User < ApplicationLesliRecord
             :recoverable,
             :validatable,
             :confirmable,
-            :trackable
+            :trackable,
+            :omniauthable, omniauth_providers: [:google_oauth2, :facebook]
 
 
     # users belongs to an account only and must have a role
@@ -38,15 +39,17 @@ class User < ApplicationLesliRecord
 
 
     # users has activities and personal settings
-    has_many :logs,         foreign_key: "users_id", inverse_of: :user
-    has_many :settings,     foreign_key: "users_id"
-    has_many :sessions,     foreign_key: "users_id"
-    has_many :requests,     foreign_key: "users_id"
-    has_many :webpushes,    foreign_key: "users_id"
-    has_many :shortcuts,    foreign_key: "users_id"
-    has_many :activities,   foreign_key: "users_id"
-    has_one  :integration,  foreign_key: "users_id"
-    has_many :access_codes, foreign_key: "users_id"
+    has_many :logs,             foreign_key: "users_id", inverse_of: :user
+    has_many :settings,         foreign_key: "users_id"
+    has_many :sessions,         foreign_key: "users_id"
+    has_many :requests,         foreign_key: "users_id"
+    has_many :webpushes,        foreign_key: "users_id"
+    has_many :shortcuts,        foreign_key: "users_id"
+    has_many :activities,       foreign_key: "users_id"
+    has_one  :integration,      foreign_key: "users_id"
+    has_many :access_codes,     foreign_key: "users_id"
+    has_many :auth_providers,   foreign_key: "users_id"
+
     has_many :user_roles,               foreign_key: "users_id",    class_name: "User::Role"
     has_many :roles,                    through: :user_roles,       source: :roles
 
@@ -68,7 +71,7 @@ class User < ApplicationLesliRecord
     #   system user
     #   integration apps
     enum category: { user: "user", integration: "integration" }
-    
+
     # @return [void]
     # @description Before creating a user we make sure there is no capitalized email
     def initialize_user
@@ -146,7 +149,7 @@ class User < ApplicationLesliRecord
     #     actions = ["index", "update"]
     #
     #     current_user.has_privileges?(controllers, actions)
-    def has_privileges?(controllers, actions)         
+    def has_privileges?(controllers, actions)
 
         begin
 
@@ -183,26 +186,26 @@ class User < ApplicationLesliRecord
             # privilege action is on true the permission is granted.
             # This is possible by the union of the two previous queries
             granted = ActiveRecord::Base.connection.exec_query("
-                select 
+                select
                     bool_and(grouped_privileges.status) as value
                 from (
                     select
                         privilege_actions.controller,
                         privilege_actions.action,
-                        BOOL_OR(privilege_actions.status) as status 
+                        BOOL_OR(privilege_actions.status) as status
                     from (
                         #{sql_role_privile_actions}
                         union
                         #{sql_user_privilege_actions}
-                    ) AS privilege_actions  
+                    ) AS privilege_actions
                     group by (
                         controller,
                         action
-                    ) 
+                    )
                 ) AS grouped_privileges
             ")
             .first["value"]
-            
+
             return false if granted.blank?
 
             return granted
@@ -226,7 +229,7 @@ class User < ApplicationLesliRecord
         # Due this method is executed on every HTML request, we use low level cache to improve performance
         # It is not usual to the privileges to change so often, however the cache will be deleted
         # after every commit on roles, role descriptors and privileges
-        #Rails.cache.fetch(user_cache_key(abilities_by_controller, self), expires_in: 12.hours) do 
+        #Rails.cache.fetch(user_cache_key(abilities_by_controller, self), expires_in: 12.hours) do
 
             abilities = {}
 
@@ -633,6 +636,73 @@ class User < ApplicationLesliRecord
                 work_address: user.detail[:work_address]
             }
         }
+
+    end
+
+    # @return [User] User record.
+    # @description This method find and update a user with external party authentication provider.
+    #       if the user did not exist is created with the data received from the auth provider.
+    def self.oauth_registration(auth_params)
+
+        # find the user by email provided
+        user = User.find_by(email: auth_params.info.email)
+
+        auth_provider = auth_params.provider
+        auth_provider = "Google" if auth_params.provider == "google_oauth2"
+
+        if user
+            # set a new provider for and existent user
+            user.auth_providers.find_or_create_by({
+                provider: auth_provider,
+                uid: auth_params.uid
+            })
+
+            return user
+        end
+
+        # find the user by provided uid
+        user_auth_provider = User::AuthProvider.find_by({
+            provider: auth_provider,
+            uid: auth_params.uid,
+        })
+
+        user = user_auth_provider.user if user_auth_provider
+
+        unless user
+
+            # create user with provided data
+            user = User.new({
+                active: true,
+                email: auth_params.info.email,
+                password: Devise.friendly_token,
+                detail_attributes: {
+                    first_name: auth_params.info.first_name,
+                    last_name: auth_params.info.last_name,
+                }
+            })
+
+            # if new account, launch account onboarding in another thread,
+            # so the user can continue with the registration process
+            Thread.new { UserRegistrationService.new(user).create_account } if user.account.blank?
+
+            user.confirm
+
+            if user.save
+
+                # create provider for this user
+                user.auth_providers.create({
+                    provider: auth_provider,
+                    uid: auth_params.uid,
+                })
+
+                # saving logs with information about the creation of the user
+                user.logs.create({ description: "user_created_at " + LC::Date.to_string_datetime(LC::Date.datetime) })
+
+                User.log_activity_create(user, user)
+            end
+        end
+
+        user
 
     end
 

@@ -86,11 +86,11 @@ gem "aws-sdk-rails" # TODO: remove this and install only ses
 
 # Rubyzip to compress files
 gem "rubyzip", "~> 2.3.0"
-gem 'zip-zip' #backward compatibility
+gem "zip-zip" #backward compatibility
 
 # Generate pdf
 gem "prawn"
-gem 'prawn-table'
+gem "prawn-table"
 gem "combine_pdf"
 
 # Adding docx var support
@@ -112,16 +112,21 @@ gem "rack-cors"
 gem "sprockets", "< 4"
 
 # debugging tools
-gem "honeybadger", '~> 4.0'
+gem "honeybadger", "~> 4.0"
 
 gem "ruby_cowsay"
 
 # faster json parser library
-gem 'fast_jsonparser'
+gem "fast_jsonparser"
 
-gem 'active_record_union'
+gem "active_record_union"
 
 gem "webpush", "= 1.1.0"
+
+# Social Login
+gem "omniauth"
+gem "omniauth-google-oauth2"
+gem "omniauth-facebook"
 
 group :development, :test do
 
@@ -143,15 +148,15 @@ group :development, :test do
     gem "rspec-rails", "~> 4.0.0.beta2"
 
     # https://github.com/rspec/rspec-mocks
-    gem 'rspec-mocks', '~> 3.10'
+    gem "rspec-mocks", "~> 3.10"
 
     # Code coverage
     # https://github.com/simplecov-ruby/simplecov
-    gem 'simplecov', require: false
+    gem "simplecov", require: false
 
     # Code coverage stats in the console
     # https://github.com/chetan/simplecov-console
-    gem 'simplecov-console', require: false
+    gem "simplecov-console", require: false
 
     # Call "byebug" anywhere in the code to stop execution and get a debugger console
     gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
@@ -200,7 +205,7 @@ group :test do
 
     # FactoryBot
     # https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#configure-your-test-suite
-    gem 'factory_bot_rails'
+    gem "factory_bot_rails"
 end
 
 Lesli::engines.each do |engine|
