@@ -108,10 +108,12 @@ export default {
             </span>
         </div>
         <div
-            :class="['message', 'is-'+notification.category]"
+            :class="['lesli-notification', notification.category]"
             v-for="notification in notifications.records" :key="notification.id">
-
-            <div class="message-body">
+            <span class="icon">
+                <i class="fas fa-info-circle"></i>
+            </span>
+            <div class="details">
                 <strong>{{ notification.subject }}</strong>
                 <p>{{ notification.body }}</p>
                 <p class="has-text-grey-light is-size-7">
