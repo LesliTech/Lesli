@@ -26,7 +26,7 @@ class LesliSystemRake < LesliRake
     def initialize
         namespace :lesli do
 
-            namespace :system
+            namespace :system do
 
                 desc ""
                 task :status => :environment do |task, args|
