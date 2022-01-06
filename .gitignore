@@ -16,6 +16,7 @@ package-lock.json
 /log/*
 /tmp/*
 /public/tmp/*
+/RELEASES/*
 !/log/.keep
 !/tmp/.keep
 !/public/tmp/.gitkeep
