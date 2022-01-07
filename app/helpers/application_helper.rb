@@ -55,7 +55,7 @@ module ApplicationHelper
         if [
             "cloud_text", "cloud_house", "cloud_babel",
             "cloud_audit", "cloud_realty", "cloud_bell",
-            "cloud_mailer", "cloud_kb", "cloud_work"
+            "cloud_mailer", "cloud_kb"
         ].include?(cloud_module)
             return [cloud_module, [cloud_module, "app"].join("_")].join("/")
         end
@@ -73,7 +73,7 @@ module ApplicationHelper
         if [
             "cloud_text", "cloud_house", "cloud_babel",
             "cloud_audit", "cloud_realty", "cloud_bell",
-            "cloud_mailer", "cloud_kb", "cloud_work"
+            "cloud_mailer", "cloud_kb"
         ].include?(cloud_module)
             return [cloud_module, [cloud_module, "app"].join("_")].join("/")
         end
@@ -89,7 +89,10 @@ module ApplicationHelper
     end
 
     def is_lesli_engine_administration?
-        ["accounts", "account", "roles", "profiles", "users", "abouts", "settings", "cronos", "onboarding", "role_descriptors"].include?(lesli_engine)
+        [
+            "accounts", "account", "roles", "profiles", "users", "abouts", 
+            "settings", "cronos", "onboarding", "role_descriptors"
+        ].include?(lesli_engine)
     end
 
     def is_lesli_engine?(engine=nil)

@@ -25,7 +25,7 @@ FactoryBot.define do
         name { Faker::Lorem.word }
         active { true }
         object_level_permission { Faker::Number.number(digits: 4) }
-        accounts_id { FactoryBot.create(:account) }
+        accounts_id { FactoryBot.create(:account).id }
     end
 
     # Invalid role

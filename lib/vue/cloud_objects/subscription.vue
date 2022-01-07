@@ -24,9 +24,11 @@ export default {
             type: Array,
             default: ()=>{
                 return [
-                    'web',
-                    'push',
-                    'email'
+                    'email',
+                    'webpush',
+                    'mobilepush',
+                    'mobiledialog',
+                    'push'
                 ]
             }
         },
@@ -108,6 +110,7 @@ export default {
         },
 
         submitSubscription(subscription, show_alerts = true){
+            this.$set(subscription, 'submitting', true)
             if(subscription.id){
                 if(subscription.subscribed){
                     this.patchSubscription(subscription, show_alerts)
@@ -141,6 +144,9 @@ export default {
                 }
             }).catch(error => {
                 console.log(error)
+            }).finally(()=>{
+                this.$set(subscription, 'submitting', false)
+                this.reviewSubscriptions()
             })
         },
 
@@ -159,6 +165,9 @@ export default {
                 }
             }).catch(error => {
                 console.log(error)
+            }).finally(()=>{
+                this.$set(subscription, 'submitting', false)
+                this.reviewSubscriptions()
             })
         },
         
@@ -179,7 +188,27 @@ export default {
                 }
             }).catch(error => {
                 console.log(error)
+            }).finally(()=>{
+                this.$set(subscription, 'submitting', false)
+                this.reviewSubscriptions()
             })
+        },
+        
+        reviewSubscriptions(){
+            let subscribed = false
+            for(let i = 0; i < this.subscriptions.length; i++){
+                let subscription = this.subscriptions[i]
+                if(subscription.subscribed){
+                    subscribed = true
+                    break
+                }
+            }
+
+            if(subscribed){
+                this.$emit('subscribed')
+            }else{
+                this.$emit('unsubscribed')
+            }
         }
     },
 
@@ -220,112 +249,109 @@ export default {
         fullheight
         overlay
     >
-        <div class="sidebar-content">
-            <h5 class="title is-5">
-                <div class="columns">
-                    <div class="column is-11">
-                        {{translations.core.view_title_subscribers_manage_subscriptions}}
-                    </div>
-                    <div class="column is-1">
-                        <button type="button" class="delete" @click="() => data.global.show_panel_subscriptions = false">
-                        </button>
-                    </div>
-                </div>
-            </h5>
+
+        <div class="panel-title is-size-5">
+            <h4>
+                {{ translations.core.view_title_subscribers_manage_subscriptions }}
+            </h4>
+            <span class="icon is-large hover" @click="data.global.show_panel_subscriptions = false">
+                <i class="fas fa-lg fa-chevron-right"></i>
+            </span>
+        </div>
+
+        <div class="panel-content">
             <component-data-loading v-if="loading.subscriptions">
             </component-data-loading>
-            <div class="box is-shadowless" v-else>
-                <table class="table is-narrowed is-striped is-fullwidth">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <b-checkbox v-model="master_fields.subscribed">
-                                    {{translations.core.view_text_subscriptions_subscribe_to_all}}
-                                </b-checkbox>
-                            </td>
-                            <td>
-                                <b-field>
-                                    <b-select
-                                        expanded
-                                        v-model="master_fields.notification_type"
-                                        size="is-small"
+            <table v-else class="table is-narrowed is-striped is-fullwidth">
+                <tbody>
+                    <tr>
+                        <td>
+                            <b-checkbox v-model="master_fields.subscribed">
+                                {{translations.core.view_text_subscriptions_subscribe_to_all}}
+                            </b-checkbox>
+                        </td>
+                        <td>
+                            <b-field>
+                                <b-select
+                                    expanded
+                                    v-model="master_fields.notification_type"
+                                    size="is-small"
+                                >
+                                    <option
+                                        v-for="notification_type in allowedNotificationTypes"
+                                        :key="notification_type"
+                                        :value="notification_type"
                                     >
-                                        <option
-                                            v-for="notification_type in allowedNotificationTypes"
-                                            :key="notification_type"
-                                            :value="notification_type"
-                                        >
-                                            {{
-                                                object_utils.translateEnum(
-                                                    translations.subscriptions,
-                                                    'column_enum_notification_type',
-                                                    notification_type,
-                                                    null
-                                                ) || (
-                                                object_utils.translateEnum(
-                                                    translations.core,
-                                                    'column_enum_subscriptions_notification_type',
-                                                    notification_type
-                                                ))
-                                            }}
-                                        </option>
-                                    </b-select>
-                                </b-field>
-                            </td>
-                        </tr>
-                        <tr v-for="subscription in subscriptions" :key="subscription.event">
-                            <td>
-                                <b-checkbox v-model="subscription.subscribed" @change.native="submitSubscription(subscription)">
-                                    {{
-                                        object_utils.translateEnum(
-                                            translations.subscriptions,
-                                            'column_enum_action',
-                                            subscription.action,
-                                            null
-                                        ) || (
-                                        object_utils.translateEnum(
-                                            translations.core,
-                                            'column_enum_subscriptions_action',
-                                            subscription.action
-                                        ))
-                                    }}
-                                </b-checkbox>
-                            </td>
-                            <td>
-                                <b-field>
-                                    <b-select
-                                        @change.native="submitSubscription(subscription)"
-                                        size="is-small"
-                                        :placeholder="translations.core.view_placeholder_select_option"
-                                        expanded
-                                        v-model="subscription.notification_type"
+                                        {{
+                                            object_utils.translateEnum(
+                                                translations.subscriptions,
+                                                'column_enum_notification_type',
+                                                notification_type,
+                                                null
+                                            ) || (
+                                            object_utils.translateEnum(
+                                                translations.core,
+                                                'column_enum_subscriptions_notification_type',
+                                                notification_type
+                                            ))
+                                        }}
+                                    </option>
+                                </b-select>
+                            </b-field>
+                        </td>
+                    </tr>
+                    <tr v-for="subscription in subscriptions" :key="subscription.event">
+                        <td>
+                            <b-checkbox :disabled="subscription.submitting" v-model="subscription.subscribed" @change.native="submitSubscription(subscription)">
+                                {{
+                                    object_utils.translateEnum(
+                                        translations.subscriptions,
+                                        'column_enum_action',
+                                        subscription.action,
+                                        null
+                                    ) || (
+                                    object_utils.translateEnum(
+                                        translations.core,
+                                        'column_enum_subscriptions_action',
+                                        subscription.action
+                                    ))
+                                }}
+                            </b-checkbox>
+                        </td>
+                        <td>
+                            <b-field>
+                                <b-select
+                                    @change.native="submitSubscription(subscription)"
+                                    size="is-small"
+                                    :placeholder="translations.core.view_placeholder_select_option"
+                                    expanded
+                                    v-model="subscription.notification_type"
+                                >
+                                    <option
+                                        v-for="notification_type in allowedNotificationTypes"
+                                        :key="notification_type"
+                                        :value="notification_type"
                                     >
-                                        <option
-                                            v-for="notification_type in allowedNotificationTypes"
-                                            :key="notification_type"
-                                            :value="notification_type"
-                                        >
-                                            {{
-                                                object_utils.translateEnum(
-                                                    translations.subscriptions,
-                                                    'column_enum_notification_type',
-                                                    notification_type,
-                                                    null
-                                                ) || (
-                                                object_utils.translateEnum(
-                                                    translations.core,
-                                                    'column_enum_subscriptions_notification_type',
-                                                    notification_type
-                                                ))
-                                            }}
-                                        </option>
-                                    </b-select>
-                                </b-field>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                                        {{
+                                            object_utils.translateEnum(
+                                                translations.subscriptions,
+                                                'column_enum_notification_type',
+                                                notification_type,
+                                                null
+                                            ) || (
+                                            object_utils.translateEnum(
+                                                translations.core,
+                                                'column_enum_subscriptions_notification_type',
+                                                notification_type
+                                            ))
+                                        }}
+                                    </option>
+                                </b-select>
+                            </b-field>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </b-sidebar>
 </template>

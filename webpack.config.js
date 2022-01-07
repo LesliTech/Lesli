@@ -195,7 +195,7 @@ module.exports = env => {
     // exit configuration builder if no engines installed
     if (!fs.existsSync("./engines")) { return webpackConfig; }
 
-
+    
     // iterate over installed engines (only folders)
     let engines = fs.readdirSync("./engines")
     .filter(directory => directory != ".gitkeep")
@@ -237,6 +237,7 @@ module.exports = env => {
         }
 
         // include engine into the collections of active engines
+        console.log(engine_info.info.code, engine)
         return engine_info.info.code == engine
 
     })
@@ -267,7 +268,7 @@ module.exports = env => {
         if ([
                 "cloud_text", "cloud_house", "cloud_babel",
                 "cloud_audit","cloud_realty", "cloud_bell",
-                "cloud_mailer", "cloud_kb", "cloud_work"
+                "cloud_mailer", "cloud_kb"
             ].includes(engine)) {
 
             let filePath = "./"+path.join("./engines", engine, "app", "vue", "app.js")
