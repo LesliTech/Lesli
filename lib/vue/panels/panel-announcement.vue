@@ -204,7 +204,9 @@ export default {
                 
                 <fieldset :disabled="submitting">
 
-                    <b-field>
+                    <b-field
+                        :message="translations.bell.announcements.view_text_name_not_shown"
+                    >
                         <template v-slot:label>
                             {{translations.bell.announcements.column_name}} <sup class="has-text-danger">*</sup>
                         </template>
