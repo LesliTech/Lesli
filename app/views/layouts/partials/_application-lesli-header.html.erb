@@ -19,9 +19,8 @@ For more information read the license file including with this software.
 
 <application-component-header>
 
-
     <%# language selector %>
-    <% if I18n.available_locales.length > 1 %>
+    <% if I18n.available_locales.length > 1 && false %>
     <template v-slot:languages>
         <div class="dropdown is-hoverable header-language-selector">
             <div class="dropdown-trigger">
@@ -48,17 +47,6 @@ For more information read the license file including with this software.
     </template>
     <% end %>
 
-
-    <%# notifications icon indicator %>
-    <% if defined?(CloudBell) %>
-    <template v-slot:announcements v-if="abilities.privilege('announcements', 'cloud_bell')['create']">
-        <a class="navbar-item header-notification-indicator" @click="data.global.show_panel_announcement = true">
-            <i class="fas fa-bullhorn"></i>
-        </a>
-    </template>
-    <% end %>
-
-
     <%# tasks icon indicator %>
     <% if defined?(CloudFocus) %>
     <template v-slot:tasks>
@@ -81,6 +69,14 @@ For more information read the license file including with this software.
     </template>
     <% end %>
 
+    <%# announcements icon indicator %>
+    <% if defined?(CloudBell) %>
+    <template v-slot:announcements v-if="abilities.privilege('announcements', 'cloud_bell')['create']">
+        <a class="navbar-item header-notification-indicator" @click="data.global.show_panel_announcement = true">
+            <i class="fas fa-bullhorn"></i>
+        </a>
+    </template>
+    <% end %>
 
     <%# notifications icon indicator %>
     <% if defined?(CloudBell) %>
@@ -92,7 +88,6 @@ For more information read the license file including with this software.
         </a>
     </template>
     <% end %>
-
 
     <%# engines panel %>
     <template v-slot:engines>
@@ -106,12 +101,10 @@ For more information read the license file including with this software.
         </a>
     </template>
 
-
     <%# username %>
     <template v-slot:username>
     <%= current_user.full_name %>
     </template>
-
 
     <%# Custom header from builder engine %>
     <% custom_header_partial_path = "layouts/#{lesli_instance_code}/partials/application-header" %>
