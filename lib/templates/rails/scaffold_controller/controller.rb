@@ -6,7 +6,7 @@ require_dependency "<%= namespaced_path %>/application_controller"
 
 <% end -%>
 <% module_namespacing do -%>
-class <%= controller_class_name %>Controller < ApplicationLesliController
+class <%= controller_class_name %>Controller < ApplicationController
     before_action :set_<%= singular_table_name %>, only: [:show, :update, :destroy]
 
     # GET <%= route_url %>
