@@ -54,8 +54,23 @@ export default {
         }
     },
     
-    methods: {        
+    methods: {
+        emptyMessage() {
+            this.$buefy.dialog.confirm({
+                title: this.translations.bell.dialog_confirm_empty_message,
+                message: this.translations.bell.dialog_confirm_empty_question,
+                confirmText: this.translations.bell.dialog_confirm_empty_confirm_text,
+                type: 'is-danger',
+                hasIcon: true
+            })
+        },
+
         formSubmit() {
+            console.log(this.richText);
+            if (!this.richText || this.richText.length == 0) {
+                console.log("check");
+                this.emptyMessage();
+            }
             if (this.announcement.id) {
                 this.putAnnouncement()
             } else {
@@ -319,7 +334,7 @@ export default {
                     </div>
 
                     <div class="buttons">
-                        <b-button class="submit-button" type="is-primary" native-type="submit" :disabled="submitting">
+                        <b-button class="submit-button" type="is-primary" native-type="submit"  :disabled="submitting">
                             <span v-if="submitting">
                                 <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small">
                                 </b-icon>
