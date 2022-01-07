@@ -92,15 +92,20 @@ class Users::SessionsController < Devise::SessionsController
         # register a successful sign-in log for the current user
         resource.logs.create({ user_sessions_id: session[:user_session_id], title: "session_creation_successful" })
 
+        # get default path of role (if role has default path)
         default_path = resource.roles.first.default_path
 
+        # if first loggin for account owner send him to the onboarding page
         if current_user.account.onboarding? && current_user.has_roles?("owner")
             default_path = "/onboarding"
         end
 
-        respond_with_successful({
-            default_path: default_path
-        })
+        # respond successful and send the path user should go
+        respond_with_successful({ default_path: default_path })
+
+        # send a welcome email to user if first log in
+        UserMailer.with(user: resource).welcome.deliver_later if resource.sign_in_count == 1
+
     end
 
     def destroy
