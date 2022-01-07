@@ -27,7 +27,7 @@ class Users::OauthController < Devise::OmniauthCallbacksController
 
     # Google callback
     def google_oauth2
-        authenticate
+        authenticate("google_oauth2")
     end
 
     # Facebook callback
@@ -41,10 +41,20 @@ class Users::OauthController < Devise::OmniauthCallbacksController
 
     protected
 
-    def authenticate
+    def authenticate(session_source)
 
         # The user data provided by the third-party is available in the request environment variable request.env['omniauth.auth'].
-        auth_params = request.env['omniauth.auth']
+        omniauth_params = request.env['omniauth.auth']
+
+        auth_params = {
+            provider: omniauth_params.provider,
+            uid: omniauth_params.uid,
+            info: {
+                email: omniauth_params.info.email,
+                first_name: omniauth_params.info.first_name,
+                last_name: omniauth_params.info.last_name,
+            }
+        }
 
         user = User.oauth_registration(auth_params)
 
@@ -69,7 +79,7 @@ class Users::OauthController < Devise::OmniauthCallbacksController
         current_session = user.sessions.create({
             :user_agent => get_user_agent,
             :user_remote => request.remote_ip,
-            :session_source => "devise_standar_session",
+            :session_source => session_source,
             :last_used_at => LC::Date.now
         })
 
