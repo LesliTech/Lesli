@@ -1,9 +1,9 @@
 =begin
 Copyright (c) 2021, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -12,11 +12,11 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 class UserValidationService
-    
+
     def initialize(resource)
         @resource = resource
     end
@@ -59,8 +59,8 @@ class UserValidationService
 
             # if user is already registered
             password_settings = @resource.account.settings.where(password_values.join(" or "))
-            
-        else 
+
+        else
 
             # for new accounts just take the first account in the database
             password_settings = Account.first.settings.where(password_values.join(" or "))
@@ -84,7 +84,7 @@ class UserValidationService
                 # this regex removes all "normal" letters and numbers leaving special characters
                 if settings[:value].to_i > password.scan(/[^0-9A-Za-z]/).length
                     password_settings_errors.push('error_password_special_char_count')
-                end 
+                end
 
             end
 
@@ -93,7 +93,7 @@ class UserValidationService
 
                 if settings[:value].to_i > password_string_no_special.scan(/[^0-9A-Z]/).length
                     password_settings_errors.push('error_password_lowercase_count')
-                end 
+                end
 
             end
 
@@ -102,7 +102,7 @@ class UserValidationService
 
                 if settings[:value].to_i > password_string_no_special.scan(/[^0-9a-z]/).length
                     password_settings_errors.push('error_password_uppercase_count')
-                end 
+                end
 
             end
 
@@ -111,7 +111,7 @@ class UserValidationService
 
                 if settings[:value].to_i > password_string_no_special.scan(/[^A-Za-z]/).length
                     password_settings_errors.push('error_password_digit_count')
-                end 
+                end
 
             end
 
@@ -120,7 +120,7 @@ class UserValidationService
 
                 if settings[:value].to_i > password.length
                     password_settings_errors.push('error_password_minimum_length')
-                end 
+                end
 
             end
 
@@ -173,20 +173,15 @@ class UserValidationService
     def active_roles?
 
         # check user has at least one active role before authorize the sign-in request
-        @resource.roles.select(:active).each do |role|
-
-            break if role[:active]
-
+        unless (@resource.roles.map {|role| role.active}.include? true)
             @resource.logs.create({
                 title: "session_creation_failed",
                 description: "user_has_no_active_role"
             })
 
             return false
-
         end
 
         return true
-        
     end
 end
