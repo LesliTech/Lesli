@@ -30,6 +30,34 @@ module Application
             response_body[:data] = data
             render status: 200, json: response_body.to_json
         end
+
+        # Usage example
+        # tasks = Task
+        # .joins(:detail)
+        # .page(query[:pagination][:page])
+        # .per(query[:pagination][:perPage])
+        # 
+        # respond_with_successful_pagination(tasks)
+        #
+        # IMPORTANT: It is strictly necessary to use the pagination methods
+        #            to make this work properly
+        def respond_with_successful_pagination records
+
+            payload = {
+                :pagination => {
+                    :total_pages => records.current_page,
+                    :current_page => records.current_page,
+                    :count_total => records.total_count,
+                    :count_results => records.length
+                },
+                :records => records
+            }
+
+            response_body = { successful: true }
+            response_body[:payload] = payload
+            render status: 200, json: response_body.to_json
+
+        end
         
         # JSON failure response
         def respond_with_error message = "", details = []

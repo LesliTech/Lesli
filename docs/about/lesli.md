@@ -34,6 +34,7 @@ Currently we have planned the development of 45 modules, 24 modules are already 
 
 - 03 Productivity & Teamwork
     - 01. Driver: Unified calendar app
+    - 02. Work: Dynamic Project Management Assistant
     - 03. Focus: Task Management
     - 05. Text: Notes & Notebooks
     - 08. Bell: Notification system
