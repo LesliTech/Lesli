@@ -56,7 +56,7 @@ export default {
     
     methods: {
         emptyMessage() {
-            this.$buefy.dialog.confirm({
+            this.$buefy.dialog.alert({
                 title: this.translations.bell.dialog_confirm_empty_message,
                 message: this.translations.bell.dialog_confirm_empty_question,
                 confirmText: this.translations.bell.dialog_confirm_empty_confirm_text,
@@ -66,15 +66,14 @@ export default {
         },
 
         formSubmit() {
-            console.log(this.richText);
-            if (!this.richText || this.richText.length == 0) {
-                console.log("check");
+            if (!this.richText.html) {
                 this.emptyMessage();
-            }
-            if (this.announcement.id) {
-                this.putAnnouncement()
             } else {
-                this.postAnnouncement()
+                if (this.announcement.id) {
+                    this.putAnnouncement()
+                } else {
+                    this.postAnnouncement()
+                }
             }
         },
 
