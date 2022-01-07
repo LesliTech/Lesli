@@ -99,7 +99,7 @@ module HtmlHelper
     # PRODUCTIVITY & TEAMWORK
 
     # 03.01 Driver engine
-    def navigation_engine_driver text: "Calendar", icon_path: "cloud_driver/driver-logo.svg"
+    def navigation_engine_driver text: "Driver", icon_path: "cloud_driver/driver-logo.svg"
         unless defined? CloudDriver
             return ""
         end
@@ -107,7 +107,7 @@ module HtmlHelper
     end
 
     # 03.02 Work engine
-    def navigation_engine_work text: "Projects", icon_path: "cloud_work/work-logo.svg"
+    def navigation_engine_work text: "Work", icon_path: "cloud_work/work-logo.svg"
         unless defined? CloudWork
             return ""
         end

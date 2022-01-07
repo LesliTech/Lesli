@@ -18,6 +18,14 @@ For more information read the license file including with this software.
 %>
 
 
+<% content_for :application_custom_assets do %>
+<script>
+    setTimeout(() => { window.location.href = "/"; }, 10000)
+</script>
+<% end %>
+
+
+
 <% custom_app_page_clas = "#{ lesli_instance_code }-session".downcase %>
 <% custom_app_page_path = "#{ lesli_instance_code }/lesli/devise/confirmations/show" %>
 <% custom_app_page_exists = lookup_context.exists?(custom_app_page_path) %>
