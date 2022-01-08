@@ -214,13 +214,13 @@ Lesli::engines.each do |engine|
 
     if engine[:type] == "builder" || engine[:type] == "engine"
         engine_installation_path = File.expand_path("../engines/#{ engine[:code] }", __FILE__)
-        gem engine[:code], path: engine_installation_path if File.exists?(engine_installation_path)
+        #gem engine[:code], path: engine_installation_path if File.exists?(engine_installation_path)
         next
     end
 
     if engine[:type] == "gem"
         source "https://rubygems.pkg.github.com/leitfaden" do
-            gem engine[:code], engine[:version]
+            #gem engine[:code], engine[:version]
         end
     end
 end
