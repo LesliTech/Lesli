@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 
 
 require 'lesli_request_helper'
-require 'spec_helper'   
+require 'spec_helper'
 require 'byebug'
 
 
@@ -38,14 +38,24 @@ RSpec.describe "POST:/", type: :request do
         post "/", params: { user: @registration }
     end
 
-    it "is expected to respond with successful standard json response" do
-        expect_json_response_successful
-    end
+    if Rails.application.config.lesli_settings["security"]["allow_registration"]
+        it "is expected to respond with successful standard json response" do
+            expect_json_response_successful
+        end
 
-    it "is expected to register a new user through registrations controller" do
-        expect(response_data).to be_nil
-    end
+        it "is expected to register a new user through registrations controller" do
+            expect(response_data).to be_nil
+        end
+    else
+        it "is expected to respond with error standard json response" do
+            expect_json_response_error
 
+            expect(response_error).to be_a(Hash)
+            expect(response_error).to have_key("message")
+            expect(response_error["message"]).to be_a(String)
+            expect(response_error["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
+        end
+    end
 end
 
 RSpec.describe "POST:/", type: :request do
@@ -61,19 +71,29 @@ RSpec.describe "POST:/", type: :request do
         post "/", params: { user: @registration }
     end
 
-    it "is expected to respond with error standard json response" do
-        expect_json_response_error
+    if Rails.application.config.lesli_settings["security"]["allow_registration"]
+        it "is expected to respond with error standard json response" do
+            expect_json_response_error
+        end
+
+        it "is expected to respond with error when params to register are blank" do
+            expect(response_error).to be_a(Hash)
+            expect(response_error).to have_key("message")
+            expect(response_error["message"]).to be_a(String)
+
+            expect(response_error).to have_key("details")
+            expect(response_error["details"]).to be_an(Array)
+        end
+    else
+        it "is expected to respond with error standard json response" do
+            expect_json_response_error
+
+            expect(response_error).to be_a(Hash)
+            expect(response_error).to have_key("message")
+            expect(response_error["message"]).to be_a(String)
+            expect(response_error["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
+        end
     end
-
-    it "is expected to respond with error when params to register are blank" do
-        expect(response_error).to be_a(Hash)
-        expect(response_error).to have_key("message")
-        expect(response_error["message"]).to be_a(String)
-
-        expect(response_error).to have_key("details")
-        expect(response_error["details"]).to be_an(Array)
-    end
-
 end
 
 RSpec.describe "POST:/", type: :request do
@@ -89,17 +109,27 @@ RSpec.describe "POST:/", type: :request do
         post "/", params: { user: @registration }
     end
 
-    it "is expected to respond with error standard json response" do
-        expect_json_response_error
+    if Rails.application.config.lesli_settings["security"]["allow_registration"]
+        it "is expected to respond with error standard json response" do
+            expect_json_response_error
+        end
+
+        it "is expected to respond with error when params to register are nil" do
+            expect(response_error).to be_a(Hash)
+            expect(response_error).to have_key("message")
+            expect(response_error["message"]).to be_a(String)
+
+            expect(response_error).to have_key("details")
+            expect(response_error["details"]).to be_an(Array)
+        end
+    else
+        it "is expected to respond with error standard json response" do
+            expect_json_response_error
+
+            expect(response_error).to be_a(Hash)
+            expect(response_error).to have_key("message")
+            expect(response_error["message"]).to be_a(String)
+            expect(response_error["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
+        end
     end
-
-    it "is expected to respond with error when params to register are nil" do
-        expect(response_error).to be_a(Hash)
-        expect(response_error).to have_key("message")
-        expect(response_error["message"]).to be_a(String)
-
-        expect(response_error).to have_key("details")
-        expect(response_error["details"]).to be_an(Array)
-    end
-
 end

@@ -17,9 +17,9 @@ For more information read the license file including with this software.
 
 =end
 
-require "./lib/tasks/lesli_tasks"
+require "./lib/tasks/lesli_rake"
 
-class DevGithub < LesliTasks
+class DevGithub < LesliRake
     
 
     def initialize
