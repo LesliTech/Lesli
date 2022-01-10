@@ -98,9 +98,9 @@ export default {
         setMainRoute(){
             // Engines like mitwerken use root as namespace
             if(this.engineNamespace == '/'){
-                this.main_route = '/workflows'
+                this.main_route = 'workflows'
             }else{
-                this.main_route = `/${this.engineNamespace}/workflows`
+                this.main_route = `${this.engineNamespace}/workflows`
             }
         },
 
@@ -114,23 +114,22 @@ export default {
         getWorkflows(reset_current_page = true) {
             this.loading = true
 
-            let url = `${this.main_route}/list.json`
+            let filters = this.filters
 
-            let data = {
-                filters: this.filters,
-                perPage: this.pagination.per_page,
-                order: this.sorting.order,
-                orderColumn: this.sorting.field
-            }
             if(reset_current_page){
                 this.pagination.current_page = 1
-                data.filters.get_total_count = true
+                filters.get_total_count = true
             }else{
-                data.filters.get_total_count = false
+                filters.get_total_count = false
             }
-            data.page = this.pagination.current_page
 
-            this.http.post(url, data).then(result => {
+
+            let url = this.url.lesli(this.main_route)
+            .paginate(this.pagination.current_page, this.pagination.per_page)
+            .order(this.sorting.field, this.sorting.order)
+            .filters(filters)
+
+            this.http.get(url).then(result => {
                 this.loading = false
                 this.$emit('loading-done')
                 
