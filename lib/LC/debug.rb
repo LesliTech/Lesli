@@ -114,6 +114,10 @@ module LC
 
             return unless data.size > 0
 
+            if data.class.name == "ActiveRecord::Relation"
+                data = data.to_a.map(&:serializable_hash) 
+            end
+
             # get the available characters in terminal width
             terminal_width = `tput cols`.to_i
 
@@ -129,8 +133,8 @@ module LC
             # separator for every column and row
             separator = ('| ' << ('- ' * (col_width / 2)))
 
-            # add extra blank spaces to adjust the col_width
-            separator += (' ' * (separator.size - col_width))
+            # add extra blank spaces to adjust the col_width only if col_width not a even number
+            separator += (' ') if (col_width - separator.size).odd?
         
             # print data as table :)
             data.each_with_index do |row, index|
@@ -143,11 +147,13 @@ module LC
 
                     # print header separators, only for visible columns
                     puts separator * (cols - 1)
+
                 end 
     
                 # join hash values as a line and justify every value to print value
                 # in its own column
                 puts '| ' << row.values.map { |value| value.to_s.ljust(col_width) }.join('| ')
+
             end
 
         end
