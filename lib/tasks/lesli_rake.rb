@@ -24,7 +24,7 @@ require "./lesli"
 
 
 # 
-class LesliTasks
+class LesliRake
     include Rake::DSL
 
     # print a message with a cow character
