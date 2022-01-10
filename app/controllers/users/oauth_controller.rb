@@ -27,21 +27,6 @@ class Users::OauthController < Devise::OmniauthCallbacksController
 
     # Google callback
     def google_oauth2
-        authenticate("google_oauth2")
-    end
-
-    # Facebook callback
-    def facebook
-        authenticate
-    end
-
-    def failure
-        redirect_to("/login")
-    end
-
-    protected
-
-    def authenticate(session_source)
 
         # The user data provided by the third-party is available in the request environment variable request.env['omniauth.auth'].
         omniauth_params = request.env['omniauth.auth']
@@ -55,6 +40,40 @@ class Users::OauthController < Devise::OmniauthCallbacksController
                 last_name: omniauth_params.info.last_name,
             }
         }
+
+        authenticate(auth_params, "google_oauth2")
+
+    end
+
+    # Facebook callback
+    def facebook
+
+        # The user data provided by the third-party is available in the request environment variable request.env['omniauth.auth'].
+        omniauth_params = request.env['omniauth.auth']
+
+        first_name, last_name = omniauth_params.extra.raw_info.name.split(" ")
+
+        auth_params = {
+            provider: omniauth_params.provider,
+            uid: omniauth_params.uid,
+            info: {
+                email: omniauth_params.info.email,
+                first_name: first_name,
+                last_name: last_name,
+            }
+        }
+
+        authenticate(auth_params, "facebook")
+
+    end
+
+    def failure
+        redirect_to("/login")
+    end
+
+    protected
+
+    def authenticate(auth_params, session_source)
 
         user = User.oauth_registration(auth_params)
 
