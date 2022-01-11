@@ -24,7 +24,7 @@ class UserMailerPreview < ActionMailer::Preview
     end
 
     def first_access
-        
+        UserMailer.with(user: User.first, token: "my_token").first_access
     end
 
     def invitation_instructions
