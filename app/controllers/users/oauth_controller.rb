@@ -27,12 +27,44 @@ class Users::OauthController < Devise::OmniauthCallbacksController
 
     # Google callback
     def google_oauth2
-        authenticate
+
+        # The user data provided by the third-party is available in the request environment variable request.env['omniauth.auth'].
+        omniauth_params = request.env['omniauth.auth']
+
+        auth_params = {
+            provider: omniauth_params.provider,
+            uid: omniauth_params.uid,
+            info: {
+                email: omniauth_params.info.email,
+                first_name: omniauth_params.info.first_name,
+                last_name: omniauth_params.info.last_name,
+            }
+        }
+
+        authenticate(auth_params, "google_oauth2")
+
     end
 
     # Facebook callback
     def facebook
-        authenticate
+
+        # The user data provided by the third-party is available in the request environment variable request.env['omniauth.auth'].
+        omniauth_params = request.env['omniauth.auth']
+
+        first_name, last_name = omniauth_params.extra.raw_info.name.split(" ")
+
+        auth_params = {
+            provider: omniauth_params.provider,
+            uid: omniauth_params.uid,
+            info: {
+                email: omniauth_params.info.email,
+                first_name: first_name,
+                last_name: last_name,
+            }
+        }
+
+        authenticate(auth_params, "facebook")
+
     end
 
     def failure
@@ -41,10 +73,7 @@ class Users::OauthController < Devise::OmniauthCallbacksController
 
     protected
 
-    def authenticate
-
-        # The user data provided by the third-party is available in the request environment variable request.env['omniauth.auth'].
-        auth_params = request.env['omniauth.auth']
+    def authenticate(auth_params, session_source)
 
         user = User.oauth_registration(auth_params)
 
@@ -69,7 +98,7 @@ class Users::OauthController < Devise::OmniauthCallbacksController
         current_session = user.sessions.create({
             :user_agent => get_user_agent,
             :user_remote => request.remote_ip,
-            :session_source => "devise_standar_session",
+            :session_source => session_source,
             :last_used_at => LC::Date.now
         })
 
