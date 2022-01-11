@@ -20,6 +20,7 @@ For more information read the license file including with this software.
 class UserMailer < ApplicationLesliMailer
     include Devise::Controllers::UrlHelpers
 
+    # not used mailer
     def welcome
         user = params[:user]
         build_data_from_params(params, {
@@ -36,6 +37,7 @@ class UserMailer < ApplicationLesliMailer
     end
 
     
+    # not used mailer
     def first_access
         user = params[:user]
         token = params[:token]
@@ -45,10 +47,11 @@ class UserMailer < ApplicationLesliMailer
                     full_name: user.full_name
                 }
         })
+
         mail(
             to: email_address_with_name(user.email, user.full_name),
-            subject: I18n.t("core.passes.mailer_login_link_instructions")
-        )
+            subject: 'I18n.t("core.passes.mailer_login_link_instructions")'
+        ) 
     end
 
 
@@ -73,6 +76,7 @@ class UserMailer < ApplicationLesliMailer
     end
 
 
+    # not used mailer
     # Send confirmation instruction email with the link and token to validate the account
     def confirmation_instructions
         user = params[:user]

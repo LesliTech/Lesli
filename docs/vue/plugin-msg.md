@@ -97,3 +97,82 @@ Example:
     this.msg.success('Everything cool!')
 
 ```
+
+## Dialogs
+
+**info**
+
+* params:
+    * **String** title: Main title of dialog
+    * **String** message: Long text to add context to dialog
+* description: Show a dialog to interact with the user
+
+**example:**
+
+```html
+
+// Simple dialog 
+<button class="button is-info" v-on:click="msg.dialog.info('hola')">
+    test a simple dialog
+</button> 
+
+
+
+// Success dialog
+<button class="button is-success" v-on:click="msg.dialog.success('Good job!')">
+    test success dialog
+</button>
+
+// Success dialog with a message
+<button class="button is-success" v-on:click="msg.dialog.success('Good job!', 'You clicked the button!')">
+    test a dialog with a message
+</button>
+
+
+
+// Warning dialog 
+<button class="button is-warning" v-on:click="msg.dialog.warning('Are you sure?')">
+    test warning dialog
+</button>
+
+
+
+// Danger dialog 
+<button class="button is-danger" v-on:click="msg.dialog.error('Are you sure?')">
+    test a danger dialog
+</button>
+
+```
+
+**result:**
+
+// Simple dialog 
+<button class="button is-info" v-on:click="msg.dialog.info('hola')">
+    test a simple dialog
+</button> 
+
+
+
+// Success dialog
+<button class="button is-success" v-on:click="msg.dialog.success('Good job!')">
+    test success dialog
+</button>
+
+// Success dialog with a message
+<button class="button is-success" v-on:click="msg.dialog.success('Good job!', 'You clicked the button!')">
+    test a dialog with a message
+</button>
+
+
+
+// Warning dialog 
+<button class="button is-warning" v-on:click="msg.dialog.warning('Are you sure?')">
+    test warning dialog
+</button>
+
+
+
+// Danger dialog 
+<button class="button is-danger" v-on:click="msg.dialog.error('Are you sure?')">
+    test a danger dialog
+</button>
