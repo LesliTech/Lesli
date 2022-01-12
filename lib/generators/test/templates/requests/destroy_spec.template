@@ -30,7 +30,7 @@ RSpec.describe "DEL:[[url]]/:id.json", type: :request do
         expect_json_response_successful
 
         # custom expects
-        expect([[model]].find_by_id(@[[controller]].id)).to be_nil
+        expect([[model]].find_by(id: @[[controller]].id)).to be_nil
     end
 
     it "is expected to respond with not found when an invalid ID is sent" do

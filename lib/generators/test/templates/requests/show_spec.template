@@ -30,12 +30,12 @@ RSpec.describe "GET:[[url]]/:id.json", type: :request do
         expect_json_response_successful
 
         # custom examples
-        expect(@response_body["data"]).to eql([[model]].find_by_id(@[[controller]].id))
+        expect(response_data).to eql([[model]].find_by(id: @[[controller]].id))
 
         @[[controller]].attributes.each do |key, value|
             next if ["created_at", "updated_at"].include? key
 
-            expect(@response_body["data"][key.to_s]).to eq(value)
+            expect(response_data[key.to_s]).to eq(value)
         end
     end
 

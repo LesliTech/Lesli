@@ -23,12 +23,12 @@ RSpec.describe "GET:[[url]].json", type: :request do
         # shared examples
         expect_json_response_successful
 
-        #custom expects
-        expect(@response_body["data"]["[[controller]]_count"]).to eql([[model]].count)
+        # custom expects
+        expect(response_data.count).to eql([[model]].count)
     end
 
     it "is expected to redirect to login when no user is authenticated" do
-        login = "/login?=r[[url]].json"
+        login = "/login?r=[[url]].json"
 
         # we ensure that no one user is authenticated
         sign_out @current_user
