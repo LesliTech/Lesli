@@ -35,8 +35,6 @@ Rails app or engine/
 # include helper code  
 # spec_helper also includes support/shared context and support/shared examples
 require "lesli_request_helper"
-require "spec_helper"
-require "byebug"
 
 
 # Describe the test with the full api url for the controller
@@ -69,8 +67,6 @@ end
 # include helper code  
 # spec_helper also includes support/shared context and support/shared examples
 require "lesli_request_helper"
-require "spec_helper"
-require "byebug"
 
 
 # Describe the test with the full api url for the controller
@@ -121,8 +117,6 @@ end
 # include helper code  
 # spec_helper also includes support/shared context and support/shared examples
 require "lesli_request_helper"
-require "spec_helper"
-require "byebug"
 
 
 # Describe the test with the full api url for the controller
@@ -164,8 +158,6 @@ end
 # include helper code  
 # spec_helper also includes support/shared context and support/shared examples
 require "lesli_request_helper"
-require "spec_helper"
-require "byebug"
 
 
 # Describe the test with the full api url for the controller
