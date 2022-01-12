@@ -5,8 +5,6 @@
 
 
 require "lesli_request_helper"
-require "spec_helper"
-require "byebug"
 
 
 RSpec.describe "POST:[[url]].json", type: :request do
