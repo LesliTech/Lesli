@@ -177,9 +177,11 @@ RSpec.describe 'DELETE:/administration/users/:id.json', type: :request do
     # helper methods go here
     # You can add helper methods used to automate the tests if they are needed across examples
 
-    def create_record(record_params = {})
-        @user_record = User.new(record_params)
+    def create_record(record_params)
+        @user_record = @current_user.account.users.new(record_params)
         @user_record.save!
+        @user_record.confirm
+        @user_record
     end
 
     # test cases
@@ -187,7 +189,12 @@ RSpec.describe 'DELETE:/administration/users/:id.json', type: :request do
     # write specific tests for the controller
     it 'is expected to respond with successful' do
         # we use the helper method indicated above to create records
-        @user = create_record()
+        @password = Faker::Alphanumeric.alpha(number: 10)
+        @user = create_record({
+            email: Faker::Internet.email,
+            password: @password,
+            password_confirmation: @password
+        })
 
         # execute requests to the api
         delete "/administration/users/#{@user.id}.json"
@@ -203,7 +210,12 @@ RSpec.describe 'DELETE:/administration/users/:id.json', type: :request do
     it "is expected to respond with not found when and invalid ID is sent" do
         # we use the helper method indicated above to create records
         # this id does not exist in the database, so should return with not found
-        @invalid_id = create_record().id + 1
+        @password = Faker::Alphanumeric.alpha(number: 10)
+        @invalid_id = create_record({
+            email: Faker::Internet.email,
+            password: @password,
+            password_confirmation: @password
+        }).id + 1
 
         # execute requests to the api
         delete "/administration/users/#{@invalid_id}.json"

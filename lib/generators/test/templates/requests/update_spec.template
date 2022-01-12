@@ -14,15 +14,16 @@ RSpec.describe "PUT:[[url]]/:id.json", type: :request do
 
     # helper methods
 
-    def create_record(record_params = {})
-        @[[controller]]_record = [[model]].new(record_params)
+    def create_record(record_params)
+        @[[controller]]_record = @current_user.account.[[model]].new(record_params)
         @[[controller]]_record.save!
+        @[[controller]]_record
     end
 
     # test cases
 
     it "is expected to update record" do
-        @[[controller]] = create_record()
+        @[[controller]] = create_record({})
 
         @[[controller]]_params = {}
 
@@ -40,7 +41,7 @@ RSpec.describe "PUT:[[url]]/:id.json", type: :request do
     end
 
     it "is expected to respond with error when params are invalid" do
-        @[[controller]] = create_record()
+        @[[controller]] = create_record({})
 
         @[[controller]]_params = {}
 
@@ -53,7 +54,7 @@ RSpec.describe "PUT:[[url]]/:id.json", type: :request do
     end
 
     it "is expectd to respond with not found when an invalid ID is sent" do
-        @invalid_id = create_record().id + 1
+        @invalid_id = create_record({}).id + 1
 
         @[[controller]]_params = {}
 
@@ -66,7 +67,7 @@ RSpec.describe "PUT:[[url]]/:id.json", type: :request do
     end
 
     it "is expectd to redirect to login when no user is authenticated" do
-        login = "/login?r=[[url]]/0.json"
+        login = "/login"
 
         # we ensure that no one user is authenticated
         sign_out @current_user

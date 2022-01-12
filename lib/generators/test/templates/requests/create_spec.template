@@ -46,7 +46,7 @@ RSpec.describe "POST:[[url]].json", type: :request do
     end
 
     it "is expected to redirect to login when no user is authenticated" do
-        login = "/login?r=[[url]].json"
+        login = "/login"
         
         # we ensure that no one user is authenticated
         sign_out @current_user
