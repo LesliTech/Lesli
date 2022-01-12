@@ -2,25 +2,57 @@
 
 [[license]]
 =end
-require "rails_helper"
+
+
+require "lesli_request_helper"
 require "spec_helper"
 require "byebug"
 
 
 RSpec.describe "DEL:[[url]]/:id.json", type: :request do
-    include_context "user authentication"
+    include_context "request user authentication"
 
-    before(:all) do
-        @[[controller]] = [[model]].new()
-        @[[controller]].save
+    # helper methods
 
-        delete("[[url]]/#{@[[controller]].id}.json")
+    def create_record(record_params = {})
+        @[[controller]]_record = [[model]].new(record_params)
+        @[[controller]]_record.save!
     end
 
-    include_examples "successful standard json response"
+    # test cases
 
     it "is expected that the record has been removed from the database" do
-        expect([[model]].find_by_id(@[[controller]].id)).to eq(nil)
+        @[[controller]] = create_record()
+
+        delete("[[url]]/#{@[[controller]].id}.json")
+
+        # shared examples
+        expect_json_response_successful
+
+        # custom expects
+        expect([[model]].find_by_id(@[[controller]].id)).to be_nil
+    end
+
+    it "is expected to respond with not found when an invalid ID is sent" do
+        # this ID does not exist, so should return with not found
+        @invalid_id = create_record().id + 1
+
+        delete("[[url]]/#{@invalid_id}.json")
+        
+        # shared examples
+        expect_json_response_not_found
+    end
+
+    it "is expected to redirect to login when no user is authenticated" do
+        login = "/login?r=[[url]]/0.json"
+
+        # we ensure that no one user is authenticated
+        sign_out @current_user
+
+        delete("[[url]]/0.json")
+
+        # custom examples
+        expect(response).to redirect(login)
     end
 
 end
