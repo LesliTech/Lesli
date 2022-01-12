@@ -14,15 +14,16 @@ RSpec.describe "DEL:[[url]]/:id.json", type: :request do
 
     # helper methods
 
-    def create_record(record_params = {})
-        @[[controller]]_record = [[model]].new(record_params)
+    def create_record(record_params)
+        @[[controller]]_record = @current_user.account.[[model]].new(record_params)
         @[[controller]]_record.save!
+        @[[controller]]_record
     end
 
     # test cases
 
     it "is expected that the record has been removed from the database" do
-        @[[controller]] = create_record()
+        @[[controller]] = create_record({})
 
         delete("[[url]]/#{@[[controller]].id}.json")
 
@@ -35,7 +36,7 @@ RSpec.describe "DEL:[[url]]/:id.json", type: :request do
 
     it "is expected to respond with not found when an invalid ID is sent" do
         # this ID does not exist, so should return with not found
-        @invalid_id = create_record().id + 1
+        @invalid_id = create_record({}).id + 1
 
         delete("[[url]]/#{@invalid_id}.json")
         
@@ -44,7 +45,7 @@ RSpec.describe "DEL:[[url]]/:id.json", type: :request do
     end
 
     it "is expected to redirect to login when no user is authenticated" do
-        login = "/login?r=[[url]]/0.json"
+        login = "/login"
 
         # we ensure that no one user is authenticated
         sign_out @current_user
@@ -52,7 +53,7 @@ RSpec.describe "DEL:[[url]]/:id.json", type: :request do
         delete("[[url]]/0.json")
 
         # custom examples
-        expect(response).to redirect(login)
+        expect(response).to redirect_to(login)
     end
 
 end
