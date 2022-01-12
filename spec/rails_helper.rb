@@ -18,6 +18,7 @@ For more information read the license file including with this software.
 =end
 
 require 'spec_helper'
+require 'byebug'
 
 ENV['RAILS_ENV'] ||= 'test'
 
