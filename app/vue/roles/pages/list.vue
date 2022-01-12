@@ -157,20 +157,20 @@ export default {
         },
 
         deleteRole(role_id){
-            const url = this.url.admin('roles/:id', {id: role_id})
+            const url = this.url.admin('roles/:id', {id: role_id});
             
             this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.msg.success(this.translations.core.roles.notification_delete)
-                    
+                    this.msg.success(this.translations.core.roles.messages_success_role_deleted);
+
                     this.roles = this.roles.filter(e => {
-                        return e.id !== role_id
-                    })
+                        return e.id !== role_id;
+                    });
                 }else{
-                    this.msg.error(result.error.message)
-                }
+                    this.msg.error(result.error.message);
+                };
             }).catch(error => {
-                console.log(error)
+                console.log(error);
             })
         },
         
@@ -288,7 +288,7 @@ export default {
                                         <i class="fas fa-history"></i>
                                     </span>
                                 </b-dropdown-item>
-                                <b-dropdown-item@click.stop="deleteRole(props.row.id)" v-if="index_abilities.roles.destroy" class="has-text-right pr-4">
+                                <b-dropdown-item @click="deleteRole(props.row.id)" v-if="index_abilities.roles.destroy" class="has-text-right pr-4">
                                     {{ translations.core.roles.view_btn_delete }}
                                     <span class="icon">
                                         <i class="fas fa-trash"></i>
