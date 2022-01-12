@@ -8,6 +8,7 @@ require "lesli_request_helper"
 require "spec_helper"
 require "byebug"
 
+
 RSpec.describe "PUT:[[url]]/:id.json", type: :request do
     include_context "request user authentication"
 
@@ -34,7 +35,7 @@ RSpec.describe "PUT:[[url]]/:id.json", type: :request do
 
         # custom examples
         @[[controller]]_params.each do |key, value|
-            expect(@response_body["data"][key.to_s]).to eq(value)
+            expect(response_data[key.to_s]).to eq(value)
         end
     end
 
