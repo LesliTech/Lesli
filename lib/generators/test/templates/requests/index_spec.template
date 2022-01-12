@@ -2,22 +2,41 @@
 
 [[license]]
 =end
-require "rails_helper"
+
+
+require "lesli_request_helper"
 require "spec_helper"
 require "byebug"
 
 
 RSpec.describe "GET:[[url]].json", type: :request do
-    include_context "user authentication"
+    include_context "request user authentication"
 
-    before(:all) do
-        get("[[url]].json")
-    end
+    # helper methods
 
-    include_examples "successful standard json response"
+
+    # test cases
 
     it "is expected to respond with all the records" do
+        get("[[url]].json")
+
+        # shared examples
+        expect_json_response_successful
+
+        #custom expects
         expect(@response_body["data"]["[[controller]]_count"]).to eql([[model]].count)
+    end
+
+    it "is expected to redirect to login when no user is authenticated" do
+        login = "/login?=r[[url]].json"
+
+        # we ensure that no one user is authenticated
+        sign_out @current_user
+
+        get("[[url]].json")
+
+        # custom expects
+        expect(response).to redirect_to(login)
     end
 
 end
