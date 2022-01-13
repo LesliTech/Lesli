@@ -66,6 +66,7 @@ class ApplicationLesliController < ApplicationController
         @account[:tasks] = Courier::Focus::Task.count(current_user)
         @account[:tickets] = Courier::Help::Ticket.count(current_user)
         @account[:pushs] = Rails.application.config.lesli_settings["security"]["enable_pushes"] || false
+        @account[:shortcuts] = current_user.shortcuts.select(:id, :name, :url)
 
 
         # default customization, set on before_action :set_customization hook
