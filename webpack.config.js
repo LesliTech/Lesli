@@ -124,6 +124,7 @@ module.exports = env => {
 
 
                 // Resolve alias for module resources
+                CloudWork: path.resolve(__dirname, "./engines/cloud_work/app"),
                 CloudHelp: path.resolve(__dirname, "./engines/cloud_help/app"),
                 CloudHouse: path.resolve(__dirname, "./engines/cloud_house/app"),
                 CloudFocus: path.resolve(__dirname, "./engines/cloud_focus/app"),
@@ -237,7 +238,6 @@ module.exports = env => {
         }
 
         // include engine into the collections of active engines
-        console.log(engine_info.info.code, engine)
         return engine_info.info.code == engine
 
     })
