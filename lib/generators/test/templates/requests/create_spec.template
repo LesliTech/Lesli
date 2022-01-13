@@ -2,30 +2,59 @@
 
 [[license]]
 =end
-require "rails_helper"
-require "spec_helper"
-require "byebug"
+
+
+require "lesli_request_helper"
 
 
 RSpec.describe "POST:[[url]].json", type: :request do
-    include_context "user authentication"
+    include_context "request user authentication"
 
-    before(:all) do
+    # helper methods
+
+
+    # test cases
+
+    it "is expected to test the creation of the record" do
         @[[controller]]_params = {}
 
         post("[[url]].json", params: {
             [[controller]]: @[[controller]]_params
         })
+
+        # shared examples
+        expect_json_response_successful
+
+        # custom expects
+        expect(response_data["id"]).to be >= 1
+        @[[controller]]_params.each do |key, value|
+            expect(response_data[key.to_s]).to eq(value)
+        end
     end
 
-    include_examples "successful standard json response"
+    it "is expected respond with error when params are invalid" do
+        @[[controller]]_invalid_params = {}
 
-    it "is expected to test the creation of the record" do
-        expect(@response_body["data"]["id"]).to be > 0
+        post("[[url]].json", params: {
+            [[controller]]: @[[controller]]_invalid_params
+        })
 
-        @[[controller]]_params.each do |key, value|
-            expect(@response_body["data"][key.to_s]).to eq(value)
-        end
+        # shared examples
+        expect_json_response_error
+    end
+
+    it "is expected to redirect to login when no user is authenticated" do
+        login = "/login"
+        
+        # we ensure that no one user is authenticated
+        sign_out @current_user
+
+        post("[[url]].json", params: {
+            [[controller]]: {}
+        })
+
+        # custom expects
+        expect(response).to redirect_to(login)
     end
 
 end

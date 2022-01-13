@@ -37,6 +37,12 @@ module HtmlHelper
         end
     end
 
+    def navigation_separator
+        content_tag(:li) do 
+            content_tag(:hr)
+        end 
+    end
+
     def navigation_engine_item text, icon_path, path, is_active = false
 
         # get hidden modules if there are modules to hide
