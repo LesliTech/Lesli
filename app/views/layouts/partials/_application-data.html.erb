@@ -23,7 +23,6 @@ For more information read the license file including with this software.
 @account[:engine] = lesli_engine_or_instance                                    # use into url plugin to for dynamic search 
 @account[:url] = { root: request.base_url.to_s,  path: request.path }           # use as base for url plugin
 @account[:app] = params[:controller]
-@account[:shortcuts] = current_user.shortcuts.select(:id, :name, :url)
 %>
 
 <% # define @account data for the lesli plugin %>
