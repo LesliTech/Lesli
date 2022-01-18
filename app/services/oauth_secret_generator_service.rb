@@ -19,6 +19,7 @@ require "jwt"
 class OauthSecretGeneratorService
 
     def self.generate_apple_client_secret
+        # Related documentation: https://developer.apple.com/documentation/sign_in_with_apple/generate_and_validate_tokens
 
         team_id = Rails.application.credentials.dig(:providers, :apple, :team_id)
         client_id = Rails.application.credentials.dig(:providers, :apple, :client_id)
