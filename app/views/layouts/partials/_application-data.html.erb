@@ -31,6 +31,6 @@ For more information read the license file including with this software.
 <% if user_signed_in? %>
 <script>
     <% # special data for authenticated users  %>
-    const shortcuts = <%= current_user.shortcuts.select(:id, :name, :url).to_json.html_safe %>
+    const shortcuts = <%= @account[:shortcuts].to_json.html_safe %>
 </script>
 <% end %>

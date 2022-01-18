@@ -27,10 +27,11 @@ RSpec.describe "POST:/administration/users/:id/resources/logout.json", type: :re
     include_context "request user authentication"
 
     # this helper will executed only when is called (with "user_sessions") and the value won't change
-    let(:user_sessions) { User.joins(:sessions).where("users_id = ?", @current_user.id) }
+    let(:new_user){ create(:user) }
+    let(:user_sessions) { User.joins(:sessions).where("users_id = ?", new_user.id) }
 
     before do
-        post "/administration/users/#{@current_user.id}/resources/logout.json"
+        post "/administration/users/#{new_user.id}/resources/logout.json"
     end
 
     it "is expected to respond with successful standard json response" do
