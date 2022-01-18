@@ -54,6 +54,15 @@ providers:
         analytics: track_id
         client_id: ""
         client_secret: ""
+    facebook:
+        client_id: ""
+        client_secret: ""
+    apple:
+        client_id: ""
+        team_id: ""
+        key_id: ""
+        key: ""
+        validity_period: 10
     firebase:
         api_key: ""
         admin_sdk_private_key:
@@ -74,9 +83,6 @@ providers:
             storageBucket: ""
             messagingSenderId: ""
             appId: ""
-    facebook:
-        client_id: ""
-        client_secret: ""
     honey_badger:
         api_key: ""
         personal_token: ""
