@@ -31,9 +31,13 @@ module Interfaces::Controllers::Subscribers
         @cloud_object = cloud_object_model.find_by(id: params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym])
         return respond_with_not_found unless @cloud_object
 
+
+        target_user = current_user.account.users.find_by(id: params[:users_id]) if params[:users_id]
+        target_user = current_user unless target_user       
+
         actions = subscriber_model.subscription_actions(
             @cloud_object,
-            current_user
+            target_user
         )
         respond_with_successful(actions)
     end
@@ -59,9 +63,12 @@ module Interfaces::Controllers::Subscribers
         subscriber_model = subscriber_model() # If there is a custom subscriber model, it must be returned in this method
         cloud_object_model = subscriber_model.cloud_object_model
 
+        target_user = current_user.account.users.find_by(id: params[:users_id]) if params[:users_id]
+        target_user = current_user unless target_user   
+
         set_cloud_object
         new_subscriber_params = subscriber_params.merge(
-            user_creator: current_user,
+            user_creator: target_user,
             cloud_object: @cloud_object
         )
         cloud_object_subscriber = subscriber_model.new(new_subscriber_params)

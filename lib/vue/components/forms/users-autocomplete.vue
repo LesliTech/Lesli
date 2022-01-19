@@ -128,8 +128,9 @@ export default {
         },
 
         select(user) {
-            this.$emit("select", user)
+            this.$emit('select', user)
             this.$nextTick(()=>{
+                clearTimeout(this.timer)
                 if(! this.disabled){
                     try{
                         this.$refs.autocomplete.checkHtml5Validity()
@@ -153,6 +154,12 @@ export default {
         selectUser(user){
             if(user){
                 this.select(user)
+            }
+        },
+
+        clearUser(){
+            if(this.user_input.trim().length == 0){
+                this.$emit('clear-user')
             }
         }
     },
@@ -196,6 +203,7 @@ export default {
                 field="text"
                 :required="required"
                 @select="selectUser"
+                @blur="clearUser"
                 @input="search()"
                 :open-on-focus="focus"
                 :placeholder="placeholder"
