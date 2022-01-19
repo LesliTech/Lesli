@@ -38,7 +38,7 @@ app({
             main: I18n.t("core.invites")
         },
         invite: {
-            email: "",
+            email: "gdonis.emc2@gmail.com",
             telephone: "",
             full_name: "",
             note: ""
@@ -58,17 +58,17 @@ app({
 
             this.progress_bar_active = true;
 
-            this.http.post("/invite", {
+            this.http.post("/invite.json", {
                 invite: this.invite
             }).then(result => {
 
                 this.progress_bar_active = false
 
-                if (result.successful) {
-                    this.showNotification("Invitation request sent", "success")
-                } else {
+                if (!result.successful) {
                     this.showNotification(result.error.message)
                 }
+
+                this.showNotification("Invitation request sent", "is-success")
 
             }).catch(error => {
                 console.log(error)
