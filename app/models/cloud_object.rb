@@ -17,7 +17,11 @@ For more information read the license file including with this software.
 
 =end
 class CloudObject < ApplicationLesliRecord
+    include ActiveModel::Dirty 
+
     self.abstract_class = true
+
+    after_update :notify_subscribers
     
     # @return [void]
     # @param bypass_new_record [Boolean] Wheter it workflow should be set in *cloud_objects* that are not finished yet or not
@@ -85,7 +89,7 @@ class CloudObject < ApplicationLesliRecord
     # @description Returns a string that represents and identifies this cloud_object from all other cloud_objects in the same account
     # @example
     #     project = CloudHouse::Project.find(1)
-    #     puts projet.global_indentifier # If the CloudHouse::Project class does not have the method overrided, this will print 'CloudHouse::Project - 1'
+    #     puts projet.global_identifier # If the CloudHouse::Project class does not have the method overrided, this will print 'CloudHouse::Project - 1'
     def global_identifier
         return "#{self.class.name} - #{id}"
     end
@@ -216,6 +220,42 @@ class CloudObject < ApplicationLesliRecord
     def self.log_activity_destroy(current_user, cloud_object)
         LC::Debug.deprecation("please use CloudObject::Logger or your own implementation of Engine::ModelLogger instead")
         Logger.log_destroy(current_user, cloud_object)
+    end
+
+    protected
+
+    # @return [void]
+    # @descriptions Verifies if the status of the cloud_object changed. If it did, a notification is sent to all users that are
+    #     subscribed to it. The method uses dynamic naming, so it works on every cloud_object
+    # @example
+    #     # Imagine current_user is subscribed to a cloud_help/ticket
+    #     ticket = CloudHelp::Ticket.first
+    #     ticket.update!(cloud_help_workflow_statuses_id: 4) #The callback will be triggered after these changes are saved 
+    def notify_subscribers
+        status_class = self.class.reflect_on_association(:status)
+        if status_class
+            status_class = status_class.klass
+            
+            if saved_changes["#{status_class.table_name}_id"]
+                subscribers_association = self.class.reflect_on_association(:subscribers)
+
+                translations_path = self.class.name.gsub("Cloud", "").underscore.pluralize.gsub("/", ".")
+                translations_class = I18n.t("#{translations_path}.view_title_main")
+
+                subscribers_association.klass.notify_subscribers(
+                    nil,
+                    self,
+                    "object_status_updated",
+                    subject: "#{translations_class} (#{self.global_identifier}): #{I18n.t("core.shared.view_title_cloud_object_status_changed")} '#{status.name}'",
+                    body: "#{I18n.t("core.shared.view_text_cloud_object_status_changed_sentence_1")} '#{status.name}'. #{I18n.t("core.shared.view_text_cloud_object_status_changed_sentence_2")}",
+                    url: self.urn,
+                ) if subscribers_association
+
+            end
+        end
+
+
+        
     end
 
 end

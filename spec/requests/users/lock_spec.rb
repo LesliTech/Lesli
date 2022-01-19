@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 
 require 'lesli_request_helper'
-require 'spec_helper'   
+require 'spec_helper'
 require 'byebug'
 
 RSpec.describe "POST:/administration/users/:id/resources/lock.json", type: :request do
@@ -47,9 +47,9 @@ RSpec.describe "POST:/administration/users/:id/resources/lock.json", type: :requ
         expect(user.active).to be_falsey
     end
 
-    it "is expected that the user has no sessions" do
-        expect(user.sessions).to be_empty
-    end
+    # it "is expected that the user has no sessions" do
+    #     expect(user.sessions).to be_empty
+    # end
 end
 
 # RSpec.describe "POST:/administration/users/:id/resources/lock.json", type: :request do
