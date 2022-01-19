@@ -32,5 +32,51 @@ For more information read the license file including with this software.
 
 <%# core view for invites %>
 <% unless custom_app_page_exists %>
-<h3>There is no a view for invites path.</h3>
+<main id="lesli-application">
+    <section class="hero is-fullheight">
+        <div class="hero-head">
+            <div class="form-title has-text-centered">
+                <%= image_tag "#{ lesli_instance_code }/brand/app-logo.svg", :alt => "logo", :class => "app-logo" %>
+                <h2 class="is-size-2">Request an invite</h2>
+            </div>
+        </div>
+        <div class="hero-body">
+            <form class="has-text-centered" ref="form" @submit="postInvite">
+                <div class="field">
+                    <p class="label">Enter your email address to use in Lesli</p>
+                    <p class="label">We'll send instructions to create your new account.</p>
+                    <p v-if="notification.show" :class="[notification.type, 'notification', 'is-size-5', 'mt-2']">
+                        {{ notification.message }}
+                    </p>
+                    <p class="control has-icons-left mt-4 mb-4">  
+                        <input 
+                            class="input" 
+                            type="email"
+                            v-model="invite.email"
+                            required="true"
+                            name="user_email"
+                            placeholder="email"
+                        />
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="login-controls">
+                    <button class="button is-primary">
+                        Request invitation
+                    </button>
+                </div>
+            </form>
+            <div class="links">
+                <p class="has-text-centered">
+                    <%= link_to "Login", new_user_session_path %>
+                </p>
+                <p class="has-text-centered">
+                    <%= link_to "Create account", new_user_registration_path %>
+                </p>
+            </div>
+        </div>
+    </section>
+</main>
 <% end %>

@@ -17,8 +17,13 @@ For more information read the license file including with this software.
 // · 
 
 */
+import componentUsers from 'LesliVue/components/forms/users-autocomplete.vue'
 
 export default {
+    components: {
+        'component-users': componentUsers
+    },
+
     props: {
         allowedNotificationTypes: {
             type: Array,
@@ -51,6 +56,7 @@ export default {
                 core: I18n.t('core.shared'),
                 subscriptions: {}
             },
+            options: {},
             loading: {
                 subscriptions: false
             },
@@ -66,7 +72,9 @@ export default {
             master_fields: {
                 subscribed: false,
                 notification_type: 'email'
-            }
+            },
+            selected_user_id: null,
+            loading_users: false
         }
     },
     
@@ -74,6 +82,7 @@ export default {
         this.setTranslations()
         this.parseCloudModule()
         this.getSubscriptions()
+        this.getUsers()
     },
 
     methods: {
@@ -89,12 +98,42 @@ export default {
                 this.$set(this.translations, 'subscriptions', I18n.t(this.translationsPath))
             }
         },
+        
+        getUsers(){
+            if( (! this.data.third_party_subscriptions) || (! this.data.third_party_subscriptions.enabled)){
+                return
+            }
+
+            this.loading_users = true
+            let url = this.url.lesli('administration/users/list')
+            url.query = {role: (this.data.third_party_subscriptions.roles || ''), type: (this.data.third_party_subscriptions.type || 'exclude')}
+
+            this.http.get(url).then(result => {
+                if (result.successful) {
+
+                    // We remove users that have no name, because we cannot identify them
+                    let valid_users = result.data.filter(user => user.name.trim().length > 0)
+
+                    this.$set(this.options, 'users', valid_users)
+                }else{
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            }).finally(()=>{
+                this.loading_users = false
+            })
+        },
 
         getSubscriptions(){
             if(this.cloudId){
                 this.loading.subscriptions = true
 
-                let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/subscribers.json`
+                let url = this.url.lesli(`${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/subscribers`)
+                if(this.selected_user_id){
+                    url.query = {users_id: this.selected_user_id}
+                }
+
                 this.http.get(url).then(result => {
                     if (result.successful) {
                         this.subscriptions = result.data
@@ -120,6 +159,8 @@ export default {
             }else{
                 if(subscription.subscribed){
                     this.postSubscription(subscription, show_alerts)
+                }else{
+                    this.$set(subscription, 'submitting', false)
                 }
             }
         },
@@ -130,6 +171,7 @@ export default {
 
             let data = {}
             data[`${this.object_name.singular}_subscriber`] = subscription
+            data.users_id = this.selected_user_id
             
             let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/subscribers.json`
 
@@ -153,6 +195,7 @@ export default {
         patchSubscription(subscription, show_alerts){
             let data = {}
             data[`${this.object_name.singular}_subscriber`] = subscription
+
             let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/subscribers/${subscription.id}.json`
 
             this.http.patch(url, data).then(result =>{
@@ -172,9 +215,6 @@ export default {
         },
         
         deleteSubscription(subscription, show_alerts){
-            let data = {
-                subscriber: subscription
-            }
             let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/subscribers/${subscription.id}.json`
 
             this.http.delete(url).then(result =>{
@@ -213,6 +253,9 @@ export default {
     },
 
     watch: {
+        selected_user_id(){
+            this.getSubscriptions()
+        },
 
         cloudId(){
             this.getSubscriptions()
@@ -245,7 +288,7 @@ export default {
         :open.sync="data.global.show_panel_subscriptions"
         class="application-panel-support"
         right
-        :can-cancel="['escape','outside']"
+        :can-cancel="['escape']"
         fullheight
         overlay
     >
@@ -259,10 +302,34 @@ export default {
             </span>
         </div>
 
-        <div class="panel-content">
-            <component-data-loading v-if="loading.subscriptions">
+        
+        <div class="panel-content" v-if="loading.subscriptions">
+            <component-data-loading>
             </component-data-loading>
-            <table v-else class="table is-narrowed is-striped is-fullwidth">
+        </div>
+        <div class="panel-content" v-else>
+            <div v-if="data.third_party_subscriptions && data.third_party_subscriptions.enabled">
+                <div class="columns" >
+                    <div class="column">
+                        <b-field v-if="options.users" :message="translations.core.view_text_subscriptions_autocomplete_leave_empty_for_self_subscribing">
+                            <component-users
+                                :title="translations.core.view_title_subscriptions_autocomplete_select_other_user"
+                                :user_id="selected_user_id"
+                                :users="options.users"
+                                :required="false"
+                                @select="(user) => selected_user_id = user.id"
+                                @clear-user="() => selected_user_id = null"
+                                :focus="true"
+                            >
+                            </component-users>
+                        </b-field>
+                        <component-data-loading v-else>
+                        </component-data-loading>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <table class="table is-narrowed is-striped is-fullwidth">
                 <tbody>
                     <tr>
                         <td>
