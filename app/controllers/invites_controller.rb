@@ -38,6 +38,8 @@ class InvitesController < ApplicationController
         invite = Invite.new(invite_params)
         success = invite.save
 
+        #InvitesMailer.with(invite).invitation_card.deliver_later
+
         respond_to do |format|
             format.html do 
                 if success
