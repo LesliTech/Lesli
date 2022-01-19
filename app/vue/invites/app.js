@@ -38,7 +38,7 @@ app({
             main: I18n.t("core.invites")
         },
         invite: {
-            email: "gdonis.emc2@gmail.com",
+            email: "",
             telephone: "",
             full_name: "",
             note: ""
