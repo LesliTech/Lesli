@@ -85,7 +85,8 @@ module Courier
                             start: event[:time_start],
                             end: event[:time_end] ? event[:time_end] + 1.second : nil, # The calendar will crash if start and end dates are the same
                             event_type: event[:event_type],
-                            classNames: ["cloud_driver_events"]
+                            classNames: ["cloud_driver_events"],
+                            is_attendant: event[:is_attendant]
                         }
                     end
                     calendar_data[:driver_events] = driver_events
