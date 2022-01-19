@@ -56,6 +56,7 @@ class Account < ApplicationRecord
     has_one :proposal,   class_name: "CloudProposal::Account",   foreign_key: "id"
     has_one :dispatcher, class_name: "CloudDispatcher::Account", foreign_key: "id"
     has_one :storage,    class_name: "CloudStorage::Account",    foreign_key: "id"
+    has_one :realty,     class_name: "CloudRealty::Account",     foreign_key: "id"
 
     after_create :initialize_account
     after_create :initialize_account_for_engines
@@ -64,9 +65,9 @@ class Account < ApplicationRecord
 
     # account status
     enum status: [
-        :registered, 
+        :registered,
         :onboarding,
-        :active, 
+        :active,
         :suspended
     ]
 
@@ -224,7 +225,7 @@ class Account < ApplicationRecord
                 self.books.save!
             end
         end
-        
+
         if defined? CloudHouse
             if self.house.blank?
                 self.house = CloudHouse::Account.new
@@ -257,6 +258,14 @@ class Account < ApplicationRecord
                 self.proposal = CloudProposal::Account.new
                 self.proposal.account = self
                 self.proposal.save!
+            end
+        end
+
+        if defined? CloudRealty
+            if self.realty.blank?
+                self.realty = CloudRealty::Account.new
+                self.realty.account = self
+                self.realty.save!
             end
         end
 
