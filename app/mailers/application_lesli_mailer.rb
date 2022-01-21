@@ -100,7 +100,9 @@ class ApplicationLesliMailer < ActionMailer::Base
         instance_path = ""
         instance_path = "#{instance[:code]}/" if instance[:code] != "lesli"
 
-        @custom[:logo] = "#{instance_path}brand/app-logo.svg"
+        # using cdn logos by default (testing feature)
+        # @custom[:logo] = "#{instance_path}brand/app-logo.svg"
+        @custom[:logo] = "https://cdn.lesli.tech/leslicloud/brand/app-logo.png"
         
         return if params[:user].blank? || params[:user].class.name != "User"
 
