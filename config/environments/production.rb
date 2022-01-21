@@ -171,6 +171,8 @@ Rails.application.configure do
     }
 
     config.action_mailer.default_options = {
+
+        # this option is also customized in app/mailers/application_lesli_mailer.rb
         from: Rails.configuration.lesli_settings["env"]["action_mailer"]["default_options_from"]
     }
 

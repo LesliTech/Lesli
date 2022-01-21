@@ -64,13 +64,20 @@ class DevMail < LesliRake
         token = "a!1b&2c@3d$4e%5"
 
         # send email tests
-        UserMailer.with(user: user).welcome.deliver_now
-        UserMailer.with(user: user).invitation_instructions.deliver_now
-        UserMailer.with(user: user, token: token).reset_password_instructions.deliver_now
-        UserMailer.with(user: user, token: token).pass_instructions.deliver_now
-        UserMailer.with(user: user, token: token).otp_instructions.deliver_now
+        [
+            InvitesMailer.with(user).invitation_card,
+            UserMailer.with(user: user).welcome,
+            UserMailer.with(user: user).invitation_instructions,
+            UserMailer.with(user: user, token: token).reset_password_instructions,
+            UserMailer.with(user: user, token: token).pass_instructions,
+            UserMailer.with(user: user, token: token).otp_instructions
+        ].each do |mailer|
+            p mailer[:Subject].value
+            mailer.deliver_now
+            sleep(2)
+        end 
 
-        message_separator
+        message_separator 
         message_cow
 
     end

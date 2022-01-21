@@ -24,23 +24,42 @@ class ApplicationLesliMailer < ActionMailer::Base
 
     # Set a dynamic template according to the engine that is sending the email
     # this is equivalent to: default template_path: -> { "engine_name/emails" }
-    default template_path: -> { 
+    default( 
 
-        instance = Rails.application.config.lesli_settings["instance"]
+        from: -> { 
+            
+            instance = Rails.application.config.lesli_settings["instance"]
 
-        # get class that is executing the mailer
-        module_info = self.class.name.split("::")
+            # add custom email name for emails sent from www.lesli.cloud
+            if instance[:code] == 'lesli_cloud' 
+                return email_address_with_name(
+                    Rails.configuration.lesli_settings["env"]["action_mailer"]["default_options_from"], 
+                    "Lesli"
+                )
+            end 
 
-        # mailers from engines
-        if module_info.length > 1
-            return "#{ instance[:code] }/emails/#{(module_info[0].underscore)}/#{ module_info[1].underscore }" 
-        end
+            Rails.configuration.lesli_settings["env"]["action_mailer"]["default_options_from"]
 
-        # mailers from core
-        return "#{ instance[:code] }/emails/#{ module_info[0].underscore }"
+        },
 
-    }
+        template_path: -> { 
 
+            instance = Rails.application.config.lesli_settings["instance"]
+
+            # get class that is executing the mailer
+            module_info = self.class.name.split("::")
+
+            # mailers from engines
+            if module_info.length > 1
+                return "#{ instance[:code] }/emails/#{(module_info[0].underscore)}/#{ module_info[1].underscore }" 
+            end
+
+            # mailers from core
+            return "#{ instance[:code] }/emails/#{ module_info[0].underscore }"
+
+        }
+
+    )
     
     after_action :log_mail_requests
 

@@ -190,8 +190,13 @@ class ApplicationLesliController < ApplicationController
             # check if requested url is valid
             if (request.get? && is_navigational_format? && !request.xhr? && !request.fullpath.blank?)
 
-                # redirect with requested url, so user will be redirected after login
-                redirect_to("/login?r=#{request.fullpath}", notice: message) and return
+                # redirect only if the path worth it
+                if request.fullpath != "/"
+
+                    # redirect with requested url, so user will be redirected after login
+                    redirect_to("/login?r=#{request.fullpath}", notice: message) and return 
+
+                end
 
             end
 
