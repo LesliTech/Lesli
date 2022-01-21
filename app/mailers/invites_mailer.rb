@@ -22,13 +22,11 @@ class InvitesMailer < ApplicationLesliMailer
 
     def invitation_card
 
-        build_data_from_params(params)
-        #@app[:host]
-        mail(to: 'ldonis.emc2@gmail.com', subject: 'Welcome to My Awesome Site')
+        build_data_from_params(params, { full_name: params[:full_name]   })
 
-        #invite = params[:invite]
-        #build_data_from_params(params)
-        #mail(to: email_address_with_name(invite.email, invite.full_name), subject: "Lesli - Invitation")
+        mail(to: params[:email], subject: "You've been invited to join Lesli Cloud")
+        #mail(to: params[:email], subject: subject: I18n.t("core.invites/passwords.mailer_password_reset_instructions"))
+
     end
 
 end
