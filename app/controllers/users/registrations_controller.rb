@@ -17,9 +17,6 @@ For more information read the license file including with this software.
 
 =end
 class Users::RegistrationsController < Devise::RegistrationsController
-    include Application::Responder
-    
-    layout "application-public"
     
     before_action :configure_sign_up_params, only: [:create, :update]
 
@@ -95,7 +92,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
         # persist new user
         if user.save
+
+            # save a default locale for user
+            user.settings.create(:name => 'locale', :value => I18n.locale)
+
             respond_with_successful()
+
         else
             respond_with_error(user.errors.full_messages.to_sentence)
         end
