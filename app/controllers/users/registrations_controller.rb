@@ -17,9 +17,6 @@ For more information read the license file including with this software.
 
 =end
 class Users::RegistrationsController < Devise::RegistrationsController
-    include Application::Responder
-    
-    layout "application-public"
     
     before_action :configure_sign_up_params, only: [:create, :update]
 
@@ -96,17 +93,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
         # persist new user
         if user.save
 
-            # get user's preferred language from browser
-            locales = request.headers['HTTP_ACCEPT_LANGUAGE'] || request.headers['Accept-Language'] || ""
-            locales = locales.scan(/[a-z]{2}(?=;)/).find do |locale|
-                I18n.available_locales.include?(locale.to_sym)
-            end
-
             # save a default locale for user
-            user.settings.create(:name => 'locale', :value => locales || I18n.locale)
+            user.settings.create(:name => 'locale', :value => I18n.locale)
 
             respond_with_successful()
-            
+
         else
             respond_with_error(user.errors.full_messages.to_sentence)
         end
