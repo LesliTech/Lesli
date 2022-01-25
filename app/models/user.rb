@@ -425,7 +425,7 @@ class User < ApplicationLesliRecord
         user_locale = settings.find_by(name: "locale")
 
         if user_locale
-            user_locale.value.to_sym
+            return user_locale.value.to_sym
         end
 
         I18n.locale # return current locale
