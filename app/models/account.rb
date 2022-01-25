@@ -117,7 +117,7 @@ class Account < ApplicationRecord
             role.initialize_role_privileges
         end
 
-        AccountLocationsService.new(self).set_locations
+        AccountLocationService.new(self).set_locations
 
         self.onboarding!
     end
