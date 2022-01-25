@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -41,16 +41,20 @@ def create_development_user dev_user, password=nil
         user.password_confirmation = password
         user.account = account
         user.confirm if not user.confirmed?
-        
+
         user.detail.salutation = salutation
         user.detail.first_name = first_name
         user.detail.last_name = last_name
 
         user.user_roles.create({ role: Role.find_by("name" => role_name) })
-        
+
         user.save!
 
         user.account.user = user
         user.account.save!
+
+        if user
+            user.settings.create(:name => 'locale', :value => Rails.application.config.lesli_settings["env"]["default_locale") # add locale
+        end
     end
 end
