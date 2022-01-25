@@ -40,13 +40,6 @@ RSpec.describe AccountLocationService, type: :model do
             expect(location.level).to eq "continent"
         end
 
-        it "is expected account has continent Antarctica" do
-            location = new_account.locations.find_by(:name => "Antarctica")
-
-            expect(location.blank?).to eq false
-            expect(location.level).to eq "continent"
-        end
-
         it "is expected account has continent Asia" do
             location = new_account.locations.find_by(:name => "Asia")
 
