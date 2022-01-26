@@ -43,7 +43,7 @@ class LesliSystemRake < LesliRake
 
     private 
 
-    def status params
+    def status 
 
         revision = LC::System::Info.revision()
 
