@@ -30,13 +30,15 @@ class UserMailer < ApplicationLesliMailer
             }
         })
 
-        mail(
-            to: email_address_with_name(user.email, user.full_name),
-            subject: I18n.t("core.users.mailer_subject_welcome")
-        )
+        I18n.with_locale(user.locale) do
+            mail(
+                to: email_address_with_name(user.email, user.full_name),
+                subject: I18n.t("core.users.mailer_subject_welcome")
+            )
+        end
     end
 
-    
+
     # not used mailer
     def first_access
         user = params[:user]
@@ -51,7 +53,7 @@ class UserMailer < ApplicationLesliMailer
         mail(
             to: email_address_with_name(user.email, user.full_name),
             subject: 'I18n.t("core.passes.mailer_login_link_instructions")'
-        ) 
+        )
     end
 
 
@@ -69,10 +71,12 @@ class UserMailer < ApplicationLesliMailer
             }
         })
 
-        mail(
-            to: email_address_with_name(user.email, user.full_name),
-            subject: I18n.t("core.users.mailer_subject_you_have_been_invited")
-        )
+        I18n.with_locale(user.locale) do
+            mail(
+                to: email_address_with_name(user.email, user.full_name),
+                subject: I18n.t("core.users.mailer_subject_you_have_been_invited")
+            )
+        end
     end
 
 
@@ -95,7 +99,6 @@ class UserMailer < ApplicationLesliMailer
         )
     end
 
-
     # Send a link with a reset password token
     def reset_password_instructions
         user = params[:user]
@@ -107,7 +110,13 @@ class UserMailer < ApplicationLesliMailer
                 roles: user.roles.map(&:name)||[]
             }
         })
-        mail(to: email_address_with_name(user.email, user.full_name), subject: I18n.t("core.users/passwords.mailer_password_reset_instructions"))
+
+        I18n.with_locale(user.locale) do
+            mail(
+                to: email_address_with_name(user.email, user.full_name),
+                subject: I18n.t("core.users/passwords.mailer_password_reset_instructions")
+            )
+        end
     end
 
 
