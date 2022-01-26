@@ -194,7 +194,9 @@ class UsersController < ApplicationLesliController
             roles: roles,
             regions: current_user.account.locations.where(level: "region"),
             salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
+            locales: Rails.application.config.lesli_settings["configuration"]["locales_available"]
         })
+
     end
 
     def become
