@@ -45,11 +45,6 @@ module Application
             respond_with_unauthorized(detail)
         end
 
-        def respond_with_pagination data
-            LC::Debug.deprecation "use LC::Response.pagination in combination with respond_with_successful instead"
-            respond_with_successful(data)
-        end
-
         # Deprecated method used to log user messages logs
         def log_activity description=nil
             LC::Debug.deprecation "Use log_user_commens or current_user.logs.create instead"
