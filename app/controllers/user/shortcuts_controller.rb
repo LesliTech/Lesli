@@ -30,6 +30,7 @@ class User::ShortcutsController < ApplicationLesliController
 
     # POST /user/shortcuts
     def create
+        return respond_with_error unless @current_user.shortcuts.new(user_shortcut_params).valid?
 
         # get the website title prefix from the lesli.yml file
         title_prefix = Rails.application.config.lesli_settings["account"]["website"]["title_prefix"] || ""
