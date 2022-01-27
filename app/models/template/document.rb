@@ -2,6 +2,8 @@ class Template::Document < ApplicationLesliRecord
     belongs_to :template, foreign_key: "templates_id"
     has_many :mappings, foreign_key: "template_documents_id", dependent: :destroy
 
+    validates :name, presence: :true
+
     def self.index(current_user, query)
         filters = query[:filters]
         template_documents = current_user.account.template.documents.select(
@@ -34,10 +36,19 @@ class Template::Document < ApplicationLesliRecord
         }
     end
 
+
+=begin
+    @return         [String]
+    @description    returns the path to upload the file in s3
+=end
+    def file_path
+        "storage/core/template/documents/#{id}.docx"
+    end
+
     #upload file to s3
-    def self.upload_file(template_document, file_path, attachment)
+    def self.upload_file(template_document, attachment)
         s3 = LC::Config::Providers::Aws::S3.new()
-        s3_file = s3.create_object(file_path)
+        s3_file = s3.create_object(template_document.file_path())
 
         s3_file.put(
             body: attachment.to_io,
