@@ -17,7 +17,7 @@ For more information read the license file including with this software.
 
 =end
 
-Factory.define
+FactoryBot.define do
     factory :user_setting, class: "User::Setting" do
         name { Faker::Lorem.word }
         value { Faker::Lorem.word }
@@ -26,5 +26,10 @@ Factory.define
     factory :invalid_user_setting, class: "User::Setting" do
         name { "" }
         value { "" }
+    end
+
+    factory :user_setting_nil_params, class: "User::Setting" do
+        name { }
+        value { }
     end
 end
