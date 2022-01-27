@@ -22,19 +22,38 @@ export default {
     data() {
         return {
             user: { },
+            options:{ },
+            locale: I18n.locale,
             translations: {
                 shared: I18n.t("core.shared")
             },
         }
     },
+    mounted() {
+    },
     methods: {
-        putSettings() {
+        postSettingsPreferredLanguage(event) {
 
+            this.http.post(this.url.admin('users/:id/settings', this.lesli.current_user.id), {
+                user_setting: {
+                    name: 'locale', 
+                    value: event.target.value
+                }
+            }).then(result => {
+                console.log(result)
+            }).catch(error => {
+                console.log(error)
+            })
+
+            console.log(event.target.value)
         }
     },
     watch: {
         "data.user": function(user) {
             this.user = user
+        },
+        "data.options": function(options) {
+            this.options = options
         }
     }
 }
@@ -42,23 +61,15 @@ export default {
 
 <template>
     <div class="box">
-        <h4 class="is-size-4">Notifications</h4>
-            <form @submit.prevent="putSettings()">
-                <fieldset>
-                    <div class="column is-half">
-
-                        <div class="field">
-                            <label class="label"></label>
-                            <div class="control">
-                                <input  required="required" type="text" class="input">
-                            </div>
-                        </div>
-                        <p class="control">
-                            <button class="button is-primary">{{ translations.shared.view_btn_save }}</button>
-                        </p>
-                    </div>
-                </fieldset>
-            </form>
-
+        <div class="field">
+            <label class="label">Preferred language</label>
+            <div class="control">
+                <div class="select">
+                    <select v-on:change="postSettingsPreferredLanguage($event)">
+                        <option v-for="(name, code) in options.locales" :value="code">{{ name }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
