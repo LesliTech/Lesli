@@ -61,26 +61,26 @@ RSpec.describe "POST:/administration/users/:id/shortcuts.json", type: :request d
         expect(response_data["name"]).to eql(shortcut_params[:name])
     end
 
-    # it "is expected to respond with error when params are invalid" do
-    #     # we create a new user_shorcut to work with
-    #     shortcut
+    it "is expected to respond with error when params are invalid" do
+        # we create a new user_shorcut to work with
+        shortcut
 
-    #     put "/administration/users/#{@current_user.id}/shortcuts/#{@user_shortcut.id}.json", params: { user_shortcut: invalid_params }
+        put "/administration/users/#{@current_user.id}/shortcuts/#{@user_shortcut.id}.json", params: { user_shortcut: invalid_params }
 
-    #     # shared examples
-    #     expect_json_response_error
-    # end
+        # shared examples
+        expect_json_response_error
+    end
 
 
-    # it "is expected to respond with error when params are nil" do
-    #     # we create a new user_shorcut to work with
-    #     shortcut
+    it "is expected to respond with error when params are nil" do
+        # we create a new user_shorcut to work with
+        shortcut
 
-    #     put "/administration/users/#{@current_user.id}/shortcuts/#{@user_shortcut.id}.json", params: { user_shortcut: shortcut_nil_params }
+        put "/administration/users/#{@current_user.id}/shortcuts/#{@user_shortcut.id}.json", params: { user_shortcut: shortcut_nil_params }
 
-    #     # shared examples
-    #     expect_json_response_error
-    # end
+        # shared examples
+        expect_json_response_error
+    end
 
     it "is expected to redirect to login when user no user is authenticated" do
         # we create a new user_shorcut to work with
