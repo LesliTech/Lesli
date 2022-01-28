@@ -115,6 +115,9 @@ module RoutesApp
                         # auth providers
                         resources :auth_providers, only: []
 
+                        #
+                        resources :settings, only: [:create]
+
                     end
 
                     # user helper resources
@@ -132,6 +135,7 @@ module RoutesApp
 
                             # force password reset
                             post :password
+
                         end
                     end
 
@@ -148,6 +152,7 @@ module RoutesApp
                             #   if new email is not provided, generate a new one
                             #   id + email
                             put :email
+
                         end
                     end
                 end
