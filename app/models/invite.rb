@@ -17,4 +17,5 @@ For more information read the license file including with this software.
 =end
 
 class Invite < ApplicationLesliRecord
+    validates :email, presence: true, on: :create
 end
