@@ -38,9 +38,7 @@ class InvitesController < ApplicationController
         invite = Invite.new(invite_params)
         success = invite.save
 
-        return respond_with_error(invite.errors.full_messages.to_sentence) unless invite.valid?
-
-        InvitesMailer.with(invite).invitation_card.deliver_later
+        InvitesMailer.with(invite).invitation_card.deliver_later if success
 
         respond_to do |format|
             format.html do 

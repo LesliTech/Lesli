@@ -18,4 +18,5 @@ For more information read the license file including with this software.
 
 class Invite < ApplicationLesliRecord
     validates :email, presence: true, on: :create
+    validates :full_name, presence: true, on: :create
 end
