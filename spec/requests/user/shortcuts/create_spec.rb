@@ -51,21 +51,21 @@ RSpec.describe "POST:/administration/users/:id/shortcuts.json", type: :request d
         expect(response_data["name"]).to eql(shortcut_params[:name]) # At least the name should be created
     end
 
-    # it "is expected to respond with error when params are invalid" do
+    it "is expected to respond with error when params are invalid" do
 
-    #     post "/administration/users/#{@current_user.id}/shortcuts.json", params: {  user_shortcut: invalid_params }
+        post "/administration/users/#{@current_user.id}/shortcuts.json", params: {  user_shortcut: invalid_params }
 
-    #     #shared examples
-    #     expect_json_response_error
-    # end
+        #shared examples
+        expect_json_response_error
+    end
 
-    # it "is expected to respond with error when params are nil" do
+    it "is expected to respond with error when params are nil" do
 
-    #     post "/administration/users/#{@current_user.id}/shortcuts.json", params: {  user_shortcut: shortcut_nil_params }
+        post "/administration/users/#{@current_user.id}/shortcuts.json", params: {  user_shortcut: shortcut_nil_params }
 
-    #     #shared examples
-    #     expect_json_response_error
-    # end
+        #shared examples
+        expect_json_response_error
+    end
 
     it "is expected to redirect to login when no user is authenticated" do
         sign_out @current_user

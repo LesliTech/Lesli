@@ -18,6 +18,10 @@ For more information read the license file including with this software.
 class User::Shortcut < ApplicationLesliRecord
     belongs_to :user, foreign_key: "users_id"
     
+    validates :name, presence: true
+    validates :url, presence: true
+    validates :users_id, presence: true
+
     def self.index(current_user, query, params)
         user_id = params[:user_id]
 
