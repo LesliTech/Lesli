@@ -73,7 +73,7 @@ class Template::DocumentsController < ApplicationLesliController
     end
 
 =begin
-@controller_action_param :file [File] The uploaded file
+@controller_action_param :file_template [File] The uploaded file
 @controller_action_param :model_type [String] The name of the model wich belongs to
 @return [Json] Json that contains wheter the creation of the file was successful or not.
     If it is not successful, it returs an error message
@@ -83,32 +83,27 @@ class Template::DocumentsController < ApplicationLesliController
     let ticket_id = 1;
     let data = {
         template_document: {
-            file: FILE_CONTENT
+            file_template: FILE_CONTENT
             model_type: "CloudHouse::Company"
         }
     };
     this.http.post(`127.0.0.1/administration/template/documents.json`, data);
 =end
     def create
-        file_name = params[:file][:attachment].original_filename.gsub(/\s+/, " ")
+        attachment = params[:template_document][:attachment]
 
-        document_variables = Template::Document.extract_text(params[:file][:attachment])
+        document_variables = Template::Document.extract_text(attachment)
 
         if (document_variables.blank?)
             return respond_with_error(I18n.t("core.template/documents.error_document_without_variables"))
         end
 
-        template_document = current_user.account.template.documents.new(
-            name: file_name,
-            model_type: params[:model_type]
-        )
+        template_document = current_user.account.template.documents.new(template_document_params)
 
         if (template_document.save)
             Template::Document.scan_variables(current_user, template_document, document_variables)
 
-            file_path = "storage/core/template/documents/#{template_document.id}-#{(file_name||"").gsub(/\s+/, "-")}"
-
-            Template::Document.upload_file(template_document, file_path, params[:file][:attachment])
+            Template::Document.upload_file(template_document, attachment)
 
             respond_with_successful(template_document)
         else
@@ -117,7 +112,7 @@ class Template::DocumentsController < ApplicationLesliController
     end
 
 =begin
-@controller_action_param :file [File] The uploaded file
+@controller_action_param :file_template [File] The uploaded file_template
 @controller_action_param :model_type [String] The name of the model wich belongs to
 @return [Json] Json that contains wheter the creation of the file was successful or not.
     If it is not successful, it returs an error message
@@ -127,7 +122,8 @@ class Template::DocumentsController < ApplicationLesliController
     let ticket_id = 1;
     let data = {
         template_document: {
-            file: FILE_CONTENT
+            file_template: FILE_CONTENT
+
         }
     };
     let template_document_id = 1
@@ -135,17 +131,20 @@ class Template::DocumentsController < ApplicationLesliController
     this.http.put(`127.0.0.1/administration/template/documents/${template_document_id}.json`, data);
 =end
     def update
+        attachment = params[:template_document][:attachment]
         return respond_with_not_found unless @template_document
 
-        document_variables = Template::Document.extract_text(params[:file][:attachment])
+        document_variables = Template::Document.extract_text(attachment)
 
-        if (document_variables.blank?)
-            return respond_with_error(I18n.t("core.template/documents.error_document_without_variables"))
-        else
+        return respond_with_error(I18n.t("core.template/documents.error_document_without_variables")) if document_variables.blank?
+
+        if @template_document.update(template_document_params)
             Template::Document.scan_variables(current_user, @template_document, document_variables)
-        end
 
-        Template::Document.upload_file(@template_document, @template_document.attachment, params[:file][:attachment])
+            Template::Document.upload_file(@template_document, attachment)
+        else
+            respond_with_error(@template_document.errors.full_messages.to_sentence)
+        end
 
         respond_with_successful()
     end
@@ -161,6 +160,7 @@ class Template::DocumentsController < ApplicationLesliController
         this.http.delete(`127.0.0.1/administration/template/documents/${template_document_id}.json`, data);
 =end
     def destroy
+
         return respond_with_not_found unless @template_document
 
         if @template_document.destroy
@@ -269,14 +269,14 @@ class Template::DocumentsController < ApplicationLesliController
     end
 
 =begin
-@return [Parameters] Allowed parameters for the file
+@return [Parameters] Allowed parameters for the file_template
 @description Sanitizes the parameters received from an HTTP call to only allow the specified ones.
 @example
     # supose params contains {
     #    "cloud_object": {
     #        "name": 5,
     #        "model_type": "CloudHouse::Project",
-    #        "file": File
+    #        "file_template": File
     #        "description": 2Test"
     #    }
     #}
@@ -286,11 +286,11 @@ class Template::DocumentsController < ApplicationLesliController
     #    "cloud_object": {
     #        "name": 5,
     #        "model_type": "CloudHouse::Project"
-    #        "file": File
+    #        "file_template": File
     #    }
     #}
 =end
     def template_document_params
-        params.require(:template_document).permit(:file, :name, :model_type)
+        params.require(:template_document).permit(:name, :model_type)
     end
 end

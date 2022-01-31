@@ -48,7 +48,7 @@ class CloudObject::File < ApplicationLesliRecord
         "#{query[:base_path]}/#{cloud_object_controller}/#{self.cloud_object.id}/files/#{self.id}"
     end
 
-    
+
     # @return [void]
     # @description Overrides the destroy method to set all attachments to nil. This will cause the attachments to be deleted
     # @example
@@ -77,7 +77,7 @@ class CloudObject::File < ApplicationLesliRecord
     #     redirect_to @file.external_url
     def refresh_external_url
         return external_url if (external_url && (external_url_expiration_date > LC::Date.now + 5.seconds))
-        
+
         client = LC::Config::Providers::Aws::S3.new()
         object_key = [
             "storage",
@@ -183,7 +183,14 @@ class CloudObject::File < ApplicationLesliRecord
     # @example
     #     CloudHouse::Project::File.size_threshould # This will display the configured size threshould
     def self.size_threshold
+
+        lesli_files_settings = Rails.application.config.lesli_settings["configuration"]["files"]
+        lesli_size_threshold = Rails.application.config.lesli_settings["configuration"]["files"]["size_threshold"] if lesli_files_settings
+
+        return lesli_size_threshold if lesli_size_threshold
+
         return 0
+
     end
 
     protected
@@ -197,7 +204,7 @@ class CloudObject::File < ApplicationLesliRecord
     end
 
     # @return [void]
-    # @description This is an before_save callback that sets the param "public" depending on the value returned by the static method 
+    # @description This is an before_save callback that sets the param "public" depending on the value returned by the static method
     #     "public accesibility"
     # @example
     #     # Note that this method is not called directly

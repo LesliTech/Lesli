@@ -292,7 +292,6 @@ class User < ApplicationLesliRecord
     end
 
 
-
     # @return [void]
     # @description Sets this user as inactive and removes complete access to the platform from them
     # @example
@@ -416,6 +415,21 @@ class User < ApplicationLesliRecord
         self.save
     end
 
+    # @return [String]
+    # @description Returns the local configuration for the user if there is no locale the default local
+    # of the platform will be returned
+    # @example
+    #      locale = User.last.locle
+    #      will print something like: :es
+    def locale
+        user_locale = settings.find_by(name: "locale")
+
+        if user_locale
+            return user_locale.value.to_sym
+        end
+
+        I18n.locale # return current locale
+    end
 
     # @param accounnt [Account] The account associated to *current_user*
     # @param roles [String] The roles separate by comma for filter users by role

@@ -41,7 +41,7 @@ module Application
         #
         # IMPORTANT: It is strictly necessary to use the pagination methods
         #            to make this work properly
-        def respond_with_successful_pagination records
+        def respond_with_pagination records
 
             payload = {
                 :pagination => {
