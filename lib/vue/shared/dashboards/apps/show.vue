@@ -46,7 +46,7 @@ export default {
             default: null
         },
         newResourceAnchorText: {
-            type: String,
+            type: Function,
             default: null
         }
     },
@@ -125,7 +125,7 @@ export default {
                     <div class="buttons" v-if="newResourceAnchorPath">
                         <a class="button" :href="newResourceAnchorPath">
                             <b-icon icon="plus" size="is-small"></b-icon>
-                            <span>{{ newResourceAnchorText }}</span>
+                            <span>{{ newResourceAnchorText() }}</span>
                         </a>
                     </div>
                 </component-header>
