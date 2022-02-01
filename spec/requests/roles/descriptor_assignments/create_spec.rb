@@ -70,29 +70,29 @@ RSpec.describe "POST:/administration/roles/:id/descriptor_assignments.json", typ
 end
 
 
-# RSpec.describe "POST:/administration/roles/:id/descriptor_assignments.json", type: :request do
-#     include_context "user authentication"
+RSpec.describe "POST:/administration/roles/:id/descriptor_assignments.json", type: :request do
+    include_context "user authentication"
 
-#     before(:all) do
-#         @role = create(:role, accounts_id: @user.account.id)
-#         @role_descriptor = create(:role_descriptor, account: @user.account)
-#         @descriptor_assignment = attributes_for(:invalid_role_descriptor_assignment, roles_id: @role.id, role_descriptors_id: @role_descriptor.id)
+    before(:all) do
+        @role = create(:role, accounts_id: @user.account.id)
+        @role_descriptor = create(:role_descriptor, account: @user.account)
+        @descriptor_assignment = attributes_for(:invalid_role_descriptor_assignment)
 
-#         post("/administration/roles/#{@role.id}/descriptor_assignments.json", params: { 
-#             role_descriptor_assignment: @descriptor_assignment
-#         })
-#     end
+        post("/administration/roles/#{@role.id}/descriptor_assignments.json", params: { 
+            role_descriptor_assignment: @descriptor_assignment
+        })
+    end
 
-#     include_examples "error standard json response"
+    include_examples "error standard json response"
 
-#     it "is expected to respond with error when data is invalid" do
-#         expect(@response_body).to have_key("error")
-#         expect(@response_body["error"]).to be_a(Hash)
+    it "is expected to respond with error when data is invalid" do
+        expect(@response_body).to have_key("error")
+        expect(@response_body["error"]).to be_a(Hash)
 
-#         expect(@response_body["error"]).to have_key("message")
-#         expect(@response_body["error"]["message"]).to be_a(String)
+        expect(@response_body["error"]).to have_key("message")
+        expect(@response_body["error"]["message"]).to be_a(String)
         
-#         expect(@response_body["error"]).to have_key("details")
-#         expect(@response_body["error"]["details"]).to be_a(Array)
-#     end
-# end
+        expect(@response_body["error"]).to have_key("details")
+        expect(@response_body["error"]["details"]).to be_a(Array)
+    end
+end
