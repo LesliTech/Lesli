@@ -82,7 +82,7 @@ RSpec.describe "POST:/invite", type: :request do
 
     let!(:nil_params) do
         @invite = {
-            :email => Faker::Internet.email,
+            :email => nil,
             :telephone => nil,
             :full_name => nil,
             :note => nil
@@ -106,14 +106,14 @@ RSpec.describe "POST:/invite", type: :request do
             expect(response).to have_http_status(:success) 
         end
 
-        # it "is expected to respond with a successful property and have a false value" do
-        #     expect(subject).to have_key("successful")
-        #     expect(subject["successful"]).to be_falsey
-        # end
+        it "is expected to respond with a successful property and have a false value" do
+            expect(subject).to have_key("successful")
+            expect(subject["successful"]).to be_falsey
+        end
 
-        # it "is expected the response to have an error property" do 
-        #     expect(subject).to have_key("error")
-        # end
+        it "is expected the response to have an error property" do 
+            expect(subject).to have_key("error")
+        end
     end
 
     describe "When params are empty strings" do
@@ -124,13 +124,13 @@ RSpec.describe "POST:/invite", type: :request do
             expect(response).to have_http_status(:success) 
         end
 
-        # it "is expected to respond with a successful property and have a false value" do
-        #     expect(subject).to have_key("successful")
-        #     expect(subject["successful"]).to be_falsey
-        # end
+        it "is expected to respond with a successful property and have a false value" do
+            expect(subject).to have_key("successful")
+            expect(subject["successful"]).to be_falsey
+        end
 
-        # it "is expected the response to have an error property" do 
-        #     expect(subject).to have_key("error")
-        # end
+        it "is expected the response to have an error property" do 
+            expect(subject).to have_key("error")
+        end
     end
 end
