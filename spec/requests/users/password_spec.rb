@@ -88,21 +88,21 @@ RSpec.describe "POST:/administration/users/:id/resources/password.json", type: :
     end
 end
 
-# RSpec.describe "POST:/administration/users/:id/resources/password.json", type: :request do
-#     include_context "request user authentication"
+RSpec.describe "POST:/administration/users/:id/resources/password.json", type: :request do
+    include_context "request user authentication"
 
-#     # this helper will executed only when is called and the value returned won't change
-#     let(:invalid_user_id) { @invalid_id = create(:user).id + 1 }
+    # this helper will executed only when is called and the value returned won't change
+    let(:invalid_user_id) { @invalid_id = create(:user).id + 1 }
 
-#     before do
-#         # the Id sent does not exist in the db, so should return with not found
-#         post "/administration/users/#{invalid_user_id}/resources/password.json"
-#     end
+    before do
+        # the Id sent does not exist in the db, so should return with not found
+        post "/administration/users/#{invalid_user_id}/resources/password.json"
+    end
 
-#     it "is expected to respond with not found standard json response" do
-#         expect_json_response_not_found
-#     end
-# end
+    it "is expected to respond with not found standard json response" do
+        expect_json_response_error
+    end
+end
 
 RSpec.describe "POST:/administration/users/:id/resources/password.json", type: :request do
     # this helper will executed only when is called and the value returned won't change
