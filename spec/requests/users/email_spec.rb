@@ -68,22 +68,22 @@ RSpec.describe "PUT:/administration/users/:id/actions/email.json", type: :reques
     end
 end
 
-# RSpec.describe "PUT:/administration/users/:id/actions/email.json", type: :request do
-#     include_context "request user authentication"
+RSpec.describe "PUT:/administration/users/:id/actions/email.json", type: :request do
+    include_context "request user authentication"
 
-#     before do
-#         # this Id does not exist, so, should return with not found
-#         @invalid_user_id = create(:user).id + 1
+    before do
+        # this Id does not exist, so, should return with not found
+        @invalid_user_id = create(:user).id + 1
 
-#         put("/administration/users/#{@invalid_user_id}/actions/email.json", params: {
-#             user: { email: Faker::Internet.email }
-#         })
-#     end
+        put("/administration/users/#{@invalid_user_id}/actions/email.json", params: {
+            user: { email: Faker::Internet.email }
+        })
+    end
 
-#     it "is expected to respond with not found standard json response" do
-#         expect_json_response_not_found
-#     end
-# end
+    it "is expected to respond with not found standard json response" do
+        expect_json_response_error
+    end
+end
 
 
 RSpec.describe "PUT:/administration/users/:id/actions/email.json", type: :request do
