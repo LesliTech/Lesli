@@ -75,7 +75,7 @@ class User::ShortcutsController < ApplicationLesliController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_user_shortcut
-        @user_shortcut = User.find(params[:user_id]).shortcuts.find(params[:id])
+        @user_shortcut = User.find_by(id: params[:user_id]).shortcuts.find_by(id: params[:id])
     end
 
     # Only allow a list of trusted parameters through.
