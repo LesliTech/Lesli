@@ -23,7 +23,11 @@ class User::SettingsController < ApplicationLesliController
     def create
         settings = current_user.settings.find_or_initialize_by(name: user_setting_params[:name])
         settings.update(value: user_setting_params[:value])
-        settings.save
+        
+        unless settings.save
+            return respond_with_error(settings.errors.full_messages.to_sentence)
+        end
+
         respond_with_successful(settings)
     end
 
