@@ -43,12 +43,6 @@ class Profile::SubscriptionsController < ApplicationLesliController
         end
     end
 
-    def update
-    end
-
-    def destroy
-    end
-
     protected
 
     def set_builder_model
