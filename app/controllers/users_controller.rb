@@ -270,7 +270,7 @@ class UsersController < ApplicationLesliController
     def lock
 
         # get user
-        user = User.find(params[:id])
+        user = User.find_by(id: params[:id])
 
         # check if user exist
         if user.blank?
@@ -313,7 +313,7 @@ class UsersController < ApplicationLesliController
 
     # Resets the user email 
     def email
-        user = current_user.account.users.find(params[:id])
+        user = current_user.account.users.find_by(id: params[:id])
 
         if user.blank? 
             return respond_with_error I18n.t("core.shared.messages_warning_user_not_found")

@@ -24,13 +24,6 @@ class InvitesController < ApplicationController
     
     # GET /invites/1
     def show
-        respond_to do |format|
-            format.html {}
-            format.json do
-                return respond_with_not_found unless @invite
-                return respond_with_successful(@invite.show(current_user, @query))
-            end
-        end
     end
 
     # POST /invites
