@@ -51,7 +51,7 @@ module Application
             locale = session[:locale] || I18n.default_locale
 
             # get user's preferred language
-            locale = current_user.locale unless current_user.blank?
+            locale = current_user.locale || locale unless session[:user_session_id].blank?
     
             # language defined by the request from user settings
             if not request.headers["Require-Language"].blank?
