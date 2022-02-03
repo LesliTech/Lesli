@@ -52,23 +52,23 @@ RSpec.describe "POST:/administration/users/:id/resources/lock.json", type: :requ
     # end
 end
 
-# RSpec.describe "POST:/administration/users/:id/resources/lock.json", type: :request do
-#     include_context "request user authentication"
+RSpec.describe "POST:/administration/users/:id/resources/lock.json", type: :request do
+    include_context "request user authentication"
 
-#     before do
-#         #Should be at least one user in the database
-#         create(:user)
+    before do
+        #Should be at least one user in the database
+        create(:user)
 
-#         # Get an Id that does not exist
-#         @invalid_user_id = User.all.order(id: :asc).last["id"] + 1
+        # Get an Id that does not exist
+        @invalid_user_id = User.all.order(id: :asc).last["id"] + 1
 
-#         post "/administration/users/#{@invali d_user_id}/resources/lock.json"
-#     end
+        post "/administration/users/#{@invalid_user_id}/resources/lock.json"
+    end
 
-#     it "is expected to respond with not found standard json response" do
-#         expect_json_response_not_found
-#     end
-# end
+    it "is expected to respond with not found standard json response" do
+        expect_json_response_error
+    end
+end
 
 RSpec.describe "POST:/administration/users/:id/resources/lock.json", type: :request do
 
