@@ -52,23 +52,23 @@ RSpec.describe "POST:/administration/users/:id/settings.json", type: :request do
         expect(response_data["users_id"]).to eql(@current_user.id)
     end
 
-    # it "is expected respond with error when params are invalid" do
-    #     post("/administration/users/#{@current_user.id}/settings.json", params: {
-    #         user_setting: invalid_setting_params
-    #     })
+    it "is expected respond with error when params are invalid" do
+        post("/administration/users/#{@current_user.id}/settings.json", params: {
+            user_setting: invalid_setting_params
+        })
 
-    #     # shared examples
-    #     expect_json_response_error
-    # end
+        # shared examples
+        expect_json_response_error
+    end
 
-    # it "is expected respond with error when params are nil" do
-    #     post("/administration/users/#{@current_user.id}/settings.json", params: {
-    #         user_setting: user_setting_nil_params
-    #     })
+    it "is expected respond with error when params are nil" do
+        post("/administration/users/#{@current_user.id}/settings.json", params: {
+            user_setting: user_setting_nil_params
+        })
 
-    #     # shared examples
-    #     expect_json_response_error
-    # end
+        # shared examples
+        expect_json_response_error
+    end
 
     it "is expected to redirect to login when no user is authenticated" do
         login = "/login"
