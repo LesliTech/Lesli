@@ -67,6 +67,13 @@ class LesliSystemRake < LesliRake
             { :language => locale[1], :code => locale[0] }
         })
 
+        LC::Debug.separator_blank
+        LC::Debug.separator_blank
+
+        LC::Debug.table([LC::System::FileSystem.stats('/', 'GB')])
+
+        LC::Debug.separator_blank
+
     end
 
 end
