@@ -23,8 +23,8 @@ class ApplicationDeviseController < ActionController::Base
     include Application::Requester
     include Application::Responder
     include Application::Logger
-
-    layout "application-public"
+    
+    layout "layouts/application-public"
 
     before_action :set_locale
 
@@ -32,7 +32,6 @@ class ApplicationDeviseController < ActionController::Base
         super
         @account = {}
     end
-
 
 end
     
