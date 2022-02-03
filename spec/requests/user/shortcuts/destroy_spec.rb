@@ -59,15 +59,15 @@ RSpec.describe "POST:/administration/users/:id/shortcuts.json", type: :request d
         expect(user_shortcut).to be_nil
     end
 
-    # it "is expected to respond with not found when an invalid user_shortcut in given" do
-    #     shortcut # should exist at leat one record in the DB
-    #     @invalid_shortcut_id = User::Shortcut.all.order(id: :asc).last[:id] + 1
+    it "is expected to respond with not found when an invalid user_shortcut in given" do
+        shortcut # should exist at leat one record in the DB
+        @invalid_shortcut_id = User::Shortcut.all.order(id: :asc).last[:id] + 1
 
-    #     delete "/administration/users/#{@current_user.id}/shortcuts/#{@invalid_shortcut_id}.json"
+        delete "/administration/users/#{@current_user.id}/shortcuts/#{@invalid_shortcut_id}.json"
 
-    #     # shared examples
-    #     expect_json_response_not_found
-    # end
+        # shared examples
+        expect_json_response_not_found
+    end
 
     it "is expected to redirect to login when no user is authenticated" do
         # we create a new user_shorcut to work with
