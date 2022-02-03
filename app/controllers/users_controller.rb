@@ -270,7 +270,7 @@ class UsersController < ApplicationLesliController
     def lock
 
         # get user
-        user = User.find(params[:id])
+        user = User.find_by(id: params[:id])
 
         # check if user exist
         if user.blank?
