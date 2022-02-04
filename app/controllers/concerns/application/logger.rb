@@ -55,6 +55,7 @@ module Application
                 request_controller: controller_path,
                 request_method: request.method,
                 request_action: action_name,
+                request_format: request.format.symbol,
                 request_url: request.original_fullpath,
                 user_sessions_id: session[:user_session_id]
             })

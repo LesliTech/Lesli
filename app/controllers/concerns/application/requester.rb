@@ -46,24 +46,23 @@ module Application
 
         def set_locale
 
-            # get user's preferred language from browser
-            browser_locale = request.headers['HTTP_ACCEPT_LANGUAGE'] || request.headers['Accept-Language'] || ""
-            browser_locale = browser_locale.scan(/[a-z]{2}(?=;)/).find do |locale|
-                I18n.available_locales.include?(locale.to_sym)
-            end
-
             # get saved language in session, browser language or the default in config
             # the session param is setted in settings controller through "get :language, to: "settings#language""
-            locale = session[:locale] || browser_locale || I18n.default_locale
+            locale = session[:locale] || I18n.default_locale
+
+            # get user's preferred language
+            # IMPORTANT: 
+            #       Here it's not possible to use the methods provided by devise to check if user is 
+            #       authetnicated "user_signed_in", due those methods redirects to the login controller
+            #       if user is not authenticated; For some scenarios we need to have control of the behavior 
+            #       for not authenticated user requests, thats why here we go deeper and check if user is 
+            #       authenticated checking the warden storage
+            locale = current_user.locale || locale if warden.authenticated?
     
-            # language defined by the request
+            # language defined by the request from user settings
             if not request.headers["Require-Language"].blank?
                 locale = request.headers["Require-Language"]
             end
-
-            # Here should I check?
-                # browser language?
-                # database language?
 
             # use default locale if requested language is not supported
             locale = I18n.default_locale if not I18n.available_locales.include?(locale.to_sym)
@@ -71,6 +70,16 @@ module Application
             # set the new locale
             I18n.locale = locale
     
+        end
+
+        private 
+
+        def get_browser_locale
+            # get user's preferred language from browser
+            browser_locale = request.headers['HTTP_ACCEPT_LANGUAGE'] || request.headers['Accept-Language'] || ""
+            browser_locale = browser_locale.scan(/[a-z]{2}(?=;)/).find do |locale|
+                I18n.available_locales.include?(locale.to_sym)
+            end
         end
 
     end
