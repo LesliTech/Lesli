@@ -1,7 +1,5 @@
 =begin
 
-Lesli
-
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -19,19 +17,21 @@ For more information read the license file including with this software.
 
 =end
 
-class ApplicationDeviseController < ActionController::Base
-    include Application::Requester
-    include Application::Responder
-    include Application::Logger
-    
-    layout "layouts/application-public"
+class CreateUserRequestsExt < ActiveRecord::Migration[6.0]
+    def change
+        create_table :user_requests_ext do |t|
+            t.string :request_agent
+            t.string :request_controller
+            t.string :request_method
+            t.string :request_action
+            t.string :request_format
+            t.string :request_url
+            t.json   :params
 
-    before_action :set_locale
-
-    def initialize
-        super
-        @account = {}
+            t.datetime :deleted_at, index: true
+            t.timestamps
+        end
+        add_reference :user_requests_ext, :users, foreign_key: true
+        add_reference :user_requests_ext, :user_sessions, foreign_key: true
     end
-
 end
-    
