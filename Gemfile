@@ -128,6 +128,9 @@ gem "omniauth"
 gem 'omniauth-google-oauth2', '= 1.0'
 gem 'omniauth-facebook', '= 9.0'
 
+# cross-platform interface for filesystem information
+gem 'sys-filesystem', '~> 1.4'
+
 group :development, :test do
 
     # Fake data generator

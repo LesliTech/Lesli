@@ -51,7 +51,13 @@ module Application
             locale = session[:locale] || I18n.default_locale
 
             # get user's preferred language
-            locale = current_user.locale || locale unless session[:user_session_id].blank?
+            # IMPORTANT: 
+            #       Here it's not possible to use the methods provided by devise to check if user is 
+            #       authetnicated "user_signed_in", due those methods redirects to the login controller
+            #       if user is not authenticated; For some scenarios we need to have control of the behavior 
+            #       for not authenticated user requests, thats why here we go deeper and check if user is 
+            #       authenticated checking the warden storage
+            locale = current_user.locale || locale if warden.authenticated?
     
             # language defined by the request from user settings
             if not request.headers["Require-Language"].blank?
