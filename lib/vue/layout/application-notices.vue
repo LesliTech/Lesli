@@ -66,7 +66,7 @@ export default {
         <article v-for="announcement in announcements"
             :key="announcement.id"
             :class="['notification', `is-${announcement.category}`]">
-            <button @click="closeAnnouncement(announcement.id)" class="delete"></button>
+            <button v-if="announcement.can_be_closed" @click="closeAnnouncement(announcement.id)" class="delete"></button>
             <div class="notification-body" v-html="announcement.message.html"></div>
         </article>
     </section>
