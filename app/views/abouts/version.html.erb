@@ -2,19 +2,17 @@
 
     <%
         revision = LC::System::Info.revision()
-        name = LC::System::Info.instance[:code].titleize()
         version = "version: #{ revision[:version] }"
         build = "build: #{ revision[:build] }"
     %>
 
     <div class="header mb-6 pb-4 pl-3">
-        <h3 class="is-size-3"><%= name %></h3>
-        <h3 class="is-size-4"><%= version %> &bull; <%= build %></h3>
+        <h3 class="is-size-3"><%= LC::System::Info.instance[:code].titleize() %></h3>
+        <h4 class="is-size-4"><%= version %> &bull; <%= build %></h4>
     </div>
 
-    <%# <component-header title="Modules"></component-header> %>
     <article class="engines">
-        <% @engines.each do |engine| %>
+        <% @aboutengines.each do |engine| %>
             <div class="engine">
                 <%= image_tag engine[1][:image] %>
                 <p><%= engine[1][:name] %></p>
@@ -23,4 +21,5 @@
             </div>
         <% end %>
     </article>
+
 </section>

@@ -49,7 +49,7 @@ module RoutesApp
                         resources :notifications, only: [:index, :update]
 
                         # current user subscriptions management
-                        resources :subscriptions, only: [:index, :destroy, :update] do
+                        resources :subscriptions, only: [:index] do
                             collection do
                                 get :options
                             end
