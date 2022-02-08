@@ -68,6 +68,15 @@ module LC
                 
             end
 
+            def self.stats_pretty location, unit='MB'
+                stats = stats(location, unit)
+                {
+                    :used_space => stats[:used_space].to_s << '%',
+                    :total_space => stats[:total_space].to_s << stats[:unit],
+                    :free_space => stats[:free_space].to_s << stats[:unit]
+                }
+            end
+
         end
 
     end
