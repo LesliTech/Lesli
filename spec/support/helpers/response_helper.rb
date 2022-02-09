@@ -27,7 +27,7 @@ module ResponseHelpers
     end
 
     def response_data
-        response_json["data"]
+        response_json["data"] || response_json["payload"]
     end
 
     def response_error
@@ -40,7 +40,7 @@ module ResponseHelpers
         expect(response.content_type).to eq("application/json; charset=utf-8")
         expect(response_json).to have_key('successful') 
         expect(response_json["successful"]).to eql(true)
-        expect(response_json).to have_key("data")
+        expect(response_json).to have_key("data").or have_key("payload")
     end
 
     def expect_json_response_error
