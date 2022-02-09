@@ -234,13 +234,6 @@ module Shared
 
             cloud_object_class = "#{engine_name}::#{main_association.workflow_for.classify}"
 
-
-            # Temporariy Translations calculation this must be changed once real translation standards are implemented
-            # @todo Change this once translations standars are set            
-            translations_class_name = (self.name.split("::")[0]).gsub("Cloud","").downcase
-            translations_class_name = "deutscheleibrenten" if translations_class_name == "house"
-            translations_class_name = "" if translations_class_name == "house"
-
             file_types = "#{cloud_object_class}::File".constantize.file_types.values.map do |file_type|
                 
                 text = I18n.t("deutscheleibrenten.#{main_association.workflow_for}/files.enum_file_type_#{file_type}", default: nil)
