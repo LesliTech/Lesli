@@ -16,7 +16,8 @@ export default {
                     }
                 }
             },
-            submitting_form: false
+            submitting_form: false,
+            integration_created: false
         }
     },
     methods: {
@@ -27,14 +28,29 @@ export default {
             this.http.post(this.endpoint,{ account_integration: this.integration}).then(result => {
                 this.submitting_form = false
 
-                if (result.successful) {
-                    this.msg.success(this.translations.core.account.integrations.messages_success_created_successfully)
-
-                    this.url.go(`${this.endpoint}/${result.data.id}`)
-                } else {
+                if (!result.successful) {
                     this.msg.error(result.error.message)
                     return
                 }
+
+                this.msg.success(this.translations.core.account.integrations.messages_success_created_successfully)
+                this.getIntegration(result.data.id)
+                this.integration_created = true
+
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        getIntegration(integrationId){
+            this.http.get(`${this.endpoint}/${integrationId}.json`).then(result => {
+                
+                if(!result.successful){
+                    this.msg.error(result.error.message)
+                }
+
+                this.integration = result.data
+
             }).catch(error => {
                 console.log(error)
             })
@@ -44,26 +60,31 @@ export default {
 }
 </script>
 <template>
-    <form @submit.prevent="postIntegration">
-        <div class="field">
-            <label class="label"> {{ translations.core.account.integrations.column_name }} </label>
-                <div class="control">
-                <input class="input" type="text" placeholder="" v-model="integration.name">
+    <div>
+        <form @submit.prevent="postIntegration" v-if="!integration_created">
+            <div class="field">
+                <label class="label"> {{ translations.core.account.integrations.column_name }} </label>
+                    <div class="control">
+                    <input class="input" type="text" placeholder="" v-model="integration.name">
+                </div>
             </div>
+            <p class="control">
+                <b-button class="button is-primary">
+                    <span v-if="submitting_form">
+                        <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
+                        &nbsp;
+                        {{ translations.core.shared.btn_saving }}
+                    </span>
+                    <span v-else>
+                        <b-icon icon="save" size="is-small" />
+                        &nbsp;
+                        {{ translations.core.shared.view_btn_save }}
+                    </span>
+                </b-button>
+            </p>
+        </form>
+        <div v-else>
+            <p>{{ translations.core.account.integrations.view_text_token }}: {{ integration.session.session_token }}</p>
         </div>
-        <p class="control">
-            <button class="button is-primary">
-                <span v-if="submitting_form">
-                    <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
-                    &nbsp;
-                    {{ translations.core.shared.btn_saving }}
-                </span>
-                <span v-else>
-                    <b-icon icon="save" size="is-small" />
-                    &nbsp;
-                    {{ translations.core.shared.btn_save }}
-                </span>
-            </button>
-        </p>
-    </form>
+    </div>
 </template>
