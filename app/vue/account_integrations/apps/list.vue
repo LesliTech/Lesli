@@ -4,6 +4,7 @@ export default {
 
     data() {
         return {
+            loading: true,
             endpoint: "/administration/account/integrations",
             integrations: [],
             translations: {
@@ -27,6 +28,7 @@ export default {
                     return
                 }
                 this.integrations = result.data
+                this.loading = false
             }).catch(error => {
                 console.log(error)
             })
@@ -47,14 +49,14 @@ export default {
             </router-link>
         </component-header>
         <div class="card">
+            <component-data-loading v-if="loading"> </component-data-loading>
+            <component-data-empty v-if="!loading && integrations.length === 0"> </component-data-empty>
             <div class="card-content">
                 <b-table
                     @click="showIntegration"
-                    :data="integrations"
-                >
+                    :data="integrations">
 
                     <template v-slot="props">
-
                         <b-table-column :label="translations.core.integrations.column_id" field="id">
                             {{ props.row.id }}
                         </b-table-column>

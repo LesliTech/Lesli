@@ -27,7 +27,35 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
-        }
+        },
+
+        confirmDeleteIntegration(){
+            this.$buefy.dialog.confirm({
+                title: this.translations.core.integrations.messages_danger_delete_integration,
+                message: this.translations.core.integrations.messages_danger_delete_integration_message_detail,
+                confirmText: this.translations.core.integrations.messages_danger_delete_integration_confirm,
+                cancelText: this.translations.core.integrations.messages_danger_delete_integration_cancel,
+                type: "is-danger",
+                hasIcon: true,
+                onConfirm: () => this.deleteIntegration()
+            })
+        },
+
+        deleteIntegration(){
+            this.http.delete(`${this.endpoint}/${this.id}.json`).then(result => {
+
+                if(!result.successful){
+                    this.msg.error(result.error.message)
+                    return
+                }
+
+                this.msg.success(this.translations.core.integrations.messages_success_integration_deleted)
+                this.$router.push(`/`)
+
+            }).catch(error => {
+                console.log(error);
+            })
+        },
 
     }
 }
@@ -41,15 +69,12 @@ export default {
                         <b-icon icon="list" size="is-small" />
                         <span>{{ translations.core.shared.view_btn_list }}</span>
                     </router-link>
+                    <b-button class="button" @click="confirmDeleteIntegration()">
+                        <b-icon icon="trash" size="is-small" />
+                        <span>{{ translations.core.shared.view_btn_delete }}</span>
+                    </b-button>
                 </div>
             </template>
         </component-header>
-
-        <div class="card">
-            <div class="card-content" v-if="integration.session">
-                <p>{{ translations.core.integrations.view_text_token}}: {{ integration.session.session_token }}</p>
-                <p>{{ translations.core.integrations.view_text_usage_count}}: {{ integration.session.usage_count }}</p>
-            </div>
-        </div>
     </section>
 </template>

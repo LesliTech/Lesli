@@ -90,12 +90,12 @@ class Account::IntegrationsController < ApplicationLesliController
         end
     end
 
-    # PATCH/PUT /account/integrations/1
-    def update
+    # DELETE /account/integrations/1
+    def destroy
         return respond_with_not_found unless @account_integration
 
-        if @account_integration.update(account_currency_params)
-            respond_with_successful(@account_integration.show(current_user, @query))
+        if @account_integration.destroy
+            respond_with_successful
         else
             respond_with_error(@account_integration.errors.full_messages.to_sentence)
         end
