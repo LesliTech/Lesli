@@ -35,7 +35,6 @@ export default {
 
                 this.msg.success(this.translations.core.account.integrations.messages_success_created_successfully)
                 this.getIntegration(result.data.id)
-                this.integration_created = true
 
             }).catch(error => {
                 console.log(error)
@@ -50,11 +49,25 @@ export default {
                 }
 
                 this.integration = result.data
+                this.integration_created = true
 
             }).catch(error => {
                 console.log(error)
             })
-        }
+        },
+
+        copyToClipboard() {
+            const el = document.createElement('textarea');
+            el.value = this.integration.session.session_token 
+            el.setAttribute('readonly', '');
+            el.style.position = 'absolute';
+            el.style.left = '-9999px';
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            this.msg.info("Copied to clipboard")
+        },
 
     }
 }
@@ -83,8 +96,11 @@ export default {
                 </b-button>
             </p>
         </form>
-        <div v-else>
-            <p>{{ translations.core.account.integrations.view_text_token }}: {{ integration.session.session_token }}</p>
+        <div v-else class="is-flex is-flex-direction-row is-align-items-center">
+            <p>{{ translations.core.account.integrations.view_text_token }}:</p>
+            <b-tooltip label="Click to copy">
+                <b-button :label="integration.session.session_token" type="is-ghost" class="button" @click="copyToClipboard" />
+            </b-tooltip>
         </div>
     </div>
 </template>
