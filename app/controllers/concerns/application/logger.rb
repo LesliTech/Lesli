@@ -35,10 +35,13 @@ module Application
             # parse user agent
             user_agent = UserAgent.parse(http_user_agent)
 
-            # return user agent info as string
-            return "#{user_agent.platform} #{user_agent.os} - #{user_agent.browser} #{user_agent.version}" if as_string == true
+            user_agent_version = user_agent.version.to_a.first(2).join('.')
 
-            user_agent
+            # return user agent as object
+            return user_agent unless as_string == true
+
+            # return user agent info as string
+            return "#{user_agent.platform} #{user_agent.os} - #{user_agent.browser} #{user_agent_version}" 
 
         end
 
