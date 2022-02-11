@@ -79,7 +79,7 @@ export default {
         <div class="card">
             <component-data-loading v-if="loading"> </component-data-loading>
             <component-data-empty v-if="!loading && integrations.length === 0"> </component-data-empty>
-            <div class="card-content">
+            <div class="card-content" v-else>
                 <b-table :data="integrations">
                     <template v-slot="props">
                         <b-table-column :label="translations.core.integrations.column_id" field="id">
