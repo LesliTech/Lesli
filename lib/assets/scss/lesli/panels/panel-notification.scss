@@ -25,22 +25,39 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 .application-panel-notification {
 
+    $base: lesli-css-color(silver, 300);
+    $info: #d9f5ff;
+    $infoicon: #024283;
+    $danger: #ffd9d9;
+    $dangericon: #cc0000;
+    $warning: #fffdd9;
+    $warningicon: #7e7802;
+
+    $success: #e0ffd9;
+    $successicon: #1a8200;
+
     .lesli-notification {
         display: flex;
         align-items: center;
-        border-bottom: 1px solid findLightColor($info);
+        border-bottom: 2px solid $base;
 
         .icon {
             height: 100%;
-            padding: 0 1.0rem;
-            background-color: findLightColor($info);
-            i { color: $info; }
+            padding: 1.25rem 1rem;
+            align-items: flex-start;
+            background-color: $base;
+            i { color: lesli-css-color(silver, 700); }
         }
 
         .details {
             flex-grow: 1;
             padding: 1rem;
         }
+
+
+        &.info { border-bottom-color: $info; }
+        &.info .icon { background-color: $info; }
+        &.info .icon i { color: $infoicon; }
 
     }
 
