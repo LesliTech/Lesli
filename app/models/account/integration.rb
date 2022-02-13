@@ -41,8 +41,8 @@ class Account::Integration < ApplicationRecord
             :active,
             :email,
             :usage_count,
-            :last_used_at,
-            :expiration_at
+            "#{LC::Date.db_to_char(:last_used_at)}",
+            "#{LC::Date.db_to_char(:expiration_at)}"
         )
     end
 
