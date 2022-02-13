@@ -34,10 +34,6 @@ export default {
             })
         },
 
-        showIntegration(integration) {
-            this.$router.push(`${integration.id}`)
-        },
-
         confirmDeleteIntegration(integrationId){
             this.$buefy.dialog.confirm({
                 title: this.translations.core.integrations.messages_danger_delete_integration,
@@ -82,27 +78,27 @@ export default {
             <div class="card-content" v-else>
                 <b-table :data="integrations">
                     <template v-slot="props">
-                        <b-table-column :label="translations.core.integrations.column_id" field="id">
+                        <b-table-column :label="translations.core.integrations.column_id" field="id" centered>
                             {{ props.row.id }}
                         </b-table-column>
 
-                        <b-table-column :label="translations.core.integrations.column_name" field="name">
+                        <b-table-column :label="translations.core.integrations.column_name" field="name" centered>
                             {{ props.row.name }}
                         </b-table-column>
 
-                        <b-table-column :label="translations.core.users.column_active" field="active">
+                        <b-table-column :label="translations.core.users.column_active" field="active" centered>
                             {{ props.row.active ? translations.core.shared.view_text_yes : translations.core.shared.view_text_no }}
                         </b-table-column>
 
-                        <b-table-column :label="translations.core.integrations.view_text_usage_count" field="usage_count">
+                        <b-table-column :label="translations.core.integrations.view_text_usage_count" field="usage_count" centered>
                             {{ props.row.usage_count }}
                         </b-table-column>
 
-                        <b-table-column :label="translations.core.integrations.view_text_last_used_at" field="last_used_at">
+                        <b-table-column :label="translations.core.integrations.view_text_last_used_at" field="last_used_at" centered>
                             {{ props.row.last_used_at }}
                         </b-table-column>
 
-                        <b-table-column :label="translations.core.integrations.view_text_expiration_at" field="expiration_at">
+                        <b-table-column :label="translations.core.integrations.view_text_expiration_at" field="expiration_at" centered>
                             {{ props.row.expiration_at }}
                         </b-table-column>
 
