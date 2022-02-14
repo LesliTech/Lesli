@@ -20,7 +20,7 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
             if defined? DeutscheLeibrenten
                 href = "/crm#{cloud_object.urn}"
             else
-                href = "/#{class_data[0].gsub("Cloud", "").underscore()}/#{cloud_object.urn}"
+                href = "/#{class_data[0].gsub("Cloud", "").underscore()}#{cloud_object.urn}"
             end
 
             href = custom_href if custom_href 
