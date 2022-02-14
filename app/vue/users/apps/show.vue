@@ -110,7 +110,7 @@ export default {
             <b-tab-item :label="translations.core.users.view_tab_title_shortcut_management">
                 <component-management-shortcuts v-if="user_id" :user_id="user_id"></component-management-shortcuts>
             </b-tab-item>
-            <b-tab-item label="Settings">
+            <b-tab-item :label="translations.core.users.view_tab_title_settings">
                 <component-settings-form v-if="user_id" :user_id="user_id"></component-settings-form>
             </b-tab-item>
         </b-tabs>
