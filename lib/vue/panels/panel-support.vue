@@ -42,6 +42,7 @@ export default {
             },
             ticket: {
                 cloud_help_catalog_ticket_types_id: null,
+                cloud_help_catalog_ticket_workspaces_id: null,
                 subject: '',
                 description: null,
                 reference_url: null
@@ -95,6 +96,11 @@ export default {
 
                     if(this.options.types.length > 0){
                         this.ticket.cloud_help_catalog_ticket_types_id = this.options.types[0].id
+                    }
+
+                    if(this.options.workspaces.length > 0){
+                        let default_workspace = this.options.workspaces.find(workspace => workspace.default)
+                        this.ticket.cloud_help_catalog_ticket_workspaces_id = default_workspace.id
                     }
                 }
             }).catch(error => {
@@ -213,6 +219,25 @@ export default {
                                 :value="type.id"
                             >
                                 {{type.name}}
+                            </option>
+                        </b-select>
+                    </b-field>
+                    <b-field>
+                        <template v-slot:label>
+                            {{translations.main.column_cloud_help_catalog_ticket_workspaces_id}}<sup class="has-text-danger">*</sup>
+                        </template>
+                        <b-select
+                            :placeholder="translations.core.view_placeholder_select_option"
+                            expanded
+                            required
+                            v-model="ticket.cloud_help_catalog_ticket_workspaces_id"
+                        >
+                            <option
+                                v-for="workspace in options.workspaces"
+                                :key="workspace.id"
+                                :value="workspace.id"
+                            >
+                                {{workspace.name}}
                             </option>
                         </b-select>
                     </b-field>
