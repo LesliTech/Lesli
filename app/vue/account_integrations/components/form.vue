@@ -43,7 +43,7 @@ export default {
 
             this.http.post(this.endpoint,params).then(result => {
                 this.submitting_form = false
-                console.log(result)
+
                 if (!result.successful) {
                     this.msg.error(result.error.message)
                     return
