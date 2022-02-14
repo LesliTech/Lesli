@@ -6,9 +6,10 @@ export default {
         return {
             endpoint: "/administration/account/integrations",
             session: {
+                session_token: ""
             },
             integration: {
-                name: ""
+                name: "",
             },
             translations: {
                 core: {
@@ -42,29 +43,16 @@ export default {
 
             this.http.post(this.endpoint,params).then(result => {
                 this.submitting_form = false
-
+                console.log(result)
                 if (!result.successful) {
                     this.msg.error(result.error.message)
                     return
                 }
 
-                this.msg.success(this.translations.core.account.integrations.messages_success_created_successfully)
-                this.getIntegration(result.data.id)
-
-            }).catch(error => {
-                console.log(error)
-            })
-        },
-
-        getIntegration(integrationId){
-            this.http.get(`${this.endpoint}/${integrationId}.json`).then(result => {
-                
-                if(!result.successful){
-                    this.msg.error(result.error.message)
-                }
-
-                this.integration = result.data
+                this.session.session_token = result.data
                 this.integration_created = true
+                this.msg.success(this.translations.core.account.integrations.messages_success_created_successfully)
+                //this.getIntegration(result.data.id)
 
             }).catch(error => {
                 console.log(error)
@@ -73,7 +61,7 @@ export default {
 
         copyToClipboard() {
             const el = document.createElement('textarea');
-            el.value = this.integration.session.session_token 
+            el.value = this.session.session_token 
             el.setAttribute('readonly', '');
             el.style.position = 'absolute';
             el.style.left = '-9999px';
@@ -136,7 +124,7 @@ export default {
         <div v-else class="is-flex is-flex-direction-row is-align-items-center">
             <p>{{ translations.core.account.integrations.view_text_token }}:</p>
             <b-tooltip label="Click to copy">
-                <b-button :label="integration.session.session_token" type="is-ghost" class="button" @click="copyToClipboard" />
+                <b-button :label="session.session_token" type="is-ghost" class="button" @click="copyToClipboard" />
             </b-tooltip>
         </div>
     </div>

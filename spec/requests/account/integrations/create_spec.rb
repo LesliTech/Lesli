@@ -51,33 +51,7 @@ require "byebug"
         include_examples "successful standard json response"
 
         it "is expected to respond with integrations created successfully" do
-            expect(@response_body_data).to be_a(Hash)
-
-            expect(@response_body_data).to have_key("id")
-            expect(@response_body_data["id"]).to be_a(Numeric)
-
-            expect(@response_body_data).to have_key("name")
-            expect(@response_body_data["name"]).to be_a(String)
-            expect(@response_body_data["name"]).to eq(integration[:name])
-
-            expect(@response_body_data).to have_key("user_main_id")
-            expect(@response_body_data["user_main_id"]).to be_a(Numeric)
-            expect(@response_body_data["user_main_id"]).to eql(@user.id)
-
-            expect(@response_body_data).to have_key("users_id")
-            expect(@response_body_data["users_id"]).to be_a(Numeric)
-            expect(@response_body_data["users_id"]).to eql(@user.account.users.find(@response_body_data["users_id"]).id)
-
-            expect(@response_body_data).to have_key("accounts_id")
-            expect(@response_body_data["accounts_id"]).to be_a(Numeric)
-            expect(@response_body_data["accounts_id"]).to eql(@user.account.id)
-
-            expect(@response_body_data).to have_key("created_at")
-            expect(@response_body_data["created_at"]).to be_a(String)
-
-            expect(@response_body_data).to have_key("updated_at")
-            expect(@response_body_data["updated_at"]).to be_a(String)
-
+            expect(@response_body_data).to be_a(String)
         end
     end
 end
@@ -106,33 +80,7 @@ RSpec.describe "POST:/administation/account/integrations", type: :request do
     include_examples "successful standard json response"
 
     it "is expected to respond with a integration created successfully" do
-        expect(@response_body_data).to be_a(Hash)
-
-        expect(@response_body_data).to have_key("id")
-        expect(@response_body_data["id"]).to be_a(Numeric)
-        expect(@response_body_data["id"]).not_to eql(@id)
-
-        expect(@response_body_data).to have_key("name")
-        expect(@response_body_data["name"]).to be_a(String)
-        expect(@response_body_data["name"]).to eq(@name)
-
-        expect(@response_body_data).to have_key("user_main_id")
-        expect(@response_body_data["user_main_id"]).to be_a(Numeric)
-        expect(@response_body_data["user_main_id"]).to eql(@user.id)
-
-        expect(@response_body_data).to have_key("users_id")
-        expect(@response_body_data["users_id"]).to be_a(Numeric)
-        expect(@response_body_data["users_id"]).to eql(@user.account.users.find(@response_body_data["users_id"]).id)
-
-        expect(@response_body_data).to have_key("accounts_id")
-        expect(@response_body_data["accounts_id"]).to be_a(Numeric)
-        expect(@response_body_data["accounts_id"]).to eql(@user.account.id)
-
-        expect(@response_body_data).to have_key("created_at")
-        expect(@response_body_data["created_at"]).to be_a(String)
-
-        expect(@response_body_data).to have_key("updated_at")
-        expect(@response_body_data["updated_at"]).to be_a(String)
+        expect(@response_body_data).to be_a(String)
     end
 end
 
