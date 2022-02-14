@@ -29,20 +29,6 @@ class Account::IntegrationsController < ApplicationLesliController
         end
     end
 
-    # GET /account/integrations/1
-    def show
-        respond_to do |format|
-            format.html {}
-            format.json {
-                set_account_integration
-
-                return respond_with_not_found unless @account_integration
-
-                respond_with_successful(@account_integration.show(current_user, params))
-            }
-        end
-    end
-
     # GET /account/integrations/new
     def new
     end
@@ -85,7 +71,7 @@ class Account::IntegrationsController < ApplicationLesliController
                 :expiration_at => params[:session][:expiration_at]
             })
 
-            respond_with_successful(account_integration)
+            respond_with_successful(current_session.session_token)
         else
             respond_with_error account_integration.errors.full_messages.to_sentence
         end
