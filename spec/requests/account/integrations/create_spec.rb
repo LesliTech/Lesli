@@ -41,6 +41,9 @@ require "byebug"
             post("/administration/account/integrations.json", params: {
                 account_integration: {
                     name: integration[:name]
+                },
+                session: {
+                    expiration_at: DateTime.new
                 }
             })
         end
@@ -93,6 +96,9 @@ RSpec.describe "POST:/administation/account/integrations", type: :request do
             account_integration: {
                 id: @id,
                 name: @name
+            },
+            session: {
+                expiration_at: DateTime.new
             }
         })
     end
@@ -143,6 +149,9 @@ RSpec.describe "POST:/administation/account/integrations", type: :request do
         post("/administration/account/integrations.json", params: {
             account_integration: {
                 name: @name
+            },
+            session: {
+                expiration_at: DateTime.new
             }
         })
     end
@@ -173,6 +182,9 @@ RSpec.describe "POST:/administation/account/integrations", type: :request do
         post("/administration/account/integrations.json", params: {
             account_integration: {
                 name: @name
+            },
+            session: {
+                expiration_at: DateTime.new
             }
         })
     end

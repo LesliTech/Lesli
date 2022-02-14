@@ -94,6 +94,9 @@ RSpec.describe "GET:/administration/account/integrations", type: :request do
         post("/administration/account/integrations.json", params: {
             account_integration: {
                 name: data[:name]
+            },
+            session: {
+                expiration_at: DateTime.new
             }
         })
 
