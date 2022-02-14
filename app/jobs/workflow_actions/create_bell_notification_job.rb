@@ -37,15 +37,15 @@ class WorkflowActions::CreateBellNotificationJob < ApplicationJob
             if defined? DeutscheLeibrenten
                 href = "/crm/#{class_data[1].downcase().pluralize()}/#{cloud_object.id}"
             else
-                href = "/#{class_data[0].downcase().gsub("Cloud", "")}/#{class_data[1].downcase().pluralize()}/#{cloud_object.id}"
+                href = "/#{class_data[0].gsub("Cloud", "").downcase()}/#{class_data[1].downcase().pluralize()}/#{cloud_object.id}"
             end
 
 
-            Courier::Bell::Notification::Web.new(
+            Courier::Bell::Notification.new(
                 notification_user,
                 input_data["subject"],
                 body: input_data["body"],
-                href: href,
+                url: href,
                 category: input_data["category"]
             )
         rescue StandardError => e
