@@ -41,21 +41,9 @@ class Account::Integration < ApplicationRecord
             :active,
             :email,
             :usage_count,
-            :last_used_at,
-            :expiration_at
+            "#{LC::Date.db_to_char(:last_used_at)}",
+            "#{LC::Date.db_to_char(:expiration_at)}"
         )
-    end
-
-    def show current_user, query
-        # get last active session for integration
-        session = self.user.sessions.last
-
-        {
-            id: id,
-            name: name,
-            user_main: user_main,
-            session: (session.blank? ? {} : session)
-        }
     end
 
     def self.generate_random_email(name)

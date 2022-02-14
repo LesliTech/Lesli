@@ -73,7 +73,7 @@ module RoutesApp
                         end
 
                         # integration tokens
-                        resources :integrations, only: [:index, :show, :new, :create]
+                        resources :integrations, only: [:index, :new, :create, :destroy]
 
                         # general geographic locations
                         resources :locations, only: [:index, :show, :create]
