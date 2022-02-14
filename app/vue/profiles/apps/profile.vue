@@ -18,17 +18,21 @@ For more information read the license file including with this software.
 
 
 // ·
+import componentSettingsForm from "Lesli/vue/users/components/form-settings.vue"
+import componentSecurityForm from "Lesli/vue/users/components/form-security.vue"
+import componentSubscriptions from "Lesli/vue/users/components/subscriptions.vue"
 import componentInformationCard from "Lesli/vue/users/components/card-information.vue"
 import componentInformationForm from "Lesli/vue/users/components/form-information.vue"
-import componentSecurityForm from "Lesli/vue/users/components/form-security.vue"
 import componentManagementSessions from "Lesli/vue/users/components/management-sessions.vue"
 import componentManagementNotifications from "Lesli/vue/profiles/components/management-notifications.vue"
-import componentSubscriptions from "Lesli/vue/users/components/subscriptions.vue"
+
+
 
 
 // ·
 export default {
     components: {
+        'component-settings-form': componentSettingsForm,
         'component-security-form': componentSecurityForm,
         'component-subscriptions': componentSubscriptions,
         'component-information-card': componentInformationCard,
@@ -105,8 +109,8 @@ export default {
             <b-tab-item :label="translations.core.users.view_tab_title_session_management">
                 <component-management-sessions v-if="user_id" :user_id="user_id"></component-management-sessions>
             </b-tab-item>
-            <b-tab-item :label="'Notifications management'" v-if="lesli.pushs">
-                <component-management-notifications v-if="user_id" :user_id="user_id"></component-management-notifications>
+            <b-tab-item :label="translations.core.users.view_tab_title_settings">
+                <component-settings-form v-if="user_id" :user_id="user_id"></component-settings-form>
             </b-tab-item>
         </b-tabs>
     </section>
