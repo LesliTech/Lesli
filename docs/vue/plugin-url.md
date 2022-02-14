@@ -16,6 +16,7 @@ Vue global url constructor
     this.url.admin("users/options")
     //-> /administration/users/options
 
+    this.url.admin("users/:id", 777)
     this.url.admin("users/:id", { id: 777 })
     //-> /administration/users/777
 
@@ -37,9 +38,20 @@ Vue global url constructor
     this.url.bell("notifications")
     //-> /bell/notifications
 
-    // TODO
-    this.url.admin("users").exclude()
-    this.url.admin("users").only()
+    this.url.driver("calendars/default").filter({ events: ['help'] })
+    //-> /driver/calendar.json?events=help
+
+    this.url.driver("calendars/default").filter({ events: ['help', 'focus'] })
+    //-> /driver/calendar.json?events=help,focus
+
+    this.url.driver("calendars/default").filter({ events: ['help', 'focus', 'driver'] })
+    //-> /driver/calendar.json?events=help,focus,driver
+
+    this.url.driver("calendars/default").filter({ events: ['help'], categories: ['cat1'] })
+    //-> /driver/calendar.json?events=help&categories=cat1
+
+    this.url.driver("calendars/default").filter({ events: ['help', 'focus'], categories: ['cat1', 'cat2'] })
+    //-> /driver/calendar.json?events=help,focus&categories=cat1,cat2
 ```
 
 ## Initialize
@@ -228,8 +240,23 @@ Example:
 Example:
 
 ```javascript
-    let request_url = this.url.babel('/translations').filter({a: {b: 1, c: 2}, d: 3})
+    let request_url = this.url.babel('/translations').filters({a: {b: 1, c: 2}, d: 3})
     this.http.get(request_url)
     // This will perform a GET request to 
     // /babel/translations.json?filters[a][b]=1&filters[a][c]=2&filters[d]=3
 ```
+
+this.url.driver("calendars/default").filter({ events: ['help'] })
+//-> /driver/calendar.json?events=help
+
+this.url.driver("calendars/default").filter({ events: ['help', 'focus'] })
+//-> /driver/calendar.json?events=help,focus
+
+this.url.driver("calendars/default").filter({ events: ['help', 'focus', 'driver'] })
+//-> /driver/calendar.json?events=help,focus,driver
+
+this.url.driver("calendars/default").filter({ events: ['help'], categories: ['cat1'] })
+//-> /driver/calendar.json?events=help&categories=cat1
+
+this.url.driver("calendars/default").filter({ events: ['help', 'focus'], categories: ['cat1', 'cat2'] })
+//-> /driver/calendar.json?events=help,focus&categories=cat1,cat2
