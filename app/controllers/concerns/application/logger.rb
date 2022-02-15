@@ -59,7 +59,8 @@ module Application
                 request_method: request.method,
                 request_action: action_name,
                 request_format: request.format.symbol,
-                request_url: request.original_fullpath,
+                request_url: request.path,
+                params: request.query_parameters,
                 user_sessions_id: session[:user_session_id]
             })
 
