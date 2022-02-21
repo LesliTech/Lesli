@@ -131,6 +131,9 @@ gem 'omniauth-facebook', '= 9.0'
 # cross-platform interface for filesystem information
 gem 'sys-filesystem', '~> 1.4'
 
+gem "sentry-ruby"
+gem "sentry-rails"
+
 group :development, :test do
 
     # Fake data generator

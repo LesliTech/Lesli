@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 =end
 
 class AboutsController < ApplicationLesliController
-    skip_before_action :authorize_privileges
+    skip_before_action :authorize_privileges, only: []
 
     def system_requirements
     end
@@ -27,6 +27,7 @@ class AboutsController < ApplicationLesliController
     end
 
     def version
+
         @aboutengines = LC::System::Info.revisions().map do |engine|
             engine[1][:name] = engine[0].titleize()
             engine[1][:image] = "#{ engine[0] }/#{ engine[0].sub('cloud_', '') }-logo.svg"
@@ -35,6 +36,12 @@ class AboutsController < ApplicationLesliController
             end
             engine
         end
+
+        respond_to do |format|
+            format.html {}
+            format.json { respond_with_successful(@aboutengines) }
+        end
+        
     end
 
     def show
