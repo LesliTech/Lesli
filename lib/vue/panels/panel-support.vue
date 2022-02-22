@@ -222,14 +222,10 @@ export default {
                             </option>
                         </b-select>
                     </b-field>
-                    <b-field>
-                        <template v-slot:label>
-                            {{translations.main.column_cloud_help_catalog_ticket_workspaces_id}}<sup class="has-text-danger">*</sup>
-                        </template>
+                    <b-field :label="translations.main.column_cloud_help_catalog_ticket_workspaces_id">
                         <b-select
                             :placeholder="translations.core.view_placeholder_select_option"
                             expanded
-                            required
                             v-model="ticket.cloud_help_catalog_ticket_workspaces_id"
                         >
                             <option
