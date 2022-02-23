@@ -68,7 +68,7 @@ class Account::IntegrationsController < ApplicationLesliController
                 :user_remote => request.remote_ip,
                 :session_source => "dispatcher_standar_session",
                 :last_used_at   => LC::Date.now,
-                :expiration_at => params[:session][:expiration_at]
+                :expiration_at => params[:session][:expiration_at] || nil
             })
 
             respond_with_successful(current_session.session_token)
