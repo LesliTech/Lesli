@@ -107,14 +107,19 @@ export default {
                 <i class="fas fa-lg fa-chevron-right"></i>
             </span>
         </div>
-        <div
+        <component
+            v-for="notification in notifications.records" :key="notification.id"
             :class="['lesli-notification', notification.category]"
-            v-for="notification in notifications.records" :key="notification.id">
+            @click="(!!notification.url ? putNotification(notification.id) : false)"
+            :href="(!!notification.url ? notification.url : false)"
+            :is="(!!notification.url ? 'a' : 'div')">
             <span class="icon">
                 <i class="fas fa-info-circle"></i>
             </span>
             <div class="details">
-                <strong>{{ notification.subject }}</strong>
+                <strong :class="(!!notification.url ? 'has-text-link' : false)">
+                    {{ notification.subject }}
+                </strong>
                 <p>{{ notification.body }}</p>
                 <p class="has-text-grey-light is-size-7">
                     {{ notification.created_at }} ago -
@@ -123,6 +128,6 @@ export default {
                     </a>
                 </p>
             </div>
-        </div>
+        </component>
     </b-sidebar>
 </template>

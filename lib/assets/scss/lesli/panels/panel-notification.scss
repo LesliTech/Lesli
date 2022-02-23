@@ -28,18 +28,28 @@ For more information read the license file including with this software.
     .lesli-notification {
         display: flex;
         align-items: center;
-        border-bottom: 1px solid findLightColor($info);
+        border-bottom: 2px solid;
 
         .icon {
             height: 100%;
-            padding: 0 1.0rem;
-            background-color: findLightColor($info);
-            i { color: $info; }
+            padding: 1.25rem 1rem;
+            align-items: flex-start;
         }
 
         .details {
             flex-grow: 1;
             padding: 1rem;
+        }
+
+        @each $type, $colors in (
+            info: (#d9f5ff, #024283),
+            danger: (#ffd9d9, #cc0000),
+            warning: (#fffdd9, #7e7802),
+            success: (#e0ffd9, #1a8200)
+        ) {
+            &.#{$type} { border-bottom-color: #{nth($colors,1)}; }
+            &.#{$type} .icon { background-color: #{nth($colors,1)}; }
+            &.#{$type} .icon i { color: #{nth($colors,2)}; }
         }
 
     }
