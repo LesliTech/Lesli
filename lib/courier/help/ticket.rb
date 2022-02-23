@@ -47,6 +47,11 @@ module Courier
                 CloudHelp::Ticket.count(current_user)
             end
 
+            def self.options(current_user, query)
+                return {} if not defined? CloudHelp
+                CloudHelp::Ticket.options(current_user, query)
+            end
+
         end
     end
 end
