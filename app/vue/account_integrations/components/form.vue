@@ -52,7 +52,6 @@ export default {
                 this.session.session_token = result.data
                 this.integration_created = true
                 this.msg.success(this.translations.core.account.integrations.messages_success_created_successfully)
-                //this.getIntegration(result.data.id)
 
             }).catch(error => {
                 console.log(error)
@@ -91,8 +90,7 @@ export default {
                         v-model="session.expiration_at" 
                         :popover="{ visibility: 'focus'}"
                         :locale="date.vcDatepickerConfig()"
-                        :min-date="new Date()" 
-                        is-required>
+                        :min-date="new Date()">
                         <template v-slot="{ inputValue, inputEvents }">
                             <input 
                                 class="input is-default" 
@@ -100,8 +98,7 @@ export default {
                                 :value="date.toString(session.expiration_at)" 
                                 v-on="inputEvents"
                                 :placeholder="translations.core.shared.view_placeholder_select_date"
-                                autocomplete="off"
-                                :required="true">
+                                autocomplete="off">
                         </template>
                     </vc-date-picker>
                 </div>
