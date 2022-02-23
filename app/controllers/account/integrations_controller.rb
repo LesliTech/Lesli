@@ -29,20 +29,6 @@ class Account::IntegrationsController < ApplicationLesliController
         end
     end
 
-    # GET /account/integrations/1
-    def show
-        respond_to do |format|
-            format.html {}
-            format.json {
-                set_account_integration
-
-                return respond_with_not_found unless @account_integration
-
-                respond_with_successful(@account_integration.show(current_user, params))
-            }
-        end
-    end
-
     # GET /account/integrations/new
     def new
     end
@@ -81,21 +67,22 @@ class Account::IntegrationsController < ApplicationLesliController
                 :user_agent => LC::Request.user_agent(request.env["HTTP_USER_AGENT"]),
                 :user_remote => request.remote_ip,
                 :session_source => "dispatcher_standar_session",
-                :last_used_at   => LC::Date.now
+                :last_used_at   => LC::Date.now,
+                :expiration_at => params[:session][:expiration_at] || nil
             })
 
-            respond_with_successful(account_integration)
+            respond_with_successful(current_session.session_token)
         else
             respond_with_error account_integration.errors.full_messages.to_sentence
         end
     end
 
-    # PATCH/PUT /account/integrations/1
-    def update
+    # DELETE /account/integrations/1
+    def destroy
         return respond_with_not_found unless @account_integration
 
-        if @account_integration.update(account_currency_params)
-            respond_with_successful(@account_integration.show(current_user, @query))
+        if @account_integration.destroy
+            respond_with_successful
         else
             respond_with_error(@account_integration.errors.full_messages.to_sentence)
         end

@@ -1,15 +1,2 @@
 
 @import "./users.scss";
-
-body.profiles.show {
-    .box {
-        box-shadow: none;
-        background-color: transparent;
-        .media {
-            align-items: center;
-        }
-    }
-    form {
-        padding: 2rem;
-    }
-}

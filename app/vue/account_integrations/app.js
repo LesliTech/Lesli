@@ -26,7 +26,6 @@ import app from "LesliVue/app"
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import appNew from "./apps/new.vue"
 import appList from "./apps/list.vue"
-import appShow from "./apps/show.vue"
 
 
 // · 
@@ -37,7 +36,4 @@ app("Lesli", "[new|list|show]", "/administration/account/integrations", [{
 }, {
     path: "/new",
     component: appNew,
-}, {
-    path: "/:id",
-    component: appShow,
 }])
