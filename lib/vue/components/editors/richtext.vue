@@ -151,7 +151,6 @@ export default {
             // that's why we guard against calling pasteHTML
             // calling that function while we are typing is undesirable
             this.$emit('input', { 
-                delta: this.editorContent, 
                 html: this.editorInstance.root.innerHTML 
             })
 
