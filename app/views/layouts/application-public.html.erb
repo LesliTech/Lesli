@@ -23,7 +23,15 @@ For more information read the license file including with this software.
     <%= render partial: "layouts/partials/application-head" %>
     <%= render partial: "layouts/partials/application-data" %>
     <%= render partial: "layouts/partials/application-public-scss" %>
+
+    <% appstore_app_id = Rails.application.credentials.dig(:providers, :apple, :app_id) %>
+
+    <% if appstore_app_id %>
+        <meta name="apple-itunes-app" content="app-id=<%= appstore_app_id %>">
+    <% end %>
+
     <%= yield :application_custom_assets %>
+
     <%# Disable back button in browser after Logout using JavaScript %>
     <% if flash[:logout] == true %>
     <script>
