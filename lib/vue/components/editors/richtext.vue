@@ -125,7 +125,10 @@ export default {
             this.editorInstance = new Quill(this.$refs.editorNode, editorOpts)
 
             // Set initial content that's going to be picked up by Quill
-            if(this.value.delta){
+            if(this.value.html){
+                let delta = this.editorInstance.clipboard.convert(this.value.html)
+                this.editorInstance.setContents(delta)
+            }else if(this.value.delta){
                 this.editorInstance.setContents(this.value.delta)
             }else{
                 this.editorInstance.setContents(this.value)
@@ -148,7 +151,6 @@ export default {
             // that's why we guard against calling pasteHTML
             // calling that function while we are typing is undesirable
             this.$emit('input', { 
-                delta: this.editorContent, 
                 html: this.editorInstance.root.innerHTML 
             })
 
