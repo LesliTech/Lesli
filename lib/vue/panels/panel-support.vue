@@ -15,7 +15,7 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
 */
-import componentRichTextEditor from '../components/forms/richtext-editor.vue'
+import componentRichTextEditor from '../components/editors/richtext.vue'
 
 // ·
 
@@ -44,7 +44,7 @@ export default {
                 cloud_help_catalog_ticket_types_id: null,
                 cloud_help_catalog_ticket_workspaces_id: null,
                 subject: '',
-                description: null,
+                description: {},
                 reference_url: null
             },
             tickets: [],
@@ -83,7 +83,7 @@ export default {
 
         resetForm(){
             this.ticket.subject = ''
-            this.ticket.description = null
+            this.ticket.description = {}
         },
 
         getTicketOptions() {
@@ -240,7 +240,7 @@ export default {
                     <div class="field text-editor-container">
                         <label class="label">{{translations.main.column_description}}</label>
                         <div class="control">
-                            <component-rich-text-editor v-model="ticket.description" type="simple">
+                            <component-rich-text-editor v-model="ticket.description" mode="simple">
                             </component-rich-text-editor>
                         </div>
                     </div>
