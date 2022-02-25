@@ -39,11 +39,16 @@ For more information read the license file including with this software.
 
         h4, h3 {
             color: get-css-color(black, 300);
+            line-height: 1.1;
         }
 
     }
 
     .navbar-end {
+
+        .navbar-item {
+            flex-shrink: 1;
+        }
 
         .select {
 
@@ -94,40 +99,4 @@ For more information read the license file including with this software.
 
     }
     
-}
-
-
-
-// · 
-// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
-.component-header-shortcuts.buttons {
-    margin-bottom: 1.2rem;
-
-    .button {
-        min-width: 85px;
-        background-color: #f7f7f7;
-        text-shadow: 1px 2px 6px #e5e5e5, 0 0 0 rgba(50, 50, 0, 0.3), 1px 2px 6px #e5e5e5, 2px 2px 0px #ffffff;
-        background-image: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(#e7e7e7));
-        background-image: -webkit-linear-gradient(top, #f7f7f7, #e7e7e7); 
-        background-image: -moz-linear-gradient(top, #f7f7f7, #e7e7e7); 
-        background-image: -ms-linear-gradient(top, #f7f7f7, #e7e7e7); 
-        background-image: -o-linear-gradient(top, #f7f7f7, #e7e7e7); 
-        box-shadow: 0px 3px 4px #bdbdbd, inset 0px 2px 3px #fff;
-        border: solid 1px transparent;
-        color: lesli-css-color(silver, 700);
-        transition: all linear 5s;
-
-        &:hover {
-            text-decoration: none;
-            color: #555;
-            background: #f5f5f5;
-        }
-
-        &:active {
-            box-shadow: none;
-            border: solid 1px #a7a7a7;
-        }
-
-    }
-
 }
