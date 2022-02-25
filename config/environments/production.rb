@@ -139,7 +139,7 @@ Rails.application.configure do
     config.action_controller.enable_fragment_cache_logging = true
     config.cache_store = :file_store, "#{root}/tmp/file_store_cache/"
     config.public_file_server.headers = {
-        'Cache-Control' => "public, max-age=#{5.days.to_i}"
+        'Cache-Control' => "public, max-age=#{30.days.to_i}"
     }
 
 
@@ -148,6 +148,7 @@ Rails.application.configure do
 
     config.action_mailer.delivery_method = Rails.configuration.lesli_settings["env"]["action_mailer"]["delivery_method"].to_sym
 
+    # SES configuration credentials are initialzied in config/initializers/aws.rb
     # add configuration for SMTP using mailgun 
     if config.action_mailer.delivery_method == :smtp
         config.action_mailer.smtp_settings = {
@@ -157,11 +158,6 @@ Rails.application.configure do
             password: Rails.application.credentials.dig(:providers, :mailgun, :smtp, :password),
             user_name: Rails.application.credentials.dig(:providers, :mailgun, :smtp, :user_name)
         }
-    end
-
-    # SES configuration credentials are initialzied in config/initializers/aws.rb
-    if config.action_mailer.delivery_method == :ses
-        # check settings on config/initializers/aws.rb
     end
 
     config.action_mailer.asset_host = Rails.configuration.lesli_settings["env"]["action_mailer"]["asset_host"]
