@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 <application-component-header>
 
     <%# language selector %>
-    <% if I18n.available_locales.length > 1 && false %>
+    <% if I18n.available_locales.length > 1 && params[:controller] == 'profiles' %>
     <template v-slot:languages>
         <div class="dropdown is-hoverable header-language-selector">
             <div class="dropdown-trigger">
