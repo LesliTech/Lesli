@@ -17,15 +17,13 @@ For more information read the license file including with this software.
 
 
 // · 
-@import "./panel-template.scss";
-
-
-
-// · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-.application-panel-document-viewer {
+.application-panel-viewer-pdf {
     .sidebar-content {
         width: 1050px;
         max-width: 90%;
+        canvas {
+            width: 100%;
+        }
     }
 }
