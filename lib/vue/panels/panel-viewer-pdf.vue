@@ -43,8 +43,8 @@ export default {
     },
     methods: {
 
-        showPanelViewerPdf(dcmnt) {
-            this.document = dcmnt
+        showPanelViewerPdf(name, url) {
+            this.document = { name, url }
             this.loading = true
             if (!this.document.name || !this.document.url) { return this.open = false; }
             this.open = true
