@@ -9,6 +9,7 @@
 Gemfile.lock
 lesli.server.yml
 package-lock.json
+yarn.lock
 
 
 # Ignore all logfiles and tempfiles.

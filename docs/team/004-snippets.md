@@ -93,6 +93,9 @@ du -chs */*.* | sort -h
 
 # find the 5 largest files (ubuntu only)
 find . -type f -printf "%s\t%p\n" | sort -n | tail -5
+
+# find the largest files in a folder (Mac & Ubuntu)
+find public/assets -type f -exec du -h {} + | sort -h
 ```
 
 
