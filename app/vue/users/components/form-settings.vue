@@ -26,15 +26,12 @@ export default {
             locale: I18n.locale,
             translations: {
                 shared: I18n.t("core.shared")
-            },
+            }
         }
-    },
-    mounted() {
     },
     methods: {
         postSettingsPreferredLanguage(event) {
-
-            this.http.post(this.url.admin('users/:id/settings', this.lesli.current_user.id), {
+            this.http.post(this.url.admin('users/:id/settings', this.user.id), {
                 user_setting: {
                     name: 'locale', 
                     value: event.target.value
@@ -44,8 +41,6 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
-
-            console.log(event.target.value)
         }
     },
     watch: {
