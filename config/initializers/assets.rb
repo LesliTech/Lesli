@@ -1,25 +1,19 @@
-=begin
-
-Copyright (c) 2020, all rights reserved.
-
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
-pictures and any other information belongs to the owner of this platform.
-
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
-
-For more information read the license file including with this software.
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-
-=end
-
+# Be sure to restart your server when you modify this file.
 
 # Version of your assets, change this if you want to expire all your assets.
-Rails.application.config.assets.version = "0.1.0"
+Rails.application.config.assets.version = "1.0"
+
+# Add additional assets to the asset load path.
+# Rails.application.config.assets.paths << Emoji.images_path
+
+# Precompile additional assets.
+# application.js, application.css, and all non-JS/CSS in the app/assets
+# folder are already added.
+# Rails.application.config.assets.precompile += %w( admin.js admin.css )
+
+
+
+
 
 # Add vendor libraries to assets
 Rails.application.config.assets.paths << Rails.root.join("vendor")
@@ -51,8 +45,6 @@ Rails.application.config.assets.precompile += [ "cronos.css", "cronos/*.js" ]
 
 # 
 Rails.application.config.assets.precompile += [ "onboardings.css", "onboardings/*.css", "onboardings/*.js" ]
-
-
 
 
 # Lesli core assets

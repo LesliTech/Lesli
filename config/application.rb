@@ -1,26 +1,8 @@
-=begin
-
-Copyright (c) 2020, all rights reserved.
-
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
-pictures and any other information belongs to the owner of this platform.
-
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
-
-For more information read the license file including with this software.
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-
-=end
+require "./lesli"
 
 require_relative "boot"
 
 require "rails"
-
 # Pick the frameworks you want:
 require "active_model/railtie"
 require "active_job/railtie"
@@ -32,20 +14,16 @@ require "action_mailbox/engine"
 require "action_text/engine"
 require "action_view/railtie"
 # require "action_cable/engine"
-require "sprockets/railtie"
-
-require "./lesli"
+require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
-# you"ve limited to :test, :development, or :production.
+# you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
 module Lesli
-    
     class Application < Rails::Application
-
         # Initialize configuration defaults for originally generated Rails version.
-        config.load_defaults 6.0
+        config.load_defaults 7.0
 
         # deprecated, will be deleted at January, 2022
         config.lesli_settings = Lesli::settings(Rails.env) 
@@ -103,5 +81,4 @@ module Lesli
         end
 
     end
-
 end
