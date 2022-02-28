@@ -209,6 +209,9 @@ end
 
 group :development do
 
+    # Go faster, off the Rails
+    gem "derailed_benchmarks", "2.1.1"
+
     gem "web-console", ">= 3.3.0"
 
     # The Listen gem listens to file modifications and notifies you about the changes. Works everywhere!
