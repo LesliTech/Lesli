@@ -162,8 +162,8 @@ gem "ruby_cowsay", "0.1.3"
 
 group :development, :test do
 
-    # Development web server
-    gem "puma", "4.3.7"
+    # Puma is a simple, fast, threaded, and highly parallel HTTP 1.1 server for Ruby/Rack applications.
+    gem "puma", "5.6.2"
 
     # Fake data generator
     # https://github.com/faker-ruby/faker
