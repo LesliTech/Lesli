@@ -94,13 +94,17 @@ end
 # instead of changing the original object due on the next release rails is going to reset to default values
 Rails.application.configure do
 
+    # forse to use diggest
+    config.assets.digest = true
+
     # Full error reports are disabled and caching is turned on.
     config.consider_all_requests_local = false
 
-
-    # Use the lowest log level to ensure availability of diagnostic information
-    # when problems arise.
+    # Use the lowest log level to ensure availability of diagnostic information when problems arise.
     config.log_level = :error
+
+    # Suppress logger output for asset requests.
+    config.assets.quiet = true
 
 
     # Use a different cache store in production.

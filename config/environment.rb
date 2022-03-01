@@ -4,6 +4,9 @@ require_relative "application"
 # Initialize the Rails application.
 Rails.application.initialize!
 
+
+
+
 Rails.application.configure do
 
     errors = []
