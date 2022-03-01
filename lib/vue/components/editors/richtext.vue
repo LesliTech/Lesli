@@ -30,11 +30,19 @@ export default {
                 return {}
             }
         },
+
         mode: {
             type: String,
             default: 'simple',
             required: false,
             validator: (val) => ['simple', 'full', 'read'].includes(val),
+        },
+
+        size: {
+            type: String,
+            default: 'is-small',
+            required: false,
+            validator: (val) => ['is-small', 'is-medium', 'is-large'].includes(val)
         },
 
         // DO NOT USE TYPE, USE MODE INSTEAD
@@ -177,10 +185,19 @@ export default {
 </script>
 <template>
     <div class="component-richtext-editor">
-        <div :class="['editor-node', {'preview-mode': mode == 'read'}]" ref="editorNode"></div>
+        <div
+            :class="['editor-node', {'preview-mode': mode == 'read', 'is-large': size == 'is-large', 'is-medium': size == 'is-medium'}]"
+            ref="editorNode">
+        </div>
     </div>
 </template>
 <style lang="css" scope>
+.editor-node.is-medium .ql-editor {
+    height: 150px;
+}
+.editor-node.is-large .ql-editor {
+    height: 250px;
+}
 .editor-node.preview-mode .ql-editor {
     height: 100%;
 }
