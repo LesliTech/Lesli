@@ -1,4 +1,5 @@
 class User::SettingsController < ApplicationLesliController
+    before_action :set_user, only: [:create]
     before_action :set_user_setting, only: [:show, :edit, :update, :destroy]
 
     # GET /user/settings
@@ -21,10 +22,11 @@ class User::SettingsController < ApplicationLesliController
 
     # POST /user/settings
     def create
-        settings = current_user.settings.find_or_initialize_by(name: user_setting_params[:name])
-        settings.update(value: user_setting_params[:value])
+        return respond_with_not_found unless @user
         
-        unless settings.save
+        settings = @user.settings.find_or_initialize_by(name: user_setting_params[:name])
+        
+        unless settings.update(value: user_setting_params[:value])
             return respond_with_error(settings.errors.full_messages.to_sentence)
         end
 
@@ -46,8 +48,15 @@ class User::SettingsController < ApplicationLesliController
     private
 
     # Use callbacks to share common setup or constraints between actions.
+    def set_user
+        @user = current_user.account.users.find_by_id(params[:user_id])
+        @user = current_user unless @user
+    end
+
     def set_user_setting
-        @user_setting = User::Setting.find(params[:id])
+        set_user
+
+        @user_setting = @user.settings.find_by_id(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
