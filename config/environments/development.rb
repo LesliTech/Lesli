@@ -76,6 +76,9 @@ end
 # instead of changing the original object due on the next release rails is going to reset to default values
 Rails.application.configure do
 
+    # Raise an Error When an Asset is Not Found
+    config.assets.unknown_asset_fallback = false
+
     # Enable/disable caching. By default caching is disabled.
     # Run rails dev:cache to toggle caching.
     if Rails.root.join('tmp', 'caching-dev.txt').exist?
