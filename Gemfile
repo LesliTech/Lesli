@@ -43,7 +43,7 @@ gem "sassc-rails", "2.1.2"
 gem "sprockets", "3.7.2"
 
 # Sprockets Rails integration
-gem "sprockets-rails", '2.3.3'
+gem "sprockets-rails", "2.3.3"
 
 # Pg is the Ruby interface to the PostgreSQL RDBMS. It works with PostgreSQL 9.3 and later.
 gem "pg", "1.3.3"
@@ -188,11 +188,11 @@ group :development, :test do
 
     # Code coverage
     # https://github.com/simplecov-ruby/simplecov
-    gem "simplecov", require: false
+    gem "simplecov", "0.21.2", require: false
 
     # Code coverage stats in the console
     # https://github.com/chetan/simplecov-console
-    gem "simplecov-console", require: false
+    gem "simplecov-console", "0.9.1", require: false
 
     # Call "byebug" anywhere in the code to stop execution and get a debugger console
     gem "byebug", platforms: [:mri, :mingw, :x64_mingw]

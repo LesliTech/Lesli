@@ -58,3 +58,25 @@ Rails.application.configure do
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
 end
+
+
+
+Rails.application.configure do
+
+    config.action_view.cache_template_loading = true
+
+    # Deactivate the sending of e-mails
+    # Enable this to test mailers
+    config.action_mailer.perform_deliveries = false
+
+    config.action_mailer.default_url_options = { 
+        host: Rails.configuration.lesli_settings["env"]["action_mailer"]["default_url_options_host"] 
+    }
+
+    config.action_mailer.default_options = {
+
+        # this option is also customized in app/mailers/application_lesli_mailer.rb
+        from: Rails.configuration.lesli_settings["env"]["action_mailer"]["default_options_from"]
+    }
+
+end
