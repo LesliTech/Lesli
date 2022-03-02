@@ -25,11 +25,26 @@ export default {
             options:{ },
             locale: I18n.locale,
             translations: {
-                shared: I18n.t("core.shared")
+                shared: I18n.t('core.shared'),
+                user: {
+                    settings: I18n.t('core.user/settings')
+                }
+            },
+
+            settings: {
+                locale: null
             }
         }
     },
+    mounted(){
+        this.getSettings()
+    },
+
     methods: {
+        getSettings(){
+            console.log('getting settings')
+        },
+
         postSettingsPreferredLanguage(event) {
             this.http.post(this.url.admin('users/:id/settings', this.user.id), {
                 user_setting: {
@@ -57,11 +72,13 @@ export default {
 <template>
     <div class="box">
         <div class="field">
-            <label class="label">Preferred language</label>
+            <label class="label">{{translations.user.settings.view_title_preferred_language}}</label>
             <div class="control">
                 <div class="select">
-                    <select v-on:change="postSettingsPreferredLanguage($event)">
-                        <option v-for="(name, code) in options.locales" :value="code">{{ name }}</option>
+                    <select v-on:change="postSettingsPreferredLanguage($event)" v-model="settings.locale">
+                        <option v-for="(name, code) in options.locales" :value="code" :key="code">
+                            {{ name }}
+                        </option>
                     </select>
                 </div>
             </div>
