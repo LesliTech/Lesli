@@ -28,17 +28,7 @@ export default {
     },
     data() {
         return {
-            loading: false,
-            shortcuts: []
-        }
-    },
-    mounted() {
-
-        // check that the constat is defined
-        // this constant is defined in: app/views/layouts/components/dashboard-shortcuts
-        // you must include this partial in every view where you want to use shortcuts
-        if (typeof shortcuts !== 'undefined') {
-            this.shortcuts = shortcuts
+            loading: false
         }
     },
     methods: {        
@@ -52,7 +42,7 @@ export default {
 }
 </script>
 <template>
-    <section>        
+    <section>
         <nav class="navbar component-header">
             <div class="navbar-menu">
                 <div class="navbar-start">
