@@ -25,116 +25,146 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "2.7.2"
 
-# · Rails, gem, dependencies and tools
+# · RAILS: gem, dependencies and tools
 
 # Rails framework
-gem "rails", "= 6.1.4"
+gem "rails", "7.0.2.2"
 
-# Rails translations
-gem "rails-i18n", "= 6.0.0"
+# A set of common locale data and translations to internationalize and/or localize your Rails applications.
+gem "rails-i18n", "7.0.2"
 
-# Rails translations for JavaScript frontend
-gem "i18n-js"
+# It's a small library to provide the Rails I18n translations on the Javascript.
+gem "i18n-js", "3.9.1"
 
-# SASS compiler for RoR
-gem "sass-rails", "= 6"
+# Integrate SassC-Ruby into Rails.
+gem "sassc-rails", "2.1.2"
 
-# Use postgresql as the database for Active Record
-gem "pg", ">= 0.18", "< 2.0"
+# Rack-based asset packaging system that concatenates and serves JavaScript, CSS, Sass, and SCSS.
+gem "sprockets", "3.7.2"
 
-# Authentication management for RoR
-gem "devise"
+# Sprockets Rails integration
+gem "sprockets-rails", "2.3.3"
 
-# Soft-delete database records
-gem "acts_as_paranoid"
-
-# Development web server
-gem "puma", "4.3.7"
-
-# cron manager
-gem "whenever"
-
-gem "ancestry"
-
-# fontawesome icons
-gem "font-awesome-sass", "~> 5.15"
-
-# Collection of all country flags in SVG
-gem "flag-icons-rails"
+# Pg is the Ruby interface to the PostgreSQL RDBMS. It works with PostgreSQL 9.3 and later.
+gem "pg", "1.3.3"
 
 # Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", ">= 1.1.0", require: false
-
-gem "kaminari"
-
-# HTTP client
-gem "faraday"
-
-gem "useragent"
-
-# files upload management
-gem "carrierwave", "~> 2.0"
-
-# s3 client for carrierwave
-gem "fog-aws", "= 3.6.4"
-gem "aws-sdk-s3"
-gem "aws-sdk-ec2"
-gem "aws-sdk-lightsail"
-gem "aws-sdk-sns"
-gem "aws-sdk-rails" # TODO: remove this and install only ses
+gem "bootsnap", "1.10.3", require: false
 
 
-# Rubyzip to compress files
-gem "rubyzip", "~> 2.3.0"
-gem "zip-zip" #backward compatibility
 
-# Generate pdf
-gem "prawn"
-gem "prawn-table"
-gem "combine_pdf"
+# · Tools used to extend Rails functionality
 
-# Adding docx var support
-gem "docx_replace"
-gem "doc_ripper" # text extractor
+# UNIONs in ActiveRecord! Adds proper union and union_all methods to ActiveRecord::Relation.
+gem "active_record_union", "1.3.0"
 
-# Convert files to pdf
-gem "libreconv"
-
-gem "jwt"
-
-# Excel file generator gems
-gem "caxlsx"
-
-gem "caxlsx_rails"
-
-gem "rack-cors"
-
-gem "sprockets", "< 4"
-
-# debugging tools
-gem "honeybadger", "~> 4.0"
-
-gem "ruby_cowsay"
+# ActiveRecord plugin allowing you to hide and restore records without actually deleting them. 
+gem "acts_as_paranoid", "0.8.0"
 
 # faster json parser library
-gem "fast_jsonparser"
+gem "fast_jsonparser", "0.5.0"
 
-gem "active_record_union"
+# Middleware that will make Rack-based apps CORS compatible. 
+gem "rack-cors", "1.1.1"
 
-gem "webpush", "= 1.1.0"
+# Upload files in your Ruby applications, map them to a range of ORMs, store them on different backends.
+gem "carrierwave", "2.2.2"
 
-# Social Login
-gem "omniauth"
-gem 'omniauth-google-oauth2', '= 1.0'
-gem 'omniauth-facebook', '= 9.0'
+# Clean, powerful, agnostic, customizable and sophisticated paginator for Rails
+gem "kaminari", "1.2.2"
 
-# cross-platform interface for filesystem information
-gem 'sys-filesystem', '~> 1.4'
+# Clean ruby syntax for writing and deploying cron jobs.
+gem "whenever", "1.0.0"
 
-gem "sentry-ruby"
-gem "sentry-rails"
+# A pure ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard
+gem "jwt", "2.3.0"
+
+# Font-Awesome SASS gem for use in Ruby projects
+gem "font-awesome-sass", "~> 5.15.1"
+
+
+
+# · Tools used to build the LESLI Platform
+
+# Flexible authentication solution for Rails with Warden
+gem "devise", "4.8.1"
+
+# A generalized Rack framework for multiple-provider authentication.
+gem "omniauth", "2.0.4"
+
+# A Google OAuth2 strategy for OmniAuth 1.x. This allows you to login to Google with your ruby app.
+gem "omniauth-google-oauth2", "1.0.0"
+
+# Facebook OAuth2 Strategy for OmniAuth
+gem "omniauth-facebook", "9.0.0"
+
+# Standalone provider to use the Amazon Web Services in applications
+gem "fog-aws", "3.13.0"
+
+# Official AWS Ruby gem for Amazon Simple Storage Service (Amazon S3). This gem is part of the AWS SDK for Ruby.
+gem "aws-sdk-s3", "1.113.0"
+
+# Official AWS Ruby gem for Amazon Elastic Compute Cloud (Amazon EC2). This gem is part of the AWS SDK for Ruby.
+gem "aws-sdk-ec2", "1.300.0"
+
+# Official AWS Ruby gem for Amazon Lightsail. This gem is part of the AWS SDK for Ruby.
+gem "aws-sdk-lightsail", "1.63.0"
+
+# Official AWS Ruby gem for Amazon Simple Notification Service (Amazon SNS). 
+gem "aws-sdk-sns", "1.53.0"
+
+# Official AWS Ruby gem for Amazon Simple Email Service (Amazon SES).
+gem "aws-sdk-ses", "1.47.0"
+
+# Prawn is a fast, tiny, and nimble PDF generator for Ruby
+gem "prawn", "2.4.0"
+
+# Prawn::Table provides tables for the Prawn PDF toolkit
+gem "prawn-table", "0.2.2"
+
+# A nifty gem, in pure Ruby, to parse PDF files and combine (merge) them with other PDF files
+gem "combine_pdf"
+
+# Convert office documents to PDF using LibreOffice.
+gem "libreconv", "0.9.5"
+
+# Find and replace variables inside a Micorsoft Word (.docx) template
+#gem "docx_replace", "1.2.1"
+
+# Scrape text from common file formats (.pdf,.doc,.docx, .sketch, .txt) with a single convenient command.
+gem "doc_ripper", "0.0.9"
+
+# xlsx spreadsheet generation with charts, images, automated column width, customizable styles and full schema validation.
+gem "caxlsx", "3.2.0"
+
+# Caxlsx_Rails provides an Caxlsx renderer so you can move all your spreadsheet code from your controller into view files.
+gem "caxlsx_rails", "0.6.2"
+
+# HTTP/REST API client library.
+gem "faraday", "2.2.0"
+
+# rubyzip is a ruby module for reading and writing zip files
+gem "rubyzip", "2.3.2"
+
+# In Gem hell migrating to RubyZip v1.0.0? Include zip-zip in your Gemfile and everything's coming up roses!
+gem "zip-zip", "0.3"
+
+# HTTP User Agent parser
+gem "useragent", "0.16.10"
+
+# The sys-filesystem library provides a cross-platform interface for gathering filesystem information.
+gem "sys-filesystem", "1.4.3"
+
+# Make managing application errors a more pleasant experience.
+gem "honeybadger", "4.11.0"
+
+# Cowsay, written in ruby, as a gem.
+gem "ruby_cowsay", "0.1.3"
 
 group :development, :test do
+
+    # Puma is a simple, fast, threaded, and highly parallel HTTP 1.1 server for Ruby/Rack applications.
+    gem "puma", "5.6.2"
 
     # Fake data generator
     # https://github.com/faker-ruby/faker
@@ -148,21 +178,21 @@ group :development, :test do
     # https://github.com/lsegal/yard
     gem "yard"
 
-    # RSpec for testing
+    # rspec-rails is a testing framework for Rails 5+.
     # https://github.com/rspec/rspec-rails
     # Using beta version of rspect-rails due: https://github.com/rails/rails/issues/35417
-    gem "rspec-rails", "~> 4.0.0.beta2"
+    gem "rspec-rails", "= 5.1.0"
 
     # https://github.com/rspec/rspec-mocks
     gem "rspec-mocks", "~> 3.10"
 
     # Code coverage
     # https://github.com/simplecov-ruby/simplecov
-    gem "simplecov", require: false
+    gem "simplecov", "0.21.2", require: false
 
     # Code coverage stats in the console
     # https://github.com/chetan/simplecov-console
-    gem "simplecov-console", require: false
+    gem "simplecov-console", "0.9.1", require: false
 
     # Call "byebug" anywhere in the code to stop execution and get a debugger console
     gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
@@ -180,9 +210,13 @@ end
 
 group :development do
 
+    # Go faster, off the Rails
+    gem "derailed_benchmarks", "2.1.1"
+
     gem "web-console", ">= 3.3.0"
 
-    gem "listen", "3.2.1"
+    # The Listen gem listens to file modifications and notifies you about the changes. Works everywhere!
+    gem "listen", "3.7.1"
 
     gem "spring"
 
