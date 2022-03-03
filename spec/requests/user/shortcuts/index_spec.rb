@@ -17,13 +17,10 @@ For more information read the license file including with this software.
 
 =end
 
-
-require 'lesli_request_helper'
-require 'spec_helper'   
-require 'byebug'
-
+require "lesli_request_helper"
 
 RSpec.describe "GET:/administration/users/:id/shortcuts.json", type: :request do
+
     include_context "request user authentication"
 
     # helper methods
@@ -82,7 +79,7 @@ RSpec.describe "GET:/administration/users/:id/shortcuts.json", type: :request do
     end
     
     it "is expected redirect to login when no user is authenticated" do
-        login = "/login?r=/administration/users/1/shortcuts.json"
+        login = "/login?r=/administration/users/#{@current_user.id}/shortcuts.json"
         sign_out @current_user
         
         get "/administration/users/#{@current_user.id}/shortcuts.json"
