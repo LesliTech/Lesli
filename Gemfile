@@ -39,11 +39,8 @@ gem "i18n-js", "3.9.1"
 # Integrate SassC-Ruby into Rails.
 gem "sassc-rails", "2.1.2"
 
-# Rack-based asset packaging system that concatenates and serves JavaScript, CSS, Sass, and SCSS.
-gem "sprockets", "3.7.2"
-
-# Sprockets Rails integration
-gem "sprockets-rails", "2.3.3"
+# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
+gem "sprockets-rails"
 
 # Pg is the Ruby interface to the PostgreSQL RDBMS. It works with PostgreSQL 9.3 and later.
 gem "pg", "1.3.3"
@@ -141,7 +138,8 @@ gem "caxlsx", "3.2.0"
 gem "caxlsx_rails", "0.6.2"
 
 # HTTP/REST API client library.
-gem "faraday", "2.2.0"
+# gem "faraday", "2.2.0"
+gem "faraday" #Workaround to allow google-cloud-firestore work
 
 # rubyzip is a ruby module for reading and writing zip files
 gem "rubyzip", "2.3.2"
@@ -154,6 +152,9 @@ gem "useragent", "0.16.10"
 
 # The sys-filesystem library provides a cross-platform interface for gathering filesystem information.
 gem "sys-filesystem", "1.4.3"
+
+# collection of all country flags in SVG
+gem "flag-icons-rails", "= 3.4.6.1"
 
 # Make managing application errors a more pleasant experience.
 gem "honeybadger", "4.11.0"

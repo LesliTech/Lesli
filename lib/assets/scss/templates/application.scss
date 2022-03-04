@@ -22,7 +22,7 @@ For more information read the license file including with this software.
 
 
 // · Configuration
-@import "../settings/variables";
+@import "./lesli/settings/variables";
 
 
 
@@ -33,10 +33,10 @@ For more information read the license file including with this software.
 
 
 // · Include Bulma 
-@import "../bulma/elements.scss";
-@import "../bulma/components.scss";
-@import "../bulma/extensions.scss";
-@import "../bulma/loader.scss";
+@import "./lesli/bulma/elements.scss";
+@import "./lesli/bulma/components.scss";
+@import "./lesli/bulma/extensions.scss";
+@import "./lesli/bulma/loader.scss";
 
 
 
@@ -48,35 +48,35 @@ For more information read the license file including with this software.
 
 
 // · Loading components, settings and helpers
-@import "../helpers/display";
-@import "../settings/icons.scss";
+@import "./lesli/helpers/display";
+@import "./lesli/settings/icons.scss";
 
 
 
 // · Loading custom components
-@import "../custom/blockquote.scss";
+@import "./lesli/custom/blockquote.scss";
 
 
 
 // · Loading app layout 
-@import "../layout/application-header.scss";
-@import "../layout/application-engines.scss";
-@import "../layout/application-sidebar.scss";
-@import "../layout/application-notices.scss";
-@import "../layout/application-component.scss";
-@import "../layout/application-footer.scss";
-@import "../layout/application-chatbox.scss";
-@import "../layout/application-search.scss";
+@import "./lesli/layout/application-header.scss";
+@import "./lesli/layout/application-engines.scss";
+@import "./lesli/layout/application-sidebar.scss";
+@import "./lesli/layout/application-notices.scss";
+@import "./lesli/layout/application-component.scss";
+@import "./lesli/layout/application-footer.scss";
+@import "./lesli/layout/application-chatbox.scss";
+@import "./lesli/layout/application-search.scss";
 
-@import "../panels/panel-template.scss";
-@import "../panels/panel-announcement.scss";
-@import "../panels/panel-notification.scss";
-@import "../panels/panel-support.scss";
-@import "../panels/panel-viewer.scss";
+@import "./lesli/panels/panel-template.scss";
+@import "./lesli/panels/panel-announcement.scss";
+@import "./lesli/panels/panel-notification.scss";
+@import "./lesli/panels/panel-support.scss";
+@import "./lesli/panels/panel-viewer.scss";
 
-@import "../components/component-data.scss";
-@import "../components/component-header.scss";
-@import "../components/component-toolbar.scss";
+@import "./lesli/components/component-data.scss";
+@import "./lesli/components/component-header.scss";
+@import "./lesli/components/component-toolbar.scss";
 
 
 // · 
