@@ -45,7 +45,7 @@ For more information read the license file including with this software.
                             <%= image_tag custom_app_logo_path, :class => "#{lesli_instance_code}-logo", :alt => "logo" %>
                         </div>
                         <form @submit.prevent="postLogin">
-                            <p v-if="notification.show" :class="[`has-text-${notification.type}`]">
+                            <p v-cloak v-if="notification.show" :class="[`has-text-${notification.type}`]">
                                 {{ notification.message }}
                             </p>
                             <div class="field">
@@ -54,10 +54,13 @@ For more information read the license file including with this software.
                                         name="user_email"
                                         type="email"
                                         placeholder="Email"
+                                        class="input"
                                         :class="['input', `is-${notification.type}`]"
                                         v-model="sign_in.email"
                                         @input="typing">
-                                    <span :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
+                                    <span 
+                                        class="icon is-small is-left" 
+                                        :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
                                         <i class="fas fa-envelope"></i>
                                     </span>
                                     <span class="icon is-small is-right">
@@ -76,7 +79,9 @@ For more information read the license file including with this software.
                                         :class="['input', `is-${notification.type}`]"
                                         v-model="sign_in.password"
                                         @input="typing">
-                                    <span :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
+                                    <span 
+                                        class="icon is-small is-left"
+                                        :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
                                         <i class="fas fa-key"></i>
                                     </span>
                                     <span class="icon is-small is-right">

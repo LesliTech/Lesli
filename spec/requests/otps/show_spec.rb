@@ -18,14 +18,11 @@ For more information read the license file including with this software.
 =end
 
 
-require 'rails_helper'
-require 'spec_helper'
-require 'byebug'
+require "lesli_request_helper"
 
 
 RSpec.describe "GET:/otp", type: :request do
     subject!(:response) { get "/otp.json" }
-
     it "is expected to redirect to '/otp/new' when the param 't' is not sent" do
         expect(response).to redirect_to("/otp/new")
     end
@@ -42,17 +39,17 @@ RSpec.describe "GET:/otp", type: :request do
 end
 
 RSpec.describe "GET:/otp", type: :request do
-    include_context "user authentication"
-    before(:all) do
-        otp = @user.access_codes.new({ token_type: "otp" })
+    
+    include_context "request user authentication"
+
+    it "is expected to redirect to root '/' if everything happened correctly" do
+        otp = @current_user.access_codes.new({ token_type: "otp" })
         raw, enc = Devise.token_generator.generate_otp(otp.class, :token)
         otp.token = enc
         otp.save
 
         get "/otp.json", params: { t: raw }   
-    end
 
-    it "is expected to redirect to root '/' if everything happened correctly" do
         expect(response).to redirect_to("/")
     end
 end
