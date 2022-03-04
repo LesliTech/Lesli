@@ -261,45 +261,14 @@ module.exports = env => {
         webpackEngine.output.filename = ""
         webpackEngine.entry = {}
 
+        let filePath = "./"+path.join("./engines", engine, "app", "vue", "app.js")
+        let fileName = "application"
 
-        // get app directories
-        // @TODO: See Trello card 2450. We must migrate all functionallity to
-        // this.data and remove this.bus before enabling help for a global JS file
-        if (["lesli_cloud", "cloud_audit"].includes(engine)) {
-
-            let filePath = "./"+path.join("./engines", engine, "app", "vue", "app.js")
-            let fileName = "application"
-
-            if (!fs.existsSync(filePath)) {
-                return
-            }
-
-            webpackEngine.entry[fileName] = filePath
-
-        } else {
-
-            fs.readdirSync(path.join("./engines", engine, "app", "vue")).forEach(app => {
-
-                if (app == "app.js") {
-                    return
-                }
-
-                fs.readdirSync(path.join("./engines", engine, "app", "vue", app)).forEach(action => {
-
-                    if (!action.endsWith(".js")) {
-                        return
-                    }
-
-                    let filePath = "./"+path.join("./engines", engine, "app", "vue", app, action)
-                    let fileName = [app, action.replace(".js","")].join("_")
-
-                    webpackEngine.entry[fileName] = filePath
-
-                })
-
-            })
-
+        if (!fs.existsSync(filePath)) {
+            return
         }
+
+        webpackEngine.entry[fileName] = filePath
 
         if (Object.keys(webpackEngine.entry).length > 0) {
 
@@ -316,15 +285,6 @@ module.exports = env => {
         }
 
     })
-
- 
-    let webpacksw = Object.assign({}, webpackbase)
-    webpacksw.output = Object.assign({}, webpackbase.output)
-    webpacksw.output.filename = "public/leslisw.js"
-    webpacksw.entry = "./lib/assets/javascripts/leslisw.js"
-
-    webpackConfig.push(webpacksw)
-
 
     return webpackConfig
 
