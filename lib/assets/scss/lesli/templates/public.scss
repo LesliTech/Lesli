@@ -33,6 +33,12 @@ For more information read the license file including with this software.
 @include lesli-css-fonts-standard;
 
 
+// · Hide vue until vue finishes compilation
+[v-cloak] {
+    display: none !important;
+}
+
+
 
 // · 
 .component-data-loading .loading-animation {
