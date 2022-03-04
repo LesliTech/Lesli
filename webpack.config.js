@@ -71,24 +71,24 @@ module.exports = env => {
         },
         entry: {
 
-            "accounts/app": "./app/vue/accounts/app.js",
-            "account/cronos_app": "./app/vue/account_cronos/app.js",
-            "account/settings_app": "./app/vue/account_settings/app.js",
-            "account/currencies_app": "./app/vue/account_currencies/app.js",
-            "account/integrations_app": "./app/vue/account_integrations/app.js",
-            "account/currency_exchange_rates_app": "./app/vue/account_exchange_rates/app.js",
+            "accounts/application": "./app/vue/accounts/app.js",
+            "account/cronos_application": "./app/vue/account_cronos/app.js",
+            "account/settings_application": "./app/vue/account_settings/app.js",
+            "account/currencies_application": "./app/vue/account_currencies/app.js",
+            "account/integrations_application": "./app/vue/account_integrations/app.js",
+            "account/currency_exchange_rates_application": "./app/vue/account_exchange_rates/app.js",
 
-            "dashboards/app": "./app/vue/dashboards/app.js",
-            "profiles/app": "./app/vue/profiles/app.js",
-            "websites/app": "./app/vue/websites/app.js",
-            "abouts/app": "./app/vue/abouts/app.js",
-            "users/app": "./app/vue/users/app.js",
-            "roles/app": "./app/vue/roles/app.js",
-            "role_descriptors/app": "./app/vue/role_descriptors/app.js",
+            "dashboards/application": "./app/vue/dashboards/app.js",
+            "profiles/application": "./app/vue/profiles/app.js",
+            "websites/application": "./app/vue/websites/app.js",
+            "abouts/application": "./app/vue/abouts/app.js",
+            "users/application": "./app/vue/users/app.js",
+            "roles/application": "./app/vue/roles/app.js",
+            "role_descriptors/application": "./app/vue/role_descriptors/app.js",
 
-            "invites/app": "./app/vue/invites/app.js",
-            "passes/app": "./app/vue/passes/app.js",
-            "otps/app": "./app/vue/otps/app.js",
+            "invites/application": "./app/vue/invites/app.js",
+            "passes/application": "./app/vue/passes/app.js",
+            "otps/application": "./app/vue/otps/app.js",
 
             "users/sessions": "./app/vue/users/sessions.js",
             "users/passwords": "./app/vue/users/passwords.js",
@@ -265,14 +265,10 @@ module.exports = env => {
         // get app directories
         // @TODO: See Trello card 2450. We must migrate all functionallity to
         // this.data and remove this.bus before enabling help for a global JS file
-        if ([
-                "cloud_text", "cloud_house", "cloud_babel",
-                "cloud_audit","cloud_realty", "cloud_bell",
-                "cloud_mailer", "cloud_kb"
-            ].includes(engine)) {
+        if (["lesli_cloud", "cloud_audit"].includes(engine)) {
 
             let filePath = "./"+path.join("./engines", engine, "app", "vue", "app.js")
-            let fileName = [engine, "app"].join("_")
+            let fileName = "application"
 
             if (!fs.existsSync(filePath)) {
                 return
