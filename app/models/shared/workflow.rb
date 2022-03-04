@@ -332,7 +332,7 @@ module Shared
                     when "foreign_key"
                         association_value = cloud_object[detail[:key]]
                     when "detail_enum"
-                        association_value = "'#{cloud_object.detail[detail[:name]]}'"
+                        association_value = "'#{cloud_object.detail.send(detail[:name])}'"
                     when "polymorphic_key"
                         association_value = "'#{cloud_object[detail[:name]]}'"
                     end
