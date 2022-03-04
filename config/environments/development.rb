@@ -14,16 +14,18 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
+  # Enable server timing
+  config.server_timing = true
+
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join('tmp', 'caching-dev.txt').exist?
+  if Rails.root.join("tmp/caching-dev.txt").exist?
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
     config.cache_store = :memory_store
-    config.cache_store = :file_store, "#{root}/tmp/file_store_cache/"
     config.public_file_server.headers = {
-      'Cache-Control' => "public, max-age=#{2.days.to_i}"
+      "Cache-Control" => "public, max-age=#{2.days.to_i}"
     }
   else
     config.action_controller.perform_caching = false
@@ -54,11 +56,6 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
-  # Debug mode disables concatenation and preprocessing of assets.
-  # This option may cause significant delays in view rendering with a large
-  # number of complex assets.
-  config.assets.debug = true
-
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
@@ -68,41 +65,25 @@ Rails.application.configure do
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
 
-  # Use an evented file watcher to asynchronously detect changes in source code,
-  # routes, locales, etc. This feature depends on the listen gem.
-
-  # Disable file watcher to reduce CPU used by ruby
-  # this affects mostly to some SASS files, specifically the ones of the core.
-  # to see the changes after modify lib/assets/lesli we have to restart the server
-  # or delete the assets cache folder 
-  # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
-
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
 end
+
+
 
 # Override configuration for environment
 # every rails upgrade needs to add different configuration, so we should only override the specific config
 # instead of changing the original object due on the next release rails is going to reset to default values
 Rails.application.configure do
 
+    # Raise an Error When an Asset is Not Found
+    config.assets.unknown_asset_fallback = false
+
     # Enable/disable caching. By default caching is disabled.
     # Run rails dev:cache to toggle caching.
     if Rails.root.join('tmp', 'caching-dev.txt').exist?
-        config.action_controller.perform_caching = true
-        config.action_controller.enable_fragment_cache_logging = true
-
-        config.cache_store = :file_store, "#{root}/tmp/file_store_cache/"
-        config.public_file_server.headers = {
-            'Cache-Control' => "public, max-age=#{ 7.days.to_i }"
-        }
-    else
-        config.action_controller.perform_caching = false
-        config.cache_store = :null_store
         config.cache_store = :file_store, "#{root}/tmp/file_store_cache/"
     end
-
-    config.default_url = Rails.configuration.lesli_settings["env"]["default_url"]
 
     # Mailer configuration
     config.action_mailer.preview_path = "#{Rails.root}/lib/mailer_previews"
@@ -122,11 +103,6 @@ Rails.application.configure do
             password: Rails.application.credentials.providers[:mailgun][:smtp][:password],
             user_name: Rails.application.credentials.providers[:mailgun][:smtp][:username]
         }
-    end
-
-    # SES configuration credentials are initialzied in config/initializers/aws.rb
-    if config.action_mailer.delivery_method == :ses
-        # check settings on config/initializers/aws.rb
     end
 
     config.action_mailer.asset_host = Rails.configuration.lesli_settings["env"]["action_mailer"]["asset_host"]
