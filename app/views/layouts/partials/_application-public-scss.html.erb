@@ -33,7 +33,7 @@ customizable_apps_and_pages = [
 
 <% if customizable_apps_and_pages.include?(controller_path.to_s) %>
     <%# Include controller path only for core apps and pages %>
-    <%= stylesheet_link_tag("lesli/templates/public", media: "all") %>
+    <%= stylesheet_link_tag("templates/public", media: "all") %>
     <%= stylesheet_link_tag(controller_path, media: "all") %>
     <%# Include custom stylesheet from builders only if a builder is loaded %>
     <%= stylesheet_link_tag("#{lesli_instance_code}/lesli/#{controller_path}", media: "all") if (lesli_instance_code != 'lesli') %>
