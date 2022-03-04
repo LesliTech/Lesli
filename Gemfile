@@ -138,7 +138,8 @@ gem "caxlsx", "3.2.0"
 gem "caxlsx_rails", "0.6.2"
 
 # HTTP/REST API client library.
-gem "faraday", "2.2.0"
+# gem "faraday", "2.2.0"
+gem "faraday" #Workaround to allow google-cloud-firestore work
 
 # rubyzip is a ruby module for reading and writing zip files
 gem "rubyzip", "2.3.2"
