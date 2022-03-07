@@ -94,7 +94,7 @@ module.exports = env => {
             "users/passwords": "./app/vue/users/passwords.js",
             "users/registrations": "./app/vue/users/registrations.js",
             "users/confirmations": "./app/vue/users/confirmations.js",
-            "onboardings/app": "./app/vue/onboardings/app.js",
+            "onboardings/application": "./app/vue/onboardings/app.js",
 
             "errors/app": "./app/vue/errors/app.js"
         },
