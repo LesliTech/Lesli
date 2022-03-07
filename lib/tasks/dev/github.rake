@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,26 +13,26 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
 require "./lib/tasks/lesli_rake"
 
 class DevGithub < LesliRake
-    
+
 
     def initialize
-        namespace :dev do        
+        namespace :dev do
             namespace :github do
 
                 desc "Distribute github workflows and actions to all the installed engines"
                 task :workflows => :environment do |task, args|
                     ARGV.each { |a| task a.to_sym do ; end }
-        
+
                     # execute command
                     workflows
-        
+
                 end
 
             end
@@ -40,7 +40,7 @@ class DevGithub < LesliRake
     end
 
 
-    
+
     private
 
 
@@ -62,12 +62,12 @@ class DevGithub < LesliRake
         # for every installed engine
         Lesli::engines.each do |engine|
 
-            next if engine[:code] != 'demo_engine_devops'
+            next if engine[:code] == 'demo_engine_devops'
 
             engine_path = Rails.root.join("engines", engine[:code])
 
             next unless File.exists?(engine_path)
-            
+
             message_separator
 
             message("Working with: #{engine[:code]}")
@@ -76,7 +76,7 @@ class DevGithub < LesliRake
             FileUtils.mkdir_p engine_path.join(".github", "workflows")
 
             # work with every workflow file found on github actions repository
-            workflows_for_modules.each do |file_path| 
+            workflows_for_modules.each do |file_path|
 
                 # get the name of the workflow file
                 filename = File.basename(file_path)
@@ -92,7 +92,7 @@ class DevGithub < LesliRake
 
             end
 
-            workflows_for_builders.each do |file_path| 
+            workflows_for_builders.each do |file_path|
                 next
                 next unless engine[:type] == "builder"
 
