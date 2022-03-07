@@ -89,7 +89,7 @@ export default {
         },
 
         initialize(){
-            if(this.$route.params.id == this.engineNamespace){
+            if(! this.$route.params.id){
                 this.getDefaultDashboard()
             }
             this.configuration_ready = true
@@ -123,10 +123,10 @@ export default {
                     :title="false"
                 >
                     <div class="buttons" v-if="newResourceAnchorPath">
-                        <a class="button" :href="newResourceAnchorPath">
+                        <router-link class="button" :to="newResourceAnchorPath">
                             <b-icon icon="plus" size="is-small"></b-icon>
                             <span>{{ newResourceAnchorText() }}</span>
-                        </a>
+                        </router-link>
                     </div>
                 </component-header>
 
