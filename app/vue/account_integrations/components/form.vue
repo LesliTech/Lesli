@@ -1,5 +1,5 @@
 <script>
-import DatePicker from 'v-calendar/lib/components/date-picker.umd'
+import DatePicker from '@v-calendar/lib/components/date-picker.umd'
 
 export default {
     data(){
