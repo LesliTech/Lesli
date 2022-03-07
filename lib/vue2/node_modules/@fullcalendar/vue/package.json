@@ -1,0 +1,71 @@
+{
+  "name": "@fullcalendar/vue",
+  "version": "5.8.0",
+  "title": "FullCalendar Vue 2 Component",
+  "description": "An official FullCalendar component for Vue 2",
+  "keywords": [
+    "vue",
+    "calendar",
+    "fullcalendar"
+  ],
+  "docs": "https://fullcalendar.io/docs/vue",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fullcalendar/fullcalendar-vue.git"
+  },
+  "scripts": {
+    "tsc": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist tmp",
+    "watch": "tsc -p tsconfig.json --watch",
+    "build": "tsc -p tsconfig.json && rollup -c && npm run minify",
+    "minify": "terser --compress --mangle --comments false --output dist/main.global.min.js -- dist/main.global.js",
+    "test": "concurrently 'webpack --watch' 'karma start karma.config.js'",
+    "test:ci": "webpack && karma start karma.config.js --browsers ChromeHeadless --single-run --no-auto-watch",
+    "ci": "./scripts/ci.sh"
+  },
+  "dependencies": {
+    "@fullcalendar/core": "~5.8.0",
+    "tslib": "^2.1.0"
+  },
+  "peerDependencies": {
+    "vue": "^2.6.12"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/plugin-transform-runtime": "^7.10.1",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/runtime": "^7.12.1",
+    "@fullcalendar/daygrid": "~5.8.0",
+    "@rollup/plugin-node-resolve": "^8.4.0",
+    "@types/estree": "^0.0.45",
+    "@types/node": "14.10.0",
+    "@vue/test-utils": "^1.0.3",
+    "babel-loader": "^8.1.0",
+    "concurrently": "^5.3.0",
+    "css-loader": "^4.3.0",
+    "karma": "^6.3.2",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-jasmine": "^4.0.1",
+    "karma-sourcemap-loader": "^0.3.8",
+    "karma-spec-reporter": "^0.0.32",
+    "rollup": "^2.21.0",
+    "source-map-loader": "^1.1.1",
+    "style-loader": "^2.0.0",
+    "terser": "^4.8.0",
+    "typescript": "^4.0.5",
+    "vue": "^2.6.12",
+    "vue-loader": "^15.9.5",
+    "vue-template-compiler": "^2.6.12",
+    "webpack": "^5.7.0",
+    "webpack-cli": "^4.1.0"
+  },
+  "main": "dist/main.cjs.js",
+  "module": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "jsdelivr": "dist/main.global.min.js",
+  "files": [
+    "dist",
+    "src"
+  ]
+}

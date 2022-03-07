@@ -1,0 +1,74 @@
+{
+  "name": "flipbook-vue",
+  "version": "0.10.1",
+  "license": "MIT",
+  "description": "3D page flip effect for Vue.js",
+  "homepage": "https://ts1.github.io/flipbook-vue/",
+  "author": "Takeshi Sone <takeshi.sone@gmail.com> (https://github.com/ts1)",
+  "repository": "github:ts1/flipbook-vue",
+  "keywords": [
+    "vue",
+    "flipbook",
+    "component",
+    "book",
+    "page",
+    "flip",
+    "turn",
+    "3d",
+    "coffeescript",
+    "coffeescript2"
+  ],
+  "main": "dist/flipbook.cjs.js",
+  "module": "dist/flipbook.es.js",
+  "unpkg": "dist/flipbook.min.js",
+  "browser": {
+    "./sfc": "src/Flipbook.vue"
+  },
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build --dest demo",
+    "dist": "rollup -c rollup.config.js"
+  },
+  "dependencies": {
+    "rematrix": "^0.4.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-buble": "^0.21.3",
+    "@rollup/plugin-commonjs": "^15.0.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@rollup/plugin-url": "^5.0.1",
+    "@vue/cli-plugin-babel": "^3.7.0",
+    "@vue/cli-service": "^4.3.0",
+    "autoprefixer": "^9.5.1",
+    "coffee-loader": "^0.9.0",
+    "coffeescript": "^2.4.1",
+    "core-js": "^2.6.5",
+    "rollup": "^1.12.5",
+    "rollup-plugin-coffee-script": "^2.0.0",
+    "rollup-plugin-terser": "^5.0.0",
+    "rollup-plugin-vue": "^5.0.0",
+    "svgo-loader": "^2.2.1",
+    "vue": "^2.6.10",
+    "vue-cli-plugin-coffeescript": "^0.0.3",
+    "vue-material-design-icons": "^3.2.0",
+    "vue-ribbon": "^1.0.1",
+    "vue-template-compiler": "^2.5.21"
+  },
+  "peerDependencies": {
+    "vue": "^2.6.10"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 0.25%",
+    "not dead"
+  ],
+  "files": [
+    "dist",
+    "src/Flipbook.vue",
+    "src/matrix.coffee"
+  ]
+}

@@ -1,0 +1,108 @@
+/*
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+LesliCSS - SCSS Utilities for websites, apps and web applications
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · include vendors
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import "../../vendor/normalize";
+
+
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@mixin lesli-css-normalize($vendors: true) {
+
+    // · Normalize
+    @if $vendors {
+        @include normalize();
+    }
+
+
+    // · Reset
+    *,
+    *:before,
+    *:after {
+        box-sizing: border-box;
+    }
+
+
+    // · 
+    body,
+    html {
+        font-size: 16px;
+        font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+    }
+
+
+    // · Estilo estandar para titulos
+    h1, h2, h3, h4, h5, h6 {
+        font-style: inherit;
+        font-weight: inherit;
+        text-rendering: optimizelegibility;
+    }
+
+
+    // · Estilos estandar para enlaces
+    a {
+        color: inherit;
+        text-decoration: none;
+
+        &:visited {
+            color: inherit;
+        }
+
+    }
+
+
+    // · Responsive images
+    img {
+        height: auto;
+        max-width: 100%;
+    }
+
+
+    // · Paragraphs
+    p {
+        margin: 0;
+    }
+
+
+    // · Navigation and list
+    ul {
+        
+        li{
+            list-style: none;
+        }
+
+    }
+        
+}
