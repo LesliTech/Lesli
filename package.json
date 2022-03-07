@@ -4,16 +4,16 @@
     "license": "All rights reserved",
     "private": true,
     "scripts": {
-        "webpack:production": "npm run --prefix ./lib/vue2 webpack --progress --env mode=production",
-        "webpack:watch": "npm run --prefix ./lib/vue2 webpack --progress --env watch=true",
-        "webpack": "npm run --prefix ./lib/vue2 webpack --progress --env mode=development",
+        "webpack:production": "npm run webpack:vue2:production",
+        "webpack:watch": "npm run webpack:vue2:watch",
+        "webpack": "npm run webpack:vue2",
 
-        "webpack:vue2:production": "webpack --progress --env mode=production",
-        "webpack:vue2:watch": "webpack --progress --env watch=true",
-        "webpack:vue2": "webpack --progress --env mode=development",
+        "webpack:vue2:production": "npm run --prefix ./lib/vue2 webpack:production",
+        "webpack:vue2:watch": "npm run --prefix ./lib/vue2 webpack:watch",
+        "webpack:vue2": "npm run --prefix ./lib/vue2 webpack",
 
-        "webpack:vue3:production": "webpack --progress --env mode=production",
-        "webpack:vue3:watch": "webpack --progress --env watch=true",
-        "webpack:vue3": "webpack --progress --env mode=development"
+        "webpack:vue3:production": "npm run --prefix ./lib/vue3 webpack:production",
+        "webpack:vue3:watch": "npm run --prefix ./lib/vue3 webpack:watch",
+        "webpack:vue3": "npm run --prefix ./lib/vue3 webpack"
     }
 }
