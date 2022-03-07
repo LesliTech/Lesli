@@ -84,9 +84,6 @@ class DevGithub < LesliRake
                 # get the content of the workflow file
                 workflow = File.read(file_path)
 
-                # search and replace variables with value of the engine
-                workflow = workflow.gsub("[[MODULE_CODE]]", engine[:code])
-
                 # write workflow file into engine
                 File.write(engine_path.join(".github", "workflows", filename), workflow)
 
