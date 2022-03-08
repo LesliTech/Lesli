@@ -18,13 +18,13 @@ For more information read the license file including with this software.
 
 
 // ·
-import componentSettingsForm from "Lesli/vue/users/components/form-settings.vue"
-import componentSecurityForm from "Lesli/vue/users/components/form-security.vue"
-import componentSubscriptions from "Lesli/vue/users/components/subscriptions.vue"
-import componentInformationCard from "Lesli/vue/users/components/card-information.vue"
-import componentInformationForm from "Lesli/vue/users/components/form-information.vue"
-import componentManagementSessions from "Lesli/vue/users/components/management-sessions.vue"
-import componentManagementNotifications from "Lesli/vue/profiles/components/management-notifications.vue"
+import componentSettingsForm from "Lesli/vue2/users/components/form-settings.vue"
+import componentSecurityForm from "Lesli/vue2/users/components/form-security.vue"
+import componentSubscriptions from "Lesli/vue2/users/components/subscriptions.vue"
+import componentInformationCard from "Lesli/vue2/users/components/card-information.vue"
+import componentInformationForm from "Lesli/vue2/users/components/form-information.vue"
+import componentManagementSessions from "Lesli/vue2/users/components/management-sessions.vue"
+import componentManagementNotifications from "Lesli/vue2/profiles/components/management-notifications.vue"
 
 
 
