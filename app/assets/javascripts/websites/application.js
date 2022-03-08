@@ -9,13 +9,13 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "../../app/vue/websites/app.js":
-/*!*************************************!*\
-  !*** ../../app/vue/websites/app.js ***!
-  \*************************************/
+/***/ "../../app/vue2/websites/app.js":
+/*!**************************************!*\
+  !*** ../../app/vue2/websites/app.js ***!
+  \**************************************/
 /***/ (() => {
 
-eval("console.log('javascript works for websites/landing');\n\n//# sourceURL=webpack://lesli/../../app/vue/websites/app.js?");
+eval("console.log('javascript works for websites/landing');\n\n//# sourceURL=webpack://lesli/../../app/vue2/websites/app.js?");
 
 /***/ })
 
@@ -26,7 +26,7 @@ eval("console.log('javascript works for websites/landing');\n\n//# sourceURL=web
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
 /******/ 	var __webpack_exports__ = {};
-/******/ 	__webpack_modules__["../../app/vue/websites/app.js"]();
+/******/ 	__webpack_modules__["../../app/vue2/websites/app.js"]();
 /******/ 	
 /******/ })()
 ;
