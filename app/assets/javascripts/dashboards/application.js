@@ -305,14 +305,14 @@ eval("\n\nvar bind = __webpack_require__(/*! ./helpers/bind */ \"./node_modules/
 
 /***/ }),
 
-/***/ "../../app/vue/dashboards/app.js":
-/*!***************************************!*\
-  !*** ../../app/vue/dashboards/app.js ***!
-  \***************************************/
+/***/ "../../app/vue2/dashboards/app.js":
+/*!****************************************!*\
+  !*** ../../app/vue2/dashboards/app.js ***!
+  \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var LesliVue_app2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! LesliVue/app2 */ \"./vue/app2.js\");\n/* harmony import */ var LesliVue_shared_dashboards_apps_list_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! LesliVue/shared/dashboards/apps/list.vue */ \"./vue/shared/dashboards/apps/list.vue\");\n/* harmony import */ var LesliVue_shared_dashboards_apps_edit_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! LesliVue/shared/dashboards/apps/edit.vue */ \"./vue/shared/dashboards/apps/edit.vue\");\n/* harmony import */ var LesliVue_shared_dashboards_apps_new_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! LesliVue/shared/dashboards/apps/new.vue */ \"./vue/shared/dashboards/apps/new.vue\");\n/* harmony import */ var LesliVue_shared_dashboards_apps_show_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! LesliVue/shared/dashboards/apps/show.vue */ \"./vue/shared/dashboards/apps/show.vue\");\n/*\nCopyright (c) 2020, all rights reserved.\n\nAll the information provided by this platform is protected by international laws related  to \nindustrial property, intellectual property, copyright and relative international laws. \nAll intellectual or industrial property rights of the code, texts, trade mark, design, \npictures and any other information belongs to the owner of this platform.\n\nWithout the written permission of the owner, any replication, modification,\ntransmission, publication is strictly forbidden.\n\nFor more information read the license file including with this software.\n\n// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~\n// ·\n*/\n// · Import main app\n // · Import apps and components\n\n\n\n\n // · \n\n(0,LesliVue_app2__WEBPACK_IMPORTED_MODULE_0__.default)(\"LesliCloud\", \"/dashboard\", \"[list|new|edit|show]\", [{\n  path: \"/\",\n  component: LesliVue_shared_dashboards_apps_show_vue__WEBPACK_IMPORTED_MODULE_4__.default,\n  engine: \"ldonis\",\n  props: {\n    engine: \"portal\",\n    dashboard: \"default\"\n  }\n}]);\n\n//# sourceURL=webpack://lesli/../../app/vue/dashboards/app.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var LesliVue_app2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! LesliVue/app2 */ \"./vue/app2.js\");\n/* harmony import */ var LesliVue_shared_dashboards_apps_list_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! LesliVue/shared/dashboards/apps/list.vue */ \"./vue/shared/dashboards/apps/list.vue\");\n/* harmony import */ var LesliVue_shared_dashboards_apps_edit_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! LesliVue/shared/dashboards/apps/edit.vue */ \"./vue/shared/dashboards/apps/edit.vue\");\n/* harmony import */ var LesliVue_shared_dashboards_apps_new_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! LesliVue/shared/dashboards/apps/new.vue */ \"./vue/shared/dashboards/apps/new.vue\");\n/* harmony import */ var LesliVue_shared_dashboards_apps_show_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! LesliVue/shared/dashboards/apps/show.vue */ \"./vue/shared/dashboards/apps/show.vue\");\n/*\nCopyright (c) 2020, all rights reserved.\n\nAll the information provided by this platform is protected by international laws related  to \nindustrial property, intellectual property, copyright and relative international laws. \nAll intellectual or industrial property rights of the code, texts, trade mark, design, \npictures and any other information belongs to the owner of this platform.\n\nWithout the written permission of the owner, any replication, modification,\ntransmission, publication is strictly forbidden.\n\nFor more information read the license file including with this software.\n\n// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~\n// ·\n*/\n// · Import main app\n // · Import apps and components\n\n\n\n\n // · \n\n(0,LesliVue_app2__WEBPACK_IMPORTED_MODULE_0__.default)(\"LesliCloud\", \"/dashboard\", \"[list|new|edit|show]\", [{\n  path: \"/\",\n  component: LesliVue_shared_dashboards_apps_show_vue__WEBPACK_IMPORTED_MODULE_4__.default,\n  engine: \"ldonis\",\n  props: {\n    engine: \"portal\",\n    dashboard: \"default\"\n  }\n}]);\n\n//# sourceURL=webpack://lesli/../../app/vue2/dashboards/app.js?");
 
 /***/ }),
 
@@ -3010,7 +3010,7 @@ eval("/*!\n * Vue.js v2.6.14\n * (c) 2014-2021 Evan You\n * Released under the M
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("../../app/vue/dashboards/app.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("../../app/vue2/dashboards/app.js");
 /******/ 	
 /******/ })()
 ;
