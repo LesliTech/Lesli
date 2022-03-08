@@ -18,10 +18,10 @@ For more information read the license file including with this software.
 
 
 // ·
-import componentInformationCard from "Lesli/vue/users/components/card-information.vue"
-import componentInformationForm from "Lesli/vue/users/components/form-information.vue"
-import componentSecurityForm from "Lesli/vue/users/components/form-security.vue"
-import componentForm from "Lesli/vue/users/components/form-new.vue"
+import componentInformationCard from "Lesli/vue2/users/components/card-information.vue"
+import componentInformationForm from "Lesli/vue2/users/components/form-information.vue"
+import componentSecurityForm from "Lesli/vue2/users/components/form-security.vue"
+import componentForm from "Lesli/vue2/users/components/form-new.vue"
 
 
 // ·
