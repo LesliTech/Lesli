@@ -19,7 +19,6 @@ For more information read the license file including with this software.
 
 <%
 # Include defaults to account
-@account[:view_id] = "#{params[:controller].gsub("/", "_")}_#{params[:action]}" # use as key for local storage data
 @account[:engine] = lesli_engine_or_instance                                    # use into url plugin to for dynamic search 
 @account[:url] = { root: request.base_url.to_s,  path: request.path }           # use as base for url plugin
 @account[:app] = params[:controller]

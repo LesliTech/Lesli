@@ -40,7 +40,7 @@ gem "i18n-js", "3.9.1"
 gem "sassc-rails", "2.1.2"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-gem "sprockets-rails"
+#gem "sprockets-rails"
 
 # Pg is the Ruby interface to the PostgreSQL RDBMS. It works with PostgreSQL 9.3 and later.
 gem "pg", "1.3.3"

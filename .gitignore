@@ -10,7 +10,9 @@ Gemfile.lock
 lesli.server.yml
 package-lock.json
 yarn.lock
-
+/node_modules
+/lib/vue2/node_modules
+/lib/vue3/node_modules
 
 # Ignore all logfiles and tempfiles.
 *.dump 
@@ -47,7 +49,7 @@ yarn.lock
 /public/assets
 /public/javascripts/translations.js
 /public/uploads/
-/node_modules
+
 
 
 /engines/*
