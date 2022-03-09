@@ -62,7 +62,8 @@ module Courier
                     name: calendar.name,
                     driver_events: [],
                     focus_tasks: [],
-                    help_tickets: []
+                    help_tickets: [],
+                    integration_Events: [],
                 }
 
                 query_text = nil
@@ -70,6 +71,7 @@ module Courier
                     query_text = query[:filters][:query].downcase.split(" ")
                 end
 
+                
                 # events from CloudDriver
                 # This condition is diferent because, by default, driver events are included
                 unless query[:filters][:include] && query[:filters][:include][:driver_events].to_s.downcase == "false"
@@ -128,6 +130,50 @@ module Courier
                         }
                     end
                     calendar_data[:help_tickets] = help_tickets
+                end
+
+                user_auth_provider = Courier::Lesli::Users::AuthProviders.get_user_provider(current_user.id, 'Google')
+
+                if (user_auth_provider)
+                    # Initialize Google Calendar API
+                    service = Google::Apis::CalendarV3::CalendarService.new
+                    # Use google keys to authorize
+                    service.authorization = Google::APIClient::ClientSecrets.new(
+                        { "web" =>
+                            { "access_token" => user_auth_provider.access_token,
+                            "refresh_token" => user_auth_provider.refresh_token,
+                            "client_id" => Rails.application.credentials.dig(:providers, :google, :client_id),
+                            "client_secret" => Rails.application.credentials.dig(:providers, :google, :client_secret),
+                            }
+                        }
+                        ).to_authorization
+                    # Request for a new aceess token just incase it expired
+                    service.authorization.refresh!
+                    # Get a list of calendars
+                    event_list = service.list_events("primary").items
+
+                    event_list = event_list.map do |event|
+                        LC::Debug.msg query[:filters][:start_date]
+                        LC::Debug.msg query[:filters][:end_date]
+                        LC::Debug.msg event.start.date_time
+                        LC::Debug.msg event.end.date_time
+                        LC::Debug.msg event.start.date_time >= query[:filters][:start_date]
+                        LC::Debug.msg event.end.date_time <= query[:filters][:end_date]
+                        if (event.start.date_time >= query[:filters][:start_date] && event.end.date_time <= query[:filters][:end_date])
+                            LC::Debug.msg event.summary
+                            {
+                                id: event.id,
+                                title: event.summary,
+                                description: event.location,
+                                date: event.start.date_time,
+                                start: event.start.date_time,
+                                end: event.end.date_time ? event.end.date_time + 1.second : nil,
+                                classNames: ["integration_events"],
+                            }
+                        end
+                    end
+                    calendar_data[:integration_events] = event_list.compact()
+                    
                 end
 
                 calendar_data

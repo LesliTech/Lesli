@@ -30,10 +30,12 @@ class Users::OauthController < Devise::OmniauthCallbacksController
 
         # The user data provided by the third-party is available in the request environment variable request.env['omniauth.auth'].
         omniauth_params = request.env['omniauth.auth']
-
         auth_params = {
             provider: omniauth_params.provider,
             uid: omniauth_params.uid,
+            id_token: omniauth_params.extra.id_token,
+            refresh_token: omniauth_params.credentials.refresh_token,
+            access_token: omniauth_params.credentials.token,
             info: {
                 email: omniauth_params.info.email,
                 first_name: omniauth_params.info.first_name,
@@ -74,7 +76,6 @@ class Users::OauthController < Devise::OmniauthCallbacksController
     protected
 
     def authenticate(auth_params, session_source)
-
         # find the user by email provided
         user = UserRegistrationService.new(
             User.find_by(email: auth_params[:info][:email])

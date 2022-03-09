@@ -63,7 +63,6 @@ class UserRegistrationService
     # @description This method find and update a user with external party authentication provider data.
     #       If the user did not exist is created with the data received from the auth provider.
     def oauth(auth_params)
-
         auth_provider = auth_params[:provider]
         auth_provider = "Google" if auth_params[:provider] == "google_oauth2"
 
@@ -71,7 +70,10 @@ class UserRegistrationService
             # set a new provider for and existent user
             @resource.auth_providers.find_or_create_by({
                 provider: auth_provider,
-                uid: auth_params[:uid]
+                uid: auth_params[:uid],
+                id_token: auth_params[:id_token],
+                access_token: auth_params[:access_token],
+                refresh_token: auth_params[:refresh_token],
             })
 
             return @resource
@@ -110,6 +112,9 @@ class UserRegistrationService
                 @resource.auth_providers.create({
                     provider: auth_provider,
                     uid: auth_params[:uid],
+                    id_token: auth_params[:id_token],
+                    access_token: auth_params[:access_token],
+                    refresh_token: auth_params[:refresh_token],
                 })
 
                 # saving logs with information about the creation of the user

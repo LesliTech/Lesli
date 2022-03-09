@@ -307,7 +307,7 @@ Devise.setup do |config|
     # Social Login middleware
     config.omniauth :google_oauth2, Rails.application.credentials.dig(:providers, :google, :client_id), Rails.application.credentials.dig(:providers, :google, :client_secret), {
         prompt: 'consent',
-        scope: 'email,profile'
+        scope: 'email,profile,calendar'
     }
 
     config.omniauth :facebook, Rails.application.credentials.dig(:providers, :facebook, :client_id), Rails.application.credentials.dig(:providers, :facebook, :client_secret), {

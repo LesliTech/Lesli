@@ -127,6 +127,8 @@ gem "webpush", "= 1.1.0"
 gem "omniauth"
 gem 'omniauth-google-oauth2', '= 1.0'
 gem 'omniauth-facebook', '= 9.0'
+gem 'google-api-client', require: 'google/apis/calendar_v3'
+
 
 # cross-platform interface for filesystem information
 gem 'sys-filesystem', '~> 1.4'
