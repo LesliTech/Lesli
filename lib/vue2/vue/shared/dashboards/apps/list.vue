@@ -208,7 +208,7 @@ export default {
                     <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
                     <span> {{ translations.core.view_text_btn_reload }}</span>
                 </button>
-                <router-link class="button" tag="button" :to="`${appMountPath}/new`" v-if="index_abilities.create">
+                <router-link class="button" :to="`${appMountPath}/new`" v-if="index_abilities.create">
                     <b-icon icon="plus" size="is-small" />
                     <span>{{ translations.dashboards.view_btn_create }}</span>
                 </router-link>
