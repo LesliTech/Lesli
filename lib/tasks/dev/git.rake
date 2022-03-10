@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,26 +13,33 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
 require "./lib/tasks/lesli_rake"
 
 class DevGit < LesliRake
-    
+
 
     def initialize
-        namespace :dev do        
+        namespace :dev do
             namespace :git do
 
                 desc "Push code to remote branch/origin for all engines"
                 task :push => :environment do |task, args|
                     ARGV.each { |a| task a.to_sym do ; end }
-        
+
+                    branch="ldonis"
+                    origin="origin"
+
+                    # get params sent by user
+                    branch = ARGV[1] unless ARGV[1].blank?
+                    origin = ARGV[2] unless ARGV[2].blank?
+
                     # execute command
-                    push 
-        
+                    push branch, origin
+
                 end
 
                 desc "Pull code from origin master from all engines"
@@ -41,22 +48,23 @@ class DevGit < LesliRake
 
                     # execute command
                     pull
-                    
+
                 end
 
                 desc "Commit pending changes from all engines"
                 task commit: :environment do
+
                     ARGV.each { |a| task a.to_sym do ; end }
 
                     # default params
                     git_message = "add updates from development"
 
                     # get params sent by user
-                    git_message = ARGV[1] if not ARGV[1].blank?
+                    git_message = ARGV[1] unless ARGV[1].blank?
 
                     # execute command
                     commit git_message
-        
+
                 end
 
                 desc "Checkout all engines to a different branch"
@@ -68,7 +76,7 @@ class DevGit < LesliRake
                     branch = "master"
 
                     # get params sent by user
-                    branch = ARGV[1] if not ARGV[1].blank?
+                    branch = ARGV[1] unless ARGV[1].blank?
                     force = ARGV[2] == "force"
 
                     # execute command
@@ -79,36 +87,36 @@ class DevGit < LesliRake
                 desc "Push code to backup repositories for all engines"
                 task :backup => :environment do |task, args|
                     ARGV.each { |a| task a.to_sym do ; end }
-        
+
                     # execute command
-                    push "backup", "master"
-        
+                    push "master", "backup"
+
                 end
 
                 desc "Update vendor from node_modules"
                 task :vendor => :environment do |task, args|
                     ARGV.each { |a| task a.to_sym do ; end }
-        
+
                     # execute command
                     vendor
-        
+
                 end
 
                 desc "Add origins"
                 task :origin => :environment do |task, args|
                     ARGV.each { |a| task a.to_sym do ; end }
-        
+
                     # default params
                     force = false
                     engine = "all"
 
                     # get params sent by user
-                    engine = ARGV[1] if not ARGV[1].blank?
+                    engine = ARGV[1] unless ARGV[1].blank?
                     force = ARGV[2] == "all"
 
                     # execute command
                     origin(engine, force)
-        
+
                 end
 
             end
@@ -116,13 +124,13 @@ class DevGit < LesliRake
     end
 
 
-    
+
     private
 
 
 
     # Push code to remote branch/origin for all engines
-    def push origin="origin", branch="ldonis"
+    def push branch, origin
 
         # for every installed engine
         Lesli::engines.each do |engine|
@@ -131,7 +139,7 @@ class DevGit < LesliRake
             engine_path = Rails.root.join("engines", engine[:code])
 
             next unless File.exists?(engine_path)
-            
+
             message_separator
             message("Working with: #{engine[:code]}")
 
@@ -161,7 +169,7 @@ class DevGit < LesliRake
             engine_path = Rails.root.join("engines", engine[:code])
 
             next unless File.exists?(engine_path)
-            
+
             message_separator
             message("Working with: #{engine[:code]}")
 
@@ -188,13 +196,14 @@ class DevGit < LesliRake
         Lesli::engines.each do |engine|
 
             #build engine path
-            engine_path = Rails.root.join("engines", engine["name"])
+
+            engine_path = Rails.root.join("engines", engine[:code])
 
             next unless File.exists?(engine_path)
-            
+
             message_separator
-            message("Working with: #{engine['name']}")
-            command("cd ./engines/#{engine['name']} && git add --all && git commit -m \"#{ git_message }\"")
+            message("Working with: #{engine[:code]}")
+            command("cd ./engines/#{engine[:code]} && git add --all && git commit -m \"#{ git_message }\"")
 
         end
 
@@ -221,7 +230,7 @@ class DevGit < LesliRake
 
             message_separator
             message "Working with: #{engine[:code]}"
-            
+
             command("cd ./engines/#{engine[:code]} && git reset --hard") if force
             command("cd ./engines/#{engine[:code]} && git checkout #{ branch }")
 
@@ -242,13 +251,13 @@ class DevGit < LesliRake
         command("rm -r vendor/*")
 
         [
-            "buefy", 
-            "bulma", 
-            "quill", 
+            "buefy",
+            "bulma",
+            "quill",
             "lesli-css",
-            "@fullcalendar", 
-            "bulma-o-steps", 
-            "bulma-extensions", 
+            "@fullcalendar",
+            "bulma-o-steps",
+            "bulma-extensions",
             "foundation-emails",
             "remixicon"
         ].each do |package|
@@ -292,7 +301,7 @@ class DevGit < LesliRake
                 remote = engine[:github]['ssh_backup'] if origin == "backup"
 
                 message("working with: #{engine[:code]} -> #{remote}")
-                command("cd ./engines/#{engine[:code]} && git remote add #{origin} #{remote}") 
+                command("cd ./engines/#{engine[:code]} && git remote add #{origin} #{remote}")
 
             end
 
@@ -300,10 +309,10 @@ class DevGit < LesliRake
 
         if engine_name == "core" || engine_name == "all"
             message("working with core")
-            command("git remote add github git@github.com:leitfaden/Lesli.git") 
-            command("git remote add origin git@github.com:leitfaden/Lesli.git") 
-            command("git remote add backup git@github.com:LesliTech/Lesli.git") 
-            command("git remote add lesli git@github.com:LesliTech/Lesli.git") 
+            command("git remote add github git@github.com:leitfaden/Lesli.git")
+            command("git remote add origin git@github.com:leitfaden/Lesli.git")
+            command("git remote add backup git@github.com:LesliTech/Lesli.git")
+            command("git remote add lesli git@github.com:LesliTech/Lesli.git")
         end
 
         message_separator
