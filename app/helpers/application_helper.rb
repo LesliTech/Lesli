@@ -50,17 +50,15 @@ module ApplicationHelper
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
-        # @TODO: See Trello card 2450. We must migrate all functionallity to
-        # this.data and remove this.bus before enabling help for a global JS file
         if [
-            "cloud_text", "cloud_house", "cloud_babel",
-            "cloud_audit", "cloud_realty", "cloud_bell",
-            "cloud_mailer", "cloud_kb"
+            "accounts", "account", "roles", "profiles", "users", "abouts", 
+            "settings", "cronos", "onboarding", "role_descriptors"
         ].include?(cloud_module)
-            return [cloud_module, [cloud_module, "app"].join("_")].join("/")
-        end
+            return controller_path 
+        end 
 
-        controller_path
+        [cloud_module, "application"].join("/")
+
     end
 
     def application_javascript_path
@@ -68,19 +66,11 @@ module ApplicationHelper
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
-        # @TODO: See Trello card 2450. We must migrate all functionallity to
-        # this.data and remove this.bus before enabling help for a global JS file
-        if [
-            "cloud_text", "cloud_house", "cloud_babel",
-            "cloud_audit", "cloud_realty", "cloud_bell",
-            "cloud_mailer", "cloud_kb"
-        ].include?(cloud_module)
-            return [cloud_module, [cloud_module, "app"].join("_")].join("/")
-        end
+        if ["account"].include?(cloud_module)
+            return [cloud_module, path_segments.push("application").compact().join("_")].join("/")
+        end 
 
-        path_segments = controller_path.split("/")
-        cloud_module = path_segments.shift
-        [cloud_module, path_segments.push("app").compact().join("_")].join("/")
+        return [cloud_module, "application"].join("/")
 
     end
 
@@ -146,7 +136,7 @@ module ApplicationHelper
     end
 
     def javascript_googlemaps_sdk
-        "<script src=\"https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.dig(:providers, :google, :maps_sdk_token)}\"></script>".html_safe
+        "<script type=\"application/javascript\" src=\"https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.dig(:providers, :google, :maps_sdk_token)}\"></script>".html_safe
     end
 
     def favicon

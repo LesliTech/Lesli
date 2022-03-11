@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,15 +13,15 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 */
 
-// · 
+// ·
 @import "lesli-css/";
 
 
-// · 
+// ·
 @import "./settings/colors.scss";
 @import "./layout/application-header";
 @import "./layout/application-navigation";
@@ -41,4 +41,16 @@ body.deutsche_leibrenten.profiles.show main aside.application-sidebar nav ul {
 aside.application-sidebar nav li a i {
     text-align: left;
     width: 2rem;
+}
+
+aside.application-sidebar nav li ul {
+    padding-left: 0rem;
+}
+
+aside.application-sidebar nav li ul a i {
+    margin-left: 1rem;
+}
+
+aside.application-sidebar nav {
+    scrollbar-width: none;
 }
