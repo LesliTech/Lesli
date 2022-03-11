@@ -18,9 +18,7 @@ For more information read the license file including with this software.
 =end
 
 
-require 'rails_helper'
-require 'spec_helper'
-require 'byebug'
+require "lesli_request_helper"
 
 RSpec.describe "GET:/pass", type: :request do
     subject!(:response) { get "/pass.json" }
@@ -41,18 +39,18 @@ RSpec.describe "GET:/pass", type: :request do
 end
 
 RSpec.describe "GET:/pass", type: :request do
-    include_context "user authentication"
+    
+    include_context "request user authentication"
 
-    before(:all) do
-        pass = @user.access_codes.new({ token_type: "pass" })
+    it "is expected to redirect to root '/' if everything happened correctly" do
+
+        pass = @current_user.access_codes.new({ token_type: "pass" })
         raw, enc = Devise.token_generator.generate(pass.class, :token)
         pass.token = enc
         pass.save
 
         get "/pass.json", params: { t: raw }
-    end
 
-    it "is expected to redirect to root '/' if everything happened correctly" do
         expect(response).to redirect_to("/")
     end
 end
