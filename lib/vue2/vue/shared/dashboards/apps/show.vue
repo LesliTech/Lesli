@@ -111,6 +111,12 @@ export default {
                 console.log(error)
             })
         }
+    },
+
+    watch: {
+        '$route'(){
+            this.initialize()
+        }
     }
 }
 </script>
