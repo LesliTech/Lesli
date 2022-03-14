@@ -53,6 +53,9 @@ module Courier
             #     #     help_tickets: []
             #     # }
             def self.show(current_user, query, calendar=nil)
+                require 'google/api_client/client_secrets.rb'
+                require 'google/apis/calendar_v3'
+
                 return nil unless defined? CloudDriver
 
                 calendar = current_user.account.driver.calendars.default unless calendar
@@ -63,7 +66,8 @@ module Courier
                     driver_events: [],
                     focus_tasks: [],
                     help_tickets: [],
-                    integration_Events: [],
+                    integration_events: [],
+                    all_google_events: [],
                 }
 
                 query_text = nil
@@ -140,27 +144,32 @@ module Courier
                     # Use google keys to authorize
                     service.authorization = Google::APIClient::ClientSecrets.new(
                         { "web" =>
-                            { "access_token" => user_auth_provider.access_token,
+                          { "access_token" => user_auth_provider.access_token,
                             "refresh_token" => user_auth_provider.refresh_token,
                             "client_id" => Rails.application.credentials.dig(:providers, :google, :client_id),
                             "client_secret" => Rails.application.credentials.dig(:providers, :google, :client_secret),
-                            }
+                          }
                         }
-                        ).to_authorization
+                    ).to_authorization
                     # Request for a new aceess token just incase it expired
                     service.authorization.refresh!
                     # Get a list of calendars
                     event_list = service.list_events("primary").items
+                    
+                    all_event_list = event_list.map do |event|
+                        {
+                            id: event.id,
+                            title: event.summary,
+                            description: event.location,
+                            date: event.start.date_time,
+                            start: event.start.date_time,
+                            end: event.end.date_time ? event.end.date_time + 1.second : nil,
+                            classNames: ["integration_events"],
+                        }
+                    end
 
                     event_list = event_list.map do |event|
-                        LC::Debug.msg query[:filters][:start_date]
-                        LC::Debug.msg query[:filters][:end_date]
-                        LC::Debug.msg event.start.date_time
-                        LC::Debug.msg event.end.date_time
-                        LC::Debug.msg event.start.date_time >= query[:filters][:start_date]
-                        LC::Debug.msg event.end.date_time <= query[:filters][:end_date]
                         if (event.start.date_time >= query[:filters][:start_date] && event.end.date_time <= query[:filters][:end_date])
-                            LC::Debug.msg event.summary
                             {
                                 id: event.id,
                                 title: event.summary,
@@ -172,6 +181,7 @@ module Courier
                             }
                         end
                     end
+                    calendar_data[:all_google_events] = all_event_list.compact()
                     calendar_data[:integration_events] = event_list.compact()
                     
                 end

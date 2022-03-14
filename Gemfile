@@ -129,9 +129,6 @@ gem "libreconv", "0.9.5"
 #gem "docx_replace", "1.2.1"
 
 # Social Login
-gem "omniauth"
-gem 'omniauth-google-oauth2', '= 1.0'
-gem 'omniauth-facebook', '= 9.0'
 gem 'google-api-client', require: 'google/apis/calendar_v3'
 
 # Scrape text from common file formats (.pdf,.doc,.docx, .sketch, .txt) with a single convenient command.
