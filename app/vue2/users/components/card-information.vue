@@ -20,6 +20,11 @@ export default {
     props: {
         actions: {
             default: true
+        },
+
+        mainPath: {
+            type: String,
+            required: true
         }
     },
     data() {
@@ -107,7 +112,7 @@ export default {
                     this.msg.error(result.error.message)
                 } else {
                     this.msg.success(this.translations.core.users.messages_success_user_updated)
-                    this.url.go(this.url.admin("users"))
+                    this.$router.push(this.mainPath)
                 }
             }).catch(error => {
                 console.log(error)
