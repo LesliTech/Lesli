@@ -63,7 +63,7 @@ export default {
         },
 
         postUser() {
-            let url = `/administration/users.json`
+            let url = '/administration/users.json'
 
             let data = {
                 user: {
@@ -75,7 +75,7 @@ export default {
             this.http.post(url, data).then(result => {
                 if (result.successful) {
                     this.msg.success(this.translations.users.messages_success_created_successfully)
-                    this.url.go(this.mainPath)
+                    this.$router.push(this.mainPath)
                 } else {
                     this.msg.error(result.error.message)
                 }
