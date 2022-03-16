@@ -66,7 +66,7 @@ module Courier
                     driver_events: [],
                     focus_tasks: [],
                     help_tickets: [],
-                    integration_events: [],
+                    external_events: [],
                     all_google_events: [],
                 }
 
@@ -164,7 +164,7 @@ module Courier
                             date: event.start.date_time,
                             start: event.start.date_time,
                             end: event.end.date_time ? event.end.date_time + 1.second : nil,
-                            classNames: ["integration_events"],
+                            classNames: ["external_events"],
                         }
                     end
 
@@ -177,12 +177,12 @@ module Courier
                                 date: event.start.date_time,
                                 start: event.start.date_time,
                                 end: event.end.date_time ? event.end.date_time + 1.second : nil,
-                                classNames: ["integration_events"],
+                                classNames: ["external_events"],
                             }
                         end
                     end
                     calendar_data[:all_google_events] = all_event_list.compact()
-                    calendar_data[:integration_events] = event_list.compact()
+                    calendar_data[:external_events] = event_list.compact()
                     
                 end
 
@@ -205,6 +205,19 @@ module Courier
                 end
 
                 return records
+            end
+
+            def self.create_user_calendar(user, account, calendar_name)
+                calendar = CloudDriver::Calendar.create!(
+                    account: account,
+                    user_main: user,
+                    users_id: user,
+                )
+                CloudDriver::Calendar::Detail.create!(
+                    name: calendar_name,
+                    default: true,
+                    cloud_driver_calendars_id: calendar.id
+                )
             end
         end
     end
