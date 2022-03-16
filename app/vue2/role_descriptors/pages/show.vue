@@ -22,7 +22,12 @@ import componentForm from '../components/form.vue'
 import componentPrivileges from '../components/privileges.vue'
 
 export default {
-    props: {},
+    props: {
+        appMountPath: {
+            type: String,
+            default: '/administration/roles'
+        }
+    },
 
     components: {
         'component-form': componentForm,
@@ -64,7 +69,7 @@ export default {
         <component-header :title="role_descriptor.name">
             <div class="navbar-item">
                 <div class="buttons">
-                    <router-link class="button" to="/">
+                    <router-link class="button" :to="appMountPath">
                         <b-icon icon="list" size="is-small" />
                         <span>{{ translations.core.view_btn_list }}</span>
                     </router-link>
@@ -74,7 +79,7 @@ export default {
 
         <div class="card">
             <div class="card-content">
-                <component-form v-if="role_descriptor.id" :role_descriptor="role_descriptor"></component-form>
+                <component-form v-if="role_descriptor.id" :app-mount-path="appMountPath" :role_descriptor="role_descriptor"></component-form>
             </div>
         </div>
         <br>

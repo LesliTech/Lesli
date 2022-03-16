@@ -18,6 +18,9 @@ For more information read the license file including with this software.
 
 export default {
     props: {
+        base_path: {
+            required: true
+        },
         audience_document: {
             required: true
         },
@@ -84,7 +87,7 @@ export default {
                 this.msg.info(this.translations.main.messages_info_generating_document)
 
                 setTimeout(() => {
-                    this.$router.push("/")
+                    this.$router.push(this.base_path)
                 }, 1500)
 
             }).catch(error => {
@@ -238,8 +241,8 @@ export default {
                         </option>
                     </b-select>
                 </b-field>
-                <template v-for="filter in currentFilters" :label="filter.label">
-                    <div class="field">
+                <template v-for="filter in currentFilters" :label="filter.label" >
+                    <div class="field" :key="filter.label">
                         <div class="label">
                             {{ filter.label }}
                         </div>
@@ -249,6 +252,7 @@ export default {
                                     <option value=""> {{ translations.main.view_text_select_all }} </option>
                                     <option v-for="option in filter.data"
                                         :value="option"
+                                        :key="option"
                                     >
                                         {{ option }}
                                     </option>
