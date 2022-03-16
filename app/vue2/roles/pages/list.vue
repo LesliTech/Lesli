@@ -20,8 +20,14 @@ For more information read the license file including with this software.
 
 export default {
     props: {
-        lesli_engine: {
-            default: "admin"
+        appMountPath: {
+            type: String,
+            default: '/administration/roles'
+        },
+
+        usersMountPath: {
+            type: String,
+            default: '/administration/users'
         }  
     },
     data() {
@@ -110,7 +116,7 @@ export default {
             let url = this.url.admin('roles')
 
             url = url.filters({
-                text: (this.filters.role_name || this.filters.text)
+                text: (this.filters.role_name || this.filters.text)
             }).paginate(
                 this.pagination.current_page, this.filters.per_page
             )
@@ -175,7 +181,7 @@ export default {
         },
         
         showRole(role){
-            this.$router.push(`${role.id}`)
+            this.$router.push(`${this.appMountPath}/${role.id}`)
         }
     },
     watch: {
@@ -200,7 +206,7 @@ export default {
                     <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
                     <span> {{ translations.core.shared.view_btn_reload }}</span>
                 </button>
-                <router-link class="button" tag="button" to="/new" v-if="index_abilities.roles.create">
+                <router-link class="button" :to="`${appMountPath}/new`" v-if="index_abilities.roles.create">
                     <b-icon icon="plus" size="is-small" />
                     <span>{{ translations.core.roles.view_btn_new_role }}</span>
                 </router-link>
@@ -264,25 +270,25 @@ export default {
                                         <i v-if="active" class="far fa-circle"></i>
                                     </span>
                                 </button>
-                                <b-dropdown-item @click="$router.push(`/${props.row.id}?view_type=simple`)" class="has-text-right pr-4">
+                                <b-dropdown-item @click="$router.push(`${appMountPath}/${props.row.id}?view_type=simple`)" class="has-text-right pr-4">
                                     {{ translations.core.roles.view_btn_edit_privilege_actions }}
                                     <span class="icon">
                                         <i class="fas fa-cogs"></i>
                                     </span>
                                 </b-dropdown-item>
-                                <b-dropdown-item @click="$router.push(`/${props.row.id}?view_type=edit`)" class="has-text-right pr-4">
+                                <b-dropdown-item @click="$router.push(`${appMountPath}/${props.row.id}?view_type=edit`)" class="has-text-right pr-4">
                                     {{ translations.core.roles.view_btn_edit_role_information }}
                                     <span class="icon">
                                         <i class="fas fa-edit"></i>
                                     </span>
                                 </b-dropdown-item>
-                                <b-dropdown-item @click="url.go(url[lesli_engine](`users?role=${props.row.name}`))" class="has-text-right pr-4">
+                                <b-dropdown-item @click="$router.push(`${usersMountPath}?role=${props.row.name}`)" class="has-text-right pr-4">
                                     {{ translations.core.roles.view_btn_users_list }}
                                     <span class="icon">
                                         <i class="fas fa-users"></i>
                                     </span>
                                 </b-dropdown-item>
-                                <b-dropdown-item @click="$router.push(`/${props.row.id}?view_type=logs`)" class="has-text-right pr-4">
+                                <b-dropdown-item @click="$router.push(`${appMountPath}/${props.row.id}?view_type=logs`)" class="has-text-right pr-4">
                                     {{ translations.core.roles.view_btn_logs }}
                                     <span class="icon">
                                         <i class="fas fa-history"></i>
