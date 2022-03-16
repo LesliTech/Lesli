@@ -85,7 +85,7 @@ export default {
 
 
                 if (this.base_path) {
-                    this.url.go(`${this.base_path}/${result.data.id}`)
+                    this.$router.push(`${this.base_path}/${result.data.id}`)
                 }
             }).catch(error => {
                 console.log(error)
