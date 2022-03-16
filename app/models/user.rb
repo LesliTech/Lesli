@@ -64,6 +64,7 @@ class User < ApplicationLesliRecord
     before_create :initialize_user
     after_create :initialize_user_details
     after_create :initialize_cloud_one_user
+    after_create :initialize_user_calendar
 
     after_update :change_after_update
 
@@ -94,6 +95,12 @@ class User < ApplicationLesliRecord
             }
 
             Courier::One::Firebase::User.registration(self, registration_params)
+        end
+    end
+
+    def initialize_user_calendar
+        if defined? CloudDriver
+            Courier::Driver::Calendar.create_user_calendar(self, self.account, "Personal Calendar")
         end
     end
 
