@@ -19,8 +19,6 @@ For more information read the license file including with this software.
 
 // ·
 import componentInformationCard from "Lesli/vue2/users/components/card-information.vue"
-import componentInformationForm from "Lesli/vue2/users/components/form-information.vue"
-import componentSecurityForm from "Lesli/vue2/users/components/form-security.vue"
 import componentForm from "Lesli/vue2/users/components/form-new.vue"
 
 
@@ -35,8 +33,6 @@ export default {
 
     components: {
         'component-information-card': componentInformationCard,
-        'component-information-form': componentInformationForm,
-        'component-security-form': componentSecurityForm,
         'component-form': componentForm
     },
     data() {
@@ -93,7 +89,7 @@ export default {
 
 <template>
     <section class="application-component">
-        <component-information-card></component-information-card>
+        <component-information-card :actions="false" :main-path="mainPath"></component-information-card>
         <component-form :main-path="mainPath"></component-form>
     </section>
 </template>

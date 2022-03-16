@@ -20,6 +20,10 @@ For more information read the license file including with this software.
 
 export default {
     props: {
+        appMountPath: {
+            required: true
+        },
+        
         role_descriptor: {
             required: true
         }
@@ -66,7 +70,7 @@ export default {
 
                 this.msg.success(this.translations.role_descriptors.messages_success_created)
 
-                this.$router.push(`${result.data.id}`)
+                this.$router.push(`${this.appMountPath}/${result.data.id}`)
             }).catch(error => {
                 console.log(error)
             })

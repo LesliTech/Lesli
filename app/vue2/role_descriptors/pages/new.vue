@@ -21,7 +21,12 @@ For more information read the license file including with this software.
 import componentForm from "../components/form.vue"
 
 export default {
-    props: {},
+    props: {
+        appMountPath: {
+            type: String,
+            default: '/administration/roles'
+        }
+    },
 
     components: {
         "component-form": componentForm
@@ -44,7 +49,7 @@ export default {
     <section class="application-component">
         <component-header :title="translations.role_descriptors.view_btn_new_role_desccriptors">
             <div class="buttons">
-                <router-link class="button" tag="button" to="/">
+                <router-link class="button" :to="appMountPath">
                     <span class="icon"><i class="fas fa-list"></i></span>
                     <span> {{ translations.core.view_btn_list }}</span>
                 </router-link>
@@ -53,7 +58,7 @@ export default {
 
         <div class="card">
             <div class="card-content">
-                <component-form :role_descriptor="role_descriptor"></component-form>
+                <component-form :app-mount-path="appMountPath" :role_descriptor="role_descriptor"></component-form>
             </div>
         </div>
     </section>
