@@ -17,6 +17,12 @@ For more information read the license file including with this software.
 */
 
 export default {
+    props: {
+        base_path: {
+            type: String,
+            default: '/administration/template/audience_documents'
+        }
+    },
     data() {
         return {
             template_audiences: [],
@@ -131,7 +137,7 @@ export default {
         },
 
         gotoAudienceDocument(template_audience) {
-            this.$router.push(`${template_audience.id}`)
+            this.$router.push(`${this.base_path}/${template_audience.id}`)
         }
     },
     watch: {
@@ -157,7 +163,7 @@ export default {
                     <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
                     <span> {{ translations.core.view_btn_reload }}</span>
                 </button>
-                <router-link class="button" tag="button" to="/new">
+                <router-link class="button" :to="`${base_path}/new`">
                     <b-icon icon="plus" size="is-small" />
                     <span> {{ translations.main.view_btn_new_audience_document }}</span>
                 </router-link>
@@ -182,88 +188,92 @@ export default {
             </div>
         </component-toolbar>
 
-        <component-data-loading v-if="loading" />
-        <component-data-empty v-if="!loading && template_audiences.length == 0" />
 
-        <b-table
-            :data="template_audiences"
-            :hoverable="true"
-            v-if="!loading && template_audiences.length > 0"
-            @click="gotoAudienceDocument"
-            backend-sorting
-            @sort="sortAudienceDocuments"
-        >
-            <template slot-scope="props">
-                <b-table-column field="id" :label="translations.core.view_text_id" sortable>
-                    <template slot="header" slot-scope="{ column }">
-                        {{ column.label }}
-                        <span v-if="sorting.field == 'id'">
-                            <b-icon v-if="sorting.order == 'asc'" size="is-small" icon="arrow-up" ></b-icon>
-                            <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
-                        </span>
-                    </template>
-                    {{props.row.id}}
-                </b-table-column>
+        <div class="card">
+            <div class="card-content">
+                <component-data-loading v-if="loading" />
+                <component-data-empty v-if="!loading && template_audiences.length == 0" />
+                <b-table
+                    :data="template_audiences"
+                    :hoverable="true"
+                    v-if="!loading && template_audiences.length > 0"
+                    @click="gotoAudienceDocument"
+                    backend-sorting
+                    @sort="sortAudienceDocuments"
+                >
+                    <template slot-scope="props">
+                        <b-table-column field="id" :label="translations.core.view_text_id" sortable>
+                            <template slot="header" slot-scope="{ column }">
+                                {{ column.label }}
+                                <span v-if="sorting.field == 'id'">
+                                    <b-icon v-if="sorting.order == 'asc'" size="is-small" icon="arrow-up" ></b-icon>
+                                    <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
+                                </span>
+                            </template>
+                            {{props.row.id}}
+                        </b-table-column>
 
-                <b-table-column field="template_audience_documents.name" :label="translations.core.view_text_name" sortable>
-                    <template slot="header" slot-scope="{ column }">
-                        <span>
-                            {{ column.label }}
-                            <span v-if="sorting.field == 'template_audience_documents.name'">
-                                <b-icon v-if="sorting.order == 'asc'" size="is-small" icon="arrow-up" ></b-icon>
-                                <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
+                        <b-table-column field="template_audience_documents.name" :label="translations.core.view_text_name" sortable>
+                            <template slot="header" slot-scope="{ column }">
+                                <span>
+                                    {{ column.label }}
+                                    <span v-if="sorting.field == 'template_audience_documents.name'">
+                                        <b-icon v-if="sorting.order == 'asc'" size="is-small" icon="arrow-up" ></b-icon>
+                                        <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
+                                    </span>
+                                </span>
+                            </template>
+                            {{props.row.name}}
+                        </b-table-column>
+
+                        <b-table-column field="created_at" :label="translations.core.view_text_created_at" sortable>
+                            <template slot="header" slot-scope="{ column }">
+                                <span>
+                                    {{ column.label }}
+                                    <span v-if="sorting.field == 'created_at'">
+                                        <b-icon v-if="sorting.order == 'asc'" size="is-small" icon="arrow-up" ></b-icon>
+                                        <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
+                                    </span>
+                                </span>
+                            </template>
+                            {{props.row.created_at_text}}
+                        </b-table-column>
+
+                        <b-table-column :label="translations.core.view_table_header_actions">
+                            <span>
+                                <b-button type="is-danger" outlined @click.stop="deleteAudienceDocument(props.row)">
+                                    <b-icon size="is-small" icon="trash-alt" >
+                                    </b-icon>
+                                </b-button>
                             </span>
-                        </span>
-                    </template>
-                    {{props.row.name}}
-                </b-table-column>
 
-                <b-table-column field="created_at" :label="translations.core.view_text_created_at" sortable>
-                    <template slot="header" slot-scope="{ column }">
-                        <span>
-                            {{ column.label }}
-                            <span v-if="sorting.field == 'created_at'">
-                                <b-icon v-if="sorting.order == 'asc'" size="is-small" icon="arrow-up" ></b-icon>
-                                <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
+                            <span>
+                                <b-button v-if="props.row.account_files_id" type="is-info" outlined @click.stop="downloadAudienceDocument(props.row)">
+                                    <b-icon size="is-small" icon="download" >
+                                    </b-icon>
+                                </b-button>
                             </span>
-                        </span>
+                        </b-table-column>
                     </template>
-                    {{props.row.created_at_text}}
-                </b-table-column>
-
-                <b-table-column :label="translations.core.view_table_header_actions">
-                    <span>
-                        <b-button type="is-danger" outlined @click.stop="deleteAudienceDocument(props.row)">
-                            <b-icon size="is-small" icon="trash-alt" >
-                            </b-icon>
-                        </b-button>
-                    </span>
-
-                    <span>
-                        <b-button v-if="props.row.account_files_id" type="is-info" outlined @click.stop="downloadAudienceDocument(props.row)">
-                            <b-icon size="is-small" icon="download" >
-                            </b-icon>
-                        </b-button>
-                    </span>
-                </b-table-column>
-            </template>
-        </b-table>
-        <hr>
-        <b-pagination
-            :simple="false"
-            :total="pagination.total_count"
-            :current.sync="pagination.current_page"
-            :range-before="pagination.range_before"
-            :range-after="pagination.range_after"
-            :per-page="filters.per_page"
-            order="is-centered"
-            icon-prev="chevron-left"
-            icon-next="chevron-right"
-            aria-next-label="Next page"
-            aria-previous-label="Previous page"
-            aria-page-label="Page"
-            aria-current-label="Current page"
-        >
-        </b-pagination>
+                </b-table>
+                <hr>
+                <b-pagination
+                    :simple="false"
+                    :total="pagination.total_count"
+                    :current.sync="pagination.current_page"
+                    :range-before="pagination.range_before"
+                    :range-after="pagination.range_after"
+                    :per-page="filters.per_page"
+                    order="is-centered"
+                    icon-prev="chevron-left"
+                    icon-next="chevron-right"
+                    aria-next-label="Next page"
+                    aria-previous-label="Previous page"
+                    aria-page-label="Page"
+                    aria-current-label="Current page"
+                >
+                </b-pagination>
+            </div>
+        </div>
     </section>
 </template>

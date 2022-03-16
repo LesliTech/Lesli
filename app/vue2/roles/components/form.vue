@@ -20,6 +20,9 @@ TODO:
 */
 export default {
     props: {
+        appMountPath: {
+            required: true
+        },
         edit: {
             default: true
         },
@@ -89,7 +92,7 @@ export default {
                 }
                 this.msg.success(this.translations.core.roles.messages_success_role_created_successfully)
 
-                this.$router.push(`/${result.data.id}`)
+                this.$router.push(`${this.appMountPath}/${result.data.id}`)
             })
         },
         getRoles() {
@@ -140,7 +143,7 @@ export default {
     <section>
         <component-header :title="getTitle()">
             <div class="buttons">
-                <router-link class="button" to="/">
+                <router-link class="button" :to="appMountPath">
                     <b-icon icon="list" size="is-small" />
                     <span>{{ translations.core.roles.view_btn_roles_list }}</span>
                 </router-link>
