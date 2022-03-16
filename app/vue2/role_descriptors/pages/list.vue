@@ -19,6 +19,13 @@ For more information read the license file including with this software.
 */
 
 export default {
+    props: {
+        appMountPath: {
+            type: String,
+            default: '/administration/roles'
+        }
+    },
+
     data() {
         return {
             role_descriptors: [],
@@ -126,7 +133,7 @@ export default {
         },
 
         gotoRoleDescriptor(role_descriptor) {
-            this.$router.push(`${role_descriptor.id}`)
+            this.$router.push(`${this.appMountPath}/${role_descriptor.id}`)
         },
 
         confirmRoleDescriptorDeletion(role_descriptor){
@@ -163,7 +170,7 @@ export default {
                     <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
                     <span> {{ translations.core.view_btn_reload }}</span>
                 </button>
-                <router-link class="button" tag="button" to="/new">
+                <router-link class="button"  :to="`${appMountPath}/new`">
                     <b-icon icon="plus" size="is-small" />
                     <span> {{ translations.role_descriptors.view_btn_new_role_descriptor }}</span>
                 </router-link>
