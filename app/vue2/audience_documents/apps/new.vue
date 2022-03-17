@@ -25,7 +25,8 @@ import componentForm from "../components/form.vue"
 export default {
     props: {
         base_path: {
-            default: null
+            type: String,
+            default: '/administration/template/audience_documents'
         }
     },
 
@@ -49,7 +50,7 @@ export default {
     <section class="application-component">
         <component-header :title="translations.main.view_btn_new_audience_document">
             <div class="buttons">
-                <router-link class="button" tag="button" to="/">
+                <router-link class="button" :to="`${base_path}/`">
                     <span class="icon"><i class="fas fa-list"></i></span>
                     <span> {{ translations.core.view_btn_list }}</span>
                 </router-link>

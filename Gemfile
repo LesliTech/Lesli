@@ -217,6 +217,10 @@ group :development do
     # Go faster, off the Rails
     gem "derailed_benchmarks", "2.1.1"
 
+    # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
+    # this gem is necessary to use the rails generator 
+    gem "sprockets-rails", "3.4.2"
+
     gem "web-console", ">= 3.3.0"
 
     # The Listen gem listens to file modifications and notifies you about the changes. Works everywhere!
