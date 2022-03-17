@@ -24,7 +24,10 @@ import componentForm from '../components/form.vue'
 export default {
   
     props: {
-
+        appMountPath: {
+            type: String,
+            default: '/administration/roles'
+        }
     },
 
     components: {
@@ -51,6 +54,6 @@ export default {
 
 <template>
     <section class="application-component">
-        <component-form :role="role"></component-form>
+        <component-form :role="role" :app-mount-path="appMountPath"></component-form>
     </section>
 </template>

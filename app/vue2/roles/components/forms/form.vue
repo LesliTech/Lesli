@@ -20,6 +20,9 @@ For more information read the license file including with this software.
 
 export default {
     props: {
+        appMountPath: {
+            required: true
+        },
         role: {
             type: Object,
             required: true
@@ -47,7 +50,7 @@ export default {
         }
     },
 
-    methods: {
+    methods: {
         handleSubmit(event){
             if (event) { event.preventDefault() }
 
@@ -87,7 +90,7 @@ export default {
             this.http.post(url, form_data).then(result => {
                 if (result.successful) {
                     this.msg.success(this.translations.core.roles.messages_success_created)
-                    this.$router.push(`${result.data.id}/edit`)
+                    this.$router.push(`${this.appMountPath}/${result.data.id}/edit`)
 
                     this.submitting_form = false
                 }else{
@@ -131,7 +134,7 @@ export default {
         >
             <template slot="">
                 <div class="buttons">
-                    <router-link class="button" to="/">
+                    <router-link class="button" :to="appMountPath">
                         <b-icon icon="list" size="is-small" />
                         <span>{{ translations.core.roles.view_btn_roles_list }}</span>
                     </router-link>

@@ -44,7 +44,7 @@ For more information read the license file including with this software.
                         <div class="logo-container">
                             <%= image_tag custom_app_logo_path, :class => "#{lesli_instance_code}-logo", :alt => "logo" %>
                         </div>
-                        <form @submit.prevent="postLogin">
+                        <form @submit.prevent="postLogin" method="post">
                             <p v-cloak v-if="notification.show" :class="[`has-text-${notification.type}`]">
                                 {{ notification.message }}
                             </p>

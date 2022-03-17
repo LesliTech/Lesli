@@ -79,6 +79,9 @@ Rails.application.configure do
     # Raise an Error When an Asset is Not Found
     config.assets.unknown_asset_fallback = false
 
+    # Force to not use digest, if this is not false Rails will fingerprint the assets by default and precompile is needed
+    config.assets.digest = false
+
     # Enable/disable caching. By default caching is disabled.
     # Run rails dev:cache to toggle caching.
     if Rails.root.join('tmp', 'caching-dev.txt').exist?
