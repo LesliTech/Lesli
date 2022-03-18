@@ -37,3 +37,6 @@ For more information read the license file including with this software.
 
 // · Core javascripts apps
 //= link_tree ../javascripts .js
+
+// · Login styles
+//= link users/sessions.css
