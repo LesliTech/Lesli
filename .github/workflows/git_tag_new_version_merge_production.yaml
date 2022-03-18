@@ -33,7 +33,7 @@ jobs:
           ${{ runner.os }}-lesli-core-
     - name: NPM install
       run: |
-        npm install
+        npm install --prefix ./lib/vue2
     - name: Compile Js to Production
       run: |
         npm run webpack:production
