@@ -212,11 +212,10 @@ module Courier
                     account: account,
                     user_main: user,
                     users_id: user,
-                )
-                CloudDriver::Calendar::Detail.create!(
-                    name: calendar_name,
-                    default: true,
-                    cloud_driver_calendars_id: calendar.id
+                    detail_attributes: {
+                        name: calendar_name,
+                        default: false,
+                    }
                 )
             end
         end

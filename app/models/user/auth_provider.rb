@@ -26,7 +26,7 @@ class User::AuthProvider < ApplicationLesliRecord
 
     def initialize_user_google_calendar
         user = User.find_by(id: users_id)
-        if defined? CloudDriver
+        if defined? CloudDriver && provider == 'Google'
             Courier::Driver::Calendar.create_user_calendar(user, user.account, "Google Calendar")
         end
     end
