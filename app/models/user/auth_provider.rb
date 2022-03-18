@@ -18,15 +18,15 @@ For more information read the license file including with this software.
 class User::AuthProvider < ApplicationLesliRecord
     belongs_to :user, foreign_key: "users_id"
 
-    after_create :initialize_user_google_calendar
+    after_create :initialize_integration_calendar
 
     def get_user_provider(users_id, provider)
         return User::AuthProvider.find_by(users_id: users_id, provider: provider) 
     end
 
-    def initialize_user_google_calendar
+    def initialize_integration_calendar
         user = User.find_by(id: users_id)
-        if defined? CloudDriver && provider == 'Google'
+        if defined? CloudDriver && self.provider == 'Google'
             Courier::Driver::Calendar.create_user_calendar(user, user.account, "Google Calendar")
         end
     end
