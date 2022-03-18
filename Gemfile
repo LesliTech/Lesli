@@ -135,7 +135,7 @@ gem 'google-api-client', require: 'google/apis/calendar_v3'
 gem "doc_ripper", "0.0.9"
 
 # xlsx spreadsheet generation with charts, images, automated column width, customizable styles and full schema validation.
-gem "caxlsx", "3.2.0"
+gem "caxlsx", "3.1.1"
 
 # Caxlsx_Rails provides an Caxlsx renderer so you can move all your spreadsheet code from your controller into view files.
 gem "caxlsx_rails", "0.6.2"
