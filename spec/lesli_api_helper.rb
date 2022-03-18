@@ -91,6 +91,23 @@ RSpec.shared_context 'request api authentication' do
         
     end
 
+    # Overwrite delete method to include authorization headers
+    def delete(path, params:nil, headers:nil)
+        # add authorization headers
+        headers ||= { "Authorization" => "Bearer #{ @token }" }
+
+        # execute base delete request with our custom headers
+        super(path, :params => params, :headers => headers)
+    end
+
+    # Overwrite put method to include authorization headers
+    def put(path, params:nil, headers:nil)
+        # add authorization headers
+        headers ||= { "Authorization" => "Bearer #{ @token }" }
+
+        # execute base put request with our custom headers
+        super(path, :params => params, :headers => headers)
+    end
 end
 
 
