@@ -98,6 +98,9 @@ gem "omniauth-facebook", "9.0.0"
 # Standalone provider to use the Amazon Web Services in applications
 gem "fog-aws", "3.13.0"
 
+# Official AWS Ruby gem that provides rails utilities
+gem "aws-sdk-rails", "3.6.1"
+
 # Official AWS Ruby gem for Amazon Simple Storage Service (Amazon S3). This gem is part of the AWS SDK for Ruby.
 gem "aws-sdk-s3", "1.113.0"
 
