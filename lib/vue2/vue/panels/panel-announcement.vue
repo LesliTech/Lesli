@@ -1,6 +1,6 @@
 <script>
 /*
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -82,7 +82,7 @@ export default {
                 announcement: { 
                     ...this.announcement,
                     message: JSON.stringify(this.richText),
-                    base_path: this.lesli.url.path
+                    base_path: this.$router.currentRoute.path
                 }
             }).then(result => {
                 if (!result.successful) {
@@ -130,7 +130,7 @@ export default {
             this.loading = true
                         
             let url = this.url.bell('announcements/list').filters({
-                base_path: this.lesli.url.path
+                base_path: this.$router.currentRoute.path
             })
 
             this.http.get(url).then(result => {
@@ -194,6 +194,12 @@ export default {
                 this.getAnnouncementOptions()
                 this.getAnnouncements()
             }
+        },
+        
+        '$route'(){
+            this.clearForm()
+            this.announcements = []
+            this.getAnnouncements()
         }
     }
 }
@@ -294,7 +300,7 @@ export default {
                             <div class="column">
                                 <b-button :type="`is-${announcement.category}`">
                                     <span>
-                                        <b-icon icon="fa-brush" size="is-small">
+                                        <b-icon icon="brush" size="is-small">
                                         </b-icon>
                                     </span>
                                 </b-button>
@@ -325,7 +331,10 @@ export default {
                     </div>
 
                     <div class="field text-editor-container">
-                        <label class="label">{{translations.bell.announcements.column_description}}</label>
+                        <label class="label">
+                            {{translations.bell.announcements.column_message}}
+                            <sup class="has-text-danger">*</sup>
+                        </label>
                         <div class="control">
                             <component-rich-text-editor :value="message" @input="richTextInput" @html="richTextHtml" type="tiny">
                             </component-rich-text-editor>
@@ -362,24 +371,25 @@ export default {
                 @click="showAnnouncement" 
                 :data="announcements">
                 <template slot-scope="props">
-                    <b-table-column :label="translations.bell.announcements.column_name" sortable field="name">
-                        {{ props.row.name }}
+                    <b-table-column :label="translations.bell.announcements.column_name" sortable field="name" class="is-clickable">
+                        <small>{{ props.row.name }}</small>
                     </b-table-column>
                     
-                    <b-table-column :label="translations.bell.announcements.column_category" sortable field="category">
-                        {{ props.row.category }}
+                    <b-table-column :label="translations.bell.announcements.column_category" sortable field="category" class="is-clickable">
+                        
+                        <small>{{ object_utils.translateEnum(translations.bell.announcements, 'column_enum_category', props.row.category) }}</small>
                     </b-table-column>
                 
-                    <b-table-column :label="translations.bell.announcements.column_users_id" sortable field="user_creator">
-                        {{ props.row.user_creator }}
+                    <b-table-column :label="translations.bell.announcements.column_users_id" sortable field="user_creator" class="is-clickable">
+                        <small>{{ props.row.user_creator }}</small>
                     </b-table-column>
                     
-                    <b-table-column :label="translations.core.shared.view_text_actions" sortable field="actions">
-                        <span>
-                            <b-button type="is-danger" outlined @click.stop="deleteAnnouncement(props.row.id)">
+                    <b-table-column :label="''" sortable field="actions">
+                        <div class="has-text-right">
+                            <b-button size="is-small" type="is-danger" outlined @click.stop="deleteAnnouncement(props.row.id)">
                                 <b-icon icon="trash-alt" size="is-small" />
                             </b-button>
-                        </span>
+                        </div>
                     </b-table-column>
                 </template>
             </b-table>
@@ -389,7 +399,7 @@ export default {
 
 <style scoped>
 .text-editor-container {
-    max-height: 10rem;
+    max-height: 13rem;
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: thin;

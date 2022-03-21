@@ -1,13 +1,10 @@
 <script>
 /*
+Copyright (c) 2022, all rights reserved.
 
-Lesli
-
-Copyright (c) 2020, all rights reserved.
-
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -39,7 +36,7 @@ export default {
     methods: {
         getAnnouncements(){
             let url = this.url.bell('announcements/list').filters({
-                base_path: this.lesli.url.path,
+                base_path: this.$router.currentRoute.path,
                 start_at: true,
                 end_at: true,
                 status: true
@@ -57,6 +54,13 @@ export default {
 
         closeAnnouncement(announcement_id){
             this.announcements = this.announcements.filter(e => e.id !== announcement_id)
+        }
+    },
+
+    watch: {
+        '$route'(){
+            this.announcements = []
+            this.getAnnouncements()
         }
     }
 }
