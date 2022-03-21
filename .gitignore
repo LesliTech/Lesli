@@ -40,8 +40,15 @@ yarn.lock
 !/storage/keep/
 !/storage/templates/
 
-/app/assets/**/lesli_cloud
-/app/assets/**/lesli_cloud_*
+
+# Ignore (any possible) custom images from builders
+/app/assets/images/*
+!/app/assets/images/icons
+!/app/assets/images/lesli
+!/app/assets/images/test
+!/app/assets/images/.keep
+!/app/assets/images/image.svg
+
 
 /coverage
 
