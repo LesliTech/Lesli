@@ -36,6 +36,7 @@ export default {
                     announcements: I18n.t("bell.announcements"),
                 }
             },
+            render_component: true,
             loaded: false,
             announcement: {
                 can_be_closed: true,
@@ -197,6 +198,10 @@ export default {
         },
         
         '$route'(){
+            this.render_component = false
+            this.$nextTick(()=>{
+                this.render_component = true
+            })
             this.clearForm()
             this.announcements = []
             this.getAnnouncements()
@@ -206,6 +211,7 @@ export default {
 </script>
 <template>
     <b-sidebar
+        v-if="render_component"
         class="application-panel-announcement"
         :open.sync="data.global.show_panel_announcement"
         :right="true"
