@@ -17,6 +17,8 @@ For more information read the license file including with this software.
 
 =end
 
+require 'google/api_client/client_secrets.rb'
+require 'google/apis/calendar_v3'
 module Courier
     module Driver
         class Calendar
@@ -53,8 +55,6 @@ module Courier
             #     #     help_tickets: []
             #     # }
             def self.show(current_user, query, calendar=nil)
-                require 'google/api_client/client_secrets.rb'
-                require 'google/apis/calendar_v3'
 
                 return nil unless defined? CloudDriver
 
@@ -155,28 +155,37 @@ module Courier
                     service.authorization.refresh!
                     # Get a list of calendars
                     event_list = service.list_events("primary").items
-                    
+                    date = nil
+                    start = nil
+                    end_date = nil
                     all_event_list = event_list.map do |event|
+                        
+                        date = event.start.date_time ? event.start.date_time : event.start.date
+                        start = event.start.date_time ?  event.start.date_time :  event.start.date
+                        end_date = event.end.date_time ?  event.end.date_time :  event.end.date
+                        LC::Debug.msg date
+                        LC::Debug.msg start
+                        LC::Debug.msg end_date
                         {
                             id: event.id,
                             title: event.summary,
                             description: event.location,
-                            date: event.start.date_time,
-                            start: event.start.date_time,
-                            end: event.end.date_time ? event.end.date_time + 1.second : nil,
+                            date: date,
+                            start: start,
+                            end: end_date ? end_date + 1.second : nil,
                             classNames: ["external_events"],
                         }
                     end
 
                     event_list = event_list.map do |event|
-                        if (event.start.date_time >= query[:filters][:start_date] && event.end.date_time <= query[:filters][:end_date])
+                        if (start >= query[:filters][:start_date] && end_date <= query[:filters][:end_date])
                             {
                                 id: event.id,
                                 title: event.summary,
                                 description: event.location,
-                                date: event.start.date_time,
-                                start: event.start.date_time,
-                                end: event.end.date_time ? event.end.date_time + 1.second : nil,
+                                date: date,
+                                start: start,
+                                end: emd_date ? emd_date + 1.second : nil,
                                 classNames: ["external_events"],
                             }
                         end
