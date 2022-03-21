@@ -43,7 +43,14 @@ class Users::OauthController < Devise::OmniauthCallbacksController
             }
         }
 
-        authenticate(auth_params, "google_oauth2")
+        LC::Debug.msg @current_user
+
+        if @current_user
+            synchronize(auth_params, "google_oauth2", @current_user)
+        else
+            authenticate(auth_params, "google_oauth2")
+        end
+
 
     end
 
@@ -75,7 +82,8 @@ class Users::OauthController < Devise::OmniauthCallbacksController
 
     protected
 
-    def authenticate(auth_params, session_source)
+    def authenticate(auth_params, session_source, current_user=nil)
+
         # find the user by email provided
         user = UserRegistrationService.new(
             User.find_by(email: auth_params[:info][:email])
@@ -122,6 +130,34 @@ class Users::OauthController < Devise::OmniauthCallbacksController
 
         redirect_to("/dashboard")
 
+    end
+
+    def synchronize(auth_params, session_sourc, user)
+        auth_provider = auth_params[:provider]
+        auth_provider = "Google" if auth_params[:provider] == "google_oauth2"
+
+        if user
+            # set a new provider for and existent user
+            user.auth_providers.find_or_create_by({
+                provider: auth_provider,
+                uid: auth_params[:uid],
+                id_token: auth_params[:id_token],
+                access_token: auth_params[:access_token],
+                refresh_token: auth_params[:refresh_token],
+            })
+
+            return redirect_to(new_user_session_path)
+        end
+
+        # find the user by provided uid
+        user_auth_provider = User::AuthProvider.find_by({
+            provider: auth_provider,
+            uid: auth_params[:uid],
+        })
+
+        user = user_auth_provider.user if user_auth_provider
+
+        return redirect_to(new_user_session_path)
     end
 
 end

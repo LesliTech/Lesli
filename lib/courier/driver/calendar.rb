@@ -163,9 +163,6 @@ module Courier
                         date = event.start.date_time ? event.start.date_time : event.start.date
                         start = event.start.date_time ?  event.start.date_time :  event.start.date
                         end_date = event.end.date_time ?  event.end.date_time :  event.end.date
-                        LC::Debug.msg date
-                        LC::Debug.msg start
-                        LC::Debug.msg end_date
                         {
                             id: event.id,
                             title: event.summary,
