@@ -43,8 +43,6 @@ class Users::OauthController < Devise::OmniauthCallbacksController
             }
         }
 
-        LC::Debug.msg @current_user
-
         if @current_user
             synchronize(auth_params, "google_oauth2", @current_user)
         else
