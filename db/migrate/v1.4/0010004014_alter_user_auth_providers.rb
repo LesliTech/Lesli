@@ -18,9 +18,9 @@ For more information read the license file including with this software.
 =end
 
 class AlterUserAuthProviders < ActiveRecord::Migration[6.1]
-  def change
-    add_column :user_auth_providers, :id_token, :string
-    add_column :user_auth_providers, :access_token, :string
-    add_column :user_auth_providers, :refresh_token, :string
-  end
+    def change
+        add_column :user_auth_providers, :id_token, :string
+        add_column :user_auth_providers, :access_token, :string
+        add_column :user_auth_providers, :refresh_token, :string
+    end
 end
