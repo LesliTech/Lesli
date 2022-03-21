@@ -23,6 +23,14 @@ rake db:migrate RAILS_ENV=production
 rake db:seed RAILS_ENV=production
 ```
 
+
+__Run maintenance tasks__
+
+```bash
+rake app:maintenance RAILS_ENV=production
+```
+
+
 __Change folder configuration__
 
 ```bash
@@ -59,9 +67,16 @@ __Work with nginx__
 
 ```bash
 
+# check nginx configuration files
+sudo service nginx -t
+
+# 
+sudo service nginx reload
+
+# 
+sudo service nginx force-reload
+
 # restart nginx
 sudo service nginx restart
 
-# check nginx configuration files
-sudo service nginx -t
 ```
