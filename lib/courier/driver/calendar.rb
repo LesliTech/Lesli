@@ -16,9 +16,6 @@ For more information read the license file including with this software.
 // ·
 
 =end
-
-require 'google/api_client/client_secrets.rb'
-require 'google/apis/calendar_v3'
 module Courier
     module Driver
         class Calendar
@@ -67,7 +64,6 @@ module Courier
                     focus_tasks: [],
                     help_tickets: [],
                     external_events: [],
-                    all_google_events: [],
                 }
 
                 query_text = nil
@@ -160,7 +156,7 @@ module Courier
                     end_date = nil
                     all_event_list = event_list.map do |event|
                         
-                        date = event.start.date_time ? event.start.date_time : event.start.date
+                        date = event.start.date_time ? event.start.date_time.to_date : event.start.date
                         start = event.start.date_time ?  event.start.date_time :  event.start.date
                         end_date = event.end.date_time ?  event.end.date_time :  event.end.date
                         {
@@ -173,23 +169,7 @@ module Courier
                             classNames: ["external_events"],
                         }
                     end
-
-                    event_list = event_list.map do |event|
-                        if (start >= query[:filters][:start_date] && end_date <= query[:filters][:end_date])
-                            {
-                                id: event.id,
-                                title: event.summary,
-                                description: event.location,
-                                date: date,
-                                start: start,
-                                end: emd_date ? emd_date + 1.second : nil,
-                                classNames: ["external_events"],
-                            }
-                        end
-                    end
-                    calendar_data[:all_google_events] = all_event_list.compact()
-                    calendar_data[:external_events] = event_list.compact()
-                    
+                    calendar_data[:external_events] = all_event_list.compact()                    
                 end
 
                 calendar_data
