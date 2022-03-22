@@ -64,7 +64,7 @@ class User < ApplicationLesliRecord
     before_create :initialize_user
     after_create :initialize_user_details
     after_create :initialize_cloud_one_user
-    after_create :initialize_user_calendar
+    after_create :initialize_cloud_driver
 
     after_update :change_after_update
 
@@ -98,7 +98,7 @@ class User < ApplicationLesliRecord
         end
     end
 
-    def initialize_user_calendar
+    def initialize_cloud_driver
         if defined? CloudDriver
             Courier::Driver::Calendar.create_user_calendar(self, self.account, "Personal Calendar")
         end
