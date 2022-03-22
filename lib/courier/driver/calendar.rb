@@ -197,7 +197,7 @@ module Courier
                 calendar = CloudDriver::Calendar.create!(
                     account: account,
                     user_main: user,
-                    users_id: user,
+                    users_id: user.id,
                     detail_attributes: {
                         name: calendar_name,
                         default: false,
