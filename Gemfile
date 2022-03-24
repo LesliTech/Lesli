@@ -95,8 +95,8 @@ gem "omniauth-google-oauth2", "1.0.0"
 # Facebook OAuth2 Strategy for OmniAuth
 gem "omniauth-facebook", "9.0.0"
 
-# Standalone provider to use the Amazon Web Services in applications
-gem "fog-aws", "3.13.0"
+# Client for accessing Google APIs
+gem "google-api-client", "0.53.0", require: 'google/apis/calendar_v3'
 
 # Official AWS Ruby gem that provides rails utilities
 gem "aws-sdk-rails", "3.6.1"
@@ -116,6 +116,9 @@ gem "aws-sdk-sns", "1.53.0"
 # Official AWS Ruby gem for Amazon Simple Email Service (Amazon SES).
 gem "aws-sdk-ses", "1.47.0"
 
+# Standalone provider to use the Amazon Web Services in applications
+gem "fog-aws", "3.13.0"
+
 # Prawn is a fast, tiny, and nimble PDF generator for Ruby
 gem "prawn", "2.4.0"
 
@@ -130,9 +133,6 @@ gem "libreconv", "0.9.5"
 
 # Find and replace variables inside a Micorsoft Word (.docx) template
 #gem "docx_replace", "1.2.1"
-
-# Social Login
-gem 'google-api-client', require: 'google/apis/calendar_v3'
 
 # Scrape text from common file formats (.pdf,.doc,.docx, .sketch, .txt) with a single convenient command.
 gem "doc_ripper", "0.0.9"
