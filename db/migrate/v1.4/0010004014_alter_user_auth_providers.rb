@@ -1,4 +1,5 @@
 =begin
+
 Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
@@ -15,20 +16,11 @@ For more information read the license file including with this software.
 // ·
 
 =end
-class User::AuthProvider < ApplicationLesliRecord
-    belongs_to :user, foreign_key: "users_id"
 
-    after_create :initialize_integration_calendar
-
-    def get_user_provider(users_id, provider)
-        return User::AuthProvider.find_by(users_id: users_id, provider: provider) 
+class AlterUserAuthProviders < ActiveRecord::Migration[6.1]
+    def change
+        add_column :user_auth_providers, :id_token, :string
+        add_column :user_auth_providers, :access_token, :string
+        add_column :user_auth_providers, :refresh_token, :string
     end
-
-    def initialize_integration_calendar
-        user = User.find_by(id: users_id)
-        if defined? CloudDriver && self.provider == 'Google'
-            Courier::Driver::Calendar.create_user_calendar(user, user.account, "Google Calendar")
-        end
-    end
-
 end
