@@ -372,7 +372,7 @@ class User < ApplicationLesliRecord
     # @param url String Link to notified object
     # @param category String Kind of notification: info, warning, danger, success.
     def notification subject, body:nil, url:nil, category:"info"
-        Courier::Bell::Notification.new(self, subject, body:nil, url:nil, category:nil)
+        Courier::Bell::Notification.new(self, subject, body:body, url:url, category:category)
     end
 
 
