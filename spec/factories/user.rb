@@ -42,7 +42,7 @@ FactoryBot.define do
         end
 
         transient do
-            role_name { "limited" }
+            role_name { "sysadmin" }
         end
 
         # callbacks
