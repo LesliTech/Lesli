@@ -19,8 +19,7 @@ For more information read the license file including with this software.
 
 
 require 'lesli_request_helper'
-require 'spec_helper'   
-require 'byebug'
+
 
 RSpec.describe "GET:/administration/users/:id/sessions.json", type: :request do
     include_context 'request user authentication'
@@ -62,22 +61,14 @@ end
 RSpec.describe "GET:/administration/users/:id/sessions.json", type: :request do
     include_context 'request user authentication'
 
-    before do
-        @new_user = create(:user)
-        @new_user.confirm
+    it "is expected to respond with unauthorized standard json response" do
+        @new_user = create(:user, :with_account, role_name: "limited")
 
         sign_in @new_user
-
+        puts @current_user.id
+        puts @new_user.id
         get "/administration/users/#{@current_user.id}/sessions.json"
-    end
 
-    it "is expected to respond with unauthorized standard json response" do
         expect_json_response_unauthorized
-    end
-
-    it "is expected to respond with unauthorized" do
-        expect(response_error).to be_a(Hash)
-        expect(response_error).to have_key("message")
-        expect(response_error["message"]).to be_a(String)
     end
 end
