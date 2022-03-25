@@ -123,9 +123,12 @@ export default {
                 <p>{{ notification.body }}</p>
                 <p class="has-text-grey-light is-size-7">
                     {{ notification.created_at }} ago -
-                    <a @click="putNotification(notification.id)">
+                    <a v-if="!notification.url" @click="putNotification(notification.id)">
                         {{ translations.notifications.view_text_mark_as_read || 'mark as read' }}
                     </a>
+                    <span v-if="notification.url">
+                        <i class="fas fa-external-link-alt"></i>
+                    </span>
                 </p>
             </div>
         </component>
