@@ -334,6 +334,8 @@ module Shared
                     when "detail_enum"
                         if cloud_object.detail && cloud_object.class.method_defined?(detail[:name])
                             association_value = "'#{cloud_object.detail.send(detail[:name])}'"
+                        else
+                            association_value = "''"
                         end
                     when "polymorphic_key"
                         association_value = "'#{cloud_object[detail[:name]]}'"
