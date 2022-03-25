@@ -16,7 +16,6 @@ For more information read the license file including with this software.
 // ·
 
 =end
-
 module Courier
     module Driver
         class Calendar
@@ -53,6 +52,7 @@ module Courier
             #     #     help_tickets: []
             #     # }
             def self.show(current_user, query, calendar=nil)
+
                 return nil unless defined? CloudDriver
 
                 calendar = current_user.account.driver.calendars.default unless calendar
@@ -62,7 +62,8 @@ module Courier
                     name: calendar.name,
                     driver_events: [],
                     focus_tasks: [],
-                    help_tickets: []
+                    help_tickets: [],
+                    external_events: [],
                 }
 
                 query_text = nil
@@ -70,6 +71,7 @@ module Courier
                     query_text = query[:filters][:query].downcase.split(" ")
                 end
 
+                
                 # events from CloudDriver
                 # This condition is diferent because, by default, driver events are included
                 unless query[:filters][:include] && query[:filters][:include][:driver_events].to_s.downcase == "false"
@@ -130,6 +132,46 @@ module Courier
                     calendar_data[:help_tickets] = help_tickets
                 end
 
+                user_auth_provider = Courier::Lesli::Users::AuthProviders.get_user_provider(current_user.id, 'Google')
+
+                if (user_auth_provider)
+                    # Initialize Google Calendar API
+                    service = Google::Apis::CalendarV3::CalendarService.new
+                    # Use google keys to authorize
+                    service.authorization = Google::APIClient::ClientSecrets.new(
+                        { "web" =>
+                          { "access_token" => user_auth_provider.access_token,
+                            "refresh_token" => user_auth_provider.refresh_token,
+                            "client_id" => Rails.application.credentials.dig(:providers, :google, :client_id),
+                            "client_secret" => Rails.application.credentials.dig(:providers, :google, :client_secret),
+                          }
+                        }
+                    ).to_authorization
+                    # Request for a new aceess token just incase it expired
+                    service.authorization.refresh!
+                    # Get a list of calendars
+                    event_list = service.list_events("primary").items
+                    date = nil
+                    start = nil
+                    end_date = nil
+                    all_event_list = event_list.map do |event|
+                        
+                        date = event.start.date_time ? event.start.date_time.to_date : event.start.date
+                        start = event.start.date_time ?  event.start.date_time :  event.start.date
+                        end_date = event.end.date_time ?  event.end.date_time :  event.end.date
+                        {
+                            id: event.id,
+                            title: event.summary,
+                            description: event.location,
+                            date: date,
+                            start: start,
+                            end: end_date ? end_date + 1.second : nil,
+                            classNames: ["external_events"],
+                        }
+                    end
+                    calendar_data[:external_events] = all_event_list.compact()                    
+                end
+
                 calendar_data
             end
 
@@ -149,6 +191,18 @@ module Courier
                 end
 
                 return records
+            end
+
+            def self.create_user_calendar(user, account, calendar_name)
+                calendar = CloudDriver::Calendar.create!(
+                    account: account,
+                    user_main: user,
+                    users_id: user.id,
+                    detail_attributes: {
+                        name: calendar_name,
+                        default: false,
+                    }
+                )
             end
         end
     end
