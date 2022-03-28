@@ -25,6 +25,10 @@ For more information read the license file including with this software.
         align-items: center;
         border-bottom: 2px solid;
 
+        &.has-url:hover {
+            cursor: pointer;
+        }
+
         .icon {
             height: 100%;
             padding: 1.25rem 1rem;
