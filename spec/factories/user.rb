@@ -31,10 +31,12 @@ FactoryBot.define do
             }
         end
 
-        # if this param is sent, we'll create an account
-        trait :with_account do
-            account { (Account.first.nil? ? FactoryBot.create(:account) : Account.first) }
-        end
+        # an account is required
+        account { (Account.first.nil? ? FactoryBot.create(:account) : Account.first) }
+        # TODO: we should be able to specify if we want create a new account 
+        # trait :with_account do
+        #     account { (Account.first.nil? ? FactoryBot.create(:account) : Account.first) }
+        # end
 
         # these transient will be available in callbacks as evaluator.<YOUR_TRANSIENT_ATTR>
         transient do
