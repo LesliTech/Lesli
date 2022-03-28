@@ -49,16 +49,20 @@ export default {
             })
         },
 
-        putNotification(id) {
+        putNotification(current) {
 
-            this.http.put(this.url.profile("notifications/:id", { id: id })).then(result => {
+            this.http.put(this.url.profile("notifications/:id", current.id)).then(result => {
 
-                let position = this.notifications.records.map(notification => notification.id).indexOf(id)
+                let position = this.notifications.records.map(notification => notification.id).indexOf(current.id)
 
                 this.notifications.records.splice(position, 1)
 
                 this.notifications.pagination.count_total--
 
+            }).finally(() => {
+                if (current.url) {
+                    this.url.go(current.url)
+                }
             })
 
         },
@@ -107,12 +111,10 @@ export default {
                 <i class="fas fa-lg fa-chevron-right"></i>
             </span>
         </div>
-        <component
+        <div
             v-for="notification in notifications.records" :key="notification.id"
-            :class="['lesli-notification', notification.category]"
-            @click="(!!notification.url ? putNotification(notification.id) : false)"
-            :href="(!!notification.url ? notification.url : false)"
-            :is="(!!notification.url ? 'a' : 'div')">
+            :class="['lesli-notification', notification.category, {'has-url': !!notification.url }]"
+            @click="putNotification(notification)">
             <span class="icon">
                 <i class="fas fa-info-circle"></i>
             </span>
@@ -131,6 +133,6 @@ export default {
                     </span>
                 </p>
             </div>
-        </component>
+        </div>
     </b-sidebar>
 </template>
