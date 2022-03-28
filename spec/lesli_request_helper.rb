@@ -24,7 +24,7 @@ require 'support/helpers/response_helper'
 
 # · Authentication context
 # · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-RSpec.shared_context 'request user authentication' do 
+RSpec.shared_context "request user authentication" do 
 
     # Creates a new valid user session
     before(:each) do
@@ -39,8 +39,10 @@ RSpec.shared_context 'request user authentication' do
                 orderColumn: "id"
             }
         }
-        @current_user = User.find_by(email: Rails.application.config.lesli_settings["account"]["user"]["email"])
-        sign_in @current_user
+
+        @current_user = User.first
+        sign_in(@current_user)
+        
     end
 
 end
@@ -57,26 +59,3 @@ RSpec.configure do |config|
     config.include ResponseHelpers
 
 end
-
-
-# · Validations to execute tests
-# · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-
-# Validate that at least there are one user in the database
-if ::User.all.count < 1
-    LC::Debug.error("Not all the test users were loaded")
-    exit;
-end
-
-# Validate that the test user exists in the database 
-if ::User.where(:email => Rails.application.config.lesli_settings["account"]["user"]["email"]).blank?
-    LC::Debug.error("No test user found")
-    exit;
-end
-
-# Notify to user...
-LC::Debug.info(
-    "Running RSpec tests...", 
-    "For a better result run test over a clean database", 
-    "You can use rake dev:db:reset test before rspec."
-)

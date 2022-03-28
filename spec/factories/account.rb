@@ -20,6 +20,6 @@ For more information read the license file including with this software.
 
 FactoryBot.define do
     factory :account, class: "Account" do
-        company_name { Faker::Lorem.word }
+        company_name { Faker::Company.name }
     end
 end
