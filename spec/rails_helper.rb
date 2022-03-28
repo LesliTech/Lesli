@@ -56,9 +56,6 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 RSpec.configure do |config|
-    # Ignore core login test if the engine builder has its own test 
-    login_test_path = "spec/views/devise/sessions/new.html.erb_spec.rb"   
-    config.exclude_pattern = login_test_path if File.exists? Rails.root.join("engines", LC::System::Info.instance[:code], login_test_path)
     
     # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
     #config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -91,3 +88,18 @@ RSpec.configure do |config|
     # add `FactoryBot` methods
     config.include FactoryBot::Syntax::Methods
 end
+
+
+# Validate that at least there are one user in the database
+if ::User.all.count < 1
+    # if no users, create 2 dummy users, so the test always find a user to log in
+    2.times { FactoryBot.create(:user) }
+end
+
+
+# Notify to user...
+LC::Debug.info(
+    "Running RSpec tests...", 
+    "For a better result run test over a clean database", 
+    "You can use rake dev:db:reset test before rspec."
+)

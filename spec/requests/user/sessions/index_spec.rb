@@ -62,7 +62,7 @@ RSpec.describe "GET:/administration/users/:id/sessions.json", type: :request do
     include_context 'request user authentication'
 
     it "is expected to respond with unauthorized standard json response" do
-        @new_user = create(:user, :with_account, role_name: "limited")
+        @new_user = create(:user, role_name: "limited")
 
         sign_in @new_user
         puts @current_user.id
