@@ -28,7 +28,8 @@ RSpec.shared_context 'controller user authentication' do
 
     # Creates a new valid user session
     before :each do
-        request.env["HTTP_ACCEPT"] = 'application/json'
+        #request.env["HTTP_ACCEPT"] = 'application/json'
+        request.env["devise.mapping"] = Devise.mappings[:user]
         @current_user = User.first
         sign_in(@current_user)
     end

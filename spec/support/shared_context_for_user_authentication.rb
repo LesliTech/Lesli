@@ -17,6 +17,8 @@ For more information read the license file including with this software.
     
 =end
 
+require 'rails_helper'
+
 RSpec.shared_context 'user authentication' do 
 
     # Creates a new valid user session
@@ -24,5 +26,15 @@ RSpec.shared_context 'user authentication' do
         @user = User.first
         sign_in @user
     end
+
+end
+
+# · Configuration
+# · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+RSpec.configure do |config|
+
+    # Include devise helpers to be able to login on test runtime
+    config.include Devise::Test::IntegrationHelpers
+    config.include Devise::Test::ControllerHelpers, type: :controller
 
 end
