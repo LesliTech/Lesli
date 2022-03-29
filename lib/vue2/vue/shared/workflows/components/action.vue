@@ -37,6 +37,9 @@ export default {
         statusesTranslationsPath: {
             required: true,
             type: String
+        },
+        customActionForms: {
+            type: Object
         }
     },
 
@@ -105,6 +108,7 @@ export default {
                     :workflow-id="workflowId"
                     :translations-path="translationsPath"
                     :statuses-translations-path="statusesTranslationsPath"
+                    :custom-action-forms="customActionForms"
                 >
                 </component-new>
             </b-tab-item>
@@ -114,6 +118,7 @@ export default {
                     :workflow-id="workflowId"
                     :translations-path="translationsPath"
                     :statuses-translations-path="statusesTranslationsPath"
+                    :custom-action-forms="customActionForms"
                 >
                 </component-edit>
             </b-tab-item>

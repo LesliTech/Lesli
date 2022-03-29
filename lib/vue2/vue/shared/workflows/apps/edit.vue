@@ -45,6 +45,10 @@ export default {
         appMountPath: {
             type: String,
             default: ''
+        },
+
+        customActionForms: {
+            type: Object
         }
     },
 
@@ -107,6 +111,7 @@ export default {
             :translations-path="translationsPath"
             :app-mount-path="appMountPath"
             :workflow-name.sync="workflow_name"
+            :custom-action-forms="customActionForms"
         >
         </component-form>
     </section>
