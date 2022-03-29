@@ -48,9 +48,11 @@ RSpec.describe Users::RegistrationsController, type: :controller do
 
     it "Try to create an already existing user" do
 
+        user = FactoryBot.create(:user)
+
         post :create, params: {
             user: {
-                email: "test@lesli.cloud", # this is registered already
+                email: user.email, # this is registered already
                 password: "tardis2021$",
                 password_confirmation: "tardis2021$"
             }

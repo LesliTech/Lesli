@@ -93,7 +93,7 @@ RSpec.describe 'PUT:/administration/profile/notifications/:id.json', type: :requ
 end
 
 RSpec.describe "GET:/administration/profile/notifications/:id.json", type: :request do
-    let(:current_user) { User.find_by(email: "test@lesli.cloud") } # find test user
+    let(:current_user) { User.first } 
     let(:login) { "/login" }
     let(:notification_id) { Courier::Bell::Notification.new(current_user, "notification from rspec")[:id][0] }
     before { put "/administration/profile/notifications/#{ notification_id }.json" }
