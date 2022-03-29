@@ -64,6 +64,7 @@ class User < ApplicationLesliRecord
     before_create :initialize_user
     after_create :initialize_user_details
     after_create :initialize_cloud_one_user
+    after_create :initialize_cloud_driver
 
     after_update :change_after_update
 
@@ -89,20 +90,19 @@ class User < ApplicationLesliRecord
 
     def initialize_cloud_one_user
         if defined? CloudOne
-            registration_params = {
-                password: Courier::One::Firebase::User.generated_password(self)
-            }
+            Courier::One::Firebase::User.registration(self)
+        end
+    end
 
-            Courier::One::Firebase::User.registration(self, registration_params)
+    def initialize_cloud_driver
+        if defined? CloudDriver
+            Courier::Driver::Calendar.create_user_calendar(self, self.account, "Personal Calendar")
         end
     end
 
     def change_after_update
-        if saved_change_to_email?
-            if defined? CloudOne
-                previous_email = saved_change_to_email[0]
-                CloudOne::Firebase::User.update_email(self, previous_email, self.email)
-            end
+        if defined? CloudOne
+            CloudOne::Firebase::User.sync_user(self)
         end
     end
 
@@ -365,7 +365,7 @@ class User < ApplicationLesliRecord
     # @param url String Link to notified object
     # @param category String Kind of notification: info, warning, danger, success.
     def notification subject, body:nil, url:nil, category:"info"
-        Courier::Bell::Notification.new(self, subject, body:nil, url:nil, category:nil)
+        Courier::Bell::Notification.new(self, subject, body:body, url:url, category:category)
     end
 
 

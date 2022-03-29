@@ -25,7 +25,10 @@ import componentFormLogs from '../components/forms/form-logs.vue'
 
 export default {
     props: {
-
+        appMountPath: {
+            type: String,
+            default: '/administration/roles'
+        },
     },
     
     components: {
@@ -111,22 +114,20 @@ export default {
         <component-form 
             v-if="role.id && data.view_type === 'edit'"
             :role="role"
+            :app-mount-path="appMountPath"
         >
         </component-form>
         <component-form-logs
             v-if="role.id && data.view_type === 'logs'"
             :role="role"
+            :app-mount-path="appMountPath"
         >
         </component-form-logs>
         <component-form-simple 
             v-if="role.id && data.view_type === 'simple'" 
             :role="role" 
+            :app-mount-path="appMountPath"
         >
         </component-form-simple>
-        <component-form-advanced
-            v-if="role.id && data.view_type === 'advanced'" 
-            :role="role" 
-        >
-        </component-form-advanced>
     </section>
 </template>

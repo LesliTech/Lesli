@@ -18,6 +18,9 @@ export default {
             required: true,
             type: String
         },
+        customActionForms: {
+            type: Object
+        }
     },
 
     components: {
@@ -32,6 +35,7 @@ export default {
             :engine-namespace="engineNamespace"
             :translations-path="translationsPath"
             :statuses-translations-path="statusesTranslationsPath"
+            :custom-action-forms="customActionForms"
             view-type="edit"
         >
         </component-form>

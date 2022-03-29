@@ -1,6 +1,4 @@
-# Knowledge
-
-## Part 1
+# Knowledge base
 
 ### Concepts
 
@@ -104,7 +102,7 @@
 - Actions
 - Runners
 
-## Part 2
+### Management
 
 - SCRUM
 - Weekly planning

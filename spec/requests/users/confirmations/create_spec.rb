@@ -19,39 +19,32 @@ For more information read the license file including with this software.
 
 
 require 'lesli_request_helper'
-require 'spec_helper'   
-require 'byebug'
 
 
 RSpec.describe "POST:/confirmation.json", type: :request do
     include_context 'request user authentication'
 
-    before(:all) do
-        @new_user = create(:user)
+    it "is expected to respond with successful standard json response" do
+        @new_user = create(:user, confirm: false)
 
         post("/confirmation.json", params: { user: { email: @new_user.email } })
-    end
 
-    it "is expected to respond with successful standard json response" do
+        puts response.body
+
         expect_json_response_successful
-    end
 
-    it "is expected to return with user confirmation created successfully" do
-        expect(@resopnse_body_data).to be_nil
+        expect(response_data).to be_nil
     end
 end
 
 RSpec.describe "POST:/confirmation.json", type: :request do
-
-    before(:all) do
-        post "/confirmation.json", params: { user: { email: "" } } 
-    end
-
-    it "is expected to respond with successful error json response" do
-        expect_json_response_error
-    end
+    include_context 'request user authentication'
 
     it "is expected to return with error when the email given is blank" do
+        post "/confirmation.json", params: { user: { email: "" } } 
+
+        expect_json_response_error
+
         expect(response_error).to be_a(Hash)
         expect(response_error).to have_key("message")
         expect(response_error["message"]).to be_a(String)
@@ -63,16 +56,13 @@ end
 
 
 RSpec.describe "POST:/confirmation.json", type: :request do
-
-    before(:all) do
-        post "/confirmation.json", params: { user: { email: Faker::Internet.email } } 
-    end
-
-    it "is expected to respond with successful error json response" do
-        expect_json_response_error
-    end
+    include_context 'request user authentication'
 
     it "is expected to return with not found when the email does not exist in the DB" do
+        post "/confirmation.json", params: { user: { email: Faker::Internet.email } } 
+
+        expect_json_response_error
+
         expect(response_error).to be_a(Hash)
         expect(response_error).to have_key("message")
         expect(response_error["message"]).to be_a(String)

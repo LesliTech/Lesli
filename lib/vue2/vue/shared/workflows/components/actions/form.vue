@@ -28,6 +28,12 @@ export default {
         viewType: {
             type: String,
             default: 'new'
+        },
+        customActionForms: {
+            type: Object,
+            default: ()=>{
+                return {}
+            }
         }
     },
 
@@ -77,6 +83,7 @@ export default {
     },
 
     mounted(){
+        this.setComponents()
         this.setMainRoute()
         this.setTranslations()
         this.setSubscriptions()
@@ -84,6 +91,14 @@ export default {
     },
 
     methods: {
+        setComponents(){
+            // We configure the components based on the 'renderComponents' prop
+
+            for(let key in this.customActionForms){
+                this.$options.components[key] = this.customActionForms[key]
+            }
+        },
+
         setMainRoute(){
             if(this.engineNamespace == '/'){
                 this.main_route = `/workflows/${this.workflowId}/actions`
@@ -452,6 +467,19 @@ export default {
                     :workflow-action="action"
                     :view-type="viewType"
                 ></component-form-update-relevant-user>
+
+                <div v-for="(action_form, key) in customActionForms" :key="key">
+                    <component
+                        v-if="action.action_type == key"
+                        :is="key" 
+                        :options="options"
+                        :workflow-id="workflowId"
+                        :translations-path="translationsPath"
+                        :workflow-action="action"
+                        :view-type="viewType"
+                    >
+                    </component>
+                </div>
                 <br>
                 <div class="buttons">
                     <b-button type="is-primary" expanded native-type="submit">
