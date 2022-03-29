@@ -1,7 +1,6 @@
 <script>
 /*
-
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -15,22 +14,27 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
-
 */
 
 export default {
+    props: {
+        base_path: {
+            type: String,
+            default: '/administration/template/audience_documents'
+        }
+    },
     data() {
         return {
-            role_descriptors: [],
+            template_audiences: [],
             loading: false,
             filters_ready: false,
             translations: {
                 core: I18n.t('core.shared'),
-                role_descriptors: I18n.t('core.role_descriptors')
+                main: I18n.t('core.template/audience_documents')
             },
             filters: {
                 search: '',
-                per_page: 10,
+                per_page: 15,
             },
             sorting: {
                 field: 'id',
@@ -46,7 +50,7 @@ export default {
     },
     mounted() {
         this.setSessionStorageFilters()
-        this.getRoleDescriptors()
+        this.getAudienceDocuments()
     },
     methods: {
         setSessionStorageFilters(){
@@ -61,14 +65,14 @@ export default {
             this.filters_ready = true
         },
 
-        getRoleDescriptors() {
+        getAudienceDocuments() {
             this.loading = true
-            let url = this.url.admin("role_descriptors")
+            let url = this.url.admin("template/audience_documents")
 
             url = url.filters({
                 search: this.filters.search,
             }).paginate(
-                this.pagination.current_page, this.filters.per_page
+                this.pagination.current_page, this.pagination.per_page
             ).order(
                 this.sorting.field,
                 this.sorting.order
@@ -78,8 +82,9 @@ export default {
                 this.loading = false
 
                 if (result.successful) {
-                    this.role_descriptors = result.data.records
-                    this.pagination.total_count = result.data.pagination.count_total
+                    this.template_audiences = result.data.records
+
+                    this.pagination.total_count = result.data.total_count
                 }else{
                     this.msg.error(result.error.message)
                 }
@@ -88,13 +93,13 @@ export default {
             })
         },
 
-        searchRoleDescriptors(text) {
+        searchAudienceDocuments(text) {
             this.pagination.current_page = 1
             this.filters.search= text
-            this.getRoleDescriptors()
+            this.getAudienceDocuments()
         },
 
-        sortRoleDescriptors(field, _order){
+        sortAudienceDocuments(field, _order){
             if(this.sorting.field == field){
                 if(this.sorting.order == 'asc'){
                     this.sorting.order = 'desc'
@@ -105,18 +110,18 @@ export default {
                 this.sorting.field = field
                 this.sorting.order = 'desc'
             }
-            this.getRoleDescriptors()
+            this.getAudienceDocuments()
         },
 
-        deleteRoleDescriptor(role_descriptor){
-            let url = this.url.admin(`role_descriptors/:id`, { id: role_descriptor.id })
+        deleteAudienceDocument(template_audience){
+            let url = this.url.admin(`template/audience_documents/:id`, { id: template_audience.id })
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
 
-                    this.role_descriptors = this.role_descriptors.filter(e => e.id !== role_descriptor.id)
+                    this.template_audiences = this.template_audiences.filter(e => e.id !== template_audience.id)
 
-                    this.msg.success(this.translations.role_descriptors.messages_success_deleted)
+                    this.msg.success(this.translations.main.messages_success_deleted)
                 }else{
                     this.msg.error(result.error.message)
                 }
@@ -125,31 +130,26 @@ export default {
             })
         },
 
-        gotoRoleDescriptor(role_descriptor) {
-            this.$router.push(`${role_descriptor.id}`)
+        downloadAudienceDocument(template_audience){
+            let url = `/administration/account/files/${template_audience.account_files_id}?download=true`
+
+            window.open(url, '_blank');
         },
 
-        confirmRoleDescriptorDeletion(role_descriptor){
-            this.$buefy.dialog.confirm({
-                title: this.translations.role_descriptors.view_text_confirm_deletion_title,
-                message: this.translations.role_descriptors.view_text_delete_confirmation,
-                confirmText: this.translations.role_descriptors.view_text_confirm_deletion,
-                type: 'is-danger',
-                hasIcon: true,
-                onConfirm: () => this.deleteRoleDescriptor(role_descriptor)
-            })
+        gotoAudienceDocument(template_audience) {
+            this.$router.push(`${this.base_path}/${template_audience.id}`)
         }
     },
     watch: {
         'pagination.current_page': function(){
             if(! this.loading){
-                this.getRoleDescriptors()
+                this.getAudienceDocuments()
             }
         },
 
         'filters.per_page'(){
             if(this.filters_ready){
-                this.getRoleDescriptors()
+                this.getAudienceDocuments()
             }
         }
     }
@@ -157,15 +157,15 @@ export default {
 </script>
 <template>
     <section class="application-component">
-        <component-header :title="translations.role_descriptors.view_title_main">
+        <component-header :title="translations.main.view_title_main">
             <div class="buttons">
-                <button class="button" @click="getRoleDescriptors">
+                <button class="button" @click="getAudienceDocuments">
                     <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
                     <span> {{ translations.core.view_btn_reload }}</span>
                 </button>
-                <router-link class="button" tag="button" to="/new">
+                <router-link class="button" :to="`${base_path}/new`">
                     <b-icon icon="plus" size="is-small" />
-                    <span> {{ translations.role_descriptors.view_btn_new_role_descriptor }}</span>
+                    <span> {{ translations.main.view_btn_new_audience_document }}</span>
                 </router-link>
             </div>
         </component-header>
@@ -173,7 +173,7 @@ export default {
         <component-toolbar
             v-if="filters_ready"
             :search-text="translations.core.view_placeholder_search"
-            @search="searchRoleDescriptors"
+            @search="searchAudienceDocuments"
             :initial-value="filters.search"
         >
             <div class="control">
@@ -188,18 +188,18 @@ export default {
             </div>
         </component-toolbar>
 
+
         <div class="card">
             <div class="card-content">
                 <component-data-loading v-if="loading" />
-                <component-data-empty v-if="!loading && role_descriptors.length == 0" />
-
+                <component-data-empty v-if="!loading && template_audiences.length == 0" />
                 <b-table
-                    :data="role_descriptors"
+                    :data="template_audiences"
                     :hoverable="true"
-                    v-if="!loading && role_descriptors.length > 0"
-                    @click="gotoRoleDescriptor"
+                    v-if="!loading && template_audiences.length > 0"
+                    @click="gotoAudienceDocument"
                     backend-sorting
-                    @sort="sortRoleDescriptors"
+                    @sort="sortAudienceDocuments"
                 >
                     <template slot-scope="props">
                         <b-table-column field="id" :label="translations.core.view_text_id" sortable>
@@ -236,26 +236,20 @@ export default {
                                     </span>
                                 </span>
                             </template>
-                            {{props.row.created_at_date}}
-                        </b-table-column>
-
-                        <b-table-column field="actions_length" :label="translations.role_descriptors.view_text_actions_length" sortable>
-                            <template slot="header" slot-scope="{ column }">
-                                <span>
-                                    {{ column.label }}
-                                    <span v-if="sorting.field == 'actions_length'">
-                                        <b-icon v-if="sorting.order == 'asc'" size="is-small" icon="arrow-up" ></b-icon>
-                                        <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
-                                    </span>
-                                </span>
-                            </template>
-                            {{props.row.actions_length}}
+                            {{props.row.created_at_text}}
                         </b-table-column>
 
                         <b-table-column :label="translations.core.view_table_header_actions">
                             <span>
-                                <b-button type="is-danger" outlined @click.stop="confirmRoleDescriptorDeletion(props.row)">
+                                <b-button type="is-danger" outlined @click.stop="deleteAudienceDocument(props.row)">
                                     <b-icon size="is-small" icon="trash-alt" >
+                                    </b-icon>
+                                </b-button>
+                            </span>
+
+                            <span>
+                                <b-button v-if="props.row.account_files_id" type="is-info" outlined @click.stop="downloadAudienceDocument(props.row)">
+                                    <b-icon size="is-small" icon="download" >
                                     </b-icon>
                                 </b-button>
                             </span>

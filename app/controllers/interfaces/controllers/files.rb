@@ -211,12 +211,12 @@ module Interfaces::Controllers::Files
 
             # We either get the file from AWS and serve it ourselves or provide a direct AWS link with expiration time
             if @file.size_mb && @file.size_mb > file_model.size_threshold
-                redirect_to @file.refresh_external_url
+                redirect_to(@file.refresh_external_url, allow_other_host: true)
             else
                 send_data(@file.attachment_s3.read, filename: @file.attachment_s3_identifier, disposition: disposition, stream: "true")
             end
         elsif @file.attachment_public.file
-            redirect_to @file.attachment_public_url
+            redirect_to(@file.attachment_public_url, allow_other_host: true)
         else
             send_data(@file.attachment.read, filename: @file.attachment_identifier, disposition: disposition, stream: "true")
         end

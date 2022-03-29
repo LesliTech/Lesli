@@ -95,8 +95,11 @@ gem "omniauth-google-oauth2", "1.0.0"
 # Facebook OAuth2 Strategy for OmniAuth
 gem "omniauth-facebook", "9.0.0"
 
-# Standalone provider to use the Amazon Web Services in applications
-gem "fog-aws", "3.13.0"
+# Client for accessing Google APIs
+gem "google-api-client", "0.53.0", require: 'google/apis/calendar_v3'
+
+# Official AWS Ruby gem that provides rails utilities
+gem "aws-sdk-rails", "3.6.1"
 
 # Official AWS Ruby gem for Amazon Simple Storage Service (Amazon S3). This gem is part of the AWS SDK for Ruby.
 gem "aws-sdk-s3", "1.113.0"
@@ -112,6 +115,9 @@ gem "aws-sdk-sns", "1.53.0"
 
 # Official AWS Ruby gem for Amazon Simple Email Service (Amazon SES).
 gem "aws-sdk-ses", "1.47.0"
+
+# Standalone provider to use the Amazon Web Services in applications
+gem "fog-aws", "3.13.0"
 
 # Prawn is a fast, tiny, and nimble PDF generator for Ruby
 gem "prawn", "2.4.0"
@@ -132,7 +138,7 @@ gem "libreconv", "0.9.5"
 gem "doc_ripper", "0.0.9"
 
 # xlsx spreadsheet generation with charts, images, automated column width, customizable styles and full schema validation.
-gem "caxlsx", "3.2.0"
+gem "caxlsx", "3.1.1"
 
 # Caxlsx_Rails provides an Caxlsx renderer so you can move all your spreadsheet code from your controller into view files.
 gem "caxlsx_rails", "0.6.2"
@@ -213,6 +219,10 @@ group :development do
 
     # Go faster, off the Rails
     gem "derailed_benchmarks", "2.1.1"
+
+    # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
+    # this gem is necessary to use the rails generator 
+    gem "sprockets-rails", "3.4.2"
 
     gem "web-console", ">= 3.3.0"
 

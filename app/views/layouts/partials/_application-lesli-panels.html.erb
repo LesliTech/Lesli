@@ -1,6 +1,6 @@
 <%#
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -17,32 +17,80 @@ For more information read the license file including with this software.
 
 %>
 
-<%# Custom module navigation from builder engine %>
-<% custom_engine_navigation_partial_path = "layouts/#{lesli_instance_code}/partials/engine-navigation" %>
-<% custom_engine_navigation_partial_exists = lookup_context.exists?(custom_engine_navigation_partial_path, nil, true) %>
 
-<% if custom_engine_navigation_partial_exists %>
-    <application-component-panel-engines>
-        <%= render partial: custom_engine_navigation_partial_path %>
-    </application-component-panel-engines>
-<% end %>
-
-
-<application-component-panel-task :instance-endpoint="'<%= lesli_instance_code == "deutsche_leibrenten" ? "crm" : "focus" %>'">
-</application-component-panel-task>
-
-
-<application-component-panel-notification></application-component-panel-notification>
-
+<%# Loading standar pdf viewer %>
 <application-component-panel-viewer-pdf></application-component-panel-viewer-pdf>
 
 
+<%# Loading standard focus panel %>
+<% if defined? CloudFocus %>
+    <application-component-panel-task :instance-endpoint="'<%= lesli_instance_code == "deutsche_leibrenten" ? "crm" : "focus" %>'">
+    </application-component-panel-task>
+<% end %>
+
+
+<%# Loading standar bell panels %>
 <% if defined? CloudBell %>
+    <application-component-panel-notification></application-component-panel-notification>
     <application-component-panel-announcement></application-component-panel-announcement>
 <% end %>
 
 
+<%# Loading standar help panels %>
 <% if defined? CloudHelp %>
     <application-component-panel-support></application-component-panel-support>
 <% end %>
 
+
+<%# Standard module selector %>
+<application-component-panel-engines>
+    <template v-slot:header>
+        <p><%= I18n.t("core.accounts.view_title_navigation_all_applications") %></p>
+    </template>
+    <template>
+
+        <%# Administration %>
+        <%= navigation_engine_team %>
+
+        <%# Sales & marketing %>
+        <%= navigation_engine_house %>
+        <%= navigation_engine_mailer %>
+        <%= navigation_engine_proposal %>
+
+        <%# Productivity & teamwork %>
+        <%= navigation_engine_driver %>
+        <%= navigation_engine_work %>
+        <%= navigation_engine_focus %>
+        <%= navigation_engine_text %>
+        <%= navigation_engine_bell %>
+        <%= navigation_engine_talk %>
+        <%= navigation_engine_storage %>
+
+        <%# Finance %>
+        <%= navigation_engine_things %>
+        <%= navigation_engine_realty %>
+        
+        <%# IT & Help desk %>
+        <%= navigation_engine_kb %>
+        <%= navigation_engine_help %>
+        <%= navigation_engine_portal %>
+        <%= navigation_engine_shared %>
+        
+        <%# Security & privacy %>
+        <%= navigation_engine_audit %>
+
+        <%# Integrations %>
+        <%= navigation_engine_babel %>
+        <%= navigation_engine_federation %>
+        <%= navigation_engine_one %>
+        <%= navigation_engine_development %>
+
+    </template>
+    <template v-slot:footer>
+        <a class="has-text-link" href="<%= url_for(main_app.root_administration_path) %>">
+            <%= I18n.t("core.accounts.view_text_system_administration_link") %>
+            <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+    </template>
+
+</application-component-panel-engines>

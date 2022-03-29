@@ -20,6 +20,9 @@ For more information read the license file including with this software.
 
 export default {
     props: {
+        appMountPath: {
+            required: true
+        },
         role: {
             type: Object,
             required: true
@@ -63,7 +66,7 @@ export default {
         this.getRoleActivities()
     },
 
-    methods: {
+    methods: {
         setSessionStorageFilters(){
             let stored_filters = this.storage.local('logs-filters')
 
@@ -177,7 +180,7 @@ export default {
             :title="getTitle()"
         >
             <div class="buttons">
-                <router-link class="button" to="/">
+                <router-link class="button" :to="appMountPath">
                     <b-icon icon="list" size="is-small" />
                     <span>{{ translations.core.roles.view_btn_roles_list }}</span>
                 </router-link>

@@ -25,6 +25,10 @@ import componentDocumentGenerator from "../components/form-document-generator.vu
 // ·
 export default {
     props: {
+        base_path: {
+            type: String,
+            default: '/administration/template/audience_documents'
+        },
         base_translation_path: {
             default: ""
         }
@@ -71,7 +75,7 @@ export default {
         <component-header :title="audience_document.name">
             <div class="navbar-item">
                 <div class="buttons">
-                    <router-link class="button" to="/">
+                    <router-link class="button" :to="`${base_path}/`">
                         <b-icon icon="list" size="is-small" />
                         <span>{{ translations.core.view_btn_list }}</span>
                     </router-link>
@@ -81,12 +85,18 @@ export default {
 
         <b-tabs vertical v-model="active_tab">
             <b-tab-item :label="translations.core.view_tab_title_form">
-                <component-form v-if="audience_document.id" :base_path="null" :audience_document="audience_document"></component-form>
+                <component-form v-if="audience_document.id" :base_path="base_path" :audience_document="audience_document"></component-form>
             </b-tab-item>
 
             <b-tab-item :label="translations.main.view_tab_title_generate_file">
                 <div class="box">
-                    <component-document-generator v-if="audience_document.id" :audience_document="audience_document" :base_translation_path="base_translation_path"></component-document-generator>
+                    <component-document-generator
+                        v-if="audience_document.id"
+                        :audience_document="audience_document"
+                        :base_translation_path="base_translation_path"
+                        :base_path="base_path"
+                    >
+                    </component-document-generator>
                 </div>
             </b-tab-item>
         </b-tabs>

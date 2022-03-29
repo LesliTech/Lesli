@@ -1,6 +1,7 @@
 <script>
 /*
-Copyright (c) 2020, all rights reserved.
+
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -14,18 +15,16 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
+
 */
 
-
-// ·
 import componentForm from "../components/form.vue"
 
-
-// ·
 export default {
     props: {
-        base_path: {
-            default: null
+        appMountPath: {
+            type: String,
+            default: ''
         }
     },
 
@@ -35,11 +34,12 @@ export default {
     data() {
         return {
             translations: {
-                main: I18n.t('mailer.audience_documents'),
+                role_descriptors: I18n.t('core.role_descriptors'),
                 core: I18n.t('core.shared')
             },
-            audience_document: {
-                id: null
+            role_descriptor: {
+                id: null,
+                role_descriptors_id: null                
             }
         }
     }
@@ -47,15 +47,19 @@ export default {
 </script>
 <template>
     <section class="application-component">
-        <component-header :title="translations.main.view_btn_new_audience_document">
+        <component-header :title="translations.role_descriptors.view_btn_new_role_desccriptors">
             <div class="buttons">
-                <router-link class="button" tag="button" to="/">
+                <router-link class="button" :to="appMountPath">
                     <span class="icon"><i class="fas fa-list"></i></span>
                     <span> {{ translations.core.view_btn_list }}</span>
                 </router-link>
             </div>
         </component-header>
 
-        <component-form :audience_document="audience_document" :base_path="base_path"></component-form>
+        <div class="card">
+            <div class="card-content">
+                <component-form :app-mount-path="appMountPath" :role_descriptor="role_descriptor"></component-form>
+            </div>
+        </div>
     </section>
 </template>

@@ -81,12 +81,18 @@ module Shared
                 }
             end
 
-            {
+            options = {
                 has_global_association: workflow.associations.find_by(global: true) != nil,
                 concerning_user_types: self.concerning_user_types.map { |key,value| {value: key, text: value} },
                 action_types: self.action_types.map { |key,value| {value: key, text: value} },
                 statuses: statuses
             }
+
+            if block_given?
+                yield (options)
+            else
+                options
+            end
         end
 
         def self.execute_actions(current_user, cloud_object, old_attributes, new_attributes)

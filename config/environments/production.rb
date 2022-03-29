@@ -94,7 +94,7 @@ end
 # instead of changing the original object due on the next release rails is going to reset to default values
 Rails.application.configure do
 
-    # forse to use diggest
+    # Force to use digest, this will fingerprint the assets and precompile is needed
     config.assets.digest = true
 
     # Full error reports are disabled and caching is turned on.
