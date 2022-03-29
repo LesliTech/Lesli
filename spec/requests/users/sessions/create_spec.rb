@@ -28,6 +28,8 @@ RSpec.describe "POST:/login.json", type: :request do
         # Create a valid user session
         @account = create(:account)
         @role = Role.first
+        @role.active = 1
+        @role.save
 
         @new_user = User.new(attributes_for(:user))
         @new_user.account = @account
@@ -38,6 +40,7 @@ RSpec.describe "POST:/login.json", type: :request do
         @new_user.user_roles.create!({ role: @role })
 
         post "/login.json", params: { user: { email: @new_user.email, password: @new_user.password } }
+
     end
 
     it "is expected to respond with successful standard json response" do
@@ -46,14 +49,8 @@ RSpec.describe "POST:/login.json", type: :request do
 
     it "is expected to respond with a user logged" do
         expect(response_data).to be_a(Hash)
-
-        expect(response_data).to have_key("default_path")
-        expect(response_data["default_path"]).to be_a(String)
     end
 
-    it "is expected that the default path is onboarding" do
-        expect(response_data["default_path"]).to eql("/onboarding")
-    end
 end
 
 RSpec.describe "POST:/login.json", type: :request do
