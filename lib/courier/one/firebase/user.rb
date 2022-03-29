@@ -22,9 +22,9 @@ module Courier
         module Firebase
             class User
 
-                def self.registration(current_user, registration_params)
+                def self.registration(current_user)
                     return unless defined? CloudOne
-                    CloudOne::Firebase::User.registration(current_user, registration_params)
+                    CloudOne::Firebase::User.registration(current_user)
                 end
 
                 def self.sync_user(user)
@@ -32,29 +32,9 @@ module Courier
                     CloudOne::Firebase::User.sync_user(user)
                 end
 
-                def self.delete_user(current_user, user)
-                    return unless defined? CloudOne
-                    CloudOne::Firebase::User.delete_user(current_user, user)
-                end
-
-                def self.update_photo(current_user, photo_url)
-                    return unless defined? CloudOne
-                    CloudOne::Firebase::User.update_photo(current_user, photo_url)
-                end
-
                 def self.update_data(current_user, params)
                     return unless defined? CloudOne
                     CloudOne::Firebase::User.update_data(current_user, params)
-                end
-
-                def self.generated_password(current_user, email = nil)
-                    return unless defined? CloudOne
-                    CloudOne::Firebase::User.generated_password(current_user, email)
-                end
-
-                def self.change_password(current_user, prev_password, new_password)
-                    return unless defined? CloudOne
-                    CloudOne::Firebase::User.change_password(current_user, prev_password, new_password)
                 end
 
             end
