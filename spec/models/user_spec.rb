@@ -4,7 +4,7 @@ require "byebug"
 require "faker"
 
 RSpec.describe "using method (clear_fields) based on a list of specific fields", type: :model do
-    account = User.find_by(email: Rails.application.config.lesli_settings["account"]["user"]["email"]).account # instance of account
+    account = User.first.account # instance of account
 
     # user variables
     password = Faker::Internet.password
@@ -39,7 +39,7 @@ end
 
 
 RSpec.describe "using method (clear_fields) to clear all fields excluding foreign key", type: :model do
-    account = User.find_by(email: Rails.application.config.lesli_settings["account"]["user"]["email"]).account # instance of account
+    account = User.first.account # instance of account
 
     # create user
     password = Faker::Internet.password
@@ -73,7 +73,7 @@ end
 
 
 RSpec.describe "using method (full_name_initials)", type: :model do
-    account = User.find_by(email: Rails.application.config.lesli_settings["account"]["user"]["email"]).account # instance of account
+    account = User.first.account # instance of account
 
     # create user
     first_name = Faker::Name.last_name
@@ -102,7 +102,7 @@ RSpec.describe "using method (full_name_initials)", type: :model do
 end
 
 RSpec.describe "using method (has_privileges?) to validate if a user has privileges through the role", type: :model do
-    account = User.find_by(email: Rails.application.config.lesli_settings["account"]["user"]["email"]).account # instance of account
+    account = User.first.account # instance of account
 
     # ============ create user =============
     first_name = Faker::Name.last_name

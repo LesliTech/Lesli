@@ -32,7 +32,7 @@ RSpec.shared_context 'api authentication' do
             # get JWT for api authentication
             post '/api/users/authentication', params: {
                 authentication: {
-                    "email": "api@lesli.cloud",
+                    "email": User.first.email,
                     "password": password,
                     "source": "Rspec tests"
                 }
