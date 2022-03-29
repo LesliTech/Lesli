@@ -21,7 +21,7 @@ RSpec.shared_context 'user authentication' do
 
     # Creates a new valid user session
     before(:all) do
-        @user = User.find_by(email: "test@lesli.cloud")
+        @user = User.first
         sign_in @user
     end
 
