@@ -90,11 +90,7 @@ class User < ApplicationLesliRecord
 
     def initialize_cloud_one_user
         if defined? CloudOne
-            registration_params = {
-                password: Courier::One::Firebase::User.generated_password(self)
-            }
-
-            Courier::One::Firebase::User.registration(self, registration_params)
+            Courier::One::Firebase::User.registration(self)
         end
     end
 
@@ -105,11 +101,8 @@ class User < ApplicationLesliRecord
     end
 
     def change_after_update
-        if saved_change_to_email?
-            if defined? CloudOne
-                previous_email = saved_change_to_email[0]
-                CloudOne::Firebase::User.update_email(self, previous_email, self.email)
-            end
+        if defined? CloudOne
+            CloudOne::Firebase::User.sync_user(self)
         end
     end
 
