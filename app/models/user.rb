@@ -96,7 +96,7 @@ class User < ApplicationLesliRecord
 
     def initialize_cloud_driver
         if defined? CloudDriver
-            Courier::Driver::Calendar.create_user_calendar(self, self.account, "Personal Calendar")
+            #Courier::Driver::Calendar.create_user_calendar(self, self.account, "Personal Calendar")
         end
     end
 
