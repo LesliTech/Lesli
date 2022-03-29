@@ -19,50 +19,23 @@ For more information read the license file including with this software.
 
 
 require 'lesli_request_helper'
-require 'spec_helper'   
-require 'byebug'
 
 RSpec.describe "POST:/login.json", type: :request do
 
-    before(:all) do
-        # Create a valid user session
-        @account = create(:account)
-        @role = Role.first
-        @role.active = 1
-        @role.save
-
-        @new_user = User.new(attributes_for(:user))
-        @new_user.account = @account
-
-        @new_user.confirm
-        @new_user.save!
-
-        @new_user.user_roles.create!({ role: @role })
-
-        post "/login.json", params: { user: { email: @new_user.email, password: @new_user.password } }
-
-    end
-
     it "is expected to respond with successful standard json response" do
+        @new_user = FactoryBot.create(:user)
+        post "/login.json", params: { user: { email: @new_user.email, password: @new_user.password } }
         expect_json_response_successful
     end
 
-    it "is expected to respond with a user logged" do
-        expect(response_data).to be_a(Hash)
-    end
-
-end
-
-RSpec.describe "POST:/login.json", type: :request do
-    before(:all) do
-        post "/login.json", params: { user: { email: "", password: "" } }
-    end
-
     it "is expected to respond with error standard json response" do
+        post "/login.json", params: { user: { email: "", password: "" } }
         expect_json_response_error
     end
 
     it "is expected to respond with error when the credentials are invalid" do
+        @new_user = FactoryBot.create(:user)
+        post "/login.json", params: { user: { email: @new_user.email, password: "wrong password" } }
         expect(response_error).to be_a(Hash)
         expect(response_error).to have_key("message")
         expect(response_error["message"]).to be_a(String)
@@ -70,13 +43,9 @@ RSpec.describe "POST:/login.json", type: :request do
 end
 
 RSpec.describe "POST:/login.json", type: :request do
-    include_context 'user authentication'
-
-    before(:all) do
-        post "/login.json", params: { user: { email: "", password: "" } }
-    end
-
+    include_context "request user authentication"
     it "is expected to redirect to '/' route when the user is already logged" do
+        post "/login.json", params: { user: { email: "", password: "" } }
         expect(response).to redirect_to("/")
     end
 end
