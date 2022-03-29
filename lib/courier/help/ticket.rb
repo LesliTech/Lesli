@@ -52,6 +52,17 @@ module Courier
                 CloudHelp::Ticket.options(current_user, query)
             end
 
+            def self.destroy(current_user, ticket_id)
+                return nil unless defined? CloudHelp
+                ticket = CloudHelp::Ticket.find_by_id(ticket_id)
+                CloudHelp::TicketServices.destroy(current_user, ticket)
+            end
+
+            def self.update(current_user, ticket_id, ticket_params)
+                return {} unless defined? CloudHelp
+                ticket = CloudHelp::Ticket.find_by_id(ticket_id)
+                CloudHelp::TicketServices.update(current_user, ticket, ticket_params)
+            end
         end
     end
 end
