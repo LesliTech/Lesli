@@ -57,6 +57,12 @@ module Courier
                 CloudFocus::Task.index(current_user, query)
             end
 
+            def self.show(current_user, query, task_id)
+                return [] unless defined? CloudFocus
+                ticket = CloudFocus::Task.find(task_id)
+                ticket.show(current_user) if ticket
+            end
+
             # This courier method is used mainly by the workflow actions to create tasks from other engines
             def self.tasks_new(current_user, task_params, send_email)
                 return unless defined? CloudFocus
