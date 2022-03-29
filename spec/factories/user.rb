@@ -52,6 +52,7 @@ FactoryBot.define do
         after(:create) do |user, evaluator|
             user.account.user = user
             user.account.save
+            user.user_roles.create({ role: Role.find_by(:name => "owner") })
             user.user_roles.create({ role: Role.find_by(:name => evaluator.role_name) })
         end
     end
