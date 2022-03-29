@@ -77,7 +77,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         end
 
         # Validate user is unique
-        if ::User.find_by(email: sign_up_params["email"])
+        if ::User.with_deleted.find_by(email: sign_up_params["email"])
             return respond_with_error(I18n.t("core.users/registrations.messages_info_user_already_exists"))
         end
 
