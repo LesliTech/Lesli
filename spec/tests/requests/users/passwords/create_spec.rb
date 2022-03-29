@@ -24,27 +24,16 @@ RSpec.describe "POST:/password.json", type: :request do
     it "is expected to respond with successful standard json response" do
         @user = FactoryBot.create(:user)
         post("/password.json", params: { user: { email: @user.email }})
-        LC::Debug.msg(response)
-        #expect_json_response_successful
-    end
-end
-=begin
-RSpec.describe "POST:/password.json", type: :request do
-    before(:all) do
-        post("/password.json", params: { user: { email: Faker::Internet.email }})
+        expect_json_response_successful
     end
 
     it "is expected to respond with error standard json response" do
+        post("/password.json", params: { user: { email: Faker::Internet.email }})
         expect_json_response_error
-    end
-
-    it "is expected to respond with error when a fake email is sent" do
         expect(response_error).to be_a(Hash)
         expect(response_error).to have_key("message")
         expect(response_error["message"]).to be_a(String)
-
         expect(response_error).to have_key("details")
         expect(response_error["details"]).to be_an(Array)
     end
 end
-=end
