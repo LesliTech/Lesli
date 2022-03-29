@@ -19,15 +19,11 @@ For more information read the license file including with this software.
 
 
 FactoryBot.define do
-
     factory :user, class: "User" do
         email { Faker::Internet.email }
-        password { Faker::Alphanumeric.alpha(number: 10) }
-        
+        password { Devise.friendly_token }
         active { true }
-
-        
-        detail_attributes do 
+        detail_attributes do
             {
                 salutation: "mr",
                 first_name: Faker::Name.first_name,
@@ -35,6 +31,26 @@ FactoryBot.define do
             }
         end
 
-    end
+        # an account is required
+        account { (Account.first.nil? ? FactoryBot.create(:account) : Account.first) }
+        # TODO: we should be able to specify if we want create a new account 
+        # trait :with_account do
+        #     account { (Account.first.nil? ? FactoryBot.create(:account) : Account.first) }
+        # end
 
+        # these transient will be available in callbacks as evaluator.<YOUR_TRANSIENT_ATTR>
+        transient do
+            confirm { true }
+        end
+
+        transient do
+            role_name { "sysadmin" }
+        end
+
+        # callbacks
+        before(:create) { |user, evaluator| user.confirm if evaluator.confirm }
+        after(:create) do |user, evaluator|
+            user.user_roles.create({ role: Role.find_by(:name => evaluator.role_name) })
+        end
+    end
 end

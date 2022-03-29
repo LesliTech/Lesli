@@ -332,6 +332,8 @@ module Shared
                     when "foreign_key"
                         association_value = cloud_object[detail[:key]]
                     when "detail_enum"
+                        association_value = "''"
+                        
                         if cloud_object.detail && cloud_object.class.method_defined?(detail[:name])
                             association_value = "'#{cloud_object.detail.send(detail[:name])}'"
                         end

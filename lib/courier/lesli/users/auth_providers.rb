@@ -16,16 +16,18 @@ For more information read the license file including with this software.
 // · 
 
 =end
-
 module Courier
-    module One
-        class UserService
 
-            def self.find_user_service(current_user, service_name)
-                return unless defined? CloudOne
-                CloudOne::UserService.find_user_service(current_user, service_name)
+    module Lesli
+
+        class Users::AuthProviders
+
+            def self.get_user_provider(users_id, provider)
+                return User::AuthProvider.find_by(users_id: users_id, provider: provider) 
             end
 
         end
+
     end
+    
 end
