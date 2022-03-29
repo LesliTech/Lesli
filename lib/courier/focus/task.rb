@@ -59,7 +59,7 @@ module Courier
 
             def self.show(current_user, query, task_id)
                 return [] unless defined? CloudFocus
-                task = CloudFocus::Task.find(task_id)
+                task = CloudFocus::Task.find_by_id(task_id)
                 task.show(current_user) if task
             end
 
