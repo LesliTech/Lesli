@@ -50,6 +50,8 @@ FactoryBot.define do
         # callbacks
         before(:create) { |user, evaluator| user.confirm if evaluator.confirm }
         after(:create) do |user, evaluator|
+            user.account.user = user
+            user.account.save
             user.user_roles.create({ role: Role.find_by(:name => evaluator.role_name) })
         end
     end

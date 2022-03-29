@@ -20,12 +20,9 @@ For more information read the license file including with this software.
 # include helpers, configuration & initializers for request tests
 require 'lesli_controller_helper'
 
-RSpec.configure do |config|
-    config.include Devise::Test::IntegrationHelpers
-    config.include Devise::Test::ControllerHelpers, :type => :controller
-end
-
 RSpec.describe Users::RegistrationsController, type: :controller do
+
+    include_context 'controller user authentication'
 
     def prepare_password_settings
         Account.first.settings.where(name: 'password_minimum_length').update(value: 6)
@@ -37,8 +34,6 @@ RSpec.describe Users::RegistrationsController, type: :controller do
     end
 
     before :each do
-        request.env["devise.mapping"] = Devise.mappings[:user]
-        sign_in(User.first)
         prepare_password_settings
     end
 
