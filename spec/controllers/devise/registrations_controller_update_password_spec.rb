@@ -38,7 +38,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
 
     before :each do
         request.env["devise.mapping"] = Devise.mappings[:user]
-        sign_in(User.find_by(email: "test@lesli.cloud"))
+        sign_in(User.first)
         prepare_password_settings
     end
 
