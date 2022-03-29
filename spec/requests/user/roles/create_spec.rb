@@ -19,8 +19,6 @@ For more information read the license file including with this software.
 
 
 require 'lesli_request_helper'
-require 'spec_helper'   
-require 'byebug'
 
 RSpec.describe "POST:/administration/users/:id/roles.json", type: :request do
     include_context "request user authentication"
