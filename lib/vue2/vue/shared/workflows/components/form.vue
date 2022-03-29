@@ -51,6 +51,10 @@ export default {
 
         workflowName: {
             type: String
+        },
+
+        customActionForms: {
+            type: Object
         }
     },
 
@@ -727,6 +731,7 @@ export default {
                         :workflow-id="workflow_id"
                         :translations-path="`${translations_path}.workflow/actions`"
                         statuses-translations-path="core.shared"
+                        :custom-action-forms="customActionForms"
                     >
                     </component-action>
                 </div>
