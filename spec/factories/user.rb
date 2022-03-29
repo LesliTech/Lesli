@@ -20,6 +20,7 @@ For more information read the license file including with this software.
 
 FactoryBot.define do
     factory :user, class: "User" do
+        
         email { Faker::Internet.email }
         password { Devise.friendly_token }
         active { true }

@@ -19,28 +19,19 @@ For more information read the license file including with this software.
 
 
 require 'lesli_request_helper'
-require 'spec_helper'   
-require 'byebug'
 
 RSpec.describe "GET:/logout.json", type: :request do
-    include_context 'request user authentication'
-
-    before do
-        get "/logout.json"
-    end
-
+    include_context "request user authentication"
     it "is expected to redirect to '/' route when the user is logout" do
+        get "/logout.json"
         expect(response).to redirect_to("/")
     end
 end
 
 
 RSpec.describe "GET:/logout.json", type: :request do
-    before(:all) do
-        get "/logout.json"
-    end
-
     it "is expected to redirect to '/' route when the user is not present" do
+        get "/logout.json"
         expect(response).to redirect_to("/")
     end
 end

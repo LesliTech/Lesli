@@ -17,12 +17,8 @@ For more information read the license file including with this software.
 
 =end
 
-require "rails_helper"
-require "spec_helper"
-require "byebug"
-
 require "yaml"
-
+require "rails_helper"
 
 RSpec.describe "Config/database.yml" do
 
