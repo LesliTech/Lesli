@@ -34,6 +34,8 @@ class User::Detail < ApplicationLesliRecord
 
             self.user.set_alias
 
+            self.user.update(name: self.user.full_name)
+
             if defined? CloudOne
 
                 data = {
