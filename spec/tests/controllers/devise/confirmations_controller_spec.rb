@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 =end
 
 # include helpers, configuration & initializers for request tests
-require 'lesli_controller_helper'
+require "lesli_controller_helper"
 
 RSpec.describe Users::ConfirmationsController, type: :controller do
 
