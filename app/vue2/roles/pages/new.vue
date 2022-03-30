@@ -26,7 +26,7 @@ export default {
     props: {
         appMountPath: {
             type: String,
-            default: '/administration/roles'
+            default: ''
         }
     },
 

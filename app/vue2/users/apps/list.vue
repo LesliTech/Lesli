@@ -36,7 +36,7 @@ export default {
 
         mainPath: {
             type: String,
-            default: '/administration/users'
+            default: ''
         }
     },
 
