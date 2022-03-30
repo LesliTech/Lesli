@@ -25,8 +25,8 @@ import componentForm from "Lesli/vue2/users/components/form-new.vue"
 // ·
 export default {
     props: {
-        mainPath: {
-            default: "/administration/users",
+        appMountPath: {
+            default: '',
             type: String
         }
     },
@@ -89,7 +89,7 @@ export default {
 
 <template>
     <section class="application-component">
-        <component-information-card :actions="false" :main-path="mainPath"></component-information-card>
-        <component-form :main-path="mainPath"></component-form>
+        <component-information-card :actions="false" :app-mount-path="appMountPath"></component-information-card>
+        <component-form :app-mount-path="appMountPath"></component-form>
     </section>
 </template>
