@@ -18,7 +18,8 @@ For more information read the license file including with this software.
 =end
 
 # include helpers, configuration & initializers for request tests
-require 'lesli_controller_helper'
+require "lesli_controller_helper"
+
 
 RSpec.describe Users::SessionsController, type: :controller do
     before :each do
@@ -35,7 +36,6 @@ RSpec.describe Users::SessionsController, type: :controller do
         user_roles = @user.user_roles.create({ role: Account.first.roles.find_by(name: "limited") })
         user_roles.roles.update(active: true)
         @user.confirm
-
     end
 
     it "login with valid credentials" do 

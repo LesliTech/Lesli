@@ -20,18 +20,19 @@ For more information read the license file including with this software.
 # include helpers, configuration & initializers for request tests
 require 'lesli_controller_helper'
 
+
 RSpec.describe Users::RegistrationsController, type: :controller do
 
     before :each do
-        @allow_registration =  Rails.application.config.lesli_settings["security"]["allow_registration"]
         request.env["devise.mapping"] = Devise.mappings[:user]
+        @allow_registration =  Rails.application.config.lesli_settings["security"]["allow_registration"]
     end
 
     it "Create a new standard user" do
 
         post :create, params: {
             user: {
-                email: (User.last.id + 1).to_s+"@lesli.cloud",
+                email: Faker::Internet.email,
                 password: "tardis2021$",
                 password_confirmation: "tardis2021$"
             }
@@ -90,7 +91,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
 
         post :create, params: {
             user: {
-                email: "random@lesli.cloud",
+                email: Faker::Internet.email,
                 paswword: "123",
                 password_confirmation: "abc"
             }
