@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 
 export default {
     props: {
-        mainPath: {
+        appMountPath: {
             required: true
         }
     },
@@ -75,7 +75,7 @@ export default {
             this.http.post(url, data).then(result => {
                 if (result.successful) {
                     this.msg.success(this.translations.users.messages_success_created_successfully)
-                    this.$router.push(this.mainPath)
+                    this.$router.push(`${this.appMountPath}/`)
                 } else {
                     this.msg.error(result.error.message)
                 }

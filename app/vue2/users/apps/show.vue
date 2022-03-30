@@ -32,8 +32,8 @@ import componentSettingsForm from "Lesli/vue2/users/components/form-settings.vue
 // ·
 export default {
     props: {
-        mainPath: {
-            default: "/administration/users",
+        appMountPath: {
+            default: '',
             type: String
         }
     },
@@ -97,7 +97,7 @@ export default {
 
 <template>
     <section class="application-component">
-        <component-information-card :main-path="mainPath"></component-information-card>
+        <component-information-card :main-path="appMountPath"></component-information-card>
         <b-tabs v-model="active">
             <b-tab-item :label="translations.core.users.view_tab_title_information">
                 <component-information-form></component-information-form>
