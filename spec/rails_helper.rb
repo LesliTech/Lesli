@@ -84,16 +84,14 @@ RSpec.configure do |config|
     config.filter_rails_from_backtrace!
     # arbitrary gems may also be filtered via:
     # config.filter_gems_from_backtrace("gem name")
-    
-    # add `FactoryBot` methods
-    config.include FactoryBot::Syntax::Methods
+
 end
 
 
 # Validate that at least there are one user in the database
 if ::User.all.count < 1
-    # if no users, create 2 dummy users, so the test always find a user to log in
-    2.times { FactoryBot.create(:user) }
+    # if no users, create a dummy user, so the test always find a user to log in
+    FactoryBot.create(:user)
 end
 
 

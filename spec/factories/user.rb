@@ -20,6 +20,7 @@ For more information read the license file including with this software.
 
 FactoryBot.define do
     factory :user, class: "User" do
+        
         email { Faker::Internet.email }
         password { Devise.friendly_token }
         active { true }
@@ -50,6 +51,8 @@ FactoryBot.define do
         # callbacks
         before(:create) { |user, evaluator| user.confirm if evaluator.confirm }
         after(:create) do |user, evaluator|
+            user.account.user = user
+            user.account.save
             user.user_roles.create({ role: Role.find_by(:name => evaluator.role_name) })
         end
     end
