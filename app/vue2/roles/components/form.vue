@@ -145,7 +145,7 @@ export default {
             <div class="buttons">
                 <router-link class="button" :to="`${appMountPath}/`">
                     <b-icon icon="list" size="is-small" />
-                    <span>{{ translations.core.roles.view_btn_roles_list }}xxa</span>
+                    <span>{{ translations.core.roles.view_btn_roles_list }}</span>
                 </router-link>
                 <b-button v-if="role.id" class="button" @click.stop="$set(data, 'view_type', 'logs')">
                     <b-icon icon="history" size="is-small" />
