@@ -34,7 +34,7 @@ export default {
             }
         },
 
-        mainPath: {
+        appMountPath: {
             type: String,
             default: ''
         }
@@ -178,7 +178,7 @@ export default {
         },
 
         showUser(user) {
-            this.$router.push(`${this.mainPath}/${user.id}`)
+            this.$router.push(`${this.appMountPath}/${user.id}`)
         },
 
         searchUsers(text){
@@ -256,7 +256,7 @@ export default {
                     <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
                     <span> {{ translations.core.shared.view_text_btn_reload }}</span>
                 </button>
-                <router-link class="button" :to="`${mainPath}/new`" v-if="index_privileges.users.create">
+                <router-link class="button" :to="`${appMountPath}/new`" v-if="index_privileges.users.create">
                     <b-icon icon="plus" size="is-small" />
                     <span>{{ translations.core.users.view_text_add_user }}</span>
                 </router-link>

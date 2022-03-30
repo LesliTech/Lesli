@@ -53,7 +53,7 @@ export default {
         }
     },
     mounted() {
-        this.getRoles()
+        this.getRoleOptions()
     },
     methods: {
 
@@ -95,7 +95,7 @@ export default {
                 this.$router.push(`${this.appMountPath}/${result.data.id}`)
             })
         },
-        getRoles() {
+        getRoleOptions() {
 
             this.http.get(this.url.admin("roles/options")).then(result => {
                 this.options = result.data
@@ -145,7 +145,7 @@ export default {
             <div class="buttons">
                 <router-link class="button" :to="`${appMountPath}/`">
                     <b-icon icon="list" size="is-small" />
-                    <span>{{ translations.core.roles.view_btn_roles_list }}</span>
+                    <span>{{ translations.core.roles.view_btn_roles_list }}xxa</span>
                 </router-link>
                 <b-button v-if="role.id" class="button" @click.stop="$set(data, 'view_type', 'logs')">
                     <b-icon icon="history" size="is-small" />
