@@ -63,9 +63,6 @@ class User < ApplicationLesliRecord
 
     before_create :initialize_user
     after_create :initialize_user_details
-    after_create :initialize_cloud_one_user
-    after_create :initialize_cloud_driver
-
     after_update :change_after_update
 
     # type of user
@@ -73,32 +70,24 @@ class User < ApplicationLesliRecord
     #   integration apps
     enum category: { user: "user", integration: "integration" }
 
+
+
+    # @return [void]
+    # @description After creating a user, creates the necessary resources for them to access the different engines.
+    def save(*args)
+        super
+        rescue ActiveRecord::RecordNotUnique => error
+    end
+
+
+
     # @return [void]
     # @description Before creating a user we make sure there is no capitalized email
     def initialize_user
         self.email = (self.email||"").downcase
     end
 
-    # @return [void]
-    # @description After creating a user, creates the necessary resources for them to access the different engines.
-    #     At the current time, it only creates a default calendar. This is an *after_create* method, and is not
-    #     designed to be invoked directly
-    def initialize_user_details
-        User::Detail.find_or_create_by({ user: self })
-        self.set_alias
-    end
 
-    def initialize_cloud_one_user
-        if defined? CloudOne
-            Courier::One::Firebase::User.registration(self)
-        end
-    end
-
-    def initialize_cloud_driver
-        if defined? CloudDriver
-            Courier::Driver::Calendar.create_user_calendar(self, self.account, "Personal Calendar")
-        end
-    end
 
     def change_after_update
         if defined? CloudOne
@@ -106,11 +95,35 @@ class User < ApplicationLesliRecord
         end
     end
 
+
+
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
-    def save(*args)
-        super
-        rescue ActiveRecord::RecordNotUnique => error
+    #     At the current time, it only creates a default calendar. This is an *after_create* method, and is not
+    #     designed to be invoked directly
+
+    def initialize_user_details
+
+        # create user details
+        User::Detail.find_or_create_by({ user: self })
+
+        # create an alias based on user name
+        self.set_alias
+
+    end 
+
+
+
+    def initialize_user_after_confirmation
+
+        if defined? CloudOne
+            Courier::One::Firebase::User.registration(self)
+        end
+
+        if defined? CloudDriver
+            Courier::Driver::Calendar.create_user_calendar(self, self.account, "Personal Calendar")
+        end
+        
     end
 
 

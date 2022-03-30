@@ -1,6 +1,5 @@
 --require spec_helper
 --require rails_helper 
 --format documentation 
---fail-fast
 --pattern engines/**/spec/**/**/*_spec.rb 
---pattern spec/**/**/*_spec.rb
+--pattern spec/tests/**/**/*_spec.rb

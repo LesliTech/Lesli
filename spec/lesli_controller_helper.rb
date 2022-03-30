@@ -17,20 +17,21 @@ For more information read the license file including with this software.
     
 =end
 
-require 'faker'
-require 'rails_helper'
-require 'support/helpers/response_helper'
+require "faker"
+require "rails_helper"
+require "support/helpers/response_helper"
 
 
 # · Authentication context
 # · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-RSpec.shared_context 'controller user authentication' do 
+RSpec.shared_context "controller user authentication" do 
 
     # Creates a new valid user session
     before :each do
-        request.env["HTTP_ACCEPT"] = 'application/json'
-        @user = User.find_by(email: "test@lesli.cloud")
-        sign_in @user
+        #request.env["HTTP_ACCEPT"] = 'application/json'
+        request.env["devise.mapping"] = Devise.mappings[:user]
+        @current_user = User.first
+        sign_in(@current_user)
     end
 
 end

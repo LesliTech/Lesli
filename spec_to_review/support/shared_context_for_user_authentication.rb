@@ -1,0 +1,40 @@
+=begin
+    
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+    
+=end
+
+require 'rails_helper'
+
+RSpec.shared_context 'user authentication' do 
+
+    # Creates a new valid user session
+    before(:all) do
+        @user = User.first
+        sign_in @user
+    end
+
+end
+
+# · Configuration
+# · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+RSpec.configure do |config|
+
+    # Include devise helpers to be able to login on test runtime
+    config.include Devise::Test::IntegrationHelpers
+    config.include Devise::Test::ControllerHelpers, type: :controller
+
+end

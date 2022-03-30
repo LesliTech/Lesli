@@ -53,7 +53,7 @@ export default {
         }
     },
     mounted() {
-        this.getRoles()
+        this.getRoleOptions()
     },
     methods: {
 
@@ -95,7 +95,7 @@ export default {
                 this.$router.push(`${this.appMountPath}/${result.data.id}`)
             })
         },
-        getRoles() {
+        getRoleOptions() {
 
             this.http.get(this.url.admin("roles/options")).then(result => {
                 this.options = result.data
@@ -143,7 +143,7 @@ export default {
     <section>
         <component-header :title="getTitle()">
             <div class="buttons">
-                <router-link class="button" :to="appMountPath">
+                <router-link class="button" :to="`${appMountPath}/`">
                     <b-icon icon="list" size="is-small" />
                     <span>{{ translations.core.roles.view_btn_roles_list }}</span>
                 </router-link>
