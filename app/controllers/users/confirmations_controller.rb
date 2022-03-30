@@ -53,6 +53,9 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
         # force token deletion so we are sure nobody will be able to use the token again
         user.update(confirmation_token: nil)
 
+        # initialize user dependencies
+        user.initialize_user_after_confirmation
+
         # let the user knows that the confirmation is done
         flash[:success] = I18n.t("core.users/confirmations.messages_success_email_updated")
         
