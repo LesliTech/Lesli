@@ -134,7 +134,7 @@ export default {
         >
             <template slot="">
                 <div class="buttons">
-                    <router-link class="button" :to="appMountPath">
+                    <router-link class="button" :to="`${appMountPath}/`">
                         <b-icon icon="list" size="is-small" />
                         <span>{{ translations.core.roles.view_btn_roles_list }}</span>
                     </router-link>

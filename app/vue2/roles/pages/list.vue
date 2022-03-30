@@ -181,6 +181,7 @@ export default {
         },
         
         showRole(role){
+            console.log('doing the deed?')
             this.$router.push(`${this.appMountPath}/${role.id}`)
         }
     },
@@ -282,7 +283,7 @@ export default {
                                         <i class="fas fa-edit"></i>
                                     </span>
                                 </b-dropdown-item>
-                                <b-dropdown-item @click="$router.push(`${usersMountPath}?role=${props.row.name}`)" class="has-text-right pr-4">
+                                <b-dropdown-item @click="url.go(`${usersMountPath}?role=${props.row.name}`)" class="has-text-right pr-4">
                                     {{ translations.core.roles.view_btn_users_list }}
                                     <span class="icon">
                                         <i class="fas fa-users"></i>
