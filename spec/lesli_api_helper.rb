@@ -45,7 +45,7 @@ RSpec.shared_context 'request api authentication' do
             }
         }
 
-        @current_user = User.find_by(email: Rails.application.config.lesli_settings["account"]["user"]["email"])
+        @current_user = User.first
 
         if @token.blank?
 

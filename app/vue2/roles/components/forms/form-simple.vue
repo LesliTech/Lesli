@@ -243,7 +243,7 @@ export default {
             :title="translations.core.roles[`column_enum_role_${(role.name || '').toLowerCase()}`] || role.name"
         >
             <div class="buttons">
-                <router-link class="button" :to="appMountPath">
+                <router-link class="button" :to="`${appMountPath}/`">
                     <b-icon icon="list" size="is-small" />
                     <span>{{ translations.core.roles.view_btn_roles_list }}</span>
                 </router-link>

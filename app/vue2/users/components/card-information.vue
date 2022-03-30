@@ -22,7 +22,7 @@ export default {
             default: true
         },
 
-        mainPath: {
+        appMountPath: {
             type: String,
             required: true
         }
@@ -112,7 +112,7 @@ export default {
                     this.msg.error(result.error.message)
                 } else {
                     this.msg.success(this.translations.core.users.messages_success_user_updated)
-                    this.$router.push(this.mainPath)
+                    this.$router.push(`${this.appMountPath}/`)
                 }
             }).catch(error => {
                 console.log(error)
