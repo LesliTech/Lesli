@@ -59,6 +59,9 @@ export default {
         },
         name: {
             default: null
+        },
+        tabindex: {
+            default: null
         }
     },
 
@@ -206,6 +209,7 @@ export default {
                 @blur="clearUser"
                 @input="search()"
                 :open-on-focus="focus"
+                :tabindex="tabindex"
                 :placeholder="placeholder"
                 clearable
                 :id="id"
