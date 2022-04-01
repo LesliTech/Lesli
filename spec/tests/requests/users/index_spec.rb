@@ -17,16 +17,18 @@ For more information read the license file including with this software.
 
 =end
 
+
 # include helpers, configuration & initializers for request tests
-require 'lesli_request_helper'
+require "lesli_request_helper"
 
-RSpec.describe 'GET:/administration/users.json', type: :request do
 
-    include_context 'request user authentication'
+RSpec.describe "GET:/administration/users.json", type: :request do
+
+    include_context "request user authentication"
     
-    it 'is expected to respond with all the users' do
+    it "is expected to respond with all the users" do
 
-        get '/administration/users.json', params: {
+        get "/administration/users.json", params: {
             :perPage => 1000
         }
 
@@ -45,13 +47,14 @@ RSpec.describe 'GET:/administration/users.json', type: :request do
     end
 end
 
-RSpec.describe 'GET:/administration/users/list.json', type: :request do
 
-    include_context 'request user authentication'
+RSpec.describe "GET:/administration/users/list.json", type: :request do
+
+    include_context "request user authentication"
 
     it "is expected to respond with total of user with a specific role" do
 
-        ['owner', 'sysadmin', 'api', 'guest', 'limited'].each do |role|
+        ["owner", "sysadmin", "api", "guest", "limited"].each do |role|
     
             get "/administration/users/list.json?role=#{role}"
             
