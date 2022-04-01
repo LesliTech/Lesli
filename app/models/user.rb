@@ -404,7 +404,7 @@ class User < ApplicationLesliRecord
     #     other_user = User.last
     #     puts other_user.name # can print jane.smith@email.com
     def full_name
-        detail.first_name.blank? ? email : detail.first_name + " " + detail.last_name.to_s
+        (detail.blank? || detail.first_name.blank?) ? email : detail.first_name + " " + detail.last_name.to_s
     end
 
 
