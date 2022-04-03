@@ -1,65 +1,53 @@
-require "rails_helper"
-require "spec_helper"
-require "byebug"
-require "faker"
+=begin
 
-RSpec.describe "using method (clear_fields) based on a list of specific fields", type: :model do
-    account = User.first.account # instance of account
+Copyright (c) 2020, all rights reserved.
 
-    # user variables
-    password = Faker::Internet.password
-    first_name = Faker::Name.last_name
-    last_name = Faker::Name.last_name
-    salutation = ["mr", "mrs"][rand(2)]
-    address = Faker::Address.city
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
 
-    # create user
-    user = account.users.create({
-        email: Faker::Internet.email,
-        password: password,
-        password_confirmation: password,
-        detail_attributes: {
-            first_name: first_name,
-            last_name: last_name,
-            salutation: salutation,
-            address: address
-        }
-    })
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+=end
 
 
-    user.detail.clear_fields(["first_name", "last_name"])
+# include helpers, configuration & initializers for request tests
+require "lesli_model_helper"
 
-    it "clear only specific fields where clean" do
-        expect(user.detail.first_name).to   eql(nil)
-        expect(user.detail.last_name).to    eql(nil)
-        expect(user.detail.salutation).to   eql(salutation)
-        expect(user.detail.address).to      eql(address)
+
+RSpec.describe "Model:User", type: :model do
+
+    it "is expected to clear only specific fields of user" do
+
+        # create user
+        user = FactoryBot.create(:user)
+
+        # clear fields
+        user.detail.clear_fields(["first_name", "last_name"])
+
+        expect(user.detail.first_name).to eql(nil)
+        expect(user.detail.last_name).to eql(nil)
+        expect(user.detail.salutation).to be_a_kind_of(String)
+        expect(user.detail.address).to be_a_kind_of(String)
     end
-end
 
+    it "is expected to clear all fields excluding foreign key" do
 
-RSpec.describe "using method (clear_fields) to clear all fields excluding foreign key", type: :model do
-    account = User.first.account # instance of account
+        # create user
+        user = FactoryBot.create(:user)
 
-    # create user
-    password = Faker::Internet.password
+        # clear all fields
+        user.detail.clear_fields
 
-    user = account.users.create({
-        email: Faker::Internet.email,
-        password: password,
-        password_confirmation: password,
-        detail_attributes: {
-            first_name: Faker::Name.last_name,
-            last_name: Faker::Name.last_name,
-            salutation: ["mr", "mrs"][rand(2)],
-            address: Faker::Address.city
-        }
-    })
+        expect(user.id).to be_a_kind_of(Integer)
 
-
-    user.detail.clear_fields
-
-    it "clear all fields excluding foreign keys" do
         user.detail.attributes.each do |key, value|
             next if (key.end_with? "id") ||
             key == "created_at" ||
@@ -68,39 +56,24 @@ RSpec.describe "using method (clear_fields) to clear all fields excluding foreig
 
             expect(value).to eql(nil)
         end
-    end
+
+    end  
+    
+    it "is expected return user initials" do
+
+        # create user
+        user = FactoryBot.create(:user)
+
+        first_name_initial = user.detail.first_name[0].upcase
+        last_name_initial = user.detail.last_name[0].upcase
+
+        expect(user.full_name_initials).to eql("#{first_name_initial}#{last_name_initial}")
+
+    end  
+
 end
 
-
-RSpec.describe "using method (full_name_initials)", type: :model do
-    account = User.first.account # instance of account
-
-    # create user
-    first_name = Faker::Name.last_name
-    last_name = Faker::Name.last_name
-    password = Faker::Internet.password
-
-    user = account.users.create({
-        email: Faker::Internet.email,
-        password: password,
-        password_confirmation: password,
-        detail_attributes: {
-            first_name: first_name,
-            last_name: last_name,
-            salutation: ["mr", "mrs"][rand(2)],
-            address: Faker::Address.city
-        }
-    })
-
-    it "Initials match" do
-
-        first_name_initial = first_name[0].upcase
-        last_name_initial = last_name[0].upcase
-
-        expect(user.full_name_initials).to  eql("#{first_name_initial}#{last_name_initial}")
-    end
-end
-
+=begin
 RSpec.describe "using method (has_privileges?) to validate if a user has privileges through the role", type: :model do
     account = User.first.account # instance of account
 
@@ -177,3 +150,4 @@ RSpec.describe "using method (has_privileges?) to validate if a user has privile
         end
     end
 end
+=end
