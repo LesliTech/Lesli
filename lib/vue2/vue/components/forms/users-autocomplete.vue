@@ -72,7 +72,7 @@ export default {
             ready: false,
             timer: null,
             translations: {
-                core: I18n.t('core.shared')
+                shared: I18n.t('deutscheleibrenten.shared')
             }
         }
     },
@@ -131,13 +131,13 @@ export default {
         },
 
         select(user) {
-            this.$emit('select', user)
+            this.$emit("select", user)
             this.$nextTick(()=>{
                 clearTimeout(this.timer)
                 if(! this.disabled){
-                    try{
+                    if(this.$refs.autocomplete){
                         this.$refs.autocomplete.checkHtml5Validity()
-                    }catch(error){ }
+                    }
                 }
             })
         },
@@ -149,7 +149,7 @@ export default {
                     this.select(this.filterUser[0])
                 } else if(this.user_input != ''){
                     this.user_input = ''
-                    this.msg.warn(this.translations.core.messages_warning_user_not_found)
+                    this.msg.warn(this.translations.shared.text_user_not_found)
                 }
             }, 5000)
         },
@@ -193,7 +193,7 @@ export default {
                 {{ title }}
             </span>
             <span v-else>
-                {{translations.core.view_placeholder_select_employee}}
+                {{translations.shared.text_select_employee}}
             </span>
             <sup class="has-text-danger" v-if="required">*</sup>
         </template>
