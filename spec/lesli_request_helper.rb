@@ -17,9 +17,9 @@ For more information read the license file including with this software.
 
 =end
 
-require 'faker'
-require 'rails_helper'
-require 'support/helpers/response_helper'
+require "faker"
+require "rails_helper"
+require "support/helpers/response_helper"
 
 
 # · Authentication context
