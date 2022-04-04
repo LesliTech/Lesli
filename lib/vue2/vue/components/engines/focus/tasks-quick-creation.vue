@@ -144,7 +144,7 @@ export default {
 
         getUsers(){
             let url = this.url.admin('users/list').toString(true)
-            url += `?${this.user_filters}`
+            url += `?${this.user_filters}&exclude=roles`
 
             this.http.get(url).then(result => {
                 if (result.successful) {

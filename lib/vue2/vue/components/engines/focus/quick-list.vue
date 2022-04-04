@@ -107,14 +107,24 @@ export default {
         },
 
         getTasks() {
-            let query = `page=${this.pagination.current_page}&perPage=${this.pagination.per_page}&order=${this.sorting.order}&orderColumn=${this.sorting.field}`
-            let url = `/${this.engineEndpoint}/tasks/resources/tasks-by-model/${this.model_type}/${this.model_id}.json?${query}`
+            let url = this.url.focus('tasks').order(
+                this.sorting.field,
+                this.sorting.order
+            ).paginate(
+                this.pagination.current_page,
+                this.pagination.per_page
+            ).filters({
+                model_type: this.model_type,
+                model_id: this.model_id,
+                exclude: 'completed'
+            })
+
             this.loading = true
             this.http.get(url).then(result => {
                 this.loading = false
                 if (result.successful) {
-                    this.pagination.tasks_count = result.data.tasks_count
-                    this.tasks = result.data.tasks
+                    this.pagination.tasks_count = result.data.count_total
+                    this.tasks = result.data.records
 
                     if(this.tasks.length == 0){
                         this.openNewTaskTab()
@@ -174,13 +184,13 @@ export default {
                 task: {
                     model_type: task.model_type,
                     model_id: task.model_id,
-                    user_main_id: task.user.id,
+                    user_main_id: task.user_main_id,
+                    cloud_focus_catalog_task_types_id: task.cloud_focus_catalog_task_types_id,
                     clone: true,
                     detail_attributes: {
                         title: task.title,
                         description: task.description,
                         deadline: task.deadline_raw,
-                        task_type: task.task_type,
                         importance: importance.value
                     }
                 }
@@ -337,7 +347,7 @@ export default {
                                     <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
                                 </span>
                             </template>
-                            {{ props.row.creator.value ? props.row.creator.value : props.row.creator.email }}
+                            {{ props.row.user_creator_value }}
                         </b-table-column>
 
                         <b-table-column field="user_main_value" :label="translations.tasks.table_header_assigned" sortable>
@@ -348,7 +358,7 @@ export default {
                                     <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
                                 </span>
                             </template>
-                            {{ props.row.user.value ? props.row.user.value : props.row.user.email }}
+                            {{ props.row.user_main_value }}
                         </b-table-column>
 
                         <b-table-column field="importance" :label="translations.tasks.table_header_importance" sortable>
