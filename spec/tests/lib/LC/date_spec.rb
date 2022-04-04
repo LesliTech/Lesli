@@ -17,9 +17,9 @@ For more information read the license file including with this software.
 
 =end
 
+
+# include helpers, configuration & initializers for request tests
 require "rails_helper"
-require "spec_helper"
-require "byebug"
 
 
 def db_format
