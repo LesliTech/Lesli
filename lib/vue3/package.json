@@ -1,6 +1,6 @@
 {
     "name": "lesli",
-    "description": "Enterprise cloud platform",
+    "description": "Your smart business assitant",
     "license": "All rights reserved",
     "private": true,
     "devDependencies": {
@@ -10,6 +10,7 @@
 
         "vue": "3.2.31",
         "vue-loader": "17.0.0",
+        "pinia": "2.0.13",
 
         "ky": "0.30.0",
 
