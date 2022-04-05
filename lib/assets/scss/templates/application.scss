@@ -93,6 +93,12 @@ body {
 }
 
 
+// · Hide vue until vue finishes compilation
+[v-cloak] {
+    display: none !important;
+}
+
+
 /* Remove auto claear button for IE10+/Edge because it does not trigger watchers not changes v-model values */
 ::-ms-clear {
     display: none;

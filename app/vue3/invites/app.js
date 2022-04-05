@@ -1,5 +1,4 @@
-<%#
-
+/*
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,30 +13,21 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
-%>
-
+*/
 
 
-<% 
-customizable_apps_and_pages = [
-    "users/sessions", 
-    "users/passwords", 
-    "users/confirmations", 
-    "users/registrations", 
-    "invites",
-    "passes",
-    "otps"
-]
-%>
+// · 
+import app from "LesliVue/public"
 
 
-<% if customizable_apps_and_pages.include?(controller_path.to_s) && lesli_instance_code != "lesli" %>
 
-    <%# Include custom stylesheet from builders only if a builder is loaded %>
-    <%= stylesheet_link_tag("#{lesli_instance_code}/lesli/#{controller_path}", media: "all") %>
-<% else %>
-
-    <%# Include full path for non-core apps and pages, that should include public template %>
-    <%= stylesheet_link_tag controller_path, media: "all" %>
-<% end %>
+app({
+    data() {
+        return {
+            count: 0
+        }
+    },
+    mounted() {
+        console.log("webpack & vue works")
+    }
+})
