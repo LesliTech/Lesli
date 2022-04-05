@@ -8,12 +8,12 @@
         "webpack:watch": "npm run webpack:vue2:watch",
         "webpack": "npm run webpack:vue2",
 
-        "webpack:vue2:production": "npm run --prefix ./lib/vue2 webpack:production",
-        "webpack:vue2:watch": "npm run --prefix ./lib/vue2 webpack:watch",
-        "webpack:vue2": "npm run --prefix ./lib/vue2 webpack",
+        "webpack2:production": "npm run --prefix ./lib/vue2 webpack:production",
+        "webpack2:watch": "npm run --prefix ./lib/vue2 webpack:watch",
+        "webpack2": "npm run --prefix ./lib/vue2 webpack",
 
-        "webpack:vue3:production": "npm run --prefix ./lib/vue3 webpack:production",
-        "webpack:vue3:watch": "npm run --prefix ./lib/vue3 webpack:watch",
-        "webpack:vue3": "npm run --prefix ./lib/vue3 webpack"
+        "webpack3:production": "npm run --prefix ./lib/vue3 webpack:production",
+        "webpack3:watch": "npm run --prefix ./lib/vue3 webpack:watch",
+        "webpack3": "npm run --prefix ./lib/vue3 webpack"
     }
 }
