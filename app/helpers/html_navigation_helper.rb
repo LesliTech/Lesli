@@ -17,7 +17,7 @@ For more information read the license file including with this software.
 
 =end
 
-module HtmlHelper
+module HtmlNavigationHelper
 
     def navigation_item(link_path)
         class_name = request.original_fullpath.include?(link_path) ? "is-active" : nil
