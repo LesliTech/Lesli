@@ -12,6 +12,8 @@ We mostly use FactoryBot to create data of our models in a dynamically way, whic
     - [Specification of build strategies](#specification)
     - [Attribute overrides](#attribute-overrides)
 
+- [Full documentation](#full-documentation)
+
 
 --------
 
@@ -105,5 +107,8 @@ user = FactoryBot.attributes_for(:user, email: "test@lesli.clou")
 
 puts user.email # "test@lesli.cloud"
 ```
+
+## Full documentation
+> See the full documentation at [FactoryBotRails](https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#getting-started)
 
 --------
