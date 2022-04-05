@@ -17,9 +17,9 @@ For more information read the license file including with this software.
 
 =end
 
+
+# include helpers, configuration & initializers for request tests
 require "rails_helper"
-require "spec_helper"
-require "byebug"
 
 
 =begin
@@ -45,7 +45,7 @@ LC::Date2.new.date.db_column
 
 =end
 
-RSpec.describe "LC::Date2.new", type: :model do
+RSpec.describe LC::Date2, type: :model do
 
     before(:all) do
         @settings = LC::Date2.new.instance_variable_get(:@settings)

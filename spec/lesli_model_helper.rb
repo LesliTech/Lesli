@@ -1,4 +1,4 @@
-<%#
+=begin
 
 Copyright (c) 2020, all rights reserved.
 
@@ -15,29 +15,8 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-%>
+=end
 
-
-
-<% 
-customizable_apps_and_pages = [
-    "users/sessions", 
-    "users/passwords", 
-    "users/confirmations", 
-    "users/registrations", 
-    "invites",
-    "passes",
-    "otps"
-]
-%>
-
-
-<% if customizable_apps_and_pages.include?(controller_path.to_s) && lesli_instance_code != "lesli" %>
-
-    <%# Include custom stylesheet from builders only if a builder is loaded %>
-    <%= stylesheet_link_tag("#{lesli_instance_code}/lesli/#{controller_path}", media: "all") %>
-<% else %>
-
-    <%# Include full path for non-core apps and pages, that should include public template %>
-    <%= stylesheet_link_tag controller_path, media: "all" %>
-<% end %>
+require "faker"
+require "rails_helper"
+require "support/helpers/response_helper"
