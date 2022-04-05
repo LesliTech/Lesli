@@ -25,7 +25,9 @@ export default {
             timer: null,
             columns: [],
             records: [],
-            translations: {
+            highlight_tag: {
+                start: '<span class="tag is-primary">',
+                end: '</span>'
             }
         }
     },
@@ -33,7 +35,7 @@ export default {
 
         getSearch() {
 
-            let text = (this.filterNonEnglishLetters(this.text) || '').replace(/[+*]/g, '')
+            let text = (this.filterNonEnglishLetters(this.text) || '').replace(/[+*]/g, '')
 
             if (text === '') { return }
 
@@ -42,18 +44,23 @@ export default {
                 .filter( e => e.trim().length > 0)
                 .map(e => this.filterNonEnglishLetters(e))
 
-            this.http.get(this.url.search(this.lesli.engine, text)).then(result => {
+            let url = this.url.search(this.lesli.engine, text)
+            if(this.data.global_search && this.data.global_search.order){
+                url = url.order(
+                    this.data.global_search.order.sorting_field || 'id',
+                    this.data.global_search.order.sorting_order || 'asc'
+                )
+            }
+
+            this.http.get(url).then(result => {
 
                 this.records = result.data.records.map(record => {
-
                     for(var key in record) {
-
                         if (key == 'id') {
                             continue
                         }
 
                         record[key]=this.doHighlightText(record[key] ? record[key] : '', words_to_highlight)
-                        
                     }
 
                     return record
@@ -61,20 +68,27 @@ export default {
                 })
 
                 this.columns = result.data.columns.map(column => {
-                    return {
-                        field: column,
-                        label: column
+
+                    // If the columns are objects, we interpret them as such. Otherwise, we asume they are strings
+                    if(typeof column === 'object'){
+                        return {
+                            field: column.field,
+                            label: column.label
+                        }
+                    }else{
+                        return {
+                            field: column,
+                            label: column
+                        }
                     }
                 })
 
                 this.show = true
-
                 this.$nextTick(() => { window.scrollTo(0,0) })
 
             }).catch(error => {
                 console.log(error)
             })
-
         },
 
         doHighlightText(text_to_highlight, words_to_highlight) {
@@ -87,8 +101,8 @@ export default {
             let iQuery = new RegExp(`${words_to_highlight.join('|')}`, 'ig');
 
             text_to_highlight = text_to_highlight
-            .toString().replace(iQuery, function(matchedText, a, b){
-                return `<span class="tag is-primary"> ${matchedText} </span>`
+            .toString().replace(iQuery, (matchedText, _a, _b)=>{
+                return `${this.highlight_tag.start}${matchedText}${this.highlight_tag.end}`
             })
 
             return text_to_highlight
@@ -113,6 +127,13 @@ export default {
                 return text
             }
 
+        },
+
+        goToRecord(record){
+            if(record && record.url){
+                // Since the url can be highlighted, we replace the start and end tags when redirecting to it.
+                this.url.go(record.url.replace(this.highlight_tag.start, '').replace(this.highlight_tag.end, ''))
+            }
         }
 
     },
@@ -139,13 +160,24 @@ export default {
 </script>
 <template>
     <section v-if="show" class="application-global-search">
-        <b-table :data="records" :columns="columns">
-            <template slot-scope="props">
-                <template v-for="(text, index) in props.row">
-                    <b-table-column :key="index" v-html="text">
-                    </b-table-column>
+        <div class="content">
+            <h4 v-if="data.global_search && data.global_search.title">
+                {{data.global_search.title}}
+            </h4> 
+            <b-table
+                :data="records"
+                :columns="columns"
+                @click="goToRecord"
+                hoverable
+                striped
+            >
+                <template slot-scope="props">
+                    <template v-for="(column, index) in columns">
+                        <b-table-column :key="index" v-html="props.row[column.field]">
+                        </b-table-column>
+                    </template>
                 </template>
-            </template>
-        </b-table>
+            </b-table>
+        </div>
     </section>
 </template>
