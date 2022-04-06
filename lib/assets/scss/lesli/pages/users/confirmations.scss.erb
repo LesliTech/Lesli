@@ -18,4 +18,43 @@ For more information read the license file including with this software.
 
 
 // ·
-@import "lesli/pages/otps.scss";
+@import "templates/public";
+@import "lesli/settings/icons.scss";
+
+
+// · 
+.container {
+
+    img {
+        max-width: 180px;
+        margin-bottom: 2rem;
+    }
+
+    div.content {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        max-width: 800px;
+        padding: 2rem 1rem 1.4rem;
+        margin: 0 auto;
+
+        svg {
+            max-width: 90px;
+            fill: lesli-css-color(lime, 300);
+        }
+
+        h2 {
+            font-weight: 100;
+            font-size: 2rem;
+        }
+
+    }
+
+    .redirection {
+        padding: 2rem 0;
+
+        a {
+            font-size: 0.8rem;
+        }
+
+    }
+
+}
