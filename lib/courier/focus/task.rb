@@ -63,6 +63,28 @@ module Courier
                 task.show(current_user) if task
             end
 
+            def self.create(current_user, task_params)
+                return nil unless defined? CloudFocus
+                CloudFocus::TaskService.create(current_user: current_user, task_params: task_params)
+            end
+
+            def self.options(current_user, query)
+                return {} if not defined? CloudFocus
+                CloudFocus::Task.options(current_user, query)
+            end
+
+            def self.update(current_user, task_id, task_params)
+                return {} unless defined? CloudFocus
+                task = CloudFocus::Task.find_by_id(task_id)
+                CloudFocus::TaskService.update(current_user, task, task_params)
+            end
+
+            def self.destroy(current_user, task_id)
+                return nil unless defined? CloudFocus
+                task = CloudFocus::Task.find_by_id(task_id)
+                CloudFocus::TaskService.destroy(current_user, task)
+            end
+
             # This courier method is used mainly by the workflow actions to create tasks from other engines
             def self.tasks_new(current_user, task_params, send_email)
                 return unless defined? CloudFocus
