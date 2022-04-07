@@ -34,6 +34,19 @@ module Courier
                 leave.show(current_user, query)
             end
 
+            def self.create(current_user, leave_params)
+                return nil unless defined? CloudTeam
+                CloudTeam::LeaveService.create(current_user, leave_params)
+            end
+
+            def self.update(current_user, leaves_id, leave_params)
+                return {} unless defined? CloudTeam
+                leave = current_user.account.team.leaves.find_by_id(leaves_id)
+                return {} unless leave
+
+                CloudTeam::LeaveService.update(current_user, leave, leave_params)
+            end
+
         end
     end
 end
