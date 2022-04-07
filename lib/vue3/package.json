@@ -8,8 +8,13 @@
         "lesli-js": "0.1.1",
         "lesli-css": "0.9.2",
 
+        "css-loader": "5.2.6",
+        "style-loader": "3.0.0",
+        "babel-loader": "8.2.2",
+
         "vue": "3.2.31",
         "vue-loader": "17.0.0",
+        "@oruga-ui/oruga-next": "0.5.5",
         "pinia": "2.0.13",
 
         "ky": "0.30.0",
