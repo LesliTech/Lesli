@@ -5,22 +5,32 @@
     "private": true,
     "devDependencies": {
 
-        "lesli-js": "0.1.1",
-        "lesli-css": "0.9.2",
+        "lesli-js": "0.4.0",
+        "lesli-css": "1.0.0",
 
-        "css-loader": "5.2.6",
-        "style-loader": "3.0.0",
-        "babel-loader": "8.2.2",
+        "@babel/core": "7.17.9",
+        "@babel/preset-env": "7.16.11",
 
-        "vue": "3.2.31",
+        "webpack": "5.71.0",
+        "webpack-cli": "4.9.2",
+        "terser-webpack-plugin": "5.3.1",
+
         "vue-loader": "17.0.0",
-        "@oruga-ui/oruga-next": "0.5.5",
+        "style-loader": "3.3.1",
+        "babel-loader": "8.2.4",
+        
+        "vue": "3.2.31",
         "pinia": "2.0.13",
 
         "ky": "0.30.0",
+        "dayjs": "1.11.0",
 
-        "webpack": "5.70.0",
-        "webpack-cli": "4.9.2"
+        "js-yaml": "4.1.0",
+
+        "bulma": "0.9.3",
+        "@oruga-ui/oruga-next": "0.5.5",
+        
+        "firebase": "9.6.10"
 
     },
     "scripts": {
