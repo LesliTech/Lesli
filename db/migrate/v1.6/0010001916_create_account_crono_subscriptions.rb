@@ -29,7 +29,7 @@ class CreateAccountCronoSubscriptions < ActiveRecord::Migration[7.0]
             t.timestamps
         end
 
-        add_reference :account_crono_subscriptions, :accounts, foreign_key:true
+        add_reference :account_crono_subscriptions, :account_cronos, foreign_key:true
         add_reference :account_crono_subscriptions, :users, foreign_key: true
     end
 end
