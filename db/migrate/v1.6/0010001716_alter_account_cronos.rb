@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 class AlterAccountCronos < ActiveRecord::Migration[7.0]
     def change
-        rename_column :account_cronos, :engine, :engine_code
-        rename_column :account_cronos, :rake,   :task_name
+        rename_column   :account_cronos, :engine,       :engine_code
+        add_column      :account_cronos, :task_name,    :string
     end
 end
