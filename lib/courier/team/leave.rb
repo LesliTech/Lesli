@@ -44,6 +44,11 @@ module Courier
                 CloudTeam::LeaveService.update(current_user, leave, leave_params)
             end
 
+            def self.options(current_user, query)
+                return {} unless defined? CloudTeam
+                CloudTeam::Leave.options(current_user, query)
+            end
+
         end
     end
 end
