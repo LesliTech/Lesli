@@ -19,35 +19,29 @@ For more information read the license file including with this software.
 
 module Courier
     module Team
-        class Employee
-
-            def self.all()
-
-                employees = []
-
-                users = ::User.left_joins(:detail).select(:id, :email, :first_name, :last_name, :created_at).order(:id)
-
-                if defined?(CloudTeam)
-                    employees = ::CloudTeam::Employee.all
-                end
-
-                #users | employees returns a new array with the combination of users and employess
-
-                users
-
-            end
+        class Leave
 
             def self.index(current_user, query)
                 return [] unless defined? CloudTeam
-                CloudTeam::Employee.index(current_user, query)
+                CloudTeam::Leave.index(current_user, query)
             end
 
-            def self.show(current_user, query, employees_id)
+            def self.show(current_user, query, leaves_id)
                 return {} unless defined? CloudTeam
-                employee = current_user.account.team.employees.find_by_id(employees_id)
-                return nil unless employee
+                leave = current_user.account.team.leaves.find_by_id(leaves_id)
+                return nil unless leave
 
-                employee.show(current_user, query)
+                leave.show(current_user, query)
+            end
+
+            def self.create(current_user, leave_params)
+                return nil unless defined? CloudTeam
+                CloudTeam::LeaveService.create(current_user, leave_params)
+            end
+
+            def self.update(current_user, leave, leave_params)
+                return {} unless defined? CloudTeam
+                CloudTeam::LeaveService.update(current_user, leave, leave_params)
             end
 
         end

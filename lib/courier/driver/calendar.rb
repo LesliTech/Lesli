@@ -153,9 +153,11 @@ module Courier
                 return records
             end
 
-            def self.create_user_calendar(user, account, calendar_name)
-                calendar = CloudDriver::Calendar.create!(
-                    account: account,
+            def self.create_user_calendar(user, calendar_name)
+                return nil unless defined? CloudDriver
+
+                CloudDriver::Calendar.create!(
+                    account: user.account,
                     user_main: user,
                     users_id: user.id,
                     detail_attributes: {
