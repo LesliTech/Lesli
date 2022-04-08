@@ -115,15 +115,8 @@ class User < ApplicationLesliRecord
 
 
     def initialize_user_after_confirmation
-
-        if defined? CloudOne
-            Courier::One::Firebase::User.registration(self)
-        end
-
-        if defined? CloudDriver
-            Courier::Driver::Calendar.create_user_calendar(self, self.account, "Personal Calendar")
-        end
-        
+        Courier::One::Firebase::User.registration(self)
+        Courier::Driver::Calendar.create_user_calendar(self, "Personal Calendar")
     end
 
 
