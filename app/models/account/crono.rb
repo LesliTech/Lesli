@@ -17,7 +17,7 @@ For more information read the license file including with this software.
 =end
 class Account::Crono < ApplicationLesliRecord
     belongs_to :account,    foreign_key: "accounts_id"
-    belongs_to :user,       foreign_key: "users_id"
+    belongs_to :user,       foreign_key: "users_id", optional: true
 
     has_many :logs,         foreign_key: "account_cronos_id"
     has_many :subscriptions,foreign_key: "account_cronos_id"
