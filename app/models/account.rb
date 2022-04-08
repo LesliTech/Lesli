@@ -21,16 +21,16 @@ class Account < ApplicationRecord
 
     belongs_to :user, foreign_key: "users_id", optional: true
 
-    has_many :users,            foreign_key: "accounts_id"
-    has_many :roles,            foreign_key: "accounts_id"
-    has_many :files,            foreign_key: "accounts_id"
-    has_many :cronos,           foreign_key: "accounts_id"
-    has_many :settings,         foreign_key: "accounts_id", class_name: "Account::Setting"
-    has_many :locations,        foreign_key: "accounts_id"
-    has_many :activities,       foreign_key: "accounts_id", class_name: "Account::Activity"
-    has_many :currencies,       foreign_key: "accounts_id", class_name: "Account::Currency"
-    has_many :integrations,     foreign_key: "accounts_id"
-    has_many :role_descriptors, foreign_key: "accounts_id", class_name: "RoleDescriptor"
+    has_many :users,                foreign_key: "accounts_id"
+    has_many :roles,                foreign_key: "accounts_id"
+    has_many :files,                foreign_key: "accounts_id"
+    has_many :cronos,               foreign_key: "accounts_id"
+    has_many :settings,             foreign_key: "accounts_id", class_name: "Account::Setting"
+    has_many :locations,            foreign_key: "accounts_id"
+    has_many :activities,           foreign_key: "accounts_id", class_name: "Account::Activity"
+    has_many :currencies,           foreign_key: "accounts_id", class_name: "Account::Currency"
+    has_many :integrations,         foreign_key: "accounts_id"
+    has_many :role_descriptors,     foreign_key: "accounts_id", class_name: "RoleDescriptor"
 
     has_one :template, class_name: "Template", foreign_key: "accounts_id"
 
