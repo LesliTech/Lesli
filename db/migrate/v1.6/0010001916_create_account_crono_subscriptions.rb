@@ -1,6 +1,6 @@
-/*
+=begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -15,46 +15,21 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-*/
+=end
 
+class CreateAccountCronoSubscriptions < ActiveRecord::Migration[7.0]
+    def change
+        create_table :account_crono_subscriptions do |t|
+            t.string        :engine_code
+            t.string        :task_name
+            t.boolean       :active
+            
+            t.datetime      :deleted_at, index: true
+            
+            t.timestamps
+        end
 
-// · 
-@import "lesli-css";
-
-
-// · 
-.container {
-
-    img {
-        max-width: 180px;
-        margin-bottom: 2rem;
-    }
-
-    div.content {
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-        max-width: 800px;
-        padding: 2rem 1rem 1.4rem;
-        margin: 0 auto;
-
-        svg {
-            max-width: 90px;
-            fill: lesli-css-color(lime, 300);
-        }
-
-        h2 {
-            font-weight: 100;
-            font-size: 2rem;
-        }
-
-    }
-
-    .redirection {
-        padding: 2rem 0;
-
-        a {
-            font-size: 0.8rem;
-        }
-
-    }
-
-}
+        add_reference :account_crono_subscriptions, :account_cronos, foreign_key:true
+        add_reference :account_crono_subscriptions, :users, foreign_key: true
+    end
+end

@@ -1,5 +1,5 @@
 =begin
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -15,17 +15,19 @@ For more information read the license file including with this software.
 // ·
 
 =end
-class User::AuthProvider < ApplicationLesliRecord
-    belongs_to :user, foreign_key: "users_id"
+class Account::Crono::Log < ApplicationLesliRecord
+    belongs_to :crono,      foreign_key: "account_cronos_id"
 
-    after_create :initialize_integration_calendar
+    def self.index(current_user, query, crono)
+        crono.logs.map do |log|
+            log_attributes = log.attributes
+            log_attributes["created_at_string"] = LC::Date.to_string_datetime(log_attributes["created_at"])
 
-    def get_user_provider(users_id, provider)
-        return User::AuthProvider.find_by(users_id: users_id, provider: provider) 
+            log_attributes
+        end
     end
 
-    def initialize_integration_calendar
-        Courier::Driver::Calendar.create_user_calendar(self.user, "Google Calendar") if self.provider == 'Google'
+    def show(current_user, query)
+        self
     end
-
 end

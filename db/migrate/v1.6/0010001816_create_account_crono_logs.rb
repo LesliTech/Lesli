@@ -1,4 +1,4 @@
-/*
+=begin
 
 Copyright (c) 2022, all rights reserved.
 
@@ -14,8 +14,23 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-*/
 
+=end
 
-// ·
-@import "lesli/pages/otps.scss";
+class CreateAccountCronoLogs < ActiveRecord::Migration[7.0]
+    def change
+        create_table :account_crono_logs do |t|
+            t.string        :engine_code
+            t.string        :task_name
+            t.string        :execution_result, index: true
+            t.string        :execution_source
+            t.text          :error_message
+            
+            t.datetime      :deleted_at, index: true
+            
+            t.timestamps
+        end
+
+        add_reference :account_crono_logs, :account_cronos, foreign_key:true
+    end
+end

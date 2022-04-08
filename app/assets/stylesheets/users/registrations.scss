@@ -1,5 +1,6 @@
 /*
-Copyright (c) 2020, all rights reserved.
+
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -16,24 +17,5 @@ For more information read the license file including with this software.
 */
 
 
-// · 
-//@import "users/devise.scss";
-
-
-// · 
-/*
-body.users-registrations-new section {
-    background: linear-gradient(
-        rgba(lesli-css-get-color(standard, white),.75),
-        rgba(lesli-css-get-color(standard, white),.75)),
-        url("/assets/users/registrations/register-background.full.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
- 
-    form {
-        max-width: 450px;
-    }
-    
-}
-*/
+// ·
+@import "lesli/pages/users/registrations.scss.erb";

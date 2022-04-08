@@ -1,5 +1,5 @@
 
-### 00.00. Core
+### 00.10. Core
 ```plaintext
 00.01. accounts
 00.02. roles
@@ -15,6 +15,8 @@
 00.15. account_currencies
 00.16. account_currency_exchange_rates
 00.17. account_cronos
+00.18. account_crono_logs
+00.19. account_crono_suscriptions
 
 00.30. user (reference only)
 00.31. user_details
