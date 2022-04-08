@@ -46,7 +46,7 @@ module Courier
 
             def self.options(current_user, query)
                 return {} unless defined? CloudTeam
-                CloudTeam::Leave.options(current_user, @query)
+                CloudTeam::Leave.options(current_user, query)
             end
 
         end
