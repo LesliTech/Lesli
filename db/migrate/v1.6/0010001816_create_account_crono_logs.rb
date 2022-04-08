@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -17,26 +17,20 @@ For more information read the license file including with this software.
 
 =end
 
-class CreateAccountCronos < ActiveRecord::Migration[6.1]
+class CreateAccountCronoLogs < ActiveRecord::Migration[7.0]
     def change
-        create_table :account_cronos do |t|
-            t.string  :name
-            t.string  :description
-            t.integer :status
-
-            t.string  :engine
-            t.string  :rake         # The rake command that will execute the task
-
-            t.integer :minute
-            t.integer :hour
-            t.integer :day_of_month
-            t.integer :month
-            t.integer :day_of_week
-
-            t.datetime :deleted_at, index: true
+        create_table :account_crono_logs do |t|
+            t.string        :engine_code
+            t.string        :task_name
+            t.string        :execution_result, index: true
+            t.string        :execution_source
+            t.text          :error_message
+            
+            t.datetime      :deleted_at, index: true
+            
             t.timestamps
         end
-        add_reference :account_cronos, :accounts, foreign_key:true
-        add_reference :account_cronos, :users, foreign_key:true
+
+        add_reference :account_crono_logs, :account_cronos, foreign_key:true
     end
 end
