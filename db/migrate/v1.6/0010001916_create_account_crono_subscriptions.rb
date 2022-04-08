@@ -17,19 +17,19 @@ For more information read the license file including with this software.
 
 =end
 
-class CreateAccountCronLogs < ActiveRecord::Migration[7.0]
+class CreateAccountCronoSubscriptions < ActiveRecord::Migration[7.0]
     def change
-        create_table :account_cron_logs do |t|
+        create_table :account_crono_subscriptions do |t|
             t.string        :engine_code
-            t.string        :execution_result, index: true
-            t.string        :execution_source
-            t.text          :error_message
+            t.string        :task_name
+            t.boolean       :active
             
             t.datetime      :deleted_at, index: true
             
             t.timestamps
         end
 
-        add_reference :account_cron_logs, :accounts, foreign_key:true
+        add_reference :account_crono_subscriptions, :accounts, foreign_key:true
+        add_reference :account_crono_subscriptions, :users, foreign_key: true
     end
 end
