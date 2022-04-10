@@ -1,7 +1,7 @@
 /*
 Lesli
 
-Copyright (c) 2020, Lesli Technologies, S. A.
+Copyright (c) 2022, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,18 +28,32 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
+@mixin lesli-css-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &.space-around {
+        justify-content: space-around;
+    }
 
+    &.align-bottom {
+        align-items: flex-end;
+    }
 
-// · 
-@mixin lesli-css-scrollbar($style:normal, $color:false, $background:false) {
-    scrollbar-width: thin;
-    scrollbar-color: #ffffff #ffffff;
+    ul {
+        margin: 0;
+        padding: 0;
+        display: flex;
 
-    @if $style == hide {
-        &::-webkit-scrollbar {
-            width: 0px;
-            background-color: #f5f5f5;
+        &:first-child {
+            flex-grow: 1;
         }
+
+        a {
+            display: block;
+        }
+
     }
 
 }

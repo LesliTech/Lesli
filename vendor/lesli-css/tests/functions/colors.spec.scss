@@ -1,4 +1,5 @@
 /*
+
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -27,19 +28,40 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 */
 
 
 // · 
-@mixin lesli-css-scrollbar($style:normal, $color:false, $background:false) {
-    scrollbar-width: thin;
-    scrollbar-color: #ffffff #ffffff;
+@import "true";
+@import "../../src/functions/colors.scss";
 
-    @if $style == hide {
-        &::-webkit-scrollbar {
-            width: 0px;
-            background-color: #f5f5f5;
-        }
+
+// · 
+@include describe('@function lesli-css-color($pallete, $variant: 500)') {
+
+    @include it('should return the color for blue default') {
+    @include assert-equal(lesli-css-color(blue), #3689e6);
+    }
+
+    @include it('should return the color for blue 100') {
+    @include assert-equal(lesli-css-color(blue, 100), #8cd5ff);
+    }
+
+    @include it('should return the color for blue 300') {
+    @include assert-equal(lesli-css-color(blue, 300), #64baff);
+    }
+
+    @include it('should return the color for blue 500') {
+    @include assert-equal(lesli-css-color(blue, 500), #3689e6);
+    }
+
+    @include it('should return the color for blue 700') {
+    @include assert-equal(lesli-css-color(blue, 700), #0d52bf);
+    }
+
+    @include it('should return the color for blue 900') {
+    @include assert-equal(lesli-css-color(blue, 900), #002e99); 
     }
 
 }
