@@ -250,32 +250,40 @@ class DevGit < LesliRake
         # copy vendor dependencies (only css files are required)
         command("rm -r vendor/*")
 
+
+        # legacy libraries 
         [
             "buefy",
-            "bulma",
             "quill",
-            "lesli-css",
-            "@fullcalendar",
             "bulma-o-steps",
-            "bulma-extensions",
-            "foundation-emails",
-            "remixicon"
+            "bulma-extensions"
         ].each do |package|
-            FileUtils.cp_r "node_modules/#{package}/", "vendor/#{package}", :verbose => true
+            FileUtils.cp_r "lib/vue2/node_modules/#{package}/", "vendor/#{package}", :verbose => true
+        end
+
+        # updated version of libraries
+        [
+            "trix",
+            "bulma",
+            "lesli-css",
+            "remixicon",
+            "@fullcalendar",
+            "@oruga-ui"
+        ].each do |package|
+            FileUtils.cp_r "lib/vue3/node_modules/#{package}/", "vendor/#{package}", :verbose => true
         end
 
         Dir.glob("vendor/**/*").each do |file|
-            FileUtils.rm(file, :verbose => true) if file.index("README.md")
-            FileUtils.rm(file, :verbose => true) if file.index("LICENSE")
-            FileUtils.rm(file, :verbose => true) if file.index("CHANGELOG.md")
-            FileUtils.rm(file, :verbose => true) if file.index("CONTRIBUTING.md")
-            FileUtils.rm(file, :verbose => true) if file.index("package.json")
-            FileUtils.rm(file, :verbose => true) if file.index("package-lock.json")
-            FileUtils.rm(file, :verbose => true) if file.end_with?(".spec.js")
+            next if file.end_with?(".css")
+            next if file.end_with?(".scss")
+            next if file.end_with?(".sass")
+            next if File.directory?(file)
+            #FileUtils.rm(file, :verbose => true) if file.index("README.md")
+            FileUtils.rm(file, :verbose => true) 
         end
 
         # commit any change in vendor
-        command("git add vendor && git commit -m \"vendor: update npm dependencies (vendors)\" vendor")
+        #command("git add vendor && git commit -m \"vendor: update npm dependencies (vendors)\" vendor")
 
     end
 

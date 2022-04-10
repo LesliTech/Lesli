@@ -37,21 +37,18 @@ For more information read the license file including with this software.
 @import "./lesli/bulma/components.scss";
 @import "./lesli/bulma/extensions.scss";
 @import "./lesli/bulma/loader.scss";
-@import "buefy/src/scss/buefy";
 
 
 
 // · Include vendors
-@import "quill/dist/quill.core";
-@import "quill/dist/quill.snow";
+//@import "trix/dist/trix.css";
 @import "flag-icon";
 
 
 
 // · Loading components, settings and helpers
 @import "./lesli/helpers/display";
-@import "font-awesome-sprockets";
-@import "font-awesome";
+@import "./lesli/settings/remixicons.scss";
 
 
 

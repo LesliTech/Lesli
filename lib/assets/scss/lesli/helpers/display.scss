@@ -17,26 +17,13 @@ For more information read the license file including with this software.
 
 */
 
-
-// · Hide vue syntax while loading vue app - <div v-cloak>{{ message }}</div>
-// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
-[v-cloak] { 
-    display: none; 
-}
-
-
-
 .is-vertical-middle {
     vertical-align: middle !important;
 }
 
-
-
 .is-fullwidth {
     width: 100%;
 }
-
-
 
 .tag.is-rounded {
     border-radius: 50%;
