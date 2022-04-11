@@ -31,7 +31,7 @@ module HtmlNavigationHelper
 
     def navigation_vue_item(link_path)
         content_tag(:li) do
-            content_tag("router-link", :to => link_path) do
+            content_tag("router-link exact", :to => link_path) do
                 yield
             end
         end
