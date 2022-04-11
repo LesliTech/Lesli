@@ -167,6 +167,7 @@ export default {
             <b-icon v-if="transition_statuses.length > 0" icon="chevron-down" size="is-small" />
         </button>
         <b-dropdown-item
+            class="dropdown-item-new-status"
             @click="submitStatus(status)"
             v-for="status in transition_statuses"
             :key="status.id"
@@ -180,3 +181,11 @@ export default {
         </b-dropdown-item>
     </b-dropdown>
 </template>
+<style scoped>
+.dropdown-item-new-status {
+    padding-right: 3rem !important;
+    padding-top: 0.375rem !important;
+    padding-bottom: 0.375rem !important;
+    padding-left: 1rem !important;
+}
+</style>
