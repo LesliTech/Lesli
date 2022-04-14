@@ -42,7 +42,7 @@ aside.application-sidebar {
 
 
 // · Navigation sidebar
-@include lesli-css-breakpoint-custom(320px, 1248px) {
+@include lesli-css-breakpoint(320px, 1248px) {
 
     :root {
         --application-navigation-width: 100px !important;
@@ -64,7 +64,7 @@ aside.application-sidebar {
     }
 }
 
-@include lesli-css-breakpoint-custom(1260px) {
+@include lesli-css-breakpoint(1260px) {
     aside.application-sidebar .application-navigation {
         overflow-y: scroll; //enable scroll in DL sidebar
 
