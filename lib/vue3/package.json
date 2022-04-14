@@ -17,7 +17,7 @@
         "babel-loader": "8.2.4",
 
         "lesli-js": "0.4.0",
-        "lesli-css": "1.0.0",
+        "lesli-css": "1.1.0",
 
         "bulma": "0.9.3",
         "@oruga-ui/oruga-next": "0.5.5",
@@ -25,25 +25,34 @@
         "vue": "3.2.31",
         "pinia": "2.0.13",
 
-        "ky": "0.30.0",
+        "axios": "0.26.1",
         "dayjs": "1.11.0",
         "js-yaml": "4.1.0",
         "remixicon": "2.5.0",
         "sweetalert2": "11.4.8",
         "apexcharts": "3.35.0",
         "trix": "2.0.0-beta.0",
+        "@mdi/font": "6.6.96",
 
         "@fullcalendar/core": "5.11.0",
         "@fullcalendar/daygrid": "5.11.0",
         "@fullcalendar/timegrid": "5.11.0",
         "@fullcalendar/interaction": "5.11.0",
         
-        "firebase": "9.6.10"
+        "firebase": "9.6.10",
+
+        "@vue/cli-plugin-unit-mocha": "5.0.4",
+        "@vue/cli-plugin-babel": "5.0.4",
+        "@vue/cli-service": "5.0.4",
+        "@vue/test-utils": "2.0.0-rc.20",
+        "chai": "4.3.6"
 
     },
     "scripts": {
         "webpack:production": "webpack --progress --env mode=production",
         "webpack:watch": "webpack --progress --env watch=true",
-        "webpack": "webpack --progress --env mode=development"
+        "webpack": "webpack --progress --env mode=development",
+
+        "test": "vue-cli-service test:unit --recursive 'tests/**/*.spec.js'"
     }
 }
