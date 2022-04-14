@@ -40,7 +40,7 @@ account:
 
 # Instance configuration
 configuration:
-    theme: "lesli-blue"
+    theme: "lesli-ocean"
     locales:
         en: "English"
         es: "Spanish"
