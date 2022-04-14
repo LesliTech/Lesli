@@ -20,15 +20,43 @@ For more information read the license file including with this software.
 import app from "LesliVue/public"
 
 
+// · import UI components
+
+
+
 // · 
 app({
     data() {
         return {
-            invite: {},
-            notification: {}
+            translations: {
+                core: {
+                    invites: "We receive your invitation request."
+                }
+            },
+            invite: {
+                email: ""
+            },
+            notification: {
+                type: "is-success",
+                message: ""
+            }
         }
     },
-    mounted() {
-        console.log("webpack & vue works")
+    methods: {
+        postInvite(e) {
+
+            e.preventDefault()
+
+            this.http.post("invite.json", {
+                invite: this.invite
+            }).then(result => {
+                this.notification.message = this.translations.core.invites
+            }).catch(error => {
+                console.log("error: ", error)
+            }).finally(() => {
+                this.invite = {}
+            })
+
+        }
     }
 })

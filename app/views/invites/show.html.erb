@@ -41,11 +41,11 @@ For more information read the license file including with this software.
             </div>
         </div>
         <div class="hero-body">
-            <form class="has-text-centered" ref="form" @submit="postInvite">
+            <form class="has-text-centered box" ref="form" v-on:submit.prevent="postInvite">
                 <div class="field">
                     <p class="label">Enter your email address to use in Lesli</p>
                     <p class="label">We'll send instructions to create your new account.</p>
-                    <p v-if="notification.show" :class="[notification.type, 'notification', 'is-size-5', 'mt-2']">
+                    <p v-if="notification.message != ''" :class="[notification.type, 'notification', 'is-size-5', 'mt-2']">
                         {{ notification.message }}
                     </p>
                     <p class="control has-icons-left mt-4 mb-4">  
@@ -57,8 +57,8 @@ For more information read the license file including with this software.
                             name="user_email"
                             placeholder="email"
                         />
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-envelope"></i>
+                        <span class="icon is-left">
+                            <i class="mdi mdi-email"></i>
                         </span>
                     </p>
                 </div>

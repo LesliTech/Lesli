@@ -14,8 +14,21 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 */
 
 
-// ·
-@import "lesli/pages/invites.scss";
+// · Font family for titles
+@font-face {
+    font-family: "Montserrat";
+    src: font-url("Montserrat/Montserrat-Variable.ttf") format("truetype");
+    font-display: swap;
+}
+
+
+// · Font family for the body
+@font-face {
+    font-family: "Open Sans";
+    src: font-url("OpenSans/OpenSans-Variable.ttf") format("truetype");
+    font-display: swap;
+}
