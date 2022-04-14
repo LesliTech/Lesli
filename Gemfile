@@ -39,9 +39,6 @@ gem "i18n-js", "3.9.1"
 # Integrate SassC-Ruby into Rails.
 gem "sassc-rails", "2.1.2"
 
-# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-#gem "sprockets-rails"
-
 # Pg is the Ruby interface to the PostgreSQL RDBMS. It works with PostgreSQL 9.3 and later.
 gem "pg", "1.3.3"
 
@@ -82,6 +79,9 @@ gem "font-awesome-sass", "~> 5.15.1"
 
 
 # · Tools used to build the LESLI Platform
+
+# Message utilities for the Ruby console
+gem "LRM", "0.1.0"
 
 # Flexible authentication solution for Rails with Warden
 gem "devise", "4.8.1"
@@ -224,8 +224,6 @@ group :development do
     # this gem is necessary to use the rails generator 
     gem "sprockets-rails", "3.4.2"
 
-    gem "web-console", ">= 3.3.0"
-
     # The Listen gem listens to file modifications and notifies you about the changes. Works everywhere!
     gem "listen", "3.7.1"
 
@@ -233,7 +231,10 @@ group :development do
 
     gem "spring-watcher-listen", "~> 2.0.0"
 
+    gem "web-console", ">= 3.3.0"
+
     gem "rack-mini-profiler"
+
     gem "memory_profiler"
 
 end
