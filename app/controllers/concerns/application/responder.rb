@@ -22,13 +22,12 @@ module Application
     module Responder
         extend ActiveSupport::Concern
 
-        included do
-        end
-
-        def respond_with_successful data= nil
-            response_body = { successful: true }
-            response_body[:data] = data
-            render status: 200, json: response_body.to_json
+        def respond_with_successful payload = nil
+            respond_with_http(200, payload)
+            # TODO: Patch the vue2 http plugin to keep compatibility
+            #response_body = { successful: true }
+            #response_body[:data] = data
+            #render status: 200, json: response_body.to_json
         end
 
         # Usage example
@@ -43,7 +42,7 @@ module Application
         #            to make this work properly
         def respond_with_pagination records
 
-            payload = {
+            respond_with_http(200, {
                 :pagination => {
                     :total_pages => records.current_page,
                     :current_page => records.current_page,
@@ -51,34 +50,31 @@ module Application
                     :count_results => records.length
                 },
                 :records => records
-            }
+            })
 
-            response_body = { successful: true }
-            response_body[:payload] = payload
-            render status: 200, json: response_body.to_json
+            # TODO: Patch the vue2 http plugin to keep compatibility
+            #response_body = { successful: true }
+            #response_body[:payload] = payload
+            #render status: 200, json: response_body.to_json
 
-        end
-        
-        # JSON failure response
-        def respond_with_error message = "", details = []
-            render status: 200, json: {
-                successful: false,
-                error: {
-                    message: message,
-                    details: details
-                }
-            }.to_json
         end
 
         # JSON not found response
         def respond_with_not_found
-            render status: 404, json: {
-                successful: false,
-                error: {
-                    message: I18n.t("core.shared.messages_danger_not_found"),
-                    details: []
-                }
-            }.to_json
+
+            respond_with_http(404, { 
+                message: I18n.t("core.shared.messages_danger_not_found"),
+                details: []
+            })
+
+            # TODO: Patch the vue2 http plugin to keep compatibility
+            #render status: 404, json: {
+            #    successful: false,
+            #    error: {
+            #        message: I18n.t("core.shared.messages_danger_not_found"),
+            #        details: []
+            #    }
+            #}.to_json
         end
 
         # JSON not found response
@@ -98,14 +94,41 @@ module Application
             end
 
             respond_to do |format|
-                format.json { render status: 401, json: error_object.to_json }
+                format.json { render status: 403, json: error_object.to_json }
                 format.html { redirect_to "/401" } if Rails.env == "production"
-                format.html { render status: 401, json: error_object.to_json }
+                format.html { render status: 403, json: error_object.to_json }
                 format.xlsx { redirect_to "/401" } if Rails.env == "production"
-                format.xlsx { render status: 401, json: error_object.to_json }
+                format.xlsx { render status: 403, json: error_object.to_json }
             end
 
         end
+
+        # JSON failure response
+        def respond_with_error message = "", details = []
+
+            # here I should use the error object and pass:
+            #       message = error message to sentence
+            #       details = error array of messages
+
+            respond_with_http(500, { 
+                message: message,
+                details: details
+            })
+
+            # TODO: Patch the vue2 http plugin to keep compatibility
+            #render status: 500, json: {
+            #    successful: false,
+            #    error: {
+            #        message: message,
+            #        details: details
+            #    }
+            #}.to_json
+        end
+
+        # Respond with an standard http message
+        def respond_with_http status, payload
+            render(status: 200, json: payload.to_json)
+        end 
 
     end
 
