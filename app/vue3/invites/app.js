@@ -33,6 +33,7 @@ app({
                     invites: "We receive your invitation request."
                 }
             },
+            loading: false,
             invite: {
                 email: ""
             },
@@ -45,6 +46,7 @@ app({
     methods: {
         postInvite(e) {
 
+            this.loading = true
             e.preventDefault()
 
             this.http.post("invite.json", {
@@ -54,6 +56,7 @@ app({
             }).catch(error => {
                 console.log("error: ", error)
             }).finally(() => {
+                this.loading = false
                 this.invite = {}
             })
 
