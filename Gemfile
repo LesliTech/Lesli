@@ -143,6 +143,9 @@ gem "caxlsx", "3.1.1"
 # Caxlsx_Rails provides an Caxlsx renderer so you can move all your spreadsheet code from your controller into view files.
 gem "caxlsx_rails", "0.6.2"
 
+# A fast, safe and extensible Markdown to (X)HTML parser
+gem "redcarpet", "3.5.1"
+
 # HTTP/REST API client library.
 # gem "faraday", "2.2.0"
 gem "faraday" #Workaround to allow google-cloud-firestore work
