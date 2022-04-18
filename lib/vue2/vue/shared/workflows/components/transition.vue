@@ -154,7 +154,14 @@ export default {
 </script>
 <template>
     <component-data-loading v-if="loading"> </component-data-loading>
-    <b-dropdown :disabled="transition_statuses.length === 0" v-else hoverable aria-role="list" position="is-bottom-left" expanded>
+    <b-dropdown
+        :disabled="transition_statuses.length === 0"
+        v-else hoverable
+        aria-role="list"
+        position="is-bottom-left"
+        expanded
+        class="dropdown-new-status"
+    >
         <button class="button" slot="trigger" type="button" >
             <span v-if="value">
                 {{translations.workflow_statuses.view_title_new_status}}:
@@ -181,8 +188,12 @@ export default {
         </b-dropdown-item>
     </b-dropdown>
 </template>
-<style scoped>
-.dropdown-item-new-status {
+<style>
+.dropdown-new-status .dropdown-menu{
+    right: 4rem !important;
+}
+
+.dropdown-new-status .dropdown-menu .dropdown-item-new-status {
     padding-right: 3rem !important;
     padding-top: 0.375rem !important;
     padding-bottom: 0.375rem !important;
