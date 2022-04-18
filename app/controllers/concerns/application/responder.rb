@@ -127,7 +127,7 @@ module Application
 
         # Respond with an standard http message
         def respond_with_http status, payload
-            render(status: 200, json: payload.to_json)
+            render(status: status, json: payload.to_json)
         end 
 
     end
