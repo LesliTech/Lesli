@@ -30,14 +30,17 @@ Building a better future, one line of code at a time.
 */
 
 
+// · 
+@charset "utf-8";
+
+
 // · include vendors
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "../../vendor/normalize";
 
 
 // · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @mixin lesli-css-normalize($vendors: true) {
+
 
     // · Normalize
     @if $vendors {

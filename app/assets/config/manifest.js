@@ -17,26 +17,34 @@ For more information read the license file including with this software.
 
 */
 
+
 //= link_tree ../images
+
 
 // · Templates
 //= link templates/public.css 
 //= link templates/application.css 
 
+
 // · Themes
 //= link themes/blank.css 
 //= link themes/lesli-blue/lesli-blue.css 
+//= link themes/lesli-ocean/lesli-ocean.css 
 //= link themes/deutsche-blue/deutsche-blue.css 
 //= link themes/mitwerken-green/mitwerken-green.css 
+
 
 // · Translation methods
 //= link i18n.js
 
+
 // · Core stylesheets
 //= link_tree ../stylesheets .css
 
+
 // · Core javascripts apps
 //= link_tree ../javascripts .js
+
 
 // · Login styles
 //= link users/sessions.css

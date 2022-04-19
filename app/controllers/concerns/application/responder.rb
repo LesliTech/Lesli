@@ -1,20 +1,14 @@
 =begin
-
 Copyright (c) 2020, all rights reserved.
-
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
 All intellectual or industrial property rights of the code, texts, trade mark, design, 
 pictures and any other information belongs to the owner of this platform.
-
 Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
-
 For more information read the license file including with this software.
-
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
 module Application
@@ -22,21 +16,20 @@ module Application
     module Responder
         extend ActiveSupport::Concern
 
-        included do
-        end
-
         def respond_with_successful data= nil
             response_body = { successful: true }
             response_body[:data] = data
             render status: 200, json: response_body.to_json
+
+            #respond_with_http(200, payload)
         end
 
-        # Usage example
-        # tasks = Task
-        # .joins(:detail)
-        # .page(query[:pagination][:page])
-        # .per(query[:pagination][:perPage])
-        # 
+        # Usage example
+        # tasks = Task
+        # .joins(:detail)
+        # .page(query[:pagination][:page])
+        # .per(query[:pagination][:perPage])
+        # 
         # respond_with_successful_pagination(tasks)
         #
         # IMPORTANT: It is strictly necessary to use the pagination methods
@@ -57,17 +50,17 @@ module Application
             response_body[:payload] = payload
             render status: 200, json: response_body.to_json
 
-        end
-        
-        # JSON failure response
-        def respond_with_error message = "", details = []
-            render status: 200, json: {
-                successful: false,
-                error: {
-                    message: message,
-                    details: details
-                }
-            }.to_json
+=begin
+            respond_with_http(200, {
+                :pagination => {
+                    :total_pages => records.current_page,
+                    :current_page => records.current_page,
+                    :count_total => records.total_count,
+                    :count_results => records.length
+                },
+                :records => records
+            })
+=end
         end
 
         # JSON not found response
@@ -79,7 +72,18 @@ module Application
                     details: []
                 }
             }.to_json
+
+=begin
+            respond_with_http(404, { 
+                message: I18n.t("core.shared.messages_danger_not_found"),
+                details: []
+            })
+=end
         end
+        
+        
+
+        
 
         # JSON not found response
         def respond_with_unauthorized(detail = {})
@@ -106,6 +110,33 @@ module Application
             end
 
         end
+
+        # JSON failure response
+        def respond_with_error message = "", details = []
+            render status: 200, json: {
+                successful: false,
+                error: {
+                    message: message,
+                    details: details
+                }
+            }.to_json
+
+            # here I should use the error object and pass:
+            #       message = error message to sentence
+            #       details = error array of messages
+=begin
+            respond_with_http(400, { 
+                message: message,
+                details: details
+            })
+=end
+
+        end
+
+        # Respond with an standard http message
+        def respond_with_http status, payload
+            render(status: status, json: payload.to_json)
+        end 
 
     end
 
