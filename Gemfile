@@ -132,7 +132,7 @@ gem "combine_pdf"
 gem "libreconv", "0.9.5"
 
 # Find and replace variables inside a Micorsoft Word (.docx) template
-#gem "docx_replace", "1.2.1"
+gem "docx_replace", "1.0.0"
 
 # Scrape text from common file formats (.pdf,.doc,.docx, .sketch, .txt) with a single convenient command.
 gem "doc_ripper", "0.0.9"
