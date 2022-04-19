@@ -1,0 +1,67 @@
+/*
+
+Copyright (c) 2022, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+*/
+
+
+// ·
+@import "templates/public";
+@import "lesli/settings/mdicons";
+
+
+// · 
+body.lesli_cloud.invites.show {
+    background: white;
+
+    .hero-head {
+        padding: 4rem 0 4rem;
+
+        .app-logo {
+            max-width: 130px;
+        }
+    }
+
+    .hero-body {
+        flex-direction: column;
+        border-top: 1px solid #ebebeb;
+        background-color: whitesmoke;
+
+        form {
+            padding: 4rem;
+            margin: 2rem auto;
+            width: 100%;
+            max-width: 850px;
+            border-radius: 6px;
+            border: 1px solid #ececec;
+            background-color: white;
+        }
+
+        .label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0;
+            color: lesli-css-color(slate, 500);
+        }
+
+        .app-logo {
+            margin-top: 4rem;
+            max-width: 100px;
+        }
+
+    }
+
+}

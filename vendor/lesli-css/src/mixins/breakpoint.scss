@@ -1,7 +1,7 @@
 /*
 Lesli
 
-Copyright (c) 2020, Lesli Technologies, S. A.
+Copyright (c) 2022, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,93 +29,150 @@ Building a better future, one line of code at a time.
 // · 
 */
 
-/*
-Small between 320pz to 520px
-Mobile between 320px to 768px
-Tablet between 769px and 1023px
-Desktop between 1024px and 1215px
-Widescreen between 1216px and 1407px
-FullHD up to 1408px
-*/
+
+@import "../settings/variables.scss";
 
 
-// · Defining available breakpoints sizes
-$breakpoints: (
-    "small":      ( min-width:  320px, max-width:  520px ),
-    "mobile":     ( min-width:  320px, max-width:  768px ),
-    "tablet":     ( min-width:  769px, max-width: 1023px ),
-    "desktop":    ( min-width: 1024px, max-width: 1215px ),
-    "widescreen": ( min-width: 1216px, max-width: 1407px ),
-    "fullhd":     ( min-width: 1408px, max-width: 9999px )
-) !default;
+@mixin lesli-css-breakpoint-small() {
+    @include lesli-css-breakpoint-builder($max:small) {
+        @content;
+    }
+}
 
+@mixin lesli-css-breakpoint-mobile() {
+    @include lesli-css-breakpoint-builder($max:mobile) {
+        @content;
+    }
+}
 
-// · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@mixin lesli-css-breakpoint($breakpoint) {
+@mixin lesli-css-breakpoint-tablet() {
+    @include lesli-css-breakpoint-builder($min:tablet) {
+        @content;
+    }
+}
 
-    // If the key exists in the map
-    @if $breakpoint and map-has-key($breakpoints, $breakpoint) {
+@mixin lesli-css-breakpoint-desktop() {
+    @include lesli-css-breakpoint-builder($min:desktop) {
+        @content;
+    }
+}
+
+@mixin lesli-css-breakpoint-widescreen() {
+    @include lesli-css-breakpoint-builder($min:widescreen) {
+        @content;
+    }
+}
+
+@mixin lesli-css-breakpoint-fullhd() {
+    @include lesli-css-breakpoint-builder($min:fullhd) {
+        @content;
+    }
+}
+
+@mixin lesli-css-breakpoint-until-tablet() {
+    @include lesli-css-breakpoint-builder($max:tablet) {
+        @content;
+    }
+}
+
+@mixin lesli-css-breakpoint-until-desktop() {
+    @include lesli-css-breakpoint-builder($max:desktop) {
+        @content;
+    }
+}
+
+@mixin lesli-css-breakpoint-until-widescreen() {
+    @include lesli-css-breakpoint-builder($max:widescreen) {
+        @content;
+    }
+}
+
+@mixin lesli-css-breakpoint-until-widescreen() {
+    @include lesli-css-breakpoint-builder($max:widescreen) {
+        @content;
+    }
+}
+
+@mixin lesli-css-breakpoint-only-tablet() {
+    @include lesli-css-breakpoint-builder($min:tablet, $max:tablet) {
+        @content;
+    }
+}
+
+@mixin lesli-css-breakpoint-only-desktop() {
+    @include lesli-css-breakpoint-builder($min:desktop, $max:desktop) {
+        @content;
+    }
+}
+
+@mixin lesli-css-breakpoint-only-widescreen() {
+    @include lesli-css-breakpoint-builder($min:widescreen, $max:widescreen) {
+        @content;
+    }
+}
+
+@mixin lesli-css-breakpoint($min, $max:false) {
+    @include lesli-css-breakpoint-builder($min, $max) {
+        @content;
+    }
+}
+
+@mixin lesli-css-breakpoint-builder($min:false, $max:false) {
+
+    $min-width: false;
+    $max-width: false;
+
+    @if map-has-key($breakpoints, $min) {
 
         // Prints a media query based on the value
-        $min-width: map-get(map-get($breakpoints, $breakpoint), min-width);
+        $min-width: map-get(map-get($breakpoints, $min), min-width);
 
+    } 
+
+    @if map-has-key($breakpoints, $max) {
+
+        // Prints a media query based on the value
+        $max-width: map-get(map-get($breakpoints, $max), max-width);
+
+    } 
+
+    @if not $min-width {
+        @if $min {    
+            @if is-number($min) {
+                @if index("em" "px" "rem", unit($min)) != null {
+                    $min-width: $min;
+                }
+            }
+        }
+    }
+
+    @if not $max-width {
+        @if $max {
+            @if is-number($max) {
+                @if index("em" "px" "rem", unit($max)) != null {
+                    $max-width: $max;
+                }
+            }
+        }
+    }
+
+    @if $min-width and not $max-width {
         @media only screen and (min-width: $min-width) { 
             @content;
         }
-
-    } @else { 
-
-        // If the key doesn't exist in the map
-        @warn "Breakpoint `#{$breakpoint}` not found.";
-
     }
 
-}
+    @if not $min-width and $max-width {
+        @media only screen and (max-width: $max-width) { 
+            @content;
+        }
+    }
 
-
-// · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@mixin lesli-css-breakpoint-only($breakpoint) {
-
-    // If the key exists in the map
-    @if map-has-key($breakpoints, $breakpoint) {
-
-        // Prints a media query based on the value
-        $min-width: map-get(map-get($breakpoints, $breakpoint), min-width);
-        $max-width: map-get(map-get($breakpoints, $breakpoint), max-width);
-
+    @if $min-width and $max-width {
         @media only screen and (min-width: $min-width) and (max-width: $max-width) { 
             @content;
         }
-
-    } @else {
-
-        // If the key doesn't exist in the map
-        @warn "Breakpoint `#{$breakpoint}` not found.";
-
     }
 
 }
 
-
-
-// · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@mixin lesli-css-breakpoint-custom($min_width, $max_width:false) {
-
-    @if $max_width {
-
-        @media only screen and (min-width: $min_width) and (max-width: $max_width) { 
-            @content;
-        }
-
-    } @else { 
-
-        @media only screen and (min-width: $min_width) { 
-            @content;
-        }
-
-    }
-
-}
