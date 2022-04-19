@@ -69,7 +69,7 @@ export default {
         <component-header :title="role_descriptor.name">
             <div class="navbar-item">
                 <div class="buttons">
-                    <router-link class="button" :to="appMountPath">
+                    <router-link class="button" :to="`${appMountPath}/`">
                         <b-icon icon="list" size="is-small" />
                         <span>{{ translations.core.view_btn_list }}</span>
                     </router-link>
