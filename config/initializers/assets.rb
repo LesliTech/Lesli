@@ -14,3 +14,7 @@ Rails.application.config.assets.version = "1.0"
 
 # Add vendor libraries to assets
 Rails.application.config.assets.paths << Rails.root.join("vendor")
+
+
+# Hosting own fonts
+Rails.application.config.assets.paths << Rails.root.join("app", "assets", "fonts")
