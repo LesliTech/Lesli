@@ -29,12 +29,8 @@ For more information read the license file including with this software.
 </script>
 
 
-<% if controller_path.split('/')[0] == "users" %>
+<%# Load specific javascript files for devise actions (login,register,etc) %>
+<%= javascript_include_tag(controller_path) if controller_path.split('/')[0] == "users" %>
 
-    <%# Load specific javascript files for user related apps %>
-    <%= javascript_include_tag controller_path %>
-<% else %>
-
-    <%# Load standard javascript files %>
-    <%= javascript_include_tag application_javascript_path() %> 
-<% end %>
+<%# Load standard files %>
+<%= javascript_include_tag(application_javascript_path()) if controller_path.split('/')[0] != "users" %> 

@@ -14,6 +14,8 @@
 
         "webpack3:production": "npm run --prefix ./lib/vue3 webpack:production",
         "webpack3:watch": "npm run --prefix ./lib/vue3 webpack:watch",
-        "webpack3": "npm run --prefix ./lib/vue3 webpack"
+        "webpack3": "npm run --prefix ./lib/vue3 webpack",
+
+        "test": "npm run --prefix ./lib/vue3 test"
     }
 }
