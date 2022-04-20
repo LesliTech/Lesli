@@ -23,13 +23,23 @@ require "lesli_request_helper"
 RSpec.describe "POST:/password.json", type: :request do
     it "is expected to respond with successful standard json response" do
         @user = FactoryBot.create(:user)
+
         post("/password.json", params: { user: { email: @user.email }})
+
+        # just debbuging for DL
+        puts response.body
+
+        # shared examples
         expect_json_response_successful
     end
 
     it "is expected to respond with error standard json response" do
         post("/password.json", params: { user: { email: Faker::Internet.email }})
+
+        # shared examples
         expect_json_response_error
+
+        # custom specs
         expect(response_error).to be_a(Hash)
         expect(response_error).to have_key("message")
         expect(response_error["message"]).to be_a(String)
