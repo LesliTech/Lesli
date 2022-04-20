@@ -49,7 +49,7 @@ export default {
     <section class="application-component">
         <component-header :title="translations.role_descriptors.view_btn_new_role_desccriptors">
             <div class="buttons">
-                <router-link class="button" :to="appMountPath">
+                <router-link class="button" :to="`${appMountPath}/`">
                     <span class="icon"><i class="fas fa-list"></i></span>
                     <span> {{ translations.core.view_btn_list }}</span>
                 </router-link>
