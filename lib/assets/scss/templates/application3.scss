@@ -1,0 +1,98 @@
+/*
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · Include Lesli CSS
+@import "lesli-css/";
+
+
+
+// · Configuration
+@import "./lesli/settings/variables";
+
+
+
+// · Include Lesli Standards
+@include lesli-css-normalize();
+@include lesli-css-fonts-standard();
+
+
+
+// · Include Bulma 
+@import "./lesli/bulma/elements.scss";
+@import "./lesli/bulma/components.scss";
+@import "./lesli/bulma/extensions.scss";
+@import "./lesli/bulma/loader.scss";
+
+
+
+// · Include vendors
+//@import "trix/dist/trix.css";
+@import "flag-icon";
+
+
+
+// · Loading components, settings and helpers
+@import "./lesli/helpers/display";
+@import "./lesli/settings/remixicons.scss";
+
+
+
+// · Loading app layout 
+@import "./lesli/layout/application-header.scss";
+@import "./lesli/layout/application-engines.scss";
+@import "./lesli/layout/application-sidebar.scss";
+@import "./lesli/layout/application-notices.scss";
+@import "./lesli/layout/application-component.scss";
+@import "./lesli/layout/application-footer.scss";
+@import "./lesli/layout/application-search.scss";
+
+@import "./lesli/panels/panel-template.scss";
+@import "./lesli/panels/panel-announcement.scss";
+@import "./lesli/panels/panel-notification.scss";
+@import "./lesli/panels/panel-support.scss";
+@import "./lesli/panels/panel-viewer.scss";
+
+@import "./lesli/components/component-data.scss";
+@import "./lesli/components/component-header.scss";
+@import "./lesli/components/component-toolbar.scss";
+
+
+// · 
+body,
+html {
+    font-size: var(--app-theme-font-size, 16px)
+}
+
+
+// · 
+body {
+    color: var(--app-theme-font-color, #1c2540);    
+    background-color: var(--app-theme-color-layout-background, #f3f7fd);
+}
+
+
+// · Hide vue until vue finishes compilation
+[v-cloak] {
+    display: none !important;
+}
+
+
+/* Remove auto claear button for IE10+/Edge because it does not trigger watchers not changes v-model values */
+::-ms-clear {
+    display: none;
+}
