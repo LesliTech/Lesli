@@ -105,8 +105,9 @@ class CloudObject < ApplicationLesliRecord
 
     # @return [String]
     # @param include_engine [Boolean] Optional. Defaults to false. Specifies if the urn should include the engine of the resource
-    # @description Returns the relative route the user needs to follow to get to this resource. In most cases, it's: /cloud_object_class/url_identifier.
-    #     If not, the child model must override this method. Note that the URL does not contain the engine name.
+    # @description Returns the relative or absolute route the user needs to follow to get to this resource. 
+    #     In most cases, it's: /cloud_object_class/url_identifier. If not, the child model must override this method. 
+    #     Note that the link does not contain the engine name unless specified on the include_engine param.
     # @example
     #     puts CloudHelp::Ticket.first.urn # This will display something like /tickets/1
     #     puts CloudHouse::MaintenanceServices.first.urn # This will display something like /property_managements/1?tab=maintenance_services&maintenance_service_id=1
