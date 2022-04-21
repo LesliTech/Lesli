@@ -83,6 +83,19 @@ jobs:
       env:
         RAILS_ENV: test
         RAILS_MASTER_KEY: ${{ secrets.CORE_RAILS_MASTER_KEY_TEST }}
+    - name: Cache node modules
+      uses: actions/cache@v2
+      with:
+        path: ./node_modules
+        key: ${{ runner.os }}-lesli-core-${{ hashFiles('./package.json') }}
+        restore-keys: |
+          ${{ runner.os }}-lesli-core-
+    - name: NPM install
+      run: |
+        npm install --prefix ./lib/vue3
+    - name: Run Vue tests
+      run: |
+        npm run test
     - name: Notify by slack
       if: always()
       uses: ./.github/actions/slack_job_status
