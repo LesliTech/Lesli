@@ -29,6 +29,18 @@ module ApplicationHelper
         [application_body_class, controller_path.gsub("/","-"), action_name].join(" ")
     end
 
+    def application_stylesheet_template_path
+
+        template = "application"
+
+        if ["lesli_cloud"].include?(lesli_engine)
+            template = "application3"
+        end 
+
+        ["templates", template].join("/")
+
+    end
+
     def application_stylesheet_theme_path()
 
         theme = "themes/blank"
@@ -45,7 +57,7 @@ module ApplicationHelper
 
     end
 
-    def application_stylesheet_path
+    def application_stylesheet_engine_path
 
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
@@ -55,6 +67,12 @@ module ApplicationHelper
             "settings", "cronos", "onboarding", "role_descriptors"
         ].include?(cloud_module)
             return controller_path 
+        end 
+
+        template = "application"
+
+        if ["lesil_cloud"].include?(lesli_engine)
+            template = "application3"
         end 
 
         [cloud_module, "application"].join("/")
