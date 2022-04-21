@@ -26,7 +26,9 @@ module Lesli
         config.load_defaults 7.0
 
         # Setting Factory Bot defininitions
-        config.factory_bot.definition_file_paths = Dir[Rails.root.join("engines", "*", "spec", "factories")].unshift("spec/factories")
+        if defined? FactoryBot
+            config.factory_bot.definition_file_paths = Dir[Rails.root.join("engines", "*", "spec", "factories")].unshift("spec/factories")
+        end
 
         # deprecated, will be deleted at January, 2022
         config.lesli_settings = Lesli::settings(Rails.env) 
