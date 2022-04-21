@@ -36,7 +36,9 @@ For more information read the license file including with this software.
     <section class="hero is-fullheight">
         <div class="hero-head">
             <div class="form-title has-text-centered">
-                <%= image_tag "#{ lesli_instance_code }/brand/app-logo.svg", :alt => "logo", :class => "app-logo" %>
+                <%= link_to root_unauthenticated_path do %>
+                    <%= image_tag "#{ lesli_instance_code }/brand/app-logo.svg", :alt => "logo", :class => "app-logo" %>
+                <% end %>
                 <h2 class="is-size-2">Request an invite</h2>
             </div>
         </div>
@@ -58,7 +60,9 @@ For more information read the license file including with this software.
                             placeholder="email"
                         />
                         <span class="icon is-left">
-                            <i class="mdi mdi-email"></i>
+                            <span class="material-icons">
+                                email
+                            </span>
                         </span>
                     </p>
                 </div>
