@@ -19,59 +19,8 @@ For more information read the license file including with this software.
 
 module ApplicationHelper
 
-
     def lesli_instance_code()
         LC::System::Info.instance[:code]
-    end
-
-    def application_body_class()
-        application_body_class = lesli_instance_code
-        [application_body_class, controller_path.gsub("/","-"), action_name].join(" ")
-    end
-
-    def application_stylesheet_theme_path()
-
-        theme = "themes/blank"
-
-        unless Rails.application.config.lesli_settings["configuration"]["theme"].blank?
-            theme = [
-                "themes",
-                Rails.application.config.lesli_settings["configuration"]["theme"],
-                Rails.application.config.lesli_settings["configuration"]["theme"]
-            ].join("/")
-        end
-
-        theme
-
-    end
-
-    def application_stylesheet_path
-
-        path_segments = controller_path.split("/")
-        cloud_module = path_segments.shift
-
-        if [
-            "accounts", "account", "roles", "profiles", "users", "abouts", 
-            "settings", "cronos", "onboarding", "role_descriptors"
-        ].include?(cloud_module)
-            return controller_path 
-        end 
-
-        [cloud_module, "application"].join("/")
-
-    end
-
-    def application_javascript_path
-
-        path_segments = controller_path.split("/")
-        cloud_module = path_segments.shift
-
-        if ["account"].include?(cloud_module)
-            return [cloud_module, path_segments.push("application").compact().join("_")].join("/")
-        end 
-
-        return [cloud_module, "application"].join("/")
-
     end
 
     def lesli_engine()
@@ -100,54 +49,6 @@ module ApplicationHelper
         return lesli_engine
     end
 
-
-    # The code below need to be reviewed and refactored to work with gems instead of engines
-
-
-    def website_title
-
-        title = @application_html_title || controller_path.gsub("cloud","").gsub("_", "")
-        title_prefix = Rails.application.config.lesli_settings["account"]["website"]["title_prefix"]
-
-        ("<title>" + title_prefix + " · " + title + "</title>").html_safe
-
-    end
-
-    def nav_link(link_path)
-        class_name = current_page?(link_path) ? "is-active" : nil
-        content_tag(:li) do
-            content_tag(:a, :href => link_path, :class => class_name) do
-                yield
-            end
-        end
-    end
-
-    def language_url(locale)
-        "/language?locale=#{locale}"
-    end
-
-    def language_flag(locale)
-        locale = "gb" if locale.to_s == "en"
-        locale
-    end
-
-    def language_name(locale)
-        Rails.application.config.lesli_settings["configuration"]["locales_available"][locale.to_s] || "undefined"
-    end
-
-    def javascript_googlemaps_sdk
-        "<script type=\"application/javascript\" src=\"https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.dig(:providers, :google, :maps_sdk_token)}\"></script>".html_safe
-    end
-
-    def favicon
-        icon_path = customization_instance_logo_url(logo: "favicon")
-        ("
-        <link href=\"#{icon_path}\" rel=\"alternate icon\">
-        <link href=\"#{icon_path}\" rel=\"icon\" type=\"image/svg+xml\">
-        <link href=\"#{icon_path}\" rel=\"mask-icon\" color=\"#ff8a01\">
-        ").html_safe
-    end
-
     def is_lesli_instance?(instance=nil, engine=nil)
 
         # return instance name
@@ -168,6 +69,11 @@ module ApplicationHelper
 
         return false
 
+    end
+
+    # Prints the name of the engine
+    def engine_name
+        lesli_engine_or_instance().sub("_cloud", "").camelize
     end
 
     def integration_access_token(integration_name)

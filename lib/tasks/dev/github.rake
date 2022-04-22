@@ -62,8 +62,6 @@ class DevGithub < LesliRake
         # for every installed engine
         Lesli::engines.each do |engine|
 
-            next if engine[:code] == 'demo_engine_devops'
-
             engine_path = Rails.root.join("engines", engine[:code])
 
             next unless File.exists?(engine_path)

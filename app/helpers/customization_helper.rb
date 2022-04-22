@@ -29,11 +29,20 @@ module CustomizationHelper
     #     <div class="image">
     #         <%= customization_instance_logo(options: { alt: "#{@company.company_name}", width: "100" })%>
     #     </div>
-    def customization_instance_logo(tag: false, logo: "app_logo", variant: "light", mode: "web", options: {alt: "Logo"})
-        logo_path = "#{lesli_instance_code}/brand/#{default_logos[logo]}"
-        logo_path = "lesli/brand/#{default_logos[logo]}" if lesli_instance_code == "lesli"
+    def customization_instance_logo(tag: false, logo: "app-logo", variant: "light", mode: "web", options: {alt: "Logo"})
 
-        logo_path = @account[:customization][:logos][logo.to_sym] if @account[:customization] && @account[:customization][:logos] && @account[:customization][:logos][logo.to_sym]
+        # loading logo from builder assets
+        # the dasherize is a workaround to keep compatibility with the 
+        # older version of this helper
+        logo_path = "#{lesli_instance_code}/brand/#{logo.dasherize}.svg"
+
+        # loading logo from core, only if builder engine was not installed
+        logo_path = "lesli/brand/#{logo}.svg" if lesli_instance_code == "lesli"
+
+        # custom logo from settings 
+        if @account.dig(:customization, :logos, logo.to_sym)
+            logo_path = @account[:customization][:logos][logo.to_sym] 
+        end 
 
         if mode == "pdf"
             wicked_pdf_image_tag(logo_path, options)
@@ -46,11 +55,11 @@ module CustomizationHelper
         end
     end
 
-    def customization_instance_logo_tag(logo: "app_logo", variant: "light", mode: "web", options: {alt: "Logo"})
+    def customization_instance_logo_tag(logo: "app-logo", variant: "light", mode: "web", options: {alt: "Logo"})
         customization_instance_logo(tag: true, logo: logo, variant: variant, mode: mode, options: options)
     end
 
-    def customization_instance_logo_url(logo: "app_logo", variant: "light", mode: "web", options: {alt: "Logo"})
+    def customization_instance_logo_url(logo: "app-logo", variant: "light", mode: "web", options: {alt: "Logo"})
         customization_instance_logo(tag: false, logo: logo, variant: variant, mode: mode, options: options)
     end
 
