@@ -26,12 +26,43 @@ For more information read the license file including with this software.
 aside.application-sidebar {
     background-color: var(--app-theme-color-layout-sidebar, lesli-css-color-theme(primary));
 
+    .brand {
+        padding: 1.2rem 2rem 1.4rem;
+        justify-content: flex-start;
+        border-bottom: 1px solid lesli-css-color(silver, 700);
+        align-items: initial;
+
+        a {
+            display: flex;
+            align-items: end;
+        }
+
+        img {
+            margin: 0;
+        }
+
+        span {
+            color: white;
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-left: -20px;
+            margin-bottom: -6px;
+        }
+
+        svg {
+            width: 100px;
+            stroke: white;
+            align-self: flex-end;
+        }
+    }
+
     nav.menu {
         ul.menu-list {
             li {
 
                 a {
                     color: white;
+                    padding: 2rem;
 
                     // highlight sidebar navigation item when selected
                     // highlight sidebar navigation item on hover
@@ -46,6 +77,11 @@ aside.application-sidebar {
                     // icon
                     i {
                         color: white;
+                    }
+
+                    svg {
+                        width: 2rem;
+                        margin-right: 1.1rem;
                     }
 
                 }

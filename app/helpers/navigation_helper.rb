@@ -17,8 +17,9 @@ For more information read the license file including with this software.
 
 =end
 
-module HtmlNavigationHelper
+module NavigationHelper
 
+    # Prints a html link inside a list item
     def navigation_item(link_path)
         class_name = request.original_fullpath.include?(link_path) ? "is-active" : nil
         class_name = current_page?(link_path) ? "is-active" : nil
@@ -29,6 +30,7 @@ module HtmlNavigationHelper
         end
     end
 
+    # Prints a vue router link inside a list item
     def navigation_vue_item(link_path)
         content_tag(:li) do
             content_tag("router-link exact", :to => link_path) do
@@ -37,32 +39,17 @@ module HtmlNavigationHelper
         end
     end
 
+    # Prints a separator line
     def navigation_separator
         content_tag(:li) do 
             content_tag(:hr)
         end 
     end
 
-    def navigation_engine_item text, icon_path, path, is_active = false
-
-        # get hidden modules if there are modules to hide
-        modules_hidden = Rails.application.config.lesli.dig(:modules_hidden) || []
-
-        # stop rendering module navigation if need to hide the module
-        return nil if modules_hidden.include?(path)
-
-        # render module navigation item :) 
-        content_tag(:a, :href => path, :class => is_active ? "is-active": nil) do
-            image_tag(icon_path) + content_tag(:span, text)
-        end
-
-    end
-
     # 00.00 System administration
     def navigation_administration text: "Admin", icon_path: "icons/administration-logo.svg"
         navigation_engine_item text, icon_path, main_app.account_path
     end
-
 
     # ADMINISTRATION
 
@@ -73,7 +60,6 @@ module HtmlNavigationHelper
         end
         navigation_engine_item text, icon_path, cloud_team.root_path, controller_path.include?("cloud_team")
     end
-
 
     # SALES & MARKETING
 
@@ -100,7 +86,6 @@ module HtmlNavigationHelper
         end
         navigation_engine_item text, icon_path, cloud_proposal.root_path, controller_path.include?("cloud_proposal")
     end
-
 
     # PRODUCTIVITY & TEAMWORK
 
@@ -287,6 +272,34 @@ module HtmlNavigationHelper
             return ""
         end
         navigation_engine_item text, icon_path, cloud_development.root_path, controller_path.include?("cloud_development")
+    end
+
+    # DEPRECATED
+    def nav_link(link_path)
+        class_name = current_page?(link_path) ? "is-active" : nil
+        content_tag(:li) do
+            content_tag(:a, :href => link_path, :class => class_name) do
+                yield
+            end
+        end
+    end
+
+    private
+
+    # build a html link for an engine path
+    def navigation_engine_item text, icon_path, path, is_active = false
+
+        # get hidden modules if there are modules to hide
+        modules_hidden = Rails.application.config.lesli.dig(:modules_hidden) || []
+
+        # stop rendering module navigation if need to hide the module
+        return nil if modules_hidden.include?(path)
+
+        # render module navigation item :) 
+        content_tag(:a, :href => path, :class => is_active ? "is-active": nil) do
+            image_tag(icon_path) + content_tag(:span, text)
+        end
+
     end
 
 end
