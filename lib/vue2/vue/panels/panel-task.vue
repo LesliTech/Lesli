@@ -48,6 +48,7 @@ export default {
                     notifications: I18n.t('deutscheleibrenten.notifications')
                 }
             },
+            render_component: true
         }
     },
     methods: {
@@ -80,6 +81,14 @@ export default {
                     return 'has-text-info'
                 }
             }
+        },
+
+        cleanNotification(){
+            this.notification = {
+                show: false,
+                timer: null,
+                list: []
+            }
         }
     },
 
@@ -93,12 +102,34 @@ export default {
                 }
                 this.showNotificationPanel()
             }
+        },
+
+        "$route": {
+            handler: function(){
+                this.render_component = false
+
+                this.$nextTick(()=>{
+                    this.render_component = true
+                })
+
+                this.cleanNotification()
+                this.getTasks()
+            },
+            deep: true
+        },
+
+        "notification.list": {
+            handler: function(new_values, _){
+                this.lesli.tasks = new_values.length
+            },
+            deep: true
         }
     }
 }
 </script>
 <template>
     <b-sidebar
+        v-if="render_component"
         class="application-panel-notification"
         :open.sync="data.global.show_panel_tasks"
         :right="true"

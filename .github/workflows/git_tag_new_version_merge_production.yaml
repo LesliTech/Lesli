@@ -6,7 +6,7 @@ on:
 jobs:
   version_tag:
     name: Version Tag
-    runs-on: ubuntu-20.04
+    runs-on: self-hosted
     if: "!contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):')"
     steps:
     - name: Checkout Repo

@@ -25,7 +25,7 @@ class CreateAccountCronos < ActiveRecord::Migration[6.1]
             t.integer :status
 
             t.string  :engine
-            t.string  :rake
+            t.string  :rake         # The rake command that will execute the task
 
             t.integer :minute
             t.integer :hour

@@ -25,7 +25,7 @@ import componentInformationCard from "Lesli/vue2/users/components/card-informati
 import componentInformationForm from "Lesli/vue2/users/components/form-information.vue"
 import componentManagementSessions from "Lesli/vue2/users/components/management-sessions.vue"
 import componentManagementNotifications from "Lesli/vue2/profiles/components/management-notifications.vue"
-
+import componentInternetAccounts from "Lesli/vue2/users/components/internet-accounts.vue"
 
 
 
@@ -38,7 +38,8 @@ export default {
         'component-information-card': componentInformationCard,
         'component-information-form': componentInformationForm,
         'component-management-sessions': componentManagementSessions,
-        'component-management-notifications': componentManagementNotifications
+        'component-management-notifications': componentManagementNotifications,
+        'component-internet-accounts': componentInternetAccounts
     },
     data() {
         return {
@@ -54,7 +55,8 @@ export default {
             translations: {
                 core: {
                     users: I18n.t('core.users'),
-                    shared: I18n.t('core.shared')
+                    shared: I18n.t('core.shared'),
+                    profiles: I18n.t('core.profiles'),
                 }
             },
         }
@@ -108,6 +110,9 @@ export default {
             </b-tab-item>
             <b-tab-item :label="translations.core.users.view_tab_title_session_management">
                 <component-management-sessions v-if="user_id" :user_id="user_id"></component-management-sessions>
+            </b-tab-item>
+            <b-tab-item :label="translations.core.profiles.view_tab_title_internet_accounts">
+                <component-internet-accounts></component-internet-accounts>
             </b-tab-item>
             <b-tab-item :label="translations.core.users.view_tab_title_settings">
                 <component-settings-form v-if="user_id" :user_id="user_id"></component-settings-form>
