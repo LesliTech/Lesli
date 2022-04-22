@@ -24,8 +24,7 @@ For more information read the license file including with this software.
 
 // 
 :root {
-    --app-header-width: 250px;
-    --app-header-height: 50px;
+    --app-header-height: 100px;
     --app-footer-height: 68px;
     --app-navigation-width: 328px;
 }
@@ -75,6 +74,5 @@ For more information read the license file including with this software.
 body.layout-expanded {
     :root {
         --app-navigation-width: 100px;
-        --app-header-width: var(--app-navigation-width);
     }
 }

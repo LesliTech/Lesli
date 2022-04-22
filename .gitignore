@@ -43,11 +43,12 @@ yarn.lock
 
 # Ignore (any possible) custom images from builders
 /app/assets/images/*
+!/app/assets/images/test
 !/app/assets/images/icons
 !/app/assets/images/lesli
-!/app/assets/images/test
-!/app/assets/images/.keep
+!/app/assets/images/global
 !/app/assets/images/image.svg
+!/app/assets/images/.keep
 
 
 /coverage
