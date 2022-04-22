@@ -48,7 +48,7 @@ export default {
             default: null
         },
         user_filters: {
-            default: '',
+            default: 'role=kop,api,callcenter,support&type=exclude',
             Type: String
         },
         subscribeToEventChanges: {
