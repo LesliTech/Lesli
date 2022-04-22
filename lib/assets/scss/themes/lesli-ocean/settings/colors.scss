@@ -1,0 +1,65 @@
+/*
+
+Copyright (c) 2022, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+*/
+
+
+
+// · 
+@import "lesli-css/";
+
+
+
+// · 
+@function lesli-css-color-theme($variant, $pallete: "app") {
+
+    $lesli-cloud-colors: (
+        app: (
+            primary: #181f48,
+            secondary: #172347,
+            complement_one:  #62cab6,
+            complement_two:  #55b997,
+            complement_three:#3a925b,
+            complement_gray_light: #f1f1f1,
+            complement_blue_light: #edf6ff
+        ),
+        dark: (
+            primary: #041D55
+        ),
+        blue: (
+            lesli: #214FBD,
+            sea: #2F478D,
+            navy: #181F48,
+            faded: #EBF1FF,
+            easy: #7E9BF1
+        ),
+        collection: (
+            administration: #3b6cff,
+            intelligence: #172447,
+            productivity: #ff3c00,
+            integration: #edb78e,
+            analytics: #63ccb5,
+            security: #d3d3d3,
+            finance: #ff2453,
+            sales: #764aff,
+            it: #ffd700
+        )
+    );
+
+    @return lesli-css-color-map($lesli-cloud-colors, $pallete, $variant);
+
+}

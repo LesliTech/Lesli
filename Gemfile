@@ -39,9 +39,6 @@ gem "i18n-js", "3.9.1"
 # Integrate SassC-Ruby into Rails.
 gem "sassc-rails", "2.1.2"
 
-# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-#gem "sprockets-rails"
-
 # Pg is the Ruby interface to the PostgreSQL RDBMS. It works with PostgreSQL 9.3 and later.
 gem "pg", "1.3.3"
 
@@ -82,6 +79,9 @@ gem "font-awesome-sass", "~> 5.15.1"
 
 
 # · Tools used to build the LESLI Platform
+
+# Message utilities for the Ruby console
+gem "LRM", "0.1.0"
 
 # Flexible authentication solution for Rails with Warden
 gem "devise", "4.8.1"
@@ -132,7 +132,7 @@ gem "combine_pdf"
 gem "libreconv", "0.9.5"
 
 # Find and replace variables inside a Micorsoft Word (.docx) template
-#gem "docx_replace", "1.2.1"
+gem "docx_replace", "1.0.0"
 
 # Scrape text from common file formats (.pdf,.doc,.docx, .sketch, .txt) with a single convenient command.
 gem "doc_ripper", "0.0.9"
@@ -142,6 +142,9 @@ gem "caxlsx", "3.1.1"
 
 # Caxlsx_Rails provides an Caxlsx renderer so you can move all your spreadsheet code from your controller into view files.
 gem "caxlsx_rails", "0.6.2"
+
+# A fast, safe and extensible Markdown to (X)HTML parser
+gem "redcarpet", "3.5.1"
 
 # HTTP/REST API client library.
 # gem "faraday", "2.2.0"
@@ -220,11 +223,11 @@ group :development do
     # Go faster, off the Rails
     gem "derailed_benchmarks", "2.1.1"
 
+    gem "sprockets", "4.0.3"
+
     # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
     # this gem is necessary to use the rails generator 
     gem "sprockets-rails", "3.4.2"
-
-    gem "web-console", ">= 3.3.0"
 
     # The Listen gem listens to file modifications and notifies you about the changes. Works everywhere!
     gem "listen", "3.7.1"
@@ -233,7 +236,10 @@ group :development do
 
     gem "spring-watcher-listen", "~> 2.0.0"
 
+    gem "web-console", ">= 3.3.0"
+
     gem "rack-mini-profiler"
+
     gem "memory_profiler"
 
 end

@@ -26,7 +26,7 @@ For more information read the license file including with this software.
 body.abouts.version {
 
     .engines {
-        @include lesli-css-flex-grid($items-width: 200px, $margin: 10px);
+        @include lesli-css-flex-columns($column-width: 200px, $gap: 10px);
     }
 
     .engine {

@@ -65,7 +65,5 @@ RSpec.describe "GET:/administration/users/list.json", type: :request do
             expect(response_data.count).to eql(users_by_role_in_database)
     
         end
-
     end
-
 end

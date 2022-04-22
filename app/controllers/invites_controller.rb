@@ -18,7 +18,6 @@ For more information read the license file including with this software.
 =end
 
 class InvitesController < ApplicationController
-    skip_before_action :verify_authenticity_token
     include Application::Responder
     include Application::Logger
     
@@ -31,7 +30,7 @@ class InvitesController < ApplicationController
         invite = Invite.new(invite_params)
         success = invite.save
 
-        InvitesMailer.with(invite).invitation_card.deliver_later if success
+        #InvitesMailer.with(invite).invitation_card.deliver_later if success
 
         respond_to do |format|
             format.html do 

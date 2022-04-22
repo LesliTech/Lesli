@@ -23,6 +23,7 @@ For more information read the license file including with this software.
 
 // · Configuration
 @import "./lesli/settings/variables";
+@import "./lesli/fonts/families";
 
 
 
@@ -37,6 +38,7 @@ For more information read the license file including with this software.
 @import "./lesli/bulma/components.scss";
 @import "./lesli/bulma/extensions.scss";
 @import "./lesli/bulma/loader.scss";
+@import "buefy/src/scss/buefy";
 
 
 
@@ -49,12 +51,8 @@ For more information read the license file including with this software.
 
 // · Loading components, settings and helpers
 @import "./lesli/helpers/display";
-@import "./lesli/settings/icons.scss";
-
-
-
-// · Loading custom components
-@import "./lesli/custom/blockquote.scss";
+@import "font-awesome-sprockets";
+@import "font-awesome";
 
 
 
@@ -65,7 +63,6 @@ For more information read the license file including with this software.
 @import "./lesli/layout/application-notices.scss";
 @import "./lesli/layout/application-component.scss";
 @import "./lesli/layout/application-footer.scss";
-@import "./lesli/layout/application-chatbox.scss";
 @import "./lesli/layout/application-search.scss";
 
 @import "./lesli/panels/panel-template.scss";
@@ -90,6 +87,12 @@ html {
 body {
     color: var(--app-theme-font-color, #1c2540);    
     background-color: var(--app-theme-color-layout-background, #f3f7fd);
+}
+
+
+// · Hide vue until vue finishes compilation
+[v-cloak] {
+    display: none !important;
 }
 
 
