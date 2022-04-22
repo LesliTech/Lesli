@@ -1,0 +1,96 @@
+/*
+
+Copyright (c) 2022, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+*/
+
+
+// · 
+@import "../settings/colors";
+
+
+// · Navigation sidebar
+aside.application-sidebar {
+    background-color: var(--app-theme-color-layout-sidebar, lesli-css-color-theme(primary));
+
+    .brand {
+        padding: 1.2rem 2rem 1.4rem;
+        justify-content: flex-start;
+        border-bottom: 1px solid lesli-css-color(silver, 700);
+        align-items: initial;
+
+        a {
+            display: flex;
+            align-items: end;
+        }
+
+        img {
+            margin: 0;
+        }
+
+        span {
+            color: white;
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-left: -20px;
+            margin-bottom: -6px;
+        }
+
+        svg {
+            width: 100px;
+            stroke: white;
+            align-self: flex-end;
+        }
+    }
+
+    nav.menu {
+        ul.menu-list {
+            li {
+
+                a {
+                    color: white;
+                    padding: 2rem;
+
+                    // highlight sidebar navigation item when selected
+                    // highlight sidebar navigation item on hover
+                    &.is-active,                    // rails routes
+                    &.route-is-active,              // vue routes
+                    &:not(.is-active):hover,        // rails routes
+                    &:not(.route-is-active):hover   // vue routes
+                    {
+                        background-color: lesli-css-color-theme(primary);
+                    }
+
+                    // icon
+                    i {
+                        color: white;
+                    }
+
+                    svg {
+                        width: 2rem;
+                        margin-right: 1.1rem;
+                    }
+
+                }
+
+                hr {
+                    display: none;
+                }
+
+            }
+        }
+    }
+}
