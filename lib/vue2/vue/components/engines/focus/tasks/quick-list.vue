@@ -50,13 +50,9 @@ export default {
     data() {
         return {
             translations: {
-                tasks: I18n.t('deutscheleibrenten.tasks'),
-                shared: I18n.t('deutscheleibrenten.shared'),
-                workflows: I18n.t('deutscheleibrenten.workflows'),
-                events: I18n.t('deutscheleibrenten.events'),
-                focus: {
-                    tasks: I18n.t('focus.tasks')
-                }
+                tasks: I18n.t('focus.tasks'),
+                core: I18n.t('core.shared'),
+                events: I18n.t('driver.events')
             },
             loading: false,
             tasks: [],
@@ -68,7 +64,7 @@ export default {
                 per_page: 5
             },
             abilities: {
-                tasks: this.abilities.privilege('tasks', 'deutsche_leibrenten')
+                tasks: this.abilities.privilege('tasks', 'cloud_focus')
             },
             actions: {
                 current: null
@@ -168,7 +164,7 @@ export default {
                     if(new_status.status_type == 'completed_successfully' || new_status.status_type == 'completed_unsuccessfully'){
                         this.bus.publish('put:/focus/tasks/done', response.data)
                     }
-                    this.msg.success(this.translations.tasks.notification_task_updated)
+                    this.msg.success(this.translations.tasks.messages_success_task_updated)
                 }else{
                     this.msg.error(response.error.message)
                 }
@@ -199,7 +195,7 @@ export default {
             this.http.post(`/${this.engineEndpoint}/tasks`, form_data).then(response => {
                 this.$set(task, 'editing', false)
                 if (response.successful) {
-                    this.msg.success(this.translations.tasks.notification_task_created)
+                    this.msg.success(this.translations.tasks.messages_success_task_created)
                     this.bus.publish('get:/focus/tasks', response.data)
                 }else{
                     this.msg.error(response.error.message)
@@ -229,7 +225,7 @@ export default {
                     this.tasks = this.tasks.filter((task)=>{
                         return task.id != deleted_task.id
                     })
-                    this.msg.success(this.translations.tasks.notification_task_deleted)
+                    this.msg.success(this.translations.tasks.messages_success_task_destroyed)
                     this.bus.publish('delete:focus/tasks')
                 } else {
                     console.log(response)
@@ -287,7 +283,7 @@ export default {
             <div class="has-text-right">
                 <button class="button" @click="getTasks" :disabled="loading">
                     <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
-                    <span>{{ translations.shared.btn_reload }}</span>
+                    <span>{{ translations.core.view_btn_reload }}</span>
                 </button>
             </div>
             <br>
@@ -303,7 +299,7 @@ export default {
                 >
                     <template v-slot="props">
 
-                        <b-table-column field="id" :label="translations.tasks.table_header_id" sortable>
+                        <b-table-column field="id" :label="translations.tasks.column_id" sortable>
                             <template slot="header" slot-scope="{ column }">
                                 {{ column.label }}
                                 <span v-if="sorting.field == 'id'">
@@ -314,7 +310,7 @@ export default {
                             {{ props.row.id }}
                         </b-table-column>
 
-                        <b-table-column field="title" :label="translations.tasks.table_header_title" sortable>
+                        <b-table-column field="title" :label="translations.tasks.column_title" sortable>
                             <template slot="header" slot-scope="{ column }">
                                 {{ column.label }}
                                 <span v-if="sorting.field == 'title'">
@@ -323,12 +319,12 @@ export default {
                                 </span>
                             </template>
                             <span v-if="subscribeToEventChanges && props.row.model_type == 'CloudDriver::Event'">
-                                [{{translations.events.event_title}} {{props.row.model_id}}]
+                                [{{translations.events.view_title_event}} {{props.row.model_id}}]
                             </span>
                             {{ props.row.title }}
                         </b-table-column>
 
-                        <b-table-column field="deadline" :label="translations.tasks.table_header_deadline" sortable>
+                        <b-table-column field="deadline" :label="translations.tasks.column_deadline" sortable>
                             <template slot="header" slot-scope="{ column }">
                                 {{ column.label }}
                                 <span v-if="sorting.field == 'deadline'">
@@ -339,7 +335,7 @@ export default {
                             {{ props.row.deadline }}
                         </b-table-column>
 
-                        <b-table-column field="user_creator_value" :label="translations.tasks.table_header_creator" sortable>
+                        <b-table-column field="user_creator_value" :label="translations.tasks.column_users_id" sortable>
                             <template slot="header" slot-scope="{ column }">
                                 {{ column.label }}
                                 <span v-if="sorting.field == 'user_creator_value'">
@@ -350,7 +346,7 @@ export default {
                             {{ props.row.user_creator_value }}
                         </b-table-column>
 
-                        <b-table-column field="user_main_value" :label="translations.tasks.table_header_assigned" sortable>
+                        <b-table-column field="user_main_value" :label="translations.tasks.column_user_main_id" sortable>
                             <template slot="header" slot-scope="{ column }">
                                 {{ column.label }}
                                 <span v-if="sorting.field == 'user_main_value'">
@@ -361,7 +357,7 @@ export default {
                             {{ props.row.user_main_value }}
                         </b-table-column>
 
-                        <b-table-column field="importance" :label="translations.tasks.table_header_importance" sortable>
+                        <b-table-column field="importance" :label="translations.tasks.column_importance" sortable>
                             <template slot="header" slot-scope="{ column }">
                                 {{ column.label }}
                                 <span v-if="sorting.field == 'importance'">
@@ -369,10 +365,10 @@ export default {
                                     <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
                                 </span>
                             </template>
-                            <b-tag :type="colorTaskImportance(props.row.importance)" rounded> {{ object_utils.translateEnum(translations.focus.tasks, 'column_enum_task_importance', props.row.importance) }} </b-tag>
+                            <b-tag :type="colorTaskImportance(props.row.importance)" rounded> {{ object_utils.translateEnum(translations.tasks, 'column_enum_task_importance', props.row.importance) }} </b-tag>
                         </b-table-column>
 
-                        <b-table-column :label="translations.tasks.table_header_actions">
+                        <b-table-column :label="translations.core.view_table_header_actions">
                             <div class="menu-dots" :id="`menu-${model_type}-${props.row.id}`" @click.stop="showActions(props.row.id)">
                                 <span class="">
                                     <i class="fas fa-ellipsis-h fa-1x"></i>
@@ -388,31 +384,31 @@ export default {
                                         >
                                         </b-icon>
                                         <strong>
-                                            {{translations.shared.btn_saving}}
+                                            {{translations.core.view_btn_saving}}
                                         </strong>
                                     </li>
                                 </span>
                                 <span v-else>
                                     <li v-if="props.row.editable && abilities.tasks.update" class="menu-item" @click.stop="showTask(props.row)">
                                         <strong>
-                                            {{ translations.shared.edit }}
+                                            {{ translations.core.view_btn_edit }}
                                         </strong>
                                     </li>
                                     <span v-if="props.row.editable && abilities.tasks.update">
                                         <li class="menu-item" v-for="status in props.row.next_workflow_statuses" :key="status.id" @click.stop="putTaskStatus(props.row, status)">
                                             <strong>
-                                                {{object_utils.translateEnum(translations.workflows, 'status', status.name)}}
+                                                {{object_utils.translateEnum(translations.core, 'column_enum_status', status.name)}}
                                             </strong>
                                         </li>
                                     </span>
                                     <li v-if="abilities.tasks.create" class="menu-item" @click.stop="cloneTask(props.row)">
                                         <strong>
-                                            {{ translations.shared.clone }}
+                                            {{ translations.tasks.view_btn_clone }}
                                         </strong>
                                     </li>
                                     <li v-if="props.row.editable && abilities.tasks.destroy" class="menu-item" @click.stop="deleteTask(props.row)">
                                         <strong>
-                                            {{ translations.shared.text_delete }}
+                                            {{ translations.core.view_btn_delete }}
                                         </strong>
                                     </li>
                                 </span>
