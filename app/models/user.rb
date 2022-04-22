@@ -497,16 +497,9 @@ class User < ApplicationLesliRecord
             :email,
             :current_sign_in_at,
             "false as editable",
-            "CONCAT(ud.first_name, ' ',ud.last_name) as name"
+            "CONCAT(ud.first_name, ' ',ud.last_name) as name",
+            "role_names as roles"
         )
-
-        if params[:exclude] != "roles"
-            users = users.select(
-                "role_names as roles"
-            )
-        end
-
-        users
     end
 
 
