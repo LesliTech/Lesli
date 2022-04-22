@@ -67,7 +67,7 @@ export default {
             options_ready: false,
             options: {},
             translations: {
-                shared: I18n.t('deutscheleibrenten.shared')
+                tasks: I18n.t('focus.tasks')
             },
             active_tab: 1,
             main_tab_name: 'tasks'
@@ -170,7 +170,7 @@ export default {
 <template lang="">
     <section>
         <b-tabs :expanded="true" v-model="active_tab">
-            <b-tab-item :label="translations.shared.new">
+            <b-tab-item :label="translations.tasks.view_title_new">
                 <task-form
                     v-if="options_ready && users_ready"
                     :options="options"
@@ -179,7 +179,7 @@ export default {
                     :engine-endpoint="engineEndpoint"
                 />
             </b-tab-item>
-            <b-tab-item :label="translations.shared.all">
+            <b-tab-item :label="translations.tasks.view_tab_title_all">
                 <task-list
                     v-if="options_ready && users_ready"
                     :options="options"

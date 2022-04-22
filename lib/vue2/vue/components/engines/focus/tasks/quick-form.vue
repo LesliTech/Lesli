@@ -64,8 +64,8 @@ export default {
             submitting_form: false,
             lesli: lesli,
             translations: {
-                tasks: I18n.t('deutscheleibrenten.tasks'),
-                shared: I18n.t('deutscheleibrenten.shared'),
+                tasks: I18n.t('focus.tasks'),
+                core: I18n.t('core.shared'),
                 focus: {
                     tasks: I18n.t('focus.tasks')
                 }
@@ -114,7 +114,7 @@ export default {
             this.http.post(url, data).then(result => {
                 this.submitting_form = false
                 if (result.successful) {
-                    this.msg.success(this.translations.tasks.notification_task_created)
+                    this.msg.success(this.translations.tasks.messages_success_task_created)
                     this.clearFields();
                     this.bus.publish('get:/focus/tasks', result.data)
                     this.bus.publish('new:/focus/task')
@@ -153,7 +153,7 @@ export default {
                         <div class="column is-half">
                             <!-- Title -->
                             <div class="field">
-                                <label class="label">{{ translations.tasks.form_task_title }}<sup class="has-text-danger">*</sup></label>
+                                <label class="label">{{ translations.tasks.column_title }}<sup class="has-text-danger">*</sup></label>
                                 <div class="control">
                                     <input required v-model="task.detail_attributes.title" class="input" :name="`${parseModelType()}_task_title`" type="text" >
                                 </div>
@@ -163,9 +163,9 @@ export default {
                         <div class="column is-half">
                             <!-- Type -->
                             <div class="field">
-                                <label class="label">{{ translations.tasks.form_task_type }}<sup class="has-text-danger">*</sup></label>
+                                <label class="label">{{ translations.tasks.column_cloud_focus_catalog_task_types_id }}<sup class="has-text-danger">*</sup></label>
                                 <b-select
-                                    :placeholder="translations.shared.text_select_option"
+                                    :placeholder="translations.core.view_placeholder_select_option"
                                     v-model="task.cloud_focus_catalog_task_types_id"
                                     required
                                     expanded
@@ -187,7 +187,7 @@ export default {
                             <!-- Deadline -->
                             <div class="field">
                                 <label class="label">
-                                    {{ translations.tasks.form_task_deadline }}
+                                    {{ translations.tasks.column_deadline }}
                                     <sup class="has-text-danger">*</sup>
                                 </label>
                                 <div class="control">
@@ -202,7 +202,7 @@ export default {
                                                 class="input is-default"
                                                 v-on="inputEvents"
                                                 :value="inputValue"
-                                                :placeholder="translations.shared.text_select_date"
+                                                :placeholder="translations.core.view_placeholder_select_date"
                                                 required
                                             />
                                         </template>
@@ -215,7 +215,7 @@ export default {
                             <!-- Importance -->
                             <div class="field">
                                 <label class="label">
-                                    {{ translations.tasks.form_task_importance }}
+                                    {{ translations.tasks.column_importance }}
                                     <sup class="has-text-danger">*</sup>
                                 </label>
                                 <b-radio
@@ -226,7 +226,7 @@ export default {
                                     name="tasks-new-importance"
                                     :native-value="importance.value"
                                     required>
-                                    {{ object_utils.translateEnum(translations.focus.tasks, 'column_enum_task_importance', importance.text) }}
+                                    {{ object_utils.translateEnum(translations.tasks, 'column_enum_task_importance', importance.text) }}
                                 </b-radio>
                             </div>
                         </div>
@@ -267,12 +267,12 @@ export default {
                     </div>
 
                     <div class="field">
-                        <label class="label">{{ translations.shared.send_email }}</label>
+                        <label class="label">{{ translations.tasks.view_title_send_email }}</label>
                         <b-checkbox v-model="task.send_email"></b-checkbox>
                     </div>
 
                     <div class="field">
-                        <label class="label">{{ translations.tasks.form_task_description }}</label>
+                        <label class="label">{{ translations.tasks.column_description }}</label>
                         <div class="control">
                             <textarea v-model="task.detail_attributes.description" class="textarea" rows="6"></textarea>
                         </div>
@@ -284,10 +284,10 @@ export default {
                             <span v-if="submitting_form">
                                 <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
                                 &nbsp;
-                                {{translations.shared.btn_saving}}
+                                {{translations.core.view_btn_saving}}
                             </span>
                             <span v-else>
-                                {{translations.shared.btn_save}}
+                                {{translations.core.view_btn_save}}
                             </span>
                         </button>
                     </p>
