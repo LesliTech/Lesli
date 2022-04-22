@@ -24,6 +24,7 @@ For more information read the license file including with this software.
 // · Templates
 //= link templates/public.css 
 //= link templates/application.css 
+//= link templates/application3.css
 
 
 // · Themes

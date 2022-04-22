@@ -33,10 +33,10 @@ For more information read the license file including with this software.
 
 
 // · Include Bulma 
-@import "./lesli/bulma/elements.scss";
-@import "./lesli/bulma/components.scss";
-@import "./lesli/bulma/extensions.scss";
-@import "./lesli/bulma/loader.scss";
+@import "./lesli/bulma/elements";
+@import "./lesli/bulma/components";
+@import "./lesli/bulma/extensions";
+@import "./lesli/bulma/loader";
 
 
 
@@ -48,28 +48,28 @@ For more information read the license file including with this software.
 
 // · Loading components, settings and helpers
 @import "./lesli/helpers/display";
-@import "./lesli/settings/remixicons.scss";
+@import "./lesli/fonts/remixicons";
 
 
 
 // · Loading app layout 
-@import "./lesli/layout/application-header.scss";
-@import "./lesli/layout/application-engines.scss";
-@import "./lesli/layout/application-sidebar.scss";
-@import "./lesli/layout/application-notices.scss";
-@import "./lesli/layout/application-component.scss";
-@import "./lesli/layout/application-footer.scss";
-@import "./lesli/layout/application-search.scss";
+@import "./lesli/layout/application-header";
+@import "./lesli/layout/application-engines";
+@import "./lesli/layout/application-sidebar";
+@import "./lesli/layout/application-notices";
+@import "./lesli/layout/application-component";
+@import "./lesli/layout/application-footer";
+@import "./lesli/layout/application-search";
 
-@import "./lesli/panels/panel-template.scss";
-@import "./lesli/panels/panel-announcement.scss";
-@import "./lesli/panels/panel-notification.scss";
-@import "./lesli/panels/panel-support.scss";
-@import "./lesli/panels/panel-viewer.scss";
+@import "./lesli/panels/panel-template";
+@import "./lesli/panels/panel-announcement";
+@import "./lesli/panels/panel-notification";
+@import "./lesli/panels/panel-support";
+@import "./lesli/panels/panel-viewer";
 
-@import "./lesli/components/component-data.scss";
-@import "./lesli/components/component-header.scss";
-@import "./lesli/components/component-toolbar.scss";
+@import "./lesli/components/component-data";
+@import "./lesli/components/component-header";
+@import "./lesli/components/component-toolbar";
 
 
 // · 
