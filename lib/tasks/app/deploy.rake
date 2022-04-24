@@ -25,8 +25,8 @@ namespace :app do
 
         desc "Sends a first access link to 'owner' users for new accounts"
         task send_first_access_links: :environment do
-            instance = Rails.application.config.lesli["instance"][:name]
-            account = Account.find_by(company_name: Rails.application.config.lesli["account"]["company"]["name"])
+            instance = Rails.application.config.lesli[:instance][:name]
+            account = Account.find_by(company_name: Rails.application.config.lesli[:account][:company][:name])
 
             next unless account
             next unless instance == "Lesli" || instance == "LesliCloud"

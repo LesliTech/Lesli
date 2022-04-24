@@ -52,18 +52,18 @@ module ApplicationHelper
     def is_lesli_instance?(instance=nil, engine=nil)
 
         # return instance name
-        return Rails.application.config.lesli["info"]["name"] if instance.blank? and engine.blank?
+        return Rails.application.config.lesli[:info][:name] if instance.blank? and engine.blank?
 
         # current engine id
         current_engine = controller_path.split('/')[0]
 
         # validate instance
-        if Rails.application.config.lesli["info"]["name"] == instance and engine.blank?
+        if Rails.application.config.lesli[:info][:name] == instance and engine.blank?
             return true
         end
 
         # validate instance and engine
-        if Rails.application.config.lesli["info"]["name"] == instance and current_engine == engine
+        if Rails.application.config.lesli[:info][:name] == instance and current_engine == engine
             return true
         end
 

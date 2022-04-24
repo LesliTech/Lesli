@@ -22,7 +22,7 @@ def create_development_user dev_user, password=nil
 
     # get password
     if password.blank?
-        password = Rails.application.config.lesli["security"]["password"]["development"]
+        password = Rails.application.config.lesli[:security][:password][:development]
         password = password + Time.now.year.to_s + "$"
     end
 
@@ -33,7 +33,7 @@ def create_development_user dev_user, password=nil
     salutation = dev_user[1]
     first_name = dev_user[2]
 
-    account = Account.find_by(company_name: Rails.application.config.lesli["account"]["company"]["name"])
+    account = Account.find_by(company_name: Rails.application.config.lesli[:account][:company][:name])
 
     # create development users if email is not registered yet
     ::User.find_or_create_by(email: email) do |user|
@@ -54,7 +54,7 @@ def create_development_user dev_user, password=nil
         user.account.save!
 
         if user
-            user.settings.create(:name => 'locale', :value => Rails.application.config.lesli["env"]["default_locale"]) # add locale
+            user.settings.create(:name => 'locale', :value => Rails.application.config.lesli[:env][:default_locale]) # add locale
         end
     end
 end

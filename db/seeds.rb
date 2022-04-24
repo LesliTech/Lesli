@@ -27,11 +27,11 @@ load "#{Rails.root}/db/seed/#{Rails.env.downcase}.rb"
 # exec rake standard deploy task
 Rake.application.invoke_task("app:deploy:after")
 
-if Rails.application.config.lesli["instance"] != "Lesli"
+if Rails.application.config.lesli[:instance] != "Lesli"
 
     # Every instance (builder module) is loaded into the platform using the same 
     # name of the engine
-    instance_klass = Rails.application.config.lesli["instance"][:name].safe_constantize
+    instance_klass = Rails.application.config.lesli[:instance][:name].safe_constantize
 
     # If instance account class exists
     if instance_klass && instance_klass.to_s != "Lesli"
