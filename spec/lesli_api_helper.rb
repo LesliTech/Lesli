@@ -26,7 +26,7 @@ require 'support/helpers/response_helper'
 # · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 RSpec.shared_context 'request api authentication' do 
 
-    password = Rails.application.config.lesli_settings["security"]["password"]["development"]
+    password = Rails.application.config.lesli["security"]["password"]["development"]
     password = password + Time.now.year.to_s + "$"
 
     @token = nil

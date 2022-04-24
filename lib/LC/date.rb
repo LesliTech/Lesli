@@ -210,7 +210,7 @@ module LC
         protected
         
         def self.reset_settings
-            @settings = Rails.application.config.lesli_settings["configuration"]["datetime"]
+            @settings = Rails.application.config.lesli["configuration"]["datetime"]
             @settings_loaded = true
             
             @settings

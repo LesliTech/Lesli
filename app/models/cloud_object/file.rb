@@ -184,8 +184,8 @@ class CloudObject::File < ApplicationLesliRecord
     #     CloudHouse::Project::File.size_threshould # This will display the configured size threshould
     def self.size_threshold
 
-        lesli_files_settings = Rails.application.config.lesli_settings["configuration"]["files"]
-        lesli_size_threshold = Rails.application.config.lesli_settings["configuration"]["files"]["size_threshold"] if lesli_files_settings
+        lesli_files_settings = Rails.application.config.lesli["configuration"]["files"]
+        lesli_size_threshold = Rails.application.config.lesli["configuration"]["files"]["size_threshold"] if lesli_files_settings
 
         return lesli_size_threshold if lesli_size_threshold
 

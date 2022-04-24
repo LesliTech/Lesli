@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 
 # get settings
-company = Rails.application.config.lesli_settings["account"]["company"]
+company = Rails.application.config.lesli["account"]["company"]
 
 
 # create account

@@ -95,7 +95,7 @@ class Account < ApplicationRecord
         self.role_descriptors.find_or_create_by(name: "profile")
 
         # create default roles
-        account_roles = Rails.application.config.lesli_settings["security"]["roles"] || []
+        account_roles = Rails.application.config.lesli["security"]["roles"] || []
         account_roles.append "api"       # api-access only
         account_roles.append "guest"     # read-only
         account_roles.append "limited"   # access only to user profile
@@ -309,7 +309,7 @@ class Account < ApplicationRecord
 
         # Every instance (builder module) is loaded into the platform using the same
         # name of the engine
-        instance = Rails.application.config.lesli_settings["instance"][:name]
+        instance = Rails.application.config.lesli["instance"][:name]
 
 
         # Build an account class base on instance (engine) name

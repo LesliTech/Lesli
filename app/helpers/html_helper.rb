@@ -27,7 +27,7 @@ module HtmlHelper
     def website_title
 
         title = @application_html_title || controller_path.gsub("cloud","").gsub("_", "")
-        title_prefix = Rails.application.config.lesli_settings["account"]["website"]["title_prefix"]
+        title_prefix = Rails.application.config.lesli.dig(:account, :website, :title_prefix)
 
         ("<title>" + title_prefix + " · " + title + "</title>").html_safe
 
@@ -43,7 +43,7 @@ module HtmlHelper
     end
 
     def language_name(locale)
-        Rails.application.config.lesli_settings["configuration"]["locales_available"][locale.to_s] || "undefined"
+        Rails.application.config.lesli["configuration"]["locales_available"][locale.to_s] || "undefined"
     end
 
     def lesli_icon(name)

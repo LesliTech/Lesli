@@ -39,9 +39,9 @@ For more information read the license file including with this software.
     <% end %>
 
     <%# Context message, set this message at the root of the lesli.yml or lesli.server.yml file Ej: context: "Hallo"%>
-    <% unless Rails.application.config.lesli_settings['context'].blank? %>
+    <% unless Rails.application.config.lesli['context'].blank? %>
     <p v-cloak class="has-background-warning has-text-centered py-2">
-        <%= Rails.application.config.lesli_settings['context'] %>
+        <%= Rails.application.config.lesli['context'] %>
     </p>
     <% end %>
 

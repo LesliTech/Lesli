@@ -28,7 +28,7 @@ RSpec.describe Courier::Bell::Notification, type: :model do
     before(:all) do
         return unless defined? CloudBell
 
-        @account = User.find_by(email: Rails.application.config.lesli_settings["account"]["user"]["email"]).account # instance of account
+        @account = User.find_by(email: Rails.application.config.lesli["account"]["user"]["email"]).account # instance of account
 
         # create user
         password = Faker::Internet.password
