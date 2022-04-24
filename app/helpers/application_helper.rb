@@ -19,14 +19,18 @@ For more information read the license file including with this software.
 
 module ApplicationHelper
 
+    # retun the code of the instance builder engine
+    # example: lesli_cloud, deutsche_leibrenten, mitwerken_cloud
     def lesli_instance_code()
         LC::System::Info.instance[:code]
     end
 
+    # return the engine code of the controller that is handling the http request
     def lesli_engine()
         controller_path.split('/')[0]
     end
 
+    # return true if the controller requested belongs to the administration area
     def is_lesli_engine_administration?
         [
             "accounts", "account", "roles", "profiles", "users", "abouts", 
@@ -34,6 +38,7 @@ module ApplicationHelper
         ].include?(lesli_engine)
     end
 
+    # return true if the controller belongs to an engine nor to builder or administration area
     def is_lesli_engine?(engine=nil)
         current_engine = lesli_engine
         return current_engine == engine if not engine.blank?
@@ -49,6 +54,7 @@ module ApplicationHelper
         return lesli_engine
     end
 
+    # check if instance or engine is a builder
     def is_lesli_instance?(instance=nil, engine=nil)
 
         # return instance name
@@ -73,10 +79,12 @@ module ApplicationHelper
 
     # Prints the name of the engine
     def engine_name
-        lesli_engine_or_instance().sub("_cloud", "").camelize
+        lesli_engine_or_instance().sub("_cloud", "").sub("cloud_", "").camelize
     end
 
+    # DEPRECATED: used the
     def integration_access_token(integration_name)
+        LC::Debug.deprecation("Use Rails.application.credentials directly where it needs to be used")
         return Rails.application.credentials.integrations[integration_name][:access_token]
     end
 

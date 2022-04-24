@@ -23,7 +23,10 @@ module AssetsHelper
 
         template = "application"
 
-        if ["lesli_cloud"].include?(lesli_engine)
+        if [
+            "lesli_cloud", 
+            "cloud_audit"
+        ].include?(lesli_engine)
             template = "application3"
         end 
 
