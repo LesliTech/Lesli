@@ -43,7 +43,7 @@ module HtmlHelper
     end
 
     def language_name(locale)
-        Rails.application.config.lesli["configuration"]["locales_available"][locale.to_s] || "undefined"
+        Rails.application.config.lesli.dig(:configuration, :locales_available, locale.to_s) || "undefined"
     end
 
     def lesli_icon(name)

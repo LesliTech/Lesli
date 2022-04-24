@@ -25,7 +25,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
 
     before :each do
         request.env["devise.mapping"] = Devise.mappings[:user]
-        @allow_registration =  Rails.application.config.lesli["security"]["allow_registration"]
+        @allow_registration =  Rails.application.config.lesli[:security][:allow_registration]
     end
 
     it "Create a new standard user" do

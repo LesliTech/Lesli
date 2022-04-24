@@ -27,7 +27,7 @@ class UserRegistrationService
         return LC::Response.service(false, I18n.t("core.users.messages_info_user_already_belongs_to_account")) if @resource.account
 
         # check if instance is for multi-account
-        allow_multiaccount = Rails.application.config.lesli["security"]["allow_multiaccount"]
+        allow_multiaccount = Rails.application.config.lesli[:security][:allow_multiaccount]
 
         # create new account for the new user only if multi-account is allowed
         if allow_multiaccount == true

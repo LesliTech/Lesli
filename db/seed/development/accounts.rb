@@ -19,12 +19,12 @@ For more information read the license file including with this software.
 
 
 # get settings
-company = Rails.application.config.lesli["account"]["company"]
+company = Rails.application.config.lesli[:account][:company]
 
 
 # create account
-Account.find_or_create_by(company_name: company["name"]) do |account|
-    account.company_tag_line = company["tag_line"]
+Account.find_or_create_by(company_name: company[:name]) do |account|
+    account.company_tag_line = company[:tag_line]
     account.registered!
 end
 

@@ -35,15 +35,14 @@ module AssetsHelper
 
         theme = "themes/blank"
 
-        unless Rails.application.config.lesli["configuration"]["theme"].blank?
-            theme = [
-                "themes",
-                Rails.application.config.lesli["configuration"]["theme"],
-                Rails.application.config.lesli["configuration"]["theme"]
-            ].join("/")
-        end
+        # check if instance has a custom theme defined
+        custom = Rails.application.config.lesli.dig(:configuration, :theme)
 
-        theme
+        # if not cusotm theme defined, use an emtpy theme
+        return theme if custom.blank?
+
+        # build and return custom theme
+        ["themes", custom, custom].join("/")
 
     end
 

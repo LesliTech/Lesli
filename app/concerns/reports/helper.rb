@@ -135,7 +135,7 @@ module Reports
             #     puts date_format
             #     # This will display dd\mm\yyyy
             def self.date_format
-                date_format = Rails.application.config.lesli["configuration"]["datetime"]["date_format"]
+                date_format = Rails.application.config.lesli.dig(:configuration, :datetime, :date_format)
 
                 unless date_format.blank?
                     date_format = date_format.gsub("%Y", "yyyy")
@@ -153,7 +153,7 @@ module Reports
             #     puts datetime_format
             #     # This will display dd\mm\yyyy hh:mm
             def self.datetime_format
-                date_format = Rails.application.config.lesli["configuration"]["datetime"]["date_format_time"]
+                date_format = Rails.application.config.lesli.dig(:configuration, :datetime, :date_format_time)
 
                 unless date_format.blank?
                     date_format = date_format.gsub("%Y", "yyyy")

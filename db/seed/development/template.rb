@@ -17,7 +17,7 @@ For more information read the license file including with this software.
 
 =end
 
-account = Account.find_by(company_name: Rails.application.config.lesli["account"]["company"]["name"])
+account = Account.find_by(company_name: Rails.application.config.lesli[:account][:company][:name])
 # Project variables
 
     # Main owner customer

@@ -33,7 +33,7 @@ class User::ShortcutsController < ApplicationLesliController
         return respond_with_error unless @current_user.shortcuts.new(user_shortcut_params).valid?
 
         # get the website title prefix from the lesli.yml file
-        title_prefix = Rails.application.config.lesli["account"]["website"]["title_prefix"] || ""
+        title_prefix = Rails.application.config.lesli.dig(:account, :website, :title_prefix)
 
         # remove the default prefix from the final shortcutname
         shortcut_name = (user_shortcut_params[:name]).gsub("#{ title_prefix } · ", "")
