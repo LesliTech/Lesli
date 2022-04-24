@@ -207,7 +207,7 @@ class UsersController < ApplicationLesliController
         end
 
         # Allow only sysadmin to become as user
-        return respond_with_unauthorized if current_user.email != Rails.application.config.lesli.dig(:account, :user :email"] # sysadmin user
+        return respond_with_unauthorized if current_user.email != Rails.application.config.lesli.dig(:account, :user, :email) # sysadmin user
 
         # Search for desire user
         becoming_user = User.find(params[:id])
