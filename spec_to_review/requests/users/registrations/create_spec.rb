@@ -38,7 +38,7 @@ RSpec.describe "POST:/", type: :request do
         post "/", params: { user: @registration }
     end
 
-    if Rails.application.config.lesli_settings["security"]["allow_registration"]
+    if Rails.application.config.lesli["security"]["allow_registration"]
         it "is expected to respond with successful standard json response" do
             expect_json_response_successful
         end
@@ -71,7 +71,7 @@ RSpec.describe "POST:/", type: :request do
         post "/", params: { user: @registration }
     end
 
-    if Rails.application.config.lesli_settings["security"]["allow_registration"]
+    if Rails.application.config.lesli["security"]["allow_registration"]
         it "is expected to respond with error standard json response" do
             expect_json_response_error
         end
@@ -109,7 +109,7 @@ RSpec.describe "POST:/", type: :request do
         post "/", params: { user: @registration }
     end
 
-    if Rails.application.config.lesli_settings["security"]["allow_registration"]
+    if Rails.application.config.lesli["security"]["allow_registration"]
         it "is expected to respond with error standard json response" do
             expect_json_response_error
         end

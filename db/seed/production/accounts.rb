@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 =end
 
 # get settings
-company = Rails.application.config.lesli_settings["account"]["company"]
+company = Rails.application.config.lesli["account"]["company"]
 
 # create account
 model = Account.find_or_create_by(company_name: company["name"]) do |account|

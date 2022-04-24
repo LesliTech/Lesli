@@ -27,7 +27,7 @@ module LC
 
             # NOTE: user should be able to change this through settings table
             # get initial datetime configuration
-            config = Rails.application.config.lesli_settings["configuration"]["datetime2"]
+            config = Rails.application.config.lesli["configuration"]["datetime2"]
 
 
             # NOTE: Do not modify settings here,

@@ -31,7 +31,7 @@ RSpec.describe "POST:/administration/users/:id/shortcuts.json", type: :request d
     let!(:shortcut_params) { attributes_for(:shortcut) }
 
     let(:shortcut) do
-        title_prefix = Rails.application.config.lesli_settings["account"]["website"]["title_prefix"] || ""
+        title_prefix = Rails.application.config.lesli["account"]["website"]["title_prefix"] || ""
         shortcut_name = (shortcut_params[:name]).gsub("#{ title_prefix } · ", "")
 
         @user_shortcut = @current_user.shortcuts

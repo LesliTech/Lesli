@@ -46,6 +46,6 @@ class Profile::SubscriptionsController < ApplicationLesliController
     protected
 
     def set_builder_model
-        @builder_model = "#{Rails.application.config.lesli_settings["info"]["name"]}::Profile::Subscription".safe_constantize
+        @builder_model = "#{Rails.application.config.lesli["info"]["name"]}::Profile::Subscription".safe_constantize
     end
 end

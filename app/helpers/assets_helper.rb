@@ -35,11 +35,11 @@ module AssetsHelper
 
         theme = "themes/blank"
 
-        unless Rails.application.config.lesli_settings["configuration"]["theme"].blank?
+        unless Rails.application.config.lesli["configuration"]["theme"].blank?
             theme = [
                 "themes",
-                Rails.application.config.lesli_settings["configuration"]["theme"],
-                Rails.application.config.lesli_settings["configuration"]["theme"]
+                Rails.application.config.lesli["configuration"]["theme"],
+                Rails.application.config.lesli["configuration"]["theme"]
             ].join("/")
         end
 
