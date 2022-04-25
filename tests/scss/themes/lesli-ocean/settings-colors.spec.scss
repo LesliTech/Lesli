@@ -26,8 +26,17 @@ For more information read the license file including with this software.
 // · 
 @include describe("themes/lesli-ocean/settings/colors") {
 
-    @include it("should return the color lesli from blues pallete") {
-        @include assert-equal(lesli-css-color-theme(lesli, blues), #214FBD);
+    $blues:
+    "lesli" #214FBD,
+    "sea" #2F478D,
+    "navy" #112A62,
+    "faded" #EBF1FF,
+    "easy" #7E9BF1;
+    
+    @each $name, $color in $blues {
+        @include it("should return the color #{$name} from blues pallete") {
+            @include assert-equal(lesli-css-color-theme($name, blues), $color);
+        }
     }
 
 }

@@ -27,22 +27,28 @@ For more information read the license file including with this software.
 // · 
 @function lesli-css-color-theme($variant, $pallete: "app") {
 
+    $lesli: #214FBD;
+    $sea: #2F478D;
+    $navy: #112A62;
+    $faded: #EBF1FF;
+    $easy: #7E9BF1;
+
+    $blues: (
+        lesli: $lesli,
+        sea: $sea,
+        "navy": $navy,
+        faded: $faded,
+        easy: $easy
+    );
+
     $app: (
-        primary: #181f48,
+        primary: $navy,
         secondary: #172347,
         complement_one:  #62cab6,
         complement_two:  #55b997,
         complement_three:#3a925b,
         complement_gray_light: #f1f1f1,
         complement_blue_light: #edf6ff
-    );
-
-    $blues: (
-        lesli: #214FBD,
-        sea: #2F478D,
-        navy: #112A62,
-        faded: #EBF1FF,
-        easy: #7E9BF1
     );
 
     $collections: (

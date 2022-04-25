@@ -26,6 +26,14 @@ For more information read the license file including with this software.
 }
 
 
+// · Font family to emphasizing texts
+@font-face {
+    font-family: "Exo";
+    src: font-url("Exo/Exo-Variable.ttf") format("truetype");
+    font-display: swap;
+}
+
+
 // · Font family for the body
 @font-face {
     font-family: "Open Sans";
