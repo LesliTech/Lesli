@@ -59,6 +59,9 @@ export default {
         },
         name: {
             default: null
+        },
+        tabindex: {
+            default: null
         }
     },
 
@@ -128,13 +131,13 @@ export default {
         },
 
         select(user) {
-            this.$emit('select', user)
+            this.$emit("select", user)
             this.$nextTick(()=>{
                 clearTimeout(this.timer)
                 if(! this.disabled){
-                    try{
+                    if(this.$refs.autocomplete){
                         this.$refs.autocomplete.checkHtml5Validity()
-                    }catch(error){ }
+                    }
                 }
             })
         },
@@ -206,6 +209,7 @@ export default {
                 @blur="clearUser"
                 @input="search()"
                 :open-on-focus="focus"
+                :tabindex="tabindex"
                 :placeholder="placeholder"
                 clearable
                 :id="id"
