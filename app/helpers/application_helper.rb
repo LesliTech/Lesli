@@ -82,7 +82,8 @@ module ApplicationHelper
         lesli_engine_or_instance().sub("_cloud", "").sub("cloud_", "").camelize
     end
 
-    # DEPRECATED: used the
+    # DEPRECATED: used the credentials method directly where you need credentials
+    # currently we do not allow helpers or any other method to access credentials for us
     def integration_access_token(integration_name)
         LC::Debug.deprecation("Use Rails.application.credentials directly where it needs to be used")
         return Rails.application.credentials.integrations[integration_name][:access_token]
