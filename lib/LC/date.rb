@@ -32,12 +32,12 @@ module LC
         # if you need a different date format you should change it in the settings
         # Please read the documentation stored in core/docs/leslicommand-date.md for more information
         @settings = {
-            "date_format" => "%d.%m.%Y", 
-            "date_format_full" => "%a, %B %d, %Y", 
-            "date_format_time" => "%d.%m.%Y %H:%M", 
-            "time_format" => "%H:%M", 
-            "time_zone" => "Europe/Berlin", 
-            "start_week_on" => "monday"
+            :date_format => "%d.%m.%Y", 
+            :date_format_full => "%a, %B %d, %Y", 
+            :date_format_time => "%d.%m.%Y %H:%M", 
+            :time_format => "%H:%M", 
+            :time_zone => "Europe/Berlin", 
+            :start_week_on => "monday"
         }
         @settings_loaded = false
 
@@ -100,7 +100,7 @@ module LC
             self.verify_settings
             
             zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
-            datetime_object.in_time_zone(zone).strftime(@settings["date_format"])
+            datetime_object.in_time_zone(zone).strftime(@settings[:date_format])
         end
  
         def self.to_string_datetime(datetime_object)
@@ -109,7 +109,7 @@ module LC
             self.verify_settings
             
             zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
-            datetime_object.in_time_zone(zone).strftime(@settings["date_format_time"])
+            datetime_object.in_time_zone(zone).strftime(@settings[:date_format_time])
         end
  
         def self.to_string_datetime_words(datetime_object, date_format_full = nil)
@@ -120,7 +120,7 @@ module LC
 
             return I18n.l(datetime_object.in_time_zone(zone), format: date_format_full) if date_format_full
 
-            I18n.l(datetime_object.in_time_zone(zone), format: @settings["date_format_full"])
+            I18n.l(datetime_object.in_time_zone(zone), format: @settings[:date_format_full])
         end
  
         def self.to_string_time(datetime_object)
@@ -128,7 +128,7 @@ module LC
             self.verify_settings
             
             zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
-            datetime_object.in_time_zone(zone).strftime(@settings["time_format"])
+            datetime_object.in_time_zone(zone).strftime(@settings[:time_format])
         end
 
         def self.beginning_of_month
@@ -223,7 +223,7 @@ module LC
 
         def self.db_format
             self.verify_settings
-            format = @settings["date_format"]
+            format = @settings[:date_format]
             format = format.gsub("%Y", "YYYY")
             format = format.gsub("%m", "MM")
             format = format.gsub("%d", "DD")
