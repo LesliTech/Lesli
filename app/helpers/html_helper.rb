@@ -46,7 +46,7 @@ module HtmlHelper
 
     # return the name of the language
     def language_name(locale)
-        Rails.application.config.lesli.dig(:configuration, :locales_available, locale.to_s) || "undefined"
+        Rails.application.config.lesli.dig(:configuration, :locales_available, locale.to_sym) || "undefined"
     end
 
     # return an lesli svg icon path
