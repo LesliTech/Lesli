@@ -29,8 +29,16 @@ export default {
             type: Array,
             required: true
         },
+        includeTitle: {
+            type: Boolean,
+            default: true
+        },
         required: {
             default: false
+        },
+        size: {
+            type: String,
+            default: 'is-medium'
         },
         field: {
             default: 'name'
@@ -189,16 +197,19 @@ export default {
 <template>
     <b-field v-if="ready">
         <template v-slot:label>
-            <span v-if="title">
-                {{ title }}
+            <span v-if="includeTitle">
+                <span v-if="title">
+                    {{ title }}
+                </span>
+                <span v-else>
+                    {{translations.core.view_placeholder_select_employee}}
+                </span>
+                <sup class="has-text-danger" v-if="required">*</sup>
             </span>
-            <span v-else>
-                {{translations.core.view_placeholder_select_employee}}
-            </span>
-            <sup class="has-text-danger" v-if="required">*</sup>
         </template>
         <div class="control">
             <b-autocomplete
+                :size="size"
                 v-if="! disabled"
                 ref="autocomplete"
                 v-model="user_input"
