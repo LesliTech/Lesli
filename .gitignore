@@ -8,7 +8,6 @@
 .DS_store
 Gemfile.lock
 lesli.server.yml
-package-lock.json
 yarn.lock
 /node_modules
 /lib/vue2/node_modules
