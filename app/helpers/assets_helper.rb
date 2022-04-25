@@ -25,7 +25,8 @@ module AssetsHelper
 
         if [
             "lesli_cloud", 
-            "cloud_audit"
+            "cloud_audit",
+            "cloud_development"
         ].include?(lesli_engine)
             template = "application3"
         end 
