@@ -193,7 +193,7 @@ export default {
 <template>
     <b-field v-if="ready">
         <template v-slot:label>
-            <span v-if="title.length > 0">
+            <span v-if="title && title.length > 0">
                 {{ title }}
                 <sup class="has-text-danger" v-if="required">*</sup>
             </span>
