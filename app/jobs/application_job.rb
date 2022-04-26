@@ -9,7 +9,7 @@ class ApplicationJob < ActiveJob::Base
     # this is disabled by default in the settings file
     def log_account_activity system_module, system_process, description=nil, payload=nil
 
-        return if !Rails.application.config.lesli_settings["security"]["log_activity"]
+        return if !Rails.application.config.lesli[:security][:log_activity]
 
         Account.first.activities.create({
             system_module: system_module,

@@ -28,7 +28,7 @@ class ApplicationLesliMailer < ActionMailer::Base
 
         from: -> { 
             
-            instance = Rails.application.config.lesli_settings["instance"]
+            instance = Rails.application.config.lesli[:instance]
 
             # add custom email name for emails sent from www.lesli.cloud
             if instance[:code] == 'lesli_cloud' 
@@ -44,7 +44,7 @@ class ApplicationLesliMailer < ActionMailer::Base
 
         template_path: -> { 
 
-            instance = Rails.application.config.lesli_settings["instance"]
+            instance = Rails.application.config.lesli[:instance]
 
             # get class that is executing the mailer
             module_info = self.class.name.split("::")
@@ -93,7 +93,7 @@ class ApplicationLesliMailer < ActionMailer::Base
 
     def build_customization_from_params(params)
 
-        instance = Rails.application.config.lesli_settings["instance"]
+        instance = Rails.application.config.lesli[:instance]
 
         # lesli is the code used for the core. If there are no builder engines,
         # the instance namespace is "/"
@@ -119,7 +119,7 @@ class ApplicationLesliMailer < ActionMailer::Base
     def build_app_from_params(params)
 
         @app[:host] = default_url_options[:host]
-        @app[:instance] = Rails.application.config.lesli_settings["instance"]
+        @app[:instance] = Rails.application.config.lesli[:instance]
         @app[:company] = {
             id: 0,
             name: "",

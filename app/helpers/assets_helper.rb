@@ -23,7 +23,11 @@ module AssetsHelper
 
         template = "application"
 
-        if ["lesli_cloud"].include?(lesli_engine)
+        if [
+            "lesli_cloud", 
+            "cloud_audit",
+            "cloud_development"
+        ].include?(lesli_engine)
             template = "application3"
         end 
 
@@ -35,15 +39,14 @@ module AssetsHelper
 
         theme = "themes/blank"
 
-        unless Rails.application.config.lesli_settings["configuration"]["theme"].blank?
-            theme = [
-                "themes",
-                Rails.application.config.lesli_settings["configuration"]["theme"],
-                Rails.application.config.lesli_settings["configuration"]["theme"]
-            ].join("/")
-        end
+        # check if instance has a custom theme defined
+        custom = Rails.application.config.lesli.dig(:configuration, :theme)
 
-        theme
+        # if not cusotm theme defined, use an emtpy theme
+        return theme if custom.blank?
+
+        # build and return custom theme
+        ["themes", custom, custom].join("/")
 
     end
 
