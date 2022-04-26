@@ -27,31 +27,31 @@ module LC
 
             # NOTE: user should be able to change this through settings table
             # get initial datetime configuration
-            config = Rails.application.config.lesli_settings["configuration"]["datetime2"]
+            config = Rails.application.config.lesli[:configuration][:datetime2]
 
 
             # NOTE: Do not modify settings here,
             # if you need a different date format you should change it in the config file
             # Check the docs for more information: /development/docs/rails-lib-time
             @settings = {
-                "time_zone" => config["time_zone"],
-                "start_week_on" => config["start_week_on"],
-                "format": {
-                    "date" => "%d.%m.%Y",
-                    "time" => "%H:%M",
-                    "date_time" => "%d.%m.%Y %H:%M",
-                    "date_words" => "%A, %B %d, %Y",
-                    "date_time_words" => "%A, %B %d, %Y, %H:%M",
+                :time_zone => config[:time_zone],
+                :start_week_on => config[:start_week_on],
+                :format => {
+                    :date => "%d.%m.%Y",
+                    :time => "%H:%M",
+                    :date_time => "%d.%m.%Y %H:%M",
+                    :date_words => "%A, %B %d, %Y",
+                    :date_time_words => "%A, %B %d, %Y, %H:%M",
                 }
             }
 
 
             # default date format
-            @format = set_format("date")
+            @format = set_format(:date)
 
 
             # get a valid timezone
-            @zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
+            @zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
 
 
             # get datetime object from user params
@@ -61,31 +61,31 @@ module LC
 
         # set date format and return Date2 instance
         def date
-            set_format("date")
+            set_format(:date)
             self
         end
 
         # set time format and return Date2 instance
         def time
-            set_format("time")
+            set_format(:time)
             self
         end
 
         # set date_time format and return Date2 instance
         def date_time
-            set_format("date_time")
+            set_format(:date_time)
             self
         end
 
         # set date_words format and return Date2 instance
         def date_words
-            set_format("date_words")
+            set_format(:date_words)
             self
         end
 
         # set date_time_words format and return Date2 instance
         def date_time_words
-            set_format("date_time_words")
+            set_format(:date_time_words)
             self
         end
 
@@ -98,7 +98,7 @@ module LC
             # get right format for dates
             format = self.db_format
 
-            "TO_CHAR(#{table}created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as created_at_date, TO_CHAR(#{table}updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as updated_at_date"
+            "TO_CHAR(#{table}created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '#{format}') as created_at_date, TO_CHAR(#{table}updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '#{format}') as updated_at_date"
 
         end
 
@@ -111,7 +111,7 @@ module LC
             # get right format for dates
             format = self.db_format
 
-            "TO_CHAR(#{table}#{column} at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as #{column}_string"
+            "TO_CHAR(#{table}#{column} at time zone 'utc' at time zone '#{@settings[:time_zone]}', '#{format}') as #{column}_string"
 
         end
 
@@ -141,7 +141,7 @@ module LC
 
 
         def set_format format
-            @format = @settings[:format][format || "date"]
+            @format = @settings[:format][format || :date]
         end
 
 
