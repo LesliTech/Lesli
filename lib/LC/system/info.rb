@@ -24,7 +24,7 @@ module LC
         class Info
 
             def self.instance
-                Rails.application.config.lesli_settings["instance"]
+                Rails.application.config.lesli[:instance]
             end
 
             def self.path

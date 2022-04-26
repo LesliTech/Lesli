@@ -23,7 +23,7 @@ require "rails_helper"
 
 
 def db_format
-    format = @settings["date_format"]
+    format = @settings[:date_format]
 
     # Convert Ruby to postgresql date format
     format = format.gsub("%Y", "YYYY")
@@ -37,7 +37,7 @@ RSpec.describe LC::Date, type: :model do
 
     before(:all) do
         @settings = LC::Date.reset_settings
-        @zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
+        @zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
     end
 
     it "LC::Date.now" do
@@ -53,17 +53,17 @@ RSpec.describe LC::Date, type: :model do
 
     it "LC::Date.db_to_timezone" do
         query_string = LC::Date.db_to_timezone(User.first.deleted_at, "deleted_at")
-        expect(query_string).to eq("( at time zone 'utc' at time zone '#{@settings["time_zone"]}') as deleted_at")
+        expect(query_string).to eq("( at time zone 'utc' at time zone '#{@settings[:time_zone]}') as deleted_at")
     end
 
     it "LC::Date.db_to_char" do
         query_string = LC::Date.db_to_char(User.first.deleted_at, "deleted_at")
-        expect(query_string).to eq("TO_CHAR( at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{self.db_format}') as deleted_at")
+        expect(query_string).to eq("TO_CHAR( at time zone 'utc' at time zone '#{@settings[:time_zone]}', '#{self.db_format}') as deleted_at")
     end
 
     it "LC::Date.db_to_char_custom" do
         query_string = LC::Date.db_to_char_custom(User.first.deleted_at)
-        expect(query_string).to eq("TO_CHAR( at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{self.db_format}')")
+        expect(query_string).to eq("TO_CHAR( at time zone 'utc' at time zone '#{@settings[:time_zone]}', '#{self.db_format}')")
     end
 
     it "LC::Date.datetime" do
@@ -74,25 +74,25 @@ RSpec.describe LC::Date, type: :model do
     it "LC::Date.to_string" do
         date = LC::Date.now
         date_string = LC::Date.to_string(date)
-        expect(date_string).to eq(date.in_time_zone(@zone).strftime(@settings["date_format"]))
+        expect(date_string).to eq(date.in_time_zone(@zone).strftime(@settings[:date_format]))
     end
 
     it "LC::Date.to_string_datetime" do
         date = LC::Date.now
         date_string = LC::Date.to_string_datetime(date)
-        expect(date_string).to eq(date.in_time_zone(@zone).strftime(@settings["date_format_time"]))
+        expect(date_string).to eq(date.in_time_zone(@zone).strftime(@settings[:date_format_time]))
     end
 
     it "LC::Date.to_string_datetime_words" do
         date = LC::Date.now
         date_string = LC::Date.to_string_datetime_words(date)
-        expect(date_string).to eq(I18n.l(date.in_time_zone(@zone), format: @settings["date_format_full"]))
+        expect(date_string).to eq(I18n.l(date.in_time_zone(@zone), format: @settings[:date_format_full]))
     end
 
     it "LC::Date.to_string_time" do
         date = LC::Date.now
         date_string = LC::Date.to_string_time(date)
-        expect(date_string).to eq(date.in_time_zone(@zone).strftime(@settings["time_format"]))
+        expect(date_string).to eq(date.in_time_zone(@zone).strftime(@settings[:time_format]))
     end
 
     it "LC::Date.beginning_of_month" do

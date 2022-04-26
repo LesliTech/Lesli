@@ -194,7 +194,7 @@ class UsersController < ApplicationLesliController
             roles: roles,
             regions: current_user.account.locations.where(level: "region"),
             salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
-            locales: Rails.application.config.lesli_settings["configuration"]["locales_available"]
+            locales: Rails.application.config.lesli.dig(:configuration, :locales_available)
         })
 
     end
@@ -207,7 +207,7 @@ class UsersController < ApplicationLesliController
         end
 
         # Allow only sysadmin to become as user
-        return respond_with_unauthorized if current_user.email != Rails.application.config.lesli_settings["account"]["user"]["email"] # sysadmin user
+        return respond_with_unauthorized if current_user.email != Rails.application.config.lesli.dig(:account, :user, :email) # sysadmin user
 
         # Search for desire user
         becoming_user = User.find(params[:id])

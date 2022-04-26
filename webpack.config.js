@@ -92,8 +92,8 @@ module.exports = env => {
                 vue: "vue/dist/vue.esm-bundler.js",
 
                 // Set aliases as shortcuts to import modules
-                Lesli: path.resolve(__dirname, "../../app"),
-                LesliVue: path.resolve(__dirname, "./vue"),
+                Lesli: path.resolve(__dirname, "./app"),
+                LesliVue: path.resolve(__dirname, "./lib/vue3"), 
 
             }
         },

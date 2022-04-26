@@ -65,7 +65,7 @@ class ApplicationLesliController < ApplicationController
         @account[:notifications] = Courier::Bell::Notification.count(current_user, true)
         @account[:tasks] = Courier::Focus::Task.count(current_user)
         @account[:tickets] = Courier::Help::Ticket.count(current_user)
-        @account[:pushs] = Rails.application.config.lesli_settings["security"]["enable_pushes"] || false
+        @account[:pushs] = Rails.application.config.lesli.dig(:security, :enable_pushes)
         @account[:shortcuts] = current_user.shortcuts.select(:id, :name, :url)
 
 
@@ -87,9 +87,9 @@ class ApplicationLesliController < ApplicationController
         }
 
         @account[:settings] = {
-            datetime: Rails.application.config.lesli_settings["configuration"]["datetime"],
-            currency: (Rails.application.config.lesli_settings["configuration"]["currency"] || {})
-                .merge({ locale: Rails.application.config.lesli_settings["env"]["default_locale"] })
+            datetime: Rails.application.config.lesli.dig(:configuration, :datetime),
+            currency: (Rails.application.config.lesli[:configuration][:currency] || {})
+                .merge({ locale: Rails.application.config.lesli[:env][:default_locale] })
         }
         
         # set user information

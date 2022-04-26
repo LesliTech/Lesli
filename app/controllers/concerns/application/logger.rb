@@ -49,7 +49,7 @@ module Application
         # this is disabled by default in the settings file
         def log_user_requests description=nil
 
-            return if !Rails.application.config.lesli_settings["security"]["log_activity"]
+            return if !Rails.application.config.lesli.dig(:security, :log_activity)
             return if not current_user
             return if not session[:user_session_id]
 
@@ -72,7 +72,7 @@ module Application
         # this is disabled by default in the settings file
         def log_user_comments description=nil
 
-            return if !Rails.application.config.lesli_settings["security"]["log_activity"]
+            return if !Rails.application.config.lesli[:security][:log_activity]
 
             current_user.logs.create({
                 user_sessions_id: session[:user_session_id],
@@ -86,7 +86,7 @@ module Application
         # this is disabled by default in the settings file
         def log_account_activity system_module, system_process, description=nil, payload=nil
 
-            return if !Rails.application.config.lesli_settings["security"]["log_activity"]
+            return if !Rails.application.config.lesli[:security][:log_activity]
 
             account = Account.first
 
