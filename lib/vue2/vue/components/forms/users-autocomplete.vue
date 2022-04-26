@@ -227,7 +227,7 @@ export default {
                 :name="name"
             >
             </b-autocomplete>
-            <input v-else type="text" :size="size" autocomplete="off" :class="['input', {'is-small': size == 'is-small'}]" readonly :value="user_input">
+            <input v-else type="text" :size="size" autocomplete="off" :class="['input', size]" readonly :value="user_input">
             <slot></slot>
         </div>
     </b-field>
