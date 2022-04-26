@@ -128,12 +128,14 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
         file = current_user.account.files.new(
             file_type: "template_audience",
             user_creator: current_user,
-            attachment_s3: File.open(pdf_tmp_path, "rb"),
+            attachment: File.open(pdf_tmp_path, "rb"),
             name: "#{(audience_document.name||'').gsub(/\s+/, "-")}.pdf"
         )
 
-        if file.save
+        if file.save!
             file.update({})
+
+            Files::AwsUploadJob.perform_now(file)
 
             audience_document.update(file: file) # update audience file
 

@@ -23,7 +23,8 @@ class Account::File < CloudObject::File
         app_icon: "app_icon",
         app_logo: "app_logo",
         favicon: "favicon",
-        template: "template"
+        template: "template",
+        template_audience: "template_audience"
     }
 
     belongs_to :account, foreign_key: "accounts_id"
