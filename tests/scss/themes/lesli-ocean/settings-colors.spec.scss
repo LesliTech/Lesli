@@ -1,6 +1,6 @@
-=begin
+/*
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -15,18 +15,28 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-=end
+*/
 
 
-# get settings
-company = Rails.application.config.lesli[:account][:company]
+// · 
+@import "true";
+@import "lib/assets/scss/themes/lesli-ocean/settings/colors";
 
 
-# create account
-Account.find_or_create_by(company_name: company[:name]) do |account|
-    account.company_tag_line = company[:tag_line]
-    account.registered!
-end
+// · 
+@include describe("themes/lesli-ocean/settings/colors") {
 
+    $blues:
+    "lesli" #214FBD,
+    "sea" #2F478D,
+    "navy" #112A62,
+    "faded" #EBF1FF,
+    "easy" #7E9BF1;
+    
+    @each $name, $color in $blues {
+        @include it("should return the color #{$name} from blues pallete") {
+            @include assert-equal(lesli-css-color-theme($name, blues), $color);
+        }
+    }
 
-LC::Debug.msgc "Accounts successfully created!"
+}

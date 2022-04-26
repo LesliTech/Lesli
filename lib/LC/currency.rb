@@ -31,7 +31,7 @@ module LC
         }
 
         @settings = @settings.merge(
-            Rails.application.config.lesli_settings["configuration"]["currency"]
+            Rails.application.config.lesli[:configuration][:currency]
         )
 
         def self.format(value, symbol = symbol(), precision=@settings["precision"])            

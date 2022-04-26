@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 RSpec.shared_context 'api authentication' do   
 
-    password = Rails.application.config.lesli_settings["security"]["password"]["development"]
+    password = Rails.application.config.lesli[:ecurity][:password][:development]
     password = password + Time.now.year.to_s + "$"
 
     @token = nil
