@@ -9,6 +9,7 @@ class Template::Document < ApplicationLesliRecord
         template_documents = current_user.account.template.documents.select(
             :id,
             :name,
+            :model_type,
             :attachment,
             LC::Date2.new.date_time.db_timestamps
         )
