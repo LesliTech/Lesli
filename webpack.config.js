@@ -64,7 +64,6 @@ module.exports = env => {
             errors: true,
             errorDetails: true,
             errorsCount: true,
-            timings: true,
             warnings: true,
         },
 
