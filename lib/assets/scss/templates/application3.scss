@@ -31,6 +31,10 @@ For more information read the license file including with this software.
 @import "./lesli/bulma/loader";
 
 
+// · Oruga components
+@import "./lesli/oruga/loader";
+
+
 // · Include vendors
 //@import "trix/dist/trix.css";
 @import "flag-icon";
@@ -78,8 +82,7 @@ body {
 
 
 // · 
-body {    
-    background-color: var(--app-theme-color-layout-background, #f3f7fd);
+body {
     background-color: var(--app-theme-color-layout-background, #ffffff);
 }
 
