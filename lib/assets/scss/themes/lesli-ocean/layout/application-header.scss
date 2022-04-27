@@ -21,16 +21,33 @@ For more information read the license file including with this software.
 // · 
 header.application-header {
     .header-left {
-        padding: 20px 28px;
+        
+        // commands & search input
         .control {
             input {
                 max-width: 515px;
                 border-radius: 10px;
                 border: 1px solid lesli-css-color(silver);
+                transition: all linear .3s;
+
+                &::placeholder {
+                    color: lesli-css-color(silver, 700);
+                }
+
+                &:focus {
+                    max-width: 98%;
+                }
+
             }
-            span.material-icons {
-                color: lesli-css-color(blue);
-            }
+
+        }
+
+    }
+
+    .header-right {
+        span.material-icons {
+            color: lesli-css-color-theme(faded, blues);
+            color: #E2E6F6;
         }
     }
 

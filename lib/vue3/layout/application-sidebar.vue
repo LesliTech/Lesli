@@ -56,9 +56,11 @@ export default {
 <template>
     <aside class="application-sidebar">
         <slot name="brand"></slot>
+        <span @click="data.global.show_panel_engines = true">engines</span>
         <nav class="application-navigation menu">
             <ul class="menu-list">
                 <slot></slot>
+
             </ul>
             <ul class="menu-list">
                 <slot name="nav-end"></slot>
