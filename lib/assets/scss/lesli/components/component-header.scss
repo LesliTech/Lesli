@@ -19,8 +19,13 @@ For more information read the license file including with this software.
 
 
 // · 
-// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 .component-header {
+    .navbar-item {
+        padding: 0;
+    }
+}
+
+.component-header2 {
     z-index: 1;
     margin-bottom: 1rem;
     background-color: transparent;
