@@ -49,103 +49,34 @@ aside.application-sidebar {
 
     }
 
-    nav {
-        flex: 1;
-        display: flex;
-        overflow-y: auto;
-        flex-direction: column;
-        @include lesli-css-scrollbar("");
+    li {
 
-        ul.menu-list:first-child {
-            flex: 1;
-        }
+        a {
+            padding: 0;
+            display: flex;
+            align-items: center;
 
-        p.menu-label {
-            padding-left: 8px;
-        }
-
-        // navigation link container
-        li {
-
-            // nav link
-            a {
-                font-size: 1rem;
-                padding: 1.2rem 0;
-                border-radius: 0px;
-                align-items: center;
-                text-align: center;
-                transition: all linear .2s;
-
-                i {
-                    width: 3rem;
-                    font-size: 1.2rem;
-                    text-align: center;
-                    position: relative;
-                    transition: all linear .2s;
-
-                    &.flag-icon {
-                        height: 16px;
-                    }
-
-                }
-
-                img { width: 1.4rem; }
-                span { display: none; }
-
-                span.icon { 
-                    margin-left: auto; 
-
-                    i {
-                        width: initial;
-                    }
-
-                }
-
-                i, img, span.icon i {
-                    transition: all linear .2s;
-                }
-
-            }
-
-            ul {
+            svg,
+            span.icon {
+                width: 100%;
                 margin: 0;
-                border-left: none;
-                padding-left: .6rem;
-
-                a {
-                    font-size: 1.1rem;
-                    padding: .8rem 0;
-
-                    i {
-                        font-size: 1rem;
-                    }
-
-                }
-
+                font-size: 24px;
+                text-align: center;
             }
 
-        }
-
-        hr {
-            margin: .8rem 0;
-        }
-
-    }
-
-}
-
-
-// · 
-@include lesli-css-breakpoint-tablet {
-    aside.application-sidebar {
-        nav li {
-            a {
-                padding-left: 0;
-                span {
-                    display: none;
-                }
+            span:not([class]) {
+                display: none;
+                font-size: .9rem;
             }
+    
         }
+
+        ul {
+            margin: 0;
+            border: none;
+            padding: 0;
+        }
+
     }
 }
 
@@ -153,15 +84,46 @@ aside.application-sidebar {
 // · 
 @include lesli-css-breakpoint-desktop {
     aside.application-sidebar {
-        nav li {
+        li {
+
             a {
-                display: flex;
-                text-align: left;
-                padding-left: .6rem;
-                span {
-                    display: initial;
+
+                svg,
+                span.icon {
+                    width: 2rem;
+                }
+
+                span:not([class]) {
+                    display: inline-flex;
+                }
+
+            }
+        }
+    }
+}
+
+
+// · 
+@include lesli-css-breakpoint-widescreen {
+    aside.application-sidebar {
+        li {
+            a {
+                span:not([class]) {
                     font-size: 1rem;
-                    text-transform: initial;
+                }
+            }
+        }
+    }
+}
+
+
+// · 
+@include lesli-css-breakpoint-fullhd {
+    aside.application-sidebar {
+        li {
+            a {
+                span:not([class]) {
+                    font-size: 1.1rem;
                 }
             }
         }
