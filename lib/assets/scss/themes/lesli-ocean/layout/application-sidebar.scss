@@ -56,32 +56,43 @@ aside.application-sidebar {
 
     }
 
-    nav.menu {
+    li {
+
+        a {
+            color: white;
+            padding: 1.4rem 0;
+
+            // highlight sidebar navigation item when selected
+            // highlight sidebar navigation item on hover
+            &:hover,
+            &.is-active,                    // rails routes
+            &.route-is-active               // vue routes
+            {
+                color: white;
+                background-color: #041D55;// lesli-css-color-theme(primary);
+            }
+
+        }
+
+    }
+
+
+    nav.menu2 {
         ul.menu-list {
             li {
 
                 a {
                     color: white;
-                    padding: 2rem;
 
                     // highlight sidebar navigation item when selected
                     // highlight sidebar navigation item on hover
+                    &:hover,
                     &.is-active,                    // rails routes
                     &.route-is-active,              // vue routes
                     &:not(.is-active):hover,        // rails routes
                     &:not(.route-is-active):hover   // vue routes
                     {
-                        background-color: lesli-css-color-theme(primary);
-                    }
-
-                    // icon
-                    i {
-                        color: white;
-                    }
-
-                    svg {
-                        width: 2rem;
-                        margin-right: 1.1rem;
+                        background-color: #041D55;// lesli-css-color-theme(primary);
                     }
 
                 }
@@ -91,6 +102,19 @@ aside.application-sidebar {
                 }
 
             }
+
+        }
+    }
+}
+
+
+@include lesli-css-breakpoint-desktop {
+    aside.application-sidebar li a {
+        padding: 1.6rem 2rem;
+        svg,
+        span.icon {
+            font-size: 24px;
+            margin-right: 1rem;
         }
     }
 }
