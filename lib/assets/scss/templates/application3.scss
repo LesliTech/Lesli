@@ -37,13 +37,14 @@ For more information read the license file including with this software.
 
 // · Include vendors
 //@import "trix/dist/trix.css";
-@import "flag-icon";
 
 
 // · Loading components, settings and helpers
 @import "./lesli/helpers/display";
+@import "./lesli/fonts/remixicons";
 @import "./lesli/fonts/families";
 @import "./lesli/fonts/mdicons";
+@import "flag-icon";
 
 
 // · Loading app layout 

@@ -22,7 +22,7 @@ For more information read the license file including with this software.
 <% custom_navigation_path = "layouts/#{lesli_engine_or_instance}/partials/application-navigation" %>
 
 <%# always use the navigation from the builder engine, to bring a better navigation experience to the users, currently enabled only for lesli_cloud %>
-<%# custom_navigation_path = "layouts/#{lesli_instance_code}/partials/application-navigation" if lesli_instance_code == "lesli_cloud" %>
+<% custom_navigation_path = "layouts/#{lesli_instance_code}/partials/application-navigation" if lesli_instance_code == "lesli_cloud" %>
 
 <%# dedicated navigation for the administration area %>
 <% custom_navigation_path = "layouts/components/navigation-administration" if is_lesli_engine_administration? %>
