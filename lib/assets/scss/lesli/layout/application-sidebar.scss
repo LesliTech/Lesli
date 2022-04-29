@@ -49,6 +49,10 @@ aside.application-sidebar {
 
     }
 
+    nav.menu {
+        overflow-y: scroll;
+    }
+
     li {
 
         a {
@@ -60,8 +64,10 @@ aside.application-sidebar {
             span.icon {
                 width: 100%;
                 margin: 0;
-                font-size: 24px;
                 text-align: center;
+                &,i {
+                    font-size: 24px;
+                }
             }
 
             span:not([class]) {
