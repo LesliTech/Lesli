@@ -27,11 +27,11 @@ class DevGithub < LesliRake
             namespace :github do
 
                 desc "Distribute github workflows and actions to all the installed engines"
-                task :workflows => :environment do |task, args|
+                task :actions => :environment do |task, args|
                     ARGV.each { |a| task a.to_sym do ; end }
 
                     # execute command
-                    workflows
+                    actions
 
                 end
 
@@ -46,7 +46,7 @@ class DevGithub < LesliRake
 
 
     # Distribute github workflows and actions to all the installed engines
-    def workflows
+    def actions
 
 
         # check if github actions repository exist
