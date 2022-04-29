@@ -93,6 +93,9 @@ export default {
                 if(this.statusForeignKey){
                     this.data[this.cloudObjectVariable][this.statusForeignKey] = this.selectedStatus.id
                 }
+                
+                // We emit to the parent
+                this.$emit('statusChanged', this.selectedStatus)
             })
         },
     }
