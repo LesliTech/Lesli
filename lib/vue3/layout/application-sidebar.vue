@@ -56,7 +56,7 @@ export default {
 <template>
     <aside class="application-sidebar">
         <slot name="brand"></slot>
-        <nav class="application-navigation menu">
+        <nav class="menu is-flex-grow-1">
             <ul class="menu-list">
                 <li class="is-hidden-desktop">
                     <a>
@@ -67,8 +67,8 @@ export default {
             </ul>
             <ul class="menu-list">
                 <slot name="nav-end"></slot>
-                <slot name="context"></slot>
             </ul>
         </nav>
+        <slot name="context"></slot>
     </aside>
 </template>
