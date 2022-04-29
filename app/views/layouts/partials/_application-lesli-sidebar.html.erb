@@ -23,7 +23,7 @@ For more information read the license file including with this software.
 
 <%# always use the navigation from the builder engine, to bring a better navigation experience to the users%>
 <%# currently enabled only for lesli_cloud %>
-<%# custom_navigation_path = "layouts/#{lesli_instance_code}/partials/application-navigation" if lesli_instance_code == "lesli_cloud" %>
+<% custom_navigation_path = "layouts/#{lesli_instance_code}/partials/application-navigation" if lesli_instance_code == "lesli_cloud" %>
 
 <%# dedicated navigation for the administration area %>
 <% custom_navigation_path = "layouts/components/navigation-administration" if is_lesli_engine_administration? %>
@@ -33,13 +33,30 @@ For more information read the license file including with this software.
 
 <application-component-sidebar>
 
-    <%# load logos %>
-    <template v-slot:brand>
-        <a class="brand" href="/">
-            <%= customization_instance_logo_tag(logo: "app_icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
-            <%= customization_instance_logo_tag(logo: "app_logo", options: {alt: "App logo", class: "is-hidden-touch"}) %>
-        </a>
-    </template>
+    <%# load logos compatibility for deutsche leibrenten%>
+    <% if lesli_instance_code != "lesli_cloud" %>
+        <template v-slot:brand>
+            <a class="brand" href="/">
+                <%= customization_instance_logo_tag(logo: "app_icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
+                <%= customization_instance_logo_tag(logo: "app_logo", options: {alt: "App logo", class: "is-hidden-touch"}) %>
+            </a>
+        </template>
+    <% end %>
+
+    <% if lesli_instance_code == "lesli_cloud" %>
+        <template v-slot:brand>
+            <div class="brand">
+                <a href="/">
+                    <%= customization_instance_logo_tag(logo: "app-icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
+                    <%= customization_instance_logo_tag(logo: "app-logo-gray", options: {alt: "App logo", class: "is-hidden-touch"}) %>
+                    <span><%= engine_name %></span>
+                </a>
+                <svg width="26" height="25" viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.668577 0H6.52123C6.89044 0 7.18981 0.290881 7.18981 0.649608V6.33621C7.18981 6.69494 6.89044 6.98582 6.52123 6.98582H0.668577C0.299375 6.98582 0 6.69494 0 6.33621V0.649608C0 0.290881 0.299375 0 0.668577 0ZM19.4762 17.3359H25.3289C25.6981 17.3359 25.9975 17.6268 25.9975 17.9855V23.6721C25.9975 24.0308 25.6981 24.3217 25.3289 24.3217H19.4762C19.107 24.3217 18.8076 24.0308 18.8076 23.6721V17.9855C18.8076 17.6268 19.107 17.3359 19.4762 17.3359ZM24.6603 18.6351H20.1448V23.0225H24.6603V18.6351ZM10.0728 17.3359H15.9255C16.2947 17.3359 16.594 17.6268 16.594 17.9855V23.6721C16.594 24.0308 16.2947 24.3217 15.9255 24.3217H10.0728C9.7036 24.3217 9.40422 24.0308 9.40422 23.6721V17.9855C9.40422 17.6268 9.7036 17.3359 10.0728 17.3359ZM15.2569 18.6351H10.7414V23.0225H15.2569V18.6351ZM0.66938 17.3359H6.52204C6.89124 17.3359 7.19061 17.6268 7.19061 17.9855V23.6721C7.19061 24.0308 6.89124 24.3217 6.52204 24.3217H0.66938C0.300177 24.3217 0.000802594 24.0308 0.000802594 23.6721V17.9855C0.000802594 17.6268 0.300177 17.3359 0.66938 17.3359ZM5.85346 18.6351H1.33796V23.0225H5.85346V18.6351ZM19.477 8.66794H25.3297C25.6989 8.66794 25.9983 8.95882 25.9983 9.31755V15.0042C25.9983 15.3629 25.6989 15.6538 25.3297 15.6538H19.477C19.1078 15.6538 18.8084 15.3629 18.8084 15.0042V9.31755C18.8084 8.95882 19.1078 8.66794 19.477 8.66794ZM24.6611 9.96716H20.1456V14.3545H24.6611V9.96716ZM10.0736 8.66794H15.9263C16.2955 8.66794 16.5948 8.95882 16.5948 9.31755V15.0042C16.5948 15.3629 16.2955 15.6538 15.9263 15.6538H10.0736C9.7044 15.6538 9.40502 15.3629 9.40502 15.0042V9.31755C9.40502 8.95882 9.7044 8.66794 10.0736 8.66794ZM15.2577 9.96716H10.7422V14.3545H15.2577V9.96716ZM0.670182 8.66794H6.52284C6.89204 8.66794 7.19142 8.95882 7.19142 9.31755V15.0042C7.19142 15.3629 6.89204 15.6538 6.52284 15.6538H0.670182C0.30098 15.6538 0.00160523 15.3629 0.00160523 15.0042V9.31755C0.00160523 8.95882 0.30098 8.66794 0.670182 8.66794ZM5.85426 9.96716H1.33876V14.3545H5.85426V9.96716ZM19.4778 0H25.3305C25.6997 0 25.9991 0.290881 25.9991 0.649608V6.33621C25.9991 6.69494 25.6997 6.98582 25.3305 6.98582H19.4778C19.1086 6.98582 18.8092 6.69494 18.8092 6.33621V0.649608C18.8092 0.290881 19.1086 0 19.4778 0ZM24.6619 1.29922H20.1464V5.6866H24.6619V1.29922ZM10.0744 0H15.9271C16.2963 0 16.5956 0.290881 16.5956 0.649608V6.33621C16.5956 6.69494 16.2963 6.98582 15.9271 6.98582H10.0744C9.7052 6.98582 9.40583 6.69494 9.40583 6.33621V0.649608C9.40583 0.290881 9.7052 0 10.0744 0ZM15.2585 1.29922H10.743V5.6866H15.2585V1.29922ZM5.85426 1.29922H1.33876V5.6866H5.85426V1.29922Z" fill="white"/>
+                </svg>
+            </div>
+        </template>
+    <% end %>
 
     <%# render navigation partial %>
     <% if custom_navigation_exists %>

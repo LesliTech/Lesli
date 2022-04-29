@@ -82,24 +82,16 @@ For more information read the license file including with this software.
     <% if defined?(CloudBell) %>
     <template v-slot:notifications>
         <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_notifications = true">
+            <!-- 
             <i v-if="lesli.notifications > 0" class="fas fa-bell has-text-link"></i>
-            <i v-if="lesli.notifications == 0" class="far fa-bell"></i>
+            <i v-if="lesli.notifications == 0" class="far fa-bell"></i> 
+            -->
+            <span class="material-icons">notifications</span>
             <span v-if="data.global.cloud_bell_notifications > 0">{{ data.global.cloud_bell_notifications }}</span>
         </a>
     </template>
     <% end %>
 
-    <%# engines panel %>
-    <template v-slot:engines>
-        <a class="navbar-item header-navigation-engine core" @click="data.global.show_panel_engines = true">
-            <span class="icon">
-                <svg viewBox="0 0 24 24">
-                    <path d="M6,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,6c0,1.1 0.9,2 2,2s2,-0.9 2,-2 -0.9,-2 -2,-2 -2,0.9 -2,2zM12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z">
-                    </path>
-                </svg>
-            </span>
-        </a>
-    </template>
 
     <%# username %>
     <template v-slot:username>

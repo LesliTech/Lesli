@@ -20,18 +20,25 @@ For more information read the license file including with this software.
 
 
 // · Including plugins and dependencies
+var fs = require("fs")
 var path = require("path")
+var yaml = require("js-yaml")
 var webpack = require("webpack")
+var debug = require("lesli-js/debug/nodejs")
 var TerserPlugin = require("terser-webpack-plugin")
 var { VueLoaderPlugin } = require("vue-loader")
 
 
+// · set the path to the engines folder
+const pathEngines = path.resolve("engines")
+
+// get specific modules to work with, example: npm run webpack -- babel bell
+const requestedModules = process.argv.slice(5)
+
+var webpackConfig = []
+
 // · 
 module.exports = env => {
-
-
-    // get specific modules to work with, example: npm run webpack -- babel bell
-    var requested_modules = process.argv.slice(5)
 
 
     // set mode
@@ -44,11 +51,21 @@ module.exports = env => {
 
 
     // Base webpack configuration, this includes only core assets
-    var config = {
+    var configCore = {
 
         watch: env.watch == "true",
         mode: production ? "production" : "development",
 
+        stats: {
+            all: false,
+            assets: true,
+            assetsSort: '!size',
+            env: true,
+            errors: true,
+            errorDetails: true,
+            errorsCount: true,
+            warnings: true,
+        },
 
         // Use a custom plugin to remove all the comments
         // from the javascript files
@@ -77,8 +94,8 @@ module.exports = env => {
 
         // Set the name of the compiled javascript files
         output: {
-            path: __dirname,
-            filename: "../../app/assets/javascripts/[name].js"
+            path: path.resolve("app", "assets", "javascripts"),
+            filename: "[name].js"
         },
 
 
@@ -86,14 +103,14 @@ module.exports = env => {
         resolve: {
 
             // include folder so we can import direct from node modules
-            modules: [path.resolve(__dirname, "node_modules")],
+            modules: [path.resolve("node_modules")],
             alias: {
 
                 vue: "vue/dist/vue.esm-bundler.js",
 
                 // Set aliases as shortcuts to import modules
-                Lesli: path.resolve(__dirname, "./app"),
-                LesliVue: path.resolve(__dirname, "./lib/vue3"), 
+                Lesli: path.resolve("app"),
+                LesliVue: path.resolve("lib", "vue3"), 
 
             }
         },
@@ -124,12 +141,111 @@ module.exports = env => {
             // custom constants
             new webpack.DefinePlugin({
                 lesli_app_mode_production: JSON.stringify(production),
-                lesli_app_mode_development: JSON.stringify(!production)
+                lesli_app_mode_development: JSON.stringify(!production),
+                __VUE_OPTIONS_API__: true,
+                __VUE_PROD_DEVTOOLS__: true,
             })
         ]
 
     }
 
-    return config
+
+    // push webpack configuration for core app
+    webpackConfig.push(configCore)
+
+
+    // exit configuration builder if no engines installed
+    if (!fs.existsSync(pathEngines)) { return webpackConfig; }
+
+
+    // get the installed engines
+    let engines = fs.readdirSync(pathEngines);
+
+    // remove the keep file from the engines directory
+    engines = engines.filter(directory => directory != ".gitkeep")
+
+    // filter found engines to get only the ones that are ready to work with vue3
+    engines = engines.filter(engine => {
+
+        // get and parse engine information files (lesli.yml)
+        let lesliConfigPath = path.resolve(pathEngines, engine, "lesli.yml")
+
+        // exit if lesli.yml does not exists
+        if (!fs.existsSync(lesliConfigPath)) { return false }
+
+        // load LesliConfig
+        let lesliConfig = yaml.load(fs.readFileSync(lesliConfigPath))
+
+        // exit if engine does not have to be loaded
+        if (lesliConfig.info.load == false) { return false }
+
+        // check if user sent specific modules to work with through "webpack -- engine1 engine2 etc.."
+        if (requestedModules.length > 0) {
+
+            // check if current engine belongs to the list of desire engines
+            if (!requestedModules.includes(lesliConfig.info.code.replace("cloud_", ""))) {
+
+                // if the engine to exclude is not a builder
+                if (lesliConfig.info.type != "builder") {
+                    return false
+                }
+
+            }
+
+        }
+
+        // check if vue folder exists for given engine
+        if (!fs.existsSync(path.resolve(pathEngines, engine, "app", "vue3"))) {
+            return
+        }
+
+        // include engine into the collections of active engines
+        return lesliConfig.info.code == engine
+
+    })
+
+
+    engines.forEach(engine => {
+
+        // clone webpack core configuration (shallow copy) 
+        let configEngine = Object.assign({}, configCore)
+
+        // ensure to clone output configuration (shallow copy) 
+        configEngine.output = Object.assign({}, configCore.output)
+
+        // remove config used for core, so we can add specific configuration for the engines
+        configEngine.output.path = path.resolve(pathEngines, engine, "app", "assets", "javascripts")
+        configEngine.entry = {}
+
+        // path to the vue app main mount file
+        var appPath = path.resolve(pathEngines, engine, "app", "vue3", "app.js")
+
+        // stop process if vue3 app does not exists
+        if (!fs.existsSync(appPath)) { return; }
+
+        // add vue3 apps found into the webpack compilation pipeline
+        configEngine.entry[(`${engine}/application`)] = appPath
+
+        // set new output to engine app folder
+        configEngine.output.filename = "[name].js"
+
+        // check if the engine has vue3 apps to compile
+        if (Object.keys(configEngine.entry).length <= 0) { return }
+
+        // push the engine configuration to the webpack config
+        webpackConfig.push(configEngine)
+
+    })
+
+    // show a nice debug message :) 
+    webpackConfig.forEach(config => {
+        for (let [name, path] of Object.entries(config.entry)) {
+            debug.info(path.replace(pathEngines, ""))
+        }
+    })
+
+    console.log("")
+
+    return webpackConfig
 
 }
