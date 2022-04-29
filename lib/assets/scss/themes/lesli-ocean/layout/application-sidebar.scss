@@ -76,6 +76,11 @@ aside.application-sidebar {
 
     }
 
+    p.menu-label {
+        font-size: 1rem;
+        padding: 0rem 2rem;
+    }
+
 
     nav.menu2 {
         ul.menu-list {
@@ -109,12 +114,24 @@ aside.application-sidebar {
 
 
 @include lesli-css-breakpoint-desktop {
-    aside.application-sidebar li a {
-        padding: 1.6rem 2rem;
-        svg,
-        span.icon {
-            font-size: 24px;
-            margin-right: 1rem;
+    aside.application-sidebar li {
+
+        a {
+            padding: 1.6rem 2rem;
+            svg,
+            span.icon {
+                font-size: 24px;
+                margin-right: 1rem;
+            }
         }
+
+        ul {
+
+            a {
+                padding-left: 3.8rem;
+            }
+            
+        }
+
     }
 }
