@@ -19,9 +19,36 @@ For more information read the license file including with this software.
 
 
 // · 
-@import "lesli-css/";
-@import "./settings/colors";
-@import "./settings/helpers";
+header.application-header {
+    .header-left {
+        
+        // commands & search input
+        .control {
+            input {
+                max-width: 515px;
+                border-radius: 10px;
+                border: 1px solid lesli-css-color(silver);
+                transition: all linear .3s;
 
-@import "./layout/application-header";
-@import "./layout/application-sidebar";
+                &::placeholder {
+                    color: lesli-css-color(silver, 700);
+                }
+
+                &:focus {
+                    max-width: 98%;
+                }
+
+            }
+
+        }
+
+    }
+
+    .header-right {
+        span.material-icons {
+            color: lesli-css-color-theme(faded, blues);
+            color: #E2E6F6;
+        }
+    }
+
+}
