@@ -60,6 +60,7 @@ aside.application-sidebar {
             display: flex;
             align-items: center;
 
+            i,
             svg,
             span.icon {
                 width: 100%;
@@ -94,9 +95,11 @@ aside.application-sidebar {
 
             a {
 
+                i,
                 svg,
                 span.icon {
                     width: 2rem;
+                    text-align: left;
                 }
 
                 span:not([class]) {
