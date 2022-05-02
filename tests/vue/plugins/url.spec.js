@@ -1,7 +1,3 @@
-
-
-
-
 /*
 
 Copyright (c) 2022, all rights reserved.
@@ -29,7 +25,7 @@ import { createApp } from "vue"
 
 
 // · plugins to be tested
-import pluginUrl from "../../vue/plugins/url.js"
+import pluginUrl from "../../../lib/vue3/plugins/url"
 
 
 // · build & prepare app to be tested

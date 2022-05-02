@@ -28,7 +28,6 @@ For more information read the license file including with this software.
 
 // · Include Lesli Standards
 @include lesli-css-normalize();
-@include lesli-css-fonts-standard();
 
 
 
@@ -48,7 +47,8 @@ For more information read the license file including with this software.
 
 // · Loading components, settings and helpers
 @import "./lesli/helpers/display";
-@import "./lesli/fonts/remixicons";
+@import "./lesli/fonts/families";
+@import "./lesli/fonts/mdicons";
 
 
 
@@ -73,16 +73,39 @@ For more information read the license file including with this software.
 
 
 // · 
-body,
-html {
-    font-size: var(--app-theme-font-size, 16px)
+html,
+body {
+    color: var(--app-theme-font-color, #1c2540);
+    font-size: var(--app-theme-font-size, 16px);
+    font-family: "Exo", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
+    font-weight: normal;
+    line-height: 158%;
+    letter-spacing: -0.44%;
 }
 
 
 // · 
-body {
-    color: var(--app-theme-font-color, #1c2540);    
+body {    
     background-color: var(--app-theme-color-layout-background, #f3f7fd);
+    background-color: var(--app-theme-color-layout-background, #ffffff);
+}
+
+
+// · headings and links
+h1, a {
+    font-family: "Montserrat", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
+}
+
+h1 {
+    line-height: 120%;
+    font-weight: 800;
+    font-size: 24px;
+}
+
+h2, h3, h4, h5, h6 {
+    line-height: 140%;
+    font-weight: 800;
+    font-size: 20px;
 }
 
 
