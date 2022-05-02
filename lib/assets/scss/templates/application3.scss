@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -20,15 +20,8 @@ For more information read the license file including with this software.
 @import "lesli-css/";
 
 
-
 // · Configuration
 @import "./lesli/settings/variables";
-
-
-
-// · Include Lesli Standards
-@include lesli-css-normalize();
-
 
 
 // · Include Bulma 
@@ -38,18 +31,20 @@ For more information read the license file including with this software.
 @import "./lesli/bulma/loader";
 
 
+// · Oruga components
+@import "./lesli/oruga/loader";
+
 
 // · Include vendors
 //@import "trix/dist/trix.css";
-@import "flag-icon";
-
 
 
 // · Loading components, settings and helpers
 @import "./lesli/helpers/display";
+@import "./lesli/fonts/remixicons";
 @import "./lesli/fonts/families";
 @import "./lesli/fonts/mdicons";
-
+@import "flag-icon";
 
 
 // · Loading app layout 
@@ -72,6 +67,10 @@ For more information read the license file including with this software.
 @import "./lesli/components/component-toolbar";
 
 
+// · Include Lesli Standards
+@include lesli-css-normalize();
+
+
 // · 
 html,
 body {
@@ -80,13 +79,11 @@ body {
     font-family: "Exo", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
     font-weight: normal;
     line-height: 158%;
-    letter-spacing: -0.44%;
 }
 
 
 // · 
-body {    
-    background-color: var(--app-theme-color-layout-background, #f3f7fd);
+body {
     background-color: var(--app-theme-color-layout-background, #ffffff);
 }
 

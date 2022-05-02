@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 
 
 // · use general chart as base for our custom chart
-import componentChartGeneral from 'LesliVue/components/charts/general.vue'
+import componentChartGeneral from "LesliVue/components/charts/general.vue"
 
 
 // · 

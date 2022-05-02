@@ -26,10 +26,7 @@ For more information read the license file including with this software.
 }
 
 
-// Comment wild-card selector due it has a small impact on performance
-// [class^="ri-"], [class*=" ri-"] 
-// use direct class reference instead
-.ri {
+[class^="ri-"] {
     font-style: normal;
     font-family: 'remixicon' !important;
     -webkit-font-smoothing: antialiased;

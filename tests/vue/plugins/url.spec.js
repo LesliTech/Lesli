@@ -36,6 +36,18 @@ vm.use(pluginUrl, { root: "http://lesli.test" })
 // · 
 describe("VUE/PLUGINS/URL", () => {
 
+    describe("Build URL for custom to", () => {
+
+        it("should build a url for /invite", () => {
+
+            var url = vm.config.globalProperties.url.to("invite").toString()
+            expect(url).to.be.a("string");
+            expect(url).to.equal("http://lesli.test/invite")
+
+        });
+
+    })
+
     describe("Build URL for admin", () => {
         
         it("should build a url for /administration/users", () => {
