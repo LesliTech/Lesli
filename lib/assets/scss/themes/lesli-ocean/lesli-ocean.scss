@@ -25,3 +25,30 @@ For more information read the license file including with this software.
 
 @import "./layout/application-header";
 @import "./layout/application-sidebar";
+
+
+section.application-component {
+    table {
+        border-collapse: collapse;
+        border-radius: 8px;
+        overflow: hidden;
+
+        thead {
+
+            th {
+                border: none;
+                font-weight: 700;
+            }
+    
+            border-radius: 10px 10px 0 0;
+            background-color: #E2E6F6;
+        }
+
+        thead, 
+        tbody {
+            th,td {
+                padding: 1.4rem 1rem;
+            }
+        }
+    }
+}

@@ -143,11 +143,7 @@ gem "caxlsx", "3.1.1"
 # Caxlsx_Rails provides an Caxlsx renderer so you can move all your spreadsheet code from your controller into view files.
 gem "caxlsx_rails", "0.6.2"
 
-# A fast, safe and extensible Markdown to (X)HTML parser
-gem "redcarpet", "3.5.1"
-
-# HTTP/REST API client library.
-# gem "faraday", "2.2.0"
+# http/rest api client library
 gem "faraday" #Workaround to allow google-cloud-firestore work
 
 # rubyzip is a ruby module for reading and writing zip files
@@ -171,6 +167,9 @@ gem "honeybadger", "4.11.0"
 # Cowsay, written in ruby, as a gem.
 gem "ruby_cowsay", "0.1.3"
 
+
+
+# · Gems for development & test environment
 group :development, :test do
 
     # Puma is a simple, fast, threaded, and highly parallel HTTP 1.1 server for Ruby/Rack applications.
@@ -218,6 +217,9 @@ group :development, :test do
 
 end
 
+
+
+# · Gems for development environment
 group :development do
 
     # Go faster, off the Rails
@@ -242,17 +244,23 @@ group :development do
 
     gem "memory_profiler"
 
+    # A fast, safe and extensible Markdown to (X)HTML parser
+    gem "redcarpet", "3.5.1"
+
+    # Automatically generate an SVG sprite from a folder of SVG icons.
+    # Generate svg sprite for the lesli icons:
+    # svgeez build --prefix="" --source ./app/assets/icons/lesli --destination ./app/views/layouts/partials/_application-svgs.svg
+    gem "svgeez", "4.1"
+
 end
 
+
+
+# · Gems for test environment
 group :test do
 
     # Adds support for Capybara system testing and selenium driver
     gem "capybara", ">= 2.15"
-
-    #gem "selenium-webdriver"
-
-    # Easy installation and use of chromedriver to run system tests with Chrome
-    #gem "chromedriver-helper"
 
     gem "rails-controller-testing"
     gem "rails-ujs"
@@ -263,8 +271,12 @@ group :test do
     # FactoryBot
     # https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#configure-your-test-suite
     gem "factory_bot_rails"
+
 end
 
+
+
+# · Automatically load Lesli modules as gems
 Lesli::engines.each do |engine|
 
     next if engine[:name] == "Lesli"
@@ -280,4 +292,5 @@ Lesli::engines.each do |engine|
             gem engine[:code], engine[:version]
         end
     end
+
 end
