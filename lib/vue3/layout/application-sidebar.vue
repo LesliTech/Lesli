@@ -56,15 +56,19 @@ export default {
 <template>
     <aside class="application-sidebar">
         <slot name="brand"></slot>
-        <span @click="data.global.show_panel_engines = true">engines</span>
-        <nav class="application-navigation menu">
+        <nav class="menu is-flex-grow-1">
             <ul class="menu-list">
+                <li class="is-hidden-desktop">
+                    <a>
+                        <l-svg id="menu" />
+                    </a>
+                </li>
                 <slot></slot>
-
             </ul>
             <ul class="menu-list">
                 <slot name="nav-end"></slot>
             </ul>
         </nav>
+        <slot name="context"></slot>
     </aside>
 </template>
