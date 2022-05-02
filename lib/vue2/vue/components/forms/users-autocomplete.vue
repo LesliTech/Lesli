@@ -29,16 +29,12 @@ export default {
             type: Array,
             required: true
         },
-        includeTitle: {
-            type: Boolean,
-            default: true
-        },
         required: {
             default: false
         },
         size: {
             type: String,
-            default: 'is-medium'
+            default: null
         },
         field: {
             default: 'name'
@@ -49,7 +45,7 @@ export default {
         },
         title: {
             type: String,
-            default: null
+            default: I18n.t('core.shared.view_placeholder_select_employee')
         },
         focus: {
             type: Boolean,
@@ -197,13 +193,8 @@ export default {
 <template>
     <b-field v-if="ready">
         <template v-slot:label>
-            <span v-if="includeTitle">
-                <span v-if="title">
-                    {{ title }}
-                </span>
-                <span v-else>
-                    {{translations.core.view_placeholder_select_employee}}
-                </span>
+            <span v-if="title && title.length > 0">
+                {{ title }}
                 <sup class="has-text-danger" v-if="required">*</sup>
             </span>
         </template>
@@ -227,7 +218,7 @@ export default {
                 :name="name"
             >
             </b-autocomplete>
-            <input v-else type="text" autocomplete="off" class="input" readonly :value="user_input">
+            <input v-else type="text" :size="size" autocomplete="off" :class="['input', size]" readonly :value="user_input">
             <slot></slot>
         </div>
     </b-field>

@@ -92,10 +92,13 @@ jobs:
           ${{ runner.os }}-lesli-core-
     - name: NPM install
       run: |
-        npm install --prefix ./lib/vue3
+        npm install
     - name: Run Vue tests
       run: |
-        npm run test
+        npm run test:vue
+    - name: Run SCSS tests
+      run: |
+        npm run test:scss
     - name: Notify by slack
       if: always()
       uses: ./.github/actions/slack_job_status
