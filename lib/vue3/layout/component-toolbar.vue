@@ -63,6 +63,12 @@ export default {
                     <a class="delete" @click="clearSearch"></a>
                 </span>
             </div>
+            <div class="select">
+                <select>
+                    <option>10</option>
+                    <option>20</option>
+                </select>
+            </div>
             <slot></slot>
         </div>
     </div>
