@@ -87,7 +87,7 @@ export default {
                         :placeholder="translations.core.shared.search_placeholder || 'Search in Lesli'"
                         @input="searchText">
                     <span class="icon is-left has-text-gray">
-                        <lsvg id="search" />
+                        <l-svg id="search" />
                         <component-data-loading v-if="search.searching && searchText!=''" :icon-only="true"/>
                     </span>
                 </div>
@@ -102,11 +102,11 @@ export default {
                 <slot name="notifications"></slot>
 
                 <a class="navbar-item">
-                    <lsvg id="add" size="35" />
+                    <l-svg id="add" size="35" />
                 </a>
 
                 <a class="navbar-item header-notification-indicator">
-                    <lsvg id="bell" size="35" />
+                    <l-svg id="bell" size="35" />
                     <span class="count">0</span>
                 </a>
 

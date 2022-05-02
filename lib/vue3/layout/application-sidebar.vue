@@ -60,7 +60,7 @@ export default {
             <ul class="menu-list">
                 <li class="is-hidden-desktop">
                     <a>
-                        <lsvg id="menu" />
+                        <l-svg id="menu" />
                     </a>
                 </li>
                 <slot></slot>

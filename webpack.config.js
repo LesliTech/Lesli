@@ -118,6 +118,9 @@ module.exports = env => {
                 Lesli: path.resolve("app"),
                 LesliVue: path.resolve("lib", "vue3"), 
 
+                CloudAudit: path.resolve("engines", "cloud_audit", "app", "vue3"),
+                CloudDevelopment: path.resolve("engines", "cloud_development", "app", "vu3"),
+
             }
         },
         module: {
@@ -243,6 +246,7 @@ module.exports = env => {
 
     })
 
+
     // show a nice debug message :) 
     webpackConfig.forEach(config => {
         for (let [name, path] of Object.entries(config.entry)) {
@@ -250,7 +254,6 @@ module.exports = env => {
         }
     })
 
-    console.log("")
 
     return webpackConfig
 
