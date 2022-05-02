@@ -51,7 +51,8 @@ export default {
                 html: null
             },
             loading: false,
-            message: {}
+            message: {},
+            announcement_abilities: this.abilities.privilege('announcements', 'cloud_bell')
         }
     },
     
@@ -163,13 +164,15 @@ export default {
             this.message = {}
         },
         
-        showAnnouncement(announcement){            
-            this.announcements.find(e => e.id === announcement.id) 
-            
-            this.$refs['announcement-name'].focus()
-            
-            this.message = announcement.message.delta 
-            this.announcement = announcement
+        showAnnouncement(announcement){ 
+            if(this.announcement_abilities.update){
+                this.announcements.find(e => e.id === announcement.id) 
+                
+                this.$refs['announcement-name'].focus()
+                
+                this.message = announcement.message.delta 
+                this.announcement = announcement
+            }           
         },
         
         deleteAnnouncement(announcement_id){
@@ -178,11 +181,11 @@ export default {
             this.http.delete(url).then(result => {
                 if (result.successful) {
                     this.announcements = this.announcements.filter(e => e.id !== announcement_id)
+                    this.msg.success(this.translations.bell.announcements.messages_success_announcement_deleted_successfully) 
                 }else{
                     this.msg.error(result.error.message)
                 }
                 
-                this.msg.success(this.translations.bell.announcements.messages_success_announcement_deleted_successfully) 
             }).catch(error => {
                 console.log(error)
             })
@@ -377,21 +380,35 @@ export default {
                 @click="showAnnouncement" 
                 :data="announcements">
                 <template slot-scope="props">
-                    <b-table-column :label="translations.bell.announcements.column_name" sortable field="name" class="is-clickable">
+                    <b-table-column
+                        :label="translations.bell.announcements.column_name"
+                        sortable field="name"
+                        :class="[{'is-clickable': announcement_abilities.update}]"
+                    >
                         <small>{{ props.row.name }}</small>
                     </b-table-column>
                     
-                    <b-table-column :label="translations.bell.announcements.column_category" sortable field="category" class="is-clickable">
+                    <b-table-column
+                        :label="translations.bell.announcements.column_category"
+                        sortable
+                        field="category"
+                        :class="[{'is-clickable': announcement_abilities.update}]"
+                    >
                         
                         <small>{{ object_utils.translateEnum(translations.bell.announcements, 'column_enum_category', props.row.category) }}</small>
                     </b-table-column>
                 
-                    <b-table-column :label="translations.bell.announcements.column_users_id" sortable field="user_creator" class="is-clickable">
+                    <b-table-column
+                        :label="translations.bell.announcements.column_users_id"
+                        sortable
+                        field="user_creator"
+                        :class="[{'is-clickable': announcement_abilities.update}]"
+                    >
                         <small>{{ props.row.user_creator }}</small>
                     </b-table-column>
                     
                     <b-table-column :label="''" sortable field="actions">
-                        <div class="has-text-right">
+                        <div v-if="announcement_abilities.destroy" class="has-text-right">
                             <b-button size="is-small" type="is-danger" outlined @click.stop="deleteAnnouncement(props.row.id)">
                                 <b-icon icon="trash-alt" size="is-small" />
                             </b-button>
