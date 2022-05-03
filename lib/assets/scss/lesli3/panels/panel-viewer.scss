@@ -1,6 +1,5 @@
 /*
-
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -17,5 +16,14 @@ For more information read the license file including with this software.
 */
 
 
-// ·
-@import "lesli3/pages/users/registrations.scss.erb";
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+.application-panel-viewer-pdf {
+    .sidebar-content {
+        width: 1050px;
+        max-width: 90%;
+        canvas {
+            width: 100%;
+        }
+    }
+}

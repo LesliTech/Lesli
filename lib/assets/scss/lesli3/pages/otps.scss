@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -18,17 +18,18 @@ For more information read the license file including with this software.
 */
 
 
-// ·
+// · 
 @import "templates/public";
-@import "lesli/fonts/mdicons";
+@import "lesli3/fonts/mdicons.scss";
 
 
 // · 
-body.lesli_cloud.invites.show {
+body.otps.new {
     background: white;
 
+
     .hero-head {
-        padding: 4rem 0 4rem;
+        padding: 8rem 0 4rem;
 
         .app-logo {
             max-width: 130px;
@@ -44,7 +45,7 @@ body.lesli_cloud.invites.show {
             padding: 4rem;
             margin: 2rem auto;
             width: 100%;
-            max-width: 850px;
+            max-width: 750px;
             border-radius: 6px;
             border: 1px solid #ececec;
             background-color: white;

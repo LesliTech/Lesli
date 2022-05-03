@@ -12,26 +12,37 @@ transmission, publication is strictly forbidden.
 
 For more information read the license file including with this software.
 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
 */
 
 
+
 // · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 .component-toolbar {
-    margin-bottom: 1rem;
 
     // search input
     input {
-        border-radius: 10px;
-        border: 1px solid lesli-css-color(silver);
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        background-color: transparent;
         &::placeholder {
-            color: lesli-css-color(silver, 700);
+            color: #7e8087;
             opacity: .8;
         }
     }
 
     // combo selector
-    .select select {
-        border: 1px solid lesli-css-color(silver);
+    .select {
+        select {
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            background-color: transparent;
+        }
     }
 
     // autocomplete tag selectors
@@ -40,6 +51,10 @@ For more information read the license file including with this software.
         border-left: none;
         border-right: none;
         background-color: transparent;
+    }
+
+    div.second-row {
+        padding: 0px 0.75rem;
     }
 
 }

@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,8 +14,18 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 */
 
+.is-vertical-middle {
+    vertical-align: middle !important;
+}
 
-// ·
-@import "lesli3/pages/users/registrations.scss.erb";
+.is-fullwidth {
+    width: 100%;
+}
+
+.tag.is-rounded {
+    border-radius: 50%;
+    height: 1.5em;
+}
