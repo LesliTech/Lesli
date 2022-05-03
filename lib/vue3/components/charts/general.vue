@@ -87,7 +87,7 @@ const generalOptions = {
         horizontalAlign: 'center'
     },
     dataLabels: {
-        enabled: false,
+        enabled: true,
     },
     //colors: this.lesli.colors("charts"),
     stroke: { },
