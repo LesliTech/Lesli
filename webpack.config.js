@@ -119,7 +119,8 @@ module.exports = env => {
                 LesliVue: path.resolve("lib", "vue3"), 
 
                 CloudAudit: path.resolve("engines", "cloud_audit", "app", "vue3"),
-                CloudDevelopment: path.resolve("engines", "cloud_development", "app", "vu3"),
+                CloudBabel: path.resolve("engines", "cloud_babel", "app", "vue3"),
+                CloudDevelopment: path.resolve("engines", "cloud_development", "app", "vue3"),
 
             }
         },
