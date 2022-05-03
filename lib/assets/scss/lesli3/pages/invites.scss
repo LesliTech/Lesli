@@ -14,21 +14,21 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 */
 
 
 // ·
 @import "templates/public";
-@import "lesli/fonts/mdicons.scss";
+@import "lesli3/fonts/mdicons";
 
 
 // · 
-body.passes.new {
+body.lesli_cloud.invites.show {
     background: white;
 
-
     .hero-head {
-        padding: 8rem 0 4rem;
+        padding: 4rem 0 4rem;
 
         .app-logo {
             max-width: 130px;
@@ -44,7 +44,7 @@ body.passes.new {
             padding: 4rem;
             margin: 2rem auto;
             width: 100%;
-            max-width: 750px;
+            max-width: 850px;
             border-radius: 6px;
             border: 1px solid #ececec;
             background-color: white;

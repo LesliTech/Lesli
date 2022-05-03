@@ -12,33 +12,34 @@ transmission, publication is strictly forbidden.
 
 For more information read the license file including with this software.
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-
 */
 
 
-// · Hide vue syntax while loading vue app - <div v-cloak>{{ message }}</div>
-// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
-[v-cloak] { 
-    display: none; 
-}
+// · 
+.component-toolbar {
+    margin-bottom: 1rem;
 
+    // search input
+    input {
+        border-radius: 10px;
+        border: 1px solid lesli-css-color(silver);
+        &::placeholder {
+            color: lesli-css-color(silver, 700);
+            opacity: .8;
+        }
+    }
 
+    // combo selector
+    .select select {
+        border: 1px solid lesli-css-color(silver);
+    }
 
-.is-vertical-middle {
-    vertical-align: middle !important;
-}
+    // autocomplete tag selectors
+    div.taginput-container.is-focusable {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        background-color: transparent;
+    }
 
-
-
-.is-fullwidth {
-    width: 100%;
-}
-
-
-
-.tag.is-rounded {
-    border-radius: 50%;
-    height: 1.5em;
 }

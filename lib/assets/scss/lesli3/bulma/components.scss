@@ -1,0 +1,102 @@
+/*
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+.panel {
+    background-color: get-lesli-css-color(standard, white);
+    .panel-heading {
+        font-size: 1.1rem;
+        padding: .8rem 1rem .4rem;
+        background-color: get-lesli-css-color(standard, white);
+    }
+    .panel-block {
+        font-size: .9rem;
+        padding: 1rem .95rem;
+        b {
+            margin-right: .3rem;
+        }
+    }
+}
+
+
+
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+.card {
+    overflow: unset;
+}
+
+
+
+// · quickview
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+body #lesli-application .quickview,
+body #lesli-application .application-component .quickview {
+    z-index: 75;
+}
+
+
+
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+div.select {
+    &::after {
+        border-color: rgb(100,100,100) !important;
+    }
+}
+
+
+
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+section.application-component {
+    & > div.b-tabs:not(.is-vertical) {
+
+        .tabs {
+            margin-bottom: 0;
+        }
+
+        .tab-content {
+            padding: 0;
+        }
+
+    }    
+
+    // tabs navigation for vertical mode
+    & > div.b-tabs.is-vertical {
+
+        // vertical tab navigation
+        .tabs.is-boxed {
+            flex: 0 0 200px;
+            a {
+                padding: 1rem 0 1rem 1rem;
+            }
+
+        }
+
+        // vertical tab container
+        & > .tab-content {
+            flex: 1;
+            padding-top: 0;
+        }
+
+    } 
+
+}

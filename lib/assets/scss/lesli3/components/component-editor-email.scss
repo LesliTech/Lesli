@@ -18,27 +18,50 @@ For more information read the license file including with this software.
 */
 
 
-// · Hide vue syntax while loading vue app - <div v-cloak>{{ message }}</div>
+// · 
+@import "lesli/templates/component";
+
+
+
+// · 
 // · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
-[v-cloak] { 
-    display: none; 
-}
+.lesli-editor-email {
 
+    .email-component-list {
 
+    }
 
-.is-vertical-middle {
-    vertical-align: middle !important;
-}
+    .email-preview {
 
+        &,
+        &::before,
+        &::after {
+            all: revert;
+        }
 
+        .button,
+        .columns {
+            all: revert;
+        }
 
-.is-fullwidth {
-    width: 100%;
-}
+        @import "foundation-emails/scss/foundation-emails";
 
+    }
 
+    section.email-preview {
+        margin: .6rem 0;
+        padding: 1rem;
+        min-height: 50%;
+        border: 3px dotted silver;
 
-.tag.is-rounded {
-    border-radius: 50%;
-    height: 1.5em;
+        .block-component {
+            border: 1px dotted silver;
+        }
+
+        span.icon {
+            width: 25px;
+        }
+
+    }
+
 }
