@@ -1,0 +1,136 @@
+/*
+Lesli
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+header.application-header {
+    top: 0;
+    right: 0;
+    z-index: 40;
+    position: fixed;
+    padding: 20px 28px;
+    height: var(--app-header-height);
+    width: calc(100% - var(--app-navigation-width));
+
+    // add a separtor line to the header when user scroll down 
+    &.scrolling-header-navigation {
+        box-shadow: 0 0 0.125em 0 rgba(0, 0, 0, 0.25);
+        background: #ffffff;
+    }
+
+    .header-navigation {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .header-left,
+    .header-right {
+        display: flex;
+        align-items: center;
+        .dropdown-menu .dropdown-content {
+            width: 100%;
+        }
+    }
+
+    .header-left {
+        flex: 1;
+
+        // command input & search
+        .control {
+            flex: 1;
+            input {
+                border: none;
+                background: none;
+            }
+        }
+    }
+
+    .header-right {
+
+        // control container
+        .navbar-item {
+            padding: 0 20px 0 0;
+
+            &:hover {
+                color: darken(lesli-css-color(blue), 5);
+                background-color: transparent;
+            }
+        }
+
+        // Notification icon & count
+        .header-notification-indicator {
+            position: relative;
+            font-size: 1.2rem;
+            .count {
+                top: 1px;
+                right: 18px;
+                width: 18px;
+                height: 18px;
+                font-size: 11px;
+                text-align: center;
+                border-radius: 50%;
+                background-color: lesli-css-color(blue, 700);
+                color: lesli-css-color(silver, 100);
+                font-family: sans-serif;
+                position: absolute;
+                padding-top: 1px;
+            }
+        }
+
+        // 
+        .dropdown { 
+            line-height: 1;
+
+            &.user-options {
+                display: block;
+            }
+
+        }
+
+    }
+
+}
+
+
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+@include lesli-css-breakpoint("desktop") {
+    header.application-header {
+        // adjust the header width to the floating navigatino menu
+        .navbar-brand {
+            margin-left: .5rem;
+        }
+    }
+}
+
+
+
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+@include lesli-css-breakpoint("widescreen") {
+    header.application-header {
+        // adjust the header width to the floating navigatino menu
+        .navbar-brand {
+            margin-left: 1rem;
+        }
+    }
+}

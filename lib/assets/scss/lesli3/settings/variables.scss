@@ -1,0 +1,79 @@
+/*
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+*/
+
+
+// · 
+@import "lesli-css/";
+
+
+// 
+:root {
+    --app-header-height: 100px;
+    --app-footer-height: 68px;
+    --app-footer-height: 84px;
+    --app-navigation-width: 328px;
+}
+
+
+// Mobile Up to 768px
+@include lesli-css-breakpoint("mobile") {
+    :root {
+        --app-navigation-width: 50px;
+    }
+}
+
+
+// Tablet Between 769px and 1023px
+@include lesli-css-breakpoint("tablet") {
+    :root {
+        --app-navigation-width: 100px;
+    }   
+}
+
+
+// Desktop Between 1024px and 1215px
+@include lesli-css-breakpoint("desktop") {
+    :root {
+        --app-navigation-width: 200px;
+    }   
+}
+
+
+// Widescreen Between 1216px and 1407px
+@include lesli-css-breakpoint("widescreen") {
+    :root {
+        --app-navigation-width: 225px;
+    }   
+}
+
+
+// Widescreen Between 1216px and 1407px
+@include lesli-css-breakpoint("fullhd") {
+    :root {
+        --app-navigation-width: 328px;
+    }   
+}
+
+
+//
+body.layout-expanded {
+    :root {
+        --app-navigation-width: 100px;
+    }
+}

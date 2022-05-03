@@ -24,9 +24,10 @@ For more information read the license file including with this software.
 
 // 
 :root {
-    --app-header-height: 100px;
+    --app-header-width: 250px;
+    --app-header-height: 50px;
     --app-footer-height: 68px;
-    --app-navigation-width: 328px;
+    --app-navigation-width: 250px;
 }
 
 
@@ -65,7 +66,7 @@ For more information read the license file including with this software.
 // Widescreen Between 1216px and 1407px
 @include lesli-css-breakpoint("fullhd") {
     :root {
-        --app-navigation-width: 328px;
+        --app-navigation-width: 250px;
     }   
 }
 
@@ -74,5 +75,6 @@ For more information read the license file including with this software.
 body.layout-expanded {
     :root {
         --app-navigation-width: 100px;
+        --app-header-width: var(--app-navigation-width);
     }
 }

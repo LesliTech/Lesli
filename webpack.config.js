@@ -89,6 +89,12 @@ module.exports = env => {
         // engine javascript apps are defined dynamically
         entry: {
             "invites/application": "Lesli/vue3/invites/app.js",
+            "passes/application": "Lesli/vue3/passes/app.js",
+            "otps/application": "Lesli/vue3/otps/app.js",
+
+            "users/sessions": "Lesli/vue3/users/sessions.js",
+            "users/passwords": "Lesli/vue3/users/passwords.js",
+            "users/registrations": "Lesli/vue3/users/registrations.js",
         },
 
 
@@ -111,6 +117,9 @@ module.exports = env => {
                 // Set aliases as shortcuts to import modules
                 Lesli: path.resolve("app"),
                 LesliVue: path.resolve("lib", "vue3"), 
+
+                CloudAudit: path.resolve("engines", "cloud_audit", "app", "vue3"),
+                CloudDevelopment: path.resolve("engines", "cloud_development", "app", "vu3"),
 
             }
         },
@@ -237,6 +246,7 @@ module.exports = env => {
 
     })
 
+
     // show a nice debug message :) 
     webpackConfig.forEach(config => {
         for (let [name, path] of Object.entries(config.entry)) {
@@ -244,7 +254,6 @@ module.exports = env => {
         }
     })
 
-    console.log("")
 
     return webpackConfig
 

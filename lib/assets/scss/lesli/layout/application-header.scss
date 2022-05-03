@@ -25,11 +25,9 @@ header.application-header {
     right: 0;
     z-index: 40;
     position: fixed;
-    padding: 20px 28px;
     height: var(--app-header-height);
     width: calc(100% - var(--app-navigation-width));
 
-    // add a separtor line to the header when user scroll down 
     .scrolling-header-navigation {
         box-shadow: 0 0 0.125em 0 rgba(0, 0, 0, 0.25);
         background: #f3f7fd;
@@ -46,6 +44,7 @@ header.application-header {
     .header-right {
         display: flex;
         align-items: center;
+        height: var(--app-header-height);
         .dropdown-menu .dropdown-content {
             width: 100%;
         }
@@ -54,7 +53,7 @@ header.application-header {
     .header-left {
         flex: 1;
 
-        // command input & search
+        // command input
         .control {
             flex: 1;
             input {
@@ -68,7 +67,7 @@ header.application-header {
 
         // control container
         .navbar-item {
-            padding: 0 20px 0 0;
+            padding: 0.5rem 0.9rem;
 
             &:hover {
                 color: darken(lesli-css-color(blue), 5);
@@ -80,15 +79,15 @@ header.application-header {
         .header-notification-indicator {
             position: relative;
             font-size: 1.2rem;
-            .count {
-                top: 0;
-                right: 15px;
-                width: 17px;
-                height: 17px;
+            span {
+                top: 1px;
+                right: 8px;
+                width: 14px;
+                height: 14px;
                 font-size: 10px;
                 text-align: center;
                 border-radius: 50%;
-                background-color: lesli-css-color(blue, 700);
+                background-color: lesli-css-color(berry, 300);
                 color: lesli-css-color(silver, 100);
                 font-family: sans-serif;
                 position: absolute;
@@ -98,7 +97,12 @@ header.application-header {
 
         // 
         .dropdown { 
-            line-height: 1;
+
+            button {
+                border: none;
+                display: block;
+                background: none;
+            }
 
             &.user-options {
                 display: block;

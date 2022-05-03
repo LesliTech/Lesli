@@ -1,0 +1,88 @@
+/*
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+*/
+
+
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+footer.application-footer {
+    width: 100%;
+    padding: .5rem;
+    padding-left: 1rem;
+
+    a {
+        color: lesli-css-color(silver, 700);
+    }
+
+    .navbar {
+        padding-left: .1rem;
+        background-color: transparent;
+        margin-left: var(--app-navigation-width);
+
+        .navbar-start {
+            flex: 1;
+
+            .navbar-item {
+                flex: 1;
+                padding: 0;
+            }
+            
+            input {
+                flex: 1;
+                border: none;
+                background-color: transparent;
+                color: lesli-css-color(silver, 900);
+                &::placeholder { 
+                    opacity: 1;
+                    color: lesli-css-color(silver, 900);
+                }
+
+            }
+
+        }
+
+        .navbar-end a.navbar-item {
+            font-size: .9rem;
+        }
+
+    }
+    
+}
+
+
+
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+section.application-commands {
+    position: absolute;
+    z-index: 98;
+
+    width: 100%;
+    padding: 1.2rem;
+    top: var(--app-header-height);
+    margin-left: var(--app-navigation-width);
+    max-width: calc(100% - var(--app-navigation-width) - 30px);
+    min-height: calc(100vh - var(--app-header-height) - var(--app-footer-height));
+    background-color: lesli-css-color(blue);
+
+    .content {
+        padding: 1.3rem;
+        background-color: lesli-css-color(blue, 100);
+    }
+
+}

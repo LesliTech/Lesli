@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -20,56 +20,51 @@ For more information read the license file including with this software.
 @import "lesli-css/";
 
 
-
 // · Configuration
-@import "./lesli/settings/variables";
-
-
-
-// · Include Lesli Standards
-@include lesli-css-normalize();
-
+@import "./lesli3/settings/variables";
 
 
 // · Include Bulma 
-@import "./lesli/bulma/elements";
-@import "./lesli/bulma/components";
-@import "./lesli/bulma/extensions";
-@import "./lesli/bulma/loader";
-
+@import "./lesli3/bulma/elements";
+@import "./lesli3/bulma/components";
+@import "./lesli3/bulma/extensions";
+@import "./lesli3/bulma/loader";
 
 
 // · Include vendors
 //@import "trix/dist/trix.css";
-@import "flag-icon";
-
 
 
 // · Loading components, settings and helpers
-@import "./lesli/helpers/display";
-@import "./lesli/fonts/families";
-@import "./lesli/fonts/mdicons";
-
+@import "./lesli3/helpers/display";
+@import "./lesli3/fonts/remixicons";
+@import "./lesli3/fonts/families";
+@import "./lesli3/fonts/mdicons";
+@import "flag-icon";
 
 
 // · Loading app layout 
-@import "./lesli/layout/application-header";
-@import "./lesli/layout/application-engines";
-@import "./lesli/layout/application-sidebar";
-@import "./lesli/layout/application-notices";
-@import "./lesli/layout/application-component";
-@import "./lesli/layout/application-footer";
-@import "./lesli/layout/application-search";
+@import "./lesli3/layout/application-header";
+@import "./lesli3/layout/application-engines";
+@import "./lesli3/layout/application-sidebar";
+@import "./lesli3/layout/application-notices";
+@import "./lesli3/layout/application-component";
+@import "./lesli3/layout/application-footer";
+@import "./lesli3/layout/application-search";
 
-@import "./lesli/panels/panel-template";
-@import "./lesli/panels/panel-announcement";
-@import "./lesli/panels/panel-notification";
-@import "./lesli/panels/panel-support";
-@import "./lesli/panels/panel-viewer";
+@import "./lesli3/panels/panel-template";
+@import "./lesli3/panels/panel-announcement";
+@import "./lesli3/panels/panel-notification";
+@import "./lesli3/panels/panel-support";
+@import "./lesli3/panels/panel-viewer";
 
-@import "./lesli/components/component-data";
-@import "./lesli/components/component-header";
-@import "./lesli/components/component-toolbar";
+@import "./lesli3/components/component-data";
+@import "./lesli3/components/component-header";
+@import "./lesli3/components/component-toolbar";
+
+
+// · Include Lesli Standards
+@include lesli-css-normalize();
 
 
 // · 
@@ -80,13 +75,11 @@ body {
     font-family: "Exo", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
     font-weight: normal;
     line-height: 158%;
-    letter-spacing: -0.44%;
 }
 
 
 // · 
-body {    
-    background-color: var(--app-theme-color-layout-background, #f3f7fd);
+body {
     background-color: var(--app-theme-color-layout-background, #ffffff);
 }
 
