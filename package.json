@@ -5,19 +5,20 @@
     "private": true,
     "devDependencies": {
 
+        "bulma": "0.9.3",
+
         "lesli-js": "0.5.0",
         "lesli-css": "1.1.0",
 
-        "bulma": "0.9.3",
-        "@oruga-ui/oruga-next": "0.5.5",
-
         "vue": "3.2.31",
         "vue-router": "4.0.14",
+        "vue-demi": "0.12.5",
         "pinia": "2.0.13",
 
         "axios": "0.26.1",
         "dayjs": "1.11.0",
         "js-yaml": "4.1.0",
+
         "remixicon": "2.5.0",
         "sweetalert2": "11.4.8",
         "apexcharts": "3.35.0",

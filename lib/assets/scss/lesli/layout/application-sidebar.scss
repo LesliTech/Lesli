@@ -20,7 +20,9 @@ For more information read the license file including with this software.
 @import "lesli-css/";
 
 
-// · Navigation sidebar
+
+// · Navigation sidebar - new
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 aside.application-sidebar {
     position: fixed;
     top: 0;
@@ -33,18 +35,17 @@ aside.application-sidebar {
     width: var(--app-navigation-width);
 
     // logo
-    .brand {
+    a.brand {
         padding: .4rem;
         max-height: var(--app-header-height);
-        justify-content: center;
-        align-items: center;
         display: flex;
+        align-items: center;
+        justify-content: center;
 
         img {
             margin: 0 auto;
             max-width: 100%;
             max-height: 100%;
-            height: 100%;
         }
 
     }
@@ -135,14 +136,20 @@ aside.application-sidebar {
 }
 
 
+
 // · 
-@include lesli-css-breakpoint-tablet {
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+@include lesli-css-breakpoint("tablet") {
+
     aside.application-sidebar {
         nav li {
             a {
                 padding-left: 0;
                 span {
-                    display: none;
+                    display: block;
+                    font-size: .65rem;
+                    word-wrap: break-word;
+                    text-transform: uppercase;
                 }
             }
         }
@@ -150,8 +157,11 @@ aside.application-sidebar {
 }
 
 
+
 // · 
-@include lesli-css-breakpoint-desktop {
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+@include lesli-css-breakpoint("desktop") {
+
     aside.application-sidebar {
         nav li {
             a {
@@ -159,7 +169,6 @@ aside.application-sidebar {
                 text-align: left;
                 padding-left: .6rem;
                 span {
-                    display: initial;
                     font-size: 1rem;
                     text-transform: initial;
                 }

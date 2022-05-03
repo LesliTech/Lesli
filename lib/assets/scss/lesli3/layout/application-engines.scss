@@ -1,0 +1,81 @@
+/*
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+*/
+
+
+// · 
+@import "lesli-css/";
+
+
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+.application-panel-engines .sidebar-content {
+    z-index: 45;
+    width: 360px;
+    background-color: lesli-css-color(solid, white);
+
+    .panel-title p {
+        padding: 2rem;
+        padding-bottom: 2rem;
+        padding-bottom: 0;
+        font-weight: 500;
+        font-size: 1.1rem;
+    }
+
+    .panel-content {
+        flex: 1;
+
+        .links {
+            display: flex;
+            padding: 1rem;
+            padding-right: 0;
+            flex-wrap: wrap;
+            flex-grow: 1;
+
+            a {
+                display: flex;
+                flex-basis: 50%;
+                padding: 1.5rem 1rem;
+                flex-direction: row;
+                align-items: center;
+
+                img {
+                    width: 26px;
+                }
+
+                span {
+                    font-size: 1.1rem;
+                    font-weight: 400;
+                    margin-left: .6rem;
+                }
+
+            }
+
+        }
+
+    }
+
+    .panel-footer {
+        a {
+            font-weight: 500;
+            display: block; 
+            padding: 2rem;
+        }
+    }
+
+}

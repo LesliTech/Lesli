@@ -56,41 +56,53 @@ aside.application-sidebar {
 
     }
 
-    nav.menu {
-        ul.menu-list {
-            li {
+    li {
 
-                a {
-                    color: white;
-                    padding: 2rem;
+        a {
+            color: white;
+            padding: 1.4rem 0;
 
-                    // highlight sidebar navigation item when selected
-                    // highlight sidebar navigation item on hover
-                    &.is-active,                    // rails routes
-                    &.route-is-active,              // vue routes
-                    &:not(.is-active):hover,        // rails routes
-                    &:not(.route-is-active):hover   // vue routes
-                    {
-                        background-color: lesli-css-color-theme(primary);
-                    }
+            // highlight sidebar navigation item when selected
+            // highlight sidebar navigation item on hover
+            &:hover,
+            &.is-active,                    // rails routes
+            &.route-is-active               // vue routes
+            {
+                color: white;
+                background-color: #041D55;// lesli-css-color-theme(primary);
+            }
 
-                    // icon
-                    i {
-                        color: white;
-                    }
+        }
 
-                    svg {
-                        width: 2rem;
-                        margin-right: 1.1rem;
-                    }
+    }
 
-                }
+    p.menu-label {
+        font-size: 1rem;
+        padding: 0rem 2rem;
+        color: lesli-css-color(silver, 300);
+    }
 
-                hr {
-                    display: none;
-                }
+}
 
+
+@include lesli-css-breakpoint-desktop {
+    aside.application-sidebar li {
+
+        a {
+            padding: 1.6rem 2rem;
+            i,
+            svg,
+            span.icon {
+                font-size: 24px;
+                margin-right: 1rem;
             }
         }
+
+        ul {
+            a {
+                padding-left: 3.8rem;
+            }
+        }
+
     }
 }

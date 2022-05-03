@@ -35,22 +35,7 @@ module Application
         # IMPORTANT: It is strictly necessary to use the pagination methods
         #            to make this work properly
         def respond_with_pagination records
-
-            payload = {
-                :pagination => {
-                    :total_pages => records.current_page,
-                    :current_page => records.current_page,
-                    :count_total => records.total_count,
-                    :count_results => records.length
-                },
-                :records => records
-            }
-
-            response_body = { successful: true }
-            response_body[:payload] = payload
-            render status: 200, json: response_body.to_json
-
-=begin
+            
             respond_with_http(200, {
                 :pagination => {
                     :total_pages => records.current_page,
@@ -60,7 +45,7 @@ module Application
                 },
                 :records => records
             })
-=end
+
         end
 
         # JSON not found response
