@@ -42,7 +42,7 @@ const props = defineProps({
 
 
 // · specific options to print a proper line chart
-const pieOptions = {    
+const donutOptions = {
     responsive: [{
         breakpoint: 480,
         options: {
@@ -54,15 +54,15 @@ const pieOptions = {
             }
         }
     }]
-}
+};
 
 </script>
 <template>
     <componentChartGeneral 
-        type="pie"
+        type="donut"
         :title="title"
         :series="series"
         :labels="labels"
-        :options="pieOptions">
+        :options="donutOptions">
     </componentChartGeneral>
 </template>
