@@ -25,12 +25,14 @@ header.application-header {
     right: 0;
     z-index: 40;
     position: fixed;
+    padding: 20px 28px;
     height: var(--app-header-height);
     width: calc(100% - var(--app-navigation-width));
 
-    .scrolling-header-navigation {
+    // add a separtor line to the header when user scroll down 
+    &.scrolling-header-navigation {
         box-shadow: 0 0 0.125em 0 rgba(0, 0, 0, 0.25);
-        background: #f3f7fd;
+        background: #ffffff;
     }
 
     .header-navigation {
@@ -44,7 +46,6 @@ header.application-header {
     .header-right {
         display: flex;
         align-items: center;
-        height: var(--app-header-height);
         .dropdown-menu .dropdown-content {
             width: 100%;
         }
@@ -53,7 +54,7 @@ header.application-header {
     .header-left {
         flex: 1;
 
-        // command input
+        // command input & search
         .control {
             flex: 1;
             input {
@@ -67,7 +68,7 @@ header.application-header {
 
         // control container
         .navbar-item {
-            padding: 0.5rem 0.9rem;
+            padding: 0 20px 0 0;
 
             &:hover {
                 color: darken(lesli-css-color(blue), 5);
@@ -79,15 +80,15 @@ header.application-header {
         .header-notification-indicator {
             position: relative;
             font-size: 1.2rem;
-            span {
+            .count {
                 top: 1px;
-                right: 8px;
-                width: 14px;
-                height: 14px;
-                font-size: 10px;
+                right: 18px;
+                width: 18px;
+                height: 18px;
+                font-size: 11px;
                 text-align: center;
                 border-radius: 50%;
-                background-color: lesli-css-color(berry, 300);
+                background-color: lesli-css-color(blue, 700);
                 color: lesli-css-color(silver, 100);
                 font-family: sans-serif;
                 position: absolute;
@@ -97,12 +98,7 @@ header.application-header {
 
         // 
         .dropdown { 
-
-            button {
-                border: none;
-                display: block;
-                background: none;
-            }
+            line-height: 1;
 
             &.user-options {
                 display: block;

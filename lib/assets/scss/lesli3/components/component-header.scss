@@ -19,8 +19,14 @@ For more information read the license file including with this software.
 
 
 // · 
-// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 .component-header {
+    margin-bottom: 32px;
+    .navbar-item {
+        padding: 0;
+    }
+}
+
+.component-header2 {
     z-index: 1;
     margin-bottom: 1rem;
     background-color: transparent;
@@ -64,6 +70,18 @@ For more information read the license file including with this software.
                 border-color: lesli-css-color(silver) !important;
             }
 
+        }
+
+        .dropdown {
+            .dropdown-content {
+                padding: 0;
+                .dropdown-item {
+                    padding: 0;
+                }
+                .button {
+                    background-color: transparent;
+                }
+            }
         }
 
         .buttons.shortcuts {

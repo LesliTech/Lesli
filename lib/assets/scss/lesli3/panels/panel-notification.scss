@@ -1,0 +1,65 @@
+/*
+Copyright (c) 2021, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+.application-panel-notification {
+
+    .lesli-notification {
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid;
+
+        &.has-url:hover {
+            cursor: pointer;
+        }
+
+        .icon {
+            height: 100%;
+            padding: 1.25rem 1rem;
+            align-items: flex-start;
+        }
+
+        .details {
+            flex-grow: 1;
+            padding: 1rem;
+        }
+
+        @each $type, $colors in (
+            info: (#d9f5ff, #024283),
+            danger: (#ffd9d9, #cc0000),
+            warning: (#fffdd9, #7e7802),
+            success: (#e0ffd9, #1a8200)
+        ) {
+            &.#{$type} { border-bottom-color: #{nth($colors,1)}; }
+            &.#{$type} .icon { background-color: #{nth($colors,1)}; }
+            &.#{$type} .icon i { color: #{nth($colors,2)}; }
+        }
+
+    }
+
+    .message {
+        margin-bottom: 0px;
+        .message-body {
+            border-radius: 0;
+            border-bottom-width: 1px;
+            background-color: white;
+        }
+    }
+
+}

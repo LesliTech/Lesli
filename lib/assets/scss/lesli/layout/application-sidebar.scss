@@ -20,7 +20,9 @@ For more information read the license file including with this software.
 @import "lesli-css/";
 
 
-// · Navigation sidebar
+
+// · Navigation sidebar - new
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
 aside.application-sidebar {
     position: fixed;
     top: 0;
@@ -33,106 +35,142 @@ aside.application-sidebar {
     width: var(--app-navigation-width);
 
     // logo
-    .brand {
+    a.brand {
         padding: .4rem;
         max-height: var(--app-header-height);
-        justify-content: center;
-        align-items: center;
         display: flex;
+        align-items: center;
+        justify-content: center;
 
         img {
             margin: 0 auto;
             max-width: 100%;
             max-height: 100%;
-            height: 100%;
         }
 
     }
 
-    nav.menu {
-        overflow-y: scroll;
-    }
+    nav {
+        flex: 1;
+        display: flex;
+        overflow-y: auto;
+        flex-direction: column;
+        @include lesli-css-scrollbar("");
 
-    li {
+        ul.menu-list:first-child {
+            flex: 1;
+        }
 
-        a {
-            padding: 0;
-            display: flex;
-            align-items: center;
+        p.menu-label {
+            padding-left: 8px;
+        }
 
-            i,
-            svg,
-            span.icon {
-                width: 100%;
-                margin: 0;
+        // navigation link container
+        li {
+
+            // nav link
+            a {
+                font-size: 1rem;
+                padding: 1.2rem 0;
+                border-radius: 0px;
+                align-items: center;
                 text-align: center;
-                &,i {
-                    font-size: 24px;
-                }
-            }
+                transition: all linear .2s;
 
-            span:not([class]) {
-                display: none;
-                font-size: .9rem;
-            }
-    
-        }
+                i {
+                    width: 3rem;
+                    font-size: 1.2rem;
+                    text-align: center;
+                    position: relative;
+                    transition: all linear .2s;
 
-        ul {
-            margin: 0;
-            border: none;
-            padding: 0;
-        }
+                    &.flag-icon {
+                        height: 16px;
+                    }
 
-    }
-}
-
-
-// · 
-@include lesli-css-breakpoint-desktop {
-    aside.application-sidebar {
-        li {
-
-            a {
-
-                i,
-                svg,
-                span.icon {
-                    width: 2rem;
-                    text-align: left;
                 }
 
-                span:not([class]) {
-                    display: inline-flex;
+                img { width: 1.4rem; }
+                span { display: none; }
+
+                span.icon { 
+                    margin-left: auto; 
+
+                    i {
+                        width: initial;
+                    }
+
+                }
+
+                i, img, span.icon i {
+                    transition: all linear .2s;
                 }
 
             }
-        }
-    }
-}
 
+            ul {
+                margin: 0;
+                border-left: none;
+                padding-left: .6rem;
 
-// · 
-@include lesli-css-breakpoint-widescreen {
-    aside.application-sidebar {
-        li {
-            a {
-                span:not([class]) {
-                    font-size: 1rem;
-                }
-            }
-        }
-    }
-}
-
-
-// · 
-@include lesli-css-breakpoint-fullhd {
-    aside.application-sidebar {
-        li {
-            a {
-                span:not([class]) {
+                a {
                     font-size: 1.1rem;
+                    padding: .8rem 0;
+
+                    i {
+                        font-size: 1rem;
+                    }
+
+                }
+
+            }
+
+        }
+
+        hr {
+            margin: .8rem 0;
+        }
+
+    }
+
+}
+
+
+
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+@include lesli-css-breakpoint("tablet") {
+
+    aside.application-sidebar {
+        nav li {
+            a {
+                padding-left: 0;
+                span {
+                    display: block;
+                    font-size: .65rem;
+                    word-wrap: break-word;
+                    text-transform: uppercase;
+                }
+            }
+        }
+    }
+}
+
+
+
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+@include lesli-css-breakpoint("desktop") {
+
+    aside.application-sidebar {
+        nav li {
+            a {
+                display: flex;
+                text-align: left;
+                padding-left: .6rem;
+                span {
+                    font-size: 1rem;
+                    text-transform: initial;
                 }
             }
         }
