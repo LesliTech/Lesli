@@ -43,32 +43,14 @@ const props = defineProps({
 
 // · specific options to print a proper line chart
 const areaOptions = {
-    chart: {
-        type: 'area',
-        height: 350,
-        zoom: {
-            enabled: false
-        }
-    },
     dataLabels: {
         enabled: false
     },
     stroke: {
         curve: 'straight'
     },
-    title: {
-        text: 'Fundamental Analysis of Stocks',
-        align: 'left'
-    },
-    subtitle: {
-        text: 'Price Movements',
-        align: 'left'
-    },
     yaxis: {
-        opposite: true
-    },
-    legend: {
-        horizontalAlign: 'left'
+        show: false
     }
 }
 
