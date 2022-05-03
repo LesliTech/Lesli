@@ -1,5 +1,4 @@
 /*
-
 Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -17,5 +16,17 @@ For more information read the license file including with this software.
 */
 
 
-// ·
-@import "lesli3/pages/users/registrations.scss.erb";
+// · 
+#lesli-application {
+    padding-top: var(--app-header-height);
+}
+
+
+// · 
+section.application-component {
+    width: 100%;
+    padding: 0 2rem;
+    margin-left: var(--app-navigation-width);
+    max-width: calc(100% - var(--app-navigation-width));
+    min-height: calc(100vh - var(--app-header-height) - var(--app-footer-height));
+}

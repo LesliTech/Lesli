@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,8 +14,32 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 */
 
 
-// ·
-@import "lesli3/pages/users/registrations.scss.erb";
+// · 
+// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+.application-global-search {
+    position: absolute;
+    z-index: 98;
+    
+    top: var(--app-header-height);
+    width: 100%;
+    height: 100%;
+    padding: 1.3rem;
+    max-width: calc(100% - var(--app-navigation-width));
+    margin-left: var(--app-navigation-width);
+    background-color: lesli-css-color(solid, white);
+
+    .content {
+        padding: 1.3rem;
+    }
+
+    table span.tag {
+        font-size: initial;
+        height: initial;
+        padding: 0px 6px;
+    }
+
+}
