@@ -42,25 +42,43 @@ const props = defineProps({
 
 
 // · specific options to print a proper line chart
-const lineOptions = {
+const pieOptions2 = {
     chart: {
-        height: 350, 
-        type: 'line'
+        height: 300,
+        width: 380,
     },
     stroke: {
         show: true,
-        curve: 'smooth',
+        curve: 'straight',
         lineCap: 'round',
+        strokeWidth: [0, 0, 4]
     }
+}
+
+const pieOptions = {    
+    chart: {
+        width: 380,
+    },
+    responsive: [{
+        breakpoint: 480,
+        options: {
+            chart: {
+                width: 200
+            },
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }]
 }
 
 </script>
 <template>
     <componentChartGeneral 
-        type="line"
+        type="pie"
         :title="title"
         :series="series"
         :labels="labels"
-        :options="lineOptions">
+        :options="pieOptions">
     </componentChartGeneral>
 </template>

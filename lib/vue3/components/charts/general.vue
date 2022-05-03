@@ -27,6 +27,10 @@ import ApexCharts from "apexcharts"
 
 // · defining props
 const props = defineProps({
+    type: {
+        type: String,
+        required: true
+    },
     title: {
         type: String
     },
@@ -68,8 +72,8 @@ const generalOptions = {
         }
     },
     chart: {
+        type: props.type, 
         height: "auto",
-        type: "line", 
         toolbar: {
             show: false
         }
