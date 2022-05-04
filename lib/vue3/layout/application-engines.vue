@@ -28,29 +28,9 @@ import { useCoreLayout } from "LesliVue/stores/layout"
 // · 
 const coreLayout = useCoreLayout()
 
-
 </script>
 <template>
-    <aside class="application-sidebar">
-        <div class="brand">
-            <a href="/">
-                <slot name="brand"></slot>
-            </a>
-            <l-svg @click="coreLayout.toggleEngines()" id="menu" class="is-hidden-touch" />
-        </div>
-        <nav class="menu is-flex-grow-1">
-            <ul class="menu-list">
-                <li class="is-hidden-desktop">
-                    <a>
-                        <l-svg @click="coreLayout.toggleEngines()" id="menu" />
-                    </a>
-                </li>
-                <slot></slot>
-            </ul>
-            <ul class="menu-list">
-                <slot name="nav-end"></slot>
-            </ul>
-        </nav>
-        <slot name="context"></slot>
-    </aside>
+    <section v-if="coreLayout.showEngines" class="application-engines">
+        mi menu {{ coreLayout.showEngines }}
+    </section>
 </template>

@@ -21,6 +21,29 @@ For more information read the license file including with this software.
 // · 
 @import "lesli-css/";
 
+.application-engines {
+    position: fixed;
+    z-index: 98;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding: 1.3rem;
+    max-width: calc(100% - var(--app-navigation-width));
+    margin-left: var(--app-navigation-width);
+    background-color: lesli-css-color(solid, white);
+    background-color: red;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 // · 
 // · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
