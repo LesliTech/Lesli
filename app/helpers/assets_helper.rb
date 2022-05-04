@@ -19,11 +19,19 @@ For more information read the license file including with this software.
 
 module AssetsHelper
 
+
+    # Return a string path to load the template stylesheet
     def application_stylesheet_template_path
 
         template = "application"
 
         if [
+
+            # Core apps (administration)
+            "users",
+            "accounts",
+
+            # Engines
             "lesli_cloud", 
             "cloud_audit",
             "cloud_development"
@@ -35,6 +43,8 @@ module AssetsHelper
 
     end
 
+
+    # Return a string path to load the stylesheet of the selected theme
     def application_stylesheet_theme_path()
 
         theme = "themes/blank"
@@ -50,6 +60,8 @@ module AssetsHelper
 
     end
 
+
+    # Return a string path to load the stylesheet corresponding to the controller app
     def application_stylesheet_engine_path
 
         path_segments = controller_path.split("/")
@@ -68,7 +80,7 @@ module AssetsHelper
             template = "application3"
         end 
 
-        [cloud_module, "application"].join("/")
+        [cloud_module, template].join("/")
 
     end
 
