@@ -35,23 +35,16 @@ For more information read the license file including with this software.
     <%# load logos compatibility for deutsche leibrenten%>
     <% if lesli_instance_code != "lesli_cloud" %>
         <template v-slot:brand>
-            <a class="brand" href="/">
-                <%= customization_instance_logo_tag(logo: "app_icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
-                <%= customization_instance_logo_tag(logo: "app_logo", options: {alt: "App logo", class: "is-hidden-touch"}) %>
-            </a>
+            <%= customization_instance_logo_tag(logo: "app_icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
+            <%= customization_instance_logo_tag(logo: "app_logo", options: {alt: "App logo", class: "is-hidden-touch"}) %>
         </template>
     <% end %>
 
     <% if lesli_instance_code == "lesli_cloud" %>
         <template v-slot:brand>
-            <div class="brand">
-                <a href="/">
-                    <%= customization_instance_logo_tag(logo: "app-icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
-                    <%= customization_instance_logo_tag(logo: "app-logo-gray", options: {alt: "App logo", class: "is-hidden-touch"}) %>
-                    <span><%= engine_name %></span>
-                </a>
-                <l-svg id="menu" class="is-hidden-touch" />
-            </div>
+            <%= customization_instance_logo_tag(logo: "app-icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
+            <%= customization_instance_logo_tag(logo: "app-logo-gray", options: {alt: "App logo", class: "is-hidden-touch"}) %>
+            <span><%= engine_name %></span>
         </template>
     <% end %>
 
