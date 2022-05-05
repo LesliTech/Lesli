@@ -249,7 +249,7 @@ export default {
 }
 </script>
 <template>
-    <section class="application-component">
+    <section class="application-component app-users">
         <component-header :title="translations.core.users.view_text_title_users">
             <div class="buttons">
                 <button class="button" name="btn-reload" @click="getUsers()">
