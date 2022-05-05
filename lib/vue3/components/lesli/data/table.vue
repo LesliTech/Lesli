@@ -97,10 +97,10 @@ function tableBodyClass(column) {
                     <td :colspan="props.columns.length">
 
                         <!-- Show loading animation, this should be setted through the stores -->
-                        <component-data-loading v-if="loading"></component-data-loading>
+                        <lesli-data-loading v-if="loading"></lesli-data-loading>
 
                         <!-- Show a message to indicate that there is no data to present -->
-                        <component-data-empty v-if="!loading && props.data.length < 1"></component-data-empty>
+                        <lesli-data-empty v-if="!loading && props.data.length < 1"></lesli-data-empty>
 
                     </td>
 

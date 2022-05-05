@@ -36,13 +36,13 @@ const coreLayout = useCoreLayout()
             <a href="/">
                 <slot name="brand"></slot>
             </a>
-            <l-svg @click="coreLayout.toggleEngines()" id="menu" class="is-hidden-touch" />
+            <lesli-svg @click="coreLayout.toggleEngines()" id="menu" class="is-hidden-touch" />
         </div>
         <nav class="menu is-flex-grow-1">
             <ul class="menu-list">
                 <li class="is-hidden-desktop">
                     <a>
-                        <l-svg @click="coreLayout.toggleEngines()" id="menu" />
+                        <lesli-svg @click="coreLayout.toggleEngines()" id="menu" />
                     </a>
                 </li>
                 <slot></slot>
