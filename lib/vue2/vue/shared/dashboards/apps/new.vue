@@ -56,7 +56,7 @@ export default {
 }
 </script>
 <template>
-    <section class="application-component">
+    <section class="application-component app-dashboards">
         <component-header 
             :title="translations.dashboards.view_title_main"
         >
