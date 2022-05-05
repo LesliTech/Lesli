@@ -82,8 +82,13 @@ module Shared
                 }
             end
 
+            users = current_user.account.users.joins(:detail).select(
+                "users.id",
+                "concat(user_details.first_name, ' ', user_details.last_name) as name"
+            )
+
             {
-                users: current_user.account.users.map { |user| {id: user.id, name: user.full_name} },
+                users: users,
                 roles: current_user.account.roles.select(:id, :name),
                 statuses: statuses,
                 user_types: self.user_types.map { |key,value| {value: key, text: value} }
