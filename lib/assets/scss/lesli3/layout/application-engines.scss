@@ -31,4 +31,37 @@ For more information read the license file including with this software.
     max-width: calc(100% - var(--app-navigation-width));
     margin-left: var(--app-navigation-width);
     background-color: lesli-css-color(solid, white);
+
+    div {
+        display: flex;
+        padding: 1rem;
+        padding-right: 0;
+        flex-wrap: wrap;
+        flex-grow: 1;
+
+        a {
+            display: flex;
+            padding: 1.5rem 1rem;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 338px;
+            height: 263px;
+            border-radius: 2px;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+            background-color: darken(lesli-css-color(silver, 100), 3);
+
+            img {
+                width: 40px;
+                margin-bottom: 1rem;
+            }
+
+            span {
+                font-size: 20px;
+            }
+
+        }
+
+    }
 }
