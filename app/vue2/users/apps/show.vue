@@ -96,7 +96,7 @@ export default {
 </script>
 
 <template>
-    <section class="application-component">
+    <section class="application-component app-users">
         <component-information-card :app-mount-path="appMountPath"></component-information-card>
         <b-tabs v-model="active">
             <b-tab-item :label="translations.core.users.view_tab_title_information">
