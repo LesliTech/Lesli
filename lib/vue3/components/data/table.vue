@@ -1,0 +1,111 @@
+<script setup>
+/*
+Copyright (c) 2022, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · import vue tools
+import { ref, reactive, onMounted, watch, computed } from "vue"
+
+
+// · defining props
+const props = defineProps({
+    loading: {
+        type: Boolean,
+        default: false
+    },
+    columns: {
+        type: Array,
+        required: true
+    },
+    data: {
+        type: Array,
+        required: true
+    }
+})
+
+
+// · define variables
+
+
+
+// prepaer the CSS classes for every column in the header
+function tableHeaderClass(column) {
+    return {
+        'has-text-centered': column.field == 'id'
+    }
+}
+
+// prepaer the CSS classes for every column in the header
+function tableBodyClass(column) {
+    return {
+        'has-text-centered': column.field == 'id'
+    }
+}
+
+</script>
+<template>
+    <div>
+        <table class="table is-fullwidth is-striped">
+            <thead>
+                <tr>
+
+                    <!-- Define table header, we simple iterate over the defined fields -->
+                    <th :class="tableHeaderClass(column)"
+                        v-for="column in props.columns" 
+                        :key="column.field">
+                        {{ column.label }}
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <!-- 
+                    Wait until the store indicate that the request was completed, 
+                    create the table rows
+                -->
+                <tr v-if="!loading"
+                    v-for="data in props.data">
+
+                    <!-- Render table columns -->
+                    <td 
+                        :class="tableBodyClass(column)"
+                        v-for="column in props.columns">
+                        {{ data[column.field] }}
+                    </td>
+                </tr>
+
+            </tbody>
+            <tfoot>
+                <tr>
+
+                    <!-- show special messages according according to table data -->
+                    <td :colspan="props.columns.length">
+
+                        <!-- Show loading animation, this should be setted through the stores -->
+                        <component-data-loading v-if="loading"></component-data-loading>
+
+                        <!-- Show a message to indicate that there is no data to present -->
+                        <component-data-empty v-if="!loading && props.data.length < 1"></component-data-empty>
+
+                    </td>
+
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</template>

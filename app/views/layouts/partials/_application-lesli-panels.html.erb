@@ -44,53 +44,41 @@ For more information read the license file including with this software.
 
 <%# Standard module selector %>
 <application-component-panel-engines>
-    <template v-slot:header>
-        <p><%= I18n.t("core.accounts.view_title_navigation_all_applications") %></p>
-    </template>
-    <template>
 
-        <%# Administration %>
-        <%= navigation_engine_team %>
+    <%# Administration %>
+    <%= navigation_engine_team %>
 
-        <%# Sales & marketing %>
-        <%= navigation_engine_house %>
-        <%= navigation_engine_mailer %>
-        <%= navigation_engine_proposal %>
+    <%# Sales & marketing %>
+    <%= navigation_engine_house %>
+    <%= navigation_engine_mailer %>
+    <%= navigation_engine_proposal %>
 
-        <%# Productivity & teamwork %>
-        <%= navigation_engine_driver %>
-        <%= navigation_engine_work %>
-        <%= navigation_engine_focus %>
-        <%= navigation_engine_text %>
-        <%= navigation_engine_bell %>
-        <%= navigation_engine_talk %>
-        <%= navigation_engine_storage %>
+    <%# Productivity & teamwork %>
+    <%= navigation_engine_driver %>
+    <%= navigation_engine_work %>
+    <%= navigation_engine_focus %>
+    <%= navigation_engine_text %>
+    <%= navigation_engine_bell %>
+    <%= navigation_engine_talk %>
+    <%= navigation_engine_storage %>
 
-        <%# Finance %>
-        <%= navigation_engine_things %>
-        <%= navigation_engine_realty %>
-        
-        <%# IT & Help desk %>
-        <%= navigation_engine_kb %>
-        <%= navigation_engine_help %>
-        <%= navigation_engine_portal %>
-        <%= navigation_engine_shared %>
-        
-        <%# Security & privacy %>
-        <%= navigation_engine_audit %>
+    <%# Finance %>
+    <%= navigation_engine_things %>
+    <%= navigation_engine_realty %>
 
-        <%# Integrations %>
-        <%= navigation_engine_babel %>
-        <%= navigation_engine_federation %>
-        <%= navigation_engine_one %>
-        <%= navigation_engine_development %>
+    <%# IT & Help desk %>
+    <%= navigation_engine_kb %>
+    <%= navigation_engine_help %>
+    <%= navigation_engine_portal %>
+    <%= navigation_engine_shared %>
 
-    </template>
-    <template v-slot:footer>
-        <a class="has-text-link" href="<%= url_for(main_app.root_administration_path) %>">
-            <%= I18n.t("core.accounts.view_text_system_administration_link") %>
-            <i class="fas fa-arrow-right ml-2"></i>
-        </a>
-    </template>
+    <%# Security & privacy %>
+    <%= navigation_engine_audit %>
+
+    <%# Integrations %>
+    <%= navigation_engine_babel %>
+    <%= navigation_engine_federation %>
+    <%= navigation_engine_one %>
+    <%= navigation_engine_development %>
 
 </application-component-panel-engines>

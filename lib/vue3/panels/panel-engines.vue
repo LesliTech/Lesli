@@ -31,6 +31,8 @@ const coreLayout = useCoreLayout()
 </script>
 <template>
     <section v-if="coreLayout.showEngines" class="application-engines">
-        mi menu {{ coreLayout.showEngines }}
+        <div>
+            <slot></slot>
+        </div>
     </section>
 </template>
