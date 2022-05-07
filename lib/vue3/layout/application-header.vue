@@ -88,7 +88,7 @@ export default {
                         @input="searchText">
                     <span class="icon is-left has-text-gray">
                         <lesli-svg id="search" />
-                        <component-data-loading v-if="search.searching && searchText!=''" :icon-only="true"/>
+                        <lesli-data-loading v-if="search.searching && searchText!=''" :icon-only="true"/>
                     </span>
                 </div>
             </div>
