@@ -17,18 +17,7 @@ For more information read the license file including with this software.
 
 
 // · 
-.component-data-empty {
-    padding: 4rem 0;
-    p {
-        font-size: 1.1rem;
-        text-align: center;
-        color: lesli-color(silver, 700);
-    }
-}
-
-
-// · 
-.component-data-loading {
+.lesli-data-loading {
     padding: 4rem 0;
     .loading-animation {
         display: inline-block;

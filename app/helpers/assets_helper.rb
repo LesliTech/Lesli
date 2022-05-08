@@ -67,17 +67,18 @@ module AssetsHelper
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
-        if [
-            "accounts", "account", "roles", "profiles", "users", "abouts", 
-            "settings", "cronos", "onboarding", "role_descriptors"
-        ].include?(cloud_module)
-            return controller_path 
-        end 
-
         template = "application"
 
         if ["lesil_cloud"].include?(lesli_engine)
             template = "application3"
+        end 
+
+        if [
+            "accounts", "account", "roles", "profiles", "users", "abouts", 
+            "settings", "cronos", "onboarding", "role_descriptors"
+        ].include?(cloud_module)
+            #return controller_path 
+            return ["administration", template].join("/")
         end 
 
         [cloud_module, template].join("/")
@@ -89,8 +90,9 @@ module AssetsHelper
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
-        if ["account"].include?(cloud_module)
-            return [cloud_module, path_segments.push("application").compact().join("_")].join("/")
+        if ["accounts", "users"].include?(cloud_module)
+            #return [cloud_module, path_segments.push("application").compact().join("_")].join("/")
+            return ["administration", "application"].join("/")
         end 
 
         return [cloud_module, "application"].join("/")

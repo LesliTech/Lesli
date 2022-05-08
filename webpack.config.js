@@ -97,7 +97,7 @@ module.exports = env => {
             "passes/application": "Lesli/vue3/passes/app.js",
             "invites/application": "Lesli/vue3/invites/app.js",
             
-            "accounts/application": "Lesli/vue3/administration/accounts/app.js",
+            "administration/application": "Lesli/vue3/administration/app.js",
         },
 
 
