@@ -59,7 +59,7 @@ function tableBodyClass(column) {
 </script>
 <template>
     <div>
-        <table class="table is-fullwidth is-striped">
+        <table class="table lesli-data-table is-fullwidth is-striped">
             <thead>
                 <tr>
 

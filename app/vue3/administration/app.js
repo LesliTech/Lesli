@@ -21,12 +21,15 @@ import app from "LesliVue/app"
 
 
 // · 
-import appDashboard from "./administration/apps/dashboard.vue"
-
+import appAccountDashboard from "Lesli/vue3/administration/apps/accounts/dashboard.vue"
+import appUsersList from "Lesli/vue3/administration/apps/users/list.vue"
 
 
 // · 
 app("Administration", [{
     path: "/",
-    component: dashboard
+    component: appAccountDashboard
+}, {
+    path: "/users",
+    component: appUsersList
 }])

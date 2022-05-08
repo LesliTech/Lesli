@@ -18,12 +18,12 @@ For more information read the license file including with this software.
 
 
 
-<%= navigation_item(main_app.root_administration_path) do %>
+<%= navigation_vue_item(main_app.root_administration_path) do %>
     <i class="ri-building-4-fill"></i>
     <span><%= I18n.t("core.shared.sidebar_nav_account") %></span>
 <% end %>
 
-<%= navigation_item(main_app.users_path) do %>
+<%= navigation_vue_item(main_app.users_path) do %>
     <i class="ri-user-line"></i>
     <span><%= I18n.t("core.shared.sidebar_nav_users") %></span>
 <% end %>

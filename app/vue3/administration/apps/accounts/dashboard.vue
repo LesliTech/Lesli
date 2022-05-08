@@ -3,6 +3,6 @@
 </script>
 <template>
     <section class="application-component">
-        mi dashboard
+        Mi cuenta
     </section>
 </template>

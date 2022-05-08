@@ -19,15 +19,26 @@ For more information read the license file including with this software.
 
 
 // · 
-@import "lesli-css/";
-@import "./settings/colors";
-@import "./settings/helpers";
+table.lesli-data-table {
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
 
-@import "./layout/application-header";
-@import "./layout/application-sidebar";
+    thead {
 
+        th {
+            border: none;
+            font-weight: 700;
+        }
 
-html, body {
-    scrollbar-width: thin;
-    scrollbar-color: lesli-css-color-theme(primary) lesli-css-color-theme(primary);
+        border-radius: 10px 10px 0 0;
+        background-color: #E2E6F6;
+    }
+
+    thead, 
+    tbody {
+        th,td {
+            padding: 1.4rem 1rem;
+        }
+    }
 }

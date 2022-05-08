@@ -1,5 +1,6 @@
 /*
-Copyright (c) 2022, all rights reserved.
+
+Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -13,20 +14,14 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 */
 
 
 // · 
-import app from "LesliVue/app"
-
-
-// · 
-import appDashboard from "./apps/dashboard.vue"
-
-
-
-// · 
-app("Administration", [{
-    path: "/",
-    component: appDashboard
-}])
+.lesli-header {
+    margin-bottom: 32px;
+    .navbar-item {
+        padding: 0;
+    }
+}

@@ -39,7 +39,7 @@ export default {
 }
 </script>
 <template>
-    <nav class="navbar component-header">
+    <nav class="navbar lesli-header">
         <div class="navbar-brand">
             <div class="navbar-item">
                 <h2 v-if="title">{{ title }}</h2>
