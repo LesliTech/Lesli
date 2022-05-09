@@ -139,9 +139,9 @@ export default {
                 <div class="timeline-content">
                     <p class="heading">{{activity.user_name}} - {{ activity.created_at }}</p>
                     <p>
-                        {{
+                        {{ 
                             object_utils.translateEnum(translations.core, 'column_enum_activities', activity.category, null) ||
-                            (object_utils.translateEnum(translations.main, 'column_enum_category', activity.category) ||
+                            (object_utils.translateEnum(translations.main, 'column_enum_category', activity.category, null) ||
                             object_utils.translateEnum(translations.main, 'column_enum', activity.category))
                         }}
                         <span v-if="activity.description && activity.description.length > 0">
