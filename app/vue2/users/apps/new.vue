@@ -88,7 +88,7 @@ export default {
 </script>
 
 <template>
-    <section class="application-component app-users">
+    <section class="application-component">
         <component-information-card :actions="false" :app-mount-path="appMountPath"></component-information-card>
         <component-form :app-mount-path="appMountPath"></component-form>
     </section>
