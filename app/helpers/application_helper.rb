@@ -79,7 +79,9 @@ module ApplicationHelper
 
     # Prints the name of the engine
     def engine_name
-        lesli_engine_or_instance().sub("_cloud", "").sub("cloud_", "").camelize
+        name = lesli_engine_or_instance().sub("_cloud", "").sub("cloud_", "").camelize
+        return nil if name == "Lesli"
+        name
     end
 
     # DEPRECATED: used the credentials method directly where you need credentials
