@@ -66,7 +66,7 @@ export default {
 }
 </script>
 <template>
-    <section class="application-component app-dashboards">
+    <section class="application-component">
         <component-header 
             :title="dashboard_name"
         >

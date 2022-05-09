@@ -121,7 +121,7 @@ export default {
 }
 </script>
 <template>
-    <section class="application-component app-dashboards">
+    <section class="application-component">
         <div v-if="configuration_ready">
 
             <div v-if="render_default_dashboard">
