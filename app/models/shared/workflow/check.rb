@@ -82,9 +82,9 @@ module Shared
                 }
             end
 
-            users = current_user.account.users.joins(:detail).select(
-                "users.id",
-                "concat(user_details.first_name, ' ', user_details.last_name) as name"
+            users = current_user.account.users.select(
+                :id,
+                :name
             )
 
             {
