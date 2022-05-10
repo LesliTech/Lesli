@@ -53,7 +53,11 @@ export default {
 </script>
 <template>
     <aside class="application-sidebar">
-        <slot name="brand"></slot>
+        <div class="brand">
+            <a href="/">
+                <slot name="brand"></slot>
+            </a>
+        </div>
         <nav class="application-navigation menu">
             <ul class="menu-list">
                 <slot></slot>
