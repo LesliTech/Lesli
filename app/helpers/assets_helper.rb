@@ -25,6 +25,7 @@ module AssetsHelper
 
         template = "application"
 
+        # list of engines that are already using lesi3
         if [
 
             # Core apps (administration)
@@ -69,7 +70,7 @@ module AssetsHelper
 
         template = "application"
 
-        if ["lesil_cloud"].include?(lesli_engine)
+        if ["lesli_cloud"].include?(lesli_engine)
             template = "application3"
         end 
 
@@ -85,13 +86,13 @@ module AssetsHelper
 
     end
 
+    # Return a string path to load the main javascript app of the engine
     def application_javascript_path
 
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
         if ["accounts", "users"].include?(cloud_module)
-            #return [cloud_module, path_segments.push("application").compact().join("_")].join("/")
             return ["administration", "application"].join("/")
         end 
 
