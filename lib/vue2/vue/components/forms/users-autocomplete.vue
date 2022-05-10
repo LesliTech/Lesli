@@ -111,6 +111,8 @@ export default {
                     this.user_input = user.text
                     this.select(user)
                 }
+            }else{
+                this.user_input = ''
             }
         },
 
