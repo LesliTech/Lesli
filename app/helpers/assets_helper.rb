@@ -36,6 +36,7 @@ module AssetsHelper
             "lesli_cloud", 
             "cloud_audit",
             "cloud_development"
+
         ].include?(lesli_engine)
             template = "application3"
         end 
@@ -69,10 +70,6 @@ module AssetsHelper
         cloud_module = path_segments.shift
 
         template = "application"
-
-        if ["lesli_cloud"].include?(lesli_engine)
-            template = "application3"
-        end 
 
         if [
             "accounts", "account", "roles", "profiles", "users", "abouts", 
