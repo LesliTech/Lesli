@@ -89,6 +89,15 @@ module AssetsHelper
         "<script type=\"application/javascript\" src=\"https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.dig(:providers, :google, :maps_sdk_token)}\"></script>".html_safe
     end
 
+    def javascript_apple_mapkit_js
+        mapkit_js_token = Rails.application.credentials.dig(:providers, :apple, :mapkit_js_token)
+
+        "<script type=\"application/javascript\" src=\"https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js\"></script>
+         <script type=\"application/javascript\"> 
+             const mapkit_js_token = \"#{mapkit_js_token}\" 
+         </script>".html_safe
+    end
+
     def favicon
         icon_path = customization_instance_logo_url(logo: "favicon")
         ("
