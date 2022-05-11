@@ -54754,6 +54754,7 @@ For more information read the license file including with this software.
       return {
         success: false,
         error: {
+          code: error.response.status,
           error: error.response.statusText,
           message: message
         }
@@ -61009,7 +61010,7 @@ vue_min_default().component("component-data-pagination", data_pagination); // ·
 
       console.clear();
       debug_browser_default().lesli_message_warning((_lesli = lesli) === null || _lesli === void 0 ? void 0 : (_lesli$company = _lesli.company) === null || _lesli$company === void 0 ? void 0 : (_lesli$company$name = _lesli$company.name) === null || _lesli$company$name === void 0 ? void 0 : _lesli$company$name.replace("Cloud", ""));
-      debug_browser_default().info("[BUILD] (core) 220503.0341 ");
+      debug_browser_default().info("[BUILD] (core) 220510.1900 ");
     }
   });
 });
