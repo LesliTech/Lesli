@@ -19,19 +19,18 @@ For more information read the license file including with this software.
 .lesli-toolbar {
     margin-bottom: 1rem;
 
+    input,
+    .select select {
+        border-radius: 8px;
+        border: 1px solid lesli-css-color(silver);
+    }
+
     // search input
     input {
-        border-radius: 10px;
-        border: 1px solid lesli-css-color(silver);
         &::placeholder {
             color: lesli-css-color(silver, 700);
             opacity: .8;
         }
-    }
-
-    // combo selector
-    .select select {
-        border: 1px solid lesli-css-color(silver);
     }
 
     // autocomplete tag selectors
