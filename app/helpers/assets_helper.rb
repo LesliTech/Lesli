@@ -90,11 +90,11 @@ module AssetsHelper
     end
 
     def javascript_apple_mapkit_js
-        mapkit_js_token = Rails.application.credentials.dig(:providers, :apple, :mapkit_js_token)
+        token = Rails.application.credentials.dig(:providers, :apple, :mapkit_token)
 
-        "<script type=\"application/javascript\" src=\"https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js\"></script>
+        "<script type=\"application/javascript\" src=\"https://cdn.apple-mapkit.com/mk/5.45.0/mapkit.js\"></script>
          <script type=\"application/javascript\"> 
-             const mapkit_js_token = \"#{mapkit_js_token}\" 
+            const ampkt = \"#{token}\" 
          </script>".html_safe
     end
 
