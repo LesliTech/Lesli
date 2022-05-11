@@ -26,6 +26,7 @@ header.application-header {
     z-index: 40;
     position: fixed;
     padding: 20px 28px;
+    margin-bottom: 8px;
     height: var(--app-header-height);
     width: calc(100% - var(--app-navigation-width));
 

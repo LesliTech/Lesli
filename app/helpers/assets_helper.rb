@@ -19,14 +19,24 @@ For more information read the license file including with this software.
 
 module AssetsHelper
 
+
+    # Return a string path to load the template stylesheet
     def application_stylesheet_template_path
 
         template = "application"
 
+        # list of engines that are already using lesi3
         if [
+
+            # Core apps (administration)
+            "users",
+            "accounts",
+
+            # Engines
             "lesli_cloud", 
             "cloud_audit",
             "cloud_development"
+
         ].include?(lesli_engine)
             template = "application3"
         end 
@@ -35,6 +45,8 @@ module AssetsHelper
 
     end
 
+
+    # Return a string path to load the stylesheet of the selected theme
     def application_stylesheet_theme_path()
 
         theme = "themes/blank"
@@ -50,35 +62,35 @@ module AssetsHelper
 
     end
 
+
+    # Return a string path to load the stylesheet corresponding to the controller app
     def application_stylesheet_engine_path
 
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
+        template = "application"
+
         if [
             "accounts", "account", "roles", "profiles", "users", "abouts", 
             "settings", "cronos", "onboarding", "role_descriptors"
         ].include?(cloud_module)
-            return controller_path 
+            #return controller_path 
+            return ["administration", template].join("/")
         end 
 
-        template = "application"
-
-        if ["lesil_cloud"].include?(lesli_engine)
-            template = "application3"
-        end 
-
-        [cloud_module, "application"].join("/")
+        [cloud_module, template].join("/")
 
     end
 
+    # Return a string path to load the main javascript app of the engine
     def application_javascript_path
 
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
-        if ["account"].include?(cloud_module)
-            return [cloud_module, path_segments.push("application").compact().join("_")].join("/")
+        if ["accounts", "users"].include?(cloud_module)
+            return ["administration", "application"].join("/")
         end 
 
         return [cloud_module, "application"].join("/")

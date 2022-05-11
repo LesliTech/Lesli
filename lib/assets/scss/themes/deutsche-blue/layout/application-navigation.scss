@@ -21,10 +21,13 @@ For more information read the license file including with this software.
 @import "lesli-css/";
 
 aside.application-sidebar {
-    a.brand {
+    .brand {
         padding: 2px 0;
         background-color: lesli-css-color(solid,white);
-        height: 100vh;
+        text-align: center;
+        img {
+            height: 50px;
+        }
     }
     .application-navigation {
         background-color: lesli-css-color-theme(app, primary);

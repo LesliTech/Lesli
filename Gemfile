@@ -222,6 +222,9 @@ end
 # · Gems for development environment
 group :development do
 
+    # Brakeman detects security vulnerabilities in Ruby on Rails applications via static analysis.
+    gem "brakeman", "5.2.3"
+
     # Go faster, off the Rails
     gem "derailed_benchmarks", "2.1.1"
 

@@ -16,12 +16,13 @@ module Application
     module Responder
         extend ActiveSupport::Concern
 
+        included do
+        end
+
         def respond_with_successful data= nil
             response_body = { successful: true }
             response_body[:data] = data
             render status: 200, json: response_body.to_json
-
-            #respond_with_http(200, payload)
         end
 
         # Usage example
@@ -35,8 +36,8 @@ module Application
         # IMPORTANT: It is strictly necessary to use the pagination methods
         #            to make this work properly
         def respond_with_pagination records
-            
-            respond_with_http(200, {
+
+            payload = {
                 :pagination => {
                     :total_pages => records.current_page,
                     :current_page => records.current_page,
@@ -44,8 +45,23 @@ module Application
                     :count_results => records.length
                 },
                 :records => records
-            })
+            }
 
+            response_body = { successful: true }
+            response_body[:payload] = payload
+            render status: 200, json: response_body.to_json
+
+        end
+        
+        # JSON failure response
+        def respond_with_error message = "", details = []
+            render status: 200, json: {
+                successful: false,
+                error: {
+                    message: message,
+                    details: details
+                }
+            }.to_json
         end
 
         # JSON not found response
@@ -57,18 +73,7 @@ module Application
                     details: []
                 }
             }.to_json
-
-=begin
-            respond_with_http(404, { 
-                message: I18n.t("core.shared.messages_danger_not_found"),
-                details: []
-            })
-=end
         end
-        
-        
-
-        
 
         # JSON not found response
         def respond_with_unauthorized(detail = {})
@@ -95,33 +100,6 @@ module Application
             end
 
         end
-
-        # JSON failure response
-        def respond_with_error message = "", details = []
-            render status: 200, json: {
-                successful: false,
-                error: {
-                    message: message,
-                    details: details
-                }
-            }.to_json
-
-            # here I should use the error object and pass:
-            #       message = error message to sentence
-            #       details = error array of messages
-=begin
-            respond_with_http(400, { 
-                message: message,
-                details: details
-            })
-=end
-
-        end
-
-        # Respond with an standard http message
-        def respond_with_http status, payload
-            render(status: status, json: payload.to_json)
-        end 
 
     end
 

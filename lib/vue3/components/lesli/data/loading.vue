@@ -1,4 +1,4 @@
-<script>
+<script setup>
 /*
 Copyright (c) 2022, all rights reserved.
 
@@ -17,35 +17,40 @@ For more information read the license file including with this software.
 */
 
 
-// ·
-export default {
-    data() {
-        return {
-            translations: {
-                shared: I18n.t('core.shared')
-            },
-        }
+// · import vue tools
+import { ref, reactive, onMounted, watch } from "vue"
+
+
+// · defining props
+const props = defineProps({
+    size: {
+        type: Number,
+        default: 5
     },
-    props: {
-        size: {
-            default: "4"
-        },
-        iconOnly: {
-            default: false
-        }
+    icon: {
+        type: Boolean,
+        default: false
     }
+})
+
+
+// · defining variables
+const translations = {
+    shared: I18n.t('core.shared')
 }
+
 </script>
 <template>
-    <div class="component-data-loading has-text-centered">
-        <span v-if="iconOnly" class="loading-animation">
-            <hr/><hr/><hr/><hr/>
-        </span>
-        <p v-if="!iconOnly">
+    <div class="lesli-data-loading has-text-centered">
+        <p>
             <span class="loading-animation">
                 <hr/><hr/><hr/><hr/>
             </span>
-            <span :class="'is-size-'+size">{{ translations.shared.view_text_loading }}...</span>
+            <span 
+                v-if="!icon"
+                :class="['is-size-'+size, 'ml-3']">
+                {{ translations.shared.view_text_loading }}...
+            </span>
         </p>
     </div>
 </template>
