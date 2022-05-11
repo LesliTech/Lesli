@@ -39,20 +39,18 @@ export default {
 }
 </script>
 <template>
-    <section>
-        <nav class="navbar component-header">
-            <div class="navbar-brand">
+    <nav class="navbar lesli-header">
+        <div class="navbar-brand">
+            <div class="navbar-item">
+                <h2 v-if="title">{{ title }}</h2>
+            </div>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-end">
                 <div class="navbar-item">
-                    <h2 v-if="title">{{ title }}</h2>
+                    <slot></slot>
                 </div>
             </div>
-            <div class="navbar-menu">
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <slot></slot>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </section>
+        </div>
+    </nav>
 </template>

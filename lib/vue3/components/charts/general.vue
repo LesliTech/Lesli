@@ -1,4 +1,4 @@
-<script>
+<script setup>
 /*
 Copyright (c) 2022, all rights reserved.
 
@@ -17,116 +17,143 @@ For more information read the license file including with this software.
 */
 
 
-// · 
-import { ref, reactive, onMounted } from "vue"
+// · import vue tools
+import { ref, reactive, onMounted, watch } from "vue"
 
 
-// · Import frameworks, libraries and tools
+// · import & define local components
 import ApexCharts from "apexcharts"
 
 
-// · 
-export default {
-
-    setup() {
-
-        var options = {
-            series: [],
-            labels: [],
-            grid: {
-                show: false,
-                padding: {
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0
-                }
-            },
-            chart: {
-                height: "auto",
-                type: "line", 
-                toolbar: {
-                    show: false
-                }
-            },
-            title: {
-                text: "hola grafica"
-            },
-            legend: {
-                show: true,
-                position: 'top',
-                horizontalAlign: 'center'
-            },
-            dataLabels: {
-                enabled: false,
-            },
-            //colors: this.lesli.colors("charts"),
-            stroke: { },
-            plotOptions: { },
-            xaxis: {
-                categories: [],
-                tickPlacement: 'between',
-                labels: {
-                    show: true,
-                    rotate: -65,
-                    rotateAlways: false,
-                    trim: false,
-                    offsetY: 5,
-                    style: {
-                        fontSize: '15px'
-                    },
-                }
-            },
-            yaxis: {
-                show: true,
-            }
+// · defining props
+const props = defineProps({
+    type: {
+        type: String,
+        required: true
+    },
+    title: {
+        type: String
+    },
+    subtitle: {
+        type: String
+    },
+    series: {
+        type: Array,
+        required: true
+    },
+    labels: {
+        type: Array,
+        required: true
+    },
+    options: {
+        type: Object,
+        default() {
+            return {}
         }
-
-        var optionsBase = {
-            chart: {
-                height: 350, 
-                type: 'line'
-            },
-            stroke: {
-                show: true,
-                curve: 'smooth',
-                lineCap: 'round',
-            }
-        }
-
-        options = {
-            ...options,
-            ...optionsBase
-        }
-
-
-        onMounted(() => {
-
-            options.series = [{
-                name: "Desktops",
-                data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-            }]
-
-            options.labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
-            options.xaxis.categories = options.labels
-
-            console.log(options)
-
-            var chart = new ApexCharts(document.querySelector("#chart"), options);
-            chart.render();
-
-        })
     }
+})
 
+
+// · define variables
+var chart = reactive({})
+
+
+// specific options for apexcharts
+const generalOptions = {
+    series: [],
+    labels: [],
+    grid: {
+        show: false,
+        padding: {
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0
+        }
+    },
+    chart: {
+        type: props.type, 
+        height: "auto",
+        toolbar: {
+            show: false
+        }
+    },
+    title: {
+        text: ""
+    },
+    legend: {
+        show: true,
+        position: 'top',
+        horizontalAlign: 'center'
+    },
+    dataLabels: {
+        enabled: true,
+    },
+    //colors: this.lesli.colors("charts"),
+    stroke: { },
+    plotOptions: { },
+    xaxis: {
+        categories: [],
+        tickPlacement: 'between',
+        labels: {
+            show: true,
+            rotate: -65,
+            rotateAlways: false,
+            trim: false,
+            offsetY: 5,
+            style: {
+                fontSize: '15px'
+            },
+        }
+    },
+    yaxis: {
+        show: true,
+    },
+    tooltip: {
+        shared: false,
+        intersect: true
+    }
 }
+
+
+// unique id for the chart container
+const chartId = `component-chart-${Math.floor(Math.random() * 10000)}`
+
+
+onMounted(() => {
+
+    // labels and data series are empty by default due child (wrapper) components 
+    // may set this arrays dynamically, so we have to always listen for changes on
+    // these arrays
+    generalOptions.labels = []
+    generalOptions.series = []
+
+    // start chart with unique html id
+    chart = new ApexCharts(document.querySelector("#"+chartId), generalOptions);
+
+    // render an empty chart
+    chart.render();
+
+    // If the information is available from the start, we update the labels and sources
+    if (props.options) { chart.updateOptions(props.options) }
+    if (props.series) { chart.updateSeries(props.series) }
+
+})
+
+
+// watch for changes on prop series to update chart options
+watch(() => props.series, (newSeries) => chart.updateSeries(newSeries))
+
+// watch for changes on prop labels to update chart options
+watch(() => props.labels, (newLabels) => chart.updateOptions({ labels: newLabels }))
+
 </script>
 <template>
     <section>
         <div class="box">
-            <h3>Mi grafica</h3>
-            <p>Mi grafica que muestra datos bonitos</p>
-            <div id="chart"></div>
+            <h3 v-if="!!title">{{ title }}</h3>
+            <p v-if="!!subtitle">{{ subtitle }}</p>
+            <div :id="chartId"></div>
         </div>
-        <!-- <div :id="'component-chart-'+_uid"></div> -->
     </section>
 </template>

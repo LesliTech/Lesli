@@ -1,4 +1,4 @@
-<script>
+<script setup>
 /*
 Copyright (c) 2022, all rights reserved.
 
@@ -17,50 +17,32 @@ For more information read the license file including with this software.
 */
 
 
-// ·
-export default {
-    data() {
-        return {
-            slot_settings: false,
-            translations: {
-                core: {
-                    sidebar_nav_settings: I18n.t("core.shared.sidebar_nav_settings")
-                }
-            }
-        }
-    },
-    mounted() {
-        this.slot_settings = this.$slots['settings']
-    },
-    methods: {
-        postUserShortcut() {
-            /*
-            this.http.post(this.url.admin("users/:id/shortcuts", { id: this.lesli.current_user.id}), {
-                user_shortcut: {
-                    name: document.title,
-                    url: window.location.toString()
-                }
-            }).then(result => {
-                if (result.successful) {
-                    this.msg.success("Shortcut created successfuly")
-                }
-                console.log(result)
-            }).catch(error => {
-                console.log(error)
-            })
-            */
-        }
-    }
-}
+// · import vue tools
+import { ref, reactive, onMounted, inject } from "vue"
+
+
+// · import stores
+import { useCoreLayout } from "LesliVue/stores/layout"
+
+
+// · 
+const coreLayout = useCoreLayout()
+
+
 </script>
 <template>
     <aside class="application-sidebar">
-        <slot name="brand"></slot>
+        <div class="brand">
+            <a href="/">
+                <slot name="brand"></slot>
+            </a>
+            <lesli-svg @click="coreLayout.toggleEngines()" id="menu" class="is-hidden-touch" />
+        </div>
         <nav class="menu is-flex-grow-1">
             <ul class="menu-list">
                 <li class="is-hidden-desktop">
                     <a>
-                        <l-svg id="menu" />
+                        <lesli-svg @click="coreLayout.toggleEngines()" id="menu" />
                     </a>
                 </li>
                 <slot></slot>
