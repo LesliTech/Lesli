@@ -58,7 +58,6 @@ yarn.lock
 /public/uploads/
 
 
-
 /engines/*
 /engines2/*
 /enginesdev/*
@@ -69,8 +68,11 @@ yarn.lock
 /config/locales/*
 /config/master.key
 /config/credentials/*
-!/config/credentials/.gitkeep
+/config/credentials/test.key
+/config/credentials/development.key
 !/config/credentials/testci.yml.enc
+!/config/credentials/.gitkeep
+
 
 *.pem
 *.crt
@@ -80,11 +82,8 @@ yarn.lock
 # Covers JetBrains IDEs: RubyMine
 .idea/
 
-/config/credentials/development.key
-
-
 
 # temp
 /public/pwa/*
 
-/config/credentials/test.key
+brakeman.html
