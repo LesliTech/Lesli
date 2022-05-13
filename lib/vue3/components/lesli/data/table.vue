@@ -68,22 +68,6 @@ function tableBodyClass(column) {
 }
 
 
-// · 
-watch(() => props.records, (records) => {
-
-    // do not do nothing if no records found
-    if (records.length <= 0) return;
-
-    // send array-like data to the proper container variable
-    // this kind of data usually comes from respond_with_pagination
-    if (Array.isArray(records)) return arrayRecords.value = records;
-
-    // send object-like data to the proper container variable
-    // this kind of data usually comes from respond_with_successful
-    if (typeof records == 'object') return objectRecords.value = records;
-
-})
-
 </script>
 <template>
     <div>
@@ -106,25 +90,10 @@ watch(() => props.records, (records) => {
 
                 <!-- 
                     Wait until the store indicate that the request was completed, 
-                    create the table rows from array records
+                    create the table rows from records
                 -->
                 <tr v-if="!loading"
-                    v-for="record in arrayRecords">
-
-                    <td 
-                        v-for="(column, index) in props.columns"
-                        :class="tableBodyClass(column)">
-                        {{ record[index] }}
-                    </td>
-
-                </tr>
-
-                <!-- 
-                    Wait until the store indicate that the request was completed, 
-                    create the table rows from object records
-                -->
-                <tr v-if="!loading"
-                    v-for="record in objectRecords">
+                    v-for="record in props.records">
 
                     <td 
                         :class="tableBodyClass(column)"
