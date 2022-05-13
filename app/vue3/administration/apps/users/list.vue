@@ -75,7 +75,7 @@ const columns = [{
         <lesli-data-table
             :loading="store.loading"
             :columns="columns"
-            :data="store.index">
+            :records="store.index">
         </lesli-data-table>
     </section>
 </template>
