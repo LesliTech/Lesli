@@ -87,20 +87,35 @@ body {
 
 
 // · headings and links
-h1, a {
+a, 
+h1 {
     font-family: "Montserrat", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
 }
 
 h1 {
-    line-height: 120%;
+    line-height: 148%;
     font-weight: 800;
     font-size: 24px;
 }
 
-h2, h3, h4, h5, h6 {
+h2 {
+    line-height: 140%;
+    font-weight: 800;
+    font-size: 22px;
+}
+
+h3 {
     line-height: 140%;
     font-weight: 800;
     font-size: 20px;
+}
+
+h4,
+h5, 
+h6 {
+    line-height: 140%;
+    font-weight: 800;
+    font-size: 18px;
 }
 
 
