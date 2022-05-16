@@ -119,7 +119,6 @@ const generalOptions = {
 // unique id for the chart container
 const chartId = `component-chart-${Math.floor(Math.random() * 10000)}`
 
-
 onMounted(() => {
 
     // labels and data series are empty by default due child (wrapper) components 
@@ -145,7 +144,17 @@ onMounted(() => {
 watch(() => props.series, (newSeries) => chart.updateSeries(newSeries))
 
 // watch for changes on prop labels to update chart options
-watch(() => props.labels, (newLabels) => chart.updateOptions({ labels: newLabels }))
+watch(() => props.labels, (newLabels) => {
+
+    // special options for bar charts
+    if (['bar'].includes(props.type)) {
+        chart.updateOptions({ xaxis: { categories: newLabels }})
+        return 
+    }
+
+    chart.updateOptions({ labels: newLabels })
+    
+})
 
 </script>
 <template>
