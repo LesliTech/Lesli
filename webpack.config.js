@@ -124,6 +124,7 @@ module.exports = env => {
                 CloudAudit: path.resolve("engines", "cloud_audit", "app", "vue3"),
                 CloudBabel: path.resolve("engines", "cloud_babel", "app", "vue3"),
                 CloudDevelopment: path.resolve("engines", "cloud_development", "app", "vue3"),
+                MitwerkenCloud: path.resolve("engines", "mitwerken_cloud", "app", "vue3"),
 
             }
         },
