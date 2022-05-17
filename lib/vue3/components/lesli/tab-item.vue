@@ -1,3 +1,4 @@
+<script setup>
 /*
 Copyright (c) 2022, all rights reserved.
 
@@ -16,35 +17,22 @@ For more information read the license file including with this software.
 */
 
 
-// · 
-import { defineStore } from "pinia"
+// · import vue tools
+import { ref, reactive, onMounted, watch, computed, useSlots } from "vue"
 
-
-// · 
-export const useUser = defineStore("user", {
-    state: () => {
-        return {
-            loading: false,
-            index: [],
-            list: []
-        }
+// · defining props
+const props = defineProps({
+    title: {
+        type: String,
+        required: true
     },
-    actions: {
-
-        fetchList() {
-
-        },
-
-        fetchIndex() {
-            this.index = []
-            this.loading = true
-            this.http(this.url.admin("users")).then(result => {
-                this.index = result.data.users
-            }).catch(error => {
-                console.log(error)
-            }).finally(() => {
-                this.loading = false
-            })
-        }
+    icon: {
+        type: String,
+        required: false
     }
 })
+
+</script>
+<template>
+    <slot></slot>
+</template>

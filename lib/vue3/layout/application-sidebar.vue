@@ -21,11 +21,9 @@ For more information read the license file including with this software.
 import { ref, reactive, onMounted, inject } from "vue"
 
 
-// · import stores
+// · import & implement stores
 import { useCoreLayout } from "LesliVue/stores/layout"
 
-
-// · 
 const coreLayout = useCoreLayout()
 
 
@@ -36,13 +34,13 @@ const coreLayout = useCoreLayout()
             <a href="/">
                 <slot name="brand"></slot>
             </a>
-            <lesli-svg @click="coreLayout.toggleEngines()" id="menu" class="is-hidden-touch" />
+            <lesli-icon @click="coreLayout.toggleEngines()" id="menu" class="is-hidden-touch"></lesli-icon>
         </div>
         <nav class="menu is-flex-grow-1">
             <ul class="menu-list">
                 <li class="is-hidden-desktop">
                     <a>
-                        <lesli-svg @click="coreLayout.toggleEngines()" id="menu" />
+                        <lesli-icon @click="coreLayout.toggleEngines()" id="menu"></lesli-icon>
                     </a>
                 </li>
                 <slot></slot>
