@@ -49,20 +49,4 @@ module HtmlHelper
         Rails.application.config.lesli.dig(:configuration, :locales_available, locale.to_sym) || "undefined"
     end
 
-    def lsvg(id)
-        '<svg width="24px" height="24"><use :xlink:href="#icon-'+id+'" /></svg>'.html_safe
-    end
-
-    # return an lesli svg icon path
-    def lesli_icon(name)
-        lesli_svg("icons/lesli/icon-#{name}")
-    end
-
-    # return an svg icon path
-    def lesli_svg(name)
-        file_path = "#{Rails.root}/app/assets/#{name}.svg"
-        return File.read(file_path).html_safe if File.exists?(file_path)
-        '(not found)'
-    end
-
 end
