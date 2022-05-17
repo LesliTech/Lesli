@@ -1,7 +1,6 @@
-<script>
+<script setup>
 /*
-
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -15,28 +14,26 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
-export default {
-    props: {
-        title: {
-            default: null
-        }
-    },
-    data() {
-        return {
-            loading: false
-        }
-    },
-    methods: {        
-        clickButtonReload() {
-            this.loading = true
-            setTimeout(() => { this.loading = false }, 1000);
-            this.$emit("clickButtonReload");
-        }
 
+
+// · import vue tools
+import { ref, reactive, onMounted, watch, computed } from "vue"
+
+
+// · defining props
+const props = defineProps({
+    title: {
+        type: String,
+        default: null
     }
-}
+})
+
+  
+// · defining emits
+const emit = defineEmits(['reload']);
+
+
 </script>
 <template>
     <nav class="navbar lesli-header">
@@ -48,7 +45,18 @@ export default {
         <div class="navbar-menu">
             <div class="navbar-end">
                 <div class="navbar-item">
-                    <slot></slot>
+                    <div class="buttons">
+                        <button 
+                            class="button is-primary is-outlined" 
+                            v-on:click="emit('reload')">
+                            <span class="icon">
+                                <span class="material-icons">
+                                    refresh
+                                </span>
+                            </span>
+                            <span>reload</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
