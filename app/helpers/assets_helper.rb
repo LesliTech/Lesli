@@ -33,9 +33,12 @@ module AssetsHelper
             "accounts",
 
             # Engines
-            "lesli_cloud", 
             "cloud_audit",
-            "cloud_development"
+            "cloud_development",
+
+            # Builders
+            "lesli_cloud",
+            "mitwerken_cloud",
 
         ].include?(lesli_engine)
             template = "application3"
