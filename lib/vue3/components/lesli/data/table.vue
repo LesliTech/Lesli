@@ -23,6 +23,15 @@ import { ref, reactive, onMounted, watch, computed } from "vue"
 
 // · defining props
 const props = defineProps({
+    class: {
+        type: String,
+        required: false,
+        default: "is-striped"
+    },
+    pagination: {
+        type: [Object, Boolean],
+        required: false
+    },
     loading: {
         type: Boolean,
         default: false
@@ -31,7 +40,7 @@ const props = defineProps({
         type: Array,
         required: true
     },
-    data: {
+    records: {
         type: Array,
         required: true
     }
@@ -39,27 +48,32 @@ const props = defineProps({
 
 
 // · define variables
+const objectRecords = ref([])
+const arrayRecords = ref([])
 
 
-
-// prepaer the CSS classes for every column in the header
+// · prepaer the CSS classes for every column in the header
 function tableHeaderClass(column) {
     return {
         'has-text-centered': column.field == 'id'
     }
 }
 
-// prepaer the CSS classes for every column in the header
+
+// · prepaer the CSS classes for every column in the header
 function tableBodyClass(column) {
     return {
         'has-text-centered': column.field == 'id'
     }
 }
 
+
 </script>
 <template>
     <div>
-        <table class="table lesli-data-table is-fullwidth is-striped">
+        <table 
+            class="table is-fullwidth lesli-data-table"
+            :class="props.class">
             <thead>
                 <tr>
 
@@ -76,39 +90,35 @@ function tableBodyClass(column) {
 
                 <!-- 
                     Wait until the store indicate that the request was completed, 
-                    create the table rows
+                    create the table rows from records
                 -->
                 <tr v-if="!loading"
-                    v-for="data in props.data">
+                    v-for="record in props.records">
 
-                    <!-- Render table columns -->
                     <td 
                         :class="tableBodyClass(column)"
-                        v-for="column in props.columns">
-                        {{ data[column.field] }}
+                        v-for="(column, index) in props.columns">
+                        {{ record[column.field] }}
                     </td>
+
                 </tr>
 
             </tbody>
-            <tfoot>
-                <tr>
-
-                    <!-- show special messages according according to table data -->
-                    <td :colspan="props.columns.length">
-
-                        <!-- Show loading animation, this should be setted through the stores -->
-                        <lesli-data-loading v-if="loading"></lesli-data-loading>
-
-                        <!-- Show a message to indicate that there is no data to present -->
-                        <lesli-data-empty v-if="!loading && props.data.length < 1"></lesli-data-empty>
-
-                    </td>
-
-                </tr>
-            </tfoot>
         </table>
 
-        <nav class="pagination" role="navigation" aria-label="pagination">
+        <!-- show special messages according according to table data -->
+        <div>
+
+            <!-- Show loading animation, this should be setted through the stores -->
+            <lesli-data-loading v-if="loading"></lesli-data-loading>
+
+            <!-- Show a message to indicate that there is no data to present -->
+            <lesli-data-empty v-if="!loading && props.records.length < 1"></lesli-data-empty>
+
+        </div>
+
+        <nav v-if="props.pagination" 
+            class="pagination" role="navigation" aria-label="pagination">
             <a class="pagination-previous">Previous</a>
             <a class="pagination-next">Next page</a>
 

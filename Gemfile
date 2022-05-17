@@ -255,6 +255,9 @@ group :development do
     # svgeez build --prefix="" --source ./app/assets/icons/lesli --destination ./app/views/layouts/partials/_application-svgs.svg
     gem "svgeez", "4.1"
 
+    # Rouge aims to a be a simple, easy-to-extend drop-in replacement for pygments.
+    gem "rouge", "3.28.0"
+
 end
 
 
