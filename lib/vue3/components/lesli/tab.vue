@@ -18,23 +18,19 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed } from "vue"
+import { ref, reactive, onMounted, watch, computed, useSlots } from "vue"
+
+
+// · gettings slots
+const slots = useSlots().default()
+
+console.log(slots)
+
 
 
 // · defining props
 const props = defineProps({
-    loading: {
-        type: Boolean,
-        default: false
-    },
-    columns: {
-        type: Array,
-        required: true
-    },
-    data: {
-        type: Array,
-        required: true
-    }
+
 })
 
 
@@ -58,32 +54,23 @@ function tableBodyClass(column) {
 
 </script>
 <template>
-    <div class="tabs">
-        <ul>
-            <li class="is-active">
-                <a>
-                    <span class="icon is-small"><i class="fas fa-image" aria-hidden="true"></i></span>
-                    <span>Pictures</span>
-                </a>
-            </li>
-            <li>
-                <a>
-                    <span class="icon is-small"><i class="fas fa-music" aria-hidden="true"></i></span>
-                    <span>Music</span>
-                </a>
-            </li>
-            <li>
-                <a>
-                    <span class="icon is-small"><i class="fas fa-film" aria-hidden="true"></i></span>
-                    <span>Videos</span>
-                </a>
-            </li>
-            <li>
-                <a>
-                    <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
-                    <span>Documents</span>
-                </a>
-            </li>
-        </ul>
+    <div class="lesli-tab">
+        <div class="tabs">
+            <ul>
+                <li v-for="(item, index) in slots">
+                    <a>
+                        <span v-if="!!item.props.icon" class="icon is-small">
+                            <span class="material-icons">
+                                {{ item.props.icon }}
+                            </span>
+                        </span>
+                        <span>{{ item.props.title }}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-items">
+            <slot></slot>
+        </div>
     </div>
 </template>
