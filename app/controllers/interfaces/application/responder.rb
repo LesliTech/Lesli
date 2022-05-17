@@ -1,14 +1,20 @@
 =begin
+
 Copyright (c) 2020, all rights reserved.
+
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
 All intellectual or industrial property rights of the code, texts, trade mark, design, 
 pictures and any other information belongs to the owner of this platform.
+
 Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
+
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 =end
 
 module Interfaces
@@ -32,8 +38,7 @@ module Interfaces
             #
             # IMPORTANT: It is strictly necessary to use the pagination methods
             #            to make this work properly
-            def respond_with_pagination records
-                
+            def respond_with_pagination records, columns=[]
                 respond_with_http(200, {
                     :pagination => {
                         :total_pages => records.current_page,
@@ -41,9 +46,9 @@ module Interfaces
                         :count_total => records.total_count,
                         :count_results => records.length
                     },
-                    :records => records
+                    #:columns => columns ,
+                    :records => records #.pluck(*columns) we must implement pluck if over optimization is needed
                 })
-
             end
 
 
