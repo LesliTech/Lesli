@@ -19,22 +19,22 @@ For more information read the license file including with this software.
 
 module AssetsHelper
 
+
+    # Return a string path to load the template stylesheet
     def application_stylesheet_template_path
 
         template = "application"
 
-        if [
-            "lesli_cloud", 
-            "cloud_audit",
-            "cloud_development"
-        ].include?(lesli_engine)
+        if (is_lesli_engine_administration? || lesli_engine_or_instance_info[:core] == 3)
             template = "application3"
-        end 
+        end
 
         ["templates", template].join("/")
 
     end
 
+
+    # Return a string path to load the stylesheet of the selected theme
     def application_stylesheet_theme_path()
 
         theme = "themes/blank"
@@ -50,35 +50,35 @@ module AssetsHelper
 
     end
 
+
+    # Return a string path to load the stylesheet corresponding to the controller app
     def application_stylesheet_engine_path
 
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
+        template = "application"
+
         if [
             "accounts", "account", "roles", "profiles", "users", "abouts", 
             "settings", "cronos", "onboarding", "role_descriptors"
         ].include?(cloud_module)
-            return controller_path 
+            #return controller_path 
+            return ["administration", template].join("/")
         end 
 
-        template = "application"
-
-        if ["lesil_cloud"].include?(lesli_engine)
-            template = "application3"
-        end 
-
-        [cloud_module, "application"].join("/")
+        [cloud_module, template].join("/")
 
     end
 
+    # Return a string path to load the main javascript app of the engine
     def application_javascript_path
 
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
-        if ["account"].include?(cloud_module)
-            return [cloud_module, path_segments.push("application").compact().join("_")].join("/")
+        if ["accounts", "users"].include?(cloud_module)
+            return ["administration", "application"].join("/")
         end 
 
         return [cloud_module, "application"].join("/")
@@ -90,7 +90,12 @@ module AssetsHelper
     end
 
     def javascript_apple_mapkit_js
-        "<script type=\"application/javascript\" src=\"https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js\"></script>".html_safe
+        token = Rails.application.credentials.dig(:providers, :apple, :mapkit_token)
+
+        "<script type=\"application/javascript\" src=\"https://cdn.apple-mapkit.com/mk/5.45.0/mapkit.js\"></script>
+         <script type=\"application/javascript\"> 
+            const ampkt = \"#{token}\" 
+         </script>".html_safe
     end
 
     def favicon

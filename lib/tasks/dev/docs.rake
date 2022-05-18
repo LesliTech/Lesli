@@ -28,8 +28,12 @@ class DevDocs < LesliRake
                 desc "build"
                 task :build => :environment do |task, args|
 
-                    # execute command
-                    Rake::Task['cloud_development:docs:build'].invoke
+                    if defined? CloudDevelopment
+
+                        # execute command
+                        Rake::Task['cloud_development:docs:build'].invoke
+
+                    end
 
                 end
 

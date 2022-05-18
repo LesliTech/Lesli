@@ -54,6 +54,11 @@ module ApplicationHelper
         return lesli_engine
     end
 
+    # return the information about the current engine
+    def lesli_engine_or_instance_info
+        Rails.application.config.lesli.dig(:engines).select { |engine| engine[:code] == lesli_engine_or_instance() }.first
+    end
+
     # check if instance or engine is a builder
     def is_lesli_instance?(instance=nil, engine=nil)
 
@@ -79,7 +84,9 @@ module ApplicationHelper
 
     # Prints the name of the engine
     def engine_name
-        lesli_engine_or_instance().sub("_cloud", "").sub("cloud_", "").camelize
+        name = lesli_engine_or_instance().sub("_cloud", "").sub("cloud_", "").camelize
+        return nil if name == "Lesli"
+        name
     end
 
     # DEPRECATED: used the credentials method directly where you need credentials

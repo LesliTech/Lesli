@@ -27,7 +27,7 @@ header.application-header {
             input {
                 max-width: 515px;
                 border-radius: 10px;
-                border: 1px solid lesli-css-color(silver);
+                border: 1px solid transparent;
                 transition: all linear .3s;
 
                 &::placeholder {
@@ -36,6 +36,7 @@ header.application-header {
 
                 &:focus {
                     max-width: 98%;
+                    border-color: lesli-css-color(silver);
                 }
 
             }
