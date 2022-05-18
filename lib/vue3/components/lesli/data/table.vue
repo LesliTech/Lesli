@@ -79,8 +79,7 @@ function showRow(temp_company) {
     <div>
         <table 
             class="table is-fullwidth lesli-data-table"
-            :class="props.class"
-            >
+            :class="props.class">
             <thead>
                 <tr>
 
