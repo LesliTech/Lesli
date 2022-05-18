@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch } from "vue"
+import { ref, reactive, onMounted, watch, getCurrentInstance } from "vue"
 
 
 // · import & define local components
@@ -52,6 +52,10 @@ const props = defineProps({
         }
     }
 })
+
+
+// · 
+const instance = getCurrentInstance()
 
 
 // · define variables
@@ -117,7 +121,7 @@ const generalOptions = {
 
 
 // unique id for the chart container
-const chartId = `component-chart-${Math.floor(Math.random() * 10000)}`
+const chartId = `component-chart-${instance.uuid}`
 
 onMounted(() => {
 
