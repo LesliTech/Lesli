@@ -46,6 +46,8 @@ const props = defineProps({
     }
 })
 
+// · defining emits
+const emit = defineEmits(['clickRow']);
 
 // · define variables
 const objectRecords = ref([])
@@ -67,13 +69,21 @@ function tableBodyClass(column) {
     }
 }
 
+function showRow(temp_company) {
+    //We must use this.url function but compiler says it is undefined
+    //Check this
+    //this.url.go(`admin/temp_companies/${temp_company.id}`)
+    window.location.href = `/admin/temp_companies/${temp_company.id}`;
+}
+
 
 </script>
-<template>
+<template @clickRow="showTempCompany(record)">
     <div>
         <table 
             class="table is-fullwidth lesli-data-table"
-            :class="props.class">
+            :class="props.class"
+            >
             <thead>
                 <tr>
 
@@ -88,19 +98,19 @@ function tableBodyClass(column) {
             </thead>
             <tbody>
 
-                <!-- 
+                <!-- t
                     Wait until the store indicate that the request was completed, 
                     create the table rows from records
                 -->
-                <tr v-if="!loading"
-                    v-for="record in props.records">
+                <tr  v-show="!loading" 
+                    v-for="(record, i) in props.records" :key="`tr-${i}`" :click="showRow(record)">
 
+                    
                     <td 
                         :class="tableBodyClass(column)"
-                        v-for="(column, index) in props.columns">
+                        v-for="(column, j) in props.columns" :key="`td-${j}`">
                         {{ record[column.field] }}
                     </td>
-
                 </tr>
 
             </tbody>
