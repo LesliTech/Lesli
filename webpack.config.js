@@ -192,6 +192,9 @@ module.exports = env => {
         // exit if engine does not have to be loaded
         if (lesliConfig.info.load == false) { return false }
 
+        // build engine code from engine name
+        lesliConfig.info["code"] = lesliConfig.info["name"].split(/(?=[A-Z])/).join('_').toLowerCase()
+
         // check if user sent specific modules to work with through "webpack -- engine1 engine2 etc.."
         if (requestedModules.length > 0) {
 
