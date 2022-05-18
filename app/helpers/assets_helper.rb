@@ -25,21 +25,9 @@ module AssetsHelper
 
         template = "application"
 
-        # list of engines that are already using lesi3
-        if [
-
-            # Core apps (administration)
-            "users",
-            "accounts",
-
-            # Engines
-            "lesli_cloud", 
-            "cloud_audit",
-            "cloud_development"
-
-        ].include?(lesli_engine)
+        if (is_lesli_engine_administration? || lesli_engine_or_instance_info[:core] == 3)
             template = "application3"
-        end 
+        end
 
         ["templates", template].join("/")
 

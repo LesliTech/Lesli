@@ -18,39 +18,44 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed, useSlots } from "vue"
+import { ref, reactive, onMounted, watch, computed, useSlots, provide } from "vue"
 
 
 // · gettings slots
 const slots = useSlots().default()
 
-console.log(slots)
-
-
 
 // · defining props
 const props = defineProps({
-
+    modelValue: {
+        type: [String, Number]
+    }
 })
 
 
-// · define variables
+// · defining emitters
+const emit = defineEmits(['update:modelValue'])
 
 
+// here we are going to store the tab that the user clicked to be activated
+const active = ref(0)
 
-// prepaer the CSS classes for every column in the header
-function tableHeaderClass(column) {
-    return {
-        'has-text-centered': column.field == 'id'
-    }
+
+// array of self-registered tab items, every tab item is going to register itself through
+// provide/inject parameters, through provide we are going to send the tabs array to every 
+// tab item, so every item is going to push his own instance to the array
+const tabItems = ref([])
+
+
+// change the visible tab item 
+function selectTab(i) {
+    emit("update:modelValue", active.value);
+    active.value = i
 }
 
-// prepaer the CSS classes for every column in the header
-function tableBodyClass(column) {
-    return {
-        'has-text-centered': column.field == 'id'
-    }
-}
+
+// provide through the "tabs" key the currently active tab and all the tabs registered
+provide('tabs', { active, tabItems })
 
 </script>
 <template>
@@ -58,7 +63,7 @@ function tableBodyClass(column) {
         <div class="tabs">
             <ul>
                 <li v-for="(item, index) in slots">
-                    <a>
+                    <a @click="selectTab(index)">
                         <span v-if="!!item.props.icon" class="icon is-small">
                             <span class="material-icons">
                                 {{ item.props.icon }}
