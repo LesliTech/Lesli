@@ -56,7 +56,7 @@ export default {
 </script>
 <template>
     <div class="component-toolbar">
-        <div class="field is-grouped component-toolbar">
+        <div class="field is-grouped lesli-toolbar">
             <div class="control is-expanded has-icons-right">
                 <input type="text" name="search" :placeholder="searchText" v-model="text" @input="search()" class="input is-shadowless">
                 <span class="icon is-right">

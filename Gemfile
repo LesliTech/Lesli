@@ -222,6 +222,9 @@ end
 # · Gems for development environment
 group :development do
 
+    # Brakeman detects security vulnerabilities in Ruby on Rails applications via static analysis.
+    gem "brakeman", "5.2.3"
+
     # Go faster, off the Rails
     gem "derailed_benchmarks", "2.1.1"
 
@@ -251,6 +254,9 @@ group :development do
     # Generate svg sprite for the lesli icons:
     # svgeez build --prefix="" --source ./app/assets/icons/lesli --destination ./app/views/layouts/partials/_application-svgs.svg
     gem "svgeez", "4.1"
+
+    # Rouge aims to a be a simple, easy-to-extend drop-in replacement for pygments.
+    gem "rouge", "3.28.0"
 
 end
 

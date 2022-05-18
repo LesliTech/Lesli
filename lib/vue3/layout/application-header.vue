@@ -1,4 +1,4 @@
-<script>
+<script setup>
 /*
 Copyright (c) 2022, all rights reserved.
 
@@ -17,66 +17,65 @@ For more information read the license file including with this software.
 */
 
 
-// ·
-export default {
+// · import vue tools
+import { ref, reactive, onMounted, onUnmounted, inject } from "vue"
 
-    data() {
-        return {
-            translations: {
-                core: {
-                    shared: I18n.t("core.shared"),
-                    users: I18n.t('deutscheleibrenten.users'),
-                }
-            },
-            search: {
-                searching: false
-            },
-            navbar: null,
-            application_header: null
-        }
-    },
 
-    mounted() {
-        this.addListeners();
-    },
+// · import stores
+import { useCoreLayout } from "LesliVue/stores/layout"
+import { useCoreSearch } from "LesliVue/stores/search"
 
-    methods: {
 
-        addListeners(){
-            this.application_header = document.querySelector('#lesli-application .application-header')
-            window.addEventListener('scroll', () => {
+// · implement stores
+const coreLayout = useCoreLayout()
+const coreSearch = useCoreSearch()
 
-                let scrollTop = window.pageYOffset || document.body.scrollTop;
 
-                // check if the users scroll, 100 is equal to header height
-                if (scrollTop > this.application_header.offsetHeight - 100) {
-                    this.application_header.classList.add("scrolling-header-navigation")
-                } else {
-                    this.application_header.classList.remove("scrolling-header-navigation")
-                }
-                
-            });
-        },
+// · translations
+const translations = {
+    core: {
+        shared: I18n.t("core.shared"),
+        users: I18n.t('deutscheleibrenten.users'),
+    }
+}
 
-        searchText(input) {
 
-            this.search.searching = !input.srcElement.value == ""
-            this.data.global.search = input.srcElement.value
+// · defining variables
+const applicationHeader = ref(null)
+const search = {}
 
-            setTimeout(() => { this.search.searching = false }, 1400)
 
-        }
+// · initializing
+onMounted(() => {
 
-    },
+})
 
-    destroyed () {
-        window.removeEventListener('scroll', this.handleScroll);
+
+// · capture user scroll to add special styles for the header
+function handleScroll($event) {
+
+    let scrollTop = window.pageYOffset || document.body.scrollTop;
+    if (scrollTop > applicationHeader.value.offsetHeight - 100) {
+        applicationHeader.value.classList.add("scrolling-header-navigation")
+    } else {
+        applicationHeader.value.classList.remove("scrolling-header-navigation")
     }
 
 }
+
+
+// · listen for all the scroll event
+window.addEventListener('scroll', handleScroll);
+
+
+// · stop listeners
+onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll);
+})
+
 </script>
 <template>
-    <header class="application-header">
+    <header ref="applicationHeader" class="application-header">
         <div class="header-navigation">
             <div class="header-left">
                 <div class="control is-medium has-icons-left has-text-grey">
@@ -85,28 +84,30 @@ export default {
                         name="global_search"
                         class="input is-medium is-shadowless" 
                         :placeholder="translations.core.shared.search_placeholder || 'Search in Lesli'"
-                        @input="searchText">
+                        v-model="coreSearch.text"
+                        @input="coreSearch.doSearch">
                     <span class="icon is-left has-text-gray">
-                        <l-svg id="search" />
-                        <component-data-loading v-if="search.searching && searchText!=''" :icon-only="true"/>
+                        <lesli-icon 
+                            id="search"
+                            v-if="(coreSearch.loading == false)">
+                        </lesli-icon>
+                        <lesli-data-loading 
+                            :icon="true"
+                            v-if="(coreSearch.loading == true)">
+                        </lesli-data-loading>
                     </span>
                 </div>
             </div>
             <div class="header-right">
 
                 <slot></slot>
-                <slot name="languages"></slot>
-                <slot name="announcements"></slot>
-                <slot name="tickets"></slot>
-                <slot name="tasks"></slot>
-                <slot name="notifications"></slot>
 
                 <a class="navbar-item">
-                    <l-svg id="add" size="35" />
+                    <lesli-icon id="add" size="35"></lesli-icon>
                 </a>
 
                 <a class="navbar-item header-notification-indicator">
-                    <l-svg id="bell" size="35" />
+                    <lesli-icon id="bell" size="35"></lesli-icon>
                     <span class="count">0</span>
                 </a>
 

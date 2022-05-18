@@ -88,13 +88,16 @@ module.exports = env => {
         // Defined the core apps as main entry apps
         // engine javascript apps are defined dynamically
         entry: {
-            "invites/application": "Lesli/vue3/invites/app.js",
-            "passes/application": "Lesli/vue3/passes/app.js",
-            "otps/application": "Lesli/vue3/otps/app.js",
-
+            
             "users/sessions": "Lesli/vue3/users/sessions.js",
             "users/passwords": "Lesli/vue3/users/passwords.js",
             "users/registrations": "Lesli/vue3/users/registrations.js",
+
+            "otps/application": "Lesli/vue3/otps/app.js",
+            "passes/application": "Lesli/vue3/passes/app.js",
+            "invites/application": "Lesli/vue3/invites/app.js",
+            
+            "administration/application": "Lesli/vue3/administration/app.js",
         },
 
 
@@ -119,7 +122,8 @@ module.exports = env => {
                 LesliVue: path.resolve("lib", "vue3"), 
 
                 CloudAudit: path.resolve("engines", "cloud_audit", "app", "vue3"),
-                CloudDevelopment: path.resolve("engines", "cloud_development", "app", "vu3"),
+                CloudBabel: path.resolve("engines", "cloud_babel", "app", "vue3"),
+                CloudDevelopment: path.resolve("engines", "cloud_development", "app", "vue3"),
 
             }
         },
@@ -187,6 +191,9 @@ module.exports = env => {
 
         // exit if engine does not have to be loaded
         if (lesliConfig.info.load == false) { return false }
+
+        // build engine code from engine name
+        lesliConfig.info["code"] = lesliConfig.info["name"].split(/(?=[A-Z])/).join('_').toLowerCase()
 
         // check if user sent specific modules to work with through "webpack -- engine1 engine2 etc.."
         if (requestedModules.length > 0) {

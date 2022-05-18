@@ -1,4 +1,4 @@
-<script>
+<script setup>
 /*
 
 Copyright (c) 2021, all rights reserved.
@@ -19,60 +19,48 @@ For more information read the license file including with this software.
 */
 
 
-// · use general chart as base for our custom chart
+// · import vue tools
+import { ref, reactive, onMounted, watch } from "vue"
+
+
+// · import & define local components
 import componentChartGeneral from "LesliVue/components/charts/general.vue"
 
 
-// · 
-export default {
-    props: {
-        title: {
-            type: String,
-            required: false
-        },
-        dataSources: {
-            type: Array,
-            required: true
-        },
-        dataLabels: {
-            type: Array,
-            required: true
-        },
-        options: {
-            type: Object,
-            required: false,
-            default() {
-                return {
-                }
-            }
-        }
+// · defining props
+const props = defineProps({
+    title: String,
+    series: {
+        type: Array,
+        required: true
     },
-    components: {
-        'component-chart-general': componentChartGeneral
-    },
-    data() {
-        return {
+    labels: {
+        type: Array,
+        required: true
+    }
+})
 
-            // specific options for this kind of chart
-            optionsBase: {
-                stroke: {
-                    show: true,
-                    curve: 'straight',
-                    lineCap: 'round',
-                }
-            }
-            
-        }
+
+// · specific options to print a proper line chart
+const lineOptions = {
+    chart: {
+        height: 350, 
+        type: 'line'
+    },
+    stroke: {
+        show: true,
+        curve: 'smooth',
+        lineCap: 'round',
     }
 }
+
 </script>
 <template>
-    <component-chart-general 
+    <componentChartGeneral 
         type="line"
         :title="title"
-        :data-sources="dataSources"
-        :data-labels="dataLabels"
-        :options-base="optionsBase"
-        :options="options">
-    </component-chart-general>
+        :series="series"
+        :labels="labels"
+        :options="lineOptions">
+    </componentChartGeneral>
 </template>

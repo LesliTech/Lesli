@@ -19,46 +19,41 @@ For more information read the license file including with this software.
 
 
 <%# check if custom navigation partial exists, getting the path from application helper %>
-<% custom_navigation_path = "layouts/#{lesli_engine_or_instance}/partials/application-navigation" %>
+<% custom_sidebar_path = "layouts/#{lesli_engine_or_instance}/partials/application-sidebar" %>
 
 <%# always use the navigation from the builder engine, to bring a better navigation experience to the users, currently enabled only for lesli_cloud %>
-<%# custom_navigation_path = "layouts/#{lesli_instance_code}/partials/application-navigation" if lesli_instance_code == "lesli_cloud" %>
+<%# custom_sidebar_path = "layouts/#{lesli_instance_code}/partials/application-navigation" if lesli_instance_code == "lesli_cloud" %>
 
 <%# dedicated navigation for the administration area %>
-<% custom_navigation_path = "layouts/components/navigation-administration" if is_lesli_engine_administration? %>
+<% custom_sidebar_path = "layouts/components/sidebar-administration" if is_lesli_engine_administration? %>
 
 <%# validate the path to be sure the partial exists when trying to render it %>
-<% custom_navigation_exists = lookup_context.exists?(custom_navigation_path, nil, true) %>
+<% custom_sidebar_exists = lookup_context.exists?(custom_sidebar_path, nil, true) %>
 
 <application-component-sidebar>
 
     <%# load logos compatibility for deutsche leibrenten%>
     <% if lesli_instance_code != "lesli_cloud" %>
         <template v-slot:brand>
-            <a class="brand" href="/">
-                <%= customization_instance_logo_tag(logo: "app_icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
-                <%= customization_instance_logo_tag(logo: "app_logo", options: {alt: "App logo", class: "is-hidden-touch"}) %>
-            </a>
+            <%= customization_instance_logo_tag(logo: "app_icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
+            <%= customization_instance_logo_tag(logo: "app_logo", options: {alt: "App logo", class: "is-hidden-touch"}) %>
         </template>
     <% end %>
 
     <% if lesli_instance_code == "lesli_cloud" %>
         <template v-slot:brand>
-            <div class="brand">
-                <a href="/">
-                    <%= customization_instance_logo_tag(logo: "app-icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
-                    <%= customization_instance_logo_tag(logo: "app-logo-gray", options: {alt: "App logo", class: "is-hidden-touch"}) %>
-                    <span><%= engine_name %></span>
-                </a>
-                <l-svg id="menu" class="is-hidden-touch" />
-            </div>
+            <%= customization_instance_logo_tag(logo: "app-icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
+            <%= customization_instance_logo_tag(logo: "app-logo-gray", options: {alt: "App logo", class: "is-hidden-touch"}) %>
+            <span><%= engine_name %></span>
         </template>
     <% end %>
 
+
     <%# render navigation partial %>
-    <% if custom_navigation_exists %>
-        <%= render partial: custom_navigation_path %>
+    <% if custom_sidebar_exists %>
+        <%= render partial: custom_sidebar_path %>
     <% end %>
+
 
     <%# Context message, set this message at the root of the lesli.yml or lesli.server.yml file Ej: context: "Hallo"%>
     <% unless Rails.application.config.lesli.dig(:context).blank? %>
