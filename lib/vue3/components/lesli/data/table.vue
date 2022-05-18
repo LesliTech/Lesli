@@ -46,9 +46,6 @@ const props = defineProps({
     }
 })
 
-// · defining emits
-const emit = defineEmits(['clickRow']);
-
 // · define variables
 const objectRecords = ref([])
 const arrayRecords = ref([])
@@ -78,7 +75,7 @@ function showRow(temp_company) {
 
 
 </script>
-<template @clickRow="showTempCompany(record)">
+<template>
     <div>
         <table 
             class="table is-fullwidth lesli-data-table"
