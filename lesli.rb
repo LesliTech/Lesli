@@ -47,11 +47,11 @@ module Lesli
 
     def Lesli.engines
 
-        # list of installed engines (cloned repos)
-        engines = []
-
         # list of required gems
         gems = []
+
+        # list of installed engines (cloned repos)
+        engines = []
 
         # builder lesli.yml file configuration
         builder_settings = {}
@@ -63,9 +63,7 @@ module Lesli
         Dir.entries("./engines").each do |engine|
             
             # next if engine is not an engine
-            next if engine == "."
-            next if engine == ".."
-            next if engine == ".gitkeep"
+            next if [".","..",".gitkeep"].include?(engine)
 
             # build path to lesli engine info file
             path = File.join("./engines", engine, "lesli.yml")
@@ -87,6 +85,9 @@ module Lesli
             # save copy of lesli.yml of the builder engine
             builder_settings = engine_lesli_file if engine_info["type"] == "builder"
 
+            # build engine code just converting the engine name to underscore
+            engine_info["code"] = engine_info["name"].gsub(/(.)([A-Z])/,'\1_\2').downcase
+
             # next if engine name does not match
             next unless engine_info["code"] == engine
 
@@ -98,8 +99,13 @@ module Lesli
                 type: engine_info["type"] || "engine",
                 code: engine_info["code"],
                 name: engine_info["name"],
+                core: engine_info["core"] || 2,
                 version: "latest",
-                github: engine_info["github"]
+                github: {
+                    url: "https://github.com/leitfaden/#{engine_info['code']}",
+                    ssh: "git@github.com:leitfaden/#{engine_info['code']}.git",
+                    ssh_backup: "git@github.com:LesliTech/#{engine_info['code']}.git"
+                }
             })
 
         end
