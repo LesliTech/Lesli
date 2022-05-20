@@ -47,6 +47,10 @@ export default {
             type: String,
             default: I18n.t('core.shared.view_placeholder_select_employee')
         },
+        customClass: {
+            type: String,
+            default: ''
+        },
         focus: {
             type: Boolean,
             default: true
@@ -193,7 +197,7 @@ export default {
 </script>
 
 <template>
-    <b-field v-if="ready">
+    <b-field v-if="ready" :class="customClass">
         <template v-slot:label>
             <span v-if="title && title.length > 0">
                 {{ title }}
