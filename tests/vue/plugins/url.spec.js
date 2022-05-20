@@ -52,9 +52,9 @@ describe("VUE/PLUGINS/URL", () => {
         
         it("should build a url for /administration/users", () => {
 
-            var url = vm.config.globalProperties.url.admin("users").toString()
+            var url = vm.config.globalProperties.url.admin("users")
             expect(url).to.be.a("string");
-            expect(url).to.equal("/administration/users.json");
+            expect(url).to.equal("/administration/users");
             
         });
 
@@ -62,7 +62,7 @@ describe("VUE/PLUGINS/URL", () => {
 
             var url = vm.config.globalProperties.url.admin("users/list").toString()
             expect(url).to.be.a("string");
-            expect(url).to.equal("/administration/users/list.json");
+            expect(url).to.equal("/administration/users/list");
             
         });
 
@@ -70,7 +70,7 @@ describe("VUE/PLUGINS/URL", () => {
 
             var url = vm.config.globalProperties.url.admin("users/options").toString()
             expect(url).to.be.a("string");
-            expect(url).to.equal("/administration/users/options.json");
+            expect(url).to.equal("/administration/users/options");
             
         });
 
@@ -78,7 +78,7 @@ describe("VUE/PLUGINS/URL", () => {
 
             var url = vm.config.globalProperties.url.admin("users/:id", 777).toString()
             expect(url).to.be.a("string");
-            expect(url).to.equal("/administration/users/777.json");
+            expect(url).to.equal("/administration/users/777");
             
         });
 
@@ -87,7 +87,7 @@ describe("VUE/PLUGINS/URL", () => {
 
             var url = vm.config.globalProperties.url.admin("users/:id", { id: 777 }).toString()
             expect(url).to.be.a("string");
-            expect(url).to.equal("/administration/users/777.json");
+            expect(url).to.equal("/administration/users/777");
             
         });
 
@@ -110,7 +110,7 @@ describe("VUE/PLUGINS/URL", () => {
         //-> /administration/users?orderBy=name&order=desc
     
         this.url.admin("users").order("name", "desc").toString(true)
-        //-> /administration/users.json?orderBy=name&order=desc
+        //-> /administration/users?orderBy=name&order=desc
 
         */
        
