@@ -88,7 +88,7 @@ function tableBodyClass(column) {
             </thead>
             <tbody>
 
-                <!-- t
+                <!-- 
                     Wait until the store indicate that the request was completed, 
                     create the table rows from records
                 -->
