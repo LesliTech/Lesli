@@ -70,12 +70,12 @@ function tableBodyClass(column) {
     }
 }
 
-function showRow(temp_company) {
+function showRow(item) {
     //We must use this.url function but compiler says it is undefined
     //Check this
-    //this.url.go(`admin/temp_companies/${temp_company.id}`)
+    //this.url.go(`/${props.route}/${item.id}`)
     if(props.route){
-        window.location.href = `/${props.route}/${temp_company.id}`;
+        window.location.href = `/${props.route}/${item.id}`;
     }
 }
 
@@ -105,7 +105,7 @@ function showRow(temp_company) {
                     create the table rows from records
                 -->
                 <tr  v-show="!loading" 
-                    v-for="(record, i) in props.records" :key="`tr-${i}`" :click="showRow(record)">
+                    v-for="(record, i) in props.records" :key="`tr-${i}`" v-on:click="showRow(record)">
 
                     
                     <td 
