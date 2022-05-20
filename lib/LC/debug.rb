@@ -111,7 +111,8 @@ module LC
 
 
         def self.table data
-
+            # tputcols is not available on windows
+            return if Gem.win_platform?
             return unless data.size > 0
 
             if data.class.name == "ActiveRecord::Relation"
