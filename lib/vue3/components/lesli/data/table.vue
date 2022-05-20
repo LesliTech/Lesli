@@ -20,6 +20,8 @@ For more information read the license file including with this software.
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed } from "vue"
 
+// · defining emits
+const emit = defineEmits(['click']);
 
 // · defining props
 const props = defineProps({
@@ -43,10 +45,6 @@ const props = defineProps({
     records: {
         type: Array,
         required: true
-    },
-    route: {
-        type: String,
-        required: false
     }
 })
 
@@ -69,16 +67,6 @@ function tableBodyClass(column) {
         'has-text-centered': column.field == 'id'
     }
 }
-
-function showRow(item) {
-    //We must use this.url function but compiler says it is undefined
-    //Check this
-    //this.url.go(`/${props.route}/${item.id}`)
-    if(props.route){
-        window.location.href = `/${props.route}/${item.id}`;
-    }
-}
-
 
 </script>
 <template>
@@ -105,7 +93,7 @@ function showRow(item) {
                     create the table rows from records
                 -->
                 <tr  v-show="!loading" 
-                    v-for="(record, i) in props.records" :key="`tr-${i}`" v-on:click="showRow(record)">
+                    v-for="(record, i) in props.records" :key="`tr-${i}`" v-on:click="emit('click',record.id)">
 
                     
                     <td 
