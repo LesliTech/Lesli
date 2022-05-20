@@ -74,8 +74,6 @@ function showRow(temp_company) {
     //We must use this.url function but compiler says it is undefined
     //Check this
     //this.url.go(`admin/temp_companies/${temp_company.id}`)
-    console.log("here")
-    console.log(props.route)
     if(props.route){
         window.location.href = `/${props.route}/${temp_company.id}`;
     }
