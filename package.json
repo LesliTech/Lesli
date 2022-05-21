@@ -5,23 +5,23 @@
     "private": true,
     "devDependencies": {
 
-        "bulma": "0.9.3",
+        "bulma": "0.9.4",
 
         "lesli-js": "0.5.0",
         "lesli-css": "1.1.0",
 
-        "vue": "3.2.31",
-        "vue-router": "4.0.14",
+        "vue": "3.2.34",
+        "vue-router": "4.0.15",
         "vue-demi": "0.12.5",
-        "pinia": "2.0.13",
+        "pinia": "2.0.14",
 
-        "axios": "0.26.1",
-        "dayjs": "1.11.0",
+        "axios": "0.27.2",
+        "dayjs": "1.11.2",
         "js-yaml": "4.1.0",
 
         "remixicon": "2.5.0",
-        "sweetalert2": "11.4.8",
-        "apexcharts": "3.35.0",
+        "sweetalert2": "11.4.14",
+        "apexcharts": "3.35.2",
         "trix": "2.0.0-beta.0",
 
         "@fullcalendar/core": "5.11.0",
@@ -29,28 +29,28 @@
         "@fullcalendar/timegrid": "5.11.0",
         "@fullcalendar/interaction": "5.11.0",
         
-        "firebase": "9.6.10",
+        "firebase": "9.8.1",
 
-        "@babel/core": "7.17.9",
-        "@babel/preset-env": "7.16.11",
+        "@babel/core": "7.18.0",
+        "@babel/preset-env": "7.18.0",
 
-        "webpack": "5.72.0",
+        "webpack": "5.72.1",
         "webpack-cli": "4.9.2",
         "terser-webpack-plugin": "5.3.1",
 
         "vue-loader": "17.0.0",
         "style-loader": "3.3.1",
-        "babel-loader": "8.2.4",
+        "babel-loader": "8.2.5",
 
         "@vue/cli-plugin-unit-mocha": "5.0.4",
         "@vue/cli-plugin-babel": "5.0.4",
         "@vue/cli-service": "5.0.4",
-        "@vue/test-utils": "2.0.0-rc.20",
+        "@vue/test-utils": "2.0.0",
 
         "chai": "4.3.6",
-        "jest": "27.5.1",
-        "glob": "8.0.1",
-        "sass": "1.50.1",
+        "jest": "28.1.0",
+        "glob": "8.0.3",
+        "sass": "1.52.0",
         "sass-true": "6.1.0"
 
     },
