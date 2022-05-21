@@ -215,6 +215,9 @@ group :development, :test do
     # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
     gem "tzinfo-data" if Gem.win_platform?
 
+    # sys-proctable for rails 7 compatibility in Windows platforms
+    gem "sys-proctable" if Gem.win_platform?
+
 end
 
 
