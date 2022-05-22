@@ -61749,7 +61749,7 @@ vue_min_default().component("component-data-pagination", data_pagination); // ·
 
       console.clear();
       debug_browser_default().lesli_message_warning((_lesli = lesli) === null || _lesli === void 0 ? void 0 : (_lesli$company = _lesli.company) === null || _lesli$company === void 0 ? void 0 : (_lesli$company$name = _lesli$company.name) === null || _lesli$company$name === void 0 ? void 0 : _lesli$company$name.replace("Cloud", ""));
-      debug_browser_default().info("[BUILD] (core) 220518.1917 ");
+      debug_browser_default().info("[BUILD] (core) 220522.0322 ");
     }
   });
 });
