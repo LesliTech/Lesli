@@ -47,15 +47,15 @@ const props = defineProps({
 
 </script>
 <template>
-    <div>
-        <div
+    <div class="collapse card">
+        <div 
             v-on:click="emit('open')"
             class="card-header"
             style="cursor: pointer"
             role="button">
             <slot name="lesli-collapse-header"></slot>
         </div>
-        <div v-show="open">
+        <div v-show="open" class="card-content">
             <slot  name="lesli-collapse-body"></slot>
         </div>
     </div>
