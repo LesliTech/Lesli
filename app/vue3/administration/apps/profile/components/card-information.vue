@@ -29,7 +29,7 @@ import { useProfile } from "LesliVue/stores/profile"
 const storeProfile = useProfile()
 
 
-// · implement stores
+// · translations
 const translations = {
     core: {
         users: I18n.t("core.users"),
@@ -83,30 +83,78 @@ const translations = {
                         </a>
                     </div>
                 </nav>
+            </div>
+        </div>
 
-                <div class="buttons" v-if="false">
-                    <button class="button is-white is-small" @click="doRequestPasswordChange()">
-                        <span class="icon"><i class="fas fa-unlock-alt"></i></span>
+        <nav class="level" v-if="false">
+            <div class="level-left">
+                <div class="level-item">
+                    <button class="button is-small" @click="doRequestPasswordChange()">
+                        <span class="icon">
+                            <span class="material-icons">
+                                key
+                            </span>
+                        </span>
                         <span> {{ translations.core.users.view_btn_request_password_change }}</span>
                     </button>
-
-                    <button class="button is-white is-small" @click="doUserLogout()">
-                        <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                </div>
+                <div class="level-item">
+                    <button class="button" @click="doUserLogout()">
+                        <span class="icon">
+                            <span class="material-icons">
+                                logout
+                            </span>
+                        </span>
                         <span>  {{ translations.core.users.view_btn_force_logout }}</span>
                     </button>
-
-                    <button class="button is-white is-small" @click="doRevokeAccess()">
-                        <span class="icon"><i class="fas fa-user-lock"></i></span>
+                </div>
+                <div class="level-item">
+                    <button class="button is-white" @click="doRevokeAccess()">
+                        <span class="icon">
+                            <span class="material-icons">
+                                lock_outline
+                            </span>
+                        </span>
                         <span> {{ translations.core.users.view_btn_revoke_access }} </span>
                     </button>
-
-                    <button class="button is-white is-small" @click="confirmMarkUserAsDeleted()">
+                </div>
+                <div class="level-item">
+                    <button class="button is-white" @click="confirmMarkUserAsDeleted()">
                         <span class="icon"><i class="fas fa-user-slash"></i></span>
                         <span> {{ translations.core.users.view_btn_mark_user_as_deleted }} </span>
                     </button>
                 </div>
-
             </div>
-        </div>
+
+            <div class="level-right">
+                <div class="level-item">
+                    <div class="dropdown is-hoverable header-language-selector">
+                        <div class="dropdown-trigger">
+                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                                <span class="icon has-text-grey-light">
+                                    <span class="flag-icon flag-icon-gb"></span>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                            <div class="dropdown-content">
+                                <a class="dropdown-item" href="/language?locale=es">
+                                    <span class="icon has-text-grey-light">
+                                        <span class="flag-icon flag-icon-es"></span>
+                                    </span>
+                                    <span>Español</span>
+                                </a>
+                                <a class="dropdown-item" href="/language?locale=de">
+                                    <span class="icon has-text-grey-light">
+                                        <span class="flag-icon flag-icon-de"></span>
+                                    </span>
+                                    <span>Deutsch</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
     </div>
 </template>

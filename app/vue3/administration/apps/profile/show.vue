@@ -24,10 +24,12 @@ import { ref, reactive, onMounted, watch, computed } from "vue"
 // · import lesli stores
 import { useProfile } from "LesliVue/stores/profile"
 
+
 // · implement stores
 const storeProfile = useProfile()
 
 
+// · import profile components
 import cardInformation from "./components/card-information.vue"
 import formInformation from "./components/form-information.vue"
 
