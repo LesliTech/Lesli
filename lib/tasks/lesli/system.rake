@@ -56,7 +56,11 @@ class LesliSystemRake < LesliRake
         LC::Debug.separator_blank
 
         LC::Debug.table (Lesli::engines.map { |engine| 
-            {:engine => engine[:code],:version => "#{engine[:version]} (#{engine[:type]})"}
+            {
+                :engine => engine[:code],
+                :version => "#{engine[:version]} (#{engine[:type]})",
+                :core => engine[:core]
+            }
         })
 
         LC::Debug.separator_blank

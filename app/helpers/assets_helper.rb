@@ -59,10 +59,7 @@ module AssetsHelper
 
         template = "application"
 
-        if [
-            "accounts", "account", "roles", "profiles", "users", "abouts", 
-            "settings", "cronos", "onboarding", "role_descriptors"
-        ].include?(cloud_module)
+        if is_lesli_engine_administration?
             #return controller_path 
             return ["administration", template].join("/")
         end 
@@ -77,7 +74,7 @@ module AssetsHelper
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
-        if ["accounts", "users"].include?(cloud_module)
+        if is_lesli_engine_administration?
             return ["administration", "application"].join("/")
         end 
 
