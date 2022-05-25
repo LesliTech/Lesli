@@ -45,7 +45,10 @@ export default {
                 if (result.successful) {
                     this.announcements = result.data
                 } else {
-                    this.msg.error(result.error.message)
+                    // Error 401 is not displyed
+                    if(result.error.code != 401){
+                        this.msg.error(result.error.message)
+                    }
                 }
             }).catch(error => {
                 console.log(error)
