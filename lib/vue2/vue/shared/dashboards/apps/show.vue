@@ -43,11 +43,11 @@ export default {
         },
         newResourcesAnchorPath: {
             type: Function,
-            default: []
+            default: () => []
         },
         newResourceAnchor: {
             type: Function,
-            default: null
+            default: () => []
         }
     },
     
