@@ -101,6 +101,18 @@ header.application-header {
         .dropdown { 
             line-height: 1;
 
+            .dropdown-content {
+                padding: 0;
+            }
+
+            .dropdown-divider {
+                margin: 0;
+            }
+
+            .dropdown-item {
+                padding: 1rem 1rem;
+            }
+
             &.user-options {
                 display: block;
             }
