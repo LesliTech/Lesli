@@ -20,6 +20,8 @@ For more information read the license file including with this software.
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed } from "vue"
 
+// · defining emits
+const emit = defineEmits(['click']);
 
 // · defining props
 const props = defineProps({
@@ -46,7 +48,6 @@ const props = defineProps({
     }
 })
 
-
 // · define variables
 const objectRecords = ref([])
 const arrayRecords = ref([])
@@ -66,7 +67,6 @@ function tableBodyClass(column) {
         'has-text-centered': column.field == 'id'
     }
 }
-
 
 </script>
 <template>
@@ -92,15 +92,15 @@ function tableBodyClass(column) {
                     Wait until the store indicate that the request was completed, 
                     create the table rows from records
                 -->
-                <tr v-if="!loading"
-                    v-for="record in props.records">
+                <tr  v-show="!loading" 
+                    v-for="(record, i) in props.records" :key="`tr-${i}`" v-on:click="emit('click',record.id)">
 
+                    
                     <td 
                         :class="tableBodyClass(column)"
-                        v-for="(column, index) in props.columns">
+                        v-for="(column, j) in props.columns" :key="`td-${j}`">
                         {{ record[column.field] }}
                     </td>
-
                 </tr>
 
             </tbody>

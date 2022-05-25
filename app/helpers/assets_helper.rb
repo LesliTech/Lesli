@@ -25,6 +25,7 @@ module AssetsHelper
 
         template = "application"
 
+
         if (is_lesli_engine_administration? || lesli_engine_or_instance_info[:core] == 3)
             template = "application3"
         end
