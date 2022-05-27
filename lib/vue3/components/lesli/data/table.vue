@@ -75,6 +75,7 @@ function tableBodyClass(column) {
 }
 
 
+// · 
 function sort(column) {
 
     if (!column.sort) {
@@ -126,8 +127,8 @@ function sort(column) {
                     Wait until the store indicate that the request was completed, 
                     create the table rows from records
                 -->
-                <tr v-show="!loading" 
-                    v-on:click="emit('click',record.id)"
+                <tr  
+                    v-on:click.stop="emit('click', record)"
                     v-for="(record, i) in props.records" :key="`tr-${i}`">
                     
                     <td 
