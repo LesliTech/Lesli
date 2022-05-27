@@ -22,7 +22,7 @@ import { ref, reactive, onMounted, watch, computed } from "vue"
 
 
 // · import lesli stores
-import { useProfile } from "LesliVue/stores/profile"
+import { useProfile } from "LesliCore/administration/stores/users/profile"
 
 
 // · implement stores
@@ -30,8 +30,9 @@ const storeProfile = useProfile()
 
 
 // · import profile components
-import cardInformation from "./components/card-information.vue"
-import formInformation from "./components/form-information.vue"
+import cardInformation from "../users/components/card-information.vue"
+import formInformation from "../users/components/form-information.vue"
+import managementSession from "../users/components/management-sessions.vue"
 
 
 // · translations
@@ -50,17 +51,21 @@ onMounted(() => {
 })
 
 
+const activeTab = 3
+
 </script>
 <template>
     <section class="application-component">
         <cardInformation></cardInformation>
-        <lesli-tabs>
+        <lesli-tabs v-model="activeTab">
             <lesli-tab-item title="Information">
                 <formInformation></formInformation>
             </lesli-tab-item>
             <lesli-tab-item title="Suscripciones"></lesli-tab-item>
             <lesli-tab-item title="Security"></lesli-tab-item>
-            <lesli-tab-item title="Session management"></lesli-tab-item>
+            <lesli-tab-item title="Session management">
+                <managementSession></managementSession>
+            </lesli-tab-item>
             <lesli-tab-item title="Settings"></lesli-tab-item>
             <lesli-tab-item title="Integraciones"></lesli-tab-item>
         </lesli-tabs>

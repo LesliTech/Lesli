@@ -32,17 +32,6 @@ export const useProfile = defineStore("user", {
     },
     actions: {
 
-        initials() {
-            let initials = ""
-            if (this.user.detail_attributes.first_name) {
-                initials += this.user.detail_attributes.first_name[0]
-            }
-            if (this.user.detail_attributes.last_name) {
-                initials += this.user.detail_attributes.last_name[0]
-            }
-            return initials
-        },
-
         fetch() {
             if (!this.user.id) {
                 this.fetchProfile()
@@ -53,7 +42,7 @@ export const useProfile = defineStore("user", {
 
             this.loading = true
 
-            this.http(this.url.admin("profile")).then(result => {
+            this.http.get(this.url.admin("profile")).then(result => {                
                 this.user = result.data
             }).catch(error => {
                 console.log(error)
