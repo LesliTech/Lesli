@@ -19,12 +19,16 @@ For more information read the license file including with this software.
 
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed } from "vue"
+import { useRouter, useRoute } from 'vue-router'
 
 
 // · import lesli stores
 import { useUser } from "LesliVue/stores/user"
 
+// implement stores
 const store = useUser()
+const router = useRouter()
+const route = useRoute()
 
 
 // · translations
@@ -43,29 +47,48 @@ onMounted(() => {
 })
 
 
+function showUser(user) {
+    //router.push(this.url.admin("users/:id", user.id))
+}
+
+
 const columns = [{
     field: "id",
-    label: "ID"
+    label: "ID",
+    sort: true
 }, {
     field: "name",
-    label: "Name"
+    label: "Name",
+    sort: true
 }, {
     field: "email",
-    label: "Email"
+    label: "Email",
+    sort: true
 }, {
     field: "roles",
     label: "Roles"
 }, {
     field: "active",
-    label: "Status"
+    label: "Status",
+    sort: true
 }, {
     field: "last_sign_in_at",
-    label: "Last login"
+    label: "Last login",
+    sort: true
 }, {
     field: "last_activity_at",
     label: "Last activity"
 }]
 
+</script>
+<script>
+export default {
+    methods: {
+        show(user) {
+            this.$router.push(this.url.admin("users/:id", user.id).toString())
+        }
+    }
+}
 </script>
 <template>
     <section class="application-component">
@@ -75,7 +98,9 @@ const columns = [{
         <lesli-data-table
             :loading="store.loading"
             :columns="columns"
-            :records="store.index">
+            :records="store.index"
+            @click="show"
+            @sort="store.sortIndex">
         </lesli-data-table>
     </section>
 </template>
