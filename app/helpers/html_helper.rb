@@ -29,8 +29,8 @@ module HtmlHelper
     # build the text for the html document title
     def website_title
         title = @application_html_title || controller_path.gsub("cloud","").gsub("_", "")
-        title_prefix = Rails.application.config.lesli.dig(:account, :website, :title_prefix)
-        title_prefix.concat(" · ").concat(title)
+        prefix = Rails.application.config.lesli.dig(:account, :website, :title_prefix)
+        "#{prefix} · #{title}"
     end
 
     # build a url path to change locales
