@@ -28,7 +28,9 @@ const slots = useSlots().default()
 // · defining props
 const props = defineProps({
     modelValue: {
-        type: [String, Number]
+        type: [String, Number],
+        required: false,
+        default: 0,
     }
 })
 
@@ -82,7 +84,9 @@ onMounted(() => {
             <ul>
                 <li :class="activeTabCssClass(index)"
                     v-for="(item, index) in slots" :key="index">
-                    <a @click="selectTab(index)">
+                    <a 
+                        v-if="!!item.props"
+                        @click="selectTab(index)">
                         <span v-if="!!item.props.icon" class="icon is-small">
                             <span class="material-icons">
                                 {{ item.props.icon }}
