@@ -54,15 +54,34 @@ function selectTab(i) {
 }
 
 
+// build a css class for the active tabs
+function activeTabCssClass(current) {
+
+    if (current == active.value) {
+        return "is-active"
+    }
+
+    return;
+
+}
+
+
 // provide through the "tabs" key the currently active tab and all the tabs registered
 provide('tabs', { active, tabItems })
+
+
+//
+onMounted(() => {
+    active.value = props.modelValue
+})
 
 </script>
 <template>
     <div class="lesli-tab">
         <div class="tabs">
             <ul>
-                <li v-for="(item, index) in slots">
+                <li :class="activeTabCssClass(index)"
+                    v-for="(item, index) in slots" :key="index">
                     <a @click="selectTab(index)">
                         <span v-if="!!item.props.icon" class="icon is-small">
                             <span class="material-icons">
