@@ -14,22 +14,23 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 %>
 
 <%
 # Include defaults to account
-@account[:engine] = lesli_engine_or_instance                                    # use into url plugin to for dynamic search 
-@account[:url] = { root: request.base_url.to_s,  path: request.path }           # use as base for url plugin
-@account[:app] = params[:controller]
+@account[:instance] = lesli_instance_code
+@account[:engine] = lesli_engine_or_instance                           # use into url plugin to for dynamic search 
+@account[:url] = { root: request.base_url.to_s,  path: request.path }  # use as base for url plugin
+@account[:app] = params[:controller]                                   # (deprecated for vue3)
 %>
 
 <% # define @account data for the lesli plugin %>
 <script>const lesli = <%= @account.to_json.html_safe %></script>
 
+<% # special data for authenticated users %>
 <% if user_signed_in? %>
 <script>
-    <% # special data for authenticated users  %>
-    const shortcuts = <%= @account[:shortcuts].to_json.html_safe %>
+    
+
 </script>
 <% end %>
