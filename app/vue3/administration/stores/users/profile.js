@@ -18,14 +18,16 @@ For more information read the license file including with this software.
 
 // · 
 import { defineStore } from "pinia"
+import { useUser } from "LesliVue/stores/user"
 
 
 // · 
-export const useProfile = defineStore("user", {
+export const useProfile = defineStore("profile", {
     state: () => {
         return {
+            storeUser: useUser(),
             loading: false,
-            user: {
+            profile: {
                 detail_attributes: {}
             }
         }
@@ -33,7 +35,7 @@ export const useProfile = defineStore("user", {
     actions: {
 
         fetch() {
-            if (!this.user.id) {
+            if (!this.profile.id) {
                 this.fetchProfile()
             }
         },
@@ -43,7 +45,8 @@ export const useProfile = defineStore("user", {
             this.loading = true
 
             this.http.get(this.url.admin("profile")).then(result => {                
-                this.user = result.data
+                this.profile = result.data
+                this.storeUser.fetch(this.profile.id)
             }).catch(error => {
                 console.log(error)
             }).finally(() => {
