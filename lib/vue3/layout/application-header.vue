@@ -120,17 +120,25 @@ onUnmounted(() => {
                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
                         <div class="dropdown-content">
                             <a href="/administration/profile" class="dropdown-item header-user-options-profile ">
-                                <span class="icon has-text-grey-light">
-                                    <i class="fas fa-user"></i>
+                                <span class="icon-text">
+                                    <span class="icon has-text-grey-light">
+                                        <span class="material-icons">
+                                            person
+                                        </span>
+                                    </span>
+                                    <span>{{ translations.core.shared.view_text_profile }}</span>
                                 </span>
-                                <span>{{ translations.core.shared.view_text_profile }}</span>
                             </a>
                             <hr class="dropdown-divider">
                             <a href="/logout" class="dropdown-item">
-                                <span class="icon has-text-grey-light">
-                                    <i class="fas fa-sign-out-alt"></i>
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <span class="material-icons">
+                                            logout
+                                        </span>
+                                    </span>
+                                    <span>{{ translations.core.shared.view_text_logout }}</span>
                                 </span>
-                                <span>{{ translations.core.shared.view_text_logout }}</span>
                             </a>
                         </div>
                     </div>
