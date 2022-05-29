@@ -24,6 +24,7 @@ import { ref, reactive, onMounted, watch, computed } from "vue"
 // · import lesli stores
 import { useUser } from "LesliVue/stores/user"
 
+
 // · implement stores
 const storeUser = useUser()
 

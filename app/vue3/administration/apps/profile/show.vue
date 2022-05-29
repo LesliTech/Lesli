@@ -23,9 +23,11 @@ import { ref, reactive, onMounted, watch, computed } from "vue"
 
 // · import lesli stores
 import { useProfile } from "LesliCore/administration/stores/users/profile"
+import { useUser } from "LesliVue/stores/user"
 
 
 // · implement stores
+const storeUser = useUser()
 const storeProfile = useProfile()
 
 
@@ -51,6 +53,11 @@ onMounted(() => {
 })
 
 
+watch(() => storeProfile.id, val => {
+    console.log(val)
+})
+
+
 const activeTab = 3
 
 </script>
@@ -59,12 +66,12 @@ const activeTab = 3
         <cardInformation></cardInformation>
         <lesli-tabs v-model="activeTab">
             <lesli-tab-item title="Information">
-                <formInformation></formInformation>
+                <!--formInformation></formInformation-->
             </lesli-tab-item>
             <lesli-tab-item title="Suscripciones"></lesli-tab-item>
             <lesli-tab-item title="Security"></lesli-tab-item>
             <lesli-tab-item title="Session management">
-                <managementSession></managementSession>
+                <!--managementSession></managementSession-->
             </lesli-tab-item>
             <lesli-tab-item title="Settings"></lesli-tab-item>
             <lesli-tab-item title="Integraciones"></lesli-tab-item>
