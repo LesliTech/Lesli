@@ -22,11 +22,11 @@ import { ref, reactive, onMounted, watch, computed } from "vue"
 
 
 // · import lesli stores
-import { useProfile } from "LesliVue/stores/profile"
+import { useUser } from "LesliVue/stores/user"
 
 
 // · implement stores
-const storeProfile = useProfile()
+const storeUser = useUser()
 
 
 // · translations
@@ -44,42 +44,43 @@ const translations = {
             <div class="media-left">
                 <figure class="image is-128x128">
                     <span class="alternative-avatar">
-                         {{ storeProfile.initials() }}
+                         {{ storeUser.initials }}
                     </span>
                 </figure>
             </div>
+
             <div class="media-content">
                 <div class="content mb-0">
                     <p>
                         <strong>
-                        
+                            <!-- salutation -->
                         </strong>
-                        <strong>{{ storeProfile.user.detail_attributes.first_name }}</strong>
-                        <strong>{{ storeProfile.user.detail_attributes.last_name }}</strong>
+                        <strong>{{ storeUser.user.detail_attributes.first_name }}</strong>
+                        <strong>{{ storeUser.user.detail_attributes.last_name }}</strong>
                         <br>
-                        {{ storeProfile.user.detail_attributes.title }}
+                        {{ storeUser.user.detail_attributes.title }}
                     </p>
                 </div>
 
                 <nav class="level is-mobile mb-0">
                     <div class="level-left">
-                        <a  v-if="storeProfile.user.email"
-                            :href="'mailto:'+storeProfile.user.email" class="level-item" aria-label="reply">
+                        <a  v-if="storeUser.user.email"
+                            :href="'mailto:'+storeUser.user.email" class="level-item" aria-label="reply">
                             <span class="icon is-small mr-2">
                                 <span class="material-icons">
                                     email
                                 </span>
                             </span>
-                            {{ storeProfile.user.email }}
+                            {{ storeUser.user.email }}
                         </a>
-                        <a  v-if="storeProfile.user.detail_attributes.telephone"
-                            :href="'tel:'+storeProfile.user.detail_attributes.telephone" class="level-item" aria-label="retweet">
+                        <a  v-if="storeUser.user.detail_attributes.telephone"
+                            :href="'tel:'+storeUser.user.detail_attributes.telephone" class="level-item" aria-label="retweet">
                             <span class="icon is-small mr-2">
                                 <span class="material-icons">
                                     phone
                                 </span>
                             </span>
-                            {{ storeProfile.user.detail_attributes.telephone }}
+                            {{ storeUser.user.detail_attributes.telephone }}
                         </a>
                     </div>
                 </nav>
