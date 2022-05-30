@@ -27,7 +27,10 @@ jobs:
           - 5432:5432
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
+        token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
     - name: Checkout github actions repo
       uses: actions/checkout@v2
       with:
