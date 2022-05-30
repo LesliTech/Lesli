@@ -28,8 +28,6 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
-      with:
-        ref: ${{ github.event.pull_request.head.ref }}
     - name: Checkout github actions repo
       uses: actions/checkout@v2
       with:
