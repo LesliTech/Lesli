@@ -28,7 +28,9 @@ const slots = useSlots().default()
 // · defining props
 const props = defineProps({
     modelValue: {
-        type: [String, Number]
+        type: [String, Number],
+        required: false,
+        default: 0,
     }
 })
 
@@ -54,16 +56,37 @@ function selectTab(i) {
 }
 
 
+// build a css class for the active tabs
+function activeTabCssClass(current) {
+
+    if (current == active.value) {
+        return "is-active"
+    }
+
+    return;
+
+}
+
+
 // provide through the "tabs" key the currently active tab and all the tabs registered
 provide('tabs', { active, tabItems })
+
+
+//
+onMounted(() => {
+    active.value = props.modelValue
+})
 
 </script>
 <template>
     <div class="lesli-tab">
         <div class="tabs">
             <ul>
-                <li v-for="(item, index) in slots">
-                    <a @click="selectTab(index)">
+                <li :class="activeTabCssClass(index)"
+                    v-for="(item, index) in slots" :key="index">
+                    <a 
+                        v-if="!!item.props"
+                        @click="selectTab(index)">
                         <span v-if="!!item.props.icon" class="icon is-small">
                             <span class="material-icons">
                                 {{ item.props.icon }}

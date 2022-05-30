@@ -22,62 +22,52 @@ import { ref, reactive, onMounted, watch, computed } from "vue"
 
 
 // · import lesli stores
-import { useProfile } from "LesliVue/stores/profile"
+import { useUser } from "LesliVue/stores/user"
+
 
 // · implement stores
-const storeProfile = useProfile()
+const store = useUser()
 
 
+// · 
 const translations = {
     users: I18n.t("core.users"),
     shared: I18n.t("core.shared")
 }
+
 const options = {}
 
 </script>
 <template>
     <form class="information">
         <div class="field">
-            <label class="label">
-                {{ translations.shared.view_text_salutation }}
-            </label>
-            <b-radio
-                v-for="option in options.salutations"
-                :key="option.value"
-                v-model="storeProfile.user.detail_attributes.salutation"
-                type="is-info"
-                :native-value="option.value">
-                {{ translations.shared[`column_enum_salutation_${option.text}`] }}
-            </b-radio>
-        </div>
-        <div class="field">
             <label class="label"> {{ translations.shared.view_text_first_name }} </label>
             <div class="control">
-                <input v-model="storeProfile.user.detail_attributes.first_name" required="required" type="text" class="input">
+                <input v-model="store.user.detail_attributes.first_name" required="required" type="text" class="input">
             </div>
         </div>
         <div class="field">
             <label class="label"> {{ translations.shared.view_text_last_name }} </label>
             <div class="control">
-                <input v-model="storeProfile.user.detail_attributes.last_name" required="required" class="input">
+                <input v-model="store.user.detail_attributes.last_name" required="required" class="input">
             </div>
         </div>
         <div class="field">
             <label class="label"> {{ translations.shared.view_text_alias }} </label>
             <div class="control">
-                <input v-model="storeProfile.user.alias" class="input">
+                <input v-model="store.user.alias" class="input">
             </div>
         </div>
         <div class="field">
             <label class="label"> {{ translations.users.view_text_title }} </label>
             <div class="control">
-                <input v-model="storeProfile.user.detail_attributes.title" class="input">
+                <input v-model="store.user.detail_attributes.title" class="input">
             </div>
         </div>
         <div class="field">
             <label class="label"> {{ translations.shared.view_text_telephone }} </label>
             <div class="control">
-                <input v-model="storeProfile.user.detail_attributes.telephone" class="input">
+                <input v-model="store.user.detail_attributes.telephone" class="input">
             </div>
         </div>
         <p class="control">

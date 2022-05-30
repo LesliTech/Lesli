@@ -66,7 +66,7 @@ app({
             }
 
             return redirect_url
-             
+            
         },
 
         postLogin(event) {
@@ -82,7 +82,7 @@ app({
                 }
             };
 
-            this.http.post(this.url.to("/login"), data).then(response => {
+            this.http.post("/login", data).then(response => {
 
                 // If login went successful, redirect to root
                 if (response.successful){
@@ -98,6 +98,7 @@ app({
                 this.showNotification(response.error.message)
 
             }).catch(error => {
+                console.log(error)
                 this.showNotification("Error")
             })
 
