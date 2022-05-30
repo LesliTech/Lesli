@@ -26,8 +26,7 @@ For more information read the license file including with this software.
     <%= yield :application_custom_assets %>
 </head>
 <body class="<%= application_body_class() %>">
-
-    <main id="lesli-application">
+    <main id="lesli-application" v-cloak>
         <%= render partial: "layouts/partials/application-lesli-header" %>
         <%= render partial: "layouts/partials/application-lesli-notices" %>
         <%= render partial: "layouts/partials/application-lesli-sidebar" %>
