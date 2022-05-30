@@ -121,7 +121,7 @@ const generalOptions = {
 
 
 // unique id for the chart container
-const chartId = `component-chart-${instance.uuid}`
+const chartId = `component-chart-${Math.floor(Math.random() * 10000)}`
 
 onMounted(() => {
 
