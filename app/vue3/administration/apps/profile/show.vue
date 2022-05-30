@@ -53,25 +53,22 @@ onMounted(() => {
 })
 
 
-watch(() => storeProfile.id, val => {
-    console.log(val)
-})
+const activeTab = 0
 
-
-const activeTab = 3
 
 </script>
 <template>
     <section class="application-component">
         <cardInformation></cardInformation>
-        <lesli-tabs v-model="activeTab">
+        <lesli-loading v-if="!this.storeUser.user.id"></lesli-loading>
+        <lesli-tabs v-model="activeTab" v-if="this.storeUser.user.id">
             <lesli-tab-item title="Information">
-                <!--formInformation></formInformation-->
+                <formInformation></formInformation>
             </lesli-tab-item>
             <lesli-tab-item title="Suscripciones"></lesli-tab-item>
             <lesli-tab-item title="Security"></lesli-tab-item>
             <lesli-tab-item title="Session management">
-                <!--managementSession></managementSession-->
+                <managementSession></managementSession>
             </lesli-tab-item>
             <lesli-tab-item title="Settings"></lesli-tab-item>
             <lesli-tab-item title="Integraciones"></lesli-tab-item>
