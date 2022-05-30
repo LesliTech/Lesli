@@ -52,7 +52,7 @@ describe("VUE/PLUGINS/URL", () => {
         
         it("should build a url for /administration/users", () => {
 
-            var url = vm.config.globalProperties.url.admin("users")
+            var url = vm.config.globalProperties.url.admin("users").toString()
             expect(url).to.be.a("string");
             expect(url).to.equal("/administration/users");
             
@@ -88,6 +88,23 @@ describe("VUE/PLUGINS/URL", () => {
             var url = vm.config.globalProperties.url.admin("users/:id", { id: 777 }).toString()
             expect(url).to.be.a("string");
             expect(url).to.equal("/administration/users/777");
+            
+        });
+
+
+        it("should build a url with order column", () => {
+
+            var url = vm.config.globalProperties.url.admin("users").order("name").toString()
+            expect(url).to.be.a("string");
+            expect(url).to.equal("/administration/users?orderBy=name&order=asc");
+            
+        });
+
+        it("should build a url with order params", () => {
+
+            var url = vm.config.globalProperties.url.admin("users").order("name", "desc").toString()
+            expect(url).to.be.a("string");
+            expect(url).to.equal("/administration/users?orderBy=name&order=desc");
             
         });
 

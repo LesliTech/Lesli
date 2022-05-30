@@ -18,23 +18,25 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed } from "vue"
+import { ref, reactive, onMounted, watch, computed, onUnmounted } from "vue"
+import { useRouter, useRoute } from 'vue-router'
 
 
 // · import lesli stores
-import { useProfile } from "LesliCore/administration/stores/users/profile"
 import { useUser } from "LesliVue/stores/user"
 
 
 // · implement stores
 const storeUser = useUser()
-const storeProfile = useProfile()
+const router = useRouter()
+const route = useRoute()
 
 
 // · import profile components
-import cardInformation from "../users/components/card-information.vue"
-import formInformation from "../users/components/form-information.vue"
-import managementSession from "../users/components/management-sessions.vue"
+import cardActions from "./components/card-actions.vue"
+import cardInformation from "./components/card-information.vue"
+import formInformation from "./components/form-information.vue"
+import managementSession from "./components/management-sessions.vue"
 
 
 // · translations
@@ -49,19 +51,15 @@ const translations = {
 
 // · initializing
 onMounted(() => {
-    storeProfile.fetch()
+    storeUser.fetch(route.params?.id)
 })
-
-
-const activeTab = 0
-
 
 </script>
 <template>
     <section class="application-component">
         <cardInformation></cardInformation>
-        <lesli-loading v-if="!this.storeUser.user.id"></lesli-loading>
-        <lesli-tabs v-model="activeTab" v-if="this.storeUser.user.id">
+        <cardActions></cardActions>
+        <lesli-tabs v-if="this.storeUser.user.id">
             <lesli-tab-item title="Information">
                 <formInformation></formInformation>
             </lesli-tab-item>
