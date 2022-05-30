@@ -26,7 +26,8 @@ For more information read the license file including with this software.
 <%# custom_sidebar_path = "layouts/#{lesli_instance_code}/partials/application-navigation" if lesli_instance_code == "lesli_cloud" %>
 
 <%# dedicated navigation for the administration area %>
-<% custom_sidebar_path = "layouts/components/sidebar-administration" if is_lesli_engine_administration? %>
+<% custom_sidebar_path = "layouts/components/sidebar-administration"  if (is_lesli_engine_administration?() && !defined?(DeutscheLeibrenten)) %>
+<% custom_sidebar_path = "layouts/components/sidebar-administration-v2" if (is_lesli_engine_administration?() && defined?(DeutscheLeibrenten)) %>
 
 <%# validate the path to be sure the partial exists when trying to render it %>
 <% custom_sidebar_exists = lookup_context.exists?(custom_sidebar_path, nil, true) %>
