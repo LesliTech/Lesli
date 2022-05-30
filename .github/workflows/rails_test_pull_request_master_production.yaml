@@ -27,7 +27,7 @@ jobs:
           - 5432:5432
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
     - name: Checkout github actions repo
       uses: actions/checkout@v2
       with:
