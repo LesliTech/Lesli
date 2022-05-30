@@ -18,31 +18,33 @@ For more information read the license file including with this software.
 
 // · 
 import { defineStore } from "pinia"
-import { useProfile } from "LesliCore/administration/stores/users/profile"
+import { useUser } from "LesliVue/stores/user"
 
 
 // · 
 export const useManagementSessions = defineStore("managementSessions", {
     state: () => {
+        const storeUser = useUser()
         return {
-            user: useProfile(),
+            storeUser: storeUser,
             loading: false,
             records: []
         }
     },
+
     actions: {
 
         fetch() {
-            //if (!this.user.id) {
+            if (this.storeUser.user.id) {
                 this.fetchSessions()
-            //}
+            }
         },
 
         fetchSessions() {
 
             this.loading = true
 
-            this.http.get(this.url.admin("users/8/sessions")).then(result => {                
+            this.http.get(this.url.admin("users/:id/sessions", this.storeUser.user.id)).then(result => {                
                 this.records = result.data.records
             }).catch(error => {
                 console.log(error)
