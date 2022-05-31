@@ -1,4 +1,2 @@
 --fail-fast
 --format documentation 
---pattern engines/**/spec/**/**/*_spec.rb 
---pattern spec/tests/**/**/*_spec.rb
