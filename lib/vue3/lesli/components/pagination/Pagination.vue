@@ -55,6 +55,16 @@ watch(() => props.pagination, (val) => {
         nextPage.value = currentPage.value + 1
     }
 
+    // if first page we enable to navigate to the last page
+    if (currentPage.value >= lastPage.value) {
+        nextPage.value = 1
+    }
+
+    // if last page we enable to navigate to the first page
+    if (currentPage.value <= 1) {
+        previousPage.value = lastPage.value
+    }
+
 })
 
 
