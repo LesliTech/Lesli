@@ -1,4 +1,4 @@
-name: Pull request master/production
+name: Pull request master/production DL
 on:
   pull_request:
     branches:
@@ -8,8 +8,8 @@ on:
 
 jobs:
   test:
-    name: Running Core RSpec Tests
-    runs-on: ubuntu-20.04
+    name: Running Core RSpec Tests for DL
+    runs-on: self-hosted
     if: "!contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):') && !contains(github.event.head_commit.message, 'ci(workflows):')"
     services:
       postgres:
@@ -30,7 +30,6 @@ jobs:
       uses: actions/checkout@v3
       with:
         ref: ${{ github.event.pull_request.head.ref }}
-        token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
     - name: Checkout github actions repo
       uses: actions/checkout@v2
       with:
