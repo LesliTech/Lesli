@@ -58,11 +58,11 @@ For more information read the license file including with this software.
 @import "./lesli3/panels/panel-support";
 @import "./lesli3/panels/panel-viewer";
 
-@import "./lesli3/components/lesli-data-loading";
-@import "./lesli3/components/lesli-data-empty";
-@import "./lesli3/components/lesli-data-table";
+@import "./lesli3/components/lesli-loading";
 @import "./lesli3/components/lesli-toolbar";
 @import "./lesli3/components/lesli-header";
+@import "./lesli3/components/lesli-empty";
+@import "./lesli3/components/lesli-table";
 @import "./lesli3/components/lesli-tab";
 
 
