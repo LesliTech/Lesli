@@ -21,8 +21,12 @@ For more information read the license file including with this software.
 import { ref, reactive, onMounted, watch, computed } from "vue"
 
 
+// · 
+import Pagination from "LesliVue/lesli/components/pagination/Pagination.vue"
+
+
 // · defining emits
-const emit = defineEmits(['click', 'sort']);
+const emit = defineEmits(['click', 'sort', 'paginate']);
 
 
 // · defining props
@@ -92,11 +96,17 @@ function sort(column) {
 
 }
 
+
+// · emit the page selected received from the pagination component
+function paginate(page) {
+    emit('paginate', page)
+}
+
 </script>
 <template>
     <div>
         <table 
-            class="table is-fullwidth lesli-data-table"
+            class="table is-fullwidth lesli-table"
             :class="props.class">
             <thead>
                 <tr>
@@ -145,42 +155,14 @@ function sort(column) {
         <div>
 
             <!-- Show loading animation, this should be setted through the stores -->
-            <lesli-data-loading v-if="loading"></lesli-data-loading>
+            <lesli-loading v-if="loading"></lesli-loading>
 
             <!-- Show a message to indicate that there is no data to present -->
-            <lesli-data-empty v-if="!loading && props.records && props.records.length < 1"></lesli-data-empty>
+            <lesli-empty v-if="!loading && props.records && props.records.length < 1"></lesli-empty>
 
         </div>
 
-        <nav v-if="props.pagination" 
-            class="pagination" role="navigation" aria-label="pagination">
-            <a class="pagination-previous">Previous</a>
-            <a class="pagination-next">Next page</a>
-
-            <ul class="pagination-list">
-                <li>
-                    <a class="pagination-link" aria-label="Goto page 1">1</a>
-                </li>
-                <li>
-                    <span class="pagination-ellipsis">&hellip;</span>
-                </li>
-                <li>
-                    <a class="pagination-link" aria-label="Goto page 45">45</a>
-                </li>
-                <li>
-                    <a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a>
-                </li>
-                <li>
-                    <a class="pagination-link" aria-label="Goto page 47">47</a>
-                </li>
-                <li>
-                    <span class="pagination-ellipsis">&hellip;</span>
-                </li>
-                <li>
-                    <a class="pagination-link" aria-label="Goto page 86">86</a>
-                </li>
-            </ul>
-        </nav>
+        <Pagination :pagination="props.pagination" @paginate="paginate"></Pagination>
 
     </div>
 </template>

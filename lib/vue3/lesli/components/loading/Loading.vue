@@ -41,7 +41,7 @@ const translations = {
 
 </script>
 <template>
-    <div class="lesli-data-loading has-text-centered">
+    <div class="lesli-loading has-text-centered">
         <p>
             <span class="loading-animation">
                 <hr/><hr/><hr/><hr/>

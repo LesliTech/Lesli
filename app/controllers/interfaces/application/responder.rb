@@ -41,13 +41,12 @@ module Interfaces
             def respond_with_pagination records, columns=[]
                 respond_with_http(200, {
                     :pagination => {
-                        :total_pages => records.current_page,
+                        :total_pages => records.total_pages,
                         :current_page => records.current_page,
                         :count_total => records.total_count,
                         :count_results => records.length
                     },
-                    #:columns => columns ,
-                    :records => records #.pluck(*columns) we must implement pluck if over optimization is needed
+                    :records => records 
                 })
             end
 
