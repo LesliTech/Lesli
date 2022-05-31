@@ -33,7 +33,7 @@ class UsersController < ApplicationLesliController
 
                 # Lesli v3
                 if !defined?(DeutscheLeibrenten) 
-                    respond_with_index(User.list(current_user, @query, params)) 
+                    respond_with_successful(User.list(current_user, @query, params)) 
                 end
 
             }
@@ -53,7 +53,7 @@ class UsersController < ApplicationLesliController
             format.json { 
 
                 # Keep compatibility with DeutscheLeibrenten
-                if defined?(DeutscheLeibrenten) 
+                if defined?(DeutscheLeibrenten) || 1 == 1
 
                     users = User.index(current_user, @query, params)
 
@@ -85,7 +85,7 @@ class UsersController < ApplicationLesliController
                         users: users
                     }) 
                 end
-
+=begin
                 # Lesli v3
                 if !defined?(DeutscheLeibrenten) 
 
@@ -123,7 +123,7 @@ class UsersController < ApplicationLesliController
                         end
                     }) 
                 end
-
+=end
             }
         end
     end
