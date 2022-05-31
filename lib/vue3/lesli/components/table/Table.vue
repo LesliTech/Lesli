@@ -162,7 +162,7 @@ function paginate(page) {
 
         </div>
 
-        <Pagination :pagination="props.pagination" @paginate="paginate"></Pagination>
+        <Pagination v-if="props.pagination" :pagination="props.pagination" @paginate="paginate"></Pagination>
 
     </div>
 </template>
