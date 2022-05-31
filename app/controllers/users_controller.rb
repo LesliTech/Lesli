@@ -53,7 +53,7 @@ class UsersController < ApplicationLesliController
             format.json { 
 
                 # Keep compatibility with DeutscheLeibrenten
-                if defined?(DeutscheLeibrenten) || 1 == 1
+                if defined?(DeutscheLeibrenten)
 
                     users = User.index(current_user, @query, params)
 
