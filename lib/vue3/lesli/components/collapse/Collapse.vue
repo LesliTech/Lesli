@@ -23,17 +23,34 @@ import { ref, reactive, onMounted, watch, computed } from "vue"
 // · defining emits
 const emit = defineEmits(['open']);
 
+/**
+ * The only true button.
+ * @displayName lesli-collapse
+ */
+
 // · defining props
 const props = defineProps({
     loading: {
+        /**
+         * An indicator when data is loading
+         * @values true, false
+         */
         type: Boolean,
         default: false
     },
     open: {
+        /**
+         * An indicator when the collapse card
+         * is open
+         * @values true, false
+         */
         type: Boolean,
         default: false
     },
-    title: {
+    title: {/**
+         * The title to show on card's header
+         * @values any string
+         */
         type: String,
         default: 'Collapse Title'
     }

@@ -24,7 +24,17 @@ module Interfaces
 
             # Return an standard http 200 respond
             def respond_with_successful payload
+
+                # Keep compatibility with apps v2 specially Deutsche Leibrenten
+                if defined?(DeutscheLeibrenten)
+                    response_body = { successful: true }
+                    response_body[:data] = payload
+                    return render(status: 200, json: response_body.to_json)
+                end
+
+                # Response for modern Lesli 3 apps
                 respond_with_http(200, payload)
+
             end
 
 
@@ -38,22 +48,34 @@ module Interfaces
             #
             # IMPORTANT: It is strictly necessary to use the pagination methods
             #            to make this work properly
-            def respond_with_pagination records, columns=[]
+            def respond_with_pagination records, payload=nil
                 respond_with_http(200, {
                     :pagination => {
-                        :total_pages => records.current_page,
+                        :total_pages => records.total_pages,
                         :current_page => records.current_page,
                         :count_total => records.total_count,
                         :count_results => records.length
                     },
-                    #:columns => columns ,
-                    :records => records #.pluck(*columns) we must implement pluck if over optimization is needed
+                    :records => payload || records 
                 })
             end
 
 
             # JSON not found response
             def respond_with_not_found
+
+                # Keep compatibility with apps v2 specially Deutsche Leibrenten
+                if defined?(DeutscheLeibrenten)
+                    response_body = {
+                        successful: false,
+                        error: {
+                            message: I18n.t("core.shared.messages_danger_not_found"),
+                            details: []
+                        }
+                    }
+                    return render(status: 404, json: response_body.to_json)
+                end
+
                 respond_with_http(404, { 
                     message: I18n.t("core.shared.messages_danger_not_found"),
                     details: []
@@ -89,14 +111,29 @@ module Interfaces
 
             # JSON failure response
             def respond_with_error message = "", details = []
+                
+                # Keep compatibility with apps v2 specially Deutsche Leibrenten
+                if defined?(DeutscheLeibrenten)
+
+                    response_body = {
+                        successful: false,
+                        error: {
+                            message: message,
+                            details: details
+                        }
+                    }
+                    
+                    return render( status: 200, json: response_body.to_json)
+
+                end
+
 
                 # TODO:
                 #   check if active error and then:
                 #       message = error message to sentence
                 #       details = error array of messages
                 #   check another types of errors and parse respond according
-
-                respond_with_http(400, { 
+                respond_with_http(501, { 
                     message: message,
                     details: details
                 })

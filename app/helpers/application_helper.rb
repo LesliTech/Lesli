@@ -34,7 +34,7 @@ module ApplicationHelper
     def is_lesli_engine_administration?
         [
             "accounts", "account", "roles", "profiles", "users", "abouts", 
-            "settings", "cronos", "onboarding", "role_descriptors"
+            "settings", "cronos", "onboardings", "role_descriptors"
         ].include?(lesli_engine)
     end
 
