@@ -56,6 +56,7 @@ const translations = {
                             <!-- salutation -->
                         </strong>
                         <strong>{{ storeUser.user.detail_attributes.first_name }}</strong>
+                        <strong>{{' '}}</strong>
                         <strong>{{ storeUser.user.detail_attributes.last_name }}</strong>
                         <br>
                         {{ storeUser.user.detail_attributes.title }}
