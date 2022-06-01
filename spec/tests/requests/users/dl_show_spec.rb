@@ -20,7 +20,7 @@
 # include helpers, configuration & initializers for request tests
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for DeutscheLeibrenten", :if => defined?(DeutscheLeibrenten) do
 
     describe "GET:/administration/users/:id.json", type: :request do
         include_context "request user authentication"
@@ -31,28 +31,28 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             get "/administration/users/#{user.id}.json"
 
             # shared examples
-            expect_response_with_successful
+            expect_json_response_successful
 
             # custom specs
-            expect(response_body["id"]).to eql(user.id)
-            expect(response_body["email"]).to eql(user.email)
-            expect(response_body["alias"]).to eql(user.alias)
-            expect(response_body["active"]).to eql(user.active)
-            expect(response_body["full_name"]).to eql(user.full_name)
+            expect(response_data["id"]).to eql(user.id)
+            expect(response_data["email"]).to eql(user.email)
+            expect(response_data["alias"]).to eql(user.alias)
+            expect(response_data["active"]).to eql(user.active)
+            expect(response_data["full_name"]).to eql(user.full_name)
         end
 
         it 'is expected to respond with the development user' do
             get "/administration/users/#{@current_user.id}.json"
 
             # shared examples
-            expect_response_with_successful
+            expect_json_response_successful
 
             # custom specs
-            expect(response_body["id"]).to eql(@current_user.id)
-            expect(response_body["email"]).to eql(@current_user.email)
-            expect(response_body["alias"]).to eql(@current_user.alias)
-            expect(response_body["active"]).to eql(@current_user.active)
-            expect(response_body["full_name"]).to eql(@current_user.full_name)
+            expect(response_data["id"]).to eql(@current_user.id)
+            expect(response_data["email"]).to eql(@current_user.email)
+            expect(response_data["alias"]).to eql(@current_user.alias)
+            expect(response_data["active"]).to eql(@current_user.active)
+            expect(response_data["full_name"]).to eql(@current_user.full_name)
         end
 
         it "is expected to respond with unauthorized when is using limited user" do
@@ -61,7 +61,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             sign_in(limited_user)
             get "/administration/users/#{@current_user.id}.json"
 
-            expect_response_with_unauthorized
+            expect_json_response_unauthorized
         end
     end
 

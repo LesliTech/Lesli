@@ -20,9 +20,10 @@
 # include helpers, configuration & initializers for request tests
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for DeutscheLeibrenten", :if => defined?(DeutscheLeibrenten) do
 
     describe "DEL:/administration/users/:id.json with user with invalid permissions", type: :request do
+
         include_context "request user authentication"
 
         it "is expected to respond with unauthorized when is deleting a user" do
@@ -34,7 +35,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             delete "/administration/users/#{admin_user.id}.json"
 
             # shared examples
-            expect_response_with_unauthorized
+            expect_json_response_unauthorized
         end
 
         it "is expected to delete a user from db" do
@@ -43,8 +44,9 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             delete "/administration/users/#{limited_user.id}.json"
 
             # shared examples
-            expect_response_with_successful
+            expect_json_response_successful
         end
+        
     end
 
 end
