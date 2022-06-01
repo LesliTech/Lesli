@@ -59,23 +59,24 @@ module ResponseHelpers
     end
 
     # test a standard error response for lesli 3
-    def expect_response_error
+    def expect_response_with_error
         @@response_json = nil
         expect(response).to have_http_status(:error) 
         expect(response.content_type).to eq('application/json; charset=utf-8')
-        expect(response_json).to have_key('error') 
-        expect(response_json["error"]).to have_key('message') 
+        expect(response_json).to have_key('message') 
+        expect(response_json).to have_key('details') 
+        # to be instance of
     end
 
     # test a standard not found response for lesli 3
-    def expect_response_not_found
+    def expect_response_with_not_found
         @@response_json = nil
         expect(response).to have_http_status(:not_found)
         expect(response.content_type).to eq("application/json; charset=utf-8")
     end
 
     # test a standard unauthorized response for lesli 3
-    def expect_response_unauthorized
+    def expect_response_with_unauthorized
         @@response_json = nil
         expect(response).to have_http_status(:unauthorized)
         expect(response.content_type).to eq("application/json; charset=utf-8")

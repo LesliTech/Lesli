@@ -27,8 +27,6 @@ import { useUser } from "LesliVue/stores/user"
 
 // implement stores
 const store = useUser()
-const router = useRouter()
-const route = useRoute()
 
 
 // · translations
