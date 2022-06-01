@@ -63,6 +63,19 @@ module Interfaces
 
             # JSON not found response
             def respond_with_not_found
+
+                # Keep compatibility with apps v2 specially Deutsche Leibrenten
+                if defined?(DeutscheLeibrenten)
+                    response_body = {
+                        successful: false,
+                        error: {
+                            message: I18n.t("core.shared.messages_danger_not_found"),
+                            details: []
+                        }
+                    }
+                    return render(status: 404, json: response_body.to_json)
+                end
+
                 respond_with_http(404, { 
                     message: I18n.t("core.shared.messages_danger_not_found"),
                     details: []
