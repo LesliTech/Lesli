@@ -37,7 +37,7 @@ RSpec.describe "Tests for DeutscheLeibrenten", :if => defined?(DeutscheLeibrente
             })
             
             expect_json_response_successful
-            expect(response_data).to be_nil
+            expect(response_data).to eql(@new_email)
         end
 
         it "is expected to respond with unauthorized standard json response" do
@@ -64,7 +64,7 @@ RSpec.describe "Tests for DeutscheLeibrenten", :if => defined?(DeutscheLeibrente
             })
 
             # shared examples
-            expect_json_response_error
+            expect_json_response_not_found
         end
 
         it "is expected to redirect to login when user is not authenticated" do
