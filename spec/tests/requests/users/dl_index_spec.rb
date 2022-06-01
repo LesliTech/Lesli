@@ -21,28 +21,33 @@ For more information read the license file including with this software.
 # include helpers, configuration & initializers for request tests
 require "lesli_request_helper"
 
-
-RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for DeutscheLeibrenten", :if => defined?(DeutscheLeibrenten) do
 
     describe "GET:/administration/users.json", type: :request do
 
         include_context "request user authentication"
         
-        it "is expected to respond with users index" do
+        it "is expected to respond with all the users" do
 
             get "/administration/users.json", params: {
                 :perPage => 1000
             }
 
-            expect_response_with_pagination
+            expect_json_response_successful
 
             expect_count = @current_user.account.users
                 .joins(:detail, :user_roles)
                 .group("users.id, user_roles.users_id")
                 .map(&:id).uniq.count
 
+            response_body = response_json
+            
+            expect(response_body["data"]["users_count"]).to eql(expect_count)
+            expect(response_body["data"]["users"].length).to eql(expect_count)
+
         end
     end
+
 
     describe "GET:/administration/users/list.json", type: :request do
 
@@ -54,11 +59,11 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
         
                 get "/administration/users/list.json?role=#{role}"
                 
-                expect_response_with_successful
+                expect_json_response_successful
         
                 users_by_role_in_database = @current_user.account.users.joins(:roles).where("roles.name = ?", role).count
 
-                expect(response_body.size).to eql(users_by_role_in_database)
+                expect(response_data.count).to eql(users_by_role_in_database)
         
             end
         end

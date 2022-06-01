@@ -1,6 +1,6 @@
-/*
+=begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,35 +14,19 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+=end
 
-*/
+
+# · 
+require "rails_helper"
 
 
-// · 
-table.lesli-data-table {
-    border-collapse: collapse;
-    border-radius: 8px;
-    overflow: hidden;
+# · 
+RSpec.describe ApplicationHelper do
 
-    thead {
+    it "should return the lesli_instance_code" do
+        expect(helper.lesli_instance_code).to eql('lesli_cloud') if defined?(LesliCloud)
+        expect(helper.lesli_instance_code).to eql('deutsche_leibrenten') if defined?(DeutscheLeibrenten)
+    end
 
-        th {
-            border: none;
-            font-weight: 700;
-        }
-
-        .icon-text:hover {
-            cursor: pointer;
-        }
-
-        border-radius: 10px 10px 0 0;
-        background-color: #E2E6F6;
-    }
-
-    thead, 
-    tbody {
-        th,td {
-            padding: 1.4rem 1rem;
-        }
-    }
-}
+end

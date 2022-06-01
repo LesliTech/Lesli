@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for DeutscheLeibrenten", :if => defined?(DeutscheLeibrenten) do
 
     describe "PUT:/administration/users/:id/actions/email.json", type: :request do
         include_context "request user authentication"
@@ -36,8 +36,8 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
                 user: { email: @new_email }
             })
             
-            expect_response_with_successful
-            expect(response_body).to eql(@new_email)
+            expect_json_response_successful
+            expect(response_data).to eql(@new_email)
         end
 
         it "is expected to respond with unauthorized standard json response" do
@@ -52,7 +52,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             })
 
             # shared examples
-            expect_response_with_unauthorized
+            expect_json_response_unauthorized
         end
 
         it "is expected to respond with not found standard json response" do
@@ -64,7 +64,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             })
 
             # shared examples
-            expect_response_with_not_found
+            expect_json_response_not_found
         end
 
         it "is expected to redirect to login when user is not authenticated" do

@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 # include helpers, configuration & initializers for request tests
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for DeutscheLeibrenten", :if => defined?(DeutscheLeibrenten) do
 
     describe "POST:/administration/users.json", type: :request  do
         include_context "request user authentication"
@@ -35,12 +35,12 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             })
 
             # shared examples
-            expect_response_with_successful
+            expect_json_response_successful
 
             # custom specs
-            expect(response_body["category"]).to eql("user")
-            expect(response_body["active"]).to eql(true)
-            expect(response_body["email"]).to eql(user[:email])
+            expect(response_data["category"]).to eql("user")
+            expect(response_data["active"]).to eql(true)
+            expect(response_data["email"]).to eql(user[:email])
         end
 
         it "is expected to assign limited role to user" do
@@ -52,10 +52,10 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             })
             
             # shared examples
-            expect_response_with_successful
+            expect_json_response_successful
 
             # custom specs
-            roles = User.find(response_body["id"]).roles
+            roles = User.find(response_data["id"]).roles
             expect(roles.find { |role| role[:name] == "limited" }).to_not be_nil
         end  
         
@@ -70,7 +70,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             })
             
             # shared examples
-            expect_response_with_error
+            expect_json_response_error
         end
 
         it "is expected to not create a user with nil email" do
@@ -84,7 +84,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             })
 
             # shared examples
-            expect_response_with_error
+            expect_json_response_error
         end
 
         it "is expected to not create a user with an empty email" do
@@ -98,7 +98,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             })
 
             # shared examples
-            expect_response_with_error
+            expect_json_response_error
         end
 
         it "is expected to create a new user with the specific account and region" do
@@ -120,13 +120,13 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             })
 
             # shared examples
-            expect_response_with_successful
+            expect_json_response_successful
 
             # custom specs
-            expect(response_body["category"]).to eql("user")
-            expect(response_body["active"]).to eql(true)
-            expect(response_body["email"]).to eql(user[:email])
-            expect(User.find(response_body["id"]).detail.work_region).to eql(region.id)
+            expect(response_data["category"]).to eql("user")
+            expect(response_data["active"]).to eql(true)
+            expect(response_data["email"]).to eql(user[:email])
+            expect(User.find(response_data["id"]).detail.work_region).to eql(region.id)
         end
 
         it "is expected to not to create a user with invalid region id" do
@@ -149,7 +149,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             })
 
             # shared examples
-            expect_response_with_error
+            expect_json_response_error
         end
     end
 

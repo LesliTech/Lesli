@@ -1,4 +1,5 @@
 /*
+
 Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -13,31 +14,35 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 */
 
 
 // · 
-import app from "LesliVue/app"
+table.lesli-table {
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
 
+    thead {
 
-// · 
-import appAccountDashboard from "Lesli/vue3/administration/apps/accounts/dashboard.vue"
-import appUsersProfile from "Lesli/vue3/administration/apps/profile/show.vue"
-import appUsersIndex from "Lesli/vue3/administration/apps/users/index.vue"
-import appUsersShow from "Lesli/vue3/administration/apps/users/show.vue"
+        th {
+            border: none;
+            font-weight: 700;
+        }
 
+        .icon-text:hover {
+            cursor: pointer;
+        }
 
-// · 
-app("Administration", [{
-    path: "/",
-    component: appAccountDashboard
-}, {
-    path: "/users",
-    component: appUsersIndex
-}, {
-    path: "/users/:id",
-    component: appUsersShow
-}, {
-    path: "/profile",
-    component: appUsersProfile
-}])
+        border-radius: 10px 10px 0 0;
+        background-color: #E2E6F6;
+    }
+
+    thead, 
+    tbody {
+        th,td {
+            padding: 1.4rem 1rem;
+        }
+    }
+}
