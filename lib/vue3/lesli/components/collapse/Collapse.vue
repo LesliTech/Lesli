@@ -25,16 +25,6 @@ const emit = defineEmits(['open']);
 
 // · defining props
 const props = defineProps({
-    class: {
-        type: String,
-        required: false,
-        default: "card"
-    },
-    animation: {
-        type: String,
-        required: false,
-        default: "slide"
-    },
     loading: {
         type: Boolean,
         default: false
@@ -42,6 +32,10 @@ const props = defineProps({
     open: {
         type: Boolean,
         default: false
+    },
+    title: {
+        type: String,
+        default: 'Collapse Title'
     }
 })
 
@@ -53,10 +47,17 @@ const props = defineProps({
             class="card-header"
             style="cursor: pointer"
             role="button">
-            <slot name="lesli-collapse-header"></slot>
+            <p class="card-header-title">
+                {{ props.title }}
+            </p>
+            <a class="card-header-icon">
+                <span class="icon">
+                    <i :class="'fas fa-lg ' + (props.open ? 'fa-caret-down' : 'fa-caret-right')"/>
+                </span>
+            </a>
         </div>
         <div v-show="open" class="card-content">
-            <slot  name="lesli-collapse-body"></slot>
+            <slot></slot>
         </div>
     </div>
 </template>
