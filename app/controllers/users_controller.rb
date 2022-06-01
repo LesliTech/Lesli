@@ -127,13 +127,14 @@ class UsersController < ApplicationLesliController
             format.html {}
             format.json {
 
-                return respond_with_not_found unless @user
+                return Application::Responder.respond_with_not_found unless @user
 
                 user = @user.show(current_user).merge({
                     #is_editable: @user.is_editable_by?(current_user)
                 })
 
-                respond_with_successful(user)
+                Application::Responder.respond_with_successful(user)
+
             }
         end
     end
@@ -142,7 +143,7 @@ class UsersController < ApplicationLesliController
 
         # check if request has an email to create the user
         if user_params[:email].blank?
-            respond_with_error(I18n.t("core.users.messages_danger_not_valid_email_found"))
+            Application::Responder.respond_with_error(I18n.t("core.users.messages_danger_not_valid_email_found"))
             return
         end
 
@@ -197,7 +198,7 @@ class UsersController < ApplicationLesliController
 
             User.log_activity_create(current_user, user)
 
-            respond_with_successful(user)
+            Application::Responder.respond_with_successful(user)
 
             begin
                 # users created through the administration area does not need to confirm their accounts
@@ -209,7 +210,7 @@ class UsersController < ApplicationLesliController
             end
 
         else
-            respond_with_error(user.errors.full_messages.to_sentence)
+            Application::Responder.respond_with_error(user.errors.full_messages.to_sentence)
         end
 
     end
@@ -217,7 +218,7 @@ class UsersController < ApplicationLesliController
     def update
 
         # validate that user exists
-        return respond_with_not_found unless @user
+        return Application::Responder.respond_with_not_found unless @user
         #return respond_with_unauthorized unless @user.is_editable_by?(current_user)
 
         old_attributes = @user.detail.attributes.merge({
@@ -230,23 +231,23 @@ class UsersController < ApplicationLesliController
             })
 
             # return a successful response
-            respond_with_successful
+            Application::Responder.respond_with_successful
 
             User.log_activity_update(current_user, @user, old_attributes, new_attributes)
         else
-            respond_with_error(@user.errors.full_messages.to_sentence)
+            Application::Responder.respond_with_error(@user.errors.full_messages.to_sentence)
         end
 
     end
 
     def destroy
-        return respond_with_not_found unless @user
+        return Application::Responder.respond_with_not_found unless @user
 
         if @user.delete
             current_user.logs.create({ description: "deleted_user #{@user.id}-#{@user.full_name} by_user_id: #{current_user.id}" })
-            respond_with_successful
+            Application::Responder.respond_with_successful
           else
-            respond_with_error(@user.errors.full_messages.to_sentence)
+            Application::Responder.respond_with_error(@user.errors.full_messages.to_sentence)
         end
     end
 
@@ -270,7 +271,7 @@ class UsersController < ApplicationLesliController
             roles = roles.where("object_level_permission < ?", (current_user.roles.map{ |r| r[:object_level_permission] }).max)
         end
 
-        respond_with_successful({
+        Application::Responder.respond_with_successful({
             roles: roles,
             regions: current_user.account.locations.where(level: "region"),
             salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
@@ -283,17 +284,17 @@ class UsersController < ApplicationLesliController
 
         # always should be disabled
         if Rails.configuration.lesli_settings["security"]["enable_becoming"] != true
-            return respond_with_unauthorized
+            return Application::Responder.respond_with_unauthorized
         end
 
         # Allow only sysadmin to become as user
-        return respond_with_unauthorized if current_user.email != Rails.application.config.lesli.dig(:account, :user, :email) # sysadmin user
+        return Application::Responder.respond_with_unauthorized if current_user.email != Rails.application.config.lesli.dig(:account, :user, :email) # sysadmin user
 
         # Search for desire user
         becoming_user = User.find(params[:id])
 
         # Return an error if user does not exist
-        return respond_with_error I18n.t("core.shared.messages_warning_user_not_found") if becoming_user.blank?
+        return Application::Responder.respond_with_error I18n.t("core.shared.messages_warning_user_not_found") if becoming_user.blank?
 
         # Extrictly save a log when becoming
         current_user.activities.create!({
@@ -319,7 +320,7 @@ class UsersController < ApplicationLesliController
         session[:user_session_id] = becoming_session[:id]        
 
         # Response successful
-        respond_with_successful([current_user, becoming_user])
+        Application::Responder.respond_with_successful([current_user, becoming_user])
 
     end
 
@@ -331,7 +332,7 @@ class UsersController < ApplicationLesliController
 
         # check if user exist
         if user.blank?
-            return respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
+            return Application::Responder.respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
         end
 
         # Integrations cannot be logged out. Since this is equivalent to revoking their access
@@ -343,7 +344,7 @@ class UsersController < ApplicationLesliController
         user.logs.create({ description: "close_session by_user_id: " + current_user.id.to_s })
 
         # Response successful
-        respond_with_successful sessions_count
+        Application::Responder.respond_with_successful sessions_count
 
     end
 
@@ -354,7 +355,7 @@ class UsersController < ApplicationLesliController
 
         # check if user exist
         if user.blank?
-            return respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
+            return Application::Responder.respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
         end
 
         # delete user active sessions
@@ -366,7 +367,7 @@ class UsersController < ApplicationLesliController
         user.logs.create({ description: "revoke_access by_user_id: " + current_user.id.to_s })
 
         # Response successful
-        respond_with_successful
+        Application::Responder.respond_with_successful
 
     end
 
@@ -378,7 +379,7 @@ class UsersController < ApplicationLesliController
 
         # check if user exist
         if user.blank?
-            return respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
+            return Application::Responder.respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
         end
 
         # expire password
@@ -387,7 +388,7 @@ class UsersController < ApplicationLesliController
         user.logs.create({ description: "request_password_change by_user_id: " + current_user.id.to_s })
 
         # Response successful
-        respond_with_successful
+        Application::Responder.respond_with_successful
 
     end
 
@@ -396,7 +397,7 @@ class UsersController < ApplicationLesliController
         user = current_user.account.users.find_by(id: params[:id])
 
         if user.blank? 
-            return respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
+            return Application::Responder.respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
         end
 
         if params[:user][:email]
@@ -405,7 +406,7 @@ class UsersController < ApplicationLesliController
 
         user.logs.create({ description: "changed_email_address_id: " + current_user.id.to_s })
 
-        respond_with_successful
+        Application::Responder.respond_with_successful
     end
 
     private
