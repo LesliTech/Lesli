@@ -27,8 +27,6 @@ import { useUser } from "LesliVue/stores/user"
 
 // implement stores
 const store = useUser()
-const router = useRouter()
-const route = useRoute()
 
 
 // · translations
@@ -45,12 +43,6 @@ const translations = {
 onMounted(() => {
     store.fetchIndex()
 })
-
-
-function showUser(user) {
-    //router.push(this.url.admin("users/:id", user.id))
-}
-
 
 const columns = [{
     field: "id",
@@ -80,6 +72,7 @@ const columns = [{
     label: "Last activity"
 }]
 
+
 </script>
 <script>
 export default {
@@ -98,7 +91,8 @@ export default {
         <lesli-data-table
             :loading="store.loading"
             :columns="columns"
-            :records="store.index"
+            :records="store.index.records"
+            :pagination="store.index.pagination"
             @click="show"
             @sort="store.sortIndex">
         </lesli-data-table>

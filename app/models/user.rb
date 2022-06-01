@@ -587,34 +587,6 @@ class User < ApplicationLesliRecord
         .per(query[:pagination][:perPage])
         .order("#{query[:pagination][:orderBy]} #{query[:pagination][:order]} NULLS LAST")
 
-        users_count = users.total_count
-
-        users = users.map do |user|
-            # last time user use the login form to access the platform
-            last_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at], Time.current)
-            # last action the user perform an action into the system
-            last_action_performed_at = LC::Date.distance_to_words(user["last_action_performed_at"], Time.current) if not user["last_action_performed_at"].blank?
-            # check if user has an active session
-            session = user["last_login_at"].blank? ? false : true
-
-            {
-                id: user[:id],
-                name: user[:name],
-                email: user[:email],
-                category: user[:category],
-                last_sign_in_at: last_sign_in_at,
-                active: user[:active],
-                roles: user[:roles],
-                last_activity_at: last_action_performed_at,
-                session_active: session
-            }
-        end
-
-        return {
-            users_count: users_count,
-            users: users
-        }
-
     end
 
 
