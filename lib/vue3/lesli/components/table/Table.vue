@@ -20,8 +20,10 @@ For more information read the license file including with this software.
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed } from "vue"
 
+
 // · defining emits
-const emit = defineEmits(['click']);
+const emit = defineEmits(['click', 'sort']);
+
 
 // · defining props
 const props = defineProps({
@@ -48,9 +50,13 @@ const props = defineProps({
     }
 })
 
+
 // · define variables
 const objectRecords = ref([])
 const arrayRecords = ref([])
+
+const currentSort = ref(null)
+const currentSortDir = ref('asc')
 
 
 // · prepaer the CSS classes for every column in the header
@@ -68,6 +74,24 @@ function tableBodyClass(column) {
     }
 }
 
+
+// · 
+function sort(column) {
+
+    if (!column.sort) {
+        return 
+    }
+
+    if(column.field === currentSort.value) {
+      currentSortDir.value = currentSortDir.value === 'asc' ? 'desc' : 'asc';
+    }
+
+    currentSort.value = column.field;
+
+    emit('sort', currentSort.value, currentSortDir.value)
+
+}
+
 </script>
 <template>
     <div>
@@ -79,9 +103,20 @@ function tableBodyClass(column) {
 
                     <!-- Define table header, we simple iterate over the defined fields -->
                     <th :class="tableHeaderClass(column)"
-                        v-for="column in props.columns" 
-                        :key="column.field">
-                        {{ column.label }}
+                        v-on:click.stop="sort(column)"
+                        v-for="column in props.columns" :key="column.field">
+                        <span v-if="!column.sort">
+                            {{ column.label }}
+                        </span>
+                        <span class="icon-text" v-if="column.sort">
+                            <span>
+                                {{ column.label }}
+                            </span>
+                            <span class="icon" v-if="currentSort == column.field">
+                                <span class="material-icons" v-if="currentSortDir == 'asc'">arrow_upward</span>
+                                <span class="material-icons" v-if="currentSortDir == 'desc'">arrow_downward</span>
+                            </span>
+                        </span>
                     </th>
 
                 </tr>
@@ -92,9 +127,9 @@ function tableBodyClass(column) {
                     Wait until the store indicate that the request was completed, 
                     create the table rows from records
                 -->
-                <tr  v-show="!loading" 
-                    v-for="(record, i) in props.records" :key="`tr-${i}`" v-on:click="emit('click',record.id)">
-
+                <tr  
+                    v-on:click.stop="emit('click', record)"
+                    v-for="(record, i) in props.records" :key="`tr-${i}`">
                     
                     <td 
                         :class="tableBodyClass(column)"
@@ -113,7 +148,7 @@ function tableBodyClass(column) {
             <lesli-data-loading v-if="loading"></lesli-data-loading>
 
             <!-- Show a message to indicate that there is no data to present -->
-            <lesli-data-empty v-if="!loading && props.records.length < 1"></lesli-data-empty>
+            <lesli-data-empty v-if="!loading && props.records && props.records.length < 1"></lesli-data-empty>
 
         </div>
 

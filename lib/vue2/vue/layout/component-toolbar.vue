@@ -48,7 +48,7 @@ export default {
                 <slot></slot>
             </div>
         </div>
-        <div v-if="$slots['second_row']" class="second-row">
+        <div v-if="$slots['second-row']" class="second-row">
             <slot name="second-row"></slot>
         </div>
         <div v-if="$slots['controls']" class="column is-12">
