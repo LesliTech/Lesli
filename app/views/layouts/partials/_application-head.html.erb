@@ -23,7 +23,6 @@ For more information read the license file including with this software.
 <%= favicon %>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-
 <% appstore_app_id = Rails.application.credentials.dig(:providers, :apple, :app_id) %>
 <% if appstore_app_id %>
     <meta name="apple-itunes-app" content="app-id=<%= appstore_app_id %>">

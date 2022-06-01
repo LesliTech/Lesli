@@ -41,13 +41,13 @@ export default {
             type: String,
             default: ''
         },
-        newResourceAnchorPath: {
-            type: String,
-            default: null
-        },
-        newResourceAnchorText: {
+        newResourcesAnchorPath: {
             type: Function,
-            default: null
+            default: () => []
+        },
+        newResourceAnchor: {
+            type: Function,
+            default: () => []
         }
     },
     
@@ -123,15 +123,18 @@ export default {
 <template>
     <section class="application-component">
         <div v-if="configuration_ready">
-
             <div v-if="render_default_dashboard">
                 <component-header 
                     :title="false"
                 >
-                    <div class="buttons" v-if="newResourceAnchorPath">
-                        <router-link class="button" :to="newResourceAnchorPath">
-                            <b-icon icon="plus" size="is-small"></b-icon>
-                            <span>{{ newResourceAnchorText() }}</span>
+                    <div class="buttons" v-if="newResourcesAnchorPath().length > 0">
+                        <router-link
+                             v-for="(value, index) in newResourcesAnchorPath()" 
+                             :key="index" 
+                             class="button" 
+                             :to="value">
+                            <b-icon :icon="newResourceAnchor()[index].icon" size="is-small"></b-icon>
+                            <span>{{ newResourceAnchor()[index].text }}</span>
                         </router-link>
                     </div>
                 </component-header>

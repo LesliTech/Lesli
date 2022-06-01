@@ -22,7 +22,9 @@ import app from "LesliVue/app"
 
 // · 
 import appAccountDashboard from "Lesli/vue3/administration/apps/accounts/dashboard.vue"
+import appUsersProfile from "Lesli/vue3/administration/apps/profile/show.vue"
 import appUsersList from "Lesli/vue3/administration/apps/users/list.vue"
+import appUsersShow from "Lesli/vue3/administration/apps/users/show.vue"
 
 
 // · 
@@ -32,4 +34,10 @@ app("Administration", [{
 }, {
     path: "/users",
     component: appUsersList
+}, {
+    path: "/users/:id",
+    component: appUsersShow
+}, {
+    path: "/profile",
+    component: appUsersProfile
 }])

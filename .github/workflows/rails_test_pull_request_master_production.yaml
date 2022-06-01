@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     name: Running RSpec Tests
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
     if: "!contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):') && !contains(github.event.head_commit.message, 'ci(workflows):')"
     services:
       postgres:
@@ -27,9 +27,10 @@ jobs:
           - 5432:5432
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         ref: ${{ github.event.pull_request.head.ref }}
+        token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
     - name: Checkout github actions repo
       uses: actions/checkout@v2
       with:
