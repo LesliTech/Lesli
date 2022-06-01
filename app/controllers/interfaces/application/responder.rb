@@ -28,8 +28,8 @@ module Interfaces
                 # Keep compatibility with apps v2 specially Deutsche Leibrenten
                 if defined?(DeutscheLeibrenten)
                     response_body = { successful: true }
-                    response_body[:data] = data
-                    return render(status: 200, json: payload.to_json)
+                    response_body[:data] = payload
+                    return render(status: 200, json: response_body.to_json)
                 end
 
                 # Response for modern Lesli 3 apps
@@ -98,14 +98,29 @@ module Interfaces
 
             # JSON failure response
             def respond_with_error message = "", details = []
+                
+                # Keep compatibility with apps v2 specially Deutsche Leibrenten
+                if defined?(DeutscheLeibrenten)
+
+                    response_body = {
+                        successful: false,
+                        error: {
+                            message: message,
+                            details: details
+                        }
+                    }
+                    
+                    return render( status: 200, json: response_body.to_json)
+
+                end
+
 
                 # TODO:
                 #   check if active error and then:
                 #       message = error message to sentence
                 #       details = error array of messages
                 #   check another types of errors and parse respond according
-
-                respond_with_http(400, { 
+                respond_with_http(501, { 
                     message: message,
                     details: details
                 })
