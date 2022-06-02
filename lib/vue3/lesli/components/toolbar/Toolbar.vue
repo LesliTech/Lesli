@@ -1,4 +1,4 @@
-<script>
+<script setup>
 /*
 Copyright (c) 2022, all rights reserved.
 
@@ -17,59 +17,87 @@ For more information read the license file including with this software.
 */
 
 
-// ·
-export default {
-    props: {
-        searchText: {
-            default: "Search..."
-        },
+// · import vue tools
+import { ref, reactive, onMounted, watch, computed } from "vue"
 
-        initialValue: {
-            default: null
-        }
+
+// · defining emits
+const emit = defineEmits(['search']);
+
+
+// · defining props
+const props = defineProps({
+    searchPlaceholder: {
+        type: String,
+        default: "Search..."
     },
-    mounted(){
-        this.setInitialValue()
+    initialValue: {
+        type: String,
+        default: null
     },
-    data() {
-        return {
-            timer: null,
-            text: ""
-        }
-    },
-    methods: {
-        search() {
-            clearTimeout(this.timer)
-            this.timer = setTimeout(() => this.$emit("search", this.text), 800)
-        },
-        setInitialValue(){
-            if(this.initialValue){
-                this.text = this.initialValue
-            }
-        },
-        clearSearch(){
-            this.text = ''
-            this.$emit("search", this.text)
-        }
+    pagination: {
+        type: Object,
+        required: false
+    }
+})
+
+
+// · define variables
+const timer = reactive(setTimeout)
+const text = ref("")
+
+
+// · Methods
+function search() {
+    clearTimeout(timer.value)
+    timer.value = setTimeout(() => emit("search", text.value), 800)
+}
+
+function setInitialValue(){
+    if(this.initialValue){
+        //this.text = this.initialValue
     }
 }
+
+function clearSearch(){
+    text.value = ''
+    emit("search", text.value)
+}
+
+
+// · Initializing
+onMounted(() => {
+
+})
+
 </script>
 <template>
     <div class="component-toolbar">
         <div class="field is-grouped lesli-toolbar">
-            <div class="control is-expanded has-icons-right">
-                <input type="text" name="search" :placeholder="searchText" v-model="text" @input="search()" class="input is-shadowless">
+            <div class="control is-expanded has-icons-right has-icons-left">
+                <input 
+                    type="text" 
+                    name="search" 
+                    class="input is-shadowless"
+                    v-model="text" 
+                    :placeholder="searchPlaceholder" 
+                    @input="search()">
+                <span class="icon is-small is-left">
+                    <span class="material-icons">
+                        search
+                    </span>
+                </span>
                 <span class="icon is-right">
                     <a class="delete" @click="clearSearch"></a>
                 </span>
             </div>
-            <div class="select">
+            <slot></slot>
+            <div class="select" v-if="props.pagination">
                 <select>
                     <option>10</option>
                     <option>20</option>
                 </select>
             </div>
-            <slot></slot>
         </div>
     </div>
 </template>
