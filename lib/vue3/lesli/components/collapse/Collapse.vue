@@ -69,7 +69,8 @@ const props = defineProps({
             </p>
             <a class="card-header-icon">
                 <span class="icon">
-                    <i :class="'fas fa-lg ' + (props.open ? 'fa-caret-down' : 'fa-caret-right')"/>
+                    <span class="material-icons" v-if="props.open">arrow_upward</span>
+                    <span class="material-icons" v-if="!props.open">arrow_downward</span>
                 </span>
             </a>
         </div>
