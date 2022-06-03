@@ -22,17 +22,20 @@ import { ref, reactive, onMounted, inject } from "vue"
 
 
 // · import stores
-import { useCoreLayout } from "LesliVue/stores/layout"
+import { useLayout } from "LesliVue/stores/layout"
 
+const show = ref(true)
 
 // · 
-const coreLayout = useCoreLayout()
+const storeLayout = useLayout()
 
 </script>
 <template>
-    <section v-if="coreLayout.showEngines || true" class="application-engines">
-        <div>
-            <slot></slot>
-        </div>
-    </section>
+    <Transition>
+        <section v-if="storeLayout.showEngines" class="application-engines" @click="storeLayout.toggleEngines()">
+            <div>
+                <slot></slot>
+            </div>
+        </section>
+    </Transition>
 </template>
