@@ -30,7 +30,7 @@ const coreLayout = useCoreLayout()
 
 </script>
 <template>
-    <section v-if="coreLayout.showEngines" class="application-engines">
+    <section v-if="coreLayout.showEngines || true" class="application-engines">
         <div>
             <slot></slot>
         </div>
