@@ -90,7 +90,9 @@ export default {
     <section class="application-component">
         <lesli-header :title="translations.core.users.view_text_title_users">
         </lesli-header>
-        <lesli-toolbar></lesli-toolbar>
+        <lesli-toolbar 
+            :search-placeholder="translations.core.users.view_toolbar_filter_placeholder_search"
+            @search="storeUsers.search"></lesli-toolbar>
         <lesli-table
             :loading="storeUsers.loading"
             :columns="columns"
