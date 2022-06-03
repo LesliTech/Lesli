@@ -23,10 +23,11 @@ import { useRouter, useRoute } from 'vue-router'
 
 
 // · import lesli stores
-import { useUser } from "LesliVue/stores/user"
+import { useUsers } from "LesliVue/stores/users"
+
 
 // implement stores
-const store = useUser()
+const storeUsers = useUsers()
 
 
 // · translations
@@ -41,9 +42,11 @@ const translations = {
 
 // · initializing
 onMounted(() => {
-    store.fetchIndex()
+    storeUsers.fetchIndex()
 })
 
+
+// · 
 const columns = [{
     field: "id",
     label: "ID",
@@ -77,7 +80,7 @@ const columns = [{
 <script>
 export default {
     methods: {
-        show(user) {
+        showUser(user) {
             this.$router.push(this.url.admin("users/:id", user.id).toString())
         }
     }
@@ -88,13 +91,13 @@ export default {
         <lesli-header :title="translations.core.users.view_text_title_users">
         </lesli-header>
         <lesli-toolbar></lesli-toolbar>
-        <lesli-data-table
-            :loading="store.loading"
+        <lesli-table
+            :loading="storeUsers.loading"
             :columns="columns"
-            :records="store.index.records"
-            :pagination="store.index.pagination"
-            @click="show"
-            @sort="store.sortIndex">
-        </lesli-data-table>
+            :records="storeUsers.index.records"
+            :pagination="storeUsers.index.pagination"
+            @click="showUser"
+            @sort="storeUsers.sortIndex">
+        </lesli-table>
     </section>
 </template>

@@ -122,9 +122,9 @@ function paginate(page) {
                             <span>
                                 {{ column.label }}
                             </span>
-                            <span class="icon" v-if="currentSort == column.field">
-                                <span class="material-icons" v-if="currentSortDir == 'asc'">arrow_upward</span>
-                                <span class="material-icons" v-if="currentSortDir == 'desc'">arrow_downward</span>
+                            <span class="icon">
+                                <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'asc')">arrow_upward</span>
+                                <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'desc')">arrow_downward</span>
                             </span>
                         </span>
                     </th>
