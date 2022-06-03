@@ -33,15 +33,23 @@ module LC
             # NOTE: Do not modify settings here,
             # if you need a different date format you should change it in the config file
             # Check the docs for more information: /development/docs/rails-lib-time
+
+            # TODO: User should be able to select an appropiate datetime format in an easy way,
+            # the Administration module must be present to the users a curated list of different
+            # datetime format options with examples, also user should be able to manually modify 
+            # the format through an "advanced view"
             @settings = {
                 :time_zone => config[:time_zone],
                 :start_week_on => config[:start_week_on],
                 :format => {
                     :date => "%d.%m.%Y",
-                    :time => "%H:%M",
-                    :date_time => "%d.%m.%Y %H:%M",
+                    :time => "%H:%M %p", # 12 hours datetime format
+                    :time => "%H:%M",    # 24 hours datetime format (default)
+                    :date_time => "%d.%m.%Y %I:%M %p", # 12 hours datetime format
+                    :date_time => "%d.%m.%Y %H:%M",    # 24 hours datetime format (default)
                     :date_words => "%A, %B %d, %Y",
-                    :date_time_words => "%A, %B %d, %Y, %H:%M",
+                    :date_time_words => "%A, %B %d, %Y, %I:%M %p", # 12 hours datetime in words format
+                    :date_time_words => "%A, %B %d, %Y, %H:%M"    # 24 hours datetime in words format (default)
                 }
             }
 
@@ -154,10 +162,10 @@ module LC
             format = format.gsub("%d", "DD")
 
             # Convert Ruby to postgresql time format
-            format = format.gsub("%H", "HH24")
+            format = format.gsub("%H", "HH24") # 24 hours format
+            format = format.gsub("%I", "HH12") # 12 hours format
+            format = format.gsub("%p", "AM") # Meridian indicator (AM/PM)
             format = format.gsub("%M", "MI")
-
-            #format.concat("AM")
 
             format
         end

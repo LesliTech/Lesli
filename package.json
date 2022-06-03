@@ -2,6 +2,7 @@
     "name": "lesli",
     "description": "Your smart business assitant",
     "license": "All rights reserved",
+    "version": "2.0.0",
     "private": true,
     "devDependencies": {
 
@@ -51,7 +52,9 @@
         "jest": "28.1.0",
         "glob": "8.0.3",
         "sass": "1.52.0",
-        "sass-true": "6.1.0"
+        "sass-true": "6.1.0",
+
+        "semver": "7.3.7"
 
     },
     "scripts": {
