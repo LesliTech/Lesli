@@ -22,12 +22,12 @@ import { ref, reactive, onMounted, onUnmounted, inject } from "vue"
 
 
 // · import stores
-import { useCoreLayout } from "LesliVue/stores/layout"
+import { useLayout } from "LesliVue/stores/layout"
 import { useCoreSearch } from "LesliVue/stores/search"
 
 
 // · implement stores
-const coreLayout = useCoreLayout()
+const storeLayout = useLayout()
 const coreSearch = useCoreSearch()
 
 
