@@ -23,12 +23,12 @@ import { ref, reactive, onMounted, onUnmounted, inject } from "vue"
 
 // · import stores
 import { useLayout } from "LesliVue/stores/layout"
-import { useCoreSearch } from "LesliVue/stores/search"
+import { useSearch } from "LesliVue/stores/search"
 
 
 // · implement stores
 const storeLayout = useLayout()
-const coreSearch = useCoreSearch()
+const storeSearch = useSearch()
 
 
 // · translations
@@ -84,17 +84,17 @@ onUnmounted(() => {
                         name="global_search"
                         class="input is-medium is-shadowless" 
                         :placeholder="translations.core.shared.search_placeholder || 'Search in Lesli'"
-                        v-model="coreSearch.text"
-                        @input="coreSearch.doSearch">
+                        v-model="storeSearch.text"
+                        @input="storeSearch.doSearch">
                     <span class="icon is-left has-text-gray">
                         <lesli-icon 
                             id="search"
-                            v-if="(coreSearch.loading == false)">
+                            v-if="(storeSearch.loading == false)">
                         </lesli-icon>
-                        <lesli-data-loading 
+                        <lesli-loading 
                             :icon="true"
-                            v-if="(coreSearch.loading == true)">
-                        </lesli-data-loading>
+                            v-if="(storeSearch.loading == true)">
+                        </lesli-loading>
                     </span>
                 </div>
             </div>
