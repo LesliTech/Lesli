@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed } from "vue"
+import { ref, reactive, onMounted, watch, computed, getCurrentInstance } from "vue"
 
 
 // · defining props
