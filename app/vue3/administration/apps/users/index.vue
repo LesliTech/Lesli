@@ -65,7 +65,8 @@ const columns = [{
 }, {
     field: "active",
     label: "Status",
-    sort: true
+    sort: true,
+    custom: true
 }, {
     field: "last_sign_in_at",
     label: "Last login",
@@ -100,6 +101,16 @@ export default {
             :pagination="storeUsers.index.pagination"
             @click="showUser"
             @sort="storeUsers.sortIndex">
+
+            <template #active="{ value }">
+                <span class="tag is-success" v-if="value">
+                    {{ translations.core.shared.view_text_active }}
+                </span>
+                <span class="tag is-warning" v-if="!value">
+                    {{ translations.core.shared.view_text_inactive }}
+                </span>
+            </template>
+
         </lesli-table>
     </section>
 </template>
