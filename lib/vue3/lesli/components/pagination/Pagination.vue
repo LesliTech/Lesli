@@ -114,11 +114,11 @@ function paginate(page) {
             </template>
         </ul>
         
-        <a  :class="['pagination-previous', {'is-disabled': previousPage <= 1}]" 
+        <a  class="pagination-previous" :disabled="previousPage <= 1" 
             @click.stop="paginate(previousPage)">
             Previous
         </a>
-        <a  :class="['pagination-previous', {'is-disabled': nextPage >= lastPage}]" 
+        <a  class="pagination-previous" :disabled="previousPage >= 1" 
             @click.stop="paginate(nextPage)">
             Next page
         </a>
