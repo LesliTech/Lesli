@@ -18,11 +18,15 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed } from "vue"
+import { ref, reactive, onMounted, watch, computed, useSlots } from "vue"
 
 
 // · 
 import Pagination from "LesliVue/lesli/components/pagination/Pagination.vue"
+
+
+// · 
+const slots = useSlots()
 
 
 // · defining emits
@@ -62,6 +66,7 @@ const arrayRecords = ref([])
 const currentSort = ref(null)
 const currentSortDir = ref('asc')
 
+const dropdownActive = ref([])
 
 // · prepaer the CSS classes for every column in the header
 function tableHeaderClass(column) {
@@ -129,6 +134,11 @@ function paginate(page) {
                         </span>
                     </th>
 
+                    <!-- 
+                        Options header (empty by design)
+                    -->
+                    <th v-if="slots.options"></th>
+
                 </tr>
             </thead>
             <tbody>
@@ -138,7 +148,6 @@ function paginate(page) {
                     create the table rows from records
                 -->
                 <tr  
-                    v-on:click.stop="emit('click', record)"
                     v-for="(record, i) in props.records" :key="`tr-${i}`">
                     
                     <!--
@@ -146,6 +155,7 @@ function paginate(page) {
                     -->
                     <td 
                         :class="tableBodyClass(column)"
+                        v-on:click.stop="emit('click', record)"
                         v-for="(column, j) in props.columns" :key="`td-${j}`">
 
                         <!--
@@ -165,6 +175,38 @@ function paginate(page) {
                             {{ record[column.field] }}
 
                         </slot>
+                    </td>
+
+                    <!--
+                        Dedicated options column
+                        the dropdownActive[i] is to save the open/closed status of the dropdown for 
+                        every row of the table (i)
+                    -->
+                    <td v-if="slots.options" class="options">
+                        <div :class="['dropdown', 'is-right', { 'is-active': dropdownActive[i] }]">
+                            <div class="dropdown-trigger">
+                                <button class="button is-info is-inverted" 
+                                    @blur="dropdownActive[i] = false" 
+                                    @click.stop="dropdownActive[i] = !dropdownActive[i]">
+                                    <span class="icon">
+                                        <span class="material-icons md-24">
+                                            more_vert
+                                        </span>
+                                    </span>
+                                </button>
+                            </div>
+                            <Transition>
+                                <div v-if="dropdownActive[i]" class="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        <slot 
+                                            name="options"
+                                            :column="record"
+                                            :value="record.id">
+                                        </slot>
+                                    </div>
+                                </div>
+                            </Transition>
+                        </div>
                     </td>
                 </tr>
             </tbody>

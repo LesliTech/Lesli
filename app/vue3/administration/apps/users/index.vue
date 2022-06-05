@@ -111,6 +111,21 @@ export default {
                 </span>
             </template>
 
+            <template #options="{ column, value }">
+                <a href="#" class="dropdown-item">
+                    mi primera opcion
+                </a>
+            </template>
+
+        </lesli-table>
+
+        <lesli-table
+            :loading="storeUsers.loading"
+            :columns="columns"
+            :records="storeUsers.index.records"
+            :pagination="storeUsers.index.pagination"
+            @click="showUser"
+            @sort="storeUsers.sortIndex">
         </lesli-table>
     </section>
 </template>

@@ -33,6 +33,9 @@ Array with the data to be rendered within the table
 It is possible to render custom html content for individual columns using a template tag with an id corresponding to the
 column field, also we can pass column and value params to work with the data corresponding to the column
 
+**options**
+Lesli table provides a dedicated column to print a list of options and actions for every record of the table through
+the "options slot"
 
 **Example:**
 
@@ -123,4 +126,32 @@ column field, also we can pass column and value params to work with the data cor
         </span>
     </template>
 </lesli-table>
+```
+
+**Example of a simple table with options column:**
+
+```html
+<lesli-table
+    :columns="[{field: 'id', label: 'ID'},{field: 'email', label: 'Email'}]"
+    :records="[{id:0,email:'ldonis@lomax.com.gt'},{id:0,email:'ldonis@gmail.com'},{id:0,email:'emc2@ldonis.com'}]">
+    <template #options="{ column, value }">
+        <a href="#" class="dropdown-item">
+            mi primera opcion
+        </a>
+    </template>
+</lesli-table>
+```
+
+**Result:**
+
+```raw
+<lesli-table
+    :columns="[{field: 'id', label: 'ID'},{field: 'email', label: 'Email'}]"
+    :records="[{id:0,email:'ldonis@lomax.com.gt'},{id:0,email:'ldonis@gmail.com'},{id:0,email:'emc2@ldonis.com'}]">
+    <template #options="{ column, value }">
+        <a href="#" class="dropdown-item">
+            mi primera opcion
+        </a>
+    </template>
+</lesli-table>s
 ```
