@@ -45,4 +45,12 @@ table.lesli-table {
             padding: 1.4rem 1rem;
         }
     }
+
+    td.options {
+        .dropdown {
+            .button {
+                background-color: transparent;
+            }
+        }
+    }
 }
