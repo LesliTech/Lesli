@@ -29,6 +29,11 @@ Prop that defines the columns to be rendered into the table, the columns will be
 **:records**
 Array with the data to be rendered within the table
 
+**slots** 
+It is possible to render custom html content for individual columns using a template tag with an id corresponding to the
+column field, also we can pass column and value params to work with the data corresponding to the column
+
+
 **Example:**
 
 ```html
@@ -81,5 +86,41 @@ Array with the data to be rendered within the table
     :loading="true"
     :columns="[{field: 'id', label: 'ID'},{field: 'email', label: 'Email'}]"
     :records="[]">
+</lesli-table>
+```
+
+<br>
+
+**Example of a simple table with custom slot for the "email" field:**
+
+```html
+<lesli-table
+    :columns="[{field: 'id', label: 'ID'},{field: 'email', label: 'Email'}]"
+    :records="[{id:0,email:'ldonis@lomax.com.gt'},{id:0,email:'ldonis@gmail.com'},{id:0,email:'emc2@ldonis.com'}]">
+    <template #email="{ column, value }">
+        <span class="tag is-success">
+            {{ value }}
+        </span>
+        <span class="tag is-warning">
+            {{ column }}
+        </span>
+    </template>
+</lesli-table>
+```
+
+**Result:**
+
+```raw
+<lesli-table
+    :columns="[{field: 'id', label: 'ID'},{field: 'email', label: 'Email'}]"
+    :records="[{id:0,email:'ldonis@lomax.com.gt'},{id:0,email:'ldonis@gmail.com'},{id:0,email:'emc2@ldonis.com'}]">
+    <template #email="{ column, value }">
+        <span class="tag is-success">
+            {{ value }}
+        </span>
+        <span class="tag is-warning">
+            {{ column }}
+        </span>
+    </template>
 </lesli-table>
 ```

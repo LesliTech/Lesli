@@ -141,13 +141,32 @@ function paginate(page) {
                     v-on:click.stop="emit('click', record)"
                     v-for="(record, i) in props.records" :key="`tr-${i}`">
                     
+                    <!--
+                        Rendering every defined column
+                    -->
                     <td 
                         :class="tableBodyClass(column)"
                         v-for="(column, j) in props.columns" :key="`td-${j}`">
-                        {{ record[column.field] }}
+
+                        <!--
+                            Use a slot to render content, so it is possible to 
+                            use html elements to render custom componentes for 
+                            every column of the table 
+                        -->
+                        <slot
+                            :name="column.field"
+                            :column="column"
+                            :value="record[column.field]">
+
+                            <!--
+                                Print the text value if no custom slot is used
+                                for the current column
+                            -->
+                            {{ record[column.field] }}
+
+                        </slot>
                     </td>
                 </tr>
-
             </tbody>
         </table>
 
