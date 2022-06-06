@@ -46,7 +46,7 @@ For more information read the license file including with this software.
         <template v-slot:brand>
             <%= customization_instance_logo_tag(logo: "app-icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
             <%= customization_instance_logo_tag(logo: "app-logo-gray", options: {alt: "App logo", class: "is-hidden-touch"}) %>
-            <span><%= engine_name %></span>
+            <span class="is-hidden-touch is-hidden-desktop-only is-hidden-widescreen-only"><%= engine_name %></span>
         </template>
     <% end %>
 

@@ -83,8 +83,8 @@ For more information read the license file including with this software.
             flex-wrap: wrap;
             align-content: flex-start;
             justify-content: space-between;
-            margin-left: var(--app-navigation-width);
-            max-width: calc(100% - var(--app-navigation-width));
+            margin-left: var(--lesli-navigation-width);
+            max-width: calc(100% - var(--lesli-navigation-width));
 
             // engine
             a {
