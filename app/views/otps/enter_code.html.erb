@@ -1,0 +1,73 @@
+<%#
+Copyright (c) 2022, all rights reserved.
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+%>
+
+<% custom_app_page_clas = "#{ lesli_instance_code }-otps" %>
+<% custom_app_page_path = "#{ lesli_instance_code }/lesli/otps/enter_code" %>
+<% custom_app_page_exists = lookup_context.exists?(custom_app_page_path) %>
+
+<%# render custom view in builder module %>
+<% if custom_app_page_exists %>
+<section id="lesli-application" class="<%= custom_app_page_clas %>">
+    <%= render :template => custom_app_page_path %>
+</section>
+<% end %>
+
+<%# core view for otp verification %>
+<% unless custom_app_page_exists %>
+<section id="lesli-application" class="<%= custom_app_page_clas %>">
+    <article class="hero is-fullheight">
+        <div class="hero-head">
+            <div class="form-title has-text-centered">
+                <%= image_tag "#{ lesli_instance_code }/brand/app-logo.svg", :alt => "logo", :class => "app-logo" %>
+                <h2 class="is-size-2">Multi-Factor Authentication</h2>
+            </div>
+        </div>
+        <div class="hero-body">
+            <form @submit.prevent="postLogin" class="has-text-centered">
+                <p class="label">Enter the code we just sent you</p>
+                <p v-if="notification.show" :class="[notification.type, 'is-size-5', 'mt-2']">
+                    {{ notification.message }}
+                </p>
+                <div class="field">
+                    <p class="control has-icons-left mt-4 mb-4">  
+                        <input 
+                            type="text"
+                            class="input" 
+                            name="t"
+                            v-model="otp.t"
+                            placeholder="One time password"
+                            required="true"
+                        />
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-key"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="login-controls">
+                    <button class="button is-primary">
+                        Login
+                    </button>
+                </div>
+            </form>
+            <div class="links">
+                <p class="has-text-centered">
+                    <%= link_to "Reset password", new_user_password_path %>
+                </p>
+                <p class="has-text-centered">
+                    <%= link_to "Login", new_user_session_path %>
+                </p>
+            </div>
+        </div>
+    </article>
+</section>
+<% end %>
