@@ -246,9 +246,9 @@ group :development do
 
     gem "web-console", ">= 3.3.0"
 
-    gem "rack-mini-profiler"
+    #gem "rack-mini-profiler"
 
-    gem "memory_profiler"
+    #gem "memory_profiler"
 
     # A fast, safe and extensible Markdown to (X)HTML parser
     gem "redcarpet", "3.5.1"
