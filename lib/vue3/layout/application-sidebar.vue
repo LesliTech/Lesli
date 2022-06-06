@@ -38,6 +38,7 @@ const storeLayout = useLayout()
             </a>
             <Transition>
                 <lesli-icon 
+                    class="is-hidden-touch"
                     :id="storeLayout.showEngines ? 'menu-open' : 'menu'" 
                     @click="storeLayout.toggleEngines()">
                 </lesli-icon>
@@ -47,6 +48,7 @@ const storeLayout = useLayout()
             <ul class="menu-list">
                 <li class="is-hidden-desktop">
                     <a>
+                        <!-- engine navigation trigger for mobile -->
                         <Transition>
                             <lesli-icon 
                                 :id="storeLayout.showEngines ? 'menu-open' : 'menu'" 
