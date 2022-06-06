@@ -70,6 +70,12 @@ class User < ApplicationLesliRecord
     #   integration apps
     enum category: { user: "user", integration: "integration" }
 
+    # MFA method preferred by the user
+    enum mfa_method: { 
+        email: "email",
+        # sms: "sms",
+        # notification: "notification"
+    }
 
 
     # @return [void]
@@ -616,6 +622,8 @@ class User < ApplicationLesliRecord
             editable_security: current_user && current_user.has_roles?("owner", "sysadmin"),
             roles: user.roles.map { |r| { id: r[:id], name: r[:name] } },
             full_name: user.full_name,
+            mfa_enabled: user.mfa_enabled,
+            mfa_method: user.mfa_method,
             detail_attributes: {
                 title: user.detail[:title],
                 salutation: user.detail[:salutation],

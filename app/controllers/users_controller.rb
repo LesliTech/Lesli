@@ -275,7 +275,8 @@ class UsersController < ApplicationLesliController
             roles: roles,
             regions: current_user.account.locations.where(level: "region"),
             salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
-            locales: Rails.application.config.lesli.dig(:configuration, :locales_available)
+            locales: Rails.application.config.lesli.dig(:configuration, :locales_available),
+            mfa_methods: User.mfa_methods
         })
 
     end
@@ -417,6 +418,8 @@ class UsersController < ApplicationLesliController
             :email,
             :alias,
             :roles_id,
+            :mfa_enabled,
+            :mfa_method,
             detail_attributes: [
                 :first_name,
                 :last_name,
