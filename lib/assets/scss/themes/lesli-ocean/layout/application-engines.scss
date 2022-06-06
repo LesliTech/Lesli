@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -20,15 +20,21 @@ For more information read the license file including with this software.
 
 // · 
 @import "lesli-css/";
-@import "./settings/colors";
-@import "./settings/helpers";
-
-@import "./layout/application-header";
-@import "./layout/application-sidebar";
-@import "./layout/application-engines";
 
 
-html, body {
-    scrollbar-width: thin;
-    scrollbar-color: lesli-css-color-theme(primary) lesli-css-color-theme(primary);
+// · 
+.application-engines {   
+    div {
+        
+        a {
+            &.is-active {
+                border-color: lesli-css-color-theme(primary);    
+                box-shadow: none;
+            }
+            p,
+            span {
+                color: lesli-css-color-theme(primary);
+            }
+        }
+    }
 }
