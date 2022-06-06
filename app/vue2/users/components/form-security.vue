@@ -73,6 +73,20 @@ export default {
                 console.log(error)
             })
         },
+    },
+
+    watch: {
+        "user.mfa_enabled"(current, old){
+            if(old != null && current != old){
+                this.putMFAUserEnabled()
+            }
+        },
+        "data.user"(user) {
+            this.user = user
+        },
+        "data.options"(options){
+            this.mfa_methods = options.mfa_methods
+        }
     }
 }
 </script>
