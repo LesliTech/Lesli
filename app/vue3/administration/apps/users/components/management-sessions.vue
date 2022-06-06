@@ -23,7 +23,7 @@ import { ref, reactive, onMounted, watch, computed } from "vue"
 
 // · import lesli stores
 import { useUser } from "LesliVue/stores/user"
-import { useManagementSessions } from "LesliCore/administration/stores/users/management-sessions"
+import { useManagementSessions } from "LesliCore/administration/stores/users/managementSessions"
 
 // · implement stores
 const storeUser = useUser()
