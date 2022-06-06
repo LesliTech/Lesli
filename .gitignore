@@ -87,3 +87,6 @@ yarn.lock
 /public/pwa/*
 
 brakeman.html
+
+# RVM Gemsets
+.ruby-gemset
