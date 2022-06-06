@@ -24,7 +24,6 @@ import { ref, reactive, onMounted, inject } from "vue"
 // · import stores
 import { useLayout } from "LesliVue/stores/layout"
 
-const show = ref(true)
 
 // · 
 const storeLayout = useLayout()
@@ -33,8 +32,16 @@ const storeLayout = useLayout()
 <template>
     <Transition>
         <section v-if="storeLayout.showEngines" class="application-engines" @click="storeLayout.toggleEngines()">
-            <div>
+            <div class="engines">
                 <slot></slot>
+                <button class="button is-hidden-tablet">
+                    <span class="icon">
+                        <span class="material-icons">
+                            close
+                        </span>
+                    </span>
+                    <span>close</span>
+                </button>
             </div>
         </section>
     </Transition>

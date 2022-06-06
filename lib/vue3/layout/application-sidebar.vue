@@ -24,6 +24,8 @@ import { ref, reactive, onMounted, inject } from "vue"
 // · import & implement stores
 import { useLayout } from "LesliVue/stores/layout"
 
+
+// · 
 const storeLayout = useLayout()
 
 
@@ -34,13 +36,23 @@ const storeLayout = useLayout()
             <a href="/">
                 <slot name="brand"></slot>
             </a>
-            <lesli-icon @click="storeLayout.toggleEngines()" id="menu" class="is-hidden-touch"></lesli-icon>
+            <Transition>
+                <lesli-icon 
+                    :id="storeLayout.showEngines ? 'menu-open' : 'menu'" 
+                    @click="storeLayout.toggleEngines()">
+                </lesli-icon>
+            </Transition>
         </div>
         <nav class="menu is-flex-grow-1">
             <ul class="menu-list">
                 <li class="is-hidden-desktop">
                     <a>
-                        <lesli-icon @click="storeLayout.toggleEngines()" id="menu"></lesli-icon>
+                        <Transition>
+                            <lesli-icon 
+                                :id="storeLayout.showEngines ? 'menu-open' : 'menu'" 
+                                @click="storeLayout.toggleEngines()">
+                            </lesli-icon>
+                        </Transition>
                     </a>
                 </li>
                 <slot></slot>

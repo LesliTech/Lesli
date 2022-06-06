@@ -185,7 +185,7 @@ function paginate(page) {
                     <td v-if="slots.options" class="options">
                         <div :class="['dropdown', 'is-right', { 'is-active': dropdownActive[i] }]">
                             <div class="dropdown-trigger">
-                                <button class="button is-info is-inverted" 
+                                <button class="button has-text-info" 
                                     @blur="dropdownActive[i] = false" 
                                     @click.stop="dropdownActive[i] = !dropdownActive[i]">
                                     <span class="icon">
