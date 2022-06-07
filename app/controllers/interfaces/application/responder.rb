@@ -23,7 +23,7 @@ module Interfaces
 
 
             # Return an standard http 200 respond
-            def respond_with_successful payload
+            def respond_with_successful payload=nil
 
                 # Keep compatibility with apps v2 specially Deutsche Leibrenten
                 if defined?(DeutscheLeibrenten)
