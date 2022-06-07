@@ -35,6 +35,11 @@ Rails.application.routes.draw do
         :omniauth_callbacks => "users/oauth",
     }
 
+    # MFA
+    devise_scope :user do
+        get "/mfa/enter_code",  to: "users/sessions#enter_code"
+    end
+
     get :language, to: "application#switch_locale"
 
     extend RoutesBuilder

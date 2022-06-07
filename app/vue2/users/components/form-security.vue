@@ -73,6 +73,23 @@ export default {
                 console.log(error)
             })
         },
+
+        putMFAUserMethod(){
+            let endpoint = this.url.admin("users/:id", this.lesli.current_user.id)
+            let data = { user: { mfa_method:  this.user.mfa_method } }
+ 
+            this.http.put(endpoint, data).then(response => {
+
+                if( !response.successful ){
+                    this.msg.error(response.error.message)
+                    return
+                }
+
+                 this.msg.success(this.translations.users.messages_success_mfa_method_setted)
+            }).catch(error => {
+                console.log(error)
+            })
+        }
     },
 
     watch: {
@@ -163,51 +180,59 @@ export default {
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <input type="submit" class="button is-primary" :value="translations.shared.view_btn_save">
+                                <input type="submit" class="button is-primary is-fullwidth" :value="translations.shared.view_btn_save">
                             </div>
                         </div>
                     </div>
                 </div>
             </fieldset>
         </form>
-        <form @submit.prevent="() => {}">
-            <h4 class="is-size-4 mb-4 mr-2"> {{ translations.users.view_text_multi_factor_authentication}}</h4>
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label">
-                        {{ user.mfa_enabled ? translations.shared.view_text_enabled : translations.shared.view_text_disabled }}
-                    </label>
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <b-switch v-model="user.mfa_enabled" 
-                                required></b-switch>
+        <form @submit.prevent="putMFAUserMethod">
+            <fieldset>
+                <h4 class="is-size-4 mb-4 mr-2"> {{ translations.users.view_text_multi_factor_authentication}}</h4>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">
+                            {{ user.mfa_enabled ? translations.shared.view_text_enabled : translations.shared.view_text_disabled }}
+                        </label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <b-switch v-model="user.mfa_enabled" 
+                                    required></b-switch>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="field is-horizontal" >
-                <div class="field-label is-normal">
-                    <label class="label"> {{ translations.users.column_mfa_methods }} </label>
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <b-select v-model="user.mfa_method" placeholder="Select an option" expanded required :disabled="!user.mfa_enabled">
-                                <option v-for="(method, index) in mfa_methods" :value="method" :key="index">
-                                    {{ object_utils.translateEnum(translations.users, 'column_enum_mfa_method', method) }}
-                                </option>
-                            </b-select>
+                <div class="field is-horizontal" >
+                    <div class="field-label is-normal">
+                        <label class="label"> {{ translations.users.column_mfa_methods }} </label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <b-select v-model="user.mfa_method" placeholder="Select an option" expanded required :disabled="!user.mfa_enabled">
+                                    <option v-for="(method, index) in mfa_methods" :value="method" :key="index">
+                                        {{ object_utils.translateEnum(translations.users, 'column_enum_mfa_method', method) }}
+                                    </option>
+                                </b-select>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div v-if="user.mfa_enabled" class="field buttons is-right">
-                <div class="control">
-                    <input type="submit" class="button is-primary is-fullwidth" :value="translations.shared.view_btn_save">
+                <div v-if="user.mfa_enabled" class="field is-horizontal">
+                    <div class="field-label">
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input type="submit" class="button is-primary is-fullwidth" :value="translations.shared.view_btn_save">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </fieldset>
         </form>
     </section>
 </template>

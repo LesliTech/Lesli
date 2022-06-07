@@ -18,6 +18,19 @@ For more information read the license file including with this software.
 =end
 
 class Users::SessionsController < Devise::SessionsController
+    before_action   :verify_mfa,    only: [:create]
+
+    def verify_mfa
+        # search for a existing user 
+        self.resource = find_user
+
+        unless resource
+            Account::Activity.log("core", "/session/create", "session_creation_failed", "no_valid_email", {
+                email: (sign_in_params[:email] || "")
+            }) 
+            return respond_with_error(I18n.t("core.users/sessions.invalid_credentials"))
+        end
+    end
 
     # @controller_action_param :email [String] The registeredemail
     # @controller_action_param :password [String] The associated password
@@ -34,17 +47,6 @@ class Users::SessionsController < Devise::SessionsController
     #     };
     #     this.http.post("127.0.0.1/login", data);
     def create
-
-        # search for a existing user 
-        resource = User.find_for_database_authentication(email: sign_in_params[:email], active: true)
-
-        # respond with a no valid credentials generic error if not valid user found
-        unless resource
-            Account::Activity.log("core", "/session/create", "session_creation_failed", "no_valid_email", {
-                email: (sign_in_params[:email] || "")
-            }) 
-            return respond_with_error(I18n.t("core.users/sessions.invalid_credentials"))
-        end
 
         # check password validation
         unless resource.valid_password?(sign_in_params[:password])
@@ -66,6 +68,24 @@ class Users::SessionsController < Devise::SessionsController
         # if user do not meet requirements to login
         unless user_validation.success?
             return respond_with_error(user_validation.error["message"])
+        end
+
+        # Check if the user has MFA enabled and any valid method configured
+        user_mfa = MfaService.new(resource)
+
+        if user_mfa.has_mfa_enabled?.success?
+            method = resource.mfa_method
+
+            case method
+            when User.mfa_methods[:email] # Enum: E-mail
+                code_sent = user_mfa.send_otp_via_email(request)
+
+                return respond_with_error("Something went wrong :( send via otp") unless code_sent.success?
+            else
+                return respond_with_error("Something went wrong :(")
+            end
+
+            return respond_with_successful({ default_path: "/mfa/enter_code" })
         end
 
         # do a user login
@@ -126,9 +146,19 @@ class Users::SessionsController < Devise::SessionsController
 
     end
 
+    def enter_code
+    end
+
 
     private 
 
+
+    def find_user
+        # search for a existing user 
+        if sign_in_params[:email].present?
+            resource = User.find_for_database_authentication(email: sign_in_params[:email], active: true)
+        end        
+    end
 
     # @return [Parameters] Allowed parameters for the discussion
     # @description Sanitizes the parameters received from an HTTP call to only allow the specified ones.

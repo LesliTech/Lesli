@@ -1,0 +1,38 @@
+<%#
+
+Copyright (c) 2022, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+%>
+
+<% custom_app_logo_path = "#{ lesli_instance_code }/brand/app-logo.svg" %>
+<% custom_app_page_clas = "#{ lesli_instance_code }-session".downcase %>
+<% custom_app_page_path = "#{ lesli_instance_code }/lesli/devise/sessions/enter_code" %>
+<% custom_app_page_exists = lookup_context.exists?(custom_app_page_path) %>
+
+
+<%# render custom view in builder module %>
+<% if custom_app_page_exists %>
+<main id="lesli-application" class="<%= custom_app_page_clas %>">
+    <%= render :template => custom_app_page_path %>
+</main>
+<% end %>
+
+
+<%# core view for MFA %>
+<% unless custom_app_page_exists %>
+<main id="lesli-application" class="lesli">
+</main>
+<% end %>
