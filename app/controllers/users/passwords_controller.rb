@@ -16,9 +16,7 @@ For more information read the license file including with this software.
 // · 
 
 =end
-class Users::PasswordsController < Devise::PasswordsController
-    include Application::Responder
-    
+class Users::PasswordsController < Devise::PasswordsController    
     layout "application-public"
 
 
@@ -105,13 +103,13 @@ class Users::PasswordsController < Devise::PasswordsController
                     resource.update(password_expiration_at: nil)
                 end 
 
-                resource.logs.create(description: "password_reset_successful")
+                resource.logs.create(title: "password_reset_successful")
                 
                 return respond_with_successful
 
             else
 
-                resource.logs.create(description: "password_reset_error") if resource.id
+                resource.logs.create(title: "password_reset_error") if resource.id
 
                 return respond_with_error(resource.errors.full_messages.to_sentence)
 

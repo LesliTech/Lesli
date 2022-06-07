@@ -77,6 +77,10 @@ const columns = [{
 }]
 
 
+// · 
+const selection = ref()
+
+
 </script>
 <script>
 export default {
@@ -93,7 +97,21 @@ export default {
         </lesli-header>
         <lesli-toolbar 
             :search-placeholder="translations.core.users.view_toolbar_filter_placeholder_search"
-            @search="storeUsers.search"></lesli-toolbar>
+            @search="storeUsers.search">
+            <lesli-select
+                v-model="selection"
+                icon="public"
+                :options="[{
+                    id: 1,
+                    label: 'Primera opcion',
+                    value: 'option_one'
+                }, {
+                    id: 2,
+                    label: 'Segunda opcion',
+                    value: 'option_two'
+                }]">
+            </lesli-select>
+        </lesli-toolbar>
         <lesli-table
             :loading="storeUsers.loading"
             :columns="columns"
