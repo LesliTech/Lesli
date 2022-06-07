@@ -23,25 +23,36 @@ import { ref, reactive, onMounted, watch, computed } from "vue"
 // · defining emits
 const emit = defineEmits(['open']);
 
+/**
+ * The only true button.
+ * @displayName lesli-collapse
+ */
+
 // · defining props
 const props = defineProps({
-    class: {
-        type: String,
-        required: false,
-        default: "card"
-    },
-    animation: {
-        type: String,
-        required: false,
-        default: "slide"
-    },
     loading: {
+        /**
+         * An indicator when data is loading
+         * @values true, false
+         */
         type: Boolean,
         default: false
     },
     open: {
+        /**
+         * An indicator when the collapse card
+         * is open
+         * @values true, false
+         */
         type: Boolean,
         default: false
+    },
+    title: {/**
+         * The title to show on card's header
+         * @values any string
+         */
+        type: String,
+        default: 'Collapse Title'
     }
 })
 
@@ -53,10 +64,18 @@ const props = defineProps({
             class="card-header"
             style="cursor: pointer"
             role="button">
-            <slot name="lesli-collapse-header"></slot>
+            <p class="card-header-title">
+                {{ props.title }}
+            </p>
+            <a class="card-header-icon">
+                <span class="icon">
+                    <span class="material-icons" v-if="props.open">arrow_upward</span>
+                    <span class="material-icons" v-if="!props.open">arrow_downward</span>
+                </span>
+            </a>
         </div>
         <div v-show="open" class="card-content">
-            <slot  name="lesli-collapse-body"></slot>
+            <slot></slot>
         </div>
     </div>
 </template>
