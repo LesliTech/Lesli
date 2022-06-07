@@ -29,6 +29,21 @@ import { useLayout } from "LesliVue/stores/layout"
 const storeLayout = useLayout()
 
 
+// · 
+function onEscape(event) {
+    if (event.keyCode === 27) {
+        storeLayout.toggleEngines()
+        document.removeEventListener('keydown', onEscape)
+    }
+}
+
+
+// · 
+function toggleEngines() {
+    storeLayout.toggleEngines()
+    document.addEventListener('keydown', onEscape)
+}
+
 </script>
 <template>
     <aside class="application-sidebar">
@@ -40,7 +55,7 @@ const storeLayout = useLayout()
                 <lesli-icon 
                     class="is-hidden-touch"
                     :id="storeLayout.showEngines ? 'menu-open' : 'menu'" 
-                    @click="storeLayout.toggleEngines()">
+                    @click="toggleEngines()">
                 </lesli-icon>
             </Transition>
         </div>
@@ -52,7 +67,7 @@ const storeLayout = useLayout()
                         <Transition>
                             <lesli-icon 
                                 :id="storeLayout.showEngines ? 'menu-open' : 'menu'" 
-                                @click="storeLayout.toggleEngines()">
+                                @click="toggleEngines()">
                             </lesli-icon>
                         </Transition>
                     </a>
