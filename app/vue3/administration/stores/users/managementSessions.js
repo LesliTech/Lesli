@@ -61,7 +61,7 @@ export const useManagementSessions = defineStore("managementSessions", {
             this.loading = true
 
             this.http.get(this.url.admin("users/:id/sessions", 8 /*this.storeUser.user.id*/)).then(result => {                
-                this.records = result.data.records
+                this.records = result.records
             }).catch(error => {
                 console.log(error)
             }).finally(() => {
