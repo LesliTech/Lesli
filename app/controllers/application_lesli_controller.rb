@@ -131,7 +131,9 @@ class ApplicationLesliController < ApplicationController
 
         colors = {}
         color_identifiers = ::Account::Setting.theme_settings_keys
+        LC::Debug.msg color_identifiers
         custom_colors = current_user.account.settings.where("name in (?)", color_identifiers).all
+        LC::Debug.msg custom_colors
         color_identifiers.each do |color_identifier|
             custom_color = custom_colors.find { |color| color.name == color_identifier}
             next unless custom_color
