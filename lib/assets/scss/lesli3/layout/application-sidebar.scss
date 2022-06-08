@@ -31,7 +31,7 @@ aside.application-sidebar {
     flex-direction: column;
     transition: all linear .2s;
     width: var(--lesli-navigation-width);
-    background-color: var(--app-theme-color-layout-sidebar, lesli-css-color(lesli, navy));
+    background-color: var(--lesli-color-sidebar);
 
     // logo
     .brand {

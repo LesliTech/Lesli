@@ -22,12 +22,30 @@ For more information read the license file including with this software.
 @import "lesli-css/";
 
 
-// 
+// · defaults
+$lesli-color-primary: #112A62;
+$lesli-color-header: transparent;
+$lesli-color-sidebar: $lesli-color-primary;
+$lesli-color-background: #FFFFFF;
+$lesli-font-color: $lesli-color-primary;
+$lesli-font-size: 16px;
+
+
+// · 
 :root {
     --lesli-header-height: 100px;
     --lesli-footer-height: 68px;
     --lesli-footer-height: 84px;
     --lesli-navigation-width: 50px;
+
+    --lesli-color-primary: var(--lesli-theme-color-primary, #{$lesli-color-primary});
+
+    --lesli-color-header: var(--lesli-theme-color-primary, #{$lesli-color-header});
+    --lesli-color-sidebar: var(--lesli-theme-color-sidebar, #{$lesli-color-primary});
+    --lesli-color-background: var(--lesli-theme-color-background, #{$lesli-color-background});
+
+    --lesli-font-color: var(--lesli-theme-font-color, #{$lesli-color-primary});
+    --lesli-font-size: var(--lesli-theme-font-size, #{$lesli-font-size});
 }
 
 
