@@ -36,6 +36,7 @@ aside.application-sidebar {
     // logo
     .brand {
         display: flex;
+        justify-content: space-between;
         height: var(--lesli-header-height);
         max-height: var(--lesli-header-height);
         a {
@@ -67,7 +68,6 @@ aside.application-sidebar {
             svg {
                 width: 32px;
                 height: 32px;
-                
             }
 
             [class^="ri-"] {
@@ -113,13 +113,12 @@ aside.application-sidebar {
             }
 
             // engine selector button
-            svg {
-                width: 200px;
+            .icon {
                 align-self: flex-end;
-            }
-    
-            svg:hover {
-                cursor: pointer;
+                margin-bottom: 0px;
+                &:hover {
+                    cursor: pointer;
+                }
             }
         }
 
@@ -152,7 +151,7 @@ aside.application-sidebar {
                 font-size: 1.2rem;
                 font-style: italic;
                 margin-left: -20px;
-                margin-bottom: -6px;
+                margin-bottom: -5px;
             }
         }
         li a {

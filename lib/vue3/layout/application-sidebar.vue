@@ -52,11 +52,13 @@ function toggleEngines() {
                 <slot name="brand"></slot>
             </a>
             <Transition>
-                <lesli-icon 
-                    class="is-hidden-touch"
-                    :id="storeLayout.showEngines ? 'menu-open' : 'menu'" 
-                    @click="toggleEngines()">
-                </lesli-icon>
+                <span class="icon">
+                    <lesli-icon 
+                        class="is-hidden-touch"
+                        :id="storeLayout.showEngines ? 'menu-open' : 'menu'" 
+                        @click="toggleEngines()">
+                    </lesli-icon>
+                </span>
             </Transition>
         </div>
         <nav class="menu is-flex-grow-1">
