@@ -47,7 +47,7 @@ class MfaService
             return LC::Response.service(true, EncryptorService.new_encrytor.decrypt_and_verify(key))
         rescue => exception
             puts LC::Debug.deprecation(exception)
-            return LC::Response.service(false)
+            return LC::Response.service(false, I18n.t("core.users/sessions.messages_danger_invalid_url_key_param"))
         end
     end
 
@@ -77,6 +77,28 @@ class MfaService
         end
     end
 
-    # In the case we will implement other ways to verify the token (Google Authenticator, push notifications, ..)
+    ######## Ways to verify the MFA code sent ########
+
+    ## Verify the OTP code sent to the user previously
+    def verify_otp_sent code
+        # We use the service to verify if the MFA Code is the correct one
+        access_code = AccessCodeService.verify_access_code(code, "otp", @resource)
+
+        # Check if something wrong occurred during the token's verification
+        if !access_code.successful?
+            return LC::Response.service(false, I18n.t("core.shared.messages_danger_not_valid_authorization_token_found"))
+        end
+
+        # Assign to the access_code found if everything was successful
+        access_code = access_code.payload
+     
+        # Delete used token
+        access_code.update({ last_used_at: Time.current })
+        access_code.delete
+
+        LC::Response.service(true)
+    end
+
+    # In the case we will implement other factors to authenticate the user (Google Authenticator, push notifications, ..)
     # They should be configured in this service
 end

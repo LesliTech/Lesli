@@ -81,10 +81,42 @@ class Users::SessionsController < Devise::SessionsController
             # Encrypt the email to send it in the request as a query, like ?key=THE_ENCRYPTED_EMAIL
             encrypted_email = MfaService.encrypt_key(resource.email)
 
-            return respond_with_successful({ default_path: "/mfa/enter_code?key=#{encrypted_email.to_s}" }) # "key" is the encrypted email
+            return respond_with_successful({ default_path: "/mfa/enter_code?key=#{encrypted_email}" }) # "key" is the encrypted email
         end
 
-        # do a user login
+        do_login()
+    end
+
+    def destroy
+
+        # expire session
+        current_session = current_user.sessions.find_by(id: session[:user_session_id])
+        if current_session
+            current_session.delete
+        end
+
+        # register a successful logout log for the current user
+        current_user.logs.create({ user_sessions_id: session[:user_session_id], title: "session_logout_successful" })
+
+        # do a user logout
+        sign_out current_user
+
+        # Flag to disable back button in browser after Logout using JavaScript
+        flash[:logout] = true
+
+        # execute logout callback defined on devise config files
+        respond_to_on_destroy
+
+    end
+
+    # Used just to ensure the render of the view
+    def enter_code
+    end
+
+    private 
+
+    # do a user login
+    def do_login
         sign_in(:user, resource)
 
         # register or sync the current_user with the user representation on Firebase
@@ -117,36 +149,7 @@ class Users::SessionsController < Devise::SessionsController
 
         # send a welcome email to user if first log in
         UserMailer.with(user: resource).welcome.deliver_later if resource.sign_in_count == 1
-
     end
-
-    def destroy
-
-        # expire session
-        current_session = current_user.sessions.find_by(id: session[:user_session_id])
-        if current_session
-            current_session.delete
-        end
-
-        # register a successful logout log for the current user
-        current_user.logs.create({ user_sessions_id: session[:user_session_id], title: "session_logout_successful" })
-
-        # do a user logout
-        sign_out current_user
-
-        # Flag to disable back button in browser after Logout using JavaScript
-        flash[:logout] = true
-
-        # execute logout callback defined on devise config files
-        respond_to_on_destroy
-
-    end
-
-    # Used just to ensure the render of the view
-    def enter_code
-    end
-
-    private 
 
     # Find an existing user 
     def find_user
@@ -164,61 +167,38 @@ class Users::SessionsController < Devise::SessionsController
             decrypted_email = MfaService.decrypt_key(key)
 
             # If we could not decrypt, respond with error
-            return respond_with_error(I18n.t("core.users/sessions.messages_danger_invalid_url_key_param")) unless decrypted_email.success?
+            return respond_with_error(decrypted_email.error) unless decrypted_email.success?
 
             # Find a the user
             self.resource = User.find_for_database_authentication(email: decrypted_email.payload, active: true)
 
             # We verify the MFA code (from params) if the user was found
-            verify_mfa_code(sign_in_mfa_params[:mfa_code]) unless resource.nil?
+            verify_mfa(sign_in_mfa_params[:mfa_code]) unless resource.nil?
         end
 
         # In case there is no resource (user) we respond with error
         unless resource
             Account::Activity.log("core", "/session/create", "session_creation_failed", "no_valid_email", {
                 email: (sign_in_params[:email] || "")
-            }) 
+            })
             return respond_with_error(I18n.t("core.users/sessions.invalid_credentials"))
         end
     end
 
     # Verify the MFA Code that comes from the params
-    def verify_mfa_code(token)
-        # We use the service to verify if the MFA Code is the correct one
-        access_code = AccessCodeService.verify_access_code(token, "otp", resource)
+    def verify_mfa(code)
+        # The way we validate the code could be different depending the MFA method of the user
+        case resource.mfa_method
+        when User.mfa_methods[:email] # Enum: E-mail
+            verify_otp_code = MfaService.new(resource).verify_otp_sent(code)
 
-        # Check if something wrong occurred during the token's verification
-        if !access_code.successful?
-            return respond_with_error(I18n.t("core.shared.messages_danger_not_valid_authorization_token_found"))
+            return respond_with_error(verify_otp_code.error) unless verify_otp_code.success?
+        else
+            # Respond with error if something is wrong with the user's MFA method configured
+            return respond_with_error(I18n.t("core.users/sessions.messages_danger_not_valid_mfa_method"))
         end
 
-        # Assign to the access_code found if everything was successful
-        access_code = access_code.payload
-     
-        # Delete used token
-        access_code.update({ last_used_at: Time.current })
-        access_code.delete
-
-        # Do a user login
-        sign_in(access_code.user)
-
-        # register a new unique session
-        current_session = access_code.user.sessions.create({
-            :user_agent => get_user_agent,
-            :user_remote => request.remote_ip,
-            :session_token => session[:session_id],
-            :session_source => "otp_session",
-            :last_used_at => Time.current
-        })
-
-        # Make session id globally available
-        session[:user_session_id] = current_session[:id]
-
-        # Register a successful sign-in log for the current user
-        access_code.user.logs.create({ user_sessions_id: session[:user_session_id], title: "otp_session_creation_successful" })
-
-        # Respond successful and send the path user should go
-        return respond_with_successful({ default_path: "/" })
+        do_login()
     end
 
     # @return [Parameters] Allowed parameters for the discussion
