@@ -93,7 +93,10 @@ export default {
 </script>
 <template>
     <section class="application-component">
-        <lesli-header :title="translations.core.users.view_text_title_users">
+        <lesli-header 
+            :title="translations.core.users.view_text_title_users"
+            :reload-loading="storeUsers.loading"
+            @reload="storeUsers.fetchIndex">
         </lesli-header>
         <lesli-toolbar 
             :search-placeholder="translations.core.users.view_toolbar_filter_placeholder_search"
@@ -116,12 +119,24 @@ export default {
                 </span>
             </template>
 
-            <template #options="{ column, value }">
-                <a href="#" class="dropdown-item">
-                    mi primera opcion
+            <template #options="{ record, value }">
+                <a class="dropdown-item" @click="storeUsers.doLogout(record.id)">
+                    <span class="material-icons">
+                        logout
+                    </span>
+                    <span>
+                        {{ translations.core.users.view_btn_logout }}
+                    </span>
+                </a>
+                <a class="dropdown-item" @click="storeUsers.doLock(record.id)">
+                    <span class="material-icons">
+                        lock
+                    </span>
+                    <span>
+                        {{ translations.core.users.view_btn_revoke_access }}
+                    </span>
                 </a>
             </template>
-
         </lesli-table>
     </section>
 </template>
