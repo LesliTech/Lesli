@@ -19,6 +19,7 @@ For more information read the license file including with this software.
 
 
 // · 
+@import "lesli-css";
 @import "bulma/sass/utilities/_all";
 
 
@@ -35,7 +36,8 @@ $link-focus-border: $info;
 
 // · Override framework colors
 $custom-colors: (
-    "primary": ($primary, $primary-invert), 
+    "primary2": ($primary, $primary-invert), 
+    "primary": (lesli-css-color(blues, lesli), $primary-invert), 
     "link": ($link, $link-invert)
 );
 

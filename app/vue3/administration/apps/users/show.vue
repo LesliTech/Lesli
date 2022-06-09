@@ -55,7 +55,7 @@ onMounted(() => {
     storeUser.fetch(route.params?.id)
 })
 
-const tab = ref(3)
+const tab = ref(0)
 </script>
 <template>
     <section class="application-component">
