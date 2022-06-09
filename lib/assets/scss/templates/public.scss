@@ -23,44 +23,19 @@ For more information read the license file including with this software.
 
 
 // · Configuration
-@import "./lesli/settings/variables.scss";
-@import "./lesli/bulma/loader.scss";
+@import "./lesli3/fonts/remixicons";
+@import "./lesli3/settings/variables";
 
 
 // · Include Bulma 
-@include lesli-css-normalize;
-@include lesli-css-fonts-standard;
+@import "./lesli3/bulma/loader";
+
+
+// · Include Lesli Standards
+@include lesli-css-normalize();
 
 
 // · Hide vue until vue finishes compilation
 [v-cloak] {
     display: none !important;
-}
-
-
-// · 
-.component-data-loading .loading-animation {
-    display: inline-block;
-    position:relative;
-    height:50px;
-    width:50px;
-    hr {
-        border:0;
-        margin:0;
-        width:40%;
-        height:40%;
-        position:absolute;
-        border-radius:50%;
-        animation:assistant-chatbox-spin 2s ease infinite;
-        &:first-child { background:#19A68C; animation-delay: -1.5s }
-        &:nth-child(2){ background:#F63D3A; animation-delay: -1.0s }
-        &:nth-child(3){ background:#FDA543; animation-delay: -0.5s }
-        &:last-child {  background:#193B48 }
-    }
-    @keyframes assistant-chatbox-spin{
-        0%,100%{transform:translate(0)}
-        25%{transform:translate(160%)}
-        50%{transform:translate(160%, 160%)}
-        75%{transform:translate(0, 160%)}
-    }        
 }
