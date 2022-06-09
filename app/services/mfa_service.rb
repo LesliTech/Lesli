@@ -22,9 +22,13 @@ class MfaService
     end
 
     def has_mfa_enabled?
-        return LC::Response.service(true) if @resource.mfa_enabled || !@resource.mfa_method.nil?
+        return LC::Response.service(true) if @resource.mfa_enabled && !@resource.mfa_method.nil?
         
         LC::Response.service(false)
+    end
+
+    def self.parse_key key
+        return LC::Response.service(true, key.gsub(/[[:space:]]/, '+'))
     end
 
     def send_otp_via_email request
@@ -41,7 +45,7 @@ class MfaService
             })
 
             # Send E-mail with the OTP
-            # UserMailer.with(user: @resource, token: raw).otp_instructions.deliver_now
+            UserMailer.with(user: @resource, token: raw).mfa_instructions.deliver_now
 
             return LC::Response.service(true)
         else
