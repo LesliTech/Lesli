@@ -33,6 +33,50 @@ For more information read the license file including with this software.
 
 <%# core view for MFA %>
 <% unless custom_app_page_exists %>
-<main id="lesli-application" class="lesli">
-</main>
+<section id="lesli-application" class="<%= custom_app_page_clas %>">
+    <article class="hero is-fullheight">
+        <div class="hero-head">
+            <div class="form-title has-text-centered">
+                <%= image_tag "#{ lesli_instance_code }/brand/app-logo.svg", :alt => "logo", :class => "app-logo" %>
+                <h2 class="is-size-2">Multi-Factor Authentication</h2>
+            </div>
+        </div>
+        <div class="hero-body">
+            <form @submit.prevent="postLoginWithMFA" class="has-text-centered">
+                <p class="label">Enter the code we just sent you</p>
+                <p v-if="notification.show" :class="[notification.type, 'is-size-5', 'mt-2']">
+                    {{ notification.message }}
+                </p>
+                <div class="field">
+                    <p class="control has-icons-left mt-4 mb-4">  
+                        <input 
+                            type="text"
+                            class="input" 
+                            name="t"
+                            v-model="sign_in.mfa_code"
+                            placeholder="Code"
+                            required="true"
+                        />
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-key"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="login-controls">
+                    <button class="button is-primary">
+                        Login
+                    </button>
+                </div>
+            </form>
+            <div class="links">
+                <p class="has-text-centered">
+                    <%= link_to "Reset password", new_user_password_path %>
+                </p>
+                <p class="has-text-centered">
+                    <%= link_to "Login", new_user_session_path %>
+                </p>
+            </div>
+        </div>
+    </article>
+</section>
 <% end %>

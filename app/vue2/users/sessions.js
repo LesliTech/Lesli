@@ -19,7 +19,6 @@ For more information read the license file including with this software.
 // · 
 import app from "LesliVue/public"
 
-
 // · 
 import componentNotificationMessageSimple from "LesliVue/components/notifications/message-simple.vue" 
 import componentNotificationProgressBar from "LesliVue/components/notifications/progress-bar.vue" 
@@ -36,7 +35,8 @@ app({
         translation: I18n.t("core.users/sessions"),
         sign_in: {
             email: "",
-            password: ""
+            password: "",
+            mfa_code: ""
         },
         progress_bar_active: false,
         notification: {
@@ -117,6 +117,31 @@ app({
                 this.showNotification("Error")
             })
             
+        },
+
+        postLoginWithMFA(){
+            let key = (new URLSearchParams(window.location.search)).get("key")
+
+            if(!key){
+                this.showNotification("Error")
+                return
+            }
+
+            let endpoint = this.url.to(`/login?key=${key}`)
+            let data = { user: { mfa_code: this.sign_in.mfa_code } }
+
+            this.http.post(endpoint, data).then(response => {
+                console.log(response)
+                if(!response.successful){
+                    this.showNotification(response.error.message)
+                    return
+                }
+
+                this.url.go(this.build_redirect_url(response.data.default_path))
+
+            }).catch(error => {
+                this.showNotification("Error")
+            })
         },
 
         typing() {
