@@ -17,21 +17,21 @@ For more information read the license file including with this software.
 
 
 
-# IMPORTANT: This services is currently used for OTPs, Passes & MFA
+########    This service is reusable, mostly used to create and/or verify codes for the UserAccessCodes entify
 
 class AccessCodeService
-=begin
-@return [hash]
-@param user [::User] The user that is requesting another way to login
-@param token_type [String] The token type will be saved (otp, pass, ...)
-@description Creates a new Access Code and returns the one created & the raw token
-@example
-  otp = AccessCodeService.create_access_code(@user, "otp")
 
-  puts otp.successful? # true/false
-  puts otp.access_code # Instance of User::AccessCode
-  puts otp.raw         # code if success
-=end
+    # @return [hash]
+    # @param user [::User] The user that is requesting another way to login
+    # @param token_type [String] The token type will be saved (otp, pass, ...)
+    # @description Creates a new Access Code and returns the one created & the raw token
+    # @example
+    #   otp = AccessCodeService.create_access_code(@user, "otp")
+    
+    #   puts otp.successful? # true/false
+    #   puts otp.access_code # Instance of User::AccessCode
+    #   puts otp.raw         # code if success
+
     def self.create_access_code user, token_type
         token_type = token_type.downcase
 
@@ -58,19 +58,19 @@ class AccessCodeService
         end
     end
 
-=begin
-@return [hash]
-@param token [String] Token the user has sent
-@param token_type [String] The token type will be verified (otp, pass, ...)
-@param user [::User] The user that is requesting to validate the token
-@description Validates the token the user has sent through params
-@example
-  otp = AccessCodeService.verify_access_code("123AAER", "otp", user)
 
-  puts otp.successful? # true/false
-  puts otp.payload # Instance of User::AccessCode if success
-  puts otp.error   # If something went wrong
-=end
+    # @return [hash]
+    # @param token [String] Token the user has sent
+    # @param token_type [String] The token type will be verified (otp, pass, ...)
+    # @param user [::User] The user that is requesting to validate the token
+    # @description Validates the token the user has sent through params
+    # @example
+    #   otp = AccessCodeService.verify_access_code("123AAER", "otp", user)
+    
+    #   puts otp.successful? # true/false
+    #   puts otp.payload # Instance of User::AccessCode if success
+    #   puts otp.error   # If something went wrong
+
     def self.verify_access_code token, token_type, user = nil
         # Rebuild the token based on the user-token sent by email
         digest_token = Devise.token_generator.digest(User::AccessCode, :token, token)
