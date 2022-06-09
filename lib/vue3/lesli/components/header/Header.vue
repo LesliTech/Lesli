@@ -26,6 +26,11 @@ const props = defineProps({
     title: {
         type: String,
         default: null
+    },
+    reloadLoading: {
+        type: Boolean,
+        required: false,
+        default: false
     }
 })
 
@@ -47,7 +52,7 @@ const emit = defineEmits(['reload']);
                 <div class="navbar-item">
                     <div class="buttons">
                         <button 
-                            class="button is-primary is-outlined" 
+                            :class="['button', 'is-primary', 'is-outlined', { 'is-loading': reloadLoading }]" 
                             v-on:click="emit('reload')">
                             <span class="icon">
                                 <span class="material-icons">
