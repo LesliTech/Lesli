@@ -157,6 +157,6 @@ class UserMailer < ApplicationLesliMailer
                     full_name: user.full_name
                 }
         })
-        mail(to: email_address_with_name(user.email, user.full_name), subject: "MFA Token")
+        mail(to: email_address_with_name(user.email, user.full_name), subject: "MFA Code")
     end
 end

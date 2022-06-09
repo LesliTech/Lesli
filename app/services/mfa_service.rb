@@ -15,23 +15,34 @@ For more information read the license file including with this software.
 // ·
 =end
 
+
+######## This service is used for any MFA case ########
+
 class MfaService
 
+    ## Initialize the resource (user)
     def initialize resource
         @resource = resource
     end
 
+    ## Verify if the resource (user) has MFA enabled and one MFA method (email, ...) configured
     def has_mfa_enabled?
         return LC::Response.service(true) if @resource.mfa_enabled && !@resource.mfa_method.nil?
         
         LC::Response.service(false)
     end
 
+    ## The key is the email encrypted, we replace any whitespace by the "+" sign
+    ## Because the param that comes from the URL (fronted) has whitespace instead of "+"
     def self.parse_key key
         return LC::Response.service(true, key.gsub(/[[:space:]]/, '+'))
     end
 
+    #### Ways to send MFA code ####
+
+    ## Send the email with the MFA Code (OTP) and log its creation
     def send_otp_via_email request
+        # We use a reusable service that generates access codes
         otp = AccessCodeService.create_access_code(@resource, "otp")
 
         if otp.successful?
@@ -52,4 +63,7 @@ class MfaService
             return LC::Response.service(false, otp.error)
         end
     end
+
+    # In the case we will implement other ways to verify the token (Google Authenticator, push notifications, ..)
+    # They should be configured in this service
 end
