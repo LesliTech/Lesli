@@ -51,6 +51,16 @@ table.lesli-table {
             .button {
                 background-color: transparent;
             }
+            .dropdown-content {
+                padding: 0;
+            }
+            .dropdown-item {
+                display: flex;
+                padding: .8rem;
+                .material-icons {
+                    margin-right: 8px;
+                }
+            }
         }
     }
 }
