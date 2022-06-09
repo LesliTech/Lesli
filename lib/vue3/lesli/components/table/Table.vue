@@ -183,14 +183,17 @@ function paginate(page) {
                         every row of the table (i)
                     -->
                     <td v-if="slots.options" class="options">
-                        <div :class="['dropdown', 'is-right', { 'is-active': dropdownActive[i] }]">
+                        <div :class="['dropdown', 'is-right is-hoverable', { 'is-active': dropdownActive[i] }]">
                             <div class="dropdown-trigger">
                                 <button class="button has-text-info" 
-                                    @blur="dropdownActive[i] = false" 
-                                    @click.stop="dropdownActive[i] = !dropdownActive[i]">
+                                    @blur="dropdownActive[i] = false"
+                                    @click="dropdownActive[i] = !dropdownActive[i]">
                                     <span class="icon">
-                                        <span class="material-icons md-24">
+                                        <span v-if="!dropdownActive[i]" class="material-icons md-24">
                                             more_vert
+                                        </span>
+                                        <span v-if="dropdownActive[i]" class="material-icons">
+                                            more_horiz
                                         </span>
                                     </span>
                                 </button>
@@ -200,7 +203,7 @@ function paginate(page) {
                                     <div class="dropdown-content">
                                         <slot 
                                             name="options"
-                                            :column="record"
+                                            :record="record"
                                             :value="record.id">
                                         </slot>
                                     </div>
