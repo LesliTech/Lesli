@@ -58,23 +58,28 @@ class Users::SessionsController < Devise::SessionsController
             return respond_with_error(user_validation.error["message"])
         end
 
-        # Check if the user has MFA enabled and any valid method configured
+        # Create an instance used to validate MFA for the user
         user_mfa = MfaService.new(resource)
 
+        # Check if the user has MFA enabled and any valid method configured
         if user_mfa.has_mfa_enabled?.success?
+            # Get the MFA method the user has configured
             method = resource.mfa_method
 
+            # Depending on the case, we send the MFA Code to different destinies (email, sms, ... )
             case method
             when User.mfa_methods[:email] # Enum: E-mail
                 code_sent = user_mfa.send_otp_via_email(request)
 
-                return respond_with_error("Something went wrong :( send via otp") unless code_sent.success?
+                # Respond with error if the MFA code was not sent for some reason
+                return respond_with_error(code_sent.error) unless code_sent.success?
             else
-                return respond_with_error("Something went wrong :(")
+                # Respond with error if something is wrong with the user's MFA method configured
+                return respond_with_error(I18n.t("core.users/sessions.messages_danger_not_valid_mfa_method"))
             end
 
             # Encrypt the email to send it in the request as a query, like ?key=THE_ENCRYPTED_EMAIL
-            encrypted_email = EncryptorService.new_encrytor.encrypt_and_sign(resource.email)
+            encrypted_email = MfaService.encrypt_key(resource.email)
 
             return respond_with_successful({ default_path: "/mfa/enter_code?key=#{encrypted_email.to_s}" }) # "key" is the encrypted email
         end
@@ -137,26 +142,38 @@ class Users::SessionsController < Devise::SessionsController
 
     end
 
+    # Used just to ensure the render of the view
     def enter_code
     end
 
     private 
 
+    # Find an existing user 
     def find_user
-        # search for a existing user 
+        # resource means the "user"
+        self.resource = nil
 
+        # If the email is present, we find by email
         if sign_in_params[:email]
             self.resource = User.find_for_database_authentication(email: sign_in_params[:email], active: true)            
-        elsif params[:key] && sign_in_mfa_params[:mfa_code]
+        elsif params[:key] && sign_in_mfa_params[:mfa_code] # if the key (encrypted email) & the MFA code are present we find by key and verify the code
+            # Parse the key (encrypted email) that comes from the URL, because it replaces every "+" for a whitespace
             key = MfaService.parse_key(params[:key])
 
-            decrypted_email = EncryptorService.new_encrytor.decrypt_and_verify(key.payload)
+            # Try to decrypt the key (email encrypted), if success we get a valid email
+            decrypted_email = MfaService.decrypt_key(key)
 
-            self.resource = User.find_for_database_authentication(email: decrypted_email, active: true)
+            # If we could not decrypt, respond with error
+            return respond_with_error(I18n.t("core.users/sessions.messages_danger_invalid_url_key_param")) unless decrypted_email.success?
 
-            verify_mfa_token(sign_in_mfa_params[:mfa_code]) unless resource.nil?
+            # Find a the user
+            self.resource = User.find_for_database_authentication(email: decrypted_email.payload, active: true)
+
+            # We verify the MFA code (from params) if the user was found
+            verify_mfa_code(sign_in_mfa_params[:mfa_code]) unless resource.nil?
         end
 
+        # In case there is no resource (user) we respond with error
         unless resource
             Account::Activity.log("core", "/session/create", "session_creation_failed", "no_valid_email", {
                 email: (sign_in_params[:email] || "")
@@ -165,7 +182,9 @@ class Users::SessionsController < Devise::SessionsController
         end
     end
 
-    def verify_mfa_token(token)
+    # Verify the MFA Code that comes from the params
+    def verify_mfa_code(token)
+        # We use the service to verify if the MFA Code is the correct one
         access_code = AccessCodeService.verify_access_code(token, "otp", resource)
 
         # Check if something wrong occurred during the token's verification

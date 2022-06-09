@@ -131,7 +131,7 @@ app({
             let data = { user: { mfa_code: this.sign_in.mfa_code } }
 
             this.http.post(endpoint, data).then(response => {
-                console.log(response)
+
                 if(!response.successful){
                     this.showNotification(response.error.message)
                     return
