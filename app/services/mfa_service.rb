@@ -35,10 +35,23 @@ class MfaService
     ## The key is the email encrypted, we replace any whitespace by the "+" sign
     ## Because the param that comes from the URL (fronted) has whitespace instead of "+"
     def self.parse_key key
-        return LC::Response.service(true, key.gsub(/[[:space:]]/, '+'))
+        return key.gsub(/[[:space:]]/, '+')
     end
 
-    #### Ways to send MFA code ####
+    def self.encrypt_key key
+        EncryptorService.new_encrytor.encrypt_and_sign(key)
+    end
+
+    def self.decrypt_key key
+        begin
+            return LC::Response.service(true, EncryptorService.new_encrytor.decrypt_and_verify(key))
+        rescue => exception
+            puts LC::Debug.deprecation(exception)
+            return LC::Response.service(false)
+        end
+    end
+
+    ######## Ways to send MFA code ########
 
     ## Send the email with the MFA Code (OTP) and log its creation
     def send_otp_via_email request
