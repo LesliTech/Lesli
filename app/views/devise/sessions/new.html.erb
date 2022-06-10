@@ -56,16 +56,17 @@ For more information read the license file including with this software.
                                 
                                 %>
                                 <div class="field mb-4">
-                                    <label class="label">E-mail address</label>
+                                    <label for="user_email" class="label">E-mail address</label>
                                     <div class="control has-icons-left has-icons-right">
                                         <input
+                                            id="user_email"
                                             name="user_email"
                                             type="email"
-                                            placeholder="hello@lesli.cloud"
+                                            ref="email"
                                             :class="['input', `is-${notification.type}`]"
+                                            placeholder="hello@lesli.cloud"
                                             v-model="sign_in.email"
-                                            @input="typing"
-                                            ref="email">
+                                            @input="typing">
                                         <span 
                                             class="icon is-small is-left" 
                                             :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
@@ -79,16 +80,17 @@ For more information read the license file including with this software.
                                     </div>
                                 </div>
                                 <div class="field mb-5">
-                                    <label class="label">Password</label>
+                                    <label for="user_password" class="label">Password</label>
                                     <div class="control has-icons-left has-icons-right">
                                         <input
+                                            id="user_password"
                                             name="user_password"
                                             type="password"
-                                            placeholder="* * * * * * *"
+                                            ref="password"
                                             :class="['input', `is-${notification.type}`]"
+                                            placeholder="* * * * * * *"
                                             v-model="sign_in.password"
-                                            @input="typing"
-                                            ref="password">
+                                            @input="typing">
                                         <span 
                                             :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
                                             <i class="ri-key-fill"></i>
