@@ -26,8 +26,8 @@ app({
         return {
             translation: I18n.t("core.users/sessions"),
             sign_in: {
-                email: "ldonis@lomax.com.gt",
-                password: "tardis2022$$"
+                email: "",
+                password: ""
             },
             notification: {
                 message: "",
