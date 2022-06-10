@@ -25,9 +25,6 @@ For more information read the license file including with this software.
 
 
 // · Include Bulma 
-@import "./lesli3/bulma/elements";
-@import "./lesli3/bulma/components";
-@import "./lesli3/bulma/extensions";
 @import "./lesli3/bulma/loader";
 
 
@@ -63,6 +60,7 @@ For more information read the license file including with this software.
 @import "./lesli3/components/lesli-header";
 @import "./lesli3/components/lesli-empty";
 @import "./lesli3/components/lesli-table";
+@import "./lesli3/components/lesli-msg";
 @import "./lesli3/components/lesli-tab";
 
 
@@ -75,15 +73,12 @@ html,
 body {
     color: var(--app-theme-font-color, #1c2540);
     font-size: var(--app-theme-font-size, 16px);
+    background-color: var(--app-theme-color-layout-background, #ffffff);
     font-family: "Exo", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
+    scrollbar-color: lesli-css-color-theme(primary) lesli-css-color-theme(primary);
+    scrollbar-width: thin;
     font-weight: normal;
     line-height: 158%;
-}
-
-
-// · 
-body {
-    background-color: var(--app-theme-color-layout-background, #ffffff);
 }
 
 
@@ -126,7 +121,12 @@ h6 {
 }
 
 
-/* Remove auto claear button for IE10+/Edge because it does not trigger watchers not changes v-model values */
+// Vue Animation component
+.v-enter-active, .v-leave-active { transition: opacity 0.5s ease; }
+.v-enter-from, .v-leave-to { opacity: 0; }
+
+
+// Remove auto claear button for IE10+/Edge because it does not trigger watchers not changes v-model values
 ::-ms-clear {
     display: none;
 }

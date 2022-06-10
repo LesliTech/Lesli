@@ -19,6 +19,7 @@ For more information read the license file including with this software.
 
 class Users::SessionsController < Devise::SessionsController
     before_action :find_user, only: [:create]
+    include Application::Responder
 
     # @controller_action_param :email [String] The registeredemail
     # @controller_action_param :password [String] The associated password
