@@ -23,23 +23,25 @@ module LC
     class Currency
         # default configuration
         @settings = {
-            "precision" => 2,
-            "symbol" => "USD",
-            "separator" => ".",
-            "delimiter" => ",",
-            "format" => "%u %n"
+            precision: 2,
+            symbol: "$",
+            separator: ".",
+            delimiter: ",",
+            format: "%u %n"
         }
 
-        @settings = @settings.merge(
-            Rails.application.config.lesli[:configuration][:currency]
-        )
+        if Rails.application.config.lesli[:configuration] && Rails.application.config.lesli[:configuration][:currency]
+            @settings = @settings.merge(
+                Rails.application.config.lesli[:configuration][:currency]
+            )
+        end
 
-        def self.format(value, symbol = symbol(), precision=@settings["precision"])            
-            return "#{number_to_currency(value, separator: @settings["separator"], delimiter: @settings["delimiter"], precision: precision, unit: symbol, format: @settings["format"])}"
+        def self.format(value, symbol = symbol(), precision = @settings[:precision])            
+            return "#{number_to_currency(value, separator: @settings[:separator], delimiter: @settings[:delimiter], precision: precision, unit: symbol, format: @settings[:format])}"
         end
 
         def self.symbol
-            return @settings["symbol"]
+            return @settings[:symbol]
         end
     end
 end
