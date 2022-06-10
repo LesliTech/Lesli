@@ -17,22 +17,29 @@ For more information read the license file including with this software.
 %>
 
 
-<% 
-    # Defining color customization 
-    # colors will be override with the ones defined in the database if custom colors exists
-    # if there is no custom colors defined, the var() function will return the lesli colors
-    @colors = @account[:customization][:colors] || {}
+<%# Hide vue until vue finishes compilation %>
+<style>[v-cloak] { display: none !important; }</style>
+
+
+<%
+# Defining color customization 
+# colors will be override with the ones defined in the database if custom colors exists
+# if there is no custom colors defined, the var() function will return the lesli colors
+@colors = @account[:customization][:colors] || {}
 %>
+
 
 <%# Defining color palette %> 
 <style>
 :root {
-<% @colors.each_pair do |key, value| %>
+    <% @colors.each_pair do |key, value| %>
     <%= "--#{ key.to_s.gsub('_','-') }: #{ value.to_s };" if value %>
-<% end %>
+    <% end %>
 }
 </style>
 
+
+<%# Loading stylesheets %> 
 <%= stylesheet_link_tag application_stylesheet_template_path(), media: "all" %>
 <%= stylesheet_link_tag application_stylesheet_theme_path(), media: "all" %> 
 <%= stylesheet_link_tag application_stylesheet_engine_path(), media: "all" %>
