@@ -27,7 +27,7 @@ RSpec.describe LC::Currency, type: :model do
     it "LC::Currency.symbol with default values" do
         default_settings = Rails.application.config.lesli[:configuration]
         default_settings = default_settings[:currency] if default_settings
-        symbol = "€"
+        symbol = "$"
 
         if default_settings
             symbol = default_settings[:symbol] if default_settings[:symbol]
@@ -41,7 +41,7 @@ RSpec.describe LC::Currency, type: :model do
         default_settings = Rails.application.config.lesli[:configuration]
         default_settings = default_settings[:currency] if default_settings
 
-        symbol = "€"
+        symbol = "$"
         separator = "."
         delimiter = ","
         format_ = "%u %n"
