@@ -24,7 +24,7 @@ module LC
         # default configuration
         @settings = {
             precision: 2,
-            symbol: "USD",
+            symbol: "$",
             separator: ".",
             delimiter: ",",
             format: "%u %n"
@@ -34,12 +34,12 @@ module LC
             Rails.application.config.lesli[:configuration][:currency]
         )
 
-        def self.format(value, symbol = symbol(), precision=@settings[:precision])            
+        def self.format(value, symbol = symbol(), precision = @settings[:precision])            
             return "#{number_to_currency(value, separator: @settings[:separator], delimiter: @settings[:delimiter], precision: precision, unit: symbol, format: @settings[:format])}"
         end
 
         def self.symbol
-            return @settings["symbol"]
+            return @settings[:symbol]
         end
     end
 end
