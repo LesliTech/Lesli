@@ -53,27 +53,6 @@ export default {
 
         },
 
-        // putMFAUserEnabled(){
-        //     let endpoint = this.url.admin("users/:id", this.lesli.current_user.id)
-        //     let data = { user: { mfa_enabled:  this.user.mfa_enabled } }
- 
-        //     this.http.put(endpoint, data).then(response => {
-
-        //         if( !response.successful ){
-        //             this.msg.error(response.error.message)
-        //             return
-        //         }
-
-        //         if(this.user.mfa_enabled){
-        //             this.msg.success(this.translations.users.messages_success_mfa_enabled)
-        //         }else{
-        //             this.msg.success(this.translations.users.messages_success_mfa_disabled)
-        //         }
-        //     }).catch(error => {
-        //         console.log(error)
-        //     })
-        // },
-
         putMFAUserMethod(){
             let endpoint = this.url.admin("users/:id/settings", this.user.id)
 

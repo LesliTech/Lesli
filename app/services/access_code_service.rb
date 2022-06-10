@@ -41,10 +41,10 @@ class AccessCodeService
         # Generate a token with Devise
         # raw: a compressed version of the token
         # enc: the encrypted token (lots of letters, numbers and signs so not understandable by users)
-        if token_type.eql? "otp"
-            raw, enc = Devise.token_generator.generate_otp(access_code.class, :token)
-        else
+        if token_type.eql? "pass"
             raw, enc = Devise.token_generator.generate(access_code.class, :token)
+        else
+            raw, enc = Devise.token_generator.generate_token(access_code.class, :token)
         end
 
         # Set the token for the encrypted one created by Devise

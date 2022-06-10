@@ -70,13 +70,6 @@ class User < ApplicationLesliRecord
     #   integration apps
     enum category: { user: "user", integration: "integration" }
 
-    # MFA method preferred by the user
-    # enum mfa_method: { 
-    #     email: "email",
-    #     # sms: "sms",
-    #     # notification: "notification"
-    # }
-
 
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
