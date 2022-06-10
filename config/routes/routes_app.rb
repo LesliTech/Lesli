@@ -122,6 +122,16 @@ module RoutesApp
 
                     # user helper resources
                     member do
+
+                        # close sessions of users
+                        post :logout
+
+                        # enable/disable user access
+                        post :lock
+
+                        # force password reset
+                        post :password
+
                         scope :resources do
 
                             # user impersonate - disabled by default

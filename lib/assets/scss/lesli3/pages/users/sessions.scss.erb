@@ -19,34 +19,65 @@ For more information read the license file including with this software.
 
 // ·
 @import "templates/public";
-@import "lesli3/fonts/mdicons.scss";
+@import "./lesli3/fonts/families";
+
+
+// · 
+html,
+body {
+    color: var(--app-theme-font-color, #1c2540);
+    font-size: var(--app-theme-font-size, 16px);
+    background-color: var(--app-theme-color-layout-background, #ffffff);
+    font-family: "Exo", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
+    scrollbar-color: lesli-css-color-theme(primary) lesli-css-color-theme(primary);
+    scrollbar-width: thin;
+    font-weight: normal;
+    line-height: 158%;
+}
+
+
+// · headings and links
+a, 
+h1 {
+    font-family: "Montserrat", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
+}
+
+h1 {
+    line-height: 33px;
+    font-weight: 800;
+    font-size: 24px;
+}
 
 
 // ·
 body.users-sessions.new, body.users-sessions.enter_code{
 
     main.lesli {
+        background-color: #F6F7FC;
 
         .columns {
             width: 100%;
-            height: 100vh;
         }
 
-        .has-session-form {
-            max-width: 500px;
-            align-self: center;
+        .column-content {
+            max-width: 550px;
+            min-height: 100vh;
 
-            .container {
+            form,
+            .logo,
+            .links {
+                width: 100%;
+                margin: 0 auto;
                 max-width: 320px;
             }
 
-            .logo-container {
+            .logo {
 
                 img {
                     width: 180px;
 
-                    &.lesli-logo {
-                        width: 80px;
+                    &.lesli_cloud-logo {
+                        width: 86px;
                     }
 
                 }
@@ -54,46 +85,60 @@ body.users-sessions.new, body.users-sessions.enter_code{
             }
 
             form {
-                margin: 2rem 0 6rem;
+                margin-bottom: 3.6rem;
+                label {
+                    font-family: "Montserrat";
+                    font-weight: 500;
+                    font-size: 15px;
+                    line-height: 150%;
+                    color: #333;
+                }
+                input {
+                    border-radius: 6px;
+                    box-shadow: none;
+                }
+                input[type="submit"] {
+                    font-weight: 600;
+                }
+                p.account {
+                    font-size: 15px;
+                    font-weight: 400;
+                }
             }
 
-            .buttons {
-                margin-top: 1rem;
+            .links {
+                a {
+                    width: 100%;
+                    display: flex;
+                    flex-grow: 1;
+                    padding: .8rem 0;
+                    &:not(:last-child) {
+                        border-bottom: 1px solid lesli-css-color(silver, 300);
+                    }
+                }
+                span {
+                    font-family: "Exo";
+                    font-weight: 500;
+                    font-size: 14px;
+                    color: lesli-css-color(blues, navy);
+                }
             }
 
-        }
-
-        .links {
-            color: lesli-css-color(blue);
-            hr {
-                border-bottom: 1px solid lesli-css-color(silver, 300);
-            }
-        }
-
-        .has-solution-background {
-            background: linear-gradient(
-                rgba(lesli-css-color(black, 900), .0),
-                rgba(lesli-css-color(black, 900), .55)),
-                image_url("lesli_cloud/login/login-background.jpg");
-            background-position: center;
-            background-size: cover;
-
-            .container {
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-end;
-                padding: 2rem;
+            .hero-foot {
+                ul {
+                    height: 100px;
+                    align-items: center;
+                }
+                a {
+                    font-family: "Exo";
+                    font-weight: 600;
+                    font-size: 12px;
+                    line-height: 18px;
+                }
             }
 
-            h2, p {
-                color: lesli-css-color(silver, 100);
-            }
-
-        }
-
+        }        
     }
-
 }
 
 body.users-sessions.enter_code {

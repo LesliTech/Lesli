@@ -21,7 +21,6 @@ For more information read the license file including with this software.
 # @description User management
 class UsersController < ApplicationLesliController
     before_action :set_user, only: [:show, :update, :destroy]
-    include Interfaces::Application::Responder
 
     def list
         respond_to do |format|
@@ -231,7 +230,7 @@ class UsersController < ApplicationLesliController
             })
 
             # return a successful response
-            respond_with_successful
+            respond_with_successful(@user)
 
             User.log_activity_update(current_user, @user, old_attributes, new_attributes)
         else

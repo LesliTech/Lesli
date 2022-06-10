@@ -18,11 +18,15 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed } from "vue"
+import { ref, reactive, onMounted, watch, computed, useSlots } from "vue"
 
 
 // · 
 import Pagination from "LesliVue/lesli/components/pagination/Pagination.vue"
+
+
+// · 
+const slots = useSlots()
 
 
 // · defining emits
@@ -62,6 +66,7 @@ const arrayRecords = ref([])
 const currentSort = ref(null)
 const currentSortDir = ref('asc')
 
+const dropdownActive = ref([])
 
 // · prepaer the CSS classes for every column in the header
 function tableHeaderClass(column) {
@@ -122,12 +127,17 @@ function paginate(page) {
                             <span>
                                 {{ column.label }}
                             </span>
-                            <span class="icon" v-if="currentSort == column.field">
-                                <span class="material-icons" v-if="currentSortDir == 'asc'">arrow_upward</span>
-                                <span class="material-icons" v-if="currentSortDir == 'desc'">arrow_downward</span>
+                            <span class="icon">
+                                <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'asc')">arrow_upward</span>
+                                <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'desc')">arrow_downward</span>
                             </span>
                         </span>
                     </th>
+
+                    <!-- 
+                        Options header (empty by design)
+                    -->
+                    <th v-if="slots.options"></th>
 
                 </tr>
             </thead>
@@ -138,16 +148,70 @@ function paginate(page) {
                     create the table rows from records
                 -->
                 <tr  
-                    v-on:click.stop="emit('click', record)"
                     v-for="(record, i) in props.records" :key="`tr-${i}`">
                     
+                    <!--
+                        Rendering every defined column
+                    -->
                     <td 
                         :class="tableBodyClass(column)"
+                        v-on:click.stop="emit('click', record)"
                         v-for="(column, j) in props.columns" :key="`td-${j}`">
-                        {{ record[column.field] }}
+
+                        <!--
+                            Use a slot to render content, so it is possible to 
+                            use html elements to render custom componentes for 
+                            every column of the table 
+                        -->
+                        <slot
+                            :name="column.field"
+                            :column="column"
+                            :value="record[column.field]">
+
+                            <!--
+                                Print the text value if no custom slot is used
+                                for the current column
+                            -->
+                            {{ record[column.field] }}
+
+                        </slot>
+                    </td>
+
+                    <!--
+                        Dedicated options column
+                        the dropdownActive[i] is to save the open/closed status of the dropdown for 
+                        every row of the table (i)
+                    -->
+                    <td v-if="slots.options" class="options">
+                        <div :class="['dropdown', 'is-right is-hoverable', { 'is-active': dropdownActive[i] }]">
+                            <div class="dropdown-trigger">
+                                <button class="button has-text-info" 
+                                    @blur="dropdownActive[i] = false"
+                                    @click="dropdownActive[i] = !dropdownActive[i]">
+                                    <span class="icon">
+                                        <span v-if="!dropdownActive[i]" class="material-icons md-24">
+                                            more_vert
+                                        </span>
+                                        <span v-if="dropdownActive[i]" class="material-icons">
+                                            more_horiz
+                                        </span>
+                                    </span>
+                                </button>
+                            </div>
+                            <Transition>
+                                <div v-if="dropdownActive[i]" class="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        <slot 
+                                            name="options"
+                                            :record="record"
+                                            :value="record.id">
+                                        </slot>
+                                    </div>
+                                </div>
+                            </Transition>
+                        </div>
                     </td>
                 </tr>
-
             </tbody>
         </table>
 
