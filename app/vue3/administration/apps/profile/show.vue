@@ -18,17 +18,18 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed } from "vue"
+import { ref, reactive, onMounted, watch, computed, onUnmounted } from "vue"
+import { useRouter, useRoute } from 'vue-router'
 
 
 // · import lesli stores
-import { useProfile } from "LesliCore/administration/stores/users/profile"
 import { useUser } from "LesliVue/stores/user"
 
 
 // · implement stores
 const storeUser = useUser()
-const storeProfile = useProfile()
+const router = useRouter()
+const route = useRoute()
 
 
 // · import profile components
@@ -49,19 +50,14 @@ const translations = {
 
 // · initializing
 onMounted(() => {
-    storeProfile.fetch()
+    storeUser.fetch()
 })
-
-
-const activeTab = 0
-
 
 </script>
 <template>
     <section class="application-component">
         <cardInformation></cardInformation>
-        <lesli-loading v-if="!this.storeUser.user.id"></lesli-loading>
-        <lesli-tabs v-model="activeTab" v-if="this.storeUser.user.id">
+        <lesli-tabs v-if="this.storeUser.user.id">
             <lesli-tab-item title="Information">
                 <formInformation></formInformation>
             </lesli-tab-item>

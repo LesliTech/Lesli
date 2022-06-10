@@ -1,6 +1,6 @@
-<script setup>
 /*
-Copyright (c) 2022, all rights reserved.
+
+Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,25 +14,27 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 */
 
 
-// · import vue tools
-import { ref, reactive, onMounted, inject } from "vue"
-
-
-// · import stores
-import { useCoreLayout } from "LesliVue/stores/layout"
+// · 
+@import "lesli-css/";
 
 
 // · 
-const coreLayout = useCoreLayout()
-
-</script>
-<template>
-    <section v-if="coreLayout.showEngines" class="application-engines">
-        <div>
-            <slot></slot>
-        </div>
-    </section>
-</template>
+.application-engines {   
+    div {
+        
+        a {
+            &.is-active {
+                border-color: lesli-css-color-theme(primary);    
+                box-shadow: none;
+            }
+            p,
+            span {
+                color: lesli-css-color-theme(primary);
+            }
+        }
+    }
+}

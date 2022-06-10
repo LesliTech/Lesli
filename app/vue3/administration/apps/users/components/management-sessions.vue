@@ -59,8 +59,8 @@ const columns = [{
 
 </script>
 <template>
-    <lesli-data-table
+    <lesli-table
         :columns="columns"
         :records="storeManagementSessions.records">
-    </lesli-data-table>
+    </lesli-table>
 </template>

@@ -30,27 +30,18 @@ aside.application-sidebar {
     display: flex;
     flex-direction: column;
     transition: all linear .2s;
-    width: var(--app-navigation-width);
+    width: var(--lesli-navigation-width);
+    background-color: var(--lesli-color-sidebar);
 
     // logo
     .brand {
-        padding: .4rem;
-        max-height: var(--app-header-height);
-        justify-content: center;
-        align-items: center;
         display: flex;
-
-        img {
-            margin: 0 auto;
-            max-width: 100%;
-            max-height: 100%;
-            height: 100%;
+        justify-content: space-between;
+        height: var(--lesli-header-height);
+        max-height: var(--lesli-header-height);
+        a {
+            display: flex;
         }
-
-        svg:hover {
-            cursor: pointer;
-        }
-
     }
 
     nav.menu {
@@ -60,84 +51,112 @@ aside.application-sidebar {
     li {
 
         a {
-            padding: 0;
-            display: flex;
-            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
 
-            i,
-            svg,
-            span.icon {
-                width: 100%;
-                margin: 0;
-                text-align: center;
-                &,i {
-                    font-size: 24px;
-                }
+            // highlight sidebar navigation item when selected
+            // highlight sidebar navigation item on hover
+            &:hover,
+            &.is-active,        // rails routes
+            &.route-is-active   // vue routes
+            {
+                color: white;
+                background-color: #041D55;// lesli-css-color-theme(primary);
             }
 
-            span:not([class]) {
+            svg {
+                width: 32px;
+                height: 32px;
+            }
+
+            [class^="ri-"] {
+                font-size: 30px;
+                
+            }
+
+            span {
+                font-size: 0;
                 display: none;
-                font-size: .9rem;
             }
-    
         }
-
-        ul {
-            margin: 0;
-            border: none;
-            padding: 0;
-        }
-
     }
 }
 
+
+// · 
+@include lesli-css-breakpoint-tablet {
+    aside.application-sidebar {
+        .brand {
+            padding: 1rem;
+        }
+    }
+}
 
 // · 
 @include lesli-css-breakpoint-desktop {
     aside.application-sidebar {
-        li {
+        .brand {
+            padding: 1rem 1.4rem;
 
+            // logo container
             a {
+                align-items: end;
 
-                i,
-                svg,
-                span.icon {
-                    width: 2rem;
-                    text-align: left;
+                // logo
+                img {
+                    margin: 0;
+                    max-width: 100%;
+                    max-height: 100%;
+                    height: 100%;
                 }
+            }
 
-                span:not([class]) {
-                    display: inline-flex;
+            // engine selector button
+            .icon {
+                align-self: flex-end;
+                margin-bottom: 0px;
+                &:hover {
+                    cursor: pointer;
                 }
-
             }
         }
-    }
-}
 
-
-// · 
-@include lesli-css-breakpoint-widescreen {
-    aside.application-sidebar {
         li {
             a {
+                display: flex;
+                padding: 1.6rem 0;
+                align-items: center;
+                svg, 
+                [class^="ri-"] {
+                    width: 75px;
+                    margin: 0;
+                }
                 span:not([class]) {
                     font-size: 1rem;
+                    display: inline-block;
                 }
             }
         }
     }
 }
-
 
 // · 
 @include lesli-css-breakpoint-fullhd {
     aside.application-sidebar {
-        li {
-            a {
-                span:not([class]) {
-                    font-size: 1.1rem;
-                }
+        .brand {
+            // engine name
+            span {
+                color: white;
+                font-size: 1.2rem;
+                font-style: italic;
+                margin-left: -20px;
+                margin-bottom: -5px;
+            }
+        }
+        li a {
+            span:not([class]) {
+                font-size: 1.2rem;
             }
         }
     }
