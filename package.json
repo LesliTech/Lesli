@@ -2,7 +2,6 @@
     "name": "lesli",
     "description": "Your smart business assitant",
     "license": "All rights reserved",
-    "version": "2.0.0",
     "private": true,
     "devDependencies": {
 
@@ -11,9 +10,9 @@
         "lesli-js": "0.5.0",
         "lesli-css": "1.1.0",
 
-        "vue": "3.2.34",
+        "vue": "3.2.36",
         "vue-router": "4.0.15",
-        "vue-demi": "0.12.5",
+        "vue-demi": "0.13.1",
         "pinia": "2.0.14",
 
         "axios": "0.27.2",
@@ -21,8 +20,8 @@
         "js-yaml": "4.1.0",
 
         "remixicon": "2.5.0",
-        "sweetalert2": "11.4.14",
-        "apexcharts": "3.35.2",
+        "sweetalert2": "11.4.17",
+        "apexcharts": "3.35.3",
         "trix": "2.0.0-beta.0",
 
         "@fullcalendar/core": "5.11.0",
@@ -30,14 +29,14 @@
         "@fullcalendar/timegrid": "5.11.0",
         "@fullcalendar/interaction": "5.11.0",
         
-        "firebase": "9.8.1",
+        "firebase": "9.8.2",
 
-        "@babel/core": "7.18.0",
-        "@babel/preset-env": "7.18.0",
+        "@babel/core": "7.18.2",
+        "@babel/preset-env": "7.18.2",
 
-        "webpack": "5.72.1",
+        "webpack": "5.73.0",
         "webpack-cli": "4.9.2",
-        "terser-webpack-plugin": "5.3.1",
+        "terser-webpack-plugin": "5.3.3",
 
         "vue-loader": "17.0.0",
         "style-loader": "3.3.1",
@@ -51,11 +50,8 @@
         "chai": "4.3.6",
         "jest": "28.1.0",
         "glob": "8.0.3",
-        "sass": "1.52.0",
-        "sass-true": "6.1.0",
-
-        "semver": "7.3.7"
-
+        "sass": "1.52.3",
+        "sass-true": "6.1.0"
     },
     "scripts": {
         "webpack:production": "npm run webpack2:production",

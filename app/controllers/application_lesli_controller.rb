@@ -17,7 +17,8 @@ For more information read the license file including with this software.
 =end
 
 class ApplicationLesliController < ApplicationController
-    include Application::Responder
+    include Interfaces::Application::Responder
+    #include Application::Responder
     include Application::Requester
     include Application::Logger
     include Application::Polyfill

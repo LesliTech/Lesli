@@ -49,4 +49,11 @@ module HtmlHelper
         Rails.application.config.lesli.dig(:configuration, :locales_available, locale.to_sym) || "undefined"
     end
 
+    # print a custom icon for lesli
+    def lesli_icon(icon, group="icon")
+        content_tag("svg", :width => "64px", :height => "64px") do 
+            "<use xlink:href='##{group}-#{icon}'></use>".html_safe
+        end
+    end 
+
 end
