@@ -84,7 +84,9 @@ module ApplicationHelper
 
     # Prints the name of the engine
     def engine_name
-        name = lesli_engine_or_instance().sub("_cloud", "").sub("cloud_", "").camelize
+        name = lesli_engine_or_instance()
+        name = "Admin" if is_lesli_engine_administration?()
+        name = name.sub("_cloud", "").sub("cloud_", "").camelize
         return nil if name == "Lesli"
         name
     end

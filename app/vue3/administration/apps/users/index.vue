@@ -23,10 +23,11 @@ import { useRouter, useRoute } from 'vue-router'
 
 
 // · import lesli stores
-import { useUser } from "LesliVue/stores/user"
+import { useUsers } from "LesliVue/stores/users"
+
 
 // implement stores
-const store = useUser()
+const storeUsers = useUsers()
 
 
 // · translations
@@ -41,9 +42,11 @@ const translations = {
 
 // · initializing
 onMounted(() => {
-    store.fetchIndex()
+    storeUsers.fetchIndex()
 })
 
+
+// · 
 const columns = [{
     field: "id",
     label: "ID",
@@ -62,7 +65,8 @@ const columns = [{
 }, {
     field: "active",
     label: "Status",
-    sort: true
+    sort: true,
+    custom: true
 }, {
     field: "last_sign_in_at",
     label: "Last login",
@@ -73,11 +77,15 @@ const columns = [{
 }]
 
 
+// · 
+const selection = ref()
+
+
 </script>
 <script>
 export default {
     methods: {
-        show(user) {
+        showUser(user) {
             this.$router.push(this.url.admin("users/:id", user.id).toString())
         }
     }
@@ -85,16 +93,50 @@ export default {
 </script>
 <template>
     <section class="application-component">
-        <lesli-header :title="translations.core.users.view_text_title_users">
+        <lesli-header 
+            :title="translations.core.users.view_text_title_users"
+            :reload-loading="storeUsers.loading"
+            @reload="storeUsers.fetchIndex">
         </lesli-header>
-        <lesli-toolbar></lesli-toolbar>
-        <lesli-data-table
-            :loading="store.loading"
+        <lesli-toolbar 
+            :search-placeholder="translations.core.users.view_toolbar_filter_placeholder_search"
+            @search="storeUsers.search">
+        </lesli-toolbar>
+        <lesli-table
+            :loading="storeUsers.loading"
             :columns="columns"
-            :records="store.index.records"
-            :pagination="store.index.pagination"
-            @click="show"
-            @sort="store.sortIndex">
-        </lesli-data-table>
+            :records="storeUsers.index.records"
+            :pagination="storeUsers.index.pagination"
+            @click="showUser"
+            @sort="storeUsers.sortIndex">
+
+            <template #active="{ value }">
+                <span class="tag is-success" v-if="value">
+                    {{ translations.core.shared.view_text_active }}
+                </span>
+                <span class="tag is-warning" v-if="!value">
+                    {{ translations.core.shared.view_text_inactive }}
+                </span>
+            </template>
+
+            <template #options="{ record, value }">
+                <a class="dropdown-item" @click="storeUsers.doLogout(record.id)">
+                    <span class="material-icons">
+                        logout
+                    </span>
+                    <span>
+                        {{ translations.core.users.view_btn_logout }}
+                    </span>
+                </a>
+                <a class="dropdown-item" @click="storeUsers.doLock(record.id)">
+                    <span class="material-icons">
+                        lock
+                    </span>
+                    <span>
+                        {{ translations.core.users.view_btn_revoke_access }}
+                    </span>
+                </a>
+            </template>
+        </lesli-table>
     </section>
 </template>

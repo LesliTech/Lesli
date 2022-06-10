@@ -28,7 +28,7 @@ For more information read the license file including with this software.
 <style>
 :root {
 <% @colors.each_pair do |key, value| %>
-    <%= "--app-#{ key.to_s.gsub('_','-') }: #{ value.to_s };" if value %>
+    <%= "--#{ key.to_s.gsub('_','-') }: #{ value.to_s };" if value %>
 <% end %>
 }
 </style>

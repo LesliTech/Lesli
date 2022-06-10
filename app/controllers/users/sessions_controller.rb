@@ -18,6 +18,7 @@ For more information read the license file including with this software.
 =end
 
 class Users::SessionsController < Devise::SessionsController
+    include Application::Responder
 
     # @controller_action_param :email [String] The registeredemail
     # @controller_action_param :password [String] The associated password
