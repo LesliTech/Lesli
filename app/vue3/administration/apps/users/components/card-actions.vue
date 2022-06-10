@@ -4,17 +4,17 @@
     <div class="level">
         <div class="level-left">
             <div class="level-item">
-                <button class="button is-light">
+                <button class="button is-link is-light is-outlined">
                     <span class="icon">
                         <span class="material-icons">
-                            lock_open
+                            enhanced_encryption
                         </span>
                     </span>
                     <span>Request password change</span>
                 </button>
             </div>
             <div class="level-item">
-                <button class="button is-light">
+                <button class="button is-link is-light is-outlined">
                     <span class="icon">
                     <span class="material-icons">
                         logout
@@ -24,7 +24,7 @@
                 </button>
             </div>
             <div class="level-item">
-                <button class="button is-light">
+                <button class="button is-link is-light is-outlined">
                     <span class="icon">
                         <span class="material-icons">
                             lock_outline
@@ -36,7 +36,7 @@
         </div>
         <div class="level-right">
             <div class="level-item">
-                <button class="button is-danger is-outlined">
+                <button class="button is-danger is-light is-outlined">
                     <span class="icon">
                         <span class="material-icons">
                             delete_forever
