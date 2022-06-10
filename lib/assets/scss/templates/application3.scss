@@ -71,11 +71,11 @@ For more information read the license file including with this software.
 // · 
 html,
 body {
-    color: var(--app-theme-font-color, #1c2540);
-    font-size: var(--app-theme-font-size, 16px);
-    background-color: var(--app-theme-color-layout-background, #ffffff);
+    color: var(--lesli-font-color);
+    font-size: var(--lesli-font-size);
+    background-color: var(--lesli-color-background);
     font-family: "Exo", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
-    scrollbar-color: lesli-css-color-theme(primary) lesli-css-color-theme(primary);
+    scrollbar-color: var(--lesli-color-primary) var(--lesli-color-primary);
     scrollbar-width: thin;
     font-weight: normal;
     line-height: 158%;
@@ -115,18 +115,6 @@ h6 {
 }
 
 
-// · Hide vue until vue finishes compilation
-[v-cloak] {
-    display: none !important;
-}
-
-
 // Vue Animation component
 .v-enter-active, .v-leave-active { transition: opacity 0.5s ease; }
 .v-enter-from, .v-leave-to { opacity: 0; }
-
-
-// Remove auto claear button for IE10+/Edge because it does not trigger watchers not changes v-model values
-::-ms-clear {
-    display: none;
-}
