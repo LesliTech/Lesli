@@ -38,6 +38,7 @@ import cardInformation from "./components/card-information.vue"
 import formInformation from "./components/form-information.vue"
 import managementSession from "./components/management-sessions.vue"
 import formSecurity from "./components/form-security.vue"
+import integrationsInformation from "./components/integrations-information.vue"
 
 
 // · translations
@@ -73,7 +74,9 @@ const tab = ref(0)
                 <managementSession></managementSession>
             </lesli-tab-item>
             <lesli-tab-item title="Settings"></lesli-tab-item>
-            <lesli-tab-item title="Integraciones"></lesli-tab-item>
+            <lesli-tab-item title="Integraciones">
+                <integrationsInformation></integrationsInformation>
+            </lesli-tab-item>
         </lesli-tabs>
     </section>
 </template>
