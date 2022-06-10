@@ -42,8 +42,8 @@ RSpec.describe LC::Currency, type: :model do
         default_settings = default_settings[:currency] if default_settings
 
         symbol = "€"
-        separator = ","
-        delimiter = "."
+        separator = "."
+        delimiter = ","
         format_ = "%u %n"
         precision = 2
 
@@ -73,8 +73,8 @@ RSpec.describe LC::Currency, type: :model do
         default_settings = Rails.application.config.lesli[:configuration]
         default_settings = default_settings[:currency] if default_settings
         
-        separator = ","
-        delimiter = "."
+        separator = "."
+        delimiter = ","
         format_ = "%u %n"
 
         if default_settings
