@@ -417,8 +417,6 @@ class UsersController < ApplicationLesliController
             :email,
             :alias,
             :roles_id,
-            # :mfa_enabled,
-            # :mfa_method,
             detail_attributes: [
                 :first_name,
                 :last_name,
