@@ -44,16 +44,16 @@ module ResponseHelpers
 
         expect(response_json).to have_key("pagination")
         expect(response_json["pagination"]).to be_an_instance_of(Hash)
-        expect(response_json["pagination"]).to have_key("total_pages")
-        expect(response_json["pagination"]).to have_key("current_page")
-        expect(response_json["pagination"]).to have_key("count_total")
-        expect(response_json["pagination"]).to have_key("count_results")
-        expect(response_json["pagination"]["total_pages"]).to be_an_instance_of(Integer)
+        expect(response_json["pagination"]).to have_key("pages")
+        expect(response_json["pagination"]).to have_key("page")
+        expect(response_json["pagination"]).to have_key("total")
+        expect(response_json["pagination"]).to have_key("results")
+        expect(response_json["pagination"]["pages"]).to be_an_instance_of(Integer)
 
         expect(response_json).to have_key("records")
         expect(response_json["records"]).to be_an_instance_of(Array)
 
-        expect(response_json["pagination"]["count_results"]).to eql(response_json["records"].size)
+        expect(response_json["pagination"]["results"]).to eql(response_json["records"].size)
         
         response_json()
     end

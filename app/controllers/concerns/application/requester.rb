@@ -45,6 +45,9 @@ module Application
                     dir: (params[:order] ? params[:order] : "desc")
                 }
             }
+
+            # compatibility with lesli 2
+            @query[:filters][:search] = @query[:search]
         end
 
 

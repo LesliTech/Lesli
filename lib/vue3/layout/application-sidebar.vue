@@ -22,10 +22,27 @@ import { ref, reactive, onMounted, inject } from "vue"
 
 
 // · import & implement stores
-import { useCoreLayout } from "LesliVue/stores/layout"
+import { useLayout } from "LesliVue/stores/layout"
 
-const coreLayout = useCoreLayout()
 
+// · 
+const storeLayout = useLayout()
+
+
+// · 
+function onEscape(event) {
+    if (event.keyCode === 27) {
+        storeLayout.toggleEngines()
+        document.removeEventListener('keydown', onEscape)
+    }
+}
+
+
+// · 
+function toggleEngines() {
+    storeLayout.toggleEngines()
+    document.addEventListener('keydown', onEscape)
+}
 
 </script>
 <template>
@@ -34,13 +51,27 @@ const coreLayout = useCoreLayout()
             <a href="/">
                 <slot name="brand"></slot>
             </a>
-            <lesli-icon @click="coreLayout.toggleEngines()" id="menu" class="is-hidden-touch"></lesli-icon>
+            <Transition>
+                <span class="icon">
+                    <lesli-icon 
+                        class="is-hidden-touch"
+                        :id="storeLayout.showEngines ? 'menu-open' : 'menu'" 
+                        @click="toggleEngines()">
+                    </lesli-icon>
+                </span>
+            </Transition>
         </div>
         <nav class="menu is-flex-grow-1">
             <ul class="menu-list">
                 <li class="is-hidden-desktop">
                     <a>
-                        <lesli-icon @click="coreLayout.toggleEngines()" id="menu"></lesli-icon>
+                        <!-- engine navigation trigger for mobile -->
+                        <Transition>
+                            <lesli-icon 
+                                :id="storeLayout.showEngines ? 'menu-open' : 'menu'" 
+                                @click="toggleEngines()">
+                            </lesli-icon>
+                        </Transition>
                     </a>
                 </li>
                 <slot></slot>
