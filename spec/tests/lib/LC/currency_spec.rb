@@ -25,7 +25,8 @@ require "rails_helper"
 RSpec.describe LC::Currency, type: :model do
 
     it "LC::Currency.symbol with default values" do
-        default_settings = Rails.application.config.lesli[:configuration][:currency]
+        default_settings = Rails.application.config.lesli[:configuration]
+        default_settings = default_settings[:currency] if default_settings
         symbol = "€"
 
         if default_settings
@@ -37,7 +38,9 @@ RSpec.describe LC::Currency, type: :model do
     end
 
     it "LC::Currency.format with default values" do
-        default_settings = Rails.application.config.lesli[:configuration][:currency]
+        default_settings = Rails.application.config.lesli[:configuration]
+        default_settings = default_settings[:currency] if default_settings
+
         symbol = "€"
         separator = ","
         delimiter = "."
@@ -67,7 +70,9 @@ RSpec.describe LC::Currency, type: :model do
     end
 
     it "LC::Currency.format with custom values" do
-        default_settings = Rails.application.config.lesli[:configuration][:currency]
+        default_settings = Rails.application.config.lesli[:configuration]
+        default_settings = default_settings[:currency] if default_settings
+        
         separator = ","
         delimiter = "."
         format_ = "%u %n"
