@@ -147,7 +147,7 @@ module Interfaces
                 #       message = error message to sentence
                 #       details = error array of messages
                 #   check another types of errors and parse respond according
-                respond_with_http(501, { 
+                respond_with_http(500, { 
                     message: message,
                     details: details
                 })

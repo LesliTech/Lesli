@@ -100,24 +100,10 @@ app({
                 }
             };
 
-            this.http.post("/login", data).then(response => {
-
-                // If login went successful, redirect to root
-                if (response.successful){
-                    this.url.go(this.build_redirect_url(response.data.default_path))
-                    return
-                }
-
-                // If login fail due password expired, redirect to public password update
-                if (!response.successful && response.error.details.reset_password_token) {
-                    this.url.go(`/password/edit?reset_password_token=${response.error.details.reset_password_token}`)
-                }
-
-                this.showNotification(response.error.message)
-
-            }).catch(error => {
-                console.log(error)
-                this.showNotification("Error")
+            this.http.post("/login", data).then(response => {  
+                this.url.go(this.build_redirect_url(response.default_path))
+            }).catch(error => { 
+                this.showNotification(error.message)
             })
 
         },
