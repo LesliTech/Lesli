@@ -41,8 +41,7 @@ For more information read the license file including with this software.
             <div class="columns is-gapless">
                 <div class="column">
 
-                    <%# <div class="column-content is-flex is-flex-direction-column is-justify-content-center"> %>
-                    <div class="hero column-content is-fullheight is-justify-content-center">
+                    <div class="hero is-fullheight is-justify-content-center">
                         <div class="hero-body is-flex-direction-column ">
 
                             <%# Logo container %>
@@ -54,9 +53,7 @@ For more information read the license file including with this software.
                             <%# Log in form %>
                             <form @submit.prevent="postLogin" method="post">
                                 <%# 
-                                <p v-cloak v-if="notification.show" :class="[`has-text-${notification.type}`]">
-                                    {{ notification.message }}
-                                </p> 
+                                
                                 %>
                                 <div class="field mb-4">
                                     <label class="label">E-mail address</label>
@@ -65,18 +62,20 @@ For more information read the license file including with this software.
                                             name="user_email"
                                             type="email"
                                             placeholder="Email"
-                                            class="input"
                                             :class="['input', `is-${notification.type}`]"
                                             v-model="sign_in.email"
-                                            @input="typing">
+                                            @input="typing"
+                                            ref="email">
                                         <span 
                                             class="icon is-small is-left" 
                                             :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
                                             <i class="ri-mail-fill"></i>
                                         </span>
+                                        <%# 
                                         <span class="icon is-right">
                                             <i class="ri-check-line"></i>
-                                        </span>
+                                        </span> 
+                                        %>
                                     </div>
                                 </div>
                                 <div class="field mb-5">
@@ -85,20 +84,24 @@ For more information read the license file including with this software.
                                         <input
                                             name="user_password"
                                             type="password"
-                                            class="input"
                                             placeholder="Password"
                                             :class="['input', `is-${notification.type}`]"
                                             v-model="sign_in.password"
-                                            @input="typing">
+                                            @input="typing"
+                                            ref="password">
                                         <span 
-                                            class="icon is-small is-left"
                                             :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
                                             <i class="ri-key-fill"></i>
                                         </span>
-                                        <span class="icon is-small is-right">
+                                        <span 
+                                            @click="togglePasswordInput()"
+                                            :class="['icon', 'is-small', 'is-right', `has-text-${notification.type}`]">
                                             <i class="ri-eye-fill"></i>
                                         </span>
                                     </div>
+                                    <p v-cloak v-if="notification.show" :class="['help', `is-${notification.type}`]">
+                                        {{ notification.message }}
+                                    </p> 
                                 </div>
                                 <div class="field mb-4">
                                     <div class="control">
@@ -170,15 +173,7 @@ For more information read the license file including with this software.
                     </div>
                 </div>
 
-                <div class="column has-image-background is-hidden-touch">
-                    <%# 
-                    <div class="container">
-                        <h2 class="is-size-1"><%= I18n.t("lesli.shared.view_title_welcome_title_of_sessions") % ></h2>
-                        <p class="is-size-5">
-                            <%= I18n.t("lesli.shared.view_text_welcome_text_of_sessions") % >
-                        </p>
-                    </div> 
-                    %>
+                <div class="column is-hidden-touch">
                 </div>
 
             </div>
