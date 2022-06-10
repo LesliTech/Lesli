@@ -36,7 +36,7 @@ app({
         sign_in: {
             email: "",
             password: "",
-            mfa_code: ""
+            mfa_token: ""
         },
         progress_bar_active: false,
         notification: {
@@ -128,7 +128,7 @@ app({
             }
 
             let endpoint = this.url.to(`/login?key=${key}`)
-            let data = { user: { mfa_code: this.sign_in.mfa_code } }
+            let data = { user: { mfa_token: this.sign_in.mfa_token } }
 
             this.http.post(endpoint, data).then(response => {
 

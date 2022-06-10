@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 =end
 
 class Users::SessionsController < Devise::SessionsController
-    before_action :find_user, only: [:create]
+    before_action :set_user, only: [:create]
     include Application::Responder
 
     # @controller_action_param :email [String] The registeredemail
@@ -38,8 +38,7 @@ class Users::SessionsController < Devise::SessionsController
     def create
 
         # check password validation
-        unless resource.valid_password?(sign_in_params[:password])
-
+        unless sign_in_params.blank? || resource.valid_password?(sign_in_params[:password])
             # save a invalid credentials log for the requested user
             resource.logs.create({
                 title: "session_creation_failed",
@@ -64,25 +63,20 @@ class Users::SessionsController < Devise::SessionsController
 
         # Check if the user has MFA enabled and any valid method configured
         if user_mfa.has_mfa_enabled?.success?
-            # Get the MFA method the user has configured
-            method = resource.mfa_method
+            if sign_in_params[:password]
+                send_mfa_token = user_mfa.do_mfa(request)
 
-            # Depending on the case, we send the MFA Code to different destinies (email, sms, ... )
-            case method
-            when User.mfa_methods[:email] # Enum: E-mail
-                code_sent = user_mfa.send_otp_via_email(request)
+                return respond_with_error(send_mfa_token.error) unless send_mfa_token.success?
 
-                # Respond with error if the MFA code was not sent for some reason
-                return respond_with_error(code_sent.error) unless code_sent.success?
-            else
-                # Respond with error if something is wrong with the user's MFA method configured
-                return respond_with_error(I18n.t("core.users/sessions.messages_danger_not_valid_mfa_method"))
+                return respond_with_successful({ default_path:  send_mfa_token.payload[:default_path]})
             end
 
-            # Encrypt the email to send it in the request as a query, like ?key=THE_ENCRYPTED_EMAIL
-            encrypted_email = MfaService.encrypt_key(resource.email)
+            # check token
+            if sign_in_mfa_params[:mfa_token]
+                mfa_token_verification = AccessCodeService.verify_access_code(sign_in_mfa_params[:mfa_token], "mfa", resource)
 
-            return respond_with_successful({ default_path: "/mfa/enter_code?key=#{encrypted_email}" }) # "key" is the encrypted email
+                return respond_with_error(mfa_token_verification.error) unless mfa_token_verification.success?
+            end
         end
 
         do_login()
@@ -153,14 +147,14 @@ class Users::SessionsController < Devise::SessionsController
     end
 
     # Find an existing user 
-    def find_user
+    def set_user
         # resource means the "user"
         self.resource = nil
 
         # If the email is present, we find by email
         if sign_in_params[:email]
             self.resource = User.find_for_database_authentication(email: sign_in_params[:email], active: true)            
-        elsif params[:key] && sign_in_mfa_params[:mfa_code] # if the key (encrypted email) & the MFA code are present we find by key and verify the code
+        elsif params[:key] && sign_in_mfa_params[:mfa_token] # if the key (encrypted email) & the MFA code are present we find by key and verify the code
             # Parse the key (encrypted email) that comes from the URL, because it replaces every "+" for a whitespace
             key = MfaService.parse_key(params[:key])
 
@@ -170,11 +164,8 @@ class Users::SessionsController < Devise::SessionsController
             # If we could not decrypt, respond with error
             return respond_with_error(decrypted_email.error) unless decrypted_email.success?
 
-            # Find a the user
+            # Find the user
             self.resource = User.find_for_database_authentication(email: decrypted_email.payload, active: true)
-
-            # We verify the MFA code (from params) if the user was found
-            verify_mfa(sign_in_mfa_params[:mfa_code]) unless resource.nil?
         end
 
         # In case there is no resource (user) we respond with error
@@ -184,22 +175,6 @@ class Users::SessionsController < Devise::SessionsController
             })
             return respond_with_error(I18n.t("core.users/sessions.invalid_credentials"))
         end
-    end
-
-    # Verify the MFA Code that comes from the params
-    def verify_mfa(code)
-        # The way we validate the code could be different depending the MFA method of the user
-        case resource.mfa_method
-        when User.mfa_methods[:email] # Enum: E-mail
-            verify_otp_code = MfaService.new(resource).verify_otp_sent(code)
-
-            return respond_with_error(verify_otp_code.error) unless verify_otp_code.success?
-        else
-            # Respond with error if something is wrong with the user's MFA method configured
-            return respond_with_error(I18n.t("core.users/sessions.messages_danger_not_valid_mfa_method"))
-        end
-
-        do_login()
     end
 
     # @return [Parameters] Allowed parameters for the discussion
@@ -226,7 +201,7 @@ class Users::SessionsController < Devise::SessionsController
     end
 
     def sign_in_mfa_params
-        params.fetch(:user, {}).permit(:mfa_code)
+        params.fetch(:user, {}).permit(:mfa_token)
     end
 
 end

@@ -37,7 +37,9 @@ Rails.application.routes.draw do
 
     # MFA
     devise_scope :user do
-        get "/mfa/enter_code",  to: "users/sessions#enter_code"
+        scope "mfa", module: "users/sessions" do
+            get :enter_code
+        end
     end
 
     get :language, to: "application#switch_locale"
