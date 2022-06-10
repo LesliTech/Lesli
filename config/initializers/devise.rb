@@ -325,17 +325,16 @@ module Devise
         # we use this method to reset password through Dispatcher or like-otp validations
         # important we use this method only when we need compatibility with Devise
         # example: easy password reset, through otp
-        def generate_otp(klass, column, length=2, downcase=true)
+        def generate_token(klass, column, length=2, upcase=false)
             key = key_for(column)
 
             loop do
                 raw = SecureRandom.hex(length)
-                raw = raw.downcase if downcase
+                raw = raw.upcase if upcase
                 enc = OpenSSL::HMAC.hexdigest(@digest, key, raw)
                 break [raw, enc] unless klass.to_adapter.find_first({ column => enc })
             end
 
         end
-
     end
 end

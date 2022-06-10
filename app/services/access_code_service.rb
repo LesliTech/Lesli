@@ -82,7 +82,7 @@ class AccessCodeService
                                     : user.access_codes.find_by(token: digest_token, token_type: token_type, last_used_at: nil) 
 
         if access_code.blank?
-            Account::Activity.log("core", "/otp", "otp_session_creation_failed", "not_valid_token_found", {
+            Account::Activity.log("core", "/mfa/enter_code", "mfa_token_session_verification_failed", "not_valid_token_found", {
                 token: (token || "")
             })
 
@@ -93,12 +93,11 @@ class AccessCodeService
         # Denied access if token do not meet validations
         return LC::Response.service(false, :invalid_access_code) if !access_code.is_valid?
 
-        # Check if the user meets requirements for login
-        user_validation = UserValidationService.new(access_code.user).valid?
-        # Return false if user does not meet the requirements for login
-        return LC::Response.service(false, :user_validation) unless user_validation.success?
+        # Delete used token
+        access_code.update({ last_used_at: Time.current })
+        access_code.delete
 
         # Return true if all validations were successful
-        return LC::Response.service(true, access_code)
+        return LC::Response.service(true)
     end
 end

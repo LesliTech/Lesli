@@ -53,11 +53,60 @@ export default {
 
         },
 
-        putMFAUserEnabled(){
-            let endpoint = this.url.admin("users/:id", this.lesli.current_user.id)
-            let data = { user: { mfa_enabled:  this.user.mfa_enabled } }
+        // putMFAUserEnabled(){
+        //     let endpoint = this.url.admin("users/:id", this.lesli.current_user.id)
+        //     let data = { user: { mfa_enabled:  this.user.mfa_enabled } }
  
-            this.http.put(endpoint, data).then(response => {
+        //     this.http.put(endpoint, data).then(response => {
+
+        //         if( !response.successful ){
+        //             this.msg.error(response.error.message)
+        //             return
+        //         }
+
+        //         if(this.user.mfa_enabled){
+        //             this.msg.success(this.translations.users.messages_success_mfa_enabled)
+        //         }else{
+        //             this.msg.success(this.translations.users.messages_success_mfa_disabled)
+        //         }
+        //     }).catch(error => {
+        //         console.log(error)
+        //     })
+        // },
+
+        putMFAUserMethod(){
+            let endpoint = this.url.admin("users/:id/settings", this.user.id)
+
+            let data = {
+                user_setting: {
+                    name: "mfa_method", 
+                    value: this.user.mfa_method
+                }
+            }
+
+            this.http.post(endpoint, data).then(response => {
+
+                if( !response.successful ){
+                    this.msg.error(response.error.message)
+                    return
+                }
+
+                 this.msg.success(this.translations.users.messages_success_mfa_method_setted)
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        putMFAUserEnabled() {
+            let endpoint = this.url.admin("users/:id/settings", this.user.id)
+
+            let data = {
+                user_setting: {
+                    name: "mfa_enabled", 
+                    value: this.user.mfa_enabled
+                }
+            }
+            this.http.post(endpoint, data).then(response => {
 
                 if( !response.successful ){
                     this.msg.error(response.error.message)
@@ -69,23 +118,7 @@ export default {
                 }else{
                     this.msg.success(this.translations.users.messages_success_mfa_disabled)
                 }
-            }).catch(error => {
-                console.log(error)
-            })
-        },
 
-        putMFAUserMethod(){
-            let endpoint = this.url.admin("users/:id", this.lesli.current_user.id)
-            let data = { user: { mfa_method:  this.user.mfa_method } }
- 
-            this.http.put(endpoint, data).then(response => {
-
-                if( !response.successful ){
-                    this.msg.error(response.error.message)
-                    return
-                }
-
-                 this.msg.success(this.translations.users.messages_success_mfa_method_setted)
             }).catch(error => {
                 console.log(error)
             })
