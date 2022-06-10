@@ -20,8 +20,9 @@ For more information read the license file including with this software.
 =end
 
 class ApplicationDeviseController < ActionController::Base
+    include Interfaces::Application::Responder
     include Application::Requester
-    include Application::Responder
+    #include Application::Responder
     include Application::Logger
     
     layout "layouts/application-public"

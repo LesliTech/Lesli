@@ -23,7 +23,7 @@ module Interfaces
 
 
             # Return an standard http 200 respond
-            def respond_with_successful payload
+            def respond_with_successful payload=nil
 
                 # Keep compatibility with apps v2 specially Deutsche Leibrenten
                 if defined?(DeutscheLeibrenten)
@@ -48,13 +48,27 @@ module Interfaces
             #
             # IMPORTANT: It is strictly necessary to use the pagination methods
             #            to make this work properly
-            def respond_with_pagination records, payload=nil
+            def respond_with_pagination(records, payload=nil)
+
+                # Keep compatibility with apps v2 specially Deutsche Leibrenten
+                if defined?(DeutscheLeibrenten)
+                    return respond_with_http(200, {
+                        :pagination => {
+                            :total_pages => records.total_pages,
+                            :current_page => records.current_page,
+                            :count_total => records.total_count,
+                            :count_results => records.length
+                        },
+                        :records => payload || records 
+                    })
+                end
+
                 respond_with_http(200, {
                     :pagination => {
-                        :total_pages => records.total_pages,
-                        :current_page => records.current_page,
-                        :count_total => records.total_count,
-                        :count_results => records.length
+                        :page => records.current_page,
+                        :pages => records.total_pages,
+                        :total => records.total_count,
+                        :results => records.length
                     },
                     :records => payload || records 
                 })
