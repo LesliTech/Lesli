@@ -17,6 +17,7 @@ For more information read the license file including with this software.
 
 =end
 class Users::PasswordsController < Devise::PasswordsController    
+    include Application::Responder
     layout "application-public"
 
 
