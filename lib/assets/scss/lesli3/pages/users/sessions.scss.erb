@@ -58,8 +58,13 @@ body.users-sessions.new {
             width: 100%;
         }
 
-        .column-content {
+        .column:first-child {
             max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .column .hero {
+            
             min-height: 100vh;
 
             form,
@@ -99,6 +104,9 @@ body.users-sessions.new {
                 input[type="submit"] {
                     font-weight: 600;
                 }
+                p.help {
+                    font-weight: 600;
+                }
                 p.account {
                     font-size: 15px;
                     font-weight: 400;
@@ -136,6 +144,16 @@ body.users-sessions.new {
                 }
             }
 
+        }
+
+        .column.is-hidden-touch {
+            background: linear-gradient(0deg, 
+                rgba(49, 106, 255, 0.4), 
+                rgba(49, 106, 255, 0.4)), 
+                image_url("lesli_cloud/login/login-background.jpg");
+            background-position: center;
+            background-size: cover;
+        
         }        
     }
 }

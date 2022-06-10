@@ -26,8 +26,8 @@ app({
         return {
             translation: I18n.t("core.users/sessions"),
             sign_in: {
-                email: "",
-                password: ""
+                email: "ldonis@lomax.com.gt",
+                password: "tardis2022$$"
             },
             notification: {
                 message: "",
@@ -36,7 +36,25 @@ app({
             }
         }
     },
+    mounted() {
+        this.$refs.email.focus()
+    },
     methods: {
+
+        togglePasswordInput() {
+            console.log("password")
+            if (this.$refs.password.type === "password") {
+                this.$refs.password.type = "text";
+            } else {
+                this.$refs.password.type = "password";
+            }
+        },
+
+        validateEmail() {
+            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.sign_in.email)) {
+
+            }
+        },
 
         build_redirect_url(default_path = null) {
 
