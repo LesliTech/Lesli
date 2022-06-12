@@ -57,11 +57,11 @@ class MfaService
     ######## Do MFA respective actions ########
     def do_mfa request
         # Get the MFA method the user has configured
-        method = @resource.mfa_method
+        method = @resource.settings.find_by(:name => "mfa_method")
 
         # Depending on the case, we send the MFA Code to different destinies (email, sms, ... )
-        case method
-        when "email" # Enum: E-mail
+        case method.value
+        when mfa_methods[:email] # Enum: E-mail
             mfa_token_sent = send_mfa_token_via_email(request)
 
             # Respond with error if the MFA code was not sent for some reason
@@ -110,5 +110,9 @@ class MfaService
         else
             return LC::Response.service(false, user_mfa_access_code.errors.full_messages.to_sentence)
         end
+    end
+
+    def mfa_methods
+        Rails.application.config.lesli.dig(:configuration, :mfa_methods)
     end
 end
