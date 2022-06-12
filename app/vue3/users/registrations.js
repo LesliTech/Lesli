@@ -38,6 +38,9 @@ app({
             }
         }
     },
+    mounted() {
+        this.$refs.email.focus()
+    },
     methods: {
 
         postRegistration(event) {
@@ -45,6 +48,8 @@ app({
             this.notification.show = false;
 
             event.preventDefault();
+
+            this.sign_up.password_confirmation = this.sign_up.password
 
             let data = { user: this.sign_up }
 
@@ -58,7 +63,7 @@ app({
                 //this.showNotification(this.translations.registration.notifications.success, 'is-success')
                 this.showNotification("We sent an confirmation email, please confirm your email address", "is-success")
 
-                setTimeout(() => { this.url.go("/login") }, 5000)
+                //setTimeout(() => { this.url.go("/login") }, 5000)
 
             }).catch((err)=>{
                 console.log(err)
