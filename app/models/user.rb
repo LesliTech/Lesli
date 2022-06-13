@@ -604,6 +604,8 @@ class User < ApplicationLesliRecord
     #     }
     def show(current_user = nil)
         user = self.account.users.find(id)
+        user_mfa_enabled = user.settings.find_by(:name => "mfa_enabled")
+        user_mfa_method = user.settings.find_by(:name => "mfa_method")
 
         return {
             id: user[:id],
@@ -615,8 +617,8 @@ class User < ApplicationLesliRecord
             editable_security: current_user && current_user.has_roles?("owner", "sysadmin"),
             roles: user.roles.map { |r| { id: r[:id], name: r[:name] } },
             full_name: user.full_name,
-            mfa_enabled: user.settings.find_by(:name => "mfa_enabled").value.eql?("t"),
-            mfa_method: user.settings.find_by(:name => "mfa_method").value,
+            mfa_enabled: user_mfa_enabled.nil? ? nil : user_mfa_enabled.value.eql?("t"),
+            mfa_method:  user_mfa_method.nil? ? nil : user_mfa_method.value,
             detail_attributes: {
                 title: user.detail[:title],
                 salutation: user.detail[:salutation],
