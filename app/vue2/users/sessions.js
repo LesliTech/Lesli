@@ -120,7 +120,7 @@ app({
         },
 
         postLoginWithMFA(){
-            let key = (new URLSearchParams(window.location.search)).get("key")
+            let key = encodeURIComponent((new URLSearchParams(window.location.search)).get("key"))
 
             if(!key){
                 this.showNotification("Error")
