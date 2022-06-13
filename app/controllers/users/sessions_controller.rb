@@ -167,7 +167,7 @@ class Users::SessionsController < Devise::SessionsController
         elsif params[:key] && sign_in_mfa_params[:mfa_token]
 
             # Try to decrypt the key (email encrypted), if success we get a valid email
-            decrypted_email = MfaService.decrypt_key(key)
+            decrypted_email = MfaService.decrypt_key(params[:key])
 
             # If we could not decrypt, respond with error
             return respond_with_error(I18n.t("core.users/sessions.invalid_credentials")) unless decrypted_email.success?
