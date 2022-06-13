@@ -25,6 +25,9 @@ module RoutesApp
             # Alternative logins
             resource :otp,  only: [:show, :new, :create]
             resource :pass, only: [:show, :new, :create]
+            resource :mfa,  only: [:show, :new, :create] do
+                post :verify
+            end
 
             # Invitation requests - users ask to join an account
             resource :invite, only: [:show, :create]
