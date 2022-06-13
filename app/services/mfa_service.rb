@@ -41,19 +41,6 @@ class MfaService
         LC::Response.service(false)
     end
 
-    # @return [String]
-    # @param key [String] any string, that usually comes from the URL (browser)
-    # @description
-    #       The key is the email encrypted, we replace any whitespace by the "+" sign
-    #       Because the param that comes from the URL (fronted) has whitespace instead of "+"
-    # @example
-    #   parsed_key = MfaService.parse_key("hallo hello hola")
-    #   puts parsed_key
-    #       "hallo+hello+hola"
-    def self.parse_key key
-        return key.gsub(/[[:space:]]/, '+')
-    end
-
     # @return [Encrypted String]
     # @param key [String] any string (we call it "key") you want to encrypt
     # @description This method returns an encrypted "key", which is given through arguments
@@ -119,8 +106,7 @@ class MfaService
         end
 
         # Encrypt the email to send it in the request as a query, like ?key=THE_ENCRYPTED_EMAIL
-        encrypted_email = MfaService.encrypt_key(@resource.email)
-
+        encrypted_email = CGI.escape(MfaService.encrypt_key(@resource.email))
 
         return LC::Response.service(true, { default_path: "/mfa/enter_code?key=#{encrypted_email}" }) # "key" is the encrypted email
     end
