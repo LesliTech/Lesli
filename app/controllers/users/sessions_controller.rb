@@ -162,7 +162,7 @@ class Users::SessionsController < Devise::SessionsController
             decrypted_email = MfaService.decrypt_key(key)
 
             # If we could not decrypt, respond with error
-            return respond_with_error(decrypted_email.error) unless decrypted_email.success?
+            return respond_with_error(I18n.t("core.users/sessions.invalid_credentials")) unless decrypted_email.success?
 
             # Find the user
             self.resource = User.find_for_database_authentication(email: decrypted_email.payload, active: true)

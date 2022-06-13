@@ -50,7 +50,7 @@ class MfaService
             return LC::Response.service(true, EncryptorService.new_encrytor.decrypt_and_verify(key))
         rescue => exception
             puts LC::Debug.deprecation(exception)
-            return LC::Response.service(false, I18n.t("core.users/sessions.messages_danger_invalid_url_key_param"))
+            return LC::Response.service(false)
         end
     end
 
@@ -65,7 +65,7 @@ class MfaService
             mfa_token_sent = send_mfa_token_via_email(request)
 
             # Respond with error if the MFA code was not sent for some reason
-            return LC::Response.service(false, code_sent.error) unless mfa_token_sent.successful?
+            return LC::Response.service(false, code_sent.error) unless mfa_token_sent.success?
         else
             # Respond with error if something is wrong with the user's MFA method configured
             return LC::Response.service(false, I18n.t("core.users/sessions.messages_danger_not_valid_mfa_method"))

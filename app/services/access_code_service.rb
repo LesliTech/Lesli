@@ -23,14 +23,14 @@ class AccessCodeService
 
     # @return [hash]
     # @param user [::User] The user that is requesting another way to login
-    # @param token_type [String] The token type will be saved (otp, pass, ...)
+    # @param token_type [String] The token type will be saved (mfa, otp, pass, ...)
     # @description Creates a new Access Code and returns the one created & the raw token
     # @example
-    #   otp = AccessCodeService.create_access_code(@user, "otp")
+    #   access_code = AccessCodeService.create_access_code(@user, "mfa")
     
-    #   puts otp.successful? # true/false
-    #   puts otp.access_code # Instance of User::AccessCode
-    #   puts otp.raw         # code if success
+    #   puts access_code.successful? # true/false
+    #   puts access_code.access_code # Instance of User::AccessCode
+    #   puts access_code.raw         # code if success
 
     def self.create_access_code user, token_type
         token_type = token_type.downcase
@@ -61,21 +61,21 @@ class AccessCodeService
 
     # @return [hash]
     # @param token [String] Token the user has sent
-    # @param token_type [String] The token type will be verified (otp, pass, ...)
+    # @param token_type [String] The token type will be verified (mfa, otp, pass, ...)
     # @param user [::User] The user that is requesting to validate the token
     # @description Validates the token the user has sent through params
     # @example
-    #   otp = AccessCodeService.verify_access_code("123AAER", "otp", user)
+    #   access_code = AccessCodeService.verify_access_code("123AAER", "mfa", user)
     
-    #   puts otp.successful? # true/false
-    #   puts otp.payload # Instance of User::AccessCode if success
-    #   puts otp.error   # If something went wrong
+    #   puts access_code.successful? # true/false
+    #   puts access_code.payload # Instance of User::AccessCode if success
+    #   puts access_code.error   # If something went wrong
 
     def self.verify_access_code token, token_type, user = nil
         # Rebuild the token based on the user-token sent by email
         digest_token = Devise.token_generator.digest(User::AccessCode, :token, token)
         # Return nil if could not build the token
-        return LC::Response.service(false, :digest_token) if digest_token.blank?
+        return LC::Response.service(false, I18n.t("core.users/sessions.messages_danger_invalid_token")) if digest_token.blank?
 
         # Find access code for the requested token
         access_code = user.nil? ? User::AccessCode.find_by(token: digest_token, token_type: token_type, last_used_at: nil) 
@@ -87,11 +87,11 @@ class AccessCodeService
             })
 
             # Return false if the token was not found
-            return LC::Response.service(false, :access_code)
+            return LC::Response.service(false, I18n.t("core.users/sessions.messages_danger_invalid_token"))
         end
         
         # Denied access if token do not meet validations
-        return LC::Response.service(false, :invalid_access_code) if !access_code.is_valid?
+        return LC::Response.service(false, I18n.t("core.users/sessions.messages_danger_invalid_token")) if !access_code.is_valid?
 
         # Delete used token
         access_code.update({ last_used_at: Time.current })
