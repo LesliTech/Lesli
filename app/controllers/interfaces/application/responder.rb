@@ -91,8 +91,7 @@ module Interfaces
                 end
 
                 respond_with_http(404, { 
-                    message: I18n.t("core.shared.messages_danger_not_found"),
-                    details: []
+                    message: I18n.t("core.shared.messages_danger_not_found")
                 })
             end
 
@@ -101,16 +100,13 @@ module Interfaces
             def respond_with_unauthorized(detail = {})
             
                 error_object = {
-                    successful: false,
-                    error: {
-                        message: I18n.t("core.shared.view_text_unauthorized_request")
-                    }
+                    message: I18n.t("core.shared.view_text_unauthorized_request")
                 }
 
-                error_object[:error][:detail] = detail if Rails.env == "development"
+                error_object[:detail] = detail if Rails.env == "development"
 
                 if Rails.env == "development" and !current_user.blank?
-                    error_object[:error][:role] = "( #{current_user.roles.map(&:name).join(", ")} )"
+                    error_object[:role] = "( #{current_user.roles.map(&:name).join(", ")} )"
                 end
 
                 respond_to do |format|
