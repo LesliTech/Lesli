@@ -286,7 +286,7 @@ module NavigationHelper
 
     # build a html link for an engine path
     def navigation_engine_item title, subtitle, icon, path, is_active = false
-        icon="cloud-audit"
+        icon="audit"
         # get hidden modules if there are modules to hide
         modules_hidden = Rails.application.config.lesli.dig(:modules_hidden) || []
 
@@ -295,7 +295,7 @@ module NavigationHelper
 
         # render module navigation item :) 
         content_tag(:a, :href => path, :class => is_active ? "is-active": nil) do
-            lesli_icon(icon) << content_tag(:div) do 
+            lesli_icon(icon, "cloud") << content_tag(:div) do 
                 content_tag(:span, title) << content_tag(:p, subtitle)
             end
         end
