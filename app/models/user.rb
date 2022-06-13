@@ -617,7 +617,7 @@ class User < ApplicationLesliRecord
             editable_security: current_user && current_user.has_roles?("owner", "sysadmin"),
             roles: user.roles.map { |r| { id: r[:id], name: r[:name] } },
             full_name: user.full_name,
-            mfa_enabled: user_mfa_enabled.nil? ? nil : user_mfa_enabled.value.eql?("t"),
+            mfa_enabled: user_mfa_enabled.nil? ? nil : user_mfa_enabled.value_boolean,
             mfa_method:  user_mfa_method.nil? ? nil : user_mfa_method.value,
             detail_attributes: {
                 title: user.detail[:title],
