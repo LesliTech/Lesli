@@ -99,7 +99,7 @@ class MfaService
             mfa_token_sent = send_mfa_token_via_email(request)
 
             # Respond with error if the MFA code was not sent for some reason
-            return LC::Response.service(false, code_sent.error) unless mfa_token_sent.success?
+            return LC::Response.service(false, mfa_token_sent.error) unless mfa_token_sent.success?
         else
             # Respond with error if something is wrong with the user's MFA method configured
             return LC::Response.service(false, I18n.t("core.users/sessions.messages_danger_not_valid_mfa_method"))
@@ -108,7 +108,7 @@ class MfaService
         # Encrypt the email to send it in the request as a query, like ?key=THE_ENCRYPTED_EMAIL
         encrypted_email = CGI.escape(MfaService.encrypt_key(@resource.email))
 
-        return LC::Response.service(true, { default_path: "/mfa/enter_code?key=#{encrypted_email}" }) # "key" is the encrypted email
+        return LC::Response.service(true, { default_path: "/mfa/new?key=#{encrypted_email}" }) # "key" is the encrypted email
     end
 
     private

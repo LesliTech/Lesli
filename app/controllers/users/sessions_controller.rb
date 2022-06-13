@@ -18,7 +18,6 @@ For more information read the license file including with this software.
 =end
 
 class Users::SessionsController < Devise::SessionsController
-    before_action :set_user, only: [:create]
     include Application::Responder
 
     # @controller_action_param :email [String] The registeredemail
@@ -37,8 +36,20 @@ class Users::SessionsController < Devise::SessionsController
     #     this.http.post("127.0.0.1/login", data);
     def create
 
+        # search for a existing user 
+        resource = User.find_for_database_authentication(email: sign_in_params[:email], active: true)
+
+        # respond with a no valid credentials generic error if not valid user found
+        unless resource
+            Account::Activity.log("core", "/session/create", "session_creation_failed", "no_valid_email", {
+                email: (sign_in_params[:email] || "")
+            }) 
+            return respond_with_error(I18n.t("core.users/sessions.invalid_credentials"))
+        end
+
         # check password validation
-        unless sign_in_params.blank? || resource.valid_password?(sign_in_params[:password])
+        unless resource.valid_password?(sign_in_params[:password])
+
             # save a invalid credentials log for the requested user
             resource.logs.create({
                 title: "session_creation_failed",
@@ -49,7 +60,7 @@ class Users::SessionsController < Devise::SessionsController
             return respond_with_error(I18n.t("core.users/sessions.invalid_credentials"))
 
         end
-        
+
         # check if user meet requirements to login
         user_validation = UserValidationService.new(resource).valid?
 
@@ -57,68 +68,21 @@ class Users::SessionsController < Devise::SessionsController
         unless user_validation.success?
             return respond_with_error(user_validation.error["message"])
         end
-        
+
         # Create an instance used to validate MFA for the user
         user_mfa = MfaService.new(resource)
 
         # Check if the user has MFA enabled and any valid method configured
         if user_mfa.has_mfa_enabled?.success?
-            # If the password is present and mfa_token does not, means that
-            # the user has made a request to /login.json
-            # Therefore we do MFA
-            if sign_in_params[:password] && sign_in_mfa_params[:mfa_token].blank?
-                send_mfa_token = user_mfa.do_mfa(request)
 
-                return respond_with_error(send_mfa_token.error) unless send_mfa_token.success?
+            send_mfa_token = user_mfa.do_mfa(request)
 
-                return respond_with_successful({ default_path:  send_mfa_token.payload[:default_path]})
+            return respond_with_error(send_mfa_token.error) unless send_mfa_token.success?
 
-            # If the mfa_token is present and password does not, means that
-            # the user has made a request to /login.json?key=ENCRYPTED_EMAIL
-            # Therefore we verify the MFA Token
-            elsif sign_in_mfa_params[:mfa_token] && sign_in_params[:password].blank? 
-                mfa_token_verification = AccessCodeService.verify_access_code(sign_in_mfa_params[:mfa_token], "mfa", resource)
-
-                return respond_with_error(mfa_token_verification.error) unless mfa_token_verification.success?
-
-            else
-                return respond_with_error(I18n.t("core.users/sessions.invalid_credentials"))
-            end
+            return respond_with_successful({ default_path:  send_mfa_token.payload[:default_path]})
         end
 
-        do_login()
-    end
-
-    def destroy
-
-        # expire session
-        current_session = current_user.sessions.find_by(id: session[:user_session_id])
-        if current_session
-            current_session.delete
-        end
-
-        # register a successful logout log for the current user
-        current_user.logs.create({ user_sessions_id: session[:user_session_id], title: "session_logout_successful" })
-
-        # do a user logout
-        sign_out current_user
-
-        # Flag to disable back button in browser after Logout using JavaScript
-        flash[:logout] = true
-
-        # execute logout callback defined on devise config files
-        respond_to_on_destroy
-
-    end
-
-    # Used just to ensure the render of the view
-    def enter_code
-    end
-
-    private 
-
-    # do a user login
-    def do_login
+        # do a user login
         sign_in(:user, resource)
 
         # register or sync the current_user with the user representation on Firebase
@@ -151,40 +115,34 @@ class Users::SessionsController < Devise::SessionsController
 
         # send a welcome email to user if first log in
         UserMailer.with(user: resource).welcome.deliver_later if resource.sign_in_count == 1
+
     end
 
-    # Find an existing user 
-    def set_user
-        # resource means the "user"
-        self.resource = nil
+    def destroy
 
-        # If the email is present and the key (encrypted email) does not, we find by key
-        if sign_in_params[:email] && params[:key].blank?
-
-            self.resource = User.find_for_database_authentication(email: sign_in_params[:email], active: true)
-        
-        # If the key (encrypted email) & the MFA token are present we find the user by the key
-        elsif params[:key] && sign_in_mfa_params[:mfa_token]
-
-            # Try to decrypt the key (email encrypted), if success we get a valid email
-            decrypted_email = MfaService.decrypt_key(params[:key])
-
-            # If we could not decrypt, respond with error
-            return respond_with_error(I18n.t("core.users/sessions.invalid_credentials")) unless decrypted_email.success?
-
-            # Find the user
-            self.resource = User.find_for_database_authentication(email: decrypted_email.payload, active: true)
-
+        # expire session
+        current_session = current_user.sessions.find_by(id: session[:user_session_id])
+        if current_session
+            current_session.delete
         end
 
-        # In case there is no resource (user) we respond with error
-        unless resource
-            Account::Activity.log("core", "/session/create", "session_creation_failed", "no_valid_email", {
-                email: (sign_in_params[:email] || "")
-            })
-            return respond_with_error(I18n.t("core.users/sessions.invalid_credentials"))
-        end
+        # register a successful logout log for the current user
+        current_user.logs.create({ user_sessions_id: session[:user_session_id], title: "session_logout_successful" })
+
+        # do a user logout
+        sign_out current_user
+
+        # Flag to disable back button in browser after Logout using JavaScript
+        flash[:logout] = true
+
+        # execute logout callback defined on devise config files
+        respond_to_on_destroy
+
     end
+
+
+    private 
+
 
     # @return [Parameters] Allowed parameters for the discussion
     # @description Sanitizes the parameters received from an HTTP call to only allow the specified ones.
@@ -207,10 +165,6 @@ class Users::SessionsController < Devise::SessionsController
     #     }
     def sign_in_params
         params.fetch(:user, {}).permit(:email, :password)
-    end
-
-    def sign_in_mfa_params
-        params.fetch(:user, {}).permit(:mfa_token)
     end
 
 end
