@@ -62,7 +62,7 @@ aside.application-sidebar {
             &.route-is-active   // vue routes
             {
                 color: white;
-                background-color: #041D55;// lesli-css-color-theme(primary);
+                background-color: #041D55;// red;//lesli-css-color-theme(primary);
             }
 
             svg {
@@ -137,6 +137,31 @@ aside.application-sidebar {
                     display: inline-block;
                 }
             }
+
+        }
+
+        ul.list {
+            height: 42px;
+            overflow: hidden;
+            transition: all linear .2s;
+        }
+        ul.active {
+            height: auto;
+        }
+        .menu-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: .6rem 15px .6rem 25px;
+        }
+        .menu-label:hover {
+            cursor: pointer;
+        }
+        
+        p.menu-label {
+            color: lesli-css-color(silver, 300);
+            font-size: .9rem;
+            padding-left: 25px;
         }
     }
 }
