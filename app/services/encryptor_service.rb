@@ -22,12 +22,10 @@ class EncryptorService
 
     #   @example
     #       my_email = "test@lesli.cloud"
-
     #       # Use case when you would to encrypt something
     #       my_encrypted_email = EncryptorService.new_encrytor.encrypt_and_sign(my_email)
     #       puts my_encrypted_email
-    #           "FhIIEK0hToXLVJN+915bsQhAOUq/9IKR0jxyL90H4EHiFQVxmxur/Hqw--xWOQdECZ9c7kO8UN--AiytpQe1ZpS58tygZPQVZA==""
-
+    #           "FhIIEK0hToXLVJN+915bsQhAOUq/9IKR0jxyL90H4EHiFQVxmxur/Hqw--xWOQdECZ9c7kO8UN--AiytpQe1ZpS58tygZPQVZA=="
     #       # Use case when you would decrypt someting that has already been encrypted
     #       decrypted_email = EncryptorService.new_encrytor.decrypt_and_verify(my_encrypted_email)
     #       puts decrypted_email

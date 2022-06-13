@@ -63,17 +63,24 @@ class Users::SessionsController < Devise::SessionsController
 
         # Check if the user has MFA enabled and any valid method configured
         if user_mfa.has_mfa_enabled?.success?
-            # check if password is present
+            # If the password is present and mfa_token does not, means that
+            # the user has made a request to /login.json
+            # Therefore we do MFA
             if sign_in_params[:password] && sign_in_mfa_params[:mfa_token].blank?
                 send_mfa_token = user_mfa.do_mfa(request)
 
                 return respond_with_error(send_mfa_token.error) unless send_mfa_token.success?
 
                 return respond_with_successful({ default_path:  send_mfa_token.payload[:default_path]})
-            elsif sign_in_mfa_params[:mfa_token] && sign_in_params[:password].blank? # check if token is present
+
+            # If the mfa_token is present and password does not, means that
+            # the user has made a request to /login.json?key=ENCRYPTED_EMAIL
+            # Therefore we verify the MFA Token
+            elsif sign_in_mfa_params[:mfa_token] && sign_in_params[:password].blank? 
                 mfa_token_verification = AccessCodeService.verify_access_code(sign_in_mfa_params[:mfa_token], "mfa", resource)
 
                 return respond_with_error(mfa_token_verification.error) unless mfa_token_verification.success?
+
             else
                 return respond_with_error(I18n.t("core.users/sessions.invalid_credentials"))
             end
@@ -151,10 +158,14 @@ class Users::SessionsController < Devise::SessionsController
         # resource means the "user"
         self.resource = nil
 
-        # If the email is present, we find by email
+        # If the email is present and the key (encrypted email) does not, we find by key
         if sign_in_params[:email] && params[:key].blank?
-            self.resource = User.find_for_database_authentication(email: sign_in_params[:email], active: true)            
-        elsif params[:key] && sign_in_mfa_params[:mfa_token] # if the key (encrypted email) & the MFA code are present we find by key and verify the code
+
+            self.resource = User.find_for_database_authentication(email: sign_in_params[:email], active: true)
+        
+        # If the key (encrypted email) & the MFA token are present we find the user by the key
+        elsif params[:key] && sign_in_mfa_params[:mfa_token] 
+
             # Parse the key (encrypted email) that comes from the URL, because it replaces every "+" for a whitespace
             key = MfaService.parse_key(params[:key])
 
@@ -166,6 +177,7 @@ class Users::SessionsController < Devise::SessionsController
 
             # Find the user
             self.resource = User.find_for_database_authentication(email: decrypted_email.payload, active: true)
+
         end
 
         # In case there is no resource (user) we respond with error
