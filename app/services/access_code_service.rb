@@ -27,11 +27,9 @@ class AccessCodeService
     # @description Creates a new Access Code and returns the one created & the raw token
     # @example
     #   access_code = AccessCodeService.create_access_code(@user, "mfa")
-    
     #   puts access_code.successful? # true/false
     #   puts access_code.access_code # Instance of User::AccessCode
     #   puts access_code.raw         # code if success
-
     def self.create_access_code user, token_type
         token_type = token_type.downcase
 
@@ -66,11 +64,9 @@ class AccessCodeService
     # @description Validates the token the user has sent through params
     # @example
     #   access_code = AccessCodeService.verify_access_code("123AAER", "mfa", user)
-    
     #   puts access_code.successful? # true/false
     #   puts access_code.payload # Instance of User::AccessCode if success
     #   puts access_code.error   # If something went wrong
-
     def self.verify_access_code token, token_type, user = nil
         # Rebuild the token based on the user-token sent by email
         digest_token = Devise.token_generator.digest(User::AccessCode, :token, token)
