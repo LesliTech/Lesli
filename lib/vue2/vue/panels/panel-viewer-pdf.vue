@@ -178,7 +178,7 @@ export default {
         
         <div class="p-4">
             <component-data-loading v-if="loading"></component-data-loading>
-            <canvas ref="canvaspanelviewerpdf" v-else></canvas>
+            <canvas ref="canvaspanelviewerpdf"></canvas>
         </div>
     </b-sidebar>
 </template>
