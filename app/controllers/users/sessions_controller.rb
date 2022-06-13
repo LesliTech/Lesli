@@ -164,13 +164,10 @@ class Users::SessionsController < Devise::SessionsController
             self.resource = User.find_for_database_authentication(email: sign_in_params[:email], active: true)
         
         # If the key (encrypted email) & the MFA token are present we find the user by the key
-        elsif params[:key] && sign_in_mfa_params[:mfa_token] 
-
-            # Parse the key (encrypted email) that comes from the URL, because it replaces every "+" for a whitespace
-            key = MfaService.parse_key(params[:key])
+        elsif params[:key] && sign_in_mfa_params[:mfa_token]
 
             # Try to decrypt the key (email encrypted), if success we get a valid email
-            decrypted_email = MfaService.decrypt_key(key)
+            decrypted_email = MfaService.decrypt_key(params[:key])
 
             # If we could not decrypt, respond with error
             return respond_with_error(I18n.t("core.users/sessions.invalid_credentials")) unless decrypted_email.success?
