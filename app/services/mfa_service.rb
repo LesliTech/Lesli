@@ -33,7 +33,7 @@ class MfaService
     #   puts user_mfa.has_mfa_enabled?.success?
     #       true/false
     def has_mfa_enabled?
-        is_enabled = @resource.settings.find_by(:name => "mfa_enabled", :value => "t")
+        is_enabled = @resource.settings.find_by(:name => "mfa_enabled", :value_boolean => true)
         has_any_method_confifured = @resource.settings.find_by(:name => "mfa_method")
 
         return LC::Response.service(true) if is_enabled && has_any_method_confifured

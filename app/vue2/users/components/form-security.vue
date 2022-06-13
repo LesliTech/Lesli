@@ -83,7 +83,7 @@ export default {
             let data = {
                 user_setting: {
                     name: "mfa_enabled", 
-                    value: this.user.mfa_enabled
+                    value_boolean: this.user.mfa_enabled
                 }
             }
             this.http.post(endpoint, data).then(response => {
