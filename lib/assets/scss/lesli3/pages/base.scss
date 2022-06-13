@@ -29,7 +29,7 @@ body {
     font-size: var(--app-theme-font-size, 16px);
     background-color: var(--app-theme-color-layout-background, #ffffff);
     font-family: "Exo", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
-    scrollbar-color: lesli-css-color-theme(primary) lesli-css-color-theme(primary);
+    scrollbar-color: lesli-css-color(lesli, navy) lesli-css-color(lesli, navy);
     scrollbar-width: thin;
     font-weight: normal;
     line-height: 158%;
@@ -133,7 +133,7 @@ body.users-sessions.new {
                     font-family: "Exo";
                     font-weight: 500;
                     font-size: 14px;
-                    color: lesli-css-color(blues, navy);
+                    color: lesli-css-color(lesli, navy);
                 }
             }
 

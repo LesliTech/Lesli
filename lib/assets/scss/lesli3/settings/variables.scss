@@ -22,8 +22,8 @@ For more information read the license file including with this software.
 @import "lesli-css/";
 
 
-// · defaults
-$lesli-color-primary: #112A62;
+// · default colors, if there is no a custom palette in the settings
+$lesli-color-primary: lesli-css-color(lesli, navy);
 $lesli-color-header: transparent;
 $lesli-color-sidebar: $lesli-color-primary;
 $lesli-color-background: #FFFFFF;
