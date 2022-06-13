@@ -36,6 +36,7 @@ const route = useRoute()
 import cardInformation from "../users/components/card-information.vue"
 import formInformation from "../users/components/form-information.vue"
 import managementSession from "../users/components/management-sessions.vue"
+import integrationsInformation from "../users/components/integrations-information.vue"
 
 
 // · translations
@@ -67,7 +68,9 @@ onMounted(() => {
                 <managementSession></managementSession>
             </lesli-tab-item>
             <lesli-tab-item title="Settings"></lesli-tab-item>
-            <lesli-tab-item title="Integraciones"></lesli-tab-item>
+            <lesli-tab-item title="Integraciones">
+                <integrationsInformation></integrationsInformation>
+            </lesli-tab-item>
         </lesli-tabs>
     </section>
 </template>
