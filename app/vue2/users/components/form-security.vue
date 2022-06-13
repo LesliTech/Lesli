@@ -26,9 +26,7 @@ export default {
                 passwords: I18n.t("core.users/passwords"),
                 users: I18n.t("core.users")
             },
-            user: {
-                mfa_enabled: null
-            },
+            user: {},
             mfa_methods: {},
         }
     },
@@ -77,6 +75,8 @@ export default {
         },
 
         putMFAUserEnabled() {
+            if(typeof this.user.mfa_enabled != "boolean") return
+
             let endpoint = this.url.admin("users/:id/settings", this.user.id)
 
             let data = {
@@ -105,14 +105,10 @@ export default {
     },
 
     watch: {
-        "user.mfa_enabled"(current, old){
-            if(old != null && current != old){
-                this.putMFAUserEnabled()
-            }
-        },
         "data.user"(user) {
             this.user = user
         },
+
         "data.options"(options){
             this.mfa_methods = options.mfa_methods
         }
@@ -212,6 +208,7 @@ export default {
                         <div class="field">
                             <div class="control">
                                 <b-switch v-model="user.mfa_enabled" 
+                                    @change.native="putMFAUserEnabled"
                                     required></b-switch>
                             </div>
                         </div>
