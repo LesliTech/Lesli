@@ -29,9 +29,11 @@ RSpec.describe Users::RegistrationsController, type: :controller do
         Account.first.settings.where(name: 'password_minimum_length').update(value: 6)
         Account.first.settings.where(name: 'password_enforce_complexity').update(value: 1)
         Account.first.settings.where(name: 'password_special_char_count').update(value: 0)
-        Account.first.settings.where(name: 'password_uppercase_count').update(value: 0)
-        Account.first.settings.where(name: 'password_lowercase_count').update(value: 0)
-        Account.first.settings.where(name: 'password_digit_count').update(value: 0)
+        Account.first.settings.where(name: [
+            "password_uppercase_count",
+            "password_lowercase_count",
+            "password_digit_count"
+        ]).update(value: 0)
     end
 
     before :each do
