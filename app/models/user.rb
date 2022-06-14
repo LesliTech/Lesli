@@ -430,7 +430,7 @@ class User < ApplicationLesliRecord
         user_locale = settings.find_by(name: "locale")
 
         if user_locale
-            return user_locale.value.to_sym
+            return user_locale.value_string.to_sym
         end
 
         I18n.locale # return current locale
@@ -618,7 +618,7 @@ class User < ApplicationLesliRecord
             roles: user.roles.map { |r| { id: r[:id], name: r[:name] } },
             full_name: user.full_name,
             mfa_enabled: user_mfa_enabled.nil? ? nil : user_mfa_enabled.value_boolean,
-            mfa_method:  user_mfa_method.nil? ? nil : user_mfa_method.value,
+            mfa_method:  user_mfa_method.nil? ? nil : user_mfa_method.value_string,
             detail_attributes: {
                 title: user.detail[:title],
                 salutation: user.detail[:salutation],
