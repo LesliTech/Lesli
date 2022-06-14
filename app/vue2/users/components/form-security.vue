@@ -64,7 +64,7 @@ export default {
             this.http.post(endpoint, data).then(response => {
 
                 if( !response.successful ){
-                    this.user.mfa_method = null
+                    if(!this.user.mfa_method) this.user.mfa_method = null
                     this.msg.error(response.error.message)
                     return
                 }
