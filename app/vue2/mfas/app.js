@@ -77,7 +77,9 @@ app({
 
             let endpoint = this.url.to(`/mfa/verify?key=${key}`)
             let data = {
-                t: this.mfa.t
+                mfa: {
+                    t: this.mfa.t
+                }
             }
 
             this.http.post(endpoint, data).then(response => {

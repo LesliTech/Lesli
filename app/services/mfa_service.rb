@@ -106,10 +106,7 @@ class MfaService
         end
 
         # Encrypt the email to send it in the request as a query, like ?key=THE_ENCRYPTED_EMAIL
-        hola = MfaService.encrypt_key(@resource.email)
-        LC::Debug.deprecation(hola)
-        encrypted_email = CGI.escape(hola)
-        encrypted_email = CGI.unescape(encrypted_email)
+        encrypted_email = CGI.escape(MfaService.encrypt_key(@resource.email))
 
         return LC::Response.service(true, { default_path: "/mfa/new?key=#{encrypted_email}" }) # "key" is the encrypted email
     end

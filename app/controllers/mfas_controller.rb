@@ -24,62 +24,29 @@ class MfasController < ApplicationController
 
     before_action :set_user, only: [:verify]
 
-    # GET /mfa
-    def show
-
-        # we use "t" as alias for token
-        redirect_to("/mfa/new") and return if params[:t].blank?
-
-        # alias for token error message
-        error_msg = I18n.t("core.shared.messages_danger_not_valid_authorization_token_found")
-
-
-        mfa_token_verification = AccessCodeService.verify_access_code(mfa_params[:t], "mfa")
-
-        if mfa_token_verification.success?
-            # IMPORTANT: this is a copy of the main login method at: app/controllers/users/sessions
-
-            # do a user login
-            sign_in(access_code.user)
-
-            # register a new unique session
-            @current_session = access_code.user.sessions.create({
-                :user_agent => get_user_agent,
-                :user_remote => request.remote_ip,
-                :session_token => session[:session_id],
-                :session_source => "otp_session",
-                :last_used_at => Time.current
-            })
-
-            # make session id globally available
-            session[:user_session_id] = @current_session[:id]
-
-            # register a successful sign-in log for the current user
-            access_code.user.logs.create({ user_sessions_id: session[:user_session_id], title: "otp_session_creation_successful" })
-
-            # redirect to the root path and return 
-            redirect_to("/") and return 
-        else
-            return respond_with_error(mfa_token_verification.error)
-        end
-    end
-
+    # /mfa/new
     def new
     end
 
+    # /mfa/verify.json
     def verify
         # alias for token error message
         error_msg = I18n.t("core.shared.messages_danger_not_valid_authorization_token_found")
-        # hola = CGI.escape(params[:key])
-        hola = CGI.escape(params[:key])
-        LC::Debug.deprecation(hola)
-        decrypted_email = MfaService.decrypt_key(hola)
 
+        # Decrypt the key that comes from the URL
+        decrypted_email = MfaService.decrypt_key(params[:key])
+
+        # Search an existing user
         user = User.find_for_database_authentication(:email => decrypted_email.payload, :active => true)
 
         return respond_with_error(I18n.t("core.users/sessions.invalid_credentials")) if user.nil?
 
-        mfa_token_verification = AccessCodeService.verify_access_code(params[:t], "mfa", user)
+        # Check if the user has MFA enabled
+        mfa_user_verification = MfaService.new(user).has_mfa_enabled?
+
+        return respond_with_error unless mfa_user_verification.success?
+
+        mfa_token_verification = AccessCodeService.verify_access_code(mfa_params[:t], "mfa", user)
 
         if mfa_token_verification.success?
             # IMPORTANT: this is a copy of the main login method at: app/controllers/users/sessions
