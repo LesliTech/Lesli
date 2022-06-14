@@ -47,8 +47,15 @@ header.application-header {
     .header-right {
         display: flex;
         align-items: center;
-        .dropdown-menu .dropdown-content {
-            width: 100%;
+        .dropdown-menu {
+            min-width: 15rem;
+            .dropdown-content {
+                width: 100%;
+                .material-icons {
+                    margin-right: .5rem;
+                    color: lesli-css-color(silver);
+                }
+            }
         }
     }
 
