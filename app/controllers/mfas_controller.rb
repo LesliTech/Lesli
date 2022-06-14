@@ -68,11 +68,12 @@ class MfasController < ApplicationController
     end
 
     def verify
-        LC::Debug.deprecation(params)
         # alias for token error message
         error_msg = I18n.t("core.shared.messages_danger_not_valid_authorization_token_found")
-
-        decrypted_email = MfaService.decrypt_key(params[:key])
+        # hola = CGI.escape(params[:key])
+        hola = CGI.escape(params[:key])
+        LC::Debug.deprecation(hola)
+        decrypted_email = MfaService.decrypt_key(hola)
 
         user = User.find_for_database_authentication(:email => decrypted_email.payload, :active => true)
 

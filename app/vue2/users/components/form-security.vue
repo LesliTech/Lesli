@@ -57,7 +57,7 @@ export default {
             let data = {
                 user_setting: {
                     name: "mfa_method", 
-                    value: this.user.mfa_method
+                    value_string: this.user.mfa_method
                 }
             }
 

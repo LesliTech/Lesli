@@ -63,13 +63,13 @@ RSpec.describe "POST:/login.json", type: :request do
 
     # Tests since MFA integration
 
-    it "is expected to respond with successfull and redirect to enter_code view when a user has MFA enabled" do
+    it "is expected to respond with successfull and redirect to /mfa/new view when a user has MFA enabled" do
         # create the new user
         new_user = FactoryBot.create(:user)
 
         # enable MFA for the new user and its method
-        mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => true)
-        mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
+        mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value_boolean => true)
+        mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value_string => "email")
 
         # do request
         post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -80,16 +80,16 @@ RSpec.describe "POST:/login.json", type: :request do
         # custom examples
         expect(response_data).to have_key("default_path") # this path should be something like /mfa/enter_code?key=ENCRYPTED_EMAIL
         expect(response_data["default_path"]).to be_a(String)
-        expect(response_data["default_path"]).to include("/mfa/enter_code?key=")
+        expect(response_data["default_path"]).to include("/mfa/new?key=")
     end
 
-    it "is expected to respond with successfull and do 'normal' login when MFA fields are created but it is disabled" do
+    it "is expected to respond with successfull and do 'normal' login when MFA fields are exist but it is disabled" do
         # create the new user
         new_user = FactoryBot.create(:user)
 
         # enable MFA for the new user and its method
-        mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => false) # mfa_enabled="f"
-        mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
+        mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value_boolean => false)
+        mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value_string => "email")
 
         # do request
         post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -107,10 +107,10 @@ RSpec.describe "POST:/login.json", type: :request do
         new_user = FactoryBot.create(:user)
 
         # enable MFA for the new user and its method
-        mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => true)
-        mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
+        mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value_boolean => true)
+        mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value_string => "email")
 
-        new_user.settings.update(:name => "mfa_enabled", :value => false) # Now it is disabled
+        new_user.settings.update(:name => "mfa_enabled", :value_string => false) # Now it is disabled
 
         # do request
         post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -128,8 +128,8 @@ RSpec.describe "POST:/login.json", type: :request do
         new_user = FactoryBot.create(:user)
 
         # enable MFA for the new user and its method
-        mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => Faker::Lorem.word)
-        mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => Faker::Lorem.word)
+        mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value_boolean => [true, false].sample)
+        mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value_string => Faker::Lorem.word)
 
         # do request
         post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -143,8 +143,8 @@ RSpec.describe "POST:/login.json", type: :request do
         new_user = FactoryBot.create(:user)
 
         # enable MFA for the new user and its method
-        mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => true)
-        mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => Faker::Lorem.word)
+        mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value_boolean => true)
+        mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value_string => Faker::Lorem.word)
 
         # do request
         post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -156,7 +156,7 @@ RSpec.describe "POST:/login.json", type: :request do
     it "is expected to return with error when the key query param exists but is invalid" do
 
         # do request
-        post "/login.json?key=" # NO ENCRYPTED EMAIL
+        post "/mfa/verify.json?key=", params: { mfa: { t: "" } }
 
         # shared examples
         expect_json_response_error
@@ -167,8 +167,8 @@ RSpec.describe "POST:/login.json", type: :request do
         new_user = FactoryBot.create(:user)
 
         # enable MFA for the new user and its method
-        mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => true)
-        mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
+        mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value_boolean => true)
+        mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value_string => "email")
  
         # do first request
         post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -187,8 +187,8 @@ RSpec.describe "POST:/login.json", type: :request do
         access_code.save!
 
         # do second request
-        post "/login.json?key=#{encrypted_email}", params: { user: { mfa_token: raw } }
-
+        post "/mfa/verify.json?key=#{encrypted_email}", params: { mfa: { t: raw } }
+        LC::Debug.deprecation(response.body)
         # shared examples
         expect_json_response_successful
 
@@ -196,100 +196,100 @@ RSpec.describe "POST:/login.json", type: :request do
         expect(response_data).to have_key("default_path")
     end
 
-    it "is expected to return with error when the MFA token is valid but belongs to another user" do
-        # create the new user
-        new_user = FactoryBot.create(:user)
+    # it "is expected to return with error when the MFA token is valid but belongs to another user" do
+    #     # create the new user
+    #     new_user = FactoryBot.create(:user)
 
-        # enable MFA for the new user and its method
-        mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => true)
-        mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
+    #     # enable MFA for the new user and its method
+    #     mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => true)
+    #     mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
  
-        # do first request
-        post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
+    #     # do first request
+    #     post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
 
-        # shared examples
-        expect_json_response_successful
+    #     # shared examples
+    #     expect_json_response_successful
 
-        # Get the key (ENCRYPTED EMAIL)
-        separted_default_path = response_data["default_path"].split("?key=")
-        encrypted_email = separted_default_path[1]
+    #     # Get the key (ENCRYPTED EMAIL)
+    #     separted_default_path = response_data["default_path"].split("?key=")
+    #     encrypted_email = separted_default_path[1]
 
-        # Generate valid token for another user, so should return with error
-        another_user = FactoryBot.create(:user)
-        access_code = another_user.access_codes.new( { token_type: "mfa" } )
-        raw, enc = Devise.token_generator.generate(User::AccessCode.first.class, :token)
-        access_code.token = enc
-        access_code.save!
+    #     # Generate valid token for another user, so should return with error
+    #     another_user = FactoryBot.create(:user)
+    #     access_code = another_user.access_codes.new( { token_type: "mfa" } )
+    #     raw, enc = Devise.token_generator.generate(User::AccessCode.first.class, :token)
+    #     access_code.token = enc
+    #     access_code.save!
 
-        # do second request
-        post "/login.json?key=#{encrypted_email}", params: { user: { mfa_token: raw } } # TOKEN THAT BELONGS TO ANOTHER USER
+    #     # do second request
+    #     post "/login.json?key=#{encrypted_email}", params: { user: { mfa_token: raw } } # TOKEN THAT BELONGS TO ANOTHER USER
 
-        # shared examples
-        expect_json_response_error
-    end
+    #     # shared examples
+    #     expect_json_response_error
+    # end
 
-    it "is expected to return with error when the MFA confirmation token is invalid" do
-        # create the new user
-        new_user = FactoryBot.create(:user)
+    # it "is expected to return with error when the MFA confirmation token is invalid" do
+    #     # create the new user
+    #     new_user = FactoryBot.create(:user)
 
-        # enable MFA for the new user and its method
-        mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => true)
-        mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
+    #     # enable MFA for the new user and its method
+    #     mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => true)
+    #     mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
  
-        # do request
-        post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
+    #     # do request
+    #     post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
 
-        # shared examples
-        expect_json_response_successful
+    #     # shared examples
+    #     expect_json_response_successful
 
-        # Get the key (ENCRYPTED EMAIL)
-        separted_default_path = response_data["default_path"].split("?key=")
-        encrypted_email = separted_default_path[1]
+    #     # Get the key (ENCRYPTED EMAIL)
+    #     separted_default_path = response_data["default_path"].split("?key=")
+    #     encrypted_email = separted_default_path[1]
 
-        # do request
-        post "/login.json?key=#{encrypted_email}", params: { user:{ mfa_token: ""} } # INVALID TOKEN
+    #     # do request
+    #     post "/login.json?key=#{encrypted_email}", params: { user:{ mfa_token: ""} } # INVALID TOKEN
 
-        # shared examples
-        expect_json_response_error
+    #     # shared examples
+    #     expect_json_response_error
 
-        # do request
-        post "/login.json?key=#{encrypted_email}" # NO TOKEN
+    #     # do request
+    #     post "/login.json?key=#{encrypted_email}" # NO TOKEN
 
-        # shared examples
-        expect_json_response_error
-    end
+    #     # shared examples
+    #     expect_json_response_error
+    # end
 
-    it "is expected to return with error when the MFA token was generated but was disabled manually" do
-        # create the new user
-        new_user = FactoryBot.create(:user)
+    # it "is expected to return with error when the MFA token was generated but was disabled manually" do
+    #     # create the new user
+    #     new_user = FactoryBot.create(:user)
 
-        # enable MFA for the new user and its method
-        mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => true)
-        mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
+    #     # enable MFA for the new user and its method
+    #     mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => true)
+    #     mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
  
-        # do request
-        post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
+    #     # do request
+    #     post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
 
-        # shared examples
-        expect_json_response_successful
+    #     # shared examples
+    #     expect_json_response_successful
 
-        # Get the key (ENCRYPTED EMAIL)
-        separted_default_path = response_data["default_path"].split("?key=")
-        encrypted_email = separted_default_path[1]
+    #     # Get the key (ENCRYPTED EMAIL)
+    #     separted_default_path = response_data["default_path"].split("?key=")
+    #     encrypted_email = separted_default_path[1]
 
-        # disable MFA manually :mmmmmmm:
-        new_user.settings.update(:name => "mfa_enabled", :value => false) # Now it is disabled
+    #     # disable MFA manually :mmmmmmm:
+    #     new_user.settings.update(:name => "mfa_enabled", :value => false) # Now it is disabled
 
-        # do request
-        post "/login.json?key=#{encrypted_email}", params: { user:{ mfa_token: ""} } # INVALID TOKEN
+    #     # do request
+    #     post "/login.json?key=#{encrypted_email}", params: { user:{ mfa_token: ""} } # INVALID TOKEN
 
-        # shared examples
-        expect_json_response_successful
+    #     # shared examples
+    #     expect_json_response_successful
 
-        # custom examples
-        expect(response_data).to have_key("default_path")
-        expect(response_data["default_path"]).to be_nil
-    end
+    #     # custom examples
+    #     expect(response_data).to have_key("default_path")
+    #     expect(response_data["default_path"]).to be_nil
+    # end
 end
 
 RSpec.describe "POST:/login.json", type: :request do
