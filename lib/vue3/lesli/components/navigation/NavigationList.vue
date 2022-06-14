@@ -23,7 +23,18 @@ import { ref, reactive, onMounted, watch, computed, useSlots, provide } from "vu
 
 // · defining props
 const props = defineProps({
-    name: String
+    label: {
+        type: String,
+        required: false
+    },
+    icon: {
+        type: String,
+        required: false
+    },
+    rmi: {
+        type: String,
+        required: false
+    }
 })
 
 
@@ -33,20 +44,24 @@ const open = ref(false)
 
 </script>
 <template>
-<Transition>
-    <ul :class="{ 'active': open }">
-        <p class="menu-label" @click="open = !open">
-            <span>{{ props.name }}</span>
-            <span class="icon">
-                <span v-if="!open" class="material-icons md-24">
-                    chevron_right
+    <Transition>
+        <li class="lesli-navigation-list">
+            <a @click.stop="open = !open" class="lesli-navigation-list-label">
+                <span v-if="props.rmi" :class="[props.rmi, 'icono']"></span>
+                <lesli-icon v-if="props.icon" :id="props.icon" class="icono"></lesli-icon>
+                <span class="text">{{ props.label }}</span>
+                <span class="chevron">
+                    <span v-if="!open" class="material-icons md-24">
+                        chevron_right
+                    </span>
+                    <span v-if="open" class="material-icons md-24">
+                        expand_more
+                    </span>
                 </span>
-                <span v-if="open" class="material-icons md-24">
-                    expand_more
-                </span>
-            </span>
-        </p>
-        <slot></slot>
-    </ul>
-</Transition>
+            </a>
+            <ul :class="{'active': open}">
+                <slot></slot>
+            </ul>
+        </li>
+    </Transition>
 </template>

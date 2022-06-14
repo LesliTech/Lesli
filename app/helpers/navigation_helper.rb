@@ -39,6 +39,36 @@ module NavigationHelper
         end
     end
 
+    # Prints a link for lesli-navigation
+    def navigation_lesli_item2(path, label, icon=nil, mri:"lesli")
+        content_tag(:li) do
+            content_tag("router-link exact", :to => path) do
+                # print a simple menu item (without icon)
+                concat content_tag(:span, label, :class => "text iconless")
+            end
+        end
+    end 
+    def navigation_lesli_item(path, label, icon=nil, rmi:nil)
+        content_tag(:li) do
+            content_tag("router-link exact", :to => path) do
+
+                # print icon if for any icon family
+                print_icon = (icon || rmi) ? true : false
+
+                # print a simple menu item (without icon)
+                concat content_tag(:span, label, :class => "text iconless") unless print_icon
+
+                # print a full menu item if icon was requested
+                if print_icon
+                    concat content_tag("lesli-icon", nil, :id => icon, :class=> "icono") if icon
+                    concat content_tag("span", nil, :class => [rmi, "icono"]) if rmi
+                    concat content_tag(:span, label, :class => "text") 
+                end 
+                
+            end
+        end
+    end 
+
     # Prints a separator line
     def navigation_separator
         content_tag(:li) do 
