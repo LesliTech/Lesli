@@ -26,12 +26,12 @@ RSpec.describe Users::RegistrationsController, type: :controller do
     include_context 'controller user authentication'
 
     def prepare_password_settings
-        Account.first.settings.where(name: 'password_minimum_length').update(value: 6)
-        Account.first.settings.where(name: 'password_enforce_complexity').update(value: 1)
-        Account.first.settings.where(name: 'password_special_char_count').update(value: 0)
-        Account.first.settings.where(name: 'password_uppercase_count').update(value: 0)
-        Account.first.settings.where(name: 'password_lowercase_count').update(value: 0)
-        Account.first.settings.where(name: 'password_digit_count').update(value: 0)
+        Account.first.settings.where(name: 'password_minimum_length').update(value_numeric: 6)
+        Account.first.settings.where(name: 'password_enforce_complexity').update(value_numeric: 1)
+        Account.first.settings.where(name: 'password_special_char_count').update(value_numeric: 0)
+        Account.first.settings.where(name: 'password_uppercase_count').update(value_numeric: 0)
+        Account.first.settings.where(name: 'password_lowercase_count').update(value_numeric: 0)
+        Account.first.settings.where(name: 'password_digit_count').update(value_numeric: 0)
     end
 
     before :each do
@@ -72,7 +72,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
 
     it "try update password with special characters required" do
 
-        Account.first.settings.where(name: 'password_special_char_count').update(value: 1)
+        Account.first.settings.where(name: 'password_special_char_count').update(value_numeric: 1)
         password = "abcdef12345"
         put :update, params: {
             user: {
@@ -90,7 +90,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
     it "update password sending special characters required" do
 
         password = "abcde1234$"
-        Account.first.settings.where(name: 'password_special_char_count').update(value: 1)
+        Account.first.settings.where(name: 'password_special_char_count').update(value_numeric: 1)
         put :update, params: {
             user: {
                 password: password,
@@ -105,7 +105,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
     it "try update password with uppercase letters required" do
 
         password = "abcdef12345"
-        Account.first.settings.where(name: 'password_uppercase_count').update(value: 1)
+        Account.first.settings.where(name: 'password_uppercase_count').update(value_numeric: 1)
         put :update, params: {
             user: {
                 password: password,
@@ -121,7 +121,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
     it "update password sending uppercase letters required" do
 
         password = "Abcde1234$"
-        Account.first.settings.where(name: 'password_uppercase_count').update(value: 1)
+        Account.first.settings.where(name: 'password_uppercase_count').update(value_numeric: 1)
         put :update, params: {
             user: {
                 password: password,
@@ -136,7 +136,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
     it "update password sending uppercase letters required" do
 
         password = "Abcde1234$"
-        Account.first.settings.where(name: 'password_uppercase_count').update(value: 1)
+        Account.first.settings.where(name: 'password_uppercase_count').update(value_numeric: 1)
         put :update, params: {
             user: {
                 password: password,
