@@ -40,14 +40,6 @@ module NavigationHelper
     end
 
     # Prints a link for lesli-navigation
-    def navigation_lesli_item2(path, label, icon=nil, mri:"lesli")
-        content_tag(:li) do
-            content_tag("router-link exact", :to => path) do
-                # print a simple menu item (without icon)
-                concat content_tag(:span, label, :class => "text iconless")
-            end
-        end
-    end 
     def navigation_lesli_item(path, label, icon=nil, rmi:nil)
         content_tag(:li) do
             content_tag("router-link exact", :to => path) do
