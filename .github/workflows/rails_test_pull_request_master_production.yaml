@@ -97,9 +97,6 @@ jobs:
     - name: Run Vue tests
       run: |
         npm run test:vue
-    - name: Run SCSS tests
-      run: |
-        npm run test:scss
     - name: Notify by slack
       if: always()
       uses: ./.github/actions/slack_job_status
