@@ -80,8 +80,7 @@ module ResponseHelpers
         @@response_json = nil
         expect(response).to have_http_status(:unauthorized)
         expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(response_json).to have_key('error') 
-        expect(response_json["error"]).to have_key('message') 
+        expect(response_json).to have_key('message') 
     end
 
     # shortcut for response_json
