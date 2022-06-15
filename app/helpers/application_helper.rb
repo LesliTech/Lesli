@@ -56,7 +56,9 @@ module ApplicationHelper
 
     # return the information about the current engine
     def lesli_engine_or_instance_info
-        Rails.application.config.lesli.dig(:engines).select { |engine| engine[:code] == lesli_engine_or_instance() }.first
+        engine = Rails.application.config.lesli.dig(:engines).select { |engine| engine[:code] == lesli_engine_or_instance() }.first
+        engine = { :name => "Lesli", :code => "lesli", :core => 2 } if engine.nil?
+        engine
     end
 
     # check if instance or engine is a builder

@@ -267,10 +267,9 @@ class DevGit < LesliRake
             "bulma",
             "lesli-css",
             "remixicon",
-            "@fullcalendar",
-            "@oruga-ui"
+            "@fullcalendar"
         ].each do |package|
-            FileUtils.cp_r "lib/vue3/node_modules/#{package}/", "vendor/#{package}", :verbose => true
+            FileUtils.cp_r "node_modules/#{package}/", "vendor/#{package}", :verbose => true
         end
 
         Dir.glob("vendor/**/*").each do |file|

@@ -39,6 +39,28 @@ module NavigationHelper
         end
     end
 
+    # Prints a link for lesli-navigation
+    def navigation_lesli_item(path, label, icon=nil, rmi:nil)
+        content_tag(:li) do
+            content_tag("router-link exact", :to => path) do
+
+                # print icon if for any icon family
+                print_icon = (icon || rmi) ? true : false
+
+                # print a simple menu item (without icon)
+                concat content_tag(:span, label, :class => "text iconless") unless print_icon
+
+                # print a full menu item if icon was requested
+                if print_icon
+                    concat content_tag("lesli-icon", nil, :id => icon, :class=> "icono") if icon
+                    concat content_tag("span", nil, :class => [rmi, "icono"]) if rmi
+                    concat content_tag(:span, label, :class => "text") 
+                end 
+                
+            end
+        end
+    end 
+
     # Prints a separator line
     def navigation_separator
         content_tag(:li) do 
@@ -286,7 +308,7 @@ module NavigationHelper
 
     # build a html link for an engine path
     def navigation_engine_item title, subtitle, icon, path, is_active = false
-        icon="cloud-audit"
+        icon="audit"
         # get hidden modules if there are modules to hide
         modules_hidden = Rails.application.config.lesli.dig(:modules_hidden) || []
 
@@ -295,7 +317,7 @@ module NavigationHelper
 
         # render module navigation item :) 
         content_tag(:a, :href => path, :class => is_active ? "is-active": nil) do
-            lesli_icon(icon) << content_tag(:div) do 
+            lesli_icon(icon, "cloud") << content_tag(:div) do 
                 content_tag(:span, title) << content_tag(:p, subtitle)
             end
         end

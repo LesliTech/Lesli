@@ -17,7 +17,7 @@ For more information read the license file including with this software.
 
 %>
 
-<% core_version = lesli_engine_or_instance_info[:core] %>
+<% core_version = lesli_engine_or_instance_info.dig(:core) %>
 
 <%# check if custom navigation partial exists, getting the path from application helper %>
 <% custom_sidebar_path = "layouts/#{lesli_engine_or_instance}/partials/application-sidebar" %>
@@ -37,8 +37,8 @@ For more information read the license file including with this software.
     <%# load logos compatibility for deutsche leibrenten%>
     <% if core_version == 2 %>
         <template v-slot:brand>
-            <%= customization_instance_logo_tag(logo: "app_icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
-            <%= customization_instance_logo_tag(logo: "app_logo", options: {alt: "App logo", class: "is-hidden-touch"}) %>
+            <%= customization_instance_logo_tag(logo: "app-icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
+            <%= customization_instance_logo_tag(logo: "app-logo", options: {alt: "App logo", class: "is-hidden-touch"}) %>
         </template>
     <% end %>
 
