@@ -44,24 +44,22 @@ const open = ref(false)
 
 </script>
 <template>
-    <Transition>
-        <li class="lesli-navigation-list">
-            <a @click.stop="open = !open" class="lesli-navigation-list-label">
-                <span v-if="props.rmi" :class="[props.rmi, 'icono']"></span>
-                <lesli-icon v-if="props.icon" :id="props.icon" class="icono"></lesli-icon>
-                <span class="text">{{ props.label }}</span>
-                <span class="chevron">
-                    <span v-if="!open" class="material-icons md-24">
-                        chevron_right
-                    </span>
-                    <span v-if="open" class="material-icons md-24">
-                        expand_more
-                    </span>
+    <li class="lesli-navigation-list">
+        <a @click.stop="open = !open" class="lesli-navigation-list-label">
+            <span v-if="props.rmi" :class="[props.rmi, 'icono']"></span>
+            <lesli-icon v-if="props.icon" :id="props.icon" class="icono"></lesli-icon>
+            <span class="text">{{ props.label }}</span>
+            <span class="chevron">
+                <span v-if="!open" class="material-icons md-24">
+                    chevron_right
                 </span>
-            </a>
-            <ul :class="{'active': open}">
-                <slot></slot>
-            </ul>
-        </li>
-    </Transition>
+                <span v-if="open" class="material-icons md-24">
+                    expand_more
+                </span>
+            </span>
+        </a>
+        <ul :class="{'active': open}">
+            <slot></slot>
+        </ul>
+    </li>
 </template>
