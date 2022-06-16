@@ -94,7 +94,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         if user.save
 
             # save a default locale for user
-            user.settings.create(:name => 'locale', :value_string => I18n.locale)
+            user.settings.create(:name => 'locale', :value => I18n.locale)
 
             respond_with_successful()
 
