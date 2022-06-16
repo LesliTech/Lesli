@@ -93,10 +93,15 @@ export default {
 </script>
 <template>
     <section class="application-component">
-        <lesli-header 
-            :title="translations.core.users.view_text_title_users"
-            :reload-loading="storeUsers.loading"
-            @reload="storeUsers.fetchIndex">
+        <lesli-header :title="translations.core.users.view_text_title_users">
+            <lesli-button mdi="add" :to="url.admin('users/new')" :label="translations.core.users.view_text_add_user"></lesli-button>
+            <lesli-button 
+                outlined
+                mdi="refresh"  
+                :loading="storeUsers.loading"
+                @click="storeUsers.fetchIndex"
+                :label="translations.core.shared.view_text_btn_reload">
+            </lesli-button>
         </lesli-header>
         <lesli-toolbar 
             :search-placeholder="translations.core.users.view_toolbar_filter_placeholder_search"
