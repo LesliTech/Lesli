@@ -45,7 +45,7 @@ RSpec.describe "POST:/mfa/verify.json", type: :request, :unless => defined?(Deut
         expect_response_with_successful
 
         # Get the key (ENCRYPTED EMAIL)
-        separted_default_path = response_data["default_path"].split("?key=")
+        separted_default_path = response_json["default_path"].split("?key=")
         encrypted_email = separted_default_path[1]
 
         # Generate valid token for the current user
@@ -61,7 +61,7 @@ RSpec.describe "POST:/mfa/verify.json", type: :request, :unless => defined?(Deut
         expect_response_with_successful
 
         # custom examples
-        expect(response_data).to have_key("default_path")
+        expect(response_json).to have_key("default_path")
     end
 
     it "is expected to return with error when the MFA token is valid but belongs to another user" do
@@ -79,7 +79,7 @@ RSpec.describe "POST:/mfa/verify.json", type: :request, :unless => defined?(Deut
         expect_response_with_successful
 
         # Get the key (ENCRYPTED EMAIL)
-        separted_default_path = response_data["default_path"].split("?key=")
+        separted_default_path = response_json["default_path"].split("?key=")
         encrypted_email = separted_default_path[1]
 
         # Generate valid token for another user, so should return with error
@@ -111,7 +111,7 @@ RSpec.describe "POST:/mfa/verify.json", type: :request, :unless => defined?(Deut
         expect_response_with_successful
 
         # Get the key (ENCRYPTED EMAIL)
-        separted_default_path = response_data["default_path"].split("?key=")
+        separted_default_path = response_json["default_path"].split("?key=")
         encrypted_email = separted_default_path[1]
 
         # do request
@@ -142,7 +142,7 @@ RSpec.describe "POST:/mfa/verify.json", type: :request, :unless => defined?(Deut
         expect_response_with_successful
 
         # Get the key (ENCRYPTED EMAIL)
-        separted_default_path = response_data["default_path"].split("?key=")
+        separted_default_path = response_json["default_path"].split("?key=")
         encrypted_email = separted_default_path[1]
 
         # disable MFA manually :mmmmmmm:
