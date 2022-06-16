@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 
 class MfasController < ApplicationController
-    include Application::Responder
+    include Interfaces::Application::Responder
     include Application::Logger
 
     # /mfa/new
