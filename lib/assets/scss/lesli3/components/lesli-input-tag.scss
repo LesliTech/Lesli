@@ -1,0 +1,59 @@
+/*
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+*/
+
+
+// · 
+
+.lesli-input-tag {
+    border: 1px solid #dbdbdb;
+    border-radius: 2px;
+    position: relative;
+    
+    .container-input {
+        width: 320px;
+        input {
+            border: none;
+            width: 100%;
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+
+    .options {
+        position: absolute;
+        border: 1px solid #dbdbdb;
+        background: #fff;
+        z-index: 1;
+        top: 110%;
+        left: 0;
+        right: 0;
+        padding: 4px 8px;
+        height: auto;
+        max-height: 200px;
+        overflow-y: scroll;
+        &-element:hover {
+            background-color: #dbdbdb;
+            cursor: pointer;
+        }
+    }
+}
+
+
+
