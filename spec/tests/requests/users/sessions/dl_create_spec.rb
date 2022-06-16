@@ -28,13 +28,6 @@ RSpec.describe "Tests for DeutscheLeibrenten", :if => defined?(DeutscheLeibrente
             expect_json_response_successful
         end
     
-        it "is expected to respond with error standard json response" do
-            post "/login.json", params: { user: { email: "", password: "" } }
-            
-            # shared examples
-            expect_json_response_error
-        end
-    
         it "is expected to respond with error when the credentials are invalid" do
             @new_user = FactoryBot.create(:user)
             post "/login.json", params: { user: { email: @new_user.email, password: Faker::Lorem.word } }
@@ -97,7 +90,6 @@ RSpec.describe "Tests for DeutscheLeibrenten", :if => defined?(DeutscheLeibrente
     
             # custom examples
             expect(response_data).to have_key("default_path")
-            expect(response_data["default_path"]).to be_nil
         end
     
         it "is expected to respond with successful when the user had MFA enabled but was disabled" do
@@ -118,7 +110,6 @@ RSpec.describe "Tests for DeutscheLeibrenten", :if => defined?(DeutscheLeibrente
     
             # custom examples
             expect(response_data).to have_key("default_path")
-            expect(response_data["default_path"]).to be_nil
         end
     
         it "is expected to respond with successful when MFA fields are present but are invalid, so is consider as not configured" do
