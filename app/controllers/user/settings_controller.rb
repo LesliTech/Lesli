@@ -61,6 +61,6 @@ class User::SettingsController < ApplicationLesliController
 
     # Only allow a trusted parameter "white list" through.
     def user_setting_params
-        params.require(:user_setting).permit(:name, :value_string, :value_numeric, :value_boolean)
+        params.require(:user_setting).permit(:name, :value)
     end
 end
