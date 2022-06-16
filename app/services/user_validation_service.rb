@@ -1,4 +1,5 @@
 =begin
+
 Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
