@@ -211,7 +211,7 @@ RSpec.describe Users::SessionsController, type: :controller, :unless => defined?
     end
 end
 
-RSpec.describe Users::SessionsController, type: :controller do
+RSpec.describe Users::SessionsController, type: :controller, :unless => defined?(DeutscheLeibrenten) do
     before :each do
         request.env["HTTP_ACCEPT"] = "application/json"
         request.env["devise.mapping"] = Devise.mappings[:user]
