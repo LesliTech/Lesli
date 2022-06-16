@@ -20,14 +20,13 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "POST:/mfa/verify.json", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "POST:/mfa/verify.json", type: :request, :if => defined?(DeutscheLeibrenten) do
     it "is expected to return with error when the key query param exists but is invalid" do
-
         # do request
         post "/mfa/verify.json?key=", params: { mfa: { t: "" } }
 
         # shared examples
-        expect_response_with_error
+        expect_json_response_error
     end
 
     it "is expected to return with successful when the MFA token is valid" do
@@ -42,7 +41,7 @@ RSpec.describe "POST:/mfa/verify.json", type: :request, :unless => defined?(Deut
         post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
 
         # shared examples
-        expect_response_with_successful
+        expect_json_response_successful
 
         # Get the key (ENCRYPTED EMAIL)
         separted_default_path = response_data["default_path"].split("?key=")
@@ -58,7 +57,7 @@ RSpec.describe "POST:/mfa/verify.json", type: :request, :unless => defined?(Deut
         post "/mfa/verify.json?key=#{encrypted_email}", params: { mfa: { t: raw } }
 
         # shared examples
-        expect_response_with_successful
+        expect_json_response_successful
 
         # custom examples
         expect(response_data).to have_key("default_path")
@@ -76,7 +75,7 @@ RSpec.describe "POST:/mfa/verify.json", type: :request, :unless => defined?(Deut
         post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
 
         # shared examples
-        expect_response_with_successful
+        expect_json_response_successful
 
         # Get the key (ENCRYPTED EMAIL)
         separted_default_path = response_data["default_path"].split("?key=")
@@ -93,7 +92,7 @@ RSpec.describe "POST:/mfa/verify.json", type: :request, :unless => defined?(Deut
         post "/login.json?key=#{encrypted_email}", params: { mfa: { t: raw } } # TOKEN THAT BELONGS TO ANOTHER USER
 
         # shared examples
-        expect_response_with_error
+        expect_json_response_error
     end
 
     it "is expected to return with error when the MFA confirmation token is invalid" do
@@ -108,7 +107,7 @@ RSpec.describe "POST:/mfa/verify.json", type: :request, :unless => defined?(Deut
         post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
 
         # shared examples
-        expect_response_with_successful
+        expect_json_response_successful
 
         # Get the key (ENCRYPTED EMAIL)
         separted_default_path = response_data["default_path"].split("?key=")
@@ -118,13 +117,13 @@ RSpec.describe "POST:/mfa/verify.json", type: :request, :unless => defined?(Deut
         post "/login.json?key=#{encrypted_email}", params: { mfa:{ t: ""} } # INVALID TOKEN
 
         # shared examples
-        expect_response_with_error
+        expect_json_response_error
 
         # do request
         post "/login.json?key=#{encrypted_email}" # NO TOKEN
 
         # shared examples
-        expect_response_with_error
+        expect_json_response_error
     end
 
     it "is expected to return with error when the MFA token was generated but the funtionality was disabled manually" do
@@ -139,7 +138,7 @@ RSpec.describe "POST:/mfa/verify.json", type: :request, :unless => defined?(Deut
         post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
 
         # shared examples
-        expect_response_with_successful
+        expect_json_response_successful
 
         # Get the key (ENCRYPTED EMAIL)
         separted_default_path = response_data["default_path"].split("?key=")
@@ -152,6 +151,6 @@ RSpec.describe "POST:/mfa/verify.json", type: :request, :unless => defined?(Deut
         post "/mfa/verify.json?key=#{encrypted_email}", params: { mfa:{ t: ""} }
 
         # shared examples
-        expect_response_with_error
+        expect_json_response_error
     end
 end

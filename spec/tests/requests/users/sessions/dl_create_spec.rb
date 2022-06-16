@@ -18,10 +18,9 @@ For more information read the license file including with this software.
 =end
 
 
-require 'lesli_request_helper'
+require "lesli_request_helper"
 
-RSpec.describe "POST:/login.json", type: :request, :unless => defined?(DeutscheLeibrenten) do
-
+RSpec.describe "POST:/login.json", type: :request, :if => defined?(DeutscheLeibrenten) do
     it "is expected to respond with successful standard json response" do
         @new_user = FactoryBot.create(:user)
         post "/login.json", params: { user: { email: @new_user.email, password: @new_user.password } }
@@ -42,7 +41,7 @@ RSpec.describe "POST:/login.json", type: :request, :unless => defined?(DeutscheL
 
     it "is expected to respond with error when the credentials are invalid" do
         @new_user = FactoryBot.create(:user)
-        post "/login.json", params: { user: { email: @new_user.email, password: "wrong password" } }
+        post "/login.json", params: { user: { email: @new_user.email, password: Faker::Lorem.word } }
 
         expect_json_response_error
 
@@ -56,7 +55,7 @@ RSpec.describe "POST:/login.json", type: :request, :unless => defined?(DeutscheL
         post "/login.json"
 
         # shared examples
-        expect_json_response_successful
+        expect_json_response_error
     end
 
     it "is expected to respond with error when params are blank" do
@@ -64,7 +63,7 @@ RSpec.describe "POST:/login.json", type: :request, :unless => defined?(DeutscheL
         post "/login.json", params: { user: { email: "", password: "" } }
 
         # shared examples
-        expect_json_response_successful
+        expect_json_response_error
     end
 
     # Tests since MFA integration
@@ -157,13 +156,5 @@ RSpec.describe "POST:/login.json", type: :request, :unless => defined?(DeutscheL
 
         # shared examples
         expect_json_response_successful
-    end
-end
-
-RSpec.describe "POST:/login.json", type: :request do
-    include_context "request user authentication"
-    it "is expected to redirect to '/' route when the user is already logged" do
-        post "/login.json", params: { user: { email: "", password: "" } }
-        expect(response).to redirect_to("/")
     end
 end
