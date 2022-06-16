@@ -76,9 +76,9 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             expect_response_with_successful
             
             # custom examples
-            expect(response_data).to have_key("default_path") # this path should be something like /mfa/enter_code?key=ENCRYPTED_EMAIL
-            expect(response_data["default_path"]).to be_a(String)
-            expect(response_data["default_path"]).to include("/mfa/new?key=")
+            expect(response_body).to have_key("default_path") # this path should be something like /mfa/enter_code?key=ENCRYPTED_EMAIL
+            expect(response_body["default_path"]).to be_a(String)
+            expect(response_body["default_path"]).to include("/mfa/new?key=")
         end
     
         it "is expected to respond with successfull and do 'normal' login when MFA fields are exist but it is disabled" do
@@ -96,7 +96,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             expect_response_with_successful
     
             # custom examples
-            expect(response_data).to have_key("default_path")
+            expect(response_body).to have_key("default_path")
         end
     
         it "is expected to respond with successful when the user had MFA enabled but was disabled" do
@@ -116,7 +116,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             expect_response_with_successful
     
             # custom examples
-            expect(response_data).to have_key("default_path")
+            expect(response_body).to have_key("default_path")
         end
     
         it "is expected to respond with successful when MFA fields are present but are invalid, so is consider as not configured" do
