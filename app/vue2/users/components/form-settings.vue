@@ -49,7 +49,7 @@ export default {
             this.http.post(this.url.admin('users/:id/settings', this.user.id), {
                 user_setting: {
                     name: 'locale', 
-                    value_string: event.target.value
+                    value: event.target.value
                 }
             }).then(result => {
                 console.log(result)

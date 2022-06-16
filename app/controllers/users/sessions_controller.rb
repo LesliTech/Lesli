@@ -75,11 +75,20 @@ class Users::SessionsController < Devise::SessionsController
         # Check if the user has MFA enabled and any valid method configured
         if user_mfa.has_mfa_enabled?.success?
 
-            send_mfa_token = user_mfa.do_mfa(request)
+            mfa_token = user_mfa.do_mfa()
 
-            return respond_with_error(send_mfa_token.error) unless send_mfa_token.success?
+            return respond_with_error(mfa_token.error) unless mfa_token.success?
 
-            return respond_with_successful({ default_path:  send_mfa_token.payload[:default_path]})
+            # Create logs that an MFA Token was created successfully
+            resource.logs.create({
+                title: "mfa_token_creation_successful",
+                description: "user_agent: #{request.user_agent}, user_remote: #{request.remote_ip}"
+            })
+
+            # We prepared the default path redirection
+            encrypted_email = CGI.escape(EncryptorService.new_encrytor.encrypt_and_sign(resource.email))
+
+            return respond_with_successful({ default_path: "/mfa/new?key=#{encrypted_email}" })
         end
 
         # do a user login

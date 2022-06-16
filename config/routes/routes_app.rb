@@ -25,7 +25,7 @@ module RoutesApp
             # Alternative logins
             resource :otp,  only: [:show, :new, :create]
             resource :pass, only: [:show, :new, :create]
-            resource :mfa,  only: [:show, :new, :create] do
+            resource :mfa,  only: [:new] do
                 post :verify
             end
 

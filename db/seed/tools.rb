@@ -54,7 +54,7 @@ def create_development_user dev_user, password=nil
         user.account.save!
 
         if user
-            user.settings.create(:name => 'locale', :value_string => Rails.application.config.lesli[:env][:default_locale]) # add locale
+            user.settings.create(:name => 'locale', :value => Rails.application.config.lesli[:env][:default_locale]) # add locale
         end
     end
 end
