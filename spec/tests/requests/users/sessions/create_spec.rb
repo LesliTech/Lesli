@@ -48,7 +48,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             post "/login.json"
     
             # shared examples
-            expect_response_with_successful
+            expect_response_with_error
         end
     
         it "is expected to respond with error when params are blank" do
@@ -56,7 +56,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             post "/login.json", params: { user: { email: "", password: "" } }
     
             # shared examples
-            expect_response_with_successful
+            expect_response_with_error
         end
     
         # Tests since MFA integration
@@ -97,7 +97,6 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
     
             # custom examples
             expect(response_data).to have_key("default_path")
-            expect(response_data["default_path"]).to be_nil
         end
     
         it "is expected to respond with successful when the user had MFA enabled but was disabled" do
@@ -118,7 +117,6 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
     
             # custom examples
             expect(response_data).to have_key("default_path")
-            expect(response_data["default_path"]).to be_nil
         end
     
         it "is expected to respond with successful when MFA fields are present but are invalid, so is consider as not configured" do
