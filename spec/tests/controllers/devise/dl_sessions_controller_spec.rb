@@ -62,7 +62,8 @@ RSpec.describe Users::SessionsController, type: :controller, :if => defined?(Deu
         }
 
         expect_json_response_error
-        expect(response_body["message"]).to eql(I18n.t("core.users/sessions.invalid_credentials"))
+
+        expect(response_error["message"]).to eql(I18n.t("core.users/sessions.invalid_credentials"))
 
     end
 
@@ -76,7 +77,7 @@ RSpec.describe Users::SessionsController, type: :controller, :if => defined?(Deu
         }
 
         expect_json_response_error
-        expect(response_body["message"]).to eql(I18n.t("core.users/sessions.invalid_credentials"))
+        expect(response_error["message"]).to eql(I18n.t("core.users/sessions.invalid_credentials"))
 
     end
 
@@ -98,7 +99,7 @@ RSpec.describe Users::SessionsController, type: :controller, :if => defined?(Deu
         }
 
         expect_json_response_error
-        expect(response_body["message"]).to eql(I18n.t("devise.errors.custom.confirmation_required"))
+        expect(response_error["message"]).to eql(I18n.t("devise.errors.custom.confirmation_required"))
 
     end
 
@@ -120,7 +121,7 @@ RSpec.describe Users::SessionsController, type: :controller, :if => defined?(Deu
         }
 
         expect_json_response_error
-        expect(response_body["message"]).to eql(I18n.t("core.users/sessions.invalid_credentials"))
+        expect(response_error["message"]).to eql(I18n.t("core.users/sessions.invalid_credentials"))
 
     end
 
@@ -142,7 +143,7 @@ RSpec.describe Users::SessionsController, type: :controller, :if => defined?(Deu
         }
 
         expect_json_response_error
-        expect(response_body["message"]).to eql(I18n.t("core.users/sessions.the_user_has_no_assigned_role"))
+        expect(response_error["message"]).to eql(I18n.t("core.users/sessions.the_user_has_no_assigned_role"))
 
     end
 
@@ -167,14 +168,14 @@ RSpec.describe Users::SessionsController, type: :controller, :if => defined?(Deu
         }
 
         expect_json_response_error
-        expect(response_body["message"]).to eql(I18n.t("deutscheleibrenten.users/sessions.role_access_denied"))
+        expect(response_error["message"]).to eql(I18n.t("deutscheleibrenten.users/sessions.role_access_denied"))
 
     end
 
 end
 
 
-RSpec.describe Users::SessionsController, type: :controller do
+RSpec.describe Users::SessionsController, type: :controller, :if => defined?(DeutscheLeibrenten) do
     before :each do
         request.env["HTTP_ACCEPT"] = "application/json"
         request.env["devise.mapping"] = Devise.mappings[:user]
@@ -206,8 +207,7 @@ RSpec.describe Users::SessionsController, type: :controller do
 
         expect_json_response_successful
 
-        response_json = JSON.parse(response.body)
-        expect(response_body["default_path"]).to eql("/onboarding")
+        expect(response_data["default_path"]).to eql("/onboarding")
     end
 end
 
@@ -244,6 +244,6 @@ RSpec.describe Users::SessionsController, type: :controller do
         expect_json_response_successful
 
         response_json = JSON.parse(response.body)
-        expect(response_body["default_path"]).not_to eql("/onboarding")
+        expect(response_data["default_path"]).not_to eql("/onboarding")
     end
 end

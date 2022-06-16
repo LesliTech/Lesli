@@ -103,8 +103,13 @@ module Interfaces
                     successful: false
                 }
 
-                error_object[:error] = I18n.t("core.shared.view_text_unauthorized_request") if defined?(DeutscheLeibrenten)
-                error_object[:message] = I18n.t("core.shared.view_text_unauthorized_request") unless defined?(DeutscheLeibrenten)
+                if defined?(DeutscheLeibrenten)
+                    error_object[:error] = {
+                        message: I18n.t("core.shared.view_text_unauthorized_request")
+                    }
+                else
+                    error_object[:message] = I18n.t("core.shared.view_text_unauthorized_request")
+                end
 
                 error_object[:detail] = detail if Rails.env == "development"
 
