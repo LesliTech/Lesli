@@ -25,24 +25,24 @@ RSpec.describe "POST:/login.json", type: :request do
     it "is expected to respond with successful standard json response" do
         @new_user = FactoryBot.create(:user)
         post "/login.json", params: { user: { email: @new_user.email, password: @new_user.password } }
-        expect_json_response_successful
+        expect_response_with_successful
     end
 
     it "is expected to respond with error standard json response" do
         post "/login.json", params: { user: { email: "", password: "" } }
-        expect_json_response_error
-        expect(response_error).to be_a(Hash)
-        expect(response_error).to have_key("message")
-        expect(response_error["message"]).to be_a(String)
+        expect_response_with_error
+        expect(response_body).to be_a(Hash)
+        expect(response_body).to have_key("message")
+        expect(response_body["message"]).to be_a(String)
     end
 
     it "is expected to respond with error when the credentials are invalid" do
         @new_user = FactoryBot.create(:user)
         post "/login.json", params: { user: { email: @new_user.email, password: "wrong password" } }
-        expect_json_response_error
-        expect(response_error).to be_a(Hash)
-        expect(response_error).to have_key("message")
-        expect(response_error["message"]).to be_a(String)
+        expect_response_with_error
+        expect(response_body).to be_a(Hash)
+        expect(response_body).to have_key("message")
+        expect(response_body["message"]).to be_a(String)
     end
 
     it "is expected to respond with error when params are not present" do
