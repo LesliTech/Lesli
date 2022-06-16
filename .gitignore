@@ -87,3 +87,7 @@ yarn.lock
 /public/pwa/*
 
 brakeman.html
+
+# Docker files
+docker-compose.yml
+postgres_data
