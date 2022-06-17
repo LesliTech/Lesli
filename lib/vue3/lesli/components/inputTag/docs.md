@@ -1,11 +1,11 @@
-# Header
+# Input tag
 
 The component lesli input tag is registered globally and is meant to be used in all the vue apps as input tag
 
 **Example:**
 
 options should be a object with the following properties:
-```
+```javascript
     const myOptions = [
         {
             id: 1,
@@ -24,7 +24,7 @@ options should be a object with the following properties:
 
 v-model should be an array with the tags and each tag should be an object with the following properties:
 
-```
+```javascript
     const myTags = [
         {
             id: 1,

@@ -39,19 +39,11 @@ const props = defineProps({
     },
 })
 
-// current value of the input
 const inputValue = ref("")
-
-// array of all the options, that are available for the input
 const showOptions = ref(false)
-
-// array of all the filtered options, that are available for the input
 const currentOptionsToShow = ref({})
-
-// tags = [ { id: 1, name: 'tag-1' }, ]
 const tags = ref(props.modelValue)
 
-// this method is called when the enter key is pressed
 const onEnter = () => {
     if (inputValue.value.length > 0) {
         if (tags.value.find((tag) => tag.id === inputValue.value)) {
@@ -75,7 +67,6 @@ const onEnter = () => {
     emit("update:modelValue", tags.value)
 }
 
-// this method is called when user clicks on one of the options
 const onClickOption = (option) => {
 
     if (tags.value.find((tag) => tag.id === option.id)) {
@@ -89,7 +80,6 @@ const onClickOption = (option) => {
     showOptions.value = false
 }
 
-// this method is called when the delete key is pressed
 const onDelete = () => {
     if (inputValue.value.length === 0) {
         tags.value.pop()
@@ -100,8 +90,6 @@ const onDelete = () => {
     inputValue.value = ""
 }
 
-// this method is called when the user types in the input and 
-// the options are dinamically updated
 const filterOptions = () => {
     if (inputValue.value.length === 0) {
         showOptions.value = false
