@@ -19,16 +19,21 @@ For more information read the license file including with this software.
 
 module ApplicationHelper
 
+    # return the engine code of the controller that is handling the http request
+    def deprecated_lesli_engine()
+        controller_path.split('/')[0]
+    end
+
     # return true if the controller requested belongs to the administration area
-    def is_lesli_engine_administration?
+    def deprecated_is_lesli_engine_administration?
         [
             "accounts", "account", "roles", "profiles", "users", "abouts", 
-            "settings", "cronos", "role_descriptors"
+            "settings", "cronos", "onboardings", "role_descriptors"
         ].include?(lesli_engine)
     end
 
     # return true if the controller belongs to an engine nor to builder or administration area
-    def is_lesli_engine?(engine=nil)
+    def deprecated_is_lesli_engine?(engine=nil)
         current_engine = lesli_engine
         return current_engine == engine if not engine.blank?
         return false if is_lesli_engine_administration?
@@ -38,20 +43,20 @@ module ApplicationHelper
     # return the name of the engine loaded for the current path
     # this helper return the name of the engine of the code we are running on
     # example: https://lesli.cloud/driver/events/1/edit -> engine loaded: cloud_driver
-    def lesli_engine_or_instance
+    def deprecated_lesli_engine_or_instance
         return lesli_instance_code if not is_lesli_engine?
         return lesli_engine
     end
 
     # return the information about the current engine
-    def lesli_engine_or_instance_info
+    def deprecated_lesli_engine_or_instance_info
         engine = Rails.application.config.lesli.dig(:engines).select { |engine| engine[:code] == lesli_engine_or_instance() }.first
         engine = { :name => "Lesli", :code => "lesli", :core => 2 } if engine.nil?
         engine
     end
 
     # check if instance or engine is a builder
-    def is_lesli_instance?(instance=nil, engine=nil)
+    def deprecated_is_lesli_instance?(instance=nil, engine=nil)
 
         # return instance name
         return Rails.application.config.lesli[:info][:name] if instance.blank? and engine.blank?
@@ -74,7 +79,7 @@ module ApplicationHelper
     end
 
     # Prints the name of the engine
-    def engine_name
+    def deprecated_engine_name
         name = lesli_engine_or_instance()
         name = "Admin" if is_lesli_engine_administration?()
         name = name.sub("_cloud", "").sub("cloud_", "").camelize
