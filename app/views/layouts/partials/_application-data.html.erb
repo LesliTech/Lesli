@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 <%
 # Include defaults to account
 @account[:instance] = lesli_instance_code
-@account[:engine] = lesli_engine2(:code)                                 # use into url plugin to for dynamic search 
+@account[:engine] = lesli_engine2.dig(:code)                            # use into url plugin to for dynamic search 
 @account[:url] = { root: request.base_url.to_s,  path: request.path }   # use as base for url plugin
 @account[:app] = params[:controller]                                    # (deprecated for vue3)
 %>

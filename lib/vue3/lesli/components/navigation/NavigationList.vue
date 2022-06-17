@@ -44,7 +44,7 @@ const open = ref(false)
 
 </script>
 <template>
-    <li class="lesli-navigation-list">
+    <li :class="['lesli-navigation-list', {'active': open}]">
         <a @click.stop="open = !open" class="lesli-navigation-list-label">
             <span v-if="props.rmi" :class="[props.rmi, 'icono']"></span>
             <lesli-icon v-if="props.icon" :id="props.icon" class="icono"></lesli-icon>
@@ -58,7 +58,7 @@ const open = ref(false)
                 </span>
             </span>
         </a>
-        <ul :class="{'active': open}">
+        <ul>
             <slot></slot>
         </ul>
     </li>
