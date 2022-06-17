@@ -226,6 +226,9 @@ module Lesli
         # parse available locales for instance
         lesli_settings["configuration"]["locales_available"] = lesli_settings["configuration"]["locales"]
 
+        # MFA methods configured
+        lesli_settings["configuration"]["mfa_methods"] = lesli_settings["configuration"]["mfa_methods"]
+
         # parse available locale codes for Rails
         lesli_settings["configuration"]["locales"] = lesli_settings["configuration"]["locales"].keys
 

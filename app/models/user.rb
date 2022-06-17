@@ -71,7 +71,6 @@ class User < ApplicationLesliRecord
     enum category: { user: "user", integration: "integration" }
 
 
-
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     def save(*args)
@@ -616,6 +615,8 @@ class User < ApplicationLesliRecord
             editable_security: current_user && current_user.has_roles?("owner", "sysadmin"),
             roles: user.roles.map { |r| { id: r[:id], name: r[:name] } },
             full_name: user.full_name,
+            mfa_enabled: user.mfa_settings[:enabled],
+            mfa_method:  user.mfa_settings[:method],
             detail_attributes: {
                 title: user.detail[:title],
                 salutation: user.detail[:salutation],
@@ -629,6 +630,25 @@ class User < ApplicationLesliRecord
             }
         }
 
+    end
+
+    # @return [void]
+    # @description Returns MFA settings configured by the user
+    # Example
+    #   user_mfa_settings = User.find(2).mfa_settings
+    #   puts user_mfa_settings
+    #       { :mfa_enabled => true, :mfa_method => "email"}
+    def mfa_settings
+        mfa_enabled = self.settings.find_by(:name => "mfa_enabled")
+        mfa_method = self.settings.find_by(:name => "mfa_method")
+        
+        is_mfa_enabled = false
+        is_mfa_enabled ||= (mfa_enabled.value.downcase == "true") unless mfa_enabled.nil?
+
+        {   
+            :enabled => is_mfa_enabled,
+            :method => mfa_method.nil? ? nil : mfa_method.value.to_sym
+        }
     end
 
     #######################################################################################
