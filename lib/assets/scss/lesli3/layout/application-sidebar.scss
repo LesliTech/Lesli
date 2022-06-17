@@ -153,6 +153,15 @@ aside.application-sidebar {
                 }
             }
 
+            // engine name
+            span {
+                color: white;
+                font-size: 1.2rem;
+                font-style: italic;
+                margin-left: -20px;
+                margin-bottom: -5px;
+            }
+
             // engine selector button
             .icon {
                 align-self: flex-end;

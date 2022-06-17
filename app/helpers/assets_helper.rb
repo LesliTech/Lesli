@@ -25,8 +25,8 @@ module AssetsHelper
 
         template = "application"
 
-        if (is_lesli_onboarding?)
-            #|| is_lesli_engine_administration? || lesli_engine_or_instance_info[:core] == 3
+        # the main core features must work with the core 3
+        if (is_lesli_onboarding?() || is_lesli_administration?() || lesli_engine2()[:core] == 3)
             template = "application3"
         end
 
@@ -60,9 +60,12 @@ module AssetsHelper
 
         template = "application"
 
-        if is_lesli_engine_administration?
-            #return controller_path 
+        if is_lesli_administration?
             return ["administration", template].join("/")
+        end 
+
+        if is_lesli_onboarding?
+            return ["onboardings", template].join("/")
         end 
 
         [cloud_module, template].join("/")
@@ -75,8 +78,12 @@ module AssetsHelper
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
-        if is_lesli_engine_administration? && !defined? DeutscheLeibrenten
+        if is_lesli_administration?
             return ["administration", "application"].join("/")
+        end 
+
+        if is_lesli_onboarding?
+            return ["onboardings", "application"].join("/")
         end 
 
         return [cloud_module, "application"].join("/")
