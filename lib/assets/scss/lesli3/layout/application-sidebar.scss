@@ -90,6 +90,14 @@ aside.application-sidebar {
         }
 
         &.lesli-navigation-list {
+
+            &.active {
+                background-color: lesli-css-color(lesli, ocean);
+                ul {
+                    height: auto;
+                }
+            }
+
             .lesli-navigation-list-label {
                 padding: 1rem;
                 border-radius: 6px;
@@ -109,9 +117,7 @@ aside.application-sidebar {
                 & > a span {
                     display: none;
                 }
-                &.active {
-                    height: auto;
-                }
+                
             }
         }
     }
