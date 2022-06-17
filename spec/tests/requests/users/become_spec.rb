@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "GET:/administration/users/:id/resources/become.json with an user with no privileges", type: :request do
+RSpec.describe "GET:/administration/users/:id/resources/become.json with an user with no privileges", type: :request, :unless => defined?(DeutscheLeibrenten) do
     include_context "request user authentication"
 
     # helper methods
