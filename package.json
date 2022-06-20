@@ -8,7 +8,7 @@
         "bulma": "0.9.4",
 
         "lesli-js": "0.5.0",
-        "lesli-css": "1.2.0",
+        "lesli-css": "1.3.0",
 
         "vue": "3.2.36",
         "vue-router": "4.0.15",
@@ -19,6 +19,7 @@
         "dayjs": "1.11.2",
         "js-yaml": "4.1.0",
 
+        "mermaid": "8.11.0",
         "remixicon": "2.5.0",
         "sweetalert2": "11.4.17",
         "apexcharts": "3.35.3",
