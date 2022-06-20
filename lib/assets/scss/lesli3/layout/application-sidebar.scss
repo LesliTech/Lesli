@@ -90,6 +90,14 @@ aside.application-sidebar {
         }
 
         &.lesli-navigation-list {
+
+            &.active {
+                background-color: lesli-css-color(lesli, ocean);
+                ul {
+                    height: auto;
+                }
+            }
+
             .lesli-navigation-list-label {
                 padding: 1rem;
                 border-radius: 6px;
@@ -109,9 +117,7 @@ aside.application-sidebar {
                 & > a span {
                     display: none;
                 }
-                &.active {
-                    height: auto;
-                }
+                
             }
         }
     }
@@ -151,6 +157,15 @@ aside.application-sidebar {
                     max-height: 100%;
                     height: 100%;
                 }
+            }
+
+            // engine name
+            span {
+                color: white;
+                font-size: 1.2rem;
+                font-style: italic;
+                margin-left: -20px;
+                margin-bottom: -5px;
             }
 
             // engine selector button
