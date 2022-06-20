@@ -31,7 +31,7 @@ module LesliHelper
     end
 
     # return the information about the current engine
-    def lesli_engine2(property=nil)
+    def lesli_engine(property=nil)
 
         # build a special object for the administration section
         if is_lesli_administration?()
@@ -67,7 +67,7 @@ module LesliHelper
 
     # Prints the name of the engine
     def lesli_engine_name
-        name = lesli_engine2.dig(:name)
+        name = lesli_engine.dig(:name)
         name = "Admin" if is_lesli_administration?()
         name = name.sub("Cloud", "")
         return nil if name == "Lesli"
