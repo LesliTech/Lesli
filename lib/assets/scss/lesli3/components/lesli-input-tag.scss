@@ -21,7 +21,7 @@ For more information read the license file including with this software.
 // · 
 
 .lesli-input-tag {
-    border: 1px solid lesli-css-color(silver, 500);
+    border: 1px solid lesli-css-color(silver, 300);
     border-radius: 2px;
     position: relative;
     
@@ -38,18 +38,18 @@ For more information read the license file including with this software.
 
     .options {
         position: absolute;
-        border: 1px solid lesli-css-color(silver, 500);
-        background: $lesli-color-background;
+        border: 1px solid lesli-css-color(silver, 300);
+        background: var(--lesli-color-background);
         z-index: 1;
         top: 110%;
         left: 0;
         right: 0;
         padding: 4px 8px;
         height: auto;
-        max-height: 200px;
+        max-height: 300px;
         overflow-y: scroll;
         &-element:hover {
-            background-color: lesli-css-color(silver, 500);
+            background-color: lesli-css-color(silver, 300);
             cursor: pointer;
         }
     }

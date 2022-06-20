@@ -16,13 +16,9 @@ For more information read the license file including with this software.
 // · 
 */
 
-// · import vue tools
 import { ref } from "vue"
 
-// · defining emits
 const emit = defineEmits(["update:modelValue"])
-
-// · defining props
 const props = defineProps({
     modelValue: {
         type: Array,
