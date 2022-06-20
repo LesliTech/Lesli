@@ -26,7 +26,7 @@ module AssetsHelper
         template = "application"
 
         # the main core features must work with the core 3
-        if (is_lesli_onboarding?() || is_lesli_administration?() || lesli_engine2()[:core] == 3)
+        if (is_lesli_onboarding?() || is_lesli_administration?() || lesli_engine()[:core] == 3)
             template = "application3"
         end
 
