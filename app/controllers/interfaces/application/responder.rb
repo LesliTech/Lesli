@@ -100,8 +100,16 @@ module Interfaces
             def respond_with_unauthorized(detail = {})
             
                 error_object = {
-                    message: I18n.t("core.shared.view_text_unauthorized_request")
+                    successful: false
                 }
+
+                if defined?(DeutscheLeibrenten)
+                    error_object[:error] = {
+                        message: I18n.t("core.shared.view_text_unauthorized_request")
+                    }
+                else
+                    error_object[:message] = I18n.t("core.shared.view_text_unauthorized_request")
+                end
 
                 error_object[:detail] = detail if Rails.env == "development"
 

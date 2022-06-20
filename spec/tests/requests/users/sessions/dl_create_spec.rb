@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -18,29 +18,22 @@ For more information read the license file including with this software.
 =end
 
 
-require 'lesli_request_helper'
+require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for DeutscheLeibrenten", :if => defined?(DeutscheLeibrenten) do
     describe "POST:/login.json", type: :request  do
         it "is expected to respond with successful standard json response" do
             @new_user = FactoryBot.create(:user)
             post "/login.json", params: { user: { email: @new_user.email, password: @new_user.password } }
-            expect_response_with_successful
-        end
-    
-        it "is expected to respond with error standard json response" do
-            post "/login.json", params: { user: { email: "", password: "" } }
-            
-            # shared examples
-            expect_response_with_error
+            expect_json_response_successful
         end
     
         it "is expected to respond with error when the credentials are invalid" do
             @new_user = FactoryBot.create(:user)
-            post "/login.json", params: { user: { email: @new_user.email, password: "wrong password" } }
-    
+            post "/login.json", params: { user: { email: @new_user.email, password: Faker::Lorem.word } }
+            
             # shared examples
-            expect_response_with_error
+            expect_json_response_error
         end
     
         it "is expected to respond with error when params are not present" do
@@ -48,7 +41,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             post "/login.json"
     
             # shared examples
-            expect_response_with_error
+            expect_json_response_error
         end
     
         it "is expected to respond with error when params are blank" do
@@ -56,7 +49,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             post "/login.json", params: { user: { email: "", password: "" } }
     
             # shared examples
-            expect_response_with_error
+            expect_json_response_error
         end
     
         # Tests since MFA integration
@@ -73,12 +66,12 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
     
             # shared examples
-            expect_response_with_successful
+            expect_json_response_successful
             
             # custom examples
-            expect(response_body).to have_key("default_path") # this path should be something like /mfa/enter_code?key=ENCRYPTED_EMAIL
-            expect(response_body["default_path"]).to be_a(String)
-            expect(response_body["default_path"]).to include("/mfa/new?key=")
+            expect(response_data).to have_key("default_path") # this path should be something like /mfa/enter_code?key=ENCRYPTED_EMAIL
+            expect(response_data["default_path"]).to be_a(String)
+            expect(response_data["default_path"]).to include("/mfa/new?key=")
         end
     
         it "is expected to respond with successfull and do 'normal' login when MFA fields are exist but it is disabled" do
@@ -93,10 +86,10 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
     
             # shared examples
-            expect_response_with_successful
+            expect_json_response_successful
     
             # custom examples
-            expect(response_body).to have_key("default_path")
+            expect(response_data).to have_key("default_path")
         end
     
         it "is expected to respond with successful when the user had MFA enabled but was disabled" do
@@ -113,10 +106,10 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
     
             # shared examples
-            expect_response_with_successful
+            expect_json_response_successful
     
             # custom examples
-            expect(response_body).to have_key("default_path")
+            expect(response_data).to have_key("default_path")
         end
     
         it "is expected to respond with successful when MFA fields are present but are invalid, so is consider as not configured" do
@@ -131,7 +124,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
     
             # shared examples
-            expect_response_with_successful
+            expect_json_response_successful
         end
     
         it "is expected to respond with successful when MFA is enabled but the method is invalid so MFA should not have been triggered" do
@@ -146,7 +139,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
     
             # shared examples
-            expect_response_with_successful
+            expect_json_response_successful
         end
     end
 end
