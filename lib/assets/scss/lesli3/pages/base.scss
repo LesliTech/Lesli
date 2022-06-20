@@ -53,6 +53,7 @@ body.users-sessions.new {
 
     main.lesli {
         background-color: #F6F7FC;
+        background-color: #FAFAFA;
 
         .columns {
             width: 100%;
@@ -75,21 +76,18 @@ body.users-sessions.new {
                 max-width: 320px;
             }
 
+            // logo container
             .logo {
-
                 img {
                     width: 180px;
-
                     &.lesli_cloud-logo {
                         width: 86px;
                     }
-
                 }
-
             }
 
             form {
-                //margin-bottom: 3.6rem;
+
                 label {
                     font-family: "Montserrat";
                     font-weight: 500;

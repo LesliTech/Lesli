@@ -1,5 +1,4 @@
 /*
-
 Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -17,19 +16,16 @@ For more information read the license file including with this software.
 */
 
 
-// ·
-@import "../base.scss";
+// · 
+import app from "LesliVue/app"
 
-body.users-registrations.new {
 
-    form {
-        .password-requirements {
-            font-size: 12px;
-            .has-text-danger,
-            .has-text-success {
-                font-family: "Exo";   
-                font-weight: 700;
-            }
-        }
-    }
-}
+// · 
+import appShow from "Lesli/vue3/onboarding/show.vue"
+
+
+// · 
+app("Onboarding", [{
+    path: "/",
+    component: appShow
+}])
