@@ -32,7 +32,6 @@ class UserValidationService
         LC::Response.service(true)
     end
 
-
     # validates if password meet with the minimum password requirements
     # this settings are stored in the account_settings table
     def password_complexity(password)
