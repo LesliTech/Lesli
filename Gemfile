@@ -257,7 +257,7 @@ group :development do
     # Generate svg sprite for the lesli icons:
     # svgeez build --prefix="" --source ./app/assets/icons/lesli --destination ./app/views/layouts/partials/_application-svgs.svg
     # and then rename _application-svgs.svg to _application-svgs.html.erb
-    # mv ./app/views/layouts/partials/_application-svgs.svg ./app/views/layouts/partials/_application-svgs.html.er
+    # mv ./app/views/layouts/partials/_application-svgs.svg ./app/views/layouts/partials/_application-svgs.html.erb
     gem "svgeez", "4.1"
 
     # Rouge aims to a be a simple, easy-to-extend drop-in replacement for pygments.

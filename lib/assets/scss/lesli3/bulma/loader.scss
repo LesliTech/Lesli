@@ -36,7 +36,7 @@ $link-focus-border: $info;
 
 // · Override framework colors
 $custom-colors: (
-    "primary": (lesli-css-color(lesli, navy), $primary-invert), 
+    "primary": (lesli-css-color(lesli, brand), $primary-invert), 
     "link": ($link, $link-invert)
 );
 
