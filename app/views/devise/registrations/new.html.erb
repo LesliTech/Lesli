@@ -104,10 +104,46 @@ For more information read the license file including with this software.
                         </div>
                         <div class="field mb-5">
                             <p>Password needs to contain:</p>
-                            <ul class="pl-3">
-                                <li>&bull; minimum  one uppercase letter</li>
-                                <li>&bull; one symbol</li>
-                                <li>&bull; one number</li>
+                            <ul class="pl-3 password-requirements">
+                                <li :class="[
+                                        'icon-text', 'is-block', {
+                                            'has-text-danger': password_uppercase == 1,
+                                            'has-text-success': password_uppercase == 2
+                                        }
+                                    ]">
+                                    <span class="text">
+                                        &bull; minimum  one uppercase letter
+                                    </span>
+                                    <span class="icon">
+                                        <i class="ri-eye-fill"></i>
+                                    </span>
+                                </li>
+                                <li :class="[
+                                        'icon-text', 'is-block', {
+                                            'has-text-danger': password_symbol == 1,
+                                            'has-text-success': password_symbol == 2
+                                        }
+                                    ]">
+                                    <span class="text">
+                                        &bull; one symbol
+                                    </span>
+                                    <span class="icon">
+                                        <i class="ri-eye-fill"></i>
+                                    </span>
+                                </li>
+                                <li :class="[
+                                        'icon-text', 'is-block', {
+                                            'has-text-danger': password_number == 1,
+                                            'has-text-success': password_number == 2
+                                        }
+                                    ]">
+                                    <span class="text">
+                                        &bull; one number
+                                    </span>
+                                    <span class="icon">
+                                        <i class="ri-eye-fill"></i>
+                                    </span>
+                                </li>
                             </ul>
                         </div>
                         <div class="field">

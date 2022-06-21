@@ -22,11 +22,19 @@ require "rails_helper"
 
 
 # · 
-RSpec.describe ApplicationHelper do
+RSpec.describe LesliHelper do
 
-    it "should return the lesli_instance_code" do
+    it "must return the lesli_instance_code" do
         expect(helper.lesli_instance_code).to eql('lesli_cloud') if defined?(LesliCloud)
         expect(helper.lesli_instance_code).to eql('deutsche_leibrenten') if defined?(DeutscheLeibrenten)
+    end
+
+    it "must return the lesli_engine" do
+        expect(helper.lesli_engine).to eql('lesli')
+    end
+
+    it "check if lesli administration" do
+        expect(helper.is_lesli_administration?).to eql(false)
     end
 
 end
