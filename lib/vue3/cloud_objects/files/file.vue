@@ -32,21 +32,22 @@ const props = defineProps({
     },
     showNewFileTab: {
         type: Boolean,
+        required: false,
         default: true,
     },
     showListFilesTab: {
         type: Boolean,
+        required: false,
         default: true,
     },
     cloudModule: {
         type: String,
-        required: false,
+        required: true,
     },
     cloudId: {
         type: String,
-        required: false,
+        required: true,
     },
-    // This is the max size of each file in bytes
     maxSizeFile: {
         type: Number,
         required: false,
@@ -59,12 +60,10 @@ const props = defineProps({
     },
 })
 
-
 store.cloudModule = props.cloudModule
 store.cloudId = props.cloudId
 store.maxFiles = props.maxFiles
 store.maxSizeFile = props.maxSizeFile
-
 </script>
 
 <template>
