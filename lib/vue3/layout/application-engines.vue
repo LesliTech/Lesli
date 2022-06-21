@@ -36,9 +36,7 @@ const storeLayout = useLayout()
                 <slot></slot>
                 <button class="button is-hidden-tablet">
                     <span class="icon">
-                        <span class="material-icons">
-                            close
-                        </span>
+                        <i class="ri-close-line"></i>
                     </span>
                     <span>close</span>
                 </button>
