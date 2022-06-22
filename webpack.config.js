@@ -96,8 +96,11 @@ module.exports = env => {
             "otps/application": "Lesli/vue3/otps/app.js",
             "passes/application": "Lesli/vue3/passes/app.js",
             "invites/application": "Lesli/vue3/invites/app.js",
+
+            "onboardings/application": "Lesli/vue3/onboarding/app.js",
             
-            "administration/application": "Lesli/vue3/administration/app.js",
+            "administration/application": "Lesli/vue3/administration/app.js"
+
         },
 
 
