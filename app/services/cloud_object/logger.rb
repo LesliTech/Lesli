@@ -17,6 +17,27 @@ For more information read the license file including with this software.
     
 =end
 
+
+
+
+
+=begin
+
+** IMPORTANT **
+
+Avoid using this class for logging cloud_object activity. The correct implementation is to set CloudObject
+as the parent class for your model and use the methods provided:
+- log_activity_create
+- log_activity_update
+- log_activity_destroy
+
+You are free to add custom loggers to you model for custom actions.
+
+=end
+
+
+
+
 class CloudObject::Logger
 
     # @return [void]
@@ -28,6 +49,8 @@ class CloudObject::Logger
     #   ticket = CloudHelp::Ticket.create(params)
     #   CloudHelp::Ticket.log_create(User.first, ticket)
     def self.log_create(current_user, cloud_object)
+        LC::Debug.deprecation("please use CloudObject.log_activity_create or your own implementation on the model instead")
+
         cloud_object.activities.create(
             user_creator: current_user,
             category: "action_create"
@@ -59,6 +82,7 @@ class CloudObject::Logger
     #   new_attributes = ticket.attributes
     #   CloudHelp::TicketLogger.log_update(User.find(1), ticket, old_attributes, new_attributes)
     def self.log_update(current_user, cloud_object, old_attributes, new_attributes, category: "action_update")
+        LC::Debug.deprecation("please use CloudObject.log_activity_update or your own implementation on the model instead")
 
         # We remove values that are not tracked in the activities
         old_attributes.except!("id", "created_at", "updated_at", "deleted_at")
@@ -87,6 +111,8 @@ class CloudObject::Logger
     #   CloudHelp::TicketLogger.log_destroy(User.first, ticket)
     #   ticket.destroy
     def self.log_destroy(current_user, cloud_object)
+        LC::Debug.deprecation("please use CloudObject.log_activity_destroy or your own implementation on the model instead")
+
         cloud_object.activities.create(
             user_creator: current_user,
             category: "action_destroy"
