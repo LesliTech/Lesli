@@ -41,6 +41,9 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             expect(response_body["category"]).to eql("user")
             expect(response_body["active"]).to eql(true)
             expect(response_body["email"]).to eql(user[:email])
+
+            # activity spec
+            expect(User.find_by_id(response_body["id"]).activities.find_by(category: 'action_create')).to_not be_nil
         end
 
         it "is expected to assign limited role to user" do
