@@ -25,6 +25,9 @@ app({
     data(){
         return {
             translations: {},
+            password_uppercase: 0,
+            password_symbol: 0,
+            password_number: 0,
             sign_up: {
                 email: '',
                 password: '',
@@ -73,6 +76,7 @@ app({
             this.notification.message= ""
             this.notification.show= false
             this.notification.type= "default"
+            this.verifyPasswords()
         },
 
         showNotification(message,type = "is-danger") {
@@ -83,18 +87,31 @@ app({
 
         verifyPasswords() {
 
-            let password = this.sign_up.password
-
-            let password_confirmation = this.sign_up.password_confirmation
-
-            if (password && password_confirmation) {
-                if (password !== password_confirmation) {
-                    this.showNotification(this.translations.shared.errors.unmatched_passwords)
-                    return
-                }
+            this.password_uppercase = 0
+            this.password_number = 0
+            this.password_symbol = 0
+            
+            if (this.sign_up.password.length <= 0) {
+                return
             }
 
-            this.notification.show = false
+            if (this.sign_up.password.search(/[A-Z]/) < 0) {
+                this.password_uppercase = 1
+            } else {
+                this.password_uppercase = 2
+            }
+
+            if (this.sign_up.password.search(/[0-9]/) < 0) {
+                this.password_number = 1
+            } else {
+                this.password_number = 2
+            }
+
+            if (this.sign_up.password.search(/[!#$%&]/) < 0) {
+                this.password_symbol = 1
+            } else {
+                this.password_symbol = 2
+            }
 
         }
 

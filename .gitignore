@@ -88,5 +88,9 @@ yarn.lock
 
 brakeman.html
 
+# Docker files
+docker-compose.yml
+postgres_data
+
 # RVM Gemsets
 .ruby-gemset
