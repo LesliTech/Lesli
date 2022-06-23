@@ -140,6 +140,7 @@ onMounted(() => {
     // If the information is available from the start, we update the labels and sources
     if (props.options) { chart.updateOptions(props.options) }
     if (props.series) { chart.updateSeries(props.series) }
+    if (props.labels) { chart.updateOptions({ labels: props.labels }) }
 
 })
 

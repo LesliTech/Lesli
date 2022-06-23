@@ -152,17 +152,7 @@ export default {
             this.context = null,
             this.document = {}
         }
-    },
-    watch: {
-        'data.global.show_panel_document_viewer': function (val) {
-            this.document = val
-            this.loading = true
-            if (!this.document.name || !this.document.url) { return this.open = false; }
-            this.open = true
-            this.renderPdf()
-        },
     }
-    
 }
 </script>
 <template>

@@ -16,44 +16,35 @@ For more information read the license file including with this software.
 // · 
 %>
 
+<%= navigation_lesli_item(main_app.users_path, I18n.t("core.shared.sidebar_nav_account"), :rmi => "ri-building-4-line"); %>
+<%= navigation_lesli_item(main_app.users_path, I18n.t("core.shared.sidebar_nav_users"), :rmi => "ri-user-line"); %>
 
 
-<%= navigation_vue_item(main_app.root_administration_path) do %>
-    <i class="ri-building-4-fill"></i>
-    <span><%= I18n.t("core.shared.sidebar_nav_account") %></span>
-<% end %>
+<%#
 
-<%= navigation_vue_item(main_app.users_path) do %>
-    <i class="ri-user-line"></i>
-    <span><%= I18n.t("core.shared.sidebar_nav_users") %></span>
-<% end %>
-
-<%= navigation_item(main_app.role_descriptors_path) do %>
+<%= navigation_item(main_app.role_descriptors_path) do % >
     <i class="fas fa-user-shield"></i>
-    <span><%= I18n.t("core.shared.sidebar_nav_role_descriptors") %></span>
-<% end %>
-
-<%= navigation_item(main_app.roles_path) do %>
+    <span><%= I18n.t("core.shared.sidebar_nav_role_descriptors") % ></span>
+<% end %  >
+<%= navigation_item(main_app.roles_path) do % >
     <i class="fas fa-shield-alt"></i>
-    <span><%= I18n.t("core.shared.sidebar_nav_roles_privileges") %></span>
-<% end %>
-
-<%= navigation_item(main_app.account_integrations_path) do %>
+    <span><%= I18n.t("core.shared.sidebar_nav_roles_privileges") % ></span>
+<% end % >
+<%= navigation_item(main_app.account_integrations_path) do % >
     <i class="fas fa-network-wired"></i>
-    <span><%= I18n.t("core.shared.sidebar_nav_integrations") %></span>
-<% end %>
-
-<%= navigation_item(main_app.account_cronos_path) do %>
+    <span><%= I18n.t("core.shared.sidebar_nav_integrations") % ></span>
+<% end % >
+<%= navigation_item(main_app.account_cronos_path) do % >
     <i class="fas fa-hourglass-half"></i>
-    <span><%= I18n.t("core.shared.sidebar_nav_cronos") %></span>
-<% end %>
-
-<%= navigation_item(main_app.account_currencies_path) do %>
+    <span><%= I18n.t("core.shared.sidebar_nav_cronos") % ></span>
+<% end % >
+<%= navigation_item(main_app.account_currencies_path) do % >
     <i class="fas fa-coins"></i>
-    <span><%= I18n.t("core.shared.sidebar_nav_currencies") %></span>
-<% end %>
-
-<%= navigation_item(main_app.account_settings_path) do %>
+    <span><%= I18n.t("core.shared.sidebar_nav_currencies") % ></span>
+<% end % >
+<%= navigation_item(main_app.account_settings_path) do % >
     <i class="fas fa-cogs"></i>
-    <span><%= I18n.t("core.shared.sidebar_nav_settings") %></span>
-<% end %>
+    <span><%= I18n.t("core.shared.sidebar_nav_settings") % ></span>
+<% end % >
+
+%>

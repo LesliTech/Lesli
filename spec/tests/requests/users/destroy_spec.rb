@@ -20,27 +20,31 @@
 # include helpers, configuration & initializers for request tests
 require "lesli_request_helper"
 
-RSpec.describe "DEL:/administration/users/:id.json with user with invalid permissions", type: :request do
-    include_context "request user authentication"
+RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
 
-    it "is expected to respond with unauthorized when is deleting a user" do
-        admin_user = FactoryBot.create(:user)
-        limited_user = FactoryBot.create(:user, role_name: "limited")
+    describe "DEL:/administration/users/:id.json with user with invalid permissions", type: :request do
+        include_context "request user authentication"
 
-        sign_in limited_user
+        it "is expected to respond with unauthorized when is deleting a user" do
+            admin_user = FactoryBot.create(:user)
+            limited_user = FactoryBot.create(:user, role_name: "limited")
 
-        delete "/administration/users/#{admin_user.id}.json"
+            sign_in limited_user
 
-        # shared examples
-        expect_json_response_unauthorized
+            delete "/administration/users/#{admin_user.id}.json"
+
+            # shared examples
+            expect_response_with_unauthorized
+        end
+
+        it "is expected to delete a user from db" do
+            limited_user = FactoryBot.create(:user, role_name: "limited")
+
+            delete "/administration/users/#{limited_user.id}.json"
+
+            # shared examples
+            expect_response_with_successful
+        end
     end
 
-    it "is expected to delete a user from db" do
-        limited_user = FactoryBot.create(:user, role_name: "limited")
-
-        delete "/administration/users/#{limited_user.id}.json"
-
-        # shared examples
-        expect_json_response_successful
-    end
 end

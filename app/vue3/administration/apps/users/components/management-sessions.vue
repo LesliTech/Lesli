@@ -23,7 +23,7 @@ import { ref, reactive, onMounted, watch, computed } from "vue"
 
 // · import lesli stores
 import { useUser } from "LesliVue/stores/user"
-import { useManagementSessions } from "LesliCore/administration/stores/users/management-sessions"
+import { useManagementSessions } from "LesliCore/administration/stores/users/managementSessions"
 
 // · implement stores
 const storeUser = useUser()
@@ -59,8 +59,8 @@ const columns = [{
 
 </script>
 <template>
-    <lesli-data-table
+    <lesli-table
         :columns="columns"
         :records="storeManagementSessions.records">
-    </lesli-data-table>
+    </lesli-table>
 </template>
