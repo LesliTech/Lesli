@@ -69,8 +69,10 @@ module NavigationHelper
     end
 
     # 00.00 System administration
-    def navigation_administration title: "Admin", subtitle: "icons/administration-logo.svg"
-        navigation_engine_item title, subtitle, main_app.account_path
+    def navigation_administration title: "Administration", subtitle: "Users, privileges, access roles."
+        navigation_engine_item(title, subtitle, "administration", main_app.account_path, 
+            ["accounts", "users"].include?(controller_path)
+        )
     end
 
     # ADMINISTRATION
