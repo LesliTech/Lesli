@@ -9,7 +9,12 @@ prop that indicates the cloud module that will be used for interacting with the 
 - **type**: String
 - **required**: true
 
-**:cloudId**
+**:cloudObject**
+prop that indicates the resource that you need to interact with.
+- **type**: String
+- **required**: true
+
+**:cloudObjectId**
 prop that indicates the id of the resource that you need to interact with.
 - **type**: String
 - **required**: true
@@ -37,11 +42,6 @@ prop that indicates if the will be shown the list files tab, by default it is tr
 - **type**: String
 - **default**: true
 - **required**: false
-
-**:cloudModule**
-prop that indicates the cloud module that will be used for interacting with the backend. 
-- **type**: String
-- **required**: true
 
 **:maxSizeFile**
 prop the indicates the maximun size of each file that can be uploaded, by default it is 1MB but the value is in bytes. That means that if you want to upload a file with a size of 5MB you need to set the value to 5000000.
@@ -72,7 +72,8 @@ You can use defineAsyncComponent to load the component asynchronously. That mean
 
 ```html
 <component-files 
-    cloud-module="admin/projects" 
-    :cloud-id="project.id"
+    cloud-module="mitwerken"
+    cloud-object="projects"
+    :cloud-object-id="project.id"
 ></component-files>
 ```
