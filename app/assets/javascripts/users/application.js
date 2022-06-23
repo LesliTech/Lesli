@@ -61683,8 +61683,8 @@ vue_min_default().component("component-data-pagination", data_pagination); // ·
     }
   });
 });
-;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/roles/pages/list.vue?vue&type=template&id=6d703fd2&
-var listvue_type_template_id_6d703fd2_render = function () {
+;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/apps/list.vue?vue&type=template&id=dec2d926&
+var listvue_type_template_id_dec2d926_render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -61694,7 +61694,7 @@ var listvue_type_template_id_6d703fd2_render = function () {
     [
       _c(
         "component-header",
-        { attrs: { title: _vm.translations.core.roles.view_text_roles } },
+        { attrs: { title: _vm.translations.core.users.view_text_title_users } },
         [
           _c(
             "div",
@@ -61704,9 +61704,10 @@ var listvue_type_template_id_6d703fd2_render = function () {
                 "button",
                 {
                   staticClass: "button",
+                  attrs: { name: "btn-reload" },
                   on: {
                     click: function ($event) {
-                      return _vm.getRoles()
+                      return _vm.getUsers()
                     },
                   },
                 },
@@ -61721,14 +61722,17 @@ var listvue_type_template_id_6d703fd2_render = function () {
                   _vm._v(" "),
                   _c("span", [
                     _vm._v(
-                      " " + _vm._s(_vm.translations.core.shared.view_btn_reload)
+                      " " +
+                        _vm._s(
+                          _vm.translations.core.shared.view_text_btn_reload
+                        )
                     ),
                   ]),
                 ],
                 1
               ),
               _vm._v(" "),
-              _vm.index_abilities.roles.create
+              _vm.index_privileges.users.create
                 ? _c(
                     "router-link",
                     {
@@ -61742,7 +61746,7 @@ var listvue_type_template_id_6d703fd2_render = function () {
                       _vm._v(" "),
                       _c("span", [
                         _vm._v(
-                          _vm._s(_vm.translations.core.roles.view_btn_new_role)
+                          _vm._s(_vm.translations.core.users.view_text_add_user)
                         ),
                       ]),
                     ],
@@ -61761,2057 +61765,88 @@ var listvue_type_template_id_6d703fd2_render = function () {
             {
               attrs: {
                 "search-text":
-                  _vm.translations.core.roles
-                    .view_toolbar_search_by_placeholder_text,
-                "initial-value": _vm.filters.text,
+                  _vm.translations.core.users
+                    .view_toolbar_filter_placeholder_search,
+                "initial-value": _vm.filters.search,
               },
-              on: { search: _vm.searchRoles },
+              on: { search: _vm.searchUsers },
             },
             [
-              _c("div", { staticClass: "control" }, [
-                _c("div", { staticClass: "select" }, [
-                  _c(
-                    "select",
-                    {
-                      directives: [
+              _vm.roles
+                ? _c("div", { staticClass: "control" }, [
+                    _c("div", { staticClass: "select" }, [
+                      _c(
+                        "select",
                         {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.filters.per_page,
-                          expression: "filters.per_page",
-                        },
-                      ],
-                      attrs: { name: "filter-per-page" },
-                      on: {
-                        change: function ($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function (o) {
-                              return o.selected
-                            })
-                            .map(function (o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.filters,
-                            "per_page",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        },
-                      },
-                    },
-                    [
-                      _c("option", { domProps: { value: 10 } }, [_vm._v("10")]),
-                      _vm._v(" "),
-                      _c("option", { domProps: { value: 15 } }, [_vm._v("15")]),
-                      _vm._v(" "),
-                      _c("option", { domProps: { value: 30 } }, [_vm._v("30")]),
-                      _vm._v(" "),
-                      _c("option", { domProps: { value: 50 } }, [_vm._v("50")]),
-                    ]
-                  ),
-                ]),
-              ]),
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.loading ? _c("component-data-loading") : _vm._e(),
-      _vm._v(" "),
-      !_vm.loading && _vm.roles.length == 0
-        ? _c("component-data-empty")
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.roles.length > 0
-        ? _c("div", { staticClass: "card" }, [
-            _c(
-              "div",
-              { staticClass: "card-content" },
-              [
-                !_vm.loading && _vm.roles.length > 0
-                  ? _c("b-table", {
-                      attrs: {
-                        data: _vm.roles,
-                        hoverable: true,
-                        "sort-icon-size": _vm.sort.icon_size,
-                        "default-sort-direction": _vm.sort.direction,
-                      },
-                      on: { click: _vm.showRole },
-                      scopedSlots: _vm._u(
-                        [
-                          {
-                            key: "default",
-                            fn: function (props) {
-                              return [
-                                _c(
-                                  "b-table-column",
-                                  {
-                                    attrs: {
-                                      label:
-                                        _vm.translations.core.shared
-                                          .view_text_name,
-                                      field: "name",
-                                    },
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                        " +
-                                        _vm._s(props.row.translated_name) +
-                                        "\n                    "
-                                    ),
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "b-table-column",
-                                  {
-                                    attrs: {
-                                      label:
-                                        _vm.translations.core.roles
-                                          .view_text_users_count,
-                                      field: "users_count",
-                                    },
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                        " +
-                                        _vm._s(
-                                          props.row.user_count
-                                            ? props.row.user_count
-                                            : 0
-                                        ) +
-                                        "\n                    "
-                                    ),
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "b-table-column",
-                                  {
-                                    attrs: {
-                                      label:
-                                        _vm.translations.core.shared
-                                          .view_text_active,
-                                      field: "active",
-                                    },
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                        " +
-                                        _vm._s(
-                                          props.row.active
-                                            ? _vm.translations.core.shared
-                                                .view_text_yes
-                                            : _vm.translations.core.shared
-                                                .view_text_no
-                                        ) +
-                                        "\n                    "
-                                    ),
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "b-table-column",
-                                  {
-                                    attrs: {
-                                      label:
-                                        _vm.translations.core.shared
-                                          .view_text_actions,
-                                      centered: "",
-                                    },
-                                    nativeOn: {
-                                      click: function ($event) {
-                                        $event.preventDefault()
-                                        return function (e) {
-                                          return e.stopPropagation()
-                                        }.apply(null, arguments)
-                                      },
-                                    },
-                                  },
-                                  [
-                                    _c(
-                                      "b-dropdown",
-                                      {
-                                        attrs: {
-                                          "aria-role": "menu",
-                                          position: "is-bottom-left",
-                                        },
-                                        scopedSlots: _vm._u(
-                                          [
-                                            {
-                                              key: "trigger",
-                                              fn: function (ref) {
-                                                var active = ref.active
-                                                return _c(
-                                                  "button",
-                                                  {
-                                                    staticClass:
-                                                      "button is-rounded is-default",
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "span",
-                                                      { staticClass: "icon" },
-                                                      [
-                                                        !active
-                                                          ? _c("i", {
-                                                              staticClass:
-                                                                "fas fa-ellipsis-h fa-1x",
-                                                            })
-                                                          : _vm._e(),
-                                                        _vm._v(" "),
-                                                        active
-                                                          ? _c("i", {
-                                                              staticClass:
-                                                                "far fa-circle",
-                                                            })
-                                                          : _vm._e(),
-                                                      ]
-                                                    ),
-                                                  ]
-                                                )
-                                              },
-                                            },
-                                          ],
-                                          null,
-                                          true
-                                        ),
-                                      },
-                                      [
-                                        _vm._v(" "),
-                                        _c(
-                                          "b-dropdown-item",
-                                          {
-                                            staticClass: "has-text-right pr-4",
-                                            on: {
-                                              click: function ($event) {
-                                                return _vm.$router.push(
-                                                  _vm.appMountPath +
-                                                    "/" +
-                                                    props.row.id +
-                                                    "?view_type=simple"
-                                                )
-                                              },
-                                            },
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                                " +
-                                                _vm._s(
-                                                  _vm.translations.core.roles
-                                                    .view_btn_edit_privilege_actions
-                                                ) +
-                                                "\n                                "
-                                            ),
-                                            _c(
-                                              "span",
-                                              { staticClass: "icon" },
-                                              [
-                                                _c("i", {
-                                                  staticClass: "fas fa-cogs",
-                                                }),
-                                              ]
-                                            ),
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "b-dropdown-item",
-                                          {
-                                            staticClass: "has-text-right pr-4",
-                                            on: {
-                                              click: function ($event) {
-                                                return _vm.$router.push(
-                                                  _vm.appMountPath +
-                                                    "/" +
-                                                    props.row.id +
-                                                    "?view_type=edit"
-                                                )
-                                              },
-                                            },
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                                " +
-                                                _vm._s(
-                                                  _vm.translations.core.roles
-                                                    .view_btn_edit_role_information
-                                                ) +
-                                                "\n                                "
-                                            ),
-                                            _c(
-                                              "span",
-                                              { staticClass: "icon" },
-                                              [
-                                                _c("i", {
-                                                  staticClass: "fas fa-edit",
-                                                }),
-                                              ]
-                                            ),
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "b-dropdown-item",
-                                          {
-                                            staticClass: "has-text-right pr-4",
-                                            on: {
-                                              click: function ($event) {
-                                                return _vm.url.go(
-                                                  _vm.usersMountPath +
-                                                    "?role=" +
-                                                    props.row.name
-                                                )
-                                              },
-                                            },
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                                " +
-                                                _vm._s(
-                                                  _vm.translations.core.roles
-                                                    .view_btn_users_list
-                                                ) +
-                                                "\n                                "
-                                            ),
-                                            _c(
-                                              "span",
-                                              { staticClass: "icon" },
-                                              [
-                                                _c("i", {
-                                                  staticClass: "fas fa-users",
-                                                }),
-                                              ]
-                                            ),
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "b-dropdown-item",
-                                          {
-                                            staticClass: "has-text-right pr-4",
-                                            on: {
-                                              click: function ($event) {
-                                                return _vm.$router.push(
-                                                  _vm.appMountPath +
-                                                    "/" +
-                                                    props.row.id +
-                                                    "?view_type=logs"
-                                                )
-                                              },
-                                            },
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                                " +
-                                                _vm._s(
-                                                  _vm.translations.core.roles
-                                                    .view_btn_logs
-                                                ) +
-                                                "\n                                "
-                                            ),
-                                            _c(
-                                              "span",
-                                              { staticClass: "icon" },
-                                              [
-                                                _c("i", {
-                                                  staticClass: "fas fa-history",
-                                                }),
-                                              ]
-                                            ),
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _vm.index_abilities.roles.destroy
-                                          ? _c(
-                                              "b-dropdown-item",
-                                              {
-                                                staticClass:
-                                                  "has-text-right pr-4",
-                                                on: {
-                                                  click: function ($event) {
-                                                    return _vm.deleteRole(
-                                                      props.row.id
-                                                    )
-                                                  },
-                                                },
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                                " +
-                                                    _vm._s(
-                                                      _vm.translations.core
-                                                        .roles.view_btn_delete
-                                                    ) +
-                                                    "\n                                "
-                                                ),
-                                                _c(
-                                                  "span",
-                                                  { staticClass: "icon" },
-                                                  [
-                                                    _c("i", {
-                                                      staticClass:
-                                                        "fas fa-trash",
-                                                    }),
-                                                  ]
-                                                ),
-                                              ]
-                                            )
-                                          : _vm._e(),
-                                      ],
-                                      1
-                                    ),
-                                  ],
-                                  1
-                                ),
-                              ]
-                            },
-                          },
-                        ],
-                        null,
-                        false,
-                        14779828
-                      ),
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("b-pagination", {
-                  attrs: {
-                    simple: false,
-                    total: _vm.pagination.roles_count,
-                    current: _vm.pagination.current_page,
-                    "per-page": _vm.filters.per_page,
-                    order: "is-centered",
-                    "icon-prev": "chevron-left",
-                    "icon-next": "chevron-right",
-                    "aria-next-label": "Next page",
-                    "aria-previous-label": "Previous page",
-                    "aria-page-label": "Page",
-                    "aria-current-label": "Current page",
-                  },
-                  on: {
-                    "update:current": function ($event) {
-                      return _vm.$set(_vm.pagination, "current_page", $event)
-                    },
-                  },
-                }),
-              ],
-              1
-            ),
-          ])
-        : _vm._e(),
-    ],
-    1
-  )
-}
-var listvue_type_template_id_6d703fd2_staticRenderFns = []
-listvue_type_template_id_6d703fd2_render._withStripped = true
-
-
-;// CONCATENATED MODULE: ../../app/vue2/roles/pages/list.vue?vue&type=template&id=6d703fd2&
-
-;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/roles/pages/list.vue?vue&type=script&lang=js&
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function listvue_type_script_lang_js_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function listvue_type_script_lang_js_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? listvue_type_script_lang_js_ownKeys(Object(source), !0).forEach(function (key) { listvue_type_script_lang_js_defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : listvue_type_script_lang_js_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function listvue_type_script_lang_js_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*
-
-Copyright (c) 2020, all rights reserved.
-
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
-pictures and any other information belongs to the owner of this platform.
-
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
-
-For more information read the license file including with this software.
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
-
-*/
-/* harmony default export */ const pages_listvue_type_script_lang_js_ = ({
-  props: {
-    appMountPath: {
-      type: String,
-      default: ''
-    },
-    usersMountPath: {
-      type: String,
-      default: '/administration/users'
-    }
-  },
-  data: function data() {
-    return {
-      roles: [],
-      roles_name: [],
-      sort: {
-        icon_size: 'is-small',
-        direction: 'desc'
-      },
-      filters: {
-        per_page: 10,
-        text: ''
-      },
-      sorting: {
-        order: "asc",
-        field: "id",
-        icon_size: "is-small"
-      },
-      pagination: {
-        roles_count: 0,
-        current_page: 1,
-        range_before: 3,
-        range_after: 3
-      },
-      translations: {
-        core: {
-          roles: I18n.t('core.roles'),
-          shared: I18n.t('core.shared')
-        }
-      },
-      loading: false,
-      index_abilities: {
-        users: this.abilities.privilege('users'),
-        roles: this.abilities.privilege('roles'),
-        logs: this.abilities.privilege('role/activities')
-      },
-      filters_ready: false,
-      roles_name_ready: false
-    };
-  },
-  mounted: function mounted() {
-    this.setSessionStorageFilters();
-    this.getRolesOptions();
-    this.getRoles();
-  },
-  methods: {
-    setSessionStorageFilters: function setSessionStorageFilters() {
-      var stored_filters = this.storage.local("filters");
-
-      if (stored_filters) {
-        for (var key in stored_filters) {
-          this.$set(this.filters, key, stored_filters[key]);
-        }
-      }
-
-      this.filters_ready = true;
-    },
-    getRolesOptions: function getRolesOptions() {
-      var _this = this;
-
-      var url = this.url.admin('roles/list');
-      this.http.get(url).then(function (result) {
-        if (result.successful) {
-          _this.roles_name = result.data.map(function (role) {
-            return {
-              name: role.name,
-              translated_name: _this.object_utils.translateEnum(_this.translations.core.roles, 'column_enum_role', role.name) || role.name
-            };
-          });
-          _this.roles_name_ready = true;
-        } else {
-          _this.msg.error(result.error.message);
-        }
-      }).catch(function (error) {
-        console.log(error);
-      });
-    },
-    getRoles: function getRoles() {
-      var _this2 = this;
-
-      this.storage.local("filters", this.filters);
-      this.loading = true;
-      var url = this.url.admin('roles');
-      url = url.filters({
-        text: this.filters.role_name || this.filters.text
-      }).paginate(this.pagination.current_page, this.filters.per_page);
-      this.http.get(url).then(function (result) {
-        _this2.loading = false;
-
-        if (result.successful) {
-          _this2.roles = result.data.records.map(function (role) {
-            return listvue_type_script_lang_js_objectSpread(listvue_type_script_lang_js_objectSpread({}, role), {}, {
-              translated_name: _this2.object_utils.translateEnum(_this2.translations.core.roles, 'column_enum_role', role.name) || role.name
-            });
-          });
-          _this2.pagination.roles_count = result.data.pagination.count_total;
-        } else {
-          _this2.msg.error(result.error.message);
-        }
-      }).catch(function (error) {
-        console.log(error);
-      });
-    },
-    searchRoles: function searchRoles(text) {
-      this.pagination.current_page = 1;
-      text = text.trim();
-      this.filters.role_name = null;
-
-      if (text != "") {
-        var _iterator = _createForOfIteratorHelper(this.roles_name),
-            _step;
-
-        try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var role = _step.value;
-
-            if ((role.translated_name || "").toLowerCase() === text.toLowerCase()) {
-              this.filters.role_name = role.name;
-              break;
-            }
-          }
-        } catch (err) {
-          _iterator.e(err);
-        } finally {
-          _iterator.f();
-        }
-      }
-
-      this.filters.text = text;
-      this.getRoles();
-    },
-    deleteRole: function deleteRole(role_id) {
-      var _this3 = this;
-
-      var url = this.url.admin('roles/:id', {
-        id: role_id
-      });
-      this.http.delete(url).then(function (result) {
-        if (result.successful) {
-          _this3.msg.success(_this3.translations.core.roles.messages_success_role_deleted);
-
-          _this3.roles = _this3.roles.filter(function (e) {
-            return e.id !== role_id;
-          });
-        } else {
-          _this3.msg.error(result.error.message);
-        }
-
-        ;
-      }).catch(function (error) {
-        console.log(error);
-      });
-    },
-    showRole: function showRole(role) {
-      console.log('doing the deed?');
-      this.$router.push("".concat(this.appMountPath, "/").concat(role.id));
-    }
-  },
-  watch: {
-    'pagination.current_page': function paginationCurrent_page() {
-      this.getRoles();
-    },
-    'filters.per_page': function filtersPer_page() {
-      if (this.filters_ready && this.roles_name_ready) {
-        this.getRoles();
-      }
-    }
-  }
-});
-;// CONCATENATED MODULE: ../../app/vue2/roles/pages/list.vue?vue&type=script&lang=js&
- /* harmony default export */ const roles_pages_listvue_type_script_lang_js_ = (pages_listvue_type_script_lang_js_); 
-;// CONCATENATED MODULE: ../../app/vue2/roles/pages/list.vue
-
-
-
-
-
-/* normalize component */
-;
-var pages_list_component = componentNormalizer_normalizeComponent(
-  roles_pages_listvue_type_script_lang_js_,
-  listvue_type_template_id_6d703fd2_render,
-  listvue_type_template_id_6d703fd2_staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var pages_list_api; }
-pages_list_component.options.__file = "app/vue2/roles/pages/list.vue"
-/* harmony default export */ const pages_list = (pages_list_component.exports);
-;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/roles/pages/show.vue?vue&type=template&id=090922b1&
-var showvue_type_template_id_090922b1_render = function () {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "section",
-    { staticClass: "application-component" },
-    [
-      _vm.role.id && _vm.data.view_type === "edit"
-        ? _c("component-form", {
-            attrs: { role: _vm.role, "app-mount-path": _vm.appMountPath },
-          })
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.role.id && _vm.data.view_type === "logs"
-        ? _c("component-form-logs", {
-            attrs: { role: _vm.role, "app-mount-path": _vm.appMountPath },
-          })
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.role.id && _vm.data.view_type === "simple"
-        ? _c("component-form-simple", {
-            attrs: { role: _vm.role, "app-mount-path": _vm.appMountPath },
-          })
-        : _vm._e(),
-    ],
-    1
-  )
-}
-var showvue_type_template_id_090922b1_staticRenderFns = []
-showvue_type_template_id_090922b1_render._withStripped = true
-
-
-;// CONCATENATED MODULE: ../../app/vue2/roles/pages/show.vue?vue&type=template&id=090922b1&
-
-;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/roles/components/form.vue?vue&type=template&id=aef9a5b8&
-var formvue_type_template_id_aef9a5b8_render = function () {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "section",
-    [
-      _c("component-header", { attrs: { title: _vm.getTitle() } }, [
-        _c(
-          "div",
-          { staticClass: "buttons" },
-          [
-            _c(
-              "router-link",
-              { staticClass: "button", attrs: { to: _vm.appMountPath + "/" } },
-              [
-                _c("b-icon", { attrs: { icon: "list", size: "is-small" } }),
-                _vm._v(" "),
-                _c("span", [
-                  _vm._v(
-                    _vm._s(_vm.translations.core.roles.view_btn_roles_list)
-                  ),
-                ]),
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _vm.role.id
-              ? _c(
-                  "b-button",
-                  {
-                    staticClass: "button",
-                    on: {
-                      click: function ($event) {
-                        $event.stopPropagation()
-                        return _vm.$set(_vm.data, "view_type", "logs")
-                      },
-                    },
-                  },
-                  [
-                    _c("b-icon", {
-                      attrs: { icon: "history", size: "is-small" },
-                    }),
-                    _vm._v(" "),
-                    _c("span", [
-                      _vm._v(_vm._s(_vm.translations.core.roles.view_btn_logs)),
-                    ]),
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.role.id
-              ? _c(
-                  "b-button",
-                  {
-                    staticClass: "button",
-                    on: {
-                      click: function ($event) {
-                        $event.stopPropagation()
-                        return _vm.$set(_vm.data, "view_type", "simple")
-                      },
-                    },
-                  },
-                  [
-                    _c("b-icon", { attrs: { icon: "cogs", size: "is-small" } }),
-                    _vm._v(" "),
-                    _c("span", [
-                      _vm._v(
-                        _vm._s(
-                          _vm.translations.core.roles
-                            .view_btn_edit_privilege_actions
-                        )
-                      ),
-                    ]),
-                  ],
-                  1
-                )
-              : _vm._e(),
-          ],
-          1
-        ),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "box" }, [
-        _c(
-          "form",
-          {
-            on: {
-              submit: function ($event) {
-                $event.preventDefault()
-                return _vm.submit.apply(null, arguments)
-              },
-            },
-          },
-          [
-            _c(
-              "fieldset",
-              { attrs: { disabled: !_vm.edit || _vm.submitting_form } },
-              [
-                _c("div", { staticClass: "field" }, [
-                  _c("label", { staticClass: "label" }, [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(_vm.translations.core.roles.column_name) +
-                        "\n                        "
-                    ),
-                    _c("sup", { staticClass: "has-text-danger" }, [
-                      _vm._v("*"),
-                    ]),
-                  ]),
-                  _vm._v(" "),
-                  !_vm.role.id
-                    ? _c("div", [
-                        _c("input", {
                           directives: [
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.role.name,
-                              expression: "role.name",
+                              value: _vm.filters.role,
+                              expression: "filters.role",
                             },
                           ],
-                          staticClass: "input",
-                          attrs: { type: "text", required: "" },
-                          domProps: { value: _vm.role.name },
                           on: {
-                            input: function ($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(_vm.role, "name", $event.target.value)
-                            },
-                          },
-                        }),
-                      ])
-                    : _c("div", { staticClass: "control" }, [
-                        _c("input", {
-                          staticClass: "input",
-                          attrs: {
-                            type: "text",
-                            required: "",
-                            disabled: _vm.role.id,
-                          },
-                          domProps: {
-                            value: _vm.object_utils.translateEnum(
-                              _vm.translations.core.roles,
-                              "column_enum_role",
-                              _vm.role.name
-                            ),
-                          },
-                        }),
-                      ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "field" }, [
-                  _c("label", { staticClass: "label" }, [
-                    _vm._v(
-                      _vm._s(_vm.translations.core.roles.column_default_path)
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "control" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.role.default_path,
-                          expression: "role.default_path",
-                        },
-                      ],
-                      staticClass: "input",
-                      attrs: {
-                        type: "text",
-                        placeholder:
-                          _vm.translations.core.roles
-                            .view_placeholder_default_path_at_login,
-                      },
-                      domProps: { value: _vm.role.default_path },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.role,
-                            "default_path",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "help" }, [
-                    _vm._v(
-                      " " +
-                        _vm._s(
-                          _vm.translations.core.roles
-                            .view_text_default_path_description
-                        )
-                    ),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("hr"),
-                _vm._v(" "),
-                _c("div", { staticClass: "field" }, [
-                  _c("label", { staticClass: "label" }, [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(
-                          _vm.translations.core.roles
-                            .view_text_hierarchical_level
-                        ) +
-                        "\n                        "
-                    ),
-                    _c("sup", { staticClass: "has-text-danger" }, [
-                      _vm._v("*"),
-                    ]),
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "ul",
-                    { staticClass: "hierarchical_level_selector" },
-                    _vm._l(_vm.options.levels, function (option, index) {
-                      return _c(
-                        "li",
-                        {
-                          key: index,
-                          class: {
-                            "has-background-info has-text-light":
-                              _vm.isSelected(option.level),
-                          },
-                          on: {
-                            click: function ($event) {
-                              return _vm.setObjectLevelPermission(option.level)
-                            },
+                            change: [
+                              function ($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function (o) {
+                                    return o.selected
+                                  })
+                                  .map(function (o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.filters,
+                                  "role",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              },
+                              _vm.getUsers,
+                            ],
                           },
                         },
                         [
-                          _c("span", { staticClass: "icon is-medium" }, [
-                            _c("i", {
-                              class: [
-                                "fas",
-                                _vm.isSelected(option.level)
-                                  ? "fa-check"
-                                  : "fa-chevron-right",
-                              ],
-                            }),
+                          _c("option", { domProps: { value: null } }, [
+                            _vm._v(
+                              " " +
+                                _vm._s(
+                                  _vm.translations.core.users
+                                    .view_toolbar_filter_all_roles
+                                ) +
+                                " "
+                            ),
                           ]),
-                          _vm._v(
-                            "\n                            " +
-                              _vm._s(
-                                (_vm.translations.core.roles.view_text_level ||
-                                  "Level") +
-                                  " " +
-                                  (index + 1)
-                              ) +
-                              "\n                            "
-                          ),
-                          option.roles.length
-                            ? _c(
-                                "span",
-                                {
-                                  class: {
-                                    "has-text-grey-light": !_vm.isSelected(
-                                      option.level
-                                    ),
-                                  },
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                - " +
-                                      _vm._s(
-                                        option.roles
-                                          .map(function (role) {
-                                            return role.name
-                                          })
-                                          .join(", ")
-                                      ) +
-                                      "\n                            "
-                                  ),
-                                ]
-                              )
-                            : _vm._e(),
-                        ]
-                      )
-                    }),
-                    0
-                  ),
-                ]),
-                _vm._v(" "),
-                _c("hr"),
-                _vm._v(" "),
-                _c("div", { staticClass: "field" }, [
-                  _c("label", { staticClass: "label" }, [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(
-                          _vm.translations.core.roles.column_only_my_data
-                        ) +
-                        "\n                        "
-                    ),
-                    _c("sup", { staticClass: "has-text-danger" }, [
-                      _vm._v("*"),
-                    ]),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "control" }, [
-                    _c(
-                      "div",
-                      { staticClass: "select" },
-                      [
-                        _c(
-                          "b-select",
-                          {
-                            model: {
-                              value: _vm.role.only_my_data,
-                              callback: function ($$v) {
-                                _vm.$set(_vm.role, "only_my_data", $$v)
-                              },
-                              expression: "role.only_my_data",
-                            },
-                          },
-                          [
-                            _c("option", { domProps: { value: true } }, [
-                              _vm._v(
-                                _vm._s(
-                                  _vm.translations.core.roles
-                                    .view_text_restrict_data_access
-                                )
-                              ),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { domProps: { value: false } }, [
-                              _vm._v(
-                                _vm._s(
-                                  _vm.translations.core.roles
-                                    .view_text_allow_to_see_all_the_data
-                                )
-                              ),
-                            ]),
-                          ]
-                        ),
-                      ],
-                      1
-                    ),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "field" }, [
-                  _c("label", { staticClass: "label" }, [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(_vm.translations.core.roles.view_text_status) +
-                        "\n                        "
-                    ),
-                    _c("sup", { staticClass: "has-text-danger" }, [
-                      _vm._v("*"),
-                    ]),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "control" }, [
-                    _c(
-                      "div",
-                      { staticClass: "select" },
-                      [
-                        _c(
-                          "b-select",
-                          {
-                            model: {
-                              value: _vm.role.active,
-                              callback: function ($$v) {
-                                _vm.$set(_vm.role, "active", $$v)
-                              },
-                              expression: "role.active",
-                            },
-                          },
-                          [
-                            _c("option", { domProps: { value: true } }, [
-                              _vm._v(
-                                _vm._s(
-                                  _vm.translations.core.roles.view_text_active
-                                )
-                              ),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { domProps: { value: false } }, [
-                              _vm._v(
-                                _vm._s(
-                                  _vm.translations.core.roles.view_text_disabled
-                                )
-                              ),
-                            ]),
-                          ]
-                        ),
-                      ],
-                      1
-                    ),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "field mt-6" }, [
-                  _c("div", { staticClass: "control" }, [
-                    _c("p", { staticClass: "control" }, [
-                      _c("button", { staticClass: "button is-primary" }, [
-                        _vm.submitting_form
-                          ? _c(
-                              "span",
+                          _vm._v(" "),
+                          _vm._l(_vm.roles, function (role) {
+                            return _c(
+                              "option",
+                              { key: role.id, domProps: { value: role.name } },
                               [
-                                _c("b-icon", {
-                                  attrs: {
-                                    icon: "circle-notch",
-                                    "custom-class": "fa-spin",
-                                    size: "is-small",
-                                  },
-                                }),
                                 _vm._v(
-                                  "\n                                     \n                                    " +
+                                  "\n                        " +
                                     _vm._s(
-                                      _vm.translations.core.shared
-                                        .view_btn_saving
-                                    ) +
-                                    "\n                                "
-                                ),
-                              ],
-                              1
-                            )
-                          : _c(
-                              "span",
-                              [
-                                _c("b-icon", {
-                                  attrs: { icon: "save", size: "is-small" },
-                                }),
-                                _vm._v(
-                                  "\n                                     \n                                    " +
-                                    _vm._s(
-                                      _vm.translations.core.shared.view_btn_save
-                                    ) +
-                                    "\n                                "
-                                ),
-                              ],
-                              1
-                            ),
-                      ]),
-                    ]),
-                  ]),
-                ]),
-              ]
-            ),
-          ]
-        ),
-      ]),
-    ],
-    1
-  )
-}
-var formvue_type_template_id_aef9a5b8_staticRenderFns = []
-formvue_type_template_id_aef9a5b8_render._withStripped = true
-
-
-;// CONCATENATED MODULE: ../../app/vue2/roles/components/form.vue?vue&type=template&id=aef9a5b8&
-
-;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/roles/components/form.vue?vue&type=script&lang=js&
-/*
-Copyright (c) 2021, all rights reserved.
-
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
-pictures and any other information belongs to the owner of this platform.
-
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
-
-For more information read the license file including with this software.
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
-
-TODO:
-- Add "disbled class" to the owner level
-*/
-/* harmony default export */ const formvue_type_script_lang_js_ = ({
-  props: {
-    appMountPath: {
-      required: true
-    },
-    edit: {
-      default: true
-    },
-    role: {
-      type: Object,
-      default: function _default() {
-        return {
-          name: "",
-          active: true,
-          default_path: "",
-          only_my_data: false,
-          object_level_permission: 10
-        };
-      }
-    }
-  },
-  data: function data() {
-    return {
-      roles: [],
-      options: [],
-      translations: {
-        core: {
-          shared: I18n.t('core.shared'),
-          roles: I18n.t('core.roles')
-        }
-      },
-      submitting_form: false
-    };
-  },
-  mounted: function mounted() {
-    this.getRoleOptions();
-  },
-  methods: {
-    setObjectLevelPermission: function setObjectLevelPermission(level) {
-      this.role.object_level_permission = level;
-    },
-    submit: function submit() {
-      if (this.role.id) {
-        this.putRole();
-      } else {
-        this.postRole();
-      }
-    },
-    putRole: function putRole() {
-      var _this = this;
-
-      this.submitting_form = true;
-      this.http.put(this.url.admin("roles/:id", {
-        id: this.role.id
-      }), {
-        role: this.role
-      }).then(function (result) {
-        _this.submitting_form = false;
-
-        if (!result.successful) {
-          _this.msg.error(result.error.message);
-
-          return;
-        }
-
-        _this.msg.success(_this.translations.core.roles.messages_success_role_successfully_updated);
-      });
-    },
-    postRole: function postRole() {
-      var _this2 = this;
-
-      this.submitting_form = true;
-      this.http.post(this.url.admin("roles"), {
-        role: this.role
-      }).then(function (result) {
-        _this2.submitting_form = false;
-
-        if (!result.successful) {
-          _this2.msg.warn(result.error.message);
-
-          return;
-        }
-
-        _this2.msg.success(_this2.translations.core.roles.messages_success_role_created_successfully);
-
-        _this2.$router.push("".concat(_this2.appMountPath, "/").concat(result.data.id));
-      });
-    },
-    getRoleOptions: function getRoleOptions() {
-      var _this3 = this;
-
-      this.http.get(this.url.admin("roles/options")).then(function (result) {
-        _this3.options = result.data;
-      });
-      this.http.get(this.url.admin("roles/list")).then(function (result) {
-        result.data.forEach(function (role, index) {
-          _this3.roles.push({
-            id: role.id,
-            name: role.name,
-            object_level_permission: role.object_level_permission
-          });
-
-          if (index < result.data.length - 1) {
-            var next_olp = result.data[index + 1].object_level_permission;
-            var level = (role.object_level_permission + next_olp) / 2;
-
-            if (role.object_level_permission == level) {
-              return;
-            }
-
-            _this3.roles.push({
-              id: 0,
-              name: "- - -",
-              object_level_permission: level
-            });
-          }
-        });
-      });
-    },
-    getTitle: function getTitle() {
-      if (!this.role.id) return this.translations.core.roles.view_text_new_role;
-      return this.role.name;
-    },
-    isSelected: function isSelected(level) {
-      return level === this.role.object_level_permission;
-    }
-  }
-});
-;// CONCATENATED MODULE: ../../app/vue2/roles/components/form.vue?vue&type=script&lang=js&
- /* harmony default export */ const components_formvue_type_script_lang_js_ = (formvue_type_script_lang_js_); 
-;// CONCATENATED MODULE: ../../app/vue2/roles/components/form.vue
-
-
-
-
-
-/* normalize component */
-;
-var form_component = componentNormalizer_normalizeComponent(
-  components_formvue_type_script_lang_js_,
-  formvue_type_template_id_aef9a5b8_render,
-  formvue_type_template_id_aef9a5b8_staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var form_api; }
-form_component.options.__file = "app/vue2/roles/components/form.vue"
-/* harmony default export */ const components_form = (form_component.exports);
-;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/roles/components/forms/form-simple.vue?vue&type=template&id=54ebb74b&
-var form_simplevue_type_template_id_54ebb74b_render = function () {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "section",
-    [
-      _c(
-        "component-header",
-        {
-          attrs: {
-            buttons: false,
-            title:
-              _vm.translations.core.roles[
-                "column_enum_role_" + (_vm.role.name || "").toLowerCase()
-              ] || _vm.role.name,
-          },
-        },
-        [
-          _c(
-            "div",
-            { staticClass: "buttons" },
-            [
-              _c(
-                "router-link",
-                {
-                  staticClass: "button",
-                  attrs: { to: _vm.appMountPath + "/" },
-                },
-                [
-                  _c("b-icon", { attrs: { icon: "list", size: "is-small" } }),
-                  _vm._v(" "),
-                  _c("span", [
-                    _vm._v(
-                      _vm._s(_vm.translations.core.roles.view_btn_roles_list)
-                    ),
-                  ]),
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "b-button",
-                {
-                  staticClass: "button",
-                  on: {
-                    click: function ($event) {
-                      $event.stopPropagation()
-                      return _vm.$set(_vm.data, "view_type", "edit")
-                    },
-                  },
-                },
-                [
-                  _c("b-icon", { attrs: { icon: "edit", size: "is-small" } }),
-                  _vm._v(" "),
-                  _c("span", [
-                    _vm._v(
-                      _vm._s(
-                        _vm.translations.core.roles
-                          .view_btn_edit_role_information
-                      )
-                    ),
-                  ]),
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "b-button",
-                {
-                  staticClass: "button",
-                  on: {
-                    click: function ($event) {
-                      $event.stopPropagation()
-                      return _vm.$set(_vm.data, "view_type", "logs")
-                    },
-                  },
-                },
-                [
-                  _c("b-icon", {
-                    attrs: { icon: "history", size: "is-small" },
-                  }),
-                  _vm._v(" "),
-                  _c("span", [
-                    _vm._v(_vm._s(_vm.translations.core.roles.view_btn_logs)),
-                  ]),
-                ],
-                1
-              ),
-            ],
-            1
-          ),
-        ]
-      ),
-      _vm._v(" "),
-      _vm.ready
-        ? _c("component-toolbar", {
-            attrs: {
-              initialValue: _vm.filters.search,
-              "search-text":
-                _vm.translations.core.shared
-                  .view_toolbar_search_by_placeholder_search,
-            },
-            on: { search: _vm.searchRoles },
-          })
-        : _vm._e(),
-      _vm._v(" "),
-      _c("div", { staticClass: "card" }, [
-        _c(
-          "div",
-          { staticClass: "card-content" },
-          [
-            _vm.ready
-              ? _c("b-table", {
-                  attrs: {
-                    data: _vm.filteredRoles,
-                    hoverable: true,
-                    "custom-detail-row": "",
-                    "has-detailed-visible": _vm.hasDetails,
-                    detailed: "",
-                    "detail-key": "name",
-                    focusable: "",
-                  },
-                  scopedSlots: _vm._u(
-                    [
-                      {
-                        key: "default",
-                        fn: function (props) {
-                          return [
-                            _c(
-                              "b-table-column",
-                              {
-                                attrs: {
-                                  field: "name",
-                                  label: _vm.translations.core.view_text_name,
-                                },
-                              },
-                              [
-                                _c("strong", [
-                                  _vm._v(
-                                    " " +
-                                      _vm._s(
-                                        _vm.translations.core.role_descriptors[
-                                          "view_title_role_descriptor_" +
-                                            props.row.name
-                                        ] || props.row.name
-                                      ) +
-                                      " "
-                                  ),
-                                ]),
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _vm._l(_vm.options.categories, function (category) {
-                              return _c(
-                                "b-table-column",
-                                {
-                                  key: category,
-                                  attrs: {
-                                    field: category,
-                                    label: _vm.object_utils.translateEnum(
-                                      _vm.translations.core.role_descriptors,
-                                      "column_enum_category",
-                                      category
-                                    ),
-                                  },
-                                },
-                                [
-                                  props.row.actions[category]["actions"]
-                                    .length > 0
-                                    ? _c("b-switch", {
-                                        ref: props.row.name + "-" + category,
-                                        refInFor: true,
-                                        attrs: {
-                                          value:
-                                            props.row.actions[category][
-                                              "status"
-                                            ],
-                                        },
-                                        nativeOn: {
-                                          change: function ($event) {
-                                            return function (event) {
-                                              return _vm.handleSubmit(
-                                                category,
-                                                props.row,
-                                                event
-                                              )
-                                            }.apply(null, arguments)
-                                          },
-                                        },
-                                      })
-                                    : _vm._e(),
-                                ],
-                                1
-                              )
-                            }),
-                          ]
-                        },
-                      },
-                      {
-                        key: "detail",
-                        fn: function (props) {
-                          return _vm._l(
-                            props.row.subdescriptors,
-                            function (subdescriptor) {
-                              return _c(
-                                "tr",
-                                {
-                                  key:
-                                    props.row.name + "-" + subdescriptor.name,
-                                },
-                                [
-                                  _c("td"),
-                                  _vm._v(" "),
-                                  _c("td", [
-                                    _vm._v(
-                                      "     " + _vm._s(subdescriptor.name) + " "
-                                    ),
-                                  ]),
-                                  _vm._v(" "),
-                                  _vm._l(
-                                    _vm.options.categories,
-                                    function (category) {
-                                      return _c(
-                                        "td",
-                                        {
-                                          attrs: {
-                                            field: category,
-                                            label: category,
-                                          },
-                                        },
-                                        [
-                                          subdescriptor.actions[category][
-                                            "actions"
-                                          ].length > 0
-                                            ? _c("b-switch", {
-                                                ref:
-                                                  subdescriptor.name +
-                                                  "-" +
-                                                  category,
-                                                refInFor: true,
-                                                attrs: {
-                                                  value:
-                                                    subdescriptor.actions[
-                                                      category
-                                                    ]["status"],
-                                                },
-                                                nativeOn: {
-                                                  change: function ($event) {
-                                                    return function (event) {
-                                                      return _vm.handleSubmit(
-                                                        category,
-                                                        subdescriptor,
-                                                        event,
-                                                        props.row
-                                                      )
-                                                    }.apply(null, arguments)
-                                                  },
-                                                },
-                                              })
-                                            : _vm._e(),
-                                        ],
-                                        1
+                                      _vm.object_utils.translateEnum(
+                                        _vm.translations.core.roles,
+                                        "column_enum_role",
+                                        role.name
                                       )
-                                    }
-                                  ),
-                                ],
-                                2
-                              )
-                            }
-                          )
-                        },
-                      },
-                    ],
-                    null,
-                    false,
-                    3514524531
-                  ),
-                })
-              : _vm._e(),
-            _vm._v(" "),
-            _c("hr"),
-          ],
-          1
-        ),
-      ]),
-    ],
-    1
-  )
-}
-var form_simplevue_type_template_id_54ebb74b_staticRenderFns = []
-form_simplevue_type_template_id_54ebb74b_render._withStripped = true
-
-
-;// CONCATENATED MODULE: ../../app/vue2/roles/components/forms/form-simple.vue?vue&type=template&id=54ebb74b&
-
-;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/roles/components/forms/form-simple.vue?vue&type=script&lang=js&
-function form_simplevue_type_script_lang_js_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function form_simplevue_type_script_lang_js_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? form_simplevue_type_script_lang_js_ownKeys(Object(source), !0).forEach(function (key) { form_simplevue_type_script_lang_js_defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : form_simplevue_type_script_lang_js_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function form_simplevue_type_script_lang_js_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function form_simplevue_type_script_lang_js_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = form_simplevue_type_script_lang_js_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function form_simplevue_type_script_lang_js_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return form_simplevue_type_script_lang_js_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return form_simplevue_type_script_lang_js_arrayLikeToArray(o, minLen); }
-
-function form_simplevue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-/*
-
-Copyright (c) 2020, all rights reserved.
-
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
-pictures and any other information belongs to the owner of this platform.
-
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
-
-For more information read the license file including with this software.
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
-
-*/
-/* harmony default export */ const form_simplevue_type_script_lang_js_ = ({
-  props: {
-    appMountPath: {
-      required: true
-    },
-    role: {
-      required: true
-    }
-  },
-  data: function data() {
-    return {
-      pagination: {
-        tasks_count: 0,
-        current_page: 1,
-        per_page: 10,
-        range_before: 3,
-        range_after: 3
-      },
-      sort: {
-        icon_size: 'is-small',
-        direction: 'desc'
-      },
-      submitted_form: false,
-      filters: {
-        search: ''
-      },
-      requests: [],
-      options: {},
-      ready: false,
-      translations: {
-        core: {
-          descriptor_assignments: I18n.t('core.role/descriptor_assignments'),
-          role_descriptors: I18n.t('core.role_descriptors'),
-          shared: I18n.t('core.shared'),
-          roles: I18n.t('core.roles'),
-          core: I18n.t('core.shared')
-        }
-      }
-    };
-  },
-  mounted: function mounted() {
-    this.getRoleDescriptors();
-  },
-  methods: {
-    getRoleDescriptors: function getRoleDescriptors() {
-      var _this = this;
-
-      var url = this.url.admin("roles/:role_id/descriptor_assignments", {
-        role_id: this.role.id
-      });
-      this.http.get(url).then(function (result) {
-        if (result.successful) {
-          _this.getRoleDescriptorOptions(result.data);
-        } else {
-          _this.msg.error(result.error.message);
-        }
-      }).catch(function (error) {
-        console.log(error);
-      });
-    },
-    getRoleDescriptorOptions: function getRoleDescriptorOptions(role_descriptors) {
-      var _this2 = this;
-
-      var url = this.url.admin("roles/descriptor_assignments/options");
-      this.http.get(url).then(function (result) {
-        if (result.successful) {
-          var descriptors = [];
-
-          var _iterator = form_simplevue_type_script_lang_js_createForOfIteratorHelper(result.data.descriptors),
-              _step;
-
-          try {
-            var _loop = function _loop() {
-              var descriptor = _step.value;
-
-              var _loop2 = function _loop2(index) {
-                var role_descriptor = role_descriptors.find(function (e) {
-                  return e.role_descriptors_id === descriptor.id && e.category === index;
-                });
-
-                if (role_descriptor) {
-                  descriptor.actions[index] = form_simplevue_type_script_lang_js_objectSpread(form_simplevue_type_script_lang_js_objectSpread({}, descriptor.actions[index]), {}, {
-                    status: true,
-                    role_descriptor_id: role_descriptor.id
-                  });
-                }
-              };
-
-              for (var index in descriptor.actions) {
-                _loop2(index);
-              }
-
-              if (descriptor.role_descriptors_id) {
-                var parent_index = descriptors.findIndex(function (e) {
-                  return e.id === descriptor.role_descriptors_id;
-                });
-
-                if (parent_index !== -1) {
-                  descriptors[parent_index]['subdescriptors'].push(descriptor);
-                }
-              } else {
-                descriptors.push(form_simplevue_type_script_lang_js_objectSpread(form_simplevue_type_script_lang_js_objectSpread({}, descriptor), {}, {
-                  subdescriptors: []
-                }));
-              }
-            };
-
-            for (_iterator.s(); !(_step = _iterator.n()).done;) {
-              _loop();
-            }
-          } catch (err) {
-            _iterator.e(err);
-          } finally {
-            _iterator.f();
-          }
-
-          _this2.options = {
-            descriptors: descriptors,
-            categories: result.data.categories
-          };
-          _this2.ready = true;
-        } else {
-          _this2.msg.error(result.error.message);
-        }
-      }).catch(function (error) {
-        console.log(error);
-      });
-    },
-    handleSubmit: function handleSubmit(category, descriptor_privilege, event) {
-      var descriptor_privilege_parent = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
-      var value = event.target.checked;
-
-      if (value) {
-        this.postRolePrivilegeDescriptor(category, descriptor_privilege, descriptor_privilege_parent);
-      } else {
-        this.destroyRolePrivilegeDescriptor(category, descriptor_privilege);
-      }
-    },
-    postRolePrivilegeDescriptor: function postRolePrivilegeDescriptor(category, descriptor_privilege, descriptor_privilege_parent) {
-      var _this3 = this;
-
-      var data = {
-        role_descriptor_assignment: {
-          role_descriptors_id: descriptor_privilege.id,
-          category: category
-        }
-      };
-      var url = this.url.admin('roles/:role_id/descriptor_assignments', {
-        role_id: this.role.id
-      });
-      this.http.post(url, data).then(function (result) {
-        if (!result.successful) {
-          _this3.msg.error(result.error.message);
-
-          return;
-        }
-
-        if (descriptor_privilege_parent) {
-          var parent_index = _this3.options.descriptors.findIndex(function (e) {
-            return e.id === descriptor_privilege_parent.id;
-          });
-
-          var index = _this3.options.descriptors[parent_index]['subdescriptors'].findIndex(function (e) {
-            return e.id === descriptor_privilege.id;
-          });
-
-          _this3.$set(_this3.options.descriptors[parent_index]['subdescriptors'][index].actions[category], 'status', true);
-
-          _this3.$set(_this3.options.descriptors[parent_index]['subdescriptors'][index].actions[category], 'role_descriptor_id', result.data.id);
-        } else {
-          var _index = _this3.options.descriptors.findIndex(function (e) {
-            return e.id === descriptor_privilege.id;
-          });
-
-          _this3.$set(_this3.options.descriptors[_index].actions[category], 'status', true);
-
-          _this3.$set(_this3.options.descriptors[_index].actions[category], 'role_descriptor_id', result.data.id);
-        }
-
-        var message = descriptor_privilege.name;
-        message += ':[' + _this3.object_utils.translateEnum(_this3.translations.core.role_descriptors, 'column_enum_category', category) + '] ';
-        message += _this3.translations.core.descriptor_assignments.messages_success_role_descriptor_added;
-
-        _this3.msg.success(message);
-      }).catch(function (error) {
-        console.log(error);
-      });
-    },
-    destroyRolePrivilegeDescriptor: function destroyRolePrivilegeDescriptor(category, descriptor_privilege) {
-      var _this4 = this;
-
-      var url = this.url.admin('roles/:role_id/descriptor_assignments/:id', {
-        role_id: this.role.id,
-        id: descriptor_privilege.actions[category].role_descriptor_id
-      });
-      this.http.delete(url).then(function (result) {
-        if (!result.successful) {
-          _this4.msg.error(result.error.message);
-
-          return;
-        }
-
-        var message = descriptor_privilege.name;
-        message += ':[' + _this4.object_utils.translateEnum(_this4.translations.core.role_descriptors, 'column_enum_category', category) + '] ';
-        message += _this4.translations.core.descriptor_assignments.messages_success_role_descriptor_deleted;
-
-        _this4.msg.success(message);
-      }).catch(function (error) {
-        console.log(error);
-      });
-    },
-    searchRoles: function searchRoles(text) {
-      this.filters.search = text;
-    },
-    hasDetails: function hasDetails(row) {
-      return row.subdescriptors.length > 0;
-    }
-  },
-  computed: {
-    filteredRoles: function filteredRoles() {
-      var search_field = this.filters.search.toLowerCase().trim();
-      this.pagination.current_page = 1;
-
-      if (search_field.length > 0) {
-        return this.options.descriptors.filter(function (role_ability) {
-          return role_ability.name.toLowerCase().includes(search_field);
-        });
-      } else {
-        return this.options.descriptors;
-      }
-    }
-  }
-});
-;// CONCATENATED MODULE: ../../app/vue2/roles/components/forms/form-simple.vue?vue&type=script&lang=js&
- /* harmony default export */ const forms_form_simplevue_type_script_lang_js_ = (form_simplevue_type_script_lang_js_); 
-;// CONCATENATED MODULE: ../../app/vue2/roles/components/forms/form-simple.vue
-
-
-
-
-
-/* normalize component */
-;
-var form_simple_component = componentNormalizer_normalizeComponent(
-  forms_form_simplevue_type_script_lang_js_,
-  form_simplevue_type_template_id_54ebb74b_render,
-  form_simplevue_type_template_id_54ebb74b_staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var form_simple_api; }
-form_simple_component.options.__file = "app/vue2/roles/components/forms/form-simple.vue"
-/* harmony default export */ const form_simple = (form_simple_component.exports);
-;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/roles/components/forms/form-logs.vue?vue&type=template&id=07b31108&
-var form_logsvue_type_template_id_07b31108_render = function () {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "section",
-    [
-      _c(
-        "component-header",
-        { attrs: { buttons: false, title: _vm.getTitle() } },
-        [
-          _c(
-            "div",
-            { staticClass: "buttons" },
-            [
-              _c(
-                "router-link",
-                {
-                  staticClass: "button",
-                  attrs: { to: _vm.appMountPath + "/" },
-                },
-                [
-                  _c("b-icon", { attrs: { icon: "list", size: "is-small" } }),
-                  _vm._v(" "),
-                  _c("span", [
-                    _vm._v(
-                      _vm._s(_vm.translations.core.roles.view_btn_roles_list)
-                    ),
-                  ]),
-                ],
-                1
-              ),
+                                    ) +
+                                    "\n                    "
+                                ),
+                              ]
+                            )
+                          }),
+                        ],
+                        2
+                      ),
+                    ]),
+                  ])
+                : _vm._e(),
               _vm._v(" "),
-              _c(
-                "b-button",
-                {
-                  staticClass: "button",
-                  on: {
-                    click: function ($event) {
-                      $event.stopPropagation()
-                      return _vm.$set(_vm.data, "view_type", "edit")
-                    },
-                  },
-                },
-                [
-                  _c("b-icon", { attrs: { icon: "edit", size: "is-small" } }),
-                  _vm._v(" "),
-                  _c("span", [
-                    _vm._v(
-                      _vm._s(
-                        _vm.translations.core.roles
-                          .view_btn_edit_role_information
-                      )
-                    ),
-                  ]),
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "b-button",
-                {
-                  staticClass: "button",
-                  on: {
-                    click: function ($event) {
-                      $event.stopPropagation()
-                      return _vm.$set(_vm.data, "view_type", "simple")
-                    },
-                  },
-                },
-                [
-                  _c("b-icon", { attrs: { icon: "cogs", size: "is-small" } }),
-                  _vm._v(" "),
-                  _c("span", [
-                    _vm._v(
-                      _vm._s(
-                        _vm.translations.core.roles
-                          .view_btn_edit_privilege_actions
-                      )
-                    ),
-                  ]),
-                ],
-                1
-              ),
-            ],
-            1
-          ),
-        ]
-      ),
-      _vm._v(" "),
-      _vm.filters_ready
-        ? _c(
-            "component-toolbar",
-            {
-              attrs: {
-                "search-text":
-                  _vm.translations.core.role_activities
-                    .view_toolbar_filter_placeholder_text,
-                "initial-value": _vm.filters.text,
-              },
-              on: { search: _vm.searchRoleActivities },
-            },
-            [
               _c("div", { staticClass: "control" }, [
                 _c("div", { staticClass: "select" }, [
                   _c(
@@ -63821,11 +61856,11 @@ var form_logsvue_type_template_id_07b31108_render = function () {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.filters.text_category,
-                          expression: "filters.text_category",
+                          value: _vm.filters.status,
+                          expression: "filters.status",
                         },
                       ],
-                      attrs: { name: "filter-categories" },
+                      attrs: { name: "filter-statuses" },
                       on: {
                         change: [
                           function ($event) {
@@ -63839,52 +61874,50 @@ var form_logsvue_type_template_id_07b31108_render = function () {
                               })
                             _vm.$set(
                               _vm.filters,
-                              "text_category",
+                              "status",
                               $event.target.multiple
                                 ? $$selectedVal
                                 : $$selectedVal[0]
                             )
                           },
-                          _vm.getRoleActivities,
+                          _vm.getUsers,
                         ],
                       },
                     },
                     [
-                      _c("option", { attrs: { value: "" } }, [
+                      _c("option", { attrs: { value: "active" } }, [
                         _vm._v(
                           " " +
                             _vm._s(
-                              _vm.translations.core.roles
-                                .view_toolbar_filter_all_categories
+                              _vm.translations.core.users
+                                .view_toolbar_filter_placeholder_active_users
                             ) +
                             " "
                         ),
                       ]),
                       _vm._v(" "),
-                      _vm._l(_vm.options.categories, function (category) {
-                        return _c(
-                          "option",
-                          {
-                            key: category.value,
-                            domProps: { value: category.value },
-                          },
-                          [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(
-                                  _vm.object_utils.translateEnum(
-                                    _vm.translations.core.roles,
-                                    "column_enum_category",
-                                    category.text
-                                  )
-                                ) +
-                                "\n                    "
-                            ),
-                          ]
-                        )
-                      }),
-                    ],
-                    2
+                      _c("option", { attrs: { value: "inactive" } }, [
+                        _vm._v(
+                          " " +
+                            _vm._s(
+                              _vm.translations.core.users
+                                .view_toolbar_filter_placeholder_inactive_users
+                            ) +
+                            " "
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "" } }, [
+                        _vm._v(
+                          " " +
+                            _vm._s(
+                              _vm.translations.core.users
+                                .view_toolbar_filter_placeholder_all_users
+                            ) +
+                            " "
+                        ),
+                      ]),
+                    ]
                   ),
                 ]),
               ]),
@@ -63939,472 +61972,508 @@ var form_logsvue_type_template_id_07b31108_render = function () {
           )
         : _vm._e(),
       _vm._v(" "),
-      _vm.loading ? _c("component-data-loading") : _vm._e(),
-      _vm._v(" "),
-      !_vm.loading && _vm.role_activities.length == 0
-        ? _c("component-data-empty")
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.role_activities.length > 0
-        ? _c("div", { staticClass: "card" }, [
-            _c(
-              "div",
-              { staticClass: "card-content" },
-              [
-                !_vm.loading && _vm.role_activities.length > 0
-                  ? _c("b-table", {
-                      attrs: {
-                        data: _vm.role_activities,
-                        hoverable: true,
-                        "backend-sorting": "",
-                      },
-                      on: { sort: _vm.sortActivities },
-                      scopedSlots: _vm._u(
-                        [
-                          {
-                            key: "default",
-                            fn: function (props) {
-                              return [
-                                _c(
-                                  "b-table-column",
-                                  {
-                                    attrs: {
-                                      label:
-                                        _vm.translations.core.role_activities
-                                          .column_created_at,
-                                      field: "created_at",
-                                      sortable: "",
-                                    },
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "header",
-                                          fn: function (ref) {
-                                            var column = ref.column
-                                            return [
-                                              _vm._v(
-                                                "\n                            " +
-                                                  _vm._s(column.label) +
-                                                  "\n                            "
-                                              ),
-                                              _vm.sorting.field == "created_at"
-                                                ? _c(
-                                                    "span",
-                                                    [
-                                                      _vm.sorting.order == "asc"
-                                                        ? _c("b-icon", {
-                                                            attrs: {
-                                                              size: "is-small",
-                                                              icon: "arrow-up",
-                                                            },
-                                                          })
-                                                        : _c("b-icon", {
-                                                            attrs: {
-                                                              size: "is-small",
-                                                              icon: "arrow-down",
-                                                            },
-                                                          }),
-                                                    ],
-                                                    1
-                                                  )
-                                                : _vm._e(),
-                                            ]
-                                          },
-                                        },
-                                      ],
-                                      null,
-                                      true
-                                    ),
-                                  },
+      _c("div", { staticClass: "card" }, [
+        _c(
+          "div",
+          { staticClass: "card-content" },
+          [
+            _vm.loading ? _c("component-data-loading") : _vm._e(),
+            _vm._v(" "),
+            !_vm.loading && _vm.users.length == 0
+              ? _c("component-data-empty")
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.loading && _vm.users.length > 0
+              ? _c("b-table", {
+                  attrs: {
+                    data: _vm.users,
+                    "sort-icon-size": _vm.sorting.icon_size,
+                    "default-sort-direction": _vm.sorting.order,
+                    hoverable: true,
+                    "backend-sorting": "",
+                  },
+                  on: { click: _vm.showUser, sort: _vm.sortUsers },
+                  scopedSlots: _vm._u(
+                    [
+                      {
+                        key: "default",
+                        fn: function (props) {
+                          return [
+                            _c(
+                              "b-table-column",
+                              {
+                                attrs: {
+                                  label:
+                                    _vm.translations.core.users
+                                      .view_table_header_name,
+                                  field: "name",
+                                  sortable: "",
+                                },
+                                scopedSlots: _vm._u(
                                   [
-                                    _vm._v(" "),
-                                    _c("small", [
-                                      _vm._v(_vm._s(props.row.created_at_raw)),
-                                    ]),
-                                  ]
+                                    {
+                                      key: "header",
+                                      fn: function (ref) {
+                                        var column = ref.column
+                                        return [
+                                          _vm._v(
+                                            "\n                            " +
+                                              _vm._s(column.label) +
+                                              "\n                            "
+                                          ),
+                                          _vm.sorting.field == "name"
+                                            ? _c(
+                                                "span",
+                                                [
+                                                  _vm.sorting.order == "asc"
+                                                    ? _c("b-icon", {
+                                                        attrs: {
+                                                          size: "is-small",
+                                                          icon: "arrow-up",
+                                                        },
+                                                      })
+                                                    : _c("b-icon", {
+                                                        attrs: {
+                                                          size: "is-small",
+                                                          icon: "arrow-down",
+                                                        },
+                                                      }),
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e(),
+                                        ]
+                                      },
+                                    },
+                                  ],
+                                  null,
+                                  true
                                 ),
+                              },
+                              [
+                                _vm._v(" "),
+                                _c("small", [
+                                  _vm._v(" " + _vm._s(props.row.name) + " "),
+                                ]),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-table-column",
+                              {
+                                attrs: {
+                                  label:
+                                    _vm.translations.core.users
+                                      .view_table_header_email,
+                                  field: "lower(email)",
+                                  sortable: "",
+                                },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "header",
+                                      fn: function (ref) {
+                                        var column = ref.column
+                                        return [
+                                          _vm._v(
+                                            "\n                            " +
+                                              _vm._s(column.label) +
+                                              "\n                            "
+                                          ),
+                                          _vm.sorting.field == "lower(email)"
+                                            ? _c(
+                                                "span",
+                                                [
+                                                  _vm.sorting.order == "asc"
+                                                    ? _c("b-icon", {
+                                                        attrs: {
+                                                          size: "is-small",
+                                                          icon: "arrow-up",
+                                                        },
+                                                      })
+                                                    : _c("b-icon", {
+                                                        attrs: {
+                                                          size: "is-small",
+                                                          icon: "arrow-down",
+                                                        },
+                                                      }),
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e(),
+                                        ]
+                                      },
+                                    },
+                                  ],
+                                  null,
+                                  true
+                                ),
+                              },
+                              [
                                 _vm._v(" "),
                                 _c(
-                                  "b-table-column",
+                                  "a",
                                   {
-                                    attrs: {
-                                      label:
-                                        _vm.translations.core.role_activities
-                                          .column_users_id,
-                                      field: "user_creator_name",
-                                      sortable: "",
+                                    on: {
+                                      click: function ($event) {
+                                        $event.stopPropagation()
+                                        return _vm.mailTo(props.row.email)
+                                      },
                                     },
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "header",
-                                          fn: function (ref) {
-                                            var column = ref.column
-                                            return [
-                                              _vm._v(
-                                                "\n                            " +
-                                                  _vm._s(column.label) +
-                                                  "\n                            "
-                                              ),
-                                              _vm.sorting.field ==
-                                              "user_creator_name"
-                                                ? _c(
-                                                    "span",
-                                                    [
-                                                      _vm.sorting.order == "asc"
-                                                        ? _c("b-icon", {
-                                                            attrs: {
-                                                              size: "is-small",
-                                                              icon: "arrow-up",
-                                                            },
-                                                          })
-                                                        : _c("b-icon", {
-                                                            attrs: {
-                                                              size: "is-small",
-                                                              icon: "arrow-down",
-                                                            },
-                                                          }),
-                                                    ],
-                                                    1
-                                                  )
-                                                : _vm._e(),
-                                            ]
-                                          },
-                                        },
-                                      ],
-                                      null,
-                                      true
-                                    ),
                                   },
-                                  [
-                                    _vm._v(" "),
-                                    _c("small", [
-                                      _vm._v(
-                                        _vm._s(props.row.user_creator_name)
-                                      ),
-                                    ]),
-                                  ]
+                                  [_c("i", { staticClass: "fas fa-envelope" })]
                                 ),
-                                _vm._v(" "),
-                                _c(
-                                  "b-table-column",
-                                  {
-                                    attrs: {
-                                      label:
-                                        _vm.translations.core.role_activities
-                                          .column_category,
-                                      field: "category",
-                                      sortable: "",
-                                    },
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "header",
-                                          fn: function (ref) {
-                                            var column = ref.column
-                                            return [
-                                              _vm._v(
-                                                "\n                            " +
-                                                  _vm._s(column.label) +
-                                                  "\n                            "
-                                              ),
-                                              _vm.sorting.field == "category"
-                                                ? _c(
-                                                    "span",
-                                                    [
-                                                      _vm.sorting.order == "asc"
-                                                        ? _c("b-icon", {
-                                                            attrs: {
-                                                              size: "is-small",
-                                                              icon: "arrow-up",
-                                                            },
-                                                          })
-                                                        : _c("b-icon", {
-                                                            attrs: {
-                                                              size: "is-small",
-                                                              icon: "arrow-down",
-                                                            },
-                                                          }),
-                                                    ],
-                                                    1
-                                                  )
-                                                : _vm._e(),
-                                            ]
-                                          },
-                                        },
-                                      ],
-                                      null,
-                                      true
-                                    ),
-                                  },
-                                  [
-                                    _vm._v(" "),
-                                    _c("small", [
-                                      _vm._v(_vm._s(props.row.category) + " "),
-                                    ]),
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "b-table-column",
-                                  {
-                                    attrs: {
-                                      label:
-                                        _vm.translations.core.role_activities
-                                          .column_description,
-                                      field: "description",
-                                      sortable: "",
-                                    },
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "header",
-                                          fn: function (ref) {
-                                            var column = ref.column
-                                            return [
-                                              _vm._v(
-                                                "\n                            " +
-                                                  _vm._s(column.label) +
-                                                  "\n                            "
-                                              ),
-                                              _vm.sorting.field == "description"
-                                                ? _c(
-                                                    "span",
-                                                    [
-                                                      _vm.sorting.order == "asc"
-                                                        ? _c("b-icon", {
-                                                            attrs: {
-                                                              size: "is-small",
-                                                              icon: "arrow-up",
-                                                            },
-                                                          })
-                                                        : _c("b-icon", {
-                                                            attrs: {
-                                                              size: "is-small",
-                                                              icon: "arrow-down",
-                                                            },
-                                                          }),
-                                                    ],
-                                                    1
-                                                  )
-                                                : _vm._e(),
-                                            ]
-                                          },
-                                        },
-                                      ],
-                                      null,
-                                      true
-                                    ),
-                                  },
-                                  [
-                                    _vm._v(" "),
-                                    _c("small", [
-                                      _vm._v(
-                                        _vm._s(props.row.description) + " "
-                                      ),
-                                    ]),
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "b-table-column",
-                                  {
-                                    attrs: {
-                                      label:
-                                        _vm.translations.core.role_activities
-                                          .column_field,
-                                      field: "field_name",
-                                      sortable: "",
-                                    },
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "header",
-                                          fn: function (ref) {
-                                            var column = ref.column
-                                            return [
-                                              _vm._v(
-                                                "\n                            " +
-                                                  _vm._s(column.label) +
-                                                  "\n                            "
-                                              ),
-                                              _vm.sorting.field == "field_name"
-                                                ? _c(
-                                                    "span",
-                                                    [
-                                                      _vm.sorting.order == "asc"
-                                                        ? _c("b-icon", {
-                                                            attrs: {
-                                                              size: "is-small",
-                                                              icon: "arrow-up",
-                                                            },
-                                                          })
-                                                        : _c("b-icon", {
-                                                            attrs: {
-                                                              size: "is-small",
-                                                              icon: "arrow-down",
-                                                            },
-                                                          }),
-                                                    ],
-                                                    1
-                                                  )
-                                                : _vm._e(),
-                                            ]
-                                          },
-                                        },
-                                      ],
-                                      null,
-                                      true
-                                    ),
-                                  },
-                                  [
-                                    _vm._v(" "),
-                                    _c("small", [
-                                      _vm._v(_vm._s(props.row.field_name)),
-                                    ]),
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "b-table-column",
-                                  {
-                                    attrs: {
-                                      label:
-                                        _vm.translations.core.role_activities
-                                          .column_value_from,
-                                      field: "value_from",
-                                      sortable: "",
-                                    },
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "header",
-                                          fn: function (ref) {
-                                            var column = ref.column
-                                            return [
-                                              _vm._v(
-                                                "\n                            " +
-                                                  _vm._s(column.label) +
-                                                  "\n                            "
-                                              ),
-                                              _vm.sorting.field == "value_from"
-                                                ? _c(
-                                                    "span",
-                                                    [
-                                                      _vm.sorting.order == "asc"
-                                                        ? _c("b-icon", {
-                                                            attrs: {
-                                                              size: "is-small",
-                                                              icon: "arrow-up",
-                                                            },
-                                                          })
-                                                        : _c("b-icon", {
-                                                            attrs: {
-                                                              size: "is-small",
-                                                              icon: "arrow-down",
-                                                            },
-                                                          }),
-                                                    ],
-                                                    1
-                                                  )
-                                                : _vm._e(),
-                                            ]
-                                          },
-                                        },
-                                      ],
-                                      null,
-                                      true
-                                    ),
-                                  },
-                                  [
-                                    _vm._v(" "),
-                                    _c("small", [
-                                      _vm._v(
-                                        "\n                            " +
-                                          _vm._s(props.row.value_from) +
-                                          "\n                        "
-                                      ),
-                                    ]),
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "b-table-column",
-                                  {
-                                    attrs: {
-                                      label:
-                                        _vm.translations.core.role_activities
-                                          .column_value_to,
-                                      field: "value_to",
-                                      sortable: "",
-                                    },
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "header",
-                                          fn: function (ref) {
-                                            var column = ref.column
-                                            return [
-                                              _vm._v(
-                                                "\n                            " +
-                                                  _vm._s(column.label) +
-                                                  "\n                            "
-                                              ),
-                                              _vm.sorting.field == "value_to"
-                                                ? _c(
-                                                    "span",
-                                                    [
-                                                      _vm.sorting.order == "asc"
-                                                        ? _c("b-icon", {
-                                                            attrs: {
-                                                              size: "is-small",
-                                                              icon: "arrow-up",
-                                                            },
-                                                          })
-                                                        : _c("b-icon", {
-                                                            attrs: {
-                                                              size: "is-small",
-                                                              icon: "arrow-down",
-                                                            },
-                                                          }),
-                                                    ],
-                                                    1
-                                                  )
-                                                : _vm._e(),
-                                            ]
-                                          },
-                                        },
-                                      ],
-                                      null,
-                                      true
-                                    ),
-                                  },
-                                  [
-                                    _vm._v(" "),
-                                    _c("small", [
-                                      _vm._v(
-                                        "\n                            " +
-                                          _vm._s(props.row.value_to) +
-                                          "\n                        "
-                                      ),
-                                    ]),
-                                  ]
+                                _vm._v(
+                                  "\n                         \n                        " +
+                                    _vm._s(props.row.email) +
+                                    "\n                    "
                                 ),
                               ]
-                            },
-                          },
-                        ],
-                        null,
-                        false,
-                        3449271669
-                      ),
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("b-pagination", {
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-table-column",
+                              {
+                                attrs: {
+                                  label:
+                                    _vm.translations.core.users
+                                      .view_table_header_role,
+                                },
+                              },
+                              [
+                                _c(
+                                  "span",
+                                  _vm._l(
+                                    props.row.roles,
+                                    function (role, index) {
+                                      return _c(
+                                        "span",
+                                        { key: "role-" + role + "-" + index },
+                                        [
+                                          _c(
+                                            "b-tooltip",
+                                            {
+                                              attrs: {
+                                                type: "is-white",
+                                                label:
+                                                  _vm.object_utils.translateEnum(
+                                                    _vm.translations.core.roles,
+                                                    "column_enum_role",
+                                                    role
+                                                  ),
+                                              },
+                                            },
+                                            [
+                                              _c(
+                                                "b-tag",
+                                                { attrs: { type: "is-info" } },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.object_utils.extractInitials(
+                                                        role
+                                                      )
+                                                    )
+                                                  ),
+                                                ]
+                                              ),
+                                              _vm._v(
+                                                "\n                                     \n                                "
+                                              ),
+                                            ],
+                                            1
+                                          ),
+                                        ],
+                                        1
+                                      )
+                                    }
+                                  ),
+                                  0
+                                ),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-table-column",
+                              {
+                                attrs: {
+                                  label:
+                                    _vm.translations.core.users
+                                      .view_table_header_status,
+                                  field: "active",
+                                  sortable: "",
+                                },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "header",
+                                      fn: function (ref) {
+                                        var column = ref.column
+                                        return [
+                                          _vm._v(
+                                            "\n                            " +
+                                              _vm._s(column.label) +
+                                              "\n                            "
+                                          ),
+                                          _vm.sorting.field == "active"
+                                            ? _c(
+                                                "span",
+                                                [
+                                                  _vm.sorting.order == "asc"
+                                                    ? _c("b-icon", {
+                                                        attrs: {
+                                                          size: "is-small",
+                                                          icon: "arrow-up",
+                                                        },
+                                                      })
+                                                    : _c("b-icon", {
+                                                        attrs: {
+                                                          size: "is-small",
+                                                          icon: "arrow-down",
+                                                        },
+                                                      }),
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e(),
+                                        ]
+                                      },
+                                    },
+                                  ],
+                                  null,
+                                  true
+                                ),
+                              },
+                              [
+                                _vm._v(" "),
+                                _c("small", [
+                                  props.row.active
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "tag is-success" },
+                                        [
+                                          _vm._v(
+                                            "\n                                " +
+                                              _vm._s(
+                                                _vm.translations.core.shared
+                                                  .view_text_active
+                                              ) +
+                                              "\n                            "
+                                          ),
+                                        ]
+                                      )
+                                    : _c(
+                                        "span",
+                                        { staticClass: "tag is-warning" },
+                                        [
+                                          _vm._v(
+                                            "\n                                " +
+                                              _vm._s(
+                                                _vm.translations.core.shared
+                                                  .view_text_inactive
+                                              ) +
+                                              "\n                            "
+                                          ),
+                                        ]
+                                      ),
+                                ]),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-table-column",
+                              {
+                                attrs: {
+                                  label:
+                                    _vm.translations.core.users
+                                      .view_table_header_last_sign_in,
+                                },
+                              },
+                              [
+                                props.row.session_active
+                                  ? _c(
+                                      "span",
+                                      { staticClass: "tag is-success" },
+                                      [
+                                        _vm._v(
+                                          "\n                            " +
+                                            _vm._s(props.row.last_sign_in_at) +
+                                            "\n                        "
+                                        ),
+                                      ]
+                                    )
+                                  : _c("span", { staticClass: "tag" }, [
+                                      _vm._v(
+                                        "\n                            " +
+                                          _vm._s(props.row.last_sign_in_at) +
+                                          "\n                        "
+                                      ),
+                                    ]),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-table-column",
+                              {
+                                attrs: {
+                                  label:
+                                    _vm.translations.core.users
+                                      .view_text_last_activity_at,
+                                },
+                              },
+                              [
+                                _vm._v(
+                                  "\n                        " +
+                                    _vm._s(props.row.last_activity_at) +
+                                    "\n                    "
+                                ),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-table-column",
+                              {
+                                attrs: {
+                                  label:
+                                    _vm.translations.core.shared
+                                      .view_table_header_actions,
+                                  centered: "",
+                                },
+                                nativeOn: {
+                                  click: function ($event) {
+                                    $event.preventDefault()
+                                    return function (e) {
+                                      return e.stopPropagation()
+                                    }.apply(null, arguments)
+                                  },
+                                },
+                              },
+                              [
+                                _c(
+                                  "b-dropdown",
+                                  {
+                                    attrs: {
+                                      "aria-role": "menu",
+                                      position: "is-bottom-left",
+                                    },
+                                    scopedSlots: _vm._u(
+                                      [
+                                        {
+                                          key: "trigger",
+                                          fn: function (ref) {
+                                            var active = ref.active
+                                            return _c(
+                                              "button",
+                                              {
+                                                staticClass:
+                                                  "button is-primary",
+                                              },
+                                              [
+                                                _c(
+                                                  "span",
+                                                  { staticClass: "icon" },
+                                                  [
+                                                    !active
+                                                      ? _c("i", {
+                                                          staticClass:
+                                                            "fas fa-ellipsis-h fa-1x",
+                                                        })
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    active
+                                                      ? _c("i", {
+                                                          staticClass:
+                                                            "far fa-circle",
+                                                        })
+                                                      : _vm._e(),
+                                                  ]
+                                                ),
+                                              ]
+                                            )
+                                          },
+                                        },
+                                      ],
+                                      null,
+                                      true
+                                    ),
+                                  },
+                                  [
+                                    _vm._v(" "),
+                                    _c(
+                                      "b-dropdown-item",
+                                      {
+                                        staticClass: "has-text-right pr-4",
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.doUserLogout(props.row)
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                " +
+                                            _vm._s(
+                                              _vm.translations.core.users
+                                                .view_btn_logout
+                                            ) +
+                                            "\n                                "
+                                        ),
+                                        _c("span", { staticClass: "icon" }, [
+                                          _c("i", {
+                                            staticClass: "fas fa-sign-out-alt",
+                                          }),
+                                        ]),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "b-dropdown-item",
+                                      {
+                                        staticClass: "has-text-right pr-4",
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.doRevokeAccess(props.row)
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                " +
+                                            _vm._s(
+                                              _vm.translations.core.users
+                                                .view_btn_revoke_access
+                                            ) +
+                                            "\n                                "
+                                        ),
+                                        _c("span", { staticClass: "icon" }, [
+                                          _c("i", {
+                                            staticClass: "fas fa-user-lock",
+                                          }),
+                                        ]),
+                                      ]
+                                    ),
+                                  ],
+                                  1
+                                ),
+                              ],
+                              1
+                            ),
+                          ]
+                        },
+                      },
+                    ],
+                    null,
+                    false,
+                    3662129031
+                  ),
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.loading && _vm.users.length > 0
+              ? _c("b-pagination", {
                   attrs: {
                     simple: false,
-                    total: _vm.pagination.total_count,
+                    total: _vm.pagination.users_count,
                     current: _vm.pagination.current_page,
                     "range-before": _vm.pagination.range_before,
                     "range-after": _vm.pagination.range_after,
@@ -64422,25 +62491,24 @@ var form_logsvue_type_template_id_07b31108_render = function () {
                       return _vm.$set(_vm.pagination, "current_page", $event)
                     },
                   },
-                }),
-              ],
-              1
-            ),
-          ])
-        : _vm._e(),
+                })
+              : _vm._e(),
+          ],
+          1
+        ),
+      ]),
     ],
     1
   )
 }
-var form_logsvue_type_template_id_07b31108_staticRenderFns = []
-form_logsvue_type_template_id_07b31108_render._withStripped = true
+var listvue_type_template_id_dec2d926_staticRenderFns = []
+listvue_type_template_id_dec2d926_render._withStripped = true
 
 
-;// CONCATENATED MODULE: ../../app/vue2/roles/components/forms/form-logs.vue?vue&type=template&id=07b31108&
+;// CONCATENATED MODULE: ../../app/vue2/users/apps/list.vue?vue&type=template&id=dec2d926&
 
-;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/roles/components/forms/form-logs.vue?vue&type=script&lang=js&
+;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/apps/list.vue?vue&type=script&lang=js&
 /*
-
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
@@ -64455,58 +62523,80 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
-
 */
-/* harmony default export */ const form_logsvue_type_script_lang_js_ = ({
+// ·
+/* harmony default export */ const apps_listvue_type_script_lang_js_ = ({
   props: {
-    appMountPath: {
-      required: true
-    },
-    role: {
+    roleFilters: {
       type: Object,
-      required: true
+      default: function _default() {
+        return {};
+      }
+    },
+    roleOptions: {
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    },
+    appMountPath: {
+      type: String,
+      default: ''
     }
   },
+  // @return [Object] Data used by this component's methods
+  // @description Returns the data needed for this component to work properly
+  // @data_variable main_route [String] the main route to which this component connects to the lesli API
+  // @data_variable users [Array] An array of objects, each object represents a
+  //      Users, with the same params as the associated rails model
   data: function data() {
     return {
+      main_route: '/administration/users',
+      show_form: false,
+      user_id: null,
+      users: [],
+      roles: null,
+      loading: false,
+      filters_ready: false,
       translations: {
         core: {
-          roles: I18n.t('core.roles'),
-          shared: I18n.t('core.shared'),
-          role_activities: I18n.t('core.role/activities')
+          roles: I18n.t("core.roles"),
+          users: I18n.t("core.users"),
+          shared: I18n.t("core.shared")
         }
       },
       sorting: {
-        order: 'desc',
-        field: 'created_at'
-      },
-      pagination: {
-        total_count: 0,
-        current_page: 1,
-        range_before: 3,
-        range_after: 3,
-        per_page: 10
+        order: "asc",
+        field: "ud.first_name,ud.last_name",
+        icon_size: "is-small"
       },
       filters: {
-        text: '',
-        text_category: ''
+        search: "",
+        status: "active",
+        role: null
       },
-      filters_ready: false,
-      loading: false,
-      role_activities: [],
-      options: []
+      pagination: {
+        current_page: 1,
+        per_page: 10,
+        range_before: 3,
+        range_after: 3,
+        users_count: 0
+      },
+      index_privileges: {
+        users: this.abilities.privilege("users")
+      }
     };
   },
+  // @return [void]
+  // @description Executes the necessary functions needed to initialize this component
   mounted: function mounted() {
     this.setSessionStorageFilters();
-    this.getOptions();
-    this.getRoleActivities();
+    this.getUsers();
+    this.getRoles();
   },
   methods: {
     setSessionStorageFilters: function setSessionStorageFilters() {
-      var _this = this;
-
-      var stored_filters = this.storage.local('logs-filters');
+      var stored_filters = this.storage.local("filters");
 
       if (stored_filters) {
         for (var key in stored_filters) {
@@ -64514,55 +62604,116 @@ For more information read the license file including with this software.
         }
       }
 
-      this.$nextTick(function () {
-        _this.filters_ready = true;
+      if (this.$route.query.role) {
+        this.filters.role = this.$route.query.role;
+      }
+
+      this.filters_ready = true;
+    },
+    getUsers: function getUsers() {
+      var _this = this;
+
+      this.storage.local("filters", this.filters);
+      this.loading = true;
+      var url = this.url.lesli('administration/users');
+
+      if (!this.filters.role) {
+        url.query = this.roleFilters;
+      } else {
+        url.query = {
+          role: this.filters.role
+        };
+      }
+
+      url = url.filters({
+        status: this.filters.status,
+        view_type: 'index',
+        search: this.filters.search,
+        category: 'user'
+      }).paginate(this.pagination.current_page, this.pagination.per_page).order(this.sorting.field, this.sorting.order);
+      this.http.get(url).then(function (result) {
+        if (result.successful) {
+          _this.users = result.data.users.map(function (user) {
+            user.roles = user.roles.split(',');
+            user.active_text = user.active ? _this.translations.core.shared.text_active : _this.translations.core.shared.text_disabled;
+            return user;
+          });
+          _this.pagination.users_count = result.data.users_count;
+        } else {
+          _this.msg.error(result.error.message);
+        }
+
+        _this.loading = false;
+      }).catch(function (error) {
+        console.log(error);
+      }).finally(function () {
+        _this.loading = false;
       });
     },
-    getOptions: function getOptions() {
+    getRoles: function getRoles() {
       var _this2 = this;
 
-      var url = this.url.admin('roles/activities/options');
+      var url = this.url.lesli('administration/roles/list');
       this.http.get(url).then(function (result) {
         if (result.successful) {
-          _this2.options = result.data;
-        } else {
-          _this2.msg.error(result.error.message);
+          if (_this2.roleOptions && _this2.roleOptions.type == 'exclude' && _this2.roleOptions.role) {
+            var excluded_roles = _this2.roleFilters.role.split(',');
+
+            _this2.roles = result.data.filter(function (role) {
+              return !excluded_roles.includes(role.name);
+            });
+          } else {
+            _this2.roles = result.data;
+          }
         }
       }).catch(function (error) {
         console.log(error);
       });
     },
-    getRoleActivities: function getRoleActivities() {
+    showUser: function showUser(user) {
+      this.$router.push("".concat(this.appMountPath, "/").concat(user.id));
+    },
+    searchUsers: function searchUsers(text) {
+      this.filters.search = text.trim();
+      this.pagination.current_page = 1; // clear pagination
+
+      this.getUsers();
+    },
+    doUserLogout: function doUserLogout(user) {
       var _this3 = this;
 
-      this.loading = true;
-      var url = this.url.admin('roles/:id/activities', {
-        id: this.role.id
-      });
-      url = url.filters({
-        text: this.filters.text,
-        text_category: this.filters.text_category
-      }).paginate(this.pagination.current_page, this.pagination.per_page).order(this.sorting.field, this.sorting.order);
-      this.storage.local('logs-filters', this.filters);
-      this.http.get(url).then(function (result) {
-        if (result.successful) {
-          _this3.role_activities = result.data.activities; // list of activities
-
-          _this3.pagination.total_count = result.data.activities_count; // total count
-        } else {
+      this.http.post("".concat(this.main_route, "/").concat(user.id, "/resources/logout")).then(function (result) {
+        if (!result.successful) {
           _this3.msg.error(result.error.message);
+
+          return;
         }
 
-        _this3.loading = false;
+        _this3.getUsers();
+
+        _this3.msg.success(translations.core.users.messages_success_operation);
       }).catch(function (error) {
         console.log(error);
       });
     },
-    reloadactivities: function reloadactivities() {
-      this.loading = true;
-      this.getRoleActivities();
+    doRevokeAccess: function doRevokeAccess(user) {
+      var _this4 = this;
+
+      this.http.post("".concat(this.main_route, "/").concat(user.id, "/resources/lock")).then(function (result) {
+        if (!result.successful) {
+          _this4.msg.error(result.error.message);
+
+          return;
+        }
+
+        _this4.getUsers();
+
+        _this4.msg.success(translations.core.users.messages_success_operation);
+      }).catch(function (error) {
+        console.log(error);
+      });
     },
-    sortActivities: function sortActivities(field, order) {
+    sortUsers: function sortUsers(field, order) {
       if (this.sorting.field == field) {
         if (this.sorting.order == 'asc') {
           this.sorting.order = 'desc';
@@ -64574,33 +62725,26 @@ For more information read the license file including with this software.
         this.sorting.order = 'desc';
       }
 
-      this.getRoleActivities();
+      this.getUsers();
     },
-    searchRoleActivities: function searchRoleActivities(text) {
-      this.filters.text = text.trim();
-      this.getRoleActivities();
-    },
-    getTitle: function getTitle() {
-      var title = '';
-      title += this.translations.core.roles["column_enum_role_".concat((this.role.name || '').toLowerCase())] || this.role.name;
-      title += ' [' + (this.translations.core.shared.view_text_logs || '') + ']';
-      return title;
+    mailTo: function mailTo(user) {
+      this.url.go("mailto: ".concat(user));
     }
   },
   watch: {
     'pagination.current_page': function paginationCurrent_page() {
-      this.getRoleActivities();
+      this.getUsers();
     },
     'pagination.per_page': function paginationPer_page() {
       if (this.filters_ready) {
-        this.getRoleActivities();
+        this.getUsers();
       }
     }
   }
 });
-;// CONCATENATED MODULE: ../../app/vue2/roles/components/forms/form-logs.vue?vue&type=script&lang=js&
- /* harmony default export */ const forms_form_logsvue_type_script_lang_js_ = (form_logsvue_type_script_lang_js_); 
-;// CONCATENATED MODULE: ../../app/vue2/roles/components/forms/form-logs.vue
+;// CONCATENATED MODULE: ../../app/vue2/users/apps/list.vue?vue&type=script&lang=js&
+ /* harmony default export */ const users_apps_listvue_type_script_lang_js_ = (apps_listvue_type_script_lang_js_); 
+;// CONCATENATED MODULE: ../../app/vue2/users/apps/list.vue
 
 
 
@@ -64608,10 +62752,10 @@ For more information read the license file including with this software.
 
 /* normalize component */
 ;
-var form_logs_component = componentNormalizer_normalizeComponent(
-  forms_form_logsvue_type_script_lang_js_,
-  form_logsvue_type_template_id_07b31108_render,
-  form_logsvue_type_template_id_07b31108_staticRenderFns,
+var apps_list_component = componentNormalizer_normalizeComponent(
+  users_apps_listvue_type_script_lang_js_,
+  listvue_type_template_id_dec2d926_render,
+  listvue_type_template_id_dec2d926_staticRenderFns,
   false,
   null,
   null,
@@ -64620,12 +62764,470 @@ var form_logs_component = componentNormalizer_normalizeComponent(
 )
 
 /* hot reload */
-if (false) { var form_logs_api; }
-form_logs_component.options.__file = "app/vue2/roles/components/forms/form-logs.vue"
-/* harmony default export */ const form_logs = (form_logs_component.exports);
-;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/roles/pages/show.vue?vue&type=script&lang=js&
-/*
+if (false) { var apps_list_api; }
+apps_list_component.options.__file = "app/vue2/users/apps/list.vue"
+/* harmony default export */ const apps_list = (apps_list_component.exports);
+;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/apps/show.vue?vue&type=template&id=2c37764c&
+var showvue_type_template_id_2c37764c_render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "section",
+    { staticClass: "application-component" },
+    [
+      _c("component-information-card", {
+        attrs: { "app-mount-path": _vm.appMountPath },
+      }),
+      _vm._v(" "),
+      _c(
+        "b-tabs",
+        {
+          model: {
+            value: _vm.active,
+            callback: function ($$v) {
+              _vm.active = $$v
+            },
+            expression: "active",
+          },
+        },
+        [
+          _c(
+            "b-tab-item",
+            {
+              attrs: {
+                label: _vm.translations.core.users.view_tab_title_information,
+              },
+            },
+            [_c("component-information-form")],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-tab-item",
+            {
+              attrs: {
+                label: _vm.translations.core.users.view_tab_title_security,
+                disabled: _vm.user.editable_security,
+              },
+            },
+            [_c("component-security-form")],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-tab-item",
+            {
+              attrs: {
+                label:
+                  _vm.translations.core.users.view_tab_title_access_management,
+              },
+            },
+            [_c("component-access-management-form")],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-tab-item",
+            {
+              attrs: {
+                label:
+                  _vm.translations.core.users
+                    .view_tab_title_roles_and_privileges,
+              },
+            },
+            [_c("component-roles-privileges-form")],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-tab-item",
+            {
+              attrs: {
+                label:
+                  _vm.translations.core.users.view_tab_title_session_management,
+              },
+            },
+            [
+              _vm.user_id
+                ? _c("component-management-sessions", {
+                    attrs: { user_id: _vm.user_id },
+                  })
+                : _vm._e(),
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-tab-item",
+            {
+              attrs: {
+                label:
+                  _vm.translations.core.users
+                    .view_tab_title_shortcut_management,
+              },
+            },
+            [
+              _vm.user_id
+                ? _c("component-management-shortcuts", {
+                    attrs: { user_id: _vm.user_id },
+                  })
+                : _vm._e(),
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-tab-item",
+            {
+              attrs: {
+                label: _vm.translations.core.users.view_tab_title_settings,
+              },
+            },
+            [
+              _vm.user_id
+                ? _c("component-settings-form", {
+                    attrs: { user_id: _vm.user_id },
+                  })
+                : _vm._e(),
+            ],
+            1
+          ),
+        ],
+        1
+      ),
+    ],
+    1
+  )
+}
+var showvue_type_template_id_2c37764c_staticRenderFns = []
+showvue_type_template_id_2c37764c_render._withStripped = true
 
+
+;// CONCATENATED MODULE: ../../app/vue2/users/apps/show.vue?vue&type=template&id=2c37764c&
+
+;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/form-security.vue?vue&type=template&id=68ee0be4&
+var form_securityvue_type_template_id_68ee0be4_render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", { staticClass: "box" }, [
+    _c(
+      "form",
+      {
+        on: {
+          submit: function ($event) {
+            $event.preventDefault()
+            return _vm.putUserPassword()
+          },
+        },
+      },
+      [
+        _c(
+          "fieldset",
+          {
+            attrs: { disabled: _vm.lesli.current_user.id !== _vm.data.user.id },
+          },
+          [
+            _c("h4", { staticClass: "is-size-4 mb-4" }, [
+              _vm._v(
+                " " + _vm._s(_vm.translations.passwords.view_title_security)
+              ),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "field is-horizontal" }, [
+              _c("div", { staticClass: "field-label is-normal" }, [
+                _c("label", { staticClass: "label" }, [
+                  _vm._v(
+                    _vm._s(_vm.translations.passwords.view_text_new_password)
+                  ),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "field-body" }, [
+                _c("div", { staticClass: "field" }, [
+                  _c("div", { staticClass: "control has-icons-left" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.password,
+                          expression: "user.password",
+                        },
+                      ],
+                      staticClass: "input",
+                      attrs: {
+                        type: "password",
+                        placeholder:
+                          _vm.translations.passwords
+                            .view_placeholder_new_password,
+                      },
+                      domProps: { value: _vm.user.password },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.user, "password", $event.target.value)
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _vm._m(0),
+                  ]),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "field is-horizontal" }, [
+              _c("div", { staticClass: "field-label is-normal" }, [
+                _c("label", { staticClass: "label" }, [
+                  _vm._v(
+                    " " +
+                      _vm._s(
+                        _vm.translations.passwords.view_text_confirm_password
+                      ) +
+                      " "
+                  ),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "field-body" }, [
+                _c("div", { staticClass: "field" }, [
+                  _c("div", { staticClass: "control has-icons-left" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.password_confirmation,
+                          expression: "user.password_confirmation",
+                        },
+                      ],
+                      staticClass: "input",
+                      attrs: {
+                        type: "password",
+                        placeholder:
+                          _vm.translations.passwords
+                            .view_placeholder_confirm_password,
+                      },
+                      domProps: { value: _vm.user.password_confirmation },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.user,
+                            "password_confirmation",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _vm._m(1),
+                  ]),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "field is-horizontal" }, [
+              _c("div", { staticClass: "field-label" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "field-body" }, [
+                _c("div", { staticClass: "field" }, [
+                  _c("div", { staticClass: "control" }, [
+                    _c("input", {
+                      staticClass: "button is-primary is-fullwidth",
+                      attrs: { type: "submit" },
+                      domProps: {
+                        value: _vm.translations.shared.view_btn_save,
+                      },
+                    }),
+                  ]),
+                ]),
+              ]),
+            ]),
+          ]
+        ),
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        on: {
+          submit: function ($event) {
+            $event.preventDefault()
+            return _vm.putMFAUserMethod.apply(null, arguments)
+          },
+        },
+      },
+      [
+        _c("fieldset", [
+          _c("h4", { staticClass: "is-size-4 mb-4 mr-2" }, [
+            _vm._v(
+              " " +
+                _vm._s(
+                  _vm.translations.users.view_text_multi_factor_authentication
+                )
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field is-horizontal" }, [
+            _c("div", { staticClass: "field-label is-normal" }, [
+              _c("label", { staticClass: "label" }, [
+                _vm._v(
+                  "\n                        " +
+                    _vm._s(
+                      _vm.user.mfa_enabled
+                        ? _vm.translations.shared.view_text_enabled
+                        : _vm.translations.shared.view_text_disabled
+                    ) +
+                    "\n                    "
+                ),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "field-body" }, [
+              _c("div", { staticClass: "field" }, [
+                _c(
+                  "div",
+                  { staticClass: "control" },
+                  [
+                    _c("b-switch", {
+                      attrs: { required: "" },
+                      nativeOn: {
+                        change: function ($event) {
+                          return _vm.putMFAUserEnabled.apply(null, arguments)
+                        },
+                      },
+                      model: {
+                        value: _vm.user.mfa_enabled,
+                        callback: function ($$v) {
+                          _vm.$set(_vm.user, "mfa_enabled", $$v)
+                        },
+                        expression: "user.mfa_enabled",
+                      },
+                    }),
+                  ],
+                  1
+                ),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field is-horizontal" }, [
+            _c("div", { staticClass: "field-label is-normal" }, [
+              _c("label", { staticClass: "label" }, [
+                _vm._v(
+                  " " + _vm._s(_vm.translations.users.column_mfa_methods) + " "
+                ),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "field-body" }, [
+              _c("div", { staticClass: "field" }, [
+                _c(
+                  "div",
+                  { staticClass: "control" },
+                  [
+                    _c(
+                      "b-select",
+                      {
+                        attrs: {
+                          placeholder: "Select an option",
+                          expanded: "",
+                          required: "",
+                          disabled: !_vm.user.mfa_enabled,
+                        },
+                        model: {
+                          value: _vm.user.mfa_method,
+                          callback: function ($$v) {
+                            _vm.$set(_vm.user, "mfa_method", $$v)
+                          },
+                          expression: "user.mfa_method",
+                        },
+                      },
+                      _vm._l(_vm.mfa_methods, function (method, index) {
+                        return _c(
+                          "option",
+                          { key: index, domProps: { value: method } },
+                          [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(
+                                  _vm.object_utils.translateEnum(
+                                    _vm.translations.users,
+                                    "column_enum_mfa_method",
+                                    method
+                                  )
+                                ) +
+                                "\n                                "
+                            ),
+                          ]
+                        )
+                      }),
+                      0
+                    ),
+                  ],
+                  1
+                ),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _vm.user.mfa_enabled
+            ? _c("div", { staticClass: "field is-horizontal" }, [
+                _c("div", { staticClass: "field-label" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "field-body" }, [
+                  _c("div", { staticClass: "field" }, [
+                    _c("div", { staticClass: "control" }, [
+                      _c("input", {
+                        staticClass: "button is-primary is-fullwidth",
+                        attrs: { type: "submit" },
+                        domProps: {
+                          value: _vm.translations.shared.view_btn_save,
+                        },
+                      }),
+                    ]),
+                  ]),
+                ]),
+              ])
+            : _vm._e(),
+        ]),
+      ]
+    ),
+  ])
+}
+var form_securityvue_type_template_id_68ee0be4_staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fas fa-lock" }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fas fa-lock" }),
+    ])
+  },
+]
+form_securityvue_type_template_id_68ee0be4_render._withStripped = true
+
+
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-security.vue?vue&type=template&id=68ee0be4&
+
+;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/form-security.vue?vue&type=script&lang=js&
+/*
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -64640,62 +63242,32 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
-
-
-
-/* harmony default export */ const showvue_type_script_lang_js_ = ({
-  props: {
-    appMountPath: {
-      type: String,
-      default: ''
-    }
-  },
-  components: {
-    'component-form': components_form,
-    'component-form-simple': form_simple,
-    'component-form-logs': form_logs
-  },
+// · 
+/* harmony default export */ const form_securityvue_type_script_lang_js_ = ({
   data: function data() {
     return {
-      role_id: null,
-      role: {},
-      modal: {
-        active: false
-      },
       translations: {
-        roles: I18n.t('deutscheleibrenten.roles'),
-        shared: I18n.t('deutscheleibrenten.shared'),
-        users: I18n.t('deutscheleibrenten.users')
-      }
+        shared: I18n.t("core.shared"),
+        passwords: I18n.t("core.users/passwords"),
+        users: I18n.t("core.users")
+      },
+      user: {},
+      mfa_methods: {}
     };
   },
-  mounted: function mounted() {
-    this.setRole();
-    this.setViewType();
-    this.getRole();
-  },
   methods: {
-    setRole: function setRole() {
-      this.role_id = this.$route.params.id;
-    },
-    setViewType: function setViewType() {
-      if (this.$route.query.view_type) {
-        this.$set(this.data, 'view_type', this.$route.query.view_type);
-      } else {
-        this.$set(this.data, 'view_type', 'simple');
-      }
-    },
-    getRole: function getRole() {
+    putUserPassword: function putUserPassword() {
       var _this = this;
 
-      var url = this.url.admin('roles/:id', {
-        id: this.role_id
-      });
-      this.http.get(url).then(function (result) {
-        if (result.successful) {
-          _this.role = result.data;
+      this.http.put("/", {
+        user: {
+          password: this.user.password,
+          password_confirmation: this.user.password_confirmation
+        }
+      }).then(function (result) {
+        if (result.successful == true) {
+          _this.msg.success(_this.translations.passwords.notification_password_updated);
         } else {
           _this.msg.error(result.error.message);
         }
@@ -64703,39 +63275,2369 @@ For more information read the license file including with this software.
         console.log(error);
       });
     },
-    confirmDialogRestore: function confirmDialogRestore() {
+    putMFAUserMethod: function putMFAUserMethod() {
       var _this2 = this;
 
+      var endpoint = this.url.admin("users/:id/settings", this.user.id);
+      var data = {
+        user_setting: {
+          name: "mfa_method",
+          value: this.user.mfa_method
+        }
+      };
+      this.http.post(endpoint, data).then(function (response) {
+        if (!response.successful) {
+          if (!_this2.user.mfa_method) _this2.user.mfa_method = null;
+
+          _this2.msg.error(response.error.message);
+
+          return;
+        }
+
+        _this2.msg.success(_this2.translations.users.messages_success_mfa_method_setted);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    putMFAUserEnabled: function putMFAUserEnabled() {
+      var _this3 = this;
+
+      if (typeof this.user.mfa_enabled != "boolean") return;
+      var endpoint = this.url.admin("users/:id/settings", this.user.id);
+      var data = {
+        user_setting: {
+          name: "mfa_enabled",
+          value: this.user.mfa_enabled ? "true" : "false"
+        }
+      };
+      this.http.post(endpoint, data).then(function (response) {
+        if (!response.successful) {
+          _this3.user.mfa_enabled = !_this3.user.mfa_enabled;
+
+          _this3.msg.error(response.error.message);
+
+          return;
+        }
+
+        if (_this3.user.mfa_enabled) {
+          _this3.msg.success(_this3.translations.users.messages_success_mfa_enabled);
+        } else {
+          _this3.msg.success(_this3.translations.users.messages_success_mfa_disabled);
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  },
+  watch: {
+    "data.user": function dataUser(user) {
+      this.user = user;
+    },
+    "data.options": function dataOptions(options) {
+      this.mfa_methods = options.mfa_methods;
+    }
+  }
+});
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-security.vue?vue&type=script&lang=js&
+ /* harmony default export */ const components_form_securityvue_type_script_lang_js_ = (form_securityvue_type_script_lang_js_); 
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-security.vue
+
+
+
+
+
+/* normalize component */
+;
+var form_security_component = componentNormalizer_normalizeComponent(
+  components_form_securityvue_type_script_lang_js_,
+  form_securityvue_type_template_id_68ee0be4_render,
+  form_securityvue_type_template_id_68ee0be4_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var form_security_api; }
+form_security_component.options.__file = "app/vue2/users/components/form-security.vue"
+/* harmony default export */ const form_security = (form_security_component.exports);
+;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/card-information.vue?vue&type=template&id=7447b7cc&
+var card_informationvue_type_template_id_7447b7cc_render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "box profile-card-information" }, [
+    _vm.user
+      ? _c("div", { staticClass: "media" }, [
+          _c("div", { staticClass: "media-left" }, [
+            _c("figure", { staticClass: "image is-128x128" }, [
+              _c("span", { staticClass: "alternative-avatar" }, [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.initials()) +
+                    "\n                "
+                ),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "media-content" },
+            [
+              _c("div", { staticClass: "content mb-0" }, [
+                _c("p", [
+                  _c(
+                    "strong",
+                    { attrs: { if: "user.detail_attributes.salutation" } },
+                    [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(
+                            _vm.object_utils.translateEnum(
+                              _vm.translations.core.shared,
+                              "column_enum_salutation",
+                              _vm.user.detail_attributes.salutation
+                            )
+                          ) +
+                          "\n                    "
+                      ),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("strong", [
+                    _vm._v(_vm._s(_vm.user.detail_attributes.first_name)),
+                  ]),
+                  _vm._v(" "),
+                  _c("strong", [
+                    _vm._v(_vm._s(_vm.user.detail_attributes.last_name)),
+                  ]),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.user.detail_attributes.title) +
+                      "\n                "
+                  ),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("nav", { staticClass: "level is-mobile mb-0" }, [
+                _c("div", { staticClass: "level-left" }, [
+                  _vm.user.email
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "level-item",
+                          attrs: {
+                            href: "mailto:" + _vm.user.email,
+                            "aria-label": "reply",
+                          },
+                        },
+                        [
+                          _vm._m(0),
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.user.email) +
+                              "\n                    "
+                          ),
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.user.detail_attributes.telephone
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "level-item",
+                          attrs: {
+                            href: "tel:" + _vm.user.detail_attributes.telephone,
+                            "aria-label": "retweet",
+                          },
+                        },
+                        [
+                          _vm._m(1),
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.user.detail_attributes.telephone) +
+                              "\n                    "
+                          ),
+                        ]
+                      )
+                    : _vm._e(),
+                ]),
+              ]),
+              _vm._v(" "),
+              _vm.actions
+                ? [
+                    _c("hr", { staticClass: "my-3" }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "buttons" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "button is-white is-small",
+                          on: {
+                            click: function ($event) {
+                              return _vm.doRequestPasswordChange()
+                            },
+                          },
+                        },
+                        [
+                          _vm._m(2),
+                          _vm._v(" "),
+                          _c("span", [
+                            _vm._v(
+                              " " +
+                                _vm._s(
+                                  _vm.translations.core.users
+                                    .view_btn_request_password_change
+                                )
+                            ),
+                          ]),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "button is-white is-small",
+                          on: {
+                            click: function ($event) {
+                              return _vm.doUserLogout()
+                            },
+                          },
+                        },
+                        [
+                          _vm._m(3),
+                          _vm._v(" "),
+                          _c("span", [
+                            _vm._v(
+                              "  " +
+                                _vm._s(
+                                  _vm.translations.core.users
+                                    .view_btn_force_logout
+                                )
+                            ),
+                          ]),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "button is-white is-small",
+                          on: {
+                            click: function ($event) {
+                              return _vm.doRevokeAccess()
+                            },
+                          },
+                        },
+                        [
+                          _vm._m(4),
+                          _vm._v(" "),
+                          _c("span", [
+                            _vm._v(
+                              " " +
+                                _vm._s(
+                                  _vm.translations.core.users
+                                    .view_btn_revoke_access
+                                ) +
+                                " "
+                            ),
+                          ]),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "button is-white is-small",
+                          on: {
+                            click: function ($event) {
+                              return _vm.confirmMarkUserAsDeleted()
+                            },
+                          },
+                        },
+                        [
+                          _vm._m(5),
+                          _vm._v(" "),
+                          _c("span", [
+                            _vm._v(
+                              " " +
+                                _vm._s(
+                                  _vm.translations.core.users
+                                    .view_btn_mark_user_as_deleted
+                                ) +
+                                " "
+                            ),
+                          ]),
+                        ]
+                      ),
+                    ]),
+                  ]
+                : _vm._e(),
+            ],
+            2
+          ),
+        ])
+      : _vm._e(),
+  ])
+}
+var card_informationvue_type_template_id_7447b7cc_staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small mr-2" }, [
+      _c("i", {
+        staticClass: "fas fa-envelope",
+        attrs: { "aria-hidden": "true" },
+      }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small mr-2" }, [
+      _c("i", {
+        staticClass: "fas fa-phone-alt",
+        attrs: { "aria-hidden": "true" },
+      }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fas fa-unlock-alt" }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fas fa-sign-out-alt" }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fas fa-user-lock" }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fas fa-user-slash" }),
+    ])
+  },
+]
+card_informationvue_type_template_id_7447b7cc_render._withStripped = true
+
+
+;// CONCATENATED MODULE: ../../app/vue2/users/components/card-information.vue?vue&type=template&id=7447b7cc&
+
+;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/card-information.vue?vue&type=script&lang=js&
+/*
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·
+*/
+/* harmony default export */ const card_informationvue_type_script_lang_js_ = ({
+  props: {
+    actions: {
+      default: true
+    },
+    appMountPath: {
+      type: String,
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      translations: {
+        core: {
+          users: I18n.t("core.users"),
+          shared: I18n.t("core.shared")
+        }
+      },
+      user: {
+        detail_attributes: {}
+      }
+    };
+  },
+  methods: {
+    initials: function initials() {
+      var initials = "";
+
+      if (this.user.detail_attributes.first_name) {
+        initials += this.user.detail_attributes.first_name[0];
+      }
+
+      if (this.user.detail_attributes.last_name) {
+        initials += this.user.detail_attributes.last_name[0];
+      }
+
+      return initials;
+    },
+    doRequestPasswordChange: function doRequestPasswordChange() {
+      var _this = this;
+
+      this.http.post("/administration/users/".concat(this.user.id, "/resources/password")).then(function (result) {
+        if (!result.successful) {
+          _this.msg.error(result.error.message);
+
+          return;
+        }
+
+        _this.msg.success(_this.translations.core.users.messages_success_user_updated);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    doUserLogout: function doUserLogout() {
+      var _this2 = this;
+
+      this.http.post(this.url.admin("/users/:user_id/resources/logout", {
+        user_id: this.user.id
+      })).then(function (result) {
+        if (!result.successful) {
+          _this2.msg.error(result.error.message);
+
+          return;
+        }
+
+        _this2.msg.success(_this2.translations.core.users.messages_info_deleted_sessions);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    doRevokeAccess: function doRevokeAccess() {
+      var _this3 = this;
+
+      this.http.post("/administration/users/".concat(this.user.id, "/resources/lock")).then(function (result) {
+        if (!result.successful) {
+          _this3.msg.error(result.error.message);
+
+          return;
+        }
+
+        _this3.msg.success(_this3.translations.core.users.messages_success_user_updated);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    confirmMarkUserAsDeleted: function confirmMarkUserAsDeleted() {
+      var _this4 = this;
+
+      window.scrollTo(0, 0);
       this.$buefy.dialog.confirm({
-        title: this.translations.roles.dialog_configuration_title,
-        message: this.translations.shared.dialog_confirm_question + ' <b>' + this.translations.roles.dialog_confirm_restore_configuration_message + '</b>?',
-        confirmText: this.translations.roles.dialog_confirm_restore_configuration,
-        type: 'is-warning',
+        title: this.translations.core.users.messages_danger_delete_user,
+        message: this.translations.core.users.messages_danger_delete_user_message_detail,
+        confirmText: this.translations.core.users.messages_danger_delete_user_confirm,
+        cancelText: this.translations.core.users.messages_danger_delete_user_cancel,
+        type: 'is-danger',
         hasIcon: true,
         onConfirm: function onConfirm() {
-          return _this2.restoreDefaultConfiguration();
+          return _this4.markUserAsDeleted();
         }
       });
     },
-    confirmDialogSet: function confirmDialogSet() {
-      var _this3 = this;
+    markUserAsDeleted: function markUserAsDeleted() {
+      var _this5 = this;
+
+      this.http.delete(this.url.admin("/users/:user_id", {
+        user_id: this.user.id
+      })).then(function (result) {
+        if (!result.successful) {
+          _this5.msg.error(result.error.message);
+        } else {
+          _this5.msg.success(_this5.translations.core.users.messages_success_user_updated);
+
+          _this5.$router.push("".concat(_this5.appMountPath, "/"));
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  },
+  watch: {
+    "data.user": function dataUser(user) {
+      this.user = user;
+    }
+  }
+});
+;// CONCATENATED MODULE: ../../app/vue2/users/components/card-information.vue?vue&type=script&lang=js&
+ /* harmony default export */ const components_card_informationvue_type_script_lang_js_ = (card_informationvue_type_script_lang_js_); 
+;// CONCATENATED MODULE: ../../app/vue2/users/components/card-information.vue
+
+
+
+
+
+/* normalize component */
+;
+var card_information_component = componentNormalizer_normalizeComponent(
+  components_card_informationvue_type_script_lang_js_,
+  card_informationvue_type_template_id_7447b7cc_render,
+  card_informationvue_type_template_id_7447b7cc_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var card_information_api; }
+card_information_component.options.__file = "app/vue2/users/components/card-information.vue"
+/* harmony default export */ const card_information = (card_information_component.exports);
+;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/form-information.vue?vue&type=template&id=dbe86464&
+var form_informationvue_type_template_id_dbe86464_render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-content" }, [
+      _c(
+        "form",
+        {
+          on: {
+            submit: function ($event) {
+              $event.preventDefault()
+              return _vm.putUser()
+            },
+          },
+        },
+        [
+          _c("fieldset", [
+            _c("div", { staticClass: "columns" }, [
+              _c("div", { staticClass: "column is-half" }, [
+                _c(
+                  "div",
+                  { staticClass: "field" },
+                  [
+                    _c("label", { staticClass: "label" }, [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(_vm.translations.shared.view_text_salutation) +
+                          "\n                            "
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.options.salutations, function (option) {
+                      return _c(
+                        "b-radio",
+                        {
+                          key: option.value,
+                          attrs: {
+                            type: "is-info",
+                            "native-value": option.value,
+                          },
+                          model: {
+                            value: _vm.user.detail_attributes.salutation,
+                            callback: function ($$v) {
+                              _vm.$set(
+                                _vm.user.detail_attributes,
+                                "salutation",
+                                $$v
+                              )
+                            },
+                            expression: "user.detail_attributes.salutation",
+                          },
+                        },
+                        [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(
+                                _vm.translations.shared[
+                                  "column_enum_salutation_" + option.text
+                                ]
+                              ) +
+                              "\n                            "
+                          ),
+                        ]
+                      )
+                    }),
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "field" }, [
+                  _c("label", { staticClass: "label" }, [
+                    _vm._v(
+                      " " +
+                        _vm._s(_vm.translations.shared.view_text_first_name) +
+                        " "
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "control" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.detail_attributes.first_name,
+                          expression: "user.detail_attributes.first_name",
+                        },
+                      ],
+                      staticClass: "input",
+                      attrs: { required: "required", type: "text" },
+                      domProps: {
+                        value: _vm.user.detail_attributes.first_name,
+                      },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.user.detail_attributes,
+                            "first_name",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "field" }, [
+                  _c("label", { staticClass: "label" }, [
+                    _vm._v(
+                      " " +
+                        _vm._s(_vm.translations.shared.view_text_last_name) +
+                        " "
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "control" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.detail_attributes.last_name,
+                          expression: "user.detail_attributes.last_name",
+                        },
+                      ],
+                      staticClass: "input",
+                      attrs: { required: "required" },
+                      domProps: { value: _vm.user.detail_attributes.last_name },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.user.detail_attributes,
+                            "last_name",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "field" }, [
+                  _c("label", { staticClass: "label" }, [
+                    _vm._v(
+                      " " +
+                        _vm._s(_vm.translations.shared.view_text_alias) +
+                        " "
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "control" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.alias,
+                          expression: "user.alias",
+                        },
+                      ],
+                      staticClass: "input",
+                      domProps: { value: _vm.user.alias },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.user, "alias", $event.target.value)
+                        },
+                      },
+                    }),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "field" }, [
+                  _c("label", { staticClass: "label" }, [
+                    _vm._v(
+                      " " + _vm._s(_vm.translations.users.view_text_title) + " "
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "control" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.detail_attributes.title,
+                          expression: "user.detail_attributes.title",
+                        },
+                      ],
+                      staticClass: "input",
+                      domProps: { value: _vm.user.detail_attributes.title },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.user.detail_attributes,
+                            "title",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "field" }, [
+                  _c("label", { staticClass: "label" }, [
+                    _vm._v(
+                      " " +
+                        _vm._s(_vm.translations.shared.view_text_telephone) +
+                        " "
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "control" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.detail_attributes.telephone,
+                          expression: "user.detail_attributes.telephone",
+                        },
+                      ],
+                      staticClass: "input",
+                      domProps: { value: _vm.user.detail_attributes.telephone },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.user.detail_attributes,
+                            "telephone",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "control" }, [
+                  _c("button", { staticClass: "button is-primary" }, [
+                    _vm._v(_vm._s(_vm.translations.shared.view_btn_save)),
+                  ]),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "column is-half" }, [
+                _vm.options.regions && _vm.options.regions.length > 0
+                  ? _c("div", { staticClass: "field" }, [
+                      _c("label", { staticClass: "label" }, [
+                        _vm._v(
+                          " " +
+                            _vm._s(_vm.translations.users.column_work_region) +
+                            " "
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "control" }, [
+                        _c(
+                          "div",
+                          {
+                            class: [
+                              "select is-fullwidth",
+                              {
+                                "is-empty":
+                                  _vm.user.detail_attributes.work_region ==
+                                  null,
+                              },
+                            ],
+                          },
+                          [
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value:
+                                      _vm.user.detail_attributes.work_region,
+                                    expression:
+                                      "user.detail_attributes.work_region",
+                                  },
+                                ],
+                                on: {
+                                  change: function ($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call(
+                                        $event.target.options,
+                                        function (o) {
+                                          return o.selected
+                                        }
+                                      )
+                                      .map(function (o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.user.detail_attributes,
+                                      "work_region",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  },
+                                },
+                              },
+                              [
+                                _c(
+                                  "option",
+                                  {
+                                    attrs: { disabled: true, hidden: true },
+                                    domProps: { value: null },
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                            " +
+                                        _vm._s(
+                                          _vm.translations.shared
+                                            .view_placeholder_select_option
+                                        ) +
+                                        "\n                                        "
+                                    ),
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _vm._l(_vm.options.regions, function (region) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: region.name,
+                                      domProps: { value: region.id },
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                            " +
+                                          _vm._s(region.name) +
+                                          "\n                                        "
+                                      ),
+                                    ]
+                                  )
+                                }),
+                              ],
+                              2
+                            ),
+                          ]
+                        ),
+                      ]),
+                    ])
+                  : _vm._e(),
+              ]),
+            ]),
+          ]),
+        ]
+      ),
+    ]),
+  ])
+}
+var form_informationvue_type_template_id_dbe86464_staticRenderFns = []
+form_informationvue_type_template_id_dbe86464_render._withStripped = true
+
+
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-information.vue?vue&type=template&id=dbe86464&
+
+;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/form-information.vue?vue&type=script&lang=js&
+/*
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·
+*/
+// ·
+/* harmony default export */ const form_informationvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      translations: {
+        users: I18n.t("core.users"),
+        shared: I18n.t("core.shared")
+      },
+      options: {},
+      user: {
+        detail_attributes: {}
+      }
+    };
+  },
+  methods: {
+    putUser: function putUser() {
+      var _this = this;
+
+      this.http.put("/administration/users/".concat(this.user.id, ".json"), {
+        user: this.user
+      }).then(function (result) {
+        if (result.successful) {
+          _this.msg.success(_this.translations.users.messages_success_user_updated);
+        } else {
+          _this.msg.error(result.error.message);
+        }
+      });
+    }
+  },
+  watch: {
+    "data.user": function dataUser(user) {
+      this.user = user;
+    },
+    "data.options": function dataOptions(data) {
+      this.options = data;
+    }
+  }
+});
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-information.vue?vue&type=script&lang=js&
+ /* harmony default export */ const components_form_informationvue_type_script_lang_js_ = (form_informationvue_type_script_lang_js_); 
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-information.vue
+
+
+
+
+
+/* normalize component */
+;
+var form_information_component = componentNormalizer_normalizeComponent(
+  components_form_informationvue_type_script_lang_js_,
+  form_informationvue_type_template_id_dbe86464_render,
+  form_informationvue_type_template_id_dbe86464_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var form_information_api; }
+form_information_component.options.__file = "app/vue2/users/components/form-information.vue"
+/* harmony default export */ const form_information = (form_information_component.exports);
+;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/form-roles-privileges.vue?vue&type=template&id=602a4e80&
+var form_roles_privilegesvue_type_template_id_602a4e80_render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card" }, [
+    _c(
+      "div",
+      { staticClass: "card-content", staticStyle: { "min-height": "400px" } },
+      [
+        _c("div", { staticClass: "columns" }, [
+          _c("div", { staticClass: "column is-4" }, [
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function ($event) {
+                    $event.preventDefault()
+                    return _vm.putUserRole.apply(null, arguments)
+                  },
+                },
+              },
+              [
+                _c("div", { staticClass: "field" }, [
+                  _c("label", { staticClass: "label" }, [
+                    _vm._v(
+                      " " +
+                        _vm._s(_vm.translations.users.view_text_assing_role) +
+                        " "
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "control has-icons-left" }, [
+                    _c("div", { staticClass: "select" }, [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.role_selected,
+                              expression: "role_selected",
+                            },
+                          ],
+                          on: {
+                            change: function ($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function (o) {
+                                  return o.selected
+                                })
+                                .map(function (o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.role_selected = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            },
+                          },
+                        },
+                        _vm._l(_vm.data.options.roles, function (role) {
+                          return _c(
+                            "option",
+                            { key: role.id, domProps: { value: role } },
+                            [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(
+                                    _vm.object_utils.translateEnum(
+                                      _vm.translations.roles,
+                                      "column_enum_role",
+                                      role.name
+                                    )
+                                  ) +
+                                  "\n                                    "
+                              ),
+                            ]
+                          )
+                        }),
+                        0
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(0),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "field" }, [
+                  _c("div", { staticClass: "control" }, [
+                    _c("button", { staticClass: "button is-info" }, [
+                      _vm._v(
+                        " " + _vm._s(_vm.translations.shared.view_btn_save)
+                      ),
+                    ]),
+                  ]),
+                ]),
+              ]
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "column" }, [
+            _c(
+              "div",
+              { staticClass: "field" },
+              [
+                _c("label", { staticClass: "label" }, [
+                  _vm._v(
+                    " " +
+                      _vm._s(_vm.translations.users.view_text_roles_assigned)
+                  ),
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.data.user.roles, function (role) {
+                  return _c(
+                    "div",
+                    { key: role.id, staticClass: "control mb-4" },
+                    [
+                      _c(
+                        "b-tag",
+                        {
+                          attrs: {
+                            attached: "",
+                            closable: "",
+                            type: "is-info",
+                            size: "is-medium",
+                            "close-type": "is-info",
+                            "aria-close-label": "Close tag",
+                          },
+                          on: {
+                            close: function ($event) {
+                              return _vm.deleteUserRole(role.id)
+                            },
+                          },
+                        },
+                        [
+                          _vm._v(
+                            "\n\n                            " +
+                              _vm._s(
+                                _vm.object_utils.translateEnum(
+                                  _vm.translations.roles,
+                                  "column_enum_role",
+                                  role.name
+                                )
+                              ) +
+                              "\n                        "
+                          ),
+                        ]
+                      ),
+                    ],
+                    1
+                  )
+                }),
+              ],
+              2
+            ),
+          ]),
+        ]),
+      ]
+    ),
+  ])
+}
+var form_roles_privilegesvue_type_template_id_602a4e80_staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fas fa-key" }),
+    ])
+  },
+]
+form_roles_privilegesvue_type_template_id_602a4e80_render._withStripped = true
+
+
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-roles-privileges.vue?vue&type=template&id=602a4e80&
+
+;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/form-roles-privileges.vue?vue&type=script&lang=js&
+/*
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·
+*/
+// ·
+/* harmony default export */ const form_roles_privilegesvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      translations: {
+        users: I18n.t("core.users"),
+        roles: I18n.t("core.roles"),
+        shared: I18n.t("core.shared")
+      },
+      role_selected: {},
+      user: {}
+    };
+  },
+  methods: {
+    putUserRole: function putUserRole() {
+      var _this = this;
+
+      setTimeout(function () {
+        var url = _this.url.admin('users/:user_id/roles', {
+          user_id: _this.data.user.id
+        });
+
+        _this.http.post(url, {
+          user_role: {
+            id: _this.role_selected.id
+          }
+        }).then(function (result) {
+          if (!result.successful) {
+            _this.msg.error(result.error.message);
+
+            return;
+          }
+
+          _this.data.user.roles = result.data;
+          _this.role_selected = {};
+
+          _this.msg.success(_this.translations.users.messages_success_user_updated);
+        });
+      }, 500);
+    },
+    deleteUserRole: function deleteUserRole(id) {
+      var _this2 = this;
+
+      var url = this.url.admin('users/:user_id/roles/:id', {
+        user_id: this.data.user.id,
+        id: id
+      });
+      this.http.delete(url).then(function (result) {
+        if (!result.successful) {
+          _this2.msg.error(result.error.message);
+
+          return;
+        }
+
+        _this2.data.user.roles = result.data;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }
+});
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-roles-privileges.vue?vue&type=script&lang=js&
+ /* harmony default export */ const components_form_roles_privilegesvue_type_script_lang_js_ = (form_roles_privilegesvue_type_script_lang_js_); 
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-roles-privileges.vue
+
+
+
+
+
+/* normalize component */
+;
+var form_roles_privileges_component = componentNormalizer_normalizeComponent(
+  components_form_roles_privilegesvue_type_script_lang_js_,
+  form_roles_privilegesvue_type_template_id_602a4e80_render,
+  form_roles_privilegesvue_type_template_id_602a4e80_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var form_roles_privileges_api; }
+form_roles_privileges_component.options.__file = "app/vue2/users/components/form-roles-privileges.vue"
+/* harmony default export */ const form_roles_privileges = (form_roles_privileges_component.exports);
+;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/form-access-management.vue?vue&type=template&id=4d13c16e&
+var form_access_managementvue_type_template_id_4d13c16e_render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-content" }, [
+      _vm.lesli.current_user.id != _vm.data.user.id
+        ? _c("form", [
+            _c("h4", { staticClass: "is-size-4 mb-3" }, [
+              _vm._v(
+                " " + _vm._s(_vm.translations.users.view_title_manage_access)
+              ),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "field is-horizontal" }, [
+              _c("div", { staticClass: "field-label is-normal" }, [
+                _c("label", { staticClass: "label" }, [
+                  _vm._v(
+                    _vm._s(_vm.translations.users.view_text_access_status)
+                  ),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "field-body" }, [
+                _c("div", { staticClass: "field is-narrow" }, [
+                  _c("div", { staticClass: "control" }, [
+                    _c("div", { staticClass: "select is-fullwidth" }, [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.data.user.active,
+                              expression: "data.user.active",
+                            },
+                          ],
+                          on: {
+                            input: function ($event) {
+                              return _vm.putUserActive()
+                            },
+                            change: function ($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function (o) {
+                                  return o.selected
+                                })
+                                .map(function (o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.data.user,
+                                "active",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
+                          },
+                        },
+                        [
+                          _c("option", { domProps: { value: true } }, [
+                            _vm._v(
+                              _vm._s(_vm.translations.shared.view_text_active)
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { domProps: { value: false } }, [
+                            _vm._v(
+                              _vm._s(_vm.translations.shared.view_text_inactive)
+                            ),
+                          ]),
+                        ]
+                      ),
+                    ]),
+                  ]),
+                ]),
+              ]),
+            ]),
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          on: {
+            submit: function ($event) {
+              $event.preventDefault()
+              return _vm.confirmEmailAdddressChange()
+            },
+          },
+        },
+        [
+          _c("h4", { staticClass: "is-size-4 mb-3" }, [
+            _vm._v(
+              " " +
+                _vm._s(_vm.translations.confirmations.view_title_change_email)
+            ),
+          ]),
+          _vm._v(" "),
+          _c("fieldset", { attrs: { disabled: _vm.submit.email } }, [
+            _c("div", { staticClass: "field is-horizontal" }, [
+              _c("div", { staticClass: "field-label is-normal" }, [
+                _c("label", { staticClass: "label" }, [
+                  _vm._v(
+                    _vm._s(_vm.translations.confirmations.view_text_new_email)
+                  ),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "field-body" }, [
+                _c("div", { staticClass: "field" }, [
+                  _c("div", { staticClass: "control has-icons-left" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.email,
+                          expression: "user.email",
+                        },
+                      ],
+                      staticClass: "input",
+                      attrs: {
+                        required: "",
+                        type: "text",
+                        placeholder:
+                          _vm.translations.confirmations
+                            .view_placeholder_new_email,
+                      },
+                      domProps: { value: _vm.user.email },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.user, "email", $event.target.value)
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _vm._m(0),
+                  ]),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "field is-horizontal" }, [
+              _c("div", { staticClass: "field-label" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "field-body" }, [
+                _c(
+                  "div",
+                  { staticClass: "field" },
+                  [
+                    _c(
+                      "b-button",
+                      {
+                        attrs: { type: "is-primary", "native-type": "submit" },
+                      },
+                      [
+                        _vm.submit.email
+                          ? _c("b-icon", {
+                              attrs: {
+                                "custom-class": "fa-spin",
+                                size: "is-small",
+                                icon: "circle-notch",
+                              },
+                            })
+                          : _c("b-icon", {
+                              attrs: { size: "is-small", icon: "save" },
+                            }),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            _vm._s(_vm.translations.users.view_btn_change_email)
+                          ),
+                        ]),
+                      ],
+                      1
+                    ),
+                  ],
+                  1
+                ),
+              ]),
+            ]),
+          ]),
+        ]
+      ),
+    ]),
+  ])
+}
+var form_access_managementvue_type_template_id_4d13c16e_staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fas fa-envelope" }),
+    ])
+  },
+]
+form_access_managementvue_type_template_id_4d13c16e_render._withStripped = true
+
+
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-access-management.vue?vue&type=template&id=4d13c16e&
+
+;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/form-access-management.vue?vue&type=script&lang=js&
+/*
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·
+*/
+// ·
+/* harmony default export */ const form_access_managementvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      translations: {
+        users: I18n.t("core.users"),
+        roles: I18n.t("core.roles"),
+        shared: I18n.t("core.shared"),
+        confirmations: I18n.t("core.users/confirmations")
+      },
+      user: {},
+      submit: {
+        email: false
+      }
+    };
+  },
+  methods: {
+    putUserActive: function putUserActive() {
+      var _this = this;
+
+      setTimeout(function () {
+        _this.http.put("/administration/users/".concat(_this.data.user.id, ".json"), {
+          user: {
+            active: _this.data.user.active
+          }
+        }).then(function (result) {
+          if (!result.successful) {
+            _this.msg.error(result.error.message);
+
+            return;
+          }
+
+          _this.msg.success(_this.translations.users.messages_success_user_updated);
+        });
+      }, 500);
+    },
+    confirmEmailAdddressChange: function confirmEmailAdddressChange() {
+      var _this2 = this;
 
       this.$buefy.dialog.confirm({
-        title: this.translations.roles.dialog_configuration_title,
-        message: this.translations.shared.dialog_confirm_question + ' <b>' + this.translations.roles.dialog_confirm_set_configuration_message + '</b>?',
-        confirmText: this.translations.roles.dialog_confirm_set_configuration,
+        title: this.translations.confirmations.view_title_change_email,
+        message: this.translations.confirmations.view_text_change_email_confirmation_body,
+        cancelText: this.translations.shared.view_btn_cancel,
+        confirmText: this.translations.view_btn_accept,
         type: 'is-warning',
-        hasIcon: true,
         onConfirm: function onConfirm() {
-          return _this3.setDefaultConfiguration();
+          _this2.changeEmailAddress();
+        }
+      });
+    },
+    changeEmailAddress: function changeEmailAddress() {
+      var _this3 = this;
+
+      var url = this.url.lesli("administration/users/".concat(this.data.user.id, "/actions/email"));
+      var data = {
+        user: {
+          email: this.user.email
+        }
+      };
+      this.http.put(url, data).then(function (result) {
+        if (result.successful) {
+          _this3.msg.success(_this3.translations.confirmations.messages_success_confirmation_email_sent);
+        } else {
+          _this3.msg.error(result.error.message);
         }
       });
     }
   }
 });
-;// CONCATENATED MODULE: ../../app/vue2/roles/pages/show.vue?vue&type=script&lang=js&
- /* harmony default export */ const pages_showvue_type_script_lang_js_ = (showvue_type_script_lang_js_); 
-;// CONCATENATED MODULE: ../../app/vue2/roles/pages/show.vue
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-access-management.vue?vue&type=script&lang=js&
+ /* harmony default export */ const components_form_access_managementvue_type_script_lang_js_ = (form_access_managementvue_type_script_lang_js_); 
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-access-management.vue
+
+
+
+
+
+/* normalize component */
+;
+var form_access_management_component = componentNormalizer_normalizeComponent(
+  components_form_access_managementvue_type_script_lang_js_,
+  form_access_managementvue_type_template_id_4d13c16e_render,
+  form_access_managementvue_type_template_id_4d13c16e_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var form_access_management_api; }
+form_access_management_component.options.__file = "app/vue2/users/components/form-access-management.vue"
+/* harmony default export */ const form_access_management = (form_access_management_component.exports);
+;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/management-shortcuts.vue?vue&type=template&id=1ed32e8e&
+var management_shortcutsvue_type_template_id_1ed32e8e_render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("b-table", {
+    attrs: { data: _vm.shortcuts.records },
+    scopedSlots: _vm._u([
+      {
+        key: "default",
+        fn: function (props) {
+          return [
+            _c("b-table-column", { attrs: { label: "Name" } }, [
+              _vm._v("\n            " + _vm._s(props.row.name) + "\n        "),
+            ]),
+            _vm._v(" "),
+            _c("b-table-column", { attrs: { label: "URL" } }, [
+              _vm._v("\n            " + _vm._s(props.row.url) + "\n        "),
+            ]),
+            _vm._v(" "),
+            _c("b-table-column", { attrs: { label: "Options" } }, [
+              _c("div", { staticClass: "buttons" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "button is-danger is-outlined",
+                    on: {
+                      click: function ($event) {
+                        return _vm.deleteShortcut(props.row.id)
+                      },
+                    },
+                  },
+                  [_c("i", { staticClass: "far fa-trash-alt" })]
+                ),
+              ]),
+            ]),
+          ]
+        },
+      },
+    ]),
+  })
+}
+var management_shortcutsvue_type_template_id_1ed32e8e_staticRenderFns = []
+management_shortcutsvue_type_template_id_1ed32e8e_render._withStripped = true
+
+
+;// CONCATENATED MODULE: ../../app/vue2/users/components/management-shortcuts.vue?vue&type=template&id=1ed32e8e&
+
+;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/management-shortcuts.vue?vue&type=script&lang=js&
+//
+/* harmony default export */ const management_shortcutsvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      shortcuts: {}
+    };
+  },
+  mounted: function mounted() {
+    this.getShortcuts();
+  },
+  methods: {
+    getShortcuts: function getShortcuts() {
+      var _this = this;
+
+      this.http.get(this.url.admin("users/:id/shortcuts", {
+        id: this.lesli.current_user.id
+      })).then(function (result) {
+        if (!result.successful) {
+          return;
+        }
+
+        _this.shortcuts = result.data;
+      }).catch(function (error) {
+        _this.msg.error("Error loading shortcuts");
+      });
+    },
+    deleteShortcut: function deleteShortcut(id) {
+      var _this2 = this;
+
+      this.http.delete(this.url.admin("users/:user_id/shortcuts/:id", {
+        user_id: this.lesli.current_user.id,
+        id: id
+      })).then(function (result) {
+        _this2.msg.success("Shortcut deleted");
+
+        _this2.getShortcuts();
+      }).catch(function (error) {
+        _this2.msg.error("Error deleting shortcuts");
+      });
+    }
+  }
+});
+;// CONCATENATED MODULE: ../../app/vue2/users/components/management-shortcuts.vue?vue&type=script&lang=js&
+ /* harmony default export */ const components_management_shortcutsvue_type_script_lang_js_ = (management_shortcutsvue_type_script_lang_js_); 
+;// CONCATENATED MODULE: ../../app/vue2/users/components/management-shortcuts.vue
+
+
+
+
+
+/* normalize component */
+;
+var management_shortcuts_component = componentNormalizer_normalizeComponent(
+  components_management_shortcutsvue_type_script_lang_js_,
+  management_shortcutsvue_type_template_id_1ed32e8e_render,
+  management_shortcutsvue_type_template_id_1ed32e8e_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var management_shortcuts_api; }
+management_shortcuts_component.options.__file = "app/vue2/users/components/management-shortcuts.vue"
+/* harmony default export */ const management_shortcuts = (management_shortcuts_component.exports);
+;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/management-sessions.vue?vue&type=template&id=4d258a0c&
+var management_sessionsvue_type_template_id_4d258a0c_render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "card" },
+    [
+      _vm.loading ? _c("component-data-loading") : _vm._e(),
+      _vm._v(" "),
+      !_vm.loading && _vm.data.length == 0
+        ? _c("component-data-empty")
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.data.length > 0
+        ? _c(
+            "div",
+            { staticClass: "card-content" },
+            [
+              !_vm.loading && _vm.data.length > 0
+                ? _c("b-table", {
+                    attrs: { data: _vm.data, hoverable: true },
+                    scopedSlots: _vm._u(
+                      [
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _c(
+                                "b-table-column",
+                                {
+                                  attrs: {
+                                    label: "user_remote",
+                                    field: "lower(user_remote)",
+                                  },
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                    " +
+                                      _vm._s(props.row.user_remote) +
+                                      "\n                "
+                                  ),
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "b-table-column",
+                                {
+                                  attrs: {
+                                    label: "user_agent",
+                                    field: "lower(user_agent)",
+                                  },
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                    " +
+                                      _vm._s(props.row.user_agent) +
+                                      "\n                "
+                                  ),
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "b-table-column",
+                                {
+                                  attrs: {
+                                    label: "session_source",
+                                    field: "lower(session_source)",
+                                  },
+                                },
+                                [
+                                  _c(
+                                    "b-field",
+                                    [
+                                      _c(
+                                        "b-tag",
+                                        {
+                                          attrs: {
+                                            type: props.row.current_session
+                                              ? "is-success"
+                                              : "",
+                                          },
+                                        },
+                                        [
+                                          _c("i", { class: props.row.icon }),
+                                          _vm._v(
+                                            "\n                            " +
+                                              _vm._s(props.row.title) +
+                                              "\n                            " +
+                                              _vm._s(
+                                                props.row.current_session
+                                                  ? "(current)"
+                                                  : ""
+                                              ) +
+                                              "\n                        "
+                                          ),
+                                        ]
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "b-table-column",
+                                {
+                                  attrs: {
+                                    label: "created_at",
+                                    field: "lower(created_at)",
+                                  },
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                    " +
+                                      _vm._s(props.row.created_at_date) +
+                                      "\n                "
+                                  ),
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "b-table-column",
+                                {
+                                  attrs: {
+                                    label: "last_used_at",
+                                    field: "lower(last_used_at)",
+                                  },
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                    " +
+                                      _vm._s(props.row.last_used_at_string) +
+                                      "\n                "
+                                  ),
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "b-table-column",
+                                {
+                                  staticClass: "has-text-center",
+                                  attrs: { label: "actions" },
+                                },
+                                [
+                                  _c(
+                                    "span",
+                                    [
+                                      _c(
+                                        "b-button",
+                                        {
+                                          attrs: {
+                                            type: "is-danger",
+                                            outlined: "",
+                                          },
+                                          on: {
+                                            click: function ($event) {
+                                              $event.stopPropagation()
+                                              return _vm.confirmClosing(
+                                                props.row
+                                              )
+                                            },
+                                          },
+                                        },
+                                        [
+                                          _c("b-icon", {
+                                            attrs: {
+                                              size: "is-small",
+                                              icon: "fas fa-sign-out-alt",
+                                            },
+                                          }),
+                                        ],
+                                        1
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ]
+                              ),
+                            ]
+                          },
+                        },
+                      ],
+                      null,
+                      false,
+                      493427240
+                    ),
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _c("b-pagination", {
+                attrs: {
+                  simple: false,
+                  total: _vm.pagination.count_total,
+                  current: _vm.pagination.current_page,
+                  "range-before": _vm.pagination_config.range_before,
+                  "range-after": _vm.pagination_config.range_after,
+                  "per-page": _vm.pagination_config.per_page,
+                  order: "is-centered",
+                  "icon-prev": "chevron-left",
+                  "icon-next": "chevron-right",
+                  "aria-next-label": "Next page",
+                  "aria-previous-label": "Previous page",
+                  "aria-page-label": "Page",
+                  "aria-current-label": "Current page",
+                },
+                on: {
+                  "update:current": function ($event) {
+                    return _vm.$set(_vm.pagination, "current_page", $event)
+                  },
+                },
+              }),
+            ],
+            1
+          )
+        : _vm._e(),
+    ],
+    1
+  )
+}
+var management_sessionsvue_type_template_id_4d258a0c_staticRenderFns = []
+management_sessionsvue_type_template_id_4d258a0c_render._withStripped = true
+
+
+;// CONCATENATED MODULE: ../../app/vue2/users/components/management-sessions.vue?vue&type=template&id=4d258a0c&
+
+;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/management-sessions.vue?vue&type=script&lang=js&
+/*
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·
+*/
+// ·
+/* harmony default export */ const management_sessionsvue_type_script_lang_js_ = ({
+  props: {
+    user_id: {
+      type: [String, Number],
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      data: [],
+      loading: true,
+      pagination: {
+        total_pages: 0,
+        current_page: 1,
+        count_total: 0,
+        count_results: 0
+      },
+      pagination_config: {
+        per_page: 10,
+        range_before: 3,
+        range_after: 3
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.getSessions();
+  },
+  methods: {
+    getSessions: function getSessions() {
+      var _this = this;
+
+      this.loading = true;
+      this.data = [];
+      var params = {
+        perPage: this.pagination_config.per_page,
+        page: this.pagination.current_page
+      };
+      this.http.get(this.url.admin("users/:id/sessions", {
+        id: this.user_id
+      }), {
+        params: params
+      }).then(function (result) {
+        if (!result.successful) {
+          return _this.msg.error(result.error.message);
+        }
+
+        result.data.records.map(function (record) {
+          record['icon'] = "";
+          record['title'] = "";
+
+          if (record.session_source == 'dispatcher_standar_session') {
+            record['icon'] = "fas fa-key";
+            record['title'] = "access key";
+            return record;
+          }
+
+          if (record.session_source == 'devise_standar_session') {
+            record['icon'] = "fas fa-desktop";
+            record['title'] = "web client";
+            return record;
+          }
+
+          if (record.session_source == 'cloud_shared_public') {
+            record['icon'] = "fas fa-share-alt";
+            record['title'] = "shared module";
+            return record;
+          }
+        });
+        _this.data = result.data.records;
+        _this.pagination = result.data.pagination;
+      }).catch(function (error) {
+        console.log(error);
+      }).finally(function () {
+        _this.loading = false;
+      });
+    },
+    closeSession: function closeSession(object) {
+      var _this2 = this;
+
+      var object_id = object.id;
+      this.http.delete(this.url.admin("users/:id/sessions/:session_id", {
+        id: this.user_id,
+        session_id: object_id
+      })).then(function (result) {
+        if (result.successful) {
+          _this2.msg.success("successfully Closed session");
+
+          _this2.getData();
+        } else {
+          _this2.msg.error(result.error.message);
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+      this.getSessions();
+    },
+    confirmClosing: function confirmClosing(object) {
+      var _this3 = this;
+
+      this.$buefy.dialog.confirm({
+        title: "Close session",
+        message: "<b> confirm closing session</b>",
+        confirmText: "Close session",
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: function onConfirm() {
+          return _this3.closeSession(object);
+        }
+      });
+    }
+  },
+  watch: {
+    'pagination.current_page': function paginationCurrent_page() {
+      this.getSessions();
+    },
+    'pagination.per_page': function paginationPer_page() {
+      this.getSessions();
+    }
+  }
+});
+;// CONCATENATED MODULE: ../../app/vue2/users/components/management-sessions.vue?vue&type=script&lang=js&
+ /* harmony default export */ const components_management_sessionsvue_type_script_lang_js_ = (management_sessionsvue_type_script_lang_js_); 
+;// CONCATENATED MODULE: ../../app/vue2/users/components/management-sessions.vue
+
+
+
+
+
+/* normalize component */
+;
+var management_sessions_component = componentNormalizer_normalizeComponent(
+  components_management_sessionsvue_type_script_lang_js_,
+  management_sessionsvue_type_template_id_4d258a0c_render,
+  management_sessionsvue_type_template_id_4d258a0c_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var management_sessions_api; }
+management_sessions_component.options.__file = "app/vue2/users/components/management-sessions.vue"
+/* harmony default export */ const management_sessions = (management_sessions_component.exports);
+;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/form-settings.vue?vue&type=template&id=8993d51e&
+var form_settingsvue_type_template_id_8993d51e_render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "box" }, [
+    _c("div", { staticClass: "field" }, [
+      _c("label", { staticClass: "label" }, [
+        _vm._v(
+          _vm._s(_vm.translations.user.settings.view_title_preferred_language)
+        ),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "control" }, [
+        _c("div", { staticClass: "select" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.settings.locale,
+                  expression: "settings.locale",
+                },
+              ],
+              on: {
+                change: [
+                  function ($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function (o) {
+                        return o.selected
+                      })
+                      .map(function (o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.settings,
+                      "locale",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  },
+                  function ($event) {
+                    return _vm.postSettingsPreferredLanguage($event)
+                  },
+                ],
+              },
+            },
+            _vm._l(_vm.options.locales, function (name, code) {
+              return _c("option", { key: code, domProps: { value: code } }, [
+                _vm._v(
+                  "\n                        " +
+                    _vm._s(name) +
+                    "\n                    "
+                ),
+              ])
+            }),
+            0
+          ),
+        ]),
+      ]),
+    ]),
+  ])
+}
+var form_settingsvue_type_template_id_8993d51e_staticRenderFns = []
+form_settingsvue_type_template_id_8993d51e_render._withStripped = true
+
+
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-settings.vue?vue&type=template&id=8993d51e&
+
+;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/form-settings.vue?vue&type=script&lang=js&
+/*
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·
+*/
+// ·
+/* harmony default export */ const form_settingsvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      user: {},
+      options: {},
+      locale: I18n.locale,
+      translations: {
+        shared: I18n.t('core.shared'),
+        user: {
+          settings: I18n.t('core.user/settings')
+        }
+      },
+      settings: {
+        locale: null
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.getSettings();
+  },
+  methods: {
+    getSettings: function getSettings() {
+      console.log('getting settings');
+    },
+    postSettingsPreferredLanguage: function postSettingsPreferredLanguage(event) {
+      this.http.post(this.url.admin('users/:id/settings', this.user.id), {
+        user_setting: {
+          name: 'locale',
+          value: event.target.value
+        }
+      }).then(function (result) {
+        console.log(result);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  },
+  watch: {
+    "data.user": function dataUser(user) {
+      this.user = user;
+    },
+    "data.options": function dataOptions(options) {
+      this.options = options;
+    }
+  }
+});
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-settings.vue?vue&type=script&lang=js&
+ /* harmony default export */ const components_form_settingsvue_type_script_lang_js_ = (form_settingsvue_type_script_lang_js_); 
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-settings.vue
+
+
+
+
+
+/* normalize component */
+;
+var form_settings_component = componentNormalizer_normalizeComponent(
+  components_form_settingsvue_type_script_lang_js_,
+  form_settingsvue_type_template_id_8993d51e_render,
+  form_settingsvue_type_template_id_8993d51e_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var form_settings_api; }
+form_settings_component.options.__file = "app/vue2/users/components/form-settings.vue"
+/* harmony default export */ const form_settings = (form_settings_component.exports);
+;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/apps/show.vue?vue&type=script&lang=js&
+/*
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·
+*/
+// ·
+
+
+
+
+
+
+
+ // ·
+
+/* harmony default export */ const showvue_type_script_lang_js_ = ({
+  props: {
+    appMountPath: {
+      default: '',
+      type: String
+    }
+  },
+  components: {
+    "component-security-form": form_security,
+    "component-information-card": card_information,
+    "component-information-form": form_information,
+    "component-roles-privileges-form": form_roles_privileges,
+    "component-access-management-form": form_access_management,
+    "component-management-shortcuts": management_shortcuts,
+    "component-management-sessions": management_sessions,
+    "component-settings-form": form_settings
+  },
+  data: function data() {
+    return {
+      user_id: null,
+      active: 1,
+      user: {
+        detail_attributes: {}
+      },
+      options: [],
+      ready: false,
+      translations: {
+        core: {
+          users: I18n.t("core.users"),
+          shared: I18n.t("core.shared")
+        }
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.user_id = this.$route.params.id;
+    this.getUser();
+    this.getOptions();
+  },
+  methods: {
+    getUser: function getUser() {
+      var _this = this;
+
+      this.http.get("/administration/users/".concat(this.user_id, ".json")).then(function (result) {
+        if (result.successful) {
+          _this.data.user = result.data;
+        } else {
+          _this.msg.error(result.error.message);
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    getOptions: function getOptions() {
+      var _this2 = this;
+
+      this.http.get("/administration/users/options.json").then(function (result) {
+        if (result.successful) {
+          _this2.data.options = result.data;
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }
+});
+;// CONCATENATED MODULE: ../../app/vue2/users/apps/show.vue?vue&type=script&lang=js&
+ /* harmony default export */ const apps_showvue_type_script_lang_js_ = (showvue_type_script_lang_js_); 
+;// CONCATENATED MODULE: ../../app/vue2/users/apps/show.vue
 
 
 
@@ -64744,9 +65646,9 @@ For more information read the license file including with this software.
 /* normalize component */
 ;
 var show_component = componentNormalizer_normalizeComponent(
-  pages_showvue_type_script_lang_js_,
-  showvue_type_template_id_090922b1_render,
-  showvue_type_template_id_090922b1_staticRenderFns,
+  apps_showvue_type_script_lang_js_,
+  showvue_type_template_id_2c37764c_render,
+  showvue_type_template_id_2c37764c_staticRenderFns,
   false,
   null,
   null,
@@ -64756,10 +65658,10 @@ var show_component = componentNormalizer_normalizeComponent(
 
 /* hot reload */
 if (false) { var show_api; }
-show_component.options.__file = "app/vue2/roles/pages/show.vue"
+show_component.options.__file = "app/vue2/users/apps/show.vue"
 /* harmony default export */ const show = (show_component.exports);
-;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/roles/pages/new.vue?vue&type=template&id=56164d1c&
-var newvue_type_template_id_56164d1c_render = function () {
+;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/apps/new.vue?vue&type=template&id=8b5ccbbe&
+var newvue_type_template_id_8b5ccbbe_render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -64767,27 +65669,342 @@ var newvue_type_template_id_56164d1c_render = function () {
     "section",
     { staticClass: "application-component" },
     [
-      _c("component-form", {
-        attrs: { role: _vm.role, "app-mount-path": _vm.appMountPath },
+      _c("component-information-card", {
+        attrs: { actions: false, "app-mount-path": _vm.appMountPath },
       }),
+      _vm._v(" "),
+      _c("component-form", { attrs: { "app-mount-path": _vm.appMountPath } }),
     ],
     1
   )
 }
-var newvue_type_template_id_56164d1c_staticRenderFns = []
-newvue_type_template_id_56164d1c_render._withStripped = true
+var newvue_type_template_id_8b5ccbbe_staticRenderFns = []
+newvue_type_template_id_8b5ccbbe_render._withStripped = true
 
 
-;// CONCATENATED MODULE: ../../app/vue2/roles/pages/new.vue?vue&type=template&id=56164d1c&
+;// CONCATENATED MODULE: ../../app/vue2/users/apps/new.vue?vue&type=template&id=8b5ccbbe&
 
-;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/roles/pages/new.vue?vue&type=script&lang=js&
+;// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/form-new.vue?vue&type=template&id=704d5b7c&
+var form_newvue_type_template_id_704d5b7c_render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-content" }, [
+      _c(
+        "form",
+        {
+          on: {
+            submit: function ($event) {
+              $event.preventDefault()
+              return _vm.submitUser.apply(null, arguments)
+            },
+          },
+        },
+        [
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column is-half" }, [
+              _c("div", { staticClass: "field" }, [
+                _c("label", { staticClass: "label" }, [
+                  _vm._v(
+                    _vm._s(_vm.translations.users.view_table_header_email)
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "control" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.email,
+                        expression: "user.email",
+                      },
+                    ],
+                    staticClass: "input",
+                    attrs: { required: "", name: "user_email", type: "email" },
+                    domProps: { value: _vm.user.email },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.user, "email", $event.target.value)
+                      },
+                    },
+                  }),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "field" }, [
+                _c("label", { staticClass: "label" }, [
+                  _vm._v(_vm._s(_vm.translations.users.view_text_role)),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "control" },
+                  [
+                    _c(
+                      "b-select",
+                      {
+                        attrs: {
+                          name: "user_role",
+                          placeholder: _vm.translations.shared.text_role,
+                        },
+                        model: {
+                          value: _vm.user.roles_id,
+                          callback: function ($$v) {
+                            _vm.$set(_vm.user, "roles_id", $$v)
+                          },
+                          expression: "user.roles_id",
+                        },
+                      },
+                      _vm._l(_vm.options.roles, function (role) {
+                        return _c(
+                          "option",
+                          { key: role.id, domProps: { value: role.id } },
+                          [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(
+                                  _vm.object_utils.translateEnum(
+                                    _vm.translations.roles,
+                                    "column_enum_role",
+                                    role.name
+                                  )
+                                ) +
+                                "\n                                "
+                            ),
+                          ]
+                        )
+                      }),
+                      0
+                    ),
+                  ],
+                  1
+                ),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "column is-half" }, [
+              _c(
+                "div",
+                { staticClass: "field" },
+                [
+                  _c("label", { staticClass: "label" }, [
+                    _vm._v(
+                      _vm._s(_vm.translations.shared.view_text_salutation)
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.options.salutations, function (option) {
+                    return _c(
+                      "b-radio",
+                      {
+                        key: option.value,
+                        attrs: {
+                          type: "is-info",
+                          "native-value": option.value,
+                        },
+                        model: {
+                          value: _vm.user.detail_attributes.salutation,
+                          callback: function ($$v) {
+                            _vm.$set(
+                              _vm.user.detail_attributes,
+                              "salutation",
+                              $$v
+                            )
+                          },
+                          expression: "user.detail_attributes.salutation",
+                        },
+                      },
+                      [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(
+                              _vm.translations.shared[
+                                "column_enum_salutation_" + option.text
+                              ]
+                            ) +
+                            "\n                        "
+                        ),
+                      ]
+                    )
+                  }),
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "field" }, [
+                _c("label", { staticClass: "label" }, [
+                  _vm._v(_vm._s(_vm.translations.shared.view_text_first_name)),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "control" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.detail_attributes.first_name,
+                        expression: "user.detail_attributes.first_name",
+                      },
+                    ],
+                    staticClass: "input",
+                    attrs: {
+                      required: "",
+                      name: "user_first_name",
+                      type: "text",
+                    },
+                    domProps: { value: _vm.user.detail_attributes.first_name },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.user.detail_attributes,
+                          "first_name",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "field" }, [
+                _c("label", { staticClass: "label" }, [
+                  _vm._v(_vm._s(_vm.translations.shared.view_text_last_name)),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "control" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.detail_attributes.last_name,
+                        expression: "user.detail_attributes.last_name",
+                      },
+                    ],
+                    staticClass: "input",
+                    attrs: { required: "", name: "user_last_name" },
+                    domProps: { value: _vm.user.detail_attributes.last_name },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.user.detail_attributes,
+                          "last_name",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "field" }, [
+                _c("label", { staticClass: "label" }, [
+                  _vm._v(_vm._s(_vm.translations.users.view_text_title)),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "control" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.detail_attributes.title,
+                        expression: "user.detail_attributes.title",
+                      },
+                    ],
+                    staticClass: "input",
+                    domProps: { value: _vm.user.detail_attributes.title },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.user.detail_attributes,
+                          "title",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "field" }, [
+                _c("label", { staticClass: "label" }, [
+                  _vm._v(_vm._s(_vm.translations.shared.view_text_telephone)),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "control" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.detail_attributes.telephone,
+                        expression: "user.detail_attributes.telephone",
+                      },
+                    ],
+                    staticClass: "input",
+                    domProps: { value: _vm.user.detail_attributes.telephone },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.user.detail_attributes,
+                          "telephone",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "control" }, [
+            _c("button", { staticClass: "button is-primary" }, [
+              _vm._v(_vm._s(_vm.translations.shared.view_btn_save)),
+            ]),
+          ]),
+        ]
+      ),
+    ]),
+  ])
+}
+var form_newvue_type_template_id_704d5b7c_staticRenderFns = []
+form_newvue_type_template_id_704d5b7c_render._withStripped = true
+
+
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-new.vue?vue&type=template&id=704d5b7c&
+
+;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/components/form-new.vue?vue&type=script&lang=js&
+function form_newvue_type_script_lang_js_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function form_newvue_type_script_lang_js_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? form_newvue_type_script_lang_js_ownKeys(Object(source), !0).forEach(function (key) { form_newvue_type_script_lang_js_defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : form_newvue_type_script_lang_js_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function form_newvue_type_script_lang_js_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /*
-
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -64796,40 +66013,205 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-
+// ·
 */
-//import componentForm from '../components/forms/form.vue'
+/* harmony default export */ const form_newvue_type_script_lang_js_ = ({
+  props: {
+    appMountPath: {
+      required: true
+    }
+  },
+  components: {},
+  // @return [Object] Data used by this component"s methods
+  // @description Returns the data needed for this component to work properly
+  // @data_variable main_route [String] the main route to which this component connects to the lesli API
+  data: function data() {
+    return {
+      translations: {
+        users: I18n.t("core.users"),
+        roles: I18n.t("core.roles"),
+        shared: I18n.t("core.shared")
+      },
+      user: {
+        roles_id: null,
+        detail_attributes: {}
+      },
+      options: {
+        roles: []
+      }
+    };
+  },
+  watch: {
+    "data.user": function dataUser(user) {
+      this.user = user;
+    },
+    "data.options": function dataOptions(data) {
+      this.options = data;
+    }
+  },
+  methods: {
+    submitUser: function submitUser(event) {
+      if (event) {
+        event.preventDefault();
+      }
+
+      if (this.user.id) {
+        this.putUser();
+      } else {
+        this.postUser();
+      }
+    },
+    postUser: function postUser() {
+      var _this = this;
+
+      var url = '/administration/users.json';
+      var data = {
+        user: form_newvue_type_script_lang_js_objectSpread(form_newvue_type_script_lang_js_objectSpread({}, this.user), {}, {
+          active: true
+        })
+      };
+      this.http.post(url, data).then(function (result) {
+        if (result.successful) {
+          _this.msg.success(_this.translations.users.messages_success_created_successfully);
+
+          _this.$router.push("".concat(_this.appMountPath, "/"));
+        } else {
+          _this.msg.error(result.error.message);
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    putUser: function putUser() {
+      var _this2 = this;
+
+      var url = "/administration/users/".concat(this.user.id, ".json");
+      var data = {
+        user: this.user
+      };
+      this.http.put(url, data).then(function (result) {
+        if (result.successful) {
+          _this2.msg.success(_this2.translations.users.notification_user_updated);
+        } else {
+          _this2.msg.error(result.error.message);
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }
+});
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-new.vue?vue&type=script&lang=js&
+ /* harmony default export */ const components_form_newvue_type_script_lang_js_ = (form_newvue_type_script_lang_js_); 
+;// CONCATENATED MODULE: ../../app/vue2/users/components/form-new.vue
+
+
+
+
+
+/* normalize component */
+;
+var form_new_component = componentNormalizer_normalizeComponent(
+  components_form_newvue_type_script_lang_js_,
+  form_newvue_type_template_id_704d5b7c_render,
+  form_newvue_type_template_id_704d5b7c_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var form_new_api; }
+form_new_component.options.__file = "app/vue2/users/components/form-new.vue"
+/* harmony default export */ const form_new = (form_new_component.exports);
+;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!../../app/vue2/users/apps/new.vue?vue&type=script&lang=js&
+/*
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·
+*/
+// ·
+
+ // ·
 
 /* harmony default export */ const newvue_type_script_lang_js_ = ({
   props: {
     appMountPath: {
-      type: String,
-      default: ''
+      default: '',
+      type: String
     }
   },
   components: {
-    'component-form': components_form
+    'component-information-card': card_information,
+    'component-form': form_new
   },
   data: function data() {
     return {
-      view_type: 'new',
-      role: {
-        object_level_permission: 10,
-        only_my_data: false,
-        active: true
+      user_id: null,
+      user: {
+        detail_attributes: {}
       },
+      options: [],
+      ready: false,
       translations: {
         core: {
-          roles: I18n.t('core.roles')
+          users: I18n.t('core.users'),
+          shared: I18n.t('core.shared')
         }
       }
     };
+  },
+  mounted: function mounted() {
+    this.data.user = this.user;
+    this.getOptions();
+  },
+  methods: {
+    getOptions: function getOptions() {
+      var _this = this;
+
+      this.http.get("/administration/users/options.json").then(function (result) {
+        _this.data.options = result.data;
+        /*
+        if (result.successful) {
+            this.options = result.data
+            let user_role = this.options.roles.find(e => e.value === this.user.roles_id)
+            this.options.roles = this.options.roles.filter(e =>
+                (
+                    (e.text !== 'api' &&
+                    e.text !== 'guest' &&
+                    e.text !== 'callcenter' &&
+                    e.text !== 'kop' &&
+                    e.text !== 'owner' &&
+                    e.text !== 'limited') ||
+                    e.text == user_role.text
+                )
+            )
+            this.store.data.options = this.options
+            this.ready = true
+        }
+        */
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
   }
 });
-;// CONCATENATED MODULE: ../../app/vue2/roles/pages/new.vue?vue&type=script&lang=js&
- /* harmony default export */ const pages_newvue_type_script_lang_js_ = (newvue_type_script_lang_js_); 
-;// CONCATENATED MODULE: ../../app/vue2/roles/pages/new.vue
+;// CONCATENATED MODULE: ../../app/vue2/users/apps/new.vue?vue&type=script&lang=js&
+ /* harmony default export */ const apps_newvue_type_script_lang_js_ = (newvue_type_script_lang_js_); 
+;// CONCATENATED MODULE: ../../app/vue2/users/apps/new.vue
 
 
 
@@ -64838,9 +66220,9 @@ For more information read the license file including with this software.
 /* normalize component */
 ;
 var new_component = componentNormalizer_normalizeComponent(
-  pages_newvue_type_script_lang_js_,
-  newvue_type_template_id_56164d1c_render,
-  newvue_type_template_id_56164d1c_staticRenderFns,
+  apps_newvue_type_script_lang_js_,
+  newvue_type_template_id_8b5ccbbe_render,
+  newvue_type_template_id_8b5ccbbe_staticRenderFns,
   false,
   null,
   null,
@@ -64850,11 +66232,10 @@ var new_component = componentNormalizer_normalizeComponent(
 
 /* hot reload */
 if (false) { var new_api; }
-new_component.options.__file = "app/vue2/roles/pages/new.vue"
-/* harmony default export */ const pages_new = (new_component.exports);
-;// CONCATENATED MODULE: ../../app/vue2/roles/app.js
+new_component.options.__file = "app/vue2/users/apps/new.vue"
+/* harmony default export */ const apps_new = (new_component.exports);
+;// CONCATENATED MODULE: ../../app/vue2/users/app.js
 /*
-
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -64869,27 +66250,32 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
-// · Import main app
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · Import main app from core
+ // · Import common apps
+
+
+
+
  // · 
 
-
-
- // · 
-
-app("Administration", "[list|new|edit|show]", "/administration/roles", [{
-  path: '/',
-  component: pages_list
+app("Core", "[list|new|edit|show]", "/administration/users", [{
+  path: "/",
+  component: apps_list
 }, {
-  path: '/new',
-  component: pages_new
+  path: "/new",
+  component: apps_new
 }, {
-  path: '/:id',
+  path: "/:id",
+  component: show
+}, {
+  path: "/:id/edit",
   component: show
 }], {
-  view_type: {}
+  user: {},
+  options: {
+    roles: []
+  }
 });
 })();
 
