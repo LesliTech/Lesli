@@ -22,11 +22,11 @@ import { ref, reactive, onMounted, inject } from "vue"
 
 
 // · import stores
-import { useCoreSearch } from "LesliVue/stores/search"
+import { useSearch } from "LesliVue/stores/search"
 
 
 // · implement stores
-const coreSearch = useCoreSearch()
+const storeSearch = useSearch()
 
 
 // · 
@@ -50,16 +50,16 @@ const columns = [{
 </script>
 <template>
     <section 
-        v-if="coreSearch.text != ''"
+        v-if="storeSearch.text != ''"
         class="application-search">
         <div class="content box py-4">
-            <lesli-data-table
+            <lesli-table
                 class=""
                 :pagination="false"
                 :loading="false"
-                :records="coreSearch.records"
+                :records="storeSearch.records"
                 :columns="columns">
-            </lesli-data-table>
+            </lesli-table>
         </div>
     </section>
 </template>

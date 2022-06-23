@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed } from "vue"
+import { ref, reactive, onMounted, watch, computed, getCurrentInstance } from "vue"
 
 
 // · defining props
@@ -28,11 +28,6 @@ const props = defineProps({
         default: null
     }
 })
-
-  
-// · defining emits
-const emit = defineEmits(['reload']);
-
 
 </script>
 <template>
@@ -46,16 +41,7 @@ const emit = defineEmits(['reload']);
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <button 
-                            class="button is-primary is-outlined" 
-                            v-on:click="emit('reload')">
-                            <span class="icon">
-                                <span class="material-icons">
-                                    refresh
-                                </span>
-                            </span>
-                            <span>reload</span>
-                        </button>
+                        <slot></slot>
                     </div>
                 </div>
             </div>

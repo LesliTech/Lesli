@@ -27,8 +27,8 @@ header.application-header {
     position: fixed;
     padding: 20px 28px;
     margin-bottom: 8px;
-    height: var(--app-header-height);
-    width: calc(100% - var(--app-navigation-width));
+    height: var(--lesli-header-height);
+    width: calc(100% - var(--lesli-navigation-width));
 
     // add a separtor line to the header when user scroll down 
     &.scrolling-header-navigation {
@@ -47,8 +47,15 @@ header.application-header {
     .header-right {
         display: flex;
         align-items: center;
-        .dropdown-menu .dropdown-content {
-            width: 100%;
+        .dropdown-menu {
+            min-width: 15rem;
+            .dropdown-content {
+                width: 100%;
+                .material-icons {
+                    margin-right: .5rem;
+                    color: lesli-css-color(silver);
+                }
+            }
         }
     }
 
@@ -59,13 +66,29 @@ header.application-header {
         .control {
             flex: 1;
             input {
-                border: none;
-                background: none;
+                max-width: 515px;
+                border-radius: 10px;
+                border: 1px solid transparent;
+                transition: all linear .3s;
+
+                &::placeholder {
+                    color: lesli-css-color(silver, 700);
+                }
+
+                &:focus {
+                    max-width: 98%;
+                    border-color: lesli-css-color(silver);
+                }
             }
         }
     }
 
     .header-right {
+
+        span.material-icons {
+            color: red;//lesli-css-color-theme(faded, blues);
+            color: #E2E6F6;
+        }
 
         // control container
         .navbar-item {

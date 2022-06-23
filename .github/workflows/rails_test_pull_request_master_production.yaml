@@ -8,8 +8,8 @@ on:
 
 jobs:
   test:
-    name: Running RSpec Tests
-    runs-on: ubuntu-20.04
+    name: Running Core RSpec Tests
+    runs-on: self-hosted
     if: "!contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):') && !contains(github.event.head_commit.message, 'ci(workflows):')"
     services:
       postgres:
@@ -97,9 +97,6 @@ jobs:
     - name: Run Vue tests
       run: |
         npm run test:vue
-    - name: Run SCSS tests
-      run: |
-        npm run test:scss
     - name: Notify by slack
       if: always()
       uses: ./.github/actions/slack_job_status

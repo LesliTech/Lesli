@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 
 // · 
 #lesli-application {
-    padding-top: var(--app-header-height);
+    padding-top: var(--lesli-header-height);
 }
 
 
@@ -26,7 +26,7 @@ For more information read the license file including with this software.
 section.application-component {
     width: 100%;
     padding: 0 2rem;
-    margin-left: var(--app-navigation-width);
-    max-width: calc(100% - var(--app-navigation-width));
-    min-height: calc(100vh - var(--app-header-height) - var(--app-footer-height));
+    margin-left: var(--lesli-navigation-width);
+    max-width: calc(100% - var(--lesli-navigation-width));
+    min-height: calc(100vh - var(--lesli-header-height) - var(--lesli-footer-height));
 }

@@ -18,11 +18,19 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed } from "vue"
+import { ref, reactive, onMounted, watch, computed, useSlots } from "vue"
+
+
+// · 
+import Pagination from "LesliVue/lesli/components/pagination/Pagination.vue"
+
+
+// · 
+const slots = useSlots()
 
 
 // · defining emits
-const emit = defineEmits(['click', 'sort']);
+const emit = defineEmits(['click', 'sort', 'paginate']);
 
 
 // · defining props
@@ -58,6 +66,7 @@ const arrayRecords = ref([])
 const currentSort = ref(null)
 const currentSortDir = ref('asc')
 
+const dropdownActive = ref([])
 
 // · prepaer the CSS classes for every column in the header
 function tableHeaderClass(column) {
@@ -92,11 +101,17 @@ function sort(column) {
 
 }
 
+
+// · emit the page selected received from the pagination component
+function paginate(page) {
+    emit('paginate', page)
+}
+
 </script>
 <template>
     <div>
         <table 
-            class="table is-fullwidth lesli-data-table"
+            class="table is-fullwidth lesli-table"
             :class="props.class">
             <thead>
                 <tr>
@@ -112,12 +127,17 @@ function sort(column) {
                             <span>
                                 {{ column.label }}
                             </span>
-                            <span class="icon" v-if="currentSort == column.field">
-                                <span class="material-icons" v-if="currentSortDir == 'asc'">arrow_upward</span>
-                                <span class="material-icons" v-if="currentSortDir == 'desc'">arrow_downward</span>
+                            <span class="icon">
+                                <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'asc')">arrow_upward</span>
+                                <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'desc')">arrow_downward</span>
                             </span>
                         </span>
                     </th>
+
+                    <!-- 
+                        Options header (empty by design)
+                    -->
+                    <th v-if="slots.options"></th>
 
                 </tr>
             </thead>
@@ -128,16 +148,70 @@ function sort(column) {
                     create the table rows from records
                 -->
                 <tr  
-                    v-on:click.stop="emit('click', record)"
                     v-for="(record, i) in props.records" :key="`tr-${i}`">
                     
+                    <!--
+                        Rendering every defined column
+                    -->
                     <td 
                         :class="tableBodyClass(column)"
+                        v-on:click.stop="emit('click', record)"
                         v-for="(column, j) in props.columns" :key="`td-${j}`">
-                        {{ record[column.field] }}
+
+                        <!--
+                            Use a slot to render content, so it is possible to 
+                            use html elements to render custom componentes for 
+                            every column of the table 
+                        -->
+                        <slot
+                            :name="column.field"
+                            :column="column"
+                            :value="record[column.field]">
+
+                            <!--
+                                Print the text value if no custom slot is used
+                                for the current column
+                            -->
+                            {{ record[column.field] }}
+
+                        </slot>
+                    </td>
+
+                    <!--
+                        Dedicated options column
+                        the dropdownActive[i] is to save the open/closed status of the dropdown for 
+                        every row of the table (i)
+                    -->
+                    <td v-if="slots.options" class="options">
+                        <div :class="['dropdown', 'is-right is-hoverable', { 'is-active': dropdownActive[i] }]">
+                            <div class="dropdown-trigger">
+                                <button class="button has-text-info" 
+                                    @blur="dropdownActive[i] = false"
+                                    @click="dropdownActive[i] = !dropdownActive[i]">
+                                    <span class="icon">
+                                        <span v-if="!dropdownActive[i]" class="material-icons md-24">
+                                            more_vert
+                                        </span>
+                                        <span v-if="dropdownActive[i]" class="material-icons">
+                                            more_horiz
+                                        </span>
+                                    </span>
+                                </button>
+                            </div>
+                            <Transition>
+                                <div v-if="dropdownActive[i]" class="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        <slot 
+                                            name="options"
+                                            :record="record"
+                                            :value="record.id">
+                                        </slot>
+                                    </div>
+                                </div>
+                            </Transition>
+                        </div>
                     </td>
                 </tr>
-
             </tbody>
         </table>
 
@@ -145,42 +219,14 @@ function sort(column) {
         <div>
 
             <!-- Show loading animation, this should be setted through the stores -->
-            <lesli-data-loading v-if="loading"></lesli-data-loading>
+            <lesli-loading v-if="loading"></lesli-loading>
 
             <!-- Show a message to indicate that there is no data to present -->
-            <lesli-data-empty v-if="!loading && props.records && props.records.length < 1"></lesli-data-empty>
+            <lesli-empty v-if="!loading && props.records && props.records.length < 1"></lesli-empty>
 
         </div>
 
-        <nav v-if="props.pagination" 
-            class="pagination" role="navigation" aria-label="pagination">
-            <a class="pagination-previous">Previous</a>
-            <a class="pagination-next">Next page</a>
-
-            <ul class="pagination-list">
-                <li>
-                    <a class="pagination-link" aria-label="Goto page 1">1</a>
-                </li>
-                <li>
-                    <span class="pagination-ellipsis">&hellip;</span>
-                </li>
-                <li>
-                    <a class="pagination-link" aria-label="Goto page 45">45</a>
-                </li>
-                <li>
-                    <a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a>
-                </li>
-                <li>
-                    <a class="pagination-link" aria-label="Goto page 47">47</a>
-                </li>
-                <li>
-                    <span class="pagination-ellipsis">&hellip;</span>
-                </li>
-                <li>
-                    <a class="pagination-link" aria-label="Goto page 86">86</a>
-                </li>
-            </ul>
-        </nav>
+        <Pagination v-if="props.pagination" :pagination="props.pagination" @paginate="paginate"></Pagination>
 
     </div>
 </template>
