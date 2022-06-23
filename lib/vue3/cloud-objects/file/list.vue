@@ -16,14 +16,25 @@ For more information read the license file including with this software.
 // · 
 */
 
+// · import vue tools
 import { onMounted, computed } from "vue"
-import { useFileStore } from "LesliVue/stores/file"
 
+// · import store
+import { useFileStore } from "LesliVue/stores/cloud-objects/file"
+
+// · implement store
 const store = useFileStore()
+
+// · get in a reactive way the files in server
 const files = computed(() => store.files)
+
+// · get in a reactive way the current cloud module
 const cloudModule = computed(() => store.cloudModule)
+
+// · get in a reactive way the current cloud id
 const cloudId = computed(() => store.cloudId)
 
+// · columns of the table
 const columns = [
     {
         field: "name",
@@ -44,6 +55,7 @@ const columns = [
 ];
 
 onMounted(() => {
+    // · fetch the files from server
     store.fetchFiles()
 })
 

@@ -17,81 +17,135 @@ For more information read the license file including with this software.
 */
 
 // · import vue tools
-import { ref, defineAsyncComponent, computed } from "vue"
-import { useFileStore } from "LesliVue/stores/file"
+import { ref, computed, onMounted } from "vue"
 
-const dropZone = defineAsyncComponent(() => import("./drop-zone.vue"))
+// · import store
+import { useFileStore } from "LesliVue/stores/cloud-objects/file"
 
+// · implement store
 const store = useFileStore()
+
+// · get in a reactive way the files to upload
 const filesToUpload = computed(() => store.filesToUpload)
+
+// · get in a reactive way the files to upload
+const fileTypes = computed(() => store.fileTypes)
+
+// · get in a reactive way the loading value
+const loading = computed(() => store.loading)
+
+// · file type to upload, this is the v-model of the select
 const fileType = ref(null)
 
+// · this indicates if the file uploader clear the files to upload
+const clearFileUploader = ref(false)
+
+
+/**
+ * @param {File[]} files this files will be validated
+ * @returns {boolean} true if the files are valid and false if not
+ * @description this function validate the files
+ */
 const validateFiles = (files = []) => {
     
-    if (files.length === 0) {
-        // TODO: Show error to user
-        return false
-    }
+    // · validate the length of the files array
+    if (files.length === 0) return false
     
-    if (files.length > store.maxFiles) {
-        // TODO: Show error to user
-        return false 
-    }
+    // · validate the number of files that are allowed
+    if (files.length > store.maxFiles) return false 
     
-    
+    // · this variable is used to check if some file is invalid
+    // · if this variable is true, the files aren't valid
     const hasOutOfSizeFiles = files.some(file => {
         return parseInt(file.size) > store.maxSizeFile
     })
 
-    if (hasOutOfSizeFiles) {
-        // TODO: Show error to user
-        return false
-    }
+    // · validate if some file is out of size
+    if (hasOutOfSizeFiles) return false
 
+    // · if validations are ok, return true
     return true
 }
 
+/**
+ * 
+ * @param {File} file this is the file that will be converted to base64
+ * @description this function will convert a file to base64
+ * @returns {Promise<string>} this function will return a promise with the base64 string
+ */
 const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
+        // · create a new file reader object
         const reader = new FileReader()
+        
+        // · when the file is loaded, convert it to base64
         reader.readAsDataURL(file)
+        
+        // · when the file is loaded, resolve the promise
         reader.onload = () => {
             resolve(reader.result)
         }
+
+        // · when the file is not loaded, reject the promise
         reader.onerror = (error) => {
             reject(error)
         }
     })
 }
 
+/**
+ * @param {File[]} files this files are received from the file uploader
+ * @description this function is called when the user drops or select files in the file uploader
+ */
 const onDropFiles = (files) => {
+    // set files to upload to the store
     store.filesToUpload = files
 }
 
+/**
+ * @description This function is called when the user click on the upload button.
+ */
 const onUploadFiles = async () => {
     
     const arefilesValid = validateFiles(filesToUpload.value)
     
+    // · If files aren't valid, stop the function
     if (!arefilesValid) return
+
+    // · If file type select isn't valid, stop the function
     if (!fileType.value) return
     
+    // · filesBase64 array is used to store the base64 strings of the files
     const filesBase64 = []
     
+    // · convert the files to base64 and push it to the filesBase64 array
     for (let i = 0; i < filesToUpload.value.length; i++) {
-        const base64 = await convertToBase64(filesToUpload.value[i])
+        const base64File = await convertToBase64(filesToUpload.value[i])
         filesBase64.push({
             project_file: {
+                // · file name without the extension
                 name: filesToUpload.value[i].name.split('.')[0],
+                
+                // · file extension that user selected
                 file_type: fileType.value.value,
-                attachment: base64.split(',')[1]
+
+                // · file in base64
+                attachment: base64File.split(',')[1]
             }
         })
     }         
     
+    // · send the files to the server
     store.uploadFiles(filesBase64)
-    store.clearDropZone = true
+
+    // · change the reactive variable to true for clear the file uploader
+    clearFileUploader.value = true
 }
 
+onMounted(() => {
+    // · fetch file types for the current module
+    store.fetchFileTypes()
+})
 </script>
 
 <template>
@@ -109,15 +163,10 @@ const onUploadFiles = async () => {
                 </div>
                 <div class="column">
                     <lesli-select
-                        style="width: 100%;"
                         v-model="fileType"
                         placeholder="Select..."
-                        :options="[
-                            {
-                                label: 'Image',
-                                value: 'image',
-                            }
-                        ]"
+                        :options="fileTypes"
+                        v-if="!loading"
                     >
                     </lesli-select>
                 </div>
@@ -130,7 +179,12 @@ const onUploadFiles = async () => {
                     </label>
                 </div>
                 <div class="column">
-                    <drop-zone @files="onDropFiles"></drop-zone>
+                    <lesli-file-uploader 
+                        @files="onDropFiles"
+                        @events-after-clear="clearFileUploader = false"
+                        :clear-files="clearFileUploader"
+                    >
+                    </lesli-file-uploader>
                 </div>
             </div>
             <button @click="onUploadFiles" class="button is-fullwidth has-text-centered is-primary">
