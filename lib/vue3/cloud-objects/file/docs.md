@@ -19,12 +19,6 @@ prop that indicates the id of the resource that you need to interact with.
 - **type**: String
 - **required**: true
 
-**:name**
-prop that indicates the header name of the tabs, by default it is 'Files'.
-- **type**: String
-- **default**: 'Files'
-- **required**: false
-
 **:showNewFileTab**
 prop that indicates if the will be shown the new file tab, by default it is true.
 - **type**: Boolean
