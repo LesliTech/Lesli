@@ -63,6 +63,8 @@ For more information read the license file including with this software.
 @import "./lesli3/components/lesli-msg";
 @import "./lesli3/components/lesli-tab";
 
+@import "./lesli3/overrides/sweetalert";
+
 
 // · Include Lesli Standards
 @include lesli-css-normalize();
