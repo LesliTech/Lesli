@@ -25,32 +25,38 @@ import { useFileStore } from "LesliVue/stores/cloud-objects/file"
 // · implement store
 const store = useFileStore()
 
+// · get translations from store
+const translations = store.translations
+
 // · get in a reactive way the files in server
 const files = computed(() => store.files)
 
 // · get in a reactive way the current cloud module
 const cloudModule = computed(() => store.cloudModule)
 
-// · get in a reactive way the current cloud id
-const cloudId = computed(() => store.cloudId)
+// · get in a reactive way the current cloud object
+const cloudObject = computed(() => store.cloudObject)
+
+// · get in a reactive way the current cloud object id
+const cloudObjectId = computed(() => store.cloudObjectId)
 
 // · columns of the table
 const columns = [
     {
         field: "name",
-        label: "Name",
+        label: translations.core.shared.column_files_name,
     },
     {
         field: "file_type",
-        label: "File Type",
+        label: translations.core.shared.column_files_type,
     },
     {
         field: "created_at",
-        label: "Created At",
+        label: translations.core.shared.column_created_at,
     },
     {
-        label: "Actions",
         field: "id",
+        label: translations.core.shared.view_table_header_actions,
     }
 ];
 
@@ -64,20 +70,22 @@ onMounted(() => {
 <template>
     <div class="card">
         <header>
-            <p class="card-header-title subtitle">All files</p>
+            <p class="card-header-title subtitle">{{ translations.core.shared.view_text_show_all_files }}</p>
         </header>
+
         <div class="card-content">
             <lesli-table :columns="columns" :records="files">
                 <template #id="{ column, value }">
                     <a 
-                        :href="`/${cloudModule}/${cloudId}/files/${value}`" 
-                        target="_blank" 
+                        :href="store.getUrl(value)" 
+                        target="_blank"
                         class="button mr-2"
+                        
                     >
                         <span class="material-icons">visibility</span>
                     </a>
                     <a
-                        :href="`/${cloudModule}/${cloudId}/files/${value}?download=true`" 
+                        :href="`${store.getUrl(value)}?download=true`" 
                         download
                         class="button mr-2"
                     >

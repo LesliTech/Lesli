@@ -29,14 +29,11 @@ const filesList = defineAsyncComponent(() => import("./file/list.vue"))
 // · implement store
 const store = useFileStore()
 
+// · get translations from store
+const translations = store.translations
+
 // · defining props
 const props = defineProps({
-    // · prop that indicates the header name of the tabs, by default it is 'Files'.
-    name: {
-        type: String,
-        required: false,
-        default: "Files",
-    },
     // · prop that indicates if the will be shown the new file tab, by default it is true.
     showNewFileTab: {
         type: Boolean,
@@ -94,11 +91,11 @@ store.maxSizeFile = props.maxSizeFile
 
 <template>
     <lesli-tabs>
-        <lesli-tab-item title="New Documents">
+        <lesli-tab-item :title="translations.core.shared.view_tab_title_files_new">
             <files-form></files-form>
         </lesli-tab-item>
 
-        <lesli-tab-item title="All Documents">
+        <lesli-tab-item :title="translations.core.shared.view_tab_title_files_list">
             <files-list></files-list>
         </lesli-tab-item>
     </lesli-tabs>

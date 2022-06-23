@@ -32,6 +32,13 @@ const props = defineProps({
     },
 })
 
+// · translations
+const translations = {
+    core: {
+        shared: I18n.t("core.shared")
+    }
+}
+
 // · this variable idicates if drag and drop is enabled
 const dragActive = ref(false)
 
@@ -106,14 +113,14 @@ watch(clearCurrentFiles, (value) => {
     >
         <div class="is-flex is-flex-direction-column is-align-items-center">
             <span class="upload-icon material-icons">cloud_upload</span>
-            <h5 class="mt-4">Drag a files here</h5>
-            <p class="mt-1">Or if you prefer</p>
+            <h5 class="mt-4">{{ translations.core.shared.view_text_drag_files }}</h5>
+            <p class="mt-1">{{ translations.core.shared.view_text_prefer_question }}</p>
             <label
                 for="file"
                 class="mt-2 is-flex is-flex-direction-column is-align-items-center"
             >
                 <span class="button is-primary is-small">
-                    Select a files from your device
+                    {{ translations.core.shared.view_text_select_files }}
                 </span>
                 <input
                     type="file"
@@ -131,14 +138,14 @@ watch(clearCurrentFiles, (value) => {
                 class="mt-4 is-flex is-align-items-center is-flex-wrap-wrap is-justify-content-center"
             >
                 <div v-for="(file, i) in files" :key="i" class="m-4">
-                    <span>File: {{ file.name }}</span>
+                    <span>
+                        {{ translations.core.shared.view_text_file }} : {{ file.name }}
+                    </span>
                     <button
                         class="button is-white delete-button ml-2 is-round"
                         @click="onRemoveFile(file)"
                     >
-                        <span class="material-icons has-text-danger"
-                            >delete</span
-                        >
+                        <span class="material-icons has-text-danger">delete</span>
                     </button>
                 </div>
             </div>

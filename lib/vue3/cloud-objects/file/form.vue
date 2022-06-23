@@ -25,6 +25,9 @@ import { useFileStore } from "LesliVue/stores/cloud-objects/file"
 // · implement store
 const store = useFileStore()
 
+// · get translations from store
+const translations = store.translations
+
 // · get in a reactive way the files to upload
 const filesToUpload = computed(() => store.filesToUpload)
 
@@ -151,20 +154,20 @@ onMounted(() => {
 <template>
     <div class="card">
         <header>
-            <p class="card-header-title subtitle">Files</p>
+            <p class="card-header-title subtitle">{{ translations.core.shared.view_text_files }}</p>
         </header>
         <div class="card-content">
             <div class="columns">
                 <div class="column is-4">
                     <label class="label">
-                        File Type
+                        {{ translations.core.shared.column_files_file_type }}
                         <sup class="has-text-danger">*</sup>
                     </label>
                 </div>
                 <div class="column">
                     <lesli-select
                         v-model="fileType"
-                        placeholder="Select..."
+                        :placeholder="translations.core.view_placeholder_select_option"
                         :options="fileTypes"
                         v-if="!loading"
                     >
@@ -174,7 +177,7 @@ onMounted(() => {
             <div class="columns">
                 <div class="column is-4">
                     <label class="label">
-                        Document upload
+                        {{ translations.core.shared.column_files_attachment }}
                         <sup class="has-text-danger">*</sup>
                     </label>
                 </div>
@@ -188,7 +191,7 @@ onMounted(() => {
                 </div>
             </div>
             <button @click="onUploadFiles" class="button is-fullwidth has-text-centered is-primary">
-                Save
+                {{ translations.core.shared.view_btn_save }}
             </button>
         </div>
     </div>
