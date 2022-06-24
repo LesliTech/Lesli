@@ -20,10 +20,10 @@ For more information read the license file including with this software.
 import { ref, computed, onMounted } from "vue"
 
 // · import store
-import { useFileStore } from "LesliVue/stores/cloud-objects/file"
+import { useCloudObjectFileStore } from "LesliVue/stores/cloud-objects/file"
 
 // · implement store
-const store = useFileStore()
+const store = useCloudObjectFileStore()
 
 // · get translations from store
 const translations = store.translations
@@ -40,7 +40,7 @@ const loading = computed(() => store.loading)
 // · file type to upload, this is the v-model of the select
 const fileType = ref(null)
 
-// · this indicates if the file uploader clear the files to upload
+// · this indicates if the file uploader needs to clear the files or not
 const clearFileUploader = ref(false)
 
 

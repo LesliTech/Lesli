@@ -4,7 +4,7 @@ The component lesli file uploader is registered globally and is meant to be used
 
 ## Props
 
-**:clearFile**
+**:clearFiles**
 reactive prop that indicates if the file will be cleared when the do some action. If you want to clear the files you need to change the value to true. It must be a reactive variable.
 - **type**: Boolean
 - **required**: false
