@@ -20,11 +20,17 @@ For more information read the license file including with this software.
 import { ref, watch, computed } from "vue"
 
 // · defining emits
-const emit = defineEmits(["files", "clearAfterClear"])
+/**
+ * @files this event emits the files when the user drops, selects or deletes the files
+ * @eventsAfterClear this event is emitted when the files are cleared, this is useful to clear something in a father component
+ */
+const emit = defineEmits(["files", "eventsAfterClear"])
 
 // · defining props
 const props = defineProps({
     // · prop that indicates if the file uploader component have to clear the files
+    // · if this prop is true the files will be cleared, is used to clear files when
+    // · the father component indicates
     clearFiles: {
         type: Boolean,
         required: false,
@@ -40,7 +46,7 @@ const translations = {
 }
 
 // · this variable idicates if drag and drop is enabled
-const dragActive = ref(false)
+const isDragActive = ref(false)
 
 // · this variable have the files that user have dropped or selected
 const files = ref([])
@@ -51,9 +57,9 @@ const clearCurrentFiles = computed(() => props.clearFiles)
 /**
  * @description this function change the value of the dragActive variable
  */
-const toggleActive = () => {
+const toggleIsDragActive = () => {
     if (files.value.length === 0) {
-        dragActive.value = !dragActive.value
+        isDragActive.value = !isDragActive.value
     }
 }
 
@@ -76,7 +82,7 @@ const onSelectFiles = (event) => {
     // · get the files that user have selected
     files.value = Array.from(event.target.files)
     // · if user have selected files, the drag and drop is enabled
-    dragActive.value = true
+    isDragActive.value = true
     // · emit the files that user have selected
     emit("files", files.value)
 }
@@ -98,6 +104,7 @@ watch(clearCurrentFiles, (value) => {
     if (value) {
         files.value = []
         // · emit an event after clear the files
+        // · this event is useful to clear something in a father component
         emit("eventsAfterClear")
     }
 })
@@ -106,8 +113,8 @@ watch(clearCurrentFiles, (value) => {
 <template>
     <div
         class="lesli-file-uploader is-flex is-flex-direction-column is-justify-content-center is-align-items-center p-4 pointer"
-        @dragenter.prevent="toggleActive()"
-        @dragleave.prevent="toggleActive()"
+        @dragenter.prevent="toggleIsDragActive()"
+        @dragleave.prevent="toggleIsDragActive()"
         @dragover.prevent
         @drop.prevent="onDropFiles"
     >

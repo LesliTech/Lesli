@@ -20,25 +20,16 @@ For more information read the license file including with this software.
 import { onMounted, computed } from "vue"
 
 // · import store
-import { useFileStore } from "LesliVue/stores/cloud-objects/file"
+import { useCloudObjectFileStore } from "LesliVue/stores/cloud-objects/file"
 
 // · implement store
-const store = useFileStore()
+const store = useCloudObjectFileStore()
 
 // · get translations from store
 const translations = store.translations
 
 // · get in a reactive way the files in server
 const files = computed(() => store.files)
-
-// · get in a reactive way the current cloud module
-const cloudModule = computed(() => store.cloudModule)
-
-// · get in a reactive way the current cloud object
-const cloudObject = computed(() => store.cloudObject)
-
-// · get in a reactive way the current cloud object id
-const cloudObjectId = computed(() => store.cloudObjectId)
 
 // · columns of the table
 const columns = [
