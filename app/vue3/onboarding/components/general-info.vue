@@ -29,19 +29,28 @@ import { useOnboarding } from "Lesli/vue3/onboarding/store"
 const storeOnboarding = useOnboarding()
 
 
-// · components
-import buttonsComponent from "./components/buttons.vue"
-import welcomeComponent from "./components/welcome.vue"
-import indicatorsComponent from "./components/indicators.vue"
-import generalInfoComponent from "./components/general-info.vue"
-
-
 </script>
 <template>
-    <welcomeComponent v-if="storeOnboarding.view == 0"></welcomeComponent>
-    <template v-if="storeOnboarding.view > 0">
-        <indicatorsComponent></indicatorsComponent>
-        <generalInfoComponent v-if="storeOnboarding.view == 1"></generalInfoComponent>
-        <buttonsComponent></buttonsComponent>
-    </template>
+    <form>
+        <div class="field">
+            <label class="label">Company name</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="Enter company name">
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Full legal name</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="Enter full legal name i.e. Company GmbH">
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Slogan</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="Enter company slogan">
+            </div>
+        </div>
+    </form>
 </template>

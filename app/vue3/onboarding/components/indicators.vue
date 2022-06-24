@@ -29,19 +29,27 @@ import { useOnboarding } from "Lesli/vue3/onboarding/store"
 const storeOnboarding = useOnboarding()
 
 
-// · components
-import buttonsComponent from "./components/buttons.vue"
-import welcomeComponent from "./components/welcome.vue"
-import indicatorsComponent from "./components/indicators.vue"
-import generalInfoComponent from "./components/general-info.vue"
-
-
 </script>
 <template>
-    <welcomeComponent v-if="storeOnboarding.view == 0"></welcomeComponent>
-    <template v-if="storeOnboarding.view > 0">
-        <indicatorsComponent></indicatorsComponent>
-        <generalInfoComponent v-if="storeOnboarding.view == 1"></generalInfoComponent>
-        <buttonsComponent></buttonsComponent>
-    </template>
+    <ul class="indicator is-flex">
+        <li :class="{'active': storeOnboarding.view == 1 }">
+            <lesli-icon id="company"></lesli-icon>
+            <span>General info</span>
+        </li>
+        <li><hr></li>
+        <li>
+            <lesli-icon id="location"></lesli-icon>
+            <span>Address</span>
+        </li>
+        <li><hr></li>
+        <li>
+            <lesli-icon id="contacts"></lesli-icon>
+            <span>Contact</span>
+        </li>
+        <li><hr></li>
+        <li>
+            <lesli-icon id="datetime"></lesli-icon>
+            <span>Date and time</span>
+        </li>
+    </ul>
 </template>
