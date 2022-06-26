@@ -1,0 +1,97 @@
+/*
+
+Copyright (c) 2022, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · 
+.swal2-container.swal2-center.swal2-backdrop-show {
+    background-color: rgba(18, 18, 18, 0.7) !important;
+
+    // · 
+    h2.swal2-title {
+        color: lesli-css-color(black);
+        font-family: "Exo";
+        font-weight: 800;
+        text-align: left;
+        font-size: 20px;
+    }
+
+    // · 
+    .swal2-popup {
+
+        // · 
+        .swal2-html-container {
+            margin: 1rem 1.3rem;
+            text-align: left;
+        }
+
+        // · 
+        .swal2-actions {
+
+            // · 
+            button {
+                border-radius: 8px;
+                font-family: "Exo";
+                font-weight: 600;
+            }
+
+            // · 
+            button.swal2-confirm {
+                background-color: lesli-css-color(lesli, brand);
+            }
+
+            // · 
+            button.swal2-cancel {
+                color: lesli-css-color(lesli, navy);
+                background-color: lesli-css-color(lesli, faded);
+            }
+
+        }
+
+    }
+    
+}
+
+
+// · 
+@include lesli-css-breakpoint-only-mobile() {
+    .swal2-container.swal2-center.swal2-backdrop-show {
+        padding: 0;
+        grid-template-columns: auto auto minmax(0,1fr);
+        background-color: lesli-css-color(solid, white) !important;
+        .swal2-popup {
+            width: 100%;
+            grid-column: 3;
+            grid-row: 3;
+            align-self: end;
+            justify-self: end;
+            box-shadow: none;
+            .swal2-html-container {
+                margin-bottom: 6rem;
+            }
+            .swal2-actions {
+                width: 100%;
+                height: 100px;
+                max-width: 380px;
+                margin-top: auto;
+                button {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
