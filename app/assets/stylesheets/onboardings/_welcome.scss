@@ -14,13 +14,40 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
 
-.is-vertical-middle {
-    vertical-align: middle !important;
-}
+@import "lesli-css";
 
-.is-fullwidth {
-    width: 100%;
+
+// · 
+body.onboarding .welcome {
+        
+    // icon
+    svg {
+        width: 100px;
+        height: 100px;
+    }
+
+    // title
+    h1 {
+        color: lesli-css-color(lesli, brand);
+        font-family: "Montserrat";
+        font-weight: 800;
+        font-size: 24px;
+    }
+
+    // description
+    p {
+        color: lesli-css-color(black, 100);
+        font-family: "Montserrat";
+        font-size: 16px;
+    }
+
+    button {
+        margin: 0 auto;
+        width: 330px;
+        display: block;
+        font-weight: 600;
+    }
+
 }

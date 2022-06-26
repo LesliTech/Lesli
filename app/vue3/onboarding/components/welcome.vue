@@ -29,19 +29,23 @@ import { useOnboarding } from "Lesli/vue3/onboarding/store"
 const storeOnboarding = useOnboarding()
 
 
-// · components
-import buttonsComponent from "./components/buttons.vue"
-import welcomeComponent from "./components/welcome.vue"
-import indicatorsComponent from "./components/indicators.vue"
-import generalInfoComponent from "./components/general-info.vue"
-
+// · translations
+const translations = {
+    core: {
+        onboardings: I18n.t("core.onboardings")
+    }
+}
 
 </script>
 <template>
-    <welcomeComponent v-if="storeOnboarding.view == 0"></welcomeComponent>
-    <template v-if="storeOnboarding.view > 0">
-        <indicatorsComponent></indicatorsComponent>
-        <generalInfoComponent v-if="storeOnboarding.view == 1"></generalInfoComponent>
-        <buttonsComponent></buttonsComponent>
-    </template>
+    <div class="welcome has-text-centered">
+        <lesli-icon id="high-five"></lesli-icon>
+        <h1>Registration successfully confirmed. <br>Welcome to Lesli!</h1>
+        <p>To be able to use Lesli properly we suggest to do onboarding first.</p>
+        <p class="mb-5">It takes only couple of minutes to configure everything.</p>
+        <div class="has-text-centered">
+            <button class="button is-primary mb-1 start" @click="storeOnboarding.next()">Start onboarding</button>
+            <button class="button is-text skip" @click="storeOnboarding.skip()">I'll do this later</button>
+        </div>
+    </div>
 </template>
