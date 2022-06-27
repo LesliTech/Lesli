@@ -60,7 +60,7 @@ $colors: mergeColorMaps(
 
 
 // · Border radius
-$radius: 2px;
+$radius: 8px;
 $radius-small: 3px;
 $radius-large: 4px;
 
@@ -70,6 +70,3 @@ $control-radius-small: $radius-small;
 
 // · Import Bulma and Buefy styles
 @import "bulma/bulma.sass";
-//@import "./elements";
-//@import "./components";
-//@import "./extensions";
