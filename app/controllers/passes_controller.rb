@@ -57,21 +57,21 @@ class PassesController < ApplicationController
         # check if user meet requirements to login
         user_validation = UserValidationService.new(access_code.user).valid?
 
-        # if user do not meet requirements to login
-        redirect_to(new_user_session_path, alert: error_msg) and return unless user_validation.success?
+        # check if user meet requirements to create a new session
+        Auth::UserValidationService.new(access_code.user).valid? do |result|
+            # if user do not meet requirements to create a new session
+            redirect_to(new_user_session_path, alert: error_msg) and return unless result.success?
+        end
 
         # delete used token
         access_code.update({ last_used_at: Time.current })
         access_code.delete
 
-
-        # IMPORTANT: this is a copy of the main login method at: app/controllers/users/sessions
-
         # do a user login
         sign_in(access_code.user)
 
         # register a new unique session
-        @current_session = access_code.user.sessions.create({
+        current_session = access_code.user.sessions.create({
             :user_agent => get_user_agent,
             :user_remote => request.remote_ip,
             :session_token => session[:session_id],
@@ -80,10 +80,23 @@ class PassesController < ApplicationController
         })
 
         # make session id globally available
-        session[:user_session_id] = @current_session[:id]
+        session[:user_session_id] = current_session[:id]
 
-        # register a successful sign-in log for the current user
-        access_code.user.logs.create({ user_sessions_id: session[:user_session_id], title: "pass_session_creation_successful" })
+        # after session is created
+        Auth::UserSessionService.new(access_code.user).after_create(current_session) do |result|
+
+            default_path = result[:default_path]
+
+            # if first loggin for account owner send him to the onboarding page
+            if current_user.account.onboarding? && current_user.has_roles?("owner")
+                default_path = "/onboarding"
+            end
+
+            # respond successful and send the path user should go
+            redirect_to(default_path) and return 
+
+        end
+
 
         # redirect to the root path and return 
         redirect_to("/") and return 
@@ -105,6 +118,7 @@ class PassesController < ApplicationController
         # create a new pass
         pass = @user.access_codes.new({ token_type: "pass" })
 
+        # generate a user-friendly token
         raw, enc = Devise.token_generator.generate(pass.class, :token)
 
         # save encrypted token in database
@@ -115,7 +129,7 @@ class PassesController < ApplicationController
 
             @user.logs.create({
                 title: "pass_creation_successful",
-                description: "user_agent: #{get_user_agent},user_remote: #{request.remote_ip}"
+                description: "#{request.remote_ip} | #{get_user_agent}"
             })
 
             UserMailer.with(user: @user, token: raw).pass_instructions.deliver_now

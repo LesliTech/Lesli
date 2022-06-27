@@ -59,79 +59,52 @@ class Users::SessionsController < Devise::SessionsController
 
         end
 
-        # check if user meet requirements to login
-        user_validation = UserValidationService.new(resource).valid?
-
-        # if user do not meet requirements to login
-        unless user_validation.success?
-            return respond_with_error(user_validation.error["message"])
-        end
-
-        # Create an instance used to validate MFA for the user
-        user_mfa = MfaService.new(resource)
-
-        # Check if the user has MFA enabled and any valid method configured
-        if user_mfa.has_mfa_enabled?.success?
-
-            mfa_token = user_mfa.do_mfa()
-
-            return respond_with_error(mfa_token.error) unless mfa_token.success?
-
-            # Create logs that an MFA Token was created successfully
-            resource.logs.create({
-                title: "mfa_token_creation_successful",
-                description: "user_agent: #{request.user_agent}, user_remote: #{request.remote_ip}"
-            })
-
-            # We prepared the default path redirection
-            encrypted_email = CGI.escape(EncryptorService.new_encrytor.encrypt_and_sign(resource.email))
-
-            return respond_with_successful({ default_path: "/mfa/new?key=#{encrypted_email}" })
-        end
+        # check if user meet requirements to create a new session
+        Auth::UserValidationService.new(resource).valid? do |result|
+            # if user do not meet requirements to login
+            return respond_with_error(result.error["message"]) unless result.success?
+        end        
 
         # do a user login
         sign_in(:user, resource)
-
-        # register or sync the current_user with the user representation on Firebase
-        Courier::One::Firebase::User.sync_user(resource) if defined? CloudOne
 
         # register a new unique session
         current_session = resource.sessions.create({
             :user_agent => get_user_agent,
             :user_remote => request.remote_ip,
-            :session_source => "devise_standar_session",
+            :session_source => "devise_standard_session",
             :last_used_at => LC::Date.now
         })
 
         # make session id globally available
         session[:user_session_id] = current_session[:id]
 
-        # register a successful sign-in log for the current user
-        resource.logs.create({ user_sessions_id: session[:user_session_id], title: "session_creation_successful" })
+        # after session is created
+        Auth::UserSessionService.new(resource).after_create(current_session) do |result|
 
-        # get default path of role (if role has default path)
-        default_path = resource.roles.first.default_path
+            default_path = result[:default_path]
 
-        # if first loggin for account owner send him to the onboarding page
-        if current_user.account.onboarding? && current_user.has_roles?("owner")
-            default_path = "/onboarding"
+            # if first loggin for account owner send him to the onboarding page
+            if current_user.account.onboarding? && current_user.has_roles?("owner")
+                default_path = "/onboarding"
+            end
+
+            # respond successful and send the path user should go
+            return respond_with_successful({ default_path: default_path })
+
         end
 
-        # respond successful and send the path user should go
-        respond_with_successful({ default_path: default_path })
-
-        # send a welcome email to user if first log in
-        UserMailer.with(user: resource).welcome.deliver_later if resource.sign_in_count == 1
+        respond_with_successful()
 
     end
 
     def destroy
 
-        # expire session
+        # get the current session
         current_session = current_user.sessions.find_by(id: session[:user_session_id])
-        if current_session
-            current_session.delete
-        end
+        
+        # expire the current session 
+        current_session.delete if current_session
 
         # register a successful logout log for the current user
         current_user.logs.create({ user_sessions_id: session[:user_session_id], title: "session_logout_successful" })
