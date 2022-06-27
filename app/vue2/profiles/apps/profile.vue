@@ -65,8 +65,8 @@ export default {
         this.user_id = this.lesli.current_user.id
         this.getUser()
         this.getOptions()
-        if (this.$route.hash == "#security") {
-            this.active_tab = 1
+        if (this.$route.hash == "#force-password-reset") {
+            this.active_tab = 2
         }
     },
     methods: {
