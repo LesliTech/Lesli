@@ -66,7 +66,7 @@ For more information read the license file including with this software.
 
 
     <%# announcements icon indicator %>
-    <% if defined?(CloudBell) %>
+    <% if defined?(CloudBell) && defined?(DeutscheLeibrenten) %>
     <a  v-if="abilities.privilege('announcements', 'cloud_bell')['create']"
         class="navbar-item header-notification-indicator" @click="data.global.show_panel_announcement = true">
         <i class="fas fa-bullhorn"></i>
@@ -75,7 +75,7 @@ For more information read the license file including with this software.
 
 
     <%# notifications icon indicator %>
-    <% if defined?(CloudBell) %>
+    <% if defined?(CloudBell) && defined?(DeutscheLeibrenten) %>
     <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_notifications = true">
         <span class="material-icons">notifications</span>
         <span v-if="data.global.cloud_bell_notifications > 0">{{ data.global.cloud_bell_notifications }}</span>
