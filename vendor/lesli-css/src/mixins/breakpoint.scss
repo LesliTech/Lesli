@@ -93,6 +93,12 @@ Building a better future, one line of code at a time.
     }
 }
 
+@mixin lesli-css-breakpoint-only-mobile() {
+    @include lesli-css-breakpoint-builder($min:mobile, $max:mobile) {
+        @content;
+    }
+}
+
 @mixin lesli-css-breakpoint-only-tablet() {
     @include lesli-css-breakpoint-builder($min:tablet, $max:tablet) {
         @content;
