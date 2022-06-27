@@ -32,7 +32,7 @@ For more information read the license file including with this software.
 
 
 <%# Loading standar bell panels %>
-<% if defined? CloudBell %>
+<% if defined?(CloudBell) && defined?(DeutscheLeibrenten) %>
     <application-component-panel-notification></application-component-panel-notification>
     <application-component-panel-announcement></application-component-panel-announcement>
 <% end %>
