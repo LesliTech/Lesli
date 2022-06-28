@@ -14,7 +14,6 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
 class Users::SessionsController < Devise::SessionsController
@@ -66,6 +65,28 @@ class Users::SessionsController < Devise::SessionsController
         # if user do not meet requirements to login
         unless user_validation.success?
             return respond_with_error(user_validation.error["message"])
+        end
+
+        # Create an instance used to validate MFA for the user
+        user_mfa = MfaService.new(resource)
+
+        # Check if the user has MFA enabled and any valid method configured
+        if user_mfa.has_mfa_enabled?.success?
+
+            mfa_token = user_mfa.do_mfa()
+
+            return respond_with_error(mfa_token.error) unless mfa_token.success?
+
+            # Create logs that an MFA Token was created successfully
+            resource.logs.create({
+                title: "mfa_token_creation_successful",
+                description: "user_agent: #{request.user_agent}, user_remote: #{request.remote_ip}"
+            })
+
+            # We prepared the default path redirection
+            encrypted_email = CGI.escape(EncryptorService.new_encrytor.encrypt_and_sign(resource.email))
+
+            return respond_with_successful({ default_path: "/mfa/new?key=#{encrypted_email}" })
         end
 
         # do a user login

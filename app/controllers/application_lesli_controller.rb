@@ -14,11 +14,11 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
-
 =end
 
 class ApplicationLesliController < ApplicationController
-    include Application::Responder
+    include Interfaces::Application::Responder
+    #include Application::Responder
     include Application::Requester
     include Application::Logger
     include Application::Polyfill
@@ -228,7 +228,7 @@ class ApplicationLesliController < ApplicationController
         if current_user.has_expired_password?
             unless controller_name == "profiles"
                 current_user.logs.create({ description: "redirect_due_to_expired_password" })
-                redirect_to "/administration/profile#security", notice: I18n.t("core.users/sessions.messages_danger_password_expired")
+                redirect_to "/administration/profile#force-password-reset", notice: I18n.t("core.users/sessions.messages_danger_password_expired")
                 return
             end
         end

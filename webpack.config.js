@@ -96,8 +96,11 @@ module.exports = env => {
             "otps/application": "Lesli/vue3/otps/app.js",
             "passes/application": "Lesli/vue3/passes/app.js",
             "invites/application": "Lesli/vue3/invites/app.js",
+
+            "onboardings/application": "Lesli/vue3/onboarding/app.js",
             
-            "administration/application": "Lesli/vue3/administration/app.js",
+            "administration/application": "Lesli/vue3/administration/app.js"
+
         },
 
 
@@ -121,6 +124,8 @@ module.exports = env => {
                 Lesli: path.resolve("app"),
                 LesliVue: path.resolve("lib", "vue3"), 
 
+                LesliCore: path.resolve("app", "vue3"),
+                CloudBell: path.resolve("engines", "cloud_bell", "app", "vue3"),
                 CloudAudit: path.resolve("engines", "cloud_audit", "app", "vue3"),
                 CloudBabel: path.resolve("engines", "cloud_babel", "app", "vue3"),
                 CloudDevelopment: path.resolve("engines", "cloud_development", "app", "vue3"),

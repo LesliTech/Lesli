@@ -1,4 +1,3 @@
-
 /*
 
 Copyright (c) 2020, all rights reserved.
@@ -15,7 +14,125 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
-@import "templates/component";
-@import "../onboardings.scss";
+
+@import "lesli-css";
+@import "welcome.scss";
+
+
+// · 
+body.onboarding {
+    background-color: #F6F7FC;
+
+    // · 
+    #lesli-application {
+        padding: 0;
+    }
+
+    // · 
+    .hero-body {
+
+        ul.indicator {
+            width: 100%;
+            margin-bottom: 4.6rem;
+            li {
+                flex-basis: 1rem;
+                flex-grow: 1;
+                flex-shrink: 1;
+                text-align: center;
+                position: relative;
+                svg {
+                    width: 40px;
+                    height: 40px;   
+                    fill: lesli-css-color(silver, 700);
+                }
+                span {
+                    display: block;
+                    font-family: "Exo";
+                    font-weight: 700;
+                    font-size: 13px;
+                    color: lesli-css-color(silver, 700);
+                }
+                hr {
+                    height: 1px;
+                    background-color: lesli-css-color(silver, 300);
+                }
+                &.active {
+                    svg {
+                        fill: lesli-css-color(lesli, brand);
+                    }
+                    span {
+                        color: lesli-css-color(lesli, brand);
+                    }
+                }
+            }
+        }
+    
+        form {
+            width: 440px;
+            margin-bottom: 4.4rem;
+
+            .field {
+                margin-bottom: 20px;
+            }
+            
+            label {
+                font-family: "Montserrat";
+                font-weight: 500;
+                font-size: 15px;
+            }
+
+            input {
+                border-radius: 6px;
+            }
+
+        }
+
+        .action-buttons {
+            width: 100%;
+            text-align: center;
+            button {
+                max-width: 320px;
+                width: 100%;
+                &.skip {
+                    color: lesli-css-color(lesli, brand);
+                }
+            }
+        }
+
+    }
+
+    // · 
+    .hero-foot {
+        ul {
+            height: 100px;
+            align-items: center;
+        }
+        a {
+            font-family: "Exo";
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 18px;
+        }
+    }
+
+    // · 
+    footer.application-footer,
+    aside.application-sidebar,
+    header.application-header {
+        display: none !important;
+    }
+
+}
+
+
+@include lesli-css-breakpoint-tablet {
+    body.onboarding {
+        .hero-body {
+            min-width: 750px;
+        }
+    }
+}
+
+
+

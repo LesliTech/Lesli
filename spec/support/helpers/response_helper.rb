@@ -14,17 +14,88 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
 module ResponseHelpers
 
+    # container for the response body parsed as JSON 
     @@response_json = nil
 
+    # return the body of a request response parsed as JSON
     def response_json
-        @@response_json = JSON.parse(response.body) if @@response_json.blank?
+        # support empty responses from lesli 3 responder
+        _response_ = response.body.blank? ? "{}" : response.body
+        @@response_json = JSON.parse(_response_) if @@response_json.blank?
         @@response_json 
     end
+
+    # test a standard successful response for lesli 3
+    def expect_response_with_successful
+        @@response_json = nil
+        expect(response).to have_http_status(:success)
+        expect(response.content_type).to eq("application/json; charset=utf-8")
+        response_json()
+    end
+
+    # test a standard successful response for lesli 3
+    def expect_response_with_pagination
+        @@response_json = nil
+
+        expect(response).to have_http_status(:success)
+        expect(response.content_type).to eq("application/json; charset=utf-8")
+
+        expect(response_json).to have_key("pagination")
+        expect(response_json["pagination"]).to be_an_instance_of(Hash)
+        expect(response_json["pagination"]).to have_key("pages")
+        expect(response_json["pagination"]).to have_key("page")
+        expect(response_json["pagination"]).to have_key("total")
+        expect(response_json["pagination"]).to have_key("results")
+        expect(response_json["pagination"]["pages"]).to be_an_instance_of(Integer)
+
+        expect(response_json).to have_key("records")
+        expect(response_json["records"]).to be_an_instance_of(Array)
+
+        expect(response_json["pagination"]["results"]).to eql(response_json["records"].size)
+        
+        response_json()
+    end
+
+    # test a standard error response for lesli 3
+    def expect_response_with_error
+        @@response_json = nil
+        expect(response).to have_http_status(:error) 
+        expect(response.content_type).to eq('application/json; charset=utf-8')
+        expect(response_json).to have_key('message') 
+        expect(response_json).to have_key('details') 
+        # to be instance of
+    end
+
+    # test a standard not found response for lesli 3
+    def expect_response_with_not_found
+        @@response_json = nil
+        expect(response).to have_http_status(:not_found)
+        expect(response.content_type).to eq("application/json; charset=utf-8")
+    end
+
+    # test a standard unauthorized response for lesli 3
+    def expect_response_with_unauthorized
+        @@response_json = nil
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.content_type).to eq("application/json; charset=utf-8")
+        expect(response_json).to have_key('message') 
+    end
+
+    # shortcut for response_json
+    def response_body
+        response_json
+    end 
+
+
+
+
+    # Compatibility with Lesli 2
+    # -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+
 
     def response_data
         response_json["data"] || response_json["payload"]

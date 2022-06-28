@@ -104,7 +104,7 @@ class OtpsController < ApplicationController
         otp = @user.access_codes.new({ token_type: "otp" })
 
         # generate a user-friendly token
-        raw, enc = Devise.token_generator.generate_otp(otp.class, :token)
+        raw, enc = Devise.token_generator.generate_token(otp.class, :token)
 
         # save encrypted token in database
         otp.token = enc

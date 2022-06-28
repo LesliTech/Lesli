@@ -65,8 +65,8 @@ export default {
         this.user_id = this.lesli.current_user.id
         this.getUser()
         this.getOptions()
-        if (this.$route.hash == "#security") {
-            this.active_tab = 1
+        if (this.$route.hash == "#force-password-reset") {
+            this.active_tab = 2
         }
     },
     methods: {
@@ -97,7 +97,7 @@ export default {
 
 <template>
     <section class="application-component">
-        <component-information-card :actions="false"></component-information-card>
+        <component-information-card :app-mount-path="''" :actions="false"></component-information-card>
         <b-tabs v-model="active_tab">
             <b-tab-item :label="translations.core.users.view_tab_title_information">
                 <component-information-form></component-information-form>

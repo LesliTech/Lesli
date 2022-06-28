@@ -22,19 +22,37 @@ For more information read the license file including with this software.
 @import "lesli-css/";
 
 
-// 
+// · default colors, if there is no a custom palette in the settings
+$lesli-color-primary: lesli-css-color(lesli, navy);
+$lesli-color-header: transparent;
+$lesli-color-sidebar: $lesli-color-primary;
+$lesli-color-background: #FFFFFF;
+$lesli-font-color: $lesli-color-primary;
+$lesli-font-size: 16px;
+
+
+// · 
 :root {
-    --app-header-height: 100px;
-    --app-footer-height: 68px;
-    --app-footer-height: 84px;
-    --app-navigation-width: 328px;
+    --lesli-header-height: 100px;
+    --lesli-footer-height: 68px;
+    --lesli-footer-height: 84px;
+    --lesli-navigation-width: 50px;
+
+    --lesli-color-primary: var(--lesli-theme-color-primary, #{$lesli-color-primary});
+
+    --lesli-color-header: var(--lesli-theme-color-primary, #{$lesli-color-header});
+    --lesli-color-sidebar: var(--lesli-theme-color-sidebar, #{$lesli-color-primary});
+    --lesli-color-background: var(--lesli-theme-color-background, #{$lesli-color-background});
+
+    --lesli-font-color: var(--lesli-theme-font-color, #{$lesli-color-primary});
+    --lesli-font-size: var(--lesli-theme-font-size, #{$lesli-font-size});
 }
 
 
 // Mobile Up to 768px
 @include lesli-css-breakpoint("mobile") {
     :root {
-        --app-navigation-width: 50px;
+        --lesli-navigation-width: 50px;
     }
 }
 
@@ -42,7 +60,7 @@ For more information read the license file including with this software.
 // Tablet Between 769px and 1023px
 @include lesli-css-breakpoint("tablet") {
     :root {
-        --app-navigation-width: 100px;
+        --lesli-navigation-width: 100px;
     }   
 }
 
@@ -50,7 +68,7 @@ For more information read the license file including with this software.
 // Desktop Between 1024px and 1215px
 @include lesli-css-breakpoint("desktop") {
     :root {
-        --app-navigation-width: 200px;
+        --lesli-navigation-width: 200px;
     }   
 }
 
@@ -58,7 +76,7 @@ For more information read the license file including with this software.
 // Widescreen Between 1216px and 1407px
 @include lesli-css-breakpoint("widescreen") {
     :root {
-        --app-navigation-width: 225px;
+        --lesli-navigation-width: 225px;
     }   
 }
 
@@ -66,7 +84,7 @@ For more information read the license file including with this software.
 // Widescreen Between 1216px and 1407px
 @include lesli-css-breakpoint("fullhd") {
     :root {
-        --app-navigation-width: 328px;
+        --lesli-navigation-width: 328px;
     }   
 }
 
@@ -74,6 +92,6 @@ For more information read the license file including with this software.
 //
 body.layout-expanded {
     :root {
-        --app-navigation-width: 100px;
+        --lesli-navigation-width: 100px;
     }
 }

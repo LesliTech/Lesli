@@ -71,7 +71,6 @@ class User < ApplicationLesliRecord
     enum category: { user: "user", integration: "integration" }
 
 
-
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     def save(*args)
@@ -587,34 +586,6 @@ class User < ApplicationLesliRecord
         .per(query[:pagination][:perPage])
         .order("#{query[:pagination][:orderBy]} #{query[:pagination][:order]} NULLS LAST")
 
-        users_count = users.total_count
-
-        users = users.map do |user|
-            # last time user use the login form to access the platform
-            last_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at], Time.current)
-            # last action the user perform an action into the system
-            last_action_performed_at = LC::Date.distance_to_words(user["last_action_performed_at"], Time.current) if not user["last_action_performed_at"].blank?
-            # check if user has an active session
-            session = user["last_login_at"].blank? ? false : true
-
-            {
-                id: user[:id],
-                name: user[:name],
-                email: user[:email],
-                category: user[:category],
-                last_sign_in_at: last_sign_in_at,
-                active: user[:active],
-                roles: user[:roles],
-                last_activity_at: last_action_performed_at,
-                session_active: session
-            }
-        end
-
-        return {
-            users_count: users_count,
-            users: users
-        }
-
     end
 
 
@@ -644,6 +615,8 @@ class User < ApplicationLesliRecord
             editable_security: current_user && current_user.has_roles?("owner", "sysadmin"),
             roles: user.roles.map { |r| { id: r[:id], name: r[:name] } },
             full_name: user.full_name,
+            mfa_enabled: user.mfa_settings[:enabled],
+            mfa_method:  user.mfa_settings[:method],
             detail_attributes: {
                 title: user.detail[:title],
                 salutation: user.detail[:salutation],
@@ -657,6 +630,25 @@ class User < ApplicationLesliRecord
             }
         }
 
+    end
+
+    # @return [void]
+    # @description Returns MFA settings configured by the user
+    # Example
+    #   user_mfa_settings = User.find(2).mfa_settings
+    #   puts user_mfa_settings
+    #       { :mfa_enabled => true, :mfa_method => "email"}
+    def mfa_settings
+        mfa_enabled = self.settings.find_by(:name => "mfa_enabled")
+        mfa_method = self.settings.find_by(:name => "mfa_method")
+        
+        is_mfa_enabled = false
+        is_mfa_enabled ||= (mfa_enabled.value.downcase == "true") unless mfa_enabled.nil?
+
+        {   
+            :enabled => is_mfa_enabled,
+            :method => mfa_method.nil? ? nil : mfa_method.value.to_sym
+        }
     end
 
     #######################################################################################

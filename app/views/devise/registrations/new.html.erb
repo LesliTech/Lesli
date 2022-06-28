@@ -1,7 +1,5 @@
 <%#
 
-Lesli
-
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -19,14 +17,159 @@ For more information read the license file including with this software.
 
 %>
 
+<% custom_app_logo_path = "#{ lesli_instance_code }/brand/app-icon.svg" %>
+<% custom_app_page_clas = "#{ lesli_instance_code }-registration".downcase %>
+<% custom_app_page_path = "#{ lesli_instance_code }/lesli/devise/registrations/new2" %>
+<% custom_app_page_exists = lookup_context.exists?(custom_app_page_path) %>
 
-<% if lesli_instance_code != "lesli" %>
-<section class="<%= lesli_instance_code %>-register">
-    <%= render :template => "#{lesli_instance_code}/lesli/devise/registrations/new" %>
-</section>
+
+
+<%# render custom view in builder module %>
+<% if custom_app_page_exists %>
+<main id="lesli-application" class="<%= custom_app_page_clas %>">
+    <%= render :template => custom_app_page_path %>
+</main>
 <% end %>
 
 
-<% if lesli_instance_code == "lesli" %>
-<h3>There is no a view for registration path.</h3>
+
+<%# core view for login page %>
+<% unless custom_app_page_exists %>
+<main id="lesli-application" class="lesli">
+    <section class="columns is-gapless">
+        <div class="column">
+            <div class="hero is-fullheight">
+                <div class="hero-body is-flex-direction-column is-justify-content-center">
+
+                    <%# Logo container %>
+                    <div class="logo has-text-centered mb-5">
+                        <%= image_tag custom_app_logo_path, :class => "#{lesli_instance_code}-logo", :alt => "logo" %>
+                        <h1 class="has-text-primary">Create account to discover Lesli</h1>
+                    </div>
+
+                    <%# Log in form %>
+                    <form @submit.prevent="postRegistration" method="post">
+                        <%# 
+                        
+                        %>
+                        <div class="field mb-4">
+                            <label for="user_email" class="label">E-mail address</label>
+                            <div class="control has-icons-left has-icons-right">
+                                <input
+                                    id="user_email"
+                                    name="user_email"
+                                    type="email"
+                                    ref="email"
+                                    :class="['input', `is-${notification.type}`]"
+                                    placeholder="hello@lesli.cloud"
+                                    v-model="sign_up.email"
+                                    @input="typing">
+                                <span 
+                                    class="icon is-small is-left" 
+                                    :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
+                                    <i class="ri-mail-fill"></i>
+                                </span>
+                                <%# 
+                                <span class="icon is-right">
+                                    <i class="ri-check-line"></i>
+                                </span> 
+                                %>
+                            </div>
+                        </div>
+                        <div class="field mb-5">
+                            <label for="user_password" class="label">Password</label>
+                            <div class="control has-icons-left has-icons-right">
+                                <input
+                                    id="user_password"
+                                    name="user_password"
+                                    type="password"
+                                    ref="password"
+                                    :class="['input', `is-${notification.type}`]"
+                                    placeholder="* * * * * * *"
+                                    v-model="sign_up.password"
+                                    @input="typing">
+                                <span 
+                                    :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
+                                    <i class="ri-key-fill"></i>
+                                </span>
+                                <span 
+                                    @click="togglePasswordInput()"
+                                    :class="['icon', 'is-small', 'is-right', `has-text-${notification.type}`]">
+                                    <i class="ri-eye-fill"></i>
+                                </span>
+                            </div>
+                            <p v-cloak v-if="notification.show" :class="['help', `is-${notification.type}`]">
+                                {{ notification.message }}
+                            </p> 
+                        </div>
+                        <div class="field mb-5">
+                            <p>Password needs to contain:</p>
+                            <ul class="pl-3 password-requirements">
+                                <li :class="[
+                                        'icon-text', 'is-block', {
+                                            'has-text-danger': password_uppercase == 1,
+                                            'has-text-success': password_uppercase == 2
+                                        }
+                                    ]">
+                                    <span class="text">
+                                        &bull; minimum  one uppercase letter
+                                    </span>
+                                    <span class="icon">
+                                        <i class="ri-eye-fill"></i>
+                                    </span>
+                                </li>
+                                <li :class="[
+                                        'icon-text', 'is-block', {
+                                            'has-text-danger': password_symbol == 1,
+                                            'has-text-success': password_symbol == 2
+                                        }
+                                    ]">
+                                    <span class="text">
+                                        &bull; one symbol
+                                    </span>
+                                    <span class="icon">
+                                        <i class="ri-eye-fill"></i>
+                                    </span>
+                                </li>
+                                <li :class="[
+                                        'icon-text', 'is-block', {
+                                            'has-text-danger': password_number == 1,
+                                            'has-text-success': password_number == 2
+                                        }
+                                    ]">
+                                    <span class="text">
+                                        &bull; one number
+                                    </span>
+                                    <span class="icon">
+                                        <i class="ri-eye-fill"></i>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="field">
+                            <p class="terms">
+                                By creating an account, you agree to our <a><u><b>Terms</b></u></a> and have
+                                read and acknowledge the <a><u><b>Global Privacy Statement</b></u></a>
+                            </p>
+                        </div>
+                        <div class="field">
+                            <div class="control is-fullwidth">
+                                <input type="submit" class="button is-primary is-fullwidth mb-2" value="Create account">
+                                <p class="account has-text-centered">
+                                    Already have an account? 
+                                    <%= link_to new_user_session_path, :class => "has-text-primary" do %>
+                                        <u><b>Log in</b></u>
+                                    <% end %>
+                                </p> 
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <%# footer %>
+                <%= render partial: "devise/shared/footer" %>
+            </div>
+        </div>
+        <div class="column is-hidden-touch"></div>
+    </section>
+</main>
 <% end %>
