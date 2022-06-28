@@ -63,7 +63,9 @@ class Users::SessionsController < Devise::SessionsController
         Auth::UserValidationService.new(resource).valid? do |result|
             # if user do not meet requirements to login
             return respond_with_error(result.error["message"]) unless result.success?
-        end        
+        end
+
+        #remember_me(user) if user_params[:remember_me] == '1'
 
         # do a user login
         sign_in(:user, resource)
