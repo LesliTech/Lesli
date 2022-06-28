@@ -36,7 +36,25 @@ app({
             }
         }
     },
+    mounted() {
+        this.$refs.email.focus()
+    },
     methods: {
+
+        togglePasswordInput() {
+            console.log("password")
+            if (this.$refs.password.type === "password") {
+                this.$refs.password.type = "text";
+            } else {
+                this.$refs.password.type = "password";
+            }
+        },
+
+        validateEmail() {
+            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.sign_in.email)) {
+
+            }
+        },
 
         build_redirect_url(default_path = null) {
 
@@ -66,7 +84,7 @@ app({
             }
 
             return redirect_url
-             
+            
         },
 
         postLogin(event) {
@@ -82,23 +100,10 @@ app({
                 }
             };
 
-            this.http.post(this.url.to("/login"), data).then(response => {
-
-                // If login went successful, redirect to root
-                if (response.successful){
-                    this.url.go(this.build_redirect_url(response.data.default_path))
-                    return
-                }
-
-                // If login fail due password expired, redirect to public password update
-                if (!response.successful && response.error.details.reset_password_token) {
-                    this.url.go(`/password/edit?reset_password_token=${response.error.details.reset_password_token}`)
-                }
-
-                this.showNotification(response.error.message)
-
-            }).catch(error => {
-                this.showNotification("Error")
+            this.http.post("/login", data).then(response => {  
+                this.url.go(this.build_redirect_url(response.default_path))
+            }).catch(error => { 
+                this.showNotification(error.message)
             })
 
         },

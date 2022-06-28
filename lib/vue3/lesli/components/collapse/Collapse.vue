@@ -1,0 +1,81 @@
+<script setup>
+/*
+Copyright (c) 2022, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · import vue tools
+import { ref, reactive, onMounted, watch, computed } from "vue"
+
+// · defining emits
+const emit = defineEmits(['open']);
+
+/**
+ * The only true button.
+ * @displayName lesli-collapse
+ */
+
+// · defining props
+const props = defineProps({
+    loading: {
+        /**
+         * An indicator when data is loading
+         * @values true, false
+         */
+        type: Boolean,
+        default: false
+    },
+    open: {
+        /**
+         * An indicator when the collapse card
+         * is open
+         * @values true, false
+         */
+        type: Boolean,
+        default: false
+    },
+    title: {/**
+         * The title to show on card's header
+         * @values any string
+         */
+        type: String,
+        default: 'Collapse Title'
+    }
+})
+
+</script>
+<template>
+    <div class="collapse card">
+        <div 
+            v-on:click="emit('open')"
+            class="card-header"
+            style="cursor: pointer"
+            role="button">
+            <p class="card-header-title">
+                {{ props.title }}
+            </p>
+            <a class="card-header-icon">
+                <span class="icon">
+                    <span class="material-icons" v-if="props.open">arrow_upward</span>
+                    <span class="material-icons" v-if="!props.open">arrow_downward</span>
+                </span>
+            </a>
+        </div>
+        <div v-show="open" class="card-content">
+            <slot></slot>
+        </div>
+    </div>
+</template>

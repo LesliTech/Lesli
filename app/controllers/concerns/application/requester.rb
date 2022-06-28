@@ -39,8 +39,15 @@ module Application
                     order: (params[:order] ? params[:order] : "desc"),
                     orderBy: (params[:orderBy] ? params[:orderBy] : "id"),
                     orderColumn: (params[:orderColumn] ? params[:orderColumn] : "id")
+                },
+                order: {
+                    by: (params[:orderBy] ? params[:orderBy] : "id"),
+                    dir: (params[:order] ? params[:order] : "desc")
                 }
             }
+
+            # compatibility with lesli 2
+            @query[:filters][:search] = @query[:search]
         end
 
 

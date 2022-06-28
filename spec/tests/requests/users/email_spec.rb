@@ -20,60 +20,64 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "PUT:/administration/users/:id/actions/email.json", type: :request do
-    include_context "request user authentication"
+RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
 
-    # helper methods
-    let!(:create_limited_user) { FactoryBot.create(:user, role_name: "limited") }
+    describe "PUT:/administration/users/:id/actions/email.json", type: :request do
+        include_context "request user authentication"
 
-    # test cases
-    it "is expected to respond with successful standard json response" do
-        @new_email = Faker::Internet.email
+        # helper methods
+        let!(:create_limited_user) { FactoryBot.create(:user, role_name: "limited") }
 
-        put("/administration/users/#{@current_user.id}/actions/email.json", params: {
-            user: { email: @new_email }
-        })
-        
-        expect_json_response_successful
-        expect(response_data).to be_nil
+        # test cases
+        it "is expected to respond with successful standard json response" do
+            @new_email = Faker::Internet.email
+
+            put("/administration/users/#{@current_user.id}/actions/email.json", params: {
+                user: { email: @new_email }
+            })
+            
+            expect_response_with_successful
+            expect(response_body).to eql(@new_email)
+        end
+
+        it "is expected to respond with unauthorized standard json response" do
+            new_email = Faker::Internet.email
+            new_user = create_limited_user
+
+            sign_out @current_user
+            sign_in new_user
+
+            put("/administration/users/#{@current_user.id}/actions/email.json", params: {
+                user: { email: new_email }
+            })
+
+            # shared examples
+            expect_response_with_unauthorized
+        end
+
+        it "is expected to respond with not found standard json response" do
+            # this Id does not exist, so, should return with not found
+            invalid_user_id = create_limited_user.id + 1
+
+            put("/administration/users/#{invalid_user_id}/actions/email.json", params: {
+                user: { email: Faker::Internet.email }
+            })
+
+            # shared examples
+            expect_response_with_not_found
+        end
+
+        it "is expected to redirect to login when user is not authenticated" do
+            new_user =  create_limited_user
+
+            sign_out @current_user
+
+            put("/administration/users/#{new_user.id}/actions/email.json", params: {
+                user: { email: "" }
+            })
+
+            expect(response).to redirect_to("/login")
+        end
     end
 
-    it "is expected to respond with unauthorized standard json response" do
-        new_email = Faker::Internet.email
-        new_user = create_limited_user
-
-        sign_out @current_user
-        sign_in new_user
-
-        put("/administration/users/#{@current_user.id}/actions/email.json", params: {
-            user: { email: new_email }
-        })
-
-        # shared examples
-        expect_json_response_unauthorized
-    end
-
-    it "is expected to respond with not found standard json response" do
-         # this Id does not exist, so, should return with not found
-         invalid_user_id = create_limited_user.id + 1
-
-         put("/administration/users/#{invalid_user_id}/actions/email.json", params: {
-             user: { email: Faker::Internet.email }
-         })
-
-        # shared examples
-        expect_json_response_error
-    end
-
-    it "is expected to redirect to login when user is not authenticated" do
-        new_user =  create_limited_user
-
-        sign_out @current_user
-
-        put("/administration/users/#{new_user.id}/actions/email.json", params: {
-            user: { email: "" }
-        })
-
-        expect(response).to redirect_to("/login")
-    end
 end

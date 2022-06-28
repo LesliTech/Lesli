@@ -62,6 +62,8 @@ configuration:
             date_time_words: "%A, %B %d, %Y, %H:%M"
     notifications:
         sms: false
+    mfa_methods:
+        email: "email"
 
 
 # Instance security settings

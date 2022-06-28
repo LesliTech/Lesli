@@ -16,9 +16,11 @@ For more information read the license file including with this software.
 // ·
 
 %>
-<% content_for :application_custom_assets do %>
-<script>
-const logo = '<%= asset_url("#{lesli_instance_code}/brand/app-logo.svg", type: :image) %>'
-</script>
-<% end %>
-<router-view></router-view>
+
+<section class="hero is-fullheight is-align-items-center">
+    <div class="hero-body is-justify-content-center is-flex-direction-column p-0">
+        <router-view></router-view>
+    </div>
+    <%= render partial: "devise/shared/footer" %>
+</section>
+

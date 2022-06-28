@@ -26,7 +26,7 @@ class User::SettingsController < ApplicationLesliController
         
         settings = @user.settings.find_or_initialize_by(name: user_setting_params[:name])
         
-        unless settings.update(value: user_setting_params[:value])
+        unless settings.update(user_setting_params)
             return respond_with_error(settings.errors.full_messages.to_sentence)
         end
 

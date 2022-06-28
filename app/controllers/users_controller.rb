@@ -24,7 +24,19 @@ class UsersController < ApplicationLesliController
 
     def list
         respond_to do |format|
-            format.json { respond_with_successful(User.list(current_user, @query, params)) }
+            format.json { 
+
+                # Keep compatibility with DeutscheLeibrenten
+                if defined?(DeutscheLeibrenten) 
+                    respond_with_successful(User.list(current_user, @query, params)) 
+                end
+
+                # Lesli v3
+                if !defined?(DeutscheLeibrenten) 
+                    respond_with_successful(User.list(current_user, @query, params)) 
+                end
+
+            }
         end
     end
 
@@ -38,7 +50,74 @@ class UsersController < ApplicationLesliController
     def index
         respond_to do |format|
             format.html { }
-            format.json { respond_with_successful(User.index(current_user, @query, params)) }
+            format.json { 
+
+                # Keep compatibility with DeutscheLeibrenten
+                if defined?(DeutscheLeibrenten)
+
+                    users = User.index(current_user, @query, params)
+
+                    users_count = users.total_count
+
+                    users = users.map do |user|
+                        # last time user use the login form to access the platform
+                        last_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at], Time.current)
+                        # last action the user perform an action into the system
+                        last_action_performed_at = LC::Date.distance_to_words(user["last_action_performed_at"], Time.current) if not user["last_action_performed_at"].blank?
+                        # check if user has an active session
+                        session = user["last_login_at"].blank? ? false : true
+
+                        {
+                            id: user[:id],
+                            name: user[:name],
+                            email: user[:email],
+                            category: user[:category],
+                            last_sign_in_at: last_sign_in_at,
+                            active: user[:active],
+                            roles: user[:roles],
+                            last_activity_at: last_action_performed_at,
+                            session_active: session
+                        }
+                    end
+
+                    respond_with_successful({
+                        users_count: users_count,
+                        users: users
+                    }) 
+                end
+
+                # Lesli v3
+                if !defined?(DeutscheLeibrenten) 
+
+                    users = User.index(current_user, @query, params)
+                    
+                    return respond_with_pagination(users, (users.map { |user|
+
+                        # last time user use the login form to access the platform
+                        last_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at])
+
+                        # last action the user perform an action into the system
+                        last_action_performed_at = LC::Date.distance_to_words(user["last_action_performed_at"]) if not user["last_action_performed_at"].blank?
+
+                        # check if user has an active session
+                        session = user["last_login_at"].blank? ? false : true
+
+                        {
+                            id: user[:id],
+                            name: user[:name],
+                            email: user[:email],
+                            category: user[:category],
+                            last_sign_in_at: last_sign_in_at,
+                            active: user[:active],
+                            roles: user[:roles],
+                            last_activity_at: last_action_performed_at,
+                            session_active: session
+                        }
+                    }))
+
+                end
+
+            }
         end
     end
 
@@ -54,6 +133,7 @@ class UsersController < ApplicationLesliController
                 })
 
                 respond_with_successful(user)
+
             }
         end
     end
@@ -150,7 +230,7 @@ class UsersController < ApplicationLesliController
             })
 
             # return a successful response
-            respond_with_successful
+            respond_with_successful(@user)
 
             User.log_activity_update(current_user, @user, old_attributes, new_attributes)
         else
@@ -164,7 +244,7 @@ class UsersController < ApplicationLesliController
 
         if @user.delete
             current_user.logs.create({ description: "deleted_user #{@user.id}-#{@user.full_name} by_user_id: #{current_user.id}" })
-            respond_with_successful
+            respond_with_successful(@user)
           else
             respond_with_error(@user.errors.full_messages.to_sentence)
         end
@@ -194,7 +274,8 @@ class UsersController < ApplicationLesliController
             roles: roles,
             regions: current_user.account.locations.where(level: "region"),
             salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
-            locales: Rails.application.config.lesli.dig(:configuration, :locales_available)
+            locales: Rails.application.config.lesli.dig(:configuration, :locales_available),
+            mfa_methods: Rails.application.config.lesli.dig(:configuration, :mfa_methods),
         })
 
     end
@@ -316,7 +397,7 @@ class UsersController < ApplicationLesliController
         user = current_user.account.users.find_by(id: params[:id])
 
         if user.blank? 
-            return respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
+            return respond_with_not_found
         end
 
         if params[:user][:email]
@@ -325,7 +406,7 @@ class UsersController < ApplicationLesliController
 
         user.logs.create({ description: "changed_email_address_id: " + current_user.id.to_s })
 
-        respond_with_successful
+        respond_with_successful(params[:user][:email])
     end
 
     private

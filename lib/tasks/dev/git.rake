@@ -267,10 +267,9 @@ class DevGit < LesliRake
             "bulma",
             "lesli-css",
             "remixicon",
-            "@fullcalendar",
-            "@oruga-ui"
+            "@fullcalendar"
         ].each do |package|
-            FileUtils.cp_r "lib/vue3/node_modules/#{package}/", "vendor/#{package}", :verbose => true
+            FileUtils.cp_r "node_modules/#{package}/", "vendor/#{package}", :verbose => true
         end
 
         Dir.glob("vendor/**/*").each do |file|
@@ -303,10 +302,10 @@ class DevGit < LesliRake
 
             ["github", "origin", "lesli", "backup"].each do |origin|
 
-                remote = engine[:github]['ssh'] if origin == "github"
-                remote = engine[:github]['ssh'] if origin == "origin"
-                remote = engine[:github]['ssh_backup'] if origin == "lesli"
-                remote = engine[:github]['ssh_backup'] if origin == "backup"
+                remote = engine.dig(:github, :ssh) if origin == "github"
+                remote = engine.dig(:github, :ssh) if origin == "origin"
+                remote = engine.dig(:github, :ssh_backup) if origin == "lesli"
+                remote = engine.dig(:github, :ssh_backup) if origin == "backup"
 
                 message("working with: #{engine[:code]} -> #{remote}")
                 command("cd ./engines/#{engine[:code]} && git remote add #{origin} #{remote}")

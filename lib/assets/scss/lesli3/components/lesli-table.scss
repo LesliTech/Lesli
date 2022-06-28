@@ -1,0 +1,66 @@
+/*
+
+Copyright (c) 2022, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+*/
+
+
+// · 
+table.lesli-table {
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+
+    thead {
+
+        th {
+            border: none;
+            font-weight: 700;
+        }
+
+        .icon-text:hover {
+            cursor: pointer;
+        }
+
+        border-radius: 10px 10px 0 0;
+        background-color: #E2E6F6;
+    }
+
+    thead, 
+    tbody {
+        th,td {
+            padding: 1.4rem 1rem;
+        }
+    }
+
+    td.options {
+        .dropdown {
+            .button {
+                background-color: transparent;
+            }
+            .dropdown-content {
+                padding: 0;
+            }
+            .dropdown-item {
+                display: flex;
+                padding: .8rem;
+                .material-icons {
+                    margin-right: 8px;
+                }
+            }
+        }
+    }
+}

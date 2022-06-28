@@ -25,6 +25,9 @@ module RoutesApp
             # Alternative logins
             resource :otp,  only: [:show, :new, :create]
             resource :pass, only: [:show, :new, :create]
+            resource :mfa,  only: [:new] do
+                post :verify
+            end
 
             # Invitation requests - users ask to join an account
             resource :invite, only: [:show, :create]
@@ -122,6 +125,16 @@ module RoutesApp
 
                     # user helper resources
                     member do
+
+                        # close sessions of users
+                        post :logout
+
+                        # enable/disable user access
+                        post :lock
+
+                        # force password reset
+                        post :password
+
                         scope :resources do
 
                             # user impersonate - disabled by default

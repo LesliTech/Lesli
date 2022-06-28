@@ -30,115 +30,230 @@ aside.application-sidebar {
     display: flex;
     flex-direction: column;
     transition: all linear .2s;
-    width: var(--app-navigation-width);
+    width: var(--lesli-navigation-width);
+    background-color: var(--lesli-color-sidebar);
 
     // logo
     .brand {
-        padding: .4rem;
-        max-height: var(--app-header-height);
-        justify-content: center;
-        align-items: center;
         display: flex;
-
-        img {
-            margin: 0 auto;
-            max-width: 100%;
-            max-height: 100%;
-            height: 100%;
+        justify-content: space-between;
+        height: var(--lesli-header-height);
+        max-height: var(--lesli-header-height);
+        a {
+            display: flex;
+            padding: 4px;
         }
-
-        svg:hover {
-            cursor: pointer;
-        }
-
     }
 
+    // allow the container to scroll over the navigation items
     nav.menu {
         overflow-y: scroll;
     }
 
+    // link container
     li {
 
+        // link
         a {
-            padding: 0;
-            display: flex;
-            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
 
-            i,
-            svg,
-            span.icon {
-                width: 100%;
-                margin: 0;
-                text-align: center;
-                &,i {
-                    font-size: 24px;
+            // highlight sidebar navigation item when selected
+            // highlight sidebar navigation item on hover
+            &:hover,
+            &.is-active,        // rails routes
+            &.route-is-active   // vue routes
+            {
+                color: white;
+                background-color: #041D55;// red;//lesli-css-color-theme(primary);
+            }
+
+            // svg icons from lesli-icon
+            svg.icono {
+                width: 32px;
+                height: 32px;
+            }
+
+            // icons from reixicons
+            span.icono {
+                font-size: 30px;
+                
+            }
+
+            // link text
+            span.text,
+            span.chevron {
+                display: none;
+            }
+
+        }
+
+        &.lesli-navigation-list {
+
+            &.active {
+                background-color: lesli-css-color(lesli, ocean);
+                ul {
+                    height: auto;
                 }
             }
 
-            span:not([class]) {
-                display: none;
-                font-size: .9rem;
+            .lesli-navigation-list-label {
+                padding: 1rem;
+                border-radius: 6px;
+                border: 1px solid lesli-css-color(silver, 300);
+                max-width: 75px;
+                margin: 0 auto 1rem;
             }
-    
-        }
 
-        ul {
-            margin: 0;
-            border: none;
-            padding: 0;
+            // submenus
+            ul {
+                height: 0;
+                border-left: none;
+                overflow: hidden;
+                display: block;
+                padding: 0;
+                margin: 0;
+                & > a span {
+                    display: none;
+                }
+                
+            }
         }
-
     }
 }
+
+// · 
+@include lesli-css-breakpoint-tablet {
+
+    // · Navigation sidebar
+    aside.application-sidebar {
+
+        // logo
+        .brand {
+            a {
+                padding: 1rem;
+            }
+        }
+    }
+}
+
 
 
 // · 
 @include lesli-css-breakpoint-desktop {
     aside.application-sidebar {
-        li {
+        .brand {
+            padding: 1rem 1.4rem;
 
+            // logo container
             a {
-
-                i,
-                svg,
-                span.icon {
-                    width: 2rem;
-                    text-align: left;
+                padding: 0;
+                align-items: end;
+                // logo
+                img {
+                    margin: 0;
+                    max-width: 100%;
+                    max-height: 100%;
+                    height: 100%;
                 }
+            }
 
-                span:not([class]) {
-                    display: inline-flex;
+            // engine name
+            span {
+                color: white;
+                font-size: 1.2rem;
+                font-style: italic;
+                margin-left: -20px;
+                margin-bottom: -5px;
+            }
+
+            // engine selector button
+            .icon {
+                align-self: flex-end;
+                margin-bottom: 0px;
+                &:hover {
+                    cursor: pointer;
                 }
-
             }
         }
-    }
-}
 
-
-// · 
-@include lesli-css-breakpoint-widescreen {
-    aside.application-sidebar {
+        // link container
         li {
+
+            // link
             a {
-                span:not([class]) {
+                display: flex;
+                padding: 1.6rem 0;
+                align-items: center;
+
+                // main icon
+                svg.icono,
+                span.icono {
+                    width: 75px;
+                }
+
+                // link label
+                span.text {
+                    display: inline-block;
+                }
+    
+                span.text {
                     font-size: 1rem;
+                    display: inline-block;
+                    flex-grow: 1;
+                    text-align: left;
+                    &.iconless {
+                        margin-left: 74px;
+                    }
+                }
+    
+                span.chevron {
+                    display: inline-flex;
+                    margin-right: 16px;
+                    
+                }
+
+            }
+
+            &.lesli-navigation-list {
+                .lesli-navigation-list-label {
+                    padding: 0;
+                    border: none;
+                    display: flex;
+                    padding: 1.6rem 0;
+                    max-width: 100%;
+                    align-items: center;
+                    margin-bottom: 0;
                 }
             }
+
         }
+
     }
 }
-
-
+/*
 // · 
 @include lesli-css-breakpoint-fullhd {
     aside.application-sidebar {
+        .brand {
+            // engine name
+            span {
+                color: white;
+                font-size: 1.2rem;
+                font-style: italic;
+                margin-left: -20px;
+                margin-bottom: -5px;
+            }
+        }
+
         li {
             a {
-                span:not([class]) {
-                    font-size: 1.1rem;
+                span.text {
+                    font-size: 1.2rem;
                 }
             }
         }
     }
 }
+*/
