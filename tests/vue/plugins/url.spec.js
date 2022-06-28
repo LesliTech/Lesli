@@ -44,7 +44,7 @@ describe("VUE/PLUGINS/URL", () => {
         it("should build a url for invite", () => {
             var url = vm.config.globalProperties.url.to("invite").toString()
             expect(url).to.be.a("string");
-            expect(url).to.equal("http://lesli.test/invite")
+            expect(url).to.equal("/invite")
         });
 
     })
