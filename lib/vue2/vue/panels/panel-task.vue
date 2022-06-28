@@ -155,11 +155,6 @@ export default {
                                 {{ `${notification.model_global_identifier}` }} 
                             </small>
                         </p>
-                        <p v-if="notification.customer_first_name">
-                                <small class="has-text-grey-light"> 
-                                {{ `${translations.focus.tasks.view_text_customer} : ${notification.customer_first_name} ${notification.customer_last_name}` }} 
-                            </small>
-                        </p>
                         <p>
                                 <small class="has-text-grey-light"> 
                                 {{ `${translations.focus.tasks.column_deadline} : ${notification.deadline}` }} 
