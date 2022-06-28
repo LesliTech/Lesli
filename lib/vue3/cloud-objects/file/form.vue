@@ -22,8 +22,14 @@ import { ref, computed, onMounted } from "vue"
 // · import store
 import { useCloudObjectFileStore } from "LesliVue/stores/cloud-objects/file"
 
+// · import composables
+import { useMsg } from "LesliVue/composables/msg"
+
 // · implement store
 const store = useCloudObjectFileStore()
+
+// · implement composable
+const msg = useMsg()
 
 // · get translations from store
 const translations = store.translations
@@ -52,10 +58,16 @@ const clearFileUploader = ref(false)
 const validateFiles = (files = []) => {
     
     // · validate the length of the files array
-    if (files.length === 0) return false
+    if (files.length === 0) {
+        msg.danger(translations.core.shared.messages_danger_files_empty)
+        return false
+    }
     
     // · validate the number of files that are allowed
-    if (files.length > store.maxFiles) return false 
+    if (files.length > store.maxFiles) {
+        msg.danger(translations.core.shared.messages_danger_files_exceeded)
+        return false 
+    }
     
     // · this variable is used to check if some file is invalid
     // · if this variable is true, the files aren't valid
@@ -64,7 +76,10 @@ const validateFiles = (files = []) => {
     })
 
     // · validate if some file is out of size
-    if (hasOutOfSizeFiles) return false
+    if (hasOutOfSizeFiles) {
+        msg.danger(translations.core.shared.messages_danger_files_out_of_size)
+        return false
+    }
 
     // · if validations are ok, return true
     return true
@@ -116,7 +131,10 @@ const onUploadFiles = async () => {
     if (!arefilesValid) return
 
     // · If file type select isn't valid, stop the function
-    if (!fileType.value) return
+    if (!fileType.value) {
+        msg.danger(translations.core.shared.messages_danger_file_type_required)
+        return
+    }
     
     // · filesBase64 array is used to store the base64 strings of the files
     const filesBase64 = []
