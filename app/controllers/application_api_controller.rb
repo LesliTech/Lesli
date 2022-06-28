@@ -26,7 +26,6 @@ class ApplicationApiController < ActionController::API
     before_action :set_locale
     before_action :authorize_request
     before_action :authorize_privileges
-    before_action :set_request_helpers
     before_action :set_helpers_for_request
     after_action  :log_user_requests
 
