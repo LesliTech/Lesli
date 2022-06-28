@@ -166,7 +166,8 @@ function paginate(page) {
                         <slot
                             :name="column.field"
                             :column="column"
-                            :value="record[column.field]">
+                            :value="record[column.field]"
+                            :row="record">
 
                             <!--
                                 Print the text value if no custom slot is used

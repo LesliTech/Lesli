@@ -146,11 +146,11 @@ module NavigationHelper
     end
 
     # 03.08 Bell engine
-    def navigation_engine_bell title: "Bell", subtitle: "cloud_bell/bell-logo.svg"
+    def navigation_engine_bell title: "Notifications", subtitle: "Announcements and notifications"
         unless defined? CloudBell
             return ""
         end
-        navigation_engine_item title, subtitle, cloud_bell.root_path, controller_path.include?("cloud_bell")
+        navigation_engine_item(title, subtitle, "bell", cloud_bell.root_path, controller_path.include?("cloud_bell"))
     end
 
     # 03.10 Talk engine
@@ -250,7 +250,7 @@ module NavigationHelper
     # 08.03 Audit engine
     def navigation_engine_audit title: "Admin audit", subtitle: "Activity, logs, security and more"
         if defined? CloudAudit
-            navigation_engine_item(title, subtitle, "cloud-audit", cloud_audit.root_path, controller_path.include?("cloud_audit"))
+            navigation_engine_item(title, subtitle, "audit", cloud_audit.root_path, controller_path.include?("cloud_audit"))
         end
     end
 
@@ -260,7 +260,7 @@ module NavigationHelper
     # 09.01 Babel engine
     def navigation_engine_babel title: "Babel", subtitle: "Translations"
         if defined? CloudBabel
-            navigation_engine_item title, subtitle, "cloud-babel", cloud_babel.root_path, controller_path.include?("cloud_babel")
+            navigation_engine_item title, subtitle, "babel", cloud_babel.root_path, controller_path.include?("cloud_babel")
         end
     end
 
@@ -293,7 +293,7 @@ module NavigationHelper
         unless defined? CloudDevelopment
             return ""
         end
-        navigation_engine_item title, subtitle, "cloud-dev", cloud_development.root_path, controller_path.include?("cloud_development")
+        navigation_engine_item title, subtitle, "dev", cloud_development.root_path, controller_path.include?("cloud_development")
     end
 
     # DEPRECATED
@@ -310,7 +310,7 @@ module NavigationHelper
 
     # build a html link for an engine path
     def navigation_engine_item title, subtitle, icon, path, is_active = false
-        icon="audit"
+
         # get hidden modules if there are modules to hide
         modules_hidden = Rails.application.config.lesli.dig(:modules_hidden) || []
 
