@@ -1,6 +1,5 @@
 /*
-
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,29 +13,31 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
 
 
-// · 
+// · Include Lesli CSS
 @import "lesli-css/";
 
 
-// · 
-// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
-@function lesli-css-color-theme($variant, $pallete: "app") {
+// · override default color method to include Lesli color palette
+@function lesli-css-color($pallete, $variant: 500) {
 
-    $lesli-cloud-colors: (
-        app: (
-            primary: darken(lesli-css-color(blue), 5),
-            secondary: #172347,
-            complement_one:  #62cab6,
-            complement_two:  #55b997,
-            complement_three:#3a925b,
-            complement_gray_light: #f1f1f1,
-            complement_blue_light: #edf6ff
+    // · build the color method including the Lesli color palette
+    @return lesli-css-color-builder($pallete, $variant, (
 
+        // · lesli colors
+        lesli: (
+            sea: #2F478D,
+            navy: #112A62,
+            easy: #7E9BF1,
+            brand: #214FBD,
+            faded: #EBF1FF,
+            ocean: #172347,
+            midsky: #edf6ff
         ),
+
+        // · lesli collection colors
         collection: (
             administration: #3b6cff,
             intelligence: #172447,
@@ -48,8 +49,5 @@ For more information read the license file including with this software.
             sales: #764aff,
             it: #ffd700
         )
-    );
-
-    @return lesli-css-color-builder($pallete, $variant, $lesli-cloud-colors);
-
+    ));
 }
