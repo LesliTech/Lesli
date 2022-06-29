@@ -19,15 +19,13 @@ For more information read the license file including with this software.
 
 class ApplicationApiController < ActionController::API
     include ActionController::MimeResponds
-
-    include Application::Responder
+    include Interfaces::Application::Responder
+    include Interfaces::Application::Logger
     include Application::Requester
-    include Application::Logger
 
     before_action :set_locale
     before_action :authorize_request
     before_action :authorize_privileges
-    before_action :set_request_helpers
     before_action :set_helpers_for_request
     after_action  :log_user_requests
 
