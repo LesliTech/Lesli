@@ -302,10 +302,10 @@ class DevGit < LesliRake
 
             ["github", "origin", "lesli", "backup"].each do |origin|
 
-                remote = engine[:github]['ssh'] if origin == "github"
-                remote = engine[:github]['ssh'] if origin == "origin"
-                remote = engine[:github]['ssh_backup'] if origin == "lesli"
-                remote = engine[:github]['ssh_backup'] if origin == "backup"
+                remote = engine.dig(:github, :ssh) if origin == "github"
+                remote = engine.dig(:github, :ssh) if origin == "origin"
+                remote = engine.dig(:github, :ssh_backup) if origin == "lesli"
+                remote = engine.dig(:github, :ssh_backup) if origin == "backup"
 
                 message("working with: #{engine[:code]} -> #{remote}")
                 command("cd ./engines/#{engine[:code]} && git remote add #{origin} #{remote}")

@@ -23,7 +23,9 @@ module ResponseHelpers
 
     # return the body of a request response parsed as JSON
     def response_json
-        @@response_json = JSON.parse(response.body) if @@response_json.blank?
+        # support empty responses from lesli 3 responder
+        _response_ = response.body.blank? ? "{}" : response.body
+        @@response_json = JSON.parse(_response_) if @@response_json.blank?
         @@response_json 
     end
 

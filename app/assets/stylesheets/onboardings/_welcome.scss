@@ -1,0 +1,53 @@
+/*
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+@import "lesli-css";
+
+
+// · 
+body.onboarding .welcome {
+        
+    // icon
+    svg {
+        width: 100px;
+        height: 100px;
+    }
+
+    // title
+    h1 {
+        color: lesli-css-color(lesli, brand);
+        font-family: "Montserrat";
+        font-weight: 800;
+        font-size: 24px;
+    }
+
+    // description
+    p {
+        color: lesli-css-color(black, 100);
+        font-family: "Montserrat";
+        font-size: 16px;
+    }
+
+    button {
+        margin: 0 auto;
+        width: 330px;
+        display: block;
+        font-weight: 600;
+    }
+
+}

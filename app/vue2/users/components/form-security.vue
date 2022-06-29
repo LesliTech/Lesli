@@ -122,6 +122,9 @@ export default {
     <section class="box">
         <form @submit.prevent="putUserPassword()">
             <fieldset :disabled="lesli.current_user.id !== data.user.id">
+                <div class="notification is-warning" v-if="$route.hash == '#force-password-reset'">
+                    {{translations.passwords.messages_warning_password_reset_requested}}
+                </div>
 
                 <h4 class="is-size-4 mb-4"> {{ translations.passwords.view_title_security }}</h4>
                 <!--
