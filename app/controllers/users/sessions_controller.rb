@@ -65,24 +65,26 @@ class Users::SessionsController < Devise::SessionsController
             return respond_with_error(result.error["message"]) unless result.success?
         end
 
-        #remember_me(user) if user_params[:remember_me] == '1'
+        multi_factor_authentication = Auth::UserMfaService.new(resource)
+
+        if multi_factor_authentication.is_enabled? 
+            multi_factor_authentication.execute do |result|
+            end
+        end
+
+        exit
+
+        # remember the user (not enabled by default)
+        # remember_me(user) if sign_in_params[:remember_me] == '1'
 
         # do a user login
         sign_in(:user, resource)
-
-        # register a new unique session
-        current_session = resource.sessions.create({
-            :user_agent => get_user_agent,
-            :user_remote => request.remote_ip,
-            :session_source => "devise_standard_session",
-            :last_used_at => LC::Date.now
-        })
 
         # make session id globally available
         session[:user_session_id] = current_session[:id]
 
         # after session is created
-        Auth::UserSessionService.new(resource).after_create(current_session) do |result|
+        Auth::UserSessionService.new(resource).create(get_user_agent, request.remote_ip) do |result|
 
             default_path = result[:default_path]
 
