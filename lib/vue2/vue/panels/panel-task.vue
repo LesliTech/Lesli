@@ -150,8 +150,13 @@ export default {
                         <a :href="`/${instanceEndpoint}/tasks/${notification.id}/edit`">
                             {{ notification.title }}
                         </a> 
+                        <p v-if="notification.model_global_identifier">
+                            <small class="has-text-grey-light"> 
+                                {{ `${notification.model_global_identifier}` }} 
+                            </small>
+                        </p>
                         <p>
-                                <small class="has-text-grey-light"> 
+                            <small class="has-text-grey-light"> 
                                 {{ `${translations.focus.tasks.column_deadline} : ${notification.deadline}` }} 
                             </small>
                         </p>
