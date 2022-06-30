@@ -23,6 +23,22 @@ module Auth
             @resource = resource
         end
 
+        def create(user_agent, remote_ip)
+
+            # register a new unique session
+            current_session = resource.sessions.create({
+                :user_agent => user_agent,
+                :user_remote => remote_ip,
+                :session_source => "devise_standard_session",
+                :last_used_at => LC::Date.now
+            })
+
+            after_create(current_session)
+
+        end
+
+        private
+
         def after_create(current_session)
 
             # register or sync the current_user with the user representation on Firebase

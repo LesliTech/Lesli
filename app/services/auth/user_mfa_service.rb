@@ -35,13 +35,15 @@ module Auth
 
         def execute
 
+            mfa_settings = @resource.mfa_settings
+            LC::Debug.msg mfa_settings
             yield()
 
             return 
 
             result = LC::Response.service(true)
 
-            mfa_settings = @resource.mfa_settings
+            
 
             mfa_methods = Rails.application.config.lesli.dig(:configuration, :mfa_methods)
         
