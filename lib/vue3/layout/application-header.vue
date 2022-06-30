@@ -108,7 +108,9 @@ onUnmounted(() => {
 
                 <a class="navbar-item header-notification-indicator">
                     <lesli-icon id="bell" size="35"></lesli-icon>
-                    <span class="count">0</span>
+                    <span class="count">
+                        {{ storeLayout.header.notifications }}
+                    </span>
                 </a>
 
                 <div class="dropdown is-right is-hoverable header-user-options">
