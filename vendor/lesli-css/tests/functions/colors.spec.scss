@@ -38,30 +38,80 @@ Building a better future, one line of code at a time.
 
 
 // · 
+@function lesli-css-color($pallete, $variant: 500) {
+    @return lesli-css-color-builder($pallete, $variant, (
+        lesli: (
+            sea: #2F478D,
+            navy: #112A62,
+            easy: #7E9BF1,
+            brand: #214FBD,
+            faded: #EBF1FF,
+            ocean: #172347,
+            midsky: #edf6ff
+        )
+    ));
+}
+
+
+// · 
 @include describe('@function lesli-css-color($pallete, $variant: 500)') {
 
+    @include it('should return the color for lesli sea') {
+    @include assert-equal(lesli-css-color(lesli, sea), #2F478D); 
+    }
+
+    @include it('should return the color for lesli sea') {
+    @include assert-equal(lesli-css-color(lesli, navy), #112A62); 
+    }
+
+    @include it('should return the color for lesli sea') {
+    @include assert-equal(lesli-css-color(lesli, easy), #7E9BF1); 
+    }
+
+    @include it('should return the color for lesli sea') {
+    @include assert-equal(lesli-css-color(lesli, brand), #214FBD); 
+    }
+
+    @include it('should return the color for lesli sea') {
+    @include assert-equal(lesli-css-color(lesli, faded), #EBF1FF); 
+    }
+
+    @include it('should return the color for lesli sea') {
+    @include assert-equal(lesli-css-color(lesli, ocean), #172347); 
+    }
+
+    @include it('should return the color for lesli sea') {
+    @include assert-equal(lesli-css-color(lesli, midsky), #edf6ff); 
+    }
+
+}
+
+
+// · 
+@include describe('@function lesli-css-color-builder($pallete, $variant: 500)') {
+
     @include it('should return the color for blue default') {
-    @include assert-equal(lesli-css-color(blue), #3689e6);
+    @include assert-equal(lesli-css-color-builder(blue), #3689e6);
     }
 
     @include it('should return the color for blue 100') {
-    @include assert-equal(lesli-css-color(blue, 100), #8cd5ff);
+    @include assert-equal(lesli-css-color-builder(blue, 100), #8cd5ff);
     }
 
     @include it('should return the color for blue 300') {
-    @include assert-equal(lesli-css-color(blue, 300), #64baff);
+    @include assert-equal(lesli-css-color-builder(blue, 300), #64baff);
     }
 
     @include it('should return the color for blue 500') {
-    @include assert-equal(lesli-css-color(blue, 500), #3689e6);
+    @include assert-equal(lesli-css-color-builder(blue, 500), #3689e6);
     }
 
     @include it('should return the color for blue 700') {
-    @include assert-equal(lesli-css-color(blue, 700), #0d52bf);
+    @include assert-equal(lesli-css-color-builder(blue, 700), #0d52bf);
     }
 
     @include it('should return the color for blue 900') {
-    @include assert-equal(lesli-css-color(blue, 900), #002e99); 
+    @include assert-equal(lesli-css-color-builder(blue, 900), #002e99); 
     }
 
 }

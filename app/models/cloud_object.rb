@@ -86,11 +86,15 @@ class CloudObject < ApplicationLesliRecord
     end
 
     # @return [String]
+    # @optional_param extended [Boolean] Defaults to false. Some cloud objects support an extended global identifier with more characters  
     # @description Returns a string that represents and identifies this cloud_object from all other cloud_objects in the same account
     # @example
+    #     ticket = CloudHelp::Ticket.find(1)
+    #     puts ticket.global_identifier # If the CloudHelp::Ticket class does not have the method overrided, this will print 'CloudHelp::Ticket - 1'
     #     project = CloudHouse::Project.find(1)
-    #     puts projet.global_identifier # If the CloudHouse::Project class does not have the method overrided, this will print 'CloudHouse::Project - 1'
-    def global_identifier
+    #     puts project.global_identifier # Since this class overrides the method, it will print something like '20229383030'
+    #     puts project.global_identifier(extended: true) # And the extended version '20220303033303 - CUSTOMERNAME CUSTOMERLASTNAME
+    def global_identifier(extended: false)
         return "#{self.class.name} - #{id}"
     end
 
