@@ -36,7 +36,7 @@ module ApplicationHelper
     def deprecated_is_lesli_engine?(engine=nil)
         current_engine = lesli_engine
         return current_engine == engine if not engine.blank?
-        return false if is_lesli_engine_administration?
+        return false if deprecated_is_lesli_engine_administration?
         return true
     end
 
@@ -44,7 +44,7 @@ module ApplicationHelper
     # this helper return the name of the engine of the code we are running on
     # example: https://lesli.cloud/driver/events/1/edit -> engine loaded: cloud_driver
     def deprecated_lesli_engine_or_instance
-        return lesli_instance_code if not is_lesli_engine?
+        return lesli_instance_code if not deprecated_is_lesli_engine?
         return lesli_engine
     end
 
