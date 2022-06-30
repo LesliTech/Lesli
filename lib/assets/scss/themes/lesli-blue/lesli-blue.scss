@@ -21,10 +21,6 @@ For more information read the license file including with this software.
 // · 
 @import "lesli-css/";
 
-@function lesli-css-get-color($pallete, $variant:500) {
-@return lesli-css-color($pallete, $variant);
-}
-
 @import "./settings/colors";
 @import "./layout/application-header";
 //@import "./layout/application-module";
