@@ -59,7 +59,7 @@ module Auth
             access_code = @resource.access_codes.new({ :token_type => "mfa" })
     
             # We generate the raw and the encrypted token
-            raw, enc = Devise.token_generator.generate(access_code.class, :token, type:'number', length:6)
+            raw, enc = Devise.token_generator.create(access_code.class, :token, type:'number', length:6)
     
             # Set the encrypted token, which will be saved into the DB
             access_code.update(token: enc)
