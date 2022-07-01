@@ -325,7 +325,7 @@ module Devise
         # we use this method to reset password through Dispatcher or like-otp validations
         # important we use this method only when we need compatibility with Devise
         # example: easy password reset, through otp, etc.
-        def generate(klass, column, length:2, upcase:false, type: :hex)
+        def create(klass, column, length:2, upcase:false, type:'hex')
             key = key_for(column)
             loop do
                 raw = random_number(length) if type == 'number'
@@ -368,6 +368,7 @@ module Devise
 
         end
 
+        # DEPRECATED
         # This declaration attach a new method to the Devise module to generate user-friendly tokens
         # we use this method to reset password through Dispatcher or like-otp validations
         # important we use this method only when we need compatibility with Devise
