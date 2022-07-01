@@ -39,14 +39,14 @@ app({
     },
     methods: {
 
-        postPassNew(event) {
+        postPass(event) {
 
             event.preventDefault();
 
             this.http.post("/pass", this.pass).then(result => {
-
+                console.log(result)
                 if (result.successful) {
-                    this.showNotification("Login link sent successfuly", "has-text-success")
+                    this.showNotification("If there is an account associated with this e-mail, your will shortly receive an e-mail with a Magic link for login.", "has-text-success")
                 } else {
                     this.showNotification(result.error.message)
                 }

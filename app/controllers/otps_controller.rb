@@ -18,9 +18,6 @@ For more information read the license file including with this software.
 =end
 
 class OtpsController < ApplicationController
-    include Application::Responder
-    include Application::Logger
-
     before_action :set_user, only: [:create]
 
     # PUT /otp
@@ -49,10 +46,13 @@ class OtpsController < ApplicationController
 
         end
 
-        log = access_code.user.logs.create({ title: "session_creation_atempt", description: error_msg })
+        log = access_code.user.logs.create({ title: "session_creation_atempt" })
 
         # denied access if token do not meet validations
-        return respond_with_error(error_msg) if !access_code.is_valid?
+        unless access_code.is_valid?
+            log.update(title: "session_creation_failed", description: error_msg)
+            return respond_with_error(error_msg) 
+        end
 
         # cache the user from the access code
         resource = access_code.user
@@ -60,7 +60,10 @@ class OtpsController < ApplicationController
         # check if user meet requirements to create a new session
         Auth::UserValidationService.new(resource).valid? do |result|
             # if user do not meet requirements to create a new session
-            return respond_with_error(error_msg) unless result.success?
+            unless result.success?
+                log.update(title: "session_creation_failed", description: error_msg)
+                return respond_with_error(error_msg) unless result.success?
+            end
         end
 
         # delete used token

@@ -339,6 +339,7 @@ module Devise
         def random_hex(length, upcase)
             raw = SecureRandom.hex(length)
             raw = raw.upcase if upcase
+            raw
         end
 
         # generate a random number with a fixed length
