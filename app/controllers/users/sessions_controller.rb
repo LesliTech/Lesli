@@ -144,9 +144,7 @@ class Users::SessionsController < Devise::SessionsController
 
     end
 
-
     private 
-
 
     # @return [Parameters] Allowed parameters for the discussion
     # @description Sanitizes the parameters received from an HTTP call to only allow the specified ones.

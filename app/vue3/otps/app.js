@@ -28,6 +28,7 @@ app({
                 main: I18n.t("core.otps/show")
             },
             otp: {
+                t: "",
                 email: ""
             },
             validate_otp: false,
@@ -40,12 +41,22 @@ app({
     },
     methods: {
 
-        postOtp(event) {
+        // Validate OTP
+        putOtp(e) {
+            this.otp.email=""
+            e.preventDefault();
+            this.http.put("/otp", this.otp).then(result => {
+                this.url.go(result.default_path)
+            }).catch(error => {
+                console.log(error)
+            })
+        },
 
-            event.preventDefault();
-
+        // Request OTP
+        postOtp(e) {
+            this.otp.t=""
+            e.preventDefault();
             this.http.post("/otp", this.otp).then(result => {
-
                 if (result.successful) {
                     this.validate_otp = true
                     this.showNotification(this.translations.main.notification_reset_password_instructions_sent, "is-success")
@@ -53,7 +64,6 @@ app({
                     this.validate_otp = false
                     this.showNotification(result.error.message)
                 }
-
             }).catch(error => {
                 console.log(error)
             })
