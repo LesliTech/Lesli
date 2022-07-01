@@ -19,8 +19,6 @@ For more information read the license file including with this software.
 
 
 class MfasController < ApplicationController
-    include Interfaces::Application::Responder
-    include Application::Logger
 
     def update
 

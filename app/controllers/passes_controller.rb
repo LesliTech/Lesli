@@ -17,8 +17,9 @@ For more information read the license file including with this software.
 
 =end
 class PassesController < ApplicationController
-    include Application::Responder
-    include Application::Logger
+    include Interfaces::Application::Responder
+    include Interfaces::Application::Requester
+    include Interfaces::Application::Logger
 
     before_action :set_user, only: [:create]
 
@@ -26,7 +27,7 @@ class PassesController < ApplicationController
     def show
 
         # we use "t" as alias for token
-        redirect_to("/pass/new") and return if params[:t].blank?
+        return if params[:t].blank?
 
         # alias for token error message
         error_msg = I18n.t("core.shared.messages_danger_not_valid_authorization_token_found")
@@ -51,16 +52,24 @@ class PassesController < ApplicationController
 
         end
 
-        # denied access if token do not meet validations
-        redirect_to(new_user_session_path, alert: error_msg) and return if !access_code.is_valid?
+        log = access_code.user.logs.create({ title: "session_creation_atempt"})
 
-        # check if user meet requirements to login
-        user_validation = UserValidationService.new(access_code.user).valid?
+        # denied access if token do not meet validations
+        unless access_code.is_valid?
+            log.update(title: "session_creation_failed", description: error_msg)
+            redirect_to(new_user_session_path, alert: error_msg) and return if !access_code.is_valid?
+        end
+
+        # cache the user from the access code
+        resource = access_code.user
 
         # check if user meet requirements to create a new session
         Auth::UserValidationService.new(access_code.user).valid? do |result|
             # if user do not meet requirements to create a new session
-            redirect_to(new_user_session_path, alert: error_msg) and return unless result.success?
+            unless result.success?
+                log.update(title: "session_creation_failed", description: error_msg)
+                redirect_to(new_user_session_path, alert: error_msg) and return unless result.success?
+            end
         end
 
         # delete used token
@@ -70,44 +79,21 @@ class PassesController < ApplicationController
         # do a user login
         sign_in(access_code.user)
 
-        # register a new unique session
-        current_session = access_code.user.sessions.create({
-            :user_agent => get_user_agent,
-            :user_remote => request.remote_ip,
-            :session_token => session[:session_id],
-            :session_source => "pass_session",
-            :last_used_at => Time.current
-        })
-
-        # make session id globally available
-        session[:user_session_id] = current_session[:id]
-
         # after session is created
-        Auth::UserSessionService.new(access_code.user).after_create(current_session) do |result|
+        Auth::UserSessionService.new(resource, log).create(get_user_agent, request.remote_ip, "pass_web_session") do |result|
 
-            default_path = result[:default_path]
-
-            # if first loggin for account owner send him to the onboarding page
-            if current_user.account.onboarding? && current_user.has_roles?("owner")
-                default_path = "/onboarding"
-            end
+            # make session id globally available
+            session[:user_session_id] = result[:user_sessions_id]
 
             # respond successful and send the path user should go
-            redirect_to(default_path) and return 
+            redirect_to(result[:default_path]) and return 
 
         end
-
 
         # redirect to the root path and return 
         redirect_to("/") and return 
 
     end
-
-
-    # GET /passes/new
-    def new
-    end
-
 
     # POST /passes
     def create
@@ -119,7 +105,7 @@ class PassesController < ApplicationController
         pass = @user.access_codes.new({ token_type: "pass" })
 
         # generate a user-friendly token
-        raw, enc = Devise.token_generator.generate(pass.class, :token)
+        raw, enc = Devise.token_generator.create(pass.class, :token, length:25)
 
         # save encrypted token in database
         pass.token = enc
