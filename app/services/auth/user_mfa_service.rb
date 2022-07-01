@@ -21,44 +21,29 @@ module Auth
 
         def initialize(resource)
             @resource = resource
+            @resource_mfa_settings = @resource.mfa_settings
         end
 
         def is_enabled?
 
-            return true
+            account_mfa_methods = Rails.application.config.lesli.dig(:configuration, :mfa_methods)
 
-            resource_mfa_settings = @resource.mfa_settings
-
-            return if resource_mfa_settings[:enabled] && mfa_methods.include?(resource_mfa_settings[:method])
+            return @resource_mfa_settings[:enabled] && account_mfa_methods.include?(@resource_mfa_settings[:method])
             
         end
 
-        def execute
+        def generate
 
-            mfa_settings = @resource.mfa_settings
-            LC::Debug.msg mfa_settings
-            yield()
-
-            return 
-
-            result = LC::Response.service(true)
-
-            
-
-            mfa_methods = Rails.application.config.lesli.dig(:configuration, :mfa_methods)
-        
             # Get the MFA method the user has configured
-            mfa_method = @resource.settings.find_by(:name => "mfa_method")
+            mfa_method = @resource_mfa_settings.dig(:method)
 
-            LC::Debug.msg mfa_method
-
-            # Depending on the case, we send the MFA Code to different destinies (email, sms, ... )
+            # Depending on the case, we send the MFA Code to different destinies (email, sms, etc.)
             case mfa_method
-            when mfa_methods[:email]
-                mfa_token_sent = send_mfa_token_via_email()
+            when :email
+                send_mfa_token_via_email()
             end
 
-            
+            yield(:mfa_method => mfa_method)
 
         end
 
@@ -69,23 +54,18 @@ module Auth
         # @example
         #   mfa_token_sent = send_mfa_token_via_email()
         def send_mfa_token_via_email
+
             # We use a reusable service that generates access codes
-            user_mfa_access_code = @resource.access_codes.new({ :token_type => "mfa" })
+            access_code = @resource.access_codes.new({ :token_type => "mfa" })
     
             # We generate the raw and the encrypted token
-            raw, enc = Devise.token_generator.generate_token(user_mfa_access_code.class, :token, 2, true)
+            raw, enc = Devise.token_generator.generate(access_code.class, :token, type:'number', length:6)
     
             # Set the encrypted token, which will be saved into the DB
-            user_mfa_access_code.token = enc
+            access_code.update(token: enc)
     
-            if user_mfa_access_code.save
-                # Send E-mail with the MFA Token
-                UserMailer.with(user: @resource, token: raw).mfa_instructions.deliver_now unless Rails.env.test?
-    
-                return LC::Response.service(true)
-            else
-                return LC::Response.service(false, user_mfa_access_code.errors.full_messages.to_sentence)
-            end
+            UserMailer.with(user: @resource, token: raw).mfa_instructions.deliver_now
+
         end
 
     end

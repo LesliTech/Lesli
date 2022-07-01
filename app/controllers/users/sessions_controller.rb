@@ -45,11 +45,14 @@ class Users::SessionsController < Devise::SessionsController
             return respond_with_error(I18n.t("core.users/sessions.invalid_credentials"))
         end
 
+        # save a invalid credentials log for the requested user
+        log = resource.logs.new({ title: "session_creation_atempt" })
+
         # check password validation
         unless resource.valid_password?(sign_in_params[:password])
 
             # save a invalid credentials log for the requested user
-            resource.logs.create({
+            log.update({
                 title: "session_creation_failed",
                 description: "invalid_credentials"
             })
@@ -61,18 +64,42 @@ class Users::SessionsController < Devise::SessionsController
 
         # check if user meet requirements to create a new session
         Auth::UserValidationService.new(resource).valid? do |result|
+
             # if user do not meet requirements to login
-            return respond_with_error(result.error["message"]) unless result.success?
+            unless result.success?
+
+                log.update({
+                    title: "session_creation_failed",
+                    description: result.error["message"]
+                })
+
+                # return and respond with the reasons user is not able to login
+                return respond_with_error(result.error["message"]) unless result.success?
+
+            end
+
         end
 
+        # create a new instance of the MFA service exclusive for the current user
         multi_factor_authentication = Auth::UserMfaService.new(resource)
 
+        # check if user has enabled MFA (or the account is set to force the users to use MFA)
         if multi_factor_authentication.is_enabled? 
-            multi_factor_authentication.execute do |result|
+
+            # update the log of the login to indicate user needs a second step to login
+            log.update(description: "session_mfa_enabled")
+
+            # execute the MFA process to generate a code according to the user preferences
+            multi_factor_authentication.generate do |result|
+
+                # update the log of the login to indicate that a MFA code was sent to the user
+                log.update(description: "session_mfa_sent via: #{ result[:mfa_method] }")
+
+                # respond successfully and redirect to the MFA page, so the user can easily enter the code
+                return respond_with_successful({ default_path: "mfa" })
+
             end
         end
-
-        exit
 
         # remember the user (not enabled by default)
         # remember_me(user) if sign_in_params[:remember_me] == '1'
@@ -80,21 +107,14 @@ class Users::SessionsController < Devise::SessionsController
         # do a user login
         sign_in(:user, resource)
 
-        # make session id globally available
-        session[:user_session_id] = current_session[:id]
-
         # after session is created
-        Auth::UserSessionService.new(resource).create(get_user_agent, request.remote_ip) do |result|
+        Auth::UserSessionService.new(resource, log).create(get_user_agent, request.remote_ip) do |result|
 
-            default_path = result[:default_path]
-
-            # if first loggin for account owner send him to the onboarding page
-            if current_user.account.onboarding? && current_user.has_roles?("owner")
-                default_path = "/onboarding"
-            end
+            # make session id globally available
+            session[:user_session_id] = result[:user_sessions_id]
 
             # respond successful and send the path user should go
-            return respond_with_successful({ default_path: default_path })
+            return respond_with_successful({ default_path: result[:default_path] })
 
         end
 
