@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 
 // · 
-@function lesli-css-color-theme($variant,$pallete:"app") {
+@function lesli-css-color-theme($variant, $pallete:"app") {
 
     $mitwerken-colors: (
         app: (
@@ -32,6 +32,6 @@ For more information read the license file including with this software.
         )
     );
 
-    @return lesli-css-color-map($mitwerken-colors, $pallete, $variant);
+    @return lesli-css-color-builder($pallete, $variant, $mitwerken-colors);
 
 }
