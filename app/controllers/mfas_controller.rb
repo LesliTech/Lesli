@@ -22,12 +22,62 @@ class MfasController < ApplicationController
     include Interfaces::Application::Responder
     include Application::Logger
 
-    # /mfa/new
-    def new
+    def update
+
+        # alias for token error message
+        error_msg = I18n.t("core.shared.messages_danger_not_valid_authorization_token_found")
+
+        # rebuild the token based on the user-token sent by email
+        digest_token = Devise.token_generator.digest(User::AccessCode, :token, mfa_params[:t])
+
+        # denied access if can't build the token
+        return respond_with_error(error_msg) if digest_token.blank?
+
+        # search for the requested pass
+        access_code = User::AccessCode.find_by(token: digest_token, token_type: "mfa", last_used_at: nil)
+
+        # denied access if can't build the token
+        return respond_with_error(error_msg) if access_code.blank?
+
+        log = access_code.user.logs.create({ title: "session_creation_atempt", description: error_msg })
+
+        # check if the access code is valid
+        unless access_code.is_valid?
+
+            # save a invalid credentials log for the requested user
+            log.update(title: "session_creation_failed", description: error_msg)
+
+            # denied access if token not found
+            return respond_with_error(error_msg) 
+
+        end
+
+        # cache the user from the access code
+        resource = access_code.user
+
+        # delete used token
+        access_code.update({ last_used_at: Time.current })
+        access_code.delete
+
+        # do a user login
+        sign_in(:user, resource)
+
+        # after session is created
+        Auth::UserSessionService.new(resource, log).create(get_user_agent, request.remote_ip, "mfa_web_session") do |result|
+
+            # make session id globally available
+            session[:user_session_id] = result[:user_sessions_id]
+
+            # respond successful and send the path user should go
+            return respond_with_successful({ default_path: result[:default_path] })
+
+        end
+
     end
 
-    # /mfa/verify.json
+    # /mfa
     def verify
+
         # alias for token error message
         error_msg = I18n.t("core.shared.messages_danger_not_valid_authorization_token_found")
 

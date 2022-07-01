@@ -19,21 +19,36 @@ For more information read the license file including with this software.
 module Auth
     class UserSessionService
 
-        def initialize(resource)
+        def initialize(resource, log)
             @resource = resource
+            @log = log
         end
 
-        def create(user_agent, remote_ip)
+        def create(user_agent, remote_ip, session_source="devise_standard_session")
 
             # register a new unique session
-            current_session = resource.sessions.create({
+            current_session = @resource.sessions.create({
                 :user_agent => user_agent,
                 :user_remote => remote_ip,
-                :session_source => "devise_standard_session",
+                :session_source => session_source,
                 :last_used_at => LC::Date.now
             })
 
             after_create(current_session)
+
+            # default path to redirect the user
+            default_path = @resource.roles.first.default_path || "/"
+
+            # if first loggin for account owner send him to the onboarding page
+            if @resource.account.onboarding? && @resource.has_roles?("owner")
+                default_path = "/onboarding"
+            end
+
+            # get default path of role (if role has default path)
+            yield({
+                :user_sessions_id => current_session[:id],
+                :default_path => default_path
+            })
 
         end
 
@@ -41,21 +56,18 @@ module Auth
 
         def after_create(current_session)
 
-            # register or sync the current_user with the user representation on Firebase
-            Courier::One::Firebase::User.sync_user(@resource) if defined? CloudOne
-
             # register a successful sign-in log for the current user
-            @resource.logs.create({ 
+            @log.update(
                 user_sessions_id: current_session[:id], 
                 title: "session_creation_successful", 
                 description: current_session[:session_source] 
-            })
+            )
+
+            # register or sync the current_user with the user representation on Firebase
+            Courier::One::Firebase::User.sync_user(@resource) if defined? CloudOne
 
             # send a welcome email to user if first log in
             UserMailer.with(user: @resource).welcome.deliver_later if @resource.sign_in_count == 1
-
-            # get default path of role (if role has default path)
-            yield(default_path: @resource.roles.first.default_path || "/")
 
         end
 
