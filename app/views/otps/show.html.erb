@@ -16,3 +16,117 @@ For more information read the license file including with this software.
 // · 
 
 %>
+
+
+<% custom_app_logo_path = "#{ lesli_instance_code }/brand/app-icon.svg" %>
+<% custom_app_page_clas = "#{ lesli_instance_code }-otps" %>
+<% custom_app_page_path = "#{ lesli_instance_code }/lesli/otps/new" %>
+<% custom_app_page_exists = lookup_context.exists?(custom_app_page_path) %>
+
+
+<%# render custom view in builder module %>
+<% if custom_app_page_exists %>
+<section id="lesli-application" class="<%= custom_app_page_clas %>">
+    <%= render :template => custom_app_page_path %>
+</section>
+<% end %>
+
+
+<%# core view for login page %>
+<% unless custom_app_page_exists %>
+<main id="lesli-application" class="lesli">
+    <section class="columns is-gapless">
+        <div class="column">
+            <div class="hero is-fullheight">
+                <div class="hero-head pt-6 pl-6">
+                    <%= link_to new_user_session_path, :class => "has-text-primary" do %>
+                        <span class="icon-text">
+                            <span class="icon ri-lg">
+                                <i class="ri-arrow-left-s-line"></i>
+                            </span>
+                            <span>Back to Login</span>
+                        </span>
+                    <% end %>
+                </div>
+                <div class="hero-body is-flex-direction-column is-justify-content-center">
+
+                    <%# Logo container %>
+                    <div class="logo has-text-centered mb-5">
+                        <span class="con mr-2">
+                            <svg width="80" height="80" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18.75 7.03132C18.7509 5.48834 18.1806 3.99907 17.1494 2.85057C16.1172 1.70312 14.6982 0.976544 13.1631 0.813469C11.629 0.649407 10.0879 1.05956 8.83688 1.96387C7.58688 2.86817 6.7148 4.20312 6.3896 5.71187C6.06538 7.22067 6.3105 8.79687 7.0771 10.1356C7.84468 11.4745 9.081 12.4823 10.5469 12.9646V14.0623H11.3281V13.1677C12.1025 13.3191 12.8974 13.3191 13.6719 13.1677V22.4607L12.5 23.3396L11.3281 22.4607V22.035L12.3867 20.9803C12.4609 20.907 12.5019 20.8074 12.5019 20.7029C12.5019 20.5984 12.4609 20.4988 12.3867 20.4256L11.3281 19.3709V18.9607L12.3242 18.2927C12.4326 18.2205 12.4971 18.0984 12.4971 17.9685C12.4971 17.8386 12.4326 17.7166 12.3242 17.6443L11.3281 16.9763V16.406H10.5469V17.1873C10.5478 17.3181 10.6133 17.4392 10.7226 17.5115L11.4062 17.9685L10.7226 18.4255C10.6133 18.4978 10.5478 18.6189 10.5469 18.7498V19.531C10.5459 19.6345 10.5869 19.7351 10.6601 19.8084L11.5586 20.7029L10.6601 21.5974C10.5869 21.6707 10.5459 21.7712 10.5469 21.8748V22.656C10.5469 22.7791 10.6045 22.8943 10.7031 22.9685L12.2656 24.1404C12.4043 24.2449 12.5957 24.2449 12.7344 24.1404L14.2969 22.9685C14.3955 22.8943 14.4531 22.7791 14.4531 22.656V12.9645C15.7021 12.5534 16.791 11.7585 17.5626 10.693C18.3341 9.62762 18.7491 8.34637 18.7501 7.03104L18.75 7.03132ZM7.0312 7.03132C7.0312 6.89851 7.0312 6.76959 7.05073 6.64069H7.81246V7.42194H7.05073C7.0312 7.29304 7.0312 7.16414 7.0312 7.03132ZM14.4532 3.51582V2.73457H15.2345V3.51582H14.4532ZM15.2345 10.5471V11.3283H14.4532V10.5471H15.2345ZM8.98445 8.98457V9.76582H8.2032V8.98457H8.98445ZM8.2032 5.07832V4.29707H8.98445V5.07832H8.2032ZM9.7657 11.3283V10.5471H10.547V11.3283H9.7657ZM11.3985 7.42207H9.37505V6.64082H11.3985C11.5167 6.30879 11.7774 6.04804 12.1095 5.92987V3.90642H12.8907V5.92987C13.2716 6.06268 13.5577 6.38202 13.6475 6.77459C13.7374 7.16814 13.6192 7.58027 13.3341 7.86542C13.0489 8.15057 12.6368 8.26874 12.2432 8.17889C11.8507 8.08905 11.5313 7.80292 11.3985 7.42207ZM9.7657 3.51582V2.73457H10.547V3.51582H9.7657ZM16.0157 8.98457H16.797V9.76582H16.0157V8.98457ZM16.0157 5.07832V4.29707H16.797V5.07832H16.0157ZM12.8907 2.34382H12.1095V1.58209H12.5001H12.8907V2.34382ZM12.1095 11.7188H12.8907V12.5001C12.7618 12.5001 12.6329 12.5196 12.5001 12.5196C12.3673 12.5196 12.2384 12.5196 12.1095 12.5001V11.7188ZM17.1875 7.42182V6.64057H17.9687V7.03119V7.42182H17.1875Z" fill="#214FBD"/>
+                                <path d="M18.5977 2.19531L17.9883 2.68751C19.0029 3.95606 19.5469 5.53701 19.5273 7.16126C19.5078 8.78626 18.9268 10.3538 17.8828 11.5978L18.4766 12.1095C19.6377 10.7267 20.2842 8.98549 20.3066 7.17974C20.3281 5.37504 19.7246 3.61724 18.5977 2.20699V2.19531Z" fill="#214FBD"/>
+                                <path d="M7.03132 2.68751L6.40242 2.19531C5.27254 3.60644 4.66707 5.36631 4.68854 7.17381C4.711 8.98144 5.35944 10.7266 6.52349 12.1093L7.11724 11.6093C6.07329 10.3622 5.49322 8.79106 5.47759 7.16406C5.46197 5.53706 6.01079 3.95506 7.03129 2.68756L7.03132 2.68751Z" fill="#214FBD"/>
+                                <path d="M19.7812 1.17188L19.1719 1.66408C20.4336 3.22073 21.1113 5.16908 21.0889 7.17283C21.0654 9.17673 20.3438 11.1093 19.0469 12.6366L19.6406 13.1444C21.0567 11.4784 21.8457 9.36988 21.8711 7.18338C21.8965 4.99688 21.1572 2.87088 19.7812 1.17163V1.17188Z" fill="#214FBD"/>
+                                <path d="M5.82803 1.66408L5.21866 1.17188C3.84268 2.8711 3.10343 4.99713 3.12881 7.18363C3.15418 9.37013 3.94326 11.4786 5.35928 13.1446L5.95303 12.6368C4.65616 11.1095 3.93448 9.17683 3.91103 7.17308C3.88857 5.16918 4.56631 3.22083 5.82803 1.66433V1.66408Z" fill="#214FBD"/>
+                                <path d="M10.5471 14.8438H11.3284V15.625H10.5471V14.8438Z" fill="#214FBD"/>
+                            </svg>
+                        </span>
+                        <h1 class="has-text-primary mb-5">Login to Lesli</h1>
+                        <p v-if="!validate_otp">Send yourself one time password for instant login</p>
+                        <p v-if="validate_otp">Please enter the one time password we have sent</p>
+                    </div>
+
+                    <%# Log in form %>
+                    <form v-if="!validate_otp" @submit.prevent="postOtp" method="post">
+                        <div class="field mb-4">
+                            <label for="user_email" class="label">E-mail address</label>
+                            <div class="control has-icons-left has-icons-right">
+                                <input
+                                    id="user_email"
+                                    name="user_email"
+                                    type="email"
+                                    ref="email"
+                                    :class="['input', `is-${notification.type}`]"
+                                    placeholder="hello@lesli.cloud"
+                                    v-model="otp.email"
+                                    @input="typing">
+                                <span 
+                                    class="icon is-small is-left" 
+                                    :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
+                                    <i class="ri-mail-fill"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field mb-6">
+                            <div class="control is-fullwidth">
+                                <input type="submit" class="button is-primary is-fullwidth mb-2" value="Send code">
+                            </div>
+                        </div>
+                    </form>
+
+                    <form v-if="validate_otp" @submit.prevent="putOtp">
+                        <p class="label">Enter the code we just sent you</p>
+                        <p v-if="notification.show" :class="[notification.type, 'is-size-5', 'mt-2']">
+                            {{ notification.message }}
+                        </p>
+                        <div class="field">
+                            <p class="control has-icons-left mt-4 mb-4">  
+                                <input 
+                                    type="text"
+                                    class="input" 
+                                    name="t"
+                                    v-model="otp.t"
+                                    placeholder="One time password"
+                                    required="true"
+                                />
+                                <span class="icon is-small is-left">
+                                    <i class="ri-key-fill"></i>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="login-controls">
+                            <button class="button is-primary">
+                                Login now
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <%# footer %>
+                <%= render partial: "devise/shared/footer" %>
+            </div>
+        </div>
+        <div class="column is-hidden-touch"></div>
+    </section>
+</main>
+<% end %>
