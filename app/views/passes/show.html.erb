@@ -17,86 +17,49 @@ For more information read the license file including with this software.
 
 %>
 
+<%= render("layouts/wrappers/application-auth", back_to_login: true) do %>
 
-<% custom_app_page_clas = "#{ lesli_instance_code }-passes" %>
-<% custom_app_page_path = "#{ lesli_instance_code }/lesli/passes/new" %>
-<% custom_app_page_exists = lookup_context.exists?(custom_app_page_path) %>
+    <%# Logo container %>
+    <div class="logo has-text-centered mb-5">
+        <span class="con mr-2">
+            <svg width="98" height="53" viewBox="0 0 98 53" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M45.8001 21.46H39.1401C37.4375 21.46 35.7349 21.7548 34.1075 22.2752C35.9575 23.68 37.5127 25.3826 38.6949 27.38H39.1401H45.8001C51.1275 27.38 55.4201 31.6726 55.4201 37C55.4201 42.3274 51.1275 46.62 45.8001 46.62H39.1401C38.6949 46.62 38.1775 46.5448 37.7353 46.4726H37.6601C33.0727 45.7326 29.5201 41.81 29.5201 36.9998C29.5201 34.0398 27.5949 31.525 24.9327 30.7098C24.0453 32.635 23.6001 34.7798 23.6001 36.9998C23.6001 45.5853 30.5549 52.5398 39.1401 52.5398H45.8001C54.3856 52.5398 61.3401 45.585 61.3401 36.9998C61.3401 28.4147 54.3853 21.4598 45.8001 21.4598V21.46Z" fill="#214FBD"/>
+                <path d="M69.3711 12.629L69.9131 18.608L75.8919 19.1499L69.0747 20.7039L68.7783 26.2635L67.398 20.7039L62.2574 19.7427C62.2574 19.7427 66.1695 20.0898 67.8172 18.608C69.611 16.9948 69.3711 12.629 69.3711 12.629Z" fill="#214FBD"/>
+                <path d="M81.0989 22.3868L81.4112 25.8319L84.8562 26.1442L80.9281 27.0396L80.7573 30.2431L79.962 27.0396L77 26.4857C77 26.4857 79.2541 26.6858 80.2035 25.8319C81.2371 24.9024 81.0989 22.3868 81.0989 22.3868Z" fill="#214FBD"/>
+                <path d="M88.5483 0.54895L89.2525 8.31731L97.0207 9.02134L88.1633 11.0404L87.7781 18.2639L85.9848 11.0404L79.3057 9.79156C79.3057 9.79156 84.3886 10.2426 86.5294 8.31731C88.86 6.22128 88.5483 0.54895 88.5483 0.54895Z" fill="#214FBD"/>
+                <path d="M23.3773 46.6203H16.1999C10.8725 46.6203 6.57991 42.3277 6.57991 37.0003C6.57991 31.6729 10.8725 27.3803 16.1999 27.3803H22.8599C28.1873 27.3803 32.4799 31.6729 32.4799 37.0003C32.4799 39.9603 34.4051 42.4751 37.0673 43.2903C37.9547 41.3651 38.3999 39.2203 38.3999 37.0003C38.3999 28.4148 31.4451 21.4603 22.8599 21.4603H16.1999C7.61443 21.4603 0.659912 28.4151 0.659912 37.0003C0.659912 45.5855 7.61473 52.5403 16.1999 52.5403H22.8599C24.5625 52.5403 26.2651 52.2455 27.8925 51.6529C26.1148 50.3203 24.5625 48.5455 23.3773 46.6203Z" fill="#214FBD"/>
+            </svg>
+        </span>
+        <h1 class="has-text-primary mb-5">Login to Lesli</h1>
+        <p>Enter your E-mail address to receive the Magic link for instant login</p>
+    </div>
 
-
-<%# render custom view in builder module %>
-<% if custom_app_page_exists %>
-<section id="lesli-application" class="<%= custom_app_page_clas %>">
-    <%= render :template => custom_app_page_path %>
-</section>
-<% end %>
-
-
-<%# core view for passses %>
-<% unless custom_app_page_exists %>
-<main id="lesli-application" class="lesli">
-    <section class="columns is-gapless">
-        <div class="column">
-            <div class="hero is-fullheight">
-                <div class="hero-head pt-6 pl-6">
-                    <%= link_to new_user_session_path, :class => "has-text-primary" do %>
-                        <span class="icon-text">
-                            <span class="icon ri-lg">
-                                <i class="ri-arrow-left-s-line"></i>
-                            </span>
-                            <span>Back to Login</span>
-                        </span>
-                    <% end %>
-                </div>
-                <div class="hero-body is-flex-direction-column is-justify-content-center">
-
-                    <%# Logo container %>
-                    <div class="logo has-text-centered mb-5">
-                        <span class="con mr-2">
-                            <svg width="98" height="53" viewBox="0 0 98 53" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M45.8001 21.46H39.1401C37.4375 21.46 35.7349 21.7548 34.1075 22.2752C35.9575 23.68 37.5127 25.3826 38.6949 27.38H39.1401H45.8001C51.1275 27.38 55.4201 31.6726 55.4201 37C55.4201 42.3274 51.1275 46.62 45.8001 46.62H39.1401C38.6949 46.62 38.1775 46.5448 37.7353 46.4726H37.6601C33.0727 45.7326 29.5201 41.81 29.5201 36.9998C29.5201 34.0398 27.5949 31.525 24.9327 30.7098C24.0453 32.635 23.6001 34.7798 23.6001 36.9998C23.6001 45.5853 30.5549 52.5398 39.1401 52.5398H45.8001C54.3856 52.5398 61.3401 45.585 61.3401 36.9998C61.3401 28.4147 54.3853 21.4598 45.8001 21.4598V21.46Z" fill="#214FBD"/>
-                                <path d="M69.3711 12.629L69.9131 18.608L75.8919 19.1499L69.0747 20.7039L68.7783 26.2635L67.398 20.7039L62.2574 19.7427C62.2574 19.7427 66.1695 20.0898 67.8172 18.608C69.611 16.9948 69.3711 12.629 69.3711 12.629Z" fill="#214FBD"/>
-                                <path d="M81.0989 22.3868L81.4112 25.8319L84.8562 26.1442L80.9281 27.0396L80.7573 30.2431L79.962 27.0396L77 26.4857C77 26.4857 79.2541 26.6858 80.2035 25.8319C81.2371 24.9024 81.0989 22.3868 81.0989 22.3868Z" fill="#214FBD"/>
-                                <path d="M88.5483 0.54895L89.2525 8.31731L97.0207 9.02134L88.1633 11.0404L87.7781 18.2639L85.9848 11.0404L79.3057 9.79156C79.3057 9.79156 84.3886 10.2426 86.5294 8.31731C88.86 6.22128 88.5483 0.54895 88.5483 0.54895Z" fill="#214FBD"/>
-                                <path d="M23.3773 46.6203H16.1999C10.8725 46.6203 6.57991 42.3277 6.57991 37.0003C6.57991 31.6729 10.8725 27.3803 16.1999 27.3803H22.8599C28.1873 27.3803 32.4799 31.6729 32.4799 37.0003C32.4799 39.9603 34.4051 42.4751 37.0673 43.2903C37.9547 41.3651 38.3999 39.2203 38.3999 37.0003C38.3999 28.4148 31.4451 21.4603 22.8599 21.4603H16.1999C7.61443 21.4603 0.659912 28.4151 0.659912 37.0003C0.659912 45.5855 7.61473 52.5403 16.1999 52.5403H22.8599C24.5625 52.5403 26.2651 52.2455 27.8925 51.6529C26.1148 50.3203 24.5625 48.5455 23.3773 46.6203Z" fill="#214FBD"/>
-                            </svg>
-                        </span>
-                        <h1 class="has-text-primary mb-5">Login to Lesli</h1>
-                        <p>Enter your E-mail address to receive the Magic link for instant login</p>
-                    </div>
-
-                    <%# Log in form %>
-                    <form @submit.prevent="postPass">
-                        <div class="field mb-4">
-                            <label for="user_email" class="label">E-mail address</label>
-                            <div class="control has-icons-left has-icons-right">
-                                <input
-                                    id="user_email"
-                                    name="user_email"
-                                    type="email"
-                                    ref="email"
-                                    :class="['input', `is-${notification.type}`]"
-                                    placeholder="hello@lesli.cloud"
-                                    v-model="pass.email"
-                                    @input="typing">
-                                <span 
-                                    class="icon is-small is-left" 
-                                    :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
-                                    <i class="ri-mail-fill"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="login-controls">
-                            <button class="button is-primary">
-                                Send login link
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <%# footer %>
-                <%= render partial: "devise/shared/footer" %>
+    <%# Log in form %>
+    <form @submit.prevent="postPass">
+        <div class="field mb-4">
+            <label for="user_email" class="label">E-mail address</label>
+            <div class="control has-icons-left has-icons-right">
+                <input
+                    id="user_email"
+                    name="user_email"
+                    type="email"
+                    ref="email"
+                    :class="['input', `is-${notification.type}`]"
+                    placeholder="hello@lesli.cloud"
+                    v-model="pass.email"
+                    @input="typing">
+                <span 
+                    class="icon is-small is-left" 
+                    :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
+                    <i class="ri-mail-fill"></i>
+                </span>
             </div>
         </div>
-        <div class="column is-hidden-touch"></div>
-    </section>
-</main>
+        <div class="field">
+            <div class="control">
+                <input type="submit" class="button is-primary is-fullwidth" value="Send code">
+            </div>
+        </div>
+    </form>
+
 <% end %>
