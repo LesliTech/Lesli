@@ -19,6 +19,9 @@ For more information read the license file including with this software.
 
 
 class MfasController < ApplicationController
+    include Interfaces::Application::Responder
+    include Interfaces::Application::Requester
+    include Interfaces::Application::Logger
 
     def update
 
@@ -29,13 +32,13 @@ class MfasController < ApplicationController
         digest_token = Devise.token_generator.digest(User::AccessCode, :token, mfa_params[:t])
 
         # denied access if can't build the token
-        return respond_with_error(error_msg) if digest_token.blank?
+        return respond_with_unauthorized(error_msg) if digest_token.blank?
 
         # search for the requested pass
         access_code = User::AccessCode.find_by(token: digest_token, token_type: "mfa", last_used_at: nil)
 
         # denied access if can't build the token
-        return respond_with_error(error_msg) if access_code.blank?
+        return respond_with_unauthorized(error_msg) if access_code.blank?
 
         log = access_code.user.logs.create({ title: "session_creation_atempt", description: error_msg })
 
@@ -46,7 +49,7 @@ class MfasController < ApplicationController
             log.update(title: "session_creation_failed", description: error_msg)
 
             # denied access if token not found
-            return respond_with_error(error_msg) 
+            return respond_with_unauthorized(error_msg) 
 
         end
 

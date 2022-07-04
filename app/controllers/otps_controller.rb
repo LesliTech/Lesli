@@ -18,6 +18,9 @@ For more information read the license file including with this software.
 =end
 
 class OtpsController < ApplicationController
+    include Interfaces::Application::Responder
+    include Interfaces::Application::Requester
+    include Interfaces::Application::Logger
     before_action :set_user, only: [:create]
 
     # PUT /otp
