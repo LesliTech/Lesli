@@ -21,6 +21,7 @@
 
         "mermaid": "9.1.2",
         "remixicon": "2.5.0",
+        "v-calendar": "3.0.0-alpha.8",
         "sweetalert2": "11.4.17",
         "apexcharts": "3.35.3",
         "trix": "2.0.0-beta.0",
