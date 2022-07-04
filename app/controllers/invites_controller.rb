@@ -18,8 +18,6 @@ For more information read the license file including with this software.
 =end
 
 class InvitesController < ApplicationController
-    include Application::Responder
-    include Application::Logger
     
     # GET /invites/1
     def show

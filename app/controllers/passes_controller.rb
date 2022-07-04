@@ -20,7 +20,6 @@ class PassesController < ApplicationController
     include Interfaces::Application::Responder
     include Interfaces::Application::Requester
     include Interfaces::Application::Logger
-
     before_action :set_user, only: [:create]
 
     # GET /passes
