@@ -62,6 +62,10 @@ class PassesController < ApplicationController
         # cache the user from the access code
         resource = access_code.user
 
+        # delete used token
+        access_code.update({ last_used_at: Time.current })
+        access_code.delete
+
         # check if user meet requirements to create a new session
         Auth::UserValidationService.new(access_code.user).valid? do |result|
             # if user do not meet requirements to create a new session
@@ -71,23 +75,17 @@ class PassesController < ApplicationController
             end
         end
 
-        # delete used token
-        access_code.update({ last_used_at: Time.current })
-        access_code.delete
+        # create a new session service instance for the current user 
+        session_service = Auth::UserSessionService.new(resource, log)
+
+        # register a new session for the user
+        current_session = session_service.register(get_user_agent, request.remote_ip, "otp_web_session")
+
+        # make session id globally available
+        session[:user_session_id] = current_session[:id]
 
         # do a user login
         sign_in(access_code.user)
-
-        # after session is created
-        Auth::UserSessionService.new(resource, log).create(get_user_agent, request.remote_ip, "pass_web_session") do |result|
-
-            # make session id globally available
-            session[:user_session_id] = result[:user_sessions_id]
-
-            # respond successful and send the path user should go
-            redirect_to(result[:default_path]) and return 
-
-        end
 
         # redirect to the root path and return 
         redirect_to("/") and return 

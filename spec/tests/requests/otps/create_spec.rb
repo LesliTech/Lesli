@@ -17,8 +17,6 @@ For more information read the license file including with this software.
 
 =end
 
-# DO NOT FORGET TO DELETE ALL COMMENTED CODE WHEN THE RESPECTIVE ISSUES ARE RESOLVED
-
 require "lesli_request_helper"
 
 RSpec.describe "POST:/otp", type: :request do
