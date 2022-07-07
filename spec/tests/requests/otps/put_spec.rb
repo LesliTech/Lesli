@@ -21,35 +21,27 @@ For more information read the license file including with this software.
 require "lesli_request_helper"
 
 
-RSpec.describe "GET:/otp", type: :request do
-    subject!(:response) { get "/otp.json" }
+RSpec.describe "PUT:/otp", type: :request do
+    
     it "is expected to redirect to '/otp/new' when the param 't' is not sent" do
-        expect(response).to redirect_to("/otp/new")
-    end
-end
-
-RSpec.describe "GET:/otp", type: :request do
-    subject!(:response) do
-        get "/otp.json", params: { t: Faker::Lorem.characters(number: 30) }   
+        put("/otp.json")
+        expect_response_with_error
+        expect(response_body["message"]).to eql("Not valid authorization token found")
     end
 
     it "is expected to redirect to '/login' when an invalid token is sent" do
-        expect(response).to redirect_to("/login")
+        put("/otp.json", params: { t: Faker::Lorem.characters(number: 30) })
+        expect_response_with_error
+        expect(response_body["message"]).to eql("Not valid authorization token found")
     end
-end
-
-RSpec.describe "GET:/otp", type: :request do
-    
-    include_context "request user authentication"
 
     it "is expected to redirect to root '/' if everything happened correctly" do
-        otp = @current_user.access_codes.new({ token_type: "otp" })
-        raw, enc = Devise.token_generator.generate_otp(otp.class, :token)
+        otp = User.first.access_codes.new({ token_type: "otp" })
+        raw, enc = ::Devise.token_generator.create(otp.class, :token)
         otp.token = enc
         otp.save
 
-        get "/otp.json", params: { t: raw }   
-
-        expect(response).to redirect_to("/")
+        put("/otp.json", params: { t: raw })
+        expect_response_with_successful
     end
 end

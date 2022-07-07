@@ -60,32 +60,39 @@ class OtpsController < ApplicationController
         # cache the user from the access code
         resource = access_code.user
 
-        # check if user meet requirements to create a new session
-        Auth::UserValidationService.new(resource).valid? do |result|
-            # if user do not meet requirements to create a new session
-            unless result.success?
-                log.update(title: "session_creation_failed", description: error_msg)
-                return respond_with_error(error_msg) unless result.success?
-            end
-        end
-
         # delete used token
         access_code.update({ last_used_at: Time.current })
         access_code.delete
 
+        # check if user meet requirements to create a new session
+        Auth::UserValidationService.new(resource).valid? do |result|
+
+            # if user do not meet requirements to login
+            unless result.success?
+
+                log.update(title: "session_creation_failed", description: error_msg)
+
+                # return and respond with the reasons user is not able to login
+                return respond_with_error(error_msg) unless result.success?
+
+            end
+
+        end
+
+        # create a new session service instance for the current user 
+        session_service = Auth::UserSessionService.new(resource, log)
+
+        # register a new session for the user
+        current_session = session_service.register(get_user_agent, request.remote_ip, "otp_web_session")
+
+        # make session id globally available
+        session[:user_session_id] = current_session[:id]
+
         # do a user login
         sign_in(access_code.user)
 
-        # after session is created
-        Auth::UserSessionService.new(resource, log).create(get_user_agent, request.remote_ip, "otp_web_session") do |result|
-
-            # make session id globally available
-            session[:user_session_id] = result[:user_sessions_id]
-
-            # respond successful and send the path user should go
-            return respond_with_successful({ default_path: result[:default_path] })
-
-        end
+        # respond successful and send the path user should go
+        respond_with_successful({ default_path: session_service.default_path() })
 
     end
 
