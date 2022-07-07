@@ -40,7 +40,7 @@ class MfasController < ApplicationController
         # denied access if can't build the token
         return respond_with_unauthorized(error_msg) if access_code.blank?
 
-        log = access_code.user.logs.create({ title: "session_creation_atempt", description: error_msg })
+        log = access_code.user.logs.create({ title: "session_creation_atempt" })
 
         # check if the access code is valid
         unless access_code.is_valid?
@@ -63,93 +63,6 @@ class MfasController < ApplicationController
         # do a user login
         sign_in(:user, resource)
 
-        # after session is created
-        Auth::UserSessionService.new(resource, log).create(get_user_agent, request.remote_ip, "mfa_web_session") do |result|
-
-            # make session id globally available
-            session[:user_session_id] = result[:user_sessions_id]
-
-            # respond successful and send the path user should go
-            return respond_with_successful({ default_path: result[:default_path] })
-
-        end
-
-    end
-
-    # /mfa
-    def verify
-
-        # alias for token error message
-        error_msg = I18n.t("core.shared.messages_danger_not_valid_authorization_token_found")
-
-        # Decrypt the key that comes from the URL
-        begin
-            decrypted_email = EncryptorService.new_encrytor.decrypt_and_verify(params[:key])
-        rescue => exception
-            return respond_with_error(error_msg)
-        end
-
-        # Search an existing user
-        user = User.find_for_database_authentication(:email => decrypted_email, :active => true)
-
-        return respond_with_error(error_msg) if user.nil?
-
-        # Check if the user has MFA enabled
-        mfa_user_verification = MfaService.new(user).has_mfa_enabled?
-
-        return respond_with_error(error_msg) unless mfa_user_verification.success?
-
-        # Check if we can build the token
-        digest_token = Devise.token_generator.digest(User::AccessCode, :token, mfa_params[:t])
-
-        return respond_with_error(error_msg) if digest_token.blank?
-
-        # Find access code for the requested token
-        access_code = user.access_codes.find_by(token: digest_token, token_type: "mfa", last_used_at: nil) 
-
-        if access_code.blank?
-            Account::Activity.log("core", "/mfa/new", "mfa_token_session_verification_failed", "not_valid_token_found", {
-                token: (mfa_params[:t] || "")
-            })
-
-            # Return false if the token was not found
-            return respond_with_error(error_msg)
-        end
-
-        return respond_with_error(error_msg) unless access_code.is_valid?
-
-        # check if user meet requirements to login
-        user_validation = UserValidationService.new(user).valid?
-
-        # if user do not meet requirements to login
-        return respond_with_error(error_msg) unless user_validation.success?
-
-        # delete used token
-        access_code.update({ last_used_at: Time.current })
-        access_code.delete
-
-        # IMPORTANT: this is a copy of the main login method at: app/controllers/users/sessions
-
-        # do a user login
-        sign_in(user)
-
-        # register a new unique session
-        @current_session = user.sessions.create({
-            :user_agent => get_user_agent,
-            :user_remote => request.remote_ip,
-            :session_token => session[:session_id],
-            :session_source => "mfa_session",
-            :last_used_at => Time.current
-        })
-
-        # make session id globally available
-        session[:user_session_id] = @current_session[:id]
-
-        # register a successful sign-in log for the current user
-        user.logs.create({ user_sessions_id: session[:user_session_id], title: "mfa_session_creation_successful" })
-
-        # redirect to the root path and return 
-        return respond_with_successful({ default_path: "/" })
     end
 
     private
