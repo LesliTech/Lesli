@@ -24,7 +24,8 @@ module Auth
             @log = log
         end
 
-        def create(user_agent, remote_ip, session_source="devise_standard_session")
+        # register a new session
+        def register(user_agent, remote_ip, session_source="devise_standard_session")
 
             # register a new unique session
             current_session = @resource.sessions.create({
@@ -33,28 +34,6 @@ module Auth
                 :session_source => session_source,
                 :last_used_at => LC::Date.now
             })
-
-            after_create(current_session)
-
-            # default path to redirect the user
-            default_path = @resource.roles.first.default_path || "/"
-
-            # if first loggin for account owner send him to the onboarding page
-            if @resource.account.onboarding? && @resource.has_roles?("owner")
-                default_path = "/onboarding"
-            end
-
-            # get default path of role (if role has default path)
-            yield({
-                :user_sessions_id => current_session[:id],
-                :default_path => default_path
-            })
-
-        end
-
-        private
-
-        def after_create(current_session)
 
             # register a successful sign-in log for the current user
             @log.update(
@@ -69,7 +48,23 @@ module Auth
             # send a welcome email to user if first log in
             UserMailer.with(user: @resource).welcome.deliver_later if @resource.sign_in_count == 1
 
+            return current_session
+
         end
+
+        # get default path of role (if role has default path)
+        def default_path
+
+            # default path to redirect the user
+            default_path = @resource.roles.first.default_path || "/"
+
+            # if first loggin for account owner send him to the onboarding page
+            if @resource.account.onboarding? && @resource.has_roles?("owner")
+                default_path = "/onboarding"
+            end
+
+            default_path
+        end 
 
     end
 end

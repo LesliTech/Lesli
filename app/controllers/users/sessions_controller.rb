@@ -80,45 +80,34 @@ class Users::SessionsController < Devise::SessionsController
 
         end
 
-        # create a new instance of the MFA service exclusive for the current user
-        multi_factor_authentication = Auth::UserMfaService.new(resource)
-
-        # check if user has enabled MFA (or the account is set to force the users to use MFA)
-        if multi_factor_authentication.is_enabled? 
-
-            # update the log of the login to indicate user needs a second step to login
-            log.update(description: "session_mfa_enabled")
-
-            # execute the MFA process to generate a code according to the user preferences
-            multi_factor_authentication.generate do |result|
-
-                # update the log of the login to indicate that a MFA code was sent to the user
-                log.update(description: "session_mfa_sent via: #{ result[:mfa_method] }")
-
-                # respond successfully and redirect to the MFA page, so the user can easily enter the code
-                return respond_with_successful({ default_path: "mfa" })
-
-            end
-        end
-
         # remember the user (not enabled by default)
         # remember_me(user) if sign_in_params[:remember_me] == '1'
+
+        # create a new session service instance for the current user 
+        session_service = Auth::UserSessionService.new(resource, log)
+
+        # register a new session for the user
+        current_session = session_service.register(get_user_agent, request.remote_ip)
+
+        # make session id globally available
+        session[:user_session_id] = current_session[:id]
+
+        # create a new multi factor authentication service instance for the current user 
+        mfa_service = Auth::UserMfaService.new(resource, log)
+
+        # generate a new mfa for the current session (if enabled)
+        mfa_service.generate do |success|
+
+            # mfa was successfully generated, return the user to the mfa page
+            return respond_with_successful({ default_path: "mfa" }) if success
+
+        end 
 
         # do a user login
         sign_in(:user, resource)
 
-        # after session is created
-        Auth::UserSessionService.new(resource, log).create(get_user_agent, request.remote_ip) do |result|
-
-            # make session id globally available
-            session[:user_session_id] = result[:user_sessions_id]
-
-            # respond successful and send the path user should go
-            return respond_with_successful({ default_path: result[:default_path] })
-
-        end
-
-        respond_with_successful()
+        # respond successful and send the path user should go
+        respond_with_successful({ default_path: session_service.default_path() })
 
     end
 
