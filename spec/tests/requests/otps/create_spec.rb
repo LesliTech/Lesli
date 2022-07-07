@@ -19,33 +19,18 @@ For more information read the license file including with this software.
 
 # DO NOT FORGET TO DELETE ALL COMMENTED CODE WHEN THE RESPECTIVE ISSUES ARE RESOLVED
 
-require 'rails_helper'
-require 'spec_helper'
-require 'byebug'
-
+require "lesli_request_helper"
 
 RSpec.describe "POST:/otp", type: :request do
-    before(:all) { post "/otp.json" }
-
-    include_examples "successful standard json response"
-
     it "is expected to respond with data equal to nil, when email is not sent" do
-        expect(@response_body_data).to be_nil
+        post("/otp")
+        expect_response_with_successful
+        expect(response_body).to eql({})
+    end
+
+    it "is expected to respond with otp" do
+        post("/otp.json", params: { email: User.first()[:email] })
+        expect_response_with_successful
+        expect(response_body).to be_a(String)
     end
 end 
-
-
-# RSpec.describe "POST:/otp", type: :request do
-#     before(:all) do
-#         post("/otp.json", params: { email: "test@lesli.cloud" })
-#     end
-
-#     include_examples "successful standard json response"
-
-#     it "is expected to respond with" do
-#         expect(@response_body_data).to be_a(String)
-
-#         #PENDING TO CONTINUE TESTS...
-#         #THE EMAIL TEMPLATE FOR OTP DOES NOT EXIST IN THE PATH '/app/views/lesli/emails/user_mailer/otp'
-#     end
-# end
