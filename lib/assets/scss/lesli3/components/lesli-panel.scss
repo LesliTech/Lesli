@@ -1,5 +1,6 @@
 /*
-Copyright (c) 2021, all rights reserved.
+
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,3 +15,30 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
+
+section.lesli-panel {
+    
+    div.lesli-panel-background {
+        background: rgba(230, 230, 230, .4);
+        position: fixed;
+        z-index: 38;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+    }
+    div.lesli-panel-content {
+        background-color: white;
+        position: fixed;
+        z-index: 40;
+        right: 0;
+        top: 0;
+        width: 540px;
+        height: 100%;
+
+        .lesli-panel-header {
+            border-bottom: 1px solid lesli-css-color(slate);
+        }
+
+    }
+}
