@@ -31,7 +31,7 @@ module Auth
 
             result = LC::Response.service(false, {"message"=>I18n.t("core.users/sessions.the_user_has_no_assigned_role")}) if self.roles_empty?
 
-            result = LC::Response.service(false, {"message"=>I18n.t("deutscheleibrenten.users/sessions.role_access_denied")}) unless self.active_roles?
+            result = LC::Response.service(false, {"message"=>I18n.t("core.users/sessions.the_user_has_no_assigned_role")}) unless self.active_roles?
 
             yield(result)
 
