@@ -21,7 +21,7 @@ For more information read the license file including with this software.
 require "lesli_request_helper"
 
 
-RSpec.describe "PUT:/otp", type: :request do
+RSpec.describe "PUT:/otp", type: :request, :unless => defined?(DeutscheLeibrenten) do
     
     it "is expected to redirect to '/otp/new' when the param 't' is not sent" do
         put("/otp.json")
