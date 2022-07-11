@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "POST:/password.json", type: :request do
+RSpec.describe "POST:/password.json", type: :request, :unless => defined?(DeutscheLeibrenten) do
     it "is expected to respond with successful standard json response" do
         @user = FactoryBot.create(:user)
 
