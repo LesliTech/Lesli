@@ -22,15 +22,16 @@ require "lesli_request_helper"
 
 RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
     describe "POST:/mfa/verify.json", type: :request  do
-        it "is expected to return with error when the key query param exists but is invalid" do
+
+        it "is expected to return with unauthorized when the key query param exists but is invalid" do
 
             # do request
-            post "/mfa/verify.json?key=", params: { mfa: { t: "" } }
+            put("/mfa.json", params: { mfa: { t: "" }})
     
             # shared examples
-            expect_response_with_error
+            expect_response_with_unauthorized
         end
-    
+
         it "is expected to return with successful when the MFA token is valid" do
             # create the new user
             new_user = FactoryBot.create(:user)
@@ -45,10 +46,6 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             # shared examples
             expect_response_with_successful
     
-            # Get the key (ENCRYPTED EMAIL)
-            separted_default_path = response_json["default_path"].split("?key=")
-            encrypted_email = separted_default_path[1]
-    
             # Generate valid token for the current user
             access_code = new_user.access_codes.new( { token_type: "mfa" } )
             raw, enc = Devise.token_generator.generate(User::AccessCode.first.class, :token)
@@ -56,7 +53,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             access_code.save!
     
             # do second request
-            post "/mfa/verify.json?key=#{encrypted_email}", params: { mfa: { t: raw } }
+            put("/mfa.json", params: { mfa: { t: raw }})
     
             # shared examples
             expect_response_with_successful
@@ -64,8 +61,8 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             # custom examples
             expect(response_json).to have_key("default_path")
         end
-    
-        it "is expected to return with error when the MFA token is valid but belongs to another user" do
+
+        it "is expected to not collide a MFA token that belongs to another user" do
             # create the new user
             new_user = FactoryBot.create(:user)
     
@@ -79,10 +76,6 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             # shared examples
             expect_response_with_successful
     
-            # Get the key (ENCRYPTED EMAIL)
-            separted_default_path = response_json["default_path"].split("?key=")
-            encrypted_email = separted_default_path[1]
-    
             # Generate valid token for another user, so should return with error
             another_user = FactoryBot.create(:user)
             access_code = another_user.access_codes.new( { token_type: "mfa" } )
@@ -91,13 +84,13 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             access_code.save!
     
             # do second request
-            post "/login.json?key=#{encrypted_email}", params: { mfa: { t: raw } } # TOKEN THAT BELONGS TO ANOTHER USER
+            put("/mfa.json", params: { mfa: { t: raw }}) # TOKEN THAT BELONGS TO ANOTHER USER
     
             # shared examples
-            expect_response_with_error
+            expect_response_with_successful
         end
-    
-        it "is expected to return with error when the MFA confirmation token is invalid" do
+
+        it "is expected to return with unauthorized when the MFA confirmation token is invalid" do
             # create the new user
             new_user = FactoryBot.create(:user)
     
@@ -110,25 +103,15 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
     
             # shared examples
             expect_response_with_successful
-    
-            # Get the key (ENCRYPTED EMAIL)
-            separted_default_path = response_json["default_path"].split("?key=")
-            encrypted_email = separted_default_path[1]
-    
-            # do request
-            post "/login.json?key=#{encrypted_email}", params: { mfa:{ t: ""} } # INVALID TOKEN
+
+            put("/mfa.json", params: { t: Faker::Internet.password })
     
             # shared examples
-            expect_response_with_error
+            expect_response_with_unauthorized
     
-            # do request
-            post "/login.json?key=#{encrypted_email}" # NO TOKEN
-    
-            # shared examples
-            expect_response_with_error
         end
-    
-        it "is expected to return with error when the MFA token was generated but the funtionality was disabled manually" do
+
+        it "is expected to return with unauthorized when the MFA token was generated but the funtionality was disabled manually" do
             # create the new user
             new_user = FactoryBot.create(:user)
     
@@ -141,19 +124,16 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
     
             # shared examples
             expect_response_with_successful
-    
-            # Get the key (ENCRYPTED EMAIL)
-            separted_default_path = response_json["default_path"].split("?key=")
-            encrypted_email = separted_default_path[1]
     
             # disable MFA manually :mmmmmmm:
             new_user.settings.update!(:name => "mfa_enabled", :value => "false") # Now it is disabled
     
             # do request
-            post "/mfa/verify.json?key=#{encrypted_email}", params: { mfa:{ t: ""} }
+            put("/mfa.json", params: { mfa:{ t: "" }})
     
             # shared examples
-            expect_response_with_error
+            expect_response_with_unauthorized
         end
+
     end
 end
