@@ -221,11 +221,11 @@ module NavigationHelper
     end
 
     # 07.02 Help engine
-    def navigation_engine_help title: "Help", subtitle: "cloud_help/help-logo.svg"
+    def navigation_engine_help title: "Help", subtitle: "Tickets, SLAs, Reports"
         unless defined? CloudHelp
             return ""
         end
-        navigation_engine_item title, subtitle, cloud_help.root_path, controller_path.include?("cloud_help")
+        navigation_engine_item(title, subtitle, "help", cloud_help.root_path, controller_path.include?("cloud_help"))
     end
 
     # 07.03 Portal engine

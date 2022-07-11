@@ -1,5 +1,6 @@
 /*
-Copyright (c) 2021, all rights reserved.
+
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -17,49 +18,27 @@ For more information read the license file including with this software.
 
 
 // · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-.application-panel-notification {
+.lesli-panel-notifications {
 
     .lesli-notification {
-        display: flex;
-        align-items: center;
-        border-bottom: 2px solid;
-
-        &.has-url:hover {
-            cursor: pointer;
+        border-bottom: 1px solid lesli-css-color(silver);
+        &:hover {
+            background-color: lesli-css-color(lesli, faded);
         }
-
-        .icon {
-            height: 100%;
-            padding: 1.25rem 1rem;
-            align-items: flex-start;
-        }
-
-        .details {
-            flex-grow: 1;
-            padding: 1rem;
-        }
-
-        @each $type, $colors in (
-            info: (#d9f5ff, #024283),
-            danger: (#ffd9d9, #cc0000),
-            warning: (#fffdd9, #7e7802),
-            success: (#e0ffd9, #1a8200)
-        ) {
-            &.#{$type} { border-bottom-color: #{nth($colors,1)}; }
-            &.#{$type} .icon { background-color: #{nth($colors,1)}; }
-            &.#{$type} .icon i { color: #{nth($colors,2)}; }
-        }
-
     }
 
-    .message {
-        margin-bottom: 0px;
-        .message-body {
-            border-radius: 0;
-            border-bottom-width: 1px;
-            background-color: white;
-        }
+    .notification-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: lesli-css-color(black);
+    }
+
+    .notification-body {
+        font-size: 15px;
+    }
+
+    span, button {
+        font-size: 14px;
     }
 
 }

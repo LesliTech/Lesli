@@ -60,7 +60,7 @@ function onChange() {
 </script>
 <template>
     <div>
-        <div class="control has-icons-left">
+        <div :class="['control', {'has-icons-left': props.icon}]">
             <div class="select">
                 <select @change="onChange" v-model="selected">
                     <option value="" hidden>{{ props.placeholder }}</option>
