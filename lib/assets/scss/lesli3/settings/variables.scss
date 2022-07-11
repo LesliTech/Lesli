@@ -14,28 +14,43 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
 
 
 // · default colors, if there is no a custom palette in the settings
-$lesli-color-primary: lesli-css-color(lesli, navy);
-$lesli-color-header: transparent;
-$lesli-color-sidebar: $lesli-color-primary;
-$lesli-color-background: #FFFFFF;
-$lesli-font-color: $lesli-color-primary;
-$lesli-font-size: 16px;
+$lesli-color-primary: white !default;
+$lesli-color-header: white !default;
+$lesli-color-sidebar: white !default;
+$lesli-color-background: white !default;
+$lesli-font-color: white !default;
+$lesli-font-size: 16px !default;
+
+$lesli-header-height: 100px !default;
+$lesli-footer-height: 84px !default;
+$lesli-navigation-width: 50px !default;
+
+
+
+/*     *     *     *     *     *     *     *     *     */
+$lesli-header-color: red;
+$lesli-header-height: 100px !default;
+
+$lesli-footer-color: red;
+$lesli-footer-height: 84px !default;
+
+$lesli-navigation-color: red;
+$lesli-navigation-width: 50px !default;
+/*     *     *     *     *     *     *     *     *     */
+
 
 
 // · 
 :root {
-    --lesli-header-height: 100px;
-    --lesli-footer-height: 68px;
-    --lesli-footer-height: 84px;
-    --lesli-navigation-width: 50px;
+    --lesli-header-height: $lesli-header-height;
+    --lesli-footer-height: $lesli-footer-height;
+    --lesli-navigation-width: $lesli-navigation-width;
 
     --lesli-color-primary: var(--lesli-theme-color-primary, #{$lesli-color-primary});
-
     --lesli-color-header: var(--lesli-theme-color-primary, #{$lesli-color-header});
     --lesli-color-sidebar: var(--lesli-theme-color-sidebar, #{$lesli-color-primary});
     --lesli-color-background: var(--lesli-theme-color-background, #{$lesli-color-background});
@@ -46,7 +61,7 @@ $lesli-font-size: 16px;
 
 
 // Mobile Up to 768px
-@include lesli-css-breakpoint("mobile") {
+@include lesli-css-breakpoint-mobile {
     :root {
         --lesli-navigation-width: 50px;
     }
@@ -54,7 +69,7 @@ $lesli-font-size: 16px;
 
 
 // Tablet Between 769px and 1023px
-@include lesli-css-breakpoint("tablet") {
+@include lesli-css-breakpoint-tablet {
     :root {
         --lesli-navigation-width: 100px;
     }   
@@ -62,7 +77,7 @@ $lesli-font-size: 16px;
 
 
 // Desktop Between 1024px and 1215px
-@include lesli-css-breakpoint("desktop") {
+@include lesli-css-breakpoint-desktop {
     :root {
         --lesli-navigation-width: 200px;
     }   
@@ -70,7 +85,7 @@ $lesli-font-size: 16px;
 
 
 // Widescreen Between 1216px and 1407px
-@include lesli-css-breakpoint("widescreen") {
+@include lesli-css-breakpoint-widescreen {
     :root {
         --lesli-navigation-width: 225px;
     }   
@@ -78,7 +93,7 @@ $lesli-font-size: 16px;
 
 
 // Widescreen Between 1216px and 1407px
-@include lesli-css-breakpoint("fullhd") {
+@include lesli-css-breakpoint-fullhd {
     :root {
         --lesli-navigation-width: 328px;
     }   
