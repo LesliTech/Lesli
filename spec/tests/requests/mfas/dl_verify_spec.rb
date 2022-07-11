@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 
 require "lesli_request_helper"
-
+=begin
 RSpec.describe "Tests for DeutscheLeibrenten", :if => defined?(DeutscheLeibrenten) do
     describe "POST:/mfa/verify.json", type: :request  do
         it "is expected to return with error when the key query param exists but is invalid" do
@@ -156,3 +156,4 @@ RSpec.describe "Tests for DeutscheLeibrenten", :if => defined?(DeutscheLeibrente
         end
     end
 end
+=end
