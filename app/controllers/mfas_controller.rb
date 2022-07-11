@@ -63,7 +63,7 @@ class MfasController < ApplicationController
         # do a user login
         sign_in(:user, resource)
 
-        respond_with_successful({default_path:""})
+        respond_with_successful({default_path:"/"})
 
     end
 
