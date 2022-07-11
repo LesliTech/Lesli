@@ -16,8 +16,8 @@ For more information read the license file including with this software.
 */
 
 
-// · Include Lesli CSS
-@import "./lesli3/settings/leslicss";
+// · 
+@import "<%= LC::System::Info.instance[:code] %>/lesli/variables";
 
 
 // · Configuration
@@ -119,13 +119,3 @@ h6 {
 // Vue Animation component
 .v-enter-active, .v-leave-active { transition: opacity 0.5s ease; }
 .v-enter-from, .v-leave-to { opacity: 0; }
-
-.show-enter-active,
-.show-leave-enter {
-    transform: translateX(0);
-    transition: all .3s linear;
-}
-.show-enter,
-.show-leave-to {
-    transform: translateX(100%);
-}
