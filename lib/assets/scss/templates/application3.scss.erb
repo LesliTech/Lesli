@@ -16,8 +16,8 @@ For more information read the license file including with this software.
 */
 
 
-// · Include Lesli CSS
-@import "./lesli3/settings/lesli-css-loader";
+// · 
+@import "<%= LC::System::Info.instance[:code] %>/lesli/variables";
 
 
 // · Configuration
@@ -49,11 +49,7 @@ For more information read the license file including with this software.
 @import "./lesli3/layout/application-footer";
 @import "./lesli3/layout/application-search";
 
-@import "./lesli3/panels/panel-template";
-@import "./lesli3/panels/panel-announcement";
 @import "./lesli3/panels/panel-notification";
-@import "./lesli3/panels/panel-support";
-@import "./lesli3/panels/panel-viewer";
 
 @import "./lesli3/components/lesli-loading";
 @import "./lesli3/components/lesli-toolbar";
@@ -62,6 +58,7 @@ For more information read the license file including with this software.
 @import "./lesli3/components/lesli-table";
 @import "./lesli3/components/lesli-msg";
 @import "./lesli3/components/lesli-tab";
+@import "./lesli3/components/lesli-panel";
 @import "./lesli3/components/lesli-input-tag";
 @import "./lesli3/components/lesli-file-uploader";
 

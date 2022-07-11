@@ -84,8 +84,9 @@ onUnmounted(() => {
                         name="global_search"
                         class="input is-medium is-shadowless" 
                         :placeholder="translations.core.shared.search_placeholder || 'Search in Lesli'"
-                        v-model="storeSearch.text"
-                        @input="storeSearch.doSearch">
+                        @input="storeSearch.doSearch"
+                        v-model="storeSearch.text" 
+                    />
                     <span class="icon is-left has-text-gray">
                         <lesli-icon 
                             id="search"
@@ -106,7 +107,7 @@ onUnmounted(() => {
                     <lesli-icon id="add" size="35"></lesli-icon>
                 </a>
 
-                <a class="navbar-item header-notification-indicator">
+                <a class="navbar-item header-notification-indicator" @click="storeLayout.showNotifications = true">
                     <lesli-icon id="bell" size="35"></lesli-icon>
                     <span class="count">
                         {{ storeLayout.header.notifications }}

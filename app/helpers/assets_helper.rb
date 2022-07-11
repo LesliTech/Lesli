@@ -19,9 +19,10 @@ For more information read the license file including with this software.
 
 module AssetsHelper
 
-
     # Return a string path to load the template stylesheet
     def application_stylesheet_template_path
+
+        #return "#{lesli_instance_code}/lesli/template" unless defined?(DeutscheLeibrenten)
 
         template = "application"
 
@@ -34,9 +35,10 @@ module AssetsHelper
 
     end
 
-
     # Return a string path to load the stylesheet of the selected theme
     def application_stylesheet_theme_path()
+
+        return "#{lesli_instance_code}/lesli/theme" unless defined?(DeutscheLeibrenten)
 
         theme = "themes/blank"
 
@@ -47,10 +49,9 @@ module AssetsHelper
         return theme if custom.blank?
 
         # build and return custom theme
-        ["themes", custom, custom].join("/")
+        ["themes", lesli_instance_code, custom].join("/")
 
     end
-
 
     # Return a string path to load the stylesheet corresponding to the controller app
     def application_stylesheet_engine_path
