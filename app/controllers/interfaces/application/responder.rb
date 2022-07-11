@@ -129,7 +129,7 @@ module Interfaces
 
             # JSON failure response
             def respond_with_error message = "", details = []
-                
+
                 # Keep compatibility with apps v2 specially Deutsche Leibrenten
                 if defined?(DeutscheLeibrenten)
 
