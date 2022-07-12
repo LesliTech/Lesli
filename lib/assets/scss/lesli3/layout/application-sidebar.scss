@@ -26,8 +26,8 @@ aside.application-sidebar {
     display: flex;
     flex-direction: column;
     transition: all linear .2s;
-    width: var(--lesli-navigation-width);
-    background-color: var(--lesli-color-sidebar);
+    width: var(--lesli-sidebar-width);
+    background-color: var(--lesli-sidebar-color);
 
     // logo
     .brand {
@@ -52,6 +52,7 @@ aside.application-sidebar {
         // link
         a {
             color: white;
+            color: findColorInvert($lesli-sidebar-color);
             text-align: center;
             padding: 1rem 0;
 
@@ -88,7 +89,7 @@ aside.application-sidebar {
         &.lesli-navigation-list {
 
             &.active {
-                background-color: lesli-css-color(lesli, ocean);
+                background-color: red; //lesli-css-color(lesli, ocean);
                 ul {
                     height: auto;
                 }
