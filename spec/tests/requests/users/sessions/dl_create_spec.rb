@@ -53,7 +53,7 @@ RSpec.describe "Tests for DeutscheLeibrenten", :if => defined?(DeutscheLeibrente
         end
     
         # Tests since MFA integration
-    
+=begin
         it "is expected to respond with successfull and redirect to /mfa/new view when a user has MFA enabled" do
             # create the new user
             new_user = FactoryBot.create(:user)
@@ -141,5 +141,6 @@ RSpec.describe "Tests for DeutscheLeibrenten", :if => defined?(DeutscheLeibrente
             # shared examples
             expect_json_response_successful
         end
+=end
     end
 end
