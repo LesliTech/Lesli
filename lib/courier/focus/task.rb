@@ -59,7 +59,7 @@ module Courier
 
             def self.show(current_user, query, task_id)
                 return [] unless defined? CloudFocus
-                task = CloudFocus::Task.find_by_id(task_id)
+                task = current_user.account.focus.tasks.find_by_id(task_id)
                 task.show(current_user) if task
             end
 
@@ -75,13 +75,13 @@ module Courier
 
             def self.update(current_user, task_id, task_params)
                 return {} unless defined? CloudFocus
-                task = CloudFocus::Task.find_by_id(task_id)
+                task = current_user.account.focus.tasks.find_by_id(task_id)
                 CloudFocus::TaskService.update(current_user, task, task_params)
             end
 
             def self.destroy(current_user, task_id)
                 return nil unless defined? CloudFocus
-                task = CloudFocus::Task.find_by_id(task_id)
+                task = current_user.account.focus.tasks.find_by_id(task_id)
                 CloudFocus::TaskService.destroy(current_user, task)
             end
 
