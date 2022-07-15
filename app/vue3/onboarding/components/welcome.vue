@@ -30,11 +30,7 @@ const storeOnboarding = useOnboarding()
 
 
 // · translations
-const translations = {
-    core: {
-        onboardings: I18n.t("core.onboardings")
-    }
-}
+const translations = storeOnboarding.translations
 
 </script>
 <template>
@@ -44,8 +40,8 @@ const translations = {
         <p>To be able to use Lesli properly we suggest to do onboarding first.</p>
         <p class="mb-5">It takes only couple of minutes to configure everything.</p>
         <div class="has-text-centered">
-            <button class="button is-primary mb-1 start" @click="storeOnboarding.next()">Start onboarding</button>
-            <button class="button is-text skip" @click="storeOnboarding.skip()">I'll do this later</button>
+            <button class="button is-primary mb-1 start" @click="storeOnboarding.next()">{{translations.core.onboardings.view_btn_start_onboarding}}</button>
+            <button class="button is-text skip" @click="storeOnboarding.skip()">{{translations.core.onboardings.view_text_skip_onboarding_title}}</button>
         </div>
     </div>
 </template>

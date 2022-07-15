@@ -27,27 +27,28 @@ import { useOnboarding } from "Lesli/vue3/onboarding/store"
 
 // · implement stores
 const storeOnboarding = useOnboarding()
+const translations = storeOnboarding.translations
 
 
 </script>
 <template>
     <form>
         <div class="field">
-            <label class="label">Company name</label>
+            <label class="label">{{ translations.core.accounts.column_company_name }}</label>
             <div class="control">
                 <input class="input" type="text" placeholder="Enter company name">
             </div>
         </div>
 
         <div class="field">
-            <label class="label">Full legal name</label>
+            <label class="label">{{ translations.core.accounts.column_company_legal_name }}</label>
             <div class="control">
                 <input class="input" type="text" placeholder="Enter full legal name i.e. Company GmbH">
             </div>
         </div>
 
         <div class="field">
-            <label class="label">Slogan</label>
+            <label class="label">{{ translations.core.accounts.column_tag_line }}</label>
             <div class="control">
                 <input class="input" type="text" placeholder="Enter company slogan">
             </div>
