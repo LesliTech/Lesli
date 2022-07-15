@@ -42,11 +42,6 @@ watch(() => storeOnboarding.options, () => {
     regions.value = storeOnboarding.options.regions
 })
 
-function showOption(){
-    console.log(selectedCountry.value.value)
-}
-
-
 </script>
 <template>
     <form>
