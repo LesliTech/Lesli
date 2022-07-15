@@ -37,17 +37,17 @@ const storeOnboarding = useOnboarding()
             <span>General info</span>
         </li>
         <li><hr></li>
-        <li>
+        <li :class="{'active': storeOnboarding.view == 2 }">
             <lesli-icon id="location"></lesli-icon>
             <span>Address</span>
         </li>
         <li><hr></li>
-        <li>
+        <li :class="{'active': storeOnboarding.view == 3 }">
             <lesli-icon id="contacts"></lesli-icon>
             <span>Contact</span>
         </li>
         <li><hr></li>
-        <li>
+        <li :class="{'active': storeOnboarding.view == 4 }">
             <lesli-icon id="datetime"></lesli-icon>
             <span>Date and time</span>
         </li>

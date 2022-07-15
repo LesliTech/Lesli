@@ -15,33 +15,54 @@ For more information read the license file including with this software.
 // · 
 */
 
+// ·
+import { defineStore } from "pinia";
 
-// · 
-import { defineStore } from "pinia"
-
-
-// · 
+// ·
 export const useOnboarding = defineStore("onboarding", {
     state: () => {
         return {
-            view: 0
-        }
+            view: 0,
+            translations: {
+                core: {
+                    onboardings: I18n.t("core.onboardings"),
+                    accounts: I18n.t("core.accounts"),
+                    shared:  I18n.t("core.shared"),              
+                },
+            },
+            options: {
+                countries: [],
+                regions: []
+            }
+        };
     },
     actions: {
         next() {
-            this.view++
+            this.view++;
         },
         skip() {
-            this.dialog.confirmation({
-                title: "Are you sure you want to skip onboarding?", 
-                text: "Information you have entered will be saved. We suggest you finish onboarding but you will still be able to use app with default information.",
-                confirmText: "Skip onboarding",
-                cancelText: "Continue"
-            }).then(({ isConfirmed }) => {
-                if (isConfirmed) {
-                    this.url.go()
-                }
+            this.dialog
+                .confirmation({
+                    title: "Are you sure you want to skip onboarding?",
+                    text: "Information you have entered will be saved. We suggest you finish onboarding but you will still be able to use app with default information.",
+                    confirmText: "Skip onboarding",
+                    cancelText: "Continue",
+                })
+                .then(({ isConfirmed }) => {
+                    if (isConfirmed) {
+                        this.url.go();
+                    }
+                });
+        },
+        getOptions (){
+            this.loading = true
+            this.http.get(this.url.admin("account/options")).then(result => {
+                this.options = result
+            }).catch(error => {
+                this.msg.danger("Error while trying to fetch data")
+            }).finally(() => {
+                this.loading = false
             })
-        }
-    }
-})
+        },
+    },
+});
