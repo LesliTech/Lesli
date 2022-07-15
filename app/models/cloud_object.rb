@@ -236,14 +236,14 @@ class CloudObject < ApplicationLesliRecord
             next if value == new_attributes[key]
             if key.include?("id")
                 if key == "user_main_id" || key == "users_id" || key == "user_branch_office_id"
-                    update_user_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key], category)
+                    update_user_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key])
                 elsif key.include?("workflow_statuses_id")
                     update_workflow_status_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key])
                 else
-                    update_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key], category)
+                    update_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key])
                 end
             else
-                update_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key], category)
+                update_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key])
             end
         end
 
@@ -357,7 +357,7 @@ class CloudObject < ApplicationLesliRecord
     #     ticket = CloudHelp::Ticket.first
     #     CloudHelp::TicketLogger.log_update(User.first, ticket, "deadline": Time.now - 1.days, Time.now)
     #     # This will log a change from workflow on the deadline, and it will use the format specified by the lesli instance
-    def self.update_field(cloud_object, current_user, key, old_field, new_field, category)
+    def self.update_field(cloud_object, current_user, key, old_field, new_field, category = "action_update")
         old_field = LC::Date.to_string_datetime(old_field) if old_field.is_a?(Time) || old_field.is_a?(Date)
         new_field = LC::Date.to_string_datetime(new_field) if new_field.is_a?(Time) || new_field.is_a?(Date)
 
