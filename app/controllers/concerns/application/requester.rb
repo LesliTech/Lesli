@@ -47,7 +47,7 @@ module Application
             }
 
             # compatibility with lesli 2
-            @query[:filters][:search] = @query[:search]
+            @query[:filters][:search] = @query[:search] unless @query[:filters][:search]
         end
 
 
