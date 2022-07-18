@@ -61666,7 +61666,7 @@ vue_min_default().component("component-data-pagination", data_pagination); // ·
     "application-component-notices": application_notices,
     "application-component-panel-task": panel_task,
     "application-component-panel-notification": panel_notification,
-    "application-component-panel-engines": panel_engines,
+    "application-component-engines": panel_engines,
     "application-component-panel-support": panel_support,
     "application-component-panel-announcement": panel_announcement,
     "application-component-panel-viewer-pdf": panel_viewer_pdf
@@ -61693,7 +61693,7 @@ vue_min_default().component("component-data-pagination", data_pagination); // ·
 
       console.clear();
       debug_browser_default().lesli_message_warning((_lesli = lesli) === null || _lesli === void 0 ? void 0 : (_lesli$company = _lesli.company) === null || _lesli$company === void 0 ? void 0 : (_lesli$company$name = _lesli$company.name) === null || _lesli$company$name === void 0 ? void 0 : _lesli$company$name.replace("Cloud", ""));
-      debug_browser_default().info("[BUILD] (core) 220629.1436 ");
+      debug_browser_default().info("[BUILD] (core) 220718.1556 ");
     }
   });
 });
