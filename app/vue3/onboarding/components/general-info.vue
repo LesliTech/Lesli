@@ -18,16 +18,18 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed, onUnmounted } from "vue"
+import { computed } from "vue"
 
 
 // · import lesli stores
 import { useOnboarding } from "Lesli/vue3/onboarding/store"
 
-
 // · implement stores
 const storeOnboarding = useOnboarding()
 const translations = storeOnboarding.translations
+
+// . get reactive info from onboarding store
+const companyInfo = computed(()=> storeOnboarding.companyInfo)
 
 
 </script>
@@ -36,21 +38,33 @@ const translations = storeOnboarding.translations
         <div class="field">
             <label class="label">{{ translations.core.accounts.column_company_name }}</label>
             <div class="control">
-                <input class="input" type="text" placeholder="Enter company name">
+                <input 
+                    class="input" 
+                    type="text" 
+                    :placeholder="translations.core.onboardings.view_placeholder_company_name" 
+                    v-model="companyInfo.company_name">
             </div>
         </div>
 
         <div class="field">
             <label class="label">{{ translations.core.accounts.column_company_legal_name }}</label>
             <div class="control">
-                <input class="input" type="text" placeholder="Enter full legal name i.e. Company GmbH">
+                <input 
+                    class="input" 
+                    type="text" 
+                    :placeholder="translations.core.onboardings.view_placeholder_company_legal_name" 
+                    v-model="companyInfo.company_name_legal">
             </div>
         </div>
 
         <div class="field">
             <label class="label">{{ translations.core.accounts.column_tag_line }}</label>
             <div class="control">
-                <input class="input" type="text" placeholder="Enter company slogan">
+                <input 
+                    class="input" 
+                    type="text" 
+                    :placeholder="translations.core.onboardings.view_placeholder_company_slogan"
+                    v-model="companyInfo.company_tag_line">
             </div>
         </div>
     </form>

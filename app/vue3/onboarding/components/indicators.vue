@@ -28,28 +28,31 @@ import { useOnboarding } from "Lesli/vue3/onboarding/store"
 // · implement stores
 const storeOnboarding = useOnboarding()
 
+// . translations
+const translations = storeOnboarding.translations
+
 
 </script>
 <template>
     <ul class="indicator is-flex">
         <li :class="{'active': storeOnboarding.view == 1 }">
             <lesli-icon id="company"></lesli-icon>
-            <span>General info</span>
+            <span>{{ translations.core.shared.view_tab_title_general_information }}</span>
         </li>
         <li><hr></li>
         <li :class="{'active': storeOnboarding.view == 2 }">
             <lesli-icon id="location"></lesli-icon>
-            <span>Address</span>
+            <span>{{translations.core.accounts.column_address}}</span>
         </li>
         <li><hr></li>
         <li :class="{'active': storeOnboarding.view == 3 }">
             <lesli-icon id="contacts"></lesli-icon>
-            <span>Contact</span>
+            <span>{{translations.core.onboardings.view_title_contact_information}}</span>
         </li>
         <li><hr></li>
         <li :class="{'active': storeOnboarding.view == 4 }">
             <lesli-icon id="datetime"></lesli-icon>
-            <span>Date and time</span>
+            <span>{{translations.core.onboardings.view_tab_title_date_and_time}}</span>
         </li>
     </ul>
 </template>

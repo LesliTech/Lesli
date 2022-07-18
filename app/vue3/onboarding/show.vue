@@ -24,11 +24,6 @@ import { ref, reactive, onMounted, watch, computed, onUnmounted } from "vue"
 // · import lesli stores
 import { useOnboarding } from "Lesli/vue3/onboarding/store"
 
-
-// · implement stores
-const storeOnboarding = useOnboarding()
-
-
 // · components
 import buttonsComponent from "./components/buttons.vue"
 import welcomeComponent from "./components/welcome.vue"
@@ -36,6 +31,15 @@ import indicatorsComponent from "./components/indicators.vue"
 import generalInfoComponent from "./components/general-info.vue"
 import addressComponent from "./components/address.vue"
 import contactComponent from "./components/contact.vue"
+import datetimeComponent from "./components/date-time.vue"
+
+
+// · implement stores
+const storeOnboarding = useOnboarding()
+
+onMounted(() => {   
+
+})
 
 </script>
 <template>
@@ -43,10 +47,10 @@ import contactComponent from "./components/contact.vue"
     <template v-if="storeOnboarding.view > 0">
         <indicatorsComponent></indicatorsComponent>
         <generalInfoComponent v-if="storeOnboarding.view == 1"></generalInfoComponent>
-        <addressComponent v-if="storeOnboarding.view == 2"></addressComponent>
-        <contactComponent v-if="storeOnboarding.view == 3"></contactComponent>
+        <addressComponent v-else-if="storeOnboarding.view == 2"></addressComponent>
+        <contactComponent v-else-if="storeOnboarding.view == 3"></contactComponent>
+        <datetimeComponent v-else></datetimeComponent>
         <buttonsComponent></buttonsComponent>
-
     </template>
 </template>
 

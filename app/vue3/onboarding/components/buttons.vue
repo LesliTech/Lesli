@@ -23,7 +23,7 @@ const translations = storeOnboarding.translations
             </button>
         </div>
         <div class="control">
-            <button class="button is-text skip">
+            <button class="button is-text skip" @click="storeOnboarding.skip()">
                 {{translations.core.onboardings.view_text_skip_onboarding_title}}
             </button>
         </div>

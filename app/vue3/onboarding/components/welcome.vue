@@ -36,9 +36,9 @@ const translations = storeOnboarding.translations
 <template>
     <div class="welcome has-text-centered">
         <lesli-icon id="high-five"></lesli-icon>
-        <h1>Registration successfully confirmed. <br>Welcome to Lesli!</h1>
-        <p>To be able to use Lesli properly we suggest to do onboarding first.</p>
-        <p class="mb-5">It takes only couple of minutes to configure everything.</p>
+        <h1>{{translations.core.onboardings.view_text_registration_success}}<br>{{translations.core.passes.mailer_first_access_welcome}}</h1>
+        <p>{{translations.core.onboardings.view_text_suggest_onboarding}}</p>
+        <p class="mb-5">{{translations.core.onboardings.view_text_configure_msg}}</p>
         <div class="has-text-centered">
             <button class="button is-primary mb-1 start" @click="storeOnboarding.next()">{{translations.core.onboardings.view_btn_start_onboarding}}</button>
             <button class="button is-text skip" @click="storeOnboarding.skip()">{{translations.core.onboardings.view_text_skip_onboarding_title}}</button>
