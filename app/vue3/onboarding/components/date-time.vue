@@ -17,7 +17,7 @@ For more information read the license file including with this software.
 */
 
 // · import vue tools
-import { computed } from "vue"
+import { onMounted, watch, computed } from "vue"
 
 // · import lesli stores
 import { useOnboarding } from "Lesli/vue3/onboarding/store"
@@ -30,108 +30,95 @@ const translations = storeOnboarding.translations
 
 // . get reactive info from onboarding store
 const companyInfo = computed(()=> storeOnboarding.companyInfo)
+const settings = computed(()=> storeOnboarding.settings)
+
+onMounted(() => {
+    storeOnboarding.getOptions()
+})
+
+watch(() => storeOnboarding.options, () => {    
+    countries.value = storeOnboarding.options.countries
+    regions.value = storeOnboarding.options.regions
+})
 
 </script>
 <template>
     <form>
         <div class="field">
             <label class="label">{{
-                translations.core.onboardings.view_text_email
+                translations.core.onboardings.view_text_select_city
             }}</label>
             <div class="control">
-                <input
-                    class="input"
-                    type="text"
-                    :placeholder="translations.core.onboardings.view_placeholder_email"
-                    v-model="companyInfo.public_email"
-                />
+                <lesli-select></lesli-select>
             </div>
         </div>
-
-        <div class="field">
-            <label class="label">{{translations.core.shared.view_text_telephone}}</label>
-            <div class="control">
-                <input 
-                    class="input" 
-                    type="text" 
-                    :placeholder= "translations.core.onboardings.view_placeholder_phone"
-                    v-model="companyInfo.phone_number_1"
-                />
-            </div>
-        </div>
-
-        <p>{{translations.core.onboardings.view_title_social_profiles}}</p>
 
         <div class="field">
             <label class="label">{{
-                translations.core.accounts.column_github
+                translations.core.onboardings.view_text_date_format
             }}</label>
             <div class="control">
                 <input
                     class="input"
                     type="text"
-                    :placeholder="translations.core.onboardings.view_placeholder_github"
-                    v-model="companyInfo.github"
+                    placeholder="%d.%m.%Y"
+                    v-model="settings.date_format"
                 />
             </div>
         </div>
 
-
         <div class="field">
             <label class="label">{{
-                translations.core.accounts.column_twitter
+                translations.core.onboardings.view_text_time_format
             }}</label>
             <div class="control">
                 <input
                     class="input"
                     type="text"
-                    :placeholder="translations.core.onboardings.view_placeholder_twitter"
-                    v-model="companyInfo.twitter"
+                    placeholder="%H:%M"
+                    v-model="settings.time_format"
                 />
             </div>
         </div>
 
-        
         <div class="field">
             <label class="label">{{
-                translations.core.accounts.column_youtube
+                translations.core.onboardings.view_text_format_combined
             }}</label>
             <div class="control">
                 <input
                     class="input"
                     type="text"
-                    :placeholder="translations.core.onboardings.view_placeholder_youtube"
-                    v-model="companyInfo.youtube"
+                    placeholder="%d.%m.%Y %H:%M"
+                    v-model="settings.date_format_time"
                 />
             </div>
         </div>
 
-                
         <div class="field">
             <label class="label">{{
-                translations.core.accounts.column_linkedin
+                translations.core.onboardings.view_text_date_text
             }}</label>
             <div class="control">
                 <input
                     class="input"
                     type="text"
-                    :placeholder="translations.core.onboardings.view_placeholder_linkedin"
-                    v-model="companyInfo.linkedin"
+                    placeholder="%A, %B %d, %Y"
+                    v-model="settings.date_text"
                 />
             </div>
         </div>
 
-                
         <div class="field">
             <label class="label">{{
-                translations.core.accounts.column_facebook
+                translations.core.onboardings.view_text_time_text
             }}</label>
             <div class="control">
                 <input
                     class="input"
                     type="text"
-                    :placeholder="translations.core.onboardings.view_placeholder_facebook"
-                    v-model="companyInfo.facebook"
+                    placeholder="%A, %B %d, %Y, %H:%M"
+                    v-model="city"
                 />
             </div>
         </div>

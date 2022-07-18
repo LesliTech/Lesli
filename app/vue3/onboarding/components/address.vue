@@ -17,29 +17,23 @@ For more information read the license file including with this software.
 */
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed, onUnmounted } from "vue";
+import { onMounted, computed } from "vue"
 
 // · import lesli stores
-import { useOnboarding } from "Lesli/vue3/onboarding/store";
+import { useOnboarding } from "Lesli/vue3/onboarding/store"
 
 // · implement stores
-const storeOnboarding = useOnboarding();
+const storeOnboarding = useOnboarding()
 
 // . translations
-const translations = storeOnboarding.translations;
+const translations = storeOnboarding.translations
 
-var countries = ref([]);
-var regions = ref([]);
-var selectedCountry = ref([]);
-var selectedRegion = ref([]);
+// . get reactive info from onboarding store
+const companyInfo = computed(()=> storeOnboarding.companyInfo)
+
 
 onMounted(() => {
     storeOnboarding.getOptions()
-})
-
-watch(() => storeOnboarding.options, () => {    
-    countries.value = storeOnboarding.options.countries
-    regions.value = storeOnboarding.options.regions
 })
 
 </script>
@@ -53,7 +47,8 @@ watch(() => storeOnboarding.options, () => {
                 <input
                     class="input"
                     type="text"
-                    placeholder="Enter your street and number"
+                    :placeholder="translations.core.onboardings.view_placeholder_street_number"
+                    v-model="companyInfo.address"
                 />
             </div>
         </div>
@@ -63,7 +58,11 @@ watch(() => storeOnboarding.options, () => {
                 translations.core.onboardings.view_text_column_postal_code
             }}</label>
             <div class="control">
-                <input class="input" type="text" placeholder="XXXXXX" />
+                <input 
+                    class="input" 
+                    type="text" 
+                    placeholder="XXXXXX"
+                    v-model="companyInfo.postalCode" />
             </div>
         </div>
 
@@ -75,7 +74,8 @@ watch(() => storeOnboarding.options, () => {
                 <input
                     class="input"
                     type="text"
-                    placeholder="Enter city name"
+                    :placeholder="translations.core.onboardings.view_placeholder_city"
+                    v-model="companyInfo.city"
                 />
             </div>
         </div>
@@ -85,11 +85,7 @@ watch(() => storeOnboarding.options, () => {
                 translations.core.accounts.column_country
             }}</label>
             <div class="control">
-                <select>
-                    <option v-for="country in countries"
-                            :value="country.name"
-                            :key="country.id"> {{ country.name }}</option>
-                </select>
+                <lesli-select :options="storeOnboarding.options.countries"></lesli-select>
             </div>
         </div>
 
@@ -98,11 +94,7 @@ watch(() => storeOnboarding.options, () => {
                 translations.core.accounts.column_region
             }}</label>
             <div class="control">
-                <select>
-                    <option v-for="region in regions"
-                            :value="region.value"
-                            :key="region.key"> {{ region.value }}</option>
-                </select>
+                <lesli-select :options="storeOnboarding.options.regions"></lesli-select>
             </div>
         </div>
     </form>
