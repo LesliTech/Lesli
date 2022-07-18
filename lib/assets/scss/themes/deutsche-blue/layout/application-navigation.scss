@@ -23,7 +23,7 @@ For more information read the license file including with this software.
 aside.application-sidebar {
     .brand {
         padding: 2px 0;
-        background-color: lesli-css-color(solid,white);
+        background-color: lesli-css-color-theme(app, primary);
         text-align: center;
         img {
             height: 50px;
