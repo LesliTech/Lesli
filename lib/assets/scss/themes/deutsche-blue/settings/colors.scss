@@ -29,6 +29,6 @@ For more information read the license file including with this software.
         )
     );
 
-    @return lesli-css-color-map($deutsche-leibrenten-colors, $pallete, $variant);
+    @return lesli-css-color-builder($pallete, $variant, $deutsche-leibrenten-colors);
 
 }

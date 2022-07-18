@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 
 // ·
-@import "lesli-css";
+//@import "lesli-css";
 @import "templates/public";
 @import "lesli3/fonts/mdicons";
 
@@ -55,7 +55,7 @@ body.lesli_cloud.invites.show {
             font-size: 1.1rem;
             font-weight: 600;
             margin-bottom: 0;
-            color: lesli-css-color(slate, 500);
+            //color: lesli-css-color(slate, 500);
         }
 
         .app-logo {

@@ -35,7 +35,8 @@ module Interfaces
                     order: {
                         by: (params[:orderBy] ? params[:orderBy] : "id"),
                         dir: (params[:order] ? params[:order] : "desc")
-                    }
+                    },
+                    group: params[:group] || ""
                 }
             end
 
