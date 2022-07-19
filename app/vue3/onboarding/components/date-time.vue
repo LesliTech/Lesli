@@ -32,15 +32,6 @@ const translations = storeOnboarding.translations
 const companyInfo = computed(()=> storeOnboarding.companyInfo)
 const settings = computed(()=> storeOnboarding.settings)
 
-onMounted(() => {
-    storeOnboarding.getOptions()
-})
-
-watch(() => storeOnboarding.options, () => {    
-    countries.value = storeOnboarding.options.countries
-    regions.value = storeOnboarding.options.regions
-})
-
 </script>
 <template>
     <form>
@@ -62,7 +53,7 @@ watch(() => storeOnboarding.options, () => {
                     class="input"
                     type="text"
                     placeholder="%d.%m.%Y"
-                    v-model="settings.date_format"
+                    v-model="settings.datetime_format_date"
                 />
             </div>
         </div>
@@ -76,7 +67,7 @@ watch(() => storeOnboarding.options, () => {
                     class="input"
                     type="text"
                     placeholder="%H:%M"
-                    v-model="settings.time_format"
+                    v-model="settings.datetime_format_time"
                 />
             </div>
         </div>
@@ -90,7 +81,7 @@ watch(() => storeOnboarding.options, () => {
                     class="input"
                     type="text"
                     placeholder="%d.%m.%Y %H:%M"
-                    v-model="settings.date_format_time"
+                    v-model="settings.datetime_format_date_time"
                 />
             </div>
         </div>
@@ -104,7 +95,7 @@ watch(() => storeOnboarding.options, () => {
                     class="input"
                     type="text"
                     placeholder="%A, %B %d, %Y"
-                    v-model="settings.date_text"
+                    v-model="settings.datetime_format_date_words"
                 />
             </div>
         </div>
@@ -118,7 +109,7 @@ watch(() => storeOnboarding.options, () => {
                     class="input"
                     type="text"
                     placeholder="%A, %B %d, %Y, %H:%M"
-                    v-model="city"
+                    v-model="settings.datetime_format_date_time_words"
                 />
             </div>
         </div>

@@ -32,25 +32,23 @@ import generalInfoComponent from "./components/general-info.vue"
 import addressComponent from "./components/address.vue"
 import contactComponent from "./components/contact.vue"
 import datetimeComponent from "./components/date-time.vue"
+import finishComponent from "./components/finish.vue"
 
 
 // · implement stores
 const storeOnboarding = useOnboarding()
 
-onMounted(() => {   
-
-})
-
 </script>
 <template>
     <welcomeComponent v-if="storeOnboarding.view == 0"></welcomeComponent>
     <template v-if="storeOnboarding.view > 0">
-        <indicatorsComponent></indicatorsComponent>
+        <indicatorsComponent v-if="storeOnboarding.view < 5"></indicatorsComponent>
         <generalInfoComponent v-if="storeOnboarding.view == 1"></generalInfoComponent>
         <addressComponent v-else-if="storeOnboarding.view == 2"></addressComponent>
         <contactComponent v-else-if="storeOnboarding.view == 3"></contactComponent>
-        <datetimeComponent v-else></datetimeComponent>
-        <buttonsComponent></buttonsComponent>
+        <datetimeComponent v-else-if="storeOnboarding.view == 4"></datetimeComponent>
+        <buttonsComponent v-if="storeOnboarding.view < 5"></buttonsComponent>
+        <finishComponent v-else-if="storeOnboarding.view == 5"></finishComponent>
     </template>
 </template>
 

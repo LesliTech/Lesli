@@ -17,7 +17,7 @@ For more information read the license file including with this software.
 */
 
 // · import vue tools
-import { onMounted, computed } from "vue"
+import { onMounted, computed, ref } from "vue"
 
 // · import lesli stores
 import { useOnboarding } from "Lesli/vue3/onboarding/store"
@@ -32,9 +32,22 @@ const translations = storeOnboarding.translations
 const companyInfo = computed(()=> storeOnboarding.companyInfo)
 
 
+const countryValue = ref({})
+const regionValue = ref({})
+
+
 onMounted(() => {
     storeOnboarding.getOptions()
 })
+
+// Function to get the value from selected option in country select 
+function updateCountry (){
+    companyInfo.value.country = countryValue.value.value
+}
+// Function to get the value from selected option in region select 
+function updateRegion (){
+    companyInfo.value.region = regionValue.value.value
+}
 
 </script>
 <template>
@@ -85,7 +98,11 @@ onMounted(() => {
                 translations.core.accounts.column_country
             }}</label>
             <div class="control">
-                <lesli-select :options="storeOnboarding.options.countries"></lesli-select>
+                <lesli-select 
+                    :options="storeOnboarding.options.countries"
+                    v-model="countryValue"
+                    @change="updateCountry">
+                </lesli-select>
             </div>
         </div>
 
@@ -94,7 +111,11 @@ onMounted(() => {
                 translations.core.accounts.column_region
             }}</label>
             <div class="control">
-                <lesli-select :options="storeOnboarding.options.regions"></lesli-select>
+                <lesli-select 
+                    :options="storeOnboarding.options.regions"
+                    v-model="regionValue"
+                    @change="updateRegion">
+                </lesli-select>
             </div>
         </div>
     </form>
