@@ -35,22 +35,22 @@ const translations = storeOnboarding.translations
 </script>
 <template>
     <ul class="indicator is-flex">
-        <li :class="{'active': storeOnboarding.view == 1 }">
+        <li :class="{'active': storeOnboarding.view == 1 }" v-on:click="storeOnboarding.view = 1">
             <lesli-icon id="company"></lesli-icon>
             <span>{{ translations.core.shared.view_tab_title_general_information }}</span>
         </li>
         <li><hr></li>
-        <li :class="{'active': storeOnboarding.view == 2 }">
+        <li :class="{'active': storeOnboarding.view == 2 }" v-on:click="storeOnboarding.view = 2">
             <lesli-icon id="location"></lesli-icon>
             <span>{{translations.core.accounts.column_address}}</span>
         </li>
         <li><hr></li>
-        <li :class="{'active': storeOnboarding.view == 3 }">
+        <li :class="{'active': storeOnboarding.view == 3 }" v-on:click="storeOnboarding.view = 3">
             <lesli-icon id="contacts"></lesli-icon>
             <span>{{translations.core.onboardings.view_title_contact_information}}</span>
         </li>
         <li><hr></li>
-        <li :class="{'active': storeOnboarding.view == 4 }">
+        <li :class="{'active': storeOnboarding.view == 4 }" v-on:click="storeOnboarding.view = 4">
             <lesli-icon id="datetime"></lesli-icon>
             <span>{{translations.core.onboardings.view_tab_title_date_and_time}}</span>
         </li>

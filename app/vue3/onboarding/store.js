@@ -28,8 +28,6 @@ export const useOnboarding = defineStore("onboarding", {
                 company_name_legal: null,
                 company_tag_line: null,
                 address: null,
-                postalCode: null,
-                city: null,
                 country: null,
                 region: null,
                 public_email: null,
@@ -41,10 +39,11 @@ export const useOnboarding = defineStore("onboarding", {
                 facebook: null,
             },
             settings: {
-                date_format: null,
-                time_format: null,
-                date_text: null,
-                time_text: null,
+                datetime_format_date: null,
+                datetime_format_time: null,
+                datetime_format_date_words: null,
+                datetime_format_date_time: null,
+                datetime_format_date_time_words: null,
 
             },
             translations: {
@@ -52,33 +51,40 @@ export const useOnboarding = defineStore("onboarding", {
                     onboardings: I18n.t("core.onboardings"),
                     accounts: I18n.t("core.accounts"),
                     shared:  I18n.t("core.shared"),
-                    passes: I18n.t("core.passes"),              
+                    passes: I18n.t("core.passes"),
+                    account_settings: I18n.t("core.account/settings"),           
                 },
             },
             options: {
                 countries: [],
                 regions: []
             }
-        };
+        }
     },
     actions: {
+        // Function to handle when the user clicks on continue while completing the onboarding process
         next() {
-            this.view++;
+            this.view++
         },
+        back(){
+            this.view = 1
+        },
+        // Function to handle when the user skip onboarding process
         skip() {
             this.dialog
                 .confirmation({
-                    title: "Are you sure you want to skip onboarding?",
-                    text: "Information you have entered will be saved. We suggest you finish onboarding but you will still be able to use app with default information.",
-                    confirmText: "Skip onboarding",
-                    cancelText: "Continue",
+                    title: this.translations.core.onboardings.view_text_skip_onboarding_body,
+                    text: this.translations.core.onboardings.view_text_skip_onboarding_info,
+                    confirmText: this.translations.core.onboardings.view_text_skip_process,
+                    cancelText: this.translations.core.onboardings.view_btn_continue
                 })
                 .then(({ isConfirmed }) => {
                     if (isConfirmed) {
-                        this.url.go();
+                        this.saveConfiguration(true)
                     }
-                });
+                })
         },
+        // Get options for showing in lesli select component for regions and countries
         getOptions (){
             this.loading = true
             this.http.get(this.url.admin("account/options")).then(result => {
@@ -96,9 +102,29 @@ export const useOnboarding = defineStore("onboarding", {
                 } )
             }).catch(error => {
                 console.log(error)
-                this.msg.danger("Error while trying to fetch data")
+                this.msg.danger(this.translations.core.shared.messages_danger_internal_error)
             }).finally(() => {
                 this.loading = false
+            })
+        },
+        // Save configuration from onboarding
+        saveConfiguration(skipped = false) {
+            this.http.post(this.url.root("onboarding"), {
+                account: this.companyInfo,
+                account_settings: this.settings 
+            }).then(result => {
+                if (result) {
+                    if(skipped){
+                        this.msg.info(this.translations.core.onboardings.messages_info_onboarding_process_skipped)
+                    }else{
+                        this.msg.success(this.translations.core.account_settings.messages_success_settings_saved_successfully)
+                    }
+                    this.url.go()
+                }else{
+                    this.msg.danger(this.translations.core.shared.messages_danger_internal_error)
+                }
+            }).catch(error => {
+                console.log(error)
             })
         },
     },
