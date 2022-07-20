@@ -51,13 +51,13 @@ For more information read the license file including with this software.
 
             // · 
             button.swal2-confirm {
-                background-color: lesli-css-color(lesli, brand);
+                background-color: red; //lesli-css-color(lesli, brand);
             }
 
             // · 
             button.swal2-cancel {
-                color: lesli-css-color(lesli, navy);
-                background-color: lesli-css-color(lesli, faded);
+                color: red; //lesli-css-color(lesli, navy);
+                background-color: red; //lesli-css-color(lesli, faded);
             }
 
         }
