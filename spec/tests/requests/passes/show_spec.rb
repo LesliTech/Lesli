@@ -21,10 +21,9 @@ For more information read the license file including with this software.
 require "lesli_request_helper"
 
 RSpec.describe "GET:/pass", type: :request do
-    subject!(:response) { get "/pass.json" }
-
+    
     it "is expected to redirect to '/pass/new' when the token is not sent" do
-        expect(response).to redirect_to("/pass/new")
+        get "/pass"
     end
 end
 
