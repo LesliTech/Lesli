@@ -26,7 +26,7 @@ For more information read the license file including with this software.
 section.application-component {
     width: 100%;
     padding: 0 2rem;
-    margin-left: var(--lesli-navigation-width);
-    max-width: calc(100% - var(--lesli-navigation-width));
+    margin-left: var(--lesli-sidebar-width);
+    max-width: calc(100% - var(--lesli-sidebar-width));
     min-height: calc(100vh - var(--lesli-header-height) - var(--lesli-footer-height));
 }

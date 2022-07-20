@@ -19,35 +19,17 @@ For more information read the license file including with this software.
 
 // ·
 @import "templates/public";
-@import "../../lesli3/fonts/families";
 
 
-// · 
-html,
-body {
-    color: var(--app-theme-font-color, #1c2540);
-    font-size: var(--app-theme-font-size, 16px);
-    background-color: var(--app-theme-color-layout-background, #ffffff);
-    font-family: "Exo", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
-    scrollbar-color: lesli-css-color(lesli, navy) lesli-css-color(lesli, navy);
-    scrollbar-width: thin;
-    font-weight: normal;
-    line-height: 158%;
-}
-
-
-// · headings and links
-a, 
-h1 {
-    font-family: "Montserrat", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
-}
-
+// ·
 h1 {
     line-height: 33px;
     font-weight: 800;
     font-size: 24px;
 }
 
+
+// ·
 body.users-registrations.new,
 body.users-sessions.new {
 
@@ -131,7 +113,7 @@ body.users-sessions.new {
                     font-family: "Exo";
                     font-weight: 500;
                     font-size: 14px;
-                    color: lesli-css-color(lesli, navy);
+                    //color: red; //lesli-css-color(lesli, navy);
                 }
             }
 
