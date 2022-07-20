@@ -30,7 +30,7 @@ For more information read the license file including with this software.
         height: 100%;
         padding: 1.3rem;
         max-width: 100%;
-        margin-left: var(--lesli-navigation-width);
+        margin-left: var(--lesli-sidebar-width);
         background-color: lesli-css-color(solid, white);
 
         // engine
@@ -51,7 +51,7 @@ For more information read the license file including with this software.
                 background-color: #F0F4FF;
             }
             &.is-active {
-                border-color: lesli-css-color(lesli, navy);    
+                border-color: var(--lesli-color-primary);
                 box-shadow: none;
             }
         }
@@ -74,7 +74,7 @@ For more information read the license file including with this software.
         }
 
         span, p {
-            color: lesli-css-color(lesli, navy);
+            color: var(--lesli-color-primary);
         }
 
         // close button 
@@ -91,8 +91,8 @@ For more information read the license file including with this software.
             flex-wrap: wrap;
             align-content: flex-start;
             justify-content: space-between;
-            margin-left: var(--lesli-navigation-width);
-            max-width: calc(100% - var(--lesli-navigation-width));
+            margin-left: var(--lesli-sidebar-width);
+            max-width: calc(100% - var(--lesli-sidebar-width));
 
             // engine
             a {

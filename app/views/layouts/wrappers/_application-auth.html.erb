@@ -1,0 +1,68 @@
+<%#
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+%>
+
+<%
+page_id = controller_path.gsub("/","-")
+back_to_login = defined?(back_to_login) ? back_to_login : false
+%>
+
+<% custom_app_page_clas = "#{ lesli_instance_code }-#{ page_id }" %>
+<% custom_app_page_path = "#{ lesli_instance_code }/lesli/#{ page_id }/new" %>
+<% custom_app_page_exists = lookup_context.exists?(custom_app_page_path) %>
+
+
+<%# render custom view in builder module %>
+<% if custom_app_page_exists %>
+<main id="lesli-application">
+    <%= render :template => custom_app_page_path %>
+</main>
+<% end %>
+
+
+<%# core view for passses %>
+<% unless custom_app_page_exists %>
+<main id="lesli-application" class="standard-auth-view">
+    <section class="columns is-gapless">
+        <div class="column">
+            <div class="hero is-fullheight">
+                <% if back_to_login %>
+                    <div class="hero-head pt-6 pl-6">
+                        <%= link_to new_user_session_path, :class => "has-text-primary" do %>
+                            <span class="icon-text">
+                                <span class="icon ri-lg">
+                                    <i class="ri-arrow-left-s-line"></i>
+                                </span>
+                                <span>Back to Login</span>
+                            </span>
+                        <% end %>
+                    </div>
+                <% end %>
+                <div class="hero-body is-flex-direction-column is-justify-content-center">
+
+                    <%= yield %>
+
+                </div>
+                <%# footer %>
+                <%= render partial: "devise/shared/footer" %>
+            </div>
+        </div>
+        <div class="column is-hidden-touch"></div>
+    </section>
+</main>
+<% end %>

@@ -32,7 +32,7 @@ footer.application-footer {
     .navbar {
         padding-left: .1rem;
         background-color: transparent;
-        margin-left: var(--lesli-navigation-width);
+        margin-left: var(--lesli-sidebar-width);
 
         .navbar-start {
             flex: 1;
@@ -75,8 +75,8 @@ section.application-commands {
     width: 100%;
     padding: 1.2rem;
     top: var(--lesli-header-height);
-    margin-left: var(--lesli-navigation-width);
-    max-width: calc(100% - var(--lesli-navigation-width) - 30px);
+    margin-left: var(--lesli-sidebar-width);
+    max-width: calc(100% - var(--lesli-sidebar-width) - 30px);
     min-height: calc(100vh - var(--lesli-header-height) - var(--lesli-footer-height));
     background-color: lesli-css-color(blue);
 
