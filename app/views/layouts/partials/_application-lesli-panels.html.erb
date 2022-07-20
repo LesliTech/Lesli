@@ -17,7 +17,6 @@ For more information read the license file including with this software.
 
 %>
 
-
 <%# Loading standar pdf viewer %>
 <% if defined? DeutscheLeibrenten %>
     <application-component-panel-viewer-pdf></application-component-panel-viewer-pdf>
@@ -32,9 +31,11 @@ For more information read the license file including with this software.
 
 
 <%# Loading standar bell panels %>
-<% if defined?(CloudBell) && defined?(DeutscheLeibrenten) %>
-    <application-component-panel-notification></application-component-panel-notification>
-    <application-component-panel-announcement></application-component-panel-announcement>
+<% if defined?(CloudBell) %>
+    <application-component-panel-notifications></application-component-panel-notifications>
+    <% if defined?(DeutscheLeibrenten) %>
+        <application-component-panel-announcement></application-component-panel-announcement>
+    <% end %>
 <% end %>
 
 

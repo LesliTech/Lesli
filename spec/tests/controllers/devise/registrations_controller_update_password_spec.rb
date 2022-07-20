@@ -53,9 +53,8 @@ RSpec.describe Users::RegistrationsController, type: :controller do
                 password_confirmation: password
             }
         }
-
-        expect_json_response_error
-        expect(response_error['message'][0]).to eql('error_password_minimum_length')
+        expect_response_with_error
+        expect(response_body['message'][0]).to eql('error_password_minimum_length')
     end
 
     it "update password with minimum length" do
@@ -68,7 +67,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         }
 
-        expect_json_response_successful
+        expect_response_with_successful
 
     end
 
@@ -83,8 +82,8 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         }
 
-        expect_json_response_error
-        expect(response_error["message"][0]).to eql('error_password_special_char_count')
+        expect_response_with_error
+        expect(response_body["message"][0]).to eql('error_password_special_char_count')
 
     end
 
@@ -100,7 +99,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         }
 
-        expect_json_response_successful
+        expect_response_with_successful
 
     end
 
@@ -115,8 +114,8 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         }
 
-        expect_json_response_error
-        expect(response_error['message'][0]).to eql('error_password_uppercase_count')
+        expect_response_with_error
+        expect(response_body['message'][0]).to eql('error_password_uppercase_count')
 
     end
 
@@ -131,7 +130,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         }
     
-        expect_json_response_successful
+        expect_response_with_successful
 
     end
 
@@ -146,7 +145,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         }
     
-        expect_json_response_successful
+        expect_response_with_successful
 
     end
 

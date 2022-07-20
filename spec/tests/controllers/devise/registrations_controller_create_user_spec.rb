@@ -39,10 +39,10 @@ RSpec.describe Users::RegistrationsController, type: :controller do
         }
 
         unless @allow_registration
-            expect_json_response_error
-            expect(response_error["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
+            expect_response_with_error
+            expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
         else
-            expect_json_response_successful
+            expect_response_with_successful
         end
     end
 
@@ -60,11 +60,11 @@ RSpec.describe Users::RegistrationsController, type: :controller do
         }
 
         unless @allow_registration
-            expect_json_response_error
-            expect(response_error["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
+            expect_response_with_error
+            expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
         else
-            expect_json_response_error
-            expect(response_error["message"]).to eql(I18n.t('core.users/registrations.messages_info_user_already_exists'))
+            expect_response_with_error
+            expect(response_body["message"]).to eql(I18n.t('core.users/registrations.messages_info_user_already_exists'))
         end
     end
 
@@ -79,11 +79,11 @@ RSpec.describe Users::RegistrationsController, type: :controller do
         }
 
         unless @allow_registration
-            expect_json_response_error
-            expect(response_error["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
+            expect_response_with_error
+            expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
         else
-            expect_json_response_error
-            expect(response_error["message"]).to eql("error_password_cannot_be_blank")
+            expect_response_with_error
+            expect(response_body["message"]).to eql("error_password_cannot_be_blank")
         end
     end
 
@@ -98,11 +98,11 @@ RSpec.describe Users::RegistrationsController, type: :controller do
         }
 
         unless @allow_registration
-            expect_json_response_error
-            expect(response_error["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
+            expect_response_with_error
+            expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
         else
-            expect_json_response_error
-            expect(response_error["message"]).to eql("error_password_cannot_be_blank")
+            expect_response_with_error
+            expect(response_body["message"]).to eql("error_password_cannot_be_blank")
         end
     end
 end
