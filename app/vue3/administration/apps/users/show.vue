@@ -25,13 +25,6 @@ import { useRouter, useRoute } from 'vue-router'
 // · import lesli stores
 import { useUser } from "LesliVue/stores/user"
 
-
-// · implement stores
-const storeUser = useUser()
-const router = useRouter()
-const route = useRoute()
-
-
 // · import profile components
 import cardActions from "./components/card-actions.vue"
 import cardInformation from "./components/card-information.vue"
@@ -40,6 +33,11 @@ import managementSession from "./components/management-sessions.vue"
 import formSecurity from "./components/form-security.vue"
 import integrationsInformation from "./components/integrations-information.vue"
 
+
+// · implement stores
+const storeUser = useUser()
+const router = useRouter()
+const route = useRoute()
 
 // · translations
 const translations = {

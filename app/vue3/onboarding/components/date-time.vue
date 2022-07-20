@@ -17,7 +17,7 @@ For more information read the license file including with this software.
 */
 
 // · import vue tools
-import { onMounted, watch, computed } from "vue"
+import { onMounted, computed, ref } from "vue"
 
 // · import lesli stores
 import { useOnboarding } from "Lesli/vue3/onboarding/store"
@@ -28,26 +28,36 @@ const storeOnboarding = useOnboarding()
 // . translations
 const translations = storeOnboarding.translations
 
+onMounted(() => {
+    storeOnboarding.getOptions()
+})
+
 // . get reactive info from onboarding store
 const companyInfo = computed(()=> storeOnboarding.companyInfo)
 const settings = computed(()=> storeOnboarding.settings)
+
+const timezoneValue = ref([])
+
+function updateTimezone (){
+    settings.value.datetime_time_zone = timezoneValue.value.value
+}
 
 </script>
 <template>
     <form>
         <div class="field">
-            <label class="label">{{
-                translations.core.onboardings.view_text_select_city
-            }}</label>
+            <label class="label">{{ translations.core.account_settings.column_time_zone }}</label>
             <div class="control">
-                <lesli-select></lesli-select>
+                <lesli-select
+                    :options="storeOnboarding.options.time_zones"
+                    v-model="timezoneValue"
+                    @change="updateTimezone">
+                </lesli-select>
             </div>
         </div>
 
         <div class="field">
-            <label class="label">{{
-                translations.core.onboardings.view_text_date_format
-            }}</label>
+            <label class="label">{{ translations.core.onboardings.view_text_date_format }}</label>
             <div class="control">
                 <input
                     class="input"
@@ -59,9 +69,7 @@ const settings = computed(()=> storeOnboarding.settings)
         </div>
 
         <div class="field">
-            <label class="label">{{
-                translations.core.onboardings.view_text_time_format
-            }}</label>
+            <label class="label">{{ translations.core.onboardings.view_text_time_format }}</label>
             <div class="control">
                 <input
                     class="input"
@@ -73,9 +81,7 @@ const settings = computed(()=> storeOnboarding.settings)
         </div>
 
         <div class="field">
-            <label class="label">{{
-                translations.core.onboardings.view_text_format_combined
-            }}</label>
+            <label class="label">{{ translations.core.onboardings.view_text_format_combined }}</label>
             <div class="control">
                 <input
                     class="input"
@@ -87,9 +93,7 @@ const settings = computed(()=> storeOnboarding.settings)
         </div>
 
         <div class="field">
-            <label class="label">{{
-                translations.core.onboardings.view_text_date_text
-            }}</label>
+            <label class="label">{{ translations.core.onboardings.view_text_date_text }}</label>
             <div class="control">
                 <input
                     class="input"
@@ -101,9 +105,7 @@ const settings = computed(()=> storeOnboarding.settings)
         </div>
 
         <div class="field">
-            <label class="label">{{
-                translations.core.onboardings.view_text_time_text
-            }}</label>
+            <label class="label">{{ translations.core.onboardings.view_text_time_text }}</label>
             <div class="control">
                 <input
                     class="input"
