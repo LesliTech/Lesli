@@ -153,7 +153,8 @@ class UserMailer < ApplicationLesliMailer
     def mfa_instructions
         user = params[:user]
         build_data_from_params(params, {
-                token: params[:token],
+                # add a dash at the middle of the code
+                token: params[:token],#.chars.each_slice(3).map(&:join).join("-"),
                 user: {
                     full_name: user.full_name
                 }

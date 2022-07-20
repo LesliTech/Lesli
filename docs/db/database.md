@@ -29,6 +29,7 @@
 00.38. user_access_codes
 00.39. user_shortcuts
 00.40. user_auth_provider
+00.41. user_auth_mfa
 
 00.50. role_descriptors (role_groups)
 00.51. role_descriptor_actions

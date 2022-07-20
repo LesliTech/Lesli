@@ -30,20 +30,20 @@ RSpec.describe "POST:/password.json", type: :request, :unless => defined?(Deutsc
         puts response.body
 
         # shared examples
-        expect_json_response_successful
+        expect_response_with_successful
     end
 
     it "is expected to respond with error standard json response" do
         post("/password.json", params: { user: { email: Faker::Internet.email }})
 
         # shared examples
-        expect_json_response_error
+        expect_response_with_error
 
         # custom specs
-        expect(response_error).to be_a(Hash)
-        expect(response_error).to have_key("message")
-        expect(response_error["message"]).to be_a(String)
-        expect(response_error).to have_key("details")
-        expect(response_error["details"]).to be_an(Array)
+        expect(response_body).to be_a(Hash)
+        expect(response_body).to have_key("message")
+        expect(response_body["message"]).to be_a(String)
+        expect(response_body).to have_key("details")
+        expect(response_body["details"]).to be_an(Array)
     end
 end

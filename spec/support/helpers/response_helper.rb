@@ -63,11 +63,10 @@ module ResponseHelpers
     # test a standard error response for lesli 3
     def expect_response_with_error
         @@response_json = nil
-        expect(response).to have_http_status(:error) 
+        expect(response).to have_http_status(:bad_request) 
         expect(response.content_type).to eq('application/json; charset=utf-8')
         expect(response_json).to have_key('message') 
         expect(response_json).to have_key('details') 
-        # to be instance of
     end
 
     # test a standard not found response for lesli 3
