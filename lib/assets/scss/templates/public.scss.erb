@@ -18,11 +18,16 @@ For more information read the license file including with this software.
 */
 
 
-// · Include Lesli CSS
-@import "../lesli3/settings/leslicss";
+// · 
+@import "lesli-css";
+
+
+// · 
+@import "<%= LC::System::Info.instance[:code] %>/lesli/variables";
 
 
 // · Configuration
+@import "./lesli3/fonts/families";
 @import "./lesli3/fonts/remixicons";
 @import "./lesli3/settings/variables";
 
@@ -33,6 +38,24 @@ For more information read the license file including with this software.
 
 // · Include Lesli Standards
 @include lesli-css-normalize();
+
+
+// · 
+html,
+body {
+    font-family: "Exo", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
+    scrollbar-color: var(--lesli-color-primary) transparent;
+    scrollbar-width: thin;
+    font-weight: normal;
+    line-height: 158%;
+}
+
+
+// · headings and links
+a, 
+h1 {
+    font-family: "Montserrat", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
+}
 
 
 // · Hide vue until vue finishes compilation

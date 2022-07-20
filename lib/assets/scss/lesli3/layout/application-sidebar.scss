@@ -15,6 +15,9 @@ For more information read the license file including with this software.
 // · 
 */
 
+$lesli-sidebar-color-text: findColorInvert($lesli-sidebar-color);
+$lesli-sidebar-color-hover: darken($lesli-sidebar-color, 10);
+
 
 // · Navigation sidebar
 aside.application-sidebar {
@@ -26,8 +29,8 @@ aside.application-sidebar {
     display: flex;
     flex-direction: column;
     transition: all linear .2s;
-    width: var(--lesli-navigation-width);
-    background-color: var(--lesli-color-sidebar);
+    width: var(--lesli-sidebar-width);
+    background-color: var(--lesli-sidebar-color);
 
     // logo
     .brand {
@@ -51,7 +54,7 @@ aside.application-sidebar {
 
         // link
         a {
-            color: white;
+            color: $lesli-sidebar-color-text;
             text-align: center;
             padding: 1rem 0;
 
@@ -61,8 +64,8 @@ aside.application-sidebar {
             &.is-active,        // rails routes
             &.route-is-active   // vue routes
             {
-                color: white;
-                background-color: #041D55;// red;//lesli-css-color-theme(primary);
+                color: $lesli-sidebar-color-text;
+                background-color: $lesli-sidebar-color-hover;
             }
 
             // svg icons from lesli-icon
@@ -88,7 +91,7 @@ aside.application-sidebar {
         &.lesli-navigation-list {
 
             &.active {
-                background-color: lesli-css-color(lesli, ocean);
+                background-color: $lesli-sidebar-color-hover;
                 ul {
                     height: auto;
                 }

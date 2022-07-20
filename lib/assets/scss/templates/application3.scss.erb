@@ -15,8 +15,11 @@ For more information read the license file including with this software.
 // · 
 */
 
-
 // · 
+@import "lesli-css";
+
+
+// · Import customization from builder engine
 @import "<%= LC::System::Info.instance[:code] %>/lesli/variables";
 
 
@@ -44,13 +47,14 @@ For more information read the license file including with this software.
 @import "./lesli3/layout/application-header";
 @import "./lesli3/layout/application-engines";
 @import "./lesli3/layout/application-sidebar";
-@import "./lesli3/layout/application-notices";
 @import "./lesli3/layout/application-component";
 @import "./lesli3/layout/application-footer";
 @import "./lesli3/layout/application-search";
 
+// · Panels :) 
 @import "./lesli3/panels/panel-notification";
 
+// · Lesli components
 @import "./lesli3/components/lesli-loading";
 @import "./lesli3/components/lesli-toolbar";
 @import "./lesli3/components/lesli-header";
@@ -62,6 +66,7 @@ For more information read the license file including with this software.
 @import "./lesli3/components/lesli-input-tag";
 @import "./lesli3/components/lesli-file-uploader";
 
+// · Overrides for vendor libraries
 @import "./lesli3/overrides/sweetalert";
 
 
@@ -76,7 +81,7 @@ body {
     font-size: var(--lesli-font-size);
     background-color: var(--lesli-color-background);
     font-family: "Exo", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
-    scrollbar-color: var(--lesli-color-primary) var(--lesli-color-primary);
+    scrollbar-color: var(--lesli-color-primary) transparent;
     scrollbar-width: thin;
     font-weight: normal;
     line-height: 158%;
