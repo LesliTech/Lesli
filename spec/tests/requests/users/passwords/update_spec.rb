@@ -35,7 +35,7 @@ RSpec.describe "PUT:/password.json", type: :request do
 
         put("/password.json", params: { user: @user })
 
-        expect_json_response_successful
+        expect_response_with_successful
 
     end
 
@@ -49,13 +49,13 @@ RSpec.describe "PUT:/password.json", type: :request do
 
         put("/password.json", params: { user: @user })
         
-        expect_json_response_error
-        expect(response_error).to be_a(Hash)
-        expect(response_error).to have_key("message")
-        expect(response_error["message"]).to be_a(String)
+        expect_response_with_error
+        expect(response_body).to be_a(Hash)
+        expect(response_body).to have_key("message")
+        expect(response_body["message"]).to be_a(String)
 
-        expect(response_error).to have_key("details")
-        expect(response_error["details"]).to be_an(Array)
+        expect(response_body).to have_key("details")
+        expect(response_body["details"]).to be_an(Array)
 
     end
 end

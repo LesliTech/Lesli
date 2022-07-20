@@ -45,11 +45,14 @@ class Users::SessionsController < Devise::SessionsController
             return respond_with_error(I18n.t("core.users/sessions.invalid_credentials"))
         end
 
+        # save a invalid credentials log for the requested user
+        log = resource.logs.new({ title: "session_creation_atempt" })
+
         # check password validation
         unless resource.valid_password?(sign_in_params[:password])
 
             # save a invalid credentials log for the requested user
-            resource.logs.create({
+            log.update({
                 title: "session_creation_failed",
                 description: "invalid_credentials"
             })
@@ -59,79 +62,62 @@ class Users::SessionsController < Devise::SessionsController
 
         end
 
-        # check if user meet requirements to login
-        user_validation = UserValidationService.new(resource).valid?
+        # check if user meet requirements to create a new session
+        Auth::UserValidationService.new(resource).valid? do |result|
 
-        # if user do not meet requirements to login
-        unless user_validation.success?
-            return respond_with_error(user_validation.error["message"])
+            # if user do not meet requirements to login
+            unless result.success?
+
+                log.update({
+                    title: "session_creation_failed",
+                    description: result.error["message"]
+                })
+
+                # return and respond with the reasons user is not able to login
+                return respond_with_error(result.error["message"]) unless result.success?
+
+            end
+
         end
 
-        # Create an instance used to validate MFA for the user
-        user_mfa = MfaService.new(resource)
+        # remember the user (not enabled by default)
+        # remember_me(user) if sign_in_params[:remember_me] == '1'
 
-        # Check if the user has MFA enabled and any valid method configured
-        if user_mfa.has_mfa_enabled?.success?
+        # create a new session service instance for the current user 
+        session_service = Auth::UserSessionService.new(resource, log)
 
-            mfa_token = user_mfa.do_mfa()
-
-            return respond_with_error(mfa_token.error) unless mfa_token.success?
-
-            # Create logs that an MFA Token was created successfully
-            resource.logs.create({
-                title: "mfa_token_creation_successful",
-                description: "user_agent: #{request.user_agent}, user_remote: #{request.remote_ip}"
-            })
-
-            # We prepared the default path redirection
-            encrypted_email = CGI.escape(EncryptorService.new_encrytor.encrypt_and_sign(resource.email))
-
-            return respond_with_successful({ default_path: "/mfa/new?key=#{encrypted_email}" })
-        end
-
-        # do a user login
-        sign_in(:user, resource)
-
-        # register or sync the current_user with the user representation on Firebase
-        Courier::One::Firebase::User.sync_user(resource) if defined? CloudOne
-
-        # register a new unique session
-        current_session = resource.sessions.create({
-            :user_agent => get_user_agent,
-            :user_remote => request.remote_ip,
-            :session_source => "devise_standar_session",
-            :last_used_at => LC::Date.now
-        })
+        # register a new session for the user
+        current_session = session_service.register(get_user_agent, request.remote_ip)
 
         # make session id globally available
         session[:user_session_id] = current_session[:id]
 
-        # register a successful sign-in log for the current user
-        resource.logs.create({ user_sessions_id: session[:user_session_id], title: "session_creation_successful" })
+        # create a new multi factor authentication service instance for the current user 
+        mfa_service = Auth::UserMfaService.new(resource, log)
 
-        # get default path of role (if role has default path)
-        default_path = resource.roles.first.default_path
+        # generate a new mfa for the current session (if enabled)
+        mfa_service.generate do |success|
 
-        # if first loggin for account owner send him to the onboarding page
-        if current_user.account.onboarding? && current_user.has_roles?("owner")
-            default_path = "/onboarding"
-        end
+            # mfa was successfully generated, return the user to the mfa page
+            return respond_with_successful({ default_path: "mfa" }) if success
+
+        end 
+
+        # do a user login
+        sign_in(:user, resource)
 
         # respond successful and send the path user should go
-        respond_with_successful({ default_path: default_path })
-
-        # send a welcome email to user if first log in
-        UserMailer.with(user: resource).welcome.deliver_later if resource.sign_in_count == 1
+        respond_with_successful({ default_path: session_service.default_path() })
 
     end
 
     def destroy
 
-        # expire session
+        # get the current session
         current_session = current_user.sessions.find_by(id: session[:user_session_id])
-        if current_session
-            current_session.delete
-        end
+        
+        # expire the current session 
+        current_session.delete if current_session
 
         # register a successful logout log for the current user
         current_user.logs.create({ user_sessions_id: session[:user_session_id], title: "session_logout_successful" })
@@ -147,9 +133,7 @@ class Users::SessionsController < Devise::SessionsController
 
     end
 
-
     private 
-
 
     # @return [Parameters] Allowed parameters for the discussion
     # @description Sanitizes the parameters received from an HTTP call to only allow the specified ones.
