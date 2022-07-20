@@ -27,9 +27,8 @@ app({
             translations: {
                 main: I18n.t("core.otps/show")
             },
-            otp: {
-                t: "",
-                email: ""
+            mfa: {
+                t: ""
             },
             validate_otp: false,
             notification: {
@@ -41,26 +40,14 @@ app({
     },
     methods: {
 
-        // Request OTP
-        postOtp(e) {
-            this.otp.t=""
-            e.preventDefault();
-            this.http.post("/otp", this.otp).then(result => {
-                this.validate_otp = true
-                this.showNotification(this.translations.main.notification_reset_password_instructions_sent, "is-success")
-            }).catch(error => {
-                this.showNotification(error.message)
-            })
-        },
+        putMfa(event) {
 
-        // Validate OTP
-        putOtp(e) {
-            this.otp.email=""
-            e.preventDefault();
-            this.http.put("/otp", this.otp).then(result => {
+            event.preventDefault();
+
+            this.http.put("/mfa", this.mfa).then(result => {
                 this.url.go(result.default_path)
             }).catch(error => {
-                this.showNotification(error.message)
+                console.log(error)
             })
         },
 

@@ -21,7 +21,7 @@ For more information read the license file including with this software.
 require "lesli_controller_helper"
 
 
-RSpec.describe Users::RegistrationsController, type: :controller do
+RSpec.describe Users::RegistrationsController, type: :controller, :if => defined?(DeutscheLeibrenten) do
 
     include_context 'controller user authentication'
 
@@ -53,8 +53,9 @@ RSpec.describe Users::RegistrationsController, type: :controller do
                 password_confirmation: password
             }
         }
-        expect_response_with_error
-        expect(response_body['message'][0]).to eql('error_password_minimum_length')
+        LC::Debug.msg(response.body)
+        expect_json_response_error
+        expect(response_error['message'][0]).to eql('error_password_minimum_length')
     end
 
     it "update password with minimum length" do
@@ -67,7 +68,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         }
 
-        expect_response_with_successful
+        expect_json_response_successful
 
     end
 
@@ -82,8 +83,8 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         }
 
-        expect_response_with_error
-        expect(response_body["message"][0]).to eql('error_password_special_char_count')
+        expect_json_response_error
+        expect(response_error["message"][0]).to eql('error_password_special_char_count')
 
     end
 
@@ -99,7 +100,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         }
 
-        expect_response_with_successful
+        expect_json_response_successful
 
     end
 
@@ -114,8 +115,8 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         }
 
-        expect_response_with_error
-        expect(response_body['message'][0]).to eql('error_password_uppercase_count')
+        expect_json_response_error
+        expect(response_error['message'][0]).to eql('error_password_uppercase_count')
 
     end
 
@@ -130,7 +131,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         }
     
-        expect_response_with_successful
+        expect_json_response_successful
 
     end
 
@@ -145,7 +146,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         }
     
-        expect_response_with_successful
+        expect_json_response_successful
 
     end
 
