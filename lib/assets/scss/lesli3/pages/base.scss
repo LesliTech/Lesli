@@ -30,6 +30,9 @@ h1 {
 
 
 // ·
+body.otps.show,
+body.mfas.show,
+body.passes.show,
 body.users-registrations.new,
 body.users-sessions.new {
     background-color: #F6F7FC;
@@ -45,7 +48,6 @@ body.users-sessions.new {
     }
 
     .column .hero {
-        
         min-height: 100vh;
 
         form,
