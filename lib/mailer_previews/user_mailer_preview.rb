@@ -47,7 +47,7 @@ class UserMailerPreview < ActionMailer::Preview
     end
 
     def mfa_instructions
-        UserMailer.with(user: User.first, token: "123456").mfa_instructions
+        UserMailer.with(user: User.first, token: "012345").mfa_instructions
     end
 
 end

@@ -18,52 +18,49 @@ For more information read the license file including with this software.
 
 
 // · default colors, if there is no a custom palette in the settings
-$lesli-color-primary: white !default;
-$lesli-color-header: white !default;
-$lesli-color-sidebar: white !default;
+$lesli-color-primary: lesli-css-color(blue) !default;
 $lesli-color-background: white !default;
-$lesli-font-color: white !default;
+
+$lesli-header-color: white !default;
+$lesli-header-height: 100px !default;
+
+$lesli-footer-color: white !default;
+$lesli-footer-height: 84px !default;
+
+$lesli-sidebar-color: white !default;
+$lesli-sidebar-width: 50px !default;
+
+$lesli-font-color: black !default;
 $lesli-font-size: 16px !default;
 
-$lesli-header-height: 100px !default;
-$lesli-footer-height: 84px !default;
-$lesli-navigation-width: 50px !default;
+
+// · bulma overrides
+$primary: $lesli-color-primary;
 
 
-
-/*     *     *     *     *     *     *     *     *     */
-$lesli-header-color: red;
-$lesli-header-height: 100px !default;
-
-$lesli-footer-color: red;
-$lesli-footer-height: 84px !default;
-
-$lesli-navigation-color: red;
-$lesli-navigation-width: 50px !default;
-/*     *     *     *     *     *     *     *     *     */
-
-
-
-// · 
+// · define native CSS variables to use along the stylesheets
 :root {
-    --lesli-header-height: $lesli-header-height;
-    --lesli-footer-height: $lesli-footer-height;
-    --lesli-navigation-width: $lesli-navigation-width;
-
     --lesli-color-primary: var(--lesli-theme-color-primary, #{$lesli-color-primary});
-    --lesli-color-header: var(--lesli-theme-color-primary, #{$lesli-color-header});
-    --lesli-color-sidebar: var(--lesli-theme-color-sidebar, #{$lesli-color-primary});
     --lesli-color-background: var(--lesli-theme-color-background, #{$lesli-color-background});
-
-    --lesli-font-color: var(--lesli-theme-font-color, #{$lesli-color-primary});
+    
+    --lesli-header-color: var(--lesli-theme-header-color, #{$lesli-header-color});
+    --lesli-header-height: var(--lesli-theme-header-height, #{$lesli-header-height});
+    
+    --lesli-footer-color: var(--lesli-theme-footer-color, #{$lesli-footer-color});
+    --lesli-footer-height: var(--lesli-theme-footer-height, #{$lesli-footer-height});
+    
+    --lesli-sidebar-color: var(--lesli-theme-sidebar-color, #{$lesli-sidebar-color});
+    --lesli-sidebar-width: var(--lesli-theme-sidebar-width, #{$lesli-sidebar-width});
+    
     --lesli-font-size: var(--lesli-theme-font-size, #{$lesli-font-size});
+    --lesli-font-color: var(--lesli-theme-font-color, #{$lesli-font-color});
 }
 
 
 // Mobile Up to 768px
 @include lesli-css-breakpoint-mobile {
     :root {
-        --lesli-navigation-width: 50px;
+        --lesli-sidebar-width: 50px;
     }
 }
 
@@ -71,7 +68,7 @@ $lesli-navigation-width: 50px !default;
 // Tablet Between 769px and 1023px
 @include lesli-css-breakpoint-tablet {
     :root {
-        --lesli-navigation-width: 100px;
+        --lesli-sidebar-width: 100px;
     }   
 }
 
@@ -79,7 +76,7 @@ $lesli-navigation-width: 50px !default;
 // Desktop Between 1024px and 1215px
 @include lesli-css-breakpoint-desktop {
     :root {
-        --lesli-navigation-width: 200px;
+        --lesli-sidebar-width: 200px;
     }   
 }
 
@@ -87,7 +84,7 @@ $lesli-navigation-width: 50px !default;
 // Widescreen Between 1216px and 1407px
 @include lesli-css-breakpoint-widescreen {
     :root {
-        --lesli-navigation-width: 225px;
+        --lesli-sidebar-width: 225px;
     }   
 }
 
@@ -95,7 +92,7 @@ $lesli-navigation-width: 50px !default;
 // Widescreen Between 1216px and 1407px
 @include lesli-css-breakpoint-fullhd {
     :root {
-        --lesli-navigation-width: 328px;
+        --lesli-sidebar-width: 328px;
     }   
 }
 
@@ -103,6 +100,6 @@ $lesli-navigation-width: 50px !default;
 //
 body.layout-expanded {
     :root {
-        --lesli-navigation-width: 100px;
+        --lesli-sidebar-width: 100px;
     }
 }
