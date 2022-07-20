@@ -18,16 +18,13 @@ For more information read the license file including with this software.
 =end
 
 class OtpsController < ApplicationController
-    include Application::Responder
-    include Application::Logger
-
+    include Interfaces::Application::Responder
+    include Interfaces::Application::Requester
+    include Interfaces::Application::Logger
     before_action :set_user, only: [:create]
 
-    # GET /otp
-    def show
-
-        # we use "t" as alias for token
-        redirect_to("/otp/new") and return if params[:t].blank?
+    # PUT /otp
+    def update
 
         # alias for token error message
         error_msg = I18n.t("core.shared.messages_danger_not_valid_authorization_token_found")
@@ -36,7 +33,7 @@ class OtpsController < ApplicationController
         digest_token = Devise.token_generator.digest(User::AccessCode, :token, params[:t])
 
         # denied access if can't build the token
-        redirect_to(new_user_session_path, alert: error_msg) and return if digest_token.blank?
+        return respond_with_error(error_msg) if digest_token.blank?
 
         # search for the requested pass
         access_code = User::AccessCode.find_by(token: digest_token, token_type: "otp", last_used_at: nil)
@@ -48,52 +45,56 @@ class OtpsController < ApplicationController
                 token: (params[:t] || "")
             })
 
-            redirect_to(new_user_session_path, alert: error_msg) and return
+            return respond_with_error(error_msg)
 
         end
 
+        log = access_code.user.logs.create({ title: "session_creation_atempt" })
+
         # denied access if token do not meet validations
-        redirect_to(new_user_session_path, alert: error_msg) and return if !access_code.is_valid?
+        unless access_code.is_valid?
+            log.update(title: "session_creation_failed", description: error_msg)
+            return respond_with_error(error_msg) 
+        end
 
-        # check if user meet requirements to login
-        user_validation = UserValidationService.new(access_code.user).valid?
-
-        # if user do not meet requirements to login
-        redirect_to(new_user_session_path, alert: error_msg) and return unless user_validation.success?
+        # cache the user from the access code
+        resource = access_code.user
 
         # delete used token
         access_code.update({ last_used_at: Time.current })
         access_code.delete
 
+        # check if user meet requirements to create a new session
+        Auth::UserValidationService.new(resource).valid? do |result|
 
-        # IMPORTANT: this is a copy of the main login method at: app/controllers/users/sessions
+            # if user do not meet requirements to login
+            unless result.success?
+
+                log.update(title: "session_creation_failed", description: error_msg)
+
+                # return and respond with the reasons user is not able to login
+                return respond_with_error(error_msg) unless result.success?
+
+            end
+
+        end
+
+        # create a new session service instance for the current user 
+        session_service = Auth::UserSessionService.new(resource, log)
+
+        # register a new session for the user
+        current_session = session_service.register(get_user_agent, request.remote_ip, "otp_web_session")
+
+        # make session id globally available
+        session[:user_session_id] = current_session[:id]
 
         # do a user login
         sign_in(access_code.user)
 
-        # register a new unique session
-        @current_session = access_code.user.sessions.create({
-            :user_agent => get_user_agent,
-            :user_remote => request.remote_ip,
-            :session_token => session[:session_id],
-            :session_source => "otp_session",
-            :last_used_at => Time.current
-        })
-
-        # make session id globally available
-        session[:user_session_id] = @current_session[:id]
-
-        # register a successful sign-in log for the current user
-        access_code.user.logs.create({ user_sessions_id: session[:user_session_id], title: "otp_session_creation_successful" })
-
-        # redirect to the root path and return 
-        redirect_to("/") and return 
+        # respond successful and send the path user should go
+        respond_with_successful({ default_path: session_service.default_path() })
 
     end
-
-    def new
-    end
-
 
     # POST /otps
     def create
@@ -101,6 +102,7 @@ class OtpsController < ApplicationController
         # return if there is no a valid user on set_user
         return respond_with_successful() if @user.blank?
 
+        # create a new otp
         otp = @user.access_codes.new({ token_type: "otp" })
 
         # generate a user-friendly token
@@ -114,7 +116,7 @@ class OtpsController < ApplicationController
 
             @user.logs.create({
                 title: "otp_creation_successful",
-                description: "user_agent: #{get_user_agent}, user_remote: #{request.remote_ip}"
+                description: "#{request.remote_ip} | #{get_user_agent}"
             })
 
             UserMailer.with(user: @user, token: raw).otp_instructions.deliver_now

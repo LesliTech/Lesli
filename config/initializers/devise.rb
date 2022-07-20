@@ -324,6 +324,55 @@ module Devise
         # This declaration attach a new method to the Devise module to generate user-friendly tokens
         # we use this method to reset password through Dispatcher or like-otp validations
         # important we use this method only when we need compatibility with Devise
+        # example: easy password reset, through otp, etc.
+        def create(klass, column, length:2, upcase:false, type:'hex')
+            key = key_for(column)
+            loop do
+                raw = random_number(length) if type == 'number'
+                raw = random_hex(length, upcase) if type == 'hex'
+                enc = OpenSSL::HMAC.hexdigest(@digest, key, raw)
+                break [raw, enc] unless klass.to_adapter.find_first({ column => enc })
+            end
+        end
+
+        # generate a random hexadecimal string with a fixed length
+        def random_hex(length, upcase)
+            raw = SecureRandom.hex(length)
+            raw = raw.upcase if upcase
+            raw
+        end
+
+        # generate a random number with a fixed length
+        def random_number(length)
+
+            # Calculate the upper bound for the random number generator
+            # upper_bound = 1,000,000
+            upper_bound = 10**length
+
+            # n will be an integer with a minimum possible value of 0,
+            # and a maximum possible value of 999,999
+            n = SecureRandom.random_number(upper_bound)
+
+            # Convert the integer n to a string
+            # unpadded_str will be "0" if n == 0
+            # unpadded_str will be "999999" if n == 999999
+            unpadded_str = n.to_s
+
+            # Pad the string with leading zeroes if it is less than
+            # 6 digits long.
+            # "0" would be padded to "000000"
+            # "123" would be padded to "000123"
+            # "999999" would not be padded, and remains unchanged as "999999"
+            padded_str = unpadded_str.rjust(length, '0')
+
+            padded_str
+
+        end
+
+        # DEPRECATED
+        # This declaration attach a new method to the Devise module to generate user-friendly tokens
+        # we use this method to reset password through Dispatcher or like-otp validations
+        # important we use this method only when we need compatibility with Devise
         # example: easy password reset, through otp
         def generate_token(klass, column, length=2, upcase=false)
             key = key_for(column)

@@ -22,6 +22,7 @@ require 'lesli_request_helper'
 
 RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
     describe "POST:/login.json", type: :request  do
+
         it "is expected to respond with successful standard json response" do
             @new_user = FactoryBot.create(:user)
             post "/login.json", params: { user: { email: @new_user.email, password: @new_user.password } }
@@ -59,9 +60,9 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             expect_response_with_error
         end
     
-        # Tests since MFA integration
+        # Tests for MFA integration
     
-        it "is expected to respond with successfull and redirect to /mfa/new view when a user has MFA enabled" do
+        it "is expected to respond with successfull and default path to /mfa view when a user has MFA enabled" do
             # create the new user
             new_user = FactoryBot.create(:user)
     
@@ -76,12 +77,12 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             expect_response_with_successful
             
             # custom examples
-            expect(response_body).to have_key("default_path") # this path should be something like /mfa/enter_code?key=ENCRYPTED_EMAIL
+            expect(response_body).to have_key("default_path")
             expect(response_body["default_path"]).to be_a(String)
-            expect(response_body["default_path"]).to include("/mfa/new?key=")
+            expect(response_body["default_path"]).to eql("mfa")
         end
     
-        it "is expected to respond with successfull and do 'normal' login when MFA fields are exist but it is disabled" do
+        it "is expected to respond with successfull and do 'normal' login when MFA fields exists but it is disabled" do
             # create the new user
             new_user = FactoryBot.create(:user)
     
@@ -148,5 +149,6 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             # shared examples
             expect_response_with_successful
         end
+
     end
 end

@@ -17,7 +17,6 @@ For more information read the license file including with this software.
 
 =end
 class Users::RegistrationsController < Devise::RegistrationsController
-    include Application::Responder
     before_action :configure_sign_up_params, only: [:create, :update]
 
 

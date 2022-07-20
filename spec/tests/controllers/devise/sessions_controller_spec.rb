@@ -167,7 +167,7 @@ RSpec.describe Users::SessionsController, type: :controller, :unless => defined?
         }
 
         expect_response_with_error
-        expect(response_body["message"]).to eql(I18n.t("deutscheleibrenten.users/sessions.role_access_denied"))
+        expect(response_body["message"]).to eql(I18n.t("core.users/sessions.the_user_has_no_assigned_role"))
 
     end
 
