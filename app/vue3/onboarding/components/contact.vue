@@ -35,9 +35,7 @@ const companyInfo = computed(()=> storeOnboarding.companyInfo)
 <template>
     <form>
         <div class="field">
-            <label class="label">{{
-                translations.core.onboardings.view_text_email
-            }}</label>
+            <label class="label">{{ translations.core.onboardings.view_text_email }}</label>
             <div class="control">
                 <input
                     class="input"
@@ -63,9 +61,7 @@ const companyInfo = computed(()=> storeOnboarding.companyInfo)
         <p>{{translations.core.onboardings.view_title_social_profiles}}</p>
 
         <div class="field">
-            <label class="label">{{
-                translations.core.accounts.column_github
-            }}</label>
+            <label class="label">{{ translations.core.accounts.column_github }}</label>
             <div class="control">
                 <input
                     class="input"
@@ -78,9 +74,7 @@ const companyInfo = computed(()=> storeOnboarding.companyInfo)
 
 
         <div class="field">
-            <label class="label">{{
-                translations.core.accounts.column_twitter
-            }}</label>
+            <label class="label">{{ translations.core.accounts.column_twitter }}</label>
             <div class="control">
                 <input
                     class="input"
@@ -93,9 +87,7 @@ const companyInfo = computed(()=> storeOnboarding.companyInfo)
 
         
         <div class="field">
-            <label class="label">{{
-                translations.core.accounts.column_youtube
-            }}</label>
+            <label class="label">{{ translations.core.accounts.column_youtube }}</label>
             <div class="control">
                 <input
                     class="input"
@@ -108,9 +100,7 @@ const companyInfo = computed(()=> storeOnboarding.companyInfo)
 
                 
         <div class="field">
-            <label class="label">{{
-                translations.core.accounts.column_linkedin
-            }}</label>
+            <label class="label">{{ translations.core.accounts.column_linkedin }}</label>
             <div class="control">
                 <input
                     class="input"
@@ -123,9 +113,7 @@ const companyInfo = computed(()=> storeOnboarding.companyInfo)
 
                 
         <div class="field">
-            <label class="label">{{
-                translations.core.accounts.column_facebook
-            }}</label>
+            <label class="label">{{ translations.core.accounts.column_facebook }}</label>
             <div class="control">
                 <input
                     class="input"

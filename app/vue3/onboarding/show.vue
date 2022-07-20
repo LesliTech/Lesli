@@ -42,13 +42,13 @@ const storeOnboarding = useOnboarding()
 <template>
     <welcomeComponent v-if="storeOnboarding.view == 0"></welcomeComponent>
     <template v-if="storeOnboarding.view > 0">
-        <indicatorsComponent v-if="storeOnboarding.view < 5"></indicatorsComponent>
-        <generalInfoComponent v-if="storeOnboarding.view == 1"></generalInfoComponent>
-        <addressComponent v-else-if="storeOnboarding.view == 2"></addressComponent>
-        <contactComponent v-else-if="storeOnboarding.view == 3"></contactComponent>
-        <datetimeComponent v-else-if="storeOnboarding.view == 4"></datetimeComponent>
-        <buttonsComponent v-if="storeOnboarding.view < 5"></buttonsComponent>
-        <finishComponent v-else-if="storeOnboarding.view == 5"></finishComponent>
+        <indicators-component v-if="storeOnboarding.view < 5"></indicators-component>
+        <general-info-component v-if="storeOnboarding.view == 1"></general-info-component>
+        <address-component v-else-if="storeOnboarding.view == 2"></address-component>
+        <contact-component v-else-if="storeOnboarding.view == 3"></contact-component>
+        <datetime-component v-else-if="storeOnboarding.view == 4"></datetime-component>
+        <buttons-component v-if="storeOnboarding.view < 5"></buttons-component>
+        <finish-component v-else-if="storeOnboarding.view == 5"></finish-component>
     </template>
 </template>
 

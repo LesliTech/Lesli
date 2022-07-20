@@ -44,6 +44,7 @@ export const useOnboarding = defineStore("onboarding", {
                 datetime_format_date_words: null,
                 datetime_format_date_time: null,
                 datetime_format_date_time_words: null,
+                datetime_time_zone: null,
 
             },
             translations: {
@@ -57,7 +58,8 @@ export const useOnboarding = defineStore("onboarding", {
             },
             options: {
                 countries: [],
-                regions: []
+                regions: [],
+                time_zones: []
             }
         }
     },
@@ -105,6 +107,17 @@ export const useOnboarding = defineStore("onboarding", {
                 this.msg.danger(this.translations.core.shared.messages_danger_internal_error)
             }).finally(() => {
                 this.loading = false
+            })
+            // Get options for time zone selection
+            this.http.get(this.url.admin("account/settings/options")).then(result => {
+                this.options.time_zones = result.time_zones.map((time_zone)=> {
+                    return {
+                        label: time_zone.text,
+                        value: time_zone.value
+                    }
+                } )
+            }).catch(error => {
+                console.log(error)
             })
         },
         // Save configuration from onboarding
