@@ -17,77 +17,154 @@ For more information read the license file including with this software.
 */
 
 // · import vue tools
-import { onMounted, computed, ref } from "vue"
+import { onMounted, computed, ref } from "vue";
 
 // · import lesli stores
-import { useOnboarding } from "Lesli/vue3/onboarding/store"
+import { useOnboarding } from "Lesli/vue3/onboarding/store";
 
 // · implement stores
-const storeOnboarding = useOnboarding()
+const storeOnboarding = useOnboarding();
 
-// . translations
-const translations = storeOnboarding.translations
+// · translations
+const translations = {
+    core: {
+        onboardings: I18n.t("core.onboardings"),
+        accounts: I18n.t("core.accounts"),
+        account_settings: I18n.t("core.account/settings"),
+    },
+};
 
 onMounted(() => {
-    storeOnboarding.getOptions()
-})
+    storeOnboarding.getOptions();
+});
 
 // . get reactive info from onboarding store
-const companyInfo = computed(()=> storeOnboarding.companyInfo)
-const settings = computed(()=> storeOnboarding.settings)
+const companyInfo = computed(() => storeOnboarding.companyInfo)
+const settings = computed(() => storeOnboarding.settings)
 
+// . declare variables
 const timezoneValue = ref([])
+const timeFormat = ref({ label:"", value:"" })
+const dateFormat = ref({ label:"", value:"" })
+const dateWords = ref({ label:"", value:"" })
+const datetimeWords = ref(dateWords.value.label + timeFormat.value.label )
+const combinedDate = ref(dateFormat.value.label + timeFormat.value.label )
 
-function updateTimezone (){
+// . Functions for updating date format values in store 
+
+function updateTimezone() {
     settings.value.datetime_time_zone = timezoneValue.value.value
+}
+function updateDatetime() {
+    combinedDate.value = dateFormat.value.label +" "+ timeFormat.value.label
+    settings.value.datetime_format_date_time = dateFormat.value.value +" "+timeFormat.value.value
+}
+
+function updateDate() {
+    settings.value.datetime_format_date = dateFormat.value.value
+    updateDatetime()
+}
+
+function updateTime() {
+    settings.value.datetime_format_time = timeFormat.value.value
+    updateDatetime()
+    updateDateWords()
+}
+
+function updateDateWords(){
+    datetimeWords.value = dateWords.value.label +" "+ timeFormat.value.label
+    settings.value.datetime_format_date_time_words = dateWords.value.value +" "+timeFormat.value.value
 }
 
 </script>
 <template>
     <form>
         <div class="field">
-            <label class="label">{{ translations.core.account_settings.column_time_zone }}</label>
+            <label class="label">{{
+                translations.core.account_settings.column_time_zone
+            }}</label>
             <div class="control">
                 <lesli-select
                     :options="storeOnboarding.options.time_zones"
                     v-model="timezoneValue"
-                    @change="updateTimezone">
+                    @change="updateTimezone"
+                >
                 </lesli-select>
             </div>
         </div>
 
         <div class="field">
-            <label class="label">{{ translations.core.onboardings.view_text_date_format }}</label>
+            <label class="label">{{
+                translations.core.onboardings.view_text_date_format
+            }}</label>
             <div class="control">
-                <input
-                    class="input"
-                    type="text"
-                    placeholder="%d.%m.%Y"
-                    v-model="settings.datetime_format_date"
-                />
+                <lesli-select
+                    :options="[
+                        {
+                            label: '24.03.2018',
+                            value: '%d.%m.%Y',
+                        },
+                        {
+                            label: '24-03-2018',
+                            value: '%d-%m-%Y',
+                        },
+                        {
+                            label: '24/03/2018',
+                            value: '%d/%m/%Y',
+                        },
+                    ]"
+                    v-model="dateFormat"
+                    @change="updateDate"
+                >
+                </lesli-select>
             </div>
         </div>
 
         <div class="field">
-            <label class="label">{{ translations.core.onboardings.view_text_time_format }}</label>
+            <label class="label">{{
+                translations.core.onboardings.view_text_time_format
+            }}</label>
             <div class="control">
-                <input
-                    class="input"
-                    type="text"
-                    placeholder="%H:%M"
-                    v-model="settings.datetime_format_time"
-                />
+                <lesli-select
+                    :options="[
+                        {
+                            label: '10:30',
+                            value: '%I:%M',
+                        },
+                        {
+                            label: '10:30:20',
+                            value: '%I:%M:%S',
+                        },
+                        {
+                            label: '10:30 PM',
+                            value: '%I:%M %p',
+                        },
+                        {
+                            label: '22:30',
+                            value: '%H:%M',
+                        },
+                        {
+                            label: '22:30:20',
+                            value: '%H:%M:%S',
+                        },
+                    ]"
+                    v-model="timeFormat"
+                    @change="updateTime"
+                >
+                </lesli-select>
             </div>
         </div>
 
         <div class="field">
-            <label class="label">{{ translations.core.onboardings.view_text_format_combined }}</label>
+            <label class="label">{{
+                translations.core.onboardings.view_text_format_combined
+            }}</label>
             <div class="control">
                 <input
                     class="input"
                     type="text"
-                    placeholder="%d.%m.%Y %H:%M"
-                    v-model="settings.datetime_format_date_time"
+                    readonly
+                    v-model="combinedDate"
                 />
             </div>
         </div>
@@ -95,12 +172,29 @@ function updateTimezone (){
         <div class="field">
             <label class="label">{{ translations.core.onboardings.view_text_date_text }}</label>
             <div class="control">
-                <input
-                    class="input"
-                    type="text"
-                    placeholder="%A, %B %d, %Y"
-                    v-model="settings.datetime_format_date_words"
-                />
+                <lesli-select
+                    :options="[
+                        {
+                            label: 'Saturday, March 24, 2018',
+                            value: '%A, %B %d, %Y',
+                        },
+                        {
+                            label: 'Sat, Mar 24, 2018',
+                            value: '%a, %b %d, %Y',
+                        },
+                        {
+                            label: 'Mar 24, 2018',
+                            value: '%b %d, %Y',
+                        },
+                        {
+                            label: 'March 24, 2018',
+                            value: '%B %d, %Y',
+                        }
+                    ]"
+                    v-model="dateWords"
+                    @change="updateDateWords"
+                >
+                </lesli-select>
             </div>
         </div>
 
@@ -110,8 +204,8 @@ function updateTimezone (){
                 <input
                     class="input"
                     type="text"
-                    placeholder="%A, %B %d, %Y, %H:%M"
-                    v-model="settings.datetime_format_date_time_words"
+                    readonly
+                    v-model="datetimeWords"
                 />
             </div>
         </div>

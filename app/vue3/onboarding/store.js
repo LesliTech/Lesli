@@ -50,10 +50,8 @@ export const useOnboarding = defineStore("onboarding", {
             translations: {
                 core: {
                     onboardings: I18n.t("core.onboardings"),
-                    accounts: I18n.t("core.accounts"),
                     shared:  I18n.t("core.shared"),
-                    passes: I18n.t("core.passes"),
-                    account_settings: I18n.t("core.account/settings"),           
+                    account_settings: I18n.t("core.account/settings")   
                 },
             },
             options: {
