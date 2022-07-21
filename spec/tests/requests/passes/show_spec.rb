@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "GET:/pass", type: :request do
+RSpec.describe "GET:/pass", type: :request, :unless => defined?(DeutscheLeibrenten) do
     
     it "is expected to redirect to '/pass/new' when the token is not sent" do
         get "/pass"
