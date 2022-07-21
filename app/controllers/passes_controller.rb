@@ -92,11 +92,6 @@ class PassesController < ApplicationController
 
     end
 
-
-    def new 
-        LC::Debug.msg("aqui")
-    end
-
     # POST /passes
     def create
 
