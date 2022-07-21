@@ -25,7 +25,7 @@ class PassesController < ApplicationController
     # GET /passes
     def show
 
-        # we use "t" as alias for token
+        # we use "t" as alias for token, only render the html view if token is no present
         return if params[:t].blank?
 
         # alias for token error message
@@ -90,6 +90,11 @@ class PassesController < ApplicationController
         # redirect to the root path and return 
         redirect_to("/") and return 
 
+    end
+
+
+    def new 
+        LC::Debug.msg("aqui")
     end
 
     # POST /passes
