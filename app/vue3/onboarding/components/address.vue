@@ -25,8 +25,13 @@ import { useOnboarding } from "Lesli/vue3/onboarding/store"
 // · implement stores
 const storeOnboarding = useOnboarding()
 
-// . translations
-const translations = storeOnboarding.translations
+// · translations
+const translations = {
+    core: {
+        onboardings: I18n.t("core.onboardings"),
+        accounts: I18n.t("core.accounts"),
+    }
+}
 
 // . get reactive info from onboarding store
 const companyInfo = computed(()=> storeOnboarding.companyInfo)

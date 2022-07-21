@@ -28,8 +28,14 @@ import { useOnboarding } from "Lesli/vue3/onboarding/store"
 // · implement stores
 const storeOnboarding = useOnboarding()
 
-// . translations
-const translations = storeOnboarding.translations
+// · translations
+const translations = {
+    core: {
+        onboardings: I18n.t("core.onboardings"),
+        shared:  I18n.t("core.shared"),
+        accounts: I18n.t("core.accounts"),
+    }
+}
 
 
 </script>

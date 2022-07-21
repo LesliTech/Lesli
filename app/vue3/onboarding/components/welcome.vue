@@ -30,7 +30,12 @@ const storeOnboarding = useOnboarding()
 
 
 // · translations
-const translations = storeOnboarding.translations
+const translations = {
+    core: {
+        onboardings: I18n.t("core.onboardings"),
+        passes: I18n.t("core.passes")
+    }
+}
 
 </script>
 <template>
