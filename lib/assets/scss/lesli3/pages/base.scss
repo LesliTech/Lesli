@@ -30,9 +30,7 @@ h1 {
 
 
 // ·
-body.users-registrations.new,
-body.users-sessions.new {
-    background-color: #F6F7FC;
+body {
     background-color: #FAFAFA;
 
     .columns {
@@ -45,7 +43,6 @@ body.users-sessions.new {
     }
 
     .column .hero {
-        
         min-height: 100vh;
 
         form,
@@ -115,7 +112,7 @@ body.users-sessions.new {
                 font-family: "Exo";
                 font-weight: 500;
                 font-size: 14px;
-                color: lesli-css-color(lesli, navy);
+                //color: lesli-css-color(lesli, navy);
             }
         }
 

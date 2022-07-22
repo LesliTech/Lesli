@@ -17,9 +17,6 @@ For more information read the license file including with this software.
 */
 
 
-// · import vue tools
-import { ref, reactive, onMounted, watch, computed, onUnmounted } from "vue"
-
 
 // · import lesli stores
 import { useOnboarding } from "Lesli/vue3/onboarding/store"
@@ -32,21 +29,19 @@ const storeOnboarding = useOnboarding()
 // · translations
 const translations = {
     core: {
-        onboardings: I18n.t("core.onboardings"),
-        passes: I18n.t("core.passes")
+        onboardings: I18n.t("core.onboardings")
     }
 }
 
 </script>
 <template>
     <div class="welcome has-text-centered">
-        <lesli-icon id="high-five"></lesli-icon>
-        <h1>{{translations.core.onboardings.view_text_registration_success}}<br>{{translations.core.passes.mailer_first_access_welcome}}</h1>
-        <p>{{translations.core.onboardings.view_text_suggest_onboarding}}</p>
-        <p class="mb-5">{{translations.core.onboardings.view_text_configure_msg}}</p>
+        <lesli-icon id="rocket"></lesli-icon>
+        <h1>{{translations.core.onboardings.view_title_finish_onboarding}} </h1>
+        <p class="mb-5">{{translations.core.onboardings.view_text_finish_configuration}}</p>
         <div class="has-text-centered">
-            <button class="button is-primary mb-1 start" @click="storeOnboarding.next()">{{translations.core.onboardings.view_btn_start_onboarding}}</button>
-            <button class="button is-text skip" @click="storeOnboarding.skip()">{{translations.core.onboardings.view_text_skip_onboarding_title}}</button>
+            <button class="button is-primary mb-1 start" @click="storeOnboarding.saveConfiguration()">{{translations.core.onboardings.view_btn_continue_lesli}}</button>
+            <button class="button is-text skip" @click="storeOnboarding.back()">{{translations.core.onboardings.view_btn_back_onboarding}}</button>
         </div>
     </div>
 </template>
