@@ -20,8 +20,7 @@ For more information read the license file including with this software.
 # include helpers, configuration & initializers for request tests
 require "lesli_controller_helper"
 
-
-RSpec.describe Users::RegistrationsController, type: :controller do
+RSpec.describe Users::RegistrationsController, type: :controller, :unless => defined?(DeutscheLeibrenten) do
 
     include_context 'controller user authentication'
 
