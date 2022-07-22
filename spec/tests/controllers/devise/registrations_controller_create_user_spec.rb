@@ -21,7 +21,7 @@ For more information read the license file including with this software.
 require 'lesli_controller_helper'
 
 
-RSpec.describe Users::RegistrationsController, type: :controller do
+RSpec.describe Users::RegistrationsController, type: :controller, :unless => defined?(DeutscheLeibrenten) do
 
     before :each do
         request.env["devise.mapping"] = Devise.mappings[:user]

@@ -20,36 +20,25 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "GET:/pass", type: :request do
+RSpec.describe "GET:/pass", type: :request, :unless => defined?(DeutscheLeibrenten) do
     
-    it "is expected to redirect to '/pass/new' when the token is not sent" do
-        get "/pass"
-    end
-end
-
-RSpec.describe "GET:/pass", type: :request do
-    before(:all) do 
-        get "/pass.json", params: { t: Faker::Lorem.characters(number: 30) }
+    it "is expected to render the pass request page" do
+        get("/pass")
+        expect(response).to have_http_status(:success)
     end
 
     it "is expected to redirect to '/login' when the token is invalid" do
+        get("/pass", params: { t: Faker::Lorem.characters(number: 30) })
         expect(response).to redirect_to("/login")
     end
-end
-
-RSpec.describe "GET:/pass", type: :request do
-    
-    include_context "request user authentication"
 
     it "is expected to redirect to root '/' if everything happened correctly" do
-
-        pass = @current_user.access_codes.new({ token_type: "pass" })
+        pass = User.first.access_codes.new({ token_type: "pass" })
         raw, enc = Devise.token_generator.generate(pass.class, :token)
         pass.token = enc
         pass.save
 
-        get "/pass.json", params: { t: raw }
-
+        get("/pass", params: { t: raw })
         expect(response).to redirect_to("/")
     end
 end

@@ -53,7 +53,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :if => defined
                 password_confirmation: password
             }
         }
-        LC::Debug.msg(response.body)
+
         expect_json_response_error
         expect(response_error['message'][0]).to eql('error_password_minimum_length')
     end

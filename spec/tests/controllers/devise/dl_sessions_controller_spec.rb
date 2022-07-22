@@ -168,7 +168,7 @@ RSpec.describe Users::SessionsController, type: :controller, :if => defined?(Deu
         }
 
         expect_json_response_error
-        expect(response_error["message"]).to eql(I18n.t("deutscheleibrenten.users/sessions.role_access_denied"))
+        expect(response_error["message"]).to eql(I18n.t("core.users/sessions.the_user_has_no_assigned_role"))
 
     end
 
