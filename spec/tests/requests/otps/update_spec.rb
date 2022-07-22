@@ -26,13 +26,13 @@ RSpec.describe "PUT:/otp", type: :request, :unless => defined?(DeutscheLeibrente
     it "is expected to redirect to '/otp/new' when the param 't' is not sent" do
         put("/otp.json")
         expect_response_with_error
-        expect(response_body["message"]).to eql("core.shared.messages_danger_not_valid_authorization_token_found")
+        expect(response_body["message"]).to eql(I18n.t("core.shared.messages_danger_not_valid_authorization_token_found"))
     end
 
     it "is expected to redirect to '/login' when an invalid token is sent" do
         put("/otp.json", params: { t: Faker::Lorem.characters(number: 30) })
         expect_response_with_error
-        expect(response_body["message"]).to eql("core.shared.messages_danger_not_valid_authorization_token_found")
+        expect(response_body["message"]).to eql(I18n.t("core.shared.messages_danger_not_valid_authorization_token_found"))
     end
 
     it "is expected to redirect to root '/' if everything happened correctly" do
