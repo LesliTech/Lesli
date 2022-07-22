@@ -90,7 +90,7 @@ module LC
 
             def self.sass_variables_by_instance
                 instance_code = instance()[:code]
-                return "lesli3/settings/variables" if instance_code
+                return "lesli3/settings/variables" if instance_code == 'lesli'
                 return "#{instance_code}/lesli/variables"
             end
 
