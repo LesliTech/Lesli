@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe 'POST:/pass', type: :request do
+RSpec.describe 'POST:/pass', type: :request, :unless => defined?(DeutscheLeibrenten) do
 
     it 'is expected to reject pass from unknown user' do
         post("/pass.json", params: {

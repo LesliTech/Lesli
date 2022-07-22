@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     name: Running Core RSpec Tests for DL
-    runs-on: self-hosted
+    runs-on: lomax
     if: "!contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):') && !contains(github.event.head_commit.message, 'ci(workflows):')"
     services:
       postgres:
