@@ -23,12 +23,6 @@ module LC
 
         class Info
 
-            def self.sass_variables_by_instance
-                instance_code = instance()[:code]
-                return "lesli3/settings/variables" if instance_code
-                return "#{instance_code}/lesli/variables"
-            end
-
             def self.instance
                 Rails.application.config.lesli[:instance]
             end
@@ -92,6 +86,12 @@ module LC
 
                 revisions
 
+            end
+
+            def self.sass_variables_by_instance
+                instance_code = instance()[:code]
+                return "lesli3/settings/variables" if instance_code
+                return "#{instance_code}/lesli/variables"
             end
 
         end
