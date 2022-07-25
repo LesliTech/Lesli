@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 */
 
 $lesli-sidebar-color-text: findColorInvert($lesli-sidebar-color);
-$lesli-sidebar-color-hover: darken($lesli-sidebar-color, 10);
+$lesli-sidebar-color-hover: findDarkColor($lesli-sidebar-color);
 
 
 // · Navigation sidebar
