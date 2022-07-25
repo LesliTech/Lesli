@@ -49,7 +49,7 @@ module AssetsHelper
         return theme if custom.blank?
 
         # build and return custom theme
-        ["themes", lesli_instance_code, custom].join("/")
+        ["themes", custom, custom].join("/")
 
     end
 
