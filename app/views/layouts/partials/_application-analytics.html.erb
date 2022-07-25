@@ -22,7 +22,7 @@ For more information read the license file including with this software.
 <% # check if analytics is enabled in the settings file %>
 <% enable_analytics = Rails.application.config.lesli.dig(:security, :enable_analytics) %>
 
-<% #if Rails.env.production? && enable_analytics %>
+<% if Rails.env.production? && enable_analytics %>
 
 <script type="text/javascript">
 
@@ -44,4 +44,4 @@ For more information read the license file including with this software.
     
 </script>
 
-<% #end %>
+<% end %>
