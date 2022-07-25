@@ -17,6 +17,21 @@ For more information read the license file including with this software.
 
 %>
 
+<% custom_app_page_clas = "#{ lesli_instance_code }-session".downcase %>
+<% custom_app_page_path = "#{ lesli_instance_code }/lesli/devise/sessions/new" %>
+<% custom_app_page_exists = lookup_context.exists?(custom_app_page_path) %>
+
+
+<%# render custom view in builder module %>
+<% if custom_app_page_exists %>
+<main id="lesli-application" class="<%= custom_app_page_clas %>">
+    <%= render :template => custom_app_page_path %>
+</main>
+<% end %>
+
+
+<%# core view for passses %>
+<% unless custom_app_page_exists %>
 <%= render("layouts/wrappers/application-auth") do %>
 
     <%# Logo container %>
@@ -150,5 +165,5 @@ For more information read the license file including with this software.
             <% end %>
         <% end %>
     </div>
-
+<% end %>
 <% end %>
