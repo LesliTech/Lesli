@@ -44,8 +44,8 @@ For more information read the license file including with this software.
 
     <% if core_version == 3 %>
         <template v-slot:brand>
-            <%= customization_instance_logo_tag(logo: "app-icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
-            <%= customization_instance_logo_tag(logo: "app-logo-gray", options: {alt: "App logo", class: "is-hidden-touch"}) %>
+            <%= customization_instance_logo_tag(logo: "app-icon", options: {alt: "App icon", class: "is-hidden-desktop"}) %>
+            <%= customization_instance_logo_tag(logo: "app-logo", options: {alt: "App logo", class: "is-hidden-touch"}) %>
             <span class="is-hidden-touch is-hidden-desktop-only is-hidden-widescreen-only"><%= lesli_engine_name %></span>
         </template>
     <% end %>
