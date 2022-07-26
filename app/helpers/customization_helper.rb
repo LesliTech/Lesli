@@ -36,6 +36,9 @@ module CustomizationHelper
         # older version of this helper
         logo_path = "#{lesli_instance_code}/brand/#{logo.dasherize}.svg"
 
+        # load favicon as PNG for better compatibility between web browsers
+        logo_path = "#{lesli_instance_code}/brand/#{logo.dasherize}.png" if logo == 'favicon'
+
         # loading logo from core, only if builder engine was not installed
         logo_path = "lesli/brand/#{logo}.svg" if lesli_instance_code == "lesli"
 
@@ -67,7 +70,7 @@ module CustomizationHelper
         {
             "app_icon" => "app-icon.svg",
             "app_logo" => "app-logo.svg",
-            "favicon" => "favicon.svg"
+            "favicon" => "favicon.png"
         }
     end
 end
