@@ -37,7 +37,7 @@ app({
         }
     },
     mounted() {
-        this.$refs.email.focus()
+        this.$refs?.email?.focus()
     },
     methods: {
 

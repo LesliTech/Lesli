@@ -17,27 +17,10 @@ For more information read the license file including with this software.
 
 %>
 
-<%
-page_id = controller_path.gsub("/","-")
-back_to_login = defined?(back_to_login) ? back_to_login : false
-%>
+<% back_to_login = defined?(back_to_login) ? back_to_login : false %>
+<% custom_app_page_clas = "#{ lesli_instance_code }-session".downcase %>
 
-<% custom_app_page_clas = "#{ lesli_instance_code }-#{ page_id }" %>
-<% custom_app_page_path = "#{ lesli_instance_code }/lesli/#{ page_id }/new" %>
-<% custom_app_page_exists = lookup_context.exists?(custom_app_page_path) %>
-
-
-<%# render custom view in builder module %>
-<% if custom_app_page_exists %>
-<main id="lesli-application">
-    <%= render :template => custom_app_page_path %>
-</main>
-<% end %>
-
-
-<%# core view for passses %>
-<% unless custom_app_page_exists %>
-<main id="lesli-application" class="standard-auth-view">
+<main id="lesli-application" class="standard-auth-view <%= custom_app_page_clas %>">
     <section class="columns is-gapless">
         <div class="column">
             <div class="hero is-fullheight">
@@ -65,4 +48,3 @@ back_to_login = defined?(back_to_login) ? back_to_login : false
         <div class="column is-hidden-touch"></div>
     </section>
 </main>
-<% end %>
