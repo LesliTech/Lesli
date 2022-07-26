@@ -68,7 +68,8 @@
         "webpack3:watch": "webpack --progress --env watch=true",
         "webpack3": "webpack --progress --env mode=development",
 
+        "test": "npm run test:vue",
         "test:scss": "jest tests/scss/scss.spec.js",
-        "test:vue": "vue-cli-service test:unit --recursive 'tests/vue/**/*.spec.js'"
+        "test:vue": "vue-cli-service test:unit --recursive 'tests/vue/**/date.spec.js'"
     }
 }
