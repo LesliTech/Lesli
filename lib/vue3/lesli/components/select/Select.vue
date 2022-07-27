@@ -43,6 +43,10 @@ const props = defineProps({
     icon: {
         type: String,
         required: false
+    },
+    reset: {
+        type: String,
+        required: false
     }
 })
 
@@ -64,6 +68,11 @@ function onChange() {
             <div class="select">
                 <select @change="onChange" v-model="selected">
                     <option value="" hidden>{{ props.placeholder }}</option>
+                    <option 
+                        v-if="props.reset"
+                        :value="{ value: 'reset', label: 'reset' }">
+                        {{ props.reset }}
+                    </option>
                     <option 
                         v-for="(option, index) in props.options" 
                         :value="option"
