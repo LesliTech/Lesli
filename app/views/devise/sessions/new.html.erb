@@ -47,7 +47,7 @@ For more information read the license file including with this software.
     </div>
 
     <%# Log in form %>
-    <form @submit.prevent="postLogin" method="post">
+    <form @submit="postLogin" method="post">
         <div class="field mb-4">
             <label for="user_email" class="label">E-mail address</label>
             <div class="control has-icons-left has-icons-right">
@@ -102,19 +102,19 @@ For more information read the license file including with this software.
             </div>
         </div>
 
-        <% if Rails.application.config.lesli.dig(:security, :allow_registration) %>
-            <div class="field mb-6">
-                <div class="control is-fullwidth">
-                    <input type="submit" class="button is-primary is-fullwidth mb-2" value="Log in">
+        <div class="field mb-6">
+            <div class="control is-fullwidth">
+                <input type="submit" class="button is-primary is-fullwidth mb-2" value="Log in">
+                <% if Rails.application.config.lesli.dig(:security, :allow_registration) %>
                     <p class="account has-text-centered">
                         Still not registered? 
                         <%= link_to new_user_registration_path, :class => "has-text-primary" do %>
                             <u><b>Create account</b></u>
                         <% end %>
                     </p> 
-                </div>
+                <% end %>
             </div>
-        <% end %>
+        </div>
 
         <div class="field mb-6" v-if="false">
             <p class="message has-text-success">Registration successfully done. Please check your E-mail to activate your account.</p>
