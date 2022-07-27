@@ -15,8 +15,8 @@ For more information read the license file including with this software.
 // · 
 */
 
-$lesli-sidebar-color-text: findColorInvert($lesli-sidebar-color);
-$lesli-sidebar-color-hover: findDarkColor($lesli-sidebar-color);
+$lesli-sidebar-color-text: findColorInvert($lesli-sidebar-color) !default;
+$lesli-sidebar-color-hover: findDarkColor($lesli-sidebar-color) !default;
 
 
 // · Navigation sidebar
@@ -49,6 +49,12 @@ aside.application-sidebar {
         overflow-y: scroll;
     }
 
+    p.menu-label {
+        padding-left: 26px;
+        font-size: .85rem;
+        margin: .4rem 0;
+    }
+
     // link container
     li {
 
@@ -72,6 +78,7 @@ aside.application-sidebar {
             svg.icono {
                 width: 32px;
                 height: 32px;
+                fill: $lesli-sidebar-color-text;
             }
 
             // icons from reixicons
