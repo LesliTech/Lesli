@@ -70,6 +70,6 @@
 
         "test": "npm run test:vue",
         "test:scss": "jest tests/scss/scss.spec.js",
-        "test:vue": "vue-cli-service test:unit --recursive 'tests/vue/**/date.spec.js'"
+        "test:vue": "vue-cli-service test:unit --recursive 'tests/vue/**/*.spec.js'"
     }
 }
