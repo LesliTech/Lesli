@@ -47,7 +47,7 @@ For more information read the license file including with this software.
     </div>
 
     <%# Log in form %>
-    <form @submit.prevent="postLogin" method="post">
+    <form @submit="postLogin" method="post">
         <div class="field mb-4">
             <label for="user_email" class="label">E-mail address</label>
             <div class="control has-icons-left has-icons-right">
