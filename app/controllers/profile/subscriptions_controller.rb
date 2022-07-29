@@ -25,10 +25,16 @@ class Profile::SubscriptionsController < ApplicationLesliController
             format.html {}
             format.json do
                 set_builder_model
-
+                
                 if @builder_model && (@builder_model.respond_to? :index)
+                    puts "1"
+                    puts current_user
                     respond_with_successful(@builder_model.index(current_user, @query))
                 else
+                    puts "2"
+                    puts " usuario #{current_user}"
+                    puts " lo que manda #{Profile::Subscription.index(current_user, @query)}"
+                    puts "*-*********-----"
                     respond_with_successful(Profile::Subscription.index(current_user, @query))
                 end
             end
