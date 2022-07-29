@@ -9,8 +9,8 @@
 
  ## Write Test
 ```
-1. go to controller folder and locate the controller file path
-2. create a file "controller_rspec.rb" in the same path where the controller is, but inside the Folder tests
+1. go to controller folder and locate the controller file path using Controller#test where Controller is the file name and Action is the method used inside the file 
+2. create a file "controller_rspec.rb" in the same path where the controller is, but inside the Folder tests/requests
 ```
 
                                                            
