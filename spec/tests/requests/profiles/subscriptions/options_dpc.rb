@@ -18,7 +18,6 @@ RSpec.describe "GET://administration/profile/subscriptions/options.json", type: 
         it "is expected to respond a hash not empty whit diferent key value" do
             get("/administration/profile/subscriptions/options.json")
             expect_response_with_successful
-            LC::Debug.msg("my respond #{response_body}" )
             expect(response_body).not_to be_nil 
             expect(response_body).to be_an(Hash)
             expect(response_body.length).to be >= 1
