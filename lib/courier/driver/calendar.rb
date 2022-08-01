@@ -156,8 +156,18 @@ module Courier
             def self.create_user_calendar(user, calendar_name)
                 return nil unless defined? CloudDriver
 
-                CloudDriver::Calendar.create!(
-                    account: user.account,
+                user_calendar = user.account.driver.calendars.eager_load(:detail).where(
+                    cloud_driver_calendar_details: {
+                        name: calendar_name
+                    }
+                ).find_by(
+                    user_main: user,
+                    users_id: user.id,
+                )
+
+                return user_calendar unless user_calendar.blank?
+
+                return user.account.driver.calendars.create!(
                     user_main: user,
                     users_id: user.id,
                     detail_attributes: {
