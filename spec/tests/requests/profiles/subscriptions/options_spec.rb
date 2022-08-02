@@ -12,7 +12,7 @@
 =end
 
 require "lesli_request_helper"
-RSpec.describe "GET://administration/profilope/subscriptions/options.json", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
     describe "GET:/administration/profile/subscriptions/options.json", type: :request do
         include_context "request user authentication"
 
