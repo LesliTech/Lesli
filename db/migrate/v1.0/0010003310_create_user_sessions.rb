@@ -22,14 +22,15 @@ class CreateUserSessions < ActiveRecord::Migration[6.0]
         create_table :user_sessions do |t|
 
             t.inet   :user_remote       # IPv4 and IPv6 hosts and networks
-            t.string :user_agent    
+            t.string :user_agent 
             t.string :user_uuid         # unique user identifier
 
-            #t.string :timezone         # timezone of the logged user
-
             t.string :session_uuid      # unique session identifier
-            t.string :session_token
+            t.string :session_token     # authentication token
             t.string :session_source    # session created for/with
+
+            # this is just reference, the new column is in the migration v1.7
+            # t.string :activation_code   # token to activate the session 
 
             t.integer  :usage_count                     # total number of interactions 
             t.datetime :last_used_at                    # last datetime token was used

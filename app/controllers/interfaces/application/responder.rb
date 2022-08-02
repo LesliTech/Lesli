@@ -129,7 +129,7 @@ module Interfaces
 
             # JSON failure response
             def respond_with_error message = "", details = []
-                
+
                 # Keep compatibility with apps v2 specially Deutsche Leibrenten
                 if defined?(DeutscheLeibrenten)
 
@@ -151,7 +151,7 @@ module Interfaces
                 #       message = error message to sentence
                 #       details = error array of messages
                 #   check another types of errors and parse respond according
-                respond_with_http(500, { 
+                respond_with_http(400, { 
                     message: message,
                     details: details
                 })
@@ -161,7 +161,7 @@ module Interfaces
             # Respond with an standard http message
             def respond_with_http status, payload
                 return render(status: status, content_type: 'application/json', json: payload.to_json) unless payload.blank?
-                return render(status: status, content_type: 'application/json', json: {}.to_json)
+                return render(status: status, content_type: 'application/json', json: "")
             end 
 
         end

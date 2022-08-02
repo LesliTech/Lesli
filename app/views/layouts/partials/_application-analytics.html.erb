@@ -16,8 +16,8 @@ For more information read the license file including with this software.
 // · 
 
 %>
-<% # Support only Matomo for intranet tracking - 7 development default %>
-<% tracking_id = Rails.application.credentials.dig(:providers, :matomo) || 7 %>
+<% # Get an specific site tracking id or use the development default %>
+<% tracking_id = Rails.application.credentials.dig(:providers, :analytics) || 'DENAB' %>
 
 <% # check if analytics is enabled in the settings file %>
 <% enable_analytics = Rails.application.config.lesli.dig(:security, :enable_analytics) %>
@@ -26,30 +26,21 @@ For more information read the license file including with this software.
 
 <script type="text/javascript">
 
-    var _paq = window._paq || [];
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-
-    function loadMatomoAnalytics() {
-
-        var u = "//analytics.lesli.tech/";
-
-        _paq.push(['setTrackerUrl', u + 'matomo.php']);
-        _paq.push(['setSiteId', '<%= tracking_id %>']);
-
-        var d=document, 
-            g=d.createElement('script'), 
-            s=d.getElementsByTagName('script')[0];
-
-        g.type='text/javascript'; 
-        g.async=true; 
-        g.defer=true; 
-        g.src=u+'matomo.js'; 
-        s.parentNode.insertBefore(g,s);
-
+    function loadFathomAnalytics() {
+        (function(f, a, t, h, o, m){
+            a[h]=a[h]||function(){
+                (a[h].q=a[h].q||[]).push(arguments)
+            };
+            o=f.createElement('script'),
+            m=f.getElementsByTagName('script')[0];
+            o.async=1; o.src=t; o.id='fathom-script';
+            m.parentNode.insertBefore(o,m)
+        })(document, window, 'https://analytics.lesli.tech/tracker.js', 'fathom');
+        fathom('set', 'siteId', '<%= tracking_id %>');
+        fathom('trackPageview');
     }
 
-    setTimeout(() => { loadMatomoAnalytics() }, 4000);
+    setTimeout(() => { loadFathomAnalytics() }, 4000);
     
 </script>
 

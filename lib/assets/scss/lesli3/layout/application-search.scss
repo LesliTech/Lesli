@@ -24,12 +24,12 @@ For more information read the license file including with this software.
     position: absolute;
     z-index: 98;
     
-    top: var(--app-header-height);
+    top: var(--lesli-header-height);
     width: 100%;
     height: auto;
     padding: 0 28px;
-    max-width: calc(100% - var(--app-navigation-width));
-    margin-left: var(--app-navigation-width);
+    max-width: calc(100% - var(--lesli-sidebar-width));
+    margin-left: var(--lesli-sidebar-width);
     background-color: lesli-css-color(solid, white);
 
     .content {

@@ -14,6 +14,17 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+%>
+
+<%
+
+app_icon = "app-icon"
+app_logo = "app-logo"
+
+if defined?(LesliCloud)
+    app_icon = "app-icon-light"
+    app_logo = "app-logo-light"
+end
 
 %>
 
@@ -21,7 +32,7 @@ For more information read the license file including with this software.
 
 <%# check if custom navigation partial exists, getting the path from application helper %>
 <% custom_sidebar_path = "layouts/#{lesli_engine.dig(:code)}/partials/application-sidebar" %>
-<%#= debug custom_sidebar_path%>
+
 <%# always use the navigation from the builder engine, to bring a better navigation experience to the users, currently enabled only for lesli_cloud %>
 <%# custom_sidebar_path = "layouts/#{lesli_instance_code}/partials/application-navigation" if lesli_instance_code == "lesli_cloud" %>
 
@@ -34,22 +45,13 @@ For more information read the license file including with this software.
 
 <application-component-sidebar>
 
-    <%# load logos compatibility for deutsche leibrenten%>
-    <% if core_version == 2 %>
-        <template v-slot:brand>
-            <%= customization_instance_logo_tag(logo: "app-icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
-            <%= customization_instance_logo_tag(logo: "app-logo", options: {alt: "App logo", class: "is-hidden-touch"}) %>
-        </template>
-    <% end %>
-
-    <% if core_version == 3 %>
-        <template v-slot:brand>
-            <%= customization_instance_logo_tag(logo: "app-icon", options: {alt: "App logo", class: "is-hidden-desktop"}) %>
-            <%= customization_instance_logo_tag(logo: "app-logo-gray", options: {alt: "App logo", class: "is-hidden-touch"}) %>
+    <template v-slot:brand>
+        <%= customization_instance_logo_tag(logo: app_icon, options: { alt: "App logo", class: "is-hidden-desktop" }) %>
+        <%= customization_instance_logo_tag(logo: app_logo, options: { alt: "App logo", class: "is-hidden-touch" }) %>
+        <% if core_version == 3 %>
             <span class="is-hidden-touch is-hidden-desktop-only is-hidden-widescreen-only"><%= lesli_engine_name %></span>
-        </template>
-    <% end %>
-
+        <% end %>
+    </template>
 
     <%# render navigation partial %>
     <% if custom_sidebar_exists %>

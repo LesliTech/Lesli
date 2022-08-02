@@ -17,16 +17,16 @@ For more information read the license file including with this software.
 
 =end
 class PassesController < ApplicationController
-    include Application::Responder
-    include Application::Logger
-
+    include Interfaces::Application::Responder
+    include Interfaces::Application::Requester
+    include Interfaces::Application::Logger
     before_action :set_user, only: [:create]
 
     # GET /passes
     def show
 
-        # we use "t" as alias for token
-        redirect_to("/pass/new") and return if params[:t].blank?
+        # we use "t" as alias for token, only render the html view if token is no present
+        return if params[:t].blank?
 
         # alias for token error message
         error_msg = I18n.t("core.shared.messages_danger_not_valid_authorization_token_found")
@@ -51,50 +51,46 @@ class PassesController < ApplicationController
 
         end
 
+        log = access_code.user.logs.create({ title: "session_creation_atempt"})
+
         # denied access if token do not meet validations
-        redirect_to(new_user_session_path, alert: error_msg) and return if !access_code.is_valid?
+        unless access_code.is_valid?
+            log.update(title: "session_creation_failed", description: error_msg)
+            redirect_to(new_user_session_path, alert: error_msg) and return if !access_code.is_valid?
+        end
 
-        # check if user meet requirements to login
-        user_validation = UserValidationService.new(access_code.user).valid?
-
-        # if user do not meet requirements to login
-        redirect_to(new_user_session_path, alert: error_msg) and return unless user_validation.success?
+        # cache the user from the access code
+        resource = access_code.user
 
         # delete used token
         access_code.update({ last_used_at: Time.current })
         access_code.delete
 
+        # check if user meet requirements to create a new session
+        Auth::UserValidationService.new(access_code.user).valid? do |result|
+            # if user do not meet requirements to create a new session
+            unless result.success?
+                log.update(title: "session_creation_failed", description: error_msg)
+                redirect_to(new_user_session_path, alert: error_msg) and return unless result.success?
+            end
+        end
 
-        # IMPORTANT: this is a copy of the main login method at: app/controllers/users/sessions
+        # create a new session service instance for the current user 
+        session_service = Auth::UserSessionService.new(resource, log)
+
+        # register a new session for the user
+        current_session = session_service.register(get_user_agent, request.remote_ip, "otp_web_session")
+
+        # make session id globally available
+        session[:user_session_id] = current_session[:id]
 
         # do a user login
         sign_in(access_code.user)
-
-        # register a new unique session
-        @current_session = access_code.user.sessions.create({
-            :user_agent => get_user_agent,
-            :user_remote => request.remote_ip,
-            :session_token => session[:session_id],
-            :session_source => "pass_session",
-            :last_used_at => Time.current
-        })
-
-        # make session id globally available
-        session[:user_session_id] = @current_session[:id]
-
-        # register a successful sign-in log for the current user
-        access_code.user.logs.create({ user_sessions_id: session[:user_session_id], title: "pass_session_creation_successful" })
 
         # redirect to the root path and return 
         redirect_to("/") and return 
 
     end
-
-
-    # GET /passes/new
-    def new
-    end
-
 
     # POST /passes
     def create
@@ -105,7 +101,8 @@ class PassesController < ApplicationController
         # create a new pass
         pass = @user.access_codes.new({ token_type: "pass" })
 
-        raw, enc = Devise.token_generator.generate(pass.class, :token)
+        # generate a user-friendly token
+        raw, enc = Devise.token_generator.create(pass.class, :token, length:25)
 
         # save encrypted token in database
         pass.token = enc
@@ -115,7 +112,7 @@ class PassesController < ApplicationController
 
             @user.logs.create({
                 title: "pass_creation_successful",
-                description: "user_agent: #{get_user_agent},user_remote: #{request.remote_ip}"
+                description: "#{request.remote_ip} | #{get_user_agent}"
             })
 
             UserMailer.with(user: @user, token: raw).pass_instructions.deliver_now

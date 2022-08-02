@@ -71,6 +71,10 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             post("/administration/users.json", params: {
                 user: user
             })
+
+            post("/administration/users.json", params: {
+                user: user
+            })
             
             # shared examples
             expect_response_with_error
