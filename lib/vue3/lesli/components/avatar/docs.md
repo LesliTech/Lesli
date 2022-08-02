@@ -7,7 +7,12 @@ The component lesli avatar is registered globally and is meant to be used in all
 **:letter**
 This prop is used to define the letter that will be used to show in the avatar. It is required because it is the only way to show a letter by default if the user doesn't provide a url.
 - **type**: String
-- **required**: true
+- **required**: false
+
+**:name**
+This prop is used to get the first letter of the name that was provided in the props.
+- **type**: String
+- **required**: false
 
 **:url-image**
 This prop is used to define the url of the image that will be used to show in the avatar.
@@ -16,16 +21,10 @@ This prop is used to define the url of the image that will be used to show in th
 - **default**: null
 
 **:size**
-This prop is used to define the size of the avatar. It can be a number of pixels.
+This prop is used to define the size of the avatar. It can be set to small, medium or large.
 - **type**: Number
 - **required**: false
-- **default**: 50
-
-**:font-size**
-This prop is used to define the font size of the letter. It can be 1, 2, 3, 4, 5 or 6.
-- **type**: Number
-- **required**: false
-- **default**: 4
+- **default**: small
 
 ## Events
 No events are defined for this component.
@@ -39,10 +38,9 @@ The letter is requerided to be used in the component.
 
 ```html
 <lesli-avatar 
-    letter="A" 
+    letter="A"
     url-image="https://www.example.com/image.jpg" 
-    :size="170" 
-    :font-size="1"
+    size="small"
 />
 ```
 
@@ -52,8 +50,7 @@ If url image is not defined, the component will use the letter as the image.
 
 ```html
 <lesli-avatar 
-    letter="A" 
-    :size="170" 
-    :font-size="1"
+    name="John Doe" 
+    size="medium" 
 />
 ```
