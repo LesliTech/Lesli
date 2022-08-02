@@ -17,7 +17,7 @@ For more information read the license file including with this software.
 */
 
 // · import vue tools
-import { computed } from "vue"
+import { computed, ref } from "vue"
 
 const props = defineProps({
     // · url image to render as avatar
@@ -26,32 +26,57 @@ const props = defineProps({
         default: null
     },
     // · letter to render as avatar
+    name: {
+        type: String,
+        default: null,
+    },
+    // · letter to render as avatar
     letter: {
         type: String,
-        required: true,
+        default: null,
     },
-    // · size of the avatar and it is in pixels
+    // · size of the avatar and it could be small, medium or large
     size: {
-        type: Number,
-        required: false,
-        default: 50
-    },
-    // · font size of the letter
-    fontSize: {
-        type: Number,
-        required: false,
-        default: 4
+        type: String,
+        default: "small",
     },
 })
 
 // · boolean to show avatar as image or letter
 const showImage = computed(() => props.urlImage !== null)
 
-// · size of the font to render the letter
-const fontSize = computed(() => `is-size-${props.fontSize}`)
+// · calculate the font size of the letter based on the size of the avatar
+const fontSize = ref(null)
 
 // · size of the avatar its injected in the style attribute
-const avatarSize = computed(() => `height: ${props.size}px; width: ${props.size}px;`)
+const avatarSize = ref(null)
+
+
+// validate the size of the avatar
+if (props.size === "small") {
+
+    fontSize.value = "is-size-5"
+    avatarSize.value = "height: 60px; width: 60px;"
+
+} else if (props.size === "medium") {
+
+    fontSize.value = "is-size-3"
+    avatarSize.value = "height: 120px; width: 120px;"
+
+} else if (props.size === "large") {
+
+    fontSize.value = "is-size-1"
+    avatarSize.value = "height: 180px; width: 180px;"
+
+}
+
+
+// · Letter to render as avatar
+const letter = computed(() => {
+    if (props.name) return props.word.charAt(0).toUpperCase()
+    else if (props.letter) return props.letter.toUpperCase()
+    else return '?'
+})
 
 </script>
 
