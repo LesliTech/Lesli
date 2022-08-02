@@ -27,7 +27,6 @@ class Profile::WebpushesController < ApplicationLesliController
 
     # POST /profile/webpushes
     def create
-
         # check if webpush is already registered
         user_webpush = current_user.webpushes.find_by(:endpoint => profile_webpush_params[:endpoint])
         return respond_with_successful(user_webpush) unless user_webpush.blank?

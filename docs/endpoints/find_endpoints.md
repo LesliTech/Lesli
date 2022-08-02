@@ -1,6 +1,6 @@
  ## Find Routes
 ```
-1. To find a Route start the server and go to non-valid Route like http://localhost:3000/endpoints_list
+1. To find a Route start the server and go to non-valid Route like http://localhost:3000/endpoints_list or run rails routes in terminal
 2. You will be redirected to a page with the whole list of valid routes
 3. this page will give you information like
 ```

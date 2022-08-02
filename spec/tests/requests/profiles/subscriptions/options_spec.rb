@@ -12,18 +12,26 @@
 =end
 
 require "lesli_request_helper"
-RSpec.describe "GET://administration/profile/subscriptions/options.json", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "GET://administration/profilope/subscriptions/options.json", type: :request, :unless => defined?(DeutscheLeibrenten) do
     describe "GET:/administration/profile/subscriptions/options.json", type: :request do
         include_context "request user authentication"
+
+            #share examples
         it "is expected to respond a hash not empty whit diferent key value" do
             get("/administration/profile/subscriptions/options.json")
             expect_response_with_successful
+        end 
+
+            #validate response hash not null and keywords
+        it "is expected to respond a hash not empty whit diferent key value" do
+            get("/administration/profile/subscriptions/options.json")
             expect(response_body).not_to be_nil 
             expect(response_body).to be_an(Hash)
             expect(response_body.length).to be >= 1
             expect(response_body.keys.sort).to eq ["engines", "notification_types"].sort
         end
 
+            #validate engines array
         it "validate engines list" do 
             get("/administration/profile/subscriptions/options.json")
             expect_response_with_successful
@@ -34,6 +42,7 @@ RSpec.describe "GET://administration/profile/subscriptions/options.json", type: 
             end
         end
 
+            #validate notification type hash
         it "validate notification_types list" do 
             get("/administration/profile/subscriptions/options.json")
             expect_response_with_successful
