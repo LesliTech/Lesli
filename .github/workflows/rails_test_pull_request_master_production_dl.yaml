@@ -26,6 +26,9 @@ jobs:
         ports:
           - 5432:5432
     steps:
+    - name: Workaround permissions
+      run: |
+        sudo chown -R $USER:$USER ${{ github.workspace }}
     - name: Checkout repo
       uses: actions/checkout@v3
       with:
