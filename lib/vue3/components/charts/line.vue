@@ -51,7 +51,8 @@ const lineOptions = {
         show: true,
         curve: 'smooth',
         lineCap: 'round',
-    }
+    },
+
 }
 
 </script>
