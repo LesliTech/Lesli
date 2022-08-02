@@ -13,15 +13,16 @@
 
 require "lesli_request_helper"
 RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
-    describe "POST:/administration/profile/webpushes.json", type: :request do
+    describe "GET:/administration/profile/subscriptions", type: :request do
         include_context "request user authentication"
-        profile_webpush_params = FactoryBot.attributes_for(:webpush)
-        puts "factory bot #{profile_webpush_params}"
+        #user = FactoryBot.create(:user)
+        #let!(:user) { FactoryBot.create(:user) }
+        #puts "factory bot user #{:user}"
+        let(:webpush) { FactoryBot.create(:webpush, user: @current_user) }
+        puts "factory bot webpush #{:webpush}"
         it "is expected to respond a hash not empty whit diferent key value" do
 
-            post("/administration/profile/webpushes.json", params: {
-                profile_webpush: profile_webpush_params
-            })
+            get("/administration/profile/subscriptions")
                 puts "response #{response_body}"
             expect_response_with_successful
         end
