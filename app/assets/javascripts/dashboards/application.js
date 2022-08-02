@@ -60977,7 +60977,7 @@ vue_min_default().component("component-data-pagination", data_pagination); // ·
     "application-component-panel-task": panel_task,
     "application-component-engines": panel_engines,
     "application-component-panel-support": panel_support,
-    "application-component-panel-notification": panel_notification,
+    "application-component-panel-notifications": panel_notification,
     "application-component-panel-announcement": panel_announcement,
     "application-component-panel-viewer-pdf": panel_viewer_pdf
   }; // · Custom components to be used by each builder or engine. New keys will be ignored
@@ -61011,7 +61011,7 @@ vue_min_default().component("component-data-pagination", data_pagination); // ·
 
       console.clear();
       debug_browser_default().lesli_message_warning((_lesli = lesli) === null || _lesli === void 0 ? void 0 : (_lesli$company = _lesli.company) === null || _lesli$company === void 0 ? void 0 : (_lesli$company$name = _lesli$company.name) === null || _lesli$company$name === void 0 ? void 0 : _lesli$company$name.replace("Cloud", ""));
-      debug_browser_default().info("[BUILD] (core) 220718.1556 ");
+      debug_browser_default().info("[BUILD] (core) 220802.0920 ");
     }
   });
 });
