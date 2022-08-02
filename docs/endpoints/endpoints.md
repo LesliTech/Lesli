@@ -1,6 +1,6 @@
 
 Profile Routes
-| HTTP method |                Route                                   |   Controller    | File Path                           | Test   |    Body     |
+| HTTP method |                Route                                   |   Action        | File Path                           | Test   |    Body     |
 |     -       |                -                                       |         -       |  -                                  |   -    |   -         | 
 |    GET      |    /administration/profile                             |   show          |  Profiles#show                      |    Y   |             |         
 |    GET      |    /administration/profile/subscriptions               |   index         |  profile/subscriptions#index        |    N   |             |
