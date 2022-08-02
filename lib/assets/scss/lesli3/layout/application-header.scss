@@ -28,7 +28,7 @@ header.application-header {
     padding: 20px 28px;
     margin-bottom: 8px;
     height: var(--lesli-header-height);
-    width: calc(100% - var(--lesli-navigation-width));
+    width: calc(100% - var(--lesli-sidebar-width));
 
     // add a separtor line to the header when user scroll down 
     &.scrolling-header-navigation {
@@ -86,7 +86,6 @@ header.application-header {
     .header-right {
 
         span.material-icons {
-            color: red;//lesli-css-color-theme(faded, blues);
             color: #E2E6F6;
         }
 
@@ -134,6 +133,7 @@ header.application-header {
 
             .dropdown-item {
                 padding: 1rem 1rem;
+                color: lesli-css-color(black, 500);
             }
 
             &.user-options {

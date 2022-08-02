@@ -18,9 +18,6 @@ For more information read the license file including with this software.
 =end
 
 class Users::ConfirmationsController < Devise::ConfirmationsController
-    include Application::Responder
-    include Application::Logger
-
     layout "application-public"
 
     def show

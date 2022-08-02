@@ -117,8 +117,10 @@ function paginate(page) {
                 <tr>
 
                     <!-- Define table header, we simple iterate over the defined fields -->
-                    <th :class="tableHeaderClass(column)"
-                        v-on:click.stop="sort(column)"
+                    <th 
+                        @click.stop="sort(column)"
+                        v-bind:width="column.width"
+                        v-bind:class="tableHeaderClass(column)"
                         v-for="column in props.columns" :key="column.field">
                         <span v-if="!column.sort">
                             {{ column.label }}

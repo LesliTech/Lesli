@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 
 class ApplicationLesliController < ApplicationController
     include Interfaces::Application::Responder
-    #include Application::Responder
+    # include Application::Responder
     include Application::Requester
     include Application::Logger
     include Application::Polyfill
@@ -88,6 +88,7 @@ class ApplicationLesliController < ApplicationController
 
         @account[:settings] = {
             datetime: Rails.application.config.lesli.dig(:configuration, :datetime),
+            datetime2: Rails.application.config.lesli.dig(:configuration, :datetime2),
             currency: (Rails.application.config.lesli[:configuration][:currency] || {})
                 .merge({ locale: Rails.application.config.lesli[:env][:default_locale] })
         }
