@@ -62,7 +62,7 @@ const instance = getCurrentInstance()
 var chart = reactive({})
 
 
-// specific options for apexcharts
+// · specific options for apexcharts
 const generalOptions = {
     series: [],
     labels: [],
@@ -107,22 +107,20 @@ const generalOptions = {
             offsetY: 5,
             style: {
                 fontSize: '15px'
-            },
+            }
         }
     },
     yaxis: {
         show: true,
-    },
-    tooltip: {
-        shared: false,
-        intersect: true
     }
 }
 
 
-// unique id for the chart container
+// · unique id for the chart container
 const chartId = `component-chart-${Math.floor(Math.random() * 10000)}`
 
+
+// · 
 onMounted(() => {
 
     // labels and data series are empty by default due child (wrapper) components 
@@ -145,10 +143,11 @@ onMounted(() => {
 })
 
 
-// watch for changes on prop series to update chart options
+// · watch for changes on prop series to update chart options
 watch(() => props.series, (newSeries) => chart.updateSeries(newSeries))
 
-// watch for changes on prop labels to update chart options
+
+// · watch for changes on prop labels to update chart options
 watch(() => props.labels, (newLabels) => {
 
     // special options for bar charts
