@@ -56,3 +56,4 @@ class Profile::WebpushesController < ApplicationLesliController
     end
 
 end
+
