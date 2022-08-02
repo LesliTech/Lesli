@@ -16,13 +16,13 @@ RSpec.describe "POST:/administration/profile/webpushes.json", type: :request, :u
     describe "POST:/administration/profile/webpushes.json", type: :request do
         include_context "request user authentication"
         profile_webpush_params = FactoryBot.attributes_for(:webpush)
-
+        puts "factory bot #{profile_webpush_params}"
         it "is expected to respond a hash not empty whit diferent key value" do
 
             post("/administration/profile/webpushes.json", params: {
-                profile_webpush_params: profile_webpush_params
+                profile_webpush: profile_webpush_params
             })
-                puts "response #{}"
+                puts "response #{response_body}"
             expect_response_with_successful
         end
     end
