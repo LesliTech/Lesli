@@ -6,7 +6,7 @@ on:
 jobs:
   version_tag:
     name: Version Tag
-    runs-on: self-hosted
+    runs-on: lomax
     if: "!contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):')"
     steps:
     - name: Checkout Repo
@@ -31,13 +31,19 @@ jobs:
         key: ${{ runner.os }}-lesli-core-${{ hashFiles('./package.json') }}
         restore-keys: |
           ${{ runner.os }}-lesli-core-
-    - name: NPM install
+    - name: NPM install vue2
       run: |
         npm install --prefix ./lib/vue2
-    - name: Compile Js to Production
+    - name: Compile Js vue2 for Production
       run: |
         npm run webpack:production
-    - name: Commit Compile js
+    - name: NPM install vue3
+      run: |
+        npm install 
+    - name: Compile Js vue3 for Production
+      run: |
+        npm run webpack3:production
+    - name: Commit compiled javascript app
       run: |
         git add ./app/assets/
         git commit -m "assets(js): Compile Js to Production"
