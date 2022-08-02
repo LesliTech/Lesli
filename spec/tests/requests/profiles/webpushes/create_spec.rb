@@ -12,19 +12,18 @@
 =end
 
 require "lesli_request_helper"
-RSpec.describe "GET:/administration/profile/subscriptions.json", type: :request, :unless => defined?(DeutscheLeibrenten) do
-    describe "GET:/administration/profile/subscriptions.json", type: :request do
+RSpec.describe "POST:/administration/profile/webpushes.json", type: :request, :unless => defined?(DeutscheLeibrenten) do
+    describe "POST:/administration/profile/webpushes.json", type: :request do
         include_context "request user authentication"
+        profile_webpush_params = FactoryBot.attributes_for(:webpush)
+
         it "is expected to respond a hash not empty whit diferent key value" do
-            #get("/administration/profile/subscriptions.json")
-            let(:login) { "/login?r=/administration/profile/subscriptions.json" }
-            before(:all) { get "/administration/profile/subscriptions.json" }
+
+            post("/administration/profile/webpushes.json", params: {
+                webpush: profile_webpush_params
+            })
+
             expect_response_with_successful
-            LC::Debug.msg("my respond #{response_body}" )
-            #expect(response_body).not_to be_nil 
-            #expect(response_body).to be_an(Hash)
-            #expect(response_body.length).to be >= 1
-            #expect(response_body.keys.sort).to eq ["active", "alias", "created_at", "detail_attributes", "editable_security", "email", "full_name", "id", "mfa_enabled", "mfa_method", "roles", "updated_at"].sort
         end
     end
 end

@@ -15,15 +15,23 @@
     RSpec.describe "GET:/administration/profile.json", type: :request, :unless => defined?(DeutscheLeibrenten) do
         describe "GET:/administration/profile.json", type: :request do
             include_context "request user authentication"
+            
+                #share examples
             it "is expected to respond a hash not empty whit diferent key value" do
                 get("/administration/profile.json")
                 expect_response_with_successful
+            end
+
+                #validate response hash not null and keywords
+            it "is expected to respond a hash not empty whit diferent key value" do
+                get("/administration/profile.json")
                 expect(response_body).not_to be_nil 
                 expect(response_body).to be_an(Hash)
                 expect(response_body.length).to be >= 1
                 expect(response_body.keys.sort).to eq ["active", "alias", "created_at", "detail_attributes", "editable_security", "email", "full_name", "id", "mfa_enabled", "mfa_method", "roles", "updated_at"].sort
             end
 
+                #validate keywords type 
             it "validate type data of hash" do 
                 get("/administration/profile.json")
                 expect_response_with_successful
@@ -38,6 +46,7 @@
                 expect(response_body["mfa_method"]).to be_nil
             end
 
+                #validate detail_atributes hash and keyword
             it "validate detail_attributes hash and attributes" do 
                 get("/administration/profile.json")
                 expect_response_with_successful
@@ -46,6 +55,7 @@
                 expect(response_body["detail_attributes"].keys.sort).to eq ["address", "first_name", "last_name", "salutation", "telephone", "title", "work_address", "work_city", "work_region"].sort
             end
 
+                #validate roles hash and keyword
             it "validate roles hash and attributes" do 
                 get("/administration/profile.json")
                 expect_response_with_successful
