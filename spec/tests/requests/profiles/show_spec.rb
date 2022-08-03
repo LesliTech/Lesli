@@ -17,7 +17,7 @@
             include_context "request user authentication"
             
                 #share examples
-            it "is expected to respond a hash not empty whit diferent key value" do
+            it "is expected pass share example response with successful" do
                 get("/administration/profile.json")
                 expect_response_with_successful
             end
@@ -34,7 +34,6 @@
                 #validate keywords type 
             it "validate type data of hash" do 
                 get("/administration/profile.json")
-                expect_response_with_successful
                 expect(response_body["id"]).to be_a(Numeric)
                 expect(response_body["email"]).to be_a(String)
                 expect(response_body["alias"]).to be_a(String)
@@ -49,7 +48,6 @@
                 #validate detail_atributes hash and keyword
             it "validate detail_attributes hash and attributes" do 
                 get("/administration/profile.json")
-                expect_response_with_successful
                 expect(response_body["detail_attributes"]).not_to be_nil 
                 expect(response_body["detail_attributes"]).to be_an(Hash)
                 expect(response_body["detail_attributes"].keys.sort).to eq ["address", "first_name", "last_name", "salutation", "telephone", "title", "work_address", "work_city", "work_region"].sort
@@ -58,7 +56,6 @@
                 #validate roles hash and keyword
             it "validate roles hash and attributes" do 
                 get("/administration/profile.json")
-                expect_response_with_successful
                 expect(response_body["roles"].first).not_to be_nil 
                 expect(response_body["roles"].first).to be_an(Hash)
                 expect(response_body["roles"].first.keys.sort).to eq ["id", "name"].sort
