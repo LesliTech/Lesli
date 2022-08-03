@@ -40,8 +40,10 @@ v-model should be an array with the tags and each tag should be an object with t
 
 ```html
 <lesli-input-tag 
+    v-model="myTags"
     placeholder="Enter a category..." 
-    :options="myOptions" 
-    v-model="myTags">
+    :options="myOptions"
+    :filterFields="['name', 'email']"
+    showField="name">
 </lesli-input-tag>
 ```
