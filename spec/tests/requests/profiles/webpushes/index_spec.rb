@@ -16,13 +16,13 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
     describe "GET:/administration/profile/webpushes.json", type: :request do
         include_context "request user authentication"
         let(:webpush) { FactoryBot.create(:webpush, user: @current_user) }
-        #share example
+            #share example
         it "is expected pass share example response with successful" do
             get("/administration/profile/webpushes.json")
             expect_response_with_successful
         end
 
-        #validate response hash type and type element
+            #validate response hash type and type element
         it "is expected to respond an array whit hash type elements" do
             get("/administration/profile/webpushes.json")
             expect(response_body).not_to be_nil 
@@ -31,7 +31,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body.length).to be >= 1
         end
 
-        #validate fist element keyvalues
+            #validate fist element keyvalues
           it "validate type data of hash elements" do 
             get("/administration/profile/webpushes.json")
             expect(response_body.first.keys.sort).to eq ["id", "user_agent", "created_at_date", "updated_at_date", "active"].sort

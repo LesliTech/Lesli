@@ -16,11 +16,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
     describe "GET:/administration/profile/subscriptions", type: :request do
         include_context "request user authentication"
         let!(:user) { FactoryBot.create(:user) }
-        #puts "factory bot user #{:user}"
-        it "is expected to respond a hash not empty whit diferent key value" do
-
+            #share example
+        it "is expected pass share example response with successful" do
             get("/administration/profile/subscriptions.json")
-                puts "response #{response_body}"
             expect_response_with_successful
         end
     end
