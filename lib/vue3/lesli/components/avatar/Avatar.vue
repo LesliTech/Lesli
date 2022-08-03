@@ -73,7 +73,7 @@ if (props.size === "small") {
 
 // · Letter to render as avatar
 const letter = computed(() => {
-    if (props.name) return props.word.charAt(0).toUpperCase()
+    if (props.name) return props.name.charAt(0).toUpperCase()
     else if (props.letter) return props.letter.toUpperCase()
     else return '?'
 })
