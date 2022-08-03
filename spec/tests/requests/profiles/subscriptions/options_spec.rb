@@ -34,7 +34,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #validate engines array
         it "validate engines list" do 
             get("/administration/profile/subscriptions/options.json")
-            expect_response_with_successful
             expect(response_body["engines"]).not_to be_nil 
             expect(response_body["engines"]).to be_an(Array)
             if response_body["engines"].length >= 1 then
@@ -45,7 +44,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #validate notification type hash
         it "validate notification_types list" do 
             get("/administration/profile/subscriptions/options.json")
-            expect_response_with_successful
             expect(response_body["notification_types"]).not_to be_nil 
             expect(response_body["notification_types"]).to be_an(Hash)
             expect(response_body["notification_types"].keys.sort).to eq ["email", "mobiledialog", "mobilepush", "push", "webpush"].sort

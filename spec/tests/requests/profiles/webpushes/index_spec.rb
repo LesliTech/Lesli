@@ -16,12 +16,30 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
     describe "GET:/administration/profile/webpushes.json", type: :request do
         include_context "request user authentication"
         let(:webpush) { FactoryBot.create(:webpush, user: @current_user) }
-        puts "factory bot webpush #{:webpush}"
-        it "is expected to respond a hash not empty whit diferent key value" do
-
+        #share example
+        it "is expected pass share example response with successful" do
             get("/administration/profile/webpushes.json")
-                puts "response #{response_body}"
             expect_response_with_successful
+        end
+
+        #validate response hash type and type element
+        it "is expected to respond an array whit hash type elements" do
+            get("/administration/profile/webpushes.json")
+            expect(response_body).not_to be_nil 
+            expect(response_body).to be_an(Array)
+            expect(response_body.first).to be_an(Hash)
+            expect(response_body.length).to be >= 1
+        end
+
+        #validate fist element keyvalues
+          it "validate type data of hash elements" do 
+            get("/administration/profile/webpushes.json")
+            expect(response_body.first.keys.sort).to eq ["id", "user_agent", "created_at_date", "updated_at_date", "active"].sort
+            expect(response_body.first["id"]).to be_kind_of(Numeric)
+            expect(response_body.first["user_agent"]).to be_a(String)
+            expect(response_body.first["created_at_date"]).to be_a(String)
+            expect(response_body.first["updated_at_date"]).to be_a(String)
+            expect(response_body.first["active"]).to be_in([true, false])
         end
     end
 end
