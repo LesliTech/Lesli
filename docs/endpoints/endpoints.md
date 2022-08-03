@@ -8,5 +8,5 @@ Profile Routes
 |    PUT      |    /administration/profile/notifications/:id           |   update        |  profile/notifications#update       |    N   |             | 
 |    PATCH    |    /administration/profile/notifications/:id           |   update        |  profile/notifications#update       |    N   |             | 
 |    GET      |    /administration/profile/notifications               |   index         |  profile/notifications#index        |    N   |             |
-|    POST     |    /administration/profile/webpushes                   |   create        |  profile/webpushes#create           |    N   |             | 
-|    GET      |    /administration/profile/webpushes                   |   index         |  profile/webpushes#index            |    N   |             |
+|    POST     |    /administration/profile/webpushes                   |   create        |  profile/webpushes#create           |    Y   |             | 
+|    GET      |    /administration/profile/webpushes                   |   index         |  profile/webpushes#index            |    Y   |             |
