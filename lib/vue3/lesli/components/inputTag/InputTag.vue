@@ -2,9 +2,9 @@
 /*
 Copyright (c) 2022, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 
 import { ref } from "vue"
@@ -24,52 +24,62 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
-    options: {
-        type: Array,
-        required: false,
-    },
     placeholder: {
         type: String,
         required: false,
         default: "Select...",
     },
+    options: {
+        type: Array,
+        required: true,
+    },
+    filterFields: {
+        type: Array,
+        required: true,
+    },
+    showField: {
+        type: String,
+        required: true,
+    },
 })
 
+// · Input from user searching an option
 const inputValue = ref("")
+
+// · Use to show a list of options
 const showOptions = ref(false)
-const currentOptionsToShow = ref({})
+
+// · List of filtered options
+const filteredOptions = ref([])
+
+// · Accepted options - these are shown as tags
 const tags = ref(props.modelValue)
 
+
 const onEnter = () => {
-    if (inputValue.value.length > 0) {
-        if (tags.value.find((tag) => tag.id === inputValue.value)) {
+    // · Adding the first option shown
+    if (inputValue.value.length > 0 && filteredOptions.value.length > 0) {
+        if (tags.value.find(tag => tag.id === filteredOptions.value[0].id)) {
             showOptions.value = false
             return
         }
-        
-        if (props.options) {
-            const option = props.options.find(
-                (option) => option.name === inputValue.value
-            )
 
-            if (option) {
-                tags.value.push(option)
-                inputValue.value = ""
-                showOptions.value = false
-                emit("update:modelValue", tags.value)
-            }
-        }
+        tags.value.push(filteredOptions.value[0])
+        inputValue.value = ""
+        showOptions.value = false
+        emit("update:modelValue", tags.value)
     }
     emit("update:modelValue", tags.value)
 }
 
 const onClickOption = (option) => {
-
-    if (tags.value.find((tag) => tag.id === option.id)) {
+    // · Check if the option was added already
+    if (tags.value.find(tag => tag.id === option.id)) {
         showOptions.value = false
         return
     }
 
+    // · Add the option to the tags
     tags.value.push(option)
     emit("update:modelValue", tags.value)
     inputValue.value = ""
@@ -77,11 +87,13 @@ const onClickOption = (option) => {
 }
 
 const onDelete = () => {
+    // · Remove the last tag added
     if (inputValue.value.length === 0) {
         tags.value.pop()
         emit("update:modelValue", tags.value)
         return
     }
+
     inputValue.value = ""
 }
 
@@ -91,14 +103,14 @@ const filterOptions = () => {
         return
     }
 
-    const optionsFiltered = props.options.filter((option) => {
-        return option.name
-            .toLowerCase()
-            .includes(inputValue.value.toLowerCase())
-    })
+    // · Checking for matches with the fields
+    filteredOptions.value = props.options.filter(option => {
+        const matches = props.filterFields.map(field => {
+            return (option[field]||'').toString().toLowerCase().indexOf(inputValue.value.toLowerCase()) >= 0
+        })
 
-    currentOptionsToShow.value = optionsFiltered.filter((option) => {
-        return !tags.value.find((tag) => tag.id === option.id)
+        // · One or more of the field match with the search
+        return matches.includes(true)
     })
 
     showOptions.value = true
@@ -115,7 +127,7 @@ const filterOptions = () => {
             v-for="tag in tags"
             :key="tag.id"
         >
-            {{ tag.name }}
+            {{ tag[showField] }}
         </span>
         <div class="container-input">
             <input
@@ -133,11 +145,11 @@ const filterOptions = () => {
         <div class="options" v-show="showOptions && options">
             <div
                 class="options-element"
-                v-for="option in currentOptionsToShow"
+                v-for="option in filteredOptions"
                 :key="option.id"
                 @click="onClickOption(option)"
             >
-                <span>{{ option.name }}</span>
+                <span>{{ option[showField] }}</span>
             </div>
         </div>
     </div>
