@@ -1,28 +1,37 @@
 =begin
-    Copyright (c) 2022, all rights reserved.
-    All the information provided by this platform is protected by international laws related  to
-    industrial property, intellectual property, copyright and relative international laws.
-    All intellectual or industrial property rights of the code, texts, trade mark, design,
-    pictures and any other information belongs to the owner of this platform.
-    Without the written permission of the owner, any replication, modification,
-    transmission, publication is strictly forbidden.
-    For more information read the license file including with this software.
-    // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-    // ·
+
+Copyright (c) 2022, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·
+
 =end
+
+
+require "lesli_request_helper"
 
 require "lesli_request_helper"
 RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
     describe "GET:/administration/profile/webpushes.json", type: :request do
         include_context "request user authentication"
         let(:webpush) { FactoryBot.create(:webpush, user: @current_user) }
-            #share example
+        #share example
         it "is expected pass share example response with successful" do
             get("/administration/profile/webpushes.json")
             expect_response_with_successful
         end
 
-            #validate response hash type and type element
+        #validate response hash type and type element
         it "is expected to respond an array whit hash type elements" do
             get("/administration/profile/webpushes.json")
             expect(response_body).not_to be_nil 
@@ -31,7 +40,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body.length).to be >= 1
         end
 
-            #validate fist element keyvalues
+        #validate fist element keyvalues
           it "validate type data of hash elements" do 
             get("/administration/profile/webpushes.json")
             expect(response_body.first.keys.sort).to eq ["id", "user_agent", "created_at_date", "updated_at_date", "active"].sort
