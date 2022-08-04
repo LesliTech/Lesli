@@ -124,7 +124,15 @@ class ApplicationApiController < ActionController::API
             data: payload
         }
 
-        response_body_v3 = payload.as_json
+        if payload.as_json.instance_of?(Array)
+            response_body_v3 = {
+                records: payload.as_json
+            }
+        else
+            response_body_v3 = {
+                **payload.as_json
+            }
+        end
 
         respond_with_http(200, {
             **response_body_v2,
