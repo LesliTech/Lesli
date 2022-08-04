@@ -37,11 +37,22 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body).not_to be_nil 
             expect(response_body).to be_an(Hash)
             expect(response_body.length).to be >= 1
-            expect(response_body.keys.sort).to eq ["active", "alias", "created_at", "detail_attributes", "editable_security", "email", "full_name", "id", "mfa_enabled", "mfa_method", "roles", "updated_at"].sort
+            expect(response_body).to have_key("id")
+            expect(response_body).to have_key("active")
+            expect(response_body).to have_key("alias")
+            expect(response_body).to have_key("created_at")
+            expect(response_body).to have_key("detail_attributes")
+            expect(response_body).to have_key("editable_security")
+            expect(response_body).to have_key("email")
+            expect(response_body).to have_key("full_name")
+            expect(response_body).to have_key("mfa_enabled")
+            expect(response_body).to have_key("mfa_method")
+            expect(response_body).to have_key("roles")
+            expect(response_body).to have_key("updated_at")
         end
 
         #validate keywords type 
-        it "validate type data of hash" do 
+        it "is expected to validate type data of hash" do 
             get("/administration/profile.json")
             expect(response_body["id"]).to be_a(Numeric)
             expect(response_body["email"]).to be_a(String)
@@ -55,7 +66,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         end
 
         #validate detail_atributes hash and keyword
-        it "validate detail_attributes hash and attributes" do 
+        it "is expected to validate detail_attributes hash and attributes" do 
             get("/administration/profile.json")
             expect(response_body["detail_attributes"]).not_to be_nil 
             expect(response_body["detail_attributes"]).to be_an(Hash)
@@ -63,7 +74,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         end
 
         #validate roles hash and keyword
-        it "validate roles hash and attributes" do 
+        it "is expected to validate roles hash and attributes" do 
             get("/administration/profile.json")
             expect_response_with_successful
             expect(response_body["roles"].first).not_to be_nil 

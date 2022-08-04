@@ -41,7 +41,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         #validate engines array
         it "validate engines list" do 
             get("/administration/profile/subscriptions/options.json")
-            expect(response_body["engines"]).not_to be_nil 
             expect(response_body["engines"]).to be_an(Array)
             if response_body["engines"].length >= 1 then
                 expect(response_body["engines"].first.keys.sort).to eq ["value", "text"].sort
