@@ -32,6 +32,10 @@ class Profile::NotificationsController < ApplicationLesliController
     end
 
     def update
+        puts "entro a update"
+        puts "params id #{params[:id]}"
+        puts "parametros que ingresaron #{params_body}"
+        puts "parametros que ingresaron #{params_body}"
         respond_with_successful(Profile::Notification.read(current_user, params[:id]))
     end
 

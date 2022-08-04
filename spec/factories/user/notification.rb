@@ -18,10 +18,7 @@ For more information read the license file including with this software.
 =end
 
 FactoryBot.define do
-    factory :webpush, class: "User::Webpush" do
-        endpoint { Faker::Internet.url }
-        auth_key { Faker::Lorem.word }
-        p256dh_key { Faker::Lorem.word }
-        user { nil } # this param will be given by the call
+    factory :notification, class: "Profile::Notification" do
+        name { Faker::Name.first_name }
     end
 end
