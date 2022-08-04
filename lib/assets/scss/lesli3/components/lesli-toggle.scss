@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 */
-.switch {
+.lesli-toggle {
     position: relative;
     display: inline-block;
     width: 60px;
@@ -34,37 +34,32 @@ For more information read the license file including with this software.
             transform: translateX(26px);
         }
     }
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: lesli-css-color(silver, 500);
-    -webkit-transition: .4s;
-    transition: .4s;
-    &:before {
+    .slider {
         position: absolute;
-        content: "";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: lesli-css-color(silver, 500);
         -webkit-transition: .4s;
         transition: .4s;
+        border-radius: 34px;
+        &:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+        }
     }
 }
 
-.round {
-    border-radius: 34px;
-    &:before {
-        border-radius: 50%;
-    }
-}
 
 
 
