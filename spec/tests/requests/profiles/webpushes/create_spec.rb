@@ -44,11 +44,20 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         end
 
         #validate fist element keyvalues
-        it "validate type data of hash element" do 
+        it "is expected to validate type data of hash element" do 
             post("/administration/profile/webpushes.json", params: {
                 profile_webpush: profile_webpush_params
             })
-            expect(response_body.keys.sort).to eq ["active", "auth_key", "created_at", "deleted_at", "endpoint", "id", "p256dh_key", "updated_at", "user_agent", "users_id"].sort
+            expect(response_body).to have_key("id")
+            expect(response_body).to have_key("users_id")
+            expect(response_body).to have_key("user_agent")
+            expect(response_body).to have_key("created_at")
+            expect(response_body).to have_key("endpoint")
+            expect(response_body).to have_key("updated_at")
+            expect(response_body).to have_key("deleted_at")
+            expect(response_body).to have_key("auth_key")
+            expect(response_body).to have_key("p256dh_key")
+            expect(response_body).to have_key("active")
             expect(response_body["id"]).to be_kind_of(Numeric)
             expect(response_body["users_id"]).to be_kind_of(Numeric)
             expect(response_body["user_agent"]).to be_a(String)
