@@ -55,7 +55,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :if => defined
         }
 
         expect_json_response_error
-        expect(response_error['message'][0]).to eql('error_password_minimum_length')
+        expect(response_error['message']).to eql('error_password_minimum_length')
     end
 
     it "update password with minimum length" do
@@ -84,7 +84,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :if => defined
         }
 
         expect_json_response_error
-        expect(response_error["message"][0]).to eql('error_password_special_char_count')
+        expect(response_error['message']).to eql('error_password_special_char_count')
 
     end
 
@@ -116,7 +116,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :if => defined
         }
 
         expect_json_response_error
-        expect(response_error['message'][0]).to eql('error_password_uppercase_count')
+        expect(response_error['message']).to eql('error_password_uppercase_count')
 
     end
 
