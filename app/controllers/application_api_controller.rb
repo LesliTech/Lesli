@@ -125,9 +125,7 @@ class ApplicationApiController < ActionController::API
         }
 
         if payload.as_json.instance_of?(Array)
-            response_body_v3 = {
-                records: payload.as_json
-            }
+            return respond_with_http(200, payload)
         elsif payload.blank?
             response_body_v3 = {}
         else
