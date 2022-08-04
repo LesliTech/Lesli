@@ -44,8 +44,12 @@ const lastPage = ref(0)
 // · look for changes in pagination 
 watch(() => props.pagination, (val) => {
 
-    currentPage.value = props.pagination.current_page
-    lastPage.value = props.pagination.total_pages
+    currentPage.value = props.pagination.page
+    lastPage.value = props.pagination.pages
+
+    previousPage.value = currentPage.value - 1
+    nextPage.value = currentPage.value + 1
+    return
 
     if (currentPage.value > 1) {
         previousPage.value = currentPage.value - 1
@@ -57,7 +61,7 @@ watch(() => props.pagination, (val) => {
 
     // if first page we enable to navigate to the last page
     if (currentPage.value >= lastPage.value) {
-        nextPage.value = 1
+        nextPage.value = lastPage.value
     }
 
     // if last page we enable to navigate to the first page
@@ -74,53 +78,60 @@ function paginate(page) {
 }
 
 
+// · 
+const disableNext = computed(() => nextPage.value > lastPage.value)
+const disablePrevious = computed(() => previousPage.value < 1)
+
 </script>
 <template>
     <nav class="pagination" role="navigation" aria-label="pagination">
-
         <ul class="pagination-list">
-            <template v-if="props.pagination.total_pages > 1">
+            <template v-if="props.pagination.pages > 1">
                 <li>
-                    <a class="pagination-link" @click.stop="paginate(1)" aria-label="Goto page 1">
-                        1
-                    </a>
+                    <button class="button pagination-link" @click.stop="paginate(1)" :disabled="currentPage == 1">
+                        1 
+                    </button>
                 </li>
                 <li>
                     <span class="pagination-ellipsis">&hellip;</span>
                 </li>
                 <li>
-                    <a class="pagination-link" @click.stop="paginate(previousPage)" aria-label="Goto page 45">
-                        {{ previousPage }}
-                    </a>
+                    <button class="button pagination-link" @click.stop="paginate(previousPage)" :disabled="disablePrevious">
+                        {{( disablePrevious ? '' : previousPage )}}
+                    </button>
                 </li>
                 <li>
-                    <a class="pagination-link is-current" aria-label="Page 46" aria-current="page">
+                    <button class="button pagination-link is-current" aria-label="Page 46">
                         {{ currentPage }}
-                    </a>
+                    </button>
                 </li>
                 <li>
-                    <a class="pagination-link" @click.stop="paginate(nextPage)" aria-label="Page 46">
-                        {{ nextPage }}
-                    </a>
+                    <button class="button pagination-link" @click.stop="paginate(nextPage)" :disabled="disableNext">
+                        {{( disableNext ? '' : nextPage )}}
+                    </button>
                 </li>
                 <li>
                     <span class="pagination-ellipsis">&hellip;</span>
                 </li>
                 <li>
-                    <a class="pagination-link" @click.stop="paginate(lastPage)" aria-label="Goto page 86">
+                    <button class="button pagination-link" @click.stop="paginate(lastPage)" :disabled="currentPage == lastPage">
                         {{ lastPage }}
-                    </a>
+                    </button>
                 </li>
             </template>
         </ul>
         
-        <a  class="pagination-previous" :disabled="previousPage <= 1" 
-            @click.stop="paginate(previousPage)">
-            Previous
-        </a>
-        <a  class="pagination-previous" :disabled="previousPage >= 1" 
-            @click.stop="paginate(nextPage)">
-            Next page
-        </a>
+        <button 
+            class="button is-primary is-outlined pagination-previous" 
+            @click.stop="paginate(previousPage)"
+            :disabled="disablePrevious">
+            Previous 
+        </button>
+        <button 
+            class="button is-primary is-outlined pagination-previous" 
+            @click.stop="paginate(nextPage)"
+            :disabled="disableNext">
+            Next page 
+        </button>
     </nav>
 </template>
