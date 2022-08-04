@@ -27,7 +27,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         #share examples
         it "is expected to respond with successful" do
             get("/administration/profile.json")
-            puts "respuesta #{response_body}"
             expect_response_with_successful
         end
 
