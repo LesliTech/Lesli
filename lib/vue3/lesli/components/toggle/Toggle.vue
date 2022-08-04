@@ -30,12 +30,12 @@ const props = defineProps({
 </script>
 
 <template>
-    <label class="switch">
+    <label class="lesli-toggle">
         <input  
             v-bind="$attrs" 
             @input="emit('update:modelValue', !props.modelValue)" 
             type="checkbox" :checked="props.modelValue"
         >
-        <span class="slider round"></span>
+        <span class="slider"></span>
     </label>
 </template>
