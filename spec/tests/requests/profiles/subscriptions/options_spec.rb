@@ -26,6 +26,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         #share examples
         it "is expected to respond a hash not empty whit diferent key value" do
             get("/administration/profile/subscriptions/options.json")
+            puts "respuesta #{response_body}"
             expect_response_with_successful
         end 
 
