@@ -221,6 +221,9 @@ class ApplicationApiController < ActionController::API
     # Overwrite: JSON failure response
     def respond_with_error message = "", details = []
 
+        # Message should be a String
+        message = "" unless message.instance_of?(String)
+
         response_body_v2 = {
             successful: false,
             error: {
