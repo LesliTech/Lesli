@@ -128,6 +128,8 @@ class ApplicationApiController < ActionController::API
             response_body_v3 = {
                 records: payload.as_json
             }
+        elsif payload.blank?
+            response_body_v3 = {}
         else
             response_body_v3 = {
                 **payload.as_json
