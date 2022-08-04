@@ -112,6 +112,7 @@ export default {
             :columns="columns"
             :records="storeUsers.index.records"
             :pagination="storeUsers.index.pagination"
+            @paginate="storeUsers.paginateIndex"
             @click="showUser"
             @sort="storeUsers.sortIndex">
 
