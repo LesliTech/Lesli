@@ -24,9 +24,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
     describe "POST:/administration/profile/webpushes.json", type: :request do
         include_context "request user authentication"
         profile_webpush_params = FactoryBot.attributes_for(:webpush)
-       
+        
         #share example
-         it "is expected pass share example response with successful" do
+        it "is expected pass share example response with successful" do
             post("/administration/profile/webpushes.json", params: {
                 profile_webpush: profile_webpush_params
             })

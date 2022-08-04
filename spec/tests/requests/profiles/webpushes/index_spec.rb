@@ -28,6 +28,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         #share example
         it "is expected pass share example response with successful" do
             get("/administration/profile/webpushes.json")
+            puts "respuesta #{response_body}"
             expect_response_with_successful
         end
 
@@ -35,7 +36,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         it "is expected to respond an array whit hash type elements" do
             get("/administration/profile/webpushes.json")
             expect(response_body).not_to be_nil 
-            expect(response_body).to be_an(Array)
+            expect(response_body).to be_kind_of(Array)
             expect(response_body.first).to be_an(Hash)
             expect(response_body.length).to be >= 1
         end
