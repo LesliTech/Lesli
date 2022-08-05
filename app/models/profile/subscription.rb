@@ -73,7 +73,6 @@ class Profile::Subscription < ApplicationLesliRecord
     end
 
     def self.options(current_user, query)
-        puts "model profile"
         engines = Rails.application.config.lesli[:engines].map do |engine|
             if(engine == nil )
                 {
