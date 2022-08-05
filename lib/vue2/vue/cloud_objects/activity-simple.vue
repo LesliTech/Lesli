@@ -117,7 +117,9 @@ export default {
         },
 
         active(){
-            this.getBackendData()
+            if(! this.activities){
+                this.getBackendData()
+            }
         }
     }
 }
