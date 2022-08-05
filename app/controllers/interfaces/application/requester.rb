@@ -38,6 +38,26 @@ module Interfaces
                     },
                     group: params[:group] || ""
                 }
+
+                if defined?(DeutscheLeibrenten)
+                    @query = {
+                        search: params[:search] || "",
+                        filters: params[:filters] ? params[:filters] : {},
+                        pagination: {
+                            perPage: (params[:perPage] ? params[:perPage].to_i : 15),
+                            page: (params[:page] ? params[:page].to_i : 1),
+                            order: (params[:order] ? params[:order] : "desc"),
+                            orderBy: (params[:orderBy] ? params[:orderBy] : "id"),
+                            orderColumn: (params[:orderColumn] ? params[:orderColumn] : "id")
+                        },
+                        order: {
+                            by: (params[:orderBy] ? params[:orderBy] : "id"),
+                            dir: (params[:order] ? params[:order] : "desc")
+                        }
+                    }
+                    
+                    @query[:filters][:search] = @query[:search] unless @query[:filters][:search]
+                end
             end
 
 
