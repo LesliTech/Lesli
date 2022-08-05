@@ -26,7 +26,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         #share examples
         it "is expected to respond a hash not empty whit diferent key value" do
             get("/administration/profile/subscriptions/options.json")
-            puts "respuesta #{response_body}"
             expect_response_with_successful
         end 
 
@@ -53,7 +52,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             get("/administration/profile/subscriptions/options.json")
             expect(response_body["notification_types"]).not_to be_nil 
             expect(response_body["notification_types"]).to be_an(Hash)
-            expect(response_body["notification_types"].keys.sort).to eq ["email", "mobiledialog", "mobilepush", "push", "webpush"].sort
         end
     end
 end
