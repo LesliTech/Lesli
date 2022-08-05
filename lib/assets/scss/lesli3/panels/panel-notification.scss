@@ -22,19 +22,19 @@ For more information read the license file including with this software.
 
     .lesli-notification {
         border-bottom: 1px solid lesli-css-color(silver);
-        &:hover {
-            background-color: red; //lesli-css-color(lesli, faded);
-        }
     }
 
     .notification-title {
         font-size: 15px;
         font-weight: 600;
-        color: lesli-css-color(black);
     }
 
     .notification-body {
         font-size: 15px;
+    }
+
+    .notification-date span {
+        padding: .4rem 0;
     }
 
     span, button {
