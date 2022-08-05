@@ -24,22 +24,21 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
     describe "GET:/administration/profile.json", type: :request do
         include_context "request user authentication"
             
-        #share examples
         it "is expected to respond with successful" do
             get("/administration/profile.json")
+
+            #share examples
             expect_response_with_successful
 
-            LC::Debug.deprecation(response_body)
         end
 
-        #validate response hash not null and keywords
         it "is expected to respond a hash not empty with diferent key value" do
             get("/administration/profile.json")
 
+            #share examples
             expect_response_with_successful
 
-            LC::Debug.deprecation(response_body)
-
+            #validate response hash not null and keywords
             expect(response_body).not_to be_nil 
             expect(response_body).to be_an(Hash)
             expect(response_body.length).to be >= 1
@@ -55,16 +54,16 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body).to have_key("mfa_method")
             expect(response_body).to have_key("roles")
             expect(response_body).to have_key("updated_at")
+            
         end
-
-        #validate keywords type 
+ 
         it "is expected to validate type data of hash" do 
             get("/administration/profile.json")
 
+            #share examples
             expect_response_with_successful
 
-            LC::Debug.deprecation(response_body)
-
+            #validate keywords type
             expect(response_body["id"]).to be_a(Numeric)
             expect(response_body["email"]).to be_a(String)
             expect(response_body["alias"]).to be_a(String)
@@ -74,16 +73,16 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body["mfa_enabled"]).to be_in([true, false])
             expect(response_body["editable_security"]).to be_in([true, false])
             expect(response_body["mfa_method"]).to be_nil
+
         end
 
-        #validate detail_atributes hash and keyword
         it "is expected to validate detail_attributes hash and attributes" do 
             get("/administration/profile.json")
-            
+
+            #share examples
             expect_response_with_successful
 
-            LC::Debug.deprecation(response_body)
-
+            #validate detail_atributes hash and keyword
             expect(response_body["detail_attributes"]).not_to be_nil 
             expect(response_body["detail_attributes"]).to be_an(Hash)
             expect(response_body["detail_attributes"]).to have_key("address")
@@ -95,19 +94,20 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body["detail_attributes"]).to have_key("work_address")
             expect(response_body["detail_attributes"]).to have_key("work_city")
             expect(response_body["detail_attributes"]).to have_key("work_region")
+
         end
 
-        #validate roles hash and keyword
         it "is expected to validate roles hash and attributes" do 
             get("/administration/profile.json")
-
+            
+            #share examples
             expect_response_with_successful
 
-            LC::Debug.deprecation(response_body)
-
+            #validate roles hash and keyword
             expect(response_body["roles"].first).not_to be_nil 
             expect(response_body["roles"].first).to be_an(Hash)
             expect(response_body["roles"].first.keys.sort).to eq ["id", "name"].sort
+
         end
     end
 end

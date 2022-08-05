@@ -25,33 +25,32 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         include_context "request user authentication"
         let!(:profile_webpush_params) { FactoryBot.attributes_for(:webpush) }
         
-        #share example
         it "is expected pass share example response with successful" do
             post("/administration/profile/webpushes.json", params: {
                 profile_webpush: profile_webpush_params
             })
 
+            #share example
             expect_response_with_successful
 
-            LC::Debug.deprecation(response_body)
         end
 
-        #validate response hash type and type element
+        
         it "is expected to respond a hash type element" do
             post("/administration/profile/webpushes.json", params: {
                 profile_webpush: profile_webpush_params
             })
 
+            # shared example
             expect_response_with_successful
 
-            LC::Debug.deprecation(response_body)
-
+            #validate response hash type and type element
             expect(response_body).not_to be_nil 
             expect(response_body).to be_an(Hash)
             expect(response_body.length).to be >= 1
+
         end
 
-        #validate fist element keyvalues
         it "is expected to validate type data of hash element" do 
             post("/administration/profile/webpushes.json", params: {
                 profile_webpush: profile_webpush_params
@@ -60,9 +59,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             # shared example
             expect_response_with_successful
 
-            LC::Debug.deprecation(response_body)
-
-            # custom expects
+            #validate fist element keyvalues
             expect(response_body).to have_key("id")
             expect(response_body).to have_key("users_id")
             expect(response_body).to have_key("user_agent")
@@ -83,6 +80,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body["auth_key"]).to be_a(String)
             expect(response_body["p256dh_key"]).to be_a(String)
             expect(response_body["active"]).to be_in([true, false])
+
         end
     end
 end

@@ -25,36 +25,36 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
     describe "GET:/administration/profile/webpushes.json", type: :request do
         include_context "request user authentication"
         let!(:webpush) { FactoryBot.create(:webpush, user: @current_user) }
-        #share example
+
         it "is expected pass share example response with successful" do
             get("/administration/profile/webpushes.json")
+            
+            #share example
             expect_response_with_successful
 
-            LC::Debug.deprecation(response_body)
         end
 
-        #validate response hash type and type element
-        it "is expected to respond an array whit hash type elements" do
+        it "is expected to respond an array with hash type elements" do
             get("/administration/profile/webpushes.json")
-
+            
+            #share example
             expect_response_with_successful
 
-            LC::Debug.deprecation(response_body)
-
+            #validate response hash type and type element
             expect(response_body).not_to be_nil 
             expect(response_body).to be_kind_of(Array)
             expect(response_body.first).to be_an(Hash)
             expect(response_body.length).to be >= 1
+
         end
 
-        #validate fist element keyvalues
         it "is expected to validate type data of hash elements" do 
             get("/administration/profile/webpushes.json")
 
+            #share example
             expect_response_with_successful
 
-            LC::Debug.deprecation(response_body)
-
+            #validate element keyvalues
             expect(response_body.first).to have_key("id")
             expect(response_body.first).to have_key("user_agent")
             expect(response_body.first).to have_key("created_at_date")
@@ -65,6 +65,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body.first["created_at_date"]).to be_a(String)
             expect(response_body.first["updated_at_date"]).to be_a(String)
             expect(response_body.first["active"]).to be_in([true, false])
+
         end
     end
 end
