@@ -44,7 +44,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body).not_to be_nil 
             expect(response_body).to be_kind_of(Array)
             expect(response_body.first).to be_an(Hash)
-            expect(response_body.length).to be >= 1
 
         end
 
