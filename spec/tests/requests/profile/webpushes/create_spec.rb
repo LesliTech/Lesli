@@ -23,14 +23,17 @@ require "lesli_request_helper"
 RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
     describe "POST:/administration/profile/webpushes.json", type: :request do
         include_context "request user authentication"
-        profile_webpush_params = FactoryBot.attributes_for(:webpush)
+        let!(:profile_webpush_params) { FactoryBot.attributes_for(:webpush) }
         
         #share example
         it "is expected pass share example response with successful" do
             post("/administration/profile/webpushes.json", params: {
                 profile_webpush: profile_webpush_params
             })
+
             expect_response_with_successful
+
+            LC::Debug.deprecation(response_body)
         end
 
         #validate response hash type and type element
@@ -38,6 +41,11 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             post("/administration/profile/webpushes.json", params: {
                 profile_webpush: profile_webpush_params
             })
+
+            expect_response_with_successful
+
+            LC::Debug.deprecation(response_body)
+
             expect(response_body).not_to be_nil 
             expect(response_body).to be_an(Hash)
             expect(response_body.length).to be >= 1
@@ -48,6 +56,13 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             post("/administration/profile/webpushes.json", params: {
                 profile_webpush: profile_webpush_params
             })
+            
+            # shared example
+            expect_response_with_successful
+
+            LC::Debug.deprecation(response_body)
+
+            # custom expects
             expect(response_body).to have_key("id")
             expect(response_body).to have_key("users_id")
             expect(response_body).to have_key("user_agent")

@@ -27,11 +27,18 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         it "is expected to respond a hash not empty whit diferent key value" do
             get("/administration/profile/subscriptions/options.json")
             expect_response_with_successful
+
+            LC::Debug.deprecation(response_body)
         end 
 
         #validate response hash not null and keywords
         it "is expected to respond a hash not empty whit diferent key value" do
             get("/administration/profile/subscriptions/options.json")
+
+            expect_response_with_successful
+
+            LC::Debug.deprecation(response_body)
+
             expect(response_body).not_to be_nil 
             expect(response_body).to be_an(Hash)
             expect(response_body.length).to be >= 1
@@ -41,6 +48,11 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         #validate engines array
         it "is expected to validate engines list" do 
             get("/administration/profile/subscriptions/options.json")
+
+            expect_response_with_successful
+
+            LC::Debug.deprecation(response_body)
+
             expect(response_body["engines"]).to be_an(Array)
             if response_body["engines"].length >= 1
                 expect(response_body["engines"].first.keys.sort).to eq ["value", "text"].sort
@@ -50,7 +62,11 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         #validate notification type hash
         it "is expected to validate notification_types list" do 
             get("/administration/profile/subscriptions/options.json")
-            #expect(response_body["notification_types"]).not_to be_nil
+
+            expect_response_with_successful
+
+            LC::Debug.deprecation(response_body)
+
             expect(response_body["notification_types"]).to be_an(Hash)
         end
     end
