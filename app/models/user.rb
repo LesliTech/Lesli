@@ -89,9 +89,7 @@ class User < ApplicationLesliRecord
 
 
     def change_after_update
-        if defined? CloudOne
-            CloudOne::Firebase::User.sync_user(self)
-        end
+        self.initialize_user_after_confirmation if self.confirmed?
     end
 
 
@@ -114,7 +112,7 @@ class User < ApplicationLesliRecord
 
 
     def initialize_user_after_confirmation
-        Courier::One::Firebase::User.registration(self)
+        Courier::One::Firebase::User.sync_user(self)
         Courier::Driver::Calendar.create_user_calendar(self, "Personal Calendar")
     end
 
