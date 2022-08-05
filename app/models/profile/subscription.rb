@@ -73,14 +73,21 @@ class Profile::Subscription < ApplicationLesliRecord
     end
 
     def self.options(current_user, query)
+        puts "model profile"
         engines = Rails.application.config.lesli[:engines].map do |engine|
-            {
+            if(engine == nil )
+                {
+                    value: engine[],
+                    text: engine[]
+                }
+            else 
+                {
                 value: engine[:name],
                 text: engine[:code]
-            }
+                }
+            end 
         end
-
-        {
+        {   
             engines: engines,
             notification_types: CloudObject::Subscriber.notification_types
         }
