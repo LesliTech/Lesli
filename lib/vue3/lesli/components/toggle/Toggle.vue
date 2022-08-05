@@ -25,8 +25,11 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
 })
-
 </script>
 
 <template>
@@ -35,6 +38,7 @@ const props = defineProps({
             v-bind="$attrs" 
             @input="emit('update:modelValue', !props.modelValue)" 
             type="checkbox" :checked="props.modelValue"
+            :disabled="props.disabled"
         >
         <span class="slider"></span>
     </label>

@@ -4,7 +4,12 @@ The component lesli toggle is registered globally and is meant to be used in all
 
 
 ## Props
-No props are defined for this component.
+
+**:disabled**
+This prop is used to disable the toggle.
+- **type**: Boolean
+- **required**: false
+- **default**: false
 
 ## Events
 No events are defined for this component.
