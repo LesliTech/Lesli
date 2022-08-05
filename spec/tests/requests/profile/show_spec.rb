@@ -28,11 +28,18 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         it "is expected to respond with successful" do
             get("/administration/profile.json")
             expect_response_with_successful
+
+            LC::Debug.deprecation(response_body)
         end
 
         #validate response hash not null and keywords
         it "is expected to respond a hash not empty with diferent key value" do
             get("/administration/profile.json")
+
+            expect_response_with_successful
+
+            LC::Debug.deprecation(response_body)
+
             expect(response_body).not_to be_nil 
             expect(response_body).to be_an(Hash)
             expect(response_body.length).to be >= 1
@@ -53,6 +60,11 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         #validate keywords type 
         it "is expected to validate type data of hash" do 
             get("/administration/profile.json")
+
+            expect_response_with_successful
+
+            LC::Debug.deprecation(response_body)
+
             expect(response_body["id"]).to be_a(Numeric)
             expect(response_body["email"]).to be_a(String)
             expect(response_body["alias"]).to be_a(String)
@@ -67,15 +79,32 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         #validate detail_atributes hash and keyword
         it "is expected to validate detail_attributes hash and attributes" do 
             get("/administration/profile.json")
+            
+            expect_response_with_successful
+
+            LC::Debug.deprecation(response_body)
+
             expect(response_body["detail_attributes"]).not_to be_nil 
             expect(response_body["detail_attributes"]).to be_an(Hash)
-            expect(response_body["detail_attributes"].keys.sort).to eq ["address", "first_name", "last_name", "salutation", "telephone", "title", "work_address", "work_city", "work_region"].sort
+            expect(response_body["detail_attributes"]).to have_key("address")
+            expect(response_body["detail_attributes"]).to have_key("first_name")
+            expect(response_body["detail_attributes"]).to have_key("last_name")
+            expect(response_body["detail_attributes"]).to have_key("salutation")
+            expect(response_body["detail_attributes"]).to have_key("telephone")
+            expect(response_body["detail_attributes"]).to have_key("title")
+            expect(response_body["detail_attributes"]).to have_key("work_address")
+            expect(response_body["detail_attributes"]).to have_key("work_city")
+            expect(response_body["detail_attributes"]).to have_key("work_region")
         end
 
         #validate roles hash and keyword
         it "is expected to validate roles hash and attributes" do 
             get("/administration/profile.json")
+
             expect_response_with_successful
+
+            LC::Debug.deprecation(response_body)
+
             expect(response_body["roles"].first).not_to be_nil 
             expect(response_body["roles"].first).to be_an(Hash)
             expect(response_body["roles"].first.keys.sort).to eq ["id", "name"].sort
