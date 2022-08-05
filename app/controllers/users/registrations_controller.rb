@@ -112,7 +112,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         password_complexity = UserValidationService.new(@user).password_complexity(sign_up_params[:password])
 
         # return if there are errors with the complexity validations
-        return respond_with_error(password_complexity.error) if not password_complexity.successful?
+        return respond_with_error(password_complexity.error[0], password_complexity.error) if not password_complexity.successful?
 
         if @user.update(sign_up_params)
 
