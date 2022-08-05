@@ -106,7 +106,7 @@ class DevGithub < LesliRake
             end
 
             #message("cd ./engines/#{engine[:code]} && git add --all && git commit -m \"ci: update github workflows and actions\"")
-            #command("cd ./engines/#{engine[:code]} && git add --all && git commit -m \"ci: update github workflows and actions\"")
+            command("cd ./engines/#{engine[:code]} && git add --all && git commit -m \"ci: update github workflows and actions\"")
 
         end
 

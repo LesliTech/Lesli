@@ -18,15 +18,21 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed } from "vue"
+import { ref, reactive, onMounted, watch, computed, inject } from "vue"
 import { useRouter, useRoute } from 'vue-router'
+
+
+// · initialize/inject plugins
+const router = useRouter()
+const msg = inject("msg")
+const url = inject("url")
 
 
 // · import lesli stores
 import { useUsers } from "LesliVue/stores/users"
 
 
-// implement stores
+// · implement stores
 const storeUsers = useUsers()
 
 
@@ -38,12 +44,6 @@ const translations = {
         shared: I18n.t("core.shared")
     }
 }
-
-
-// · initializing
-onMounted(() => {
-    storeUsers.fetchIndex()
-})
 
 
 // · 
@@ -81,14 +81,15 @@ const columns = [{
 const selection = ref()
 
 
-</script>
-<script>
-export default {
-    methods: {
-        showUser(user) {
-            this.$router.push(this.url.admin("users/:id", user.id).toString())
-        }
-    }
+// · initializing
+onMounted(() => {
+    storeUsers.fetchIndex()
+})
+
+
+//
+function showUser(user) {
+    router.push(url.admin("users/:id", user.id).s)
 }
 </script>
 <template>
@@ -112,6 +113,7 @@ export default {
             :columns="columns"
             :records="storeUsers.index.records"
             :pagination="storeUsers.index.pagination"
+            @paginate="storeUsers.paginateIndex"
             @click="showUser"
             @sort="storeUsers.sortIndex">
 
