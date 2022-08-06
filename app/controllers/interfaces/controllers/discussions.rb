@@ -29,12 +29,16 @@ module Interfaces::Controllers::Discussions
     def index
         discussion_model = discussion_model() # If there is a custom discussion model, it must be returned in this method
         cloud_object_model = discussion_model.cloud_object_model
-        
-        @discussions = discussion_model.index(current_user, params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym])
+
+        @discussions = discussion_model.index(
+            current_user, 
+            params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym], 
+            @query
+        )
         if block_given?
             yield(@discussions)
         else
-            respond_with_successful(@discussions)
+            respond_with_pagination(@discussions)
         end
     end
 
@@ -87,15 +91,15 @@ module Interfaces::Controllers::Discussions
         if discussion.save
             translations_path = @cloud_object.class.name.gsub("Cloud", "").underscore.pluralize.gsub("/", ".")
             cloud_object_class_translation = I18n.t("#{translations_path}.view_title_main")
-
-            "#{cloud_object_model}::Subscriber".constantize.notify_subscribers(
-                current_user,
-                discussion.cloud_object,
-                "discussion_created",
-                subject: "#{cloud_object_class_translation} (#{@cloud_object.global_identifier}): #{I18n.t("core.shared.view_title_notification_discussions_created")}",
-                body: "#{discussion.user_creator.full_name} #{I18n.t("core.shared.view_text_notification_discussion_created_body")}: '#{discussion.content}'",
-                url: "/#{@cloud_object.class.name.split("::").last.pluralize.downcase}/#{@cloud_object.url_identifier}?tab=discussions"
-            ) if Object.const_defined?("#{cloud_object_model}::Subscriber")
+            
+            # "#{cloud_object_model}::Subscriber".constantize.notify_subscribers(
+            #     current_user,
+            #     discussion.cloud_object,
+            #     "discussion_created",
+            #     subject: "#{cloud_object_class_translation} (#{@cloud_object.global_identifier}): #{I18n.t("core.shared.view_title_notification_discussions_created")}",
+            #     body: "#{discussion.user_creator.full_name} #{I18n.t("core.shared.view_text_notification_discussion_created_body")}: '#{discussion.content}'",
+            #     url: "/#{@cloud_object.class.name.split("::").last.pluralize.downcase}/#{@cloud_object.url_identifier}?tab=discussions"
+            # ) if Object.const_defined?("#{cloud_object_model}::Subscriber")
 
 
             if block_given?
@@ -180,11 +184,14 @@ module Interfaces::Controllers::Discussions
         discussion_model = discussion_model() # If there is a custom discussion model, it must be returned in this method
         cloud_object_model = discussion_model.cloud_object_model
 
+        LC::Debug.msg("#{cloud_object_model.name.demodulize.underscore}_discussion".to_sym)
+        LC::Debug.msg("#{discussion_model.table_name}_id")
+
         params.require(
             "#{cloud_object_model.name.demodulize.underscore}_discussion".to_sym
         ).permit(
-            :content,
-            "#{discussion_model.table_name}_id".to_sym
+            :content
+            # "#{discussion_model.table_name}_id".to_sym #mitwerken_cloud_profile_discussions_id
         )
     end
 
