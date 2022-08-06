@@ -30,32 +30,16 @@ module Interfaces::Controllers::Activities
         cloud_object_model = activity_model.cloud_object_model
         translations_module = activity_model.name.split("::")[0].gsub("Cloud", "").underscore
         
-        @activities = activity_model.where(
-            "#{cloud_object_model.table_name}_id".to_sym => params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym]
-        ).order(id: :desc).map do |activity|
-            # We translate the category, first, we search in the core
-            category = I18n.t("core.shared.activities_enum_category_#{activity[:category]}", default: nil)
-            # Then we search in the engine
-            category = I18n.t("#{translations_module}.shared.activities_enum_category_#{activity[:category]}", default: nil) unless category
-            #Then we default to the real field
-            category = activity[:category] unless category
+        @activities = activity_model.index(
+            current_user,
+            params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym],
+            @query
+        )
 
-            activity_attributes = activity.attributes
-            activity_attributes["category"] = category
-            activity_attributes["created_at_raw"] = activity[:created_at]
-            activity_attributes["created_at"] = LC::Date.to_string_datetime(activity[:created_at])
-            activity_attributes["updated_at"] = LC::Date.to_string_datetime(activity[:updated_at])
-
-            user = activity.user_creator
-            activity_attributes[:user_name] = user.full_name if user
-
-            activity_attributes
-        end
-        
         if block_given?
             yield(@activities)
         else
-            respond_with_successful(@activities)
+            respond_with_pagination(@activities)
         end
     end
 

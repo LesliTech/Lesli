@@ -56,6 +56,70 @@ class CloudObject::Activity < ApplicationLesliRecord
     #######################################################################################
     ##############################  Activities Log Methods   ##############################
     #######################################################################################
+
+
+    # @param current_user [User] The current logged user
+    # @param cloud_id [Integer] Id of the *cloud_object* to which this activities belongs to
+    # @param query [Query] that contains the search and pagination information
+    # @return [Array] Array of activities. Each activities contains a *responses* element,
+    #     which is an array that has all its responses ordered by date
+    # @description Retrieves and returns all activities from a *cloud_object*
+    # @example
+    #    @activities = activity_model.index(
+    #        current_user,
+    #        profile_id,
+    #        @query
+    #    )
+    def self.index(current_user, cloud_id, query)
+        cloud_object_model = self.cloud_object_model
+        account_model = cloud_object_model.reflect_on_association(:account).klass
+        translations_module = self.name.split("::")[0].gsub("Cloud", "").underscore
+
+        # get search string from query params
+        search_string = query[:search].downcase.gsub(" ","%") unless query[:search].blank?
+        
+        activities = self
+        .where("#{cloud_object_model.table_name}_id".to_sym => cloud_id)
+        .order(id: :desc)
+        .joins("inner join users u on #{self.table_name}.users_id = u.id")
+        .joins("inner join user_details ud on ud.users_id = u.id")
+
+
+        # Filter results by search string
+        unless search_string.blank?
+            # (LOWER(ud.last_name) SIMILAR TO '%#{search_string}%') OR 
+            activities = activities.where("
+            (LOWER(#{self.table_name}.field_name) SIMILAR TO '%#{search_string}%') OR
+            (LOWER(#{self.table_name}.value_from) SIMILAR TO '%#{search_string}%') OR
+            (LOWER(#{self.table_name}.value_to) SIMILAR TO '%#{search_string}%') OR
+            (LOWER(ud.first_name) SIMILAR TO '%#{search_string}%')
+            ")
+        end
+
+        activities = activities.map do |activity|
+            # We translate the category, first, we search in the core
+            category = I18n.t("core.shared.activities_enum_category_#{activity[:category]}", default: nil)
+            
+            # Then we search in the engine
+            category = I18n.t("#{translations_module}.shared.activities_enum_category_#{activity[:category]}", default: nil) unless category
+            
+            #Then we default to the real field
+            category = activity[:category] unless category
+
+            activity_attributes = activity.attributes
+            activity_attributes["category"] = category
+            activity_attributes["created_at_raw"] = activity[:created_at]
+            activity_attributes["created_at"] = LC::Date.to_string_datetime(activity[:created_at])
+            activity_attributes["updated_at"] = LC::Date.to_string_datetime(activity[:updated_at])
+
+            user = activity.user_creator
+            activity_attributes[:user_name] = user.full_name
+
+            activity_attributes
+        end
+
+        Kaminari.paginate_array(activities).page(query[:pagination][:page]).per(query[:pagination][:perPage])
+    end
     
     # @return [void]
     # @param current_user [::User] The user that created the cloud_object
