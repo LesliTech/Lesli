@@ -111,18 +111,22 @@ class CloudObject::Subscriber < ApplicationLesliRecord
     #     )
     def self.notify_subscribers(current_user, cloud_object, action, subject: nil, body: nil, url: nil)
 
-        subscribers = cloud_object.subscribers.where(action: action)
-        subscribers = subscribers.where("users_id != ?", current_user.id) if current_user
-        
-        subscribers.each do |subscriber|
-            Courier::Bell::Notification.new(
-                subscriber.user_main || subscriber.user_creator,
-                subject || action,
-                body: body,
-                url: url,
-                category: "info",
-                channel: subscriber.notification_type
-            )
+        # verify if the relation exists
+
+        if cloud_object.subscribers.where(action: action).exists?
+            subscribers = cloud_object.subscribers.where(action: action)
+            subscribers = subscribers.where("users_id != ?", current_user.id) if current_user
+            
+            subscribers.each do |subscriber|
+                Courier::Bell::Notification.new(
+                    subscriber.user_main || subscriber.user_creator,
+                    subject || action,
+                    body: body,
+                    url: url,
+                    category: "info",
+                    channel: subscriber.notification_type
+                )
+            end
         end
     end
 
