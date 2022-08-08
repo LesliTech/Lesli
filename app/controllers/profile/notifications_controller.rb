@@ -24,7 +24,7 @@ class Profile::NotificationsController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json do
-                respond_with_successful(Profile::Notification.index(current_user, @query))
+                respond_with_pagination(Profile::Notification.index(current_user, @query))
             end
         end
     end

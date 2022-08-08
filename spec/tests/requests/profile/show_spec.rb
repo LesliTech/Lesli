@@ -54,7 +54,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body).to have_key("mfa_method")
             expect(response_body).to have_key("roles")
             expect(response_body).to have_key("updated_at")
-            
+
         end
  
         it "is expected to validate type data of hash" do 
@@ -63,15 +63,21 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #share examples
             expect_response_with_successful
 
-            #validate keywords type
+            #validate keywords type and values
             expect(response_body["id"]).to be_a(Numeric)
+            expect(response_body["id"]).to eq(1)
             expect(response_body["email"]).to be_a(String)
+            expect(response_body["email"]).to eq("dev@mitwerken.de")
             expect(response_body["alias"]).to be_a(String)
+            expect(response_body["alias"]).to eq("Mi ")
             expect(response_body["active"]).to be_in([true, false])
+            expect(response_body["active"]).to eq(true)
             expect(response_body["created_at"]).to be_a(String)
             expect(response_body["updated_at"]).to be_a(String)
             expect(response_body["mfa_enabled"]).to be_in([true, false])
+            expect(response_body["mfa_enabled"]).to eq(false)
             expect(response_body["editable_security"]).to be_in([true, false])
+            expect(response_body["editable_security"]).to eq(true)
             expect(response_body["mfa_method"]).to be_nil
 
         end
@@ -82,13 +88,16 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #share examples
             expect_response_with_successful
 
-            #validate detail_atributes hash and keyword
+            #validate detail_atributes as a hash, keyword and keyword values
             expect(response_body["detail_attributes"]).not_to be_nil 
             expect(response_body["detail_attributes"]).to be_an(Hash)
             expect(response_body["detail_attributes"]).to have_key("address")
             expect(response_body["detail_attributes"]).to have_key("first_name")
+            expect(response_body["detail_attributes"]["first_name"]).to eq("Mitwerken Development")
             expect(response_body["detail_attributes"]).to have_key("last_name")
+            expect(response_body["detail_attributes"]["last_name"]).to eq("")
             expect(response_body["detail_attributes"]).to have_key("salutation")
+            expect(response_body["detail_attributes"]["salutation"]).to eq("mr")
             expect(response_body["detail_attributes"]).to have_key("telephone")
             expect(response_body["detail_attributes"]).to have_key("title")
             expect(response_body["detail_attributes"]).to have_key("work_address")
@@ -103,10 +112,13 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #share examples
             expect_response_with_successful
 
-            #validate roles hash and keyword
+            #validate roles hash, keyword and keyword values
             expect(response_body["roles"].first).not_to be_nil 
             expect(response_body["roles"].first).to be_an(Hash)
-            expect(response_body["roles"].first.keys.sort).to eq ["id", "name"].sort
+            expect(response_body["roles"].first).to have_key("id")
+            expect(response_body["roles"].first["id"]).to eq(1)
+            expect(response_body["roles"].first).to have_key("name")
+            expect(response_body["roles"].first["name"]).to eq("owner")
 
         end
     end
