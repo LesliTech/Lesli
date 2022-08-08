@@ -39,7 +39,7 @@ module Interfaces::Controllers::Activities
         if block_given?
             yield(@activities)
         else
-            respond_with_pagination(@activities)
+            respond_with_successful(@activities)
         end
     end
 
