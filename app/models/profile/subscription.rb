@@ -76,8 +76,8 @@ class Profile::Subscription < ApplicationLesliRecord
         engines = Rails.application.config.lesli[:engines].map do |engine|
             if(engine == nil )
                 {
-                    value: engine[],
-                    text: engine[]
+                    value: engine[nil],
+                    text: engine[nil]
                 }
             else 
                 {
