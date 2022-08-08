@@ -37,6 +37,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
             #share examples
             expect_response_with_successful
+            LC::Debug.deprecation(response_body)
 
             #validate response hash not null and keywords
             expect(response_body).not_to be_nil 
@@ -67,7 +68,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body["id"]).to be_a(Numeric)
             expect(response_body["id"]).to eq(1)
             expect(response_body["email"]).to be_a(String)
-            expect(response_body["email"]).to eq("dev@mitwerken.de")
+            expect(response_body["email"]).to eq("hello@lesli.tech")
             expect(response_body["alias"]).to be_a(String)
             expect(response_body["alias"]).to eq("Mi ")
             expect(response_body["active"]).to be_in([true, false])
