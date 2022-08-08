@@ -97,7 +97,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body["detail_attributes"]).to have_key("address")
             expect(response_body["detail_attributes"]["address"]).to be_nil
             expect(response_body["detail_attributes"]).to have_key("first_name")
-            expect(response_body["detail_attributes"]["first_name"]).to eq("Mitwerken Development")
+            expect(response_body["detail_attributes"]["first_name"]).to eq("Lesli Admin")
             expect(response_body["detail_attributes"]).to have_key("last_name")
             expect(response_body["detail_attributes"]["last_name"]).to eq("")
             expect(response_body["detail_attributes"]).to have_key("salutation")
