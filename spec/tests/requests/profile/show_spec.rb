@@ -92,6 +92,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body["detail_attributes"]).not_to be_nil 
             expect(response_body["detail_attributes"]).to be_an(Hash)
             expect(response_body["detail_attributes"]).to have_key("address")
+            expect(response_body["detail_attributes"]["address"]).to be_nil
             expect(response_body["detail_attributes"]).to have_key("first_name")
             expect(response_body["detail_attributes"]["first_name"]).to eq("Mitwerken Development")
             expect(response_body["detail_attributes"]).to have_key("last_name")
@@ -99,10 +100,15 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body["detail_attributes"]).to have_key("salutation")
             expect(response_body["detail_attributes"]["salutation"]).to eq("mr")
             expect(response_body["detail_attributes"]).to have_key("telephone")
+            expect(response_body["detail_attributes"]["telefone"]).to be_nil
             expect(response_body["detail_attributes"]).to have_key("title")
+            expect(response_body["detail_attributes"]["title"]).to be_nil
             expect(response_body["detail_attributes"]).to have_key("work_address")
+            expect(response_body["detail_attributes"]["work_address"]).to be_nil
             expect(response_body["detail_attributes"]).to have_key("work_city")
+            expect(response_body["detail_attributes"]["work_city"]).to be_nil
             expect(response_body["detail_attributes"]).to have_key("work_region")
+            expect(response_body["detail_attributes"]["work_region"]).to be_nil
 
         end
 
