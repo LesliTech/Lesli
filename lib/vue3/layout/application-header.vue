@@ -103,17 +103,25 @@ onUnmounted(() => {
 
                 <slot></slot>
 
+
+                <!-- header action button -->
                 <a class="navbar-item">
-                    <lesli-icon id="add" size="35"></lesli-icon>
+                    <span class="material-icons md-36">
+                        add_box
+                    </span>
                 </a>
 
+                <!-- Notifications -->
                 <a class="navbar-item header-notification-indicator" @click="storeLayout.showNotifications = true">
-                    <lesli-icon id="bell" size="35"></lesli-icon>
+                    <span class="material-icons md-36 is-active">
+                        notifications
+                    </span>
                     <span class="count">
                         {{ storeLayout.header.notifications }}
                     </span>
                 </a>
 
+                <!-- Profile options -->
                 <div class="dropdown is-right is-hoverable header-user-options">
                     <div class="dropdown-trigger">
                         <span class="material-icons md-36">

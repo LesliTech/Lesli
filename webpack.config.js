@@ -56,6 +56,7 @@ module.exports = env => {
         watch: env.watch == "true",
         mode: production ? "production" : "development",
 
+        // Show only necessary stats when compiling
         stats: {
             all: false,
             assets: true,
@@ -65,6 +66,15 @@ module.exports = env => {
             errorDetails: true,
             errorsCount: true,
             warnings: true,
+        },
+
+        // Set max size limit for JS bundles to 0.98 MB
+        performance: {
+            maxAssetSize: 980000,
+            maxEntrypointSize: 980000,
+            assetFilter: function(assetFilename) {
+                return !(['cloud_development/application.js'].includes(assetFilename));
+            }
         },
 
         // Use a custom plugin to remove all the comments
