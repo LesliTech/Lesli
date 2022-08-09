@@ -26,13 +26,17 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         #notification_id =   Courier::Bell::Notification.new(@current_user, "notification from test")[:id][0]
         let(:notification_id) { Courier::Bell::Notification.new(@current_user, "notification from rspec")[:id][0] }
         #puts "notificacion #{Courier::Bell::Notification.new(@current_user, "notification from rspec")}" 
-    
+
+
         #share examples
-        it "is expected to respond a hash not empty whit diferent key value" do
-            puts "notificacion id #{notification_id}"
-            puts "URL /administration/profile/notifications/#{ notification_id }"
+        it "is expected to respond 0" do
+            #puts "notificacion id #{notification_id}"
+            #puts "URL /administration/profile/notifications/#{ notification_id }"
             put("/administration/profile/notifications/#{ notification_id }.json")
             puts "respuesta #{response_body}"
+            notificacion_leer = Courier::Bell::Notification.read(@current_user, notification_id)
+            puts " leer la notificacion #{Courier::Bell::Notification.read(@current_user, notification_id)}"
+            expect(response_body).to eql(0)
             expect_response_with_successful
         end 
     end
