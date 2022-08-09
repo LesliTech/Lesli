@@ -35,6 +35,10 @@ const emit = defineEmits(['click', 'sort', 'paginate']);
 
 // · defining props
 const props = defineProps({
+    id: {
+        type: String,
+        require: false
+    },
     class: {
         type: String,
         required: false,
@@ -111,6 +115,7 @@ function paginate(page) {
 <template>
     <div>
         <table 
+            :id="props.id"
             class="table is-fullwidth lesli-table"
             :class="props.class">
             <thead>
