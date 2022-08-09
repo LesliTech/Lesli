@@ -15,7 +15,6 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
 
-=end
 
 require "lesli_request_helper"
 
@@ -23,17 +22,16 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
     describe 'GET:/administration/profile/notifications.json', type: :request do
         include_context 'request user authentication'
 
-        let(:notification_id) { Courier::Bell::Notification.new(@current_user, "notification from rspec")[:id][0] }
-
         it 'is expected to respond succesful' do
-
-            put("/administration/profile/notifications/#{ notification_id }.json")
+            Courier::Bell::Notification.new(@current_user, "notification from rspec")
+            get '/administration/profile/notifications.json'
 
             #share examples
-            expect_response_with_successful
-            #respond 0 because core doesnt handler notifications itself
-            expect(response_body).to eql(0)
+            LC::Debug.deprecation("respuesta get #{response.body}")
+            expect_response_with_pagination
             
         end 
     end
 end
+
+=end
