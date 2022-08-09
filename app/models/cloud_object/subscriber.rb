@@ -111,9 +111,7 @@ class CloudObject::Subscriber < ApplicationLesliRecord
     #     )
     def self.notify_subscribers(current_user, cloud_object, action, subject: nil, body: nil, url: nil)
 
-        # verify if the relation exists
-
-        if cloud_object.subscribers.where(action: action).exists?
+        unless cloud_object.subscribers.blank?
             subscribers = cloud_object.subscribers.where(action: action)
             subscribers = subscribers.where("users_id != ?", current_user.id) if current_user
             
