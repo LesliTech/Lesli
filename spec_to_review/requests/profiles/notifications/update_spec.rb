@@ -36,9 +36,8 @@ RSpec.describe 'PUT:/administration/profile/notifications/:id.json', type: :requ
     end
 
     it 'is expected to respond with notification id marked as read' do
-        #expect_json_response_successful
-        puts "respuesta notification by id #{response_body}"
-        #expect(response_body['data']).to eql(notification_id)
+        expect_json_response_successful
+        expect(response_body['data']).to eql(notification_id)
     end
 
 end
@@ -64,9 +63,8 @@ RSpec.describe 'PUT:/administration/profile/notifications/all.json', type: :requ
     end
 
     it 'is expected to respond with total notifications marked as read' do
-        #expect_json_response_successful
-        puts "respuesta notification all 1 #{response_body}"
-        #expect(response_body['data']).to eql(@local_count)
+        expect_json_response_successful
+        expect(response_body['data']).to eql(@local_count)
     end
 end
 
@@ -86,8 +84,6 @@ RSpec.describe 'PUT:/administration/profile/notifications/:id.json', type: :requ
 
         # mark notification as read
         put "/administration/profile/notifications/all.json"
-
-        puts "respuesta notification all 2 #{response_body}"
     end
 
     it 'is expected to respond with total notifications marked as read' do
@@ -103,7 +99,6 @@ RSpec.describe "GET:/administration/profile/notifications/:id.json", type: :requ
     before { put "/administration/profile/notifications/#{ notification_id }.json" }
 
     it "is expected to redirect to login when user is not authenticated" do
-        puts "respuesta notification get #{response_body}"
-        #expect(response).to redirect_to(login)
+        expect(response).to redirect_to(login)
     end
 end
