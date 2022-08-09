@@ -51,6 +51,8 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #share examples
             expect_response_with_successful
 
+            puts "respuesta #{response_body}"
+
             #validate engines array
             expect(response_body["engines"]).to be_an(Array)
            # if response_body["engines"].length >= 1
