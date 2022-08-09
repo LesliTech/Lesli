@@ -53,9 +53,13 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
             #validate engines array
             expect(response_body["engines"]).to be_an(Array)
-            if response_body["engines"].length >= 1
+           # if response_body["engines"].length >= 1
                 expect(response_body["engines"].first.keys.sort).to eq ["value", "text"].sort
-            end
+                expect(response_body["engines"]).to have_key("value")
+                expect(response_body["engines"]["value"]).to be_nil
+                expect(response_body["engines"]).to have_key("text")
+                expect(response_body["engines"]["text"]).to be_nil
+           # end
         end
 
         #validate notification type hash
