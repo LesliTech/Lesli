@@ -49,7 +49,7 @@ module Interfaces
             # IMPORTANT: It is strictly necessary to use the pagination methods
             #            to make this work properly
             def respond_with_pagination(records, payload=nil)
-
+                puts records.class
                 # Keep compatibility with apps v2 specially Deutsche Leibrenten
                 if defined?(DeutscheLeibrenten)
                     return respond_with_http(200, {
