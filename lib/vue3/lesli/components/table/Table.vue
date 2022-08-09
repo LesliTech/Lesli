@@ -71,7 +71,7 @@ const dropdownActive = ref([])
 // · prepaer the CSS classes for every column in the header
 function tableHeaderClass(column) {
     return {
-        'has-text-centered': column.field == 'id'
+        'has-text-centered': (column.field == 'id' || column.align == 'center') 
     }
 }
 
@@ -79,7 +79,7 @@ function tableHeaderClass(column) {
 // · prepaer the CSS classes for every column in the header
 function tableBodyClass(column) {
     return {
-        'has-text-centered': column.field == 'id'
+        'has-text-centered': (column.field == 'id' || column.align == 'center') 
     }
 }
 
@@ -168,8 +168,8 @@ function paginate(page) {
                         <slot
                             :name="column.field"
                             :column="column"
-                            :value="record[column.field]"
-                            :row="record">
+                            :record="record"
+                            :value="record[column.field]">
 
                             <!--
                                 Print the text value if no custom slot is used
