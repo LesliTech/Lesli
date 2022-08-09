@@ -23,20 +23,15 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
     describe "PUT:/administration/profile/notifications/:id.json", type: :request do
         include_context 'request user authentication'
 
-        #notification_id =   Courier::Bell::Notification.new(@current_user, "notification from test")[:id][0]
         let(:notification_id) { Courier::Bell::Notification.new(@current_user, "notification from rspec")[:id][0] }
-        #puts "notificacion #{Courier::Bell::Notification.new(@current_user, "notification from rspec")}" 
 
+        it 'is expected to respond succesful' do
 
-        #share examples
-        it "is expected to respond 0" do
-            #puts "notificacion id #{notification_id}"
-            #puts "URL /administration/profile/notifications/#{ notification_id }"
             put("/administration/profile/notifications/#{ notification_id }.json")
-            puts "respuesta #{response_body}"
-            notificacion_leer = Courier::Bell::Notification.read(@current_user, notification_id)
-            puts " leer la notificacion #{Courier::Bell::Notification.read(@current_user, notification_id)}"
+
+            #share examples
             expect_response_with_successful
+            #respond 0 because core doesnt handler notifications itself
             expect(response_body).to eql(0)
             
         end 
