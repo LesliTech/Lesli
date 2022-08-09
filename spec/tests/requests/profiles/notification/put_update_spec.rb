@@ -36,8 +36,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             puts "respuesta #{response_body}"
             notificacion_leer = Courier::Bell::Notification.read(@current_user, notification_id)
             puts " leer la notificacion #{Courier::Bell::Notification.read(@current_user, notification_id)}"
-            expect(response_body).to eql(0)
             expect_response_with_successful
+            expect(response_body).to eql(0)
+            
         end 
     end
 end

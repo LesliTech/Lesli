@@ -31,10 +31,10 @@ RSpec.describe 'PUT:/administration/profile/notifications/all.json', type: :requ
             put("/administration/profile/notifications/all.json")
 
             puts "local count #{@local_count}"
-            puts "respuesta notification all #{response_json}"
+            puts "respuesta notification all #{response}"
 
 
-            expect_json_response_successful
+            expect_response_with_successful
             expect(response_body).to eq(0)
         end
     end
