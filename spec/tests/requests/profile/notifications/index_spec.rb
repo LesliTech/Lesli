@@ -15,6 +15,7 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
 
+=end
 
 require "lesli_request_helper"
 
@@ -29,9 +30,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #share examples
             LC::Debug.deprecation("respuesta get #{response.body}")
             expect_response_with_pagination
+            LC::Debug.deprecation("respuesta get #{response.body}")
             
         end 
     end
 end
 
-=end
