@@ -27,19 +27,11 @@ const emit = defineEmits(['click']);
 
 // · defining props
 const props = defineProps({
-    label: {
-        type: String,
-        required: true
-    },
     to: {
         type: Object,
         required: false
     },
-    mdi: {
-        type: String,
-        required: false
-    },
-    rmi: {
+    icon: {
         type: String,
         required: false
     },
@@ -48,7 +40,7 @@ const props = defineProps({
         default: false,
         required: false
     },
-    outlined: {
+    primary: {
         type: Boolean,
         default: false,
         required: false
@@ -59,22 +51,24 @@ const props = defineProps({
 <template>
     <router-link 
         v-if="to" 
-        :class="['button', 'is-primary', { 'is-loading': loading, 'is-outlined': outlined }]"
+        :class="['button', 'is-primary', 'is-outlined', { 'is-loading': loading }]"
         :to="to.toString()">
-        <span v-if="mdi || rmi" class="icon">
-            <span class="material-icons">{{ mdi }}</span>
-            <span :class="rmi"></span>
+        <span v-if="icon" class="icon">
+            <span class="material-icons">{{ icon }}</span>
         </span>
-        <span>{{ label }}</span>
+        <span>
+            <slot></slot>
+        </span>
     </router-link>
     <button 
         v-if="!props.to" 
         @click="emit('click')" 
-        :class="['button', 'is-primary', { 'is-loading': loading, 'is-outlined': outlined }]">
-        <span v-if="mdi || rmi" class="icon">
-            <span class="material-icons">{{ mdi }}</span>
-            <span :class="rmi"></span>
+        :class="['button', 'is-primary', 'is-outlined', { 'is-loading': loading }]">
+        <span v-if="icon" class="icon">
+            <span class="material-icons">{{ icon }}</span>
         </span>
-        <span>{{ label }}</span>
+        <span>
+            <slot></slot>
+        </span>
     </button>
 </template>

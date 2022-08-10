@@ -39,7 +39,7 @@ const translations = {
 
 </script>
 <template>
-    <div class="box information">
+    <div class="information mb-5">
         <div class="media is-align-items-center">
             <div class="media-left">
                 <figure class="image is-128x128">
