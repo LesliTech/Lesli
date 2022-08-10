@@ -102,6 +102,14 @@ class ApplicationLesliController < ApplicationController
             abilities: current_user.abilities_by_controller,
             max_object_level_permission: current_user.roles.map(&:object_level_permission).max
         }
+
+        # 
+        if defined?(CloudTalk)
+            @account[:cloud_talk] = {
+                frbswb: Rails.application.credentials.providers.dig(:firebase, :web)
+            }
+        end
+
     end
 
 
