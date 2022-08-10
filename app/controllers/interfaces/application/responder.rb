@@ -130,6 +130,9 @@ module Interfaces
             # JSON failure response
             def respond_with_error message = "", details = []
 
+                # Message should be a String
+                message = "" unless message.instance_of?(String)
+
                 # Keep compatibility with apps v2 specially Deutsche Leibrenten
                 if defined?(DeutscheLeibrenten)
 
