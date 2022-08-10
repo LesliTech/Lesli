@@ -25,14 +25,12 @@ RSpec.describe 'PUT:/administration/profile/notifications/', type: :request do
 
         let(:notifications) { Courier::Bell::Notification.new(@current_user, "notification from rspec", role_receiver_names: @current_user["role"])}
         let(:notification_id) { Courier::Bell::Notification.new(@current_user, "notification from rspec")[:id][0] }
-        @local_count = Courier::Bell::Notification.count(@current_user, true)
 
         it 'is expected to respond succesful PUT:/administration/profile/notifications/all.json' do
             put("/administration/profile/notifications/all.json")
 
             #share examples
             expect_response_with_successful
-
         end
 
 
