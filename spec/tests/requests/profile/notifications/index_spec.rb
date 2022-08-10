@@ -28,9 +28,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             get '/administration/profile/notifications.json'
 
             #share examples
-            LC::Debug.deprecation("respuesta get #{response.body}")
             expect_response_with_pagination
-            LC::Debug.deprecation("respuesta get #{response.body}")
             
         end 
     end

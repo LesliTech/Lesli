@@ -62,7 +62,7 @@ module Interfaces
                     })
                 end
 
-                respond_with_http(200, {
+                return respond_with_http(200, {
                     :pagination => {
                         :page => records.current_page,
                         :pages => records.total_pages,
