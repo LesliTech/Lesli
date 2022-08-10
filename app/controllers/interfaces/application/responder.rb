@@ -62,7 +62,7 @@ module Interfaces
                     })
                 end
 
-                return respond_with_http(200, {
+                respond_with_http(200, {
                     :pagination => {
                         :page => records.current_page,
                         :pages => records.total_pages,
@@ -70,16 +70,6 @@ module Interfaces
                         :results => records.length
                     },
                     :records => payload || records 
-                }) unless records.empty?
-
-                respond_with_http(200, {
-                    :pagination => {
-                        :page => 1,
-                        :pages => 1,
-                        :total => 0,
-                        :results => 0
-                    },
-                    :records => [] 
                 })
             end
 
