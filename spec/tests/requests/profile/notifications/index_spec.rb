@@ -15,7 +15,6 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
 
-=end
 
 require "lesli_request_helper"
 
@@ -28,9 +27,11 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             get '/administration/profile/notifications.json'
 
             #share examples
+            LC::Debug.deprecation("respuesta get #{response.body}")
             expect_response_with_pagination
             
         end 
     end
 end
 
+=end
