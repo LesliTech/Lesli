@@ -27,7 +27,13 @@ module Courier
             end
 
             def self.index(current_user, query, only_own_notifications=false)
-                return [] if not defined? CloudBell
+                pagination = {
+                    "pages" =>0,
+                    "page" => 0,
+                    "total" => 0,
+                    "count" =>0
+                }
+                return pagination if not defined? CloudBell
                 CloudBell::Notification.index(current_user, query, only_own_notifications)
             end
 
