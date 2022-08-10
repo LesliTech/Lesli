@@ -18,7 +18,11 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, inject } from "vue"
+import { useSlots } from "vue"
+
+
+// · 
+const slots = useSlots()
 
 
 // · import & implement stores
@@ -61,7 +65,7 @@ function toggleEngines() {
                 </span>
             </Transition>
         </div>
-        <nav class="menu is-flex-grow-1">
+        <nav class="menu is-flex-grow-1 is-flex is-flex-direction-column is-justify-content-space-between">
             <ul class="menu-list">
                 <li class="is-hidden-desktop">
                     <a>
@@ -77,7 +81,9 @@ function toggleEngines() {
                 <slot></slot>
             </ul>
             <ul class="menu-list">
-                <slot name="nav-end"></slot>
+                <lesli-navigation-list v-if="slots.settings" icon="ri-list-settings-line" label="Settings">
+                    <slot name="settings"></slot>
+                </lesli-navigation-list>
             </ul>
         </nav>
         <slot name="context"></slot>
