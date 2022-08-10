@@ -51,16 +51,8 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #share examples
             expect_response_with_successful
 
-            puts "respuesta #{response_body}"
-
             #validate engines array
             expect(response_body["engines"]).to be_an(Array)
-           # if response_body["engines"].length >= 1
-                expect(response_body["engines"]).to have_key("value")
-                expect(response_body["engines"]["value"]).to be_nil
-                expect(response_body["engines"]).to have_key("text")
-                expect(response_body["engines"]["text"]).to be_nil
-           # end
         end
 
         #validate notification type hash

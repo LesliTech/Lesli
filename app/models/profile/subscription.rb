@@ -73,17 +73,13 @@ class Profile::Subscription < ApplicationLesliRecord
     end
 
     def self.options(current_user, query)
-        engines = Rails.application.config.lesli[:engines].map do |engine|
-            if(engine == nil )
-                {
-                    value: nil,
-                    text: nil
-                }
-            else 
-                {
-                value: engine[:name],
-                text: engine[:code]
-                }
+        engines = [] 
+        Rails.application.config.lesli[:engines].map do |engine|
+            if(engine) 
+                engines.append({
+                    value: engine[:name],
+                    text: engine[:code]
+                })
             end 
         end
         {   
