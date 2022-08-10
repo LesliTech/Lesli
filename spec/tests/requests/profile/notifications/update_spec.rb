@@ -32,9 +32,7 @@ RSpec.describe 'PUT:/administration/profile/notifications/', type: :request do
 
             #share examples
             expect_response_with_successful
-            #respond 0 because core doesnt handler notifications itself
-            expect(response_body).to eql(0)
-            
+
         end
 
 
@@ -44,9 +42,7 @@ RSpec.describe 'PUT:/administration/profile/notifications/', type: :request do
 
             #share examples
             expect_response_with_successful
-            #respond 0 because core doesnt handler notifications itself
-            expect(response_body).to eql(0)
-            
+
         end 
 
 
@@ -56,9 +52,7 @@ RSpec.describe 'PUT:/administration/profile/notifications/', type: :request do
 
             #share examples
             expect_response_with_successful
-            #respond 0 because core doesnt handler notifications itself
-            expect(response_body).to eql(0)
-            
+
         end 
     end
 end
