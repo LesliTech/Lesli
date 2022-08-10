@@ -65,6 +65,7 @@ module ResponseHelpers
         @@response_json = nil
         expect(response).to have_http_status(:bad_request) 
         expect(response.content_type).to eq('application/json; charset=utf-8')
+        expect(response_json).to be_an_instance_of(Hash)
         expect(response_json).to have_key('message') 
         expect(response_json).to have_key('details') 
     end
