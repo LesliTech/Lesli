@@ -58,7 +58,7 @@ function close() {
         </Transition>
         <Transition>
             <div v-show="isOpen" class="lesli-panel-content box p-0">
-                <div class="lesli-panel-header is-flex py-3 px-4">
+                <div class="lesli-panel-header is-flex px-4">
                     <div class="is-flex-grow-1">
                         <h4>
                             <slot name="header"></slot>
