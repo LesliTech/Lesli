@@ -46,7 +46,7 @@ For more information read the license file including with this software.
 
 
     <%# tasks icon indicator %>
-    <% if defined?(CloudFocus) %>
+    <% if defined?(CloudFocus) && defined?(DeutscheLeibrenten) %>
     <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_tasks = true">
         <i v-if="lesli.tasks > 0" class="fas fa-tasks has-text-link"></i>
         <i v-if="lesli.tasks == 0" class="fas fa-tasks"></i>
@@ -56,7 +56,7 @@ For more information read the license file including with this software.
 
 
     <%# tickets icon indicator %>
-    <% if defined?(CloudHelp) %>
+    <% if defined?(CloudHelp) && defined?(DeutscheLeibrenten) %>
     <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_support = true">
         <i v-if="lesli.tickets > 0" class="fas fa-ticket-alt has-text-link"></i>
         <i v-if="lesli.tickets == 0" class="fas fa-ticket-alt"></i>
