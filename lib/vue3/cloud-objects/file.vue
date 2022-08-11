@@ -16,6 +16,9 @@ For more information read the license file including with this software.
 // · 
 */
 
+// · import vue tools
+import { ref } from "vue"
+
 // · import store
 import { useCloudObjectFileStore } from "LesliVue/stores/cloud-objects/file"
 
@@ -88,16 +91,23 @@ store.cloudObjectId = props.cloudObjectId
 store.maxFiles = props.maxFiles
 // set maxSizeFile to store
 store.maxSizeFile = props.maxSizeFile
+
+const showUploadFilesForm = ref(false)
 </script>
 
 <template>
-    <lesli-tabs>
-        <lesli-tab-item :title="translations.core.shared.view_tab_title_files_new">
-            <files-form></files-form>
-        </lesli-tab-item>
-
-        <lesli-tab-item :title="translations.core.shared.view_tab_title_files_list">
-            <files-list></files-list>
-        </lesli-tab-item>
-    </lesli-tabs>
+    <div class="is-flex is-justify-content-end mb-4">
+        <button class="button is-primary" @click="store.showFilesUpload = !store.showFilesUpload">
+            <span >
+                New file
+            </span>
+            <span class="icon is-small">
+                <span class="material-icons">add</span>
+            </span>
+        </button>
+    </div>
+    <div class="files">
+        <files-list></files-list>
+        <files-form v-if="store.showFilesUpload"></files-form>
+    </div>
 </template>

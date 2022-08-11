@@ -152,7 +152,8 @@ const onUploadFiles = async () => {
     store.uploadFiles(filesBase64)
 
     // · change the reactive variable to true for clear the file uploader
-    clearFileUploader.value = true
+    // clearFileUploader.value = true
+    store.showFilesUpload = false
 }
 
 onMounted(() => {
@@ -162,47 +163,70 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="card">
-        <header>
-            <p class="card-header-title subtitle">{{ translations.core.shared.view_text_files }}</p>
-        </header>
-        <div class="card-content">
-            <div class="columns">
-                <div class="column is-4">
-                    <label class="label">
-                        {{ translations.core.shared.column_files_file_type }}
-                        <sup class="has-text-danger">*</sup>
-                    </label>
-                </div>
-                <div class="column">
-                    <lesli-select
-                        v-model="fileType"
-                        :placeholder="translations.core.view_placeholder_select_option"
-                        :options="store.fileTypes"
-                        v-if="!store.loading"
-                    >
-                    </lesli-select>
-                </div>
+    <div @click="store.showFilesUpload = false" class="files-upload" :class="store.showFilesUpload ? 'files-upload__active'">
+        <div @click.stop class="content p-6">
+            <lesli-header title="Add new files">
+                <button @click="store.showFilesUpload = !store.showFilesUpload" class="button is-transparent">
+                    <span class="icon is-small">
+                        <span class="material-icons">close</span>
+                    </span>
+                </button>
+            </lesli-header>
+            <div>
+                <p>
+                    {{ translations.core.shared.column_files_file_type }}
+                    <sup class="has-text-danger">*</sup>
+                </p>
+                <lesli-select
+                    v-model="fileType"
+                    :placeholder="translations.core.shared.view_placeholder_select_option"
+                    :options="store.fileTypes"
+                    v-if="!store.loading"
+                />
+    
+    
+                <p class="mt-6">
+                    {{ translations.core.shared.column_files_attachment }}
+                    <sup class="has-text-danger">*</sup>
+                </p>
+                <lesli-file-uploader 
+                    @files="onDropFiles"
+                />
+    
+    
+                <button @click="onUploadFiles" class="button is-fullwidth has-text-centered is-primary mt-4">
+                    {{ translations.core.shared.view_btn_save }}
+                </button>
             </div>
-            <div class="columns">
-                <div class="column is-4">
-                    <label class="label">
-                        {{ translations.core.shared.column_files_attachment }}
-                        <sup class="has-text-danger">*</sup>
-                    </label>
-                </div>
-                <div class="column">
-                    <lesli-file-uploader 
-                        @files="onDropFiles"
-                        @events-after-clear="clearFileUploader = false"
-                        :clear-files="clearFileUploader"
-                    >
-                    </lesli-file-uploader>
-                </div>
-            </div>
-            <button @click="onUploadFiles" class="button is-fullwidth has-text-centered is-primary">
-                {{ translations.core.shared.view_btn_save }}
-            </button>
+
         </div>
     </div>
 </template>
+
+<style>
+.files-upload {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: flex-end;
+    background: transparent;
+    transition: all 0.3s ease-in-out;
+    transform: translateX(100%);
+}
+
+.files-upload.is-active {
+    transform: translateX(0);
+    transition: all 0.3s ease-in-out;
+}
+
+.content {
+    width: 484px;
+    background-color: white;
+    border-left: 1px solid #ebebeb;
+}
+
+</style>
