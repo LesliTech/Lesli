@@ -17,31 +17,23 @@ For more information read the license file including with this software.
 */
 
 // · import vue tools
-import { ref, computed, onMounted } from "vue"
+import { ref, onMounted, inject } from "vue"
 
 // · import store
 import { useCloudObjectFileStore } from "LesliVue/stores/cloud-objects/file"
-
-// · import composables
-import { useMsg } from "LesliVue/composables/msg"
 
 // · implement store
 const store = useCloudObjectFileStore()
 
 // · implement composable
-const msg = useMsg()
+const msg = inject("msg")
 
-// · get translations from store
-const translations = store.translations
-
-// · get in a reactive way the files to upload
-const filesToUpload = computed(() => store.filesToUpload)
-
-// · get in a reactive way the files to upload
-const fileTypes = computed(() => store.fileTypes)
-
-// · get in a reactive way the loading value
-const loading = computed(() => store.loading)
+// · defining translations
+const translations = {
+    core: {
+        shared: I18n.t("core.shared"),
+    }
+}
 
 // · file type to upload, this is the v-model of the select
 const fileType = ref(null)
@@ -125,7 +117,7 @@ const onDropFiles = (files) => {
  */
 const onUploadFiles = async () => {
     
-    const arefilesValid = validateFiles(filesToUpload.value)
+    const arefilesValid = validateFiles(store.filesToUpload)
     
     // · If files aren't valid, stop the function
     if (!arefilesValid) return
@@ -140,12 +132,12 @@ const onUploadFiles = async () => {
     const filesBase64 = []
     
     // · convert the files to base64 and push it to the filesBase64 array
-    for (let i = 0; i < filesToUpload.value.length; i++) {
-        const base64File = await convertToBase64(filesToUpload.value[i])
+    for (let i = 0; i < store.filesToUpload.length; i++) {
+        const base64File = await convertToBase64(store.filesToUpload[i])
         filesBase64.push({
             project_file: {
                 // · file name without the extension
-                name: filesToUpload.value[i].name.split('.')[0],
+                name: store.filesToUpload[i].name.split('.')[0],
                 
                 // · file extension that user selected
                 file_type: fileType.value.value,
@@ -186,8 +178,8 @@ onMounted(() => {
                     <lesli-select
                         v-model="fileType"
                         :placeholder="translations.core.view_placeholder_select_option"
-                        :options="fileTypes"
-                        v-if="!loading"
+                        :options="store.fileTypes"
+                        v-if="!store.loading"
                     >
                     </lesli-select>
                 </div>
