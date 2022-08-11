@@ -163,7 +163,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div @click="store.showFilesUpload = false" class="files-upload" :class="store.showFilesUpload ? 'files-upload__active'">
+    <div @click="store.showFilesUpload = false" class="files-upload">
         <div @click.stop class="content p-6">
             <lesli-header title="Add new files">
                 <button @click="store.showFilesUpload = !store.showFilesUpload" class="button is-transparent">
