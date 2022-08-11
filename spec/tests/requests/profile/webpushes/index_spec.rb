@@ -31,7 +31,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             
             #share example
             expect_response_with_successful
-
         end
 
         it "is expected to respond an array with hash type elements" do
@@ -44,7 +43,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body).not_to be_nil 
             expect(response_body).to be_kind_of(Array)
             expect(response_body.first).to be_an(Hash)
-
         end
 
         it "is expected to validate type data of hash elements" do 
