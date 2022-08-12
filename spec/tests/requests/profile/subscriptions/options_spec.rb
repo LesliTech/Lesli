@@ -28,7 +28,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
             #share examples
             expect_response_with_successful
-
         end 
 
         it "is expected to respond a hash not empty with diferent key value" do
