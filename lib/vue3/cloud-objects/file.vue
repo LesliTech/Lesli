@@ -16,21 +16,22 @@ For more information read the license file including with this software.
 // · 
 */
 
-// · import vue tools
-import { defineAsyncComponent } from "vue"
-
 // · import store
 import { useCloudObjectFileStore } from "LesliVue/stores/cloud-objects/file"
 
-// · import components with lazy loading
-const filesForm = defineAsyncComponent(() => import("./file/form.vue"))
-const filesList = defineAsyncComponent(() => import("./file/list.vue"))
+// · import components
+import filesForm from "LesliVue/cloud-objects/file/form.vue"
+import filesList from "LesliVue/cloud-objects/file/list.vue" 
 
 // · implement store
 const store = useCloudObjectFileStore()
 
-// · get translations from store
-const translations = store.translations
+// · defining translations
+const translations = {
+    core: {
+        shared: I18n.t("core.shared"),
+    }
+}
 
 // · defining props
 const props = defineProps({
