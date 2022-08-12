@@ -85,18 +85,18 @@ header.application-header {
 
     .header-right {
 
+        // header icons
         span.material-icons {
-            color: #E2E6F6;
+            color: darken(#E2E6F6, 5);
+            &:hover,
+            &.is-active {
+                color: var(--lesli-color-primary);
+            }
         }
 
         // control container
         .navbar-item {
             padding: 0 20px 0 0;
-
-            &:hover {
-                color: darken(lesli-css-color(blue), 5);
-                background-color: transparent;
-            }
         }
 
         // Notification icon & count
@@ -111,7 +111,7 @@ header.application-header {
                 font-size: 11px;
                 text-align: center;
                 border-radius: 50%;
-                background-color: lesli-css-color(blue, 700);
+                background-color: lesli-css-color(berry, 300);
                 color: lesli-css-color(silver, 100);
                 font-family: sans-serif;
                 position: absolute;
