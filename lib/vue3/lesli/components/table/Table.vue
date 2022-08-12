@@ -35,6 +35,10 @@ const emit = defineEmits(['click', 'sort', 'paginate']);
 
 // · defining props
 const props = defineProps({
+    id: {
+        type: String,
+        require: false
+    },
     class: {
         type: String,
         required: false,
@@ -71,7 +75,7 @@ const dropdownActive = ref([])
 // · prepaer the CSS classes for every column in the header
 function tableHeaderClass(column) {
     return {
-        'has-text-centered': column.field == 'id'
+        'has-text-centered': (column.field == 'id' || column.align == 'center') 
     }
 }
 
@@ -79,7 +83,7 @@ function tableHeaderClass(column) {
 // · prepaer the CSS classes for every column in the header
 function tableBodyClass(column) {
     return {
-        'has-text-centered': column.field == 'id'
+        'has-text-centered': (column.field == 'id' || column.align == 'center') 
     }
 }
 
@@ -111,6 +115,7 @@ function paginate(page) {
 <template>
     <div>
         <table 
+            :id="props.id"
             class="table is-fullwidth lesli-table"
             :class="props.class">
             <thead>
@@ -168,8 +173,8 @@ function paginate(page) {
                         <slot
                             :name="column.field"
                             :column="column"
-                            :value="record[column.field]"
-                            :row="record">
+                            :record="record"
+                            :value="record[column.field]">
 
                             <!--
                                 Print the text value if no custom slot is used

@@ -46,18 +46,8 @@ aside.application-sidebar {
 
     // allow the container to scroll over the navigation items
     nav.menu {
-
-        // hide scrollbar but allow scrolling 
-        & {
-            -ms-overflow-style: none; // for Internet Explorer, Edge 
-            scrollbar-width: none; // for Firefox 
-            overflow-y: scroll; 
-        }
-
-        // for Chrome, Safari, and Opera
-        &::-webkit-scrollbar {
-            display: none; 
-        }
+        // hide scrollbar
+        @include lesli-css-scrollbar(hide);
     }
 
     p.menu-label {
@@ -83,13 +73,6 @@ aside.application-sidebar {
             {
                 color: $lesli-sidebar-color-text;
                 background-color: $lesli-sidebar-color-hover;
-            }
-
-            // svg icons from lesli-icon
-            svg.icono {
-                width: 32px;
-                height: 32px;
-                fill: $lesli-sidebar-color-text;
             }
 
             // icons from reixicons

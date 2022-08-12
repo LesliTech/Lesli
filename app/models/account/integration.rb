@@ -24,8 +24,9 @@ class Account::Integration < ApplicationRecord
 
     validates_presence_of :name, minimum: 2
 
-    def self.index current_user
+    def self.index(current_user, query)
         current_user.account.integrations
+        .joins("inner join users u2 on u2.id = account_integrations.user_main_id")
         .joins("inner join users u on u.id = account_integrations.users_id")
         .joins("inner join (
                     select max(id) id, users_id
@@ -35,24 +36,26 @@ class Account::Integration < ApplicationRecord
                 on last_session.users_id = account_integrations.users_id")
         .joins("inner join user_sessions us on us.id = last_session.id")
         .order(:id)
+        .page(query[:pagination][:page])
+        .per(query[:pagination][:perPage])
         .select(
             :id,
             :name,
-            :active,
-            :email,
+            "u.active",
+            "u.email",
             :usage_count,
-            "#{LC::Date.db_to_char(:last_used_at)}",
-            "#{LC::Date.db_to_char(:expiration_at)}"
+            :created_at,
+            :expiration_at,
+            "u2.id as creator_id",
+            "u2.name as creator_name"
         )
     end
 
     def self.generate_random_email(name)
-        email = name
+        name
         &.downcase                           # string to lowercase
         &.gsub(/[^0-9A-Za-z\s\-\_]/, "")     # remove special characters from string
         &.gsub(/\s+/, "-")                   # replace spaces or spaces with single dash
         &.concat("-", SecureRandom.hex(4), "@integrations")
-
-        email
     end
 end
