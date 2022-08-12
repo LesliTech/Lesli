@@ -11,20 +11,17 @@ You can build action buttons and vue router links.
 **:to**
 (Object) Lesli URL instance 
 
-**:mdi**
+**:icon**
 (String) Material Icon name
-
-**:rmi**
-(String) Remixicon name
-
-**:outlined**
-(Boolean) Solid button or outlined styles
 
 **:loading**
 (Boolean) Indicates if the button is waiting to finish and action
 
 **@click**
 (Function) Callback for clicking action
+
+**primary**
+(Boolean) Style primary for the button (default)
 
 ## Examples
 

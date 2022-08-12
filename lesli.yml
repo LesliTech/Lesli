@@ -31,16 +31,13 @@ account:
         name: "Lesli Admin"
         email: "hello@lesli.tech"
     company: 
-        name: "LesliCloud"
+        name: "Lesli"
         email: "hello@lesli.tech"
         tag_line: "Your smart business assistant"
-    website:
-        title_prefix: "Lesli"
 
 
 # Instance configuration
 configuration:
-    theme: "lesli-ocean"
     locales:
         en: "English"
         es: "Spanish"
