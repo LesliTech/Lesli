@@ -82,10 +82,13 @@ module Interfaces::Controllers::Discussions
         cloud_object_model = discussion_model.cloud_object_model
 
         set_cloud_object
-        new_discussion_params = discussion_params.merge(
+        new_discussion_params = { 
+            "#{discussion_model.table_name}_id": discussion_params[:discussion_parent_id],
+            content: discussion_params[:content],
             user_creator: current_user,
             cloud_object: @cloud_object
-        )
+        }
+        
 
         discussion = discussion_model.new(new_discussion_params)
         if discussion.save
@@ -187,7 +190,7 @@ module Interfaces::Controllers::Discussions
         params.require(
             "#{cloud_object_model.name.demodulize.underscore}_discussion".to_sym
         ).permit(
-            "#{discussion_model.table_name}_id".to_sym,
+            :discussion_parent_id,
             :content
         )
     end
