@@ -54,17 +54,11 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    // · prop that helps to build the payload to create a discussion's reply
-    isBuilderEngine: {
-        type: Boolean,
-        default: false,
-    },
 });
 
 discussionStore.cloudModule = props.cloudModule
 discussionStore.cloudObject = props.cloudObject 
 discussionStore.cloudObjectId = props.cloudObjectId
-discussionStore.isBuilderEngine = props.isBuilderEngine
 
 onMounted(() => {
     if (discussionStore.filters.showActivityLog) discussionStore.fetchActivityLogs()
