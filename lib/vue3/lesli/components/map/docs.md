@@ -8,7 +8,7 @@ The component lesli-map is used to display a map made with apple mapkit.
 prop that contains all the annotation that would be displayed in the map
 - **type**: Array
 - **required**: true
-- **default**: []
+- **default**: [{ latitude: "", longitude:""}]
 
 **:distanceView**
 prop that indicates the distanceView of the map in meters
