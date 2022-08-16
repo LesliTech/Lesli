@@ -32,7 +32,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
             #share example
             expect_response_with_successful
-
         end
 
         
@@ -48,7 +47,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body).not_to be_nil 
             expect(response_body).to be_an(Hash)
             expect(response_body.length).to be >= 1
-
         end
 
         it "is expected to validate type data of hash element" do 
