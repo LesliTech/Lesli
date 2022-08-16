@@ -31,7 +31,7 @@ const props = defineProps({
     locations : {
         type: Object,
         required: true,
-        default: []
+        default: [{ latitude: "", longitude:""}]
     }
 })
 
