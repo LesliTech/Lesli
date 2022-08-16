@@ -21,9 +21,8 @@ require 'lesli_request_helper'
 
 RSpec.describe 'PUT:/administration/profile/notifications/', type: :request do
     describe "PUT:/administration/profile/notifications/", type: :request do
-    include_context 'request user authentication'
+        include_context 'request user authentication'
 
-        let(:notifications) { Courier::Bell::Notification.new(@current_user, "notification from rspec", role_receiver_names: @current_user["role"])}
         let(:notification_id) { Courier::Bell::Notification.new(@current_user, "notification from rspec")[:id][0] }
 
         it 'is expected to respond succesful PUT:/administration/profile/notifications/all.json' do
@@ -40,7 +39,6 @@ RSpec.describe 'PUT:/administration/profile/notifications/', type: :request do
 
             #share examples
             expect_response_with_successful
-
         end 
 
 
@@ -50,7 +48,6 @@ RSpec.describe 'PUT:/administration/profile/notifications/', type: :request do
 
             #share examples
             expect_response_with_successful
-
         end 
     end
 end

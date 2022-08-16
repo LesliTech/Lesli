@@ -28,7 +28,6 @@ RSpec.describe "GET:/administration/profile/subscriptions.json", type: :request 
 
             #share examples
             expect_response_with_successful
-            
         end
     end
 end
