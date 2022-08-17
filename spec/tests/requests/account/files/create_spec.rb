@@ -39,12 +39,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         end
 
         it "is expected to respond a hash not empty with diferent key value" do
-        
-            file_subject = @current_user.account.files.new({
-                name: "lesli-icon",
-                attachment: fixture_file_upload("lesli-icon.png", "image/png"),
-                file_type: "app_logo"
-            })
 
             post("/administration/account/files.json",params: {
                 account_file: {
@@ -108,7 +102,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body["details"]).to be_a(Array)
         end
 
-        it "is expected to fail when name param is empty" do
+        it "is expected succesful when name param is empty" do
         
             post("/administration/account/files.json",params: {
                 account_file: {
@@ -117,16 +111,41 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                     attachment: fixture_file_upload("lesli-icon.png", "image/png"),
                 }
             })
-            #share example fail
+           
+            #share example
+            expect_response_with_successful
+
+        end
+
+        it "is expected to fail when name and file_type params are empty" do
+        
+            post("/administration/account/files.json",params: {
+                account_file: {
+                    name: "",
+                    file_type: "",
+                    attachment: fixture_file_upload("lesli-icon.png", "image/png"),
+                }
+            })
+           
+            #share example
             expect_response_with_error
 
-            #validate body of a fail response
-            expect(response_body).to be_a(Hash)
-            expect(response_body).to have_key("message")
-            expect(response_body["message"]).to be_a(String)
-            expect(response_body["message"]).to eql("Attachment can't be blank and File type can't be blank")
-            expect(response_body).to have_key("details")
-            expect(response_body["details"]).to be_a(Array)
+        end
+
+        
+        it "is expected to fail when attachment param is empty" do
+        
+            post("/administration/account/files.json",params: {
+                account_file: {
+                    name: "company_logo",
+                    file_type: "app_logo",
+                    attachment: "",
+                }
+            })
+           
+            #share example
+            expect_response_with_error
+
         end
 
         it "is expected to fail when all params are nil" do
@@ -139,10 +158,53 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 }
             })
             #share example
-            puts "respuesta 1 #{response}"
             expect_response_with_error
-            
-            puts "respuesta 2#{response_body}"
+        
         end
+
+        it "is expected succesful when name param is nil" do
+        
+            post("/administration/account/files.json",params: {
+                account_file: {
+                    name: nil,
+                    file_type: "app_logo",
+                    attachment: fixture_file_upload("lesli-icon.png", "image/png"),
+                }
+            })
+           
+            #share example fail
+            expect_response_with_successful
+        end
+        it "is expected to fail when name and file_type params are nil" do
+        
+            post("/administration/account/files.json",params: {
+                account_file: {
+                    name: nil,
+                    file_type: nil,
+                    attachment: fixture_file_upload("lesli-icon.png", "image/png"),
+                }
+            })
+           
+            #share example
+            expect_response_with_error
+
+        end
+
+        
+        it "is expected to fail when attachment param is nil" do
+        
+            post("/administration/account/files.json",params: {
+                account_file: {
+                    name: "company_logo",
+                    file_type: "app_logo",
+                    attachment: nil,
+                }
+            })
+           
+            #share example
+            expect_response_with_error
+
+        end
+        
     end
 end
