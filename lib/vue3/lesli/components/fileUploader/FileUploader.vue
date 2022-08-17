@@ -36,6 +36,11 @@ const props = defineProps({
         required: false,
         default: false,
     },
+    fileType: {
+        type: String,
+        required: false,
+        default: "",
+    },
 })
 
 // · translations
@@ -53,6 +58,7 @@ const files = ref([])
 
 // · this is a reactive prop variable that indicates if the component have to clear the files
 const clearCurrentFiles = computed(() => props.clearFiles)
+const fileType = computed(() => props.fileType)
 
 /**
  * @description this function change the value of the dragActive variable
@@ -111,51 +117,53 @@ watch(clearCurrentFiles, (value) => {
 </script>
 
 <template>
-    <div
-        class="lesli-file-uploader is-flex is-flex-direction-column is-justify-content-center is-align-items-center p-4 pointer"
-        @dragenter.prevent="toggleIsDragActive()"
-        @dragleave.prevent="toggleIsDragActive()"
-        @dragover.prevent
-        @drop.prevent="onDropFiles"
-    >
-        <div class="is-flex is-flex-direction-column is-align-items-center">
-            <span class="upload-icon material-icons">cloud_upload</span>
-            <h5 class="mt-4">{{ translations.core.shared.view_text_drag_files }}</h5>
-            <p class="mt-1">{{ translations.core.shared.view_text_prefer_question }}</p>
-            <label
-                for="file"
-                class="mt-2 is-flex is-flex-direction-column is-align-items-center"
-            >
-                <span class="button is-primary is-small">
-                    {{ translations.core.shared.view_text_select_files }}
-                </span>
-                <input
-                    type="file"
-                    @change="onSelectFiles"
-                    name="file"
-                    id="file"
-                    class="is-hidden"
-                    multiple
-                    accept="image/png, image/jpeg, image/jpg"
-                />
-            </label>
-
-            <div
-                v-if="files.length !== 0"
-                class="mt-4 is-flex is-align-items-center is-flex-wrap-wrap is-justify-content-center"
-            >
-                <div v-for="(file, i) in files" :key="i" class="m-4">
-                    <span>
-                        {{ translations.core.shared.view_text_file }} : {{ file.name }}
-                    </span>
-                    <button
-                        class="button is-white delete-button ml-2 is-round"
-                        @click="onRemoveFile(file)"
-                    >
-                        <span class="material-icons has-text-danger">delete</span>
-                    </button>
+    <div class="lesli-file-uploader mt-2">
+        <div v-if="files.length !== 0" class="my-4">
+            <div v-for="(file, i) in files" :key="i" class="item mt-4 ml-0 is-flex is-justify-content-space-between is-align-items-center is-fullwidth box">
+                <div>
+                    <p class="has-text-weight-semibold">{{ file.name }}</p>
+                    <p>{{ props.fileType }}</p>
                 </div>
+                <button
+                    class="button is-white delete-button ml-2 is-round"
+                    @click="onRemoveFile(file)"
+                >
+                    <span class="delete-icon material-icons">delete</span>
+                </button>
+        </div>
+        </div>
+        
+        <div
+            class="dropzone is-flex is-flex-direction-column is-justify-content-center is-align-items-center p-4 pointer"
+            @dragenter.prevent="toggleIsDragActive()"
+            @dragleave.prevent="toggleIsDragActive()"
+            @dragover.prevent
+            @drop.prevent="onDropFiles"
+        >
+            <div class="is-flex is-flex-direction-column is-align-items-center">
+                <span class="upload-icon material-icons">file_upload</span>
+                <h5 class="mt-4">{{ translations.core.shared.view_text_drag_files }}</h5>
+                <p class="mt-1">{{ translations.core.shared.view_text_prefer_question }}</p>
+                <label
+                    for="file"
+                    class="mt-2 is-flex is-flex-direction-column is-align-items-center"
+                >
+                    <span class="button is-primary is-small">
+                        {{ translations.core.shared.view_text_select_files }}
+                    </span>
+                    <input
+                        type="file"
+                        @change="onSelectFiles"
+                        name="file"
+                        id="file"
+                        class="is-hidden"
+                        multiple
+                        accept="image/png, image/jpeg, image/jpg"
+                    />
+                </label>
             </div>
         </div>
+
+
     </div>
 </template>
