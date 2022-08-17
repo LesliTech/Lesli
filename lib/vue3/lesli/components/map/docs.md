@@ -16,6 +16,12 @@ prop that indicates the distanceView of the map in meters
 - **required**: false
 - **default**: 240000 (240km)
 
+**:mapId**
+prop that indicates the id of the map, usefull when creating different maps in the same view
+- **type**: String
+- **required**: true
+- **default**: apple-map
+
 ## Example 
 ```html
 
