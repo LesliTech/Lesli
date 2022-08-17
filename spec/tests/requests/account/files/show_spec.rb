@@ -60,9 +60,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             
 
             get("/administration/account/files/#{file_subject.id + 1 }.json")
-            
+            puts "respuesta #{response_body}"
             #respond with an error when id is not valid
-            expect(response_body).to be_a(Hash)
+            expect(response_body).to be_a(Array)
             expect(response_body).to have_key("message")
             expect(response_body["message"]).to be_a(String)
         end
