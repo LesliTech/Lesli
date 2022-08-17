@@ -32,6 +32,11 @@ const props = defineProps({
         type: Object,
         required: true,
         default: [{ latitude: "", longitude:""}]
+    },
+    mapId: {
+        type: String,
+        required: true,
+        default: "apple-map"
     }
 })
 
@@ -85,7 +90,7 @@ function initializeMap(){
         return annotation
     })
 
-    var map = new mapkit.Map("summary-map", { cameraDistance: props.distanceView })
+    var map = new mapkit.Map(props.mapId, { cameraDistance: props.distanceView })
     map.showItems(annotations)
 
     // Landmark annotation custom callout
@@ -120,5 +125,5 @@ onMounted(() => {
 </script>
 
 <template>
-    <div id="summary-map" class="component-summary-map"></div>
+    <div class="apple-map" :id="props.mapId"></div>
 </template>
