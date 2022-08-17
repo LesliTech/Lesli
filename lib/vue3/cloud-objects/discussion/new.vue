@@ -80,14 +80,10 @@ const onAddComment = () => {
     const payload = {}
 
     if (props.isReply) {
-        // build string like -> cloud_help_ticket_discussions_id with: `${cloudModule}_${cloudObject}_discussions_id`
-        const cloudModule = discussionStore.isBuilderEngine ? `${discussionStore.cloudModule}_cloud` : `cloud_${discussionStore.cloudModule}`
-        const cloudObject = singularize(discussionStore.cloudObject.split("/").pop())
-        
         // · add the discussion id to the payload when is a reply
         payload[discussionModel] = {
             content: comment.value,
-            [`${cloudModule}_${cloudObject}_discussions_id`]: props.mainDiscussion.id
+            discussion_parent_id: props.mainDiscussion.id
         }
     } else {
         // · payload for a basic discussion
