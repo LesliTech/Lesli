@@ -34,7 +34,13 @@ module Interfaces::Controllers::Files
         cloud_object_model = file_model.cloud_object_model
         account_model = cloud_object_model.reflect_on_association(:account).klass
 
-        search_string = @query[:search].downcase.gsub(" ","%") unless @query[:search].blank?
+        #Get filters from http request
+        filters = params[:f]
+
+        #Get start and final date only if the request have filters
+        unless filters.blank?
+            file_type = filters[:file_types]
+        end
 
         respond_to do |format|
             format.json do
@@ -42,10 +48,9 @@ module Interfaces::Controllers::Files
                     "#{cloud_object_model.table_name}_id".to_sym => params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym]
                 )
 
-                # Filter results by search string
-                unless search_string.blank?
-                    @files = @files.where("
-                    (LOWER(file_type) SIMILAR TO '%#{search_string}%')")
+                # Filter results
+                unless file_type.blank?
+                    @files = @files.where(file_type: file_type)
                 end
 
                 @files = @files
