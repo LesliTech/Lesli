@@ -39,7 +39,7 @@ module Interfaces::Controllers::Files
 
         #Get start and final date only if the request have filters
         unless filters.blank?
-            file_type = filters[:file_types]
+            file_type = filters[:file_type]
         end
 
         respond_to do |format|
