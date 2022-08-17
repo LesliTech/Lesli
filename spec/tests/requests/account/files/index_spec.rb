@@ -33,6 +33,10 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 file_type: "app_logo"
             })
 
+            file_subject.user_creator = @user
+            file_subject.save
+            file_subject.update({})
+
             get("/administration/account/files.json")
             #share example
             expect_response_with_successful
