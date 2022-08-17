@@ -24,7 +24,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
     describe "DELETE:/administration/account/files/:id.json", type: :request do
         include_context "request user authentication"
         
-        it "is expected to response with successful image" do
+        it "is expected to response with successful destroyed file" do
 
             @current_user.account.files.destroy_all
         
@@ -38,7 +38,33 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             delete("/administration/account/files/#{file_subject.id}.json")
             #share example
             expect_response_with_successful
+
+            #expect the file to do not exist 
+            expect(@current_user.account.files.find_by(id: file_subject.id).to_json).to eql("null")
             
+        end
+
+        it "is expected to response with fail destroying file" do
+
+            @current_user.account.files.destroy_all
+        
+            file_subject = @current_user.account.files.create!({
+                name: "lesli-icon",
+                file_type: "app_logo",
+                user_creator: @current_user,
+                attachment: fixture_file_upload("lesli-icon.png", "image/png"),
+            })
+            
+            delete("/administration/account/files/#{file_subject.id + 1 }.json")
+            
+            #respond with an error when id is not valid
+            expect_response_with_not_found
+            
+            #validate error message
+            expect(response_body).to be_a(Hash)
+            expect(response_body).to have_key("message")
+            expect(response_body["message"]).to be_a(String)
+
         end
     end 
 end 
