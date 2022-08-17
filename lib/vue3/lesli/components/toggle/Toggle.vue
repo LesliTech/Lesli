@@ -32,8 +32,8 @@ const props = defineProps({
     toggleText: {
         type: Object,
         default: {
-            disabled: "No",
-            enabled: "Yes"
+            disabled: I18n.t("mitwerken.profiles.view_text_no"),
+            enabled: I18n.t("mitwerken.profiles.view_text_yes")
         }
     }
 })
@@ -48,7 +48,7 @@ const props = defineProps({
             :disabled="props.disabled"
         >
         <span class="slider">
-            <p v-if= props.modelValue class="enabled-text">{{props.toggleText.enabled}}</p>
+            <p v-if="props.modelValue" class="enabled-text">{{props.toggleText.enabled}}</p>
             <p v-else class="disabled-text">{{props.toggleText.disabled}}</p>
         </span>
     </label>
