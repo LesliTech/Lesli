@@ -17,13 +17,15 @@ For more information read the license file including with this software.
 */
 
 // · import vue tools
-import { ref, onMounted, inject } from "vue"
+import { ref, inject, watch } from "vue"
 
 // · import store
 import { useCloudObjectFileStore } from "LesliVue/stores/cloud-objects/file"
+import { useLayout } from "LesliVue/stores/layout"
 
-// · implement store
-const store = useCloudObjectFileStore()
+// · implement stores
+const storeFiles = useCloudObjectFileStore()
+const storeLayout = useLayout()
 
 // · implement composable
 const msg = inject("msg")
@@ -56,7 +58,7 @@ const validateFiles = (files = []) => {
     }
     
     // · validate the number of files that are allowed
-    if (files.length > store.maxFiles) {
+    if (files.length > storeFiles.maxFiles) {
         msg.danger(translations.core.shared.messages_danger_files_exceeded)
         return false 
     }
@@ -64,7 +66,7 @@ const validateFiles = (files = []) => {
     // · this variable is used to check if some file is invalid
     // · if this variable is true, the files aren't valid
     const hasOutOfSizeFiles = files.some(file => {
-        return parseInt(file.size) > store.maxSizeFile
+        return parseInt(file.size) > storeFiles.maxSizeFile
     })
 
     // · validate if some file is out of size
@@ -109,7 +111,7 @@ const convertToBase64 = (file) => {
  */
 const onDropFiles = (files) => {
     // set files to upload to the store
-    store.filesToUpload = files
+    storeFiles.filesToUpload = files
 }
 
 /**
@@ -117,7 +119,7 @@ const onDropFiles = (files) => {
  */
 const onUploadFiles = async () => {
     
-    const arefilesValid = validateFiles(store.filesToUpload)
+    const arefilesValid = validateFiles(storeFiles.filesToUpload)
     
     // · If files aren't valid, stop the function
     if (!arefilesValid) return
@@ -132,12 +134,12 @@ const onUploadFiles = async () => {
     const filesBase64 = []
     
     // · convert the files to base64 and push it to the filesBase64 array
-    for (let i = 0; i < store.filesToUpload.length; i++) {
-        const base64File = await convertToBase64(store.filesToUpload[i])
+    for (let i = 0; i < storeFiles.filesToUpload.length; i++) {
+        const base64File = await convertToBase64(storeFiles.filesToUpload[i])
         filesBase64.push({
             project_file: {
                 // · file name without the extension
-                name: store.filesToUpload[i].name.split('.')[0],
+                name: storeFiles.filesToUpload[i].name.split('.')[0],
                 
                 // · file extension that user selected
                 file_type: fileType.value.value,
@@ -149,60 +151,54 @@ const onUploadFiles = async () => {
     }         
     
     // · send the files to the server
-    store.uploadFiles(filesBase64)
+    storeFiles.uploadFiles(filesBase64)
 
     // · change the reactive variable to true for clear the file uploader
     clearFileUploader.value = true
+
+    storeLayout.showFiles = false
 }
 
-onMounted(() => {
-    // · fetch file types for the current module
-    store.fetchFileTypes()
+watch(() => storeFiles.cloudModule, () => {
+    if (storeFiles.cloudModule) {
+        storeFiles.fetchFileTypes()
+    }
 })
 </script>
 
 <template>
-    <div class="card">
-        <header>
-            <p class="card-header-title subtitle">{{ translations.core.shared.view_text_files }}</p>
-        </header>
-        <div class="card-content">
-            <div class="columns">
-                <div class="column is-4">
-                    <label class="label">
-                        {{ translations.core.shared.column_files_file_type }}
-                        <sup class="has-text-danger">*</sup>
-                    </label>
-                </div>
-                <div class="column">
-                    <lesli-select
-                        v-model="fileType"
-                        :placeholder="translations.core.view_placeholder_select_option"
-                        :options="store.fileTypes"
-                        v-if="!store.loading"
-                    >
-                    </lesli-select>
-                </div>
+    <lesli-panel v-model:open="storeLayout.showFiles">
+        <template #header>
+            {{ translations.core.shared.view_text_add_new_files }}
+        </template>
+        <template #default>
+            <div class="p-6">
+                <p class="mb-1">
+                    {{ translations.core.shared.column_files_file_type }}
+                </p>
+                <lesli-select
+                    v-model="fileType"
+                    :placeholder="translations.core.shared.view_placeholder_select_option"
+                    :options="storeFiles.fileTypes"
+                    v-if="!storeFiles.loading"
+                />
+    
+    
+                <p class="mt-6">
+                    {{ translations.core.shared.column_files_attachment }}
+                </p>
+                <lesli-file-uploader
+                    :file-type="fileType?.label"
+                    @files="onDropFiles"
+                    :clear-files="clearFileUploader"
+                    @events-after-clear="clearFileUploader = false"
+                />
+    
+    
+                <button @click="onUploadFiles" class="button is-fullwidth has-text-centered is-primary mt-4">
+                    {{ translations.core.shared.view_btn_save_changes }}
+                </button>
             </div>
-            <div class="columns">
-                <div class="column is-4">
-                    <label class="label">
-                        {{ translations.core.shared.column_files_attachment }}
-                        <sup class="has-text-danger">*</sup>
-                    </label>
-                </div>
-                <div class="column">
-                    <lesli-file-uploader 
-                        @files="onDropFiles"
-                        @events-after-clear="clearFileUploader = false"
-                        :clear-files="clearFileUploader"
-                    >
-                    </lesli-file-uploader>
-                </div>
-            </div>
-            <button @click="onUploadFiles" class="button is-fullwidth has-text-centered is-primary">
-                {{ translations.core.shared.view_btn_save }}
-            </button>
-        </div>
-    </div>
+        </template>
+    </lesli-panel>
 </template>
