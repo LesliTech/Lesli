@@ -22,6 +22,7 @@ require "lesli_request_helper"
 
 RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
     describe "GET:/administration/account/files.json", type: :request do
+        include ActionDispatch::TestProcess::FixtureFile
         include_context "request user authentication"
         
         it "is expected pass share example response with successful" do

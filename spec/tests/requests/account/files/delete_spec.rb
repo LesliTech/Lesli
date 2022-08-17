@@ -22,6 +22,7 @@ require "lesli_request_helper"
 
 RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
     describe "DELETE:/administration/account/files/:id.json", type: :request do
+        include ActionDispatch::TestProcess::FixtureFile
         include_context "request user authentication"
         
         it "is expected to response with successful destroyed file" do
@@ -59,7 +60,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             
             #respond with an error when id is not valid
             expect_response_with_not_found
-            
+
             #validate error message
             expect(response_body).to be_a(Hash)
             expect(response_body).to have_key("message")
