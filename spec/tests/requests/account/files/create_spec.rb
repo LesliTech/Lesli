@@ -25,7 +25,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         include_context "request user authentication"
         
         it "is expected pass share example response with successful" do
-            @current_user.account.files.destroy_all
 
             post("/administration/account/files.json",params: {
                 account_file: {
@@ -37,11 +36,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #share example
             expect_response_with_successful
             
-            puts "respuesta #{response_body}"
         end
 
         it "is expected to respond a hash not empty with diferent key value" do
-            @current_user.account.files.destroy_all
         
             file_subject = @current_user.account.files.new({
                 name: "lesli-icon",
@@ -60,7 +57,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect_response_with_successful
             
             #keyvalues check 
-            puts "respuesta #{response_body}"
             expect(response_body).to be_a(Hash)
             expect(response_body).to have_key("id")
             expect(response_body).to have_key("name")
@@ -91,8 +87,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body["accounts_id"]).to be_a(Numeric)
         end
         
-        it "is expected to fail when a name param is empty" do
-            @current_user.account.files.destroy_all
+        it "is expected to fail when all params are empty" do
         
             post("/administration/account/files.json",params: {
                 account_file: {
@@ -101,10 +96,53 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                     attachment: "",
                 }
             })
+            #share example fail
+            expect_response_with_error
+
+            #validate body of a fail response
+            expect(response_body).to be_a(Hash)
+            expect(response_body).to have_key("message")
+            expect(response_body["message"]).to be_a(String)
+            expect(response_body["message"]).to eql("Attachment can't be blank and File type can't be blank")
+            expect(response_body).to have_key("details")
+            expect(response_body["details"]).to be_a(Array)
+        end
+
+        it "is expected to fail when name param is empty" do
+        
+            post("/administration/account/files.json",params: {
+                account_file: {
+                    name: "",
+                    file_type: "app_logo",
+                    attachment: fixture_file_upload("lesli-icon.png", "image/png"),
+                }
+            })
+            #share example fail
+            expect_response_with_error
+
+            #validate body of a fail response
+            expect(response_body).to be_a(Hash)
+            expect(response_body).to have_key("message")
+            expect(response_body["message"]).to be_a(String)
+            expect(response_body["message"]).to eql("Attachment can't be blank and File type can't be blank")
+            expect(response_body).to have_key("details")
+            expect(response_body["details"]).to be_a(Array)
+        end
+
+        it "is expected to fail when all params are nil" do
+        
+            post("/administration/account/files.json",params: {
+                account_file: {
+                    name: nil,
+                    file_type: nil,
+                    attachment: nil,
+                }
+            })
             #share example
-            expect_response_with_successful
+            puts "respuesta 1 #{response}"
+            expect_response_with_error
             
-            puts "respuesta #{response_body}"
+            puts "respuesta 2#{response_body}"
         end
     end
 end
