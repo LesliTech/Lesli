@@ -61,7 +61,7 @@ function initializeMap(){
             title: location.title,
             url: location.url ? location.url : "",
             color: location.color ? location.color : "",
-            })
+        })
     })
 
     // Landmark annotation callout delegate
