@@ -125,5 +125,5 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="apple-map" :id="props.mapId"></div>
+    <div class="lesli-map" :id="props.mapId"></div>
 </template>
