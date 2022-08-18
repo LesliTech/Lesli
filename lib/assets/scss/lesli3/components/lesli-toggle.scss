@@ -57,6 +57,16 @@ For more information read the license file including with this software.
             transition: .4s;
             border-radius: 50%;
         }
+        .enabled-text{
+            position: inherit;
+            left: 5%;
+            top: 10%;
+        }
+        .disabled-text{
+            position: inherit;
+            right: 5%;
+            top: 10%;
+        }
     }
 }
 
