@@ -62,12 +62,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             file_subject.update({})
 
             get("/administration/account/files/#{file_subject.id + 1 }.json")
-
-            #respond with an error when id is not valid
-            expect(response).to have_http_status(:success)
-            expect(response_body).to be_a(Hash)
-            #expect(response_body).to have_key("message")
-            #expect(response_body["message"]).to be_a(String)
+            
+            #expect to not found dude to wrong file id
+            expect_response_with_not_found
         end
     end
 end
