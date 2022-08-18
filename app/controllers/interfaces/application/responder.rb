@@ -75,8 +75,8 @@ module Interfaces
                 respond_with_http(200, {
                     :pagination => {
                         #pagination always stars in page 1
-                        :page => 1,
-                        :pages => 1,
+                        :page =>  @query[:pagination][:page],
+                        :pages =>  1,
                         :total => 0,
                         :results => 0
                     },
