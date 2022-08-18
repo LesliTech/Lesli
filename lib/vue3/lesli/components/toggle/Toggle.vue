@@ -29,6 +29,13 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    toggleText: {
+        type: Object,
+        default: {
+            disabled: I18n.t("mitwerken.profiles.view_text_no"),
+            enabled: I18n.t("mitwerken.profiles.view_text_yes")
+        }
+    }
 })
 </script>
 
@@ -40,6 +47,9 @@ const props = defineProps({
             type="checkbox" :checked="props.modelValue"
             :disabled="props.disabled"
         >
-        <span class="slider"></span>
+        <span class="slider">
+            <p v-if="props.modelValue" class="enabled-text">{{props.toggleText.enabled}}</p>
+            <p v-else class="disabled-text">{{props.toggleText.disabled}}</p>
+        </span>
     </label>
 </template>
