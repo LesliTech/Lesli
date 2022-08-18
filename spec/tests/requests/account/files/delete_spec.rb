@@ -40,8 +40,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #share example
             expect_response_with_successful
 
-            #expect the file to do not exist 
-            expect(@current_user.account.files.find_by(id: file_subject.id).to_json).to be_nil
+            #expect the file to do not exist
+            expect(response_body).to be_a(Hash) 
+            expect(@current_user.account.files.find_by(id: file_subject.id)).to be_nil
             
         end
 
