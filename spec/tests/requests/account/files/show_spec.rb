@@ -36,7 +36,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 attachment: fixture_file_upload("lesli-icon.png", "image/png"),
             })
 
-            file_subject.update({})
             
             get("/administration/account/files/#{file_subject.id}.json")
 
@@ -59,7 +58,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 attachment: fixture_file_upload("lesli-icon.png", "image/png"),
             })
 
-            file_subject.update({})
 
             get("/administration/account/files/#{file_subject.id + 1 }.json")
             
