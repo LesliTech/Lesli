@@ -31,11 +31,11 @@ const props = defineProps({
     },
     disabledText:{
         type: String,
-        default: "No"
+        default: I18n.t("core.shared.view_text_no")
     },
     enabledText:{
         type: String,
-        default: "yes"
+        default: I18n.t("core.shared.view_text_yes")
     },
     showText: {
         type: Boolean,
