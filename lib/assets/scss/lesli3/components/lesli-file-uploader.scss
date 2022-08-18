@@ -18,15 +18,22 @@ For more information read the license file including with this software.
 
 
 .lesli-file-uploader {
-    background-color: var(--lesli-color-background);
-    border: 1.5px dashed lesli-css-color(silver, 500);
-    border-radius: 4px;
-    .upload-icon {
-        font-size: 45px;
+    .item {
+        border-radius: 10px;
+        background-color: white;
+        min-height: 68px;
+        max-height: auto;
     }
-    .delete-button {
-        font-size: 12px;
-        height: 24px;
-        width: 12px;
+
+    .dropzone {
+        background-color: var(--lesli-color-background);
+        border: 1.5px dashed lesli-css-color(silver, 500);
+        border-radius: 4px;
+        .upload-icon {
+            font-size: 45px;
+        }
+    }
+    .delete-icon {
+        font-size: 28px;
     }
 }
