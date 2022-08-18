@@ -35,10 +35,11 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 user_creator: @current_user,
                 attachment: fixture_file_upload("lesli-icon.png", "image/png"),
             })
+
+            file_subject.update({})
             
             get("/administration/account/files/#{file_subject.id}.json")
-            puts "/administration/account/files/#{file_subject.id}.json"
-            puts "respuesta #{response}"
+
             #respond with an image
             expect(response).to have_http_status(:success)
             expect(response.content_type).to be_a(String)
@@ -57,12 +58,13 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 user_creator: @current_user,
                 attachment: fixture_file_upload("lesli-icon.png", "image/png"),
             })
-            
+
+            file_subject.update({})
 
             get("/administration/account/files/#{file_subject.id + 1 }.json")
-            puts "respuesta #{response_body}"
+
             #respond with an error when id is not valid
-            expect(response_body).to be_a(Array)
+            expect(response_body).to be_a(Hash)
             expect(response_body).to have_key("message")
             expect(response_body["message"]).to be_a(String)
         end
