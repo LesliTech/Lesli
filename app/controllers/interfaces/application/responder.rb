@@ -70,6 +70,18 @@ module Interfaces
                         :results => records.length
                     },
                     :records => payload || records 
+                })unless records.empty?
+                #Standar pagination response with 0 results in page 1 when records is empty
+                respond_with_http(200, {
+                    :pagination => {
+                        #pagination always stars in page 1
+                        :page => 1,
+                        :pages => 1,
+                        :total => 0,
+                        :results => 0
+                    },
+                    #records is empty in core 
+                    :records => [] 
                 })
             end
 
