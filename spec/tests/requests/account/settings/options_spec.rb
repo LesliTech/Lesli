@@ -38,9 +38,10 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
             #keyvalues
             expect(response_body).to be_an(Hash)
+            expect(response_body).to have_key("time_zones")
+            expect(response_body).to have_key("days_into_week")
 
             #time zone array validation
-            expect(response_body).to have_key("time_zones")
             expect(response_body["time_zones"]).to be_an(Array)
             expect(response_body["time_zones"].first).to have_key("value")
             expect(response_body["time_zones"].first["value"]).to be_an(String)
@@ -48,7 +49,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body["time_zones"].first["text"]).to be_an(String)
 
             #days into week array validation
-            expect(response_body).to have_key("days_into_week")
             expect(response_body["days_into_week"]).to be_an(Array)
             expect(response_body["days_into_week"].first).to have_key("value")
             expect(response_body["days_into_week"].first["text"]).to be_an(String)
