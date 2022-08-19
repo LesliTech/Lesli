@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 .lesli-toggle {
     position: relative;
     display: inline-block;
-    width: 60px;
+    width: 85px;
     height: 34px;
     input { 
         opacity: 0;
@@ -31,7 +31,7 @@ For more information read the license file including with this software.
         &:checked + .slider:before {
             -webkit-transform: translateX(26px);
             -ms-transform: translateX(26px);
-            transform: translateX(26px);
+            transform: translateX(50px);
         }
     }
     .slider {
@@ -57,15 +57,22 @@ For more information read the license file including with this software.
             transition: .4s;
             border-radius: 50%;
         }
+        div{
+            padding: 6px;
+        }
         .enabled-text{
-            position: inherit;
-            left: 5%;
+            position: absolute;
+            left: 20%;
             top: 10%;
+            color: white;
+            font-weight: bold;
         }
         .disabled-text{
-            position: inherit;
-            right: 5%;
+            position: absolute;
+            right: 20%;
             top: 10%;
+            color: white;
+            font-weight: bold;
         }
     }
 }
