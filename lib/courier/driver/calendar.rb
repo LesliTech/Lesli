@@ -67,11 +67,12 @@ module Courier
                 }
 
                 query_text = nil
+
                 if (query[:filters][:query]) && (! query[:filters][:query].empty?)
                     query_text = query[:filters][:query].downcase.split(" ")
                 end
 
-                
+
                 # events from CloudDriver
                 # This condition is diferent because, by default, driver events are included
                 unless query[:filters][:include] && query[:filters][:include][:driver_events].to_s.downcase == "false"
@@ -91,6 +92,7 @@ module Courier
                             is_attendant: event[:is_attendant]
                         }
                     end
+
                     calendar_data[:driver_events] = driver_events
                 end
 
@@ -110,6 +112,7 @@ module Courier
                             classNames: ["cloud_focus_tasks"]
                         }
                     end
+
                     calendar_data[:focus_tasks] = focus_tasks
                 end
 
@@ -129,6 +132,7 @@ module Courier
                             classNames: ["cloud_help_tickets"]
                         }
                     end
+
                     calendar_data[:help_tickets] = help_tickets
                 end
 
@@ -156,14 +160,14 @@ module Courier
             def self.create_user_calendar(user, calendar_name)
                 return nil unless defined? CloudDriver
 
-                CloudDriver::Calendar.create!(
-                    account: user.account,
-                    user_main: user,
-                    users_id: user.id,
+                user.account.driver.calendars.create_with(
                     detail_attributes: {
                         name: calendar_name,
                         default: false,
                     }
+                ).find_or_create_by!(
+                    user_main: user,
+                    user_creator: user,
                 )
             end
         end
