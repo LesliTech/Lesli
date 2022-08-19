@@ -21,9 +21,9 @@ module Courier
     module Driver
         class Event
 
-            def self.create(current_user, event_params)
+            def self.create(current_user, event_params, calendar=nil)
                 return nil unless defined? CloudDriver
-                CloudDriver::EventServices.create(current_user, event_params)
+                CloudDriver::EventServices.create(current_user, event_params, calendar)
             end
 
             def self.show(current_user, events_id)

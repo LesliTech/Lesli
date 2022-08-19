@@ -20,6 +20,21 @@ module Courier
     module Driver
         class Calendar
 
+            def self.get_user_calendar(current_user, calendar_name)
+                return nil unless defined? CloudDriver
+
+                current_user.account.driver.calendars.find_by(
+                    user_main: current_user,
+                    user_creator: current_user,
+                )
+            end
+
+            def self.find_by_id(current_user, calendar_id)
+                return nil unless defined? CloudDriver
+
+                current_user.account.driver.calendars.find_by_id(calendar_id)
+            end
+
             # @return A hash that contains an array in each key. These arrays contain events, tasks and tickets
             #     standarized to be displayed within the calendar
             # @param current_user [User] The user that made this request
@@ -170,6 +185,7 @@ module Courier
                     user_creator: user,
                 )
             end
+
         end
     end
 end
