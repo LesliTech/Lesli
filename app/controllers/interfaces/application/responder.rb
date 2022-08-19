@@ -61,16 +61,16 @@ module Interfaces
                         :records => payload || records 
                     })
                 end
-
+                puts "respuesta #{records.to_json}"
                 return respond_with_http(200, {
                     :pagination => {
                         :page => records.current_page,
                         :pages => records.total_pages,
                         :total => records.total_count,
-                        :results => records.length
+                        :results => records.lengths
                     },
                     :records => payload || records 
-                })unless records.empty?
+                })unless records.empty? && !records.nil? #&& records.total_pages > 0
                 #Standar pagination response with 0 results in page 1 when records is empty
                 respond_with_http(200, {
                     :pagination => {
