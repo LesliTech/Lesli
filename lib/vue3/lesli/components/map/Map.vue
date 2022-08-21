@@ -2,9 +2,9 @@
 /*
 Copyright (c) 2022, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,11 +13,10 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 // · import vue tools
 import { onMounted } from "vue"
-
 
 // · defining props
 const props = defineProps({
@@ -35,16 +34,18 @@ const props = defineProps({
     },
     mapId: {
         type: String,
-        required: true,
-        default: "apple-map"
+        required: false,
+        default: ""
     }
 })
+
+// Generate a uniqueId for the map element
+const uniqueId = props.mapId ? props.mapId : "map-" + Math.random().toString(36).slice(3, 9)
 
 /**
  * @description this function is used to initialize apple map
  */
 function initializeMap(){
-
     mapkit.init({
         authorizationCallback: function(done) {
             //ampkt is const used in javascript_apple_mapkit_js that contains the JWT token for apple maps
@@ -70,11 +71,11 @@ function initializeMap(){
         calloutElementForAnnotation: function(annotation) {
             return calloutForLandmarkAnnotation(annotation)
         },
-    
+
         calloutAnchorOffsetForAnnotation: function(annotation, element) {
             return CALLOUT_OFFSET
         },
-    
+
         calloutAppearanceAnimationForAnnotation: function(annotation) {
             return ".4s cubic-bezier(0.4, 0, 0, 1.5) 0s 1 normal scale-and-fadein"
         }
@@ -90,17 +91,17 @@ function initializeMap(){
         return annotation
     })
 
-    var map = new mapkit.Map(props.mapId, { cameraDistance: props.distanceView })
+    var map = new mapkit.Map(uniqueId, { cameraDistance: props.distanceView })
     map.showItems(annotations)
 
     // Landmark annotation custom callout
     function calloutForLandmarkAnnotation(annotation) {
         var div = document.createElement("div")
         div.className = "landmark"
-    
+
         var title = div.appendChild(document.createElement("h1"))
         title.textContent = annotation.landmark.title
-    
+
         var section = div.appendChild(document.createElement("section"))
 
         if (annotation.landmark.url){
@@ -125,5 +126,5 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="lesli-map" :id="props.mapId"></div>
+    <div class="lesli-map" :id="uniqueId"></div>
 </template>
