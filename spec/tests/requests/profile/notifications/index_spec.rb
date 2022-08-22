@@ -22,7 +22,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
     describe 'GET:/administration/profile/notifications.json', type: :request do
         include_context 'request user authentication'
 
-        it 'is expected to respond succesful' do
+        it 'is expected to respond with pagination' do
             Courier::Bell::Notification.new(@current_user, "notification from rspec")
             get '/administration/profile/notifications.json'
 
