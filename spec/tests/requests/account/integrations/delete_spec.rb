@@ -26,19 +26,14 @@ RSpec.describe "DELETE:/administration/account/integrations/:id.json", type: :re
         it 'is expected to respond succesful' do
 
             puts "buscar id integrations #{@current_user.account.integrations.to_json}"
-            delete("/administration/account/integrations/new.json")
+            
+            #delete("/administration/account/integrations/new.json")
 
             #share examples
-            expect_response_with_successful
-            puts "respuesta #{response_body}"
+            #expect_response_with_successful
+            #puts "respuesta #{response_body}"
         end
     end
 end
 
 
-
-
-
-
-
-/administration/account/integrations/:id
