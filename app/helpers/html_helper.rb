@@ -29,7 +29,7 @@ module HtmlHelper
     # this helper works only for rails pages, for vue apps the title must be handled with JS
     def website_title
         title = @application_html_title || controller_path.gsub("cloud","").gsub("_", "")
-        prefix = Rails.application.config.lesli.dig(:account, :website, :title_prefix)
+        prefix = @account.dig(:company, :name) || Rails.application.config.lesli.dig(:account, :company, :name)
         "#{prefix} · #{title}"
     end
 
