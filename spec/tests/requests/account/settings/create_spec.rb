@@ -23,36 +23,50 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
     describe "GET:/administration/account/settings.json", type: :request do
         include_context "request user authentication"
 
+        it "is expected to respond with error when params is empty" do
+            post("/administration/account/settings.json", params: {
+            })
+
+            #share examples
+            expect_response_with_error
+        end 
+
         
-        it "is expected to respond with error when settings is empty" do
+        it "is expected to respond with error when settings in params is empty" do
             post("/administration/account/settings.json", params: {
                 settings: {}
             })
 
             #share examples
-            #expect_response_with_successful
             expect_response_with_error
         end 
 
-        it "is expected to respond with error when settings is empty" do
+        it "is expected to respond with succesful with settings value nil" do
             post("/administration/account/settings.json", params: {
-                settings: {name: nil}
+                settings: {:theme => nil}
             })
 
             #share examples
             expect_response_with_successful
+
+            #verify if the setting sent was correctly save
+            expect(@current_user.account.settings.find_by(name: "theme")["value"]).to be_nil
         end 
 
-        it "is expected to respond with error when settings is empty" do
+        it "is expected to respond with succesful set/create settings" do
+            @settings = {:last_name => Faker::Name.name,
+                :job => Faker::Job.title    
+                }
             post("/administration/account/settings.json", params: {
-                settings: {name: Faker::Name.name,
-                            job: Faker::Job.title    
-                            }
+                settings: @settings
             })
 
             #share examples
             expect_response_with_successful
-            
+
+            #verify if the setting sent was correctly save
+            expect(@current_user.account.settings.find_by(name: "last_name")["value"]).to eql(@settings[:last_name])
+            expect(@current_user.account.settings.find_by(name: "job")["value"]).to eql(@settings[:job])
         end
     end
 end
