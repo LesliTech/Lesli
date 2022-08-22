@@ -106,7 +106,7 @@ class ApplicationLesliController < ApplicationController
         # 
         if defined?(CloudTalk)
             @account[:cloud_talk] = {
-                frbswb: Rails.application.credentials.providers.dig(:firebase, :web)
+                firebase: Rails.application.credentials.providers&.dig(:firebase, :web)
             }
         end
 
