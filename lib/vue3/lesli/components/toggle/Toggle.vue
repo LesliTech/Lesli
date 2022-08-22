@@ -29,12 +29,17 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-    toggleText: {
-        type: Object,
-        default: {
-            disabled: I18n.t("mitwerken.profiles.view_text_no"),
-            enabled: I18n.t("mitwerken.profiles.view_text_yes")
-        }
+    disabledText:{
+        type: String,
+        default: I18n.t("core.shared.view_text_no")
+    },
+    enabledText:{
+        type: String,
+        default: I18n.t("core.shared.view_text_yes")
+    },
+    showText: {
+        type: Boolean,
+        default: false,
     }
 })
 </script>
@@ -48,8 +53,10 @@ const props = defineProps({
             :disabled="props.disabled"
         >
         <span class="slider">
-            <p v-if="props.modelValue" class="enabled-text">{{props.toggleText.enabled}}</p>
-            <p v-else class="disabled-text">{{props.toggleText.disabled}}</p>
+            <div v-if="props.showText">
+                <p v-if="props.modelValue" class="enabled-text">{{props.enabledText}}</p>
+                <p v-else class="disabled-text">{{props.disabledText}}</p>
+            </div>
         </span>
     </label>
 </template>
