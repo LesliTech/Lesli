@@ -22,6 +22,14 @@ class WorkflowActions::CreateFocusTaskJob < ApplicationJob
         task_employee = current_user unless task_employee
 
         begin
+            # If cloud_object is a task, the new task will be associated to the cloud_object of the original task, and not to the task itself
+            if ["CloudFocus::Task", "DeutscheLeibrenten::Task"].include? cloud_object.class.name
+                task_employee = cloud_object.model.user_main if action.concerning_users["type"] == "main"
+                model_id = cloud_object.model_id
+                model_type = cloud_object.model_type
+                cloud_object = cloud_object.model
+            end
+
             replacement_values = {
                 "%global_identifier%" => cloud_object.global_identifier,
                 "%user_reviewer%" => (cloud_object.user_reviewer ? cloud_object.user_reviewer.full_name : ""),
@@ -37,13 +45,6 @@ class WorkflowActions::CreateFocusTaskJob < ApplicationJob
             task_target = cloud_object.focus_task_target
             model_id = task_target[:id]
             model_type = task_target[:class]
-
-            # If cloud_object is a task, the new task will be associated to the cloud_object of the original task, and not to the task itself
-            if cloud_object.class.name == "CloudFocus::Task"
-                task_employee = cloud_object.model.user_main if action.concerning_users["type"] == "main"
-                model_id = cloud_object.model_id
-                model_type = cloud_object.model_type
-            end
 
             task_params = {
                 user_main: task_employee,
