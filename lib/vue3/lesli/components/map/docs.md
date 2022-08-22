@@ -16,12 +16,6 @@ prop that indicates the distanceView of the map in meters
 - **required**: false
 - **default**: 240000 (240km)
 
-**:mapId**
-prop that indicates the id of the map, usefull when creating different maps in the same view
-- **type**: String
-- **required**: false
-- **default**: ""
-
 ## Example 
 ```html
 
@@ -32,7 +26,6 @@ prop that indicates the id of the map, usefull when creating different maps in t
         { latitude: "37.8083396", longitude: "-122.415727", title: "Empire Building", url:"https://www.google.com/"}   
     ]"
     distanceView = 2500
-    mapId = "apple-map"
 >
 </lesli-map>
 

@@ -16,7 +16,8 @@ For more information read the license file including with this software.
 // ·
 */
 // · import vue tools
-import { onMounted } from "vue"
+import { onMounted, ref } from "vue"
+import listEventsVue from "../../../../vue2/vue/widgets/cloud_driver/list-events.vue"
 
 // · defining props
 const props = defineProps({
@@ -31,21 +32,17 @@ const props = defineProps({
         type: Object,
         required: true,
         default: [{ latitude: "", longitude:""}]
-    },
-    mapId: {
-        type: String,
-        required: false,
-        default: ""
     }
 })
 
-// Generate a uniqueId for the map element
-const uniqueId = props.mapId ? props.mapId : "map-" + Math.random().toString(36).slice(3, 9)
+// · Initialize map ref
+const mapRef = ref(null)
 
 /**
  * @description this function is used to initialize apple map
  */
 function initializeMap(){
+
     mapkit.init({
         authorizationCallback: function(done) {
             //ampkt is const used in javascript_apple_mapkit_js that contains the JWT token for apple maps
@@ -53,7 +50,7 @@ function initializeMap(){
         }
     })
 
-    var landmarks = []
+    let landmarks = []
 
     // Landmarks data
     props.locations.forEach((location) => {
@@ -66,8 +63,8 @@ function initializeMap(){
     })
 
     // Landmark annotation callout delegate
-    var CALLOUT_OFFSET = new DOMPoint(-148, -78)
-    var landmarkAnnotationCallout = {
+    const CALLOUT_OFFSET = new DOMPoint(-148, -78)
+    let landmarkAnnotationCallout = {
         calloutElementForAnnotation: function(annotation) {
             return calloutForLandmarkAnnotation(annotation)
         },
@@ -82,8 +79,8 @@ function initializeMap(){
     }
 
     // Landmarks annotations
-    var annotations = landmarks.map(function(landmark) {
-        var annotation = new mapkit.MarkerAnnotation(landmark.coordinate, {
+    const annotations = landmarks.map(function(landmark) {
+        const annotation = new mapkit.MarkerAnnotation(landmark.coordinate, {
             callout: landmarkAnnotationCallout,
             color: landmark.color ? landmark.color : "#f52929"
         })
@@ -91,24 +88,24 @@ function initializeMap(){
         return annotation
     })
 
-    var map = new mapkit.Map(uniqueId, { cameraDistance: props.distanceView })
+    const map = new mapkit.Map(mapRef.value, { cameraDistance: props.distanceView })
     map.showItems(annotations)
 
     // Landmark annotation custom callout
     function calloutForLandmarkAnnotation(annotation) {
-        var div = document.createElement("div")
+        const div = document.createElement("div")
         div.className = "landmark"
 
-        var title = div.appendChild(document.createElement("h1"))
+        const title = div.appendChild(document.createElement("h1"))
         title.textContent = annotation.landmark.title
 
-        var section = div.appendChild(document.createElement("section"))
+        const section = div.appendChild(document.createElement("section"))
 
         if (annotation.landmark.url){
-            var link = section.appendChild(document.createElement("p"))
+            const link = section.appendChild(document.createElement("p"))
             link.className = "homepage"
 
-            var a = link.appendChild(document.createElement("a"))
+            const a = link.appendChild(document.createElement("a"))
             a.href = annotation.landmark.url
             a.textContent = "website"
         }
@@ -126,5 +123,5 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="lesli-map" :id="uniqueId"></div>
+    <div class="lesli-map" ref="mapRef"></div>
 </template>
