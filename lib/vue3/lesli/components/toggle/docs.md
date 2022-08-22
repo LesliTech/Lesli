@@ -11,14 +11,20 @@ This prop is used to disable the toggle.
 - **required**: false
 - **default**: false
 
-**:toggleText**
-This prop is used to set enable and disable text shown.
-- **type**: Object
-- **default**:
-    {
-        disabled: "No",
-        enabled: "Yes"
-    }
+**:disabledText**:
+This prop is used to indicate the text to be displayed when the toggle is disabled
+- **type**: String,
+- **default**: No
+
+**:enabledText**
+This prop is used to indicate the text to be displayed when the toggle is enabled
+- **type**: String,
+- **default**: yes
+
+**:showText**:
+This prop is used to show text when the toggle is enabled or disabled
+- **type**:  Boolean,
+- **default**: false
 
 ## Events
 No events are defined for this component.

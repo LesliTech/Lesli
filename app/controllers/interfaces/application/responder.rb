@@ -169,7 +169,7 @@ module Interfaces
                 #       message = error message to sentence
                 #       details = error array of messages
                 #   check another types of errors and parse respond according
-                respond_with_http(400, { 
+                respond_with_http(400, {
                     message: message,
                     details: details
                 })
