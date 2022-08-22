@@ -54,9 +54,11 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         end 
 
         it "is expected to respond with succesful set/create settings" do
-            @settings = {:last_name => Faker::Name.name,
+            @settings = {
+                :last_name => Faker::Name.name,
                 :job => Faker::Job.title    
-                }
+            }
+            
             post("/administration/account/settings.json", params: {
                 settings: @settings
             })
