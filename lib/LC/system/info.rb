@@ -88,10 +88,11 @@ module LC
 
             end
 
-            def self.sass_variables_by_instance
+            def self.sass_instance_theme
                 instance_code = instance()[:code]
                 return "lesli3/settings/variables" if instance_code == 'lesli'
-                return "#{instance_code}/lesli/variables"
+                return "#{instance_code}/lesli/variables" if instance_code == 'deutsche_leibrenten'
+                return "#{instance_code}/lesli/theme"
             end
 
         end

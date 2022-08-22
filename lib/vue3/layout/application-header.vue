@@ -64,6 +64,22 @@ function handleScroll($event) {
 }
 
 
+// · 
+function onEscape(event) {
+    if (event.keyCode === 27) {
+        storeLayout.toggleEngines()
+        document.removeEventListener('keydown', onEscape)
+    }
+}
+
+
+// · 
+function toggleEngines() {
+    storeLayout.toggleEngines()
+    document.addEventListener('keydown', onEscape)
+}
+
+
 // · listen for all the scroll event
 window.addEventListener('scroll', handleScroll);
 
@@ -103,6 +119,12 @@ onUnmounted(() => {
 
                 <slot></slot>
 
+                <!-- engines selector -->
+                <a class="navbar-item" @click="toggleEngines()">
+                    <span class="material-icons md-36">
+                        rocket_launch
+                    </span>
+                </a>
 
                 <!-- header action button -->
                 <a class="navbar-item">
@@ -113,10 +135,10 @@ onUnmounted(() => {
 
                 <!-- Notifications -->
                 <a class="navbar-item header-notification-indicator" @click="storeLayout.showNotifications = true">
-                    <span class="material-icons md-36 is-active">
+                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.notifications > 0 }]">
                         notifications
                     </span>
-                    <span class="count">
+                    <span class="count" v-if="storeLayout.header.notifications > 0">
                         {{ storeLayout.header.notifications }}
                     </span>
                 </a>
@@ -125,7 +147,7 @@ onUnmounted(() => {
                 <div class="dropdown is-right is-hoverable header-user-options">
                     <div class="dropdown-trigger">
                         <span class="material-icons md-36">
-                            account_circle
+                            account_box
                         </span>
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
