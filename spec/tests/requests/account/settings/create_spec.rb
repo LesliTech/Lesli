@@ -23,29 +23,36 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
     describe "GET:/administration/account/settings.json", type: :request do
         include_context "request user authentication"
 
-        it "is expected to respond succesful" do
-            get("/administration/account/settings.json")
+        
+        it "is expected to respond with error when settings is empty" do
+            post("/administration/account/settings.json", params: {
+                settings: {}
+            })
 
             #share examples
-            expect_response_with_successful
-        end
-
-        it "is expected to respond with keyvalues and format" do
-            get("/administration/account/settings.json")
-
-            #share examples
-            expect_response_with_successful
-
-            #keyvalues
-            expect(response_body).to be_an(Array)
-            expect(response_body.length).to be > 0
-            expect(response_body.first).to be_a(Hash)
-            expect(response_body.first).to have_key("id")
-            expect(response_body.first).to have_key("name")
-            expect(response_body.first).to have_key("value")
-            expect(response_body.first).to have_key("created_at")
-            expect(response_body.first).to have_key("updated_at")
-            expect(response_body.first).to have_key("accounts_id")
+            #expect_response_with_successful
+            expect_response_with_error
         end 
+
+        it "is expected to respond with error when settings is empty" do
+            post("/administration/account/settings.json", params: {
+                settings: {name: nil}
+            })
+
+            #share examples
+            expect_response_with_successful
+        end 
+
+        it "is expected to respond with error when settings is empty" do
+            post("/administration/account/settings.json", params: {
+                settings: {name: Faker::Name.name,
+                            job: Faker::Job.title    
+                            }
+            })
+
+            #share examples
+            expect_response_with_successful
+            
+        end
     end
 end
