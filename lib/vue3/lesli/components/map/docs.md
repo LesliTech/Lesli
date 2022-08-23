@@ -10,11 +10,11 @@ prop that contains all the annotation that would be displayed in the map
 - **required**: true
 - **default**: [{ latitude: "", longitude:""}]
 
-**:distanceView**
-prop that indicates the distanceView of the map in meters
+**:zoom**
+prop that indicates the zoom view of the map in kilometers
 - **type**: Number
 - **required**: false
-- **default**: 240000 (240km)
+- **default**: 240 (km)
 
 ## Example 
 ```html
@@ -25,7 +25,7 @@ prop that indicates the distanceView of the map in meters
         { latitude: "37.7954201", longitude: "-122.39352", title: "Pyramid Tower"},
         { latitude: "37.8083396", longitude: "-122.415727", title: "Empire Building", url:"https://www.google.com/"}   
     ]"
-    distanceView = 2500
+    zoom = 250
 >
 </lesli-map>
 
