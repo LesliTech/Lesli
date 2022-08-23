@@ -19,13 +19,13 @@ For more information read the license file including with this software.
 
 require "./lesli"
 require "rails_helper"
+require "lesli_request_helper"
 
 
 RSpec.describe "lesli_settings.yml" do
 
     before(:all) do
         @lesli_settings = Lesli::settings()
-        puts "configuraciones #{@lesli_settings.to_json}"
     end
 
     it "expect to have a section for info settings" do
