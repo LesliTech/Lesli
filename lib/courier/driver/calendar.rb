@@ -23,9 +23,12 @@ module Courier
             def self.get_user_calendar(current_user, calendar_name)
                 return nil unless defined? CloudDriver
 
-                current_user.account.driver.calendars.find_by(
+                current_user.account.driver.calendars.eager_load(:detail).find_by(
                     user_main: current_user,
                     user_creator: current_user,
+                    cloud_driver_calendar_details: {
+                        name: calendar_name,
+                    }
                 )
             end
 
