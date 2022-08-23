@@ -17,7 +17,6 @@ For more information read the license file including with this software.
 */
 // · import vue tools
 import { onMounted, ref } from "vue"
-import listEventsVue from "../../../../vue2/vue/widgets/cloud_driver/list-events.vue"
 
 // · defining props
 const props = defineProps({
