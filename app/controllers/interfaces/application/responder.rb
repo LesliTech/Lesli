@@ -69,7 +69,7 @@ module Interfaces
                             :page => records.current_page,
                             :pages => records.total_pages,
                             :total => records.total_count,
-                            :results => records.lengths
+                            :results => records.length
                         },
                         :records => payload || records 
                     })
