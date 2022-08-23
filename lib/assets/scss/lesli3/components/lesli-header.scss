@@ -24,4 +24,9 @@ For more information read the license file including with this software.
     .navbar-item {
         padding: 0;
     }
+    .actions {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
 }

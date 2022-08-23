@@ -16,35 +16,23 @@ For more information read the license file including with this software.
 // · 
 */
 
-
-// · import vue tools
-import { ref, reactive, onMounted, watch, computed, getCurrentInstance } from "vue"
-
-
 // · defining props
 const props = defineProps({
-    title: {
-        type: String,
-        default: null
-    }
-})
+    option: {
+        type: Object,
+        required: true,
+    },
+})  
 
+// · defining emits 
+const emit = defineEmits(['click']);
 </script>
+
 <template>
-    <nav class="navbar lesli-header">
-        <div class="navbar-brand">
-            <div class="navbar-item">
-                <h2 v-if="title">{{ title }}</h2>
-            </div>
-        </div>
-        <div class="navbar-menu">
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="actions">
-                        <slot></slot>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <a @click="emit('click', props.option)" class="dropdown-item is-flex is-justify-content-space-between is-align-items-center py-2 px-4" >
+        {{ props.option.label }}
+        <span v-if="props.option?.icon" class="icon">
+            <span class="material-icons">{{ props.option.icon }}</span>
+        </span>
+    </a>
 </template>
