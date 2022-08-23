@@ -25,6 +25,7 @@ RSpec.describe "lesli_settings.yml" do
 
     before(:all) do
         @lesli_settings = Lesli::settings()
+        puts "configuraciones #{@lesli_settings.to_json}"
     end
 
     it "expect to have a section for info settings" do
@@ -60,18 +61,10 @@ RSpec.describe "lesli_settings.yml" do
         expect(@lesli_settings["account"]["company"]).to have_key("name")
         expect(@lesli_settings["account"]["company"]).to have_key("email")
         expect(@lesli_settings["account"]["company"]).to have_key("tag_line")
-
-        expect(@lesli_settings["account"]).to have_key("website")
-        expect(@lesli_settings["account"]["website"]).to have_key("title_prefix")
-    end
-
-    it "expect to have a section for configuration settings" do
-        expect(@lesli_settings).to have_key("configuration")
-        expect(@lesli_settings["configuration"]).to have_key("theme")
-        expect(@lesli_settings["configuration"]).to have_key("locales")
     end
 
     it "expect to have a section for configuration locales settings" do
+        expect(@lesli_settings["configuration"]).to have_key("locales")
         expect(@lesli_settings["configuration"]["locales"]).to be_an(Array)
         expect(@lesli_settings["configuration"]["locales"].size).to be > (1)
         expect(@lesli_settings["configuration"]["locales_available"]).to be_a(Hash)
