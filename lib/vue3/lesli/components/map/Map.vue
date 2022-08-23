@@ -21,10 +21,10 @@ import { onMounted, ref } from "vue"
 // · defining props
 const props = defineProps({
     // · prop that indicates the distanceView of the map in meters
-    distanceView : {
+    zoom : {
         type: Number,
         required: false,
-        default: 240000,
+        default: 240,
     },
     // · prop that has all the annotation marks to set in the map
     locations : {
@@ -87,7 +87,7 @@ function initializeMap(){
         return annotation
     })
 
-    const map = new mapkit.Map(mapRef.value, { cameraDistance: props.distanceView })
+    const map = new mapkit.Map(mapRef.value, { cameraDistance: (props.zoom * 1000) })
     map.showItems(annotations)
 
     // Landmark annotation custom callout
