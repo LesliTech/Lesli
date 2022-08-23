@@ -32,7 +32,7 @@ header.application-header {
 
     // add a separtor line to the header when user scroll down 
     &.scrolling-header-navigation {
-        box-shadow: 0 0 0.125em 0 rgba(0, 0, 0, 0.25);
+        box-shadow: 0px 10px 20px -20px rgba(0, 0, 0, 0.45);
         background: #ffffff;
     }
 
@@ -70,6 +70,7 @@ header.application-header {
                 border-radius: 10px;
                 border: 1px solid transparent;
                 transition: all linear .3s;
+                background-color: transparent;
 
                 &::placeholder {
                     color: lesli-css-color(silver, 700);
@@ -88,15 +89,21 @@ header.application-header {
         // header icons
         span.material-icons {
             color: darken(#E2E6F6, 5);
-            &:hover,
-            &.is-active {
+            &:hover, &.is-active {
                 color: var(--lesli-color-primary);
             }
         }
 
         // control container
         .navbar-item {
-            padding: 0 20px 0 0;
+            padding: 0;
+            margin-right: 20px;
+            &:focus, 
+            &:hover, 
+            &.is-active, 
+            &:focus-within {
+                background-color: transparent;
+            }
         }
 
         // Notification icon & count
@@ -104,8 +111,8 @@ header.application-header {
             position: relative;
             font-size: 1.2rem;
             .count {
-                top: 1px;
-                right: 18px;
+                top: 0px;
+                right: 0px;
                 width: 18px;
                 height: 18px;
                 font-size: 11px;
