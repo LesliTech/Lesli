@@ -17,6 +17,7 @@ For more information read the license file including with this software.
 =end
 
 require "./lesli"
+require "lesli_request_helper"
 
 RSpec.describe "Lesli::engines" do
 
@@ -76,7 +77,6 @@ RSpec.describe "Lesli::settings" do
 
     before(:all) do
         @lesli_settings = Lesli::settings()
-        
     end
 
     it "expect to return with a hash of lesli settings" do 
@@ -130,20 +130,12 @@ RSpec.describe "Lesli::settings" do
         
         expect(@lesli_settings["account"]["company"]).to have_key("tag_line")
         expect(@lesli_settings["account"]["company"]["tag_line"]).to be_a(String)
-
-        expect(@lesli_settings["account"]).to have_key("website")
-        expect(@lesli_settings["account"]["website"]).to be_a(Hash)
-        expect(@lesli_settings["account"]["website"]).to have_key("title_prefix")
-        expect(@lesli_settings["account"]["website"]["title_prefix"]).to be_a(String)
     end
 
     it "expect to return with lesli configuration settings" do
 
         expect(@lesli_settings).to have_key("configuration")
         expect(@lesli_settings["configuration"]).to be_a(Hash)
-
-        expect(@lesli_settings["configuration"]).to have_key("theme")
-        expect(@lesli_settings["configuration"]["theme"]).to be_a(String)
 
         expect(@lesli_settings["configuration"]).to have_key("locales_available")
         expect(@lesli_settings["configuration"]["locales_available"]).to be_a(Hash)
@@ -236,7 +228,6 @@ RSpec.describe "Lesli::settings" do
 
         expect(@lesli_settings["security"]).to have_key("log_activity")
         expect(@lesli_settings["security"]["log_activity"]).to be_in([true, false])
-
         expect(@lesli_settings["security"]).to have_key("enable_debug")
         expect(@lesli_settings["security"]["enable_debug"]).to be_in([true, false])
 
