@@ -16,18 +16,18 @@ For more information read the license file including with this software.
 // ·
 =end
 
-# require "lesli_request_helper"
+require "lesli_request_helper"
 
-# RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
-#     describe 'GET:/administration/profile/notifications.json', type: :request do
-#         include_context 'request user authentication'
+RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+    describe 'GET:/administration/profile/notifications.json', type: :request do
+        include_context 'request user authentication'
 
-#         it 'is expected to respond succesful' do
-#             Courier::Bell::Notification.new(@current_user, "notification from rspec")
-#             get '/administration/profile/notifications.json'
+        it 'is expected to respond with pagination' do
+            Courier::Bell::Notification.new(@current_user, "notification from rspec")
+            get '/administration/profile/notifications.json'
 
-#             #share examples
-#             expect_response_with_pagination
-#         end 
-#     end
-# end
+            #share examples
+            expect_response_with_pagination
+        end 
+    end
+end
