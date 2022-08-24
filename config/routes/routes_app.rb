@@ -177,7 +177,7 @@ module RoutesApp
                 #   describe routes, add "only" params to every route
                 resources :roles do
                     scope module: :role do
-                        resources :privileges
+                        #resources :privileges
                         resources :activities
                         resources :descriptor_assignments
                         collection do
@@ -189,7 +189,7 @@ module RoutesApp
                     collection do
                         get :list
                         get :options
-                        get "/privilege_actions/options",               to: "role/privilege_actions#options"
+                        #get "/privilege_actions/options",               to: "role/privilege_actions#options"
                     end
                 end
 
