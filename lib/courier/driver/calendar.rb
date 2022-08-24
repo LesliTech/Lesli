@@ -20,7 +20,7 @@ module Courier
     module Driver
         class Calendar
 
-            def self.get_user_calendar(current_user, calendar_name)
+            def self.get_user_calendar(current_user, calendar_name, default: false)
                 return nil unless defined? CloudDriver
 
                 current_user.account.driver.calendars.eager_load(:detail).find_by(
@@ -28,6 +28,7 @@ module Courier
                     user_creator: current_user,
                     cloud_driver_calendar_details: {
                         name: calendar_name,
+                        default: default
                     }
                 )
             end
@@ -175,13 +176,13 @@ module Courier
                 return records
             end
 
-            def self.create_user_calendar(user, calendar_name)
+            def self.create_user_calendar(user, calendar_name, default: false)
                 return nil unless defined? CloudDriver
 
                 user.account.driver.calendars.create_with(
                     detail_attributes: {
                         name: calendar_name,
-                        default: false,
+                        default: default,
                     }
                 ).find_or_create_by!(
                     user_main: user,

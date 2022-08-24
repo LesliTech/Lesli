@@ -113,7 +113,7 @@ class User < ApplicationLesliRecord
 
     def initialize_user_after_confirmation
         Courier::One::Firebase::User.sync_user(self)
-        Courier::Driver::Calendar.create_user_calendar(self, "Personal Calendar")
+        Courier::Driver::Calendar.create_user_calendar(self, "Personal Calendar", default: true)
     end
 
 
@@ -371,6 +371,12 @@ class User < ApplicationLesliRecord
         Courier::Bell::Notification.new(self, subject, body:body, url:url, category:category)
     end
 
+
+    # @return [CloudDriver::Calendar]
+    # @description Return the default calendar of the user
+    def default_calendar
+        Courier::Driver::Calendar.get_user_calendar(self, "Personal Calendar", default: true)
+    end
 
 
     # @return [void]
