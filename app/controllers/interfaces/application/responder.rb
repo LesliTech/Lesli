@@ -62,14 +62,30 @@ module Interfaces
                     })
                 end
 
-                respond_with_http(200, {
+                #validate if record has data and pages
+                if !records.empty? && records.total_pages > 0 
+                    return respond_with_http(200, {
+                        :pagination => {
+                            :page => records.current_page,
+                            :pages => records.total_pages,
+                            :total => records.total_count,
+                            :results => records.length
+                        },
+                        :records => payload || records 
+                    })
+                end
+
+                #Standar pagination response with 0 results in page 1 when records is empty
+                return respond_with_http(200, {
                     :pagination => {
-                        :page => records.current_page,
-                        :pages => records.total_pages,
-                        :total => records.total_count,
-                        :results => records.length
+                        #pagination always stars in page 1
+                        :page =>  @query[:pagination][:page],
+                        :pages =>  1,
+                        :total => 0,
+                        :results => 0
                     },
-                    :records => payload || records 
+                    #records is empty in core 
+                    :records => [] 
                 })
             end
 
