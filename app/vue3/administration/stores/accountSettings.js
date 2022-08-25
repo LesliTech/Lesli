@@ -88,6 +88,7 @@ export const useAccountSettings = defineStore("account_settings", {
                 } )
             }).catch(error => {
                 console.log(error)
+                this.msg.danger(this.translations.core.shared.messages_danger_internal_error)
             })
         },
 
@@ -99,9 +100,10 @@ export const useAccountSettings = defineStore("account_settings", {
             this.http.post(this.url.admin("account/settings"), {
                 settings: this.settings
             }).then(result => {
-                console.log(result)
+                this.msg.success(this.translations.core.account.settings.messages_success_settings_saved_successfully)
             }).catch(error => {
                 console.log(error)
+                this.msg.danger(this.translations.core.shared.messages_danger_internal_error)
             }).finally(() => {
                 this.submitting_form = false
             })
@@ -113,9 +115,9 @@ export const useAccountSettings = defineStore("account_settings", {
         getSettings (){
             this.http.get(this.url.admin("account/settings")).then(result => {
                 this.parseSettings(result)
-                console.log(this.settings)
             }).catch(error => {
                 console.log(error)
+                this.msg.danger(this.translations.core.shared.messages_danger_internal_error)
             })
         },
         

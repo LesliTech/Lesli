@@ -230,18 +230,14 @@ function updateDateWords(){
         </div>
 
         <div class="control">
-            <button class="button is-primary">
+            <lesli-button class="button is-primary">
                 <span v-if="storeAccountSettings.submitting_form">
-                    <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
-                    &nbsp;
                     {{translations.core.shared.view_btn_saving}}
                 </span>
                 <span v-else>
-                    <b-icon icon="save" size="is-small" />
-                    &nbsp;
                     {{translations.core.shared.view_btn_save}}
                 </span>
-            </button>
+            </lesli-button>
         </div>
     </form>
 </template>

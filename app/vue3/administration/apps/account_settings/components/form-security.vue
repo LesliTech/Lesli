@@ -26,10 +26,9 @@ import { useAccountSettings } from "Lesli/vue3/administration/stores/accountSett
 const storeAccountSettings = useAccountSettings()
 
 // . declare variables 
-const enforcementPassword = ref({ label:"", value:"" })
+const enforcementPassword = ref("")
 
 function updateEnforcement() {
-    console.log(enforcementPassword)
     settings.value.password_enforce_complexity = enforcementPassword.value.value
 }
 
