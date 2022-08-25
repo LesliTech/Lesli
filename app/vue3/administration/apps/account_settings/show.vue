@@ -23,6 +23,14 @@ import { ref, reactive, onMounted, watch, computed } from "vue"
 // . import components 
 import formTime from "./components/form-time.vue"
 import formSecurity from "./components/form-security.vue"
+import formBranding from "./components/form-branding.vue"
+import formTheme from "./components/form-theme.vue"
+
+// · import lesli stores
+import { useAccountSettings } from "Lesli/vue3/administration/stores/accountSettings"
+
+// · implement stores
+const storeAccountSettings = useAccountSettings()
 
 // · translations
 const translations = {
@@ -35,6 +43,13 @@ const translations = {
     },
 }
 
+onMounted(() => {
+    storeAccountSettings.initializeBrandingLogos()
+    storeAccountSettings.getAccountLogos()
+    storeAccountSettings.getOptions()
+    storeAccountSettings.getSettings()
+})
+
 // · 
 const active = ref(0)
 
@@ -44,21 +59,27 @@ const active = ref(0)
     <section class="application-component">
         <lesli-header title="Account Settings"></lesli-header>
         <lesli-tabs v-model="active">
+
             <lesli-tab-item :title="translations.core.account.settings.view_tab_title_security_settings" icon="lock">
                 <div class="box">
                     <formSecurity></formSecurity>
                 </div>
             </lesli-tab-item>
+
             <lesli-tab-item :title="translations.core.account.settings.view_tab_title_time_settings" icon="watch_later">
                 <div class="box">
                     <formTime></formTime>
                 </div>
             </lesli-tab-item>
+
             <lesli-tab-item :title="translations.core.account.settings.view_tab_title_branding" icon="collections">
-
+                    <formBranding></formBranding>
             </lesli-tab-item>
-            <lesli-tab-item :title="translations.core.account.settings.view_tab_title_theme" icon="brush">
 
+            <lesli-tab-item :title="translations.core.account.settings.view_tab_title_theme" icon="brush">
+                <div class="box">
+                    <formTheme></formTheme>
+                </div>
             </lesli-tab-item>
 
         </lesli-tabs>
