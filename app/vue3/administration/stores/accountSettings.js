@@ -37,17 +37,35 @@ export const useAccountSettings = defineStore("account_settings", {
                 password_special_char_count: null,
                 password_uppercase_count: null,
                 password_lowercase_count: null,
-                password_digit_count: null
+                password_digit_count: null,
+                lesli_theme_color_primary: null,
+                lesli_theme_color_secondary: null,
+                lesli_theme_color_header: null,
+                lesli_theme_color_sidebar: null,
+                lesli_theme_color_background: null,
+                lesli_theme_font_color: null,
+                lesli_theme_font_size: null
+            },
+            old_settings: {
+                lesli_theme_color_primary: null,
+                lesli_theme_color_secondary: null,
+                lesli_theme_color_header: null,
+                lesli_theme_color_sidebar: null,
+                lesli_theme_color_background: null,
+                lesli_theme_font_color: null,
+                lesli_theme_font_size: null
             },
             translations: {
                 core: {
                     shared:  I18n.t("core.shared"),
-                    account_settings: I18n.t("core.account/settings")   
+                    account_settings: I18n.t("core.account/settings"),
+                    account: {
+                        settings: I18n.t("core.account/settings"),
+                        files: I18n.t('core.account/files')
+                    } 
                 },
             },
             options: {
-                countries: [],
-                regions: [],
                 time_zones: []
             }
         }
@@ -60,26 +78,6 @@ export const useAccountSettings = defineStore("account_settings", {
         getOptions (){
             this.loading = true
             this.http.get(this.url.admin("account/options")).then(result => {
-                this.options.countries = result.countries.map((country)=> {
-                    return {
-                        label: country.name,
-                        value: country.id
-                    }
-                } )
-                this.options.regions = result.regions.map((region)=> {
-                    return {
-                        label: region.value,
-                        value: region.key
-                    }
-                } )
-            }).catch(error => {
-                console.log(error)
-                this.msg.danger(this.translations.core.shared.messages_danger_internal_error)
-            }).finally(() => {
-                this.loading = false
-            })
-            // Get options for time zone selection
-            this.http.get(this.url.admin("account/settings/options")).then(result => {
                 this.options.time_zones = result.time_zones.map((time_zone)=> {
                     return {
                         label: time_zone.text,
@@ -89,6 +87,8 @@ export const useAccountSettings = defineStore("account_settings", {
             }).catch(error => {
                 console.log(error)
                 this.msg.danger(this.translations.core.shared.messages_danger_internal_error)
+            }).finally(() => {
+                this.loading = false
             })
         },
 
@@ -129,8 +129,17 @@ export const useAccountSettings = defineStore("account_settings", {
             settings_raw.forEach(setting_raw => {
                 if (setting_raw.name in this.settings){
                     this.settings[setting_raw.name] = setting_raw.value
+                    this.old_settings[setting_raw.name] = setting_raw.value
                 }
             })
+        },
+
+        /**
+         * @description This action is used to replace the new settings with the old settings
+         * @param {Object} setting_name The setting that is going to be replaced
+         */
+        clearSetting(setting_name){
+            this.settings[setting_name] = this.old_settings[setting_name]
         }
 
     },
