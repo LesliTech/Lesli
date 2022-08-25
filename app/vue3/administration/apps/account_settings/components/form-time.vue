@@ -33,15 +33,10 @@ const translations = {
         account_settings: I18n.t("core.account/settings"),
         shared: I18n.t('core.shared'),
     },
-};
-
-onMounted(() => {
-    storeAccountSettings.getOptions()
-    storeAccountSettings.getSettings()
-})
+}
 
 // . declare variables
-const timezoneValue = ref([])
+const timezoneValue = ref({ label:"", value:"" })
 const timeFormat = ref({ label:"", value:"" })
 const dateFormat = ref({ label:"", value:"" })
 const dateWords = ref({ label:"", value:"" })
@@ -226,7 +221,7 @@ function updateDateWords(){
         </div>
 
         <div class="control">
-            <lesli-button class="button is-primary">
+            <lesli-button icon="save">
                 <span v-if="storeAccountSettings.submitting_form">
                     {{translations.core.shared.view_btn_saving}}
                 </span>

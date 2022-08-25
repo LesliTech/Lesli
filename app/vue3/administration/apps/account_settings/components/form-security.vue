@@ -72,6 +72,9 @@ onMounted(() => {
                     @change="updateEnforcement"
                 >
                 </lesli-select>
+                <p class="has-text-info">
+                    {{ translations.core.account.settings.view_text_password_complex_description }}
+                </p>
             </div>
         </div>
 
@@ -154,7 +157,7 @@ onMounted(() => {
         </div>
 
         <div class="control">
-            <lesli-button class="button is-primary">
+            <lesli-button class="button is-primary" icon="save">
                 <span v-if="storeAccountSettings.submitting_form">
                     {{translations.core.shared.view_btn_saving}}
                 </span>
