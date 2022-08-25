@@ -17,7 +17,7 @@ For more information read the license file including with this software.
 */
 
 // · import vue tools
-import { onMounted, computed, ref } from "vue"
+import { onMounted, ref } from "vue"
 
 // · import lesli stores
 import { useAccountSettings } from "Lesli/vue3/administration/stores/accountSettings"
@@ -40,10 +40,6 @@ onMounted(() => {
     storeAccountSettings.getSettings()
 })
 
-// . get reactive info from onboarding store
-const companyInfo = computed(() => storeAccountSettings.companyInfo)
-const settings = computed(() => storeAccountSettings.settings)
-
 // . declare variables
 const timezoneValue = ref([])
 const timeFormat = ref({ label:"", value:"" })
@@ -55,27 +51,27 @@ const combinedDate = ref(dateFormat.value.label + timeFormat.value.label )
 // . Functions for updating date format values in store 
 
 function updateTimezone() {
-    settings.value.datetime_time_zone = timezoneValue.value.value
+    storeAccountSettings.settings.datetime_time_zone = timezoneValue.value.value
 }
 function updateDatetime() {
     combinedDate.value = dateFormat.value.label +" "+ timeFormat.value.label
-    settings.value.datetime_format_date_time = dateFormat.value.value +" "+timeFormat.value.value
+    storeAccountSettings.settings.datetime_format_date_time = dateFormat.value.value +" "+timeFormat.value.value
 }
 
 function updateDate() {
-    settings.value.datetime_format_date = dateFormat.value.value
+    storeAccountSettings.settings.datetime_format_date = dateFormat.value.value
     updateDatetime()
 }
 
 function updateTime() {
-    settings.value.datetime_format_time = timeFormat.value.value
+    storeAccountSettings.settings.datetime_format_time = timeFormat.value.value
     updateDatetime()
     updateDateWords()
 }
 
 function updateDateWords(){
     datetimeWords.value = dateWords.value.label +" "+ timeFormat.value.label
-    settings.value.datetime_format_date_time_words = dateWords.value.value +" "+timeFormat.value.value
+    storeAccountSettings.settings.datetime_format_date_time_words = dateWords.value.value +" "+timeFormat.value.value
 }
 
 </script>

@@ -17,7 +17,7 @@ For more information read the license file including with this software.
 */
 
 // · import vue tools
-import { onMounted, computed, ref } from "vue"
+import { onMounted, ref } from "vue"
 
 // · import lesli stores
 import { useAccountSettings } from "Lesli/vue3/administration/stores/accountSettings"
@@ -29,7 +29,7 @@ const storeAccountSettings = useAccountSettings()
 const enforcementPassword = ref("")
 
 function updateEnforcement() {
-    settings.value.password_enforce_complexity = enforcementPassword.value.value
+    storeAccountSettings.settings.password_enforce_complexity = enforcementPassword.value.value
 }
 
 // · translations
@@ -46,9 +46,6 @@ const translations = {
 onMounted(() => {
     storeAccountSettings.getSettings()
 });
-
-// . get reactive info from onboarding store
-const settings = computed(() => storeAccountSettings.settings)
 
 </script>
 <template>
@@ -86,7 +83,7 @@ const settings = computed(() => storeAccountSettings.settings)
             </div>
             <div class="column is-6">
                 <div class="control">
-                    <input class="input" type="number" v-model="settings.password_lowercase_count">
+                    <input class="input" type="number" v-model="storeAccountSettings.settings.password_lowercase_count">
                 </div>
             </div>
         </div>
@@ -99,7 +96,7 @@ const settings = computed(() => storeAccountSettings.settings)
             </div>
             <div class="column is-6">
                 <div class="control">
-                    <input class="input" type="number" v-model="settings.password_uppercase_count">
+                    <input class="input" type="number" v-model="storeAccountSettings.settings.password_uppercase_count">
                 </div>
             </div>
         </div>
@@ -112,7 +109,7 @@ const settings = computed(() => storeAccountSettings.settings)
             </div>
             <div class="column is-6">
                 <div class="control">
-                    <input class="input" type="number" v-model="settings.password_digit_count">
+                    <input class="input" type="number" v-model="storeAccountSettings.settings.password_digit_count">
                 </div>
             </div>
         </div>
@@ -125,7 +122,7 @@ const settings = computed(() => storeAccountSettings.settings)
             </div>
             <div class="column is-6">
                 <div class="control">
-                    <input class="input" type="number" v-model="settings.password_special_char_count">
+                    <input class="input" type="number" v-model="storeAccountSettings.settings.password_special_char_count">
                 </div>
             </div>
         </div>
@@ -138,7 +135,7 @@ const settings = computed(() => storeAccountSettings.settings)
             </div>
             <div class="column is-6">
                 <div class="control">
-                    <input class="input" type="number" v-model="settings.password_minimum_length">
+                    <input class="input" type="number" v-model="storeAccountSettings.settings.password_minimum_length">
                 </div>
             </div>
         </div>
@@ -151,7 +148,7 @@ const settings = computed(() => storeAccountSettings.settings)
             </div>
             <div class="column is-6">
                 <div class="control">
-                    <input class="input" type="number" v-model="settings.password_expiration_time_days">
+                    <input class="input" type="number" v-model="storeAccountSettings.settings.password_expiration_time_days">
                 </div>
             </div>
         </div>
