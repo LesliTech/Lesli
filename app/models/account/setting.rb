@@ -54,6 +54,7 @@ class Account::Setting < ApplicationRecord
     def self.theme_settings_keys
         [
             'lesli_theme_color_primary',
+            'lesli_theme_color_secondary',
             'lesli_theme_color_header',
             'lesli_theme_color_sidebar',
             'lesli_theme_color_background',
