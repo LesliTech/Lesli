@@ -1,6 +1,6 @@
 # Buttons
 
-lesli-button provides a wrapper around standard buttons, allowin manipulate the state of the button and the ability to use icon family like material icons.
+lesli-button provides a wrapper around standard buttons, allowing manipulate the state of the button and the ability to use icon family like material icons.
 
 You can build action buttons and vue router links.
 
