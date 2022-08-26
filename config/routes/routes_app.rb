@@ -70,6 +70,10 @@ module RoutesApp
                         resources :settings, only: [:index, :show, :create, :destroy] do
                             collection do
                                 get :options
+                                get :security
+                                get :date_time
+                                get :branding
+                                get :theme
                             end
                         end
 
