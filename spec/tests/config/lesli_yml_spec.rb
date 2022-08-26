@@ -101,37 +101,6 @@ RSpec.describe "lesli_settings.yml" do
         expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time_words"]).to be_a(String)
 
     end
-    
-=begin
-    it "expect to have a section for configuration datetime2 settings" do
-        expect(@lesli_settings["configuration"]).to have_key("datetime2")
-        expect(@lesli_settings["configuration"]["datetime2"]).to be_a(Hash)
-
-        expect(@lesli_settings["configuration"]["datetime2"]).to have_key("time_zone")
-        expect(@lesli_settings["configuration"]["datetime"]["time_zone"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime2"]).to have_key("start_week_on")
-        expect(@lesli_settings["configuration"]["datetime2"]["start_week_on"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime2"]).to have_key("formats")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to be_a(Hash)
-
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("date")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("time")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["time"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("date_time")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date_time"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("date_words")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date_words"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("date_time_words")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date_time_words"]).to be_a(String)
-    end
-=end 
 
     it "expect to have a section for notifications settings" do
         expect(@lesli_settings["configuration"]).to have_key("notifications")
