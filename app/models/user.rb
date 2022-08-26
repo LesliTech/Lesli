@@ -50,9 +50,11 @@ class User < ApplicationLesliRecord
     has_many :access_codes,     foreign_key: "users_id"
     has_many :auth_providers,   foreign_key: "users_id"
 
-    has_many :user_roles,               foreign_key: "users_id",    class_name: "User::Role"
-    has_many :roles,                    through: :user_roles,       source: :roles
+    has_many :user_roles,       foreign_key: "users_id",    class_name: "User::Role"
+    has_many :roles,            through: :user_roles,       source: :roles
+    has_many :privileges,       through: :roles
 
+    has_many :role_privileges,          through: :roles,            source: :privileges
     has_many :user_privilege_actions,   foreign_key: "users_id",    class_name: "User::PrivilegeAction"
     has_many :role_privilege_actions,   through: :roles,            source: :privilege_actions
 
@@ -152,6 +154,13 @@ class User < ApplicationLesliRecord
     #     actions = ["index", "update"]
     #
     #     current_user.has_privileges?(controllers, actions)
+    def has_privileges2?(controller, action)
+        !self.privileges
+        .where("role_privileges.controller = ?", controller)
+        .where("role_privileges.action = ?", action)
+        .first.blank?
+    end
+
     def has_privileges?(controllers, actions)
 
         begin

@@ -27,6 +27,9 @@ import appUsersIndex from "Lesli/vue3/administration/apps/users/index.vue"
 import appUsersShow from "Lesli/vue3/administration/apps/users/show.vue"
 import appUsersNew from "Lesli/vue3/administration/apps/users/new.vue"
 
+import appRolesIndex from "Lesli/vue3/administration/apps/roles/index.vue"
+import appRolesShow from "Lesli/vue3/administration/apps/roles/show.vue"
+
 import appIntegrationsIndex from "Lesli/vue3/administration/apps/integrations/index.vue"
 import appIntegrationsNew from "Lesli/vue3/administration/apps/integrations/new.vue"
 import appSecurity from "Lesli/vue3/administration/apps/security/index.vue"
@@ -50,6 +53,12 @@ app("Administration", [{
 },{
     path: "/profile",
     component: appUsersProfile
+}, {
+    path: "/roles",
+    component: appRolesIndex
+}, {
+    path: "/roles/:id",
+    component: appRolesShow
 }, {
     path: "/account/integrations",
     component: appIntegrationsIndex
