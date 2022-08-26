@@ -39,6 +39,7 @@
 00.55. roles (reference only)
 00.56. role_descriptor_assignments
 00.57. role_activities
+00.58. role_privileges
 
 00.60. templates
 00.61. template_documents
@@ -51,4 +52,5 @@
 00.75. descriptors
 00.76. descriptor_privileges
 00.77. descriptor_activities
+00.78. role_describers
 ```

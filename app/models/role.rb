@@ -22,6 +22,8 @@ class Role < ApplicationLesliRecord
     belongs_to :account,                foreign_key: "accounts_id"
 
     has_many :activities,               foreign_key: "roles_id"
+    has_many :privileges,               foreign_key: "roles_id",    class_name: "Role::Privilege",  dependent: :delete_all
+    has_many :describers,               foreign_key: "roles_id"
     has_many :descriptor_assignments,   foreign_key: "roles_id",    class_name: "DescriptorAssignment",  dependent: :delete_all
     has_many :privilege_actions,        through: :descriptor_assignments
 

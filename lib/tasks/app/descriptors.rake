@@ -17,7 +17,7 @@ For more information read the license file including with this software.
 =end
 
 namespace :app do
-    namespace :privileges do
+    namespace :descriptors do
 
         desc "Build descriptors and privileges according to the app controllers"
         task build: :environment do
@@ -55,24 +55,43 @@ namespace :app do
 
                     # Register the new descriptor if does not exists
                     descriptor = account.descriptors.find_or_create_by({ 
-                        :name => cn.sub('Controller','').sub('::','')
+                        :name => cn.sub('Controller','').sub('::',''),
+                        :controller => cn,
+                        :path => controller[0]
                     })
-
-                    # Register the privileges needed by the object to be able to work 
-                    # in a complete view
+                    
+                    # Work with the list of privileges need by the controller 
+                    # to be able to work in a complete view
                     co.privileges.each do |privilege|
+
+                        # Register the current controller into the descriptor privileges
+                        descriptor.privileges.create_with({
+                            :active => true
+                        }).find_or_create_by({
+                            :reference => "#{co.name}##{privilege[0]}", # main object that needs access to the below controllers & actions
+                            :controller => cn.sub("::", "/").sub("Controller", "").downcase,
+                            :action => privilege[0]
+                        })
+
+                        # Register the privileges needed by the object 
                         privilege[1].each do |ca|
                             descriptor.privileges.create_with({
                                 :active => true
                             }).find_or_create_by({
-                                :object => privilege[0],    # main object that needs access to the below controllers & actions
+                                :reference => "#{co.name}##{privilege[0]}", 
                                 :controller => ca.split("#")[0].sub("::", "/").sub("Controller", "").downcase,
                                 :action => ca.split("#")[1].downcase
                             })
                         end 
                     end
+
                 end
+
             end
+
+            ## SIMULATE ROLE MANAGEMENT
+            Role.first.describers.create({ descriptor: Descriptor.first })
+
         end
     end
 end

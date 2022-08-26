@@ -24,7 +24,8 @@ class UsersController < ApplicationLesliController
 
     def self.privileges
         {
-            list: ["UsersController#index"]
+            list: ["UsersController#show"],
+            index: []
         }
     end 
 
