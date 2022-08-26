@@ -157,8 +157,12 @@ class ApplicationLesliController < ApplicationController
 
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
+        granted = current_user.has_privileges2?(params[:controller], params[:action])
+
+        # check if user has access to the requested controller
+        # this search is over all the privileges for all the roles of the user
         # Due this method is executed on every request, we use low level cache to improve performance
-        granted = current_user.has_privileges?([params[:controller]], [params[:action]])
+        # granted = current_user.has_privileges?([params[:controller]], [params[:action]])
 
         # Check if user can be redirected to role default path
         can_redirect_to_default_path = -> () {
