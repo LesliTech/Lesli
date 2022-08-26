@@ -32,12 +32,19 @@ module LC
         # if you need a different date format you should change it in the settings
         # Please read the documentation stored in core/docs/leslicommand-date.md for more information
         @settings = {
-            :date_format => "%d.%m.%Y", 
-            :date_format_full => "%a, %B %d, %Y", 
-            :date_format_time => "%d.%m.%Y %H:%M", 
-            :time_format => "%H:%M", 
+
             :time_zone => "Europe/Berlin", 
-            :start_week_on => "monday"
+            :start_week_on => "monday",
+            :format => {
+                :date_format => "%d.%m.%Y",    #1
+                :time_format => "%H:%M %p",    #2
+                :time_format => "%H:%M",       #2
+                :date_format_time => "%d.%m.%Y %I:%M %p", #4
+                :date_format_time => "%d.%m.%Y %H:%M",  #4
+                :date_format_full => "%A, %B %d, %Y",  #3
+                :date_format_full => "%A, %B %d, %Y, %I:%M %p", #3
+                :date_format_full => "%A, %B %d, %Y, %H:%M" #3
+            }
         }
         @settings_loaded = false
 
@@ -100,7 +107,7 @@ module LC
             self.verify_settings
             
             zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
-            datetime_object.in_time_zone(zone).strftime(@settings[:date_format])
+            datetime_object.in_time_zone(zone).strftime(@settings[:date])
         end
  
         def self.to_string_datetime(datetime_object)
@@ -212,7 +219,14 @@ module LC
         def self.reset_settings
             @settings = Rails.application.config.lesli[:configuration][:datetime]
             @settings_loaded = true
+            puts "settings en lib date #{@settings}"
+            puts "settings en format -> date #{@settings[:formats][:date]}"
+            @settings[:formats][:date_format] =  @settings[:formats][:date]
+            @settings[:formats][:time_format] =  @settings[:formats][:time]
+            @settings[:formats][:date_format_time] =  @settings[:formats][:date_time]
+            @settings[:formats][:date_format_full] =  @settings[:formats][:date_time_words]
             
+            puts "settings en lib actualizado #{@settings}"
             @settings
         end
  
@@ -223,7 +237,7 @@ module LC
 
         def self.db_format
             self.verify_settings
-            format = @settings[:date_format]
+            format = @settings[:date]
             format = format.gsub("%Y", "YYYY")
             format = format.gsub("%m", "MM")
             format = format.gsub("%d", "DD")
