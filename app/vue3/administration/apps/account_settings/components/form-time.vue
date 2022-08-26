@@ -69,9 +69,17 @@ function updateDateWords(){
     storeAccountSettings.settings.datetime_format_date_time_words = dateWords.value.value +" "+timeFormat.value.value
 }
 
+function initializeValues(){
+    timezoneValue.value = { label: storeAccountSettings.settings.datetime_time_zone, value: storeAccountSettings.settings.datetime_time_zone}
+}
+
+onMounted(() => {
+    initializeValues()
+})
+
 </script>
 <template>
-    <form @submit.prevent="storeAccountSettings.postSettings">
+    <form @submit.prevent="storeAccountSettings.postSettings" v-if="!storeAccountSettings.loading">
         <div class="columns">
             <div class="column is-4">
                 <label class="label">
@@ -79,7 +87,7 @@ function updateDateWords(){
                 </label>
             </div>
             <div class="column is-6">
-                <lesli-select
+                <lesli-select v-if="!storeAccountSettings.loading"
                     :options="storeAccountSettings.options.time_zones"
                     v-model="timezoneValue"
                     @change="updateTimezone"
@@ -220,15 +228,18 @@ function updateDateWords(){
             </div>
         </div>
 
-        <div class="control">
-            <lesli-button icon="save">
-                <span v-if="storeAccountSettings.submitting_form">
-                    {{translations.core.shared.view_btn_saving}}
-                </span>
-                <span v-else>
-                    {{translations.core.shared.view_btn_save}}
-                </span>
-            </lesli-button>
+
+        <div class="field is-grouped is-grouped-centered">
+            <div class="control">
+                <lesli-button icon="save">
+                    <span v-if="storeAccountSettings.submitting_form">
+                        {{translations.core.shared.view_btn_saving}}
+                    </span>
+                    <span v-else>
+                        {{translations.core.shared.view_btn_save}}
+                    </span>
+                </lesli-button>
+            </div>
         </div>
     </form>
 </template>
