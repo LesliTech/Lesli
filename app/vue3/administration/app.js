@@ -29,7 +29,6 @@ import appUsersShow from "Lesli/vue3/administration/apps/users/show.vue"
 import appIntegrationsIndex from "Lesli/vue3/administration/apps/integrations/index.vue"
 import appIntegrationsNew from "Lesli/vue3/administration/apps/integrations/new.vue"
 import appAccountSettings from "Lesli/vue3/administration/apps/account_settings/show.vue"
-import appCurrenciesIndex from "Lesli/vue3/administration/apps/currencies/index.vue"
 
 
 
@@ -55,7 +54,5 @@ app("Administration", [{
 }, {
     path: "/account/settings",
     component: appAccountSettings
-}, {
-    path: "/account/currencies",
-    component: appCurrenciesIndex
-}])
+}
+])
