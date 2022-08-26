@@ -26,7 +26,6 @@ RSpec.describe "lesli_settings.yml" do
 
     before(:all) do
         @lesli_settings = Lesli::settings()
-        puts "configuraciones #{@lesli_settings}"
     end
 
     it "expect to have a section for info settings" do
