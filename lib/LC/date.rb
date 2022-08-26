@@ -107,7 +107,7 @@ module LC
             self.verify_settings
             
             zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
-            datetime_object.in_time_zone(zone).strftime(@settings[:date])
+            datetime_object.in_time_zone(zone).strftime(@settings[:date_format])
         end
  
         def self.to_string_datetime(datetime_object)
@@ -219,14 +219,10 @@ module LC
         def self.reset_settings
             @settings = Rails.application.config.lesli[:configuration][:datetime]
             @settings_loaded = true
-            puts "settings en lib date #{@settings}"
-            puts "settings en format -> date #{@settings[:formats][:date]}"
-            @settings[:formats][:date_format] =  @settings[:formats][:date]
-            @settings[:formats][:time_format] =  @settings[:formats][:time]
-            @settings[:formats][:date_format_time] =  @settings[:formats][:date_time]
-            @settings[:formats][:date_format_full] =  @settings[:formats][:date_time_words]
-            
-            puts "settings en lib actualizado #{@settings}"
+            @settings[:date_format] =  @settings[:formats][:date]
+            @settings[:time_format] =  @settings[:formats][:time]
+            @settings[:date_format_time] =  @settings[:formats][:date_time]
+            @settings[:date_format_full] =  @settings[:formats][:date_time_words]
             @settings
         end
  
@@ -237,7 +233,7 @@ module LC
 
         def self.db_format
             self.verify_settings
-            format = @settings[:date]
+            format = @settings[:date_format]
             format = format.gsub("%Y", "YYYY")
             format = format.gsub("%m", "MM")
             format = format.gsub("%d", "DD")
