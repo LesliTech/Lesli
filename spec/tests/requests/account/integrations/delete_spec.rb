@@ -25,9 +25,9 @@ RSpec.describe "DELETE:/administration/account/integrations/:id.json", type: :re
 
         it 'is expected to respond succesful' do
 
-            puts "buscar id integrations 1 #{@current_user.account.integrations.to_json}"
+            #puts "buscar id integrations 1 #{@current_user.account.integrations.to_json}"
             @current_user.account.integrations.create(name: Faker::Superhero.power)
-            puts "buscar id integrations 2 #{@current_user.account.integrations.to_json}"
+            puts "buscar id integrations 2 #{@current_user.account.integrations.last}"
             
             #delete("/administration/account/integrations/new.json")
 
