@@ -156,15 +156,17 @@ onMounted(() => {
             </div>
         </div>
 
-        <div class="control">
-            <lesli-button class="button is-primary" icon="save">
-                <span v-if="storeAccountSettings.submitting_form">
-                    {{translations.core.shared.view_btn_saving}}
-                </span>
-                <span v-else>
-                    {{translations.core.shared.view_btn_save}}
-                </span>
-            </lesli-button>
+        <div class="field is-grouped is-grouped-centered">
+            <div class="control">
+                <lesli-button class="button is-primary" icon="save">
+                    <span v-if="storeAccountSettings.submitting_form">
+                        {{translations.core.shared.view_btn_saving}}
+                    </span>
+                    <span v-else>
+                        {{translations.core.shared.view_btn_save}}
+                    </span>
+                </lesli-button>
+            </div>
         </div>
     </form>
 </template>
