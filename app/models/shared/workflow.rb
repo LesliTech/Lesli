@@ -116,6 +116,9 @@ module Shared
             module_name = dynamic_info[:module_name]
             full_module_name = dynamic_info[:full_module_name].underscore
 
+            # get search string from query params
+            search_string = query[:search].downcase.gsub(" ","%") unless query[:search].blank?
+
             # preparing filters
             filters = query[:filters]
             filters_query = []
@@ -135,6 +138,13 @@ module Shared
             # We apply the previous filters in the main query
             unless filters_query.empty?
                 workflows = workflows.where(filters_query.join(' and '))
+            end
+
+            # Filter results by search string
+            unless search_string.blank?
+                workflows = workflows.where("
+                    LOWER(#{full_module_name}_workflows.name) SIMILAR TO '%#{search_string}%'
+                ")
             end
 
             response = {}
@@ -160,6 +170,7 @@ module Shared
                 workflow_attributes["created_at"] = LC::Date.to_string_datetime(workflow_attributes["created_at"])
                 workflow_attributes["updated_at"] = LC::Date.to_string_datetime(workflow_attributes["updated_at"])
                 workflow_attributes["checks"] = workflow.monitoring_checks
+                workflow_attributes["connected_to"] = workflow.associations
                 workflow_attributes
             end
 
