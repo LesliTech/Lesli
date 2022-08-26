@@ -53,31 +53,36 @@ const columns = [{
 }]
 
 onMounted(() => {
-    storeAccountSettings.getSettings()
+    storeAccountSettings.initializeBrandingLogos()
+    storeAccountSettings.getAccountLogos()
 })
 
 
 </script>
 <template>
+    <section class="application-component">
+        <lesli-header 
+            :title="translations.core.account.settings.view_tab_title_branding">
+        </lesli-header>
+        <lesli-table
+            :columns="columns"
+            :records="storeAccountSettings.record_files">
+            <template #options="records">
+                <a class="dropdown-item" v-if="records.record.file" :href="`${storeAccountSettings.getUrl(records.record.file.id)}?download=true`">
+                    <span class="download-icon material-icons">file_download</span>
+                    {{ translations.core.shared.view_btn_download }}
+                </a>
+                <a class="dropdown-item" v-if="records.record.file" @click="storeAccountSettings.confirmFileDeletion(records.record.file)">
+                    <span class="delete-icon material-icons">delete</span>
+                    {{translations.core.shared.view_btn_delete}}
+                </a>
+                <a class="dropdown-item" v-if="!records.record.file">
+                    <span class="upload-icon material-icons">upload_file</span>
+                    {{ translations.core.account.files.view_btn_browse_files }}
+                    <input :accept="records.record.acceptc" class="file-input" type="file" @change="storeAccountSettings.processFile($event, records.record)"/>
+                </a>
+            </template>
 
-    <lesli-table
-        :columns="columns"
-        :records="storeAccountSettings.record_files">
-        <template #options="records">
-            <a class="dropdown-item" v-if="records.record.file" :href="`${storeAccountSettings.getUrl(records.record.file.id)}?download=true`">
-                <span class="download-icon material-icons">file_download</span>
-                {{ translations.core.shared.view_btn_download }}
-            </a>
-            <a class="dropdown-item" v-if="records.record.file" @click="storeAccountSettings.confirmFileDeletion(records.record.file)">
-                <span class="delete-icon material-icons">delete</span>
-                {{translations.core.shared.view_btn_delete}}
-            </a>
-            <a class="dropdown-item" v-if="!records.record.file">
-                <span class="upload-icon material-icons">upload_file</span>
-                {{ translations.core.account.files.view_btn_browse_files }}
-                <input :accept="records.record.acceptc" class="file-input" type="file" @change="storeAccountSettings.processFile($event, records.record)"/>
-            </a>
-        </template>
-
-    </lesli-table>
+        </lesli-table>
+    </section>
 </template>

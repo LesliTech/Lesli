@@ -104,6 +104,8 @@ export const useAccountSettings = defineStore("account_settings", {
             })
         },
 
+        
+
         /**
          * @description This action is used to fetch the currently configured settings
          */

@@ -28,9 +28,10 @@ import appUsersShow from "Lesli/vue3/administration/apps/users/show.vue"
 
 import appIntegrationsIndex from "Lesli/vue3/administration/apps/integrations/index.vue"
 import appIntegrationsNew from "Lesli/vue3/administration/apps/integrations/new.vue"
-import appAccountSettings from "Lesli/vue3/administration/apps/account_settings/show.vue"
-
-
+import appSecurity from "Lesli/vue3/administration/apps/security/index.vue"
+import appDatetime from "Lesli/vue3/administration/apps/date_time/index.vue"
+import appBranding from "Lesli/vue3/administration/apps/branding/index.vue"
+import appTheme from "Lesli/vue3/administration/apps/theme/index.vue"
 
 // · 
 app("Administration", [{
@@ -52,7 +53,16 @@ app("Administration", [{
     path: "/account/integrations/new",
     component: appIntegrationsNew
 }, {
-    path: "/account/settings",
-    component: appAccountSettings
+    path: "/account/settings/security",
+    component: appSecurity
+}, {
+    path: "/account/settings/date_time",
+    component: appDatetime
+}, {
+    path: "/account/settings/branding",
+    component: appBranding
+}, {
+    path: "/account/settings/theme",
+    component: appTheme
 }
 ])
