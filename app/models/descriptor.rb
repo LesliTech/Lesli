@@ -20,4 +20,6 @@ class Descriptor < ApplicationLesliRecord
     belongs_to :account,  foreign_key: "accounts_id",    class_name: "Account"
     has_many :privileges, foreign_key: "descriptors_id"
     has_many :activities, foreign_key: "descriptors_id"
+
+    has_many :describers, foreign_key: "descriptors_id", class_name: "Role::Describer"
 end
