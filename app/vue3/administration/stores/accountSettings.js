@@ -40,8 +40,8 @@ export const useAccountSettings = defineStore("account_settings", {
                 password_digit_count: null,
                 lesli_theme_color_primary: null,
                 lesli_theme_color_secondary: null,
-                lesli_theme_color_header: null,
-                lesli_theme_color_sidebar: null,
+                lesli_theme_header_color: null,
+                lesli_theme_sidebar_color: null,
                 lesli_theme_color_background: null,
                 lesli_theme_font_color: null,
                 lesli_theme_font_size: null
@@ -49,8 +49,8 @@ export const useAccountSettings = defineStore("account_settings", {
             old_settings: {
                 lesli_theme_color_primary: null,
                 lesli_theme_color_secondary: null,
-                lesli_theme_color_header: null,
-                lesli_theme_color_sidebar: null,
+                lesli_theme_header_color: null,
+                lesli_theme_sidebar_color: null,
                 lesli_theme_color_background: null,
                 lesli_theme_font_color: null,
                 lesli_theme_font_size: null
@@ -101,6 +101,7 @@ export const useAccountSettings = defineStore("account_settings", {
                 this.msg.danger(I18n.t("core.shared").messages_danger_internal_error)
             }).finally(() => {
                 this.submitting_form = false
+                this.getSettings()
             })
         },
 
