@@ -41,12 +41,12 @@ watch(() => storeAccountSettings.settings.lesli_theme_color_primary, () => {
     document.querySelector(':root').style.setProperty('--lesli-theme-color-primary', storeAccountSettings.settings.lesli_theme_color_primary)
 })
 
-watch(() => storeAccountSettings.settings.lesli_theme_color_header, () => {
-    document.querySelector(':root').style.setProperty('--lesli-theme-header-color', storeAccountSettings.settings.lesli_theme_color_header)
+watch(() => storeAccountSettings.settings.lesli_theme_header_color, () => {
+    document.querySelector(':root').style.setProperty('--lesli-theme-header-color', storeAccountSettings.settings.lesli_theme_header_color)
 })
 
-watch(() => storeAccountSettings.settings.lesli_theme_color_sidebar, () => {
-    document.querySelector(':root').style.setProperty('--lesli-theme-sidebar-color', storeAccountSettings.settings.lesli_theme_color_sidebar)
+watch(() => storeAccountSettings.settings.lesli_theme_sidebar_color, () => {
+    document.querySelector(':root').style.setProperty('--lesli-theme-sidebar-color', storeAccountSettings.settings.lesli_theme_sidebar_color)
 })
 
 watch(() => storeAccountSettings.settings.lesli_theme_color_background, () => {
@@ -95,10 +95,10 @@ onMounted(() => {
                 </div>
 
                 <div class="column is-2">
-                    <input class="input" type="color" v-model="storeAccountSettings.settings.lesli_theme_color_header">
+                    <input class="input" type="color" v-model="storeAccountSettings.settings.lesli_theme_header_color">
                 </div>
                 <div class="column is-1">
-                    <lesli-button @click="storeAccountSettings.clearSetting('lesli_theme_color_header')" icon="settings_backup_restore">
+                    <lesli-button @click="storeAccountSettings.clearSetting('lesli_theme_header_color')" icon="settings_backup_restore">
                     </lesli-button>
                 </div>
             </div>
@@ -110,10 +110,10 @@ onMounted(() => {
                     </label>
                 </div>
                 <div class="column is-2">
-                        <input class="input" type="color" v-model="storeAccountSettings.settings.lesli_theme_color_sidebar">
+                        <input class="input" type="color" v-model="storeAccountSettings.settings.lesli_theme_sidebar_color">
                 </div>
                 <div class="column is-1">
-                    <lesli-button @click="storeAccountSettings.clearSetting('lesli_theme_color_sidebar')" icon="settings_backup_restore">
+                    <lesli-button @click="storeAccountSettings.clearSetting('lesli_theme_sidebar_color')" icon="settings_backup_restore">
                     </lesli-button>
                 </div>
                 
