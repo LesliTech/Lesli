@@ -89,8 +89,8 @@ namespace :app do
 
             end
 
-            ## SIMULATE ROLE MANAGEMENT
-            Role.first.describers.create({ descriptor: Descriptor.first })
+            # Syncronize the descriptor privileges with the role privilege cache table 
+            RolePrivilegesService.new.synchronize_privileges
 
         end
     end

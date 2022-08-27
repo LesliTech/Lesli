@@ -1,4 +1,5 @@
 =begin
+
 Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -13,19 +14,33 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
-class Role::Describer < ApplicationLesliRecord
-    belongs_to :role,       foreign_key: "roles_id"
-    belongs_to :descriptor, foreign_key: "descriptors_id"
 
-    after_commit :synchronize_privileges, on: [:create, :update]
+class RolePrivilegesService
 
-    private
+    def initialize(resource=nil)
+        @resource = resource
+    end
 
     def synchronize_privileges
-        # Syncronize the descriptor privileges with the role privilege cache table 
-        RolePrivilegesService.new.synchronize_privileges
+
+        # bulk all the descriptor privileges
+        records = Descriptor.joins(:privileges, :describers).select(
+            "descriptor_privileges.active",
+            "descriptor_privileges.controller",
+            "descriptor_privileges.action",
+            "role_describers.roles_id"
+        ).as_json(only: [:active, :controller, :action, :roles_id])
+
+        # small check to ensure I have records to update/insert
+        return if records.blank?
+
+        # bulk update/insert into role privilege cache table
+        Role::Privilege.upsert_all(
+            records,
+            unique_by: [:controller, :action, :roles_id]
+        )
+
     end 
 
 end
