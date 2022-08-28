@@ -1,4 +1,5 @@
 =begin
+
 Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -13,17 +14,24 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
-class DescriptorsController < ApplicationController
-    before_action :set_descriptor, only: [:show, :update, :destroy]
+
+class DescriptorsController < ApplicationLesliController
+    before_action :set_descriptor, only: [:show]
+
+    def self.privileges 
+        {
+            index: [],
+            show: []
+        }
+    end
 
     # GET /descriptors
     def index
         respond_to do |format|
             format.html {}
             format.json do
-                respond_with_successful(Descriptor.index(current_user, @query))
+                respond_with_pagination(Descriptor.index(current_user, @query))
             end
         end
     end
@@ -39,51 +47,11 @@ class DescriptorsController < ApplicationController
         end
     end
 
-    # GET /descriptors/new
-    def new
-    end
-
-    # GET /descriptors/1/edit
-    def edit
-    end
-
-    # POST /descriptors
-    def create
-        descriptor = Descriptor.new(descriptor_params)
-        if descriptor.save
-            respond_with_successful(descriptor)
-        else
-            respond_with_error(descriptor.errors.full_messages.to_sentence)
-        end
-    end
-
-    # PATCH/PUT /descriptors/1
-    def update
-        return respond_with_not_found unless @descriptor
-
-        if @descriptor.update(descriptor_params)
-            respond_with_successful(@descriptor.show(current_user, @query))
-        else
-            respond_with_error(@descriptor.errors.full_messages.to_sentence)
-        end
-    end
-
-    # DELETE /descriptors/1
-    def destroy
-        return respond_with_not_found unless @descriptor
-
-        if @descriptor.destroy
-            respond_with_successful
-        else
-            respond_with_error(@descriptor.errors.full_messages.to_sentence)
-        end
-    end
-
     private
 
     # Use callbacks to share common setup or constraints between actions.
     def set_descriptor
-        @descriptor = current_user.account.descriptors.find(class_name, params[:id])
+        @descriptor = current_user.account.descriptors.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

@@ -26,6 +26,9 @@ import appUsersProfile from "Lesli/vue3/administration/apps/profile/show.vue"
 import appUsersIndex from "Lesli/vue3/administration/apps/users/index.vue"
 import appUsersShow from "Lesli/vue3/administration/apps/users/show.vue"
 
+import appDescriptorsIndex from "Lesli/vue3/administration/apps/descriptors/index.vue"
+import appDescriptorsShow from "Lesli/vue3/administration/apps/descriptors/show.vue"
+
 import appRolesIndex from "Lesli/vue3/administration/apps/roles/index.vue"
 import appRolesShow from "Lesli/vue3/administration/apps/roles/show.vue"
 
@@ -46,6 +49,12 @@ app("Administration", [{
 }, {
     path: "/profile",
     component: appUsersProfile
+}, {
+    path: "/descriptors",
+    component: appDescriptorsIndex
+}, {
+    path: "/descriptors/:id",
+    component: appDescriptorsShow
 }, {
     path: "/roles",
     component: appRolesIndex

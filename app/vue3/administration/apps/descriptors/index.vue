@@ -24,7 +24,7 @@ import { useRouter, useRoute } from 'vue-router'
 
 
 // · import lesli stores
-import { useRole } from "../../stores/role"
+import { useDescriptor } from "../../stores/descriptor"
 
 
 // · initialize/inject plugins
@@ -34,7 +34,7 @@ const url = inject("url")
 
 
 // · 
-const storeRole = useRole()
+const storeDescriptor = useDescriptor()
 
 
 // · 
@@ -46,39 +46,42 @@ const columns = [{
     label: "Name",
     sort: true
 },  {
-    field: "active",
-    label: "Status",
+    field: "code",
+    label: "Code",
     sort: true
 }, {
-    field: "usage_count",
-    label: "Usage",
+    field: "path",
+    label: "Path",
     sort: true
 }, {
     field: "created_at",
     label: "Created at"
 }, {
-    field: "creator_name",
-    label: "Created by"
+    field: "updated_at",
+    label: "Updated at"
 }]
 
 
 // · 
 onMounted(() => {
-    storeRole.fetch()
+    storeDescriptor.fetch()
 })
+
+
+function showDescriptor(d) {
+    router.push(url.admin("descriptors/:id", d.id).s)
+}
 
 </script>
 <template>
     <section class="application-component">
-        <lesli-header title="Roles & privileges"></lesli-header>
+        <lesli-header title="Role Descriptors"></lesli-header>
         <lesli-toolbar></lesli-toolbar>
         <lesli-table
+            @click="showDescriptor"
             :columns="columns"
-            :records="storeRole.records"
-            :pagination="storeRole.pagination">
-            <template #active="{ value }">
-                <span class="tag is-success is-light" v-if="value">active</span>
-            </template>
-        </lesli-table>
+            :records="storeDescriptor.records"
+            :pagination="storeDescriptor.pagination"
+        ></lesli-table>
     </section>
 </template>

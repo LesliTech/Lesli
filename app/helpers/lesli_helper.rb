@@ -78,7 +78,7 @@ module LesliHelper
     def is_lesli_administration?
         [
             "accounts", "account", "roles", "profiles", "users", "abouts", 
-            "settings", "cronos", "role_descriptors"
+            "settings", "cronos", "role_descriptors", "descriptors"
         ].include?(lesli_controller())
     end
 
