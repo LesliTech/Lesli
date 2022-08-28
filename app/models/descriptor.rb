@@ -20,6 +20,24 @@ class Descriptor < ApplicationLesliRecord
     belongs_to :account,  foreign_key: "accounts_id",    class_name: "Account"
     has_many :privileges, foreign_key: "descriptors_id"
     has_many :activities, foreign_key: "descriptors_id"
-
     has_many :describers, foreign_key: "descriptors_id", class_name: "Role::Describer"
+
+    def self.index(current_user, query)
+        current_user.account.descriptors
+        .select(:id, :name, :code, :path, :created_at, :updated_at)
+        .page(query[:pagination][:page])
+        .per(query[:pagination][:perPage])
+        .order(:code)
+    end 
+
+    def show(current_user, query)
+        { 
+            :id => self.id,
+            :name => self.name,
+            :code => self.code,
+            :path => self.path,
+            :privileges => self.privileges.select(:id, :active, :controller, :action, :created_at)
+        }
+    end 
+
 end

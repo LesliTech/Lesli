@@ -172,6 +172,11 @@ module RoutesApp
                     end
                 end
 
+
+                # Descriptors for roles
+                resources :descriptors, only: [:index, :show] do
+                end 
+
                 # roles & privileges management
                 # TODO:
                 #   describe routes, add "only" params to every route
