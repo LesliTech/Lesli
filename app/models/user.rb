@@ -155,10 +155,15 @@ class User < ApplicationLesliRecord
     #
     #     current_user.has_privileges?(controllers, actions)
     def has_privileges2?(controller, action)
-        !self.privileges
-        .where("role_privileges.controller = ?", controller)
-        .where("role_privileges.action = ?", action)
-        .first.blank?
+        begin
+            return !self.privileges
+            .where("role_privileges.controller = ?", controller)
+            .where("role_privileges.action = ?", action)
+            .first.blank?
+        rescue => exception
+            Honeybadger.notify(exception)
+            return false
+        end
     end
 
     def has_privileges?(controllers, actions)

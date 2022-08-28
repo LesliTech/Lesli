@@ -20,7 +20,7 @@ class CreateDescriptors < ActiveRecord::Migration[7.0]
     def change
         create_table :descriptors do |t|
             t.string  :name
-            t.string  :controller
+            t.string  :code
             t.string  :path
             t.datetime  :deleted_at, index: true
             t.timestamps

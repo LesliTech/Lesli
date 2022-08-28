@@ -43,13 +43,16 @@ const columns = [{
     label: "ID"
 }, {
     field: "name",
-    label: "Name"
+    label: "Name",
+    sort: true
 },  {
     field: "active",
-    label: "Status"
+    label: "Status",
+    sort: true
 }, {
     field: "usage_count",
-    label: "Usage"
+    label: "Usage",
+    sort: true
 }, {
     field: "created_at",
     label: "Created at"
@@ -68,6 +71,7 @@ onMounted(() => {
 <template>
     <section class="application-component">
         <lesli-header title="Roles & privileges"></lesli-header>
+        <lesli-toolbar></lesli-toolbar>
         <lesli-table
             :columns="columns"
             :records="storeRole.records"
