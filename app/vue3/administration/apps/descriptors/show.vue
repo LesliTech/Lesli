@@ -24,58 +24,54 @@ import { useRouter, useRoute } from 'vue-router'
 
 
 // · import lesli stores
-import { useRole } from "../../stores/role"
+import { useDescriptor } from "../../stores/descriptor"
 
 
 // · initialize/inject plugins
 const router = useRouter()
+const route = useRoute()
 const msg = inject("msg")
 const url = inject("url")
 
 
 // · 
-const storeRole = useRole()
-
-
-// · 
-const columns = [{
-    field: "id",
-    label: "ID"
-}, {
-    field: "name",
-    label: "Name",
-    sort: true
-},  {
-    field: "active",
-    label: "Status",
-    sort: true
-}, {
-    field: "usage_count",
-    label: "Usage",
-    sort: true
-}, {
-    field: "created_at",
-    label: "Created at"
-}, {
-    field: "creator_name",
-    label: "Created by"
-}]
+const storeDescriptor = useDescriptor()
 
 
 // · 
 onMounted(() => {
-    storeRole.fetch()
+    storeDescriptor.fetchDescriptor(route.params.id)
 })
+
+
+const columns = [{
+    field: 'id',
+    label: 'ID'
+}, {
+    field: 'active',
+    label: 'Active'
+}, {
+    field: 'controller',
+    label: 'Controller'
+}, {
+    field: 'action',
+    label: 'Action'
+}, {
+    field: 'created_at',
+    label: 'Created at'
+}]
 
 </script>
 <template>
     <section class="application-component">
-        <lesli-header title="Roles & privileges"></lesli-header>
-        <lesli-toolbar></lesli-toolbar>
+        <lesli-header :title="storeDescriptor.descriptor.name">
+            <lesli-button icon="format_list_numbered">
+                descriptors
+            </lesli-button>
+        </lesli-header>
         <lesli-table
             :columns="columns"
-            :records="storeRole.records"
-            :pagination="storeRole.pagination">
+            :records="storeDescriptor.descriptor.privileges">
             <template #active="{ value }">
                 <span class="tag is-success is-light" v-if="value">active</span>
             </template>
