@@ -18,8 +18,7 @@ For more information read the license file including with this software.
 
 class RolePrivilegesService
 
-    def initialize(resource=nil)
-        @resource = resource
+    def initialize()
     end
 
     def synchronize_privileges

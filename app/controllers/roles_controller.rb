@@ -20,6 +20,12 @@ For more information read the license file including with this software.
 class RolesController < ApplicationLesliController
     before_action :set_role, only: [:show, :update, :destroy]
 
+    def self.privileges 
+        {
+            index: []
+        }
+    end 
+
     #@return [HTML|JSON] HTML view for listing all roles or a Json that contains a list of all roles
     #    associated to this *account*
     #@description Retrieves and returns all roles associated to a *CloudHouse::Account*. The account

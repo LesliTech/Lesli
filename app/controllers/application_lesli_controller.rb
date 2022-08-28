@@ -180,12 +180,12 @@ class ApplicationLesliController < ApplicationController
 
         # privilege for object not found
         if granted.blank?
-            log_user_comments("privilege_not_found")
+            log_user_comments(request.path, "privilege_not_found")
             return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] })
         end
         
         unless granted
-            log_user_comments("privilege_not_granted")
+            log_user_comments(request.path ,"privilege_not_granted")
             return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] }) 
         end
     end
