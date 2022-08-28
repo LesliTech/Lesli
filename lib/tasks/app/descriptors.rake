@@ -22,6 +22,8 @@ namespace :app do
         desc "Build descriptors and privileges according to the app controllers"
         task build: :environment do
 
+            LC::Debug.msg("Registering new Descriptors")
+
             # get all the controllers path defined in the Rails routes
             controllers = LC::System::Controllers.scan
             controllers.each do |controller|
@@ -53,22 +55,24 @@ namespace :app do
                 # Register descriptors and privileges for all the accounts
                 Account.all.each do |account|
 
-                    # Register the new descriptor if does not exists
-                    descriptor = account.descriptors.find_or_create_by({ 
-                        :name => cn.sub('Controller','').sub('::',''),
-                        :controller => cn,
-                        :path => controller[0]
-                    })
-                    
                     # Work with the list of privileges need by the controller 
                     # to be able to work in a complete view
                     co.privileges.each do |privilege|
+
+                        # Register the new descriptor if it does not exists
+                        descriptor = account.descriptors.create_with({
+                            :name => "#{cn.sub('Controller','').sub('::','')} #{privilege[0].capitalize}",
+                            :path => controller[0]
+                        }).find_or_create_by({ 
+                            :code => "#{cn}##{privilege[0].capitalize}"
+                        })
+
+                        LC::Debug.msgc("New descriptor created: #{descriptor.name}") if descriptor.new_record?
 
                         # Register the current controller into the descriptor privileges
                         descriptor.privileges.create_with({
                             :active => true
                         }).find_or_create_by({
-                            :reference => "#{co.name}##{privilege[0]}", # main object that needs access to the below controllers & actions
                             :controller => cn.sub("::", "/").sub("Controller", "").downcase,
                             :action => privilege[0]
                         })
@@ -78,7 +82,6 @@ namespace :app do
                             descriptor.privileges.create_with({
                                 :active => true
                             }).find_or_create_by({
-                                :reference => "#{co.name}##{privilege[0]}", 
                                 :controller => ca.split("#")[0].sub("::", "/").sub("Controller", "").downcase,
                                 :action => ca.split("#")[1].downcase
                             })
@@ -89,7 +92,8 @@ namespace :app do
 
             end
 
-            # Syncronize the descriptor privileges with the role privilege cache table 
+            # Synchronize the descriptor privileges with the role privilege cache table 
+            LC::Debug.msg("Synchronize privileges")
             RolePrivilegesService.new.synchronize_privileges
 
         end
