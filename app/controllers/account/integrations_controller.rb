@@ -80,7 +80,6 @@ class Account::IntegrationsController < ApplicationLesliController
     # DELETE /account/integrations/1
     def destroy
         return respond_with_not_found unless @account_integration
-
         if @account_integration.destroy
             respond_with_successful
         else
