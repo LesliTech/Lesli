@@ -191,7 +191,7 @@
                             every row of the table (i)
                         -->
                         <td v-if="slots.options" class="options">
-                            <div :class="['dropdown', 'is-right is-hoverable', { 'is-active': dropdownActive[i] }, {'is-up': i==(Object.keys(props.records).length-1) }]">
+                            <div :class="['dropdown', 'is-right is-hoverable', { 'is-active': dropdownActive[i] }]">
                                 <div class="dropdown-trigger">
                                     <button class="button has-text-info" 
                                         @blur="dropdownActive[i] = false"
