@@ -88,7 +88,6 @@ class ApplicationLesliController < ApplicationController
 
         @account[:settings] = {
             datetime: Rails.application.config.lesli.dig(:configuration, :datetime),
-            datetime: Rails.application.config.lesli.dig(:configuration, :datetime2),
             currency: (Rails.application.config.lesli[:configuration][:currency] || {})
                 .merge({ locale: Rails.application.config.lesli[:env][:default_locale] })
         }
