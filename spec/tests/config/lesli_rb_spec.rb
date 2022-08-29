@@ -77,7 +77,6 @@ RSpec.describe "Lesli::settings" do
 
     before(:all) do
         @lesli_settings = Lesli::settings()
-        puts "configuraciones #{@lesli_settings}"
     end
 
     it "expect to return with a hash of lesli settings" do 
