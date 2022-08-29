@@ -217,6 +217,8 @@ module LC
             @settings[:time_format] =  @settings[:formats][:time]
             @settings[:date_format_time] =  @settings[:formats][:date_time]
             @settings[:date_format_full] =  @settings[:formats][:date_time_words]
+            @settings[:time_zone] =  @settings[:time_zone]
+            @settings[:start_week_on] =  @settings[:start_week_on]
             @settings
         end
  
