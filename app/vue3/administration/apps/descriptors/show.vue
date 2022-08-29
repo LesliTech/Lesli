@@ -64,7 +64,7 @@ const columns = [{
 </script>
 <template>
     <section class="application-component">
-        <lesli-header :title="storeDescriptor.descriptor.name">
+        <lesli-header :title="'Descriptor: '+storeDescriptor.descriptor.name">
             <lesli-button icon="format_list_numbered">
                 descriptors
             </lesli-button>

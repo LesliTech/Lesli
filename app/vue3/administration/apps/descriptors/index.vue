@@ -68,6 +68,7 @@ onMounted(() => {
 })
 
 
+// · 
 function showDescriptor(d) {
     router.push(url.admin("descriptors/:id", d.id).s)
 }

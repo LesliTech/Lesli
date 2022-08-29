@@ -111,7 +111,17 @@ class Role < ApplicationLesliRecord
     end
 
     def show
-        self
+        {
+            :id => self.id,
+            :name => self.name,
+            :active => self.active,
+            :default_path => self.default_path,
+            :only_my_data => self.only_my_data,
+            :object_level_permission => self.object_level_permission,
+            :created_at => self.created_at,
+            :updated_at => self.updated_at,
+            :descriptors => self.describers.joins(:descriptor).select(:id, :name, :code, :path)
+        }
     end
 
     # @return [void]

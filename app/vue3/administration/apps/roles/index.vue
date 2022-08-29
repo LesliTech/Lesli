@@ -67,12 +67,19 @@ onMounted(() => {
     storeRole.fetch()
 })
 
+
+// · 
+function showRole(r) {
+    router.push(url.admin("roles/:id", r.id).s)
+}
+
 </script>
 <template>
     <section class="application-component">
         <lesli-header title="Roles & privileges"></lesli-header>
         <lesli-toolbar></lesli-toolbar>
         <lesli-table
+            @click="showRole"
             :columns="columns"
             :records="storeRole.records"
             :pagination="storeRole.pagination">

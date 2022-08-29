@@ -22,7 +22,8 @@ class RolesController < ApplicationLesliController
 
     def self.privileges 
         {
-            index: []
+            index: [],
+            show: []
         }
     end 
 
