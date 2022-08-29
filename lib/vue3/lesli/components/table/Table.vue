@@ -96,7 +96,7 @@ function sort(column) {
     }
 
     if(column.field === currentSort.value) {
-      currentSortDir.value = currentSortDir.value === 'asc' ? 'desc' : 'asc';
+        currentSortDir.value = currentSortDir.value === 'asc' ? 'desc' : 'asc';
     }
 
     currentSort.value = column.field;
@@ -191,7 +191,7 @@ function paginate(page) {
                         every row of the table (i)
                     -->
                     <td v-if="slots.options" class="options">
-                        <div :class="['dropdown', 'is-right is-hoverable', { 'is-active': dropdownActive[i] }]">
+                        <div :class="['dropdown', 'is-right is-hoverable', { 'is-active': dropdownActive[i] }, {'is-up': i==(props.records.length-1) }]">
                             <div class="dropdown-trigger">
                                 <button class="button has-text-info" 
                                     @blur="dropdownActive[i] = false"
@@ -238,3 +238,4 @@ function paginate(page) {
 
     </div>
 </template>
+    
