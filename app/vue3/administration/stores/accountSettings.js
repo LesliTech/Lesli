@@ -64,6 +64,7 @@ export const useAccountSettings = defineStore("account_settings", {
                 url: null
             },
             loading: false,
+            timezone: {label: "probando", value: "probando"}
         }
     },
     actions: {
@@ -114,7 +115,12 @@ export const useAccountSettings = defineStore("account_settings", {
             this.loading = true
             this.http.get(this.url.admin("account/settings")).then(result => {
                 this.parseSettings(result)
-                this.loading = false
+                document.querySelector(':root').style.setProperty('--lesli-theme-color-primary', this.settings.lesli_theme_color_primary)
+                document.querySelector(':root').style.setProperty('--lesli-theme-header-color', this.settings.lesli_theme_header_color)
+                document.querySelector(':root').style.setProperty('--lesli-theme-sidebar-color', this.settings.lesli_theme_sidebar_color)
+                document.querySelector(':root').style.setProperty('--lesli-theme-color-background', this.settings.lesli_theme_color_background)
+                document.querySelector(':root').style.setProperty('--lesli-theme-font-color', this.settings.lesli_theme_font_color)
+                document.querySelector(':root').style.setProperty('--lesli-theme-font-size', this.settings.lesli_theme_font_size)
             }).catch(error => {
                 console.log(error)
                 this.msg.danger(I18n.t("core.shared").messages_danger_internal_error)
@@ -132,6 +138,7 @@ export const useAccountSettings = defineStore("account_settings", {
                     this.old_settings[setting_raw.name] = setting_raw.value
                 }
             })
+            this.loading = false
         },
 
         /**
