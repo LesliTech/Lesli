@@ -33,13 +33,12 @@ module LC
         # Please read the documentation stored in core/docs/leslicommand-date.md for more information
         @settings = {
 
-            date_format: "%d.%m.%Y"
-            date_format_full: "%a, %B %d, %Y"
-            date_format_time: "%d.%m.%Y %H:%M"
-            time_format: "%H:%M"
-            time_zone: "Europe/Berlin"
+            date_format: "%d.%m.%Y",
+            date_format_full: "%a, %B %d, %Y",
+            date_format_time: "%d.%m.%Y %H:%M",
+            time_format: "%H:%M",
+            time_zone: "Europe/Berlin",
             start_week_on: "monday"
-
         }
         @settings_loaded = false
 
