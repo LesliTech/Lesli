@@ -77,6 +77,7 @@ RSpec.describe "Lesli::settings" do
 
     before(:all) do
         @lesli_settings = Lesli::settings()
+        puts "configuraciones #{@lesli_settings}"
     end
 
     it "expect to return with a hash of lesli settings" do 
@@ -153,9 +154,6 @@ RSpec.describe "Lesli::settings" do
         expect(@lesli_settings["configuration"]).to have_key("datetime")
         expect(@lesli_settings["configuration"]["datetime"]).to be_a(Hash)
 
-        expect(@lesli_settings["configuration"]).to have_key("datetime2")
-        expect(@lesli_settings["configuration"]["datetime2"]).to be_a(Hash)
-
         expect(@lesli_settings["configuration"]).to have_key("notifications")
         expect(@lesli_settings["configuration"]["notifications"]).to be_a(Hash)
         expect(@lesli_settings["configuration"]["notifications"]).to have_key("sms")
@@ -163,22 +161,6 @@ RSpec.describe "Lesli::settings" do
     end
 
     it "expect to return with lesli configuration settings datetime" do
-        expect(@lesli_settings["configuration"]["datetime"]).to have_key("date_format")
-        expect(@lesli_settings["configuration"]["datetime"]["date_format"]).to eql("%d.%m.%Y") 
-        expect(@lesli_settings["configuration"]["datetime"]["date_format"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime"]).to have_key("date_format_full")
-        expect(@lesli_settings["configuration"]["datetime"]["date_format_full"]).to eql("%a, %B %d, %Y")
-        expect(@lesli_settings["configuration"]["datetime"]["date_format_full"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime"]).to have_key("date_format_time")
-        expect(@lesli_settings["configuration"]["datetime"]["date_format_time"]).to eql("%d.%m.%Y %H:%M")
-        expect(@lesli_settings["configuration"]["datetime"]["date_format_time"]).to be_a(String)
-        
-        expect(@lesli_settings["configuration"]["datetime"]).to have_key("time_format")
-        expect(@lesli_settings["configuration"]["datetime"]["time_format"]).to eql("%H:%M")
-        expect(@lesli_settings["configuration"]["datetime"]["time_format"]).to be_a(String)
-
         expect(@lesli_settings["configuration"]["datetime"]).to have_key("time_zone")
         expect(@lesli_settings["configuration"]["datetime"]["time_zone"]).to eql("Europe/Berlin")
         expect(@lesli_settings["configuration"]["datetime"]["time_zone"]).to be_a(String)
@@ -186,39 +168,29 @@ RSpec.describe "Lesli::settings" do
         expect(@lesli_settings["configuration"]["datetime"]).to have_key("start_week_on")
         expect(@lesli_settings["configuration"]["datetime"]["start_week_on"]).to eql("monday")
         expect(@lesli_settings["configuration"]["datetime"]["start_week_on"]).to be_a(String)
-    end
 
-    it "expect to return with lesli configuration settings datetime2" do
-        expect(@lesli_settings["configuration"]["datetime2"]).to have_key("time_zone")
-        expect(@lesli_settings["configuration"]["datetime2"]["time_zone"]).to eql("America/Guatemala")
-        expect(@lesli_settings["configuration"]["datetime2"]["time_zone"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime2"]).to have_key("start_week_on")
-        expect(@lesli_settings["configuration"]["datetime2"]["start_week_on"]).to eql("sunday")
-        expect(@lesli_settings["configuration"]["datetime2"]["start_week_on"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime2"]).to have_key("formats")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to be_a(Hash)
+        expect(@lesli_settings["configuration"]["datetime"]).to have_key("formats")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]).to be_a(Hash)
         
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("date")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date"]).to eql("%d.%m.%Y")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date"]).to be_a(String)
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date"]).to eql("%d.%m.%Y")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date"]).to be_a(String)
 
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("time")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["time"]).to eql("%H:%M")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["time"]).to be_a(String)
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("time")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["time"]).to eql("%H:%M")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["time"]).to be_a(String)
 
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("date_time")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date_time"]).to eql("%d.%m.%Y %H:%M")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date_time"]).to be_a(String)
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date_time")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time"]).to eql("%d.%m.%Y %H:%M")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time"]).to be_a(String)
 
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("date_words")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date_words"]).to eql("%A, %B %d, %Y")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date_words"]).to be_a(String)
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date_words")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_words"]).to eql("%A, %B %d, %Y")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_words"]).to be_a(String)
 
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("date_time_words")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date_time_words"]).to eql("%A, %B %d, %Y, %H:%M")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date_time_words"]).to be_a(String)
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date_time_words")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time_words"]).to eql("%A, %B %d, %Y, %H:%M")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time_words"]).to be_a(String)
     end
 
     it "expect to return with lesli security settings" do
