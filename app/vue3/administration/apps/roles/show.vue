@@ -39,14 +39,44 @@ const storeRole = useRole()
 
 
 // · 
+const tab = ref(0)
+
+
+// · 
 onMounted(() => {
     storeRole.fetchRole(route.params.id)
 })
 
+
+// · 
+const columnDescriptors = [{
+    field: 'id',
+    label: 'ID'
+},{
+    field: 'name',
+    label: 'Name'
+},{
+    field: 'code',
+    label: 'Code'
+},{
+    field: 'path',
+    label: 'Path'
+}]
+
 </script>
 <template>
     <section class="application-component">
-        <lesli-header title="Roles"></lesli-header>
+        <lesli-header :title="'Role: '+storeRole.role.name"></lesli-header>
+        <lesli-tabs v-model="tab">
+            <lesli-tab-item title="Descriptors">
+                <lesli-table 
+                    :columns="columnDescriptors"
+                    :records="storeRole.role.descriptors">
+                </lesli-table>
+            </lesli-tab-item>
+            <lesli-tab-item title="Privileges">
+            </lesli-tab-item>
+        </lesli-tabs>
         {{ storeRole.role }}
     </section>
 </template>

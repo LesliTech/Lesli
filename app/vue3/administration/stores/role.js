@@ -27,7 +27,8 @@ export const useRole = defineStore("administration.role", {
             records: [],
             pagination: {},
             role: {
-                name: ""
+                name: "",
+                descriptors: []
             }
         }
     },
