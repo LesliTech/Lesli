@@ -64,7 +64,9 @@ export const useAccountSettings = defineStore("account_settings", {
                 url: null
             },
             loading: false,
-            timezone: {label: "probando", value: "probando"}
+            timezone_select: {},
+            password_complex: {}
+
         }
     },
     actions: {
@@ -138,6 +140,8 @@ export const useAccountSettings = defineStore("account_settings", {
                     this.old_settings[setting_raw.name] = setting_raw.value
                 }
             })
+            this.password_complex = {label:this.settings.password_enforce_complexity ='0' ? 'Disabled' : 'Enabled', value:this.settings.password_enforce_complexity}
+            this.timezone_select = {label: this.settings.datetime_time_zone, value: this.settings.datetime_time_zone}
             this.loading = false
         },
 
