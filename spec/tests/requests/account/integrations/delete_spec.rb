@@ -46,41 +46,48 @@ RSpec.describe "DELETE:/administration/account/integrations/:id.json", type: :re
 
         it 'is expected to respond succesful' do
             id =  @current_user.account.integrations.last.id
-            account_integration   
+
+            #create new random integration
+            account_integration 
             created_id = @current_user.account.integrations.last.id
-            delete("/administration/account/integrations/#{id}.json")
+            delete("/administration/account/integrations/#{created_id}.json")
 
             #share examples
             expect_response_with_successful
 
             #validate the integration was deleted
-            expect(id).to eq(created_id - 1)
+            expect(id).to eq(@current_user.account.integrations.last.id)
             
         end
 
         it 'is expected to respond not found' do
+
+            #create new random integration
             account_integration 
             id = @current_user.account.integrations.last.id  
-            delete("/administration/account/integrations/#{@current_user.account.integrations.last.id + 1}.json")
+            delete("/administration/account/integrations/#{id + 1}.json")
             
             #share examples
             expect_response_with_not_found
 
-            #error last integration was not deleted
+            #should not delete any integration 
             expect(id).to eq(@current_user.account.integrations.last.id)
         end
 
         it 'is expected to respond with successful when id is string' do
             id =  @current_user.account.integrations.last.id
+            
+            #create new random integration
             account_integration   
+
             created_id = @current_user.account.integrations.last.id
-            delete("/administration/account/integrations/#{(@current_user.account.integrations.last.id).to_s}.json")
+            delete("/administration/account/integrations/#{(created_id).to_s}.json")
 
             #share examples
             expect_response_with_successful
 
             #validate the integration was deleted
-            expect(id).to eq(created_id - 1)
+            expect(id).to eq(@current_user.account.integrations.last.id)
         end
     end
 end
