@@ -21,6 +21,16 @@ For more information read the license file including with this software.
 class Account::IntegrationsController < ApplicationLesliController
     before_action :set_account_integration, only: [:edit, :update, :destroy]
 
+
+    def privileges 
+        {
+            show: [
+                "UsersController#index",
+                "Account::FilesController#index"
+            ],
+        }
+    end
+
     # GET /account/integrations
     def index
         respond_to do |format|

@@ -33,6 +33,15 @@
 00.41. user_webpushes
 00.41. user_requests_ext
 
+
+[
+00.39. user_shortcuts
+00.40. user_privileges_actions
+00.41. user_auth_provider
+00.42. user_webpushes
+00.43. user_requests_ext
+]
+
 00.50. role_descriptors 
 00.51. role_descriptor_privilege_actions
 00.52. role_descriptor_activities
@@ -54,4 +63,5 @@
 00.76. descriptor_privileges
 00.77. descriptor_activities
 00.78. role_describers
+00.79. user_describers
 ```

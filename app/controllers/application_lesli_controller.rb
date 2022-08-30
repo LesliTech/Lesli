@@ -154,14 +154,17 @@ class ApplicationLesliController < ApplicationController
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
     def authorize_privileges
 
+
+        seguridad4 = true
+
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
-        granted = current_user.has_privileges2?(params[:controller], params[:action], params[:format])
+        granted = current_user.has_privileges2?(params[:controller], params[:action], params[:format]) if seguridad4
 
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
         # Due this method is executed on every request, we use low level cache to improve performance
-        # granted = current_user.has_privileges?([params[:controller]], [params[:action]])
+        granted = current_user.has_privileges?([params[:controller]], [params[:action]]) if !seguridad4
 
         # Check if user can be redirected to role default path
         can_redirect_to_default_path = -> () {
