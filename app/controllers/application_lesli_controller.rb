@@ -156,7 +156,7 @@ class ApplicationLesliController < ApplicationController
 
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
-        granted = current_user.has_privileges2?(params[:controller], params[:action])
+        granted = current_user.has_privileges2?(params[:controller], params[:action], params[:format])
 
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user

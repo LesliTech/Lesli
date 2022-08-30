@@ -28,6 +28,7 @@
 00.37. user_logs
 00.38. user_access_codes
 00.39. user_shortcuts
+00.40. user_privileges_actions
 00.40. user_auth_provider
 00.41. user_webpushes
 00.41. user_requests_ext

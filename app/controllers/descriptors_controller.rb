@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 class DescriptorsController < ApplicationLesliController
     before_action :set_descriptor, only: [:show]
 
-    def self.privileges 
+    def privileges 
         {
             index: [],
             show: []
