@@ -71,55 +71,34 @@ RSpec.describe "lesli_settings.yml" do
     end
 
     it "expect to have a section for configuration datetime settings" do
+
         expect(@lesli_settings["configuration"]).to have_key("datetime")
         expect(@lesli_settings["configuration"]["datetime"]).to be_a(Hash)
 
-        expect(@lesli_settings["configuration"]["datetime"]).to have_key("date_format")
-        expect(@lesli_settings["configuration"]["datetime"]["date_format"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime"]).to have_key("date_format_full")
-        expect(@lesli_settings["configuration"]["datetime"]["date_format_full"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime"]).to have_key("date_format_time")
-        expect(@lesli_settings["configuration"]["datetime"]["date_format_time"]).to be_a(String)
+        expect(@lesli_settings["configuration"]["datetime"]).to have_key("time_zone")
+        expect(@lesli_settings["configuration"]["datetime"]["time_zone"]).to be_a(String)
 
         expect(@lesli_settings["configuration"]["datetime"]).to have_key("start_week_on")
         expect(@lesli_settings["configuration"]["datetime"]["start_week_on"]).to be_a(String)
 
-        expect(@lesli_settings["configuration"]["datetime"]).to have_key("time_format")
-        expect(@lesli_settings["configuration"]["datetime"]["time_format"]).to be_a(String)
+        expect(@lesli_settings["configuration"]["datetime"]).to have_key("formats")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]).to be_a(Hash)
 
-        expect(@lesli_settings["configuration"]["datetime"]).to have_key("time_zone")
-        expect(@lesli_settings["configuration"]["datetime"]["time_zone"]).to be_a(String)
-    end
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date"]).to be_a(String)
 
-    it "expect to have a section for configuration datetime2 settings" do
-        expect(@lesli_settings["configuration"]).to have_key("datetime2")
-        expect(@lesli_settings["configuration"]["datetime2"]).to be_a(Hash)
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("time")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["time"]).to be_a(String)
 
-        expect(@lesli_settings["configuration"]["datetime2"]).to have_key("time_zone")
-        expect(@lesli_settings["configuration"]["datetime"]["time_zone"]).to be_a(String)
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date_time")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time"]).to be_a(String)
 
-        expect(@lesli_settings["configuration"]["datetime2"]).to have_key("start_week_on")
-        expect(@lesli_settings["configuration"]["datetime"]["start_week_on"]).to be_a(String)
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date_words")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_words"]).to be_a(String)
 
-        expect(@lesli_settings["configuration"]["datetime2"]).to have_key("formats")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to be_a(Hash)
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date_time_words")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time_words"]).to be_a(String)
 
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("date")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("time")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["time"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("date_time")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date_time"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("date_words")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date_words"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to have_key("date_time_words")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]["date_time_words"]).to be_a(String)
     end
 
     it "expect to have a section for notifications settings" do
