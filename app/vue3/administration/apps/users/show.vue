@@ -31,6 +31,7 @@ import cardInformation from "./components/card-information.vue"
 import formInformation from "./components/form-information.vue"
 import managementSession from "./components/management-sessions.vue"
 import formSecurity from "./components/form-security.vue"
+import formRoles from "./components/form-roles-privileges.vue"
 import integrationsInformation from "./components/integrations-information.vue"
 
 
@@ -63,6 +64,9 @@ const tab = ref(0)
         <lesli-tabs v-model="tab" v-if="this.storeUser.user.id">
             <lesli-tab-item title="Information">
                 <formInformation></formInformation>
+            </lesli-tab-item>
+            <lesli-tab-item title="Roles and privileges">
+                <formRoles></formRoles>
             </lesli-tab-item>
             <lesli-tab-item title="Suscripciones"></lesli-tab-item>
             <lesli-tab-item title="Security">
