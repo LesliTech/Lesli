@@ -27,16 +27,12 @@ RSpec.describe "DELETE:/administration/account/integrations/:id.json", type: :re
             account_integration = @current_user.account.integrations.new(name: Faker::Superhero.power)
             account_integration.user_main = @current_user
             if account_integration.save
-                # register a new integration-user
                 email = Faker::Internet.email
-
                 user = @current_user.account.users.find_or_create_by(id: @current_user.id) do |user|
                     user.category = "integration"
                     user.active = true
                     user.confirm
-
                     user.user_roles.create({ role: ::Role.find_by(:name => "api") })
-
                     user.detail.first_name = account_integration_params[:name]
                     user.save!
                 end

@@ -32,6 +32,7 @@ RSpec.describe "GET:/administration/account/integrations", type: :request, :unle
 
     include_context "request user authentication"
 
+    #create multiples integrations
     it "is expected to respond with integrations" do 
 
         [
@@ -40,9 +41,21 @@ RSpec.describe "GET:/administration/account/integrations", type: :request, :unle
             { :name => Faker::Superhero.power },
             { :name => Faker::Superhero.power },
         ].each do |integration|
-            post("/administration/account/integrations.json", :params => {
-                :account_integration => integration
-            })
+            account_integration = @current_user.account.integrations.new(integration)
+            account_integration.user_main = @current_user
+            if account_integration.save
+                email = Faker::Internet.email
+                user = @current_user.account.users.find_or_create_by(id: @current_user.id) do |user|
+                    user.category = "integration"
+                    user.active = true
+                    user.confirm
+
+                    user.user_roles.create({ role: ::Role.find_by(:name => "api") })
+
+                    user.detail.first_name = account_integration_params[:name]
+                    user.save!
+                end
+            end
         end
 
         get("/administration/account/integrations.json")
