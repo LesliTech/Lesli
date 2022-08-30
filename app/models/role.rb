@@ -120,7 +120,7 @@ class Role < ApplicationLesliRecord
             :object_level_permission => self.object_level_permission,
             :created_at => self.created_at,
             :updated_at => self.updated_at,
-            :descriptors => self.describers.joins(:descriptor).select(:id, :name, :code, :path)
+            :descriptors => self.describers.joins(:descriptor).select(:id, :name, :code, :path, :descriptors_id)
         }
     end
 

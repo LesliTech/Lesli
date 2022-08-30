@@ -21,9 +21,15 @@ class DescriptorsController < ApplicationLesliController
 
     def privileges 
         {
+            list: [],
             index: [],
             show: []
         }
+    end
+
+    # GET /descriptors/list.json
+    def list
+        respond_with_successful(Descriptor.list(current_user, @query))
     end
 
     # GET /descriptors

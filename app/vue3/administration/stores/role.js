@@ -46,7 +46,6 @@ export const useRole = defineStore("administration.role", {
 
         fetchRole(id) {
             this.http.get(this.url.admin("roles/:id", id)).then(result => {
-                console.log(result)
                 this.role = result
             })
         }

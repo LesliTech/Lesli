@@ -171,6 +171,9 @@ module RoutesApp
 
                 # Descriptors for roles
                 resources :descriptors, only: [:index, :show] do
+                    collection do 
+                        get :list
+                    end
                 end 
 
                 # roles & privileges management
