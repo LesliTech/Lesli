@@ -42,15 +42,8 @@ configuration:
         en: "English"
         es: "Spanish"
     datetime: 
-        date_format: "%d.%m.%Y"
-        date_format_full: "%a, %B %d, %Y"
-        date_format_time: "%d.%m.%Y %H:%M"
-        time_format: "%H:%M"
-        time_zone: "Europe/Berlin"
+        time_zone: "Europe/Berlin" 
         start_week_on: "monday"
-    datetime2:
-        time_zone: "America/Guatemala" 
-        start_week_on: "sunday"
         formats:
             date: "%d.%m.%Y"
             time: "%H:%M"
