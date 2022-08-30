@@ -59,9 +59,9 @@ RSpec.describe "GET:/administration/account/integrations", type: :request, :unle
         end
 
         get("/administration/account/integrations.json")
-
+        puts  "integraciones #{@current_user.account.integrations}"
         expect_response_with_pagination
-
+        puts"response #{response_body}"
         expect(response_body).to be_an(Object)
         expect(response_body).to have_key("pagination")
         expect(response_body).to have_key("records")

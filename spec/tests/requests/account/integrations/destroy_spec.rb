@@ -41,7 +41,10 @@ RSpec.describe "DELETE:/administration/account/integrations/:id.json", type: :re
         end
 
         it 'is expected to respond succesful' do
+            #be sure there is at least one integration 
+            account_integration 
             id =  @current_user.account.integrations.last.id
+            puts "integracion base creada #{@current_user.account.integrations.to_json}"
 
             #create new random integration
             account_integration 
@@ -71,14 +74,17 @@ RSpec.describe "DELETE:/administration/account/integrations/:id.json", type: :re
         end
 
         it 'is expected to respond with successful when id is string' do
+            #be sure there is at least one integration 
+            account_integration 
             id =  @current_user.account.integrations.last.id
-            
+            puts "integracion base creada #{@current_user.account.integrations.to_json}"
             #create new random integration
             account_integration   
+            puts "integracion a borrar creada #{@current_user.account.integrations.to_json}"
 
             created_id = @current_user.account.integrations.last.id
             delete("/administration/account/integrations/#{(created_id).to_s}.json")
-
+            puts "integracion despues de borrar #{@current_user.account.integrations.to_json}"
             #share examples
             expect_response_with_successful
 
