@@ -24,8 +24,42 @@ require "lesli_request_helper"
 RSpec.describe "PUT:/administration/account/settings/:id.json", type: :request do
     include_context "request user authentication"
 
+    def create_settings (settings)
+        settings.each do |key, value|
+            setting = @current_user.account.settings.find_by(name: key)
+            if setting.present?
+                setting.update_attribute(:value, value)
+            else
+                @current_user.account.settings.create!(name: key, value: value)
+            end
+        end
+    end
+
     # test cases
     it "is expected to update a datetime time zone setting record" do
+
+        new_settings = create_settings({
+            datetime_format_date: "%d/%m/%Y",
+            datetime_format_time: "%H:%M:%S",
+            datetime_format_date_words: "%B %d, %Y",
+            datetime_format_date_time: "%d/%m/%Y %H:%M:%S",
+            datetime_format_date_time_words: "%B %d, %Y %H:%M:%S",
+            datetime_time_zone: Faker::Address.time_zone,
+            password_enforce_complexity: Faker::Number.between(from: 0, to: 1),
+            password_minimum_length: Faker::Number.between(from: 1, to: 20),
+            password_expiration_time_days: Faker::Number.between(from: 1, to: 365),
+            password_special_char_count: Faker::Number.between(from: 1, to: 10),
+            password_uppercase_count: Faker::Number.between(from: 1, to: 10),
+            password_lowercase_count: Faker::Number.between(from: 1, to: 10),
+            password_digit_count: Faker::Number.between(from: 1, to: 10),
+            lesli_theme_color_primary: Faker::Color.hex_color(),
+            lesli_theme_color_secondary: Faker::Color.hex_color(),
+            lesli_theme_header_color: Faker::Color.hex_color(),
+            lesli_theme_sidebar_color: Faker::Color.hex_color(),
+            lesli_theme_color_background: Faker::Color.hex_color(),
+            lesli_theme_font_color: Faker::Color.hex_color(),
+            lesli_theme_font_size: Faker::Number.between(from: 1, to: 20)
+        })
 
         actual_settings = @current_user.account.settings
 
@@ -46,10 +80,34 @@ RSpec.describe "PUT:/administration/account/settings/:id.json", type: :request d
 
         # shared examples
         expect_response_with_successful
+        
 
     end
 
     it "is expected to update the primary theme color in settings records" do
+
+        new_settings = create_settings({
+            datetime_format_date: "%d/%m/%Y",
+            datetime_format_time: "%H:%M:%S",
+            datetime_format_date_words: "%B %d, %Y",
+            datetime_format_date_time: "%d/%m/%Y %H:%M:%S",
+            datetime_format_date_time_words: "%B %d, %Y %H:%M:%S",
+            datetime_time_zone: Faker::Address.time_zone,
+            password_enforce_complexity: Faker::Number.between(from: 0, to: 1),
+            password_minimum_length: Faker::Number.between(from: 1, to: 20),
+            password_expiration_time_days: Faker::Number.between(from: 1, to: 365),
+            password_special_char_count: Faker::Number.between(from: 1, to: 10),
+            password_uppercase_count: Faker::Number.between(from: 1, to: 10),
+            password_lowercase_count: Faker::Number.between(from: 1, to: 10),
+            password_digit_count: Faker::Number.between(from: 1, to: 10),
+            lesli_theme_color_primary: Faker::Color.hex_color(),
+            lesli_theme_color_secondary: Faker::Color.hex_color(),
+            lesli_theme_header_color: Faker::Color.hex_color(),
+            lesli_theme_sidebar_color: Faker::Color.hex_color(),
+            lesli_theme_color_background: Faker::Color.hex_color(),
+            lesli_theme_font_color: Faker::Color.hex_color(),
+            lesli_theme_font_size: Faker::Number.between(from: 1, to: 20)
+        })
 
         actual_settings = @current_user.account.settings
 
