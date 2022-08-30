@@ -154,12 +154,22 @@ class User < ApplicationLesliRecord
     #     actions = ["index", "update"]
     #
     #     current_user.has_privileges?(controllers, actions)
-    def has_privileges2?(controller, action)
+    def has_privileges2?(controller, action, form='html')
+
+        # set html by default, even if nil is sent as parameter for "form"
+        form ||= 'html'
+
         begin
-            return !self.privileges
+            
+            privileges = self.privileges
             .where("role_privileges.controller = ?", controller)
             .where("role_privileges.action = ?", action)
-            .first.blank?
+    
+            privileges = privileges.where("role_privileges.form = 'html'") if form == 'html'
+            privileges = privileges.where("role_privileges.form IS NULL") if form != 'html'
+
+            return !privileges.first.blank?
+
         rescue => exception
             Honeybadger.notify(exception)
             return false

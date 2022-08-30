@@ -40,7 +40,7 @@ namespace :app do
                 .join('').concat("Controller")  # finally join the parts of the class name and concat Controller
 
                 # Create a new instance of the controller class
-                co = Object.const_get(cn)
+                co = Object.const_get(cn).new
 
                 # Check if the controller has privileges defined, this must be a public class method 
                 # defined in the controller. 
@@ -61,7 +61,7 @@ namespace :app do
 
                         # Register the new descriptor if it does not exists
                         descriptor = account.descriptors.create_with({
-                            :name => "#{cn.sub('Controller','').sub('::','')} #{privilege[0].capitalize}",
+                            :name => "#{cn.sub('Controller','').sub('::',' ')} #{privilege[0].capitalize}",
                             :path => controller[0]
                         }).find_or_create_by({ 
                             :code => "#{cn}##{privilege[0].capitalize}"
@@ -69,23 +69,29 @@ namespace :app do
 
                         LC::Debug.msgc("New descriptor created: #{descriptor.name}") if descriptor.new_record?
 
-                        # Register the current controller into the descriptor privileges
-                        descriptor.privileges.create_with({
-                            :active => true
-                        }).find_or_create_by({
-                            :controller => cn.sub("::", "/").sub("Controller", "").downcase,
-                            :action => privilege[0]
+                        # Register the current controller into the descriptor privileges, so the role grants
+                        # permissions to render the requested page as html and as json
+                        descriptor.privileges.find_or_create_by({
+                            :controller => cn.sub("::", "/").sub("Controller", "").underscore,
+                            :action => privilege[0],
+                            :form => "html"
                         })
 
-                        # Register the privileges needed by the object 
+                        descriptor.privileges.find_or_create_by({
+                            :controller => cn.sub("::", "/").sub("Controller", "").underscore,
+                            :action => privilege[0],
+                            :form => "json"
+                        })
+
+                        # Register the privileges needed by the object and related to the controller
                         privilege[1].each do |ca|
-                            descriptor.privileges.create_with({
-                                :active => true
-                            }).find_or_create_by({
-                                :controller => ca.split("#")[0].sub("::", "/").sub("Controller", "").downcase,
-                                :action => ca.split("#")[1].downcase
+                            descriptor.privileges.find_or_create_by({
+                                :controller => ca.split("#")[0].sub("::", "/").sub("Controller", "").underscore,
+                                :action => ca.split("#")[1].downcase,
+                                :form => nil
                             })
                         end 
+
                     end
 
                 end

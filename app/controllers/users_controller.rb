@@ -22,10 +22,10 @@ For more information read the license file including with this software.
 class UsersController < ApplicationLesliController
     before_action :set_user, only: [:show, :update, :destroy]
 
-    def self.privileges
+    def privileges
         {
             list: ["UsersController#list", "InvitesController#show"],
-            show: [],
+            show: ["LesliCloud::DashboardsController#show"],
             edit: [],
             index: [],
             create: [],

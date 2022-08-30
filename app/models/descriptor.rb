@@ -36,7 +36,7 @@ class Descriptor < ApplicationLesliRecord
             :name => self.name,
             :code => self.code,
             :path => self.path,
-            :privileges => self.privileges.select(:id, :active, :controller, :action, :created_at)
+            :privileges => self.privileges.select(:id, :controller, :action, :created_at)
         }
     end 
 
