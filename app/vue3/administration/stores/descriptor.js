@@ -24,6 +24,7 @@ import { defineStore } from "pinia"
 export const useDescriptor = defineStore("administration.descriptor", {
     state: () => {
         return {
+            list: [],
             records: [],
             pagination: {},
             descriptor: {}
@@ -48,6 +49,15 @@ export const useDescriptor = defineStore("administration.descriptor", {
                 this.descriptor.privileges = this.descriptor.privileges.map(privilege => {
                     privilege.created_at = this.date.dateTime(privilege.created_at)
                     return privilege
+                })
+            })
+        },
+
+        fetchDescriptorList() {
+            this.http.get(this.url.admin("descriptors/list")).then(result => {
+                this.list = result.map(descriptor => {
+                    descriptor.active = false
+                    return descriptor
                 })
             })
         }
