@@ -1,5 +1,4 @@
 =begin
-
 Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,16 +13,14 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-=end
 
-class CreateRoleDescribers < ActiveRecord::Migration[7.0]
-    def change
-        create_table :role_describers do |t|
-            t.timestamps
-            t.datetime :deleted_at, index: true
-        end
-        add_reference :role_describers, :roles, foreign_key: true
-        add_reference :role_describers, :descriptors, foreign_key: true
-        add_reference :role_describers, :user, foreign_key: true
+=end
+class User::Describer < ApplicationRecord
+    def self.index(current_user, query)
+        []
+    end
+
+    def show(current_user, query)
+        self
     end
 end

@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 class RolesController < ApplicationLesliController
     before_action :set_role, only: [:show, :update, :destroy]
 
-    def self.privileges 
+    def privileges 
         {
             index: [],
             show: []
