@@ -82,6 +82,21 @@ onMounted(() => {
                 ? onUpdate()
                 : onCreate()
     ">
+        <div class="field is-horizontal">
+            <div class="field-label">
+                <label class="label"> {{ translations.shared.view_text_salutation}} </label>
+            </div>
+            <div class="field-body">
+                <div class="field is-narrow">
+                    <div class="control">
+                        <label :for="salutation.value" class="radio" v-for="salutation in storeUser.options.salutations" :key="salutation">
+                            <input type="radio" :id="salutation.value" :value="salutation.value" v-model="storeUser.user.detail_attributes.salutation" />
+                            {{salutation.text}}
+                        </label>  
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="field is-horizontal">
             <div class="field-label is-normal">
@@ -161,7 +176,22 @@ onMounted(() => {
             </div>
         </div>
 
-        <div class="field is-horizontal">
+        <div class="field is-horizontal" v-if="isEditable">
+            <div class="field-label is-normal">
+                <label class="label"> {{ translations.users.view_text_role }} </label>
+            </div>
+            <div class="field-body">
+                <div class="field is-narrow">
+                    <div class="control">
+                        <div>
+                            <span class="tag is-success" v-for="role in storeUser.user.roles" :key="role">{{role.name}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="field is-horizontal" v-else>
             <div class="field-label is-normal">
                 <label class="label"> {{ translations.users.view_text_role }} </label>
             </div>
@@ -181,23 +211,9 @@ onMounted(() => {
             </div>
         </div>
 
-        <div class="field is-horizontal">
-            <div class="field-label">
-                <label class="label"> {{ translations.shared.view_text_salutation}} </label>
-            </div>
-            <div class="field-body">
-                <div class="field is-narrow">
-                    <div class="control">
-                        <label :for="salutation.value" class="radio" v-for="salutation in storeUser.options.salutations" :key="salutation">
-                            <input type="radio" :id="salutation.value" :value="salutation.value" v-model="storeUser.user.detail_attributes.salutation" />
-                            {{salutation.text}}
-                        </label>  
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="field is-grouped is-grouped-centered">
+
+        <div class="field is-grouped">
             <div class="control">
                 <lesli-button icon="save">
                     {{ translations.shared.view_btn_save }}
