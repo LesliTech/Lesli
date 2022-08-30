@@ -95,10 +95,10 @@ function showUser(user) {
 <template>
     <section class="application-component">
         <lesli-header :title="translations.core.users.view_text_title_users">
-            <lesli-button mdi="add" :to="url.admin('users/new')" :label="translations.core.users.view_text_add_user"></lesli-button>
+            <lesli-button icon="add" :to="url.admin('users/new')" :label="translations.core.users.view_text_add_user"></lesli-button>
             <lesli-button 
                 outlined
-                mdi="refresh"  
+                icon="refresh"  
                 :loading="storeUsers.loading"
                 @click="storeUsers.fetchIndex"
                 :label="translations.core.shared.view_text_btn_reload">
