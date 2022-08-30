@@ -67,6 +67,11 @@ namespace :app do
                             :code => "#{cn}##{privilege[0].capitalize}"
                         })
 
+                        # We must assign all the descriptors to the owner role
+                        account.roles.find_by(name: 'owner').describers.find_or_create_by({
+                            descriptor: descriptor
+                        })
+
                         LC::Debug.msgc("New descriptor created: #{descriptor.name}") if descriptor.new_record?
 
                         # Register the current controller into the descriptor privileges, so the role grants
@@ -88,7 +93,7 @@ namespace :app do
                             descriptor.privileges.find_or_create_by({
                                 :controller => ca.split("#")[0].sub("::", "/").sub("Controller", "").underscore,
                                 :action => ca.split("#")[1].downcase,
-                                :form => nil
+                                :form => "json"
                             })
                         end 
 

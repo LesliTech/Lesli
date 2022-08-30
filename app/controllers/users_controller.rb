@@ -24,12 +24,7 @@ class UsersController < ApplicationLesliController
 
     def privileges
         {
-            list: ["UsersController#list", "InvitesController#show"],
-            show: ["LesliCloud::DashboardsController#show"],
-            edit: [],
-            index: [],
-            create: [],
-            destroy: []
+            index: []
         }
     end 
 

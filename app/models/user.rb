@@ -164,9 +164,10 @@ class User < ApplicationLesliRecord
             privileges = self.privileges
             .where("role_privileges.controller = ?", controller)
             .where("role_privileges.action = ?", action)
+            .where("role_privileges.form = ?", form)
     
-            privileges = privileges.where("role_privileges.form = 'html'") if form == 'html'
-            privileges = privileges.where("role_privileges.form IS NULL") if form != 'html'
+            #privileges = privileges.where("role_privileges.form = 'html'") if form == 'html'
+            #privileges = privileges.where("role_privileges.form IS NULL") if form != 'html'
 
             return !privileges.first.blank?
 
