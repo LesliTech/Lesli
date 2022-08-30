@@ -25,6 +25,7 @@ import { useRouter, useRoute } from 'vue-router'
 
 // · import lesli stores
 import { useRole } from "../../stores/role"
+import { useDescriptor } from "../../stores/descriptor"
 
 
 // · initialize/inject plugins
@@ -36,6 +37,7 @@ const url = inject("url")
 
 // · 
 const storeRole = useRole()
+const storeDescriptor = useDescriptor()
 
 
 // · 
@@ -45,6 +47,9 @@ const tab = ref(0)
 // · 
 onMounted(() => {
     storeRole.fetchRole(route.params.id)
+    storeDescriptor.fetchDescriptorList()
+    setTimeout(() => matchRolesDescriptors(), 1000)
+    
 })
 
 
@@ -61,7 +66,19 @@ const columnDescriptors = [{
 },{
     field: 'path',
     label: 'Path'
+},{
+    field: 'active',
+    label: 'Active'
 }]
+
+function matchRolesDescriptors() {
+    storeRole.role.descriptors.forEach(describer => {
+        let descriptor = storeDescriptor.list.find(descriptor => descriptor.id == describer.descriptors_id)
+        if (descriptor) {
+            descriptor.active = true
+        }
+    })
+}
 
 </script>
 <template>
@@ -71,12 +88,14 @@ const columnDescriptors = [{
             <lesli-tab-item title="Descriptors">
                 <lesli-table 
                     :columns="columnDescriptors"
-                    :records="storeRole.role.descriptors">
+                    :records="storeDescriptor.list">
+                    <template #active="{ record }">
+                        <lesli-toggle v-model="record.active" />
+                    </template>
                 </lesli-table>
             </lesli-tab-item>
             <lesli-tab-item title="Privileges">
             </lesli-tab-item>
         </lesli-tabs>
-        {{ storeRole.role }}
     </section>
 </template>

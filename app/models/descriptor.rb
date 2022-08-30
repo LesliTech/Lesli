@@ -22,6 +22,13 @@ class Descriptor < ApplicationLesliRecord
     has_many :activities, foreign_key: "descriptors_id"
     has_many :describers, foreign_key: "descriptors_id", class_name: "Role::Describer"
 
+
+    def self.list(current_user, query)
+        current_user.account.descriptors
+        .select(:id, :name, :code, :path)
+        .order(:name)
+    end 
+
     def self.index(current_user, query)
         current_user.account.descriptors
         .select(:id, :name, :code, :path, :created_at, :updated_at)
