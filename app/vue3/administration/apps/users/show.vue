@@ -53,6 +53,7 @@ const translations = {
 // · initializing
 onMounted(() => {
     storeUser.fetch(route.params?.id)
+    storeUser.getCurrentUser()
 })
 
 const tab = ref(0)
@@ -61,14 +62,13 @@ const tab = ref(0)
     <section class="application-component">
         <cardInformation></cardInformation>
         <cardActions></cardActions>
-        <lesli-tabs v-model="tab" v-if="this.storeUser.user.id">
+        <lesli-tabs v-model="tab" v-if="storeUser.user.id">
             <lesli-tab-item title="Information">
                 <formInformation></formInformation>
             </lesli-tab-item>
             <lesli-tab-item title="Roles and privileges">
                 <formRoles></formRoles>
             </lesli-tab-item>
-            <lesli-tab-item title="Suscripciones"></lesli-tab-item>
             <lesli-tab-item title="Security">
                 <formSecurity></formSecurity>
             </lesli-tab-item>
