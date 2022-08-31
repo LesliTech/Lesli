@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { inject, onMounted, ref } from "vue"
+import { inject, onMounted, ref, onUnmounted } from "vue"
 
 // · import lesli stores
 import { useUser } from "LesliVue/stores/user"
@@ -75,6 +75,10 @@ onMounted(() => {
     storeUser.getOptions()
 })
 
+onUnmounted(() => {
+    storeUser.resetUserStore()
+})
+
 </script>
 <template>
     <form class="information" @submit.prevent="
@@ -100,12 +104,15 @@ onMounted(() => {
 
         <div class="field is-horizontal">
             <div class="field-label is-normal">
-                <label class="label"> {{translations.shared.view_text_email}} </label>
+                <label class="label"> 
+                    {{translations.shared.view_text_email}}
+                    <span class="is-danger">*</span>
+                </label>
             </div>
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <input v-model="storeUser.user.email" required="required" type="text" class="input">
+                        <input v-model="storeUser.user.email" required="required" type="email" class="input">
                     </div>
                 </div>
             </div>
@@ -113,7 +120,10 @@ onMounted(() => {
 
         <div class="field is-horizontal">
             <div class="field-label is-normal">
-                <label class="label"> {{ translations.shared.view_text_first_name }} </label>
+                <label class="label"> 
+                    {{ translations.shared.view_text_first_name }}
+                    <span class="is-danger">*</span>
+                </label>
             </div>
             <div class="field-body">
                 <div class="field">
@@ -131,7 +141,7 @@ onMounted(() => {
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <input v-model="storeUser.user.detail_attributes.last_name" required="required" class="input">
+                        <input v-model="storeUser.user.detail_attributes.last_name" class="input">
                     </div>
                 </div>
             </div>
@@ -212,15 +222,19 @@ onMounted(() => {
         </div>
 
 
-
-        <div class="field is-grouped">
-            <div class="control">
-                <lesli-button icon="save">
-                    {{ translations.shared.view_btn_save }}
-                </lesli-button>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <lesli-button icon="save">
+                            {{ translations.shared.view_btn_save }}
+                        </lesli-button>                    
+                    </div>
+                </div>
             </div>
         </div>
-
     </form>
 
 </template>
