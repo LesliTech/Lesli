@@ -154,8 +154,6 @@ class UsersController < ApplicationLesliController
             :detail_attributes => user_params[:detail_attributes]
         })
 
-        LC::Debug.msg(user)
-
         # assign a random password
         user.password = Devise.friendly_token
 
