@@ -417,8 +417,6 @@ class User < ApplicationLesliRecord
         if self.alias.nil?
             self.alias = (detail&.first_name && detail&.last_name) ? "#{detail.first_name[0..1]}#{detail.last_name[0..1]}" : ""
             self.save
-        else 
-            self.save
         end
     end
 

@@ -122,13 +122,12 @@ onUnmounted(() => {
             <div class="field-label is-normal">
                 <label class="label"> 
                     {{ translations.shared.view_text_first_name }}
-                    <span class="is-danger">*</span>
                 </label>
             </div>
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <input v-model="storeUser.user.detail_attributes.first_name" required="required" type="text" class="input">
+                        <input v-model="storeUser.user.detail_attributes.first_name" type="text" class="input">
                     </div>
                 </div>
             </div>
