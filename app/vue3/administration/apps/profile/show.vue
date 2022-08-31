@@ -25,19 +25,18 @@ import { useRouter, useRoute } from 'vue-router'
 // · import lesli stores
 import { useUser } from "LesliVue/stores/user"
 
+// · import profile components
+import cardInformation from "../users/components/card-information.vue"
+import formInformation from "../users/components/form-information.vue"
+import managementSession from "../users/components/management-sessions.vue"
+import formSecurity from "../users/components/form-security.vue"
+import integrationsInformation from "../users/components/integrations-information.vue"
+import subscriptionsComponent from "./components/subscriptions.vue"
 
 // · implement stores
 const storeUser = useUser()
 const router = useRouter()
 const route = useRoute()
-
-
-// · import profile components
-import cardInformation from "../users/components/card-information.vue"
-import formInformation from "../users/components/form-information.vue"
-import managementSession from "../users/components/management-sessions.vue"
-import integrationsInformation from "../users/components/integrations-information.vue"
-
 
 // · translations
 const translations = {
@@ -62,13 +61,18 @@ onMounted(() => {
             <lesli-tab-item title="Information">
                 <formInformation></formInformation>
             </lesli-tab-item>
-            <lesli-tab-item title="Suscripciones"></lesli-tab-item>
-            <lesli-tab-item title="Security"></lesli-tab-item>
+            <lesli-tab-item title="Subscriptions">
+                <subscriptionsComponent>
+                </subscriptionsComponent>
+            </lesli-tab-item>
+            <lesli-tab-item title="Security">
+                <formSecurity></formSecurity>
+            </lesli-tab-item>
             <lesli-tab-item title="Session management">
                 <managementSession></managementSession>
             </lesli-tab-item>
             <lesli-tab-item title="Settings"></lesli-tab-item>
-            <lesli-tab-item title="Integraciones">
+            <lesli-tab-item title="Integrations">
                 <integrationsInformation></integrationsInformation>
             </lesli-tab-item>
         </lesli-tabs>
