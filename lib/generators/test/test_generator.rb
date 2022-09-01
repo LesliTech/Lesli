@@ -40,6 +40,7 @@ class TestGenerator < Rails::Generators::NamedBase
             gsub_file(destination_path, "[[controller_folder]]", @info[:controller_folder])
             gsub_file(destination_path, "[[controller_file_upper]]", @info[:controller_file_upper])
             gsub_file(destination_path, "[[controller_folder_upper]]", @info[:controller_folder_upper])
+            gsub_file(destination_path, "[[hash_permit]]", @info[:hash_permit])
             gsub_file(destination_path, "[[engine_name]]", @info[:engine_name])
 
         end
@@ -76,7 +77,7 @@ class TestGenerator < Rails::Generators::NamedBase
             controller_file =  module_controller[2]
         end
         model = get_model(module_controller)
-
+        hash_permit = module_controller[1].concat("_").concat(module_controller[2].chop)
         if module_controller[0] == "core"
             path = Rails.root.join(base_path, controller)
             url = "/administration/" << controller 
@@ -95,6 +96,7 @@ class TestGenerator < Rails::Generators::NamedBase
             controller_file: controller_file || "",
             controller_folder_upper: controller_folder.capitalize || "",
             controller_file_upper: controller_file.capitalize.chop || "",
+            hash_permit: hash_permit,
             engine_name: engine.camelize
         }
 
