@@ -1,13 +1,27 @@
 =begin
 
-[[license]]
+Copyright (c) 2022, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
 =end
 
 
 require "lesli_request_helper"
 
 RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
-    describe "GET:[[url]]/:id.json", type: :request do
+    describe "GET:/administration/account/locations/:id.json", type: :request do
         include_context "request user authentication"
 
         # helper methods
@@ -18,10 +32,10 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
 
         it "is expected to respond with the record data" do
-            #@[[controller]] = create_record({})
+            #@account/locations = create_record({})
             #before run test, you must create an object of the class youll like to test
 
-            get("[[url]]#{@[[controller]].id}.json")
+            get("/administration/account/locations#{@account/locations.id}.json")
 
             # shared examples
             expect_response_with_successful
@@ -33,10 +47,13 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #@invalid_id = create_record({}).id + 1
             #before run test, you must create an object of the class youll like to test
 
-            get("[[url]]#{@[[controller]].id}")
+            get("/administration/account/locations#{@account/locations.id}")
 
             #shared examples
             expect_response_with_not_found
         end
+
+
+
     end
 end

@@ -27,12 +27,10 @@ class TestGenerator < Rails::Generators::NamedBase
     end
 
     def generate_standard_request_tests
-        #["create", "destroy", "index", "show", "update"].each do |test_name|
-        ["create"].each do |test_name|
+        ["create", "destroy", "index", "show", "update"].each do |test_name|
             test_name = test_name + "_spec"
             test_file = test_name + ".rb"
             destination_path = @info[:path].join(test_file)
-            puts "@info parametros #{@info}"
             copy_file("requests/#{test_name}.template", destination_path)
             gsub_file(destination_path, "[[license]]", @license)
             gsub_file(destination_path, "[[url]]", @info[:url])
