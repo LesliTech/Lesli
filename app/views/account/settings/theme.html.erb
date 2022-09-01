@@ -1,4 +1,4 @@
-/*
+<%#
 
 Copyright (c) 2022, all rights reserved.
 
@@ -14,29 +14,7 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-*/
 
+%>
 
-// · 
-body.administration-users, 
-body.administration-profile {
-
-    div.information {
-        figure {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background-color: lesli-css-color(silver, 100);
-            border: 1px solid lesli-css-color(blue, 100);
-        }
-        .alternative-avatar {
-            font-weight: 100;
-            font-size: 3rem;
-        }
-    }
-
-    form.information {
-        max-width: 80%;
-    }
-}
+<router-view></router-view>
