@@ -6,58 +6,61 @@
 
 require "lesli_request_helper"
 
+RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+    describe "GET:[[url]]/:id.json", type: :request do
+        include_context "request user authentication"
 
-RSpec.describe "GET:[[url]]/:id.json", type: :request do
-    include_context "request user authentication"
+        # helper methods
 
-    # helper methods
+        def create_record(record_params)
+            @[[controller]]_record = @current_user.account.[[model]].new(record_params)
+            @[[controller]]_record.save!
+            @[[controller]]_record
+        end
 
-    def create_record(record_params)
-        @[[controller]]_record = @current_user.account.[[model]].new(record_params)
-        @[[controller]]_record.save!
-        @[[controller]]_record
-    end
+        # test cases
 
-    # test cases
+        it "is expected to respond with the record data" do
+            #@[[controller]] = create_record({})
 
-    it "is expected to respond with the record data" do
-        @[[controller]] = create_record({})
-
-        get("[[url]]/#{@[[controller]].id}.json")
+            get("[[url]]/#{@[[controller]].id}.json")
 
         # shared examples
-        expect_json_response_successful
+            expect_json_response_successful
+            puts "respuesta show #{response_body}"
+
+        end
 
         # custom examples
-        expect(response_data).to eql([[model]].find_by(id: @[[controller]].id))
+        #expect(response_data).to eql([[model]].find_by(id: @[[controller]].id))
 
-        @[[controller]].attributes.each do |key, value|
-            next if ["created_at", "updated_at"].include? key
+        #@[[controller]].attributes.each do |key, value|
+        #    next if ["created_at", "updated_at"].include? key
 
-            expect(response_data[key.to_s]).to eq(value)
+        #    expect(response_data[key.to_s]).to eq(value)
+        #end
+=begin
+        it "is expected to respond with not found when an invalid ID is sent" do
+            # this ID does not exist, so should return with not found
+            @invalid_id = create_record({}).id + 1
+
+            get("[[url]]/#{@invalid_id}.json")
+
+            #shared examples
+            expect_json_response_not_found
         end
+
+        it "is expected to redirect to login when no user is authenticated" do
+            login = "/login"
+
+            # we ensure that no one user is authenticated
+            sign_out @current_user
+
+            get("[[url]]/0.json")
+
+            # custom expects
+            expect(response).to redirect_to(login)
+        end
+=end
     end
-
-    it "is expected to respond with not found when an invalid ID is sent" do
-        # this ID does not exist, so should return with not found
-        @invalid_id = create_record({}).id + 1
-
-        get("[[url]]/#{@invalid_id}.json")
-
-        #shared examples
-        expect_json_response_not_found
-    end
-
-    it "is expected to redirect to login when no user is authenticated" do
-        login = "/login"
-
-        # we ensure that no one user is authenticated
-        sign_out @current_user
-
-        get("[[url]]/0.json")
-
-        # custom expects
-        expect(response).to redirect_to(login)
-    end
-
 end
