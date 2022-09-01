@@ -33,6 +33,7 @@ import managementSession from "./components/management-sessions.vue"
 import formSecurity from "./components/form-security.vue"
 import formRoles from "./components/form-roles-privileges.vue"
 import integrationsInformation from "./components/integrations-information.vue"
+import settings from "./components/settings.vue"
 
 
 // · implement stores
@@ -75,8 +76,10 @@ const tab = ref(0)
             <lesli-tab-item title="Session management">
                 <managementSession></managementSession>
             </lesli-tab-item>
-            <lesli-tab-item title="Settings"></lesli-tab-item>
-            <lesli-tab-item title="Integraciones">
+            <lesli-tab-item title="Settings">
+                <settings></settings>
+            </lesli-tab-item>
+            <lesli-tab-item title="Integrations">
                 <integrationsInformation></integrationsInformation>
             </lesli-tab-item>
         </lesli-tabs>
