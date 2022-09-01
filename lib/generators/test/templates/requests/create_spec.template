@@ -24,7 +24,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             
 
             post("[[url]].json", params: {
-                #[[controller]]: params_hash_value
+                [[hash_permit]]: params_hash_value
+                #permit hash should have format "controller"_"module"
+
             })
 
             # shared examples
@@ -42,7 +44,8 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             end
 
             post("[[url]].json", params: {
-                #[[controller]]: params_hash_empty
+                [[hash_permit]]: params_hash_empty
+                #permit hash should have format "controller"_"module"
             })
 
             # shared examples
@@ -61,7 +64,8 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             end
 
             post("[[url]].json", params: {
-                #[[controller]]: params_hash_nil
+                [[hash_permit]]: params_hash_nil
+                #permit hash should have format "controller"_"module"
             })
 
             # shared examples
