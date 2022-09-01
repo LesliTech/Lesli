@@ -25,8 +25,13 @@ namespace :app do
             LC::Debug.msg("Registering new Descriptors")
 
             # get all the controllers path defined in the Rails routes
+            pp LC::System::Controllers.scan2
+            exit
             controllers = LC::System::Controllers.scan
             controllers.each do |controller|
+
+                pp controller[0]
+                next
 
                 # Build a strig with the standard name of a Rails controller,
                 #   Example: "UsersControllers, CloudBell::NotificationsController"

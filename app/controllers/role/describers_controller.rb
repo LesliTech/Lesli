@@ -1,4 +1,5 @@
 =begin
+
 Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -13,81 +14,51 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
-class Role::DescribersController < ApplicationController
-    before_action :set_role_describer, only: [:show, :update, :destroy]
 
-    # GET /role/describers
-    def index
-        respond_to do |format|
-            format.html {}
-            format.json do
-                respond_with_successful(Role::Describer.index(current_user, @query))
-            end
+class Role::DescribersController < ApplicationLesliController
+    before_action :set_role, only: [:index, :create, :destroy]
+    before_action :set_role_describer, only: [:destroy]
+
+    def privileges 
+        {
+            create: []
+        }
+    end
+
+    def index 
+        respond_with_successful(Role::Describer.index(current_user, @query, @role))
+    end 
+
+    def create 
+
+        # check if current user can work with role
+        unless current_user.can_work_with_role?(@role)
+            return respond_with_error(I18n.t("core.roles.messages_danger_updating_role_object_level_permission_too_high"))
         end
-    end
 
-    # GET /role/describers/1
-    def show
-        respond_to do |format|
-            format.html {}
-            format.json do
-                return respond_with_not_found unless @role_describer
-                return respond_with_successful(@role_describer.show(current_user, @query))
-            end
-        end
-    end
+        describer = @role.describers.new({ :descriptors_id => role_describer_params[:id] })
 
-    # GET /role/describers/new
-    def new
-    end
-
-    # GET /role/describers/1/edit
-    def edit
-    end
-
-    # POST /role/describers
-    def create
-        role_describer = Role::Describer.new(role_describer_params)
-        if role_describer.save
-            respond_with_successful(role_describer)
+        if describer.save
+            respond_with_successful(describer)
         else
-            respond_with_error(role_describer.errors.full_messages.to_sentence)
-        end
-    end
-
-    # PATCH/PUT /role/describers/1
-    def update
-        return respond_with_not_found unless @role_describer
-
-        if @role_describer.update(role_describer_params)
-            respond_with_successful(@role_describer.show(current_user, @query))
-        else
-            respond_with_error(@role_describer.errors.full_messages.to_sentence)
-        end
-    end
-
-    # DELETE /role/describers/1
-    def destroy
-        return respond_with_not_found unless @role_describer
-
-        if @role_describer.destroy
-            respond_with_successful
-        else
-            respond_with_error(@role_describer.errors.full_messages.to_sentence)
+            respond_with_error(describer.errors.full_messages.to_sentence)
         end
     end
 
     private
 
+    def set_role
+        @role = current_user.account.roles.find_by(id: params[:role_id])
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_role_describer
-        @role_describer = current_user.account.role_describers.find(class_name, params[:id])
+        @role_describer = @describers.find_by(id: params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def role_describer_params
-        params.require(:role_describer).permit(:id, :name)
+        params.require(:role_describer).permit(:id)
     end
 end

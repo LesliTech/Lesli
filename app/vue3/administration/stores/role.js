@@ -24,8 +24,10 @@ import { defineStore } from "pinia"
 export const useRole = defineStore("administration.role", {
     state: () => {
         return {
+            options: {},
             records: [],
             pagination: {},
+            descriptors: [],
             role: {
                 name: "",
                 descriptors: []
@@ -47,7 +49,37 @@ export const useRole = defineStore("administration.role", {
         fetchRole(id) {
             this.http.get(this.url.admin("roles/:id", id)).then(result => {
                 this.role = result
+                this.getDescriptors()
             })
+        },
+
+        putRole() {
+            this.http.put(this.url.admin("roles/:id", this.role.id), this.role).then(result => {
+                this.msg.success(I18n.t('core.roles.messages_success_role_successfully_updated'))
+            })
+        },
+
+
+        getDescriptors() {
+            this.http.get(this.url.admin("roles/:id/describers", this.role.id)).then(descriptors => {
+                this.descriptors = descriptors
+            })
+        },
+
+        changeDescriptor(descriptor) {
+            this.postDescriptor(descriptor)
+        },
+
+        postDescriptor(descriptor) {
+            this.http.post(this.url.admin("roles/:id/describers", this.role.id), {
+                role_describer: {
+                    id: descriptor.id
+                }
+            })
+        },
+
+        getOptions() {
+            this.http.get(this.url.admin("roles/options")).then(result => this.options = result)
         }
 
     }

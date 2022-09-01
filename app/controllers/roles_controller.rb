@@ -141,21 +141,13 @@ class RolesController < ApplicationLesliController
     #     };
     #     this.http.patch(`127.0.0.1/roles/${role_id}`, data);
     def update
+
+        # Respond with 404 if role was not found
         return respond_with_not_found unless @role
 
-        user_role_level_max = current_user.roles.map(&:object_level_permission).max()
-        is_not_owner = current_user.roles.find_by(name: 'owner').blank?
-
-        # check if user can work with that object level permission
-        if @role.object_level_permission > user_role_level_max && is_not_owner
+        # check if current user can work with role
+        unless current_user.can_work_with_role?(@role)
             return respond_with_error(I18n.t("core.roles.messages_danger_updating_role_object_level_permission_too_high"))
-        end
-
-        # if user tries to change level of a role with a highest level he can work with
-        if !role_params[:object_level_permission].blank?
-            if (role_params[:object_level_permission].to_f) >= user_role_level_max && is_not_owner
-                return respond_with_error(I18n.t("core.roles.messages_danger_updating_role_object_level_permission_too_high"))
-            end
         end
 
         old_attributes = @role.attributes
@@ -194,22 +186,33 @@ class RolesController < ApplicationLesliController
 
     def options
 
-        existing_levels = current_user.account.roles
-            .select(:object_level_permission)
-            .order(object_level_permission: :desc)
-            .distinct
-            .map { |level| level.object_level_permission }
-
         levels = {}
 
-        levels_sorted = []
+        # get all the different object level permission registered in the roles
+        existing_levels = current_user.account.roles
+        .select(:object_level_permission)
+        .order(object_level_permission: :desc)
+        .distinct
+        .map { |level| level.object_level_permission }
 
-        existing_levels.each_with_index do |level, i|
+        # Build the next available object levels
+        # basically we need to add the possibles object level permissions between the
+        # existing ones
+        existing_levels.each_with_index do |level_current, i|
 
-            level_next = existing_levels.to_a[i+1].nil? ? 0 : existing_levels.to_a[i+1]
-            level_current = level
+            level_next = 0
+
+            # get the next OLP in the list of the existing roles
+            level_next = existing_levels.to_a[i+1] unless existing_levels.to_a[i+1].nil?
+            
+            # calculate the new next level, basically we get the level right in the middle
+            # between the existing levels, example:
+            #   1000    existing level
+            #    750    new projected level
+            #    500    existing level
             level_new = (level_current + level_next) / 2
 
+            # add the levels to the levels object
             levels[level_current] = []
 
             next if level_next == 0
@@ -218,80 +221,17 @@ class RolesController < ApplicationLesliController
 
         end
 
-        current_user.account.roles.select(:id, :name, :object_level_permission).each do |role|
-            if levels.has_key?(role.object_level_permission)
-                levels[role.object_level_permission].push(role)
-            end
+        # Get all the existing roles
+        current_user.account.roles
+        .select(:id, :name, :object_level_permission)
+        .where.not(object_level_permission: nil).each do |role|
+            levels[role.object_level_permission] = [] if levels[role.object_level_permission].blank?
+            # push the role grouping by the object level permission
+            levels[role.object_level_permission].push(role)
         end
 
-        levels.keys.each do |key|
-            levels_sorted.push({
-                level: key,
-                roles: levels[key]
-            })
-        end
+        respond_with_successful({ :object_level_permissions => levels })
 
-        respond_with_successful({ levels: levels_sorted })
-
-    end
-
-    def roles_old_2
-        roles_new = {}
-        roles_final = {}
-        roles = current_user.account.roles.order(object_level_permission: :desc)
-        roles.each do |role|
-            unless roles_final.has_key?(role.object_level_permission)
-                roles_final[role.object_level_permission] = []
-            end
-            roles_final[role.object_level_permission].push(role)
-            roles_final[role.object_level_permission] = []
-        end
-
-        current_level = 0
-        previous_level = 0
-
-        roles_final.each_with_index do |level, index|
-            current_level =  level[0]
-            new_level = (previous_level - current_level) / 2
-            LC::Debug.msg(current_level, new_level, previous_level)
-            previous_level = current_level
-
-            roles_new[new_level] = []
-        end
-        roles_final
-    end
-
-    def roles_old
-        roles_final = []
-        roles = current_user.account.roles
-        roles_total = roles.length
-
-        roles.each_with_index do |role, index|
-            roles_final.push({
-                id: role.id,
-                name: role.name,
-                object_level_permission: role.object_level_permission
-            })
-
-            if (index < roles_total - 1)
-
-                next_olp = roles[index + 1].object_level_permission
-
-                level = (role.object_level_permission + next_olp) / 2
-
-                if (role.object_level_permission == level)
-                    next;
-                end
-
-                roles_final.push({
-                    id: 0,
-                    name: "----",
-                    object_level_permission: level
-                })
-            end
-
-        end
-        roles_final
     end
 
     private

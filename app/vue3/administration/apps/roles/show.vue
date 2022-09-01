@@ -47,9 +47,6 @@ const tab = ref(0)
 // · 
 onMounted(() => {
     storeRole.fetchRole(route.params.id)
-    storeDescriptor.fetchDescriptorList()
-    setTimeout(() => matchRolesDescriptors(), 1000)
-    
 })
 
 
@@ -57,6 +54,10 @@ onMounted(() => {
 const columnDescriptors = [{
     field: 'id',
     label: 'ID'
+},{
+    field: 'active',
+    label: 'Active',
+    align: 'center'
 },{
     field: 'name',
     label: 'Name'
@@ -66,36 +67,40 @@ const columnDescriptors = [{
 },{
     field: 'path',
     label: 'Path'
-},{
-    field: 'active',
-    label: 'Active'
 }]
 
 function matchRolesDescriptors() {
     storeRole.role.descriptors.forEach(describer => {
-        let descriptor = storeDescriptor.list.find(descriptor => descriptor.id == describer.descriptors_id)
+        let descriptor = storeDescriptor.list.find(descriptor => {
+            return descriptor.id == describer.descriptors_id
+        })
         if (descriptor) {
             descriptor.active = true
         }
     })
 }
 
+
+function changeDescriptor(descriptor) {
+    storeRole.postDescriptor(descriptor)
+}
+
 </script>
 <template>
     <section class="application-component">
-        <lesli-header :title="'Role: '+storeRole.role.name"></lesli-header>
-        <lesli-tabs v-model="tab">
-            <lesli-tab-item title="Descriptors">
-                <lesli-table 
-                    :columns="columnDescriptors"
-                    :records="storeDescriptor.list">
-                    <template #active="{ record }">
-                        <lesli-toggle v-model="record.active" />
-                    </template>
-                </lesli-table>
-            </lesli-tab-item>
-            <lesli-tab-item title="Privileges">
-            </lesli-tab-item>
-        </lesli-tabs>
+        <lesli-header :title="'Privileges for: ' + storeRole.role.name + ' role '">
+            <lesli-button icon="edit" :to="url.admin('roles/:id/edit', storeRole.role.id)">
+                Edit role
+            </lesli-button>
+        </lesli-header>
+        <lesli-toolbar></lesli-toolbar>
+        <lesli-table 
+            :columns="columnDescriptors"
+            :records="storeRole.descriptors">
+            <template #active="{ record }">
+                <lesli-toggle v-model="record.active" @change="changeDescriptor(record)">
+                </lesli-toggle>
+            </template>
+        </lesli-table>
     </section>
 </template>

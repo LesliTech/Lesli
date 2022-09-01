@@ -25,6 +25,44 @@ module LC
 
         class Controllers
 
+            def self.scan2
+                controller_list = {
+                    :core => {}
+                }
+
+                instance = Rails.configuration.lesli_settings["instance"][:name]
+                
+                Rails.application.routes.routes.each do |route| 
+                    route = route.defaults 
+                    
+                    next if route[:controller].blank?
+                    next if route[:controller].include? "rails"
+                    next if route[:controller].include? "action_mailbox"
+                    next if route[:controller].include? "active_storage"
+                    
+                    controller = route[:controller].to_sym
+                    controller_list[:core][controller] = [] unless controller_list[controller]
+                    
+                    #controller_list[controller].push(route[:action])
+                end
+
+                Rails.configuration.lesli_settings["engines"].each do |engine|
+                    routes = "#{engine[:name]}::Engine".constantize.routes.routes.each do |route| 
+                        route = route.defaults 
+                        engine_code = engine[:name].underscore.to_sym
+                        controller = route[:controller].to_sym
+                        
+                        controller_list[engine_code] = {} if controller_list[engine_code].blank?
+                        controller_list[engine_code][controller] = [] if controller_list[engine_code][controller].blank?
+                        
+                        #controller_list[route[:controller]].push(route[:action])
+
+                    end
+                end
+
+                return controller_list
+            end
+
             def self.scan
                 controller_list = {}
 
