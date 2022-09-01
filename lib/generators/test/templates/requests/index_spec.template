@@ -6,12 +6,15 @@
 
 require "lesli_request_helper"
 
-
-RSpec.describe "GET:[[url]].json", type: :request, :unless => defined?(DeutscheLeibrenten) do
-
 RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
-    describe "GET:/administration.json", type: :request do
+    describe "GET:[[url]].json", type: :request do
         include_context "request user authentication"
+
+        # helper methods
+
+        #def create_record(record_params)
+            #define a method to create and object and be sure the table will not be empty of data
+        #end
 
         # test cases
 
