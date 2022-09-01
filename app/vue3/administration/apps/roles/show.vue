@@ -82,7 +82,7 @@ function matchRolesDescriptors() {
 
 
 function changeDescriptor(descriptor) {
-    storeRole.postDescriptor(descriptor)
+    storeRole.changeDescriptor(descriptor)
 }
 
 </script>

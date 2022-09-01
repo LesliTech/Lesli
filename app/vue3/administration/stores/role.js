@@ -67,7 +67,13 @@ export const useRole = defineStore("administration.role", {
         },
 
         changeDescriptor(descriptor) {
-            this.postDescriptor(descriptor)
+
+            if (descriptor.active) {
+                return this.postDescriptor(descriptor)
+            }
+
+            this.deleteDescriptor(descriptor)
+            
         },
 
         postDescriptor(descriptor) {
@@ -76,6 +82,13 @@ export const useRole = defineStore("administration.role", {
                     id: descriptor.id
                 }
             })
+        },
+
+        deleteDescriptor(descriptor) {
+            this.http.delete(this.url.admin("roles/:id/describers/:descriptor_id", {
+                id: this.role.id,
+                descriptor_id: descriptor.id
+            }))
         },
 
         getOptions() {
