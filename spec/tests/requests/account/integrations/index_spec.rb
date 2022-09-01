@@ -32,7 +32,6 @@ RSpec.describe "GET:/administration/account/integrations", type: :request, :unle
 
     include_context "request user authentication"
 
-    #create multiples integrations
     it "is expected to respond with integrations" do 
 
         [
@@ -47,7 +46,9 @@ RSpec.describe "GET:/administration/account/integrations", type: :request, :unle
         end
 
         get("/administration/account/integrations.json")
+
         expect_response_with_pagination
+        
         expect(response_body).to be_an(Object)
         expect(response_body).to have_key("pagination")
         expect(response_body).to have_key("records")
