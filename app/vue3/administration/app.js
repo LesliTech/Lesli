@@ -25,6 +25,7 @@ import appAccountDashboard from "Lesli/vue3/administration/apps/accounts/dashboa
 import appUsersProfile from "Lesli/vue3/administration/apps/profile/show.vue"
 import appUsersIndex from "Lesli/vue3/administration/apps/users/index.vue"
 import appUsersShow from "Lesli/vue3/administration/apps/users/show.vue"
+import appUsersNew from "Lesli/vue3/administration/apps/users/new.vue"
 
 import appIntegrationsIndex from "Lesli/vue3/administration/apps/integrations/index.vue"
 import appIntegrationsNew from "Lesli/vue3/administration/apps/integrations/new.vue"
@@ -44,6 +45,9 @@ app("Administration", [{
     path: "/users/:id",
     component: appUsersShow
 }, {
+    path: "/users/new",
+    component: appUsersNew
+},{
     path: "/profile",
     component: appUsersProfile
 }, {
