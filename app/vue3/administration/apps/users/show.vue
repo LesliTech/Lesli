@@ -54,10 +54,10 @@ const translations = {
 // · initializing
 onMounted(() => {
     storeUser.fetch(route.params?.id)
-    storeUser.getCurrentUser()
 })
 
 const tab = ref(0)
+
 </script>
 <template>
     <section class="application-component">
