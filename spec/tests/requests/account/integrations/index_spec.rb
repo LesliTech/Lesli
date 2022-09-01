@@ -41,27 +41,13 @@ RSpec.describe "GET:/administration/account/integrations", type: :request, :unle
             { :name => Faker::Superhero.power },
             { :name => Faker::Superhero.power },
         ].each do |integration|
-            account_integration = @current_user.account.integrations.new(integration)
-            account_integration.user_main = @current_user
-            if account_integration.save
-                email = Faker::Internet.email
-                user = @current_user.account.users.find_or_create_by(id: @current_user.id) do |user|
-                    user.category = "integration"
-                    user.active = true
-                    user.confirm
-
-                    user.user_roles.create({ role: ::Role.find_by(:name => "api") })
-
-                    user.detail.first_name = account_integration_params[:name]
-                    user.save!
-                end
-            end
+            post("/administration/account/integrations.json", :params => {
+                :account_integration => integration
+            })
         end
 
         get("/administration/account/integrations.json")
-        puts  "integraciones #{@current_user.account.integrations}"
         expect_response_with_pagination
-        puts"response #{response_body}"
         expect(response_body).to be_an(Object)
         expect(response_body).to have_key("pagination")
         expect(response_body).to have_key("records")

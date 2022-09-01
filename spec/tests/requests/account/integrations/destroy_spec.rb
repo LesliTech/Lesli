@@ -44,7 +44,6 @@ RSpec.describe "DELETE:/administration/account/integrations/:id.json", type: :re
             #be sure there is at least one integration 
             account_integration 
             id =  @current_user.account.integrations.last.id
-            puts "integracion base creada #{@current_user.account.integrations.to_json}"
 
             #create new random integration
             account_integration 
