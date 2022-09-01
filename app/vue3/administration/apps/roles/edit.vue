@@ -74,7 +74,7 @@ function isObjectLevelPermissionSelected(olp) {
             </lesli-button>
         </lesli-header>
 
-        <form @submit.prevent="updateRole">
+        <form @submit.prevent="updateRole" class="box">
 
             <!-- Role name -->
             <div class="field">

@@ -53,7 +53,6 @@ const props = defineProps({
 
 // · 
 watch(() => props.modelValue, (val1, val2) => {
-    console.log(val1, val2)
     emit('change', props.modelValue)
 })
 
