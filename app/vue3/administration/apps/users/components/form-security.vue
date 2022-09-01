@@ -88,7 +88,7 @@ const translations = {
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input type="submit" class="button is-primary" :value="translations.shared.view_btn_save">
+                            <lesli-button> {{ translations.shared.view_btn_save }}</lesli-button>
                         </div>
                     </div>
                 </div>

@@ -34,6 +34,7 @@ import formSecurity from "./components/form-security.vue"
 import formRoles from "./components/form-roles-privileges.vue"
 import integrationsInformation from "./components/integrations-information.vue"
 import settings from "./components/settings.vue"
+import accessManagement from "./components/access-management.vue"
 
 
 // · implement stores
@@ -53,6 +54,7 @@ const translations = {
 
 // · initializing
 onMounted(() => {
+    storeUser.getOptions()
     storeUser.fetch(route.params?.id)
 })
 
@@ -72,6 +74,9 @@ const tab = ref(0)
             </lesli-tab-item>
             <lesli-tab-item title="Security">
                 <formSecurity></formSecurity>
+            </lesli-tab-item>
+            <lesli-tab-item title="Access management">
+                <accessManagement></accessManagement>
             </lesli-tab-item>
             <lesli-tab-item title="Session management">
                 <managementSession></managementSession>

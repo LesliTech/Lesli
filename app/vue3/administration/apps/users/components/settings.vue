@@ -25,38 +25,43 @@ import { useUser } from "LesliVue/stores/user"
 // · implement stores
 const storeUser = useUser()
 
-// · initializing
-onMounted(() => {
-    storeUser.getOptions()
-})
-
 // · translations
 const translations = {
-    core: {
-        roles: I18n.t("core.roles"),
-        users: I18n.t("core.users"),
-        shared: I18n.t("core.shared")
-    }
+    users: I18n.t("core.users"),
+    shared: I18n.t("core.shared")
 }
 
 
 </script>
 <template>
-<div class="box">
+<form @submit.prevent="storeUser.setLanguage">
     <div class="field is-horizontal">
             <div class="field-label">
-                <label class="label"> locale </label>
+                <label class="label"> Select preferred language </label>
             </div>
             <div class="field-body">
                 <div class="field is-narrow">
-                    <div class="control">
-                        <label :for="locale" class="radio" v-for="locale in storeUser.options.locales" :key="locale">
-                            <input type="radio" :id="locale" :value="locale.value" v-model="storeUser.user_settings" />
+                    <div class="control" :for="locale" v-for="locale in storeUser.options.locales" :key="locale">
+                        <label class="radio">
+                            <input type="radio" :id="locale" :value="locale.value" v-model="storeUser.language" />
                             {{locale.label}}
                         </label>  
                     </div>
                 </div>
             </div>
     </div>
-</div>
+    <div class="field is-horizontal">
+        <div class="field-label is-normal">
+        </div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control">
+                    <lesli-button icon="save">
+                        {{ translations.shared.view_btn_save }}
+                    </lesli-button>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 </template>

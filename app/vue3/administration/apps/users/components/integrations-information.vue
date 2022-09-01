@@ -14,8 +14,6 @@ const translations = {
 </script>
 <template>
     <section class="application-component">
-        <lesli-header title="Integrations">
-        </lesli-header>
         <div class="field is-horizontal">
             <div class="field-label is-normal">
                 <label class="label">Google account</label>

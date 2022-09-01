@@ -27,6 +27,8 @@ import { useUser } from "LesliVue/stores/user"
 // · implement stores
 const storeUser = useUser()
 
+const rolesToggle = ref({})
+
 
 // · 
 const translations = {
@@ -36,7 +38,10 @@ const translations = {
 }
 
 onMounted(() => {
-    storeUser.getOptions()
+    storeUser.options.roles.forEach(role =>
+        rolesToggle.value[role] = false
+    )
+
 })
 
 const userRole = ref({ label:"", value:"" })
@@ -48,6 +53,12 @@ const userRole = ref({ label:"", value:"" })
 </script>
 
 <template>
+
+<h4>{{ translations.users.view_text_roles_assigned }}</h4>
+<div v-for="role in storeUser.options.roles" :key="role">
+    <p>{{role}}</p>
+    <lesli-toggle v-model="rolesToggle.role"></lesli-toggle>
+</div>
 
 <div class="columns">
     <div class="column is-4">
@@ -71,7 +82,7 @@ const userRole = ref({ label:"", value:"" })
 
             <div class="field">
                 <div class="control">
-                    <button class="button is-info"> {{ translations.shared.view_btn_save }}</button>
+                    <lesli-button> {{ translations.shared.view_btn_save }}</lesli-button>
                 </div>
             </div>
         </form>
