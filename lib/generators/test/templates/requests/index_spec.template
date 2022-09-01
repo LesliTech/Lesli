@@ -22,14 +22,5 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect_response_with_successful
 
         end
-
-        it "is expected to validate response" do
-            get("[[url]].json")
-
-            # shared examples
-            expect_response_with_successful
-
-            puts "respuesta index #{response_body}"
-        end
     end
 end

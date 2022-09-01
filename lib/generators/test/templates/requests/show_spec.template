@@ -12,55 +12,32 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
         # helper methods
 
-        def create_record(record_params)
-            @[[controller]]_record = @current_user.account.[[model]].new(record_params)
-            @[[controller]]_record.save!
-            @[[controller]]_record
-        end
-
         # test cases
+
 
         it "is expected to respond with the record data" do
             #@[[controller]] = create_record({})
+            #before run test, you must create an object of the class youll like to test
 
-            get("[[url]]/#{@[[controller]].id}.json")
+            get("[[url]].id.json")
 
-        # shared examples
-            expect_json_response_successful
-            puts "respuesta show #{response_body}"
+            # shared examples
+            expect_response_with_successful
 
         end
 
-        # custom examples
-        #expect(response_data).to eql([[model]].find_by(id: @[[controller]].id))
-
-        #@[[controller]].attributes.each do |key, value|
-        #    next if ["created_at", "updated_at"].include? key
-
-        #    expect(response_data[key.to_s]).to eq(value)
-        #end
-=begin
         it "is expected to respond with not found when an invalid ID is sent" do
             # this ID does not exist, so should return with not found
-            @invalid_id = create_record({}).id + 1
+            #@invalid_id = create_record({}).id + 1
+            #before run test, you must create an object of the class youll like to test
 
-            get("[[url]]/#{@invalid_id}.json")
+            get("[[url]].id.json")
 
             #shared examples
-            expect_json_response_not_found
+            expect_response_with_not_found
         end
 
-        it "is expected to redirect to login when no user is authenticated" do
-            login = "/login"
 
-            # we ensure that no one user is authenticated
-            sign_out @current_user
 
-            get("[[url]]/0.json")
-
-            # custom expects
-            expect(response).to redirect_to(login)
-        end
-=end
     end
 end
