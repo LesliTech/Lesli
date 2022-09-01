@@ -27,18 +27,21 @@ class TestGenerator < Rails::Generators::NamedBase
     end
 
     def generate_standard_request_tests
-        ["create", "destroy", "index", "show", "update"].each do |test_name|
-
+        #["create", "destroy", "index", "show", "update"].each do |test_name|
+        ["create"].each do |test_name|
             test_name = test_name + "_spec"
             test_file = test_name + ".rb"
-
             destination_path = @info[:path].join(test_file)
-            puts "ruta #{destination_path}"
+            puts "@info parametros #{@info}"
             copy_file("requests/#{test_name}.template", destination_path)
             gsub_file(destination_path, "[[license]]", @license)
             gsub_file(destination_path, "[[url]]", @info[:url])
             gsub_file(destination_path, "[[model]]", @info[:model])
             gsub_file(destination_path, "[[controller]]", @info[:controller])
+            gsub_file(destination_path, "[[controller_file]]", @info[:controller_file])
+            gsub_file(destination_path, "[[controller_folder]]", @info[:controller_folder])
+            gsub_file(destination_path, "[[controller_file_upper]]", @info[:controller_file_upper])
+            gsub_file(destination_path, "[[controller_folder_upper]]", @info[:controller_folder_upper])
             gsub_file(destination_path, "[[engine_name]]", @info[:engine_name])
 
         end
@@ -67,23 +70,22 @@ class TestGenerator < Rails::Generators::NamedBase
         
         base_path = "spec/tests/requests"
         module_controller = name.downcase.split("/")
-        puts "name #{name}"
-        puts "name #{name.downcase.split("/")}"
         engine = module_controller[0]
         controller = module_controller[1]
         if module_controller.length > 2
             controller = module_controller[1] + "/" + module_controller[2] 
+            controller_folder =  module_controller[1]
+            controller_file =  module_controller[2]
         end
         model = get_model(module_controller)
 
         if module_controller[0] == "core"
             path = Rails.root.join(base_path, controller)
+            url = "/administration/" << controller 
         else
             path = Rails.root.join("engines", engine, base_path, controller)
+            url = "/" << name.gsub("cloud_", "")
         end
-
-        # parse a base url
-        url = "/" << name.gsub("cloud_", "")
 
         return {
             url: url,
@@ -91,6 +93,10 @@ class TestGenerator < Rails::Generators::NamedBase
             model: model,
             engine: engine,
             controller: controller,
+            controller_folder: controller_folder || "",
+            controller_file: controller_file || "",
+            controller_folder_upper: controller_folder.capitalize || "",
+            controller_file_upper: controller_file.capitalize.chop || "",
             engine_name: engine.camelize
         }
 

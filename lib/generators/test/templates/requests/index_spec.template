@@ -7,34 +7,29 @@
 require "lesli_request_helper"
 
 
-RSpec.describe "GET:[[url]].json", type: :request do
-    include_context "request user authentication"
+RSpec.describe "GET:[[url]].json", type: :request, :unless => defined?(DeutscheLeibrenten) do
 
-    # helper methods
+RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+    describe "GET:/administration.json", type: :request do
+        include_context "request user authentication"
 
+        # test cases
 
-    # test cases
+        it "is expected to respond with successful" do
+            get("[[url]].json")
 
-    it "is expected to respond with all the records" do
-        get("[[url]].json")
+            # shared examples
+            expect_response_with_successful
 
-        # shared examples
-        expect_json_response_successful
+        end
 
-        # custom expects
-        expect(response_data.count).to eql([[model]].count)
+        it "is expected to validate response" do
+            get("[[url]].json")
+
+            # shared examples
+            expect_response_with_successful
+
+            puts "respuesta index #{response_body}"
+        end
     end
-
-    it "is expected to redirect to login when no user is authenticated" do
-        login = "/login"
-
-        # we ensure that no one user is authenticated
-        sign_out @current_user
-
-        get("[[url]].json")
-
-        # custom expects
-        expect(response).to redirect_to(login)
-    end
-
 end
