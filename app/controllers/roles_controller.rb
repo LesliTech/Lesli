@@ -230,7 +230,16 @@ class RolesController < ApplicationLesliController
             levels[role.object_level_permission].push(role)
         end
 
-        respond_with_successful({ :object_level_permissions => levels })
+        levels_sorted = []
+
+        levels.keys.each do |key|
+            levels_sorted.push({
+                level: key,
+                roles: levels[key]
+            })
+        end
+
+        respond_with_successful({ :object_level_permissions => levels_sorted })
 
     end
 

@@ -105,19 +105,19 @@ function isObjectLevelPermissionSelected(olp) {
                     <sup class="has-text-danger">*</sup>
                 </label>
                 <ul class="hierarchical_level_selector">
-                    <li :class="['hover', 'p-1', { 'has-background-info has-text-light' : isObjectLevelPermissionSelected(olp) }]"
-                        v-for="(roles, olp, index) in storeRole.options.object_level_permissions" :key="index"
-                        v-on:click="storeRole.role.object_level_permission = olp">
+                    <li :class="['hover', 'p-1', { 'has-background-info has-text-light' : isObjectLevelPermissionSelected(olp.level) }]"
+                        v-for="(olp, index) in storeRole.options.object_level_permissions" :key="index"
+                        v-on:click="storeRole.role.object_level_permission = olp.level">
                         <p class="icon-text">
                             <span class="icon">
                                 <span class="material-icons">
-                                    {{ isObjectLevelPermissionSelected(olp) ? 'check_box' : 'check_box_outline_blank' }}
+                                    {{ isObjectLevelPermissionSelected(olp.level) ? 'check_box' : 'check_box_outline_blank' }}
                                 </span>
-                                <i :class="['fas', isObjectLevelPermissionSelected(olp) ? 'fa-check' : 'fa-chevron-right']"></i>
+                                <i :class="['fas', isObjectLevelPermissionSelected(olp.level) ? 'fa-check' : 'fa-chevron-right']"></i>
                             </span>
                             <span>
                                 {{ `${translations.core.roles.view_text_level || 'Level' } ${ index + 1 }` }}
-                                <i v-if="roles.length">- {{ roles.map(role => role.name).join(', ') }}</i>
+                                <i v-if="olp.roles.length">- {{ olp.roles.map(role => role.name).join(', ') }}</i>
                             </span>
                         </p>
                     </li>
@@ -135,7 +135,7 @@ function isObjectLevelPermissionSelected(olp) {
                 <div class="control">
                     <div class="select">
                         <lesli-select 
-                            v-model="storeRole.role.only_my_data"
+                            v-model="{ value: storeRole.role.only_my_data }"
                             :options="[{
                                 label: translations.core.roles.view_text_restrict_data_access,
                                 value: true
@@ -158,7 +158,7 @@ function isObjectLevelPermissionSelected(olp) {
                 <div class="control">
                     <div class="select">
                         <lesli-select 
-                            v-model="storeRole.role.active"
+                            v-model="{ value: storeRole.role.active }"
                             :options="[{
                                 label: translations.core.roles.view_text_active,
                                 value: true
