@@ -32,6 +32,8 @@ import managementSession from "../users/components/management-sessions.vue"
 import formSecurity from "../users/components/form-security.vue"
 import integrationsInformation from "../users/components/integrations-information.vue"
 import subscriptionsComponent from "./components/subscriptions.vue"
+import settings from "../users/components/settings.vue"
+
 
 // · implement stores
 const storeUser = useUser()
@@ -51,13 +53,14 @@ const translations = {
 // · initializing
 onMounted(() => {
     storeUser.fetch()
+    storeUser.getOptions()
 })
 
 </script>
 <template>
     <section class="application-component">
         <cardInformation></cardInformation>
-        <lesli-tabs v-if="this.storeUser.user.id">
+        <lesli-tabs>
             <lesli-tab-item title="Information">
                 <formInformation></formInformation>
             </lesli-tab-item>
@@ -71,7 +74,9 @@ onMounted(() => {
             <lesli-tab-item title="Session management">
                 <managementSession></managementSession>
             </lesli-tab-item>
-            <lesli-tab-item title="Settings"></lesli-tab-item>
+            <lesli-tab-item title="Settings">
+                <settings></settings>
+            </lesli-tab-item>
             <lesli-tab-item title="Integrations">
                 <integrationsInformation></integrationsInformation>
             </lesli-tab-item>

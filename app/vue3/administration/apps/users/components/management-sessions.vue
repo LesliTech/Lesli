@@ -20,6 +20,8 @@ For more information read the license file including with this software.
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed } from "vue"
 
+// · import vue router composable
+import { useRoute } from "vue-router"
 
 // · import lesli stores
 import { useUser } from "LesliVue/stores/user"
@@ -27,8 +29,12 @@ import { useUser } from "LesliVue/stores/user"
 // · implement stores
 const storeUser = useUser()
 
+// · initialize/inject plugins
+const route = useRoute()
+
 
 onMounted(() => {
+    storeUser.fetch(route.params?.id)
     storeUser.fetchSessions()
 })
 
