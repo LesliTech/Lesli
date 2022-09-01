@@ -92,7 +92,10 @@ export const useRole = defineStore("administration.role", {
         },
 
         getOptions() {
-            this.http.get(this.url.admin("roles/options")).then(result => this.options = result)
+            this.http.get(this.url.admin("roles/options")).then(result => {
+                
+                this.options = result
+            })
         }
 
     }
