@@ -21,6 +21,12 @@ class Role::Describer < ApplicationLesliRecord
 
     after_commit :synchronize_privileges, on: [:create, :update]
 
+    def self.index current_user, query, role
+        fromrole = role.describers.joins(:descriptor).select("descriptors_id as id", :name, :code, :path, "true as active")
+        available = current_user.account.descriptors.select(:id, :name, :code, :path, "false as active")
+        (fromrole + available).uniq{ |p| p[:id] }
+    end 
+
     private
 
     def synchronize_privileges

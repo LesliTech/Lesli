@@ -154,7 +154,9 @@ class User < ApplicationLesliRecord
     #     actions = ["index", "update"]
     #
     #     current_user.has_privileges?(controllers, actions)
-    def has_privileges2?(controller, action, form='html')
+    def has_privileges4?(controller, action, form='html')
+
+        return true
 
         # set html by default, even if nil is sent as parameter for "form"
         form ||= 'html'
@@ -303,6 +305,33 @@ class User < ApplicationLesliRecord
 
 
 
+    # @return Boolean
+    # @description Check if user has enough privilege to work with the given role
+    def can_work_with_role?(role)
+
+        # false if role not found
+        return false if role.blank?
+
+        # get the max object level permission from the roles the user has assigned
+        user_role_level_max = self.roles.map(&:object_level_permission).max()
+
+        # check if the user is owner
+        is_not_owner = self.roles.find_by(name: 'owner').blank?
+
+        # check if user can work with the object level permission of the role is trying to modify
+        # Note: user only can assigned an object level permission below the max of his own roles
+        # Current user cannot assign role if
+        #       role to assign has greater object level permission than the greater role assigned to the current user
+        #       role to assign is the same of the greater role assigned to the current user
+        #       current user is not sysadmin or owner
+        return false if role.object_level_permission > user_role_level_max && is_not_owner
+
+        return true
+
+    end    
+
+
+
     # @return [void]
     # @description Delete all the active sessions for a given user
     # TODO:
@@ -357,31 +386,6 @@ class User < ApplicationLesliRecord
         self.reset_password_sent_at = Time.now.utc
         save(validate: false)
         raw
-    end
-
-
-
-    # @return Boolean
-    # @description Check if user has enough privilege to work with the given role
-    def can_work_with_role?(role_id)
-
-        return false if role_id.blank?
-
-        role = self.account.roles.find(role_id) rescue nil
-
-        return false if role.blank?
-
-        # check if the current_user can assign this role, current user cannot assign role if
-        #   role to assign has greater object level permission than the greater role assigned to the current user
-        #   role to assign is the same of the greater role assigned to the current user
-        #   current user is not sysadmin or owner
-        self.roles.each do |current_role|
-            return true if current_role.object_level_permission > role.object_level_permission
-            return true if current_role.name == "owner"
-        end
-
-        return false
-
     end
 
 
