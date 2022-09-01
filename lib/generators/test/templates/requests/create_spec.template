@@ -22,10 +22,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 params_hash_value[value] =   Faker::Name.name
             end
             
-            puts "parametros random #{params_hash_value}"
-            
-            hash_name = [[controller_folder]].to_s.concat("_").concat([[controller_file]]).to_s
-            puts "nombre del hash armado #{[[controller_folder]].concat("_").concat([[controller_file]])}"
 
             post("[[url]].json", params: {
                 #[[controller]]: params_hash_value
@@ -44,12 +40,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             params.each do |value|
                 params_hash_empty[value] =  ""
             end
-            
-            puts "parametros random #{params_hash_empty}"
-            
-            
-            hash_name = [[controller_folder]].to_s.concat("_").concat([[controller_file]]).to_s
-            puts "nombre del hash armado #{[[controller_folder]].concat("_").concat([[controller_file]])}"
 
             post("[[url]].json", params: {
                 #[[controller]]: params_hash_empty
@@ -69,12 +59,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             params.each do |value|
                 params_hash_nil[value] =  nil
             end
-            
-            puts "parametros random #{params_hash_nil}"
-            
-            
-            hash_name = [[controller_folder]].to_s.concat("_").concat([[controller_file]]).to_s
-            puts "nombre del hash armado #{[[controller_folder]].concat("_").concat([[controller_file]])}"
 
             post("[[url]].json", params: {
                 #[[controller]]: params_hash_nil
