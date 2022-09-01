@@ -7,51 +7,33 @@
 require "lesli_request_helper"
 
 
-RSpec.describe "DEL:[[url]]/:id.json", type: :request do
-    include_context "request user authentication"
+RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+    describe "POST:[[url]].json", type: :request do
+        include_context "request user authentication"
+        # helper methods
 
-    # helper methods
 
-    def create_record(record_params)
-        @[[controller]]_record = @current_user.account.[[model]].new(record_params)
-        @[[controller]]_record.save!
-        @[[controller]]_record
+        # test cases
+
+        it "is expected that the record has been removed from the database" do
+            #@[[controller]] = create_record({})
+            #before run test, you must create an object of the class youll like to test
+
+            delete("[[url]]/#{@[[controller]].id}.json")
+
+            # shared examples
+            expect_response_with_successful
+
+        end
+
+        it "is expected to respond with not found when an invalid ID is sent" do
+            # this ID does not exist, so should return with not found
+            #@invalid_id = create_record({}).id + 1
+
+            delete("[[url]]/#{@invalid_id}.json")
+            
+            # shared examples
+            expect_response_with_not_found
+        end
     end
-
-    # test cases
-
-    it "is expected that the record has been removed from the database" do
-        @[[controller]] = create_record({})
-
-        delete("[[url]]/#{@[[controller]].id}.json")
-
-        # shared examples
-        expect_json_response_successful
-
-        # custom expects
-        expect([[model]].find_by(id: @[[controller]].id)).to be_nil
-    end
-
-    it "is expected to respond with not found when an invalid ID is sent" do
-        # this ID does not exist, so should return with not found
-        @invalid_id = create_record({}).id + 1
-
-        delete("[[url]]/#{@invalid_id}.json")
-        
-        # shared examples
-        expect_json_response_not_found
-    end
-
-    it "is expected to redirect to login when no user is authenticated" do
-        login = "/login"
-
-        # we ensure that no one user is authenticated
-        sign_out @current_user
-
-        delete("[[url]]/0.json")
-
-        # custom examples
-        expect(response).to redirect_to(login)
-    end
-
 end
