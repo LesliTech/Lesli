@@ -28,7 +28,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             puts "nombre del hash armado #{[[controller_folder]].concat("_").concat([[controller_file]])}"
 
             post("[[url]].json", params: {
-                [[controller_folder]].concat("_").concat([[controller_file]]): params
+                #[[controller]]: params_hash_value
             })
 
             # shared examples
@@ -52,7 +52,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             puts "nombre del hash armado #{[[controller_folder]].concat("_").concat([[controller_file]])}"
 
             post("[[url]].json", params: {
-                [[controller_folder]].concat("_").concat([[controller_file]]): params
+                #[[controller]]: params_hash_empty
             })
 
             # shared examples
@@ -77,12 +77,11 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             puts "nombre del hash armado #{[[controller_folder]].concat("_").concat([[controller_file]])}"
 
             post("[[url]].json", params: {
-                [[controller_folder]].concat("_").concat([[controller_file]]): params
+                #[[controller]]: params_hash_nil
             })
 
             # shared examples
-            expect_response_with_successful
-
+            expect_response_with_error
 
         end
     end

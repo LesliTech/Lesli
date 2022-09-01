@@ -11,7 +11,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         include_context "request user authentication"
 
         # helper methods
-
+        #def create_record(record_params)
+            #define a method to create and object and be sure the table will not be empty of data
+        #end
         # test cases
 
 
@@ -19,7 +21,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #@[[controller]] = create_record({})
             #before run test, you must create an object of the class youll like to test
 
-            get("[[url]].id.json")
+            get("[[url]]#{@[[controller]].id}.json")
 
             # shared examples
             expect_response_with_successful
@@ -31,7 +33,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #@invalid_id = create_record({}).id + 1
             #before run test, you must create an object of the class youll like to test
 
-            get("[[url]].id.json")
+            get("[[url]]#{@[[controller]].id}")
 
             #shared examples
             expect_response_with_not_found
