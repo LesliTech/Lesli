@@ -34,6 +34,22 @@ class Account::SettingsController < ApplicationLesliController
     def show
     end
 
+    # GET /settings/security
+    def security
+    end
+
+    # GET /settings/date_time
+    def date_time
+    end
+
+    # GET /settings/branding
+    def branding
+    end
+
+    # GET /settings/theme
+    def theme
+    end
+
     # POST /settings
     def create
         if params[:settings].blank?
@@ -97,4 +113,7 @@ class Account::SettingsController < ApplicationLesliController
     def set_account_setting
         @setting = current_user.account.settings.find_by(id: params[:id])
     end
+
+
+
 end
