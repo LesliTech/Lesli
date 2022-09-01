@@ -65,7 +65,7 @@ const tab = ref(0)
         <cardActions></cardActions>
         <lesli-tabs v-model="tab" v-if="storeUser.user.id">
             <lesli-tab-item title="Information">
-                <formInformation></formInformation>
+                <formInformation is-editable></formInformation>
             </lesli-tab-item>
             <lesli-tab-item title="Roles and privileges">
                 <formRoles></formRoles>
