@@ -12,6 +12,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         # test cases
         #one or more test could fail when first run them, verify the routes, controller locations and names
         #
+
         it "is expected to test the creation of the record with values" do
 
             #search posibles permit values to create an element
@@ -29,7 +30,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 [[hash_permit]]: params_hash_value
             })
 
-            # shared examples
+            #shared examples
             expect_response_with_successful
 
             # validate others custom values expected here
@@ -53,8 +54,8 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 #permit hash should have format "controller"_"module"
             })
 
-            # shared examples
-            # should respond with error when parameters are empty
+            #shared examples
+            #should respond with error when parameters are empty
             expect_response_with_error
 
             # validate others custom values expected here

@@ -11,15 +11,18 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         include_context "request user authentication"
 
         # helper methods
-        #def create_record(record_params)
-            #define a method to create and object and be sure the table will not be empty of data
-        #end
-        # test cases
 
+        #def create_element
+            #if it necesary, define a method to create and object and be sure the table will not be empty of data
+        #end
+        
+        # test cases
+        #one or more test could fail when first run them, verify the routes, controller locations and names
+        #
 
         it "is expected to respond with the record data" do
-            #@[[controller]] = create_record({})
-            #before run test, you must create an object of the class youll like to test
+            #make sure you have created some elements before run test and reference its id 
+            #create_element
 
             get("[[url]]#{@[[controller]].id}.json")
 
@@ -30,13 +33,18 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
         it "is expected to respond with not found when an invalid ID is sent" do
             # this ID does not exist, so should return with not found
-            #@invalid_id = create_record({}).id + 1
+            #@invalid_id = create_element.last.id + 1
             #before run test, you must create an object of the class youll like to test
 
+            #test will fail if element id exist
             get("[[url]]#{@[[controller]].id}")
 
-            #shared examples
+            # shared examples
+            # this ID does not exist, so should return with not found
             expect_response_with_not_found
+
+            # validate others custom values expected here
+
         end
     end
 end

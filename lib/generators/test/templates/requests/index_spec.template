@@ -12,17 +12,25 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
         # helper methods
 
-        #def create_record(record_params)
-            #define a method to create and object and be sure the table will not be empty of data
+        #def create_element
+            #if it necesary, define a method to create and object and be sure the table will not be empty of data
         #end
 
         # test cases
+        #one or more test could fail when first run them, verify the routes, controller locations and names
+        #
 
         it "is expected to respond with successful" do
+            
+            #make sure you have created some elements before run test 
+            #create_element
+
             get("[[url]].json")
 
-            # shared examples
+            #shared examples
             expect_response_with_successful
+
+            #validate others custom values expected here
 
         end
     end
