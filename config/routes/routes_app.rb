@@ -181,9 +181,7 @@ module RoutesApp
                 end 
 
                 # roles & privileges management
-                # TODO:
-                #   describe routes, add "only" params to every route
-                resources :roles, only: [:index, :show, :edit, :update] do
+                resources :roles, only: [:index, :show, :edit, :update, :create] do
                     scope module: :role do
                         resources :privileges, only: [:index]
                         resources :activities, only: [:index]

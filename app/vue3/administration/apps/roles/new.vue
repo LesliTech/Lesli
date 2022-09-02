@@ -20,7 +20,8 @@ For more information read the license file including with this software.
 
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed, inject } from "vue"
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter, useRoute } from "vue-router"
+import componentFormRole from "./form.vue"
 
 
 // · import lesli stores
@@ -29,6 +30,7 @@ import { useRole } from "../../stores/role"
 
 // · initialize/inject plugins
 const router = useRouter()
+const route = useRoute()
 const msg = inject("msg")
 const url = inject("url")
 
@@ -38,58 +40,29 @@ const storeRole = useRole()
 
 
 // · 
-const columns = [{
-    field: "id",
-    label: "ID"
-}, {
-    field: "name",
-    label: "Name",
-    sort: true
-},  {
-    field: "active",
-    label: "Status",
-    sort: true
-}, {
-    field: "usage_count",
-    label: "Usage",
-    sort: true
-}, {
-    field: "created_at",
-    label: "Created at"
-}, {
-    field: "creator_name",
-    label: "Created by"
-}]
+const translations = {
+    core: {
+        shared: I18n.t('core.shared'),
+        roles: I18n.t('core.roles')
+    }
+}
 
 
 // · 
 onMounted(() => {
-    storeRole.fetch()
 })
-
-
-// · 
-function showRole(r) {
-    router.push(url.admin("roles/:id", r.id).s)
-}
 
 </script>
 <template>
     <section class="application-component">
-        <lesli-header title="Roles & privileges">
-            <lesli-button icon="add" :to="url.admin('roles/new')">
-                Create role
+        <lesli-header title="Create a new role">
+            <lesli-button icon="list" :to="url.admin('roles')">
+                All roles
+            </lesli-button>
+            <lesli-button icon="preview" :to="url.admin('roles/:id', storeRole.role.id)">
+                Show role
             </lesli-button>
         </lesli-header>
-        <lesli-toolbar></lesli-toolbar>
-        <lesli-table
-            @click="showRole"
-            :columns="columns"
-            :records="storeRole.records"
-            :pagination="storeRole.pagination">
-            <template #active="{ value }">
-                <span class="tag is-success is-light" v-if="value">active</span>
-            </template>
-        </lesli-table>
+        <componentFormRole></componentFormRole>
     </section>
 </template>

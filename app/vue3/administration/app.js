@@ -33,6 +33,7 @@ import appDescriptorsShow from "Lesli/vue3/administration/apps/descriptors/show.
 import appRolesIndex from "Lesli/vue3/administration/apps/roles/index.vue"
 import appRolesShow from "Lesli/vue3/administration/apps/roles/show.vue"
 import appRolesEdit from "Lesli/vue3/administration/apps/roles/edit.vue"
+import appRolesNew from "Lesli/vue3/administration/apps/roles/new.vue"
 
 import appIntegrationsIndex from "Lesli/vue3/administration/apps/integrations/index.vue"
 import appIntegrationsNew from "Lesli/vue3/administration/apps/integrations/new.vue"
@@ -66,6 +67,9 @@ app("Administration", [{
 }, {
     path: "/roles",
     component: appRolesIndex
+}, {
+    path: "/roles/new",
+    component: appRolesNew
 }, {
     path: "/roles/:id",
     component: appRolesShow
