@@ -24,8 +24,8 @@ FactoryBot.define do
     factory :role, class: "Role" do
         name { Faker::Lorem.word }
         active { true }
-        object_level_permission { Faker::Number.number(digits: 4) }
-        accounts_id { Account.first }
+        object_level_permission { Faker::Number.number(digits: 2) }
+        account { Account.first }
     end
 
     # Invalid role
@@ -33,7 +33,7 @@ FactoryBot.define do
         name { nil }
         active { nil }
         object_level_permission { 0 }
-        accounts_id { Account.first }
+        account { Account.first }
     end
 
 end
