@@ -90,6 +90,7 @@ class Role < ApplicationLesliRecord
             )
             users on users.roles_id = roles.id
         ")
+        .where("roles.object_level_permission <= ?", role_max)
         .order(object_level_permission: :desc, name: :asc)
         .select(:id, :name, :active, :only_my_data, :default_path, :object_level_permission, "users.user_count")
 
@@ -100,21 +101,14 @@ class Role < ApplicationLesliRecord
                 role_max = query[:filters][:object_level_permission] if query[:filters][:object_level_permission].to_i <= role_max
             end
 
-            roles = roles.where("roles.object_level_permission <= ?", role_max)
+            
         end
 
-        roles = roles
-            .page(query[:pagination][:page])
-            .per(query[:pagination][:perPage])
-            .order(object_level_permission: :desc, name: :asc)
+        roles
+        .page(query[:pagination][:page])
+        .per(query[:pagination][:perPage])
+        .order(object_level_permission: :desc, name: :asc)
 
-        LC::Response.pagination(
-            roles.current_page,
-            roles.total_pages,
-            roles.total_count,
-            roles.length,
-            roles
-        )
     end
 
     def show
