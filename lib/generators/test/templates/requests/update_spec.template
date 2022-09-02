@@ -13,16 +13,19 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         # helper methods
 
 
-        #def create_record(record_params)
-            #define a method to create and object and be sure the table will not be empty of data
+        #def create_element
+            #if it necesary, define a method to create and object and be sure the table will not be empty of data
         #end
 
         # test cases
+        #one or more test could fail when first run them, verify the routes, controller locations and names
+        #
 
         it "is expected to update record" do
-            #@[[controller]] = create_record({})
-            #before run test, you must create an object of the class youll like to test
+            #make sure you have created some elements before run test and reference its id 
+            #create_element
 
+            #search posibles permit values to update an element
             params = [[controller_folder_upper]]::[[controller_file_upper]].column_names
             params_hash_value = {}
             params.each do |value|
@@ -30,28 +33,26 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             end
 
             put("[[url]]/#{@[[controller]].id}.json", params: {
-                [[hash_permit]]: params_hash_value
                 #permit hash should have format "controller"_"module"
-
+                [[hash_permit]]: params_hash_value
             })
 
             # shared examples
             expect_response_with_successful
 
-            # custom examples
+            #validate others custom values expected here
             #@[[controller]]_params.each do |key, value|
             #   expect(response_data[key.to_s]).to eq(value)
             #end
         end
 
         it "is expectd to respond with not found when an invalid ID is sent" do
-            #@invalid_id = create_record({}).id + 1
-            #before run test, you must create an object of the class youll like to test
+            # this ID does not exist, so should return with not found
+            #@invalid_id = create_element.last.id + 1
 
             put("[[url]]/#{@invalid_id}.json", params: {
-                [[hash_permit]]: @[[controller]]_params
                 #permit hash should have format "controller"_"module"
-
+                [[hash_permit]]: @[[controller]]_params
             })
 
             # shared examples
@@ -59,9 +60,10 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         end
 
         it "is expected to update record when value is empty" do
-            #@[[controller]] = create_record({})
-            #before run test, you must create an object of the class youll like to test
+            #make sure you have created some elements before run test and reference its id 
+            #create_element
 
+            #search posibles permit values to update an element
             params = [[controller_folder_upper]]::[[controller_file_upper]].column_names
             params_hash_empty = {}
             params.each do |value|
@@ -69,24 +71,24 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             end
 
             put("[[url]]/#{@[[controller]].id}.json", params: {
-                [[hash_permit]]: params_hash_empty
                 #permit hash should have format "controller"_"module"
-
+                [[hash_permit]]: params_hash_empty
             })
 
             # shared examples
             expect_response_with_successful
 
-            # custom examples
+            #validate others custom values expected here
             #@[[controller]]_params.each do |key, value|
             #   expect(response_data[key.to_s]).to eq(value)
             #end
         end
 
         it "is expected to update record when value is nil or undefine" do
-            #@[[controller]] = create_record({})
-            #before run test, you must create an object of the class youll like to test
+            #make sure you have created some elements before run test and reference its id 
+            #create_element
 
+            #search posibles permit values to update an element
             params = [[controller_folder_upper]]::[[controller_file_upper]].column_names
             params_hash_nil = {}
             params.each do |value|
@@ -94,13 +96,17 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             end
 
             put("[[url]]/#{@[[controller]].id}.json", params: {
-                [[hash_permit]]: params_hash_nil
                 #permit hash should have format "controller"_"module"
-
+                [[hash_permit]]: params_hash_nil
             })
 
             # shared examples
             expect_response_with_error
+
+            #validate others custom values expected here
+            #@[[controller]]_params.each do |key, value|
+            #   expect(response_data[key.to_s]).to eq(value)
+            #end
         end
     end
 end
