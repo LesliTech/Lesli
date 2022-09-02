@@ -48,6 +48,7 @@ const translations = {
                     <div class="field">
                         <div class="control has-icons-left">
                             <input 
+                                required
                                 class="input" 
                                 type="password" 
                                 v-model="storeUser.passwords.password" 
@@ -69,6 +70,7 @@ const translations = {
                     <div class="field">
                         <div class="control has-icons-left">
                             <input 
+                                required
                                 class="input" 
                                 type="password" 
                                 v-model="storeUser.passwords.password_confirmation" 

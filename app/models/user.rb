@@ -604,7 +604,7 @@ class User < ApplicationLesliRecord
     #     }
     def show(current_user = nil)
         user = self.account.users.find(id)
-
+        
         return {
             id: user[:id],
             email: user[:email],
@@ -617,6 +617,7 @@ class User < ApplicationLesliRecord
             full_name: user.full_name,
             mfa_enabled: user.mfa_settings[:enabled],
             mfa_method:  user.mfa_settings[:method],
+            language: user.settings.find_by(:name => "locale"),
             detail_attributes: {
                 title: user.detail[:title],
                 salutation: user.detail[:salutation],
