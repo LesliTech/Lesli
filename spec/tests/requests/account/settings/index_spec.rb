@@ -46,6 +46,39 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body.first).to have_key("created_at")
             expect(response_body.first).to have_key("updated_at")
             expect(response_body.first).to have_key("accounts_id")
-        end 
+        end
+
+        it "is expected to respond with all the records from account settings" do
+            settings = []
+            get("/administration/account/settings.json")
+    
+    
+            # shared examples
+            expect_response_with_successful
+    
+            expect(response_body).to be_a(Array)
+    
+            #Get the settings from the response body
+            for i in response_body do
+                settings.append(i['name'])
+            end
+    
+            # Verify if the expected settings are present in the response body
+            expect("datetime_format_date").to be_in(settings)
+            expect("datetime_format_time").to be_in(settings)
+            expect("datetime_format_date_words").to be_in(settings)
+            expect("datetime_format_date_time").to be_in(settings)
+            expect("datetime_format_date_time_words").to be_in(settings)
+            expect("datetime_time_zone").to be_in(settings)
+            expect("password_enforce_complexity").to be_in(settings)
+            expect("password_minimum_length").to be_in(settings)
+            expect("password_expiration_time_days").to be_in(settings)
+            expect("password_special_char_count").to be_in(settings)
+            expect("password_uppercase_count").to be_in(settings)
+            expect("password_lowercase_count").to be_in(settings)
+            expect("password_digit_count").to be_in(settings)
+            
+        end
+
     end
 end
