@@ -27,7 +27,6 @@ RSpec.describe "DELETE:/administration/account/integrations/:id.json", type: :re
             account_integration = @current_user.account.integrations.new(name: Faker::Superhero.power)
             account_integration.user_main = @current_user
             if account_integration.save
-                email = Faker::Internet.email
                 user = @current_user.account.users.find_or_create_by(id: @current_user.id) do |user|
                     user.category = "integration"
                     user.active = true
@@ -37,7 +36,7 @@ RSpec.describe "DELETE:/administration/account/integrations/:id.json", type: :re
                     user.save!
                 end
             end
-            return integration = account_integration
+            return account_integration
         end
 
         it 'is expected to respond succesful' do
