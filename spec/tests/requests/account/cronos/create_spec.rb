@@ -132,7 +132,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 :hour => "",
                 :day_of_month => "",
                 :month => "",
-                :day_of_week => ""
+                :day_of_week => "",
+                :task_name =>  "", 
+                :engine_code => ""
             }
 
             post("/administration/account/cronos.json", params: {
@@ -160,7 +162,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 :hour => nil,
                 :day_of_month => nil,
                 :month => nil,
-                :day_of_week => nil
+                :day_of_week => nil,
+                :task_name =>  nil, 
+                :engine_code => nil
             }
 
             post("/administration/account/cronos.json", params: {
