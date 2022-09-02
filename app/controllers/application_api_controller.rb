@@ -21,7 +21,7 @@ class ApplicationApiController < ActionController::API
     include ActionController::MimeResponds
     include Interfaces::Application::Responder
     include Interfaces::Application::Logger
-    include Intefaces::Application::Requester
+    include Interfaces::Application::Requester
 
     before_action :set_locale
     before_action :authorize_request
