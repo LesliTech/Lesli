@@ -3,43 +3,48 @@
 [[license]]
 =end
 
-
 require "lesli_request_helper"
-
 
 RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
     describe "POST:[[url]].json", type: :request do
         include_context "request user authentication"
 
         # test cases
-
+        #one or more test could fail when first run them, verify the routes, controller locations and names
+        #
         it "is expected to test the creation of the record with values" do
-            #@[[controller]]_params = {}
 
+            #search posibles permit values to create an element
             params = [[controller_folder_upper]]::[[controller_file_upper]].column_names
             params_hash_value = {}
+
+            #cast column_names (its an Array) into a hash an insert values
             params.each do |value|
-                params_hash_value[value] =   Faker::Name.name
+                params_hash_value[value] = Faker::Name.name
             end
             
 
             post("[[url]].json", params: {
+                #permit name hash should have format "controller"_"module"
                 [[hash_permit]]: params_hash_value
-                #permit hash should have format "controller"_"module"
-
             })
 
             # shared examples
             expect_response_with_successful
 
+            # validate others custom values expected here
+
         end
 
         it "is expected to test the creation of the record with empty values" do
-            #@[[controller]]_params = {}
 
+            #search posibles permit values to create an element
             params = [[controller_folder_upper]]::[[controller_file_upper]].column_names
             params_hash_empty = {}
+            
+            #search posibles permit values to create an element
             params.each do |value|
+                #assing empty values to test parameters
                 params_hash_empty[value] =  ""
             end
 
@@ -49,17 +54,22 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             })
 
             # shared examples
-            expect_response_with_successful
+            # should respond with error when parameters are empty
+            expect_response_with_error
 
+            # validate others custom values expected here
 
         end
 
         it "is expected to test the creation of the record with empty values" do
-            #@[[controller]]_params = {}
 
+            #search posibles permit values to create an element
             params = [[controller_folder_upper]]::[[controller_file_upper]].column_names
             params_hash_nil = {}
+
+            #search posibles permit values to create an element
             params.each do |value|
+                #assing nil values to test parameters
                 params_hash_nil[value] =  nil
             end
 
@@ -69,7 +79,10 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             })
 
             # shared examples
+            # should respond with error when parameters are nil or undefine
             expect_response_with_error
+
+            # validate others custom values expected here
 
         end
     end
