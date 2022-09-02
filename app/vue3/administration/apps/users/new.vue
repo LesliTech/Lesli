@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed, onUnmounted } from "vue"
+import { onMounted } from "vue"
 import { useRouter, useRoute } from 'vue-router'
 
 
@@ -26,13 +26,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { useUser } from "LesliVue/stores/user"
 
 // · import profile components
-import cardActions from "./components/card-actions.vue"
-import cardInformation from "./components/card-information.vue"
 import formInformation from "./components/form-information.vue"
-import managementSession from "./components/management-sessions.vue"
-import formSecurity from "./components/form-security.vue"
-import integrationsInformation from "./components/integrations-information.vue"
-
 
 // · implement stores
 const storeUser = useUser()
@@ -47,34 +41,19 @@ const translations = {
         shared: I18n.t("core.shared")
     }
 }
-
-
+    
 // · initializing
 onMounted(() => {
-    storeUser.fetch(route.params?.id)
+
 })
 
-const tab = ref(0)
 </script>
+
 <template>
     <section class="application-component">
-        <cardInformation></cardInformation>
-        <cardActions></cardActions>
-        <lesli-tabs v-model="tab" v-if="this.storeUser.user.id">
-            <lesli-tab-item title="Information">
-                <formInformation is-editable></formInformation>
-            </lesli-tab-item>
-            <lesli-tab-item title="Suscripciones"></lesli-tab-item>
-            <lesli-tab-item title="Security">
-                <formSecurity></formSecurity>
-            </lesli-tab-item>
-            <lesli-tab-item title="Session management">
-                <managementSession></managementSession>
-            </lesli-tab-item>
-            <lesli-tab-item title="Settings"></lesli-tab-item>
-            <lesli-tab-item title="Integraciones">
-                <integrationsInformation></integrationsInformation>
-            </lesli-tab-item>
-        </lesli-tabs>
+        <lesli-header title="Create User"></lesli-header>
+        <div class="box">
+            <formInformation/>
+        </div>
     </section>
 </template>

@@ -150,6 +150,7 @@ class UsersController < ApplicationLesliController
         user = User.new({
             :active => true,
             :email => user_params[:email],
+            :alias => user_params[:alias],
             :detail_attributes => user_params[:detail_attributes]
         })
 
