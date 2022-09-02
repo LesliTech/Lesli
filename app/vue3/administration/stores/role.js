@@ -53,12 +53,15 @@ export const useRole = defineStore("administration.role", {
             })
         },
 
+        postRole() {
+            return this.http.post(this.url.admin("roles"), this.role)
+        },
+
         putRole() {
             this.http.put(this.url.admin("roles/:id", this.role.id), this.role).then(result => {
                 this.msg.success(I18n.t('core.roles.messages_success_role_successfully_updated'))
             })
         },
-
 
         getDescriptors() {
             this.http.get(this.url.admin("roles/:id/describers", this.role.id)).then(descriptors => {

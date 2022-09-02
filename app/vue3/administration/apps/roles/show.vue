@@ -89,6 +89,9 @@ function changeDescriptor(descriptor) {
 <template>
     <section class="application-component">
         <lesli-header :title="'Privileges for: ' + storeRole.role.name + ' role '">
+            <lesli-button icon="list" :to="url.admin('roles')">
+                All roles
+            </lesli-button>
             <lesli-button icon="edit" :to="url.admin('roles/:id/edit', storeRole.role.id)">
                 Edit role
             </lesli-button>
