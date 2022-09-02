@@ -20,82 +20,67 @@ For more information read the license file including with this software.
 require "lesli_request_helper"
 
 RSpec.describe 'PUT:/administration/roles.json', type: :request do
+
     include_context "request user authentication"
 
     it 'is expected to update a role' do
-        expect(@response_body["data"]["id"]).to eql(@role.id)
-        expect(@response_body["data"]["name"]).to eql(@role.name)
-        expect(@response_body["data"]["active"]).to eql(@role_active)
-        expect(@response_body["data"]["object_level_permission"]).to eql(@role.object_level_permission)
-    end
-end
 
+        role = FactoryBot.create(:role)
 
-RSpec.describe 'PUT:/administration/roles.json', type: :request do
-    include_context 'user authentication'
-
-    before(:all) do
-        @role_name = Faker::Artist.name
-        @role = @user.account.roles.order(object_level_permission: :desc).first
-        put("/administration/roles/#{@role.id}.json", params: {
+        put("/administration/roles/#{role.id}.json", params: {
             role: {
-                name: @role_name
+                active: false
             }
         })
-    end
 
-    #include_examples 'error standard json response'
+
+        # shared examples
+        expect_response_with_successful        
+
+        # custom specs
+        expect(response_body["id"]).to eql(role.id)
+        expect(response_body["name"]).to eql(role.name)
+        expect(response_body["active"]).to eql(false)
+        expect(response_body["object_level_permission"]).to eql(role.object_level_permission)
+    end
 
     it 'is expected to fail updating a role with highest level' do
-        #expect(@response_body["successful"]).to eql(false)
-    end
-end
 
+        role = FactoryBot.create(:role)
+        role.object_level_permission = @current_user.roles.map(&:object_level_permission).max() + 10
+        role.save!
 
-RSpec.describe 'PUT:/administration/roles.json', type: :request do
-    include_context 'user authentication'
-
-    before(:all) do
-        @user_role_level_max = @user.roles.map(&:object_level_permission).max()
-        @role_active = false
-        @role = @user.account.roles.where(:object_level_permission => @user_role_level_max).first
-        put("/administration/roles/#{@role.id}.json", params: {
+        put("/administration/roles/#{role.id}.json", params: {
             role: {
-                active: @role_active
+                name: Faker::Lorem.word
             }
         })
-    end
 
-    include_examples 'successful standard json response'
+        # shared examples
+        expect_response_with_error 
+
+        # custom specs
+        expect(response_body["message"]).to eql(I18n.t("core.roles.messages_danger_updating_role_object_level_permission_too_high"))
+
+    end
 
     it 'is expected to update a role with same object level permission' do
-        expect(@response_body["data"]["id"]).to eql(@role.id)
-        expect(@response_body["data"]["name"]).to eql(@role.name)
-        expect(@response_body["data"]["active"]).to eql(@role_active)
-        expect(@response_body["data"]["object_level_permission"]).to eql(@role.object_level_permission)
-    end
-end
 
+        role = FactoryBot.create(:role)
+        role.object_level_permission = @current_user.roles.map(&:object_level_permission).max() + 10
+        role.save!
 
-RSpec.describe 'PUT:/administration/roles/1/descriptor_assignments.json', type: :request do
-    include_context 'user authentication'
-
-    before(:all) do
-        categories = ["index", "create", "update", "show", "destroy", "search"]
-        @category = categories[Faker::Number.between(from: 0, to: categories.size)]
-        @role_descriptor = RoleDescriptor.order(Arel.sql('RANDOM()')).first
-
-        post("/administration/roles/1/descriptor_assignments.json", params: {
-            role_descriptor_assignment: {
-                role_descriptors_id: @role_descriptor.id,
-                category: @category
+        put("/administration/roles/#{role.id}.json", params: {
+            role: {
+                name: Faker::Lorem.word
             }
         })
-    end
 
-    include_examples 'successful standard json response'
+        # shared examples
+        expect_response_with_error 
 
-    it 'is expected to update a role with same object level permission' do
-        expect(@response_body["data"]["category"]).to eql(@category)
+        # custom specs
+        expect(response_body["message"]).to eql(I18n.t("core.roles.messages_danger_updating_role_object_level_permission_too_high"))
+
     end
 end
