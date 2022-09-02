@@ -26,36 +26,51 @@ module LC
         class Controllers
 
             def self.scan2
+
+                # Global container
                 controller_list = {
-                    :core => {}
+                    "core" => {}
                 }
 
+                # Get the name of the instance (builder engine)
                 instance = Rails.configuration.lesli_settings["instance"][:name]
                 
+                # Get the list of controllers and actions of the core
                 Rails.application.routes.routes.each do |route| 
                     route = route.defaults 
                     
+                    # filter the non-used core routes
                     next if route[:controller].blank?
                     next if route[:controller].include? "rails"
                     next if route[:controller].include? "action_mailbox"
                     next if route[:controller].include? "active_storage"
                     
-                    controller = route[:controller].to_sym
-                    controller_list[:core][controller] = [] unless controller_list[controller]
-                    
-                    #controller_list[controller].push(route[:action])
+                    # create a container for the actions related to a controller
+                    controller_list["core"][route[:controller]] = [] unless controller_list["core"][route[:controller]]
+
+                    # assign and group all the actions related to the controller
+                    controller_list["core"][route[:controller]].push(route[:action])
+
                 end
 
+                # Get the list of controllers and actions from engines
                 Rails.configuration.lesli_settings["engines"].each do |engine|
+
+                    # load and retrieve the list of controllers and actions from an engine
                     routes = "#{engine[:name]}::Engine".constantize.routes.routes.each do |route| 
                         route = route.defaults 
-                        engine_code = engine[:name].underscore.to_sym
-                        controller = route[:controller].to_sym
+
+                        # get the engine code
+                        engine_code = engine[:name].underscore
                         
+                        # create a container for the controllers related to the engine
                         controller_list[engine_code] = {} if controller_list[engine_code].blank?
-                        controller_list[engine_code][controller] = [] if controller_list[engine_code][controller].blank?
+
+                        # assign and group all the actions related to the controller
+                        controller_list[engine_code][route[:controller]] = [] if controller_list[engine_code][route[:controller]].blank?
                         
-                        #controller_list[route[:controller]].push(route[:action])
+                        # assign and group all the actions related to the controller
+                        controller_list[engine_code][route[:controller]].push(route[:action])
 
                     end
                 end
