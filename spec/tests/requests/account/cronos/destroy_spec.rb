@@ -16,56 +16,61 @@ For more information read the license file including with this software.
 
 =end
 
-require "rails_helper"
-require "spec_helper"
-require "byebug"
+require "lesli_request_helper"
 
-RSpec.describe "DELETE:/administration/account/cronos/:id", type: :request do
-    include_context "user authentication"
+RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+    describe "DELETE:/administration/account/cronos/:id", type: :request do
+        include_context "request user authentication"
 
-    before(:all) do
-        @account_crono = @user.account.cronos.create!({
-            :name => Faker::Lorem.word,
-            :description => Faker::Lorem.paragraph,
-            :minute => Time.now.min,
-            :hour => Time.now.hour,
-            :day_of_month => Time.now.day,
-            :month => Time.now.month,
-            :day_of_week => Time.now.wday,
-            :users_id => @user.id
-        })
+        it "is expected to respond with a crono deleted successfully" do
+            crono_params = {
+                :name => Faker::Lorem.word,
+                :description => Faker::Lorem.paragraph,
+                :minute => Time.now.min,
+                :hour => Time.now.hour,
+                :day_of_month => Time.now.day,
+                :month => Time.now.month,
+                :day_of_week => Time.now.wday,
+                :task_name =>  Faker::Lorem.word, 
+                :engine_code => Faker::Lorem.word
+            }
 
-        delete "/administration/account/cronos/#{@account_crono.id}.json"
-    end
+            crono = @current_user.account.cronos.new(crono_params)
+            crono.save
 
-    include_examples "successful standard json response"
+            delete("/administration/account/cronos/#{crono.id}.json")
+            
+            #share examples
+            expect_response_with_successful
+        end
 
-    it "is expected to respond with a crono deleted successfully" do
-        expect(@response_body_data).to be_nil
-        expect(@user.account.cronos.find_by(id: @account_crono.id)).to be_nil
-    end
-end
 
-RSpec.describe "DELETE:/administration/account/cronos/:id", type: :request do
-    include_context "user authentication"
+        it "is expected to return with not found" do
+            crono_params = {
+                :name => Faker::Lorem.word,
+                :description => Faker::Lorem.paragraph,
+                :minute => Time.now.min,
+                :hour => Time.now.hour,
+                :day_of_month => Time.now.day,
+                :month => Time.now.month,
+                :day_of_week => Time.now.wday,
+                :task_name =>  Faker::Lorem.word, 
+                :engine_code => Faker::Lorem.word
+            }
 
-    before(:all) do
-        # Look for an ID that does not exist
-        @cronos = @user.account.cronos.all.with_deleted.order(:id)
-        @invalid_crono_id = @cronos.empty? ? 1 : @cronos.last["id"] + 1
+            crono = @current_user.account.cronos.new(crono_params)
+            crono.save
+            last_crono_id = @current_user.account.cronos.last.id
 
-        delete "/administration/account/cronos/#{@invalid_crono_id}.json"
-    end
+            delete("/administration/account/cronos/#{last_crono_id + 1}.json")
 
-    include_examples "not found standard json response"
+            #share examples
+            expect_response_with_not_found
 
-    it "is expected to return with not found" do
-        expect(@response_body).to be_a(Hash)
+            expect(response_body).to be_a(Hash)
 
-        expect(@response_body).to have_key("error")
-        expect(@response_body["error"].keys).to contain_exactly("message", "details")
-
-        expect(@response_body["error"]["message"]).to be_a(String)
-        expect(@response_body["error"]["details"]).to be_an(Array)
-    end
+            expect(response_body).to have_key("message")
+            expect(response_body["message"]).to be_a(String)
+        end
+    end 
 end
