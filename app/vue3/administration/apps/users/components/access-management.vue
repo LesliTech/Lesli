@@ -87,7 +87,7 @@ function updateStatus(){
                             required
                             class="input"
                             type="email"
-                            v-model="storeUser.user.email"
+                            v-model="storeUser.user.new_email"
                             :placeholder="translations.confirmations.view_placeholder_new_email">
                         <span class="icon is-small is-left">
                             <i class="fas fa-envelope"></i>
