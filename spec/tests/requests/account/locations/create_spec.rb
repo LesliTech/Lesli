@@ -30,7 +30,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 :native_level => nil,
                 :parent_id => nil,
             }
-            
+
             post("/administration/account/locations.json", params: {
                 location: new_location_data
             })
@@ -52,11 +52,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body["short_name"]).to be_nil
             expect(response_body["short_name"]).to eql(new_location_data[:short_name])
 
-
             expect(response_body).to have_key("postal_code")
             expect(response_body["postal_code"]).to be_nil
             expect(response_body["postal_code"]).to eql(new_location_data[:postal_code])
-
 
             expect(response_body).to have_key("latitude")
             expect(response_body["latitude"]).to be_nil
