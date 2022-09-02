@@ -1,5 +1,5 @@
 =begin
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -16,127 +16,233 @@ For more information read the license file including with this software.
 
 =end
 
-require 'lesli_request_helper'
+require "lesli_request_helper"
 
-RSpec.describe "PATCH:/administration/account/cronos/:id", type: :request do
-    include_context "user authentication"
+RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+    describe "PATCH:/administration/account/cronos.json", type: :request do
+        include_context "request user authentication"
 
-    before(:all) do
-        @account_crono = @user.account.cronos.create!({
-            :name => Faker::Lorem.word,
-            :description => Faker::Lorem.paragraph,
-            :minute => Time.now.min,
-            :hour => Time.now.hour,
-            :day_of_month => Time.now.day,
-            :month => Time.now.month,
-            :day_of_week => Time.now.wday,
-            :users_id => @user.id
-        })
+        it "is expected to return with not found" do
+            cronos = @current_user.account.cronos.all.with_deleted.order(:id)
+            invalid_crono_id = cronos.empty? ? 1 : cronos.last["id"] + 1
 
-        @new_data = {
-            :name => Faker::Lorem.word,
-            :description => Faker::Lorem.paragraph
-        }
+            patch("/administration/account/cronos/#{invalid_crono_id}.json", params: {
+                account_crono: {}
+            })
 
-        patch("/administration/account/cronos/#{@account_crono.id}.json", params: {
-            account_crono: @new_data
-        })
-    end
+            #share examples
+            expect_response_with_not_found
 
-    include_examples "successful standard json response"
+            expect(response_body).to be_a(Hash)
 
-    it "is expected to respond with a crono updated with the verb PATCH" do
-        expect(@response_body).to be_a(Hash)
-        expect(@response_body_data.keys).to contain_exactly(
-            "id",
-            "name",
-            "description",
-            "status",
-            "engine",
-            "rake",
-            "minute",
-            "hour",
-            "day_of_month",
-            "month",
-            "day_of_week",
-            "deleted_at",
-            "accounts_id",
-            "users_id",
-            "created_at",
-            "updated_at"
-        )
-
-        # Is expected to have been updated
-        @new_data.each do |key, value|
-            expect(@response_body_data[key.to_s]).to eql(value)
+            expect(response_body).to have_key("message")
+            expect(response_body["message"]).to be_a(String)
         end
-    end
-end
 
-RSpec.describe "PATCH:/administration/account/cronos/:id", type: :request do
-    include_context "user authentication"
+        it "is expected to fail when hash strong params is empty" do
+            crono = @current_user.account.cronos.new({
+                :name => Faker::Lorem.word,
+                :description => Faker::Lorem.paragraph,
+                :minute => Time.now.min,
+                :hour => Time.now.hour,
+                :day_of_month => Time.now.day,
+                :month => Time.now.month,
+                :day_of_week => Time.now.wday,
+                :task_name =>  Faker::Lorem.word, 
+                :engine_code => Faker::Lorem.word
+            })
+            crono.save
 
-    before(:all) do
-        @account_crono = @user.account.cronos.create!({
-            :name => Faker::Lorem.word,
-            :description => Faker::Lorem.paragraph,
-            :minute => Time.now.min,
-            :hour => Time.now.hour,
-            :day_of_month => Time.now.day,
-            :month => Time.now.month,
-            :day_of_week => Time.now.wday,
-            :users_id => @user.id
-        })
+            patch("/administration/account/cronos/#{crono.id}.json", params: {
+                account_crono: {}
+            })
 
-        patch("/administration/account/cronos/#{@account_crono.id}.json", params: {
-            account_crono: {
-                :name => "", # should not be empty or nil
-                :description => "",
-                :minute => nil, # should be a number
-                :hour => nil, # should be a number
-                :day_of_month => nil, # should be a number
-                :month => nil, # should be a number
-                :day_of_week => nil # should be a number
+            #share examples
+            expect_response_with_successful
+
+        end
+
+        it "is expected to fail when hash strong params are empty" do
+            crono = @current_user.account.cronos.new({
+                :name => Faker::Lorem.word,
+                :description => Faker::Lorem.paragraph,
+                :minute => Time.now.min,
+                :hour => Time.now.hour,
+                :day_of_month => Time.now.day,
+                :month => Time.now.month,
+                :day_of_week => Time.now.wday,
+                :task_name =>  Faker::Lorem.word, 
+                :engine_code => Faker::Lorem.word
+            })
+            crono.save
+
+            patch("/administration/account/cronos/#{crono.id}.json", params: {
+                account_crono: {
+                    :name => "",
+                    :description => "",
+                    :minute => "",
+                    :hour => "",
+                    :day_of_month => "",
+                    :month => "",
+                    :day_of_week => "",
+                    :task_name =>  "", 
+                    :engine_code => ""
+                }
+            })
+
+            #share examples
+            expect_response_with_error
+
+            expect(response_body).to be_a(Hash)
+            expect(response_body).to have_key("message")
+            expect(response_body["message"]).to be_a(String)
+            
+        end
+
+        it "is expected to fail when hash strong params are empty" do
+            crono = @current_user.account.cronos.new({
+                :name => Faker::Lorem.word,
+                :description => Faker::Lorem.paragraph,
+                :minute => Time.now.min,
+                :hour => Time.now.hour,
+                :day_of_month => Time.now.day,
+                :month => Time.now.month,
+                :day_of_week => Time.now.wday,
+                :task_name =>  Faker::Lorem.word, 
+                :engine_code => Faker::Lorem.word
+            })
+            crono.save
+
+            patch("/administration/account/cronos/#{crono.id}.json", params: {
+                account_crono: {
+                    :name => nil,
+                    :description => nil,
+                    :minute => nil,
+                    :hour => nil,
+                    :day_of_month => nil,
+                    :month => nil,
+                    :day_of_week => nil,
+                    :task_name =>  nil, 
+                    :engine_code => nil
+                }
+            })
+
+            #share examples
+            expect_response_with_error
+
+            expect(response_body).to be_a(Hash)
+            expect(response_body).to have_key("message")
+            expect(response_body["message"]).to be_a(String)
+            
+        end
+
+        it "is expected to fail when  params is empty" do
+            crono = @current_user.account.cronos.new({
+                :name => Faker::Lorem.word,
+                :description => Faker::Lorem.paragraph,
+                :minute => Time.now.min,
+                :hour => Time.now.hour,
+                :day_of_month => Time.now.day,
+                :month => Time.now.month,
+                :day_of_week => Time.now.wday,
+                :task_name =>  Faker::Lorem.word, 
+                :engine_code => Faker::Lorem.word
+            })
+            crono.save
+
+            patch("/administration/account/cronos/#{crono.id}.json", params: {
+            })
+
+            #share examples
+            expect_response_with_successful
+
+        end
+
+        it "is expected to fail when hash strong params is empty" do
+            crono = @current_user.account.cronos.new({
+                :name => Faker::Lorem.word,
+                :description => Faker::Lorem.paragraph,
+                :minute => Time.now.min,
+                :hour => Time.now.hour,
+                :day_of_month => Time.now.day,
+                :month => Time.now.month,
+                :day_of_week => Time.now.wday,
+                :task_name =>  Faker::Lorem.word, 
+                :engine_code => Faker::Lorem.word
+            })
+            crono.save
+
+            new_crono_params = {
+                :name => Faker::Lorem.word,
+                :description => Faker::Lorem.paragraph,
+                :minute => Time.now.min
             }
-        })
-    end
 
-    include_examples "error standard json response"
+            patch("/administration/account/cronos/#{crono.id}.json", params: {
+                account_crono: new_crono_params
+            })
 
-    it "is expected to return with error when params are not sent" do
-        expect(@response_body).to be_a(Hash)
+            #share examples
+            expect_response_with_successful
 
-        expect(@response_body).to have_key("error")
-        expect(@response_body["error"].keys).to contain_exactly("message", "details")
+            expect(response_body).to be_a(Hash)
+            expect(response_body).to have_key("id")
+            expect(response_body["id"]).to be_a(Numeric)
 
-        expect(@response_body["error"]["message"]).to be_a(String)
-        expect(@response_body["error"]["details"]).to be_an(Array)
-    end
-end
+            expect(response_body).to have_key("name")
+            expect(response_body["name"]).to be_a(String)
+            expect(response_body["name"]).to eql(new_crono_params[:name])
+
+            expect(response_body).to have_key("description")
+            expect(response_body["description"]).to be_a(String)
+            expect(response_body["description"]).to eql(new_crono_params[:description])
+
+            expect(response_body).to have_key("status")
+            expect(response_body["status"]).to be_nil
+
+            expect(response_body).to have_key("engine_code")
+            expect(response_body["engine_code"]).to be_a(String)
+            expect(response_body["engine_code"]).to eql(crono[:engine_code])
+
+            expect(response_body).to have_key("task_name")
+            expect(response_body["task_name"]).to be_a(String)
+            expect(response_body["task_name"]).to eql(crono[:task_name])
+
+            expect(response_body).to have_key("rake")
+            expect(response_body["rake"]).to be_nil
+
+            expect(response_body).to have_key("minute")
+            expect(response_body["minute"]).to be_a(Numeric)
+            expect(response_body["minute"]).to eql(new_crono_params[:minute])
+
+            expect(response_body).to have_key("hour")
+            expect(response_body["hour"]).to be_a(Numeric)
+            expect(response_body["hour"]).to eql(crono[:hour])
+
+            expect(response_body).to have_key("day_of_month")
+            expect(response_body["day_of_month"]).to be_a(Numeric)
+            expect(response_body["day_of_month"]).to eql(crono[:day_of_month])
+
+            expect(response_body).to have_key("month")
+            expect(response_body["month"]).to be_a(Numeric)
+            expect(response_body["month"]).to eql(crono[:month])
+
+            expect(response_body).to have_key("day_of_week")
+            expect(response_body["day_of_week"]).to be_a(Numeric)
+            expect(response_body["day_of_week"]).to eql(crono[:day_of_week])
+
+            expect(response_body).to have_key("deleted_at")
+            expect(response_body["deleted_at"]).to be_nil
+
+            expect(response_body).to have_key("created_at")
+            expect(response_body["created_at"]).to be_a(String)
 
 
-RSpec.describe "PATCH:/administration/account/cronos/:id", type: :request do
-    include_context "user authentication"
-
-    before(:all) do
-        # Look for an ID that does not exist
-        @cronos = @user.account.cronos.all.with_deleted.order(:id)
-        @invalid_crono_id = @cronos.empty? ? 1 : @cronos.last["id"] + 1
-
-        patch("/administration/account/cronos/#{@invalid_crono_id}.json", params: {
-            account_crono: {}
-        })
-    end
-
-    include_examples "not found standard json response"
-
-    it "is expected to return with not found" do
-        expect(@response_body).to be_a(Hash)
-
-        expect(@response_body).to have_key("error")
-        expect(@response_body["error"].keys).to contain_exactly("message", "details")
-
-        expect(@response_body["error"]["message"]).to be_a(String)
-        expect(@response_body["error"]["details"]).to be_an(Array)
+            expect(response_body).to have_key("accounts_id")
+            expect(response_body["accounts_id"]).to be_a(Numeric)
+            expect(response_body["accounts_id"]).to eql(@current_user.account.id)
+            
+            
+        end
     end
 end
