@@ -17,25 +17,10 @@ For more information read the license file including with this software.
 
 =end
 
-require 'rails_helper'
-require 'spec_helper'
-require 'byebug'
-
+require "lesli_request_helper"
 
 RSpec.describe 'PUT:/administration/roles.json', type: :request do
-    include_context 'user authentication'
-
-    before(:all) do
-        @role = @user.account.roles.order(object_level_permission: :asc).first
-        @role_active = false
-        put("/administration/roles/#{@role.id}.json", params: {
-            role: {
-                active: @role_active
-            }
-        })
-    end
-
-    include_examples 'successful standard json response'
+    include_context "request user authentication"
 
     it 'is expected to update a role' do
         expect(@response_body["data"]["id"]).to eql(@role.id)

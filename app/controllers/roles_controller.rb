@@ -110,18 +110,18 @@ class RolesController < ApplicationLesliController
 
         role = current_user.account.roles.new(role_params)
 
+        unless current_user.can_work_with_role?(role)
+            return respond_with_error(I18n.t("core.roles.messages_danger_creating_role_object_level_permission_too_high"))
+        end
+
         # check if user can work with that object level permission
         if role.object_level_permission.to_f >= current_user.roles.map(&:object_level_permission).max()
-            respond_with_error(I18n.t("core.roles.messages_danger_creating_role_object_level_permission_too_high"))
-            return
+            return respond_with_error(I18n.t("core.roles.messages_danger_creating_role_object_level_permission_too_high"))
         end
 
         if role.save
             respond_with_successful(role)
-
             Role::Activity.log_create(current_user, role)
-
-            role.initialize_role_privileges
         else
             respond_with_error(role.errors.full_messages.to_sentence)
         end

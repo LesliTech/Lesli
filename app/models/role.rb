@@ -27,11 +27,24 @@ class Role < ApplicationLesliRecord
     has_many :descriptor_assignments,   foreign_key: "roles_id",    class_name: "DescriptorAssignment",  dependent: :delete_all
     has_many :privilege_actions,        through: :descriptor_assignments
 
+    before_create :initialize_role
     after_create :generate_code
-    before_create :init_default_path
 
     validates :name, presence: :true
     validates :object_level_permission, presence: :true
+
+
+    def initialize_role
+
+        # default role for limited roles
+        if ["limited", "guest"].include? self.name
+            self.default_path ||= "/administration/profile" # profile path
+        end
+
+        # enable roles by default
+        self.active = true
+
+    end
 
     def generate_code
         role_code = name
@@ -43,12 +56,6 @@ class Role < ApplicationLesliRecord
         role_code = I18n.transliterate(role_code) + id.to_s # transform UTF-8 characters to ASCI
 
         self.update_attribute('code', role_code)
-    end
-
-    def init_default_path
-        if ["limited", "guest"].include? self.name
-            self.default_path ||= "/administration/profile" # profile path
-        end
     end
 
     def self.list current_user, query
@@ -131,6 +138,7 @@ class Role < ApplicationLesliRecord
     #   role = Role.new(detail_attributes: {name: "test_role", object_level_permission: 10})
     #   # This method will be called automatically within an after_create callback
     #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
+    # DEPRECATED
     def initialize_role_privileges
         if (self.name == "sysadmin" || self.name == "owner")
             self.descriptor_assignments
