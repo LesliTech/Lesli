@@ -51,7 +51,7 @@ const translations = {
                                 required
                                 class="input" 
                                 type="password" 
-                                v-model="storeUser.passwords.password" 
+                                v-model="storeUser.user.password" 
                                 :placeholder="translations.passwords.view_placeholder_new_password">
                             <span class="icon is-small is-left">
                                 <span class="material-icons">
@@ -73,7 +73,7 @@ const translations = {
                                 required
                                 class="input" 
                                 type="password" 
-                                v-model="storeUser.passwords.password_confirmation" 
+                                v-model="storeUser.user.password_confirmation" 
                                 :placeholder="translations.passwords.view_placeholder_confirm_password">
                             <span class="icon is-small is-left">
                                 <span class="material-icons">
