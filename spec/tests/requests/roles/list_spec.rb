@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,55 +14,40 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
-require 'rails_helper'
-require 'spec_helper'
-require 'byebug'
-
+require "lesli_request_helper"
 
 RSpec.describe 'GET:/administration/roles/list.json', type: :request do
-    include_context 'user authentication'
-    
-    # get the roles user has level to work with
-    let(:roles_count) do
-        @user.account.roles
-        .where("object_level_permission <= ?", @user.roles.map(&:object_level_permission).max())
-        .count
-    end
 
-    before(:all) do
-        get '/administration/roles/list.json' 
-    end
-
-    include_examples 'successful standard json response'
+    include_context "request user authentication"
 
     it 'is expected to respond with the roles the user has level to work with' do
-        expect(@response_body_data).to be_an(Array)
-        expect(@response_body_data.count).to eql(roles_count)
 
-        expect(@response_body_data.first).to be_a(Hash)
-        expect(@response_body_data.first).to have_key("id")
-        expect(@response_body_data.first["id"]).to be_a(Numeric)
+        FactoryBot.create(:role)
 
-        expect(@response_body_data.first).to have_key("name")
-        expect(@response_body_data.first["name"]).to be_a(String)
+        roles_count = @current_user.account.roles
+        .where("object_level_permission <= ?", @current_user.roles.map(&:object_level_permission).max())
+        .count
 
-        expect(@response_body_data.first).to have_key("object_level_permission")
-        expect(@response_body_data.first["object_level_permission"]).to be_a(Numeric)
+        
+        get("/administration/roles/list.json")
+
+        # shared examples
+        expect_response_with_successful
+
+        # custom specs
+        expect(response_body).to be_an(Array)
+        expect(response_body.count).to eql(roles_count)
+
+        expect(response_body.first).to be_a(Hash)
+        expect(response_body.first).to have_key("id")
+        expect(response_body.first["id"]).to be_a(Numeric)
+
+        expect(response_body.first).to have_key("name")
+        expect(response_body.first["name"]).to be_a(String)
+
+        expect(response_body.first).to have_key("object_level_permission")
+        expect(response_body.first["object_level_permission"]).to be_a(Numeric)
     end
 end
-
-
-RSpec.describe 'GET:/administration/roles/list.json', type: :request do
-    let(:login) { "/login?r=/administration/roles/list.json" }
-    before(:all) do
-        get '/administration/roles/list.json' 
-    end
-
-    it 'is expected to redirect to login when user is not authenticated' do
-        expect(response).to redirect_to(login)
-    end
-end
-
