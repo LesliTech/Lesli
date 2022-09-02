@@ -24,88 +24,87 @@ namespace :app do
 
             LC::Debug.msg("Registering new Descriptors")
 
-            # get all the controllers path defined in the Rails routes
-            pp LC::System::Controllers.scan2
-            exit
-            controllers = LC::System::Controllers.scan
-            controllers.each do |controller|
+            # get all the engines, controllers and actions
+            engines = LC::System::Controllers.scan2
 
-                pp controller[0]
-                next
+            engines.each do |engine, controllers|
 
-                # Build a strig with the standard name of a Rails controller,
-                #   Example: "UsersControllers, CloudBell::NotificationsController"
-                # sometimes we need a second split to deal with third level deep of controllers
-                #   Example: "Account::Currency::ExchangeRatesController" from "account/currency/exchange_rates_controller"
-                cn = controller[0].split('/')   # split the controller path by namespace
-                .collect(&:capitalize)          # uppercase the first letter to match the class name convention of Rails
-                .join("::")                     # join by ruby class separator for namespaces
-                .split('_')                     # work with compound words like "exchange_rates"
-                .collect { |x| x[0] = x[0].upcase; x } # convert ['exchange', 'rates'] to ['Exchange', 'Rates']
-                .join('').concat("Controller")  # finally join the parts of the class name and concat Controller
+                controllers.each do |controller, actions|
 
-                # Create a new instance of the controller class
-                co = Object.const_get(cn).new
+                    # Build a strig with the standard name of a Rails controller,
+                    #   Example: "UsersControllers, CloudBell::NotificationsController"
+                    # sometimes we need a second split to deal with third level deep of controllers
+                    #   Example: "Account::Currency::ExchangeRatesController" from "account/currency/exchange_rates_controller"
+                    cn = controller.split('/')   # split the controller path by namespace
+                    .collect(&:capitalize)          # uppercase the first letter to match the class name convention of Rails
+                    .join("::")                     # join by ruby class separator for namespaces
+                    .split('_')                     # work with compound words like "exchange_rates"
+                    .collect { |x| x[0] = x[0].upcase; x } # convert ['exchange', 'rates'] to ['Exchange', 'Rates']
+                    .join('').concat("Controller")  # finally join the parts of the class name and concat Controller
 
-                # Check if the controller has privileges defined, this must be a public class method 
-                # defined in the controller. 
-                #example: 
-                #   def self.privileges
-                #       {
-                #           list: ["UsersController#index"]
-                #       }
-                #   end
-                next unless co.methods.include?(:privileges)
+                    # Create a new instance of the controller class
+                    co = Object.const_get(cn).new
 
-                # Register descriptors and privileges for all the accounts
-                Account.all.each do |account|
+                    # Check if the controller has privileges defined, this must be a public class method 
+                    # defined in the controller. 
+                    #example: 
+                    #   def self.privileges
+                    #       {
+                    #           list: ["UsersController#index"]
+                    #       }
+                    #   end
+                    next unless co.methods.include?(:privileges)
 
-                    # Work with the list of privileges need by the controller 
-                    # to be able to work in a complete view
-                    co.privileges.each do |privilege|
+                    # Register descriptors and privileges for all the accounts
+                    Account.all.each do |account|
 
-                        # Register the new descriptor if it does not exists
-                        descriptor = account.descriptors.create_with({
-                            :name => "#{cn.sub('Controller','').sub('::',' ')} #{privilege[0].capitalize}",
-                            :path => controller[0]
-                        }).find_or_create_by({ 
-                            :code => "#{cn}##{privilege[0].capitalize}"
-                        })
+                        # Work with the list of privileges need by the controller 
+                        # to be able to work in a complete view
+                        co.privileges.each do |action, privileges|
 
-                        # We must assign all the descriptors to the owner role
-                        account.roles.find_by(name: 'owner').describers.find_or_create_by({
-                            descriptor: descriptor
-                        })
+                            # Register the new descriptor if it does not exists
+                            # the name of the descriptor is prepared to be translated with babel
+                            descriptor = account.descriptors.create_with({
+                                :name => "#{cn.sub('Controller','').sub('::','')}#{action.capitalize}".underscore.sub('/','_'),
+                                :path => controller,
+                                :engine => engine
+                            }).find_or_create_by({ 
+                                :reference => "#{cn}##{action.capitalize}"
+                            })
 
-                        LC::Debug.msgc("New descriptor created: #{descriptor.name}") if descriptor.new_record?
+                            # We must assign all the descriptors to the owner role
+                            account.roles.find_by(name: 'owner').describers.find_or_create_by({
+                                descriptor: descriptor
+                            })
 
-                        # Register the current controller into the descriptor privileges, so the role grants
-                        # permissions to render the requested page as html and as json
-                        descriptor.privileges.find_or_create_by({
-                            :controller => cn.sub("::", "/").sub("Controller", "").underscore,
-                            :action => privilege[0],
-                            :form => "html"
-                        })
+                            LC::Debug.msgc("New descriptor created: #{descriptor.name}") if descriptor.new_record?
 
-                        descriptor.privileges.find_or_create_by({
-                            :controller => cn.sub("::", "/").sub("Controller", "").underscore,
-                            :action => privilege[0],
-                            :form => "json"
-                        })
-
-                        # Register the privileges needed by the object and related to the controller
-                        privilege[1].each do |ca|
+                            # Register the current controller into the descriptor privileges, so the role grants
+                            # permissions to render the requested page as html and as json
                             descriptor.privileges.find_or_create_by({
-                                :controller => ca.split("#")[0].sub("::", "/").sub("Controller", "").underscore,
-                                :action => ca.split("#")[1].downcase,
+                                :controller => cn.sub("::", "/").sub("Controller", "").underscore,
+                                :action => action,
+                                :form => "html"
+                            })
+
+                            descriptor.privileges.find_or_create_by({
+                                :controller => cn.sub("::", "/").sub("Controller", "").underscore,
+                                :action => action,
                                 :form => "json"
                             })
-                        end 
 
+                            # Register the privileges needed by the object and related to the controller
+                            privileges.each do |privilege|
+                                descriptor.privileges.find_or_create_by({
+                                    :controller => privilege.split("#")[0].sub("::", "/").sub("Controller", "").underscore,
+                                    :action => privilege.split("#")[1].downcase,
+                                    :form => "json"
+                                })
+                            end 
+
+                        end
                     end
-
                 end
-
             end
 
             # Synchronize the descriptor privileges with the role privilege cache table 
