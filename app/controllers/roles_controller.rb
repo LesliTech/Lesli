@@ -53,7 +53,7 @@ class RolesController < ApplicationLesliController
         respond_to do |format|
             format.html { }
             format.json {
-                respond_with_successful(Role.index(current_user, @query))
+                respond_with_pagination(Role.index(current_user, @query))
             }
         end
     end

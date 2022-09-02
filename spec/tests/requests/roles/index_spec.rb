@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,35 +14,29 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
-require 'rails_helper'
-require 'spec_helper'
-require 'byebug'
-
+require "lesli_request_helper"
 
 RSpec.describe 'GET:/administration/roles.json', type: :request do
-    include_context 'user authentication'
-    
-    before(:all) do
-        get '/administration/roles.json' 
-    end
 
-    include_examples 'successful standard json response'
+    include_context "request user authentication"
 
-    it 'is expected to respond with an index of roles' do
-        expect(@response_body["data"]["pagination"]["count_total"]).to eql(@user.account.roles.count)
-    end
-end
+    it "is expected to respond with an index of roles" do
 
-RSpec.describe 'GET:/administration/roles.json', type: :request do
-    let(:login) { "/login?r=/administration/roles.json" }
-    before(:all) do
-        get '/administration/roles.json' 
-    end
+        role = FactoryBot.create(:role)
 
-    it 'is expected to redirect to login when user is not authenticated' do
-        expect(response).to redirect_to(login)
+        user_role_level_max = @current_user.roles.map(&:object_level_permission).max()
+
+        total = @current_user.account.roles.where("roles.object_level_permission <= ?", user_role_level_max).count
+
+        get("/administration/roles.json")
+
+        # shared examples
+        expect_response_with_pagination
+
+        # custom specs
+        expect(response_body["pagination"]["total"]).to eql(total)
+
     end
 end

@@ -181,7 +181,7 @@ module RoutesApp
                 end 
 
                 # roles & privileges management
-                resources :roles, only: [:index, :show, :edit, :update, :create] do
+                resources :roles, only: [:index, :show, :edit, :update, :create, :destroy] do
                     scope module: :role do
                         resources :privileges, only: [:index]
                         resources :activities, only: [:index]
