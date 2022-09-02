@@ -27,8 +27,6 @@ import { useUser } from "LesliVue/stores/user"
 // · implement stores
 const storeUser = useUser()
 
-const rolesToggle = ref({})
-
 
 // · 
 const translations = {
@@ -37,68 +35,27 @@ const translations = {
     users: I18n.t("core.users")
 }
 
-onMounted(() => {
-    storeUser.options.roles.forEach(role =>
-        rolesToggle.value[role] = false
-    )
 
-})
-
-const userRole = ref({ label:"", value:"" })
-
-// function updateRole(){
-//     storeUser.user.roles_id = userRole.value.value
-// }
+/**
+ * @description This function is used to assign or delete role from user
+ */
+function updateRole(role, select){
+    if (select) {
+        storeUser.putUserRole(role)
+    } else {
+        storeUser.deleteUserRole(role)
+    }
+}
 
 </script>
 
 <template>
 
 <h4>{{ translations.users.view_text_roles_assigned }}</h4>
+
 <div v-for="role in storeUser.options.roles" :key="role">
-    <p>{{role}}</p>
-    <lesli-toggle v-model="rolesToggle.role"></lesli-toggle>
-</div>
-
-<div class="columns">
-    <div class="column is-4">
-        <form @submit.prevent="storeUser.putUserRole">
-            <div class="field">
-                <label class="label"> {{ translations.users.view_text_assing_role }} </label>
-                <div class="control has-icons-left">
-                    <div class="select">
-                        <lesli-select
-                            :options="storeUser.options.roles"
-                            v-model="userRole"
-                            @change="updateRole"
-                        >
-                        </lesli-select>
-                    </div>
-                    <div class="icon is-small is-left">
-                        <i class="fas fa-key"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="field">
-                <div class="control">
-                    <lesli-button> {{ translations.shared.view_btn_save }}</lesli-button>
-                </div>
-            </div>
-        </form>
-    </div>
-
-    <div class="column is-6">
-        <div>
-            <label class="label"> {{ translations.users.view_text_roles_assigned }}</label>
-            <span class="tag is-success" v-for="role in storeUser.user.roles" :key="role">
-                {{role.name}}
-                <button class="delete is-small" @click="storeUser.deleteUserRole(role.id)"></button>
-            </span>
-        </div>
-    </div>
-
+    <p>{{role.name}}</p>
+    <lesli-toggle v-model="storeUser.rolesToggle[role.id]" v-on:update:modelValue="updateRole(role,storeUser.rolesToggle[role.id])" ></lesli-toggle>
 </div>
 
 </template>
-    
