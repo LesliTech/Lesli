@@ -312,6 +312,9 @@ class User < ApplicationLesliRecord
         # false if role not found
         return false if role.blank?
 
+        # not valid role without object levelpermission defined
+        return false if role.object_level_permission.blank?
+
         # get the max object level permission from the roles the user has assigned
         user_role_level_max = self.roles.map(&:object_level_permission).max()
 
