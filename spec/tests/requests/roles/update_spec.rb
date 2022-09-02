@@ -26,13 +26,14 @@ RSpec.describe 'PUT:/administration/roles.json', type: :request do
     it 'is expected to update a role' do
 
         role = FactoryBot.create(:role)
+        role.object_level_permission = 10
+        role.save!
 
         put("/administration/roles/#{role.id}.json", params: {
             role: {
                 active: false
             }
         })
-
 
         # shared examples
         expect_response_with_successful        

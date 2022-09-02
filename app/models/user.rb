@@ -156,8 +156,6 @@ class User < ApplicationLesliRecord
     #     current_user.has_privileges?(controllers, actions)
     def has_privileges4?(controller, action, form='html')
 
-        return true
-
         # set html by default, even if nil is sent as parameter for "form"
         form ||= 'html'
 
@@ -308,6 +306,9 @@ class User < ApplicationLesliRecord
     # @return Boolean
     # @description Check if user has enough privilege to work with the given role
     def can_work_with_role?(role)
+
+        # get the role if only id is given
+        role = self.roles.find_by(:id => role) unless role.class.name == "Role"
 
         # false if role not found
         return false if role.blank?
