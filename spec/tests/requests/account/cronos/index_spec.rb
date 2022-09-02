@@ -1,5 +1,5 @@
 =begin
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -16,19 +16,16 @@ For more information read the license file including with this software.
 
 =end
 
-require "rails_helper"
-require "spec_helper"
-require "byebug"
+require "lesli_request_helper"
 
-RSpec.describe "GET:/administration/account/cronos", type: :request do
-    include_context "user authentication"
+RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+    describe "GET:/administration/account/cronos.json", type: :request do
+        include_context "request user authentication"
 
-    before(:all) do
-        # Destroy all records in the DB
-        @user.account.cronos.destroy_all
+        it "is expected to respond with a list of all cronos saved in the DB" do
+            @current_user.account.cronos.destroy_all
 
-        @cronos = [
-            {
+            crono_params = {
                 :name => Faker::Lorem.word,
                 :description => Faker::Lorem.paragraph,
                 :minute => Time.now.min,
@@ -36,79 +33,76 @@ RSpec.describe "GET:/administration/account/cronos", type: :request do
                 :day_of_month => Time.now.day,
                 :month => Time.now.month,
                 :day_of_week => Time.now.wday,
+                :task_name =>  Faker::Lorem.word, 
+                :engine_code => Faker::Lorem.word
             }
-        ]
 
-        @cronos.each do |crono|
-            crono[:users_id] = @user.id
-            @user.account.cronos.create!(crono)
+            crono = @current_user.account.cronos.new(crono_params)
+            crono.save
+
+            
+            get("/administration/account/cronos.json")
+
+            #share examples
+            expect_response_with_successful
+    
+            expect(response_body.first).to be_a(Hash)
+            expect(response_body.first).to have_key("id")
+            expect(response_body.first["id"]).to be_a(Numeric)
+
+            expect(response_body.first).to have_key("name")
+            expect(response_body.first["name"]).to be_a(String)
+            expect(response_body.first["name"]).to eql(crono_params[:name])
+
+            expect(response_body.first).to have_key("description")
+            expect(response_body.first["description"]).to be_a(String)
+            expect(response_body.first["description"]).to eql(crono_params[:description])
+
+            expect(response_body.first).to have_key("status")
+            expect(response_body.first["status"]).to be_nil
+
+            expect(response_body.first).to have_key("engine_code")
+            expect(response_body.first["engine_code"]).to be_a(String)
+            expect(response_body.first["engine_code"]).to eql(crono_params[:engine_code])
+
+            expect(response_body.first).to have_key("task_name")
+            expect(response_body.first["task_name"]).to be_a(String)
+            expect(response_body.first["task_name"]).to eql(crono_params[:task_name])
+
+            expect(response_body.first).to have_key("rake")
+            expect(response_body.first["rake"]).to be_nil
+
+            expect(response_body.first).to have_key("minute")
+            expect(response_body.first["minute"]).to be_a(Numeric)
+            expect(response_body.first["minute"]).to eql(crono_params[:minute])
+
+            expect(response_body.first).to have_key("hour")
+            expect(response_body.first["hour"]).to be_a(Numeric)
+            expect(response_body.first["hour"]).to eql(crono_params[:hour])
+
+            expect(response_body.first).to have_key("day_of_month")
+            expect(response_body.first["day_of_month"]).to be_a(Numeric)
+            expect(response_body.first["day_of_month"]).to eql(crono_params[:day_of_month])
+
+            expect(response_body.first).to have_key("month")
+            expect(response_body.first["month"]).to be_a(Numeric)
+            expect(response_body.first["month"]).to eql(crono_params[:month])
+
+            expect(response_body.first).to have_key("day_of_week")
+            expect(response_body.first["day_of_week"]).to be_a(Numeric)
+            expect(response_body.first["day_of_week"]).to eql(crono_params[:day_of_week])
+
+            expect(response_body.first).to have_key("deleted_at")
+            expect(response_body.first["deleted_at"]).to be_nil
+
+            expect(response_body.first).to have_key("created_at")
+            expect(response_body.first["created_at"]).to be_a(String)
+
+
+            expect(response_body.first).to have_key("accounts_id")
+            expect(response_body.first["accounts_id"]).to be_a(Numeric)
+            expect(response_body.first["accounts_id"]).to eql(@current_user.account.id)
+
         end
-
-        get "/administration/account/cronos.json"
-    end
-
-    include_examples "successful standard json response"
-
-    it "is expected to respond with a list of all cronos saved in the DB" do
-        expect(@response_body_data).to be_an(Array)
-
-        expect(@response_body_data.length).to eql(@cronos.length)
-        expect(@response_body_data.last.keys).to contain_exactly(
-            "id",
-            "name",
-            "description",
-            "status",
-            "engine",
-            "rake",
-            "minute",
-            "hour",
-            "day_of_month",
-            "month",
-            "day_of_week",
-            "deleted_at",
-            "created_at",
-            "updated_at",
-            "accounts_id",
-            "users_id"
-        )
-
-        expect(@response_body_data.last["id"]).to be_a(Numeric)
-
-        expect(@response_body_data.last["name"]).to be_a(String)
-        expect(@response_body_data.last["name"]).to eql(@cronos[0][:name])
-
-        expect(@response_body_data.last["description"]).to be_a(String)
-        expect(@response_body_data.last["description"]).to eql(@cronos[0][:description])
-
-        expect(@response_body_data.last["status"]).to be_nil
-
-        expect(@response_body_data.last["engine"]).to be_nil
-
-        expect(@response_body_data.last["rake"]).to be_nil
-
-        expect(@response_body_data.last["minute"]).to be_a(Numeric)
-        expect(@response_body_data.last["minute"]).to eql(@cronos[0][:minute])
-
-        expect(@response_body_data.last["hour"]).to be_a(Numeric)
-        expect(@response_body_data.last["hour"]).to eql(@cronos[0][:hour])
-
-        expect(@response_body_data.last["day_of_month"]).to be_a(Numeric)
-        expect(@response_body_data.last["day_of_month"]).to eql(@cronos[0][:day_of_month])
-
-        expect(@response_body_data.last["month"]).to be_a(Numeric)
-        expect(@response_body_data.last["month"]).to eql(@cronos[0][:month])
-
-        expect(@response_body_data.last["day_of_week"]).to be_a(Numeric)
-        expect(@response_body_data.last["day_of_week"]).to eql(@cronos[0][:day_of_week])
-
-        expect(@response_body_data.last["deleted_at"]).to be_nil
-
-        expect(@response_body_data.last["created_at"]).not_to be_nil
-
-        expect(@response_body_data.last["accounts_id"]).to be_a(Numeric)
-        expect(@response_body_data.last["accounts_id"]).to eql(@user.account.id)
-
-        expect(@response_body_data.last["users_id"]).to be_a(Numeric)
-        expect(@response_body_data.last["users_id"]).to eql(@user.id)
     end
 end
