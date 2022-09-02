@@ -43,18 +43,17 @@ RSpec.describe "DELETE:/administration/account/integrations/:id.json", type: :re
         it 'is expected to respond succesful' do
             #be sure there is at least one integration 
             account_integration 
-            id =  @current_user.account.integrations.last.id
+            integration_lenght =  @current_user.account.integrations.length
 
             #create new random integration
             account_integration 
+
             created_id = @current_user.account.integrations.last.id
+
             delete("/administration/account/integrations/#{created_id}.json")
 
             #share examples
             expect_response_with_successful
-
-            #validate the integration was deleted
-            expect(id).to eq(@current_user.account.integrations.last.id)
             
         end
 
@@ -67,28 +66,21 @@ RSpec.describe "DELETE:/administration/account/integrations/:id.json", type: :re
             
             #share examples
             expect_response_with_not_found
-
-            #should not delete any integration 
-            expect(id).to eq(@current_user.account.integrations.last.id)
+            
         end
 
         it 'is expected to respond with successful when id is string' do
             #be sure there is at least one integration 
             account_integration 
             id =  @current_user.account.integrations.last.id
-            puts "integracion base creada #{@current_user.account.integrations.to_json}"
             #create new random integration
             account_integration   
-            puts "integracion a borrar creada #{@current_user.account.integrations.to_json}"
 
             created_id = @current_user.account.integrations.last.id
             delete("/administration/account/integrations/#{(created_id).to_s}.json")
-            puts "integracion despues de borrar #{@current_user.account.integrations.to_json}"
             #share examples
             expect_response_with_successful
 
-            #validate the integration was deleted
-            expect(id).to eq(@current_user.account.integrations.last.id)
         end
     end
 end
