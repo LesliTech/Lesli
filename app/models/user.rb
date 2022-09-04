@@ -313,8 +313,6 @@ class User < ApplicationLesliRecord
         # get the max object level permission from the roles the user has assigned
         user_role_level_max = self.roles.map(&:object_level_permission).max()
 
-        LC::Debug.msg(!self.roles.find_by(name: 'owner').blank?, role.object_level_permission, user_role_level_max)
-
         # owner role can work with all the roles
         return true if !self.roles.find_by(name: 'owner').blank?
 
