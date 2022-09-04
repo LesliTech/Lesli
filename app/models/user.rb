@@ -322,7 +322,7 @@ class User < ApplicationLesliRecord
         #       role to assign has greater object level permission than the greater role assigned to the current user
         #       role to assign is the same of the greater role assigned to the current user
         #       current user is not sysadmin or owner
-        return false if role.object_level_permission > user_role_level_max && is_not_owner
+        return false if role.object_level_permission >= user_role_level_max && is_not_owner
 
         return true
 

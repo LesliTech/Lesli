@@ -51,6 +51,9 @@ RSpec.describe 'PUT:/administration/roles.json', type: :request do
         role.object_level_permission = 2147483647
         role.save!
 
+        # disable any possible owner roles
+        @current_user.roles.where(:name => "owner").update(:active => false)
+
         put("/administration/roles/#{role.id}.json", params: {
             role: {
                 name: Faker::Lorem.word
