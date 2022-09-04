@@ -24,10 +24,11 @@ company = Rails.application.config.lesli[:account][:company]
 
 # create account
 Account.find_or_create_by(company_name: company[:name]) do |account|
+    account.company_name = company[:name]
     account.public_email = company[:email]
-    account.company_name = company[:company]
     account.company_tag_line = company[:tag_line]
     account.registered!
+    account.save!
 end
 
 
