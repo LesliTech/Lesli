@@ -71,8 +71,11 @@ RSpec.describe 'PUT:/administration/roles.json', type: :request do
     it 'is expected to update a role with same object level permission' do
 
         role = FactoryBot.create(:role)
-        role.object_level_permission = @current_user.roles.map(&:object_level_permission).max() + 10
+        role.object_level_permission = @current_user.roles.where.not(:name => "owner").map(&:object_level_permission).max()
         role.save!
+
+        # disable any possible owner roles
+        @current_user.roles.where(:name => "owner").update(:active => false)
 
         put("/administration/roles/#{role.id}.json", params: {
             role: {
