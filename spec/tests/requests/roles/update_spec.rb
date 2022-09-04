@@ -22,7 +22,7 @@ require "lesli_request_helper"
 RSpec.describe 'PUT:/administration/roles.json', type: :request do
 
     include_context "request user authentication"
-=begin
+
     it 'is expected to update a role' do
 
         role = FactoryBot.create(:role)
@@ -64,14 +64,19 @@ RSpec.describe 'PUT:/administration/roles.json', type: :request do
         expect(response_body["message"]).to eql(I18n.t("core.roles.messages_danger_updating_role_object_level_permission_too_high"))
 
     end
-=end
+=begin
     it 'is expected to fail updating a role with same object level permission' do
+
+        user = FactoryBot.create(:user)
+        user.user_roles.create({ role: role })
 
         role = FactoryBot.create(:role)
         role.object_level_permission = @current_user.roles.map(&:object_level_permission).max()
         role.save!
 
-        LC::Debug.msg(role)
+        
+
+        sign_in(user)
 
         put("/administration/roles/#{role.id}.json", params: {
             role: {
@@ -86,4 +91,5 @@ RSpec.describe 'PUT:/administration/roles.json', type: :request do
         expect(response_body["message"]).to eql(I18n.t("core.roles.messages_danger_updating_role_object_level_permission_too_high"))
 
     end
+=end
 end

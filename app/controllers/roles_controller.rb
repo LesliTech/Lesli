@@ -147,6 +147,7 @@ class RolesController < ApplicationLesliController
 
         # check if current user can work with role
         unless current_user.can_work_with_role?(@role)
+            LC::Debug.msg("controller error")
             return respond_with_error(I18n.t("core.roles.messages_danger_updating_role_object_level_permission_too_high"))
         end
 
