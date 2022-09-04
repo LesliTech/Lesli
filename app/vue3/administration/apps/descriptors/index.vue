@@ -46,16 +46,13 @@ const columns = [{
     label: "Name",
     sort: true
 },  {
-    field: "code",
-    label: "Code",
+    field: "reference",
+    label: "Reference",
     sort: true
 }, {
     field: "path",
     label: "Path",
     sort: true
-}, {
-    field: "created_at",
-    label: "Created at"
 }, {
     field: "updated_at",
     label: "Updated at"

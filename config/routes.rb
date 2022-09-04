@@ -18,13 +18,6 @@ For more information read the license file including with this software.
 =end
 
 Rails.application.routes.draw do
-  namespace :user do
-    resources :describers
-  end
-  namespace :role do
-    resources :describers
-    resources :privileges
-  end
     devise_for :users,
     :path => "",
     :path_names => {
