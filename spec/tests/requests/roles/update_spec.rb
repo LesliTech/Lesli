@@ -48,7 +48,7 @@ RSpec.describe 'PUT:/administration/roles.json', type: :request do
     it 'is expected to fail updating a role with highest level' do
 
         role = FactoryBot.create(:role)
-        role.object_level_permission = @current_user.roles.map(&:object_level_permission).max() + 10
+        role.object_level_permission = 2147483647
         role.save!
 
         put("/administration/roles/#{role.id}.json", params: {
