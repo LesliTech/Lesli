@@ -19,7 +19,7 @@ class Role::Describer < ApplicationLesliRecord
     belongs_to :role,       foreign_key: "roles_id"
     belongs_to :descriptor, foreign_key: "descriptors_id"
 
-    after_commit :synchronize_privileges, on: [:create, :update]
+    after_commit :synchronize_privileges, on: [:create, :update, :destroy]
 
     def self.index current_user, query, role
 
