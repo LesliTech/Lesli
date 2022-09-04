@@ -22,8 +22,15 @@ class Role::Describer < ApplicationLesliRecord
     after_commit :synchronize_privileges, on: [:create, :update]
 
     def self.index current_user, query, role
-        fromrole = role.describers.joins(:descriptor).select("descriptors_id as id", :name, :code, :path, "true as active")
-        available = current_user.account.descriptors.select(:id, :name, :code, :path, "false as active")
+
+        # get the active descriptors assigned to the role
+        fromrole = role.describers.joins(:descriptor).select("descriptors_id as id", :name, :reference, :path, "true as active")
+
+        # get all the available descriptors in the platform
+        available = current_user.account.descriptors.select(:id, :name, :reference, :path, "false as active")
+
+        # join descriptors (active & available) so we return a list of descriptor including info
+        # about which descriptor is enabled
         (fromrole + available).uniq{ |p| p[:id] }
     end 
 

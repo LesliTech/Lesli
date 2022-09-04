@@ -57,11 +57,11 @@ class DescriptorsController < ApplicationLesliController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_descriptor
-        @descriptor = current_user.account.descriptors.find(params[:id])
+        @descriptor = current_user.account.descriptors.find_by_id(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def descriptor_params
-        params.require(:descriptor).permit(:id, :name)
+        params.fetch(:descriptor, {}).permit(:id, :name)
     end
 end

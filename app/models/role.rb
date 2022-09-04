@@ -134,6 +134,7 @@ class Role < ApplicationLesliRecord
     #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
     # DEPRECATED
     def initialize_role_privileges
+        LC::Debug.deprecation("This will be deleted once Role & Privileges 4 is on production")
         if (self.name == "sysadmin" || self.name == "owner")
             self.descriptor_assignments
             .find_or_create_by(
