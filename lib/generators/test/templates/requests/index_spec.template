@@ -28,7 +28,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             get("[[url]].json")
 
             #shared examples
-            expect_response_with_successful
+            expect_response_with_pagination
 
             #validate others custom values expected here
 
