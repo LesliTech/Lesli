@@ -80,7 +80,13 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect_response_with_error
 
             # validate others custom values expected here
+            expect(response_body).to be_a(Hash)
 
+            expect(response_body).to have_key("message")
+            expect(response_body["message"]).to be_a(String)
+            
+            expect(response_body).to have_key("details")
+            expect(response_body["details"]).to be_a(Array)
         end
 
         it "is expected to test the creation of the record with empty values" do
@@ -105,6 +111,13 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect_response_with_error
 
             # validate others custom values expected here
+            expect(response_body).to be_a(Hash)
+
+            expect(response_body).to have_key("message")
+            expect(response_body["message"]).to be_a(String)
+            
+            expect(response_body).to have_key("details")
+            expect(response_body["details"]).to be_a(Array)
 
         end
     end
