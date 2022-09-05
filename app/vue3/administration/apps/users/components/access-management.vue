@@ -60,13 +60,12 @@ function updateStatus(){
                                 @change="updateStatus()"
                                 v-model="status"
                                 :options="[{
-                                                label: translations.shared.view_text_active,
-                                                value: true
-                                            }, {
-                                                label: translations.shared.view_text_inactive,
-                                                value: false
-                                            }]"
-                            >
+                                    label: translations.shared.view_text_active,
+                                    value: true
+                                }, {
+                                    label: translations.shared.view_text_inactive,
+                                    value: false
+                                }]">
                             </lesli-select>
                         </div>
                     </div>

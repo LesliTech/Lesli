@@ -41,7 +41,7 @@ const translations = {
  */
 function updateRole(role, select){
     if (select) {
-        storeUser.putUserRole(role)
+        storeUser.addUserRole(role)
     } else {
         storeUser.deleteUserRole(role)
     }
