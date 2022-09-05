@@ -135,6 +135,7 @@ function paginate(page) {
                                 {{ column.label }}
                             </span>
                             <span class="icon">
+                                <span class="material-icons" v-if="!currentSort">sort</span>
                                 <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'asc')">arrow_upward</span>
                                 <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'desc')">arrow_downward</span>
                             </span>

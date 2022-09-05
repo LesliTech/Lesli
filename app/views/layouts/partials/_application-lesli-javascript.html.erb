@@ -35,6 +35,6 @@ Honeybadger.configure({
     apiKey: "<%= Rails.application.credentials.dig(:providers, :honey_badger, :api_key) %>",
     revision: "<%= @account.dig(:revision, :version) %>-<%= @account.dig(:revision, :build) %>",
     environment: "<%= Rails.env %>",
-    disabled: <%= !Rails.env.production? %>
+    reportData: <%= Rails.env.production? %>
 })
 </script>

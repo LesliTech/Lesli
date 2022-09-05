@@ -66,13 +66,14 @@ module Interfaces
 
             # Track all user activity
             # this is disabled by default in the settings file
-            def log_user_comments description=nil
+            def log_user_comments description=nil, title=nil
 
                 return if !Rails.application.config.lesli[:security][:log_activity]
 
                 current_user.logs.create({
                     user_sessions_id: session[:user_session_id],
-                    description: description
+                    description: description,
+                    title: title
                 })
 
             end
