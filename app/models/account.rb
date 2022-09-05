@@ -31,6 +31,7 @@ class Account < ApplicationRecord
     has_many :currencies,       foreign_key: "accounts_id", class_name: "Account::Currency"
     has_many :integrations,     foreign_key: "accounts_id"
     has_many :role_descriptors, foreign_key: "accounts_id", class_name: "RoleDescriptor"
+    has_many :descriptors,      foreign_key: "accounts_id"
 
     has_one :template, class_name: "Template", foreign_key: "accounts_id"
 
