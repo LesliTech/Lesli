@@ -57,12 +57,12 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
 
         it "is expected to respond with unauthorized when is using limited user" do
             limited_user = FactoryBot.create(:user, role_name: "limited")
-
             sign_in(limited_user)
-            get "/administration/users/#{@current_user.id}.json"
+            get "/administration/account.json"
 
             expect_response_with_unauthorized
         end
+
     end
 
 end
