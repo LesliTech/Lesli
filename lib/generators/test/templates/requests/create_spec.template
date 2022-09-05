@@ -21,7 +21,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
             #cast column_names (its an Array) into a hash an insert values
             params.each do |value|
-                params_hash_value[value] = Faker::Name.name
+                if !((value.include? "id") || (value.include? "at") )
+                    params_hash_value[value] = Faker::Name.name
+                end
             end
             
 
@@ -34,6 +36,12 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect_response_with_successful
 
             # validate others custom values expected here
+
+            expect(response_body).to be_a(Hash)
+
+            params_hash_value.each do |key, value|
+                expect(response_body).to have_key(key)
+            end
 
         end
 

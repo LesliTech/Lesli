@@ -29,7 +29,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             params = [[controller_folder_upper]]::[[controller_file_upper]].column_names
             params_hash_value = {}
             params.each do |value|
-                params_hash_value[value] =   Faker::Name.name
+                if !((value.include? "id") || (value.include? "at") )
+                    params_hash_value[value] = Faker::Name.name
+                end
             end
 
             put("[[url]]/#{@[[controller]].id}.json", params: {
