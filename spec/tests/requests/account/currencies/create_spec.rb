@@ -46,7 +46,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             })
 
             #shared examples
-            expect_response_with_successful
+            expect_response_with_pagination
 
             # validate others custom values expected here
             expect(response_body).to be_a(Hash)
