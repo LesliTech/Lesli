@@ -22,14 +22,29 @@ class Role < ApplicationLesliRecord
     belongs_to :account,                foreign_key: "accounts_id"
 
     has_many :activities,               foreign_key: "roles_id"
+    has_many :privileges,               foreign_key: "roles_id",    class_name: "Role::Privilege",  dependent: :delete_all
+    has_many :describers,               foreign_key: "roles_id"
     has_many :descriptor_assignments,   foreign_key: "roles_id",    class_name: "DescriptorAssignment",  dependent: :delete_all
     has_many :privilege_actions,        through: :descriptor_assignments
 
+    before_create :initialize_role
     after_create :generate_code
-    before_create :init_default_path
 
     validates :name, presence: :true
     validates :object_level_permission, presence: :true
+
+
+    def initialize_role
+
+        # default role for limited roles
+        if ["limited", "guest"].include? self.name
+            self.default_path ||= "/administration/profile" # profile path
+        end
+
+        # enable roles by default
+        self.active = true
+
+    end
 
     def generate_code
         role_code = name
@@ -41,12 +56,6 @@ class Role < ApplicationLesliRecord
         role_code = I18n.transliterate(role_code) + id.to_s # transform UTF-8 characters to ASCI
 
         self.update_attribute('code', role_code)
-    end
-
-    def init_default_path
-        if ["limited", "guest"].include? self.name
-            self.default_path ||= "/administration/profile" # profile path
-        end
     end
 
     def self.list current_user, query
@@ -81,6 +90,7 @@ class Role < ApplicationLesliRecord
             )
             users on users.roles_id = roles.id
         ")
+        .where("roles.object_level_permission <= ?", role_max)
         .order(object_level_permission: :desc, name: :asc)
         .select(:id, :name, :active, :only_my_data, :default_path, :object_level_permission, "users.user_count")
 
@@ -91,25 +101,28 @@ class Role < ApplicationLesliRecord
                 role_max = query[:filters][:object_level_permission] if query[:filters][:object_level_permission].to_i <= role_max
             end
 
-            roles = roles.where("roles.object_level_permission <= ?", role_max)
+            
         end
 
-        roles = roles
-            .page(query[:pagination][:page])
-            .per(query[:pagination][:perPage])
-            .order(object_level_permission: :desc, name: :asc)
+        roles
+        .page(query[:pagination][:page])
+        .per(query[:pagination][:perPage])
+        .order(object_level_permission: :desc, name: :asc)
 
-        LC::Response.pagination(
-            roles.current_page,
-            roles.total_pages,
-            roles.total_count,
-            roles.length,
-            roles
-        )
     end
 
     def show
-        self
+        {
+            :id => self.id,
+            :name => self.name,
+            :active => self.active,
+            :default_path => self.default_path,
+            :only_my_data => self.only_my_data,
+            :object_level_permission => self.object_level_permission,
+            :created_at => self.created_at,
+            :updated_at => self.updated_at,
+            :descriptors => self.describers.joins(:descriptor).select(:id, :name, :engine, :reference, :path, :descriptors_id)
+        }
     end
 
     # @return [void]
@@ -119,7 +132,9 @@ class Role < ApplicationLesliRecord
     #   role = Role.new(detail_attributes: {name: "test_role", object_level_permission: 10})
     #   # This method will be called automatically within an after_create callback
     #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
+    # DEPRECATED
     def initialize_role_privileges
+        LC::Debug.deprecation("This will be deleted once Role & Privileges 4 is on production")
         if (self.name == "sysadmin" || self.name == "owner")
             self.descriptor_assignments
             .find_or_create_by(

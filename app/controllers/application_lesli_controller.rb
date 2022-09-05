@@ -18,7 +18,6 @@ For more information read the license file including with this software.
 
 class ApplicationLesliController < ApplicationController
     include Interfaces::Application::Responder
-    # include Application::Responder
     include Application::Requester
     include Application::Logger
     include Application::Polyfill
@@ -155,10 +154,16 @@ class ApplicationLesliController < ApplicationController
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
     def authorize_privileges
 
+        seguridad4 = false
+
+        # check if user has access to the requested controller
+        # this search is over all the privileges for all the roles of the user
+        granted = current_user.has_privileges4?(params[:controller], params[:action], params[:format]) if seguridad4
+
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
         # Due this method is executed on every request, we use low level cache to improve performance
-        granted = current_user.has_privileges?([params[:controller]], [params[:action]])
+        granted = current_user.has_privileges?([params[:controller]], [params[:action]]) if !seguridad4
 
         # Check if user can be redirected to role default path
         can_redirect_to_default_path = -> () {
@@ -176,12 +181,12 @@ class ApplicationLesliController < ApplicationController
 
         # privilege for object not found
         if granted.blank?
-            log_user_comments("privilege_not_found")
+            log_user_comments(request.path, "privilege_not_found")
             return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] })
         end
         
         unless granted
-            log_user_comments("privilege_not_granted")
+            log_user_comments(request.path ,"privilege_not_granted")
             return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] }) 
         end
     end
