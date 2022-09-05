@@ -32,17 +32,14 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #search posibles permit values to create an element
             params = Account::Currency.column_names
             params_hash_value = {}
-            puts "parametros de tabla #{params}"
-
 
             #cast column_names (its an Array) into a hash an insert values
             params.each do |value|
-                if !(value.include? "id")
+                if !((value.include? "id") || (value.include? "at") )
                     params_hash_value[value] = Faker::Name.name
                 end
             end
             
-            puts "parametros de tabla como hash #{params_hash_value}"
             post("/administration/account/currencies.json", params: {
                 #permit name hash should have format "controller"_"module"
                 account_currency: params_hash_value
@@ -52,6 +49,12 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect_response_with_successful
 
             # validate others custom values expected here
+            expect(response_body).to be_a(Hash)
+
+            params_hash_value.each do |key, value|
+                expect(response_body).to have_key(key)
+            end
+
 
         end
 
