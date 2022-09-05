@@ -28,6 +28,7 @@ class TestGenerator < Rails::Generators::NamedBase
 
     def generate_standard_request_tests
         ["create", "destroy", "index", "show", "update"].each do |test_name|
+            puts "informacion #{ @info}"
             test_name = test_name + "_spec"
             test_file = test_name + ".rb"
             destination_path = @info[:path].join(test_file)
@@ -71,13 +72,17 @@ class TestGenerator < Rails::Generators::NamedBase
         module_controller = name.downcase.split("/")
         engine = module_controller[0]
         controller = module_controller[1]
+        controller_folder =  controller
+        controller_folder_upper = controller_folder.capitalize
+
         if module_controller.length > 2
             controller = module_controller[1] + "/" + module_controller[2] 
-            controller_folder =  module_controller[1]
             controller_file =  module_controller[2]
         end
+        
         model = get_model(module_controller)
         hash_permit = module_controller[1].concat("_").concat(module_controller[2].chop)
+
         if module_controller[0] == "core"
             path = Rails.root.join(base_path, controller)
             url = "/administration/" << controller 
@@ -94,7 +99,7 @@ class TestGenerator < Rails::Generators::NamedBase
             controller: controller,
             controller_folder: controller_folder || "",
             controller_file: controller_file || "",
-            controller_folder_upper: controller_folder.capitalize || "",
+            controller_folder_upper: controller_folder_upper || "",
             controller_file_upper: controller_file.capitalize.chop || "",
             hash_permit: hash_permit,
             engine_name: engine.camelize
