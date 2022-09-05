@@ -19,22 +19,17 @@ For more information read the license file including with this software.
 <%= navigation_lesli_item(main_app.users_path, I18n.t("core.shared.sidebar_nav_account"), "ri-building-4-line"); %>
 <%= navigation_lesli_item(main_app.users_path, I18n.t("core.shared.sidebar_nav_users"), "ri-user-line"); %>
 <%= navigation_lesli_item(main_app.account_integrations_path, I18n.t("core.shared.sidebar_nav_integrations"), "ri-plug-line"); %>
+
+<%= navigation_lesli_item(main_app.descriptors_path, "Role descriptors", "ri-shield-check-line"); %>
+<%= navigation_lesli_item(main_app.roles_path, I18n.t("core.shared.sidebar_nav_roles_privileges"), "ri-shield-user-line"); %>
+
 <%= navigation_lesli_item(main_app.security_account_settings_path, I18n.t("core.account/settings.view_tab_title_security_settings"), "ri-lock-line"); %>
 <%= navigation_lesli_item(main_app.date_time_account_settings_path, I18n.t("core.account/settings.view_tab_title_time_settings"), "ri-time-line"); %>
 <%= navigation_lesli_item(main_app.branding_account_settings_path, I18n.t("core.account/settings.view_tab_title_branding"), "ri-image-line"); %>
 <%= navigation_lesli_item(main_app.theme_account_settings_path, I18n.t("core.account/settings.view_tab_title_theme"), "ri-paint-brush-line"); %>
 
-
 <%#
 
-<%= navigation_item(main_app.role_descriptors_path) do % >
-    <i class="fas fa-user-shield"></i>
-    <span><%= I18n.t("core.shared.sidebar_nav_role_descriptors") % ></span>
-<% end %  >
-<%= navigation_item(main_app.roles_path) do % >
-    <i class="fas fa-shield-alt"></i>
-    <span><%= I18n.t("core.shared.sidebar_nav_roles_privileges") % ></span>
-<% end % >
 <%= navigation_item(main_app.account_cronos_path) do % >
     <i class="fas fa-hourglass-half"></i>
     <span><%= I18n.t("core.shared.sidebar_nav_cronos") % ></span>
