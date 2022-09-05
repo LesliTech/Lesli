@@ -99,7 +99,9 @@ class Account::CronosController < ApplicationLesliController
             :hour,
             :day_of_month,
             :month,
-            :day_of_week
+            :day_of_week,
+            :task_name,
+            :engine_code
         )
     end
 end
