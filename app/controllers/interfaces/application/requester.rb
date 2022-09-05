@@ -39,9 +39,6 @@ module Interfaces
                     group: params[:group] || ""
                 }
 
-                @query[:pagination][:orderBy] = @query[:order][:by]
-                @query[:pagination][:order] = @query[:order][:dir]
-
                 if defined?(DeutscheLeibrenten)
                     @query = {
                         search: params[:search] || "",
