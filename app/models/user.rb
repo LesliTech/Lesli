@@ -50,9 +50,11 @@ class User < ApplicationLesliRecord
     has_many :access_codes,     foreign_key: "users_id"
     has_many :auth_providers,   foreign_key: "users_id"
 
-    has_many :user_roles,               foreign_key: "users_id",    class_name: "User::Role"
-    has_many :roles,                    through: :user_roles,       source: :roles
+    has_many :user_roles,       foreign_key: "users_id",    class_name: "User::Role"
+    has_many :roles,            through: :user_roles,       source: :roles
+    has_many :privileges,       through: :roles
 
+    has_many :role_privileges,          through: :roles,            source: :privileges
     has_many :user_privilege_actions,   foreign_key: "users_id",    class_name: "User::PrivilegeAction"
     has_many :role_privilege_actions,   through: :roles,            source: :privilege_actions
 
@@ -152,6 +154,23 @@ class User < ApplicationLesliRecord
     #     actions = ["index", "update"]
     #
     #     current_user.has_privileges?(controllers, actions)
+    def has_privileges4?(controller, action, form='html')
+
+        # set html by default, even if nil is sent as parameter for "form"
+        form ||= 'html'
+
+        begin
+            self.privileges
+            .where("role_privileges.controller = ?", controller)
+            .where("role_privileges.action = ?", action)
+            .where("role_privileges.form = ?", form)
+            .first.blank?
+        rescue => exception
+            Honeybadger.notify(exception)
+            return false
+        end
+    end
+
     def has_privileges?(controllers, actions)
 
         begin
@@ -278,6 +297,40 @@ class User < ApplicationLesliRecord
 
 
 
+    # @return Boolean
+    # @description Check if user has enough privilege to work with the given role
+    def can_work_with_role?(role)
+
+        # get the role if only id is given
+        role = self.roles.find_by(:id => role) unless role.class.name == "Role"
+
+        # false if role not found
+        return false if role.blank?
+
+        # not valid role without object levelpermission defined
+        return false if role.object_level_permission.blank?
+
+        # owner role can work with all the roles
+        return true if !self.roles.find_by(name: 'owner').blank?
+
+        # get the max object level permission from the roles the user has assigned
+        user_role_level_max = self.roles.map(&:object_level_permission).max()
+
+        # check if user can work with the object level permission of the role is trying to modify
+        # Note: user only can assigned an object level permission below the max of his own roles
+        # Current user cannot assign role if
+        #       role to assign has greater object level permission than the greater role assigned to the current user
+        #       role to assign is the same of the greater role assigned to the current user
+        #       current user is not sysadmin or owner
+        return false if role.object_level_permission >= user_role_level_max
+
+        # user can work with this role :)
+        return true
+
+    end    
+
+
+
     # @return [void]
     # @description Delete all the active sessions for a given user
     # TODO:
@@ -332,31 +385,6 @@ class User < ApplicationLesliRecord
         self.reset_password_sent_at = Time.now.utc
         save(validate: false)
         raw
-    end
-
-
-
-    # @return Boolean
-    # @description Check if user has enough privilege to work with the given role
-    def can_work_with_role?(role_id)
-
-        return false if role_id.blank?
-
-        role = self.account.roles.find(role_id) rescue nil
-
-        return false if role.blank?
-
-        # check if the current_user can assign this role, current user cannot assign role if
-        #   role to assign has greater object level permission than the greater role assigned to the current user
-        #   role to assign is the same of the greater role assigned to the current user
-        #   current user is not sysadmin or owner
-        self.roles.each do |current_role|
-            return true if current_role.object_level_permission > role.object_level_permission
-            return true if current_role.name == "owner"
-        end
-
-        return false
-
     end
 
 
