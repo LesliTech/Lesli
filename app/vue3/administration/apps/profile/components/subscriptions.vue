@@ -61,10 +61,9 @@ const columns = [{
 
     <div>
         <lesli-select
-        :options="storeUser.options.engines"
-        @change="selectEngine"
-        v-model="engine"
-        >
+            :options="storeUser.options.engines"
+            @change="selectEngine"
+            v-model="engine">
         </lesli-select>
     </div>
     <lesli-table
