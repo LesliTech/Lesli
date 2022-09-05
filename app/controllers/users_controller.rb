@@ -22,6 +22,12 @@ For more information read the license file including with this software.
 class UsersController < ApplicationLesliController
     before_action :set_user, only: [:show, :update, :destroy]
 
+    def privileges
+        {
+            index: []
+        }
+    end 
+
     def list
         respond_to do |format|
             format.json { 
