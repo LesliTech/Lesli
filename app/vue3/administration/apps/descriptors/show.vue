@@ -48,9 +48,6 @@ const columns = [{
     field: 'id',
     label: 'ID'
 }, {
-    field: 'active',
-    label: 'Active'
-}, {
     field: 'controller',
     label: 'Controller'
 }, {

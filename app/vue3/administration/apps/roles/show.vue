@@ -62,13 +62,15 @@ const columnDescriptors = [{
     field: 'name',
     label: 'Name'
 },{
-    field: 'code',
-    label: 'Code'
+    field: 'reference',
+    label: 'Reference'
 },{
     field: 'path',
     label: 'Path'
 }]
 
+
+// · 
 function matchRolesDescriptors() {
     storeRole.role.descriptors.forEach(describer => {
         let descriptor = storeDescriptor.list.find(descriptor => {

@@ -310,11 +310,11 @@ class User < ApplicationLesliRecord
         # not valid role without object levelpermission defined
         return false if role.object_level_permission.blank?
 
-        # get the max object level permission from the roles the user has assigned
-        user_role_level_max = self.roles.map(&:object_level_permission).max()
-
         # owner role can work with all the roles
         return true if !self.roles.find_by(name: 'owner').blank?
+
+        # get the max object level permission from the roles the user has assigned
+        user_role_level_max = self.roles.map(&:object_level_permission).max()
 
         # check if user can work with the object level permission of the role is trying to modify
         # Note: user only can assigned an object level permission below the max of his own roles
@@ -324,6 +324,7 @@ class User < ApplicationLesliRecord
         #       current user is not sysadmin or owner
         return false if role.object_level_permission >= user_role_level_max
 
+        # user can work with this role :)
         return true
 
     end    
