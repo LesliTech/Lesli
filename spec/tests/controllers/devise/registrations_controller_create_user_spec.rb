@@ -30,13 +30,21 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
 
     it "Create a new standard user" do
 
-        post :create, params: {
+        Account.first.settings.where(:name => "password_digit_count").update(:value => 1)
+        Account.first.settings.where(:name => "password_minimum_length").update(:value => 6)
+        Account.first.settings.where(:name => "password_lowercase_count").update(:value => 1)
+        Account.first.settings.where(:name => "password_uppercase_count").update(:value => 1)
+        Account.first.settings.where(:name => "password_special_char_count").update(:value => 1)
+
+        post(:create, params: {
             user: {
                 email: Faker::Internet.email,
-                password: "tardis2021$",
-                password_confirmation: "tardis2021$"
+                password: "Tardis2021$",
+                password_confirmation: "Tardis2021$"
             }
-        }
+        })
+
+        pp(response.body)
 
         unless @allow_registration
             expect_response_with_error
@@ -54,8 +62,8 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         post :create, params: {
             user: {
                 email: user.email, # this is registered already
-                password: "tardis2021$",
-                password_confirmation: "tardis2021$"
+                password: "Tardis2021$",
+                password_confirmation: "Tardis2021$"
             }
         }
 
@@ -83,7 +91,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
         else
             expect_response_with_error
-            expect(response_body["message"]).to eql("error_password_cannot_be_blank")
+            expect(response_body["message"]).to eql("password_complexity_error")
         end
     end
 
@@ -102,7 +110,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
         else
             expect_response_with_error
-            expect(response_body["message"]).to eql("error_password_cannot_be_blank")
+            expect(response_body["message"]).to eql("password_complexity_error")
         end
     end
 end
