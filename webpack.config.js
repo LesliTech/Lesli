@@ -70,8 +70,8 @@ module.exports = env => {
 
         // Set max size limit for JS bundles to 0.98 MB
         performance: {
-            maxAssetSize: 980000,
-            maxEntrypointSize: 980000,
+            maxAssetSize: 1100000,
+            maxEntrypointSize: 1100000,
             assetFilter: function(assetFilename) {
                 return !(['cloud_development/application.js'].includes(assetFilename));
             }
