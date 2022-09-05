@@ -40,9 +40,10 @@ class Descriptor < ApplicationLesliRecord
     def show(current_user, query)
         { 
             :id => self.id,
-            :name => self.name,
-            :code => self.code,
+            :reference => self.reference,
+            :engine => self.engine,
             :path => self.path,
+            :name => self.name,
             :privileges => self.privileges.select(:id, :controller, :action, :created_at)
         }
     end 
