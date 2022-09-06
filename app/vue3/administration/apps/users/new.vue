@@ -44,7 +44,7 @@ const translations = {
     
 // · initializing
 onMounted(() => {
-
+    storeUser.resetUserStore()
 })
 
 </script>

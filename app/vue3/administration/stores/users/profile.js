@@ -29,7 +29,8 @@ export const useProfile = defineStore("profile", {
             loading: false,
             profile: {
                 detail_attributes: {}
-            }
+            },
+            roles: []
         }
     },
     actions: {
@@ -43,14 +44,21 @@ export const useProfile = defineStore("profile", {
         fetchProfile() {
 
             this.loading = true
-
+            this.roles = []
             this.http.get(this.url.admin("profile")).then(result => {                
-                this.profile = result.data
-                this.storeUser.fetch(this.profile.id)
+                this.profile = result
+                this.parseRoles(result.roles)
             }).catch(error => {
                 console.log(error)
             }).finally(() => {
                 this.loading = false
+            })
+
+        },
+        parseRoles(roles){
+            this.roles = []
+            roles.forEach(role =>{
+                this.roles.push(role.name)
             })
 
         }
