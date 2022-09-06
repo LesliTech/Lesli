@@ -94,7 +94,7 @@ onMounted(() => {
                 <div class="field is-narrow">
                     <div class="control">
                         <label :for="salutation.value" class="radio" v-for="salutation in storeUser.options.salutations" :key="salutation">
-                            <input type="radio" :id="salutation.value" :value="salutation.value" v-model="storeUser.user.detail_attributes.salutation" />
+                            <input name="user_salutation" type="radio" :id="salutation.value" :value="salutation.value" v-model="storeUser.user.detail_attributes.salutation" />
                             {{salutation.text}}
                         </label>  
                     </div>
@@ -227,9 +227,9 @@ onMounted(() => {
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <lesli-button icon="save">
+                        <lesli-button name="save_button" icon="save">
                             {{ translations.shared.view_btn_save }}
-                        </lesli-button>                    
+                        </lesli-button>                 
                     </div>
                 </div>
             </div>
