@@ -26,7 +26,7 @@ module Interfaces
             def respond_with_successful payload=nil
 
                 # Keep compatibility with apps v2 specially Deutsche Leibrenten
-                if defined?(DeutscheLeibrenten)
+                if defined?(DeutscheLeibrenten) && false
                     response_body = { successful: true }
                     response_body[:data] = payload
                     return render(status: 200, json: response_body.to_json)
