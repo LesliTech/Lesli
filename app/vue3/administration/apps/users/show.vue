@@ -31,7 +31,10 @@ import cardInformation from "./components/card-information.vue"
 import formInformation from "./components/form-information.vue"
 import managementSession from "./components/management-sessions.vue"
 import formSecurity from "./components/form-security.vue"
+import formRoles from "./components/form-roles-privileges.vue"
 import integrationsInformation from "./components/integrations-information.vue"
+import settings from "./components/settings.vue"
+import accessManagement from "./components/access-management.vue"
 
 
 // · implement stores
@@ -51,28 +54,37 @@ const translations = {
 
 // · initializing
 onMounted(() => {
+    storeUser.getOptions()
     storeUser.fetch(route.params?.id)
 })
 
 const tab = ref(0)
+
 </script>
 <template>
     <section class="application-component">
         <cardInformation></cardInformation>
         <cardActions></cardActions>
-        <lesli-tabs v-model="tab" v-if="this.storeUser.user.id">
-            <lesli-tab-item title="Information">
+        <lesli-tabs v-model="tab" v-if="storeUser.user.id">
+            <lesli-tab-item :title="translations.core.users.view_tab_title_information">
                 <formInformation is-editable></formInformation>
             </lesli-tab-item>
-            <lesli-tab-item title="Suscripciones"></lesli-tab-item>
-            <lesli-tab-item title="Security">
+            <lesli-tab-item :title="translations.core.users.view_tab_title_roles_and_privileges">
+                <formRoles></formRoles>
+            </lesli-tab-item>
+            <lesli-tab-item :title="translations.core.users.view_tab_title_security">
                 <formSecurity></formSecurity>
             </lesli-tab-item>
-            <lesli-tab-item title="Session management">
+            <lesli-tab-item :title="translations.core.users.view_tab_title_access_management">
+                <accessManagement></accessManagement>
+            </lesli-tab-item>
+            <lesli-tab-item :title="translations.core.users.view_tab_title_session_management">
                 <managementSession></managementSession>
             </lesli-tab-item>
-            <lesli-tab-item title="Settings"></lesli-tab-item>
-            <lesli-tab-item title="Integraciones">
+            <lesli-tab-item :title="translations.core.users.view_tab_title_settings">
+                <settings></settings>
+            </lesli-tab-item>
+            <lesli-tab-item :title="translations.core.users.view_tab_title_integrations">
                 <integrationsInformation></integrationsInformation>
             </lesli-tab-item>
         </lesli-tabs>

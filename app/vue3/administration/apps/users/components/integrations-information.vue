@@ -13,20 +13,16 @@ const translations = {
 }
 </script>
 <template>
-    <div class="card">
-        <div class="card-content">
-            <h4 class='is-size-4 mb-4'>{{ translations.core.users.view_title_account_linking }}</h4>
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label">{{ translations.core.users.view_text_google_account }}</label>
-                </div>
-                <div class="field-body">
-                    <!-- <button class="button" @click="storeProfile.connectGoogle()">
-                        <span>{{ translations.core.users.view_btn_connect }}</span>
-                    </button> -->
-                    <a href="/auth/google_oauth2" >{{translations.core.users.view_btn_connect}}</a>
-                </div>
+    <section class="application-component">
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Google account</label>
+            </div>
+            <div class="field-body">
+                <lesli-button icon="google">
+                    <a href="/auth/google_oauth2">Connect</a>
+                </lesli-button>
             </div>
         </div>
-    </div>
+    </section>
 </template>
