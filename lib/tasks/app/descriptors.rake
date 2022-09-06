@@ -47,7 +47,7 @@ namespace :app do
                     next unless Object.const_defined?(cn)
 
                     # Create a new instance of the controller class
-                    co = Object.const_get(cn).new rescue nil
+                    co = Object.const_get(cn).new
 
                     # Check if the controller has privileges defined, this must be a public class method 
                     # defined in the controller. 
