@@ -270,7 +270,7 @@ class UsersController < ApplicationLesliController
 
     def options
 
-        roles = current_user.account.roles.select(:id, :name)
+        roles = current_user.account.roles.select(:id, :name, :object_level_permission)
 
         # only owner can assign any role
         unless current_user.has_roles?("owner")
