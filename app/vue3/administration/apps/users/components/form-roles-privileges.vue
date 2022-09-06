@@ -20,51 +20,42 @@ For more information read the license file including with this software.
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed } from "vue"
 
-// · import vue router composable
-import { useRoute } from "vue-router"
 
 // · import lesli stores
-import { useUser } from "LesliVue/stores/user"
+import { useUser } from "LesliVue/stores/user"    
 
 // · implement stores
 const storeUser = useUser()
 
-// · initialize/inject plugins
-const route = useRoute()
 
-
-onMounted(() => {
-    storeUser.fetch(route.params?.id)
-    storeUser.fetchSessions()
-})
-
-
+// · 
 const translations = {
-    users: I18n.t("core.users"),
-    shared: I18n.t("core.shared")
+    shared: I18n.t("core.shared"),
+    passwords: I18n.t("core.users/passwords"),
+    users: I18n.t("core.users")
 }
 
-const columns = [{
-    field: 'id',
-    label: 'ID'
-}, {
-    field: 'user_agent',
-    label: 'Device'
-}, {
-    field: 'session_source',
-    label: 'Source'
-}, {
-    field: 'created_at_date',
-    label: 'Created at'
-}, {
-    field: 'last_used_at_string',
-    label: 'Last used at'
-}]
+
+/**
+ * @description This function is used to assign or delete role from user
+ */
+function updateRole(role, select){
+    if (select) {
+        storeUser.addUserRole(role)
+    } else {
+        storeUser.deleteUserRole(role)
+    }
+}
 
 </script>
+
 <template>
-    <lesli-table
-        :columns="columns"
-        :records="storeUser.sessions">
-    </lesli-table>
+
+<h4>{{ translations.users.view_text_roles_assigned }}</h4>
+
+<div v-for="role in storeUser.options.roles" :key="role">
+    <p>{{role.name}}</p>
+    <lesli-toggle v-model="storeUser.rolesToggle[role.id]" v-on:update:modelValue="updateRole(role,storeUser.rolesToggle[role.id])" ></lesli-toggle>
+</div>
+
 </template>

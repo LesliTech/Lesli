@@ -20,8 +20,6 @@ For more information read the license file including with this software.
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed } from "vue"
 
-// · import vue router composable
-import { useRoute } from "vue-router"
 
 // · import lesli stores
 import { useUser } from "LesliVue/stores/user"
@@ -29,14 +27,17 @@ import { useUser } from "LesliVue/stores/user"
 // · implement stores
 const storeUser = useUser()
 
-// · initialize/inject plugins
-const route = useRoute()
+const engine = ref({ label:"", value:"" })
 
 
 onMounted(() => {
-    storeUser.fetch(route.params?.id)
-    storeUser.fetchSessions()
+    storeUser.getSubscriptionsOptions ()
 })
+
+function selectEngine(){
+    storeUser.getSubscriptions(engine.value.value)
+
+}
 
 
 const translations = {
@@ -45,26 +46,32 @@ const translations = {
 }
 
 const columns = [{
-    field: 'id',
-    label: 'ID'
+    field: 'action',
+    label: 'action'
 }, {
-    field: 'user_agent',
-    label: 'Device'
+    field: 'notification_type',
+    label: 'Notification type'
 }, {
-    field: 'session_source',
-    label: 'Source'
-}, {
-    field: 'created_at_date',
+    field: 'created_at',
     label: 'Created at'
-}, {
-    field: 'last_used_at_string',
-    label: 'Last used at'
 }]
 
 </script>
 <template>
+
+    <div>
+        <lesli-select
+            :options="storeUser.options.engines"
+            @change="selectEngine"
+            v-model="engine">
+        </lesli-select>
+    </div>
     <lesli-table
         :columns="columns"
-        :records="storeUser.sessions">
+        :records="storeUser.subscriptions">
     </lesli-table>
+
+
+    
 </template>
+    

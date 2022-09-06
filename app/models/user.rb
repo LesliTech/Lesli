@@ -586,9 +586,9 @@ class User < ApplicationLesliRecord
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
         users = users.where("category = ?", query[:filters][:category]) if query[:filters][:category]
         users = users.where("
-            lower(email) like '%#{query[:filters][:search]}%' or
-            LOWER(concat(ud.first_name, ' ', ud.last_name)) like '%#{query[:filters][:search].downcase}%'
-        ")  if not query[:filters][:search].blank?
+            lower(email) like '%#{query[:search]}%' or
+            LOWER(concat(ud.first_name, ' ', ud.last_name)) like '%#{query[:search].downcase}%'
+        ")  if not query[:search].blank?
 
         users = users.select(
             :id,
@@ -632,7 +632,7 @@ class User < ApplicationLesliRecord
     #     }
     def show(current_user = nil)
         user = self.account.users.find(id)
-
+        
         return {
             id: user[:id],
             email: user[:email],
@@ -645,6 +645,7 @@ class User < ApplicationLesliRecord
             full_name: user.full_name,
             mfa_enabled: user.mfa_settings[:enabled],
             mfa_method:  user.mfa_settings[:method],
+            language: user.settings.find_by(:name => "locale"),
             detail_attributes: {
                 title: user.detail[:title],
                 salutation: user.detail[:salutation],
