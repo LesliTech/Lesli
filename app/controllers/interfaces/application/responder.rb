@@ -25,8 +25,8 @@ module Interfaces
             # Return an standard http 200 respond
             def respond_with_successful payload=nil
 
-                # Keep compatibility with apps v2 specially Deutsche Leibrenten
-                if defined?(DeutscheLeibrenten)
+                # Keep compatibility with Deutsche Leibrenten
+                if controller_path.include?('deutsche_leibrenten')
                     response_body = { successful: true }
                     response_body[:data] = payload
                     return render(status: 200, json: response_body.to_json)
@@ -49,8 +49,8 @@ module Interfaces
             # IMPORTANT: It is strictly necessary to use the pagination methods
             #            to make this work properly
             def respond_with_pagination(records, payload=nil)
-                # Keep compatibility with apps v2 specially Deutsche Leibrenten
-                if defined?(DeutscheLeibrenten)
+                # Keep compatibility with Deutsche Leibrenten
+                if controller_path.include?('deutsche_leibrenten')
                     return respond_with_http(200, {
                         :pagination => {
                             :total_pages => records.total_pages,
@@ -93,8 +93,8 @@ module Interfaces
             # JSON not found response
             def respond_with_not_found
 
-                # Keep compatibility with apps v2 specially Deutsche Leibrenten
-                if defined?(DeutscheLeibrenten)
+                # Keep compatibility with Deutsche Leibrenten
+                if controller_path.include?('deutsche_leibrenten')
                     response_body = {
                         successful: false,
                         error: {
@@ -114,18 +114,19 @@ module Interfaces
             # JSON not found response
             def respond_with_unauthorized(detail = {})
             
-                error_object = {
-                    successful: false
-                }
+                error_object = { }
 
-                if defined?(DeutscheLeibrenten)
-                    error_object[:error] = {
-                        message: I18n.t("core.shared.view_text_unauthorized_request")
+                # Keep compatibility with Deutsche Leibrenten
+                if controller_path.include?('deutsche_leibrenten')
+                    error_object = {
+                        successful: false
+                        error: {
+                            message: I18n.t("core.shared.view_text_unauthorized_request")
+                        }
                     }
-                else
-                    error_object[:message] = I18n.t("core.shared.view_text_unauthorized_request")
                 end
 
+                error_object[:message] = I18n.t("core.shared.view_text_unauthorized_request")
                 error_object[:detail] = detail if Rails.env == "development"
 
                 if Rails.env == "development" and !current_user.blank?
@@ -148,8 +149,8 @@ module Interfaces
                 # Message should be a String
                 message = "" unless message.instance_of?(String)
 
-                # Keep compatibility with apps v2 specially Deutsche Leibrenten
-                if defined?(DeutscheLeibrenten)
+                # Keep compatibility with Deutsche Leibrenten
+                if controller_path.include?('deutsche_leibrenten')
 
                     response_body = {
                         successful: false,
