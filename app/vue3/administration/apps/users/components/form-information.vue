@@ -24,7 +24,7 @@ import { inject, onMounted, ref, onUnmounted } from "vue"
 import { useUser } from "LesliVue/stores/user"
 
 // · import vue router composable
-import { useRouter } from "vue-router"
+import { useRouter, useRoute } from "vue-router"
 
 // · implement stores
 const storeUser = useUser()
@@ -32,6 +32,7 @@ const storeUser = useUser()
 // · initialize/inject plugins
 const router = useRouter()
 const url = inject("url")
+const route = useRoute()
 
 // · defining props
 const props = defineProps({
@@ -72,11 +73,10 @@ function updateRole(){
 }
 
 onMounted(() => {
-    storeUser.getOptions()
-})
-
-onUnmounted(() => {
-    storeUser.resetUserStore()
+    storeUser.fetch(route.params?.id)
+    if (!props.isEditable){
+        storeUser.resetUserStore()
+    }
 })
 
 </script>
