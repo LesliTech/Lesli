@@ -60,7 +60,7 @@ const tab = ref(0)
     <section class="application-component">
         <cardInformation></cardInformation>
         <cardActions></cardActions>
-        <lesli-tabs v-model="tab" v-if="this.storeUser.user.id">
+        <lesli-tabs v-model="tab" v-if="storeUser.user.id">
             <lesli-tab-item title="Information">
                 <formInformation is-editable></formInformation>
             </lesli-tab-item>
