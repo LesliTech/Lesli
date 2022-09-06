@@ -42,8 +42,12 @@ namespace :app do
                     .collect { |x| x[0] = x[0].upcase; x } # convert ['exchange', 'rates'] to ['Exchange', 'Rates']
                     .join('').concat("Controller")  # finally join the parts of the class name and concat Controller
 
+                    # Validate that the class exists
+                    # sometimes a bad or wrong route can misspell a controller name
+                    next unless Object.const_defined?(cn)
+
                     # Create a new instance of the controller class
-                    co = Object.const_get(cn).new
+                    co = Object.const_get(cn).new rescue nil
 
                     # Check if the controller has privileges defined, this must be a public class method 
                     # defined in the controller. 
