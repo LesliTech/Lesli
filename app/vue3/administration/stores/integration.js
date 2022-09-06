@@ -56,6 +56,25 @@ export const useIntegration = defineStore("administration.integration", {
                 this.integration.name = ""
                 this.token = result
             })
+        },
+
+        deleteIntegration(integration_id){
+            this.dialog.confirmation({
+                title: "Delete integration",
+                text: 'Are you sure you want to delete this integration?',
+                confirmText: "Yes",
+                cancelText: "No"
+            })
+            .then(({ isConfirmed }) => {
+                if (isConfirmed) {
+                    this.http.delete(this.url.admin("account/integrations/:id", { id: integration_id})).then(result => {
+                        this.msg.success(I18n.t("core.users.messages_success_operation"))
+                    }).catch(error => {
+                        this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
+                    })
+                    this.fetch()
+                }
+            })
         }
 
     }
