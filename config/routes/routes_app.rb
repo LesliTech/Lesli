@@ -172,37 +172,24 @@ module RoutesApp
                     end
                 end
 
-                # roles & privileges management
-                # TODO:
-                #   describe routes, add "only" params to every route
-                resources :roles do
-                    scope module: :role do
-                        resources :privileges
-                        resources :activities
-                        resources :descriptor_assignments
-                        collection do
-                            get "/activities/options",                   to: "/role/activities#options"
-                            get "/descriptor_assignments/options",        to: "/role/descriptor_assignments#options"
-                        end
-                    end
 
+                # Descriptors for roles
+                resources :descriptors, only: [:index, :show] do
+                    collection do 
+                        get :list
+                    end
+                end 
+
+                # roles & privileges management
+                resources :roles, only: [:index, :show, :edit, :update, :create, :destroy] do
+                    scope module: :role do
+                        resources :privileges, only: [:index]
+                        resources :activities, only: [:index]
+                        resources :describers, only: [:index, :create, :destroy]
+                    end
                     collection do
                         get :list
                         get :options
-                        get "/privilege_actions/options",               to: "role/privilege_actions#options"
-                    end
-                end
-
-                # role descriptors
-                resources :role_descriptors do
-                    scope module: :role_descriptor do
-                        resources :privilege_actions
-                    end
-                    collection do
-                        get :list
-                    end
-                    collection do
-                        get "/privilege_actions/options",        to: "role_descriptor/privilege_actions#options"
                     end
                 end
 
