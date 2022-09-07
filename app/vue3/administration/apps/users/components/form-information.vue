@@ -73,9 +73,10 @@ function updateRole(){
 }
 
 onMounted(() => {
-    storeUser.fetch(route.params?.id)
     if (!props.isEditable){
         storeUser.resetUserStore()
+    } else {
+        storeUser.fetch(route.params?.id)
     }
 })
 

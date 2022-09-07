@@ -41,11 +41,6 @@ const translations = {
         shared: I18n.t("core.shared")
     }
 }
-    
-// · initializing
-onMounted(() => {
-    storeUser.resetUserStore()
-})
 
 </script>
 
