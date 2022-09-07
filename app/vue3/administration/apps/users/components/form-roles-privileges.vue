@@ -53,7 +53,7 @@ function updateRole(role, select){
     <h4>{{ translations.users.view_text_roles_assigned }}</h4>
     <div class="roles-types">
         <div 
-            class="card chatroom-type p-4 is-flex is-flex-direction-column is-justify-content-space-between is-clickable" 
+            class="card roles-types-item p-4 is-flex is-flex-direction-column is-justify-content-space-between is-clickable" 
             v-for="role in storeUser.options.roles"
             :key="role"
         >
@@ -63,8 +63,7 @@ function updateRole(role, select){
                 </span>
             </div>
             <div>
-                <span>Permission level</span>
-                <p class="mt-2 has-text-weight-semibold">{{ role.object_level_permission }}</p>
+                <span>Permission level: {{ role.object_level_permission }} </span>
             </div>
             <div class="is-flex is-justify-content-space-between is-align-items-center">
                 <lesli-toggle v-model="storeUser.rolesToggle[role.id]" v-on:update:modelValue="updateRole(role,storeUser.rolesToggle[role.id])" ></lesli-toggle>

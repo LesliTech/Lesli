@@ -49,9 +49,9 @@ body.administration-profile {
     grid-auto-rows: minmax(198px, auto);
     grid-gap: 20px;
 
-    .role-type {
+    &-item {
         width: 100%;
-        height: 100%;
+        height: 75%;
         border-radius: 8px;
     }
 }
