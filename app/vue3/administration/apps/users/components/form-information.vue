@@ -227,7 +227,7 @@ onMounted(() => {
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <lesli-button name="save_button" icon="save">
+                        <lesli-button icon="save">
                             {{ translations.shared.view_btn_save }}
                         </lesli-button>                 
                     </div>
