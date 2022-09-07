@@ -57,7 +57,9 @@ export const useIntegration = defineStore("administration.integration", {
                 this.token = result
             })
         },
-
+        /**
+         * @description This action is used to delete an integration
+         */
         deleteIntegration(integration_id){
             this.dialog.confirmation({
                 title: "Delete integration",
@@ -68,7 +70,14 @@ export const useIntegration = defineStore("administration.integration", {
             .then(({ isConfirmed }) => {
                 if (isConfirmed) {
                     this.http.delete(this.url.admin("account/integrations/:id", { id: integration_id})).then(result => {
-                        this.msg.success(I18n.t("core.users.messages_success_operation"))
+                        // delete user associated with integration
+                        this.http.delete(this.url.admin("/users/:user_id", {
+                            user_id: result.users_id
+                        })).then(result => {
+                            this.msg.success(I18n.t("core.users.messages_success_operation"))
+                        }).catch(error => {
+                            this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))                        
+                        })
                     }).catch(error => {
                         this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
                     })
@@ -76,6 +85,5 @@ export const useIntegration = defineStore("administration.integration", {
                 }
             })
         }
-
     }
 })
