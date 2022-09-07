@@ -44,10 +44,7 @@ body.administration-profile {
 
 // · roles management cards
 .roles-types {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    grid-auto-rows: minmax(198px, auto);
-    grid-gap: 20px;
+    display: flex;
 
     &-item {
         width: 100%;
