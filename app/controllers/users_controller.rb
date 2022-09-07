@@ -401,9 +401,10 @@ class UsersController < ApplicationLesliController
 
     # Resets the user email 
     def email
+
         user = current_user.account.users.find_by(id: params[:id])
 
-        if user.blank? 
+        if user.blank? || user.id != current_user.id 
             return respond_with_not_found
         end
 

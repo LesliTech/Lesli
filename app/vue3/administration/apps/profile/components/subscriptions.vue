@@ -59,7 +59,7 @@ const columns = [{
 </script>
 <template>
 
-    <div>
+    <div class="block">
         <lesli-select
             :options="storeUser.options.engines"
             @change="selectEngine"
