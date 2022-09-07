@@ -117,7 +117,6 @@ onUnmounted(() => {
             </div>
             <div class="header-right">
 
-                <slot></slot>
 
                 <!-- engines selector -->
                 <a class="navbar-item" @click="toggleEngines()">
@@ -126,12 +125,17 @@ onUnmounted(() => {
                     </span>
                 </a>
 
-                <!-- header action button -->
-                <a class="navbar-item">
-                    <span class="material-icons md-36">
-                        add_box
+
+                <!-- Tasks -->
+                <a class="navbar-item header-notification-indicator" @click="storeLayout.showNotifications = true">
+                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.notifications > 0 }]">
+                        checklist
+                    </span>
+                    <span class="count" v-if="storeLayout.header.notifications > 0">
+                        {{ storeLayout.header.notifications }}
                     </span>
                 </a>
+
 
                 <!-- Notifications -->
                 <a class="navbar-item header-notification-indicator" @click="storeLayout.showNotifications = true">
@@ -142,6 +146,7 @@ onUnmounted(() => {
                         {{ storeLayout.header.notifications }}
                     </span>
                 </a>
+
 
                 <!-- Profile options -->
                 <div class="dropdown is-right is-hoverable header-user-options">
