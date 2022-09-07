@@ -54,7 +54,7 @@ onMounted(() => {
             <div class="field">
                 <label class="label">Name</label>
                 <div class="control">
-                    <input name="integration_name" v-model="storeIntegration.integration.name" class="input" type="text" placeholder="Integration name">
+                    <input v-model="storeIntegration.integration.name" class="input" type="text" placeholder="Integration name">
                 </div>
             </div>
             <div class="field is-grouped">
