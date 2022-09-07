@@ -112,7 +112,7 @@ onMounted(() => {
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <input name="user_emai" v-model="storeUser.user.email" required="required" type="email" class="input">
+                        <input name="user_email" v-model="storeUser.user.email" required="required" type="email" class="input">
                     </div>
                 </div>
             </div>
