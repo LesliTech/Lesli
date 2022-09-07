@@ -119,7 +119,7 @@ module Interfaces
                 # Keep compatibility with Deutsche Leibrenten
                 if controller_path.include?('deutsche_leibrenten')
                     error_object = {
-                        successful: false
+                        successful: false,
                         error: {
                             message: I18n.t("core.shared.view_text_unauthorized_request")
                         }
