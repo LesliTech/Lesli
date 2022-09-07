@@ -36,11 +36,13 @@ const props = defineProps({
         required: false,
         default: false,
     },
+    // · prop that indicates if the file type
     fileType: {
         type: String,
         required: false,
         default: "",
     },
+    // · prop that shows the drop zone or not
     isDropzoneActive: {
         type: Boolean,
         required: false,
