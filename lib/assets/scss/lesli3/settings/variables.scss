@@ -31,6 +31,8 @@ $lesli-sidebar-width: 50px !default;
 $lesli-sidebar-color: #fffcf9 !default;
 $lesli-sidebar-hover: white !default;
 
+$lesli-logo-color: #fff !default;
+
 $lesli-font-color: black !default;
 $lesli-font-size: 16px !default;
 
@@ -52,6 +54,8 @@ $primary: $lesli-color-primary;
     
     --lesli-sidebar-color: var(--lesli-theme-sidebar-color, #{$lesli-sidebar-color});
     --lesli-sidebar-width: var(--lesli-theme-sidebar-width, #{$lesli-sidebar-width});
+
+    --lesli-logo-color: var(--lesli-theme-logo-color, #{$lesli-logo-color});
     
     --lesli-font-size: var(--lesli-theme-font-size, #{$lesli-font-size});
     --lesli-font-color: var(--lesli-theme-font-color, #{$lesli-font-color});
