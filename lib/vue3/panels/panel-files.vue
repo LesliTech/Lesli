@@ -189,7 +189,7 @@ watch(() => storeFiles.cloudModule, () => {
                 </p>
                 <lesli-file-uploader
                     :file-type="fileType?.label"
-                    @files="onDropFiles"
+                    @files-change="onDropFiles"
                     :clear-files="clearFileUploader"
                     @events-after-clear="clearFileUploader = false"
                 />

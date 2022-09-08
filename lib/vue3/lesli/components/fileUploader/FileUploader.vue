@@ -24,7 +24,7 @@ import { ref, watch, computed } from "vue"
  * @files this event emits the files when the user drops, selects or deletes the files
  * @eventsAfterClear this event is emitted when the files are cleared, this is useful to clear something in a father component
  */
-const emit = defineEmits(["files", "eventsAfterClear"])
+const emit = defineEmits(["filesChange", "eventsAfterClear"])
 
 // · defining props
 const props = defineProps({
@@ -98,23 +98,25 @@ const onSelectOrDropFiles = (event, isDropzone = true) => {
     }
 
     // · emit the files that user have selected
-    emit("files", files.value)
+    emit("filesChange", files.value)
 }
 
 /**
  * @param {File} fileToRemove is the file that user want to remove
  * @description this function is called when the user click on the remove button of a file
  */
-const onRemoveFile = (fileToRemove, position = null) => {
+const onRemoveFile = (fileToRemove, position) => {
+    
     if (files.value.length === 0) return
     
     // · update the files without the file that user want to remove
     files.value = files.value.filter((file) => file.name !== fileToRemove.name)
 
-    if (position) imagesToRender.value.splice(position, 1)
+    // · update the images to render without the image that user want to remove
+    imagesToRender.value.splice(position, 1)
 
     // · emit the files without the file that user want to remove
-    emit("files", files.value)
+    emit("filesChange", files.value)
 }
 
 // · this watcher is called when the reactive variable clearCurrentFiles changes
