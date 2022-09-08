@@ -137,7 +137,7 @@ watch(clearCurrentFiles, (value) => {
         <template v-if="!isDropzoneActive">
             <label for="file">
                 <span class="button is-primary">
-                    <span>Add new file</span>
+                    <span>{{ translations.core.shared.view_text_add_new_files }}</span>
                     <span class="icon is-small">
                         <span class="material-icons">add</span>
                     </span>
