@@ -54,8 +54,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             params_hash_value.each do |key, value|
                 expect(response_body).to have_key(key)
             end
-
-
         end
 
         it "is expected to test the creation of the record with empty values" do
