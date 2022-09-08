@@ -22,13 +22,19 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
             #cast column_names (its an Array) into a hash an insert values
             params.each do |value|
+                #avoid fill id and date values
                 if !((value.include? "id") || (value.include? "at") )
                     params_hash_value[value] = Faker::Lorem.word
                 end
             end
 
+            #create new object
             new_object =  @current_user.[[controller_folder]].[[controller_file]].new({})
+
+            #avoid  unknown attribute when create objects
             new_object.attributes = params_hash_value.reject{|k,v| !new_object.attributes.keys.member?(k.to_s) }
+            
+            #save object
             new_object.save!
             return new_object
         end
