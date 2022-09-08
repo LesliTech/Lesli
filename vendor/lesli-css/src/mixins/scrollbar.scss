@@ -36,6 +36,7 @@ Building a better future, one line of code at a time.
     scrollbar-color: #ffffff #ffffff;
 
     @if $style == hide {
+        scrollbar-width: none;
         &::-webkit-scrollbar {
             width: 0px;
             background-color: #f5f5f5;
