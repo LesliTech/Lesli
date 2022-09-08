@@ -48,6 +48,7 @@ aside.application-sidebar {
     nav.menu {
         // hide scrollbar
         @include lesli-css-scrollbar(hide);
+        overflow-y: scroll;
     }
 
     p.menu-label {
