@@ -210,7 +210,7 @@ onMounted(() => {
                     <div class="control">
                         <div class="select is-fullwidth">
                             <lesli-select
-                                :options="storeUser.options.roles"
+                                :options="storeUser.rolesSelect"
                                 v-model="userRole"
                                 @change="updateRole"
                             >

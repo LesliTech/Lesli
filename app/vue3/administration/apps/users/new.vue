@@ -40,7 +40,11 @@ const translations = {
         users: I18n.t("core.users"),
         shared: I18n.t("core.shared")
     }
+
 }
+onMounted(() => {
+    storeUser.getOptions()
+})
 
 </script>
 
