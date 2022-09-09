@@ -160,7 +160,7 @@ class User < ApplicationLesliRecord
         form ||= 'html'
 
         begin
-            self.privileges
+            !self.privileges
             .where("role_privileges.controller = ?", controller)
             .where("role_privileges.action = ?", action)
             .where("role_privileges.form = ?", form)
