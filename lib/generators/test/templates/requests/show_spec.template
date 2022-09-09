@@ -16,7 +16,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #if it necesary, define a method to create and object and be sure the table will not be empty of data
             @current_user.[[controller_folder]].[[controller_file]].destroy_all
 
-            #search posibles permit values to create an element
+            #search posibles permit values to create an element, controller module should be in singular way
             params = [[controller_folder_upper]]::[[controller_file_upper]].column_names
             params_hash_value = {}
 
@@ -47,7 +47,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #make sure you have created some elements before run test and reference its id 
             [[controller_folder]]_object = create_element
 
-            get("[[url]]#{[[controller_folder]]_object.id}.json")
+            get("[[url]]/#{[[controller_folder]]_object.id}.json")
 
             # shared examples
             expect_response_with_successful
@@ -61,7 +61,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #before run test, you must create an object of the class youll like to test
 
             #test will fail if element id exist
-            get("[[url]]#{invalid_id}")
+            get("[[url]]/#{invalid_id}.json")
 
             # shared examples
             # this ID does not exist, so should return with not found
