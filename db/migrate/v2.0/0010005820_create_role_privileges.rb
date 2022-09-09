@@ -18,6 +18,12 @@ For more information read the license file including with this software.
 
 class CreateRolePrivileges < ActiveRecord::Migration[7.0]
     def change
+
+        # Production instances have previous implementation of role_privileges and is needed to drop it
+        if ActiveRecord::Base.connection.table_exists? 'role_privileges'
+            drop_table :role_privileges
+        end
+
         create_table :role_privileges do |t|
             t.string   :controller
             t.string   :action
