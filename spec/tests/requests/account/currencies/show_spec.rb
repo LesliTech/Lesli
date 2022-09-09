@@ -31,7 +31,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             @current_user.account.currencies.destroy_all
 
             #search posibles permit values to create an element
-            params = Account::Currencie.column_names
+            params = Account::Currency.column_names
             params_hash_value = {}
 
             #cast column_names (its an Array) into a hash an insert values
@@ -47,7 +47,8 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
             #avoid  unknown attribute when create objects
             new_object.attributes = params_hash_value.reject{|k,v| !new_object.attributes.keys.member?(k.to_s) }
-            
+            new_object.user_main_id = @current_user.id
+            new_object.users_id = @current_user.id
             #save object
             new_object.save!
             return new_object
@@ -61,7 +62,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #make sure you have created some elements before run test and reference its id 
             account_object = create_element
 
-            get("/administration/account/currencies#{account_object.id}.json")
+            get("/administration/account/currencies/#{account_object.id}.json")
 
             # shared examples
             expect_response_with_successful
@@ -70,12 +71,12 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
         it "is expected to respond with not found when an invalid ID is sent" do
             # this ID does not exist, so should return with not found
-            #invalid_id = @current_user.account.currencies.last.id + 1
-            
+            invalid_id = @current_user.account.currencies.last.id + 1
+
             #before run test, you must create an object of the class youll like to test
 
             #test will fail if element id exist
-            get("/administration/account/currencies#{invalid_id}")
+            get("/administration/account/currencies/#{invalid_id}.json")
 
             # shared examples
             # this ID does not exist, so should return with not found
@@ -84,10 +85,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             # validate others custom values expected here
             expect(response_body).to have_key("message")
             expect(response_body["message"]).to be_a(String)
-
-            expect(response_body).to have_key("details")
-            expect(response_body["details"]).to be_a(Array)
-
         end
     end
 end

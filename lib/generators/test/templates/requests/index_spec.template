@@ -16,7 +16,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #if it necesary, define a method to create and object and be sure the table will not be empty of data
             @current_user.[[controller_folder]].[[controller_file]].destroy_all
 
-            #search posibles permit values to create an element
+            #search posibles permit values to create an element, controller module should be in singular way
             params = [[controller_folder_upper]]::[[controller_file_upper]].column_names
             params_hash_value = {}
 
