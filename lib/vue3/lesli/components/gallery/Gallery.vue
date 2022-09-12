@@ -16,43 +16,32 @@ For more information read the license file including with this software.
 // · 
 */
 
-
 // · import vue tools
-import { onMounted } from "vue"
-import { useRouter, useRoute } from 'vue-router'
+import { ref, watch, computed } from "vue"
 
 
-// · import lesli stores
-import { useUser } from "LesliVue/stores/user"
+const emit = defineEmits(["delete"])
 
-// · import profile components
-import formInformation from "./components/form-information.vue"
-
-// · implement stores
-const storeUser = useUser()
-const router = useRouter()
-const route = useRoute()
-
-// · translations
-const translations = {
-    core: {
-        roles: I18n.t("core.roles"),
-        users: I18n.t("core.users"),
-        shared: I18n.t("core.shared")
-    }
-
-}
-onMounted(() => {
-    storeUser.getOptions()
+// · defining props
+const props = defineProps({
+    images: {
+        type: Array,
+        required: true,
+    },
 })
 
+const onRemoveImage = (image) => {
+    emit("delete", image)
+}
 </script>
 
 <template>
-    <section class="application-component">
-        <lesli-header title="Create User"></lesli-header>
-        <div class="box">
-            <formInformation/>
+    <div class="lesli-gallery">
+        <div v-if="images.length > 0" class="preview mt-5 mb-4">
+            <div v-for="(image, i) in images" :key="i" class="preview-item">
+                <img :src="image.url" :alt="image?.name">
+                <span class="material-icons" @click="onRemoveImage(image)">cancel</span>
+            </div>
         </div>
-    </section>
+    </div>
 </template>
