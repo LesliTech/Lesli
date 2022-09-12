@@ -73,9 +73,10 @@ function updateRole(){
 }
 
 onMounted(() => {
-    storeUser.fetch(route.params?.id)
     if (!props.isEditable){
         storeUser.resetUserStore()
+    } else {
+        storeUser.fetch(route.params?.id)
     }
 })
 
@@ -209,7 +210,7 @@ onMounted(() => {
                     <div class="control">
                         <div class="select is-fullwidth">
                             <lesli-select
-                                :options="storeUser.options.roles"
+                                :options="storeUser.rolesSelect"
                                 v-model="userRole"
                                 @change="updateRole"
                             >
