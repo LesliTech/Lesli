@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -12,15 +12,16 @@ transmission, publication is strictly forbidden.
 
 For more information read the license file including with this software.
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
 */
 
 
-.lesli-file-uploader {
-    .preview {
+// · 
+.lesli-gallery {
+    .preview{
         height: auto;
-        display: flex;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 150px);
         gap: 18px;
         &-item {
             width: 150px;
@@ -43,17 +44,5 @@ For more information read the license file including with this software.
                 border-radius: 50%;
             }
         }
-    }
-
-    .dropzone {
-        background-color: var(--lesli-color-background);
-        border: 1.5px dashed lesli-css-color(silver, 500);
-        border-radius: 4px;
-        .upload-icon {
-            font-size: 45px;
-        }
-    }
-    .delete-icon {
-        font-size: 28px;
     }
 }
