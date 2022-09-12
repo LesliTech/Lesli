@@ -154,10 +154,8 @@ class ApplicationLesliController < ApplicationController
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
     def authorize_privileges
 
-        seguridad4 = true
-
-        # use old security for DL and MW
-        seguridad4 = !(defined?(DeutscheLeibrenten) || defined?(MitwerkenCloud))
+        # check if security version 4 is enable
+        seguridad4 = (Rails.application.config.lesli.dig(:security, :version) === 4)
 
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
