@@ -58,10 +58,10 @@ const isActive = computed(() => isNavbarMenuOpen.value ? 'is-active' : '')
 </script>
 
 <template>
-    <nav class="lesli-navbar navbar" role="navigation" aria-label="main navigation">
+    <nav class="application-navbar navbar" role="navigation" aria-label="main navigation">
         <div class="container">
             <div class="navbar-brand">
-                <router-link v-if="brand" :to="brand.url" class="lesli-navbar-brand">
+                <router-link v-if="brand" :to="brand.url" class="application-navbar-brand">
                     <img :src="brand.image" :alt="brand.name">
                 </router-link>
                 <a @click="onNavbarBurgerClick" :class="['navbar-burger', isActive ]" :data-target="uniqueId" role="button" aria-label="menu" aria-expanded="false">
@@ -72,16 +72,16 @@ const isActive = computed(() => isNavbarMenuOpen.value ? 'is-active' : '')
             </div>
             <div :class="['navbar-menu', isActive]" :id="uniqueId">
                 <div v-if="startLinks" class="navbar-start">
-                    <router-link v-for="(link, i) in startLinks" :key="link.name" :to="link.url" class="lesli-navbar-link">
+                    <router-link v-for="(link, i) in startLinks" :key="link.name" :to="link.url" class="application-navbar-link">
                         {{ link.name }}
                     </router-link>
                 </div>
                 <div v-if="endLinks" class="navbar-end">
                     <template v-for="(link, i) in endLinks" :key="link.name">
-                        <a v-if="link.reload" :href="link.url" class="lesli-navbar-link">
+                        <a v-if="link.reload" :href="link.url" class="application-navbar-link">
                             {{ link.name }}
                         </a>
-                        <router-link v-else :to="link.url" class="lesli-navbar-link">
+                        <router-link v-else :to="link.url" class="application-navbar-link">
                             {{ link.name }}
                         </router-link>
                     </template>
@@ -90,3 +90,4 @@ const isActive = computed(() => isNavbarMenuOpen.value ? 'is-active' : '')
         </div>
     </nav>
 </template>
+    
