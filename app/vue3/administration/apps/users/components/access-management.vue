@@ -24,10 +24,8 @@ import { ref, reactive, onMounted, watch, computed } from "vue"
 // · import lesli stores
 import { useUser } from "LesliVue/stores/user"
 
-
 // · implement stores
 const storeUser = useUser()
-
 
 // · 
 const translations = {
@@ -37,73 +35,24 @@ const translations = {
     confirmations: I18n.t("core.users/confirmations")
 }
 
-const status = ref({})
-
-function updateStatus(){
-    storeUser.user.active = status.value.value
-    storeUser.changeUserStatus()
-}
-
 </script>
 <template>
-    <h4>{{ translations.users.view_title_manage_access }}</h4>
-    <form>
-        <div class="field is-horizontal">
-            <div class="field-label is-normal">
-                <label class="label">{{ translations.users.view_text_access_status }}</label>
-            </div>
-            <div class="field-body">
-                <div class="field is-narrow">
-                    <div class="control">
-                        <div class="select is-fullwidth">
-                            <lesli-select
-                                @change="updateStatus()"
-                                v-model="status"
-                                :options="[{
-                                    label: translations.shared.view_text_active,
-                                    value: true
-                                }, {
-                                    label: translations.shared.view_text_inactive,
-                                    value: false
-                                }]">
-                            </lesli-select>
+    <div class="box">
+        <h4>{{ translations.users.view_title_manage_access }}</h4>
+        <form>
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <p>{{ translations.users.view_text_access_status }}</p>
+                </div>
+                
+                <div class="field-body">
+                    <div class="field is-narrow">
+                        <div class="control">
+                            <lesli-toggle v-model="storeUser.user.active" @update:modelValue="storeUser.changeUserStatus" show-text enabled-text="active" disabled-text="inactive"></lesli-toggle>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
-    <h4>{{ translations.confirmations.view_title_change_email }}</h4>
-    <form @submit.prevent="storeUser.changeEmail">
-        <div class="field is-horizontal">
-            <div class="field-label is-normal">
-                <label class="label">{{ translations.confirmations.view_text_new_email }}</label>
-            </div>
-            <div class="field-body">
-                <div class="field">
-                    <div class="control has-icons-left">
-                        <input
-                            required
-                            class="input"
-                            type="email"
-                            v-model="storeUser.user.new_email"
-                            :placeholder="translations.confirmations.view_placeholder_new_email">
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-envelope"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="field is-horizontal">
-            <div class="field-label"></div>
-            <div class="field-body">
-                <div class="field">
-                    <div class="control">
-                        <lesli-button> {{ translations.shared.view_btn_save }}</lesli-button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </template>
