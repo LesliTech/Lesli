@@ -31,7 +31,7 @@ Array with the data to be rendered within the table
 
 **slots** 
 It is possible to render custom html content for individual columns using a template tag with an id corresponding to the
-column field, also we can pass column and value params to work with the data corresponding to the column
+column field, also we can pass column, record and value params to work with the data corresponding to the column
 
 **options**
 Lesli table provides a dedicated column to print a list of options and actions for every record of the table through
@@ -94,12 +94,15 @@ the "options slot"
 
 <br>
 
-**Example of a simple table with custom slot for the "email" field:**
+**Example of a simple table with custom slot for the "email" field and custom slot for the table head for the email column:**
 
 ```html
 <lesli-table
     :columns="[{field: 'id', label: 'ID'},{field: 'email', label: 'Email'}]"
     :records="[{id:0,email:'ldonis@lomax.com.gt'},{id:0,email:'ldonis@gmail.com'},{id:0,email:'emc2@ldonis.com'}]">
+    <template #head(email)="{ column }">
+        {{ column.label }}
+    </template>
     <template #email="{ column, value }">
         <span class="tag is-success">
             {{ value }}
