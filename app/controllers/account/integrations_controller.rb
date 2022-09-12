@@ -91,7 +91,7 @@ class Account::IntegrationsController < ApplicationLesliController
     def destroy
         return respond_with_not_found unless @account_integration
         if @account_integration.destroy
-            respond_with_successful
+            respond_with_successful(@account_integration)
         else
             respond_with_error(@account_integration.errors.full_messages.to_sentence)
         end

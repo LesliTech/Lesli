@@ -24,6 +24,7 @@ import { useRouter, useRoute } from 'vue-router'
 
 // · import lesli stores
 import { useUser } from "LesliVue/stores/user"
+import { useProfile } from "Lesli/vue3/administration/stores/users/profile"
 
 // · import profile components
 import cardInformation from "../users/components/card-information.vue"
@@ -33,10 +34,12 @@ import formSecurity from "../users/components/form-security.vue"
 import integrationsInformation from "../users/components/integrations-information.vue"
 import subscriptionsComponent from "./components/subscriptions.vue"
 import settings from "../users/components/settings.vue"
+import changeEmail from "./components/change-email.vue"
 
 
 // · implement stores
 const storeUser = useUser()
+const storeProfile = useProfile()
 const router = useRouter()
 const route = useRoute()
 
@@ -54,6 +57,7 @@ const translations = {
 onMounted(() => {
     storeUser.fetch()
     storeUser.getOptions()
+    storeProfile.fetchProfile()
 })
 
 </script>
@@ -70,6 +74,9 @@ onMounted(() => {
             </lesli-tab-item>
             <lesli-tab-item title="Security">
                 <formSecurity></formSecurity>
+            </lesli-tab-item>
+            <lesli-tab-item title="Access management">
+                <changeEmail></changeEmail>
             </lesli-tab-item>
             <lesli-tab-item title="Session management">
                 <managementSession></managementSession>
