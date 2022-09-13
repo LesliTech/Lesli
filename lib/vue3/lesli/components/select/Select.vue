@@ -28,8 +28,8 @@ const emit = defineEmits(['update:modelValue']);
 // · defining props
 const props = defineProps({
     modelValue: {
-        type: Object,
-        default: () => ({})
+        type: String,
+        required: true
     },
     options: {
         type: Array,
@@ -51,11 +51,11 @@ const props = defineProps({
 })
 
 
-// · defining props
-const selected = ref({})
+// · 
+const selected = ref(props.modelValue)
 
 
-// · defining props
+// · 
 function onChange() {
     emit('update:modelValue', selected.value)
 }
@@ -75,7 +75,7 @@ function onChange() {
                     </option>
                     <option 
                         v-for="(option, index) in props.options" 
-                        :value="option"
+                        :value="option.value"
                         :key="index">
                         {{ option.label }}
                     </option>
