@@ -66,42 +66,65 @@ namespace :app do
                         # to be able to work in a complete view
                         co.privileges.each do |action, privileges|
 
+                            # controller name for humans, ready to be translated by babel
+                            controller_name = "#{cn.sub('Controller','').sub('::','')}#{action.capitalize}".underscore.sub('/','_')
+
+                            # controller path like the route paths build by rails
+                            controller_path = cn.sub("::", "/").sub("Controller", "").underscore
+
                             # Register the new descriptor if it does not exists
                             # the name of the descriptor is prepared to be translated with babel
                             descriptor = account.descriptors.create_with({
-                                :name => "#{cn.sub('Controller','').sub('::','')}#{action.capitalize}".underscore.sub('/','_'),
+                                :name => controller_name,
                                 :path => controller,
                                 :engine => engine
                             }).find_or_create_by({ 
                                 :reference => "#{cn}##{action.capitalize}"
-                            })
+                            }) 
 
                             # We must assign all the descriptors to the owner role
                             account.roles.find_by(name: 'owner').describers.find_or_create_by({
                                 descriptor: descriptor
                             })
-
+                            
                             LC::Debug.msgc("New descriptor created: #{descriptor.name}") if descriptor.new_record?
 
                             # Register the current controller into the descriptor privileges, so the role grants
                             # permissions to render the requested page as html and as json
                             descriptor.privileges.find_or_create_by({
-                                :controller => cn.sub("::", "/").sub("Controller", "").underscore,
+                                :controller => controller_path,
                                 :action => action,
                                 :form => "html"
                             })
 
+                            # register the same privilege for api requests
                             descriptor.privileges.find_or_create_by({
-                                :controller => cn.sub("::", "/").sub("Controller", "").underscore,
+                                :controller => controller_path,
                                 :action => action,
                                 :form => "json"
                             })
 
                             # Register the privileges needed by the object and related to the controller
+                            # the controller can register requested privileges in two ways:
+                            #   - ResourceController#action
+                            #   - action (from the same controller)
                             privileges.each do |privilege|
+
+                                # check if is privilege from external controller 
+                                if privilege.include?('#')
+                                    privilege_controller = privilege.split("#")[0].sub("::", "/").sub("Controller", "").underscore
+                                    privilege_action = privilege.split("#")[1].downcase
+                                else 
+                                    # here we are working with the second scenario, the controller is registering
+                                    # privilege for an action from the same controller
+                                    privilege_controller = controller
+                                    privilege_action = privilege
+                                end
+
+                                # register the desire privilege for the controller
                                 descriptor.privileges.find_or_create_by({
-                                    :controller => privilege.split("#")[0].sub("::", "/").sub("Controller", "").underscore,
-                                    :action => privilege.split("#")[1].downcase,
+                                    :controller => privilege_controller,
+                                    :action => privilege_action,
                                     :form => "json"
                                 })
                             end 

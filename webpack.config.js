@@ -110,7 +110,9 @@ module.exports = env => {
 
             "onboardings/application": "Lesli/vue3/onboarding/app.js",
             
-            "administration/application": "Lesli/vue3/administration/app.js"
+            "administration/application": "Lesli/vue3/administration/app.js",
+
+            "websites/application": "Lesli/vue3/websites/app.js",
 
         },
 
