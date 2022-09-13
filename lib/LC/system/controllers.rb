@@ -60,6 +60,10 @@ module LC
                     routes = "#{engine[:name]}::Engine".constantize.routes.routes.each do |route| 
                         route = route.defaults 
 
+                        # validate if route has information, some special routes like redirects
+                        # can generate an empty entry in the route hash
+                        next if route.empty?
+
                         # get the engine code
                         engine_code = engine[:name].underscore
                         
