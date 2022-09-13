@@ -19,8 +19,7 @@ For more information read the license file including with this software.
 // · 
 
 section.application-announcements {
-    padding: 2rem;
-    margin-left: var(--application-navigation-width);
-    width: calc(100% - var(--application-navigation-width));
-
+    margin-left: var(--lesli-sidebar-width);
+    width: calc(100% - var(--lesli-sidebar-width));
+    padding: 2rem 2rem 0; 
 }
