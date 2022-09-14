@@ -18,7 +18,7 @@ $light: #ffffff;
 $dark: #000000;
 $dark-gray: #373737;
 
-.application-navbar {
+.lesli-navbar {
     padding: 2rem 0;
     background-color: transparent;
     &-brand {
@@ -67,7 +67,7 @@ $dark-gray: #373737;
 }
 
 @include lesli-css-breakpoint-until-tablet() {
-    .application-navbar {
+    .lesli-navbar {
         width: 90%;
         margin: 0 auto;
         &-link {
