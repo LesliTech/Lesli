@@ -65,16 +65,51 @@ export const useRole = defineStore("administration.role", {
 
         getDescriptors() {
             this.http.get(this.url.admin("roles/:id/describers", this.role.id)).then(descriptors => {
-                this.descriptors = descriptors
+
+                // reset the list of descriptors
+                this.descriptors = []
+
+                // temporary container for the descriptor matrix
+                let descriptorgrid = {}
+
+                // convert list of descriptors from: controller/action to controller/actions (like a matrix)
+                descriptors.forEach(descriptor => {
+                    if (!descriptorgrid[descriptor.reference]) {
+                        descriptorgrid[descriptor.reference] = {
+                            id: descriptor.id,
+                            name: descriptor.name,
+                            reference: descriptor.reference,
+                            path: `/${descriptor.controller}`,
+                            index: null, 
+                            show: null, 
+                            create: null, 
+                            update: null, 
+                            destroy: null, 
+                            search: null
+                        }
+                    }
+
+                    // add the id of the descriptor that the action belongs to
+                    descriptorgrid[descriptor.reference][descriptor.action] = {
+                        id: descriptor.id,
+                        active: descriptor.active
+                    }
+                })
+
+                // return the arrys only
+                this.descriptors = Object.values(descriptorgrid)
+
             })
         },
 
-        changeDescriptor(descriptor) {
+        updateDescriptor(descriptor) {
 
+            // enable descriptor
             if (descriptor.active) {
                 return this.postDescriptor(descriptor)
             }
 
+            // disable descriptor
             this.deleteDescriptor(descriptor)
             
         },
