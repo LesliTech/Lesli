@@ -22,12 +22,11 @@ class Account::SettingsController < ApplicationLesliController
 
     def privileges 
         {
-            index: ['options', 'AccountsController#options'],
+            index: [],
             security: [],
             date_time: [],
             branding: [],
-            theme: [],
-
+            theme: []
         }
     end 
 

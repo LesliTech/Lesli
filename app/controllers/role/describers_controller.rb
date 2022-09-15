@@ -20,12 +20,6 @@ class Role::DescribersController < ApplicationLesliController
     before_action :set_role, only: [:index, :create, :destroy]
     before_action :set_role_describer, only: [:destroy]
 
-    def privileges 
-        {
-            create: []
-        }
-    end
-
     def index 
         respond_with_successful(Role::Describer.index(current_user, @query, @role))
     end 
@@ -44,7 +38,7 @@ class Role::DescribersController < ApplicationLesliController
         if describer
             # just restore ir (undelete)
             describer.update(:deleted_at => nil) 
-            Role::Activity.log_create_descriptor_assignment(current_user, @role, describer) 
+            Role::Activity.log_create_descriptor(current_user, @role, describer) 
             return respond_with_successful
         end 
 
