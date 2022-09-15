@@ -109,7 +109,7 @@ function updateDescriptor(descriptor) {
                 Edit role
             </lesli-button>
         </lesli-header>
-        <lesli-toolbar></lesli-toolbar>
+        <lesli-toolbar @search="storeRole.searchDescriptors"></lesli-toolbar>
         <lesli-table 
             :columns="columnDescriptors"
             :records="storeRole.descriptors">
