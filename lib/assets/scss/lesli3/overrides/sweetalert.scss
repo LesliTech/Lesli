@@ -49,6 +49,16 @@ For more information read the license file including with this software.
                 font-weight: 600;
             }
 
+            button.swal2-confirm {
+                background-color: var(--lesli-color-primary);
+            }
+
+            // · 
+            button.swal2-cancel {
+                color: var(--lesli-color-primary);
+                background-color: lesli-css-color(lesli, faded);
+            }
+
         }
 
     }

@@ -39,25 +39,49 @@ const translations = {
 }
 
 // . declare variables
-const timezoneValue = ref({ label:"", value:"" })
-const timeFormat = ref({ label:"", value:"" })
-const dateFormat = ref({ label:"", value:"" })
-const dateWords = ref({ label:"", value:"" })
-const datetimeWords = ref(dateWords.value.label + timeFormat.value.label )
-const combinedDate = ref(dateFormat.value.label + timeFormat.value.label )
+const combinedDate = ref("")
+const dateWords = ref("")
+let formatDate = ""
+let formatTime = ""
+let formatDateWords = ""
 
+// Format date variables
 const currentDate = new Date()
 const yyyy = currentDate.getFullYear()
 let mm = currentDate.getMonth() + 1 < 10 ?  '0' + (currentDate.getMonth() + 1) : currentDate.getMonth() + 1
 let dd = currentDate.getDate() < 10 ? '0' + currentDate.getDate() : currentDate.getDate()
-
+let hh = currentDate.getHours() < 10 ? '0' + currentDate.getHours() : currentDate.getHours()
+let min = currentDate.getMinutes() < 10 ? '0' + currentDate.getMinutes() : currentDate.getMinutes()
+let sec = currentDate.getSeconds() < 10 ? '0' + currentDate.getSeconds() : currentDate.getSeconds()
+let longDate = currentDate.toLocaleDateString('en-US', { weekday: 'long' }) +", "+ currentDate.toLocaleDateString('en-US', { month: 'long' }) +" "+ dd+ ", "+ yyyy
+let shortDate =  currentDate.toLocaleDateString('en-US', { weekday: 'short' }) +", "+ currentDate.toLocaleDateString('en-US', { month: 'short' }) +" "+ dd+ ", "+ yyyy
+let onlyMonthShort =  currentDate.toLocaleDateString('en-US', { month: 'short' }) +" "+ dd+ ", "+ yyyy
+let onlyMonthLong = currentDate.toLocaleDateString('en-US', { month: 'long' }) +" "+ dd+ ", "+ yyyy
+let hh_twelve = hh % 12 || 12 < 10 ? '0' + hh % 12 || 12  : hh % 12 || 12 
+let period = currentDate.toLocaleString([], { hour12: true}).match(/[a-zA-Z]+/g)[0]
 
 // . Functions for updating date format values in store 
-
-function updateTimezone() {
-    storeAccountSettings.settings.datetime_time_zone = timezoneValue.value.value
-}
 function updateDatetime() {
+    if (storeAccountSettings.settings.datetime_format_date == "%d.%m.%Y"){
+        formatDate = dd +'.'+ mm +'.'+ yyyy
+    } else if (storeAccountSettings.settings.datetime_format_date == "%d-%m-%Y"){
+        formatDate = dd +'-'+ mm +'-'+ yyyy
+    } else if (storeAccountSettings.settings.datetime_format_date == "%d/%m/%Y"){
+        formatDate = dd +'/'+ mm +'/'+ yyyy
+    }
+
+    if (storeAccountSettings.settings.datetime_format_time == '%I:%M'){
+        formatTime = hh_twelve +':'+ min
+    } else if (storeAccountSettings.settings.datetime_format_time == '%I:%M:%S'){
+        formatTime = hh_twelve +':'+ min +':'+ sec
+    } else if (storeAccountSettings.settings.datetime_format_time == '%I:%M %p'){
+        formatTime = hh_twelve +':'+ min +" "+period
+    } else if (storeAccountSettings.settings.datetime_format_time == '%H:%M'){
+        formatTime = hh +':'+ min
+    } else if (storeAccountSettings.settings.datetime_format_time == '%H:%M:%S'){
+        formatTime = hh +':'+ min +':'+ sec
+    }
+    combinedDate.value = formatDate + " " + formatTime
     storeAccountSettings.settings.datetime_format_date_time = storeAccountSettings.settings.datetime_format_date +" "+storeAccountSettings.settings.datetime_format_time
 }
 
@@ -67,11 +91,19 @@ function updateTime() {
 }
 
 function updateDateWords(){
-    storeAccountSettings.settings.datetime_format_date_time_words = storeAccountSettings.settings.datetime_format_date_words +" "+ storeAccountSettings.settings.datetime_format_time
-}
 
-function initializeValues(){
-    timezoneValue.value = { label: storeAccountSettings.settings.datetime_time_zone, value: storeAccountSettings.settings.datetime_time_zone}
+    if (storeAccountSettings.settings.datetime_format_date_words == '%A, %B %d, %Y'){
+        formatDateWords = longDate
+    } else if (storeAccountSettings.settings.datetime_format_date_words== '%a, %b %d, %Y'){
+        formatDateWords = shortDate
+    } else if (storeAccountSettings.settings.datetime_format_date_words == '%b %d, %Y'){
+        formatDateWords = onlyMonthShort
+    } else if (storeAccountSettings.settings.datetime_format_date_words == '%B %d, %Y'){
+        formatDateWords = onlyMonthLong
+    }
+
+    dateWords.value = formatDateWords + " " + formatTime
+    storeAccountSettings.settings.datetime_format_date_time_words = storeAccountSettings.settings.datetime_format_date_words +" "+ storeAccountSettings.settings.datetime_format_time
 }
 
 onMounted(() => {
@@ -96,8 +128,7 @@ onMounted(() => {
                 <div class="column is-6">
                     <lesli-select v-if="!storeAccountSettings.loading"
                         :options="storeAccountSettings.options.time_zones"
-                        v-model="timezoneValue"
-                        @change="updateTimezone"
+                        v-model="storeAccountSettings.settings.datetime_time_zone"
                     >
                     </lesli-select>
                 </div>
@@ -143,23 +174,23 @@ onMounted(() => {
                     <lesli-select
                         :options="[
                             {
-                                label: '10:30',
+                                label: hh_twelve +':'+ min,
                                 value: '%I:%M',
                             },
                             {
-                                label: '10:30:20',
+                                label: hh_twelve +':'+ min +':'+ sec,
                                 value: '%I:%M:%S',
                             },
                             {
-                                label: '10:30 PM',
+                                label: hh +':'+ min +' '+period,
                                 value: '%I:%M %p',
                             },
                             {
-                                label: '22:30',
+                                label: hh +':'+ min,
                                 value: '%H:%M',
                             },
                             {
-                                label: '22:30:20',
+                                label: hh +':'+ min +':'+ sec,
                                 value: '%H:%M:%S',
                             },
                         ]"
@@ -181,7 +212,7 @@ onMounted(() => {
                         class="input"
                         type="text"
                         readonly
-                        v-model="storeAccountSettings.settings.datetime_format_date_time"
+                        v-model="combinedDate"
                     />
                 </div>
             </div>
@@ -196,19 +227,19 @@ onMounted(() => {
                     <lesli-select
                         :options="[
                             {
-                                label: 'Saturday, March 24, 2018',
+                                label: longDate,
                                 value: '%A, %B %d, %Y',
                             },
                             {
-                                label: 'Sat, Mar 24, 2018',
+                                label: shortDate,
                                 value: '%a, %b %d, %Y',
                             },
                             {
-                                label: 'Mar 24, 2018',
+                                label: onlyMonthShort,
                                 value: '%b %d, %Y',
                             },
                             {
-                                label: 'March 24, 2018',
+                                label: onlyMonthLong,
                                 value: '%B %d, %Y',
                             }
                         ]"
@@ -230,7 +261,7 @@ onMounted(() => {
                         class="input"
                         type="text"
                         readonly
-                        v-model="storeAccountSettings.settings.datetime_format_date_time_words"
+                        v-model="dateWords"
                     />
                 </div>
             </div>
