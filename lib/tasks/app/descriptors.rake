@@ -85,8 +85,11 @@ namespace :app do
                                 :engine => engine
                             }) 
 
-                            # We must assign all the descriptors to the owner role
+                            # We must assign all the descriptors to the owner and sysadmin roles
                             account.roles.find_by(name: 'owner').describers.find_or_create_by({
+                                descriptor: descriptor
+                            })
+                            account.roles.find_by(name: 'sysadmin').describers.find_or_create_by({
                                 descriptor: descriptor
                             })
                             
