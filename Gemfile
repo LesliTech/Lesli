@@ -255,8 +255,11 @@ group :development do
 
     # Automatically generate an SVG sprite from a folder of SVG icons.
     # Generate svg sprite for the lesli icons:
-    # svgeez build --prefix="" --source ./app/assets/icons/lesli --destination ./app/views/layouts/partials/_application-svgs.svg
+    # first clean the svg files with svgo nodejs module: https://github.com/svg/svgo
     # and then rename _application-svgs.svg to _application-svgs.html.erb
+    # ·
+    # svgo -f ./app/assets/icons/raw -o ./app/assets/icons/lesli
+    # svgeez build --prefix="" --source ./app/assets/icons/lesli --destination ./app/views/layouts/partials/_application-svgs.svg
     # mv ./app/views/layouts/partials/_application-svgs.svg ./app/views/layouts/partials/_application-svgs.html.erb
     gem "svgeez", "4.1"
 
