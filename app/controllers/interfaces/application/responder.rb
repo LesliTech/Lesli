@@ -179,7 +179,7 @@ module Interfaces
 
             # Respond with an standard http message
             def respond_with_http status, payload
-                return render(status: status, content_type: 'application/json', json: payload.to_json) unless payload.blank?
+                return render(status: status, content_type: 'application/json', json: payload.to_json) unless payload.nil?
                 return render(status: status, content_type: 'application/json', json: "")
             end 
 

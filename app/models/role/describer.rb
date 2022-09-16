@@ -29,9 +29,19 @@ class Role::Describer < ApplicationLesliRecord
         # get all the available descriptors in the platform
         available = current_user.account.descriptors.select(:id, :name, :reference, :controller, :action, :engine, "false as active")
 
+        unless query[:search].blank?
+            search_string = LC::Sql.sanitize_for_like(query[:search])
+
+            sql = "lower(name) like :s or lower(engine) like :s or lower(controller) like :s or lower(action) like :s"
+
+            fromrole = fromrole.where(sql, :s => search_string)
+            available = available.where(sql, :s => search_string)
+        end
+
         # join descriptors (active & available) so we return a list of descriptor including info
         # about which descriptor is enabled
         (fromrole + available).uniq{ |p| p[:id] }
+
     end 
 
     private
