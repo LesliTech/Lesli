@@ -28,6 +28,7 @@ export const useRole = defineStore("administration.role", {
             records: [],
             pagination: {},
             descriptors: [],
+            descriptorSearchString: '',
             role: {
                 name: "",
                 descriptors: []
@@ -63,8 +64,20 @@ export const useRole = defineStore("administration.role", {
             })
         },
 
+        searchDescriptors(string) {
+            this.descriptorSearchString = string
+            this.getDescriptors()
+        },
+
         getDescriptors() {
-            this.http.get(this.url.admin("roles/:id/describers", this.role.id)).then(descriptors => {
+
+            let url = this.url.admin("roles/:id/describers", this.role.id)
+
+            if (this.descriptorSearchString != '') {
+                url = url.search(this.descriptorSearchString)
+            }
+
+            this.http.get(url).then(descriptors => {
 
                 // reset the list of descriptors
                 this.descriptors = []
