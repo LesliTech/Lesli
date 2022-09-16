@@ -46,30 +46,28 @@ const dateWords = ref({ label:"", value:"" })
 const datetimeWords = ref(dateWords.value.label + timeFormat.value.label )
 const combinedDate = ref(dateFormat.value.label + timeFormat.value.label )
 
+const currentDate = new Date()
+const yyyy = currentDate.getFullYear()
+let mm = currentDate.getMonth() + 1 < 10 ?  '0' + (currentDate.getMonth() + 1) : currentDate.getMonth() + 1
+let dd = currentDate.getDate() < 10 ? '0' + currentDate.getDate() : currentDate.getDate()
+
+
 // . Functions for updating date format values in store 
 
 function updateTimezone() {
     storeAccountSettings.settings.datetime_time_zone = timezoneValue.value.value
 }
 function updateDatetime() {
-    combinedDate.value = dateFormat.value.label +" "+ timeFormat.value.label
-    storeAccountSettings.settings.datetime_format_date_time = dateFormat.value.value +" "+timeFormat.value.value
-}
-
-function updateDate() {
-    storeAccountSettings.settings.datetime_format_date = dateFormat.value.value
-    updateDatetime()
+    storeAccountSettings.settings.datetime_format_date_time = storeAccountSettings.settings.datetime_format_date +" "+storeAccountSettings.settings.datetime_format_time
 }
 
 function updateTime() {
-    storeAccountSettings.settings.datetime_format_time = timeFormat.value.value
     updateDatetime()
     updateDateWords()
 }
 
 function updateDateWords(){
-    datetimeWords.value = dateWords.value.label +" "+ timeFormat.value.label
-    storeAccountSettings.settings.datetime_format_date_time_words = dateWords.value.value +" "+timeFormat.value.value
+    storeAccountSettings.settings.datetime_format_date_time_words = storeAccountSettings.settings.datetime_format_date_words +" "+ storeAccountSettings.settings.datetime_format_time
 }
 
 function initializeValues(){
@@ -116,20 +114,20 @@ onMounted(() => {
                     <lesli-select
                         :options="[
                             {
-                                label: '24.03.2018',
+                                label: dd +'.'+ mm +'.'+ yyyy,
                                 value: '%d.%m.%Y',
                             },
                             {
-                                label: '24-03-2018',
+                                label: dd +'-'+ mm +'-'+ yyyy,
                                 value: '%d-%m-%Y',
                             },
                             {
-                                label: '24/03/2018',
+                                label: dd +'/'+ mm +'/'+ yyyy,
                                 value: '%d/%m/%Y',
                             },
                         ]"
-                        v-model="dateFormat"
-                        @change="updateDate"
+                        v-model="storeAccountSettings.settings.datetime_format_date"
+                        @change="updateDatetime"
                     >
                     </lesli-select>
                 </div>
@@ -165,7 +163,7 @@ onMounted(() => {
                                 value: '%H:%M:%S',
                             },
                         ]"
-                        v-model="timeFormat"
+                        v-model="storeAccountSettings.settings.datetime_format_time"
                         @change="updateTime"
                     >
                     </lesli-select>
@@ -183,7 +181,7 @@ onMounted(() => {
                         class="input"
                         type="text"
                         readonly
-                        v-model="combinedDate"
+                        v-model="storeAccountSettings.settings.datetime_format_date_time"
                     />
                 </div>
             </div>
@@ -214,7 +212,7 @@ onMounted(() => {
                                 value: '%B %d, %Y',
                             }
                         ]"
-                        v-model="dateWords"
+                        v-model="storeAccountSettings.settings.datetime_format_date_words"
                         @change="updateDateWords"
                     >
                     </lesli-select>
@@ -232,7 +230,7 @@ onMounted(() => {
                         class="input"
                         type="text"
                         readonly
-                        v-model="datetimeWords"
+                        v-model="storeAccountSettings.settings.datetime_format_date_time_words"
                     />
                 </div>
             </div>

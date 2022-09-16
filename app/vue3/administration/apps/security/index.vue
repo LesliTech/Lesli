@@ -25,13 +25,6 @@ import { useAccountSettings } from "Lesli/vue3/administration/stores/accountSett
 // · implement stores
 const storeAccountSettings = useAccountSettings()
 
-// . declare variables 
-const enforcementPassword = ref({})
-
-function updateEnforcement() {
-    storeAccountSettings.settings.password_enforce_complexity = enforcementPassword.value.value
-}
-
 // · translations
 const translations = {
     core: {
@@ -45,7 +38,6 @@ const translations = {
 
 onMounted(() => {
     storeAccountSettings.getSettings()
-    enforcementPassword.value = storeAccountSettings.password_complex
 })
 
 </script>
@@ -77,8 +69,7 @@ onMounted(() => {
                                 value: '0',
                             },
                         ]"
-                        v-model="enforcementPassword"
-                        @change="updateEnforcement"
+                        v-model="storeAccountSettings.settings.password_enforce_complexity"
                     >
                     </lesli-select>
                     <p class="has-text-info">
