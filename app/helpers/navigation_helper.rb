@@ -41,19 +41,17 @@ module NavigationHelper
 
     # Prints a link for lesli-navigation
     def navigation_lesli_item(path, label, icon=nil, rmi:nil)
+        rmi=icon
         content_tag(:li) do
             content_tag("router-link exact", :to => path) do
 
-                # print icon if for any icon family
-                print_icon = (icon || rmi) ? true : false
-
                 # print a simple menu item (without icon)
-                concat content_tag(:span, label, :class => "text iconless") unless print_icon
+                concat content_tag(:span, label, :class => "text iconless") unless icon
 
                 # print a full menu item if icon was requested
-                if print_icon
-                    concat content_tag("lesli-icon", nil, :id => icon, :class=> "icono") if icon
-                    concat content_tag("span", nil, :class => [rmi, "icono"]) if rmi
+                if icon
+                    #concat content_tag("lesli-icon", nil, :id => icon, :class=> "icono") if icon
+                    concat content_tag("span", nil, :class => [rmi, "icono"]) #if rmi
                     concat content_tag(:span, label, :class => "text") 
                 end 
                 
@@ -296,7 +294,7 @@ module NavigationHelper
 
         # render module navigation item :) 
         content_tag(:a, :href => path, :class => is_active ? "is-active": nil) do
-            lesli_icon(icon, "cloud") << content_tag(:div) do 
+            lesli_svg("cloud-#{icon}") << content_tag(:div) do 
                 content_tag(:span, title) << content_tag(:p, subtitle)
             end
         end

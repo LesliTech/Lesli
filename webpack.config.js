@@ -56,6 +56,7 @@ module.exports = env => {
         watch: env.watch == "true",
         mode: production ? "production" : "development",
 
+        // Show only necessary stats when compiling
         stats: {
             all: false,
             assets: true,
@@ -65,6 +66,15 @@ module.exports = env => {
             errorDetails: true,
             errorsCount: true,
             warnings: true,
+        },
+
+        // Set max size limit for JS bundles to 0.98 MB
+        performance: {
+            maxAssetSize: 1100000,
+            maxEntrypointSize: 1100000,
+            assetFilter: function(assetFilename) {
+                return !(['cloud_development/application.js'].includes(assetFilename));
+            }
         },
 
         // Use a custom plugin to remove all the comments
@@ -100,7 +110,9 @@ module.exports = env => {
 
             "onboardings/application": "Lesli/vue3/onboarding/app.js",
             
-            "administration/application": "Lesli/vue3/administration/app.js"
+            "administration/application": "Lesli/vue3/administration/app.js",
+
+            "websites/application": "Lesli/vue3/websites/app.js",
 
         },
 

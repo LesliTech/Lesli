@@ -59,7 +59,7 @@ class User::Session < ApplicationLesliRecord
 
         while rebuild_token do
 
-            session_token = SecureRandom.alphanumeric(16)
+            session_token = SecureRandom.alphanumeric(20)
 
             # assign token to user if token is unique
             if not User::Session.find_by(:session_token => session_token)

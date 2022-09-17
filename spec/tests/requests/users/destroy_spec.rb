@@ -25,6 +25,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
     describe "DEL:/administration/users/:id.json with user with invalid permissions", type: :request do
         include_context "request user authentication"
 
+
         it "is expected to respond with unauthorized when is deleting a user" do
             admin_user = FactoryBot.create(:user)
             limited_user = FactoryBot.create(:user, role_name: "limited")

@@ -20,6 +20,12 @@ For more information read the license file including with this software.
 class AccountsController < ApplicationLesliController
     before_action :set_account, only: [:edit, :update, :destroy]
 
+    def privileges
+        {
+            show: []
+        }
+    end
+
 
     # GET /accounts
     # GET /accounts.json

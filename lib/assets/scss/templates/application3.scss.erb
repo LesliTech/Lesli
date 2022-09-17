@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 
 
 // · Import customization from builder engine
-@import "<%= LC::System::Info.sass_variables_by_instance %>";
+@import "<%= LC::System::Info.sass_instance_theme %>";
 
 
 
@@ -67,6 +67,13 @@ For more information read the license file including with this software.
 @import "./lesli3/components/lesli-input-tag";
 @import "./lesli3/components/lesli-file-uploader";
 @import "./lesli3/components/lesli-avatar";
+@import "./lesli3/components/lesli-toggle";
+@import "./lesli3/components/lesli-map";
+@import "./lesli3/components/lesli-gallery";
+@import "./lesli3/components/lesli-navbar";
+
+// · Lesli cloud objects
+@import "./lesli3/cloud-objects/discussion";
 
 // · Overrides for vendor libraries
 @import "./lesli3/overrides/sweetalert";
@@ -114,12 +121,17 @@ h3 {
     font-size: 20px;
 }
 
-h4,
+h4 {
+    line-height: 140%;
+    font-weight: 600;
+    font-size: 18px;
+}
+
 h5, 
 h6 {
-    line-height: 140%;
-    font-weight: 800;
-    font-size: 18px;
+    line-height: 120%;
+    font-weight: 500;
+    font-size: 16px;
 }
 
 

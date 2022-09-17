@@ -64,6 +64,22 @@ function handleScroll($event) {
 }
 
 
+// · 
+function onEscape(event) {
+    if (event.keyCode === 27) {
+        storeLayout.toggleEngines()
+        document.removeEventListener('keydown', onEscape)
+    }
+}
+
+
+// · 
+function toggleEngines() {
+    storeLayout.toggleEngines()
+    document.addEventListener('keydown', onEscape)
+}
+
+
 // · listen for all the scroll event
 window.addEventListener('scroll', handleScroll);
 
@@ -101,23 +117,42 @@ onUnmounted(() => {
             </div>
             <div class="header-right">
 
-                <slot></slot>
 
-                <a class="navbar-item">
-                    <lesli-icon id="add" size="35"></lesli-icon>
+                <!-- engines selector -->
+                <a class="navbar-item" @click="toggleEngines()">
+                    <span class="material-icons md-36">
+                        rocket_launch
+                    </span>
                 </a>
 
+
+                <!-- Tasks -->
                 <a class="navbar-item header-notification-indicator" @click="storeLayout.showNotifications = true">
-                    <lesli-icon id="bell" size="35"></lesli-icon>
-                    <span class="count">
+                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.notifications > 0 }]">
+                        checklist
+                    </span>
+                    <span class="count" v-if="storeLayout.header.notifications > 0">
                         {{ storeLayout.header.notifications }}
                     </span>
                 </a>
 
+
+                <!-- Notifications -->
+                <a class="navbar-item header-notification-indicator" @click="storeLayout.showNotifications = true">
+                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.notifications > 0 }]">
+                        notifications
+                    </span>
+                    <span class="count" v-if="storeLayout.header.notifications > 0">
+                        {{ storeLayout.header.notifications }}
+                    </span>
+                </a>
+
+
+                <!-- Profile options -->
                 <div class="dropdown is-right is-hoverable header-user-options">
                     <div class="dropdown-trigger">
                         <span class="material-icons md-36">
-                            account_circle
+                            account_box
                         </span>
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
