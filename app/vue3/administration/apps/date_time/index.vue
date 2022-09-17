@@ -57,7 +57,7 @@ let longDate = currentDate.toLocaleDateString('en-US', { weekday: 'long' }) +", 
 let shortDate =  currentDate.toLocaleDateString('en-US', { weekday: 'short' }) +", "+ currentDate.toLocaleDateString('en-US', { month: 'short' }) +" "+ dd+ ", "+ yyyy
 let onlyMonthShort =  currentDate.toLocaleDateString('en-US', { month: 'short' }) +" "+ dd+ ", "+ yyyy
 let onlyMonthLong = currentDate.toLocaleDateString('en-US', { month: 'long' }) +" "+ dd+ ", "+ yyyy
-let hh_twelve = hh % 12 || 12 < 10 ? '0' + hh % 12 || 12  : hh % 12 || 12 
+let hh_twelve = (hh % 12 || 12) < 10 ? '0' + (hh % 12 || 12)  : hh % 12 || 12 
 let period = currentDate.toLocaleString([], { hour12: true}).match(/[a-zA-Z]+/g)[0]
 
 // . Functions for updating date format values in store 
@@ -109,7 +109,6 @@ function updateDateWords(){
 onMounted(() => {
     storeAccountSettings.getOptions()
     storeAccountSettings.getSettings()
-    initializeValues()
 })
 
 </script>
