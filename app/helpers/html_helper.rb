@@ -29,7 +29,7 @@ module HtmlHelper
     # this helper works only for rails pages, for vue apps the title must be handled with JS
     def website_title
         title = @application_html_title || controller_path.gsub("cloud","").gsub("_", "")
-        prefix = Rails.application.config.lesli.dig(:account, :website, :title_prefix)
+        prefix = @account.dig(:company, :name) || Rails.application.config.lesli.dig(:account, :company, :name)
         "#{prefix} · #{title}"
     end
 
@@ -50,10 +50,14 @@ module HtmlHelper
     end
 
     # print a custom icon for lesli
-    def lesli_icon(icon, group="icon")
+    def lesli_svg(name)
         content_tag("svg", :width => "64px", :height => "64px") do 
-            "<use xlink:href='##{group}-#{icon}'></use>".html_safe
+            "<use xlink:href='##{name}'></use>".html_safe
         end
+    end 
+
+    def lesli_icon(icon, group="icon")
+        LC::Debug.deprecation('Use: lesli_svg instead')
     end 
 
 end

@@ -29,8 +29,12 @@ module Interfaces::Controllers::Discussions
     def index
         discussion_model = discussion_model() # If there is a custom discussion model, it must be returned in this method
         cloud_object_model = discussion_model.cloud_object_model
-        
-        @discussions = discussion_model.index(current_user, params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym])
+
+        @discussions = discussion_model.index(
+            current_user, 
+            params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym], 
+            @query
+        )
         if block_given?
             yield(@discussions)
         else
@@ -78,10 +82,13 @@ module Interfaces::Controllers::Discussions
         cloud_object_model = discussion_model.cloud_object_model
 
         set_cloud_object
-        new_discussion_params = discussion_params.merge(
+        new_discussion_params = { 
+            "#{discussion_model.table_name}_id": discussion_params[:discussion_parent_id],
+            content: discussion_params[:content],
             user_creator: current_user,
             cloud_object: @cloud_object
-        )
+        }
+        
 
         discussion = discussion_model.new(new_discussion_params)
         if discussion.save
@@ -96,7 +103,7 @@ module Interfaces::Controllers::Discussions
                 body: "#{discussion.user_creator.full_name} #{I18n.t("core.shared.view_text_notification_discussion_created_body")}: '#{discussion.content}'",
                 url: "/#{@cloud_object.class.name.split("::").last.pluralize.downcase}/#{@cloud_object.url_identifier}?tab=discussions"
             ) if Object.const_defined?("#{cloud_object_model}::Subscriber")
-
+            
 
             if block_given?
                 yield(cloud_object, discussion)
@@ -183,8 +190,8 @@ module Interfaces::Controllers::Discussions
         params.require(
             "#{cloud_object_model.name.demodulize.underscore}_discussion".to_sym
         ).permit(
-            :content,
-            "#{discussion_model.table_name}_id".to_sym
+            :discussion_parent_id,
+            :content
         )
     end
 

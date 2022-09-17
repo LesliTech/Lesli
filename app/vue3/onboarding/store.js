@@ -101,7 +101,6 @@ export const useOnboarding = defineStore("onboarding", {
                     }
                 } )
             }).catch(error => {
-                console.log(error)
                 this.msg.danger(this.translations.core.shared.messages_danger_internal_error)
             }).finally(() => {
                 this.loading = false
@@ -115,28 +114,25 @@ export const useOnboarding = defineStore("onboarding", {
                     }
                 } )
             }).catch(error => {
-                console.log(error)
+                this.msg.danger(this.translations.core.shared.messages_danger_internal_error)
             })
         },
         // Save configuration from onboarding
         saveConfiguration(skipped = false) {
-            this.http.post(this.url.root("onboarding"), {
-                account: this.companyInfo,
-                account_settings: this.settings 
-            }).then(result => {
-                if (result) {
-                    if(skipped){
-                        this.msg.info(this.translations.core.onboardings.messages_info_onboarding_process_skipped)
-                    }else{
+            if (skipped) {
+                this.msg.info(this.translations.core.onboardings.messages_info_onboarding_process_skipped)
+                this.url.go()
+            } else {
+                this.http.post(this.url.root("onboarding"), {
+                    account: this.companyInfo,
+                    account_settings: this.settings 
+                }).then(result => {
                         this.msg.success(this.translations.core.account_settings.messages_success_settings_saved_successfully)
-                    }
-                    this.url.go()
-                }else{
+                        this.url.go()
+                }).catch(error => {
                     this.msg.danger(this.translations.core.shared.messages_danger_internal_error)
-                }
-            }).catch(error => {
-                console.log(error)
-            })
+                })
+            }
         },
     },
 });

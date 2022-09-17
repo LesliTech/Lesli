@@ -229,6 +229,7 @@ this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
         def transition_options
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
+            module_code = dynamic_info[:module_code]
             full_module_name = dynamic_info[:full_module_name]
             status_model = dynamic_info[:status_model]
             cloud_object_model = "#{full_module_name}::#{params[:cloud_object_name].camelize}".constantize
@@ -240,7 +241,8 @@ this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
 
             return respond_with_not_found unless cloud_object
 
-            status = status_model.with_deleted.find(cloud_object["cloud_#{module_name}_workflow_statuses_id"])
+
+            status = status_model.with_deleted.find(cloud_object["#{module_code}_workflow_statuses_id"])
             respond_with_successful(status.next_workflow_statuses(current_user, cloud_object))
         end
 
@@ -333,8 +335,11 @@ private
             module_info = lesli_classname().split("::")
 
             module_name = module_info[0].sub("Cloud", "").downcase
+
+            module_code = module_info[0].split(/(?=[A-Z])/).join('_').downcase
             
             {
+                module_code: module_code,
                 module_name: module_name,
                 full_module_name: module_info[0],
                 model: "#{module_info[0]}::Workflow".constantize,

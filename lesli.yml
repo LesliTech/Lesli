@@ -31,29 +31,19 @@ account:
         name: "Lesli Admin"
         email: "hello@lesli.tech"
     company: 
-        name: "LesliCloud"
+        name: "Lesli"
         email: "hello@lesli.tech"
         tag_line: "Your smart business assistant"
-    website:
-        title_prefix: "Lesli"
 
 
 # Instance configuration
 configuration:
-    theme: "lesli-ocean"
     locales:
         en: "English"
         es: "Spanish"
     datetime: 
-        date_format: "%d.%m.%Y"
-        date_format_full: "%a, %B %d, %Y"
-        date_format_time: "%d.%m.%Y %H:%M"
-        time_format: "%H:%M"
-        time_zone: "Europe/Berlin"
+        time_zone: "Europe/Berlin" 
         start_week_on: "monday"
-    datetime2:
-        time_zone: "America/Guatemala" 
-        start_week_on: "sunday"
         formats:
             date: "%d.%m.%Y"
             time: "%H:%M"
@@ -68,6 +58,7 @@ configuration:
 
 # Instance security settings
 security:
+    version: 3
     log_activity: true
     enable_debug: false
     enable_pushes: false
