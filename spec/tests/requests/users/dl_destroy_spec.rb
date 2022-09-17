@@ -42,7 +42,7 @@ RSpec.describe "Tests for DeutscheLeibrenten", :if => defined?(DeutscheLeibrente
             limited_user = FactoryBot.create(:user, role_name: "limited")
 
             delete "/administration/users/#{limited_user.id}.json"
-
+            puts response.body
             # shared examples
             expect_json_response_successful
         end

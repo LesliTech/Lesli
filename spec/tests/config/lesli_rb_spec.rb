@@ -168,22 +168,8 @@ RSpec.describe "Lesli::settings" do
         expect(@lesli_settings["configuration"]["datetime"]["start_week_on"]).to eql("monday")
         expect(@lesli_settings["configuration"]["datetime"]["start_week_on"]).to be_a(String)
 
-<<<<<<< HEAD
-    it "expect to return with lesli configuration settings datetime2" do
-        expect(@lesli_settings["configuration"]["datetime2"]).to have_key("time_zone")
-        expect(@lesli_settings["configuration"]["datetime2"]["time_zone"]).to eql(Rails.application.config.lesli[:configuration][:datetime][:time_zone])
-        expect(@lesli_settings["configuration"]["datetime2"]["time_zone"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime2"]).to have_key("start_week_on")
-        expect(@lesli_settings["configuration"]["datetime2"]["start_week_on"]).to eql(Rails.application.config.lesli[:configuration][:datetime][:start_week_on])
-        expect(@lesli_settings["configuration"]["datetime2"]["start_week_on"]).to be_a(String)
-
-        expect(@lesli_settings["configuration"]["datetime2"]).to have_key("formats")
-        expect(@lesli_settings["configuration"]["datetime2"]["formats"]).to be_a(Hash)
-=======
         expect(@lesli_settings["configuration"]["datetime"]).to have_key("formats")
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to be_a(Hash)
->>>>>>> master
         
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date")
         expect(@lesli_settings["configuration"]["datetime"]["formats"]["date"]).to eql("%d.%m.%Y")
