@@ -96,7 +96,7 @@ RSpec.describe "Tests for DeutscheLeibrenten", :if => defined?(DeutscheLeibrente
             post("/administration/users.json", params: {
                 user: user
             })
-            puts response.body
+
             # shared examples
             expect_json_response_error
         end
