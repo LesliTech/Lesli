@@ -123,18 +123,16 @@ export const useOnboarding = defineStore("onboarding", {
                 this.msg.info(this.translations.core.onboardings.messages_info_onboarding_process_skipped)
                 this.http.post(this.url.root("onboarding"), {
                     account: {
-                        status: 1
+                        status: 2
                     },
                     account_settings: this.settings 
                 }).then(result => {
                     this.msg.success(this.translations.core.account_settings.messages_success_settings_saved_successfully)
+                    this.url.go()
                 }).catch(error => {
                     console.log(error)
                     this.msg.danger(this.translations.core.shared.messages_danger_internal_error)
                 })
-                // this.url.go()
-
-                // this.url.go()
             } else {
                 this.http.post(this.url.root("onboarding"), {
                     account: this.companyInfo,
