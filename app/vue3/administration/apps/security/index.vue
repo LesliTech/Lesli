@@ -62,11 +62,11 @@ onMounted(() => {
                         :options="[
                             {
                                 label: translations.core.account.settings.view_text_password_enforcement_enabled,
-                                value: '1',
+                                value: 'Enabled',
                             },
                             {
                                 label: translations.core.account.settings.view_text_password_enforcement_disabled,
-                                value: '0',
+                                value: 'Disabled',
                             },
                         ]"
                         v-model="storeAccountSettings.settings.password_enforce_complexity"

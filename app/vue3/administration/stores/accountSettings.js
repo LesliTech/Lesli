@@ -64,9 +64,6 @@ export const useAccountSettings = defineStore("account_settings", {
                 url: null
             },
             loading: false,
-            timezone_select: {},
-            password_complex: {}
-
         }
     },
     actions: {
@@ -83,7 +80,6 @@ export const useAccountSettings = defineStore("account_settings", {
                     }
                 } )
             }).catch(error => {
-                console.log(error)
                 this.msg.danger(I18n.t("core.shared").messages_danger_internal_error)
             }).finally(() => {
                 this.loading = false
@@ -125,7 +121,6 @@ export const useAccountSettings = defineStore("account_settings", {
                 this.settings.lesli_theme_font_size = getComputedStyle(document.documentElement).getPropertyValue('--lesli-font-size')
                 this.settings.lesli_theme_font_size= this.settings.lesli_theme_font_size.replace(/\D/g,'')
             }).catch(error => {
-                console.log(error)
                 this.msg.danger(I18n.t("core.shared").messages_danger_internal_error)
             })
         },
@@ -141,8 +136,6 @@ export const useAccountSettings = defineStore("account_settings", {
                     this.old_settings[setting_raw.name] = setting_raw.value
                 }
             })
-            this.password_complex = {label:this.settings.password_enforce_complexity ='0' ? 'Disabled' : 'Enabled', value:this.settings.password_enforce_complexity}
-            this.timezone_select = {label: this.settings.datetime_time_zone, value: this.settings.datetime_time_zone}
             this.loading = false
         },
 
