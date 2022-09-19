@@ -7,10 +7,6 @@
  * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
  */
 /******/ (() => { // webpackBootstrap
-<<<<<<< HEAD
-/******/ 	"use strict";
-/******/ 	
-=======
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./app/vue3/websites/app.js":
@@ -31,7 +27,6 @@ eval("console.log('javascript works for websites/landing');\n\n//# sourceURL=web
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
 /******/ 	var __webpack_exports__ = {};
 /******/ 	__webpack_modules__["./app/vue3/websites/app.js"]();
->>>>>>> master
 /******/ 	
 /******/ })()
 ;
