@@ -36,12 +36,14 @@ onMounted(() => {
 <template>
     <section class="application-announcements" v-if="storeAnnouncements.announcements.length > 0">
         <article :class="['message', `is-${announcement.category}`]" v-for="announcement in storeAnnouncements.announcements" :key="announcement.id">
-            <div class="message-header">
-                <p>{{announcement.name}}</p>
-                <button class="delete" aria-label="delete" v-if="announcement.can_be_closed" @click="storeAnnouncements.closeAnnouncement(announcement.id)"></button>
-            </div>
-            <div class="message-body">
-                {{announcement.message}}
+            <div  v-if="announcement.status!='closed'">
+                <div class="message-header">
+                    <p>{{announcement.name}}</p>
+                    <button class="delete" aria-label="delete" v-if="announcement.can_be_closed" @click="storeAnnouncements.closeAnnouncement(announcement)"></button>
+                </div>
+                <div class="message-body">
+                    {{announcement.message}}
+                </div>
             </div>
         </article>
     </section>
