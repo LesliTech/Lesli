@@ -77,7 +77,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
         end
 
-        it "is expected to test the creation of the record with empty values" do
+        it "is expected to test the creation of the record with nil values" do
 
             #search posibles permit values to create an element
             params = [[controller_folder_upper]]::[[controller_file_upper]].column_names
