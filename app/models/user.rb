@@ -114,7 +114,7 @@ class User < ApplicationLesliRecord
     # Initialize user settings and dependencies needed
     def initialize_user_after_confirmation
         self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
-        self.settings.create_with(:value => "email").find_or_create_by(:name => "mfa_method")
+        self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
         Courier::One::Firebase::User.sync_user(self)
         Courier::Driver::Calendar.create_user_calendar(self, "Personal Calendar")
     end
