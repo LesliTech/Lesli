@@ -46,7 +46,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             })
 
             #shared examples
-            expect_response_with_pagination
+            expect_response_with_successful
 
             # validate others custom values expected here
             expect(response_body).to be_a(Hash)
@@ -87,7 +87,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body["details"]).to be_a(Array)
         end
 
-        it "is expected to test the creation of the record with empty values" do
+        it "is expected to test the creation of the record with nil values" do
 
             #search posibles permit values to create an element
             params = Account::Currency.column_names
