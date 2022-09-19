@@ -18,11 +18,31 @@ For more information read the license file including with this software.
 
 
 .lesli-file-uploader {
-    .item {
-        border-radius: 10px;
-        background-color: white;
-        min-height: 68px;
-        max-height: auto;
+    .preview {
+        height: auto;
+        display: flex;
+        gap: 18px;
+        &-item {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            span { 
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                cursor: pointer;
+                background: white;
+                border-radius: 50%;
+            }
+        }
     }
 
     .dropzone {

@@ -66,5 +66,16 @@ const columns = [{
     <lesli-table
         :columns="columns"
         :records="storeUser.sessions">
+
+        <template #options="{ record, value }">
+            <a class="dropdown-item" @click="storeUser.closeSession(record.id)">
+                <span class="material-icons">
+                    logout
+                </span>
+                <span>
+                    {{ translations.users.view_btn_logout }}
+                </span>
+            </a>
+        </template>
     </lesli-table>
 </template>
