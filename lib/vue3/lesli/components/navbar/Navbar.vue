@@ -19,6 +19,7 @@ For more information read the license file including with this software.
 
 // · import vue tools
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 
 // · defining props
 const props = defineProps({
@@ -41,6 +42,8 @@ const props = defineProps({
 
 })
 
+const router = useRouter()
+
 // · id for the navbar burger menu
 const uniqueId = Math.random().toString(36).slice(3, 9)
 // · state of the navbar burger menu
@@ -55,15 +58,23 @@ const onNavbarBurgerClick = () => {
 // · is active class for navbar menu and navbar burger
 const isActive = computed(() => isNavbarMenuOpen.value ? 'is-active' : '')
 
+const onClickLink = (link) => {
+    if (link?.reload) window.location.href = link.url
+    else router.push(link.url)
+}
+
 </script>
 
 <template>
     <nav class="lesli-navbar navbar" role="navigation" aria-label="main navigation">
         <div class="container">
             <div class="navbar-brand">
-                <router-link v-if="brand" :to="brand.url" class="lesli-navbar-brand">
-                    <img :src="brand.image" :alt="brand.name">
-                </router-link>
+                <template v-if="brand">
+                    <a @click="onClickLink(brand)" class="lesli-navbar-brand">
+                        <img :src="brand.image" :alt="brand.name">
+                    </a>
+                    
+                </template>
                 <a @click="onNavbarBurgerClick" :class="['navbar-burger', isActive ]" :data-target="uniqueId" role="button" aria-label="menu" aria-expanded="false">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
@@ -72,19 +83,14 @@ const isActive = computed(() => isNavbarMenuOpen.value ? 'is-active' : '')
             </div>
             <div :class="['navbar-menu', isActive]" :id="uniqueId">
                 <div v-if="startLinks" class="navbar-start">
-                    <router-link v-for="(link, i) in startLinks" :key="link.name" :to="link.url" class="lesli-navbar-link">
+                    <a v-for="(link, i) in startLinks" :key="link.name" @click="onClickLink(link)"  class="lesli-navbar-link">
                         {{ link.name }}
-                    </router-link>
+                    </a>
                 </div>
                 <div v-if="endLinks" class="navbar-end">
-                    <template v-for="(link, i) in endLinks" :key="link.name">
-                        <a v-if="link.reload" :href="link.url" class="lesli-navbar-link">
-                            {{ link.name }}
-                        </a>
-                        <router-link v-else :to="link.url" class="lesli-navbar-link">
-                            {{ link.name }}
-                        </router-link>
-                    </template>
+                    <a v-for="(link, i) in endLinks" :key="link.name" @click="onClickLink(link)" class="lesli-navbar-link">
+                        {{ link.name }}
+                    </a>
                 </div>
             </div>
         </div>

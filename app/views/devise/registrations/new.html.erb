@@ -19,16 +19,16 @@ For more information read the license file including with this software.
 
 <% custom_app_logo_path = "#{ lesli_instance_code }/brand/app-icon.svg" %>
 <% custom_app_page_clas = "#{ lesli_instance_code }-registration".downcase %>
-<% custom_app_page_path = "#{ lesli_instance_code }/lesli/devise/registrations/new2" %>
+<% custom_app_page_path = "#{ lesli_instance_code }/lesli/devise/registrations/new" %>
 <% custom_app_page_exists = lookup_context.exists?(custom_app_page_path) %>
 
 
 
 <%# render custom view in builder module %>
 <% if custom_app_page_exists %>
-<main id="lesli-application" class="<%= custom_app_page_clas %>">
-    <%= render :template => custom_app_page_path %>
-</main>
+    <main id="lesli-application" class="<%= custom_app_page_clas %>">
+        <%= render :template => custom_app_page_path %>
+    </main>
 <% end %>
 
 
