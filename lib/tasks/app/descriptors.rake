@@ -142,7 +142,7 @@ namespace :app do
 
             # Synchronize the descriptor privileges with the role privilege cache table 
             LC::Debug.msg("Synchronize privileges")
-            RolePrivilegesService.new.synchronize_privileges
+            Auth::RolePrivilegesService.new.synchronize_privileges
 
         end
     end
