@@ -22,6 +22,10 @@ class Descriptor < ApplicationLesliRecord
     has_many :activities, foreign_key: "descriptors_id"
     has_many :describers, foreign_key: "descriptors_id", class_name: "Role::Describer"
 
+    # this scope is needed to allow to join with deleted descriptors
+    # join with deleted descriptors is needed to know which privileges we have to remove from the
+    # role_privileges table when a descriptor is removed from role_describers
+    has_many :describers_all, -> { with_deleted }, foreign_key: "descriptors_id", class_name: "Role::Describer"
 
     def self.list(current_user, query)
         current_user.account.descriptors

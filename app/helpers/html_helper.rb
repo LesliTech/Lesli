@@ -50,10 +50,14 @@ module HtmlHelper
     end
 
     # print a custom icon for lesli
-    def lesli_icon(icon, group="icon")
+    def lesli_svg(name)
         content_tag("svg", :width => "64px", :height => "64px") do 
-            "<use xlink:href='##{group}-#{icon}'></use>".html_safe
+            "<use xlink:href='##{name}'></use>".html_safe
         end
+    end 
+
+    def lesli_icon(icon, group="icon")
+        LC::Debug.deprecation('Use: lesli_svg instead')
     end 
 
 end

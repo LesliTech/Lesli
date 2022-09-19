@@ -36,17 +36,19 @@ class Role::DescribersController < ApplicationLesliController
 
         # if descriptor already exists
         if describer
-            # just restore ir (undelete)
+            # just restore it (undelete)
             describer.update(:deleted_at => nil) 
-            Role::Activity.log_create_descriptor(current_user, @role, describer) 
-            return respond_with_successful
+        else
+            # if descriptor does not exists (even deleted), insert the new descriptor to the role
+            describer = @role.describers.create({ :descriptors_id => role_describer_params[:id] })
         end 
 
-        # if descriptor does not exists (even deleted), insert the new descriptor to the role
-        describer = @role.describers.create({ :descriptors_id => role_describer_params[:id] })
-        
-        Role::Activity.log_create_descriptor(current_user, @role, describer)    
         respond_with_successful()
+
+        # sync role_privilege with descriptor_privileges 
+        describer.synchronize_privileges
+
+        Role::Activity.log_create_descriptor(current_user, @role, describer)    
 
     end
 
@@ -58,7 +60,12 @@ class Role::DescribersController < ApplicationLesliController
         end
 
         if @role_describer.destroy
-            respond_with_successful
+
+            respond_with_successful()
+
+            # sync role_privilege with descriptor_privileges 
+            @role_describer.synchronize_privileges
+            
             Role::Activity.log_destroy_descriptor(current_user, @role, @role_describer)
         else
             respond_with_error(@role_describer.errors.full_messages.to_sentence)

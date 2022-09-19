@@ -21,7 +21,7 @@ For more information read the license file including with this software.
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed, inject } from "vue"
 import { useRouter, useRoute } from "vue-router"
-import componentFormRole from "./form.vue"
+import componentFormRole from "./componentForm.vue"
 
 
 // · import lesli stores
