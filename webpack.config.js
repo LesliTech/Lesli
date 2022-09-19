@@ -102,6 +102,7 @@ module.exports = env => {
             "users/sessions": "Lesli/vue3/users/sessions.js",
             "users/passwords": "Lesli/vue3/users/passwords.js",
             "users/registrations": "Lesli/vue3/users/registrations.js",
+            "users/confirmations": "Lesli/vue3/users/confirmations.js",
 
             "mfas/application": "Lesli/vue3/mfas/app.js",
             "otps/application": "Lesli/vue3/otps/app.js",

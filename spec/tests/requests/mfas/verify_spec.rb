@@ -37,8 +37,8 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             new_user = FactoryBot.create(:user)
     
             # enable MFA for the new user and its method
-            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => "true")
-            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
+            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => true)
+            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => :email)
      
             # do first request
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -67,8 +67,8 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             new_user = FactoryBot.create(:user)
     
             # enable MFA for the new user and its method
-            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => "true")
-            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
+            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => true)
+            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => :email)
      
             # do first request
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -95,8 +95,8 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             new_user = FactoryBot.create(:user)
     
             # enable MFA for the new user and its method
-            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => "true")
-            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
+            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => true)
+            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => :email)
      
             # do request
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -116,8 +116,8 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             new_user = FactoryBot.create(:user)
     
             # enable MFA for the new user and its method
-            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => "true")
-            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
+            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => true)
+            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => :email)
      
             # do request
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -126,7 +126,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             expect_response_with_successful
     
             # disable MFA manually :mmmmmmm:
-            new_user.settings.update!(:name => "mfa_enabled", :value => "false") # Now it is disabled
+            new_user.settings.update!(:name => "mfa_enabled", :value => false) # Now it is disabled
     
             # do request
             put("/mfa.json", params: { mfa:{ t: "" }})
