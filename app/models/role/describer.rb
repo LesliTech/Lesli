@@ -19,8 +19,9 @@ class Role::Describer < ApplicationLesliRecord
     belongs_to :role,       foreign_key: "roles_id"
     belongs_to :descriptor, foreign_key: "descriptors_id"
 
-    after_commit :synchronize_privileges, on: [:create, :update, :destroy]
-
+    # this is not efficient when running the descriptor build rake task, also we should 
+    # build privileges only for the current role
+    # after_commit :synchronize_privileges, on: [:create, :update, :destroy]
     def self.index current_user, query, role
 
         # get the active descriptors assigned to the role
@@ -44,11 +45,9 @@ class Role::Describer < ApplicationLesliRecord
 
     end 
 
-    private
-
     def synchronize_privileges
         # Syncronize the descriptor privileges with the role privilege cache table 
-        RolePrivilegesService.new.synchronize_privileges
+        Auth::RolePrivilegesService.new.synchronize_privileges(self.roles_id)
     end 
 
 end

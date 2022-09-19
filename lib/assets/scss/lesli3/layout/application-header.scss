@@ -65,6 +65,9 @@ header.application-header {
         // command input & search
         .control {
             flex: 1;
+            .material-icons {
+                font-size: 28px;
+            }
             input {
                 max-width: 515px;
                 border-radius: 10px;
