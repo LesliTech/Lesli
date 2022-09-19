@@ -59,7 +59,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             # shared examples
             expect_response_with_error
         end
-    
+
         # Tests for MFA integration
     
         it "is expected to respond with successfull and default path to /mfa view when a user has MFA enabled" do
@@ -67,8 +67,9 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             new_user = FactoryBot.create(:user)
     
             # enable MFA for the new user and its method
-            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => "true")
-            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
+            mfa_enabled = new_user.settings.create_with(:value => true).find_or_create_by(:name => "mfa_enabled")
+            mfa_method = new_user.settings.create_with(:value => "email").find_or_create_by(:name => "mfa_method")
+            mfa_enabled.update(:value => true)
     
             # do request
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -81,7 +82,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             expect(response_body["default_path"]).to be_a(String)
             expect(response_body["default_path"]).to eql("mfa")
         end
-    
+
         it "is expected to respond with successfull and do 'normal' login when MFA fields exists but it is disabled" do
             # create the new user
             new_user = FactoryBot.create(:user)
