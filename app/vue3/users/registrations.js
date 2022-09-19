@@ -19,7 +19,6 @@ For more information read the license file including with this software.
 // · 
 import app from "LesliVue/public"
 
-
 // · 
 app({
     data(){
@@ -52,7 +51,10 @@ app({
 
             event.preventDefault();
 
-            this.sign_up.password_confirmation = this.sign_up.password
+            if (this.sign_up.password != this.sign_up.password_confirmation) {
+                this.showNotification("Password and password confirmation do not match");
+                return
+            }
 
             let data = { user: this.sign_up }
 
