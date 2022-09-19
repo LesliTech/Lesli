@@ -26,7 +26,7 @@ module Interfaces
             def respond_with_successful payload=nil
 
                 # Keep compatibility with Deutsche Leibrenten
-                if controller_path.include?('deutsche_leibrenten')
+                if defined? DeutscheLeibrenten
                     response_body = { successful: true }
                     response_body[:data] = payload
                     return render(status: 200, json: response_body.to_json)
@@ -50,7 +50,7 @@ module Interfaces
             #            to make this work properly
             def respond_with_pagination(records, payload=nil)
                 # Keep compatibility with Deutsche Leibrenten
-                if controller_path.include?('deutsche_leibrenten')
+                if defined? DeutscheLeibrenten
                     return respond_with_http(200, {
                         :pagination => {
                             :total_pages => records.total_pages,
@@ -94,7 +94,7 @@ module Interfaces
             def respond_with_not_found
 
                 # Keep compatibility with Deutsche Leibrenten
-                if controller_path.include?('deutsche_leibrenten')
+                if defined? DeutscheLeibrenten
                     response_body = {
                         successful: false,
                         error: {
@@ -117,7 +117,7 @@ module Interfaces
                 error_object = { }
 
                 # Keep compatibility with Deutsche Leibrenten
-                if controller_path.include?('deutsche_leibrenten')
+                if defined? DeutscheLeibrenten
                     error_object = {
                         successful: false,
                         error: {
@@ -150,7 +150,7 @@ module Interfaces
                 message = "" unless message.instance_of?(String)
 
                 # Keep compatibility with Deutsche Leibrenten
-                if controller_path.include?('deutsche_leibrenten')
+                if defined? DeutscheLeibrenten
 
                     response_body = {
                         successful: false,
@@ -179,7 +179,7 @@ module Interfaces
 
             # Respond with an standard http message
             def respond_with_http status, payload
-                return render(status: status, content_type: 'application/json', json: payload.to_json) unless payload.blank?
+                return render(status: status, content_type: 'application/json', json: payload.to_json) unless payload.nil?
                 return render(status: status, content_type: 'application/json', json: "")
             end 
 

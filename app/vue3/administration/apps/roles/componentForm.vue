@@ -141,9 +141,9 @@ function isObjectLevelPermissionSelected(olp) {
                 <sup class="has-text-danger">*</sup>
             </label>
             <div class="control">
-                <div class="select">
-                    <!--lesli-select 
-                        v-model="{ value: storeRole.role.only_my_data }"
+                <div class="select" v-if="storeRole.role.only_my_data">
+                    <lesli-select 
+                        v-model="storeRole.role.only_my_data"
                         :options="[{
                             label: translations.core.roles.view_text_restrict_data_access,
                             value: true
@@ -151,7 +151,7 @@ function isObjectLevelPermissionSelected(olp) {
                             label: translations.core.roles.view_text_allow_to_see_all_the_data,
                             value: false
                         }]">
-                    </lesli-select-->
+                    </lesli-select>
                 </div>
             </div>
         </div>
@@ -165,9 +165,9 @@ function isObjectLevelPermissionSelected(olp) {
                 <sup class="has-text-danger">*</sup>
             </label>
             <div class="control">
-                <div class="select">
-                    <!--lesli-select 
-                        v-model="{ value: storeRole.role.active }"
+                <div class="select" v-if="storeRole.role.active">
+                    <lesli-select 
+                        v-model="storeRole.role.active"
                         :options="[{
                             label: translations.core.roles.view_text_active,
                             value: true
@@ -175,7 +175,7 @@ function isObjectLevelPermissionSelected(olp) {
                             label: translations.core.roles.view_text_disabled,
                             value: false
                         }]">
-                    </lesli-select-->
+                    </lesli-select>
                 </div>
             </div>
         </div>
