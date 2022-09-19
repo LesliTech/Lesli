@@ -27,43 +27,76 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         
         # helper methods
 
-        #def create_element
+        def create_element
             #if it necesary, define a method to create and object and be sure the table will not be empty of data
-        #end
+            @current_user.account.currencies.destroy_all
+
+            #search posibles permit values to create an element, controller module should be in singular way
+            params = Account::Currency.column_names
+            params_hash_value = {}
+
+            #cast column_names (its an Array) into a hash an insert values
+            params.each do |value|
+                #avoid fill id and date values
+                if !((value.include? "id") || (value.include? "at") )
+                    params_hash_value[value] = Faker::Lorem.word
+                end
+            end
+
+            #create new object
+            new_object =  @current_user.account.currencies.new({})
+
+            #avoid  unknown attribute when create objects
+            new_object.attributes = params_hash_value.reject{|k,v| !new_object.attributes.keys.member?(k.to_s) }
+            new_object.user_main_id = @current_user.id
+            new_object.users_id = @current_user.id
+            #save object
+            new_object.save!
+            return new_object
+        end
 
         # test cases
         #one or more test could fail when first run them, verify the routes, controller locations and names
         #
 
         it "is expected that the record has been removed from the database" do
-             #make sure you have created some elements before run test and reference its id 
-            #create_element
+            #make sure you have created some elements before run test and reference its id 
+            account_object = create_element
 
             #test will fail if element id does not exist
             #please be sure the element searched exist creating the elemnt before run tests
-            delete("/administration/account/currencies/#{@account/currencies.id}.json")
+            puts "elemento creado #{account_object.to_json}"
+            puts "URL /administration/account/currencies/#{account_object.id}.json"
+
+            delete("/administration/account/currencies/#{account_object.id}.json")
+        
 
             #shared examples
             expect_response_with_successful
-
+            puts "respuesta #{response_body}"
             #validate others custom values expected here
 
         end
 
         it "is expected to respond with not found when an invalid ID is sent" do
-            
-            #this ID does not exist, so should return with not found
-            #@invalid_id = create_element.last.id + 1
-            #before run test, you must create an object of the class youll like to test
+            create_element
 
-            #test will fail if element id exist
-            delete("/administration/account/currencies/#{@invalid_id}.json")
+            # this ID does not exist, so should return with not found
+            invalid_id = @current_user.account.currencies.last.id + 5
             
+            #before run test, you must create an object of the class youll like to test
+            puts "elemento creado #{account_object.to_json}"
+            puts "URL /administration/account/currencies/#{account_object.id}.json"
+            #test will fail if element id exist
+            delete("/administration/account/currencies/#{invalid_id}.json")
+
             # shared examples
             # this ID does not exist, so should return with not found
             expect_response_with_not_found
 
-            #validate others custom values expected here
+            # validate others custom values expected here
+            expect(response_body).to have_key("message")
+            expect(response_body["message"]).to be_a(String)
 
         end
     end

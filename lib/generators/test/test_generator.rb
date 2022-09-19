@@ -28,7 +28,7 @@ class TestGenerator < Rails::Generators::NamedBase
 
     def generate_standard_request_tests
         #["create", "destroy", "index", "show", "update"].each do |test_name|
-        ["show"].each do |test_name|
+        ["destroy"].each do |test_name|
             test_name = test_name + "_spec"
             test_file = test_name + ".rb"
             destination_path = @info[:path].join(test_file)

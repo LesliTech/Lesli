@@ -59,6 +59,8 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         #
 
         it "is expected to respond with the record data" do
+            create_element
+            
             #make sure you have created some elements before run test and reference its id 
             account_object = create_element
 

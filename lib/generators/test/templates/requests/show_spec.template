@@ -55,6 +55,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         end
 
         it "is expected to respond with not found when an invalid ID is sent" do
+            #at least one element should be in table to test the method
+            create_element
+
             # this ID does not exist, so should return with not found
             invalid_id = @current_user.[[controller_folder]].[[controller_file]].last.id + 1
             
