@@ -22,6 +22,9 @@ import { onMounted, computed, ref } from "vue"
 // · import lesli stores
 import { useOnboarding } from "Lesli/vue3/onboarding/store"
 
+// · Import dayjs library
+import dayjs from "dayjs"
+
 // · implement stores
 const storeOnboarding = useOnboarding()
 
@@ -48,7 +51,6 @@ function updateDate() {
     updateDatetime()
 }
 
-
 // . declare variables
 const combinedDate = ref("")
 const dateWords = ref("")
@@ -56,41 +58,26 @@ let formatDate = ""
 let formatTime = ""
 let formatDateWords = ""
 
-// Format date variables
-const currentDate = new Date()
-const yyyy = currentDate.getFullYear()
-let mm = currentDate.getMonth() + 1 < 10 ?  '0' + (currentDate.getMonth() + 1) : currentDate.getMonth() + 1
-let dd = currentDate.getDate() < 10 ? '0' + currentDate.getDate() : currentDate.getDate()
-let hh = currentDate.getHours() < 10 ? '0' + currentDate.getHours() : currentDate.getHours()
-let min = currentDate.getMinutes() < 10 ? '0' + currentDate.getMinutes() : currentDate.getMinutes()
-let sec = currentDate.getSeconds() < 10 ? '0' + currentDate.getSeconds() : currentDate.getSeconds()
-let longDate = currentDate.toLocaleDateString('en-US', { weekday: 'long' }) +", "+ currentDate.toLocaleDateString('en-US', { month: 'long' }) +" "+ dd+ ", "+ yyyy
-let shortDate =  currentDate.toLocaleDateString('en-US', { weekday: 'short' }) +", "+ currentDate.toLocaleDateString('en-US', { month: 'short' }) +" "+ dd+ ", "+ yyyy
-let onlyMonthShort =  currentDate.toLocaleDateString('en-US', { month: 'short' }) +" "+ dd+ ", "+ yyyy
-let onlyMonthLong = currentDate.toLocaleDateString('en-US', { month: 'long' }) +" "+ dd+ ", "+ yyyy
-let hh_twelve = (hh % 12 || 12) < 10 ? '0' + (hh % 12 || 12)  : hh % 12 || 12 
-let period = currentDate.toLocaleString([], { hour12: true}).match(/[a-zA-Z]+/g)[0]
-
 // . Functions for updating date format values in store 
 function updateDatetime() {
     if (storeOnboarding.settings.datetime_format_date == "%d.%m.%Y"){
-        formatDate = dd +'.'+ mm +'.'+ yyyy
+        formatDate = dayjs().format('DD.MM.YYYY')
     } else if (storeOnboarding.settings.datetime_format_date == "%d-%m-%Y"){
-        formatDate = dd +'-'+ mm +'-'+ yyyy
+        formatDate = dayjs().format('DD-MM-YYYY')
     } else if (storeOnboarding.settings.datetime_format_date == "%d/%m/%Y"){
-        formatDate = dd +'/'+ mm +'/'+ yyyy
+        formatDate = dayjs().format('DD/MM/YYYY')
     }
 
     if (storeOnboarding.settings.datetime_format_time == '%I:%M'){
-        formatTime = hh_twelve +':'+ min
+        formatTime = dayjs().format('hh:mm')
     } else if (storeOnboarding.settings.datetime_format_time == '%I:%M:%S'){
-        formatTime = hh_twelve +':'+ min +':'+ sec
+        formatTime = dayjs().format('hh:mm:ss')
     } else if (storeOnboarding.settings.datetime_format_time == '%I:%M %p'){
-        formatTime = hh_twelve +':'+ min +" "+period
+        formatTime = dayjs().format('hh:mm A')
     } else if (storeOnboarding.settings.datetime_format_time == '%H:%M'){
-        formatTime = hh +':'+ min
+        formatTime = dayjs().format('HH:mm')
     } else if (storeOnboarding.settings.datetime_format_time == '%H:%M:%S'){
-        formatTime = hh +':'+ min +':'+ sec
+        formatTime = dayjs().format('HH:mm:ss')
     }
     combinedDate.value = formatDate + " " + formatTime
     storeOnboarding.settings.datetime_format_date_time = storeOnboarding.settings.datetime_format_date +" "+storeOnboarding.settings.datetime_format_time
@@ -104,13 +91,13 @@ function updateTime() {
 function updateDateWords(){
 
     if (storeOnboarding.settings.datetime_format_date_words == '%A, %B %d, %Y'){
-        formatDateWords = longDate
+        formatDateWords = dayjs().format('dddd, MMMM DD, YYYY')
     } else if (storeOnboarding.settings.datetime_format_date_words== '%a, %b %d, %Y'){
-        formatDateWords = shortDate
+        formatDateWords = dayjs().format('ddd, MMM DD, YYYY')
     } else if (storeOnboarding.settings.datetime_format_date_words == '%b %d, %Y'){
-        formatDateWords = onlyMonthShort
+        formatDateWords = dayjs().format('MMM DD, YYYY')
     } else if (storeOnboarding.settings.datetime_format_date_words == '%B %d, %Y'){
-        formatDateWords = onlyMonthLong
+        formatDateWords = dayjs().format('MMMM DD, YYYY')
     }
 
     dateWords.value = formatDateWords + " " + formatTime
@@ -147,15 +134,15 @@ onMounted(() => {
                 <lesli-select
                     :options="[
                         {
-                            label: dd +'.'+ mm +'.'+ yyyy,
+                            label: dayjs().format('DD.MM.YYYY'),
                             value: '%d.%m.%Y',
                         },
                         {
-                            label: dd +'-'+ mm +'-'+ yyyy,
+                            label: dayjs().format('DD-MM-YYYY'),
                             value: '%d-%m-%Y',
                         },
                         {
-                            label: dd +'/'+ mm +'/'+ yyyy,
+                            label: dayjs().format('DD/MM/YYYY'),
                             value: '%d/%m/%Y',
                         },
                     ]"
@@ -174,23 +161,23 @@ onMounted(() => {
                 <lesli-select
                     :options="[
                         {
-                            label: hh_twelve +':'+ min,
+                            label: dayjs().format('hh:mm'),
                             value: '%I:%M',
                         },
                         {
-                            label: hh_twelve +':'+ min +':'+ sec,
+                            label: dayjs().format('hh:mm:ss'),
                             value: '%I:%M:%S',
                         },
                         {
-                            label: hh +':'+ min +' '+period,
+                            label: dayjs().format('hh:mm A'),
                             value: '%I:%M %p',
                         },
                         {
-                            label: hh +':'+ min,
+                            label: dayjs().format('HH:mm'),
                             value: '%H:%M',
                         },
                         {
-                            label: hh +':'+ min +':'+ sec,
+                            label: dayjs().format('HH:mm:ss'),
                             value: '%H:%M:%S',
                         },
                     ]"
@@ -223,19 +210,19 @@ onMounted(() => {
                 <lesli-select
                     :options="[
                         {
-                            label: longDate,
+                            label: dayjs().format('dddd, MMMM DD, YYYY'),
                             value: '%A, %B %d, %Y',
                         },
                         {
-                            label: shortDate,
+                            label: dayjs().format('ddd, MMM DD, YYYY'),
                             value: '%a, %b %d, %Y',
                         },
                         {
-                            label: onlyMonthShort,
+                            label: dayjs().format('MMM DD, YYYY'),
                             value: '%b %d, %Y',
                         },
                         {
-                            label: onlyMonthLong,
+                            label: dayjs().format('MMMM DD, YYYY'),
                             value: '%B %d, %Y',
                         }
                     ]"
