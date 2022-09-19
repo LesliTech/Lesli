@@ -31,6 +31,16 @@ const storeLayout = useLayout()
 const storeSearch = useSearch()
 
 
+// · defining props
+const props = defineProps({
+    isBell: {
+        type: Boolean,
+        default: false,
+        required: false
+    }
+})
+
+
 // · translations
 const translations = {
     core: {
@@ -45,12 +55,6 @@ const applicationHeader = ref(null)
 const search = {}
 
 
-// · initializing
-onMounted(() => {
-
-})
-
-
 // · capture user scroll to add special styles for the header
 function handleScroll($event) {
 
@@ -60,7 +64,6 @@ function handleScroll($event) {
     } else {
         applicationHeader.value.classList.remove("scrolling-header-navigation")
     }
-
 }
 
 
@@ -104,10 +107,9 @@ onUnmounted(() => {
                         v-model="storeSearch.text" 
                     />
                     <span class="icon is-left has-text-gray">
-                        <lesli-icon 
-                            id="search"
-                            v-if="(storeSearch.loading == false)">
-                        </lesli-icon>
+                        <span class="material-icons">
+                            search
+                        </span>
                         <lesli-loading 
                             :icon="true"
                             v-if="(storeSearch.loading == true)">
@@ -127,7 +129,9 @@ onUnmounted(() => {
 
 
                 <!-- Tasks -->
-                <a class="navbar-item header-notification-indicator" @click="storeLayout.showNotifications = true">
+                <a  v-if="props.isFocus"
+                    class="navbar-item header-notification-indicator" 
+                    @click="storeLayout.showNotifications = true">
                     <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.notifications > 0 }]">
                         checklist
                     </span>
@@ -138,7 +142,10 @@ onUnmounted(() => {
 
 
                 <!-- Notifications -->
-                <a class="navbar-item header-notification-indicator" @click="storeLayout.showNotifications = true">
+                <a 
+                    v-if="props.isBell"
+                    class="navbar-item header-notification-indicator" 
+                    @click="storeLayout.showNotifications = true">
                     <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.notifications > 0 }]">
                         notifications
                     </span>

@@ -100,7 +100,6 @@ class User < ApplicationLesliRecord
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     #     At the current time, it only creates a default calendar. This is an *after_create* method, and is not
     #     designed to be invoked directly
-
     def initialize_user_details
 
         # create user details
@@ -112,8 +111,10 @@ class User < ApplicationLesliRecord
     end 
 
 
-
+    # Initialize user settings and dependencies needed
     def initialize_user_after_confirmation
+        self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
+        self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
         Courier::One::Firebase::User.sync_user(self)
         Courier::Driver::Calendar.create_user_calendar(self, "Personal Calendar")
     end
@@ -672,7 +673,7 @@ class User < ApplicationLesliRecord
         mfa_method = self.settings.find_by(:name => "mfa_method")
         
         is_mfa_enabled = false
-        is_mfa_enabled ||= (mfa_enabled.value.downcase == "true") unless mfa_enabled.nil?
+        is_mfa_enabled = true if mfa_enabled.value == "t"
 
         {   
             :enabled => is_mfa_enabled,
