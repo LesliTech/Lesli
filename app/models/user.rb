@@ -160,7 +160,7 @@ class User < ApplicationLesliRecord
         form ||= 'html'
 
         begin
-            self.privileges
+            !self.privileges
             .where("role_privileges.controller = ?", controller)
             .where("role_privileges.action = ?", action)
             .where("role_privileges.form = ?", form)
@@ -641,7 +641,7 @@ class User < ApplicationLesliRecord
             created_at: user[:created_at],
             updated_at: user[:updated_at],
             editable_security: current_user && current_user.has_roles?("owner", "sysadmin"),
-            roles: user.roles.map { |r| { id: r[:id], name: r[:name] } },
+            roles: user.roles.map { |r| { id: r[:id], name: r[:name], permission_level: r[:object_level_permission]} },
             full_name: user.full_name,
             mfa_enabled: user.mfa_settings[:enabled],
             mfa_method:  user.mfa_settings[:method],

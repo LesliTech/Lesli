@@ -21,13 +21,9 @@ For more information read the license file including with this software.
 class Account::IntegrationsController < ApplicationLesliController
     before_action :set_account_integration, only: [:edit, :update, :destroy]
 
-
     def privileges 
         {
-            show: [
-                "UsersController#index",
-                "Account::FilesController#index"
-            ],
+            index: []
         }
     end
 
@@ -91,7 +87,7 @@ class Account::IntegrationsController < ApplicationLesliController
     def destroy
         return respond_with_not_found unless @account_integration
         if @account_integration.destroy
-            respond_with_successful
+            respond_with_successful(@account_integration)
         else
             respond_with_error(@account_integration.errors.full_messages.to_sentence)
         end

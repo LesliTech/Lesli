@@ -10,8 +10,14 @@ reactive prop that indicates if the file will be cleared when the do some action
 - **required**: false
 - **default**: false
 
+*:isDropzoneActive*
+prop that indicates if the dropzone will be displayed as active or not. It must be a reactive variable.
+- **type**: Boolean
+- **required**: false
+- **default**: true
+
 ## Events
-**@files**
+**@files-change**
 event that emits the files that user has dropped or selected. If you don't use the event, you not will receive the files.
 - **emits**: File[]
 - **required**: true
@@ -69,7 +75,7 @@ If you want to clear the files after the user do some action, you can use this e
     of the variable which helps us clean up the component files
 -->
 <lesli-file-uploader 
-    @files="onFilesChange"
+    @files-change="onFilesChange"
     @events-after-clear="clearFileUploader = false"
     :clear-files="clearFileUploader"
 >
@@ -112,7 +118,7 @@ If you don't want to clear the files after the user do some action, you can use 
 ```
 
 ```html
-<lesli-file-uploader @files="onFilesChange">
+<lesli-file-uploader @files-change="onFilesChange" is-dropzone-active="false">
 </lesli-file-uploader>
 
 <button @click="onSubmit">Submit</button>

@@ -73,9 +73,10 @@ function updateRole(){
 }
 
 onMounted(() => {
-    storeUser.fetch(route.params?.id)
     if (!props.isEditable){
         storeUser.resetUserStore()
+    } else {
+        storeUser.fetch(route.params?.id)
     }
 })
 
@@ -94,7 +95,7 @@ onMounted(() => {
                 <div class="field is-narrow">
                     <div class="control">
                         <label :for="salutation.value" class="radio" v-for="salutation in storeUser.options.salutations" :key="salutation">
-                            <input type="radio" :id="salutation.value" :value="salutation.value" v-model="storeUser.user.detail_attributes.salutation" />
+                            <input name="user_salutation" type="radio" :id="salutation.value" :value="salutation.value" v-model="storeUser.user.detail_attributes.salutation" />
                             {{salutation.text}}
                         </label>  
                     </div>
@@ -112,7 +113,7 @@ onMounted(() => {
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <input v-model="storeUser.user.email" required="required" type="email" class="input">
+                        <input name="user_email" v-model="storeUser.user.email" required="required" type="email" class="input">
                     </div>
                 </div>
             </div>
@@ -127,7 +128,7 @@ onMounted(() => {
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <input v-model="storeUser.user.detail_attributes.first_name" type="text" class="input">
+                        <input name="first_name" v-model="storeUser.user.detail_attributes.first_name" type="text" class="input">
                     </div>
                 </div>
             </div>
@@ -140,7 +141,7 @@ onMounted(() => {
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <input v-model="storeUser.user.detail_attributes.last_name" class="input">
+                        <input name="last_name" v-model="storeUser.user.detail_attributes.last_name" class="input">
                     </div>
                 </div>
             </div>
@@ -153,7 +154,7 @@ onMounted(() => {
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <input v-model="storeUser.user.alias" class="input">
+                        <input name="user_alias" v-model="storeUser.user.alias" class="input">
                     </div>
                 </div>
             </div>
@@ -166,7 +167,7 @@ onMounted(() => {
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <input v-model="storeUser.user.detail_attributes.telephone" class="input">
+                        <input name="user_number" v-model="storeUser.user.detail_attributes.telephone" class="input">
                     </div>
                 </div>
             </div>
@@ -179,7 +180,7 @@ onMounted(() => {
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <input v-model="storeUser.user.detail_attributes.title" class="input">
+                        <input name="user_title" v-model="storeUser.user.detail_attributes.title" class="input">
                     </div>
                 </div>
             </div>
@@ -193,7 +194,7 @@ onMounted(() => {
                 <div class="field is-narrow">
                     <div class="control">
                         <div>
-                            <span class="tag is-success" v-for="role in storeUser.user.roles" :key="role">{{role.name}}</span>
+                            <span name="user_role" class="tag is-success" v-for="role in storeUser.user.roles" :key="role">{{role.name}}</span>
                         </div>
                     </div>
                 </div>
@@ -209,7 +210,7 @@ onMounted(() => {
                     <div class="control">
                         <div class="select is-fullwidth">
                             <lesli-select
-                                :options="storeUser.options.roles"
+                                :options="storeUser.rolesSelect"
                                 v-model="userRole"
                                 @change="updateRole"
                             >
@@ -229,7 +230,7 @@ onMounted(() => {
                     <div class="control">
                         <lesli-button icon="save">
                             {{ translations.shared.view_btn_save }}
-                        </lesli-button>                    
+                        </lesli-button>                 
                     </div>
                 </div>
             </div>
