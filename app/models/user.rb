@@ -50,9 +50,11 @@ class User < ApplicationLesliRecord
     has_many :access_codes,     foreign_key: "users_id"
     has_many :auth_providers,   foreign_key: "users_id"
 
-    has_many :user_roles,               foreign_key: "users_id",    class_name: "User::Role"
-    has_many :roles,                    through: :user_roles,       source: :roles
+    has_many :user_roles,       foreign_key: "users_id",    class_name: "User::Role"
+    has_many :roles,            through: :user_roles,       source: :roles
+    has_many :privileges,       through: :roles
 
+    has_many :role_privileges,          through: :roles,            source: :privileges
     has_many :user_privilege_actions,   foreign_key: "users_id",    class_name: "User::PrivilegeAction"
     has_many :role_privilege_actions,   through: :roles,            source: :privilege_actions
 
@@ -98,7 +100,6 @@ class User < ApplicationLesliRecord
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     #     At the current time, it only creates a default calendar. This is an *after_create* method, and is not
     #     designed to be invoked directly
-
     def initialize_user_details
 
         # create user details
@@ -110,8 +111,10 @@ class User < ApplicationLesliRecord
     end 
 
 
-
+    # Initialize user settings and dependencies needed
     def initialize_user_after_confirmation
+        self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
+        self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
         Courier::One::Firebase::User.sync_user(self)
         Courier::Driver::Calendar.create_user_calendar(self, "Personal Calendar")
     end
@@ -152,6 +155,23 @@ class User < ApplicationLesliRecord
     #     actions = ["index", "update"]
     #
     #     current_user.has_privileges?(controllers, actions)
+    def has_privileges4?(controller, action, form='html')
+
+        # set html by default, even if nil is sent as parameter for "form"
+        form ||= 'html'
+
+        begin
+            !self.privileges
+            .where("role_privileges.controller = ?", controller)
+            .where("role_privileges.action = ?", action)
+            .where("role_privileges.form = ?", form)
+            .first.blank?
+        rescue => exception
+            Honeybadger.notify(exception)
+            return false
+        end
+    end
+
     def has_privileges?(controllers, actions)
 
         begin
@@ -278,6 +298,40 @@ class User < ApplicationLesliRecord
 
 
 
+    # @return Boolean
+    # @description Check if user has enough privilege to work with the given role
+    def can_work_with_role?(role)
+
+        # get the role if only id is given
+        role = self.roles.find_by(:id => role) unless role.class.name == "Role"
+
+        # false if role not found
+        return false if role.blank?
+
+        # not valid role without object levelpermission defined
+        return false if role.object_level_permission.blank?
+
+        # owner role can work with all the roles
+        return true if !self.roles.find_by(name: 'owner').blank?
+
+        # get the max object level permission from the roles the user has assigned
+        user_role_level_max = self.roles.map(&:object_level_permission).max()
+
+        # check if user can work with the object level permission of the role is trying to modify
+        # Note: user only can assigned an object level permission below the max of his own roles
+        # Current user cannot assign role if
+        #       role to assign has greater object level permission than the greater role assigned to the current user
+        #       role to assign is the same of the greater role assigned to the current user
+        #       current user is not sysadmin or owner
+        return false if role.object_level_permission >= user_role_level_max
+
+        # user can work with this role :)
+        return true
+
+    end    
+
+
+
     # @return [void]
     # @description Delete all the active sessions for a given user
     # TODO:
@@ -332,31 +386,6 @@ class User < ApplicationLesliRecord
         self.reset_password_sent_at = Time.now.utc
         save(validate: false)
         raw
-    end
-
-
-
-    # @return Boolean
-    # @description Check if user has enough privilege to work with the given role
-    def can_work_with_role?(role_id)
-
-        return false if role_id.blank?
-
-        role = self.account.roles.find(role_id) rescue nil
-
-        return false if role.blank?
-
-        # check if the current_user can assign this role, current user cannot assign role if
-        #   role to assign has greater object level permission than the greater role assigned to the current user
-        #   role to assign is the same of the greater role assigned to the current user
-        #   current user is not sysadmin or owner
-        self.roles.each do |current_role|
-            return true if current_role.object_level_permission > role.object_level_permission
-            return true if current_role.name == "owner"
-        end
-
-        return false
-
     end
 
 
@@ -558,9 +587,9 @@ class User < ApplicationLesliRecord
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
         users = users.where("category = ?", query[:filters][:category]) if query[:filters][:category]
         users = users.where("
-            lower(email) like '%#{query[:filters][:search]}%' or
-            LOWER(concat(ud.first_name, ' ', ud.last_name)) like '%#{query[:filters][:search].downcase}%'
-        ")  if not query[:filters][:search].blank?
+            lower(email) like '%#{query[:search]}%' or
+            LOWER(concat(ud.first_name, ' ', ud.last_name)) like '%#{query[:search].downcase}%'
+        ")  if not query[:search].blank?
 
         users = users.select(
             :id,
@@ -604,7 +633,7 @@ class User < ApplicationLesliRecord
     #     }
     def show(current_user = nil)
         user = self.account.users.find(id)
-
+        
         return {
             id: user[:id],
             email: user[:email],
@@ -613,10 +642,11 @@ class User < ApplicationLesliRecord
             created_at: user[:created_at],
             updated_at: user[:updated_at],
             editable_security: current_user && current_user.has_roles?("owner", "sysadmin"),
-            roles: user.roles.map { |r| { id: r[:id], name: r[:name] } },
+            roles: user.roles.map { |r| { id: r[:id], name: r[:name], permission_level: r[:object_level_permission]} },
             full_name: user.full_name,
             mfa_enabled: user.mfa_settings[:enabled],
             mfa_method:  user.mfa_settings[:method],
+            language: user.settings.find_by(:name => "locale"),
             detail_attributes: {
                 title: user.detail[:title],
                 salutation: user.detail[:salutation],
@@ -643,7 +673,7 @@ class User < ApplicationLesliRecord
         mfa_method = self.settings.find_by(:name => "mfa_method")
         
         is_mfa_enabled = false
-        is_mfa_enabled ||= (mfa_enabled.value.downcase == "true") unless mfa_enabled.nil?
+        is_mfa_enabled = true if mfa_enabled.value == "t"
 
         {   
             :enabled => is_mfa_enabled,

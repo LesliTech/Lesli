@@ -18,17 +18,17 @@ For more information read the license file including with this software.
 
 <%
 
+# default icons
 app_icon = "app-icon"
 app_logo = "app-logo"
 
+# custom icons for LesliCloud
 if defined?(LesliCloud)
     app_icon = "app-icon-light"
     app_logo = "app-logo-light"
 end
 
 %>
-
-<% core_version = lesli_engine.dig(:core) %>
 
 <%# check if custom navigation partial exists, getting the path from application helper %>
 <% custom_sidebar_path = "layouts/#{lesli_engine.dig(:code)}/partials/application-sidebar" %>
@@ -37,8 +37,7 @@ end
 <%# custom_sidebar_path = "layouts/#{lesli_instance_code}/partials/application-navigation" if lesli_instance_code == "lesli_cloud" %>
 
 <%# dedicated navigation for the administration area %>
-<% custom_sidebar_path = "layouts/components/sidebar-administration" if (is_lesli_administration?() && !defined?(DeutscheLeibrenten)) %>
-<% custom_sidebar_path = "layouts/components/sidebar-administration-v2" if (is_lesli_administration?() && defined?(DeutscheLeibrenten)) %>
+<% custom_sidebar_path = "layouts/components/sidebar-administration" if is_lesli_administration?() %>
 
 <%# validate the path to be sure the partial exists when trying to render it %>
 <% custom_sidebar_exists = lookup_context.exists?(custom_sidebar_path, nil, true) %>
@@ -48,11 +47,6 @@ end
     <template v-slot:brand>
         <%= customization_instance_logo_tag(logo: app_icon, options: { alt: "App logo", class: "is-hidden-desktop" }) %>
         <%= customization_instance_logo_tag(logo: app_logo, options: { alt: "App logo", class: "is-hidden-touch" }) %>
-        <!-- 
-        <% if core_version == 3 %>
-            <span class="is-hidden-touch is-hidden-desktop-only is-hidden-widescreen-only"><%= lesli_engine_name %></span>
-        <% end %>
-        -->
     </template>
 
     <%# render navigation partial %>

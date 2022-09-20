@@ -70,8 +70,8 @@ module.exports = env => {
 
         // Set max size limit for JS bundles to 0.98 MB
         performance: {
-            maxAssetSize: 980000,
-            maxEntrypointSize: 980000,
+            maxAssetSize: 1100000,
+            maxEntrypointSize: 1100000,
             assetFilter: function(assetFilename) {
                 return !(['cloud_development/application.js'].includes(assetFilename));
             }
@@ -102,6 +102,7 @@ module.exports = env => {
             "users/sessions": "Lesli/vue3/users/sessions.js",
             "users/passwords": "Lesli/vue3/users/passwords.js",
             "users/registrations": "Lesli/vue3/users/registrations.js",
+            "users/confirmations": "Lesli/vue3/users/confirmations.js",
 
             "mfas/application": "Lesli/vue3/mfas/app.js",
             "otps/application": "Lesli/vue3/otps/app.js",
@@ -110,7 +111,9 @@ module.exports = env => {
 
             "onboardings/application": "Lesli/vue3/onboarding/app.js",
             
-            "administration/application": "Lesli/vue3/administration/app.js"
+            "administration/application": "Lesli/vue3/administration/app.js",
+
+            "websites/application": "Lesli/vue3/websites/app.js",
 
         },
 

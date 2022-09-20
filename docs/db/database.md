@@ -28,16 +28,20 @@
 00.37. user_logs
 00.38. user_access_codes
 00.39. user_shortcuts
-00.40. user_auth_provider
-00.41. user_auth_mfa
 
-00.50. role_descriptors (role_groups)
-00.51. role_descriptor_actions
+00.40. user_privileges_actions
+00.41. user_auth_provider
+00.42. user_webpushes
+00.43. user_requests_ext
+
+00.50. role_descriptors 
+00.51. role_descriptor_privilege_actions
 00.52. role_descriptor_activities
 
 00.55. roles (reference only)
-00.56. role_descriptors
+00.56. role_descriptor_assignments
 00.57. role_activities
+00.58. role_privileges
 
 00.60. templates
 00.61. template_documents
@@ -46,4 +50,10 @@
 00.64. template_audience_documents
 
 00.70. invites
+
+00.80. descriptors
+00.81. descriptor_privileges
+00.82. descriptor_activities
+00.83. role_describers
+00.84. user_describers
 ```

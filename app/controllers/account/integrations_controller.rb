@@ -21,6 +21,12 @@ For more information read the license file including with this software.
 class Account::IntegrationsController < ApplicationLesliController
     before_action :set_account_integration, only: [:edit, :update, :destroy]
 
+    def privileges 
+        {
+            index: []
+        }
+    end
+
     # GET /account/integrations
     def index
         respond_to do |format|
@@ -80,9 +86,8 @@ class Account::IntegrationsController < ApplicationLesliController
     # DELETE /account/integrations/1
     def destroy
         return respond_with_not_found unless @account_integration
-
         if @account_integration.destroy
-            respond_with_successful
+            respond_with_successful(@account_integration)
         else
             respond_with_error(@account_integration.errors.full_messages.to_sentence)
         end
