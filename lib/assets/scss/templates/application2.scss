@@ -16,6 +16,9 @@ For more information read the license file including with this software.
 */
 
 
+@import "./lesli/settings/icons.scss";
+@import "./lesli/settings/variables";
+
 // · 
 #lesli-application-2 {
 
@@ -23,15 +26,9 @@ For more information read the license file including with this software.
     @import "lesli-css/";
 
 
-
-    // · Configuration
-    @import "./lesli/settings/variables";
-
-
-
     // · Include Lesli Standards
-    @include lesli-css-normalize();
-    @include lesli-css-fonts-standard();
+    //@include lesli-css-normalize();
+    //@include lesli-css-fonts-standard();
 
 
 
@@ -46,13 +43,13 @@ For more information read the license file including with this software.
     // · Include vendors
     @import "quill/dist/quill.core";
     @import "quill/dist/quill.snow";
-    @import "flag-icon";
+    //@import "flag-icon";
 
 
 
     // · Loading components, settings and helpers
     @import "./lesli/helpers/display";
-    @import "./lesli/settings/icons.scss";
+    
 
 
 
@@ -62,25 +59,25 @@ For more information read the license file including with this software.
 
 
     // · Loading app layout 
-    @import "./lesli/layout/application-header.scss";
-    @import "./lesli/layout/application-engines.scss";
-    @import "./lesli/layout/application-sidebar.scss";
+    //@import "./lesli/layout/application-header.scss";
+    //@import "./lesli/layout/application-engines.scss";
+    //@import "./lesli/layout/application-sidebar.scss";
     @import "./lesli/layout/application-notices.scss";
     @import "./lesli/layout/application-component.scss";
-    @import "./lesli/layout/application-footer.scss";
-    @import "./lesli/layout/application-search.scss";
+    //@import "./lesli/layout/application-footer.scss";
+    //@import "./lesli/layout/application-search.scss";
 
-    @import "./lesli/panels/panel-template.scss";
-    @import "./lesli/panels/panel-announcement.scss";
-    @import "./lesli/panels/panel-notification.scss";
-    @import "./lesli/panels/panel-support.scss";
-    @import "./lesli/panels/panel-viewer.scss";
+    //@import "./lesli/panels/panel-template.scss";
+    //@import "./lesli/panels/panel-announcement.scss";
+    //@import "./lesli/panels/panel-notification.scss";
+    //@import "./lesli/panels/panel-support.scss";
+    //@import "./lesli/panels/panel-viewer.scss";
 
     @import "./lesli/components/component-data.scss";
     @import "./lesli/components/component-header.scss";
     @import "./lesli/components/component-toolbar.scss";
 
-
+/*
     // · 
     body,
     html {
@@ -95,8 +92,9 @@ For more information read the license file including with this software.
     }
 
 
-    /* Remove auto claear button for IE10+/Edge because it does not trigger watchers not changes v-model values */
+    / * Remove auto claear button for IE10+/Edge because it does not trigger watchers not changes v-model values * /
     ::-ms-clear {
         display: none;
     }
+*/
 }
