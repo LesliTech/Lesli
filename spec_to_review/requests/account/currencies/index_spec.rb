@@ -31,7 +31,7 @@ RSpec.describe "GET:/administration/account/currencies", type: :request do
         @new_currency = @user.account.currencies.new({
             name: Faker::Currency.name,
             symbol: Faker::Currency.symbol,
-            country_alpha_3: Faker::Currency.code,
+            country_alpha_3: Faker::Currency.code
         })
 
         @new_currency.user_main_id = @user.id
