@@ -19,6 +19,12 @@ For more information read the license file including with this software.
 
 class ProfilesController < ApplicationLesliController
 
+    def privileges
+        {
+            show: ['UsersController#options']
+        }
+    end
+
     # GET /profile
     def show
         respond_to do |format|

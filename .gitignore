@@ -92,5 +92,6 @@ brakeman.html
 docker-compose.yml
 postgres_data
 
-# RVM Gemsets
+# Gemsets
 .ruby-gemset
+.rbenv-gemset

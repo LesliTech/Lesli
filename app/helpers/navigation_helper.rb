@@ -294,7 +294,7 @@ module NavigationHelper
 
         # render module navigation item :) 
         content_tag(:a, :href => path, :class => is_active ? "is-active": nil) do
-            lesli_icon(icon, "cloud") << content_tag(:div) do 
+            lesli_svg("cloud-#{icon}") << content_tag(:div) do 
                 content_tag(:span, title) << content_tag(:p, subtitle)
             end
         end
