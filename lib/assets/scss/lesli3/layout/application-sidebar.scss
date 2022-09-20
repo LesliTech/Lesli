@@ -16,8 +16,8 @@ For more information read the license file including with this software.
 */
 
 $lesli-sidebar-color-text: findColorInvert($lesli-sidebar-color) !default;
-$lesli-sidebar-color-hover: $lesli-sidebar-hover;
-$lesli-sidebar-color-text-hover: findColorInvert($lesli-sidebar-hover);
+$lesli-sidebar-hover-color: $lesli-sidebar-color !default;
+$lesli-sidebar-hover-text: findColorInvert($lesli-sidebar-hover-color) !default;;
 
 
 // · Navigation sidebar
@@ -40,6 +40,7 @@ aside.application-sidebar {
         display: flex;
         height: var(--lesli-header-height);
         max-height: var(--lesli-header-height);
+        background-color: var(--lesli-logo-color);
         justify-content: center;
     }
 
@@ -47,12 +48,14 @@ aside.application-sidebar {
     nav.menu {
         // hide scrollbar
         @include lesli-css-scrollbar(hide);
+        overflow-y: scroll;
     }
 
     p.menu-label {
         padding-left: 26px;
         font-size: .85rem;
         margin: .4rem 0;
+        color: $lesli-sidebar-color-text;
     }
 
     // link container
@@ -70,8 +73,8 @@ aside.application-sidebar {
             &.is-active,        // rails routes
             &.route-is-active   // vue routes
             {
-                color: $lesli-sidebar-color-text-hover;
-                background-color: $lesli-sidebar-color-hover;
+                color: $lesli-sidebar-hover-text;
+                background-color: $lesli-sidebar-hover-color;
             }
 
             // icons from reixicons
@@ -91,7 +94,7 @@ aside.application-sidebar {
         &.lesli-navigation-list {
 
             &.active {
-                background-color: $lesli-sidebar-color-hover;
+                background-color: $lesli-sidebar-hover-color;
                 ul {
                     height: auto;
                 }
