@@ -16,28 +16,6 @@ For more information read the license file including with this software.
 
 =end
 
-=begin
-
-new_exchange_rates = [
-    {
-        :valid_from => Time.now,
-        :valid_to => Time.now,
-        :exchange_rate => Faker::Number.decimal(l_digits: 1, r_digits: 3)
-    },
-    {
-        :valid_from => Time.now,
-        :valid_to => Time.now,
-        :exchange_rate => Faker::Number.decimal(l_digits: 1, r_digits: 4)
-    },
-    {
-        :valid_from => Time.now,
-        :valid_to => Time.now,
-        :exchange_rate => Faker::Number.decimal(l_digits: 3, r_digits: 3)
-    }
-]
-
-=end
-
 require "lesli_request_helper"
 
 RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
