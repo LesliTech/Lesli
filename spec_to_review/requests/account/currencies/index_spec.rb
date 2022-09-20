@@ -26,9 +26,9 @@ RSpec.describe "GET:/administration/account/currencies", type: :request do
 
     before(:all) do
         # delete all records to work with a clean table
-        @current_user.account.currencies.destroy_all
+        @user.account.currencies.destroy_all
 
-        @new_currency = @current_user.account.currencies.new({
+        @new_currency = @user.account.currencies.new({
             name: Faker::Currency.name,
             symbol: Faker::Currency.symbol,
             country_alpha_3: Faker::Currency.code,
