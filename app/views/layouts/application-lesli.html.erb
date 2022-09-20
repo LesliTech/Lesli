@@ -28,11 +28,11 @@ For more information read the license file including with this software.
 <body class="<%= application_body_class() %>">
     <main id="lesli-application" v-cloak>
         <%= render partial: "layouts/partials/application-lesli-header" %>
-        <%#= render partial: "layouts/partials/application-lesli-notices" %>
+        <%= render partial: "layouts/partials/application-lesli-announcements" %>
         <%= render partial: "layouts/partials/application-lesli-sidebar" %>
         <%= render partial: "layouts/partials/application-lesli-content" %>
         <%= render partial: "layouts/partials/application-lesli-engines" %>
-        <%#= render partial: "layouts/partials/application-lesli-panels" %>
+        <%# render partial: "layouts/partials/application-lesli-panels" %>
         <%= render partial: "layouts/partials/application-lesli-footer" %>
     </main>
     <%= render partial: "layouts/partials/application-lesli-javascript" %>
