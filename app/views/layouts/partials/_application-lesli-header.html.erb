@@ -16,7 +16,10 @@ For more information read the license file including with this software.
 // · 
 %>
 
-<application-component-header>
+<application-component-header 
+    <%= "is-bell" if defined?(CloudBell) %>
+    <%= "is-focus" if defined?(CloudFocus) %>
+    >
 
     <%# language selector %>
     <% if I18n.available_locales.length > 1 && params[:controller] == 'profiles' && false %>
@@ -42,44 +45,6 @@ For more information read the license file including with this software.
             </div>
         </div>
     </div>
-    <% end %>
-
-
-    <%# tasks icon indicator %>
-    <% if defined?(CloudFocus) && defined?(DeutscheLeibrenten) %>
-    <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_tasks = true">
-        <i v-if="lesli.tasks > 0" class="fas fa-tasks has-text-link"></i>
-        <i v-if="lesli.tasks == 0" class="fas fa-tasks"></i>
-        <span v-if="lesli.tasks > 0">{{ lesli.tasks }}</span>
-    </a>
-    <% end %>
-
-
-    <%# tickets icon indicator %>
-    <% if defined?(CloudHelp) && defined?(DeutscheLeibrenten) %>
-    <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_support = true">
-        <i v-if="lesli.tickets > 0" class="fas fa-ticket-alt has-text-link"></i>
-        <i v-if="lesli.tickets == 0" class="fas fa-ticket-alt"></i>
-        <span v-if="lesli.tickets > 0">{{ lesli.tickets }}</span>
-    </a>
-    <% end %>
-
-
-    <%# announcements icon indicator %>
-    <% if defined?(CloudBell) && defined?(DeutscheLeibrenten) %>
-    <a  v-if="abilities.privilege('announcements', 'cloud_bell')['create']"
-        class="navbar-item header-notification-indicator" @click="data.global.show_panel_announcement = true">
-        <i class="fas fa-bullhorn"></i>
-    </a>
-    <% end %>
-
-
-    <%# notifications icon indicator %>
-    <% if defined?(CloudBell) && defined?(DeutscheLeibrenten) %>
-    <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_notifications = true">
-        <span class="material-icons">notifications</span>
-        <span v-if="data.global.cloud_bell_notifications > 0">{{ data.global.cloud_bell_notifications }}</span>
-    </a>
     <% end %>
 
 

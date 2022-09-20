@@ -48,9 +48,10 @@ const translations = {
                     <div class="field">
                         <div class="control has-icons-left">
                             <input 
+                                required
                                 class="input" 
                                 type="password" 
-                                v-model="storeUser.passwords.password" 
+                                v-model="storeUser.new_password" 
                                 :placeholder="translations.passwords.view_placeholder_new_password">
                             <span class="icon is-small is-left">
                                 <span class="material-icons">
@@ -69,9 +70,10 @@ const translations = {
                     <div class="field">
                         <div class="control has-icons-left">
                             <input 
+                                required
                                 class="input" 
                                 type="password" 
-                                v-model="storeUser.passwords.password_confirmation" 
+                                v-model="storeUser.user.password_confirmation" 
                                 :placeholder="translations.passwords.view_placeholder_confirm_password">
                             <span class="icon is-small is-left">
                                 <span class="material-icons">
@@ -88,7 +90,7 @@ const translations = {
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input type="submit" class="button is-primary" :value="translations.shared.view_btn_save">
+                            <lesli-button> {{ translations.shared.view_btn_save }}</lesli-button>
                         </div>
                     </div>
                 </div>

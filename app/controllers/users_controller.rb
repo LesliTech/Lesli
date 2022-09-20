@@ -22,6 +22,12 @@ For more information read the license file including with this software.
 class UsersController < ApplicationLesliController
     before_action :set_user, only: [:show, :update, :destroy]
 
+    def privileges
+        {
+            index: []
+        }
+    end 
+
     def list
         respond_to do |format|
             format.json { 
@@ -264,7 +270,7 @@ class UsersController < ApplicationLesliController
 
     def options
 
-        roles = current_user.account.roles.select(:id, :name)
+        roles = current_user.account.roles.select(:id, :name, :object_level_permission)
 
         # only owner can assign any role
         unless current_user.has_roles?("owner")
@@ -395,9 +401,10 @@ class UsersController < ApplicationLesliController
 
     # Resets the user email 
     def email
+
         user = current_user.account.users.find_by(id: params[:id])
 
-        if user.blank? 
+        if user.blank? || user.id != current_user.id 
             return respond_with_not_found
         end
 
