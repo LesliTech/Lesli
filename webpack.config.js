@@ -121,7 +121,7 @@ module.exports = env => {
         // Set the name of the compiled javascript files
         output: {
             path: path.resolve("app", "assets", "javascripts"),
-            filename: "[name].js"
+            filename: "[name]-3.js"
         },
 
 
@@ -266,7 +266,7 @@ module.exports = env => {
         configEngine.entry[(`${engine}/application`)] = appPath
 
         // set new output to engine app folder
-        configEngine.output.filename = "[name].js"
+        configEngine.output.filename = "[name]-3.js"
 
         // check if the engine has vue3 apps to compile
         if (Object.keys(configEngine.entry).length <= 0) { return }

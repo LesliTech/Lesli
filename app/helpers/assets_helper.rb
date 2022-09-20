@@ -20,11 +20,11 @@ For more information read the license file including with this software.
 module AssetsHelper
 
     # Return a string path to load the template stylesheet
-    def application_stylesheet_template_path
+    def application_stylesheet_template_path version
 
         #return "#{lesli_instance_code}/lesli/template" unless defined?(DeutscheLeibrenten)
 
-        template = "application"
+        template = "application#{version}"
 
         # the main core features must work with the core 3
         if (is_lesli_onboarding?() || is_lesli_administration?() || lesli_engine()[:core] == 3)
@@ -74,20 +74,20 @@ module AssetsHelper
     end
 
     # Return a string path to load the main javascript app of the engine
-    def application_javascript_path
+    def application_javascript_path version
 
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
         if is_lesli_administration?
-            return ["administration", "application"].join("/")
+            return ["administration", "application-3"].join("/")
         end 
 
         if is_lesli_onboarding?
             return ["onboardings", "application"].join("/")
         end 
 
-        return [cloud_module, "application"].join("/")
+        return [cloud_module, "application-#{version}"].join("/")
 
     end
 
