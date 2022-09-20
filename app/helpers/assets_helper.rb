@@ -20,74 +20,32 @@ For more information read the license file including with this software.
 module AssetsHelper
 
     # Return a string path to load the template stylesheet
-    def application_stylesheet_template_path version
-
-        #return "#{lesli_instance_code}/lesli/template" unless defined?(DeutscheLeibrenten)
-
-        template = "application#{version}"
-
-        # the main core features must work with the core 3
-        if (is_lesli_onboarding?() || is_lesli_administration?() || lesli_engine()[:core] == 3)
-            template = "application3"
-        end
-
-        ["templates", template].join("/")
-
+    # by default we always return the latest version of the template
+    def application_stylesheet_template_path
+        "templates/application3"
     end
 
-    # Return a string path to load the stylesheet of the selected theme
-    def application_stylesheet_theme_path()
 
-        return "#{lesli_instance_code}/lesli/theme" unless defined?(DeutscheLeibrenten)
-
-        theme = "themes/blank"
-
-        # check if instance has a custom theme defined
-        custom = Rails.application.config.lesli.dig(:configuration, :theme)
-
-        # if not cusotm theme defined, use an emtpy theme
-        return theme if custom.blank?
-
-        # build and return custom theme
-        ["themes", custom, custom].join("/")
-
-    end
-
-    # Return a string path to load the stylesheet corresponding to the controller app
+    # Return a string path to load the main engine stylesheet
     def application_stylesheet_engine_path
 
-        path_segments = controller_path.split("/")
-        cloud_module = path_segments.shift
-
-        template = "application"
-
-        if is_lesli_administration?
-            return ["administration", template].join("/")
-        end 
-
-        if is_lesli_onboarding?
-            return ["onboardings", template].join("/")
-        end 
-
-        [cloud_module, template].join("/")
+        cloud_module = lesli_engine(:code)
+        return "administration/application" if is_lesli_administration?
+        return "onboardings/application" if is_lesli_onboarding?
+        return "#{cloud_module}/application"
 
     end
 
     # Return a string path to load the main javascript app of the engine
-    def application_javascript_path version
+    def application_javascript_path version=nil
 
-        path_segments = controller_path.split("/")
-        cloud_module = path_segments.shift
+        cloud_module = lesli_engine(:code)
 
-        if is_lesli_administration?
-            return ["administration", "application-3"].join("/")
-        end 
+        return "administration/application" if is_lesli_administration?
+        return "onboardings/application" if is_lesli_onboarding?
 
-        if is_lesli_onboarding?
-            return ["onboardings", "application"].join("/")
-        end 
-
-        return [cloud_module, "application-#{version}"].join("/")
+        return "#{cloud_module}/application-#{version}" if version
+        return "#{cloud_module}/application"
 
     end
 
