@@ -50,12 +50,12 @@ For more information read the license file including with this software.
             }
 
             button.swal2-confirm {
-                background-color: var(--lesli-color-primary);
+                background-color: lesli-css-color(lesli, brand);
             }
 
             // · 
             button.swal2-cancel {
-                color: var(--lesli-color-primary);
+                color: lesli-css-color(lesli, navy);
                 background-color: lesli-css-color(lesli, faded);
             }
 

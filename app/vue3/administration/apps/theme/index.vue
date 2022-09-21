@@ -50,7 +50,7 @@ watch(() => storeAccountSettings.settings.lesli_theme_sidebar_color, () => {
 })
 
 watch(() => storeAccountSettings.settings.lesli_theme_color_background, () => {
-    document.querySelector(':root').style.setProperty('--lesli-theme-color-background', storeAccountSettings.settings.lesli_theme_color_background)
+    document.querySelector(':root').style.setProperty('--lesli-color-background', storeAccountSettings.settings.lesli_theme_color_background)
 })
 
 watch(() => storeAccountSettings.settings.lesli_theme_font_color, () => {
