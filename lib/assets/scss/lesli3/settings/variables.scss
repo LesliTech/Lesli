@@ -37,10 +37,6 @@ $lesli-font-color: black !default;
 $lesli-font-size: 16px !default;
 
 
-// · bulma overrides
-$primary: $lesli-color-primary;
-
-
 // · define native CSS variables to use along the stylesheets
 :root {
     --lesli-color-primary: var(--lesli-theme-color-primary, #{$lesli-color-primary});
