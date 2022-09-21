@@ -31,8 +31,7 @@ For more information read the license file including with this software.
 <% is_devise = controller_path.split('/')[0] == "users" %>
 
 <%# Load specific javascript files for devise actions (login,register,etc) %>
-<%# temporary concat the version of the javascript file to load, version 3 in this case %>
-<%= javascript_include_tag(controller_path + '-3') if is_devise %>
+<%= javascript_include_tag(controller_path) if is_devise %>
 
 <%# Load standard files %>
 <%= javascript_include_tag(application_javascript_path()) unless is_devise %> 
