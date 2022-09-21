@@ -39,7 +39,10 @@ module AssetsHelper
     # Return a string path to load the main javascript app of the engine
     def application_javascript_path version=nil
 
-        cloud_module = lesli_engine(:code)
+        # get the namespace to load specific javascript file
+        # for engine or specific javascript file for core controller
+        path_segments = controller_path.split("/")
+        cloud_module = path_segments.shift
 
         return "administration/application" if is_lesli_administration?
         return "onboardings/application" if is_lesli_onboarding?
