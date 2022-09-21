@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="47" width="50" xml:space="preserve" viewBox="0 0 50 47" version="1.1" id="cloud-babel_svg__Layer_1">
+    <path id="cloud-babel_svg__path835" d="M46 47H20V17h26c2.2 0 4 1.8 4 4v22c0 2.2-1.8 4-4 4z" fill="#56aaff"/>
+    <path transform="translate(-7 -9)" id="cloud-babel_svg__polygon837" d="M27 25 37 9v30L27 56z" fill="#0478ed"/>
+    <g transform="translate(-7 -9)" id="cloud-babel_svg__g847">
+        <path id="cloud-babel_svg__polyline839" d="M39.2 47.7 43 35.4l3.9 12.3" fill="none" stroke="#fff" stroke-width="2" stroke-miterlimit="10"/>
+        <path id="cloud-babel_svg__line841" d="M45 44h-5" fill="none" stroke="#fff" stroke-width="2" stroke-miterlimit="10"/>
+        <path id="cloud-babel_svg__rect843" d="M37 47h12v4H37z" fill="#56aaff"/>
+        <path id="cloud-babel_svg__rect845" d="M38 31h8v4h-8z" fill="#56aaff"/>
+    </g>
+    <path id="cloud-babel_svg__path849" d="M30 30H4c-2.2 0-4-1.8-4-4V4c0-2.2 1.8-4 4-4h26z" fill="#d9dce1"/>
+    <g transform="translate(-7 -9)" id="cloud-babel_svg__g863">
+        <path id="cloud-babel_svg__path851" d="M24.2 25c.9-1.3 1.5-2.8 1.7-4.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10"/>
+        <path id="cloud-babel_svg__path853" d="M17.5 30.4c2.8-1.5 5.2-3.2 6.7-5.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10"/>
+        <path id="cloud-babel_svg__path855" d="M25.9 30.4c-4.4-2.4-7.8-5.3-8.4-9.9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10"/>
+        <path id="cloud-babel_svg__line857" d="M22 18v2" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10"/>
+        <path id="cloud-babel_svg__rect859" d="M15 21h6v2h-6z" fill="#d9dce1"/>
+        <path id="cloud-babel_svg__line861" d="M16 20h12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10"/>
+    </g>
+</svg>

@@ -19,26 +19,35 @@ class Role::Describer < ApplicationLesliRecord
     belongs_to :role,       foreign_key: "roles_id"
     belongs_to :descriptor, foreign_key: "descriptors_id"
 
-    after_commit :synchronize_privileges, on: [:create, :update, :destroy]
-
+    # this is not efficient when running the descriptor build rake task, also we should 
+    # build privileges only for the current role
+    # after_commit :synchronize_privileges, on: [:create, :update, :destroy]
     def self.index current_user, query, role
 
         # get the active descriptors assigned to the role
-        fromrole = role.describers.joins(:descriptor).select("descriptors_id as id", :name, :reference, :path, "true as active")
+        fromrole = role.describers.joins(:descriptor).select("descriptors_id as id", :name, :reference, :controller, :action, :engine, "true as active")
 
         # get all the available descriptors in the platform
-        available = current_user.account.descriptors.select(:id, :name, :reference, :path, "false as active")
+        available = current_user.account.descriptors.select(:id, :name, :reference, :controller, :action, :engine, "false as active")
+
+        unless query[:search].blank?
+            search_string = LC::Sql.sanitize_for_like(query[:search])
+
+            sql = "lower(name) like :s or lower(engine) like :s or lower(controller) like :s or lower(action) like :s"
+
+            fromrole = fromrole.where(sql, :s => search_string)
+            available = available.where(sql, :s => search_string)
+        end
 
         # join descriptors (active & available) so we return a list of descriptor including info
         # about which descriptor is enabled
         (fromrole + available).uniq{ |p| p[:id] }
-    end 
 
-    private
+    end 
 
     def synchronize_privileges
         # Syncronize the descriptor privileges with the role privilege cache table 
-        RolePrivilegesService.new.synchronize_privileges
+        Auth::RolePrivilegesService.new.synchronize_privileges(self.roles_id)
     end 
 
 end

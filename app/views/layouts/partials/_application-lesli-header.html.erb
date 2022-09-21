@@ -16,7 +16,10 @@ For more information read the license file including with this software.
 // · 
 %>
 
-<application-component-header>
+<application-component-header 
+    <%= "is-bell" if defined?(CloudBell) %>
+    <%= "is-focus" if defined?(CloudFocus) %>
+    >
 
     <%# language selector %>
     <% if I18n.available_locales.length > 1 && params[:controller] == 'profiles' && false %>

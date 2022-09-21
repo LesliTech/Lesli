@@ -34,7 +34,7 @@ namespace :app do
                     # Build a strig with the standard name of a Rails controller,
                     #   Example: "UsersControllers, CloudBell::NotificationsController"
                     # sometimes we need a second split to deal with third level deep of controllers
-                    #   Example: "Account::Currency::ExchangeRatesController" from "account/currency/exchange_rates_controller"
+                    #   Example: "Account::Currency::ExchangeRatesController" from "account/currency/exchange_rates"
                     cn = controller.split('/')   # split the controller path by namespace
                     .collect(&:capitalize)          # uppercase the first letter to match the class name convention of Rails
                     .join("::")                     # join by ruby class separator for namespaces
@@ -66,6 +66,8 @@ namespace :app do
                         # to be able to work in a complete view
                         co.privileges.each do |action, privileges|
 
+                            next unless [:index, :show, :new, :edit, :create, :update, :destroy, :search].include?(action)
+
                             # controller name for humans, ready to be translated by babel
                             controller_name = "#{cn.sub('Controller','').sub('::','')}#{action.capitalize}".underscore.sub('/','_')
 
@@ -76,14 +78,18 @@ namespace :app do
                             # the name of the descriptor is prepared to be translated with babel
                             descriptor = account.descriptors.create_with({
                                 :name => controller_name,
-                                :path => controller,
-                                :engine => engine
+                                :reference => cn
                             }).find_or_create_by({ 
-                                :reference => "#{cn}##{action.capitalize}"
+                                :controller => controller,
+                                :action => action,
+                                :engine => engine
                             }) 
 
-                            # We must assign all the descriptors to the owner role
+                            # We must assign all the descriptors to the owner and sysadmin roles
                             account.roles.find_by(name: 'owner').describers.find_or_create_by({
+                                descriptor: descriptor
+                            })
+                            account.roles.find_by(name: 'sysadmin').describers.find_or_create_by({
                                 descriptor: descriptor
                             })
                             
@@ -136,7 +142,7 @@ namespace :app do
 
             # Synchronize the descriptor privileges with the role privilege cache table 
             LC::Debug.msg("Synchronize privileges")
-            RolePrivilegesService.new.synchronize_privileges
+            Auth::RolePrivilegesService.new.synchronize_privileges
 
         end
     end

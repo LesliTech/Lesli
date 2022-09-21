@@ -59,8 +59,10 @@ module LesliHelper
         # build a special object for the core
         engine = { :name => "Lesli", :code => "lesli", :core => 3 } if engine.nil?
 
-        engine.dig(property) unless property.blank?
+        # return specific property if requested
+        return engine.dig(property) unless property.blank?
 
+        # return the engine info
         engine
 
     end
