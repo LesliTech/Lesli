@@ -40,10 +40,21 @@ module NavigationHelper
     end
 
     # Prints a link for lesli-navigation
-    def navigation_lesli_item(path, label, icon=nil, rmi:nil)
+    def navigation_lesli_item(path, label, icon=nil, rmi:nil, reload:false)
         rmi=icon
+
+        # default vue router links for single page applications
+        html_element = "router-link exact"
+        html_options = { :to => path }
+
+        # if reload is nedeed, we use a standard "a" tag
+        if reload 
+            html_element = "a"
+            html_options = { :href => path }
+        end 
+
         content_tag(:li) do
-            content_tag("router-link exact", :to => path) do
+            content_tag(html_element, html_options) do
 
                 # print a simple menu item (without icon)
                 concat content_tag(:span, label, :class => "text iconless") unless icon
@@ -76,7 +87,7 @@ module NavigationHelper
     # ADMINISTRATION
 
     # 01.01 Team engine
-    def navigation_engine_team title: "Team", subtitle: "cloud_team/team-logo.svg"
+    def navigation_engine_team title: "Team", subtitle: "Human Resources Management"
         if defined? CloudTeam
             navigation_engine_item(title, subtitle, "team", cloud_team.root_path, controller_path.include?("cloud_team"))
         end
