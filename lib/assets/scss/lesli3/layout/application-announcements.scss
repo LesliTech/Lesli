@@ -1,6 +1,5 @@
 /*
-
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,25 +13,13 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
 
 
 // · 
-$primary: $lesli-color-primary;
 
-
-// · Border radius
-$radius: 8px;
-$radius-small: 3px;
-$radius-large: 4px;
-
-$control-radius: $radius;
-$control-radius-small: $radius-small;
-
-$navbar-background-color: transparent;
-
-
-// · Import Bulma and Buefy styles
-@import "bulma/bulma.sass";
-@import "bulma/sass/utilities/functions";
+section.application-announcements {
+    margin-left: var(--lesli-sidebar-width);
+    width: calc(100% - var(--lesli-sidebar-width));
+    padding: 2rem 2rem 0; 
+}
