@@ -1,12 +1,26 @@
 =begin
 
-[[license]]
+Copyright (c) 2022, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
 =end
 
 require "lesli_request_helper"
 
 RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
-    describe "POST:[[url]].json", type: :request do
+    describe "POST:/administration/account/currencies.json", type: :request do
         include_context "request user authentication"
 
         # test cases
@@ -16,7 +30,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         it "is expected to test the creation of the record with values" do
 
             #search posibles permit values to create an element
-            params = [[controller_folder_upper]]::[[controller_file_upper]].column_names
+            params = Account::Currency.column_names
             params_hash_value = {}
 
             #cast column_names (its an Array) into a hash an insert values
@@ -26,29 +40,26 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 end
             end
             
-
-            post("[[url]].json", params: {
+            post("/administration/account/currencies.json", params: {
                 #permit name hash should have format "controller"_"module"
-                [[hash_permit]]: params_hash_value
+                account_currency: params_hash_value
             })
 
             #shared examples
             expect_response_with_successful
 
             # validate others custom values expected here
-
             expect(response_body).to be_a(Hash)
 
             params_hash_value.each do |key, value|
                 expect(response_body).to have_key(key)
             end
-
         end
 
         it "is expected to test the creation of the record with empty values" do
 
             #search posibles permit values to create an element
-            params = [[controller_folder_upper]]::[[controller_file_upper]].column_names
+            params = Account::Currency.column_names
             params_hash_empty = {}
             
             #search posibles permit values to create an element
@@ -57,8 +68,8 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 params_hash_empty[value] =  ""
             end
 
-            post("[[url]].json", params: {
-                [[hash_permit]]: params_hash_empty
+            post("/administration/account/currencies.json", params: {
+                account_currency: params_hash_empty
                 #permit hash should have format "controller"_"module"
             })
 
@@ -74,13 +85,12 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             
             expect(response_body).to have_key("details")
             expect(response_body["details"]).to be_a(Array)
-
         end
 
         it "is expected to test the creation of the record with nil values" do
 
             #search posibles permit values to create an element
-            params = [[controller_folder_upper]]::[[controller_file_upper]].column_names
+            params = Account::Currency.column_names
             params_hash_nil = {}
 
             #search posibles permit values to create an element
@@ -89,8 +99,8 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 params_hash_nil[value] =  nil
             end
 
-            post("[[url]].json", params: {
-                [[hash_permit]]: params_hash_nil
+            post("/administration/account/currencies.json", params: {
+                account_currency: params_hash_nil
                 #permit hash should have format "controller"_"module"
             })
 

@@ -101,7 +101,6 @@ class Account::CurrenciesController < ApplicationLesliController
     def account_currency_params
         params.require(:account_currency)
         .permit(
-            :id,
             :name,
             :symbol,
             :country_alpha_3
