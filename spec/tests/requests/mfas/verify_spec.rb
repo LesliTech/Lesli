@@ -48,7 +48,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
     
             # Generate valid token for the current user
             access_code = new_user.access_codes.new( { token_type: "mfa" } )
-            raw, enc = Devise.token_generator.generate(User::AccessCode.first.class, :token)
+            raw, enc = Devise.token_generator.create(access_code.class, :token, type:'number', length:6)
             access_code.token = enc
             access_code.save!
     
@@ -79,7 +79,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             # Generate valid token for another user, so should return with error
             another_user = FactoryBot.create(:user)
             access_code = another_user.access_codes.new( { token_type: "mfa" } )
-            raw, enc = Devise.token_generator.generate(User::AccessCode.first.class, :token)
+            raw, enc = Devise.token_generator.create(access_code.class, :token, type:'number', length:6)
             access_code.token = enc
             access_code.save!
     
