@@ -72,8 +72,6 @@ app({
 
             this.http.post(this.url.to(), data).then(response => {
 
-                this.showNotification(this.translations.registration.notifications.success, 'is-success')
-                
                 setTimeout(() => { this.url.go("/login") }, 5000)
                 
             }).catch((err)=>{
