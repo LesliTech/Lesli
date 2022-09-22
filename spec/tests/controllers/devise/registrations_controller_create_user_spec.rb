@@ -54,7 +54,6 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         end
     end
 
-
     it "Try to create an already existing user" do
 
         user = FactoryBot.create(:user)
@@ -136,4 +135,29 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             expect_response_with_successful
         end
     end
+
+    it "Try to create an user with empty first name, last name and telephone" do
+
+        post :create, params: {
+            user: {
+                email: Faker::Internet.email,
+                password: "Tardis2022$",
+                password_confirmation: "Tardis2022$",
+                detail_attributes: {
+                    first_name: "",
+                    last_name: "",
+                    telephone: "",
+                }
+            }
+        }
+
+        unless @allow_registration
+            expect_response_with_error
+            expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
+        else
+            expect_response_with_successful
+        end
+    end
+    
+
 end
