@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, onUnmounted, inject } from "vue"
+import { ref, reactive, onUnmounted, inject } from "vue"
 
 
 // · import stores
@@ -102,7 +102,7 @@ onUnmounted(() => {
                         type="email" 
                         name="global_search"
                         class="input is-medium is-shadowless" 
-                        :placeholder="translations.core.shared.search_placeholder || 'Search in Lesli'"
+                        :placeholder="translations.core.shared.search_placeholder || 'Search...'"
                         @input="storeSearch.doSearch"
                         v-model="storeSearch.text" 
                     />
