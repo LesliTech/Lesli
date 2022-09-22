@@ -80,7 +80,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 :user_main => @current_user
             })
 
-            
             # this ID does not exist, so should return with not found
             invalid_id = @current_user.account.currencies.last.id + 1
 
