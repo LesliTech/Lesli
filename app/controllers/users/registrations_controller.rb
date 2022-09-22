@@ -92,13 +92,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
         # persist new user
         if user.save
 
-            if params[:user][:detail_attributes].values.any? { |value| value.present? }
-                user.detail = ::User::Detail.new({ 
-                    first_name: params[:user][:detail_attributes][:first_name],
-                    last_name: params[:user][:detail_attributes][:last_name],
-                    telephone: params[:user][:detail_attributes][:telephone]
-                })
-                user.detail.save
+            detail_attributes = params[:user][:detail_attributes]
+
+            unless detail_attributes.nil?
+                if detail_attributes.values.all? { |v| v.present? }
+                    user.detail = ::User::Detail.new({ 
+                        first_name: params[:user][:detail_attributes][:first_name],
+                        last_name: params[:user][:detail_attributes][:last_name],
+                        telephone: params[:user][:detail_attributes][:telephone]
+                    })
+                    user.detail.save
+                end
             end
 
             # save a default locale for user
