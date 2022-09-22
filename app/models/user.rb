@@ -671,12 +671,9 @@ class User < ApplicationLesliRecord
     def mfa_settings
         mfa_enabled = self.settings.find_by(:name => "mfa_enabled")
         mfa_method = self.settings.find_by(:name => "mfa_method")
-        
-        is_mfa_enabled = false
-        is_mfa_enabled = true if mfa_enabled == true
 
         {   
-            :enabled => is_mfa_enabled,
+            :enabled => mfa_enabled.nil? ? false : mfa_enabled.value == 't',
             :method => mfa_method.nil? ? nil : mfa_method.value.to_sym
         }
     end
