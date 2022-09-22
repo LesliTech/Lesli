@@ -108,7 +108,7 @@ class User < ApplicationLesliRecord
         # create an alias based on user name
         self.set_alias
 
-    end 
+    end
 
 
     # Initialize user settings and dependencies needed
@@ -328,7 +328,7 @@ class User < ApplicationLesliRecord
         # user can work with this role :)
         return true
 
-    end    
+    end
 
 
 
@@ -633,7 +633,7 @@ class User < ApplicationLesliRecord
     #     }
     def show(current_user = nil)
         user = self.account.users.find(id)
-        
+
         return {
             id: user[:id],
             email: user[:email],
@@ -669,13 +669,13 @@ class User < ApplicationLesliRecord
     #   puts user_mfa_settings
     #       { :mfa_enabled => true, :mfa_method => "email"}
     def mfa_settings
-        mfa_enabled = self.settings.find_by(:name => "mfa_enabled")
-        mfa_method = self.settings.find_by(:name => "mfa_method")
-        
+        mfa_enabled = self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
+        mfa_method = self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
+
         is_mfa_enabled = false
         is_mfa_enabled = true if mfa_enabled == true
 
-        {   
+        {
             :enabled => is_mfa_enabled,
             :method => mfa_method.nil? ? nil : mfa_method.value.to_sym
         }
