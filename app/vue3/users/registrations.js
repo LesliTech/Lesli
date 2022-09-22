@@ -158,7 +158,7 @@ app({
 
     created() {
         // · if the current instance is mitwerken_cloud fetch the telephone codes
-        this.http.get(this.url.to("register/options")).then(response => {
+        this.http.get(this.url.root("register/options")).then(response => {
             this.telephone_codes = response.countries.map((country) => {
                 return { value: "+" + country.calling_code, label: `${ country.name.length > 25 ? country.name + '...': country.name} (+${country.calling_code})` }
             })

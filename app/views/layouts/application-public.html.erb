@@ -35,7 +35,7 @@ For more information read the license file including with this software.
     <% end %>
 </head>
 <body class="<%= application_body_class() %>">
-    <%= yield :application_custom_header %>
+    <%= yield :application_public_custom_header %>
     <%= yield %>
     <%= render partial: "layouts/partials/application-public-javascript" %>
     <%= render partial: "layouts/partials/application-analytics" %>
