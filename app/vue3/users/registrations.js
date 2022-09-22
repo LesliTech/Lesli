@@ -75,7 +75,7 @@ app({
                 setTimeout(() => { this.url.go("/login") }, 5000)
                 
             }).catch((err)=>{
-                console.log(err);
+                console.log(err)
                 this.showNotification(err.message)
             })
 
@@ -89,9 +89,9 @@ app({
         },
 
         showNotification(message,type = "is-danger") {
-            this.notification.message = message;
-            this.notification.type = type;
-            this.notification.show = true;
+            this.notification.message = message
+            this.notification.type = type
+            this.notification.show = true
         },
 
         /**
@@ -139,7 +139,14 @@ app({
             const data = { user }
 
             // · verify if the password and password_confirmation are the same
-            if (this.sign_up.password != this.sign_up.password_confirmation) return
+            if(Object.values(this.sign_up.detail_attributes).every(value => value === null)) {
+                // · when the registration has not detail_attributes 
+                // · and the register form doesn't have the password_confirmation field
+                data.user.password_confirmation = data.user.password
+            } else {
+                // · when the registration has detail_attributes
+                if (this.sign_up.password != this.sign_up.password_confirmation) return
+            }
 
             // · ading the prefix to the telephone number
             if (this.telephone_code && this.telephone_code !== null) data.user.detail_attributes.telephone = `${this.telephone_code} ${this.sign_up.detail_attributes.telephone}`
