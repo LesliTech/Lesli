@@ -673,7 +673,7 @@ class User < ApplicationLesliRecord
         mfa_method = self.settings.find_by(:name => "mfa_method")
         
         is_mfa_enabled = false
-        is_mfa_enabled = true if mfa_enabled.value == "t"
+        is_mfa_enabled = true if mfa_enabled == true
 
         {   
             :enabled => is_mfa_enabled,

@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 
 
 // · Import customization from builder engine
-@import "<%= LC::System::Info.sass_instance_theme %>";
+@import "<%= LC::System::Info.sass_instance('settings') %>";
 
 
 
@@ -82,6 +82,10 @@ For more information read the license file including with this software.
 
 // · Include Lesli Standards
 @include lesli-css-normalize();
+
+
+// · Import customization from builder engine
+@import "<%= LC::System::Info.sass_instance('theme') %>";
 
 
 // · 
