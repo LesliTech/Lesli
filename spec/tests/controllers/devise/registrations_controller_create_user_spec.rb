@@ -113,4 +113,27 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             expect(response_body["message"]).to eql("password_complexity_error")
         end
     end
+
+    it "Try to create an user with first name, last name and telephone" do
+
+        post :create, params: {
+            user: {
+                email: Faker::Internet.email,
+                password: "Tardis2022$",
+                password_confirmation: "Tardis2022$",
+                detail_attributes: {
+                    first_name: Faker::Name.first_name,
+                    last_name: Faker::Name.last_name,
+                    telephone: Faker::PhoneNumber.phone_number,
+                }
+            }
+        }
+
+        unless @allow_registration
+            expect_response_with_error
+            expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
+        else
+            expect_response_with_successful
+        end
+    end
 end
