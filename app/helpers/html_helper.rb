@@ -28,8 +28,9 @@ module HtmlHelper
     # build the text for the html document title
     # this helper works only for rails pages, for vue apps the title must be handled with JS
     def website_title
-        title = @application_html_title || controller_path.gsub("cloud","").gsub("_", "")
-        prefix = @account.dig(:company, :name) || Rails.application.config.lesli.dig(:account, :company, :name)
+        return @application_html_title if @application_html_title
+        title = controller_path.gsub("cloud","").gsub("_", "")
+        prefix = @account.dig(:company, :name)
         "#{prefix} · #{title}"
     end
 
