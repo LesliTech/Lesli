@@ -20,7 +20,7 @@
 # include helpers, configuration & initializers for request tests
 require "lesli_controller_helper"
 
-=begin
+
 RSpec.describe Users::SessionsController, type: :controller, :if => defined?(DeutscheLeibrenten) do
     before :each do
         request.env["HTTP_ACCEPT"] = "application/json"
@@ -174,7 +174,7 @@ RSpec.describe Users::SessionsController, type: :controller, :if => defined?(Deu
 
 end
 
-=end
+
 RSpec.describe Users::SessionsController, type: :controller, :if => defined?(DeutscheLeibrenten) do
     before :each do
         request.env["HTTP_ACCEPT"] = "application/json"
@@ -210,7 +210,7 @@ RSpec.describe Users::SessionsController, type: :controller, :if => defined?(Deu
         expect(response_data["default_path"]).to eql("/onboarding")
     end
 end
-=begin
+
 RSpec.describe Users::SessionsController, type: :controller, :if => defined?(DeutscheLeibrenten) do
     before :each do
         request.env["HTTP_ACCEPT"] = "application/json"
@@ -247,4 +247,3 @@ RSpec.describe Users::SessionsController, type: :controller, :if => defined?(Deu
         expect(response_data["default_path"]).not_to eql("/onboarding")
     end
 end
-=end
