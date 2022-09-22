@@ -145,7 +145,7 @@ onUnmounted(() => {
                 <a 
                     v-if="props.isBell"
                     class="navbar-item header-notification-indicator" 
-                    @click="storeLayout.showNotifications = true">
+                    @click="() => { if (storeLayout.header.notifications > 0 ) { storeLayout.showNotifications = true }}">
                     <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.notifications > 0 }]">
                         notifications
                     </span>
