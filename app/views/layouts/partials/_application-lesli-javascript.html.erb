@@ -28,7 +28,7 @@ For more information read the license file including with this software.
 </script>
 
 <%= javascript_include_tag(application_javascript_path()) %>
-<%= javascript_include_tag(application_javascript_path(2)) if lesli_engine(:core) == 2 %>
+<%= javascript_include_tag(application_javascript_path(2)) if defined?(DeutscheLeibrenten) %>
 
 <script src="https://js.honeybadger.io/v3.2/honeybadger.min.js" type="text/javascript"></script>
 <script type="text/javascript">
