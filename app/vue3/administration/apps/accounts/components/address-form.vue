@@ -41,11 +41,6 @@ onMounted(() => {
     storeAccount.getOptions()
 })
 
-// Function to concat values from address
-function updateAddress (){
-    storeAccount.accountInfo.address = streetNumber.value + ", " + postalCode.value
-}
-
 </script>
 <template>
     <form @submit.prevent="storeAccount.updateInfo">
@@ -56,8 +51,7 @@ function updateAddress (){
                     class="input"
                     type="text"
                     :placeholder="translations.core.onboardings.view_placeholder_street_number"
-                    v-model="streetNumber"
-                    @change="updateAddress"
+                    v-model="storeAccount.accountInfo.address"
                 />
             </div>
         </div>
@@ -69,8 +63,8 @@ function updateAddress (){
                     class="input" 
                     type="text" 
                     placeholder="XXXXXX"
-                    v-model="postalCode"
-                    @change="updateAddress"/>
+                    v-model="storeAccount.accountInfo.postal_code"
+                />
             </div>
         </div>
 
