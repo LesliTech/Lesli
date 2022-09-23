@@ -96,12 +96,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
             unless detail_attributes.nil?
                 if detail_attributes.values.all? { |v| v.present? }
-                    user.detail = ::User::Detail.new({ 
+                    user.detail.update({ 
                         first_name: params[:user][:detail_attributes][:first_name],
                         last_name: params[:user][:detail_attributes][:last_name],
                         telephone: params[:user][:detail_attributes][:telephone]
                     })
-                    user.detail.save
                 end
             end
 
