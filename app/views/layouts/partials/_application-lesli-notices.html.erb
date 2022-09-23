@@ -17,6 +17,12 @@ For more information read the license file including with this software.
 
 %>
 
+
+<%# Show announcements container only if cloud bell is installed %>
 <% if defined?(CloudBell)%>
     <application-component-announcements></application-component-announcements>
 <% end %>
+
+
+<%# Search results container %>
+<application-component-search></application-component-search>
