@@ -110,6 +110,8 @@ class AccountsController < ApplicationLesliController
             :company_name_legal, 
             :company_tag_line,
             :country,
+            :city,
+            :postal_code,
             :address,
             :region,
             :website,
