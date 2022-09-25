@@ -33,24 +33,13 @@ const translations = {
     }
 }
 
-// . get reactive info from onboarding store
-const companyInfo = computed(()=> storeOnboarding.companyInfo)
-
-
 const countryValue = ref({})
 const regionValue = ref({})
-const streetNumber = ref("")
-const postalCode = ref("")
 
 
 onMounted(() => {
     storeOnboarding.getOptions()
 })
-
-// Function to concat values from address
-function updateAddress (){
-    storeOnboarding.companyInfo.address = streetNumber.value + ", " + postalCode.value
-}
 
 </script>
 <template>
@@ -62,8 +51,7 @@ function updateAddress (){
                     class="input"
                     type="text"
                     :placeholder="translations.core.onboardings.view_placeholder_street_number"
-                    v-model="streetNumber"
-                    @change="updateAddress"
+                    v-model="storeOnboarding.companyInfo.address"
                 />
             </div>
         </div>
@@ -75,8 +63,8 @@ function updateAddress (){
                     class="input" 
                     type="text" 
                     placeholder="XXXXXX"
-                    v-model="postalCode" 
-                    @change="updateAddress"/>
+                    v-model="storeOnboarding.companyInfo.postal_code" 
+                >
             </div>
         </div>
 
@@ -87,7 +75,7 @@ function updateAddress (){
                     class="input"
                     type="text"
                     :placeholder="translations.core.onboardings.view_placeholder_city"
-                    v-model="companyInfo.city"
+                    v-model="storeOnboarding.companyInfo.city"
                 />
             </div>
         </div>
