@@ -115,6 +115,8 @@ class OnboardingsController < ApplicationLesliController
                 :company_tag_line,
                 :country,
                 :address,
+                :city,
+                :postal_code,
                 :region,
                 :website,
                 :phone_number_1,
