@@ -37,6 +37,8 @@ export const useOnboarding = defineStore("onboarding", {
                 youtube: null,
                 linkedin: null,
                 facebook: null,
+                city: null,
+                postal_code: null
             },
             settings: {
                 datetime_format_date: null,
@@ -130,7 +132,6 @@ export const useOnboarding = defineStore("onboarding", {
                     this.msg.success(this.translations.core.account_settings.messages_success_settings_saved_successfully)
                     this.url.go()
                 }).catch(error => {
-                    console.log(error)
                     this.msg.danger(this.translations.core.shared.messages_danger_internal_error)
                 })
             } else {

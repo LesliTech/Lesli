@@ -99,7 +99,7 @@ function updateDateWords(){
 onMounted(() => {
     storeAccountSettings.getOptions()
     storeAccountSettings.getSettings()
-
+    updateTime()
 })
 
 </script>
