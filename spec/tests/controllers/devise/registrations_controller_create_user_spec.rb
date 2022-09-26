@@ -185,7 +185,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
 
             registered_user = User.find_by_email(user[:email])
 
-            #verify that the user is created with the detail attributes are nil
+            #verify that the user is created without detail attributes
             expect(registered_user.detail.first_name).to eql(nil)
             expect(registered_user.detail.last_name).to eql(nil)
             expect(registered_user.detail.telephone).to eql(nil)
@@ -215,7 +215,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
 
             registered_user = User.find_by_email(user[:email])
 
-            #verify that the user is created with the detail attributes are nil
+            #verify that the user is created without detail attributes
             expect(registered_user.detail.first_name).to eql(nil)
             expect(registered_user.detail.last_name).to eql(nil)
             expect(registered_user.detail.telephone).to eql(nil)
@@ -249,7 +249,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
 
             registered_user = User.find_by_email(user[:email])
 
-            #verify that the user is created with the detail attributes are nil
+            #verify that the user is created without detail attributes
             expect(registered_user.detail.first_name).to eql(nil)
             expect(registered_user.detail.last_name).to eql(nil)
             expect(registered_user.detail.telephone).to eql(nil)
@@ -283,7 +283,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
 
             registered_user = User.find_by_email(user[:email])
 
-            #verify that the user is created with the detail attributes are nil
+            #verify that the user is created without detail attributes
             expect(registered_user.detail.first_name).to eql(nil)
             expect(registered_user.detail.last_name).to eql(nil)
             expect(registered_user.detail.telephone).to eql(nil)
