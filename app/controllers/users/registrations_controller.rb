@@ -95,7 +95,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
             detail_attributes = params[:user][:detail_attributes]
 
             unless detail_attributes.nil?
-                if detail_attributes.values.all? { |v| v.present? }
+                if detail_attributes.values.any? { |v| v.present? }
                     user.detail.update({ 
                         first_name: params[:user][:detail_attributes][:first_name],
                         last_name: params[:user][:detail_attributes][:last_name],
