@@ -75,7 +75,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         end
     end
 
-    it "Try to create a user with empty email and password" do
+    it "Try to create an user with empty email and password" do
 
         post :create, params: {
             user: {
@@ -123,7 +123,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
                 detail_attributes: {
                     first_name: Faker::Name.first_name,
                     last_name: Faker::Name.last_name,
-                    telephone: Faker::PhoneNumber.phone_number,
+                    telephone: Faker::PhoneNumber.phone_number
                 }
             }
         }
@@ -135,6 +135,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             expect_response_with_successful
         end
     end
+
 
     it "Try to create an user with empty first name, last name and telephone" do
 
@@ -156,6 +157,137 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
         else
             expect_response_with_successful
+        end
+    end
+
+
+    it "Try to create an user without telephone in detail_attributes" do
+
+        user = {
+            email: Faker::Internet.email,
+            password: "Tardis2022$",
+            password_confirmation: "Tardis2022$",
+            detail_attributes: {
+                first_name: Faker::Name.first_name,
+                last_name: Faker::Name.last_name
+            }
+        }
+
+        post :create, params: {
+            user: user
+        }
+
+        unless @allow_registration
+            expect_response_with_error
+            expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
+        else
+            expect_response_with_successful
+
+            registered_user = User.find_by_email(user[:email])
+
+            #verify that the user is created with the detail attributes are nil
+            expect(registered_user.detail.first_name).to eql(nil)
+            expect(registered_user.detail.last_name).to eql(nil)
+            expect(registered_user.detail.telephone).to eql(nil)
+            
+        end
+    end
+
+
+    it "Try to create an user with empty detail_attributes" do
+
+        user = {
+            email: Faker::Internet.email,
+            password: "Tardis2022$",
+            password_confirmation: "Tardis2022$",
+            detail_attributes: {}
+        }
+
+        post :create, params: {
+            user: user
+        }
+
+        unless @allow_registration
+            expect_response_with_error
+            expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
+        else
+            expect_response_with_successful
+
+            registered_user = User.find_by_email(user[:email])
+
+            #verify that the user is created with the detail attributes are nil
+            expect(registered_user.detail.first_name).to eql(nil)
+            expect(registered_user.detail.last_name).to eql(nil)
+            expect(registered_user.detail.telephone).to eql(nil)
+            
+        end
+    end
+
+
+    it "Try to create an user with incorrect detail_attributes" do
+
+        user = {
+            email: Faker::Internet.email,
+            password: "Tardis2022$",
+            password_confirmation: "Tardis2022$",
+            detail_attributes: {
+                FIRST_NAME: Faker::Name.first_name,
+                LAST_NAME: Faker::Name.last_name,
+                TELEPHONE: Faker::PhoneNumber.phone_number
+            }
+        }
+
+        post :create, params: {
+            user: user
+        }
+
+        unless @allow_registration
+            expect_response_with_error
+            expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
+        else
+            expect_response_with_successful
+
+            registered_user = User.find_by_email(user[:email])
+
+            #verify that the user is created with the detail attributes are nil
+            expect(registered_user.detail.first_name).to eql(nil)
+            expect(registered_user.detail.last_name).to eql(nil)
+            expect(registered_user.detail.telephone).to eql(nil)
+            
+        end
+    end
+
+
+    it "Try to create an user with incorrect data types in detail_attributes" do
+
+        user = {
+            email: Faker::Internet.email,
+            password: "Tardis2022$",
+            password_confirmation: "Tardis2022$",
+            detail_attributes: {
+                first_name: Faker::Number.number(digits: 1),
+                last_name: Faker::Boolean.boolean,
+                telephone: Faker::PhoneNumber.phone_number
+            }
+        }
+
+        post :create, params: {
+            user: user
+        }
+
+        unless @allow_registration
+            expect_response_with_error
+            expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
+        else
+            expect_response_with_successful
+
+            registered_user = User.find_by_email(user[:email])
+
+            #verify that the user is created with the detail attributes are nil
+            expect(registered_user.detail.first_name).to eql(nil)
+            expect(registered_user.detail.last_name).to eql(nil)
+            expect(registered_user.detail.telephone).to eql(nil)
+            
         end
     end
     
