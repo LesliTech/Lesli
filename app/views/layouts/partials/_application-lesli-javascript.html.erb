@@ -28,7 +28,9 @@ For more information read the license file including with this software.
 </script>
 
 <%= javascript_include_tag(application_javascript_path()) %>
-<%= javascript_include_tag(application_javascript_path(2)) if defined?(DeutscheLeibrenten) %>
+<% if ['cloud_team', 'deutsche_leibrenten'].include?(controller_path.split('/')[0]) %>
+<%= javascript_include_tag(application_javascript_path(2)) %>
+<% end %>
 
 <script src="https://js.honeybadger.io/v3.2/honeybadger.min.js" type="text/javascript"></script>
 <script type="text/javascript">
