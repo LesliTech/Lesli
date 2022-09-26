@@ -185,11 +185,70 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
 
             registered_user = User.find_by_email(user[:email])
 
-            #verify that the user is created without detail attributes
-            expect(registered_user.detail.first_name).to eql(nil)
-            expect(registered_user.detail.last_name).to eql(nil)
-            expect(registered_user.detail.telephone).to eql(nil)
+            expect(registered_user.detail.first_name).to be_a(String)
+            expect(registered_user.detail.last_name).to be_a(String)
+            expect(registered_user.detail.telephone).to be_nil
             
+        end
+    end
+
+    it "Try to create an user without first_name in detail_attributes" do
+
+        user = {
+            email: Faker::Internet.email,
+            password: "Tardis2022$",
+            password_confirmation: "Tardis2022$",
+            detail_attributes: {
+                last_name: Faker::Name.last_name,
+                telephone: Faker::PhoneNumber.phone_number
+            }
+        }
+
+        post :create, params: {
+            user: user
+        }
+
+        unless @allow_registration
+            expect_response_with_error
+            expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
+        else
+            expect_response_with_successful
+
+            registered_user = User.find_by_email(user[:email])
+
+            expect(registered_user.detail.first_name).to be_nil
+            expect(registered_user.detail.last_name).to be_a(String)
+            expect(registered_user.detail.telephone).to be_a(String)
+        end
+    end
+
+    it "Try to create an user without last_name in detail_attributes" do
+
+        user = {
+            email: Faker::Internet.email,
+            password: "Tardis2022$",
+            password_confirmation: "Tardis2022$",
+            detail_attributes: {
+                first_name: Faker::Name.first_name,
+                telephone: Faker::PhoneNumber.phone_number
+            }
+        }
+
+        post :create, params: {
+            user: user
+        }
+
+        unless @allow_registration
+            expect_response_with_error
+            expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
+        else
+            expect_response_with_successful
+
+            registered_user = User.find_by_email(user[:email])
+
+            expect(registered_user.detail.first_name).to be_a(String)
+            expect(registered_user.detail.last_name).to eql(nil)
+            expect(registered_user.detail.telephone).to be_a(String)
         end
     end
 
@@ -256,40 +315,4 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             
         end
     end
-
-
-    it "Try to create an user with incorrect data types in detail_attributes" do
-
-        user = {
-            email: Faker::Internet.email,
-            password: "Tardis2022$",
-            password_confirmation: "Tardis2022$",
-            detail_attributes: {
-                first_name: Faker::Number.number(digits: 1),
-                last_name: Faker::Boolean.boolean,
-                telephone: Faker::PhoneNumber.phone_number
-            }
-        }
-
-        post :create, params: {
-            user: user
-        }
-
-        unless @allow_registration
-            expect_response_with_error
-            expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
-        else
-            expect_response_with_successful
-
-            registered_user = User.find_by_email(user[:email])
-
-            #verify that the user is created without detail attributes
-            expect(registered_user.detail.first_name).to eql(nil)
-            expect(registered_user.detail.last_name).to eql(nil)
-            expect(registered_user.detail.telephone).to eql(nil)
-            
-        end
-    end
-    
-
 end
