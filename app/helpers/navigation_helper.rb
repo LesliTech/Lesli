@@ -278,7 +278,7 @@ module NavigationHelper
     # 09.06 Development engine
     def navigation_engine_development title: "Dev", subtitle: "Development notes"
         if defined? CloudDevelopment
-            navigation_engine_item(title, subtitle, "dev", cloud_development.root_path, controller_path.include?("cloud_development"))
+            navigation_engine_item(title, subtitle, "development", cloud_development.root_path, controller_path.include?("cloud_development"))
         end
     end
 
