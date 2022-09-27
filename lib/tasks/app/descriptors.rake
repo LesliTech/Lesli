@@ -67,7 +67,7 @@ namespace :app do
                         co.privileges.each do |action, privileges|
 
                             # allow only estandard actions
-                            next unless [:index, :show, :new, :edit, :search].include?(action)
+                            next unless [:index, :show, :new, :edit, :destroy, :search].include?(action)
 
                             # push my own action to privileges due descriptor also needs access to the .json requests 
                             privileges.push(action.to_s)
