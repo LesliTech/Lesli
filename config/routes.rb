@@ -35,6 +35,10 @@ Rails.application.routes.draw do
         :omniauth_callbacks => "users/oauth",
     }
 
+    devise_scope :user do
+        get "register/options", to: "users/registrations#options"
+    end
+    
     get :language, to: "application#switch_locale"
 
     extend RoutesBuilder
