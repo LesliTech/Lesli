@@ -23,7 +23,9 @@ class Account::IntegrationsController < ApplicationLesliController
 
     def privileges 
         {
-            index: []
+            index: [],
+            new: ["create"],
+            destroy: ["UsersController#destroy"],
         }
     end
 
