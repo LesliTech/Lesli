@@ -68,7 +68,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     #    };
     #    this.http.post('127.0.0.1/register', data);
     def create
-        
+
         # Check if instance allow multi-account
         if !Rails.application.config.lesli[:security][:allow_registration]
             respond_with_error(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -91,6 +91,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
         
         # persist new user
         if user.save
+
+            detail_attributes = params[:user][:detail_attributes]
+
+            unless detail_attributes.nil?
+                if detail_attributes.values.any? { |v| v.present? }
+                    user.detail.update({ 
+                        first_name: params[:user][:detail_attributes][:first_name],
+                        last_name: params[:user][:detail_attributes][:last_name],
+                        telephone: params[:user][:detail_attributes][:telephone]
+                    })
+                end
+            end
 
             # save a default locale for user
             user.settings.create(:name => 'locale', :value => I18n.locale)
@@ -137,6 +149,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
         end
             
     end 
+
+    def options
+        respond_with_successful({
+            countries: ::Account.first.locations.where(level: 'country').select(:name, :calling_code)
+        })
+    end
 
 
     protected
