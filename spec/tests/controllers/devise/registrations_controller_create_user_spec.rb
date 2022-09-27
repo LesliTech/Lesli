@@ -26,7 +26,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
     before :each do
         request.env["devise.mapping"] = Devise.mappings[:user]
         @allow_registration =  Rails.application.config.lesli[:security][:allow_registration]
-        @password = "Tardis2022$"
+        @password = Faker::Internet.password(min_length: 8, max_length: 10, mix_case: true) + "1$"
     end
 
     it "Create a new standard user" do
