@@ -22,7 +22,11 @@ class AccountsController < ApplicationLesliController
 
     def privileges
         {
-            show: []
+            show: [
+                'options',
+                'Account::SettingsController#options',
+            ],
+            update: [],
         }
     end
 
@@ -59,7 +63,7 @@ class AccountsController < ApplicationLesliController
     # POST /accounts.json
     def create
         current_user.account.company_name = account_params[:company_name]
-        current_user.account.status = "active"
+        current_user.account.status = 'active'
         current_user.account.save
         if current_user.account.errors.any?
             return respond_with_error(current_user.errors.full_messages.to_sentence)
@@ -106,10 +110,12 @@ class AccountsController < ApplicationLesliController
     # Never trust parameters from the scary internet, only allow the white list through.
     def account_params
         params.require(:account).permit(
-            :company_name, 
-            :company_name_legal, 
+            :company_name,
+            :company_name_legal,
             :company_tag_line,
             :country,
+            :city,
+            :postal_code,
             :address,
             :region,
             :website,
