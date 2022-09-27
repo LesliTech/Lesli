@@ -37,6 +37,11 @@ const props = defineProps({
         type: Boolean,
         default: false,
         required: false
+    },
+    isFocus: {
+        type: Boolean,
+        default: false,
+        required: false
     }
 })
 
@@ -131,12 +136,12 @@ onUnmounted(() => {
                 <!-- Tasks -->
                 <a  v-if="props.isFocus"
                     class="navbar-item header-notification-indicator" 
-                    @click="storeLayout.showNotifications = true">
-                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.notifications > 0 }]">
+                    @click="() => { if (storeLayout.header.tasks > 0 ) { storeLayout.showTasks = true }}">
+                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.tasks > 0 }]">
                         checklist
                     </span>
-                    <span class="count" v-if="storeLayout.header.notifications > 0">
-                        {{ storeLayout.header.notifications }}
+                    <span class="count" v-if="storeLayout.header.tasks > 0">
+                        {{ storeLayout.header.tasks }}
                     </span>
                 </a>
 

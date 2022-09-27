@@ -28,7 +28,7 @@ For more information read the license file including with this software.
 </script>
 
 <%= javascript_include_tag(application_javascript_path()) %>
-<% if ['cloud_team', 'deutsche_leibrenten'].include?(controller_path.split('/')[0]) %>
+<% if ['cloud_team','cloud_focus','cloud_driver','cloud_help','deutsche_leibrenten'].include?(controller_path.split('/')[0]) %>
 <%= javascript_include_tag(application_javascript_path(2)) %>
 <% end %>
 
