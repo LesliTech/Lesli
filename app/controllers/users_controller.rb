@@ -26,7 +26,7 @@ class UsersController < ApplicationLesliController
         {
             index: [],
             show: [],
-            update: [],
+            edit: [],
         }
     end 
 
