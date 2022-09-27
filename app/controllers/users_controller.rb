@@ -24,7 +24,9 @@ class UsersController < ApplicationLesliController
 
     def privileges
         {
-            index: []
+            index: [],
+            show: [],
+            update: [],
         }
     end 
 
