@@ -25,6 +25,7 @@ class UsersController < ApplicationLesliController
     def privileges
         {
             index: [],
+            new: [],
             show: [],
             edit: [],
         }
@@ -284,7 +285,7 @@ class UsersController < ApplicationLesliController
             regions: current_user.account.locations.where(level: "region"),
             salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
             locales: Rails.application.config.lesli.dig(:configuration, :locales_available),
-            mfa_methods: Rails.application.config.lesli.dig(:configuration, :mfa_methods),
+            mfa_methods: Rails.application.config.lesli.dig(:configuration, :mfa_methods)
         })
 
     end
