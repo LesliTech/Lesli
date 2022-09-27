@@ -66,7 +66,15 @@ namespace :app do
                         # to be able to work in a complete view
                         co.privileges.each do |action, privileges|
 
-                            next unless [:index, :show, :new, :edit, :create, :update, :destroy, :search].include?(action)
+                            # allow only estandard actions
+                            next unless [:index, :show, :new, :edit, :search].include?(action)
+
+                            # push my own action to privileges due descriptor also needs access to the .json requests 
+                            privileges.push(action.to_s)
+
+                            # some methods needs aditional privileges by default
+                            privileges.push('create') if action == :new
+                            privileges.push('update') if action == :edit
 
                             # controller name for humans, ready to be translated by babel
                             controller_name = "#{cn.sub('Controller','').sub('::','')}#{action.capitalize}".underscore.sub('/','_')
@@ -75,7 +83,6 @@ namespace :app do
                             controller_path = cn.sub("::", "/").sub("Controller", "").underscore
 
                             # Register the new descriptor if it does not exists
-                            # the name of the descriptor is prepared to be translated with babel
                             descriptor = account.descriptors.create_with({
                                 :name => controller_name,
                                 :reference => cn
@@ -101,13 +108,6 @@ namespace :app do
                                 :controller => controller_path,
                                 :action => action,
                                 :form => "html"
-                            })
-
-                            # register the same privilege for api requests
-                            descriptor.privileges.find_or_create_by({
-                                :controller => controller_path,
-                                :action => action,
-                                :form => "json"
                             })
 
                             # Register the privileges needed by the object and related to the controller
