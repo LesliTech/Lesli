@@ -238,7 +238,7 @@ module NavigationHelper
     # SECURITY & PRIVACY
 
     # 08.03 Audit engine
-    def navigation_engine_audit title: "Admin audit", subtitle: "Activity, logs, security and more"
+    def navigation_engine_audit title: "Audit", subtitle: "Activity, logs, security and more"
         if defined? CloudAudit
             navigation_engine_item(title, subtitle, "audit", cloud_audit.root_path, controller_path.include?("cloud_audit"))
         end
