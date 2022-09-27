@@ -54,7 +54,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         end
     end
 
-    it "Try to create an already existing user" do
+    it "Tries to create an already existing user" do
 
         user = FactoryBot.create(:user)
 
@@ -75,7 +75,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         end
     end
 
-    it "Try to create an user with empty email and password" do
+    it "Tries to create an user with empty email and password" do
 
         post :create, params: {
             user: {
@@ -94,7 +94,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         end
     end
 
-    it "Try to create an user with mismatch password" do
+    it "Tries to create an user with mismatch password" do
 
         post :create, params: {
             user: {
@@ -113,7 +113,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         end
     end
 
-    it "Try to create an user with first name, last name and telephone" do
+    it "Tries to create an user with first name, last name and telephone" do
 
         post :create, params: {
             user: {
@@ -137,7 +137,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
     end
 
 
-    it "Try to create an user with empty first name, last name and telephone" do
+    it "Tries to create an user with empty first name, last name and telephone" do
 
         post :create, params: {
             user: {
@@ -157,11 +157,15 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
         else
             expect_response_with_successful
+
+            expect(registered_user.detail.first_name).to be_nil
+            expect(registered_user.detail.last_name).to  be_nil
+            expect(registered_user.detail.telephone).to  be_nil
         end
     end
 
 
-    it "Try to create an user without telephone in detail_attributes" do
+    it "Tries to create an user without telephone in detail_attributes" do
 
         user = {
             email: Faker::Internet.email,
@@ -192,7 +196,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         end
     end
 
-    it "Try to create an user without first_name in detail_attributes" do
+    it "Tries to create an user without first_name in detail_attributes" do
 
         user = {
             email: Faker::Internet.email,
@@ -222,7 +226,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         end
     end
 
-    it "Try to create an user without last_name in detail_attributes" do
+    it "Tries to create an user without last_name in detail_attributes" do
 
         user = {
             email: Faker::Internet.email,
@@ -253,7 +257,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
     end
 
 
-    it "Try to create an user with empty detail_attributes" do
+    it "Tries to create an user with empty detail_attributes" do
 
         user = {
             email: Faker::Internet.email,
@@ -283,7 +287,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
     end
 
 
-    it "Try to create an user with incorrect detail_attributes" do
+    it "Tries to create an user with incorrect detail_attributes" do
 
         user = {
             email: Faker::Internet.email,
