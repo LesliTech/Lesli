@@ -26,6 +26,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
     before :each do
         request.env["devise.mapping"] = Devise.mappings[:user]
         @allow_registration =  Rails.application.config.lesli[:security][:allow_registration]
+        @password = "Tardis2022$"
     end
 
     it "Create a new standard user" do
@@ -39,8 +40,8 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         post(:create, params: {
             user: {
                 email: Faker::Internet.email,
-                password: "Tardis2021$",
-                password_confirmation: "Tardis2021$"
+                password: @password,
+                password_confirmation: @password
             }
         })
 
@@ -61,8 +62,8 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         post :create, params: {
             user: {
                 email: user.email, # this is registered already
-                password: "Tardis2021$",
-                password_confirmation: "Tardis2021$"
+                password: @password,
+                password_confirmation: @password
             }
         }
 
@@ -115,17 +116,19 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
 
     it "Tries to create an user with first name, last name and telephone" do
 
-        post :create, params: {
-            user: {
-                email: Faker::Internet.email,
-                password: "Tardis2022$",
-                password_confirmation: "Tardis2022$",
-                detail_attributes: {
-                    first_name: Faker::Name.first_name,
-                    last_name: Faker::Name.last_name,
-                    telephone: Faker::PhoneNumber.phone_number
-                }
+        user = {
+            email: Faker::Internet.email,
+            password: @password,
+            password_confirmation: @password,
+            detail_attributes: {
+                first_name: Faker::Name.first_name,
+                last_name: Faker::Name.last_name,
+                telephone: Faker::PhoneNumber.phone_number
             }
+        }
+        
+        post :create, params: {
+            user: user
         }
 
         unless @allow_registration
@@ -133,23 +136,31 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
         else
             expect_response_with_successful
+
+            registered_user = User.find_by_email(user[:email])
+
+            expect(registered_user.detail.first_name).to be_a(String)
+            expect(registered_user.detail.last_name).to  be_a(String)
+            expect(registered_user.detail.telephone).to  be_a(String)
         end
     end
 
 
     it "Tries to create an user with empty first name, last name and telephone" do
 
-        post :create, params: {
-            user: {
-                email: Faker::Internet.email,
-                password: "Tardis2022$",
-                password_confirmation: "Tardis2022$",
-                detail_attributes: {
-                    first_name: "",
-                    last_name: "",
-                    telephone: "",
-                }
+        user = {
+            email: Faker::Internet.email,
+            password: @password,
+            password_confirmation: @password,
+            detail_attributes: {
+                first_name: "",
+                last_name: "",
+                telephone: "",
             }
+        }
+
+        post :create, params: {
+            user: user
         }
 
         unless @allow_registration
@@ -157,6 +168,8 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
         else
             expect_response_with_successful
+
+            registered_user = User.find_by_email(user[:email])
 
             expect(registered_user.detail.first_name).to be_nil
             expect(registered_user.detail.last_name).to  be_nil
@@ -169,8 +182,8 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
 
         user = {
             email: Faker::Internet.email,
-            password: "Tardis2022$",
-            password_confirmation: "Tardis2022$",
+            password: @password,
+            password_confirmation: @password,
             detail_attributes: {
                 first_name: Faker::Name.first_name,
                 last_name: Faker::Name.last_name
@@ -200,8 +213,8 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
 
         user = {
             email: Faker::Internet.email,
-            password: "Tardis2022$",
-            password_confirmation: "Tardis2022$",
+            password: @password,
+            password_confirmation: @password,
             detail_attributes: {
                 last_name: Faker::Name.last_name,
                 telephone: Faker::PhoneNumber.phone_number
@@ -230,8 +243,8 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
 
         user = {
             email: Faker::Internet.email,
-            password: "Tardis2022$",
-            password_confirmation: "Tardis2022$",
+            password: @password,
+            password_confirmation: @password,
             detail_attributes: {
                 first_name: Faker::Name.first_name,
                 telephone: Faker::PhoneNumber.phone_number
@@ -261,8 +274,8 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
 
         user = {
             email: Faker::Internet.email,
-            password: "Tardis2022$",
-            password_confirmation: "Tardis2022$",
+            password: @password,
+            password_confirmation: @password,
             detail_attributes: {}
         }
 
@@ -291,8 +304,8 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
 
         user = {
             email: Faker::Internet.email,
-            password: "Tardis2022$",
-            password_confirmation: "Tardis2022$",
+            password: @password,
+            password_confirmation: @password,
             detail_attributes: {
                 FIRST_NAME: Faker::Name.first_name,
                 LAST_NAME: Faker::Name.last_name,
