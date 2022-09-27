@@ -21,7 +21,16 @@ class ProfilesController < ApplicationLesliController
 
     def privileges
         {
-            show: ['UsersController#options']
+            show: [
+                'UsersController#update',
+                'UsersController#options',
+                'User::SessionsController#index',
+                'User::SessionsController#destroy',
+                'User::SettingsController#create',
+                'Profile::SubscriptionsController#index',
+                'Profile::SubscriptionsController#options',
+                'Profile::NotificationsController#index',
+            ]
         }
     end
 

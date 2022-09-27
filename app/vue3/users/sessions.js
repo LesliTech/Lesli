@@ -22,6 +22,7 @@ import app from "LesliVue/public"
 
 // · 
 app({
+    
     data(){
         return {
             translation: I18n.t("core.users/sessions"),
