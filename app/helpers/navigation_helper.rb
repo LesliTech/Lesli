@@ -161,7 +161,7 @@ module NavigationHelper
     end
 
     # 03.11 Storage engine
-    def navigation_engine_storage title: "Storage", subtitle: "cloud_storage/storage-logo.svg"
+    def navigation_engine_storage title: "Storage", subtitle: "Cloud files management"
         if defined? CloudStorage
             navigation_engine_item(title, subtitle, "storage", cloud_storage.root_path, controller_path.include?("cloud_storage"))
         end
