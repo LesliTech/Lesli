@@ -133,7 +133,7 @@ module NavigationHelper
     end
 
     # 03.03 Focus engine
-    def navigation_engine_focus title: "Tasks", subtitle: "cloud_focus/focus-logo.svg"
+    def navigation_engine_focus title: "Tasks", subtitle: "Task Management"
         if defined? CloudFocus
             navigation_engine_item(title, subtitle, "focus", cloud_focus.root_path, controller_path.include?("cloud_focus"))
         end
