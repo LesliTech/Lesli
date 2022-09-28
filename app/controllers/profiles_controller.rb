@@ -30,6 +30,7 @@ class ProfilesController < ApplicationLesliController
                 'Profile::SubscriptionsController#index',
                 'Profile::SubscriptionsController#options',
                 'Profile::NotificationsController#index',
+                'CloudBell::AnnouncementsController#list',
             ]
         }
     end
