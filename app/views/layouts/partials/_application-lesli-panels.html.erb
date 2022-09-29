@@ -51,6 +51,6 @@ For more information read the license file including with this software.
 
 <%# Loading cloud object files panel %>
 <%# Temporary disable while moving to vue3 %>
-<% unless defined?(DeutscheLeibrenten) && false %>
+<% if defined?(CloudStorage) && defined?(DeutscheLeibrenten) && false %>
     <application-component-panel-files></application-component-panel-files>
 <% end %>
