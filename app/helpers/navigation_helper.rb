@@ -214,7 +214,7 @@ module NavigationHelper
     end
 
     # 07.02 Help engine
-    def navigation_engine_help title: "Help", subtitle: "Tickets, SLAs, Reports"
+    def navigation_engine_help title: "Help", subtitle: "Support Ticket System"
         if defined? CloudHelp
             navigation_engine_item(title, subtitle, "help", cloud_help.root_path, controller_path.include?("cloud_help"))
         end
