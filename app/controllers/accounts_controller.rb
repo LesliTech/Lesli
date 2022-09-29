@@ -26,7 +26,7 @@ class AccountsController < ApplicationLesliController
                 'options',
                 'Account::SettingsController#options',
             ],
-            update: [],
+            edit: [],
         }
     end
 
