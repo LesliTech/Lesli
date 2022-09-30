@@ -63,12 +63,12 @@ const columnDescriptors = [{
     label: 'show',
     align: 'center'
 },{
-    field: 'create',
-    label: 'create',
+    field: 'new',
+    label: 'new',
     align: 'center'
 },{
-    field: 'update',
-    label: 'update',
+    field: 'edit',
+    label: 'edit',
     align: 'center'
 },{
     field: 'destroy',
@@ -133,7 +133,7 @@ function updateDescriptor(descriptor) {
                     <span>{{ column.label }}</span>
                 </span>
             </template>
-            <template #head(create)="{ column }">
+            <template #head(new)="{ column }">
                 <span class="icon-text">
                     <span class="icon">
                         <span class="material-icons">
@@ -143,7 +143,7 @@ function updateDescriptor(descriptor) {
                     <span>{{ column.label }}</span>
                 </span>
             </template>
-            <template #head(update)="{ column }">
+            <template #head(edit)="{ column }">
                 <span class="icon-text">
                     <span class="icon">
                         <span class="material-icons">
@@ -186,12 +186,12 @@ function updateDescriptor(descriptor) {
                 <lesli-toggle v-if="value != null" v-model="record.show.active" @change="updateDescriptor(record.show)">
                 </lesli-toggle>
             </template>
-            <template #create="{ record, value }">
-                <lesli-toggle v-if="value != null" v-model="record.create.active" @change="updateDescriptor(record.create)">
+            <template #new="{ record, value }">
+                <lesli-toggle v-if="value != null" v-model="record.new.active" @change="updateDescriptor(record.new)">
                 </lesli-toggle>
             </template>
-            <template #update="{ record, value }">
-                <lesli-toggle v-if="value != null" v-model="record.update.active" @change="updateDescriptor(record.update)">
+            <template #edit="{ record, value }">
+                <lesli-toggle v-if="value != null" v-model="record.edit.active" @change="updateDescriptor(record.edit)">
                 </lesli-toggle>
             </template>
             <template #destroy="{ record, value }">
