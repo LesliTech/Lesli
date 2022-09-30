@@ -148,6 +148,7 @@ module.exports = env => {
                 CloudDriver: path.resolve("engines", "cloud_driver", "app", "vue3"),
                 CloudDevelopment: path.resolve("engines", "cloud_development", "app", "vue3"),
                 MitwerkenCloud: path.resolve("engines", "mitwerken_cloud", "app", "vue3"),
+                DeutscheLeibrenten: path.resolve("engines", "deutsche_leibrenten", "app", "vue3"),
 
             }
         },
