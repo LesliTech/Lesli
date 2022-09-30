@@ -143,6 +143,7 @@ module.exports = env => {
                 CloudTalk: path.resolve("engines", "cloud_talk", "app", "vue3"),
                 CloudAudit: path.resolve("engines", "cloud_audit", "app", "vue3"),
                 CloudBabel: path.resolve("engines", "cloud_babel", "app", "vue3"),
+                CloudHelp: path.resolve("engines", "cloud_help", "app", "vue3"),
                 CloudDriver: path.resolve("engines", "cloud_driver", "app", "vue3"),
                 CloudDevelopment: path.resolve("engines", "cloud_development", "app", "vue3"),
 
