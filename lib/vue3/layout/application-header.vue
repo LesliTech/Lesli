@@ -128,7 +128,7 @@ onUnmounted(() => {
                 <!-- engines selector -->
                 <a class="navbar-item" @click="toggleEngines()">
                     <span class="material-icons md-36">
-                        rocket_launch
+                        apps
                     </span>
                 </a>
 
