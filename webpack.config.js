@@ -102,6 +102,7 @@ module.exports = env => {
             "users/sessions": "Lesli/vue3/users/sessions.js",
             "users/passwords": "Lesli/vue3/users/passwords.js",
             "users/registrations": "Lesli/vue3/users/registrations.js",
+            "users/confirmations": "Lesli/vue3/users/confirmations.js",
 
             "mfas/application": "Lesli/vue3/mfas/app.js",
             "otps/application": "Lesli/vue3/otps/app.js",
@@ -110,7 +111,9 @@ module.exports = env => {
 
             "onboardings/application": "Lesli/vue3/onboarding/app.js",
             
-            "administration/application": "Lesli/vue3/administration/app.js"
+            "administration/application": "Lesli/vue3/administration/app.js",
+
+            "websites/application": "Lesli/vue3/websites/app.js",
 
         },
 
@@ -138,12 +141,14 @@ module.exports = env => {
                 LesliCore: path.resolve("app", "vue3"),
                 CloudBell: path.resolve("engines", "cloud_bell", "app", "vue3"),
                 CloudTalk: path.resolve("engines", "cloud_talk", "app", "vue3"),
+                CloudHelp: path.resolve("engines", "cloud_help", "app", "vue3"),
                 CloudAudit: path.resolve("engines", "cloud_audit", "app", "vue3"),
                 CloudBabel: path.resolve("engines", "cloud_babel", "app", "vue3"),
+                CloudHelp: path.resolve("engines", "cloud_help", "app", "vue3"),
                 CloudDriver: path.resolve("engines", "cloud_driver", "app", "vue3"),
                 CloudDevelopment: path.resolve("engines", "cloud_development", "app", "vue3"),
-
                 MitwerkenCloud: path.resolve("engines", "mitwerken_cloud", "app", "vue3"),
+                DeutscheLeibrenten: path.resolve("engines", "deutsche_leibrenten", "app", "vue3"),
 
             }
         },

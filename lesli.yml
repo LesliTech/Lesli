@@ -58,6 +58,7 @@ configuration:
 
 # Instance security settings
 security:
+    version: 3
     log_activity: true
     enable_debug: false
     enable_pushes: false

@@ -20,9 +20,13 @@ For more information read the license file including with this software.
 class AccountsController < ApplicationLesliController
     before_action :set_account, only: [:edit, :update, :destroy]
 
-    def self.privileges
+    def privileges
         {
-            show: []
+            show: [
+                'options',
+                'Account::SettingsController#options',
+            ],
+            edit: [],
         }
     end
 
@@ -42,7 +46,6 @@ class AccountsController < ApplicationLesliController
             format.html {}
             format.json do
                 set_account
-
                 respond_with_successful(@account)
             end
         end
@@ -60,7 +63,7 @@ class AccountsController < ApplicationLesliController
     # POST /accounts.json
     def create
         current_user.account.company_name = account_params[:company_name]
-        current_user.account.status = "active"
+        current_user.account.status = 'active'
         current_user.account.save
         if current_user.account.errors.any?
             return respond_with_error(current_user.errors.full_messages.to_sentence)
@@ -73,15 +76,12 @@ class AccountsController < ApplicationLesliController
     def update
         return respond_with_not_found unless @account
 
-        respond_to do |format|
-            if @account.update(account_params)
-                format.html { redirect_to @account, notice: 'Account was successfully updated.' }
-                format.json { render :show, status: :ok, location: @account }
-            else
-                format.html { render :edit }
-                format.json { render json: @account.errors, status: :unprocessable_entity }
-            end
+        if @account.update(account_params)
+            respond_with_successful(@account)
+        else
+            respond_with_error(@account)
         end
+
     end
 
     # DELETE /accounts/1
@@ -109,7 +109,27 @@ class AccountsController < ApplicationLesliController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def account_params
-        params.require(:account).permit(:company_name)
+        params.require(:account).permit(
+            :company_name,
+            :company_name_legal,
+            :company_tag_line,
+            :country,
+            :city,
+            :postal_code,
+            :address,
+            :region,
+            :website,
+            :phone_number_1,
+            :public_email,
+            :github,
+            :twitter,
+            :youtube,
+            :linkedin,
+            :facebook,
+            :id,
+            :status,
+            :users_id
+        )
     end
 
 end

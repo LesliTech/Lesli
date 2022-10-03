@@ -18,6 +18,12 @@ For more information read the license file including with this software.
 
 class OnboardingsController < ApplicationLesliController
 
+    def privileges 
+        {
+            show: []
+        }
+    end
+
     # GET /onboarding
     def show
         respond_to do |format|
@@ -109,6 +115,8 @@ class OnboardingsController < ApplicationLesliController
                 :company_tag_line,
                 :country,
                 :address,
+                :city,
+                :postal_code,
                 :region,
                 :website,
                 :phone_number_1,

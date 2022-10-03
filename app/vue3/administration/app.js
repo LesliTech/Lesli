@@ -41,11 +41,15 @@ import appSecurity from "Lesli/vue3/administration/apps/security/index.vue"
 import appDatetime from "Lesli/vue3/administration/apps/date_time/index.vue"
 import appBranding from "Lesli/vue3/administration/apps/branding/index.vue"
 import appTheme from "Lesli/vue3/administration/apps/theme/index.vue"
+import appAccountShow from "Lesli/vue3/administration/apps/accounts/show.vue"
 
 // · 
 app("Administration", [{
     path: "/",
     component: appAccountDashboard
+}, {
+    path: "/account",
+    component: appAccountShow
 }, {
     path: "/users",
     component: appUsersIndex

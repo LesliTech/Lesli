@@ -40,10 +40,21 @@ module NavigationHelper
     end
 
     # Prints a link for lesli-navigation
-    def navigation_lesli_item(path, label, icon=nil, rmi:nil)
+    def navigation_lesli_item(path, label, icon=nil, rmi:nil, reload:false)
         rmi=icon
+
+        # default vue router links for single page applications
+        html_element = "router-link exact"
+        html_options = { :to => path }
+
+        # if reload is nedeed, we use a standard "a" tag
+        if reload 
+            html_element = "a"
+            html_options = { :href => path }
+        end 
+
         content_tag(:li) do
-            content_tag("router-link exact", :to => path) do
+            content_tag(html_element, html_options) do
 
                 # print a simple menu item (without icon)
                 concat content_tag(:span, label, :class => "text iconless") unless icon
@@ -76,7 +87,7 @@ module NavigationHelper
     # ADMINISTRATION
 
     # 01.01 Team engine
-    def navigation_engine_team title: "Team", subtitle: "cloud_team/team-logo.svg"
+    def navigation_engine_team title: "Team", subtitle: "Human Resources Management"
         if defined? CloudTeam
             navigation_engine_item(title, subtitle, "team", cloud_team.root_path, controller_path.include?("cloud_team"))
         end
@@ -122,7 +133,7 @@ module NavigationHelper
     end
 
     # 03.03 Focus engine
-    def navigation_engine_focus title: "Tasks", subtitle: "cloud_focus/focus-logo.svg"
+    def navigation_engine_focus title: "Tasks", subtitle: "Task Management"
         if defined? CloudFocus
             navigation_engine_item(title, subtitle, "focus", cloud_focus.root_path, controller_path.include?("cloud_focus"))
         end
@@ -150,7 +161,7 @@ module NavigationHelper
     end
 
     # 03.11 Storage engine
-    def navigation_engine_storage title: "Storage", subtitle: "cloud_storage/storage-logo.svg"
+    def navigation_engine_storage title: "Storage", subtitle: "Cloud files management"
         if defined? CloudStorage
             navigation_engine_item(title, subtitle, "storage", cloud_storage.root_path, controller_path.include?("cloud_storage"))
         end
@@ -203,7 +214,7 @@ module NavigationHelper
     end
 
     # 07.02 Help engine
-    def navigation_engine_help title: "Help", subtitle: "Tickets, SLAs, Reports"
+    def navigation_engine_help title: "Help", subtitle: "Support Ticket System"
         if defined? CloudHelp
             navigation_engine_item(title, subtitle, "help", cloud_help.root_path, controller_path.include?("cloud_help"))
         end
@@ -227,7 +238,7 @@ module NavigationHelper
     # SECURITY & PRIVACY
 
     # 08.03 Audit engine
-    def navigation_engine_audit title: "Admin audit", subtitle: "Activity, logs, security and more"
+    def navigation_engine_audit title: "Audit", subtitle: "Activity, logs, security and more"
         if defined? CloudAudit
             navigation_engine_item(title, subtitle, "audit", cloud_audit.root_path, controller_path.include?("cloud_audit"))
         end
@@ -267,7 +278,7 @@ module NavigationHelper
     # 09.06 Development engine
     def navigation_engine_development title: "Dev", subtitle: "Development notes"
         if defined? CloudDevelopment
-            navigation_engine_item(title, subtitle, "dev", cloud_development.root_path, controller_path.include?("cloud_development"))
+            navigation_engine_item(title, subtitle, "development", cloud_development.root_path, controller_path.include?("cloud_development"))
         end
     end
 
@@ -294,7 +305,7 @@ module NavigationHelper
 
         # render module navigation item :) 
         content_tag(:a, :href => path, :class => is_active ? "is-active": nil) do
-            lesli_icon(icon, "cloud") << content_tag(:div) do 
+            lesli_svg("cloud-#{icon}") << content_tag(:div) do 
                 content_tag(:span, title) << content_tag(:p, subtitle)
             end
         end

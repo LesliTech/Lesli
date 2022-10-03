@@ -66,7 +66,7 @@ onMounted(() => {
         <cardInformation></cardInformation>
         <lesli-tabs v-if="storeUser.user.id">
             <lesli-tab-item title="Information">
-                <formInformation></formInformation>
+                <formInformation is-editable></formInformation>
             </lesli-tab-item>
             <lesli-tab-item title="Subscriptions">
                 <subscriptionsComponent>

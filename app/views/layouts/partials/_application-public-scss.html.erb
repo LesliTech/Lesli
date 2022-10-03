@@ -40,5 +40,5 @@ customizable_apps_and_pages = [
 <% else %>
 
     <%# Include full path for non-core apps and pages, that should include public template %>
-    <%= stylesheet_link_tag controller_path, media: "all" %>
+    <%= stylesheet_link_tag(controller_path, media: "all") %>
 <% end %>

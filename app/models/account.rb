@@ -90,7 +90,7 @@ class Account < ApplicationRecord
             self.template.save!
         end
 
-        # create role descriptors
+        # create role descriptors 
         self.role_descriptors.find_or_create_by(name: "owner")
         self.role_descriptors.find_or_create_by(name: "sysadmin")
         self.role_descriptors.find_or_create_by(name: "profile")

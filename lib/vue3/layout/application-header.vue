@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, onUnmounted, inject } from "vue"
+import { ref, reactive, onUnmounted, inject } from "vue"
 
 
 // · import stores
@@ -29,6 +29,21 @@ import { useSearch } from "LesliVue/stores/search"
 // · implement stores
 const storeLayout = useLayout()
 const storeSearch = useSearch()
+
+
+// · defining props
+const props = defineProps({
+    isBell: {
+        type: Boolean,
+        default: false,
+        required: false
+    },
+    isFocus: {
+        type: Boolean,
+        default: false,
+        required: false
+    }
+})
 
 
 // · translations
@@ -45,12 +60,6 @@ const applicationHeader = ref(null)
 const search = {}
 
 
-// · initializing
-onMounted(() => {
-
-})
-
-
 // · capture user scroll to add special styles for the header
 function handleScroll($event) {
 
@@ -60,7 +69,6 @@ function handleScroll($event) {
     } else {
         applicationHeader.value.classList.remove("scrolling-header-navigation")
     }
-
 }
 
 
@@ -99,15 +107,14 @@ onUnmounted(() => {
                         type="email" 
                         name="global_search"
                         class="input is-medium is-shadowless" 
-                        :placeholder="translations.core.shared.search_placeholder || 'Search in Lesli'"
+                        :placeholder="translations.core.shared.search_placeholder || 'Search...'"
                         @input="storeSearch.doSearch"
                         v-model="storeSearch.text" 
                     />
                     <span class="icon is-left has-text-gray">
-                        <lesli-icon 
-                            id="search"
-                            v-if="(storeSearch.loading == false)">
-                        </lesli-icon>
+                        <span class="material-icons">
+                            search
+                        </span>
                         <lesli-loading 
                             :icon="true"
                             v-if="(storeSearch.loading == true)">
@@ -121,24 +128,29 @@ onUnmounted(() => {
                 <!-- engines selector -->
                 <a class="navbar-item" @click="toggleEngines()">
                     <span class="material-icons md-36">
-                        rocket_launch
+                        apps
                     </span>
                 </a>
 
 
                 <!-- Tasks -->
-                <a class="navbar-item header-notification-indicator" @click="storeLayout.showNotifications = true">
-                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.notifications > 0 }]">
+                <a  v-if="props.isFocus"
+                    class="navbar-item header-notification-indicator" 
+                    @click="() => { if (storeLayout.header.tasks > 0 ) { storeLayout.showTasks = true }}">
+                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.tasks > 0 }]">
                         checklist
                     </span>
-                    <span class="count" v-if="storeLayout.header.notifications > 0">
-                        {{ storeLayout.header.notifications }}
+                    <span class="count" v-if="storeLayout.header.tasks > 0">
+                        {{ storeLayout.header.tasks }}
                     </span>
                 </a>
 
 
                 <!-- Notifications -->
-                <a class="navbar-item header-notification-indicator" @click="storeLayout.showNotifications = true">
+                <a 
+                    v-if="props.isBell"
+                    class="navbar-item header-notification-indicator" 
+                    @click="() => { if (storeLayout.header.notifications > 0 ) { storeLayout.showNotifications = true }}">
                     <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.notifications > 0 }]">
                         notifications
                     </span>

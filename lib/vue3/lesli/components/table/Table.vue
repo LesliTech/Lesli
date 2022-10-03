@@ -127,19 +127,37 @@ function paginate(page) {
                         v-bind:width="column.width"
                         v-bind:class="tableHeaderClass(column)"
                         v-for="column in props.columns" :key="column.field">
-                        <span v-if="!column.sort">
-                            {{ column.label }}
-                        </span>
-                        <span class="icon-text" v-if="column.sort">
-                            <span>
+
+
+
+                        <!--
+                            Use a slot to render content, so it is possible to 
+                            use html elements to render custom componentes for 
+                            every column header of the table 
+                        -->
+                        <slot
+                            :name="`head(${column.field})`" 
+                            :column="column">
+
+                            <!--
+                                Render the default table header if not custom slot is provided
+                            -->
+                            <span v-if="!column.sort">
                                 {{ column.label }}
                             </span>
-                            <span class="icon">
-                                <span class="material-icons" v-if="!currentSort">sort</span>
-                                <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'asc')">arrow_upward</span>
-                                <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'desc')">arrow_downward</span>
+                            <span class="icon-text" v-if="column.sort">
+                                <span>
+                                    {{ column.label }}
+                                </span>
+                                <span class="icon">
+                                    <span class="material-icons" v-if="!currentSort">sort</span>
+                                    <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'asc')">arrow_upward</span>
+                                    <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'desc')">arrow_downward</span>
+                                </span>
                             </span>
-                        </span>
+
+                        </slot>
+
                     </th>
 
                     <!-- 

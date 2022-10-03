@@ -23,11 +23,14 @@ For more information read the license file including with this software.
 <%= javascript_include_tag "translations?#{translation_timestamp}", skip_pipeline: true %>
 
 <script>
-    // Set language for JavaScripts apps
+    // Set language for JavaScript apps
     I18n.locale = '<%= I18n.locale %>'
 </script>
 
-<%= javascript_include_tag application_javascript_path() %>
+<%= javascript_include_tag(application_javascript_path()) %>
+<% if ['cloud_team','cloud_focus','cloud_driver','cloud_help','deutsche_leibrenten'].include?(controller_path.split('/')[0]) %>
+<%= javascript_include_tag(application_javascript_path(2)) %>
+<% end %>
 
 <script src="https://js.honeybadger.io/v3.2/honeybadger.min.js" type="text/javascript"></script>
 <script type="text/javascript">

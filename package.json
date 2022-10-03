@@ -8,7 +8,7 @@
         "bulma": "0.9.4",
 
         "lesli-js": "0.5.0",
-        "lesli-css": "1.4.0",
+        "lesli-css": "1.4.1",
 
         "vue": "3.2.36",
         "vue-router": "4.0.15",
@@ -58,7 +58,7 @@
     "scripts": {
         "webpack:production": "npm run webpack2:production",
         "webpack:watch": "npm run webpack2:watch",
-        "webpack": "npm run webpack2",
+        "webpack": "npm run webpack2 && npm run webpack3",
 
         "webpack2:production": "npm run --prefix ./lib/vue2 webpack:production",
         "webpack2:watch": "npm run --prefix ./lib/vue2 webpack:watch",
