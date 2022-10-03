@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe 'PUT:/administration/roles.json', type: :request do
+RSpec.describe 'PUT:/administration/roles.json', type: :request, :unless => defined?(DeutscheLeibrenten) do
 
     include_context "request user authentication"
 

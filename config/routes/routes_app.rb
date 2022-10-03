@@ -60,7 +60,7 @@ module RoutesApp
                 end
 
                 # account management
-                resource :account, only: [:show] do
+                resource :account, only: [:show, :update] do
                     scope module: :account do
 
                         # account files - attached files to account

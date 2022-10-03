@@ -28,6 +28,7 @@ header.application-header {
     padding: 20px 28px;
     margin-bottom: 8px;
     height: var(--lesli-header-height);
+    background-color: var(--lesli-header-color);
     width: calc(100% - var(--lesli-sidebar-width));
 
     // add a separtor line to the header when user scroll down 
@@ -65,6 +66,9 @@ header.application-header {
         // command input & search
         .control {
             flex: 1;
+            .material-icons {
+                font-size: 28px;
+            }
             input {
                 max-width: 515px;
                 border-radius: 10px;

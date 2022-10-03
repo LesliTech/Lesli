@@ -14,7 +14,6 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
-
 =end
 
 class RolesController < ApplicationLesliController
@@ -22,8 +21,10 @@ class RolesController < ApplicationLesliController
 
     def privileges 
         {
-            index: [],
-            show: []
+            index: ['Role::DescribersController#index'],
+            show: [],
+            edit: ['options', 'Role::DescribersController#create', 'Role::DescribersController#destroy'],
+            new: []
         }
     end 
 

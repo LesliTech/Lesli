@@ -38,19 +38,19 @@ const translations = {
 }
 
 watch(() => storeAccountSettings.settings.lesli_theme_color_primary, () => {
-    document.querySelector(':root').style.setProperty('--lesli-theme-color-primary', storeAccountSettings.settings.lesli_theme_color_primary)
+    document.querySelector(':root').style.setProperty('--lesli-color-primary', storeAccountSettings.settings.lesli_theme_color_primary)
 })
 
 watch(() => storeAccountSettings.settings.lesli_theme_header_color, () => {
-    document.querySelector(':root').style.setProperty('--lesli-theme-header-color', storeAccountSettings.settings.lesli_theme_header_color)
+    document.querySelector(':root').style.setProperty('--lesli-header-color', storeAccountSettings.settings.lesli_theme_header_color)
 })
 
 watch(() => storeAccountSettings.settings.lesli_theme_sidebar_color, () => {
-    document.querySelector(':root').style.setProperty('--lesli-theme-sidebar-color', storeAccountSettings.settings.lesli_theme_sidebar_color)
+    document.querySelector(':root').style.setProperty('--lesli-sidebar-color', storeAccountSettings.settings.lesli_theme_sidebar_color)
 })
 
 watch(() => storeAccountSettings.settings.lesli_theme_color_background, () => {
-    document.querySelector(':root').style.setProperty('--lesli-theme-color-background', storeAccountSettings.settings.lesli_theme_color_background)
+    document.querySelector(':root').style.setProperty('--lesli-color-background', storeAccountSettings.settings.lesli_theme_color_background)
 })
 
 watch(() => storeAccountSettings.settings.lesli_theme_font_color, () => {
@@ -58,7 +58,7 @@ watch(() => storeAccountSettings.settings.lesli_theme_font_color, () => {
 })
 
 watch(() => storeAccountSettings.settings.lesli_theme_font_size, () => {
-    document.querySelector(':root').style.setProperty('--lesli-theme-font-size', storeAccountSettings.settings.lesli_theme_font_size)
+    document.querySelector(':root').style.setProperty('--lesli-theme-font-size', storeAccountSettings.settings.lesli_theme_font_size + 'px')
 })
 
 onMounted(() => {

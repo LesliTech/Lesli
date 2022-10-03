@@ -50,23 +50,34 @@ onMounted(() => {
 })
 
 
-// · 
+// · :index, :show, :new, :edit, :create, :update, :destroy, :search
 const columnDescriptors = [{
-    field: 'id',
-    label: 'ID'
-},{
-    field: 'active',
-    label: 'Active',
-    align: 'center'
-},{
     field: 'name',
     label: 'Name'
 },{
-    field: 'reference',
-    label: 'Reference'
+    field: 'index',
+    label: 'index',
+    align: 'center'
 },{
-    field: 'path',
-    label: 'Path'
+    field: 'show',
+    label: 'show',
+    align: 'center'
+},{
+    field: 'new',
+    label: 'new',
+    align: 'center'
+},{
+    field: 'edit',
+    label: 'edit',
+    align: 'center'
+},{
+    field: 'destroy',
+    label: 'destroy',
+    align: 'center'
+},{
+    field: 'search',
+    label: 'search',
+    align: 'center'
 }]
 
 
@@ -83,11 +94,11 @@ function matchRolesDescriptors() {
 }
 
 
-function changeDescriptor(descriptor) {
-    storeRole.changeDescriptor(descriptor)
+function updateDescriptor(descriptor) {
+    storeRole.updateDescriptor(descriptor)
 }
 
-</script>
+</script>x
 <template>
     <section class="application-component">
         <lesli-header :title="'Privileges for: ' + storeRole.role.name + ' role '">
@@ -98,12 +109,97 @@ function changeDescriptor(descriptor) {
                 Edit role
             </lesli-button>
         </lesli-header>
-        <lesli-toolbar></lesli-toolbar>
+        <lesli-toolbar @search="storeRole.searchDescriptors"></lesli-toolbar>
         <lesli-table 
             :columns="columnDescriptors"
             :records="storeRole.descriptors">
-            <template #active="{ record }">
-                <lesli-toggle v-model="record.active" @change="changeDescriptor(record)">
+            <template #head(index)="{ column }">
+                <span class="icon-text">
+                    <span class="icon">
+                        <span class="material-icons">
+                            format_list_bulleted
+                        </span>
+                    </span>
+                    <span>{{ column.label }}</span>
+                </span>
+            </template>
+            <template #head(show)="{ column }">
+                <span class="icon-text">
+                    <span class="icon">
+                        <span class="material-icons">
+                            visibility
+                        </span>
+                    </span>
+                    <span>{{ column.label }}</span>
+                </span>
+            </template>
+            <template #head(new)="{ column }">
+                <span class="icon-text">
+                    <span class="icon">
+                        <span class="material-icons">
+                            add
+                        </span>
+                    </span>
+                    <span>{{ column.label }}</span>
+                </span>
+            </template>
+            <template #head(edit)="{ column }">
+                <span class="icon-text">
+                    <span class="icon">
+                        <span class="material-icons">
+                            edit
+                        </span>
+                    </span>
+                    <span>{{ column.label }}</span>
+                </span>
+            </template>
+            <template #head(destroy)="{ column }">
+                <span class="icon-text">
+                    <span class="icon">
+                        <span class="material-icons">
+                            delete
+                        </span>
+                    </span>
+                    <span>{{ column.label }}</span>
+                </span>
+            </template>
+            <template #head(search)="{ column }">
+                <span class="icon-text">
+                    <span class="icon">
+                        <span class="material-icons">
+                            search
+                        </span>
+                    </span>
+                    <span>{{ column.label }}</span>
+                </span>
+            </template>
+
+            <template #name="{ record }">
+                <p>{{ record.name }}</p>
+                <p><small>{{ record.path }}</small></p>
+            </template>
+            <template #index="{ record, value }">
+                <lesli-toggle v-if="value != null" v-model="record.index.active" @change="updateDescriptor(record.index)">
+                </lesli-toggle>
+            </template>
+            <template #show="{ record, value }">
+                <lesli-toggle v-if="value != null" v-model="record.show.active" @change="updateDescriptor(record.show)">
+                </lesli-toggle>
+            </template>
+            <template #new="{ record, value }">
+                <lesli-toggle v-if="value != null" v-model="record.new.active" @change="updateDescriptor(record.new)">
+                </lesli-toggle>
+            </template>
+            <template #edit="{ record, value }">
+                <lesli-toggle v-if="value != null" v-model="record.edit.active" @change="updateDescriptor(record.edit)">
+                </lesli-toggle>
+            </template>
+            <template #destroy="{ record, value }">
+                <lesli-toggle v-if="value != null" v-model="record.destroy.active" @change="updateDescriptor(record.destroy)">
+                </lesli-toggle>
+            </template>
+            <template #search="{ record, value }">
+                <lesli-toggle v-if="value != null" v-model="record.search.active" @change="updateDescriptor(record.search)">
                 </lesli-toggle>
             </template>
         </lesli-table>
