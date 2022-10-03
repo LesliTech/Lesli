@@ -18,6 +18,10 @@ For more information read the license file including with this software.
 */
 
 
+// · 
+$primary: $lesli-color-primary;
+
+
 // · Border radius
 $radius: 8px;
 $radius-small: 3px;
@@ -26,7 +30,22 @@ $radius-large: 4px;
 $control-radius: $radius;
 $control-radius-small: $radius-small;
 
+$navbar-background-color: transparent;
+
 
 // · Import Bulma and Buefy styles
 @import "bulma/bulma.sass";
 @import "bulma/sass/utilities/functions";
+
+
+
+// · Bulma elements/components overrides
+
+
+// · 
+.dropdown-item {
+    display: flex;
+    span.icon {
+        margin-right: 8px;
+    }
+}

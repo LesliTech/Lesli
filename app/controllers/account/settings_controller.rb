@@ -20,6 +20,16 @@ For more information read the license file including with this software.
 class Account::SettingsController < ApplicationLesliController
     before_action :set_account_setting, only: [:destroy]
 
+    def privileges 
+        {
+            index: [],
+            security: [],
+            date_time: [],
+            branding: [],
+            theme: []
+        }
+    end 
+
     # GET /settings
     def index
         respond_to do |format|
@@ -32,6 +42,22 @@ class Account::SettingsController < ApplicationLesliController
 
     # GET /settings/1
     def show
+    end
+
+    # GET /settings/security
+    def security
+    end
+
+    # GET /settings/date_time
+    def date_time
+    end
+
+    # GET /settings/branding
+    def branding
+    end
+
+    # GET /settings/theme
+    def theme
     end
 
     # POST /settings
@@ -97,4 +123,7 @@ class Account::SettingsController < ApplicationLesliController
     def set_account_setting
         @setting = current_user.account.settings.find_by(id: params[:id])
     end
+
+
+
 end

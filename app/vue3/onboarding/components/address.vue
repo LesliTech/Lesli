@@ -33,32 +33,13 @@ const translations = {
     }
 }
 
-// . get reactive info from onboarding store
-const companyInfo = computed(()=> storeOnboarding.companyInfo)
-
-
 const countryValue = ref({})
 const regionValue = ref({})
-const streetNumber = ref("")
-const postalCode = ref("")
 
 
 onMounted(() => {
     storeOnboarding.getOptions()
 })
-
-// Function to get the value from selected option in country select 
-function updateCountry (){
-    companyInfo.value.country = countryValue.value.value
-}
-// Function to get the value from selected option in region select 
-function updateRegion (){
-    companyInfo.value.region = regionValue.value.value
-}
-// Function to concat values from address
-function updateAddress (){
-    companyInfo.value.address = streetNumber.value + ", " + postalCode.value
-}
 
 </script>
 <template>
@@ -70,8 +51,7 @@ function updateAddress (){
                     class="input"
                     type="text"
                     :placeholder="translations.core.onboardings.view_placeholder_street_number"
-                    v-model="streetNumber"
-                    @change="updateAddress"
+                    v-model="storeOnboarding.companyInfo.address"
                 />
             </div>
         </div>
@@ -83,8 +63,8 @@ function updateAddress (){
                     class="input" 
                     type="text" 
                     placeholder="XXXXXX"
-                    v-model="postalCode" 
-                    @change="updateAddress"/>
+                    v-model="storeOnboarding.companyInfo.postal_code" 
+                >
             </div>
         </div>
 
@@ -95,7 +75,7 @@ function updateAddress (){
                     class="input"
                     type="text"
                     :placeholder="translations.core.onboardings.view_placeholder_city"
-                    v-model="companyInfo.city"
+                    v-model="storeOnboarding.companyInfo.city"
                 />
             </div>
         </div>
@@ -105,8 +85,8 @@ function updateAddress (){
             <div class="control">
                 <lesli-select 
                     :options="storeOnboarding.options.countries"
-                    v-model="countryValue"
-                    @change="updateCountry">
+                    v-model="storeOnboarding.companyInfo.country"
+                    >
                 </lesli-select>
             </div>
         </div>
@@ -116,8 +96,8 @@ function updateAddress (){
             <div class="control">
                 <lesli-select 
                     :options="storeOnboarding.options.regions"
-                    v-model="regionValue"
-                    @change="updateRegion">
+                    v-model="storeOnboarding.companyInfo.region"
+                    >
                 </lesli-select>
             </div>
         </div>

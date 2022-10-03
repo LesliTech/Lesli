@@ -24,20 +24,24 @@ import { useRouter, useRoute } from 'vue-router'
 
 // · import lesli stores
 import { useUser } from "LesliVue/stores/user"
-
-
-// · implement stores
-const storeUser = useUser()
-const router = useRouter()
-const route = useRoute()
-
+import { useProfile } from "Lesli/vue3/administration/stores/users/profile"
 
 // · import profile components
 import cardInformation from "../users/components/card-information.vue"
 import formInformation from "../users/components/form-information.vue"
 import managementSession from "../users/components/management-sessions.vue"
+import formSecurity from "../users/components/form-security.vue"
 import integrationsInformation from "../users/components/integrations-information.vue"
+import subscriptionsComponent from "./components/subscriptions.vue"
+import settings from "../users/components/settings.vue"
+import changeEmail from "./components/change-email.vue"
 
+
+// · implement stores
+const storeUser = useUser()
+const storeProfile = useProfile()
+const router = useRouter()
+const route = useRoute()
 
 // · translations
 const translations = {
@@ -52,23 +56,35 @@ const translations = {
 // · initializing
 onMounted(() => {
     storeUser.fetch()
+    storeUser.getOptions()
+    storeProfile.fetchProfile()
 })
 
 </script>
 <template>
     <section class="application-component">
         <cardInformation></cardInformation>
-        <lesli-tabs v-if="this.storeUser.user.id">
+        <lesli-tabs v-if="storeUser.user.id">
             <lesli-tab-item title="Information">
-                <formInformation></formInformation>
+                <formInformation is-editable></formInformation>
             </lesli-tab-item>
-            <lesli-tab-item title="Suscripciones"></lesli-tab-item>
-            <lesli-tab-item title="Security"></lesli-tab-item>
+            <lesli-tab-item title="Subscriptions">
+                <subscriptionsComponent>
+                </subscriptionsComponent>
+            </lesli-tab-item>
+            <lesli-tab-item title="Security">
+                <formSecurity></formSecurity>
+            </lesli-tab-item>
+            <lesli-tab-item title="Access management">
+                <changeEmail></changeEmail>
+            </lesli-tab-item>
             <lesli-tab-item title="Session management">
                 <managementSession></managementSession>
             </lesli-tab-item>
-            <lesli-tab-item title="Settings"></lesli-tab-item>
-            <lesli-tab-item title="Integraciones">
+            <lesli-tab-item title="Settings">
+                <settings></settings>
+            </lesli-tab-item>
+            <lesli-tab-item title="Integrations">
                 <integrationsInformation></integrationsInformation>
             </lesli-tab-item>
         </lesli-tabs>

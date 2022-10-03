@@ -114,7 +114,7 @@ export default {
                 module_name = 'house'
             }
 
-            let url = `/${this.object_utils.pluralize(this.cloudModule)}/${this.cloudId}`
+            let url = `/${this.object_utils.pluralize(this.cloudModule)}/${this.cloudId}.json`
             let data = {}
             data[this.object_name] = {}
             let detail_key = `cloud_${module_name}_workflow_statuses_id`

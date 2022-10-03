@@ -32,12 +32,13 @@ module LC
         # if you need a different date format you should change it in the settings
         # Please read the documentation stored in core/docs/leslicommand-date.md for more information
         @settings = {
-            :date_format => "%d.%m.%Y", 
-            :date_format_full => "%a, %B %d, %Y", 
-            :date_format_time => "%d.%m.%Y %H:%M", 
-            :time_format => "%H:%M", 
-            :time_zone => "Europe/Berlin", 
-            :start_week_on => "monday"
+
+            date_format: "%d.%m.%Y",
+            date_format_full: "%a, %B %d, %Y",
+            date_format_time: "%d.%m.%Y %H:%M",
+            time_format: "%H:%M",
+            time_zone: "Europe/Berlin",
+            start_week_on: "monday"
         }
         @settings_loaded = false
 
@@ -212,7 +213,12 @@ module LC
         def self.reset_settings
             @settings = Rails.application.config.lesli[:configuration][:datetime]
             @settings_loaded = true
-            
+            @settings[:date_format] =  @settings[:formats][:date]
+            @settings[:time_format] =  @settings[:formats][:time]
+            @settings[:date_format_time] =  @settings[:formats][:date_time]
+            @settings[:date_format_full] =  @settings[:formats][:date_time_words]
+            @settings[:time_zone] =  @settings[:time_zone]
+            @settings[:start_week_on] =  @settings[:start_week_on]
             @settings
         end
  

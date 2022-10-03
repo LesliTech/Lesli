@@ -22,6 +22,15 @@ For more information read the license file including with this software.
 class UsersController < ApplicationLesliController
     before_action :set_user, only: [:show, :update, :destroy]
 
+    def privileges
+        {
+            index: [],
+            new: [],
+            show: [],
+            edit: [],
+        }
+    end 
+
     def list
         respond_to do |format|
             format.json { 
@@ -150,6 +159,7 @@ class UsersController < ApplicationLesliController
         user = User.new({
             :active => true,
             :email => user_params[:email],
+            :alias => user_params[:alias],
             :detail_attributes => user_params[:detail_attributes]
         })
 
@@ -263,7 +273,7 @@ class UsersController < ApplicationLesliController
 
     def options
 
-        roles = current_user.account.roles.select(:id, :name)
+        roles = current_user.account.roles.select(:id, :name, :object_level_permission)
 
         # only owner can assign any role
         unless current_user.has_roles?("owner")
@@ -275,7 +285,7 @@ class UsersController < ApplicationLesliController
             regions: current_user.account.locations.where(level: "region"),
             salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
             locales: Rails.application.config.lesli.dig(:configuration, :locales_available),
-            mfa_methods: Rails.application.config.lesli.dig(:configuration, :mfa_methods),
+            mfa_methods: Rails.application.config.lesli.dig(:configuration, :mfa_methods)
         })
 
     end
@@ -394,9 +404,10 @@ class UsersController < ApplicationLesliController
 
     # Resets the user email 
     def email
+
         user = current_user.account.users.find_by(id: params[:id])
 
-        if user.blank? 
+        if user.blank? || user.id != current_user.id 
             return respond_with_not_found
         end
 
