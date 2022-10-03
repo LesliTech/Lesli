@@ -28,6 +28,7 @@ export const useRole = defineStore("administration.role", {
             records: [],
             pagination: {},
             descriptors: [],
+            descriptorsCustom: [],
             descriptorSearchString: '',
             role: {
                 name: "",
@@ -81,32 +82,43 @@ export const useRole = defineStore("administration.role", {
 
                 // reset the list of descriptors
                 this.descriptors = []
+                this.descriptorsCustom = []
 
                 // temporary container for the descriptor matrix
                 let descriptorgrid = {}
 
                 // convert list of descriptors from: controller/action to controller/actions (like a matrix)
                 descriptors.forEach(descriptor => {
-                    if (!descriptorgrid[descriptor.reference]) {
-                        descriptorgrid[descriptor.reference] = {
-                            id: descriptor.id,
-                            name: descriptor.name,
-                            reference: descriptor.reference,
-                            path: `/${descriptor.controller}`,
-                            index: null, 
-                            show: null, 
-                            create: null, 
-                            update: null, 
-                            destroy: null, 
-                            search: null
+
+                    if (['index', 'show', 'new', 'edit', 'destroy', 'search'].includes(descriptor.action)) {
+
+                        if (!descriptorgrid[descriptor.reference]) {
+                            descriptorgrid[descriptor.reference] = {
+                                id: descriptor.id,
+                                name: descriptor.name,
+                                reference: descriptor.reference,
+                                controller: descriptor.controller,
+                                index: null, 
+                                show: null, 
+                                create: null, 
+                                update: null, 
+                                destroy: null, 
+                                search: null
+                            }
                         }
+
+                        // add the id of the descriptor that the action belongs to
+                        descriptorgrid[descriptor.reference][descriptor.action] = {
+                            id: descriptor.id,
+                            active: descriptor.active
+                        }
+
+                        return;
+
                     }
 
-                    // add the id of the descriptor that the action belongs to
-                    descriptorgrid[descriptor.reference][descriptor.action] = {
-                        id: descriptor.id,
-                        active: descriptor.active
-                    }
+                    this.descriptorsCustom.push(descriptor)
+
                 })
 
                 // return the arrys only
