@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -20,23 +20,23 @@ module Courier
     module Driver
         class Calendar
 
-            def self.get_user_calendar(current_user, calendar_name, default: false)
+            def self.get_user_calendar(current_user, source_code: nil, default: false)
                 return nil unless defined? CloudDriver
 
                 current_user.account.driver.calendars.eager_load(:detail).find_by(
                     user_main: current_user,
                     user_creator: current_user,
+                    source_code: source_code,
                     cloud_driver_calendar_details: {
-                        name: calendar_name,
                         default: default
                     }
                 )
             end
 
-            def self.find_by_id(current_user, calendar_id)
+            def self.find_by_id(current_user, id)
                 return nil unless defined? CloudDriver
 
-                current_user.account.driver.calendars.find_by_id(calendar_id)
+                current_user.account.driver.calendars.find_by_id(id)
             end
 
             # @return A hash that contains an array in each key. These arrays contain events, tasks and tickets
@@ -176,17 +176,18 @@ module Courier
                 return records
             end
 
-            def self.create_user_calendar(user, calendar_name, default: false)
+            def self.create_user_calendar(user, name: nil, source_code: nil, default: false)
                 return nil unless defined? CloudDriver
 
                 user.account.driver.calendars.create_with(
                     detail_attributes: {
-                        name: calendar_name,
+                        name: name,
                         default: default,
                     }
                 ).find_or_create_by!(
                     user_main: user,
                     user_creator: user,
+                    source_code: source_code
                 )
             end
 
