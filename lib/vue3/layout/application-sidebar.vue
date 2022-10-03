@@ -18,66 +18,27 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, inject } from "vue"
-
-
-// · import & implement stores
-import { useLayout } from "LesliVue/stores/layout"
+import { useSlots } from "vue"
 
 
 // · 
-const storeLayout = useLayout()
+const slots = useSlots()
 
-
-// · 
-function onEscape(event) {
-    if (event.keyCode === 27) {
-        storeLayout.toggleEngines()
-        document.removeEventListener('keydown', onEscape)
-    }
-}
-
-
-// · 
-function toggleEngines() {
-    storeLayout.toggleEngines()
-    document.addEventListener('keydown', onEscape)
-}
 
 </script>
 <template>
     <aside class="application-sidebar">
-        <div class="brand">
-            <a href="/">
-                <slot name="brand"></slot>
-            </a>
-            <Transition>
-                <span class="icon">
-                    <lesli-icon 
-                        class="is-hidden-touch"
-                        :id="storeLayout.showEngines ? 'menu-open' : 'menu'" 
-                        @click="toggleEngines()">
-                    </lesli-icon>
-                </span>
-            </Transition>
-        </div>
-        <nav class="menu is-flex-grow-1">
+        <a class="brand" href="/">
+            <slot name="brand"></slot>
+        </a>
+        <nav class="menu is-flex-grow-1 is-flex is-flex-direction-column is-justify-content-space-between">
             <ul class="menu-list">
-                <li class="is-hidden-desktop">
-                    <a>
-                        <!-- engine navigation trigger for mobile -->
-                        <Transition>
-                            <lesli-icon 
-                                :id="storeLayout.showEngines ? 'menu-open' : 'menu'" 
-                                @click="toggleEngines()">
-                            </lesli-icon>
-                        </Transition>
-                    </a>
-                </li>
                 <slot></slot>
             </ul>
             <ul class="menu-list">
-                <slot name="nav-end"></slot>
+                <lesli-navigation-list v-if="slots.settings" icon="ri-list-settings-line" label="Settings">
+                    <slot name="settings"></slot>
+                </lesli-navigation-list>
             </ul>
         </nav>
         <slot name="context"></slot>

@@ -25,8 +25,8 @@ module Interfaces
             # Return an standard http 200 respond
             def respond_with_successful payload=nil
 
-                # Keep compatibility with apps v2 specially Deutsche Leibrenten
-                if defined?(DeutscheLeibrenten)
+                # Keep compatibility with Deutsche Leibrenten
+                if defined? DeutscheLeibrenten
                     response_body = { successful: true }
                     response_body[:data] = payload
                     return render(status: 200, json: response_body.to_json)
@@ -49,9 +49,8 @@ module Interfaces
             # IMPORTANT: It is strictly necessary to use the pagination methods
             #            to make this work properly
             def respond_with_pagination(records, payload=nil)
-
-                # Keep compatibility with apps v2 specially Deutsche Leibrenten
-                if defined?(DeutscheLeibrenten)
+                # Keep compatibility with Deutsche Leibrenten
+                if defined? DeutscheLeibrenten
                     return respond_with_http(200, {
                         :pagination => {
                             :total_pages => records.total_pages,
@@ -63,14 +62,30 @@ module Interfaces
                     })
                 end
 
-                respond_with_http(200, {
+                #validate if record has data and pages
+                if !records.empty? && records.total_pages > 0 
+                    return respond_with_http(200, {
+                        :pagination => {
+                            :page => records.current_page,
+                            :pages => records.total_pages,
+                            :total => records.total_count,
+                            :results => records.length
+                        },
+                        :records => payload || records 
+                    })
+                end
+
+                #Standar pagination response with 0 results in page 1 when records is empty
+                return respond_with_http(200, {
                     :pagination => {
-                        :page => records.current_page,
-                        :pages => records.total_pages,
-                        :total => records.total_count,
-                        :results => records.length
+                        #pagination always stars in page 1
+                        :page =>  @query[:pagination][:page],
+                        :pages =>  1,
+                        :total => 0,
+                        :results => 0
                     },
-                    :records => payload || records 
+                    #records is empty in core 
+                    :records => [] 
                 })
             end
 
@@ -78,8 +93,8 @@ module Interfaces
             # JSON not found response
             def respond_with_not_found
 
-                # Keep compatibility with apps v2 specially Deutsche Leibrenten
-                if defined?(DeutscheLeibrenten)
+                # Keep compatibility with Deutsche Leibrenten
+                if defined? DeutscheLeibrenten
                     response_body = {
                         successful: false,
                         error: {
@@ -99,18 +114,19 @@ module Interfaces
             # JSON not found response
             def respond_with_unauthorized(detail = {})
             
-                error_object = {
-                    successful: false
-                }
+                error_object = { }
 
-                if defined?(DeutscheLeibrenten)
-                    error_object[:error] = {
-                        message: I18n.t("core.shared.view_text_unauthorized_request")
+                # Keep compatibility with Deutsche Leibrenten
+                if defined? DeutscheLeibrenten
+                    error_object = {
+                        successful: false,
+                        error: {
+                            message: I18n.t("core.shared.view_text_unauthorized_request")
+                        }
                     }
-                else
-                    error_object[:message] = I18n.t("core.shared.view_text_unauthorized_request")
                 end
 
+                error_object[:message] = I18n.t("core.shared.view_text_unauthorized_request")
                 error_object[:detail] = detail if Rails.env == "development"
 
                 if Rails.env == "development" and !current_user.blank?
@@ -133,8 +149,8 @@ module Interfaces
                 # Message should be a String
                 message = "" unless message.instance_of?(String)
 
-                # Keep compatibility with apps v2 specially Deutsche Leibrenten
-                if defined?(DeutscheLeibrenten)
+                # Keep compatibility with Deutsche Leibrenten
+                if defined? DeutscheLeibrenten
 
                     response_body = {
                         successful: false,
@@ -154,7 +170,7 @@ module Interfaces
                 #       message = error message to sentence
                 #       details = error array of messages
                 #   check another types of errors and parse respond according
-                respond_with_http(400, { 
+                respond_with_http(400, {
                     message: message,
                     details: details
                 })
@@ -163,7 +179,7 @@ module Interfaces
 
             # Respond with an standard http message
             def respond_with_http status, payload
-                return render(status: status, content_type: 'application/json', json: payload.to_json) unless payload.blank?
+                return render(status: status, content_type: 'application/json', json: payload.to_json) unless payload.nil?
                 return render(status: status, content_type: 'application/json', json: "")
             end 
 

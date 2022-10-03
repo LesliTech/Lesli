@@ -40,7 +40,7 @@ const props = defineProps({
         <div class="navbar-menu">
             <div class="navbar-end">
                 <div class="navbar-item">
-                    <div class="buttons">
+                    <div class="actions">
                         <slot></slot>
                     </div>
                 </div>

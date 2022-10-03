@@ -17,34 +17,39 @@ For more information read the license file including with this software.
 */
 
 // · import vue tools
-import { defineAsyncComponent } from "vue"
+import { ref } from "vue"
 
-// · import store
+// · import stores
 import { useCloudObjectFileStore } from "LesliVue/stores/cloud-objects/file"
+import { useLayout } from "LesliVue/stores/layout"
 
-// · import components with lazy loading
-const filesForm = defineAsyncComponent(() => import("./file/form.vue"))
-const filesList = defineAsyncComponent(() => import("./file/list.vue"))
+// · import components
+import filesList from "LesliVue/cloud-objects/file/list.vue" 
 
 // · implement store
-const store = useCloudObjectFileStore()
+const storeFiles = useCloudObjectFileStore()
+const storeLayout = useLayout()
 
-// · get translations from store
-const translations = store.translations
+// · defining translations
+const translations = {
+    core: {
+        shared: I18n.t("core.shared"),
+    }
+}
 
 // · defining props
 const props = defineProps({
-    // · prop that indicates if the will be shown the new file tab, by default it is true.
-    showNewFileTab: {
+    // · prop that indicates if the will be shown the new file button, by default it is true.
+    showNewFileButton: {
         type: Boolean,
         required: false,
         default: true,
     },
-    // · prop that indicates if the will be shown the list files tab, by default it is true.
-    showListFilesTab: {
-        type: Boolean,
+    // · prop that filter by file type, by default it is null. (image, document etc)
+    fileType: {
+        type: String,
         required: false,
-        default: true,
+        default: null,
     },
     // · prop that indicates the cloud module that will be used for interacting with the backend.
     cloudModule: {
@@ -78,25 +83,32 @@ const props = defineProps({
 })
 
 // set cloudModule to store
-store.cloudModule = props.cloudModule
+storeFiles.cloudModule = props.cloudModule
 // set cloudId to store
-store.cloudObject = props.cloudObject
+storeFiles.cloudObject = props.cloudObject
 // set cloudObjectId to store
-store.cloudObjectId = props.cloudObjectId
+storeFiles.cloudObjectId = props.cloudObjectId
 // set maxFile to store
-store.maxFiles = props.maxFiles
+storeFiles.maxFiles = props.maxFiles
 // set maxSizeFile to store
-store.maxSizeFile = props.maxSizeFile
+storeFiles.maxSizeFile = props.maxSizeFile
+// set type to store
+storeFiles.fileType = props.fileType
+
 </script>
 
 <template>
-    <lesli-tabs>
-        <lesli-tab-item :title="translations.core.shared.view_tab_title_files_new">
-            <files-form></files-form>
-        </lesli-tab-item>
-
-        <lesli-tab-item :title="translations.core.shared.view_tab_title_files_list">
-            <files-list></files-list>
-        </lesli-tab-item>
-    </lesli-tabs>
+    <div class="is-flex is-justify-content-end mb-4">
+        <button v-if="props.showNewFileButton" class="button is-primary" @click="storeLayout.showFiles = true">
+            <span >
+                {{ translations.core.shared.view_title_new_file }}
+            </span>
+            <span class="icon is-small">
+                <span class="material-icons">add</span>
+            </span>
+        </button>
+    </div>
+    <div class="files">
+        <files-list></files-list>
+    </div>
 </template>

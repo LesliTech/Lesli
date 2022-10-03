@@ -108,7 +108,6 @@ class UserValidationService
 
             # check if the password has te minium number of numbers required xD
             if settings[:name] == 'password_digit_count'
-
                 if settings[:value].to_i > password_string_no_special.scan(/[^A-Za-z]/).length
                     password_settings_errors.push('error_password_digit_count')
                 end

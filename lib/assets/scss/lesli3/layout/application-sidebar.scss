@@ -16,7 +16,8 @@ For more information read the license file including with this software.
 */
 
 $lesli-sidebar-color-text: findColorInvert($lesli-sidebar-color) !default;
-$lesli-sidebar-color-hover: findDarkColor($lesli-sidebar-color) !default;
+$lesli-sidebar-hover-color: $lesli-sidebar-color !default;
+$lesli-sidebar-hover-text: findColorInvert($lesli-sidebar-hover-color) !default;;
 
 
 // · Navigation sidebar
@@ -31,39 +32,30 @@ aside.application-sidebar {
     transition: all linear .2s;
     width: var(--lesli-sidebar-width);
     background-color: var(--lesli-sidebar-color);
+    border-right: 1px solid lesli-css-color(silver, 300);
 
     // logo
     .brand {
+        padding: 4px;
         display: flex;
-        justify-content: space-between;
         height: var(--lesli-header-height);
         max-height: var(--lesli-header-height);
-        a {
-            display: flex;
-            padding: 4px;
-        }
+        background-color: var(--lesli-logo-color);
+        justify-content: center;
     }
 
     // allow the container to scroll over the navigation items
     nav.menu {
-
-        // hide scrollbar but allow scrolling 
-        & {
-            -ms-overflow-style: none; // for Internet Explorer, Edge 
-            scrollbar-width: none; // for Firefox 
-            overflow-y: scroll; 
-        }
-
-        // for Chrome, Safari, and Opera
-        &::-webkit-scrollbar {
-            display: none; 
-        }
+        // hide scrollbar
+        @include lesli-css-scrollbar(hide);
+        overflow-y: scroll;
     }
 
     p.menu-label {
         padding-left: 26px;
         font-size: .85rem;
         margin: .4rem 0;
+        color: $lesli-sidebar-color-text;
     }
 
     // link container
@@ -81,15 +73,8 @@ aside.application-sidebar {
             &.is-active,        // rails routes
             &.route-is-active   // vue routes
             {
-                color: $lesli-sidebar-color-text;
-                background-color: $lesli-sidebar-color-hover;
-            }
-
-            // svg icons from lesli-icon
-            svg.icono {
-                width: 32px;
-                height: 32px;
-                fill: $lesli-sidebar-color-text;
+                color: $lesli-sidebar-hover-text;
+                background-color: $lesli-sidebar-hover-color;
             }
 
             // icons from reixicons
@@ -109,7 +94,7 @@ aside.application-sidebar {
         &.lesli-navigation-list {
 
             &.active {
-                background-color: $lesli-sidebar-color-hover;
+                background-color: $lesli-sidebar-hover-color;
                 ul {
                     height: auto;
                 }
@@ -140,6 +125,7 @@ aside.application-sidebar {
     }
 }
 
+
 // · 
 @include lesli-css-breakpoint-tablet {
 
@@ -148,51 +134,19 @@ aside.application-sidebar {
 
         // logo
         .brand {
-            a {
-                padding: 1rem;
-            }
+            padding: .2rem;
         }
     }
 }
 
 
-
 // · 
 @include lesli-css-breakpoint-desktop {
     aside.application-sidebar {
+
+        // logo container
         .brand {
-            padding: 1rem 1.4rem;
-
-            // logo container
-            a {
-                padding: 0;
-                align-items: end;
-                // logo
-                img {
-                    margin: 0;
-                    max-width: 100%;
-                    max-height: 100%;
-                    height: 100%;
-                }
-            }
-
-            // engine name
-            span {
-                color: white;
-                font-size: 1.2rem;
-                font-style: italic;
-                margin-left: -20px;
-                margin-bottom: -5px;
-            }
-
-            // engine selector button
-            .icon {
-                align-self: flex-end;
-                margin-bottom: 0px;
-                &:hover {
-                    cursor: pointer;
-                }
-            }
+            padding: 1rem 0rem;
         }
 
         // link container
@@ -244,33 +198,6 @@ aside.application-sidebar {
                     margin-bottom: 0;
                 }
             }
-
-        }
-
-    }
-}
-/*
-// · 
-@include lesli-css-breakpoint-fullhd {
-    aside.application-sidebar {
-        .brand {
-            // engine name
-            span {
-                color: white;
-                font-size: 1.2rem;
-                font-style: italic;
-                margin-left: -20px;
-                margin-bottom: -5px;
-            }
-        }
-
-        li {
-            a {
-                span.text {
-                    font-size: 1.2rem;
-                }
-            }
         }
     }
 }
-*/
