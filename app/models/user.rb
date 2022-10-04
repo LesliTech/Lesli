@@ -404,9 +404,9 @@ class User < ApplicationLesliRecord
     # @return [CloudDriver::Calendar]
     # @description Return the default calendar of the user if source_code is not provided.
     #               If source_code is provided the method return the specified source calendar.
-    def calendar source_code:nil
-        return Courier::Driver::Calendar.get_user_calendar(self, default: true) unless source_code
-        return Courier::Driver::Calendar.get_user_calendar(self, source_code: source_code) if source_code
+    def calendar source_code: :lesli
+        return Courier::Driver::Calendar.get_user_calendar(self, source_code: source_code, default: true) if source_code == :lesli
+        Courier::Driver::Calendar.get_user_calendar(self, source_code: source_code)
     end
 
 

@@ -23,11 +23,6 @@ module Courier
 
         class IntegrationEventsService
 
-            def self.create_event(current_user, event)
-                return unless defined? CloudOne
-                CloudOne::IntegrationEventsService.create_event(current_user, event)
-            end
-
             def self.google_sync(current_user)
                 return unless defined? CloudOne
                 CloudOne::IntegrationEventsService.google_sync(current_user)
