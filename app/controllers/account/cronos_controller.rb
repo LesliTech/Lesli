@@ -22,6 +22,9 @@ class Account::CronosController < ApplicationLesliController
 
     def privileges
         {
+            index: [],
+            show: [],
+            new: [],
             edit: [],
             destroy: [],
         }
