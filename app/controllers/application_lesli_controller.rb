@@ -106,7 +106,10 @@ class ApplicationLesliController < ApplicationController
         # 
         if defined?(CloudTalk)
             @account[:cloud_talk] = {
-                firebase: Rails.application.credentials.providers&.dig(:firebase, :web),
+                firebase: {
+                    config: Rails.application.credentials.providers&.dig(:firebase, :web),
+                    user: Rails.application.credentials.providers&.dig(:firebase, :user)
+                },
                 google_translate: Rails.application.credentials.providers&.dig(:google_translate)
             }
         end
