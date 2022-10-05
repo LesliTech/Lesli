@@ -30,10 +30,6 @@ const props = defineProps({
     icon: {
         type: String,
         required: false
-    },
-    rmi: {
-        type: String,
-        required: false
     }
 })
 
@@ -46,8 +42,7 @@ const open = ref(false)
 <template>
     <li :class="['lesli-navigation-list', {'active': open}]">
         <a @click.stop="open = !open" class="lesli-navigation-list-label">
-            <span v-if="props.rmi" :class="[props.rmi, 'icono']"></span>
-            <lesli-icon v-if="props.icon" :id="props.icon" class="icono"></lesli-icon>
+            <span v-if="props.icon" :class="[props.icon, 'icono']"></span>
             <span class="text">{{ props.label }}</span>
             <span class="chevron">
                 <span v-if="!open" class="material-icons md-24">

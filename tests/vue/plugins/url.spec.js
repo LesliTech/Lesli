@@ -129,13 +129,13 @@ describe("VUE/PLUGINS/URL", () => {
         it("should build a url for default pagination", () => {
             var url = vm.config.globalProperties.url.admin("users").paginate(1).toString()
             expect(url).to.be.a("string");
-            expect(url).to.equal("/administration/users?page=1&perPage=15");
+            expect(url).to.equal("/administration/users?page=1&perPage=10");
         });
 
         it("should build a url for paginate page 5", () => {
             var url = vm.config.globalProperties.url.admin("users").paginate(5).toString()
             expect(url).to.be.a("string");
-            expect(url).to.equal("/administration/users?page=5&perPage=15");
+            expect(url).to.equal("/administration/users?page=5&perPage=10");
         });
 
         it("should build a url for paginate 20 items per page", () => {
@@ -194,32 +194,32 @@ describe("VUE/PLUGINS/URL", () => {
         
         it("should build a full feature url at root level", () => {
             let result = url.root().order("id").paginate(1).search("text").filter({ role: ['admin'] }).toString()
-            expect(result).to.equal("/?orderBy=id&order=asc&page=1&perPage=15&search=text&f[role]=admin")
+            expect(result).to.equal("/?orderBy=id&order=asc&page=1&perPage=10&search=text&f[role]=admin")
         });
 
         it("should build a full feature url at root level with path", () => {
             let result = url.root("user/:id", 1).order("id").paginate(1).search("text").filter({ role: ['admin'] }).toString()
-            expect(result).to.equal("/user/1?orderBy=id&order=asc&page=1&perPage=15&search=text&f[role]=admin")
+            expect(result).to.equal("/user/1?orderBy=id&order=asc&page=1&perPage=10&search=text&f[role]=admin")
         });
 
         it("should build a full feature url for the admin area", () => {
             let result = url.admin().order("id").paginate(1).search("text").filter({ role: ['admin'] }).toString()
-            expect(result).to.equal("/administration/?orderBy=id&order=asc&page=1&perPage=15&search=text&f[role]=admin")
+            expect(result).to.equal("/administration/?orderBy=id&order=asc&page=1&perPage=10&search=text&f[role]=admin")
         });
 
         it("should build a full feature url for the admin area with path", () => {
             let result = url.admin("user/:userid", { userid: "2" }).order("id").paginate(1).search("text").filter({ role: ['admin'] }).toString()
-            expect(result).to.equal("/administration/user/2?orderBy=id&order=asc&page=1&perPage=15&search=text&f[role]=admin")
+            expect(result).to.equal("/administration/user/2?orderBy=id&order=asc&page=1&perPage=10&search=text&f[role]=admin")
         });
 
         it("should build a full feature url for an engine", () => {
             let result = url.audit().order("id").paginate(1).search("text").filter({ role: ['admin'] }).toString()
-            expect(result).to.equal("/audit/?orderBy=id&order=asc&page=1&perPage=15&search=text&f[role]=admin")
+            expect(result).to.equal("/audit/?orderBy=id&order=asc&page=1&perPage=10&search=text&f[role]=admin")
         });
 
         it("should build a full feature url for an engine with path", () => {
             let result = url.audit("user/:userid", { userid: "3" }).order("id").paginate(1).search("text").filter({ role: ['admin'] }).toString()
-            expect(result).to.equal("/audit/user/3?orderBy=id&order=asc&page=1&perPage=15&search=text&f[role]=admin")
+            expect(result).to.equal("/audit/user/3?orderBy=id&order=asc&page=1&perPage=10&search=text&f[role]=admin")
         });
 
     });

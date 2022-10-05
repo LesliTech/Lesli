@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,12 +13,25 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
 class Account::SettingsController < ApplicationLesliController
     before_action :set_account_setting, only: [:destroy]
+
+    def privileges
+        {
+            index: [],
+            new: [],
+            edit: [],
+            destroy: [],
+            security: [],
+            date_time: [],
+            branding: [],
+            theme: [],
+        }
+    end
 
     # GET /settings
     def index
@@ -32,6 +45,22 @@ class Account::SettingsController < ApplicationLesliController
 
     # GET /settings/1
     def show
+    end
+
+    # GET /settings/security
+    def security
+    end
+
+    # GET /settings/date_time
+    def date_time
+    end
+
+    # GET /settings/branding
+    def branding
+    end
+
+    # GET /settings/theme
+    def theme
     end
 
     # POST /settings
@@ -97,4 +126,7 @@ class Account::SettingsController < ApplicationLesliController
     def set_account_setting
         @setting = current_user.account.settings.find_by(id: params[:id])
     end
+
+
+
 end

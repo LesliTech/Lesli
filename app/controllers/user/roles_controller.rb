@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -20,6 +20,13 @@ For more information read the license file including with this software.
 class User::RolesController < ApplicationLesliController
     before_action :set_user, only: [:create, :destroy]
     before_action :set_user_role, only: [:create, :destroy]
+
+    def privileges
+        {
+            new: [],
+            destroy: [],
+        }
+    end
 
     # POST /user/roles
     def create
@@ -63,7 +70,7 @@ class User::RolesController < ApplicationLesliController
         #   role to assign is the same of the greater role assigned to the current user
         #   current user is not admin or owner
         current_user.roles.each do |current_role|
-            return true if current_role.object_level_permission > role.object_level_permission 
+            return true if current_role.object_level_permission > role.object_level_permission
             return true if current_role.name == "owner"
         end
 

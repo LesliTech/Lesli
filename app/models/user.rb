@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -50,9 +50,11 @@ class User < ApplicationLesliRecord
     has_many :access_codes,     foreign_key: "users_id"
     has_many :auth_providers,   foreign_key: "users_id"
 
-    has_many :user_roles,               foreign_key: "users_id",    class_name: "User::Role"
-    has_many :roles,                    through: :user_roles,       source: :roles
+    has_many :user_roles,       foreign_key: "users_id",    class_name: "User::Role"
+    has_many :roles,            through: :user_roles,       source: :roles
+    has_many :privileges,       through: :roles
 
+    has_many :role_privileges,          through: :roles,            source: :privileges
     has_many :user_privilege_actions,   foreign_key: "users_id",    class_name: "User::PrivilegeAction"
     has_many :role_privilege_actions,   through: :roles,            source: :privilege_actions
 
@@ -89,9 +91,7 @@ class User < ApplicationLesliRecord
 
 
     def change_after_update
-        if defined? CloudOne
-            CloudOne::Firebase::User.sync_user(self)
-        end
+        self.initialize_user_after_confirmation if self.confirmed?
     end
 
 
@@ -100,7 +100,6 @@ class User < ApplicationLesliRecord
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     #     At the current time, it only creates a default calendar. This is an *after_create* method, and is not
     #     designed to be invoked directly
-
     def initialize_user_details
 
         # create user details
@@ -109,13 +108,15 @@ class User < ApplicationLesliRecord
         # create an alias based on user name
         self.set_alias
 
-    end 
+    end
 
 
-
+    # Initialize user settings and dependencies needed
     def initialize_user_after_confirmation
-        Courier::One::Firebase::User.registration(self)
-        Courier::Driver::Calendar.create_user_calendar(self, "Personal Calendar")
+        self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
+        self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
+        Courier::One::Firebase::User.sync_user(self)
+        Courier::Driver::Calendar.create_user_calendar(self, name: "Personal Calendar", default: true)
     end
 
 
@@ -154,6 +155,23 @@ class User < ApplicationLesliRecord
     #     actions = ["index", "update"]
     #
     #     current_user.has_privileges?(controllers, actions)
+    def has_privileges4?(controller, action, form='html')
+
+        # set html by default, even if nil is sent as parameter for "form"
+        form ||= 'html'
+
+        begin
+            !self.privileges
+            .where("role_privileges.controller = ?", controller)
+            .where("role_privileges.action = ?", action)
+            .where("role_privileges.form = ?", form)
+            .first.blank?
+        rescue => exception
+            Honeybadger.notify(exception)
+            return false
+        end
+    end
+
     def has_privileges?(controllers, actions)
 
         begin
@@ -280,6 +298,40 @@ class User < ApplicationLesliRecord
 
 
 
+    # @return Boolean
+    # @description Check if user has enough privilege to work with the given role
+    def can_work_with_role?(role)
+
+        # get the role if only id is given
+        role = self.roles.find_by(:id => role) unless role.class.name == "Role"
+
+        # false if role not found
+        return false if role.blank?
+
+        # not valid role without object levelpermission defined
+        return false if role.object_level_permission.blank?
+
+        # owner role can work with all the roles
+        return true if !self.roles.find_by(name: 'owner').blank?
+
+        # get the max object level permission from the roles the user has assigned
+        user_role_level_max = self.roles.map(&:object_level_permission).max()
+
+        # check if user can work with the object level permission of the role is trying to modify
+        # Note: user only can assigned an object level permission below the max of his own roles
+        # Current user cannot assign role if
+        #       role to assign has greater object level permission than the greater role assigned to the current user
+        #       role to assign is the same of the greater role assigned to the current user
+        #       current user is not sysadmin or owner
+        return false if role.object_level_permission >= user_role_level_max
+
+        # user can work with this role :)
+        return true
+
+    end
+
+
+
     # @return [void]
     # @description Delete all the active sessions for a given user
     # TODO:
@@ -338,31 +390,6 @@ class User < ApplicationLesliRecord
 
 
 
-    # @return Boolean
-    # @description Check if user has enough privilege to work with the given role
-    def can_work_with_role?(role_id)
-
-        return false if role_id.blank?
-
-        role = self.account.roles.find(role_id) rescue nil
-
-        return false if role.blank?
-
-        # check if the current_user can assign this role, current user cannot assign role if
-        #   role to assign has greater object level permission than the greater role assigned to the current user
-        #   role to assign is the same of the greater role assigned to the current user
-        #   current user is not sysadmin or owner
-        self.roles.each do |current_role|
-            return true if current_role.object_level_permission > role.object_level_permission
-            return true if current_role.name == "owner"
-        end
-
-        return false
-
-    end
-
-
-
     # @return [void]
     # @description Register a new notification for the current user
     # @param subject String Short notification description
@@ -373,6 +400,14 @@ class User < ApplicationLesliRecord
         Courier::Bell::Notification.new(self, subject, body:body, url:url, category:category)
     end
 
+
+    # @return [CloudDriver::Calendar]
+    # @description Return the default calendar of the user if source_code is not provided.
+    #               If source_code is provided the method return the specified source calendar.
+    def calendar source_code: :lesli
+        return Courier::Driver::Calendar.get_user_calendar(self, source_code: source_code, default: true) if source_code == :lesli
+        Courier::Driver::Calendar.get_user_calendar(self, source_code: source_code)
+    end
 
 
     # @return [void]
@@ -416,8 +451,10 @@ class User < ApplicationLesliRecord
     #     puts current_user.full_name # John Doe
     #     puts current_user.set_alias # Jo. Do.
     def set_alias
-        self.alias = (detail&.first_name && detail&.last_name) ? "#{detail.first_name[0..1]} #{detail.last_name[0..1]}" : ""
-        self.save
+        if self.alias.nil?
+            self.alias = (detail&.first_name && detail&.last_name) ? "#{detail.first_name[0..1]}#{detail.last_name[0..1]}" : ""
+            self.save
+        end
     end
 
     # @return [String]
@@ -558,9 +595,9 @@ class User < ApplicationLesliRecord
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
         users = users.where("category = ?", query[:filters][:category]) if query[:filters][:category]
         users = users.where("
-            lower(email) like '%#{query[:filters][:search]}%' or
-            LOWER(concat(ud.first_name, ' ', ud.last_name)) like '%#{query[:filters][:search].downcase}%'
-        ")  if not query[:filters][:search].blank?
+            lower(email) like '%#{query[:search]}%' or
+            LOWER(concat(ud.first_name, ' ', ud.last_name)) like '%#{query[:search].downcase}%'
+        ")  if not query[:search].blank?
 
         users = users.select(
             :id,
@@ -613,10 +650,11 @@ class User < ApplicationLesliRecord
             created_at: user[:created_at],
             updated_at: user[:updated_at],
             editable_security: current_user && current_user.has_roles?("owner", "sysadmin"),
-            roles: user.roles.map { |r| { id: r[:id], name: r[:name] } },
+            roles: user.roles.map { |r| { id: r[:id], name: r[:name], permission_level: r[:object_level_permission]} },
             full_name: user.full_name,
             mfa_enabled: user.mfa_settings[:enabled],
             mfa_method:  user.mfa_settings[:method],
+            language: user.settings.find_by(:name => "locale"),
             detail_attributes: {
                 title: user.detail[:title],
                 salutation: user.detail[:salutation],
@@ -639,14 +677,11 @@ class User < ApplicationLesliRecord
     #   puts user_mfa_settings
     #       { :mfa_enabled => true, :mfa_method => "email"}
     def mfa_settings
-        mfa_enabled = self.settings.find_by(:name => "mfa_enabled")
-        mfa_method = self.settings.find_by(:name => "mfa_method")
-        
-        is_mfa_enabled = false
-        is_mfa_enabled ||= (mfa_enabled.value.downcase == "true") unless mfa_enabled.nil?
+        mfa_enabled = self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
+        mfa_method = self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
 
-        {   
-            :enabled => is_mfa_enabled,
+        {
+            :enabled => mfa_enabled.nil? ? false : mfa_enabled.value == 't',
             :method => mfa_method.nil? ? nil : mfa_method.value.to_sym
         }
     end
