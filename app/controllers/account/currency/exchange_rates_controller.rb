@@ -23,6 +23,7 @@ class Account::Currency::ExchangeRatesController < ApplicationLesliController
         {
             index: [],
             show: [],
+            new: [],
             edit: [],
             destroy: [],
         }
