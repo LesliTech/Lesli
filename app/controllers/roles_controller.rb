@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -19,14 +19,15 @@ For more information read the license file including with this software.
 class RolesController < ApplicationLesliController
     before_action :set_role, only: [:show, :update, :destroy]
 
-    def privileges 
+    def privileges
         {
             index: ['Role::DescribersController#index'],
             show: [],
             edit: ['options', 'Role::DescribersController#create', 'Role::DescribersController#destroy'],
-            new: []
+            new: [],
+            destroy: [],
         }
-    end 
+    end
 
     #@return [HTML|JSON] HTML view for listing all roles or a Json that contains a list of all roles
     #    associated to this *account*
@@ -205,7 +206,7 @@ class RolesController < ApplicationLesliController
 
             # get the next OLP in the list of the existing roles
             level_next = existing_levels.to_a[i+1] unless existing_levels.to_a[i+1].nil?
-            
+
             # calculate the new next level, basically we get the level right in the middle
             # between the existing levels, example:
             #   1000    existing level

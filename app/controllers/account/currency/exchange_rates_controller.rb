@@ -1,9 +1,9 @@
 =begin
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -12,12 +12,21 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 class Account::Currency::ExchangeRatesController < ApplicationLesliController
     before_action :set_currency, only: [:index, :create]
     before_action :set_exchange_rate, only: [:update, :destroy]
+
+    def privileges
+        {
+            index: [],
+            show: [],
+            edit: [],
+            destroy: [],
+        }
+    end
 
     # GET /account/currency/:account_currency/exchange_rates
     def index
@@ -35,7 +44,7 @@ class Account::Currency::ExchangeRatesController < ApplicationLesliController
             format.html {}
             format.json do
                 set_exchange_rate
-                
+
                 return respond_with_not_found unless @exchange_rate
                 return respond_with_successful(@exchange_rate.show(current_user, @query))
             end
