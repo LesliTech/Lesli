@@ -37,6 +37,25 @@ body.administration-profile {
     }
 
     form.information {
-        max-width: 600px;
+        max-width: 80%;
     }
+
+    // · roles management cards
+    .roles-types {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-auto-rows: minmax(198px, auto);
+        gap: 20px;
+
+        &-item {
+            width: 100%;
+            height: 135px;
+            border-radius: 8px;
+            margin: 5px;
+        }
+    }
+    
 }
+
+
+

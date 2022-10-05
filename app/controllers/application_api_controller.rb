@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -21,7 +21,7 @@ class ApplicationApiController < ActionController::API
     include ActionController::MimeResponds
     include Interfaces::Application::Responder
     include Interfaces::Application::Logger
-    include Application::Requester
+    include Application::Requester    
 
     before_action :set_locale
     before_action :authorize_request
@@ -34,7 +34,7 @@ class ApplicationApiController < ActionController::API
 
 
     private
- 
+
 
     # Check if current_user has privileges to complete this request
     # allowed core methods:
@@ -52,7 +52,7 @@ class ApplicationApiController < ActionController::API
         @current_session = nil
 
         # Try to find a valid session using a token
-        (-> () { 
+        (-> () {
 
             token = nil
 
@@ -77,7 +77,7 @@ class ApplicationApiController < ActionController::API
                     :user_uuid => jwt.payload[0]["sub"],
                     :session_uuid => jwt.payload[0]["jti"]
                 )
-                return 
+                return
             end
 
             # check if token is a valid opaque integration token
@@ -106,6 +106,141 @@ class ApplicationApiController < ActionController::API
         if @current_user.has_expired_password?
             return respond_with_unauthorized I18n.t("core.shared.messages_danger_password_already_expired")
         end
+
+    end
+
+
+
+
+    # ===============================================================
+    # Temporal overwrite to keep compatibility
+    # ===============================================================
+
+    # Overwrite: Return an standard http 200 respond
+    def respond_with_successful payload=nil
+
+        response_body_v2 = {
+            successful: true,
+            data: payload
+        }
+
+        if payload.as_json.instance_of?(Array)
+            return respond_with_http(200, payload)
+        elsif payload.blank?
+            response_body_v3 = {}
+        else
+            response_body_v3 = {
+                **payload.as_json
+            }
+        end
+
+        respond_with_http(200, {
+            **response_body_v2,
+            **response_body_v3,
+        })
+
+    end
+
+    # Overwrite: Return an pagination http 200 respond
+    def respond_with_pagination(records, payload=nil)
+
+        response_pagination_v2 = {
+            :total_pages => records.total_pages,
+            :current_page => records.current_page,
+            :count_total => records.total_count,
+            :count_results => records.length
+        }
+
+        response_pagination_v3 = {
+            :pages => records.total_pages,
+            :page => records.current_page,
+            :total => records.total_count,
+            :results => records.length
+        }
+
+        respond_with_http(200, {
+            :pagination => {
+                **response_pagination_v2,
+                **response_pagination_v3,
+            },
+            :records => payload || records
+        })
+
+    end
+
+
+    # Overwrite: JSON not found response
+    def respond_with_not_found
+
+        response_body_v2 = {
+            successful: false,
+            error: {
+                message: I18n.t("core.shared.messages_danger_not_found"),
+                details: []
+            }
+        }
+
+        response_body_v3 = {
+            message: I18n.t("core.shared.messages_danger_not_found")
+        }
+
+        respond_with_http(404, {
+            **response_body_v2,
+            **response_body_v3,
+        })
+    end
+
+
+    # Overwrite: JSON not found response
+    def respond_with_unauthorized(detail = {})
+
+        response_body_v2 = {
+            successful: false,
+            error: {
+                message: I18n.t("core.shared.view_text_unauthorized_request")
+            },
+        }
+
+        response_body_v3 = {
+            message: I18n.t("core.shared.view_text_unauthorized_request")
+        }
+
+        response_body = {
+            **response_body_v2,
+            **response_body_v3,
+        }
+
+        respond_to do |format|
+            format.json { render status: 401, json: response_body.to_json }
+            format.html { render status: 401, json: response_body.to_json }
+            format.xlsx { render status: 401, json: response_body.to_json }
+        end
+
+    end
+
+    # Overwrite: JSON failure response
+    def respond_with_error message = "", details = []
+
+        # Message should be a String
+        message = "" unless message.instance_of?(String)
+
+        response_body_v2 = {
+            successful: false,
+            error: {
+                message: message,
+                details: details
+            }
+        }
+
+        response_body_v3 = {
+            message: message,
+            details: details
+        }
+
+        respond_with_http(400, {
+            **response_body_v2,
+            **response_body_v3,
+        })
 
     end
 

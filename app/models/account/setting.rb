@@ -41,7 +41,7 @@ class Account::Setting < ApplicationRecord
         account.settings.create!({ name: 'password_minimum_length', value: 6 })
         account.settings.create!({ name: 'password_digit_count', value: 0 })
 
-        datetime = Rails.application.config.lesli[:configuration][:datetime2]
+        datetime = Rails.application.config.lesli[:configuration][:datetime]
         account.settings.create!(name: 'datetime_time_zone', value: datetime[:time_zone]) 
         account.settings.create!(name: 'datetime_start_week_on', value: datetime[:start_week_on]) 
         account.settings.create!(name: 'datetime_format_date', value: datetime[:formats][:date]) 
@@ -54,6 +54,7 @@ class Account::Setting < ApplicationRecord
     def self.theme_settings_keys
         [
             'lesli_theme_color_primary',
+            'lesli_theme_color_secondary',
             'lesli_theme_color_header',
             'lesli_theme_color_sidebar',
             'lesli_theme_color_background',

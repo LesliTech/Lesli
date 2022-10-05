@@ -35,6 +35,10 @@ const emit = defineEmits(['click', 'sort', 'paginate']);
 
 // · defining props
 const props = defineProps({
+    id: {
+        type: String,
+        require: false
+    },
     class: {
         type: String,
         required: false,
@@ -71,7 +75,7 @@ const dropdownActive = ref([])
 // · prepaer the CSS classes for every column in the header
 function tableHeaderClass(column) {
     return {
-        'has-text-centered': column.field == 'id'
+        'has-text-centered': (column.field == 'id' || column.align == 'center') 
     }
 }
 
@@ -79,7 +83,7 @@ function tableHeaderClass(column) {
 // · prepaer the CSS classes for every column in the header
 function tableBodyClass(column) {
     return {
-        'has-text-centered': column.field == 'id'
+        'has-text-centered': (column.field == 'id' || column.align == 'center') 
     }
 }
 
@@ -92,7 +96,7 @@ function sort(column) {
     }
 
     if(column.field === currentSort.value) {
-      currentSortDir.value = currentSortDir.value === 'asc' ? 'desc' : 'asc';
+        currentSortDir.value = currentSortDir.value === 'asc' ? 'desc' : 'asc';
     }
 
     currentSort.value = column.field;
@@ -111,6 +115,7 @@ function paginate(page) {
 <template>
     <div>
         <table 
+            :id="props.id"
             class="table is-fullwidth lesli-table"
             :class="props.class">
             <thead>
@@ -122,18 +127,37 @@ function paginate(page) {
                         v-bind:width="column.width"
                         v-bind:class="tableHeaderClass(column)"
                         v-for="column in props.columns" :key="column.field">
-                        <span v-if="!column.sort">
-                            {{ column.label }}
-                        </span>
-                        <span class="icon-text" v-if="column.sort">
-                            <span>
+
+
+
+                        <!--
+                            Use a slot to render content, so it is possible to 
+                            use html elements to render custom componentes for 
+                            every column header of the table 
+                        -->
+                        <slot
+                            :name="`head(${column.field})`" 
+                            :column="column">
+
+                            <!--
+                                Render the default table header if not custom slot is provided
+                            -->
+                            <span v-if="!column.sort">
                                 {{ column.label }}
                             </span>
-                            <span class="icon">
-                                <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'asc')">arrow_upward</span>
-                                <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'desc')">arrow_downward</span>
+                            <span class="icon-text" v-if="column.sort">
+                                <span>
+                                    {{ column.label }}
+                                </span>
+                                <span class="icon">
+                                    <span class="material-icons" v-if="!currentSort">sort</span>
+                                    <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'asc')">arrow_upward</span>
+                                    <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'desc')">arrow_downward</span>
+                                </span>
                             </span>
-                        </span>
+
+                        </slot>
+
                     </th>
 
                     <!-- 
@@ -168,8 +192,8 @@ function paginate(page) {
                         <slot
                             :name="column.field"
                             :column="column"
-                            :value="record[column.field]"
-                            :row="record">
+                            :record="record"
+                            :value="record[column.field]">
 
                             <!--
                                 Print the text value if no custom slot is used
@@ -186,7 +210,7 @@ function paginate(page) {
                         every row of the table (i)
                     -->
                     <td v-if="slots.options" class="options">
-                        <div :class="['dropdown', 'is-right is-hoverable', { 'is-active': dropdownActive[i] }]">
+                        <div :class="['dropdown', 'is-right is-hoverable', { 'is-active': dropdownActive[i] }, {'is-up': i==(props.records.length-1) }]">
                             <div class="dropdown-trigger">
                                 <button class="button has-text-info" 
                                     @blur="dropdownActive[i] = false"
@@ -233,3 +257,4 @@ function paginate(page) {
 
     </div>
 </template>
+    

@@ -27,7 +27,9 @@ section.lesli-panel {
         top: 0;
         left: 0;
     }
+
     div.lesli-panel-content {
+        @include lesli-css-scrollbar(hide);
         background-color: white;
         position: fixed;
         z-index: 40;
@@ -37,6 +39,7 @@ section.lesli-panel {
         height: 100%;
 
         .lesli-panel-header {
+            padding: 1rem 1rem .6rem;
             border-bottom: 1px solid lesli-css-color(slate);
         }
 

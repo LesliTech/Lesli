@@ -17,7 +17,7 @@ For more information read the license file including with this software.
 */
 
 // · import vue tools
-import { onMounted, computed } from "vue"
+import { onMounted, ref } from "vue"
 
 // · import store
 import { useCloudObjectFileStore } from "LesliVue/stores/cloud-objects/file"
@@ -25,11 +25,14 @@ import { useCloudObjectFileStore } from "LesliVue/stores/cloud-objects/file"
 // · implement store
 const store = useCloudObjectFileStore()
 
-// · get translations from store
-const translations = store.translations
+// · defining translations
+const translations = {
+    core: {
+        shared: I18n.t("core.shared"),
+    }
+}
 
-// · get in a reactive way the files in server
-const files = computed(() => store.files)
+const dropdownActive = ref(false)
 
 // · columns of the table
 const columns = [
@@ -39,16 +42,12 @@ const columns = [
     },
     {
         field: "file_type",
-        label: translations.core.shared.column_files_type,
+        label: translations.core.shared.column_files_file_type,
     },
     {
         field: "created_at",
         label: translations.core.shared.column_created_at,
     },
-    {
-        field: "id",
-        label: translations.core.shared.view_table_header_actions,
-    }
 ];
 
 onMounted(() => {
@@ -59,34 +58,11 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="card">
-        <header>
-            <p class="card-header-title subtitle">{{ translations.core.shared.view_text_show_all_files }}</p>
-        </header>
-
-        <div class="card-content">
-            <lesli-table :columns="columns" :records="files">
-                <template #id="{ column, value }">
-                    <a 
-                        :href="store.getUrl(value)" 
-                        target="_blank"
-                        class="button mr-2"
-                        
-                    >
-                        <span class="material-icons">visibility</span>
-                    </a>
-                    <a
-                        :href="`${store.getUrl(value)}?download=true`" 
-                        download
-                        class="button mr-2"
-                    >
-                        <span class="material-icons">download</span>
-                    </a>
-                    <button class="button mr-2 is-danger" @click="store.deleteFile(value)">
-                        <span class="material-icons">delete</span>
-                    </button>
-                </template>
-            </lesli-table>
-        </div>
-    </div>
+    <lesli-table :columns="columns" :records="store.files">
+        <template #options="record">
+                <a class="dropdown-item" :href="`${store.getUrl(record.value)}.json`" target="_blank">{{ translations.core.shared.view_btn_view_file }}</a>
+                <a class="dropdown-item" :href="`${store.getUrl(record.value)}.json?download=true`" download>{{ translations.core.shared.view_btn_download }}</a>
+                <a class="dropdown-item" @click="store.deleteFile(record.value)">{{ translations.core.shared.view_btn_delete }}</a>
+        </template>
+    </lesli-table>
 </template>

@@ -31,6 +31,7 @@ class Account < ApplicationRecord
     has_many :currencies,       foreign_key: "accounts_id", class_name: "Account::Currency"
     has_many :integrations,     foreign_key: "accounts_id"
     has_many :role_descriptors, foreign_key: "accounts_id", class_name: "RoleDescriptor"
+    has_many :descriptors,      foreign_key: "accounts_id"
 
     has_one :template, class_name: "Template", foreign_key: "accounts_id"
 
@@ -89,7 +90,7 @@ class Account < ApplicationRecord
             self.template.save!
         end
 
-        # create role descriptors
+        # create role descriptors 
         self.role_descriptors.find_or_create_by(name: "owner")
         self.role_descriptors.find_or_create_by(name: "sysadmin")
         self.role_descriptors.find_or_create_by(name: "profile")
@@ -337,9 +338,13 @@ class Account < ApplicationRecord
 
         regions = Account.regions.map { |key, value| { key: key, value: value } }
 
+        time_zones = ActiveSupport::TimeZone::MAPPING.map { |key, value| { value: value, text: value } }
+
         return {
             regions: regions,
             countries: countries,
+            time_zones: time_zones.uniq { |time_zone| [time_zone[:value], time_zone[:text]] },
+            days_into_week: DateAndTime::Calculations::DAYS_INTO_WEEK.map { |day, value| { value: day, text: I18n.t("core.shared.view_text_day_#{day}") } },
         }
     end
 

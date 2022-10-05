@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -22,18 +22,28 @@ For more information read the license file including with this software.
 class UsersController < ApplicationLesliController
     before_action :set_user, only: [:show, :update, :destroy]
 
+    def privileges
+        {
+            index: [],
+            new: [],
+            show: [],
+            edit: [],
+            email: [],
+        }
+    end
+
     def list
         respond_to do |format|
-            format.json { 
+            format.json {
 
                 # Keep compatibility with DeutscheLeibrenten
-                if defined?(DeutscheLeibrenten) 
-                    respond_with_successful(User.list(current_user, @query, params)) 
+                if defined?(DeutscheLeibrenten)
+                    respond_with_successful(User.list(current_user, @query, params))
                 end
 
                 # Lesli v3
-                if !defined?(DeutscheLeibrenten) 
-                    respond_with_successful(User.list(current_user, @query, params)) 
+                if !defined?(DeutscheLeibrenten)
+                    respond_with_successful(User.list(current_user, @query, params))
                 end
 
             }
@@ -50,7 +60,7 @@ class UsersController < ApplicationLesliController
     def index
         respond_to do |format|
             format.html { }
-            format.json { 
+            format.json {
 
                 # Keep compatibility with DeutscheLeibrenten
                 if defined?(DeutscheLeibrenten)
@@ -83,14 +93,14 @@ class UsersController < ApplicationLesliController
                     respond_with_successful({
                         users_count: users_count,
                         users: users
-                    }) 
+                    })
                 end
 
                 # Lesli v3
-                if !defined?(DeutscheLeibrenten) 
+                if !defined?(DeutscheLeibrenten)
 
                     users = User.index(current_user, @query, params)
-                    
+
                     return respond_with_pagination(users, (users.map { |user|
 
                         # last time user use the login form to access the platform
@@ -150,6 +160,7 @@ class UsersController < ApplicationLesliController
         user = User.new({
             :active => true,
             :email => user_params[:email],
+            :alias => user_params[:alias],
             :detail_attributes => user_params[:detail_attributes]
         })
 
@@ -263,7 +274,7 @@ class UsersController < ApplicationLesliController
 
     def options
 
-        roles = current_user.account.roles.select(:id, :name)
+        roles = current_user.account.roles.select(:id, :name, :object_level_permission)
 
         # only owner can assign any role
         unless current_user.has_roles?("owner")
@@ -275,7 +286,7 @@ class UsersController < ApplicationLesliController
             regions: current_user.account.locations.where(level: "region"),
             salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
             locales: Rails.application.config.lesli.dig(:configuration, :locales_available),
-            mfa_methods: Rails.application.config.lesli.dig(:configuration, :mfa_methods),
+            mfa_methods: Rails.application.config.lesli.dig(:configuration, :mfa_methods)
         })
 
     end
@@ -317,7 +328,7 @@ class UsersController < ApplicationLesliController
         })
 
         # assign the session of the becomer user to the becoming user
-        session[:user_session_id] = becoming_session[:id]        
+        session[:user_session_id] = becoming_session[:id]
 
         # Response successful
         respond_with_successful([current_user, becoming_user])
@@ -392,11 +403,12 @@ class UsersController < ApplicationLesliController
 
     end
 
-    # Resets the user email 
+    # Resets the user email
     def email
+
         user = current_user.account.users.find_by(id: params[:id])
 
-        if user.blank? 
+        if user.blank? || user.id != current_user.id
             return respond_with_not_found
         end
 

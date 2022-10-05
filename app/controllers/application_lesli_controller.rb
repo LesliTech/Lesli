@@ -18,7 +18,6 @@ For more information read the license file including with this software.
 
 class ApplicationLesliController < ApplicationController
     include Interfaces::Application::Responder
-    # include Application::Responder
     include Application::Requester
     include Application::Logger
     include Application::Polyfill
@@ -88,7 +87,6 @@ class ApplicationLesliController < ApplicationController
 
         @account[:settings] = {
             datetime: Rails.application.config.lesli.dig(:configuration, :datetime),
-            datetime2: Rails.application.config.lesli.dig(:configuration, :datetime2),
             currency: (Rails.application.config.lesli[:configuration][:currency] || {})
                 .merge({ locale: Rails.application.config.lesli[:env][:default_locale] })
         }
@@ -102,6 +100,14 @@ class ApplicationLesliController < ApplicationController
             abilities: current_user.abilities_by_controller,
             max_object_level_permission: current_user.roles.map(&:object_level_permission).max
         }
+
+        # 
+        if defined?(CloudTalk)
+            @account[:cloud_talk] = {
+                firebase: Rails.application.credentials.providers&.dig(:firebase, :web)
+            }
+        end
+
     end
 
 
@@ -148,10 +154,17 @@ class ApplicationLesliController < ApplicationController
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
     def authorize_privileges
 
+        # check if security version 4 is enable
+        seguridad4 = (Rails.application.config.lesli.dig(:security, :version) === 4)
+
+        # check if user has access to the requested controller
+        # this search is over all the privileges for all the roles of the user
+        granted = current_user.has_privileges4?(params[:controller], params[:action], params[:format]) if seguridad4
+
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
         # Due this method is executed on every request, we use low level cache to improve performance
-        granted = current_user.has_privileges?([params[:controller]], [params[:action]])
+        granted = current_user.has_privileges?([params[:controller]], [params[:action]]) if !seguridad4
 
         # Check if user can be redirected to role default path
         can_redirect_to_default_path = -> () {
@@ -169,12 +182,12 @@ class ApplicationLesliController < ApplicationController
 
         # privilege for object not found
         if granted.blank?
-            log_user_comments("privilege_not_found")
+            log_user_comments(request.path, "privilege_not_found")
             return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] })
         end
         
         unless granted
-            log_user_comments("privilege_not_granted")
+            log_user_comments(request.path ,"privilege_not_granted")
             return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] }) 
         end
     end
