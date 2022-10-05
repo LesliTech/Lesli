@@ -84,7 +84,7 @@ export default {
 
             let form_data = {}
             form_data[`${this.object_name.singular}_discussion`] = this.discussion
-            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions`
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions.json`
             this.submitting_form = true
 
             this.http.post(url, form_data).then(result => {
@@ -141,7 +141,7 @@ export default {
                 content: comment.data.new_content
             }
             let comment_id = comment.data.id
-            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions/${comment_id}`
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions/${comment_id}.json`
 
             this.http.put(url, form_data).then(result => {
                 if (result.successful) {
@@ -160,7 +160,7 @@ export default {
 
         deleteComment(comment){
             let comment_id = comment.data.id
-            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions/${comment_id}`
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions/${comment_id}.json`
 
             this.http.delete(url).then(result => {
                 if (result.successful) {

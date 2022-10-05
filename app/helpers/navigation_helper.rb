@@ -133,7 +133,7 @@ module NavigationHelper
     end
 
     # 03.03 Focus engine
-    def navigation_engine_focus title: "Tasks", subtitle: "cloud_focus/focus-logo.svg"
+    def navigation_engine_focus title: "Tasks", subtitle: "Task Management"
         if defined? CloudFocus
             navigation_engine_item(title, subtitle, "focus", cloud_focus.root_path, controller_path.include?("cloud_focus"))
         end
@@ -161,7 +161,7 @@ module NavigationHelper
     end
 
     # 03.11 Storage engine
-    def navigation_engine_storage title: "Storage", subtitle: "cloud_storage/storage-logo.svg"
+    def navigation_engine_storage title: "Storage", subtitle: "Cloud files management"
         if defined? CloudStorage
             navigation_engine_item(title, subtitle, "storage", cloud_storage.root_path, controller_path.include?("cloud_storage"))
         end
@@ -214,7 +214,7 @@ module NavigationHelper
     end
 
     # 07.02 Help engine
-    def navigation_engine_help title: "Help", subtitle: "Tickets, SLAs, Reports"
+    def navigation_engine_help title: "Help", subtitle: "Support Ticket System"
         if defined? CloudHelp
             navigation_engine_item(title, subtitle, "help", cloud_help.root_path, controller_path.include?("cloud_help"))
         end
