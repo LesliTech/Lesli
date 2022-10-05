@@ -88,7 +88,8 @@ class ApplicationLesliController < ApplicationController
         @account[:settings] = {
             datetime: Rails.application.config.lesli.dig(:configuration, :datetime),
             currency: (Rails.application.config.lesli[:configuration][:currency] || {})
-                .merge({ locale: Rails.application.config.lesli[:env][:default_locale] })
+                .merge({ locale: Rails.application.config.lesli[:env][:default_locale] }),
+            
         }
         
         # set user information
@@ -98,13 +99,15 @@ class ApplicationLesliController < ApplicationController
             full_name: current_user.full_name,
             roles: current_user.roles.map(&:name),
             abilities: current_user.abilities_by_controller,
-            max_object_level_permission: current_user.roles.map(&:object_level_permission).max
+            max_object_level_permission: current_user.roles.map(&:object_level_permission).max,
+            settings: current_user.settings.map { |s| { name: s.name, value: s.value } }
         }
 
         # 
         if defined?(CloudTalk)
             @account[:cloud_talk] = {
-                firebase: Rails.application.credentials.providers&.dig(:firebase, :web)
+                firebase: Rails.application.credentials.providers&.dig(:firebase, :web),
+                google_translate: Rails.application.credentials.providers&.dig(:google_translate)
             }
         end
 
