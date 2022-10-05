@@ -21,6 +21,8 @@ class Account::CurrenciesController < ApplicationLesliController
     def privileges
         {
             index: [],
+            show: [],
+            new: [],
         }
     end
 
