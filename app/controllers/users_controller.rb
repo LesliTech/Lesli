@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -28,21 +28,22 @@ class UsersController < ApplicationLesliController
             new: [],
             show: [],
             edit: [],
+            email: [],
         }
-    end 
+    end
 
     def list
         respond_to do |format|
-            format.json { 
+            format.json {
 
                 # Keep compatibility with DeutscheLeibrenten
-                if defined?(DeutscheLeibrenten) 
-                    respond_with_successful(User.list(current_user, @query, params)) 
+                if defined?(DeutscheLeibrenten)
+                    respond_with_successful(User.list(current_user, @query, params))
                 end
 
                 # Lesli v3
-                if !defined?(DeutscheLeibrenten) 
-                    respond_with_successful(User.list(current_user, @query, params)) 
+                if !defined?(DeutscheLeibrenten)
+                    respond_with_successful(User.list(current_user, @query, params))
                 end
 
             }
@@ -59,7 +60,7 @@ class UsersController < ApplicationLesliController
     def index
         respond_to do |format|
             format.html { }
-            format.json { 
+            format.json {
 
                 # Keep compatibility with DeutscheLeibrenten
                 if defined?(DeutscheLeibrenten)
@@ -92,14 +93,14 @@ class UsersController < ApplicationLesliController
                     respond_with_successful({
                         users_count: users_count,
                         users: users
-                    }) 
+                    })
                 end
 
                 # Lesli v3
-                if !defined?(DeutscheLeibrenten) 
+                if !defined?(DeutscheLeibrenten)
 
                     users = User.index(current_user, @query, params)
-                    
+
                     return respond_with_pagination(users, (users.map { |user|
 
                         # last time user use the login form to access the platform
@@ -327,7 +328,7 @@ class UsersController < ApplicationLesliController
         })
 
         # assign the session of the becomer user to the becoming user
-        session[:user_session_id] = becoming_session[:id]        
+        session[:user_session_id] = becoming_session[:id]
 
         # Response successful
         respond_with_successful([current_user, becoming_user])
@@ -402,12 +403,12 @@ class UsersController < ApplicationLesliController
 
     end
 
-    # Resets the user email 
+    # Resets the user email
     def email
 
         user = current_user.account.users.find_by(id: params[:id])
 
-        if user.blank? || user.id != current_user.id 
+        if user.blank? || user.id != current_user.id
             return respond_with_not_found
         end
 
