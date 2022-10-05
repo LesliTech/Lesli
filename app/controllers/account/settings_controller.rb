@@ -24,10 +24,12 @@ class Account::SettingsController < ApplicationLesliController
         {
             index: [],
             new: [],
+            edit: [],
+            destroy: [],
             security: [],
             date_time: [],
             branding: [],
-            theme: []
+            theme: [],
         }
     end
 
