@@ -67,7 +67,7 @@ export default {
 
     methods: {
         setDropzoneOptions(){
-            this.dropzone_options.url = `${this.main_route}/${this.cloudId}/files`
+            this.dropzone_options.url = `${this.main_route}/${this.cloudId}/files.json`
             this.dropzone_options.paramName = `${this.object_name.singular}_file[attachment]`
         },
 
@@ -90,7 +90,7 @@ export default {
         },
 
         getFileOptions(){
-            let url = `${this.main_route}/files/options`
+            let url = `${this.main_route}/files/options.json`
 
             this.http.get(url).then(result => {
                 if (result.successful) {

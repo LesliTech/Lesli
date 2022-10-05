@@ -136,7 +136,7 @@ export default {
             }
 
             let discussion_id = discussion.id
-            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions/${discussion_id}`
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions/${discussion_id}.json`
 
             this.http.delete(url).then(result => {
                 if (result.successful) {

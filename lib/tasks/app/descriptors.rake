@@ -66,8 +66,9 @@ namespace :app do
                         # to be able to work in a complete view
                         co.privileges.each do |action, privileges|
 
-                            # allow only estandard actions
-                            next unless [:index, :show, :new, :edit, :destroy, :search].include?(action)
+                            # remove "duplicated" descriptors
+                            # in this context new & created are the same, so edit & update
+                            next if [:create, :update].include?(action)
 
                             # push my own action to privileges due descriptor also needs access to the .json requests 
                             privileges.push(action.to_s)
