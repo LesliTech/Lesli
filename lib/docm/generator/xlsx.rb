@@ -129,26 +129,19 @@ module Docm
                         x = self.expand_widths(sheet_styles[:widths], expanded_row_styles.length)
 
                         sheet.column_widths(*x)
-                    end
 
-                    # If there is a third value in the xlsx_datasets array (Array) it is supposed to be a pivot table
-                    # Which allows us to have many pivot tables in the same file
-                    if xlsx_data.length.eql? 3
-                        axlsx.workbook.add_worksheet(:name => xlsx_data[2][:sheet_name]) do |worksheet|
+                        # If there is a third value in the xlsx_datasets array (Array) it is supposed to be a pivot table
+                        # Which allows us to have the data table and pivot one in the same worksheet
+                        if xlsx_data.length.eql? 3
                             rows_length = xlsx_datasets[sheet_index][1]["rows"].length + 1 #header
                             columns_length = xlsx_datasets[sheet_index][1]["headers"].length
 
-                            pivot_table = Axlsx::PivotTable.new(
-                                'A4', # pivote table starts at A4
-                                "A1:#{column_name(columns_length)}#{rows_length}", # pivote table ends at
-                                axlsx.workbook.worksheets[xlsx_data[2][:sheet_source]], # use sheet source
-                            )
-
-                            pivot_table.rows = xlsx_data[2][:rows]
-                            pivot_table.columns = xlsx_data[2][:columns]
-                            pivot_table.data = xlsx_data[2][:data]
-                            pivot_table.pages = xlsx_data[2][:pages]
-                            worksheet.pivot_tables << pivot_table
+                            sheet.add_pivot_table "#{column_name(columns_length + 1)}1", "A1:#{column_name(columns_length)}#{rows_length}" do |pivot_table|
+                                pivot_table.rows = xlsx_data[2][:rows]
+                                pivot_table.columns = xlsx_data[2][:columns]
+                                pivot_table.data = xlsx_data[2][:data]
+                                pivot_table.pages = xlsx_data[2][:pages]
+                            end
                         end
                     end
                 end
