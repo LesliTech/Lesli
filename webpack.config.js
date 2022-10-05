@@ -199,8 +199,10 @@ module.exports = env => {
     // get the installed engines
     let engines = fs.readdirSync(pathEngines);
 
+
     // remove the keep file from the engines directory
     engines = engines.filter(directory => directory != ".gitkeep")
+
 
     // filter found engines to get only the ones that are ready to work with vue3
     engines = engines.filter(engine => {
@@ -246,6 +248,7 @@ module.exports = env => {
     })
 
 
+    // 
     engines.forEach(engine => {
 
         // clone webpack core configuration (shallow copy) 
@@ -276,7 +279,44 @@ module.exports = env => {
         // push the engine configuration to the webpack config
         webpackConfig.push(configEngine)
 
+        //
+        update_software_version(engine, env)
+
     })
+
+
+    // Update compilation version for frontend and backend
+    function update_software_version(engine, env) {
+
+        // do not change if development
+        if (env.mode != "production") {
+            return 
+        }
+
+        //let engine_info = JSON.parse(webpackConfig[0].plugins[1].definitions.leslicloud_app_info)
+        let engine_version_file = `./engines/${engine}/lib/${engine}/version.rb`
+
+        fs.readFile(engine_version_file, "utf8", (err, data) => {
+
+            if (err) {
+                return console.log(err)
+            }
+
+            let date = new Date()
+            var build_date = `${date.getFullYear().toString().substr(2, 2)}${date.getMonth()+1}${date.getDate()}`
+            var build_time = date.getHours().toString().concat(date.getMinutes().toString())
+
+            data = data.split("\n")
+
+            data[2] = `  APPJS = '${build_date}.${build_time}\'`
+
+            fs.writeFile(engine_version_file, data.join("\n"), "utf8", function (err) {
+                if (err) return console.log(err)
+            })
+
+        })
+
+    }
 
 
     // show a nice debug message :) 
@@ -287,6 +327,7 @@ module.exports = env => {
     })
 
 
+    // 
     return webpackConfig
 
 }
