@@ -35,7 +35,7 @@ class Descriptor < ApplicationLesliRecord
 
     def self.index(current_user, query)
         current_user.account.descriptors
-        .select(:id, :name, :engine, :reference, :path, :created_at, :updated_at)
+        .select(:id, :name, :engine, :reference, :created_at, :updated_at)
         .page(query[:pagination][:page])
         .per(query[:pagination][:perPage])
         .order(:engine, :reference)
