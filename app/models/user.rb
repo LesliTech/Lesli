@@ -92,6 +92,7 @@ class User < ApplicationLesliRecord
 
     def change_after_update
         self.initialize_user_after_confirmation if self.confirmed?
+        self.initialize_user_after_account_assignation if self.account
     end
 
 
@@ -116,9 +117,14 @@ class User < ApplicationLesliRecord
         self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
         self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
         Courier::One::Firebase::User.sync_user(self)
-        Courier::Driver::Calendar.create_user_calendar(self, name: "Personal Calendar", default: true)
     end
 
+
+    # Initialize user settings and dependencies needed
+    # The confirmation occurs before the creation and assignation of the account
+    def initialize_user_after_account_assignation
+        Courier::Driver::Calendar.create_user_calendar(self, name: "Personal Calendar", default: true)
+    end
 
 
     # @return [void]
