@@ -1,5 +1,5 @@
 =begin
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -19,6 +19,15 @@ For more information read the license file including with this software.
 class Account::FilesController < ApplicationLesliController
     before_action :set_account_file, only: [:show, :update, :destroy]
 
+    def privileges
+        {
+            index: [],
+            new: [],
+            show: [],
+            destroy: [],
+        }
+    end
+
     # GET /account/files
     def index
         respond_to do |format|
@@ -35,7 +44,7 @@ class Account::FilesController < ApplicationLesliController
 
         disposition = "inline"
         disposition = "attachment" if params["download"]
-        
+
         # Sending file using CarrierWave
         if @account_file.attachment_s3.file
 
