@@ -20,7 +20,8 @@ class OnboardingsController < ApplicationLesliController
 
     def privileges 
         {
-            show: []
+            show: [],
+            new: [],
         }
     end
 

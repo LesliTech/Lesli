@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -116,7 +116,7 @@ class User < ApplicationLesliRecord
         self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
         self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
         Courier::One::Firebase::User.sync_user(self)
-        Courier::Driver::Calendar.create_user_calendar(self, "Personal Calendar")
+        Courier::Driver::Calendar.create_user_calendar(self, name: "Personal Calendar", default: true)
     end
 
 
@@ -400,6 +400,14 @@ class User < ApplicationLesliRecord
         Courier::Bell::Notification.new(self, subject, body:body, url:url, category:category)
     end
 
+
+    # @return [CloudDriver::Calendar]
+    # @description Return the default calendar of the user if source_code is not provided.
+    #               If source_code is provided the method return the specified source calendar.
+    def calendar source_code: :lesli
+        return Courier::Driver::Calendar.get_user_calendar(self, source_code: source_code, default: true) if source_code == :lesli
+        Courier::Driver::Calendar.get_user_calendar(self, source_code: source_code)
+    end
 
 
     # @return [void]
