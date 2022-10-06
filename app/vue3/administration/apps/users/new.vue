@@ -42,6 +42,16 @@ const translations = {
     }
 
 }
+
+// · defining props
+const props = defineProps({
+    appMountPath: {
+        type: String,
+        required: false,
+        default: "/administration/users",
+    }
+})
+
 onMounted(() => {
     storeUser.getOptions()
 })
@@ -50,7 +60,11 @@ onMounted(() => {
 
 <template>
     <section class="application-component">
-        <lesli-header title="Create User"></lesli-header>
+        <lesli-header title="Create User">
+            <lesli-button icon="list" :to="url.root(props.appMountPath)">
+                All users
+            </lesli-button>
+        </lesli-header>
         <div class="box">
             <formInformation/>
         </div>
