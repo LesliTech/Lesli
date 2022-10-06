@@ -308,7 +308,7 @@ module.exports = env => {
 
             data = data.split("\n")
 
-            data[2] = `  APPJS = '${build_date}.${build_time}\'`
+            data[2] = `  BUILD = '${build_date}.${build_time}\'`
 
             fs.writeFile(engine_version_file, data.join("\n"), "utf8", function (err) {
                 if (err) return console.log(err)
