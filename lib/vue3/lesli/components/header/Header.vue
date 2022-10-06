@@ -34,7 +34,7 @@ const props = defineProps({
     <nav class="navbar lesli-header">
         <div class="navbar-brand">
             <div class="navbar-item">
-                <h2 v-if="title">{{ title }}</h2>
+                <h1 v-if="title">{{ title }}</h1>
             </div>
         </div>
         <div class="navbar-menu">
