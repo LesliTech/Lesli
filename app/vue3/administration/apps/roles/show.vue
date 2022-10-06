@@ -46,7 +46,15 @@ const storeDescriptor = useDescriptor()
 
 // · 
 const editor = ref('standard')
-const actualPath = route.fullPath.slice(1)
+
+// · defining props
+const props = defineProps({
+    appMountPath: {
+        type: String,
+        required: false,
+        default: "administration/users",
+    }
+})
 
 // · 
 onMounted(() => {
@@ -68,10 +76,10 @@ function toggleEditor() {
 <template>
     <section class="application-component">
         <lesli-header :title="'Privileges for: ' + storeRole.role.name + ' role '">
-            <lesli-button icon="list" :to="url.admin('roles')">
+            <lesli-button icon="list" :to="url.root(props.appMountPath)">
                 All roles
             </lesli-button>
-            <lesli-button icon="edit" :to="url.root(actualPath+`/edit`)">
+            <lesli-button icon="edit" :to="url.root(props.appMountPath+`/edit`)">
                 Edit role
             </lesli-button>
             <lesli-button icon="admin_panel_settings" :solid="editor == 'custom'" @click="toggleEditor">

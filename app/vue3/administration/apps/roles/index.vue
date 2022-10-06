@@ -62,6 +62,14 @@ const columns = [{
     label: "Created by"
 }]
 
+// · defining props
+const props = defineProps({
+    appMountPath: {
+        type: String,
+        required: false,
+        default: "administration/users",
+    }
+})
 
 // · 
 onMounted(() => {
@@ -71,15 +79,14 @@ onMounted(() => {
 
 // · 
 function showRole(r) {
-    // router.push(url.admin("roles/:id", r.id).s)
-    router.push(url.root(actualPath+`/${r.id}`).s)
+    router.push(url.root(props.appMountPath+`/${r.id}`).s)
 }
 
 </script>
 <template>
     <section class="application-component">
         <lesli-header title="Roles & privileges">
-            <lesli-button icon="add" :to="url.root(actualPath+`/new`)">
+            <lesli-button icon="add" :to="url.root(props.appMountPath+`/new`)">
                 Create role
             </lesli-button>
         </lesli-header>
