@@ -46,6 +46,7 @@ const storeDescriptor = useDescriptor()
 
 // · 
 const editor = ref('standard')
+const actualPath = route.fullPath.slice(1)
 
 // · 
 onMounted(() => {
@@ -70,7 +71,7 @@ function toggleEditor() {
             <lesli-button icon="list" :to="url.admin('roles')">
                 All roles
             </lesli-button>
-            <lesli-button icon="edit" :to="url.admin('roles/:id/edit', storeRole.role.id)">
+            <lesli-button icon="edit" :to="url.root(actualPath+`/edit`)">
                 Edit role
             </lesli-button>
             <lesli-button icon="admin_panel_settings" :solid="editor == 'custom'" @click="toggleEditor">
