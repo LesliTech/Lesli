@@ -19,6 +19,18 @@ For more information read the license file including with this software.
 namespace :app do
     namespace :descriptors do
 
+        # standard methods must have privilege requests only to do actions related
+        # for example: my show action should only required privileges to show methods
+        # form other controllers.
+        # list, index, show, new, create, edit, update, destroy, search
+        denied_privileges_for_index = ['show', 'new', 'create', 'edit', 'update', 'destroy', 'search']
+        denied_privileges_for_show = ['index', 'new', 'create', 'edit', 'update', 'destroy', 'search']
+        denied_privileges_for_new = ['index', 'show', 'edit', 'update', 'destroy', 'search']
+        denied_privileges_for_edit = ['index', 'show', 'new', 'create', 'destroy', 'search']
+        denied_privileges_for_destroy = ['index', 'show', 'new', 'create', 'edit', 'update', 'search']
+        denied_privileges_for_searcg = ['index', 'show', 'new', 'create', 'edit', 'update', 'destroy']
+        
+
         desc "Build descriptors and privileges according to the app controllers"
         task build: :environment do
 
@@ -64,21 +76,21 @@ namespace :app do
 
                         # Work with the list of privileges need by the controller 
                         # to be able to work in a complete view
-                        co.privileges.each do |action, privileges|
+                        co.privileges.each do |descriptor_action, privileges|
 
                             # remove "duplicated" descriptors
                             # in this context new & created are the same, so edit & update
-                            next if [:create, :update].include?(action)
+                            next if [:create, :update].include?(descriptor_action)
 
                             # push my own action to privileges due descriptor also needs access to the .json requests 
-                            privileges.push(action.to_s)
+                            privileges.push(descriptor_action.to_s)
 
                             # some methods needs aditional privileges by default
-                            privileges.push('create') if action == :new
-                            privileges.push('update') if action == :edit
+                            privileges.push('create') if descriptor_action == :new
+                            privileges.push('update') if descriptor_action == :edit
 
                             # controller name for humans, ready to be translated by babel
-                            controller_name = "#{cn.sub('Controller','').sub('::','')}#{action.capitalize}".underscore.sub('/','_')
+                            controller_name = "#{cn.sub('Controller','').sub('::','')}#{descriptor_action.capitalize}".underscore.sub('/','_')
 
                             # controller path like the route paths build by rails
                             controller_path = cn.sub("::", "/").sub("Controller", "").underscore
@@ -89,7 +101,7 @@ namespace :app do
                                 :reference => cn
                             }).find_or_create_by({ 
                                 :controller => controller,
-                                :action => action,
+                                :action => descriptor_action,
                                 :engine => engine
                             }) 
 
@@ -107,7 +119,7 @@ namespace :app do
                             # permissions to render the requested page as html and as json
                             descriptor.privileges.find_or_create_by({
                                 :controller => controller_path,
-                                :action => action,
+                                :action => descriptor_action,
                                 :form => "html"
                             })
 
@@ -128,12 +140,29 @@ namespace :app do
                                     privilege_action = privilege
                                 end
 
+                                # check if my descriptor action is only requiring privileges of the same category
+                                case descriptor_action
+                                when :index
+                                    privilege_error(privilege, controller_name) if denied_privileges_for_index.include?(privilege_action)
+                                when :show  
+                                    privilege_error(privilege, controller_name) if denied_privileges_for_show.include?(privilege_action)
+                                when :new
+                                    privilege_error(privilege, controller_name) if denied_privileges_for_new.include?(privilege_action)
+                                when :edit
+                                    privilege_error(privilege, controller_name) if denied_privileges_for_edit.include?(privilege_action)
+                                when :destroy
+                                    privilege_error(privilege, controller_name) if denied_privileges_for_destroy.include?(privilege_action)
+                                when :search
+                                    privilege_error(privilege, controller_name) if denied_privileges_for_search.include?(privilege_action)
+                                end
+
                                 # register the desire privilege for the controller
                                 descriptor.privileges.find_or_create_by({
                                     :controller => privilege_controller,
                                     :action => privilege_action,
                                     :form => "json"
                                 })
+
                             end 
 
                         end
@@ -146,5 +175,13 @@ namespace :app do
             Auth::RolePrivilegesService.new.synchronize_privileges
 
         end
+
+        def privilege_error privilege, controller_name
+            msg = "Privilege #{privilege} is not allowed for #{controller_name}"
+            LC::Debug.error(msg)
+            LRM.separator_blank;LRM.separator_blank;
+            raise Exception.new(msg)
+        end
+
     end
 end
