@@ -67,7 +67,7 @@ const props = defineProps({
     appMountPath: {
         type: String,
         required: false,
-        default: "administration/users",
+        default: "administration/roles",
     }
 })
 
