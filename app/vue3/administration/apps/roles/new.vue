@@ -47,6 +47,14 @@ const translations = {
     }
 }
 
+// · defining props
+const props = defineProps({
+    appMountPath: {
+        type: String,
+        required: false,
+        default: "administration/users",
+    }
+})
 
 // · 
 onMounted(() => {
@@ -56,10 +64,10 @@ onMounted(() => {
 <template>
     <section class="application-component">
         <lesli-header title="Create a new role">
-            <lesli-button icon="list" :to="url.admin('roles')">
+            <lesli-button icon="list" :to="url.root(props.appMountPath)">
                 All roles
             </lesli-button>
-            <lesli-button icon="preview" :to="url.admin('roles/:id', storeRole.role.id)">
+            <lesli-button icon="preview" :to="url.root(props.appMountPath+`/${storeRole.role.id}`)">
                 Show role
             </lesli-button>
         </lesli-header>
