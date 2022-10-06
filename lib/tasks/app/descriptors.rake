@@ -43,6 +43,8 @@ namespace :app do
 
                 controllers.each do |controller, actions|
 
+                    next unless controller == 'users'
+
                     # Build a strig with the standard name of a Rails controller,
                     #   Example: "UsersControllers, CloudBell::NotificationsController"
                     # sometimes we need a second split to deal with third level deep of controllers
@@ -97,7 +99,7 @@ namespace :app do
 
                             # Register the new descriptor if it does not exists
                             descriptor = account.descriptors.create_with({
-                                :name => controller_name,
+                                :name => controller_path,
                                 :reference => cn
                             }).find_or_create_by({ 
                                 :controller => controller,
