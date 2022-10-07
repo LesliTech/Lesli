@@ -28,7 +28,7 @@ namespace :app do
         denied_privileges_for_new = ['index', 'show', 'edit', 'update', 'destroy', 'search']
         denied_privileges_for_edit = ['index', 'show', 'new', 'create', 'destroy', 'search']
         denied_privileges_for_destroy = ['index', 'show', 'new', 'create', 'edit', 'update', 'search']
-        denied_privileges_for_searcg = ['index', 'show', 'new', 'create', 'edit', 'update', 'destroy']
+        denied_privileges_for_search = ['index', 'show', 'new', 'create', 'edit', 'update', 'destroy']
         
 
         desc "Build descriptors and privileges according to the app controllers"
