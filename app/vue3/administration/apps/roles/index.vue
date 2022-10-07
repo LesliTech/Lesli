@@ -29,13 +29,14 @@ import { useRole } from "../../stores/role"
 
 // · initialize/inject plugins
 const router = useRouter()
+const route = useRoute()
 const msg = inject("msg")
 const url = inject("url")
 
 
 // · 
 const storeRole = useRole()
-
+const actualPath = route.fullPath.slice(1)
 
 // · 
 const columns = [{
@@ -61,6 +62,14 @@ const columns = [{
     label: "Created by"
 }]
 
+// · defining props
+const props = defineProps({
+    appMountPath: {
+        type: String,
+        required: false,
+        default: "administration/roles",
+    }
+})
 
 // · 
 onMounted(() => {
@@ -70,14 +79,14 @@ onMounted(() => {
 
 // · 
 function showRole(r) {
-    router.push(url.admin("roles/:id", r.id).s)
+    router.push(url.root(props.appMountPath+`/${r.id}`).s)
 }
 
 </script>
 <template>
     <section class="application-component">
         <lesli-header title="Roles & privileges">
-            <lesli-button icon="add" :to="url.admin('roles/new')">
+            <lesli-button icon="add" :to="url.root(props.appMountPath+`/new`)">
                 Create role
             </lesli-button>
         </lesli-header>
