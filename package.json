@@ -31,7 +31,7 @@
         "@fullcalendar/timegrid": "5.11.3",
         "@fullcalendar/interaction": "5.11.3",
         
-        "firebase": "9.8.2",
+        "firebase": "9.11.0",
 
         "@babel/core": "7.19.3",
         "@babel/preset-env": "7.19.3",
