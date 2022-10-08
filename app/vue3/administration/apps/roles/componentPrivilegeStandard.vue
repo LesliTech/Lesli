@@ -61,10 +61,6 @@ const columnDescriptors = [{
     field: 'destroy',
     label: 'destroy',
     align: 'center'
-},{
-    field: 'search',
-    label: 'search',
-    align: 'center'
 }]
 
 
