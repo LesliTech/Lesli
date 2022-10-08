@@ -43,8 +43,6 @@ namespace :app do
 
                 controllers.each do |controller, actions|
 
-                    next unless controller == 'users'
-
                     # Build a strig with the standard name of a Rails controller,
                     #   Example: "UsersControllers, CloudBell::NotificationsController"
                     # sometimes we need a second split to deal with third level deep of controllers
@@ -182,7 +180,7 @@ namespace :app do
             msg = "Privilege #{privilege} is not allowed for #{controller_name}"
             LC::Debug.error(msg)
             LRM.separator_blank;LRM.separator_blank;
-            raise Exception.new(msg)
+            #raise Exception.new(msg)
         end
 
     end

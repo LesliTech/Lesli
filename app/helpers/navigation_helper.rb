@@ -95,6 +95,13 @@ module NavigationHelper
 
     # SALES & MARKETING
 
+    # 02.03 Drop engine
+    def navigation_engine_team title: "Drop", subtitle: "Content Management System"
+        if defined? CloudDrop
+            navigation_engine_item(title, subtitle, "drop", cloud_drop.root_path, controller_path.include?("cloud_drop"))
+        end
+    end
+
     # 02.04 House engine
     def navigation_engine_house title: "House", subtitle: "cloud_house/house-logo.svg"
         if defined? CloudHouse
