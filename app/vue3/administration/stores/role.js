@@ -102,8 +102,7 @@ export const useRole = defineStore("administration.role", {
                                 show: null, 
                                 create: null, 
                                 update: null, 
-                                destroy: null, 
-                                search: null
+                                destroy: null
                             }
                         }
 
