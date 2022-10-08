@@ -23,12 +23,11 @@ namespace :app do
         # for example: my show action should only required privileges to show methods
         # form other controllers.
         # list, index, show, new, create, edit, update, destroy, search
-        denied_privileges_for_index = ['show', 'new', 'create', 'edit', 'update', 'destroy', 'search']
-        denied_privileges_for_show = ['index', 'new', 'create', 'edit', 'update', 'destroy', 'search']
+        denied_privileges_for_index =['new', 'create', 'edit', 'update', 'destroy', 'search']
+        denied_privileges_for_show = ['new', 'create', 'edit', 'update', 'destroy', 'search']
         denied_privileges_for_new = ['index', 'show', 'edit', 'update', 'destroy', 'search']
         denied_privileges_for_edit = ['index', 'show', 'new', 'create', 'destroy', 'search']
         denied_privileges_for_destroy = ['index', 'show', 'new', 'create', 'edit', 'update', 'search']
-        denied_privileges_for_search = ['index', 'show', 'new', 'create', 'edit', 'update', 'destroy']
         
 
         desc "Build descriptors and privileges according to the app controllers"
@@ -42,6 +41,8 @@ namespace :app do
             engines.each do |engine, controllers|
 
                 controllers.each do |controller, actions|
+
+                    next unless controller == 'users'
 
                     # Build a strig with the standard name of a Rails controller,
                     #   Example: "UsersControllers, CloudBell::NotificationsController"
@@ -152,8 +153,6 @@ namespace :app do
                                     privilege_error(privilege, controller_name) if denied_privileges_for_edit.include?(privilege_action)
                                 when :destroy
                                     privilege_error(privilege, controller_name) if denied_privileges_for_destroy.include?(privilege_action)
-                                when :search
-                                    privilege_error(privilege, controller_name) if denied_privileges_for_search.include?(privilege_action)
                                 end
 
                                 # register the desire privilege for the controller
@@ -180,7 +179,7 @@ namespace :app do
             msg = "Privilege #{privilege} is not allowed for #{controller_name}"
             LC::Debug.error(msg)
             LRM.separator_blank;LRM.separator_blank;
-            #raise Exception.new(msg)
+            raise Exception.new(msg)
         end
 
     end
