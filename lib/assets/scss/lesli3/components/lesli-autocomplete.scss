@@ -35,7 +35,7 @@ For more information read the license file including with this software.
         border-bottom: 0.1rem solid #d1d1d1;
         z-index: 9;
 
-        .lesli-autocomplete-list-item {
+        .lesli-autocomplete-list-option {
             cursor: pointer;
             background-color: #fafafa;
             padding: 0.6rem 1rem;
@@ -47,7 +47,7 @@ For more information read the license file including with this software.
                 border-bottom: none;
             }
 
-            &.lesli-autocomplete-list-item-active {
+            &.lesli-autocomplete-list-option-active {
                 background-color: #e1e1e1;
             }
 
