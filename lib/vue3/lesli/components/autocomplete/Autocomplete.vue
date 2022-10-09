@@ -90,7 +90,7 @@ function onBlur() {
 
 // 
 function onArrowDown($event) {
-    if (isListVisible && currentSelectionIndex.value < filteredItems.value.length - 1) {
+    if (isListVisible.value && currentSelectionIndex.value < filteredItems.value.length - 1) {
         currentSelectionIndex.value++;
     }
     scrollSelectionIntoView();
@@ -99,7 +99,7 @@ function onArrowDown($event) {
 
 // 
 function onArrowUp($event) {
-    if (isListVisible && currentSelectionIndex.value > 0) {
+    if (isListVisible.value && currentSelectionIndex.value > 0) {
         currentSelectionIndex.value--;
     }
     scrollSelectionIntoView();
@@ -157,14 +157,6 @@ function boldMatchText(text) {
 
 
 // 
-onMounted(() => {
-    if (props.defaultItem !== undefined && props.defaultItem !== null) {
-        select(props.defaultItem);
-    }
-})
-
-
-// 
 const wrapperId = computed(() => {
     return `${inputId}_wrapper`;
 })
@@ -185,8 +177,14 @@ const isListVisible = computed(() => {
 
 // 
 const currentSelection = computed(() => {
-    return isListVisible && currentSelectionIndex.value < filteredItems.value.length ? filteredItems.value[currentSelectionIndex.value] : undefined;
+    return isListVisible.value && currentSelectionIndex.value < filteredItems.value.length ? filteredItems.value[currentSelectionIndex.value] : undefined;
 })
+
+
+watch(() => props.modelValue, (newVal) => {  
+    select(newVal)
+})
+
 
 </script>
 <template>
@@ -223,51 +221,3 @@ const currentSelection = computed(() => {
 		</div>
 	</div>
 </template>
-
-<style scoped>
-	.lesli-autocomplete {
-		position: relative;
-		width: 100%;
-	}
-	.lesli-autocomplete > input {
-		margin-bottom: 0;
-	}
-	.lesli-autocomplete .lesli-autocomplete-list {
-		position: absolute;
-		width: 100%;
-		border: none;
-		max-height: 400px;
-		overflow-y: auto;
-		border-bottom: 0.1rem solid #d1d1d1;
-		z-index: 9;
-	}
-	.lesli-autocomplete .lesli-autocomplete-list .lesli-autocomplete-list-header {
-		background-color: #fafafa;
-		padding: 0.6rem 1rem;
-		border-bottom: 0.1rem solid #d1d1d1;
-		border-left: 0.1rem solid #d1d1d1;
-		border-right: 0.1rem solid #d1d1d1;
-	}
-	.lesli-autocomplete .lesli-autocomplete-list .lesli-autocomplete-list-footer {
-		background-color: #fafafa;
-		padding: 0.6rem 1rem;
-		border-left: 0.1rem solid #d1d1d1;
-		border-right: 0.1rem solid #d1d1d1;
-	}
-	.lesli-autocomplete .lesli-autocomplete-list .lesli-autocomplete-list-item {
-		cursor: pointer;
-		background-color: #fafafa;
-		padding: 0.6rem 1rem;
-		border-bottom: 0.1rem solid #d1d1d1;
-		border-left: 0.1rem solid #d1d1d1;
-		border-right: 0.1rem solid #d1d1d1;
-	}
-
-	.lesli-autocomplete .lesli-autocomplete-list .lesli-autocomplete-list-item:last-child {
-		border-bottom: none;
-	}
-
-	.lesli-autocomplete .lesli-autocomplete-list .lesli-autocomplete-list-item.lesli-autocomplete-list-item-active {
-		background-color: #e1e1e1;
-	}
-</style>
