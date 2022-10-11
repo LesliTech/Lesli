@@ -59,19 +59,22 @@ module LC
         end
 
 
-        def self.error *messages
+        def self.error *messages, path:false
             message_string = pretty_separator(:red)
             messages.each do |message|
                 message_string << pretty("ERROR:\ " <<  message, :white, :red)
+                message_string << pretty("PATH:\ " <<  caller[0], :white, :red) if path
             end
             puts message_string
         end
 
 
         def self.success *messages
+            message_string = pretty_separator(:green)
             messages.each do |message|
-                puts pretty(message, :black, :green)
+                message_string << pretty("SUCCESS:\ " <<  message, :black, :green)
             end
+            puts message_string
         end
 
 
