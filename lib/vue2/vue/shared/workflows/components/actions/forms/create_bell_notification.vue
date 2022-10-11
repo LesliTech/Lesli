@@ -65,7 +65,7 @@ export default {
         },
 
         getBellNotificationOptions(){
-             this.http.get('/bell/notifications/options').then(result => {
+             this.http.get('/bell/notifications/options.json').then(result => {
                 if (result.successful) {
                     for(let key in result.data){
                         this.$set(this.notification_options, key, result.data[key])
