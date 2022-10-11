@@ -148,7 +148,7 @@ export default {
             }
             this.submitting = true
 
-            this.http.post(this.main_route, data).then(result => {
+            this.http.post(`${this.main_route}.json`, data).then(result => {
                 if (result.successful) {
                     this.msg.success(this.translations.checks.messages_success_check_created)
 
@@ -168,7 +168,7 @@ export default {
         },
 
         putCheck(){
-            let url = `${this.main_route}/${this.check_id}`
+            let url = `${this.main_route}/${this.check_id}.json`
 
             let data = {
                 workflow_check: this.check
