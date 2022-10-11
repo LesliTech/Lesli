@@ -88,7 +88,7 @@ export default {
         },
 
         getAssociationOptions(){
-            this.http.get(this.options_endpoint).then(result => {
+            this.http.get(`${this.options_endpoint}.json`).then(result => {
                 if (result.successful) {
                     this.association_options = result.data
                 }else{
@@ -109,7 +109,7 @@ export default {
             }
             this.submitting = true
 
-            this.http.post(this.endpoint, data).then(result => {
+            this.http.post(`${this.endpoint}.json`, data).then(result => {
                 if (result.successful) {
                     this.getAssociations()
                     this.msg.success(this.translations.associations.messages_success_association_created)
