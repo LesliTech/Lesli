@@ -215,7 +215,11 @@ module RoutesApp
                             end
                         end
                     end
-                    resources :variables
+                    resources :variables do
+                        collection do
+                            get :options 
+                        end
+                    end
                     resources :mappings
                 end
             end
