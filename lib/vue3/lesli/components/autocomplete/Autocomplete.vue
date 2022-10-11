@@ -1,141 +1,197 @@
-<script>
+<script setup>
+/*
+Copyright (c) 2022, all rights reserved.
 
-	import { defineComponent } from 'vue';
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
 
-	export default defineComponent({
-		name: 'Vue3SimpleTypeahead',
-		emits: ['onInput', 'onFocus', 'onBlur', 'selectItem'],
-		props: {
-			id: {
-				type: String,
-			},
-			placeholder: {
-				type: String,
-				default: '',
-			},
-			items: {
-				type: Array,
-				required: true,
-			},
-			defaultItem: {
-				default: null,
-			},
-			itemProjection: {
-				type: Function,
-				default(item) {
-					return item;
-				},
-			},
-			minInputLength: {
-				type: Number,
-				default: 2,
-				validator: (prop) => {
-					return prop >= 0;
-				},
-			},
-		},
-		mounted() {
-			if (this.defaultItem !== undefined && this.defaultItem !== null) {
-				this.selectItem(this.defaultItem);
-			}
-		},
-		data() {
-			return {
-				inputId: this.id || `simple_typeahead_${(Math.random() * 1000).toFixed()}`,
-				input: '',
-				isInputFocused: false,
-				currentSelectionIndex: 0,
-			};
-		},
-		methods: {
-			onInput() {
-				if (this.isListVisible && this.currentSelectionIndex >= this.filteredItems.length) {
-					this.currentSelectionIndex = (this.filteredItems.length || 1) - 1;
-				}
-				this.$emit('onInput', { input: this.input, items: this.filteredItems });
-			},
-			onFocus() {
-				this.isInputFocused = true;
-				this.$emit('onFocus', { input: this.input, items: this.filteredItems });
-			},
-			onBlur() {
-				this.isInputFocused = false;
-				this.$emit('onBlur', { input: this.input, items: this.filteredItems });
-			},
-			onArrowDown($event) {
-				if (this.isListVisible && this.currentSelectionIndex < this.filteredItems.length - 1) {
-					this.currentSelectionIndex++;
-				}
-				this.scrollSelectionIntoView();
-			},
-			onArrowUp($event) {
-				if (this.isListVisible && this.currentSelectionIndex > 0) {
-					this.currentSelectionIndex--;
-				}
-				this.scrollSelectionIntoView();
-			},
-			scrollSelectionIntoView() {
-				setTimeout(() => {
-					const list_node = document.querySelector(`#${this.wrapperId} .simple-typeahead-list`);
-					const active_node = document.querySelector(`#${this.wrapperId} .simple-typeahead-list-item.simple-typeahead-list-item-active`);
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
 
-					if (!(active_node.offsetTop >= list_node.scrollTop && active_node.offsetTop + active_node.offsetHeight < list_node.scrollTop + list_node.offsetHeight)) {
-						let scroll_to = 0;
-						if (active_node.offsetTop > list_node.scrollTop) {
-							scroll_to = active_node.offsetTop + active_node.offsetHeight - list_node.offsetHeight;
-						} else if (active_node.offsetTop < list_node.scrollTop) {
-							scroll_to = active_node.offsetTop;
-						}
+For more information read the license file including with this software.
 
-						list_node.scrollTo(0, scroll_to);
-					}
-				});
-			},
-			selectCurrentSelection() {
-				if (this.currentSelection) {
-					this.selectItem(this.currentSelection);
-				}
-			},
-			selectItem(item) {
-				this.input = this.itemProjection(item);
-				this.currentSelectionIndex = 0;
-				document.getElementById(this.inputId).blur();
-				this.$emit('selectItem', item);
-			},
-			escapeRegExp(string) {
-				return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-			},
-			boldMatchText(text) {
-				const regexp = new RegExp(`(${this.escapeRegExp(this.input)})`, 'ig');
-				return text.replace(regexp, '<strong>$1</strong>');
-			},
-		},
-		computed: {
-			wrapperId() {
-				return `${this.inputId}_wrapper`;
-			},
-			filteredItems() {
-				const regexp = new RegExp(this.escapeRegExp(this.input), 'i');
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
 
-				return this.items.filter((item) => this.itemProjection(item).match(regexp));
-			},
-			isListVisible() {
-				return this.isInputFocused && this.input.length >= this.minInputLength && this.filteredItems.length;
-			},
-			currentSelection() {
-				return this.isListVisible && this.currentSelectionIndex < this.filteredItems.length ? this.filteredItems[this.currentSelectionIndex] : undefined;
-			},
-		},
-	});
+
+// · import vue tools
+import { ref, reactive, onMounted, watch, computed } from "vue"
+
+
+// · defining emits
+const emit = defineEmits(['update:modelValue', 'onInput', 'onFocus', 'onBlur', 'select']);
+
+
+// · defining props
+const props = defineProps({
+    modelValue: {
+        type: [Number, String, Object],
+        required: true
+    },
+    placeholder: {
+        type: String,
+        default: '',
+    },
+    options: {
+        type: Array,
+        required: true,
+    },
+    selectBy: {
+        type: Function,
+        default(option) {
+            return option;
+        },
+    },
+    minInputLength: {
+        type: Number,
+        default: 2,
+        validator: (prop) => {
+            return prop >= 0;
+        },
+    },
+})
+
+
+// 
+const inputId = `lesli_autocomplete_${(Math.random() * 100).toFixed()}`;
+const inputText = ref('');
+const isInputFocused = ref(false);
+const currentSelectionIndex = ref(0)
+
+
+// 
+function onInput() {
+    if (isListVisible && currentSelectionIndex.value >= filteredOptions.value.length) {
+        currentSelectionIndex.value = (filteredOptions.value.length || 1) - 1;
+    }
+    emit('onInput', { input: inputText, options: filteredOptions });
+}
+
+
+// 
+function onFocus() {
+    isInputFocused.value = true;
+    emit('onFocus', { input: inputText, options: filteredOptions });
+}
+
+
+// 
+function onBlur() {
+    isInputFocused.value = false;
+    emit('onBlur', { input: inputText, options: filteredOptions });
+}
+
+
+// 
+function onArrowDown($event) {
+    if (isListVisible.value && currentSelectionIndex.value < filteredOptions.value.length - 1) {
+        currentSelectionIndex.value++;
+    }
+    scrollSelectionIntoView();
+}
+
+
+// 
+function onArrowUp($event) {
+    if (isListVisible.value && currentSelectionIndex.value > 0) {
+        currentSelectionIndex.value--;
+    }
+    scrollSelectionIntoView();
+}
+
+
+// 
+function scrollSelectionIntoView() {
+    setTimeout(() => {
+        const list_node = document.querySelector(`#${wrapperId.value} .lesli-autocomplete-list`);
+        const active_node = document.querySelector(`#${wrapperId.value} .lesli-autocomplete-list-option.lesli-autocomplete-list-option-active`);
+
+        if (!(active_node.offsetTop >= list_node.scrollTop && active_node.offsetTop + active_node.offsetHeight < list_node.scrollTop + list_node.offsetHeight)) {
+            let scroll_to = 0;
+            if (active_node.offsetTop > list_node.scrollTop) {
+                scroll_to = active_node.offsetTop + active_node.offsetHeight - list_node.offsetHeight;
+            } else if (active_node.offsetTop < list_node.scrollTop) {
+                scroll_to = active_node.offsetTop;
+            }
+            list_node.scrollTo(0, scroll_to);
+        }
+    });
+}
+
+
+// 
+function selectCurrentSelection() {
+    if (currentSelection.value) {
+        select(currentSelection.value);
+    }
+}
+
+
+// 
+function select(option) {
+    inputText.value = props.selectBy(option);
+    currentSelectionIndex.value = 0;
+    document.getElementById(inputId).blur();
+    emit('select', option);
+    emit('update:modelValue', option)
+}
+
+
+// 
+function escapeRegExp(string) {
+    return string.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+
+// 
+function boldMatchText(text) {
+    const regexp = new RegExp(`(${escapeRegExp(inputText)})`, 'ig');
+    return text.replace(regexp, '<strong>$1</strong>');
+}
+
+
+// 
+const wrapperId = computed(() => {
+    return `${inputId}_wrapper`;
+})
+
+
+// 
+const filteredOptions = computed(() => {
+    const regexp = new RegExp(escapeRegExp(inputText), 'i');
+    return props.options.filter((option) => props.selectBy(option).match(regexp));
+})
+
+
+// 
+const isListVisible = computed(() => {
+    return isInputFocused.value && inputText.value.length >= props.minInputLength && filteredOptions.value.length;
+})
+
+
+// 
+const currentSelection = computed(() => {
+    return isListVisible.value && currentSelectionIndex.value < filteredOptions.value.length ? filteredOptions.value[currentSelectionIndex.value] : undefined;
+})
+
+
+watch(() => props.modelValue, (newVal) => {  
+    select(newVal)
+})
+
+
 </script>
 <template>
-	<div :id="wrapperId" class="simple-typeahead">
+	<div :id="wrapperId" class="lesli-autocomplete">
 		<input
 			:id="inputId"
-			class="simple-typeahead-input"
+			class="input lesli-autocomplete-input"
 			type="text"
-			:placeholder="placeholder"
-			v-model="input"
+			:placeholder="props.placeholder"
+			v-model="inputText"
 			@input="onInput"
 			@focus="onFocus"
 			@blur="onBlur"
@@ -144,73 +200,21 @@
 			@keydown.enter.tab.prevent="selectCurrentSelection"
 			autocomplete="off"
 		/>
-		<div v-if="isListVisible" class="simple-typeahead-list">
-			<div class="simple-typeahead-list-header" v-if="$slots['list-header']"><slot name="list-header"></slot></div>
+		<div v-if="isListVisible" class="lesli-autocomplete-list">
 			<div
-				class="simple-typeahead-list-item"
-				:class="{ 'simple-typeahead-list-item-active': currentSelectionIndex == index }"
-				v-for="(item, index) in filteredItems"
+				class="lesli-autocomplete-list-option"
+				:class="{ 'lesli-autocomplete-list-option-active': currentSelectionIndex == index }"
+				v-for="(option, index) in filteredOptions"
 				:key="index"
 				@mousedown.prevent
-				@click="selectItem(item)"
-				@mouseenter="currentSelectionIndex = index"
-			>
-				<span class="simple-typeahead-list-item-text" :data-text="itemProjection(item)" v-if="$slots['list-item-text']"
-					><slot name="list-item-text" :item="item" :itemProjection="itemProjection" :boldMatchText="boldMatchText"></slot
-				></span>
-				<span class="simple-typeahead-list-item-text" :data-text="itemProjection(item)" v-html="boldMatchText(itemProjection(item))" v-else></span>
+				@click="select(option)"
+				@mouseenter="currentSelectionIndex = index">
+				<span 
+                    class="lesli-autocomplete-list-option-text" 
+                    :data-text="props.selectBy(option)" 
+                    v-html="boldMatchText(selectBy(option))">
+                </span>
 			</div>
-			<div class="simple-typeahead-list-footer" v-if="$slots['list-footer']"><slot name="list-footer"></slot></div>
 		</div>
 	</div>
 </template>
-
-
-
-<style scoped>
-	.simple-typeahead {
-		position: relative;
-		width: 100%;
-	}
-	.simple-typeahead > input {
-		margin-bottom: 0;
-	}
-	.simple-typeahead .simple-typeahead-list {
-		position: absolute;
-		width: 100%;
-		border: none;
-		max-height: 400px;
-		overflow-y: auto;
-		border-bottom: 0.1rem solid #d1d1d1;
-		z-index: 9;
-	}
-	.simple-typeahead .simple-typeahead-list .simple-typeahead-list-header {
-		background-color: #fafafa;
-		padding: 0.6rem 1rem;
-		border-bottom: 0.1rem solid #d1d1d1;
-		border-left: 0.1rem solid #d1d1d1;
-		border-right: 0.1rem solid #d1d1d1;
-	}
-	.simple-typeahead .simple-typeahead-list .simple-typeahead-list-footer {
-		background-color: #fafafa;
-		padding: 0.6rem 1rem;
-		border-left: 0.1rem solid #d1d1d1;
-		border-right: 0.1rem solid #d1d1d1;
-	}
-	.simple-typeahead .simple-typeahead-list .simple-typeahead-list-item {
-		cursor: pointer;
-		background-color: #fafafa;
-		padding: 0.6rem 1rem;
-		border-bottom: 0.1rem solid #d1d1d1;
-		border-left: 0.1rem solid #d1d1d1;
-		border-right: 0.1rem solid #d1d1d1;
-	}
-
-	.simple-typeahead .simple-typeahead-list .simple-typeahead-list-item:last-child {
-		border-bottom: none;
-	}
-
-	.simple-typeahead .simple-typeahead-list .simple-typeahead-list-item.simple-typeahead-list-item-active {
-		background-color: #e1e1e1;
-	}
-</style>
