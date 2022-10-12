@@ -16,51 +16,46 @@ For more information read the license file including with this software.
 // · 
 %>
 
-<application-component-header 
-    <%= "is-bell" if defined?(CloudBell) %>
-    <%= "is-focus" if defined?(CloudFocus) %>
-    >
+<%# check if custom header partial exists in the builder engine %>
+<% custom_header_path = "layouts/#{lesli_engine.dig(:code)}/partials/application-header" %>
 
-    <%# language selector %>
-    <% if I18n.available_locales.length > 1 && params[:controller] == 'profiles' && false %>
-    <div class="dropdown is-hoverable header-language-selector">
-        <div class="dropdown-trigger">
-            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                <span class="icon has-text-grey-light">
-                    <%= flag_icon(language_flag(I18n.locale)) %>
-                </span>
-            </button>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-            <div class="dropdown-content">
-                <% I18n.available_locales.each do |locale| %>
-                    <% next if locale == I18n.locale %>
-                    <%= link_to language_url(locale), { :class => "dropdown-item" } do %>
+<%# validate the path to be sure the partial exists when trying to render it %>
+<% custom_header_exists = lookup_context.exists?(custom_header_path, nil, true) %>
+
+<%# render custom header from builder engine if exists %>
+<%= render( partial: custom_header_path) if custom_header_exists %>
+
+<%# if custom header does not exists, use the main from core %>
+<% unless custom_header_exists %>
+    <application-component-header 
+        <%= "show-bell" if defined?(CloudBell) %>
+        <%= "show-focus" if defined?(CloudFocus) %>
+        :show-engines="false">
+
+        <%# language selector %>
+        <% if I18n.available_locales.length > 1 && params[:controller] == 'profiles' %>
+            <div class="dropdown is-hoverable header-language-selector">
+                <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
                         <span class="icon has-text-grey-light">
-                            <%= flag_icon(language_flag(locale)) %>
+                            <%= flag_icon(language_flag(I18n.locale)) %>
                         </span>
-                        <span><%= language_name(locale) %></span>
-                    <% end %>
-                <% end %>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                        <% I18n.available_locales.each do |locale| %>
+                            <% next if locale == I18n.locale %>
+                            <%= link_to language_url(locale), { :class => "dropdown-item" } do %>
+                                <span class="icon has-text-grey-light">
+                                    <%= flag_icon(language_flag(locale)) %>
+                                </span>
+                                <span><%= language_name(locale) %></span>
+                            <% end %>
+                        <% end %>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <% end %>
-
-
-    <%# username %>
-    <template v-slot:username>
-    <%= current_user.full_name %>
-    </template>
-
-
-    <%# Custom header from builder engine %>
-    <% custom_header_partial_path = "layouts/#{lesli_instance_code}/partials/application-header" %>
-    <% custom_header_partial_exists = lookup_context.exists?(custom_header_partial_path, nil, true) %>
-
-
-    <% if custom_header_partial_exists %>
-    <%= render partial: custom_header_partial_path %>
-    <% end %>
-
-</application-component-header>
+        <% end %>
+    </application-component-header>
+<% end %>
