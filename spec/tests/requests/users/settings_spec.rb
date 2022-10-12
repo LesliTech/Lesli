@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 require "lesli_request_helper"
 
 RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
-    describe "GET:/administration/users/:user_id/settings.json", type: :request do
+    describe "POST:/administration/users/:user_id/settings.json", type: :request do
         include_context "request user authentication"
 
         # helper methods
@@ -28,8 +28,8 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
         it "is expected to post a new language setting" do
 
-            language_settings = { 
-                name: 'locale', 
+            language_settings = {
+                name: "locale",
                 value: "es"
             }
 
@@ -42,6 +42,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect_response_with_successful
 
             expect(response_body["value"]).to eql(language_settings[:value])
-        end 
+        end
     end
 end
