@@ -47,6 +47,11 @@ const props = defineProps({
         type: Boolean,
         default: false,
         required: false
+    },
+    showTickets:{
+        type: Boolean,
+        default: false,
+        required: false
     }
 })
 
@@ -151,6 +156,18 @@ onUnmounted(() => {
                     </span>
                 </a>
 
+                <!-- Tickets -->
+                <a 
+                    v-if="props.showTickets"
+                    class="navbar-item header-notification-indicator" 
+                    @click="() => { storeLayout.showTickets = true }">
+                    <span :class="['material-icons md-36']">
+                        notifications
+                    </span>
+                    <span class="count" v-if="storeLayout.header.tickets > 0">
+                        {{ storeLayout.header.notifications }}
+                    </span>
+                </a>
 
                 <!-- Notifications -->
                 <a 
