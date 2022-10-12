@@ -30,7 +30,7 @@ For more information read the license file including with this software.
     <application-component-header 
         <%= "show-bell" if defined?(CloudBell) %>
         <%= "show-focus" if defined?(CloudFocus) %>
-        :show-engines="false">
+        :show-engines="true">
 
         <%# language selector %>
         <% if I18n.available_locales.length > 1 && params[:controller] == 'profiles' %>
