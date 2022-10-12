@@ -23,7 +23,7 @@ class RolesController < ApplicationLesliController
         {
             index: ['Role::DescribersController#index'],
             show: [],
-            edit: ['options', 'Role::DescribersController#create', 'Role::DescribersController#destroy'],
+            edit: ['options'],
             new: [],
             destroy: [],
         }

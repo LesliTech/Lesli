@@ -20,6 +20,13 @@ class Role::DescribersController < ApplicationLesliController
     before_action :set_role, only: [:index, :create, :destroy]
     before_action :set_role_describer, only: [:destroy]
 
+    def privileges
+        {
+            new: [],
+            destroy: []
+        }
+    end
+
     def index 
         respond_with_successful(Role::Describer.index(current_user, @query, @role))
     end 
