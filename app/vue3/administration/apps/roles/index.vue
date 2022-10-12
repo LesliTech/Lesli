@@ -95,7 +95,9 @@ function showRole(r) {
             @click="showRole"
             :columns="columns"
             :records="storeRole.records"
-            :pagination="storeRole.pagination">
+            :pagination="storeRole.index.pagination"
+            @paginate="storeRole.paginateIndex"
+            >
             <template #active="{ value }">
                 <span class="tag is-success is-light" v-if="value">active</span>
             </template>
