@@ -92,14 +92,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
         # persist new user
         if user.save
 
-            detail_attributes = params[:user][:detail_attributes]
+            detail_attributes = params.dig(:user, :detail_attributes)
 
             unless detail_attributes.nil?
                 if detail_attributes.values.any? { |v| v.present? }
                     user.detail.update({ 
-                        first_name: params[:user][:detail_attributes][:first_name],
-                        last_name: params[:user][:detail_attributes][:last_name],
-                        telephone: params[:user][:detail_attributes][:telephone]
+                        first_name: params.dig(:user, :detail_attributes, :first_name) || "",
+                        last_name: params.dig(:user, :detail_attributes, :last_name) || "",
+                        telephone: params.dig(:user, :detail_attributes, :telephone) || ""
                     })
                 end
             end
