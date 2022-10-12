@@ -25,13 +25,6 @@ module Interfaces
             # Return an standard http 200 respond
             def respond_with_successful payload=nil
 
-                # Keep compatibility with Deutsche Leibrenten
-                if defined? DeutscheLeibrenten
-                    response_body = { successful: true }
-                    response_body[:data] = payload
-                    return render(status: 200, json: response_body.to_json)
-                end
-
                 # Response for modern Lesli 3 apps
                 respond_with_http(200, payload)
 
@@ -49,18 +42,6 @@ module Interfaces
             # IMPORTANT: It is strictly necessary to use the pagination methods
             #            to make this work properly
             def respond_with_pagination(records, payload=nil)
-                # Keep compatibility with Deutsche Leibrenten
-                if defined? DeutscheLeibrenten
-                    return respond_with_http(200, {
-                        :pagination => {
-                            :total_pages => records.total_pages,
-                            :current_page => records.current_page,
-                            :count_total => records.total_count,
-                            :count_results => records.length
-                        },
-                        :records => payload || records 
-                    })
-                end
 
                 #validate if record has data and pages
                 if !records.empty? && records.total_pages > 0 

@@ -33,12 +33,17 @@ const storeSearch = useSearch()
 
 // · defining props
 const props = defineProps({
-    isBell: {
+    showEngines: {
+        type: Boolean,
+        default: true,
+        required: false
+    },
+    showBell: {
         type: Boolean,
         default: false,
         required: false
     },
-    isFocus: {
+    showFocus: {
         type: Boolean,
         default: false,
         required: false
@@ -126,7 +131,8 @@ onUnmounted(() => {
 
 
                 <!-- engines selector -->
-                <a class="navbar-item" @click="toggleEngines()">
+                <a  v-if="props.showEngines"
+                    class="navbar-item" @click="toggleEngines()">
                     <span class="material-icons md-36">
                         apps
                     </span>
@@ -134,7 +140,7 @@ onUnmounted(() => {
 
 
                 <!-- Tasks -->
-                <a  v-if="props.isFocus"
+                <a  v-if="props.showFocus"
                     class="navbar-item header-notification-indicator" 
                     @click="() => { if (storeLayout.header.tasks > 0 ) { storeLayout.showTasks = true }}">
                     <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.tasks > 0 }]">
@@ -148,7 +154,7 @@ onUnmounted(() => {
 
                 <!-- Notifications -->
                 <a 
-                    v-if="props.isBell"
+                    v-if="props.showBell"
                     class="navbar-item header-notification-indicator" 
                     @click="() => { if (storeLayout.header.notifications > 0 ) { storeLayout.showNotifications = true }}">
                     <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.notifications > 0 }]">

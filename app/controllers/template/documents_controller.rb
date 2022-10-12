@@ -23,7 +23,10 @@ class Template::DocumentsController < ApplicationLesliController
     def privileges
         {
             index: [],
-            show: ["generate"]
+            show: ["generate"],
+            new: [],
+            destroy: [],
+            edit: []
         }
     end
 
