@@ -26,26 +26,37 @@ export const useRole = defineStore("administration.role", {
         return {
             options: {},
             records: [],
-            pagination: {},
             descriptors: [],
             descriptorsCustom: [],
             descriptorSearchString: '',
             role: {
                 name: "",
                 descriptors: []
+            },
+            pagination: {
+                page: 1
+            },
+            index: { 
+                pagination: {},
+                records: []
             }
         }
     },
     actions: {
 
         fetch() {
-            this.http.get(this.url.admin("roles")).then(result => {
-                this.pagination = result.pagination
+            this.http.get(this.url.admin("roles").paginate(this.pagination.page)).then(result => {
+                this.index = result
                 this.records = result.records.map(integrations => {
                     integrations.created_at = this.date.dateTime(integrations.created_at)
                     return integrations
                 })
             })
+        },
+
+        paginateIndex(page) {
+            this.pagination.page = page
+            this.fetch()
         },
 
         fetchRole(id) {
