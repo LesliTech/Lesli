@@ -51,6 +51,14 @@ const translations = {
     }
 }
 
+// · defining props
+const props = defineProps({
+    appMountPath: {
+        type: String,
+        required: false,
+        default: "administration/users",
+    }
+})
 
 // · initializing
 onMounted(() => {
@@ -63,6 +71,11 @@ const tab = ref(0)
 </script>
 <template>
     <section class="application-component">
+        <lesli-header>
+            <lesli-button icon="list" :to="url.root(props.appMountPath)">
+                All users
+            </lesli-button>
+        </lesli-header>
         <cardInformation></cardInformation>
         <cardActions></cardActions>
         <lesli-tabs v-model="tab" v-if="storeUser.user.id">

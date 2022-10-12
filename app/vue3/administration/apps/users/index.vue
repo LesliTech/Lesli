@@ -2,9 +2,9 @@
 /*
 Copyright (c) 2022, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 
 
@@ -21,15 +21,14 @@ For more information read the license file including with this software.
 import { ref, reactive, onMounted, watch, computed, inject } from "vue"
 import { useRouter, useRoute } from 'vue-router'
 
+// · import lesli stores
+import { useUsers } from "LesliVue/stores/users"
+
 
 // · initialize/inject plugins
 const router = useRouter()
 const msg = inject("msg")
 const url = inject("url")
-
-
-// · import lesli stores
-import { useUsers } from "LesliVue/stores/users"
 
 
 // · implement stores
@@ -46,7 +45,7 @@ const translations = {
 }
 
 
-// · 
+// ·
 const columns = [{
     field: "id",
     label: "ID",
@@ -77,8 +76,17 @@ const columns = [{
 }]
 
 
-// · 
+// ·
 const selection = ref()
+
+// · defining props
+const props = defineProps({
+    appMountPath: {
+        type: String,
+        required: false,
+        default: "administration/users",
+    }
+})
 
 
 // · initializing
@@ -89,18 +97,18 @@ onMounted(() => {
 
 //
 function showUser(user) {
-    router.push(url.admin("users/:id", user.id).s)
+    router.push(url.root(props.appMountPath+`/${user.id}`).s)
 }
 </script>
 <template>
     <section class="application-component">
         <lesli-header :title="translations.core.users.view_text_title_users">
-            <lesli-button icon="add" :to="url.admin('users/new')" :label="translations.core.users.view_text_add_user">
+            <lesli-button icon="add" :to="url.root(props.appMountPath+`/new`)" :label="translations.core.users.view_text_add_user">
                 {{ translations.core.users.view_text_add_user }}
             </lesli-button>
-            <lesli-button 
+            <lesli-button
                 outlined
-                icon="refresh"  
+                icon="refresh"
                 :loading="storeUsers.loading"
                 @click="storeUsers.fetchIndex"
                 :label="translations.core.shared.view_text_btn_reload"
@@ -108,7 +116,7 @@ function showUser(user) {
                 {{ translations.core.shared.view_text_btn_reload }}
             </lesli-button>
         </lesli-header>
-        <lesli-toolbar 
+        <lesli-toolbar
             :search-placeholder="translations.core.users.view_toolbar_filter_placeholder_search"
             @search="storeUsers.search">
         </lesli-toolbar>
