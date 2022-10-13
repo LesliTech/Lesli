@@ -171,9 +171,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
 
             registered_user = User.find_by_email(user[:email])
 
-            expect(registered_user.detail.first_name).to be_nil
-            expect(registered_user.detail.last_name).to  be_nil
-            expect(registered_user.detail.telephone).to  be_nil
+            expect(registered_user.detail.first_name).to be_blank
+            expect(registered_user.detail.last_name).to  be_blank
+            expect(registered_user.detail.telephone).to  be_blank
         end
     end
 
@@ -204,7 +204,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
 
             expect(registered_user.detail.first_name).to be_a(String)
             expect(registered_user.detail.last_name).to be_a(String)
-            expect(registered_user.detail.telephone).to be_nil
+            expect(registered_user.detail.telephone).to be_blank
             
         end
     end
@@ -233,7 +233,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
 
             registered_user = User.find_by_email(user[:email])
 
-            expect(registered_user.detail.first_name).to be_nil
+            expect(registered_user.detail.first_name).to be_blank
             expect(registered_user.detail.last_name).to be_a(String)
             expect(registered_user.detail.telephone).to be_a(String)
         end
@@ -264,7 +264,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             registered_user = User.find_by_email(user[:email])
 
             expect(registered_user.detail.first_name).to be_a(String)
-            expect(registered_user.detail.last_name).to eql(nil)
+            expect(registered_user.detail.last_name).to be_blank
             expect(registered_user.detail.telephone).to be_a(String)
         end
     end
@@ -292,25 +292,21 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             registered_user = User.find_by_email(user[:email])
 
             #verify that the user is created without detail attributes
-            expect(registered_user.detail.first_name).to eql(nil)
-            expect(registered_user.detail.last_name).to eql(nil)
-            expect(registered_user.detail.telephone).to eql(nil)
+            expect(registered_user.detail.first_name).to be_blank
+            expect(registered_user.detail.last_name).to be_blank
+            expect(registered_user.detail.telephone).to be_blank
             
         end
     end
 
 
-    it "Tries to create an user with incorrect detail_attributes" do
+    it "Tries to create an user without detail_attributes" do
 
         user = {
             email: Faker::Internet.email,
             password: @password,
             password_confirmation: @password,
-            detail_attributes: {
-                FIRST_NAME: Faker::Name.first_name,
-                LAST_NAME: Faker::Name.last_name,
-                TELEPHONE: Faker::PhoneNumber.phone_number
-            }
+            detail_attributes: {}
         }
 
         post :create, params: {
@@ -326,9 +322,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             registered_user = User.find_by_email(user[:email])
 
             #verify that the user is created without detail attributes
-            expect(registered_user.detail.first_name).to eql(nil)
-            expect(registered_user.detail.last_name).to eql(nil)
-            expect(registered_user.detail.telephone).to eql(nil)
+            expect(registered_user.detail.first_name).to be_blank
+            expect(registered_user.detail.last_name).to be_blank
+            expect(registered_user.detail.telephone).to be_blank
             
         end
     end
