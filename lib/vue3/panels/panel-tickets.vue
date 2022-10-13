@@ -17,16 +17,21 @@ For more information read the license file including with this software.
 */
 
 // · import vue tools
-import { ref, inject, watch, onMounted } from "vue"
+import { inject, watch } from "vue"
+import { useRouter } from 'vue-router'
 
 // · import store
 import { useLayout } from "LesliVue/stores/layout"
-
 import { useTickets } from "LesliVue/stores/panels/tickets"
+
+// · initialize/inject plugins
+const router = useRouter()
+const url = inject("url")
+
 
 // · implement stores
 const storeLayout = useLayout()
-const storeTickets = useTickets()
+const storeTicketsPanel = useTickets()
 
 // · defining translations
 const translations = {
@@ -47,13 +52,19 @@ const columns = [{
 
 watch(() => storeLayout.showTickets, () => {
     if(storeLayout.showTickets){
-        storeTickets.fetchTickets()
+        storeTicketsPanel.fetchTickets()
 
-        if(!storeTickets.loaded){
-            storeTickets.getTicketOptions()
+        if(!storeTicketsPanel.loaded){
+            storeTicketsPanel.getTicketOptions()
         }
     }    
 })
+
+function showTicket(ticket){
+    url.go(`/help/tickets/${ticket.id}`)
+}
+
+
 </script>
 
 <template>
@@ -65,13 +76,14 @@ watch(() => storeLayout.showTickets, () => {
             <h4>{{ translations.main.view_title_latest_tickets }}</h4>
             <lesli-table
                 :columns="columns"
-                :records="storeTickets.tickets"
+                :records="storeTicketsPanel.tickets"
+                @click="showTicket"
             >
             </lesli-table>
 
             <h4>{{translations.main.view_title_quick_creation}}</h4>
 
-            <form @submit.prevent="storeTickets.postTicket">
+            <form @submit.prevent="storeTicketsPanel.postTicket">
                 <div class="columns">
                     <div class="column is-1"></div>
                     <div class="column is-3">
@@ -80,7 +92,7 @@ watch(() => storeLayout.showTickets, () => {
                         </label>
                     </div>
                     <div class="column is-7">
-                        <input type="text" class="input" required v-model="storeTickets.ticket.subject">
+                        <input type="text" class="input" required v-model="storeTicketsPanel.ticket.subject">
                     </div>
                 </div>
 
@@ -94,8 +106,8 @@ watch(() => storeLayout.showTickets, () => {
                     <div class="column is-7">
 
                             <lesli-select
-                                :options="storeTickets.typesSelect"
-                                v-model="storeTickets.ticket.cloud_help_catalog_ticket_types_id"
+                                :options="storeTicketsPanel.typesSelect"
+                                v-model="storeTicketsPanel.ticket.cloud_help_catalog_ticket_types_id"
                             >
                             </lesli-select>
                     </div>
@@ -110,8 +122,8 @@ watch(() => storeLayout.showTickets, () => {
                     </div>
                     <div class="column is-7">
                         <lesli-select
-                            :options="storeTickets.workspaceSelect"
-                            v-model="storeTickets.ticket.cloud_help_catalog_ticket_workspaces_id"
+                            :options="storeTicketsPanel.workspaceSelect"
+                            v-model="storeTicketsPanel.ticket.cloud_help_catalog_ticket_workspaces_id"
                         >
                         </lesli-select>
                     </div>
@@ -125,7 +137,7 @@ watch(() => storeLayout.showTickets, () => {
                         </label>
                     </div>
                     <div class="column is-7">
-                        <textarea class="textarea" v-model="storeTickets.ticket.description"></textarea>
+                        <textarea class="textarea" v-model="storeTicketsPanel.ticket.description"></textarea>
                     </div>
                 </div>
 
