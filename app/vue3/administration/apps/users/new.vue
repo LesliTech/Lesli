@@ -66,7 +66,7 @@ onMounted(() => {
             </lesli-button>
         </lesli-header>
         <div class="box">
-            <formInformation/>
+            <form-information :path="props.appMountPath"></form-information>
         </div>
     </section>
 </template>
