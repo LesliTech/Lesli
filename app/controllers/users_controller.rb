@@ -109,8 +109,6 @@ class UsersController < ApplicationLesliController
 
     def create
 
-        LC::Debug.msg(user_params[:roles_id])
-
         # check if request has an email to create the user
         if user_params[:email].blank?
             respond_with_error(I18n.t("core.users.messages_danger_not_valid_email_found"))
