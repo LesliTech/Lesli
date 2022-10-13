@@ -17,22 +17,41 @@ For more information read the license file including with this software.
 */
 
 // · import vue tools
-import { ref, inject, watch } from "vue"
+import { ref, inject, watch, onMounted } from "vue"
 
 // · import store
-import { useCloudObjectFileStore } from "LesliVue/stores/cloud-objects/file"
 import { useLayout } from "LesliVue/stores/layout"
 
+import { useTickets } from "LesliVue/stores/panels/tickets"
+
 // · implement stores
-const storeFiles = useCloudObjectFileStore()
 const storeLayout = useLayout()
+const storeTickets = useTickets()
 
 // · defining translations
 const translations = {
     core: {
         shared: I18n.t("core.shared"),
-    }
+    },
+    main: I18n.t('help.tickets')
 }
+
+const columns = [{
+    field: "subject",
+    label: "subject"
+}, {
+    field: "status",
+    label: "Status"
+}]
+
+// · initializing
+onMounted(() => {
+    storeTickets.getTicketOptions()
+})
+
+// watch(() => storeLayout.showTickets, () => {
+//     storeTickets.getTicketOptions()
+// })
 
 
 </script>
@@ -44,83 +63,71 @@ const translations = {
         </template>
         <template #default>
 
-            <form @submit.prevent="postTicket">
-                    <!-- <b-field>
-                        <template v-slot:label>
+            <lesli-table
+                :columns="columns"
+                :records="records"
+            
+            ></lesli-table>
+
+            <form @submit.prevent="storeTickets.postTicket">
+                <div class="columns">
+                    <div class="column is-4">
+                        <label class="label">
                             {{translations.main.column_subject}} <sup class="has-text-danger">*</sup>
-                        </template>
-                        <b-input type="text" required v-model="ticket.subject">
-                        </b-input>
-                    </b-field> -->
-                    <div class="columns">
-                        <div class="column is-4">
-                            <label class="label">
-                                {{translations.main.column_subject}} <sup class="has-text-danger">*</sup>
-                            </label>
-                        </div>
-                        <div class="column is-8">
-                            <input type="text" class="input" required>
-                        </div>
+                        </label>
                     </div>
+                    <div class="column is-8">
+                        <input type="text" class="input" required v-model="storeTickets.subject">
+                    </div>
+                </div>
 
-
-
-
-                    <b-field>
-                        <template v-slot:label>
+                <div class="columns">
+                    <div class="column is-4">
+                        <label class="label">
                             {{translations.main.column_cloud_help_catalog_ticket_types_id}}<sup class="has-text-danger">*</sup>
-                        </template>
-                        <b-select
-                            :placeholder="translations.core.view_placeholder_select_option"
-                            expanded
-                            required
-                            v-model="ticket.cloud_help_catalog_ticket_types_id"
-                        >
-                            <option
-                                v-for="type in options.types"
-                                :key="type.id"
-                                :value="type.id"
-                            >
-                                {{type.name}}
-                            </option>
-                        </b-select>
-                    </b-field>
-                    <b-field :label="translations.main.column_cloud_help_catalog_ticket_workspaces_id">
-                        <b-select
-                            :placeholder="translations.core.view_placeholder_select_option"
-                            expanded
-                            v-model="ticket.cloud_help_catalog_ticket_workspaces_id"
-                        >
-                            <option
-                                v-for="workspace in options.workspaces"
-                                :key="workspace.id"
-                                :value="workspace.id"
-                            >
-                                {{workspace.name}}
-                            </option>
-                        </b-select>
-                    </b-field>
-                    <div class="field text-editor-container">
-                        <label class="label">{{translations.main.column_description}}</label>
-                        <div class="control">
-                            <component-rich-text-editor v-model="ticket.description" mode="simple">
-                            </component-rich-text-editor>
-                        </div>
+                        </label>
                     </div>
-                    <div class="field">
-                        <b-button class="submit-button" type="is-primary" native-type="submit" expanded :disabled="submitting">
-                            <span v-if="submitting">
-                                <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small">
-                                </b-icon>
-                                <span>{{translations.core.view_btn_saving}}</span>
-                            </span>
-                            <span v-else>
-                                <b-icon icon="save" size="is-small">
-                                </b-icon>
-                                <span>{{translations.core.view_btn_save}}</span>
-                            </span>
-                        </b-button>
+                    <div class="column is-8">
+
+                            <lesli-select
+                                :options="storeTickets.typesSelect"
+                                v-model="storeTickets.cloud_help_catalog_ticket_types_id"
+                            >
+                            </lesli-select>
                     </div>
+                </div>
+
+                <div class="columns">
+                    <div class="column is-4">
+                        <label class="label">
+                            {{translations.main.column_cloud_help_catalog_ticket_workspaces_id}}<sup class="has-text-danger">*</sup>
+                        </label>
+                    </div>
+                    <div class="column is-8">
+                        <lesli-select
+                            :options="storeTickets.workspaceSelect"
+                            v-model="storeTickets.cloud_help_catalog_ticket_workspaces_id"
+                        >
+                        </lesli-select>
+                    </div>
+                </div>
+
+                <div class="columns">
+                    <div class="column is-4">
+                        <label class="label">
+                            {{translations.main.column_description}} <sup class="has-text-danger">*</sup>
+                        </label>
+                    </div>
+                    <div class="column is-8">
+                        <textarea class="textarea" v-model="storeTickets.description"></textarea>
+                    </div>
+                </div>
+
+                <div class="control">
+                    <lesli-button icon="save">
+                        {{ translations.core.shared.view_btn_save }}
+                    </lesli-button>                 
+                </div>
         
             </form>
 

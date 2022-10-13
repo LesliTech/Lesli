@@ -162,10 +162,10 @@ onUnmounted(() => {
                     class="navbar-item header-notification-indicator" 
                     @click="() => { storeLayout.showTickets = true }">
                     <span :class="['material-icons md-36']">
-                        notifications
+                        contact_support
                     </span>
                     <span class="count" v-if="storeLayout.header.tickets > 0">
-                        {{ storeLayout.header.notifications }}
+                        {{ storeLayout.header.tickets }}
                     </span>
                 </a>
 
