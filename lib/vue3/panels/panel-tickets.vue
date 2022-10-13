@@ -40,93 +40,102 @@ const columns = [{
     field: "subject",
     label: "subject"
 }, {
-    field: "status",
+    field: "status_name",
     label: "Status"
 }]
 
-// · initializing
-onMounted(() => {
-    storeTickets.getTicketOptions()
+
+watch(() => storeLayout.showTickets, () => {
+    if(storeLayout.showTickets){
+        storeTickets.fetchTickets()
+
+        if(!storeTickets.loaded){
+            storeTickets.getTicketOptions()
+        }
+    }    
 })
-
-// watch(() => storeLayout.showTickets, () => {
-//     storeTickets.getTicketOptions()
-// })
-
-
 </script>
 
 <template>
-    <lesli-panel v-model:open="storeLayout.showTickets">
+    <lesli-panel class="lesli-panel-tickets" v-model:open="storeLayout.showTickets">
         <template #header>
-            <h2>test</h2>
+            {{ translations.main.view_text_support_tickets }}
         </template>
         <template #default>
-
+            <h4>{{ translations.main.view_title_latest_tickets }}</h4>
             <lesli-table
                 :columns="columns"
-                :records="records"
-            
-            ></lesli-table>
+                :records="storeTickets.tickets"
+            >
+            </lesli-table>
+
+            <h4>{{translations.main.view_title_quick_creation}}</h4>
 
             <form @submit.prevent="storeTickets.postTicket">
                 <div class="columns">
-                    <div class="column is-4">
+                    <div class="column is-1"></div>
+                    <div class="column is-3">
                         <label class="label">
                             {{translations.main.column_subject}} <sup class="has-text-danger">*</sup>
                         </label>
                     </div>
-                    <div class="column is-8">
-                        <input type="text" class="input" required v-model="storeTickets.subject">
+                    <div class="column is-7">
+                        <input type="text" class="input" required v-model="storeTickets.ticket.subject">
                     </div>
                 </div>
 
                 <div class="columns">
-                    <div class="column is-4">
+                    <div class="column is-1"></div>
+                    <div class="column is-3">
                         <label class="label">
                             {{translations.main.column_cloud_help_catalog_ticket_types_id}}<sup class="has-text-danger">*</sup>
                         </label>
                     </div>
-                    <div class="column is-8">
+                    <div class="column is-7">
 
                             <lesli-select
                                 :options="storeTickets.typesSelect"
-                                v-model="storeTickets.cloud_help_catalog_ticket_types_id"
+                                v-model="storeTickets.ticket.cloud_help_catalog_ticket_types_id"
                             >
                             </lesli-select>
                     </div>
                 </div>
 
                 <div class="columns">
-                    <div class="column is-4">
+                    <div class="column is-1"></div>
+                    <div class="column is-3">
                         <label class="label">
                             {{translations.main.column_cloud_help_catalog_ticket_workspaces_id}}<sup class="has-text-danger">*</sup>
                         </label>
                     </div>
-                    <div class="column is-8">
+                    <div class="column is-7">
                         <lesli-select
                             :options="storeTickets.workspaceSelect"
-                            v-model="storeTickets.cloud_help_catalog_ticket_workspaces_id"
+                            v-model="storeTickets.ticket.cloud_help_catalog_ticket_workspaces_id"
                         >
                         </lesli-select>
                     </div>
                 </div>
 
                 <div class="columns">
-                    <div class="column is-4">
+                    <div class="column is-1"></div>
+                    <div class="column is-3">
                         <label class="label">
                             {{translations.main.column_description}} <sup class="has-text-danger">*</sup>
                         </label>
                     </div>
-                    <div class="column is-8">
-                        <textarea class="textarea" v-model="storeTickets.description"></textarea>
+                    <div class="column is-7">
+                        <textarea class="textarea" v-model="storeTickets.ticket.description"></textarea>
                     </div>
                 </div>
 
-                <div class="control">
-                    <lesli-button icon="save">
-                        {{ translations.core.shared.view_btn_save }}
-                    </lesli-button>                 
+                <div class="columns">
+                    <div class="column is-1"></div>
+                    <div class="column">
+                        <lesli-button icon="save">
+                            {{ translations.core.shared.view_btn_save }}
+                        </lesli-button>   
+                    </div>
                 </div>
         
             </form>
