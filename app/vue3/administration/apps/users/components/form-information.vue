@@ -41,6 +41,11 @@ const props = defineProps({
         required: false,
         default: false,
     },
+    path: {
+        type: String,
+        required: false,
+        default: "administration/users",
+    }
 })
 
 // · 
@@ -63,7 +68,7 @@ const onUpdate = () => {
  */
 const onCreate = () => {
     storeUser.newUser()
-    router.push(url.admin('users').toString())
+    router.push(url.root(props.path).toString())
 }
 
 const userRole = ref({ label:"", value:"" })
@@ -211,8 +216,7 @@ onMounted(() => {
                         <div class="select is-fullwidth">
                             <lesli-select
                                 :options="storeUser.rolesSelect"
-                                v-model="userRole"
-                                @change="updateRole"
+                                v-model="storeUser.roles"
                             >
                             </lesli-select>
                         </div>
