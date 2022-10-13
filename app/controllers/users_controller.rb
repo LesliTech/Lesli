@@ -109,6 +109,8 @@ class UsersController < ApplicationLesliController
 
     def create
 
+        LC::Debug.msg(user_params[:roles_id])
+
         # check if request has an email to create the user
         if user_params[:email].blank?
             respond_with_error(I18n.t("core.users.messages_danger_not_valid_email_found"))
@@ -137,17 +139,12 @@ class UsersController < ApplicationLesliController
         if user.save
 
             # if a role is provided to assign to the new user
-            if not user_params[:roles_id].blank?
+            unless user_params[:roles_id].blank?
 
                 # check if current user can work with the sent role
                 if current_user.can_work_with_role?(user_params[:roles_id])
-
-                    # get the requested role to assign to the new user
-                    role = current_user.account.roles.find(user_params[:roles_id])
-
                     # assign role to the new user
-                    user.user_roles.create({ role: role })
-
+                    user.user_roles.create({ id: user_params[:roles_id] })
                 end
 
             end
