@@ -216,7 +216,7 @@ onMounted(() => {
                         <div class="select is-fullwidth">
                             <lesli-select
                                 :options="storeUser.rolesSelect"
-                                v-model="storeUser.roles"
+                                v-model="storeUser.user.roles_id"
                             >
                             </lesli-select>
                         </div>
