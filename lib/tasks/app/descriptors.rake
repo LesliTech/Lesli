@@ -87,6 +87,7 @@ namespace :app do
                             # some methods needs aditional privileges by default
                             privileges.push('create') if descriptor_action == :new
                             privileges.push('update') if descriptor_action == :edit
+                            privileges.push('search') if descriptor_action == :index
 
                             # controller name for humans, ready to be translated by babel
                             controller_name = "#{cn.sub('Controller','').sub('::','')}#{descriptor_action.capitalize}".underscore.sub('/','_')
