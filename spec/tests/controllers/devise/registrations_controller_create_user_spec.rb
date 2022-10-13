@@ -300,17 +300,13 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
     end
 
 
-    it "Tries to create an user with incorrect detail_attributes" do
+    it "Tries to create an user without detail_attributes" do
 
         user = {
             email: Faker::Internet.email,
             password: @password,
             password_confirmation: @password,
-            detail_attributes: {
-                FIRST_NAME: Faker::Name.first_name,
-                LAST_NAME: Faker::Name.last_name,
-                TELEPHONE: Faker::PhoneNumber.phone_number
-            }
+            detail_attributes: {}
         }
 
         post :create, params: {
