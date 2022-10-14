@@ -18,10 +18,3 @@ For more information read the license file including with this software.
 =end
 
 # IMPORTANT: The production users must be loaded from builder engine seeder
-
-# development user
-STDOUT.puts "Do you want to load dev users? (y/n)"
-input = STDIN.gets.strip
-if input == 'y'
-    load "#{Rails.root}/db/seed/development/users.rb"
-end
