@@ -32,7 +32,8 @@ create_development_user(["owner", "mr", user[:name], "", user[:email]])
     ["api",     "mr", "API",     "user", "api@lesli.cloud"],
 ].each do |user|
 
-    create_development_user(user)
+    user = create_development_user(user)
+    STDOUT.puts("User with email: #{user['email']} registered.")
 
 end
 
