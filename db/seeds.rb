@@ -18,7 +18,9 @@ For more information read the license file including with this software.
 =end
 
 
-LC::Debug.msgc "Loading core seeds for #{Rails.env.downcase} environment"
+LC::Debug.msg "Loading core seeds for #{Rails.env.downcase} environment"
+
+load "#{Rails.root}/db/seed/tools.rb"
 
 load "#{Rails.root}/db/seed/#{Rails.env.downcase}.rb"
 
@@ -30,7 +32,7 @@ if Rails.application.config.lesli[:instance] != "Lesli"
 
     # If instance account class exists
     if instance_klass && instance_klass.to_s != "Lesli"
-        LC::Debug.msgc "Loading seeds for builder engine"
+        LC::Debug.msg "Loading seeds for builder engine"
         instance_klass::Engine.load_seed
     end
     
