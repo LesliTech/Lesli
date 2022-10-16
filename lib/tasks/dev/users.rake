@@ -23,7 +23,7 @@ namespace :dev do
         task :load => :environment do |task, args|
 
             # development user
-            user = Rails.application.config.lesli[:account][:user]
+            user = Rails.application.config.lesli[:account]
 
             create_development_user(["owner", "mr", user[:name], "", user[:email]])
 
@@ -55,7 +55,7 @@ def create_development_user dev_user, password=nil
 
     # get password
     if password.blank?
-        password = Rails.application.config.lesli[:security][:password][:development]
+        password = Rails.application.config.lesli[:security][:password]
         password = password + Time.now.year.to_s + "$"
     end
 
@@ -66,7 +66,7 @@ def create_development_user dev_user, password=nil
     salutation = dev_user[1]
     first_name = dev_user[2]
 
-    account = Account.find_by(company_name: Rails.application.config.lesli[:account][:company][:name])
+    account = Account.find_by(company_name: Rails.application.config.lesli[:account][:name])
 
     # create development users if email is not registered yet
     ::User.find_or_create_by(email: email) do |user|
