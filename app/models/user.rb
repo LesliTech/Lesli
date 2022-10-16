@@ -81,20 +81,11 @@ class User < ApplicationLesliRecord
     end
 
 
-
     # @return [void]
     # @description Before creating a user we make sure there is no capitalized email
     def initialize_user
         self.email = (self.email||"").downcase
     end
-
-
-
-    def change_after_update
-        self.initialize_user_after_confirmation if self.confirmed?
-        self.initialize_user_after_account_assignation if self.account
-    end
-
 
 
     # @return [void]
@@ -109,6 +100,12 @@ class User < ApplicationLesliRecord
         # create an alias based on user name
         self.set_alias
 
+    end
+
+
+    def change_after_update
+        self.initialize_user_after_confirmation if self.confirmed?
+        self.initialize_user_after_account_assignation if self.account
     end
 
 

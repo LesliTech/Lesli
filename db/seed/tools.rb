@@ -1,0 +1,59 @@
+=begin
+
+Copyright (c) 2022, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+=end
+def create_development_user usertocreate, password=nil
+
+    # get password
+    if password.blank?
+        password = Rails.application.config.lesli[:security][:password]
+        password = password + Time.now.year.to_s + "$"
+    end
+
+    # user information
+    email = usertocreate[4]
+    last_name = usertocreate[3]
+    role_name = usertocreate[0]
+    salutation = usertocreate[1]
+    first_name = usertocreate[2]
+
+    account = Account.find_by(company_name: Rails.application.config.lesli[:account][:name])
+
+    # create development users if email is not registered yet
+    ::User.find_or_create_by(email: email) do |user|
+        user.password = password
+        user.password_confirmation = password
+        user.account = account
+
+        # confirm user through device
+        user.confirm if not user.confirmed?
+
+        user.detail.salutation = salutation
+        user.detail.first_name = first_name
+        user.detail.last_name = last_name
+        user.detail.save!
+
+        user.user_roles.create({ role: Role.find_by("name" => role_name) })
+
+        if user
+            user.settings.create(:name => 'locale', :value => Rails.application.config.lesli[:env][:default_locale]) # add locale
+        end
+
+        puts("User with email: #{user.email} registered.")
+
+        user
+    end
+end
