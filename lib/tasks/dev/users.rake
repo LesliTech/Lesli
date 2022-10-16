@@ -31,10 +31,8 @@ namespace :dev do
             [
                 ["owner",   "mr", "Owner",   "user", "owner@lesli.cloud"],
                 ["sysadmin","mr", "SysAdmin","user", "admin@lesli.cloud"],
-                ["limited", "mr", "Limited", "user", "limited@lesli.cloud"],
-                ["guest",   "mr", "Guest",   "user", "guest@lesli.cloud"],
+                ["limited", "mr", "Guest",   "user", "guest@lesli.cloud"],
                 ["sysadmin","mr", "Test",    "user", "test@lesli.cloud"],
-                ["api",     "mr", "API",     "user", "api@lesli.cloud"],
             ].each do |user|
 
                 user = create_development_user(user)
