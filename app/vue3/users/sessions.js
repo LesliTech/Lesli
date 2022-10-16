@@ -26,6 +26,7 @@ app({
     data(){
         return {
             translation: I18n.t("core.users/sessions"),
+            loading: false,
             sign_in: {
                 email: "",
                 password: ""
@@ -43,7 +44,6 @@ app({
     methods: {
 
         togglePasswordInput() {
-            console.log("password")
             if (this.$refs.password.type === "password") {
                 this.$refs.password.type = "text";
             } else {
@@ -89,6 +89,8 @@ app({
         },
 
         postLogin(event) {
+
+            this.loading = true
             
             event.preventDefault();
 
@@ -105,6 +107,8 @@ app({
                 this.url.go(this.build_redirect_url(response.default_path))
             }).catch(error => { 
                 this.showNotification(error.message)
+            }).finally(() => {
+                this.loading = false
             })
 
         },
