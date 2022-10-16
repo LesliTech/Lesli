@@ -14,7 +14,6 @@
 
 info:
     name: "Lesli"
-    code: "lesli"
     github: 
         url: "https://github.com/leitfaden/Lesli" 
         ssh: "git@github.com:leitfaden/Lesli.git" 
@@ -27,38 +26,31 @@ modules: []
 
 # Information about the main account in the platform
 account: 
-    user: 
-        name: "Lesli Admin"
-        email: "hello@lesli.tech"
-    company: 
-        name: "Lesli"
-        email: "hello@lesli.tech"
-        tag_line: "Your smart business assistant"
+    name: "Lesli"
+    email: "hello@lesli.tech"
+    tag_line: "Your smart business assistant"
 
 
 # Instance configuration
 configuration:
     locales:
         en: "English"
-        es: "Spanish"
+        es: "Español"
     datetime: 
-        time_zone: "Europe/Berlin" 
+        time_zone: "America/Guatemala" 
         start_week_on: "monday"
         formats:
-            date: "%d.%m.%Y"
+            date: "%d/%m/%Y"
             time: "%H:%M"
-            date_time: "%d.%m.%Y %H:%M"
+            date_time: "%d/%m/%Y %H:%M"
             date_words: "%A, %B %d, %Y"
             date_time_words: "%A, %B %d, %Y, %H:%M"
-    notifications:
-        sms: false
     mfa_methods:
         email: "email"
 
 
 # Instance security settings
 security:
-    version: 3
     log_activity: true
     enable_debug: false
     enable_pushes: false
@@ -70,14 +62,7 @@ security:
     allow_multiaccount: true
     allow_registration: true
     allow_invitation: true
-    password:
-        minimum_length: 8
-        expiration_time_days: 7
-        development: "lesli"
-    roles: []
-    # Add any role you may want to initialize here
-    #   - "Administration"
-    #   - "Sales & Marketing"
+    password: "lesli"
 
 
 # Configuration by environment
