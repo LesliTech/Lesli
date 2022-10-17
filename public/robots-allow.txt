@@ -1,0 +1,12 @@
+
+# Global rules
+# -----------------
+User-agent: *
+Disallow: /register
+Disallow: /login
+Disallow: /pass
+Disallow: /otp
+
+# Sitemap
+# -----------------
+#Sitemap: https://www.lesli.cloud/sitemap_index.xml
