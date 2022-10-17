@@ -111,25 +111,17 @@ RSpec.describe "Lesli::settings" do
         expect(@lesli_settings).to have_key("account")
         expect(@lesli_settings["account"]).to be_a(Hash)
 
-        expect(@lesli_settings["account"]).to have_key("user")
-        expect(@lesli_settings["account"]["user"]).to be_a(Hash)
-        expect(@lesli_settings["account"]["user"]).to have_key("name")
-        expect(@lesli_settings["account"]["user"]["name"]).to be_a(String)
+        expect(@lesli_settings["account"]).to have_key("email")
+        expect(@lesli_settings["account"]["email"]).to be_a(String)
 
-        expect(@lesli_settings["account"]["user"]).to have_key("email")
-        expect(@lesli_settings["account"]["user"]["email"]).to be_a(String)
+        expect(@lesli_settings["account"]).to have_key("name")
+        expect(@lesli_settings["account"]["name"]).to be_a(String)
 
-        expect(@lesli_settings["account"]).to have_key("company")
-        expect(@lesli_settings["account"]["company"]).to be_a(Hash)
-
-        expect(@lesli_settings["account"]["company"]).to have_key("name")
-        expect(@lesli_settings["account"]["company"]["name"]).to be_a(String)
-
-        expect(@lesli_settings["account"]["company"]).to have_key("email")
-        expect(@lesli_settings["account"]["company"]["email"]).to be_a(String)
+        expect(@lesli_settings["account"]).to have_key("email")
+        expect(@lesli_settings["account"]["email"]).to be_a(String)
         
-        expect(@lesli_settings["account"]["company"]).to have_key("tag_line")
-        expect(@lesli_settings["account"]["company"]["tag_line"]).to be_a(String)
+        expect(@lesli_settings["account"]).to have_key("tag_line")
+        expect(@lesli_settings["account"]["tag_line"]).to be_a(String)
     end
 
     it "expect to return with lesli configuration settings" do
@@ -152,16 +144,11 @@ RSpec.describe "Lesli::settings" do
 
         expect(@lesli_settings["configuration"]).to have_key("datetime")
         expect(@lesli_settings["configuration"]["datetime"]).to be_a(Hash)
-
-        expect(@lesli_settings["configuration"]).to have_key("notifications")
-        expect(@lesli_settings["configuration"]["notifications"]).to be_a(Hash)
-        expect(@lesli_settings["configuration"]["notifications"]).to have_key("sms")
-        expect(@lesli_settings["configuration"]["notifications"]["sms"]).to be_in([true, false])
     end
 
     it "expect to return with lesli configuration settings datetime" do
         expect(@lesli_settings["configuration"]["datetime"]).to have_key("time_zone")
-        expect(@lesli_settings["configuration"]["datetime"]["time_zone"]).to eql("Europe/Berlin")
+        expect(@lesli_settings["configuration"]["datetime"]["time_zone"]).to eql("America/Guatemala")
         expect(@lesli_settings["configuration"]["datetime"]["time_zone"]).to be_a(String)
 
         expect(@lesli_settings["configuration"]["datetime"]).to have_key("start_week_on")
@@ -172,7 +159,7 @@ RSpec.describe "Lesli::settings" do
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to be_a(Hash)
         
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date")
-        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date"]).to eql("%d.%m.%Y")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date"]).to eql("%d/%m/%Y")
         expect(@lesli_settings["configuration"]["datetime"]["formats"]["date"]).to be_a(String)
 
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("time")
@@ -180,7 +167,7 @@ RSpec.describe "Lesli::settings" do
         expect(@lesli_settings["configuration"]["datetime"]["formats"]["time"]).to be_a(String)
 
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date_time")
-        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time"]).to eql("%d.%m.%Y %H:%M")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time"]).to eql("%d/%m/%Y %H:%M")
         expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time"]).to be_a(String)
 
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date_words")
@@ -227,16 +214,7 @@ RSpec.describe "Lesli::settings" do
         expect(@lesli_settings["security"]["allow_invitation"]).to be_in([true, false])
 
         expect(@lesli_settings["security"]).to have_key("password")
-        expect(@lesli_settings["security"]).to have_key("roles")
-
-        expect(@lesli_settings["security"]["password"]).to have_key("development")
-        expect(@lesli_settings["security"]["password"]).to have_key("minimum_length")
-        expect(@lesli_settings["security"]["password"]).to have_key("expiration_time_days")
-
-        expect(@lesli_settings["security"]["password"]).to be_a(Hash)
-        expect(@lesli_settings["security"]["password"]["development"]).to be_a(String)
-        expect(@lesli_settings["security"]["password"]["minimum_length"]).to be_a(Numeric)
-        expect(@lesli_settings["security"]["password"]["expiration_time_days"]).to be_a(Numeric)
+        expect(@lesli_settings["security"]["password"]).to be_a(String)
 
     end
 
