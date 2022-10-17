@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,9 +13,42 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
-
+// · 
 =end
+
+namespace :dev do
+    namespace :users do
+
+        desc "Load users for development environment"
+        task :load => :environment do |task, args|
+
+            # development user
+            user = Rails.application.config.lesli[:account][:user]
+
+            create_development_user(["owner", "mr", user[:name], "", user[:email]])
+
+            # core development users
+            [
+                ["owner",   "mr", "Owner",   "user", "owner@lesli.cloud"],
+                ["sysadmin","mr", "SysAdmin","user", "admin@lesli.cloud"],
+                ["limited", "mr", "Limited", "user", "limited@lesli.cloud"],
+                ["guest",   "mr", "Guest",   "user", "guest@lesli.cloud"],
+                ["sysadmin","mr", "Test",    "user", "test@lesli.cloud"],
+                ["api",     "mr", "API",     "user", "api@lesli.cloud"],
+            ].each do |user|
+
+                user = create_development_user(user)
+                STDOUT.puts("User with email: #{user['email']} registered.")
+
+            end
+
+
+            # notify
+            LC::Debug.msgc "Users successfully created!"
+
+        end
+    end
+end
 
 
 def create_development_user dev_user, password=nil
