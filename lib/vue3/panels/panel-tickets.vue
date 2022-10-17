@@ -73,85 +73,87 @@ function showTicket(ticket){
             {{ translations.main.view_text_support_tickets }}
         </template>
         <template #default>
-            <h4>{{ translations.main.view_title_latest_tickets }}</h4>
-            <lesli-table
-                :columns="columns"
-                :records="storeTicketsPanel.tickets"
-                @click="showTicket"
-            >
-            </lesli-table>
-
-            <h4>{{translations.main.view_title_quick_creation}}</h4>
-
-            <form @submit.prevent="storeTicketsPanel.postTicket">
-                <div class="columns">
-                    <div class="column is-1"></div>
-                    <div class="column is-3">
-                        <label class="label">
-                            {{translations.main.column_subject}} <sup class="has-text-danger">*</sup>
-                        </label>
+            <div class="lastest-tickets" v-if="storeTicketsPanel.tickets.length > 0">
+                <h4>{{ translations.main.view_title_latest_tickets }}</h4>
+                <lesli-table
+                    :columns="columns"
+                    :records="storeTicketsPanel.tickets"
+                    @click="showTicket"
+                >
+                </lesli-table>
+            </div>
+            <hr>
+            <div class="form">
+                <h4>{{translations.main.view_title_quick_creation}}</h4>
+                <form @submit.prevent="storeTicketsPanel.postTicket">
+                    <div class="columns">
+                        <div class="column is-1"></div>
+                        <div class="column is-3">
+                            <label class="label">
+                                {{translations.main.column_subject}} <sup class="has-text-danger">*</sup>
+                            </label>
+                        </div>
+                        <div class="column is-7">
+                            <input type="text" class="input" required v-model="storeTicketsPanel.ticket.subject">
+                        </div>
                     </div>
-                    <div class="column is-7">
-                        <input type="text" class="input" required v-model="storeTicketsPanel.ticket.subject">
-                    </div>
-                </div>
 
-                <div class="columns">
-                    <div class="column is-1"></div>
-                    <div class="column is-3">
-                        <label class="label">
-                            {{translations.main.column_cloud_help_catalog_ticket_types_id}}<sup class="has-text-danger">*</sup>
-                        </label>
-                    </div>
-                    <div class="column is-7">
+                    <div class="columns">
+                        <div class="column is-1"></div>
+                        <div class="column is-3">
+                            <label class="label">
+                                {{translations.main.column_cloud_help_catalog_ticket_types_id}}<sup class="has-text-danger">*</sup>
+                            </label>
+                        </div>
+                        <div class="column is-7">
 
+                                <lesli-select
+                                    :options="storeTicketsPanel.typesSelect"
+                                    v-model="storeTicketsPanel.ticket.cloud_help_catalog_ticket_types_id"
+                                >
+                                </lesli-select>
+                        </div>
+                    </div>
+
+                    <div class="columns">
+                        <div class="column is-1"></div>
+                        <div class="column is-3">
+                            <label class="label">
+                                {{translations.main.column_cloud_help_catalog_ticket_workspaces_id}}<sup class="has-text-danger">*</sup>
+                            </label>
+                        </div>
+                        <div class="column is-7">
                             <lesli-select
-                                :options="storeTicketsPanel.typesSelect"
-                                v-model="storeTicketsPanel.ticket.cloud_help_catalog_ticket_types_id"
+                                :options="storeTicketsPanel.workspaceSelect"
+                                v-model="storeTicketsPanel.ticket.cloud_help_catalog_ticket_workspaces_id"
                             >
                             </lesli-select>
+                        </div>
                     </div>
-                </div>
 
-                <div class="columns">
-                    <div class="column is-1"></div>
-                    <div class="column is-3">
-                        <label class="label">
-                            {{translations.main.column_cloud_help_catalog_ticket_workspaces_id}}<sup class="has-text-danger">*</sup>
-                        </label>
+                    <div class="columns">
+                        <div class="column is-1"></div>
+                        <div class="column is-3">
+                            <label class="label">
+                                {{translations.main.column_description}} <sup class="has-text-danger">*</sup>
+                            </label>
+                        </div>
+                        <div class="column is-7">
+                            <textarea class="textarea" v-model="storeTicketsPanel.ticket.description"></textarea>
+                        </div>
                     </div>
-                    <div class="column is-7">
-                        <lesli-select
-                            :options="storeTicketsPanel.workspaceSelect"
-                            v-model="storeTicketsPanel.ticket.cloud_help_catalog_ticket_workspaces_id"
-                        >
-                        </lesli-select>
-                    </div>
-                </div>
 
-                <div class="columns">
-                    <div class="column is-1"></div>
-                    <div class="column is-3">
-                        <label class="label">
-                            {{translations.main.column_description}} <sup class="has-text-danger">*</sup>
-                        </label>
+                    <div class="columns">
+                        <div class="column is-1"></div>
+                        <div class="column">
+                            <lesli-button icon="save">
+                                {{ translations.core.shared.view_btn_save }}
+                            </lesli-button>   
+                        </div>
                     </div>
-                    <div class="column is-7">
-                        <textarea class="textarea" v-model="storeTicketsPanel.ticket.description"></textarea>
-                    </div>
-                </div>
-
-                <div class="columns">
-                    <div class="column is-1"></div>
-                    <div class="column">
-                        <lesli-button icon="save">
-                            {{ translations.core.shared.view_btn_save }}
-                        </lesli-button>   
-                    </div>
-                </div>
-        
-            </form>
-
+            
+                </form>
+            </div>
         </template>
 
     </lesli-panel>
