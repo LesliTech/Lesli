@@ -164,6 +164,7 @@ class ApplicationLesliController < ApplicationController
         # this search is over all the privileges for all the roles of the user
         granted = current_user.has_privileges4?(params[:controller], params[:action], params[:format])
 
+        # IMPORTANT: compatibility with rolesv3
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
         # Due this method is executed on every request, we use low level cache to improve performance
