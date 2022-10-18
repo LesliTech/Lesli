@@ -306,7 +306,7 @@ class User < ApplicationLesliRecord
     def can_work_with_role?(role)
 
         # get the role if only id is given
-        role = self.roles.find_by(:id => role) unless role.class.name == "Role"
+        role = self.account.roles.find_by(:id => role) unless role.class.name == "Role"
 
         # false if role not found
         return false if role.blank?
