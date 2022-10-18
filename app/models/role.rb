@@ -34,30 +34,6 @@ class Role < ApplicationLesliRecord
     validates :object_level_permission, presence: :true
 
 
-    def initialize_role
-
-        # default role for limited roles
-        if ["limited", "guest"].include? self.name
-            self.default_path ||= "/administration/profile" # profile path
-        end
-
-        # enable roles by default
-        self.active = true
-
-    end
-
-    def generate_code
-        role_code = name
-            .downcase                           # string to lowercase
-            .gsub(/[^0-9A-Za-z\s\-\_]/, '')     # remove special characters from string
-            .gsub(/-/, '_')                     # replace dashes with underscore
-            .gsub(/\s+/, '_')                   # replace spaces or spaces with single dash
-
-        role_code = I18n.transliterate(role_code) + id.to_s # transform UTF-8 characters to ASCI
-
-        self.update_attribute('code', role_code)
-    end
-
     def self.list current_user, query
 
         role_max = current_user.roles.map(&:object_level_permission).max()
@@ -125,6 +101,30 @@ class Role < ApplicationLesliRecord
         }
     end
 
+    def initialize_role
+
+        # default role for limited roles
+        if self.name == "limited"
+           self.default_path ||= "/administration/profile" # profile path
+        end
+
+        # enable roles by default
+        self.active = true
+
+    end
+
+    def generate_code
+        role_code = name
+            .downcase                           # string to lowercase
+            .gsub(/[^0-9A-Za-z\s\-\_]/, '')     # remove special characters from string
+            .gsub(/-/, '_')                     # replace dashes with underscore
+            .gsub(/\s+/, '_')                   # replace spaces or spaces with single dash
+
+        role_code = I18n.transliterate(role_code) + id.to_s # transform UTF-8 characters to ASCI
+
+        self.update_attribute('code', role_code)
+    end
+
     # @return [void]
     # @description Creates all privileges for this role in default false value. The task app:routes:build cannot be used
     #   because it is a rake task, and because it scans routes for all roles, and it would be very inefficient
@@ -132,7 +132,7 @@ class Role < ApplicationLesliRecord
     #   role = Role.new(detail_attributes: {name: "test_role", object_level_permission: 10})
     #   # This method will be called automatically within an after_create callback
     #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
-    # DEPRECATED
+    # DEPRECATED disable due role & privileges v4
     def initialize_role_privileges
         LC::Debug.deprecation("This will be deleted once Role & Privileges 4 is on production")
         if (self.name == "sysadmin" || self.name == "owner")

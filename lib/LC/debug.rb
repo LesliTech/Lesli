@@ -44,7 +44,7 @@ module LC
         def self.info *messages
             message_string = pretty_separator(:blue)
             messages.each do |message|
-                message_string << pretty("INFO:\ " <<  message, :white, :blue)
+                message_string.concat(pretty("INFO: #{ message }", :white, :blue))
             end
             puts message_string
         end
