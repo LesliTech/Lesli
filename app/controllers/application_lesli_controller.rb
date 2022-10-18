@@ -160,17 +160,20 @@ class ApplicationLesliController < ApplicationController
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
     def authorize_privileges
 
-        # check if security version 4 is enable
-        seguridad4 = (Rails.application.config.lesli.dig(:security, :version) === 4)
-
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
-        granted = current_user.has_privileges4?(params[:controller], params[:action], params[:format]) if seguridad4
+        granted = current_user.has_privileges4?(params[:controller], params[:action], params[:format])
 
+        # IMPORTANT: compatibility with rolesv3
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
         # Due this method is executed on every request, we use low level cache to improve performance
-        granted = current_user.has_privileges?([params[:controller]], [params[:action]]) if !seguridad4
+        if defined?(DeutscheLeibrenten)
+            granted3 = current_user.has_privileges?([params[:controller]], [params[:action]])
+
+            # grant privilege if old privileges granted
+            granted = true if granted3 == true
+        end
 
         # Check if user can be redirected to role default path
         can_redirect_to_default_path = -> () {

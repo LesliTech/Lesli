@@ -134,7 +134,6 @@ onUnmounted(() => {
             </div>
             <div class="header-right">
 
-
                 <!-- engines selector -->
                 <a  v-if="props.showEngines"
                     class="navbar-item" @click="toggleEngines()">
@@ -142,7 +141,6 @@ onUnmounted(() => {
                         apps
                     </span>
                 </a>
-
 
                 <!-- Tasks -->
                 <a  v-if="props.showFocus"
@@ -153,19 +151,6 @@ onUnmounted(() => {
                     </span>
                     <span class="count" v-if="storeLayout.header.tasks > 0">
                         {{ storeLayout.header.tasks }}
-                    </span>
-                </a>
-
-                <!-- Tickets -->
-                <a 
-                    v-if="props.showTickets"
-                    class="navbar-item header-notification-indicator" 
-                    @click="() => { storeLayout.showTickets = true }">
-                    <span :class="['material-icons md-36']">
-                        contact_support
-                    </span>
-                    <span class="count" v-if="storeLayout.header.tickets > 0">
-                        {{ storeLayout.header.tickets }}
                     </span>
                 </a>
 
@@ -182,6 +167,18 @@ onUnmounted(() => {
                     </span>
                 </a>
 
+                <!-- Tickets -->
+                <a 
+                    v-if="props.showTickets"
+                    class="navbar-item header-notification-indicator" 
+                    @click="() => { storeLayout.showTickets = true }">
+                    <span :class="['material-icons md-36']">
+                        help_center
+                    </span>
+                    <span class="count" v-if="storeLayout.header.tickets > 0">
+                        {{ storeLayout.header.tickets }}
+                    </span>
+                </a>
 
                 <!-- Profile options -->
                 <div class="dropdown is-right is-hoverable header-user-options">
