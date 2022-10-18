@@ -225,6 +225,8 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             user: user
         }
 
+        pp response.body
+
         unless @allow_registration
             expect_response_with_error
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))

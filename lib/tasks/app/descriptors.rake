@@ -38,40 +38,40 @@ namespace :app do
             # get all the engines, controllers and actions
             engines = LC::System::Controllers.scan2
 
-            engines.each do |engine, controllers|
+            # Register descriptors and privileges for all the accounts
+            Account.all.each do |account|
 
-                controllers.each do |controller, actions|
+                engines.each do |engine, controllers|
 
-                    # Build a strig with the standard name of a Rails controller,
-                    #   Example: "UsersControllers, CloudBell::NotificationsController"
-                    # sometimes we need a second split to deal with third level deep of controllers
-                    #   Example: "Account::Currency::ExchangeRatesController" from "account/currency/exchange_rates"
-                    cn = controller.split('/')   # split the controller path by namespace
-                    .collect(&:capitalize)          # uppercase the first letter to match the class name convention of Rails
-                    .join("::")                     # join by ruby class separator for namespaces
-                    .split('_')                     # work with compound words like "exchange_rates"
-                    .collect { |x| x[0] = x[0].upcase; x } # convert ['exchange', 'rates'] to ['Exchange', 'Rates']
-                    .join('').concat("Controller")  # finally join the parts of the class name and concat Controller
+                    controllers.each do |controller, actions|
 
-                    # Validate that the class exists
-                    # sometimes a bad or wrong route can misspell a controller name
-                    next unless Object.const_defined?(cn)
+                        # Build a strig with the standard name of a Rails controller,
+                        #   Example: "UsersControllers, CloudBell::NotificationsController"
+                        # sometimes we need a second split to deal with third level deep of controllers
+                        #   Example: "Account::Currency::ExchangeRatesController" from "account/currency/exchange_rates"
+                        cn = controller.split('/')   # split the controller path by namespace
+                        .collect(&:capitalize)          # uppercase the first letter to match the class name convention of Rails
+                        .join("::")                     # join by ruby class separator for namespaces
+                        .split('_')                     # work with compound words like "exchange_rates"
+                        .collect { |x| x[0] = x[0].upcase; x } # convert ['exchange', 'rates'] to ['Exchange', 'Rates']
+                        .join('').concat("Controller")  # finally join the parts of the class name and concat Controller
 
-                    # Create a new instance of the controller class
-                    co = Object.const_get(cn).new
+                        # Validate that the class exists
+                        # sometimes a bad or wrong route can misspell a controller name
+                        next unless Object.const_defined?(cn)
 
-                    # Check if the controller has privileges defined, this must be a public class method 
-                    # defined in the controller. 
-                    #example: 
-                    #   def self.privileges
-                    #       {
-                    #           list: ["UsersController#index"]
-                    #       }
-                    #   end
-                    next unless co.methods.include?(:privileges)
+                        # Create a new instance of the controller class
+                        co = Object.const_get(cn).new
 
-                    # Register descriptors and privileges for all the accounts
-                    Account.all.each do |account|
+                        # Check if the controller has privileges defined, this must be a public class method 
+                        # defined in the controller. 
+                        #example: 
+                        #   def self.privileges
+                        #       {
+                        #           list: ["UsersController#index"]
+                        #       }
+                        #   end
+                        next unless co.methods.include?(:privileges)
 
                         # Work with the list of privileges need by the controller 
                         # to be able to work in a complete view
@@ -112,8 +112,6 @@ namespace :app do
                             account.roles.find_by(name: 'sysadmin').describers.find_or_create_by({
                                 descriptor: descriptor
                             })
-                            
-                            LC::Debug.msgc("New descriptor created: #{descriptor.name}") if descriptor.new_record?
 
                             # Register the current controller into the descriptor privileges, so the role grants
                             # permissions to render the requested page as html and as json
@@ -164,8 +162,18 @@ namespace :app do
                             end 
 
                         end
+
                     end
                 end
+
+                # Allow the limited role to always access to the profile
+                descriptor_profile = account.descriptors.find_by(name: 'profiles')
+                if descriptor_profile
+                    account.roles.find_by(name: 'limited').describers.find_or_create_by({
+                        descriptor: descriptor_profile
+                    })
+                end
+
             end
 
             # Synchronize the descriptor privileges with the role privilege cache table 

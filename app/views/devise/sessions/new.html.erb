@@ -104,7 +104,11 @@ For more information read the license file including with this software.
 
         <div class="field mb-6">
             <div class="control is-fullwidth">
-                <input type="submit" class="button is-primary is-fullwidth mb-2" value="Log in">
+                <button 
+                    type="submit" 
+                    :class="['button', 'is-primary', 'is-fullwidth', 'mb-2', {'is-loading':loading}]">
+                    Log in
+                </button>
                 <% if Rails.application.config.lesli.dig(:security, :allow_registration) %>
                     <p class="account has-text-centered">
                         Still not registered? 

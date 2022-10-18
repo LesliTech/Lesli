@@ -53,14 +53,10 @@ RSpec.describe "lesli_settings.yml" do
 
     it "expect to have a section for account settings" do
         expect(@lesli_settings).to have_key("account")
-        expect(@lesli_settings["account"]).to have_key("user")
-        expect(@lesli_settings["account"]["user"]).to have_key("name")
-        expect(@lesli_settings["account"]["user"]).to have_key("email")
 
-        expect(@lesli_settings["account"]).to have_key("company")
-        expect(@lesli_settings["account"]["company"]).to have_key("name")
-        expect(@lesli_settings["account"]["company"]).to have_key("email")
-        expect(@lesli_settings["account"]["company"]).to have_key("tag_line")
+        expect(@lesli_settings["account"]).to have_key("name")
+        expect(@lesli_settings["account"]).to have_key("email")
+        expect(@lesli_settings["account"]).to have_key("tag_line")
     end
 
     it "expect to have a section for configuration locales settings" do
@@ -101,22 +97,10 @@ RSpec.describe "lesli_settings.yml" do
 
     end
 
-    it "expect to have a section for notifications settings" do
-        expect(@lesli_settings["configuration"]).to have_key("notifications")
-        expect(@lesli_settings["configuration"]["notifications"]).to have_key("sms")
-        expect(@lesli_settings["configuration"]["notifications"]["sms"]).to be_in([true, false])
-    end
-
     it "expect to have a section for security settings" do
         expect(@lesli_settings).to have_key("security")
         expect(@lesli_settings["security"]).to have_key("password")
-        expect(@lesli_settings["security"]["password"]).to have_key("development")
-        expect(@lesli_settings["security"]["password"]).to have_key("minimum_length")
-        expect(@lesli_settings["security"]["password"]).to have_key("expiration_time_days")
-
-        expect(@lesli_settings["security"]["password"]["development"]).to be_a(String)
-        expect(@lesli_settings["security"]["password"]["minimum_length"]).to be_a(Numeric)
-        expect(@lesli_settings["security"]["password"]["expiration_time_days"]).to be_a(Numeric)
+        expect(@lesli_settings["security"]["password"]).to be_a(String)
 
         expect(@lesli_settings["security"]).to have_key("allow_multiaccount")
         expect(@lesli_settings["security"]).to have_key("allow_registration")
@@ -139,12 +123,6 @@ RSpec.describe "lesli_settings.yml" do
         expect(@lesli_settings["security"]["enable_analytics"]).to be_in([true, false])
         expect(@lesli_settings["security"]["enable_commands"]).to be_in([true, false])
         expect(@lesli_settings["security"]["log_activity"]).to be_in([true, false])
-
-        expect(@lesli_settings["security"]).to have_key("roles")
-        if @lesli_settings["security"]["roles"]
-            expect(@lesli_settings["security"]["roles"]).to be_an(Array)
-            expect(@lesli_settings["security"]["roles"].size).to be >= (0)
-        end
 
     end
 
