@@ -152,30 +152,30 @@ RSpec.describe "Lesli::settings" do
         expect(@lesli_settings["configuration"]["datetime"]["time_zone"]).to be_a(String)
 
         expect(@lesli_settings["configuration"]["datetime"]).to have_key("start_week_on")
-        expect(@lesli_settings["configuration"]["datetime"]["start_week_on"]).to eql("monday")
+        expect(@lesli_settings["configuration"]["datetime"]["start_week_on"]).to eql(Rails.application.config.lesli_settings["configuration"]["datetime"]["start_week_on"])
         expect(@lesli_settings["configuration"]["datetime"]["start_week_on"]).to be_a(String)
 
         expect(@lesli_settings["configuration"]["datetime"]).to have_key("formats")
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to be_a(Hash)
         
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date")
-        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date"]).to eql("%d/%m/%Y")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date"]).to eql(Rails.application.config.lesli_settings["configuration"]["datetime"]["formats"]["date"])
         expect(@lesli_settings["configuration"]["datetime"]["formats"]["date"]).to be_a(String)
 
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("time")
-        expect(@lesli_settings["configuration"]["datetime"]["formats"]["time"]).to eql("%H:%M")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["time"]).to eql(Rails.application.config.lesli_settings["configuration"]["datetime"]["formats"]["time"])
         expect(@lesli_settings["configuration"]["datetime"]["formats"]["time"]).to be_a(String)
 
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date_time")
-        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time"]).to eql("%d/%m/%Y %H:%M")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time"]).to eql(Rails.application.config.lesli_settings["configuration"]["datetime"]["formats"]["date_time"])
         expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time"]).to be_a(String)
 
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date_words")
-        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_words"]).to eql("%A, %B %d, %Y")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_words"]).to eql(Rails.application.config.lesli_settings["configuration"]["datetime"]["formats"]["date_words"])
         expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_words"]).to be_a(String)
 
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date_time_words")
-        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time_words"]).to eql("%A, %B %d, %Y, %H:%M")
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time_words"]).to eql(Rails.application.config.lesli_settings["configuration"]["datetime"]["formats"]["date_time_words"])
         expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time_words"]).to be_a(String)
     end
 
