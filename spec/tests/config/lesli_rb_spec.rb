@@ -148,7 +148,7 @@ RSpec.describe "Lesli::settings" do
 
     it "expect to return with lesli configuration settings datetime" do
         expect(@lesli_settings["configuration"]["datetime"]).to have_key("time_zone")
-        expect(@lesli_settings["configuration"]["datetime"]["time_zone"]).to eql("America/Guatemala")
+        expect(@lesli_settings["configuration"]["datetime"]["time_zone"]).to eql(Rails.application.config.lesli_settings["configuration"]["datetime"]["time_zone"])
         expect(@lesli_settings["configuration"]["datetime"]["time_zone"]).to be_a(String)
 
         expect(@lesli_settings["configuration"]["datetime"]).to have_key("start_week_on")
