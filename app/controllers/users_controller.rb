@@ -137,17 +137,13 @@ class UsersController < ApplicationLesliController
         if user.save
 
             # if a role is provided to assign to the new user
-            if not user_params[:roles_id].blank?
-
+            unless user_params[:roles_id].blank?
                 # check if current user can work with the sent role
                 if current_user.can_work_with_role?(user_params[:roles_id])
-
-                    # get the requested role to assign to the new user
-                    role = current_user.account.roles.find(user_params[:roles_id])
-
+                    # Search the role assigned
+                    role = current_user.account.roles.find_by(id: user_params[:roles_id])
                     # assign role to the new user
                     user.user_roles.create({ role: role })
-
                 end
 
             end
