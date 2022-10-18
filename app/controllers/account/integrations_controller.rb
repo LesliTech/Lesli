@@ -59,7 +59,7 @@ class Account::IntegrationsController < ApplicationLesliController
                 user.active = true
                 user.confirm
 
-                user.user_roles.create({ role: ::Role.find_by(:name => "api") })
+                user.user_roles.create({ role: ::Role.find_by(:name => "limited") })
 
                 user.detail.first_name = account_integration_params[:name]
                 user.save!
