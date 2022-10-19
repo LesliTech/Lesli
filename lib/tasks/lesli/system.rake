@@ -64,11 +64,12 @@ class LesliSystemRake < LesliRake
         })
 
         LC::Debug.separator_blank
+        LC::Debug.separator_blank
 
         settings = Lesli::settings()
 
         LC::Debug.table(settings.dig("configuration", "locales_available").map { |locale| 
-            { :language => locale[1], :code => locale[0] }
+            { :languages => locale[1], :code => locale[0] }
         })
 
         LC::Debug.separator_blank
@@ -76,6 +77,8 @@ class LesliSystemRake < LesliRake
 
         LC::Debug.table([LC::System::FileSystem.stats('/', 'GB')])
 
+        LC::Debug.separator_blank
+        LC::Debug.separator_blank
         LC::Debug.separator_blank
 
     end

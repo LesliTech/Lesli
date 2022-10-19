@@ -28,7 +28,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
         it "is expected to create a user through the administration area" do
             user = FactoryBot.attributes_for(:user)
             user[:account] = nil # by default the method creates an account for the user, so we do not need it
-            user[:roles_id] = Role.first.id
+            user[:roles_id] = Role.find_by(name: "sysadmin").id
 
             post("/administration/users.json", params: {
                 user: user
@@ -60,13 +60,30 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             # custom specs
             roles = User.find(response_body["id"]).roles
             expect(roles.find { |role| role[:name] == "limited" }).to_not be_nil
-        end  
+        end 
+        
+        it "is expected to assign the role sent in the user params" do
+            user = FactoryBot.attributes_for(:user)
+            user[:account] = nil # by default the method creates an account for the user, so we do not need it
+            user[:roles_id] = Role.find_by(name: "sysadmin").id
+
+            post("/administration/users.json", params: {
+                user: user
+            })
+
+            # shared examples
+            expect_response_with_successful
+
+            # custom specs
+            user_roles = User.find_by_id(response_body["id"]).roles
+            expect(user_roles.find { |role| role.id == user[:roles_id] }).to_not be_nil
+        end 
         
         it "is expected to not create a user that already exists" do
             user = FactoryBot.attributes_for(:user)
             user[:email] = "test@lesli.cloud"
             user[:account] = nil # by default the method creates an account for the user, so we do not need it
-            user[:roles_id] = Role.first.id
+            user[:roles_id] = Role.find_by(name: "sysadmin").id
 
             post("/administration/users.json", params: {
                 user: user
@@ -84,7 +101,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             user = FactoryBot.attributes_for(:user)
             user[:email] = nil
             user[:account] = nil # by default the method creates an account for the user, so we do not need it
-            user[:roles_id] = Role.first.id
+            user[:roles_id] = Role.find_by(name: "sysadmin").id
 
             post("/administration/users.json", params: {
                 user: user
@@ -98,7 +115,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             user = FactoryBot.attributes_for(:user)
             user[:email] = ""
             user[:account] = nil # by default the method creates an account for the user, so we do not need it
-            user[:roles_id] = Role.first.id
+            user[:roles_id] = Role.find_by(name: "sysadmin").id
             
             post("/administration/users.json", params: {
                 user: user
@@ -118,7 +135,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
 
             user = FactoryBot.attributes_for(:user)
             user[:account] = nil # by default the method creates an account for the user, so we do not need it
-            user[:roles_id] = Role.first.id
+            user[:roles_id] = Role.find_by(name: "sysadmin").id
             user[:accounts_id] = account.id
             user[:detail_attributes][:work_region] = region.id
             
@@ -147,7 +164,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
 
             user = FactoryBot.attributes_for(:user)
             user[:account] = nil # by default the method creates an account for the user, so we do not need it
-            user[:roles_id] = Role.first.id
+            user[:roles_id] = Role.find_by(name: "sysadmin").id
             user[:accounts_id] = account.id
             user[:detail_attributes][:work_region] = invalid_region_id
             

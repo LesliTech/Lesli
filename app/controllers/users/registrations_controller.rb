@@ -94,14 +94,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
             detail_attributes = params.dig(:user, :detail_attributes)
 
-            unless detail_attributes.nil?
-                if detail_attributes.values.any? { |v| v.present? }
-                    user.detail.update({ 
-                        first_name: params.dig(:user, :detail_attributes, :first_name) || "",
-                        last_name: params.dig(:user, :detail_attributes, :last_name) || "",
-                        telephone: params.dig(:user, :detail_attributes, :telephone) || ""
-                    })
-                end
+            unless detail_attributes.nil? || detail_attributes.empty?
+                user.detail.update({ 
+                    first_name: params.dig(:user, :detail_attributes, :first_name) || "",
+                    last_name: params.dig(:user, :detail_attributes, :last_name) || "",
+                    telephone: params.dig(:user, :detail_attributes, :telephone) || ""
+                })
             end
 
             # save a default locale for user
