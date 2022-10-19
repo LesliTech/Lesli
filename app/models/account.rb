@@ -91,14 +91,13 @@ class Account < ApplicationRecord
         end
 
         # create role descriptors 
-        self.role_descriptors.find_or_create_by(name: "owner")
-        self.role_descriptors.find_or_create_by(name: "sysadmin")
-        self.role_descriptors.find_or_create_by(name: "profile")
+        # disable due role & privileges v4
+        # self.role_descriptors.find_or_create_by(name: "owner")
+        # self.role_descriptors.find_or_create_by(name: "sysadmin")
+        # self.role_descriptors.find_or_create_by(name: "profile")
 
         # create default roles
         account_roles = Rails.application.config.lesli[:security][:roles] || []
-        account_roles.append "api"       # api-access only
-        account_roles.append "guest"     # read-only
         account_roles.append "limited"   # access only to user profile
         account_roles.prepend "sysadmin" # platform administrator role
         account_roles.prepend "owner"    # super admin role
@@ -115,7 +114,8 @@ class Account < ApplicationRecord
                 object_level_permission: object_level_permission
             })
 
-            role.initialize_role_privileges
+            # disable due role & privileges v4
+            # role.initialize_role_privileges
         end
 
         AccountLocationService.new(self).set_locations

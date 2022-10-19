@@ -22,6 +22,21 @@ For more information read the license file including with this software.
 
     .lesli-panel-content{
         overflow-y: scroll;
+
+        .lastest-tickets{
+            margin: 30px;
+            border-bottom: 1px solid lesli-css-color(silver);
+            h4{
+                margin-bottom: 20px;
+            }
+        }
+
+        .form{
+            margin: 30px;
+            h4{
+                margin-bottom: 20px;
+            }
+        }
     }
 
 }
