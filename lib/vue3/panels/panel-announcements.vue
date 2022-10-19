@@ -139,7 +139,7 @@ watch(() => storeLayout.showAnnouncements, () => {
                             <label class="label">{{translations.bell.announcements.column_start_at}}</label>
                         </div>
                         <div class="column">
-                            <input class="input is-info" type="date" v-model="storeAnnouncementsPanel.announcement.start_at" @change="updateDates">
+                            <input class="input is-info" type="date" v-model="storeAnnouncementsPanel.announcement.start_at">
                         </div>
                     </div>
 
@@ -148,7 +148,7 @@ watch(() => storeLayout.showAnnouncements, () => {
                             <label class="label">{{translations.bell.announcements.column_end_at}}</label>
                         </div>
                         <div class="column">
-                            <input class="input is-info" type="date" v-model="storeAnnouncementsPanel.announcement.end_at" @change="updateDates">
+                            <input class="input is-info" type="date" v-model="storeAnnouncementsPanel.announcement.end_at">
                         </div>
                     </div>
 
