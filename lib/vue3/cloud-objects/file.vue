@@ -95,11 +95,19 @@ storeFiles.maxSizeFile = props.maxSizeFile
 // set type to store
 storeFiles.fileType = props.fileType
 
+
+/**
+ * @description function that is called when the user click on the new file button.
+ */
+const onClickNewFile = () => {
+    storeLayout.showFiles = !storeLayout.showFiles
+}
+
 </script>
 
 <template>
     <div class="is-flex is-justify-content-end mb-4">
-        <button v-if="props.showNewFileButton" class="button is-primary" @click="storeLayout.showFiles = true">
+        <button v-if="props.showNewFileButton" class="button is-primary" @click="onClickNewFile">
             <span >
                 {{ translations.core.shared.view_title_new_file }}
             </span>
