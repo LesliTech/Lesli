@@ -178,7 +178,7 @@ onUnmounted(() => {
                     <span :class="['material-icons md-36']">
                         campaign
                     </span>
-                    <span class="count">
+                    <span>
                         {{ storeLayout.header.announcements }}
                     </span>
                 </a>
