@@ -52,6 +52,11 @@ const props = defineProps({
         type: Boolean,
         default: false,
         required: false
+    },
+    showAnnouncements:{
+        type: Boolean,
+        default: false,
+        required: false
     }
 })
 
@@ -122,12 +127,10 @@ onUnmounted(() => {
                         v-model="storeSearch.text" 
                     />
                     <span class="icon is-left has-text-gray">
-                        <span class="material-icons">
+                        <span class="material-icons" v-if="!storeSearch.loading">
                             search
                         </span>
-                        <lesli-loading 
-                            :icon="true"
-                            v-if="(storeSearch.loading == true)">
+                        <lesli-loading :icon="true" v-if="storeSearch.loading">
                         </lesli-loading>
                     </span>
                 </div>
@@ -167,13 +170,26 @@ onUnmounted(() => {
                     </span>
                 </a>
 
+                <!-- Announcements -->
+                    <a 
+                        v-if="props.showAnnouncements"
+                        class="navbar-item header-notification-indicator" 
+                        @click="() => { { storeLayout.showAnnouncements = true }}">
+                    <span :class="['material-icons md-36']">
+                        campaign
+                    </span>
+                    <span>
+                        {{ storeLayout.header.announcements }}
+                    </span>
+                </a>
+
                 <!-- Tickets -->
                 <a 
                     v-if="props.showTickets"
                     class="navbar-item header-notification-indicator" 
                     @click="() => { storeLayout.showTickets = true }">
-                    <span :class="['material-icons md-36']">
-                        help_center
+                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.tickets > 0 }]">
+                        confirmation_number
                     </span>
                     <span class="count" v-if="storeLayout.header.tickets > 0">
                         {{ storeLayout.header.tickets }}

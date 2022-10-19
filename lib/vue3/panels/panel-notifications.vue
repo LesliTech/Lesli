@@ -50,12 +50,12 @@ watch(() => storeLayout.showNotifications, () => {
         <template #default>
             <ul class="">
                 <li v-for="notification in storeUser.notifications.records">
-                    <a class="lesli-notification is-block py-2 px-4" :href="notification.url">
+                    <a class="lesli-notification is-block py-2 px-4">
                         <h4 class="notification-title">{{ notification.subject }}</h4>
                         <p class="notification-body">{{ notification.body }}</p>
                         <p class="notification-date is-flex is-justify-content-space-between">
                             <span>{{ date.dateTime(notification.created_at) }}</span>
-                            <button class="button is-text">
+                            <button class="button is-text" @click="storeUser.putNotification(notification)">
                                 Mark as read
                             </button>
                         </p>
