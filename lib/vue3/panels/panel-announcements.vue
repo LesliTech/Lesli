@@ -65,22 +65,32 @@ const selectOptions = [
     { label: "Warning", value: "warning"}
 ]
 
+const columns = [{
+    field: "name",
+    label: translations.bell.announcements.column_name
+}, {
+    field: "category",
+    label: translations.bell.announcements.column_category
+}, {
+    field: "user_creator",
+    label: translations.bell.announcements.column_users_id
+}]
 
-// watch(() => storeLayout.showAnnouncements, () => {
-//     if(storeLayout.showTickets){
-//         storeTicketsPanel.fetchTickets()
 
-//         if(!storeTicketsPanel.loaded){
-//             storeTicketsPanel.getTicketOptions()
-//         }
-//     }    
-// })
+watch(() => storeLayout.showAnnouncements, () => {
+    if(storeLayout.showAnnouncements){
+        storeAnnouncementsPanel.getAnnouncements()
+    }    
+})
 
+function showAnnouncement(announcement){
+    url.go(`/bell/announcements/${announcement.id}`)
+}
 
 </script>
 
 <template>
-    <lesli-panel class="lesli-panel-tickets" v-model:open="storeLayout.showAnnouncements">
+    <lesli-panel class="lesli-panel-announcements" v-model:open="storeLayout.showAnnouncements">
         <template #header>
             {{translations.bell.announcements.view_title_creating_announcement}}
         </template>
@@ -189,6 +199,27 @@ const selectOptions = [
                     </div>
                 </form>
             </div>
+            <div class="announcements" v-if="storeAnnouncementsPanel.announcements.length > 0">
+                <lesli-table
+                    :columns="columns"
+                    :records="storeAnnouncementsPanel.announcements"
+                    @click="showAnnouncement"
+                >
+
+                <template #options="{ record, value }">
+                    <a class="dropdown-item" @click="storeUsers.doLogout(record.id)">
+                        <span class="material-icons">
+                            logout
+                        </span>
+                        <span>
+                            delete
+                        </span>
+                    </a>
+                </template>
+
+                </lesli-table>
+            </div>
+
         </template>
     </lesli-panel>
 </template>
