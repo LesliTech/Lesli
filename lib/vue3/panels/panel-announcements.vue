@@ -82,11 +82,10 @@ const selectOptions = [
 <template>
     <lesli-panel class="lesli-panel-tickets" v-model:open="storeLayout.showAnnouncements">
         <template #header>
-            Create a new announcement
+            {{translations.bell.announcements.view_title_creating_announcement}}
         </template>
         <template #default>
             <div class="form">
-                <h4>{{translations.main.view_title_quick_creation}}</h4>
                 <form @submit.prevent="storeAnnouncementsPanel.postAnnouncement()" class="card py-4">
                     <div class="columns is-marginless has-border-bottom">
                         <div class="column is-4">
