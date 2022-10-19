@@ -127,12 +127,10 @@ onUnmounted(() => {
                         v-model="storeSearch.text" 
                     />
                     <span class="icon is-left has-text-gray">
-                        <span class="material-icons">
+                        <span class="material-icons" v-if="!storeSearch.loading">
                             search
                         </span>
-                        <lesli-loading 
-                            :icon="true"
-                            v-if="(storeSearch.loading == true)">
+                        <lesli-loading :icon="true" v-if="storeSearch.loading">
                         </lesli-loading>
                     </span>
                 </div>
