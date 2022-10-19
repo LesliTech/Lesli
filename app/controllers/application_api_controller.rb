@@ -123,11 +123,17 @@ class ApplicationApiController < ActionController::API
             successful: true,
             data: payload
         }
+        LC::Debug.deprecation(payload)
+        
 
         if payload.as_json.instance_of?(Array)
             return respond_with_http(200, payload)
         elsif payload.blank?
             response_body_v3 = {}
+        elsif payload.instance_of? String
+            response_body_v3 = {
+                message: payload
+            }
         else
             response_body_v3 = {
                 **payload.as_json
