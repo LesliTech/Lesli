@@ -42,7 +42,7 @@ For more information read the license file including with this software.
 <%# Loading standar help panels %>
 <%# Temporary disable while moving to vue3 %>
 <% if defined?(CloudHelp) %>
-    <application-component-panel-tickets></application-component-panel-tickets>
+    <application-component-panel-tickets :instance-endpoint="'<%= lesli_instance_code == "deutsche_leibrenten" ? "crm" : "help" %>'"></application-component-panel-tickets>
 <% end %>
 
 
