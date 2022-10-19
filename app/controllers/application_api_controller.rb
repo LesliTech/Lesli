@@ -122,9 +122,7 @@ class ApplicationApiController < ActionController::API
         response_body_v2 = {
             successful: true,
             data: payload
-        }
-        LC::Debug.deprecation(payload)
-        
+        }        
 
         if payload.as_json.instance_of?(Array)
             return respond_with_http(200, payload)
