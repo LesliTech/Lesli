@@ -76,16 +76,11 @@ const columns = [{
     label: translations.bell.announcements.column_users_id
 }]
 
-
 watch(() => storeLayout.showAnnouncements, () => {
     if(storeLayout.showAnnouncements){
         storeAnnouncementsPanel.getAnnouncements()
     }    
 })
-
-function showAnnouncement(announcement){
-    url.go(`/bell/announcements/${announcement.id}`)
-}
 
 </script>
 
@@ -96,7 +91,7 @@ function showAnnouncement(announcement){
         </template>
         <template #default>
             <div class="form">
-                <form @submit.prevent="storeAnnouncementsPanel.postAnnouncement()" class="card py-4">
+                <form @submit.prevent="storeAnnouncementsPanel.formSubmit()" class="card py-4">
                     <div class="columns is-marginless has-border-bottom">
                         <div class="column is-4">
                             <label class="label">
@@ -197,19 +192,30 @@ function showAnnouncement(announcement){
                             {{ translations.core.shared.view_btn_save }}
                         </button>
                     </div>
+
+                    <div class="px-3 ql-bg-blue">
+                        <button
+                            type="button"
+                            class="button is-fullwidth has-text-centered submit-button"
+                            @click.stop="storeAnnouncementsPanel.clearForm()"
+                        >
+                        {{ translations.core.shared.view_btn_clear }}
+                        </button>
+                    </div>
+                    
                 </form>
             </div>
             <div class="announcements" v-if="storeAnnouncementsPanel.announcements.length > 0">
                 <lesli-table
                     :columns="columns"
                     :records="storeAnnouncementsPanel.announcements"
-                    @click="showAnnouncement"
+                    @click="storeAnnouncementsPanel.showAnnouncement"
                 >
 
                 <template #options="{ record, value }">
-                    <a class="dropdown-item" @click="storeUsers.doLogout(record.id)">
+                    <a class="dropdown-item" @click="storeAnnouncementsPanel.deleteAnnouncement(record.id)">
                         <span class="material-icons">
-                            logout
+                            delete
                         </span>
                         <span>
                             delete
