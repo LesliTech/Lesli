@@ -18,7 +18,11 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, inject } from "vue"
+import { ref, reactive, onMounted, inject, watch } from "vue"
+
+
+// · loading plugins
+const url = inject('url')
 
 
 // · import stores
@@ -29,37 +33,37 @@ import { useSearch } from "LesliVue/stores/search"
 const storeSearch = useSearch()
 
 
-// · 
-const columns = [{
-    field: "id",
-    label: "ID"
-}, {
-    field: "email",
-    label: "Email"
-}, {
-    field: "active",
-    label: "Active"
-}, {
-    field: "category",
-    label: "Category"
-}, {
-    field: "alias",
-    label: "Alias"
-}]
+// · initialize container of (dynamic) columns
+const columns = ref([])
+
+
+// · dynamic update the columns with the result of the search
+// · this must be dynamically because every search can return a different set of columns
+watch(() => storeSearch.columns, (newColumns) => {
+    columns.value = newColumns
+})
+
+
+// · go to search result view
+// · TODO: this must be dynamic by engine
+function goToResult(project) {
+    url.dl("projects/:id", project.code).go()
+}
 
 </script>
 <template>
     <section 
         v-if="storeSearch.text != ''"
         class="application-search">
-        <div class="content box py-4">
-            <lesli-table
-                class=""
-                :pagination="false"
-                :loading="false"
-                :records="storeSearch.records"
-                :columns="columns">
-            </lesli-table>
-        </div>
+        <lesli-table
+            @click="goToResult"
+            :pagination="false"
+            :loading="false"
+            :records="storeSearch.records"
+            :columns="columns">
+            <template #customers="{ value }">
+                <span v-html="value"></span>
+            </template>
+        </lesli-table>
     </section>
 </template>
