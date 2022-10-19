@@ -52,6 +52,11 @@ const props = defineProps({
         type: Boolean,
         default: false,
         required: false
+    },
+    showAnnouncements:{
+        type: Boolean,
+        default: false,
+        required: false
     }
 })
 
@@ -169,7 +174,7 @@ onUnmounted(() => {
 
                 <!-- Announcements -->
                     <a 
-                        v-if="props.showBell"
+                        v-if="props.showAnnouncements"
                         class="navbar-item header-notification-indicator" 
                         @click="() => { { storeLayout.showAnnouncements = true }}">
                     <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.announcements > 0 }]">
