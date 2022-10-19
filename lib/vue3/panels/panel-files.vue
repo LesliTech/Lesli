@@ -142,7 +142,7 @@ const onUploadFiles = async () => {
                 name: storeFiles.filesToUpload[i].name.split('.')[0],
                 
                 // · file extension that user selected
-                file_type: fileType.value.value,
+                file_type: fileType.value,
 
                 // · file in base64
                 attachment: base64File.split(',')[1]
