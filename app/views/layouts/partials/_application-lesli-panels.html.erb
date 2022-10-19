@@ -35,10 +35,9 @@ For more information read the license file including with this software.
 <%# Loading standar bell panels %>
 <% if defined?(CloudBell) %>
     <application-component-panel-notifications></application-component-panel-notifications>
+    <application-component-panel-announcement></application-component-panel-announcement>
     <%# Temporary disable while moving to vue3 %>
-    <% if defined?(DeutscheLeibrenten) && false %>
-        <application-component-panel-announcement></application-component-panel-announcement>
-    <% end %>
+
 <% end %>
 
 

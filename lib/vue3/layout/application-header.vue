@@ -167,6 +167,19 @@ onUnmounted(() => {
                     </span>
                 </a>
 
+                <!-- Announcements -->
+                    <a 
+                        v-if="props.showBell"
+                        class="navbar-item header-notification-indicator" 
+                        @click="() => { { storeLayout.showAnnouncements = true }}">
+                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.announcements > 0 }]">
+                        campaign
+                    </span>
+                    <span class="count" v-if="storeLayout.header.announcements > 0">
+                        {{ storeLayout.header.announcements }}
+                    </span>
+                </a>
+
                 <!-- Tickets -->
                 <a 
                     v-if="props.showTickets"
