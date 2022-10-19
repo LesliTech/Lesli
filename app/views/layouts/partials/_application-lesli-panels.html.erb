@@ -35,7 +35,7 @@ For more information read the license file including with this software.
 <%# Loading standar bell panels %>
 <% if defined?(CloudBell) %>
     <application-component-panel-notifications></application-component-panel-notifications>
-    <application-component-panel-announcements></application-component-panel-announcements>
+    <application-component-panel-announcements :instance-endpoint="'<%= lesli_instance_code == "deutsche_leibrenten" ? "crm" : "help" %>'"></application-component-panel-announcements>
 <% end %>
 
 
