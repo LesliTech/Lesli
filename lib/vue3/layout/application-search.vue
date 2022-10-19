@@ -55,13 +55,18 @@ function goToResult(project) {
     <section 
         v-if="storeSearch.text != ''"
         class="application-search">
+        <div class="columns">
+            <div class="column" v-for="(column) in columns">
+                {{ column.field }}
+            </div>
+        </div>
         <lesli-table
             @click="goToResult"
             :pagination="false"
             :loading="false"
             :records="storeSearch.records"
             :columns="columns">
-            <template #customers="{ value }">
+            <template #[column.field]="{ value }" v-for="(column) in columns">
                 <span v-html="value"></span>
             </template>
         </lesli-table>
