@@ -61,7 +61,7 @@ watch(() => storeLayout.showTickets, () => {
 })
 
 function showTicket(ticket){
-    url.go(`/help/tickets/${ticket.id}`)
+    url.go(`/crm/tickets/${ticket.id}`)
 }
 
 
