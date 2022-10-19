@@ -29,6 +29,7 @@ For more information read the license file including with this software.
 <% unless custom_header_exists %>
     <application-component-header 
         <%= "show-bell" if defined?(CloudBell) %>
+        <%= "show-announcements" if defined?(CloudBell) %>
         <%= "show-focus" if defined?(CloudFocus) %>
         <%= "show-tickets" if defined?(CloudHelp) %>
         :show-engines="true">
