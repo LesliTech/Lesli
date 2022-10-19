@@ -210,6 +210,7 @@ watch(() => storeLayout.showAnnouncements, () => {
                     :columns="columns"
                     :records="storeAnnouncementsPanel.announcements"
                     @click="storeAnnouncementsPanel.showAnnouncement"
+                    :loading="storeAnnouncementsPanel.loading"
                 >
 
                 <template #options="{ record, value }">

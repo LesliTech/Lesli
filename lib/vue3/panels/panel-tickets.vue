@@ -79,6 +79,7 @@ function showTicket(ticket){
                     :columns="columns"
                     :records="storeTicketsPanel.tickets"
                     @click="showTicket"
+                    :loading="storeTicketsPanel.loading"
                 >
                 </lesli-table>
             </div>
