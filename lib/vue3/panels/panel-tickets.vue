@@ -49,6 +49,14 @@ const columns = [{
     label: "Status"
 }]
 
+// · defining props
+const props = defineProps({
+    instanceEndpoint: {
+        type: String,
+        default: 'help'
+    }
+})
+
 
 watch(() => storeLayout.showTickets, () => {
     if(storeLayout.showTickets){
@@ -61,7 +69,7 @@ watch(() => storeLayout.showTickets, () => {
 })
 
 function showTicket(ticket){
-    url.go(`/help/tickets/${ticket.id}`)
+    url.go(`/${props.instanceEndpoint}/tickets/${ticket.id}`)
 }
 
 
