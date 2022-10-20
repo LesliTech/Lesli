@@ -145,6 +145,19 @@ onUnmounted(() => {
                     </span>
                 </a>
 
+                <!-- Tickets -->
+                <a 
+                    v-if="props.showTickets"
+                    class="navbar-item header-notification-indicator" 
+                    @click="() => { storeLayout.showTickets = true }">
+                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.tickets > 0 }]">
+                        confirmation_number
+                    </span>
+                    <span class="count" v-if="storeLayout.header.tickets > 0">
+                        {{ storeLayout.header.tickets }}
+                    </span>
+                </a>
+
                 <!-- Tasks -->
                 <a  v-if="props.showFocus"
                     class="navbar-item header-notification-indicator" 
@@ -154,6 +167,19 @@ onUnmounted(() => {
                     </span>
                     <span class="count" v-if="storeLayout.header.tasks > 0">
                         {{ storeLayout.header.tasks }}
+                    </span>
+                </a>
+
+                <!-- Announcements -->
+                <a 
+                    v-if="props.showAnnouncements"
+                    class="navbar-item header-notification-indicator" 
+                    @click="() => { { storeLayout.showAnnouncements = true }}">
+                    <span :class="['material-icons md-36']">
+                        campaign
+                    </span>
+                    <span>
+                        {{ storeLayout.header.announcements }}
                     </span>
                 </a>
 
@@ -167,32 +193,6 @@ onUnmounted(() => {
                     </span>
                     <span class="count" v-if="storeLayout.header.notifications > 0">
                         {{ storeLayout.header.notifications }}
-                    </span>
-                </a>
-
-                <!-- Announcements -->
-                    <a 
-                        v-if="props.showAnnouncements"
-                        class="navbar-item header-notification-indicator" 
-                        @click="() => { { storeLayout.showAnnouncements = true }}">
-                    <span :class="['material-icons md-36']">
-                        campaign
-                    </span>
-                    <span>
-                        {{ storeLayout.header.announcements }}
-                    </span>
-                </a>
-
-                <!-- Tickets -->
-                <a 
-                    v-if="props.showTickets"
-                    class="navbar-item header-notification-indicator" 
-                    @click="() => { storeLayout.showTickets = true }">
-                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.tickets > 0 }]">
-                        confirmation_number
-                    </span>
-                    <span class="count" v-if="storeLayout.header.tickets > 0">
-                        {{ storeLayout.header.tickets }}
                     </span>
                 </a>
 
