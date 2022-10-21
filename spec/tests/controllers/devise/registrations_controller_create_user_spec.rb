@@ -45,6 +45,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             }
         })
 
+        puts(@password)
         pp(response.body)
 
         unless @allow_registration
@@ -225,7 +226,11 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             user: user
         }
 
-        pp response.body
+        puts("test params")
+        puts(user)
+        puts(@password)
+        puts("test response")
+        puts(response)
 
         unless @allow_registration
             expect_response_with_error
