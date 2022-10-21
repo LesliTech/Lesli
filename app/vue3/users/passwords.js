@@ -29,12 +29,12 @@ app({
                 main: I18n.t("core.users/passwords")
             },
             sign_in: {
-                email: "crm.admin@deutsche-leibrenten.de",
+                email: "",
                 password: ""
             },
             password_edit: {
-                new_password: "tardis2022",
-                new_password_confirmation: "tardis2022$"
+                new_password: "",
+                new_password_confirmation: ""
             },
             notification: {
                 message: "",
