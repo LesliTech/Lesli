@@ -24,16 +24,17 @@ import app from "LesliVue/public"
 app({
     data() {
         return {
+            loading: false,
             translations: {
                 main: I18n.t("core.users/passwords")
             },
             sign_in: {
-                email: "",
+                email: "crm.admin@deutsche-leibrenten.de",
                 password: ""
             },
             password_edit: {
-                new_password: "",
-                new_password_confirmation: ""
+                new_password: "tardis2022",
+                new_password_confirmation: "tardis2022$"
             },
             notification: {
                 message: "",
@@ -46,6 +47,10 @@ app({
 
         postPasswordNew(event) {
 
+            this.notification.show = false
+
+            this.loading = true
+
             event.preventDefault();
 
             let data = {
@@ -56,24 +61,25 @@ app({
             };
 
             this.http.post("/password", data).then(response => {
-
-                if(response.successful){
-                    this.showNotification(this.translations.main.notification_reset_password_instructions_sent, "has-text-success")
-                }else{
-                    this.showNotification(response.error.message, "has-text-danger")
-                }
-
+                this.showNotification(this.translations.main.notification_reset_password_instructions_sent, "success")
             }).catch(error => {
-                console.log(error)
+                this.showNotification(error.message)
+            }).finally(() => {
+                this.loading = false
             })
         },
 
         putPasswordEdit(event) {
+
+            this.notification.show = false
+
+            this.loading = true
+
             event.preventDefault();
 
             // check if passwords match
             if (this.password_edit.new_password != this.password_edit.new_password_confirmation) {
-                this.showNotification(this.translations.main.error_passwords_do_not_match, "warning")
+                this.showNotification(this.translations.main.error_passwords_do_not_match, "danger")
                 return
             }
 
@@ -92,19 +98,14 @@ app({
                     reset_password_token: token
                 }
             }).then(response => {
-
-                if(response.successful){
-                    this.showNotification(this.translations.main.notification_password_updated, "success")
-                    setTimeout(() => {
-                        this.url.go("/login")
-                    }, 1500)
-                }else{
-                    this.showNotification(response.error.message)
-                }
-
+                this.showNotification(this.translations.main.notification_password_updated, "success")
+                setTimeout(() => { this.url.go("/login") }, 2000)
             }).catch(error => {
-                console.log(error)
+                this.showNotification(error.message, "danger")
+            }).finally(() => {
+                this.loading = false
             })
+
         },
 
         showNotification(message, type="danger"){

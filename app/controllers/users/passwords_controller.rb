@@ -96,6 +96,13 @@ class Users::PasswordsController < Devise::PasswordsController
     def update
         super do |resource|
 
+            L2.info("aqui password update")
+
+            pp(resource)
+            pp(resource.errors)
+            pp(resource.errors.empty?)
+
+            # check if password update was ok
             if resource.errors.empty?
 
                 # reset password expiration due the user just updated his password
