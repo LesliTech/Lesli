@@ -96,6 +96,14 @@ const watchModelValue = watch(() => props.modelValue, (newContent) => {
     
 })
 
+
+onMounted(() => {
+    if (props.modelValue && editorNode.value.editor.innerHTML !== props.modelValue) {
+        editorNode.value.editor.loadHTML(props.modelValue)
+    }
+})
+
+
 </script>
 <template>
     <div :class="['component-editor-richtext', props.mode]">
