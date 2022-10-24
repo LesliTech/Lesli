@@ -34,7 +34,6 @@ module Auth
                 "role_describers.roles_id"
             )
 
-
             # synchronize only for the given role, this is needed to sync only modified roles
             records = records.where("role_describers.roles_id" => role_id) if role_id
 
