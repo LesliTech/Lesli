@@ -15,8 +15,14 @@ For more information read the license file including with this software.
 // ·
 
 =end
-class Account::IssuesController < ApplicationController
+class Account::IssuesController < ApplicationLesliController
     before_action :set_account_issue, only: [:show, :update, :destroy]
+
+    def privileges
+        {
+            new: [],
+        }
+    end
 
     # GET /account/issues
     def index
@@ -50,6 +56,9 @@ class Account::IssuesController < ApplicationController
     # POST /account/issues
     def create
         account_issue = Account::Issue.new(account_issue_params)
+        account_issue.user = current_user
+        account_issue.account = current_user.account
+
         if account_issue.save
             respond_with_successful(account_issue)
         else
@@ -88,6 +97,19 @@ class Account::IssuesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def account_issue_params
-        params.fetch(:account_issue, {}).permit(:id, :name)
+        params.fetch(:account_issue, {}).permit(
+            :id,
+            :first_name,
+            :last_name,
+            :company_name,
+            :email,
+            :telephone,
+            :message,
+            :subscribed,
+            :category,
+            :status,
+            :source,
+            :reference,
+        )
     end
 end

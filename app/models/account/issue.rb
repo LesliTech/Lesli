@@ -16,6 +16,9 @@ For more information read the license file including with this software.
 
 =end
 class Account::Issue < ApplicationRecord
+    belongs_to :account,    foreign_key: "accounts_id"
+    belongs_to :user,       foreign_key: "users_id", optional: true
+
     def self.index(current_user, query)
         []
     end
@@ -23,4 +26,5 @@ class Account::Issue < ApplicationRecord
     def show(current_user, query)
         self
     end
+
 end
