@@ -65,26 +65,26 @@ onMounted(() => {
     <section class="application-component">
         <cardInformation></cardInformation>
         <lesli-tabs v-if="storeUser.user.id">
-            <lesli-tab-item title="Information">
+            <lesli-tab-item :title="translations.core.users.view_tab_title_information">
                 <formInformation is-editable></formInformation>
             </lesli-tab-item>
-            <lesli-tab-item title="Subscriptions">
+            <lesli-tab-item :title="translations.core.users.view_tab_title_subscriptions">
                 <subscriptionsComponent>
                 </subscriptionsComponent>
             </lesli-tab-item>
-            <lesli-tab-item title="Security">
+            <lesli-tab-item :title="translations.core.users.view_tab_title_security">
                 <formSecurity></formSecurity>
             </lesli-tab-item>
-            <lesli-tab-item title="Access management">
+            <lesli-tab-item :title="translations.core.users.view_tab_title_access_management">
                 <changeEmail></changeEmail>
             </lesli-tab-item>
-            <lesli-tab-item title="Session management">
+            <lesli-tab-item :title="translations.core.users.view_tab_title_session_management">
                 <managementSession></managementSession>
             </lesli-tab-item>
-            <lesli-tab-item title="Settings">
+            <lesli-tab-item :title="translations.core.users.view_tab_title_settings">
                 <settings></settings>
             </lesli-tab-item>
-            <lesli-tab-item title="Integrations">
+            <lesli-tab-item :title="translations.core.users.view_tab_title_integrations">
                 <integrationsInformation></integrationsInformation>
             </lesli-tab-item>
         </lesli-tabs>

@@ -24,6 +24,7 @@ import { useRouter, useRoute } from 'vue-router'
 
 // · import lesli stores
 import { useUser } from "LesliVue/stores/user"
+import { useProfile } from "../../stores/users/profile"
 
 // · import profile components
 import cardActions from "./components/card-actions.vue"
@@ -39,6 +40,7 @@ import accessManagement from "./components/access-management.vue"
 
 // · implement stores
 const storeUser = useUser()
+const storeProfile = useProfile()
 const router = useRouter()
 const route = useRoute()
 
@@ -84,12 +86,6 @@ const tab = ref(0)
             </lesli-tab-item>
             <lesli-tab-item :title="translations.core.users.view_tab_title_roles_and_privileges">
                 <formRoles></formRoles>
-            </lesli-tab-item>
-            <lesli-tab-item :title="translations.core.users.view_tab_title_security">
-                <formSecurity></formSecurity>
-            </lesli-tab-item>
-            <lesli-tab-item :title="translations.core.users.view_tab_title_access_management">
-                <accessManagement></accessManagement>
             </lesli-tab-item>
             <lesli-tab-item :title="translations.core.users.view_tab_title_session_management">
                 <managementSession></managementSession>
