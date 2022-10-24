@@ -24,8 +24,6 @@ import { useRouter } from 'vue-router'
 import { useLayout } from "LesliVue/stores/layout"
 import { useAnnouncements } from "LesliVue/stores/panels/announcements"
 
-import editorRichText from "LesliVue/components/editors/richtext.vue"
-
 // · initialize/inject plugins
 const router = useRouter()
 const url = inject("url")
@@ -123,7 +121,14 @@ watch(() => storeLayout.showAnnouncements, () => {
                     </div>
                     <div class="column">
                         <div class="control is-clearfix">
-                            <editorRichText mode="small" v-model="storeAnnouncementsPanel.announcement.message"></editorRichText>
+                                <input
+                                    type="text"
+                                    autocomplete="on"
+                                    name="subject"
+                                    required
+                                    class="input"
+                                    v-model="storeAnnouncementsPanel.announcement.message"
+                                />
                         </div>
                     </div>
                 </div>
