@@ -103,7 +103,7 @@ function showUser(user) {
 <template>
     <section class="application-component">
         <lesli-header :title="translations.core.users.view_text_title_users">
-            <lesli-button icon="add" :to="url.root(props.appMountPath+`/new`)" :label="translations.core.users.view_text_add_user">
+            <lesli-button icon="add" :to="url.root(props.appMountPath+`/new`)">
                 {{ translations.core.users.view_text_add_user }}
             </lesli-button>
             <lesli-button
@@ -111,7 +111,6 @@ function showUser(user) {
                 icon="refresh"
                 :loading="storeUsers.loading"
                 @click="storeUsers.fetchIndex"
-                :label="translations.core.shared.view_text_btn_reload"
             >
                 {{ translations.core.shared.view_text_btn_reload }}
             </lesli-button>
