@@ -6,16 +6,17 @@ Provide a set of html view components to allow user work with date and time
 
 ## Props date ranges
 - v-model: (object) v-model of the date picker
+- mode: (String) mode of the date picker (date, dateTime, time)
 
 ## Use examples:
 
 ```html
-<lesli-calendar :model="mydate">
+<lesli-calendar :v-model="mydate" mode="dateTime">
 </lesli-calendar>
 ```
 
 
 ```raw
-<lesli-calendar :model="mydate">
+<lesli-calendar :v-model="mydate" mode="dateTime">
 </lesli-calendar>
 ```

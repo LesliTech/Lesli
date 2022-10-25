@@ -17,6 +17,7 @@
 00.17. account_cronos
 00.18. account_crono_logs
 00.19. account_crono_suscriptions
+00.20. account_issues
 
 00.30. user (reference only)
 00.31. user_details

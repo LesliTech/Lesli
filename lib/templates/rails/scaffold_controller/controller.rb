@@ -74,15 +74,15 @@ class <%= controller_class_name %>Controller < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_<%= singular_table_name %>
-        @<%= singular_table_name %> = current_user.account.<%= singular_table_name.pluralize %>.find(class_name, params[:id])
+        @<%= singular_table_name %> = current_user.account.<%= singular_table_name.pluralize %>.find_by_id(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def <%= "#{singular_table_name}_params" %>
     <%- if attributes_names.empty? -%>
-        params.require(:<%= singular_table_name %>).permit(:id, :name)
+        params.fetch(:<%= singular_table_name %>, {}).permit(:id, :name)
     <%- else -%>
-        params.require(:<%= singular_table_name %>).permit(<%= permitted_params %>)
+        params.fetch(:<%= singular_table_name %>, {}).permit(<%= permitted_params %>)
     <%- end -%>
     end
 end
