@@ -63,29 +63,29 @@ onMounted(() => {
 </script>
 <template>
     <section class="application-component">
-        <cardInformation></cardInformation>
+        <card-information></card-information>
         <lesli-tabs v-if="storeUser.user.id">
             <lesli-tab-item :title="translations.core.users.view_tab_title_information">
-                <formInformation is-editable></formInformation>
+                <form-information is-editable></form-information>
             </lesli-tab-item>
             <lesli-tab-item :title="translations.core.users.view_tab_title_subscriptions">
-                <subscriptionsComponent>
-                </subscriptionsComponent>
+                <subscriptions-component>
+                </subscriptions-component>
             </lesli-tab-item>
             <lesli-tab-item :title="translations.core.users.view_tab_title_security">
-                <formSecurity></formSecurity>
+                <form-security></form-security>
             </lesli-tab-item>
             <lesli-tab-item :title="translations.core.users.view_tab_title_access_management">
-                <changeEmail></changeEmail>
+                <change-email></change-email>
             </lesli-tab-item>
             <lesli-tab-item :title="translations.core.users.view_tab_title_session_management">
-                <managementSession></managementSession>
+                <management-session></management-session>
             </lesli-tab-item>
             <lesli-tab-item :title="translations.core.users.view_tab_title_settings">
                 <settings></settings>
             </lesli-tab-item>
             <lesli-tab-item :title="translations.core.users.view_tab_title_integrations">
-                <integrationsInformation></integrationsInformation>
+                <integrations-information></integrations-information>
             </lesli-tab-item>
         </lesli-tabs>
     </section>
