@@ -19,16 +19,21 @@ For more information read the license file including with this software.
 */
 
 
+// · 
 import {onMounted} from 'vue'
+
+
 // · import stores
 import { useAnnouncements } from "LesliVue/stores/announcements"
+
 
 // · 
 const storeAnnouncements = useAnnouncements()
 
+
 // · initializing
 onMounted(() => {
-    storeAnnouncements.getAnnouncements()
+    setTimeout(() => storeAnnouncements.getAnnouncements(), 3000)
 })
 
 
@@ -36,9 +41,14 @@ onMounted(() => {
 <template>
     <section class="application-announcements" v-if="storeAnnouncements.announcements.length > 0">
         <div v-for="announcement in storeAnnouncements.announcements" :key="announcement.id" class="block">
-            <div :class="['notification', `is-${announcement.category}`]" v-if="announcement.status!='closed'">
-                <button class="delete" aria-label="delete" v-if="announcement.can_be_closed" @click="storeAnnouncements.closeAnnouncement(announcement)"></button>
-                {{announcement.message}}
+            <div 
+                :class="['notification', `is-${announcement.category}`]" 
+                v-if="announcement.status!='closed'">
+                <button class="delete" aria-label="delete" 
+                    v-if="announcement.can_be_closed" 
+                    @click="storeAnnouncements.closeAnnouncement(announcement)">
+                </button>
+                <div v-html="announcement.message"></div>
             </div>
         </div>
     </section>
