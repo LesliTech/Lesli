@@ -133,7 +133,7 @@ module NavigationHelper
     end
 
     # 03.02 Work engine
-    def navigation_engine_work title: "Work", subtitle: "cloud_work/work-logo.svg"
+    def navigation_engine_work title: "Work", subtitle: "Dynamic Project Management"
         if defined? CloudWork
             navigation_engine_item(title, subtitle, "work", cloud_work.root_path, controller_path.include?("cloud_work"))
         end

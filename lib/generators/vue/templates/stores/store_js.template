@@ -1,0 +1,35 @@
+/*
+%license%
+*/
+
+
+// · 
+import { defineStore } from "pinia"
+
+
+// · 
+export const use%camel_case_resource% = defineStore("%engine%.%underscore_resource%", {
+    state: () => {
+        return {
+            loading: false,
+            records: [],
+            pagination:{}
+        }
+    },
+    actions: {
+
+        fetch(id=null) {
+            this.loading = true
+
+            this.http.get(url).then(result => {
+                this.pagination = result.pagination
+                this.records = result.records
+            }).catch(error => {
+                this.msg.danger(error)
+            }).finally(() => {
+                this.loading = false
+            })
+
+        }
+    }
+})
