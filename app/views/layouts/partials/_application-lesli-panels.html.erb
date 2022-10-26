@@ -25,10 +25,9 @@ For more information read the license file including with this software.
 
 
 <%# Loading standard focus panel %>
-<%# Temporary disable while moving to vue3 %>
-<% if defined?(CloudFocus) && false %>
-    <application-component-panel-task :instance-endpoint="'<%= lesli_instance_code == "deutsche_leibrenten" ? "crm" : "focus" %>'">
-    </application-component-panel-task>
+<% if defined?(CloudFocus) %>
+    <application-component-panel-tasks :instance-endpoint="'<%= lesli_instance_code == "deutsche_leibrenten" ? "crm" : "focus" %>'">
+    </application-component-panel-tasks>
 <% end %>
 
 
