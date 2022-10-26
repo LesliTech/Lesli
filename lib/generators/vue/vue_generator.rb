@@ -18,65 +18,25 @@ class VueGenerator < Rails::Generators::Base
     source_root File.expand_path('templates', __dir__)
     argument :model, type: :string
 
-=begin
-@return [void]
-@description Sets the variables @engine_data, which contains information about the engine, and
-    @app_data, which contains information about the name and namespace of the created app
-@example
-    # imagine the command is rails generate vue_app CloudHouse::Catalog::ProjectType
-    puts @engine_data   # will display nil
-    puts @app_data      # will display nil
-    parse_app_name
-    puts @engine_data.to_json   # will display something similar to {"name":"CloudHouse","base_path":"./engines/CloudHouse/"}
-    puts @app_data.to_json      # will display something similar to {"path":"catalog_project_types","route":"/house/catalog/project_types","underscore_resource":"project_type","camel_case_resource":"ProjectType","snake_case_resource":"project-type","humanized_resource":"Project type"}
-    first_ticket = CloudHelp::Ticket.find( 1 )
-    second_ticket = CloudHelp::Ticket.find( 2 )
-    user = current_user
-    CloudHelp::Ticket::Subscriber.add_subscriber( first_ticket, current_user )
-    CloudHelp::Ticket::Subscriber.add_subscriber( second_ticket, current_user, :http_post, :email )
-=end
+
+    # Sets the variables @engine_data, which contains information about the engine, and
+    # @app_data, which contains information about the name and namespace of the created app
     def parse_app_name
         @engine_data = parse_engine_data
         @app_data = parse_app_data
+
+        pp @app_data
+
         @license = File.read(Rails.root.join("license")).to_s.force_encoding("ASCII-8BIT")
     end
 
-=begin
-@return [void]
-@description Creates the js file of the main app that imports all other apps and works with the Vue-router.
-    Copies the content of the template found in ./templates/app_js.template and modifies some placeholders
-    to match the engine, namespace, and name of the model
-@example
-    # imagine the command is rails generate vue_app CloudHouse::Catalog::ProjectType
-    create_main_app
-    # will generate the file
-    # engines/CloudHouse/app/vue/catalog_project_types/app.js
-=end
-    def create_main_app
-        destination_path = Rails.root.join(@engine_data[:base_path], "app", "vue", @app_data[:path], "app.js")
-        copy_file("app_js.template", destination_path)
-        gsub_file(destination_path, "%license%", @license)
-        gsub_file(destination_path, "%engine%", @engine_data[:name])
-        gsub_file(destination_path, "%app_route%", @app_data[:route])
-    end
-
-=begin
-@return [void]
-@description Creates the js files of the list, new, edit and show apps.
-    Copies the content of the template found in ./templates/apps/[app_name]_vue.template and modifies some placeholders
-    to match the engine, namespace, and name of the model
-@example
-    # imagine the command is rails generate vue_app CloudHouse::Catalog::ProjectType
-    create_apps
-    # will generate the files
-    # engines/CloudHouse/app/vue/catalog_project_types/apps/list.vue
-    # engines/CloudHouse/app/vue/catalog_project_types/apps/new.vue
-    # engines/CloudHouse/app/vue/catalog_project_types/apps/show.vue
-    # engines/CloudHouse/app/vue/catalog_project_types/apps/edit.vue
-=end
+    # Creates the js files of the list, new, edit and show apps.
+    # Copies the content of the template found in ./templates/apps/[app_name]_vue.template and modifies some placeholders
+    # to match the engine, namespace, and name of the model
     def create_apps
-        ["list", "new", "edit", "show"].each do |app|
-            destination_path = Rails.root.join(@engine_data[:base_path], "app", "vue", @app_data[:path], "apps", "#{app}.vue")
+        #["index", "new", "edit", "show"]
+        ["index"].each do |app| # only index is migrated
+            destination_path = Rails.root.join(@engine_data[:base_path], "app", "vue3", "apps", @app_data[:path], "#{app}.vue")
 
             copy_file("apps/#{app}_vue.template", destination_path)
             gsub_file(destination_path, "%license%", @license)
@@ -90,19 +50,26 @@ class VueGenerator < Rails::Generators::Base
             gsub_file(destination_path, "%humanized_resource%", @app_data[:humanized_resource])
             gsub_file(destination_path, "%humanized_resources%", @app_data[:humanized_resource].pluralize)
         end
+
+        # create store
+        destination_path = Rails.root.join(@engine_data[:base_path], "app", "vue3", "stores", "#{@app_data[:underscore_resource]}.js")
+        copy_file("stores/store_js.template", destination_path)
+        gsub_file(destination_path, "%license%", @license)
+        gsub_file(destination_path, "%engine%", @app_data[:engine])
+        gsub_file(destination_path, "%app_route%", @app_data[:route])
+        gsub_file(destination_path, "%underscore_resource%", @app_data[:underscore_resource])
+        gsub_file(destination_path, "%underscore_resources%", @app_data[:underscore_resource].pluralize)
+        gsub_file(destination_path, "%camel_case_resource%", @app_data[:camel_case_resource])
+        gsub_file(destination_path, "%camel_case_resources%", @app_data[:camel_case_resource].pluralize)
+        gsub_file(destination_path, "%snake_case_resource%", @app_data[:snake_case_resource])
+        gsub_file(destination_path, "%humanized_resource%", @app_data[:humanized_resource])
+        gsub_file(destination_path, "%humanized_resources%", @app_data[:humanized_resource].pluralize)
     end
 
 =begin
-@return [void]
-@description Creates the js file of the form component.
-    Copies the content of the template found in ./templates/components/form_vue.template and modifies some placeholders
-    to match the engine, namespace, and name of the model
-@example
-    # imagine the command is rails generate vue_app CloudHouse::Catalog::ProjectType
-    create_components
-    # will generate the file
-    # engines/CloudHouse/app/vue/catalog_project_types/components/form.vue
-=end
+    # Creates the js file of the form component.
+    # Copies the content of the template found in ./templates/components/form_vue.template and modifies some placeholders
+    # to match the engine, namespace, and name of the model
     def create_components
         ["form"].each do |component|
             destination_path = Rails.root.join(@engine_data[:base_path], "app", "vue", @app_data[:path], "components", "#{component}.vue")
@@ -119,24 +86,20 @@ class VueGenerator < Rails::Generators::Base
             gsub_file(destination_path, "%humanized_resource%", @app_data[:humanized_resource])
         end
     end
+=end
 
     private
 
-=begin
-@return [Hash] Information of the path to which the generated files are going to be stored
-@description Based on the *model* variable received when invoking the generator, returns a hash with the
-    *:name* and *:base_path* keys, that indicate the directory to which the generated files are going to be stored
-@example
-    #imagine the user invoked the generation using: rails generate vue_app Core::User
-    engine_data = parse_engine_data
-    puts engine_data[:name]         # will display 'Core'
-    puts engine_data[:base_path]    # will display './'
-=end
+    # Based on the *model* variable received when invoking the generator, returns a hash with the
+    # *:name* and *:base_path* keys, that indicate the directory to which the generated files are going to be stored
     def parse_engine_data
         base_path = ""
         name_data = model.split("/")
-        if name_data[0] != "Core"
-            base_path+= "engines/#{name_data[0]}/"
+
+        engine_code = name_data[0].underscore
+
+        if engine_code != "core"
+            base_path+= "engines/#{engine_code}/"
         end
 
         return {
@@ -145,21 +108,18 @@ class VueGenerator < Rails::Generators::Base
         }
     end
 
-=begin
-@return [Hash] Information of the engine, namespace and model that the user wants to generate.
-@description Based on the *model* variable received when invoking the generator, returns a hash with the
-    *:path*, *:route*, *:undescore_resource*, *:camel_case_resource*, *:snake_case_resource*
-    and *:humanized_resource* keys
-@example
-    #imagine the user invoked the generation using: rails generate vue_app CloudHouse::Catalog::ProjectType
-    app_data = parse_app_data
-    puts engine_data[:path]                 # will display 'catalog_project_types', the path of the vue files
-    puts engine_data[:route]                # will display '/house/catalog/project_types', the Lesli API main route
-    puts engine_data[:underscore_resource]  # will display 'project_type', similar to a variable name
-    puts engine_data[:camel_case_resource]  # will display 'ProjectType', simiar to a function name
-    puts engine_data[:snake_case_resource]  # will display 'project-type', similar to a prop name
-    puts engine_data[:humanized_resource]   # will display 'Project type', the way we write it
-=end
+
+    # Based on the *model* variable received when invoking the generator, returns a hash with the
+    # *:path*, *:route*, *:undescore_resource*, *:camel_case_resource*, *:snake_case_resource*
+    # and *:humanized_resource* keys
+    # imagine the user invoked the generation using: rails generate vue_app CloudHouse::Catalog::ProjectType
+    # app_data = parse_app_data
+    # puts engine_data[:path]                 # will display 'catalog_project_types', the path of the vue files
+    # puts engine_data[:route]                # will display '/house/catalog/project_types', the Lesli API main route
+    # puts engine_data[:underscore_resource]  # will display 'project_type', similar to a variable name
+    # puts engine_data[:camel_case_resource]  # will display 'ProjectType', simiar to a function name
+    # puts engine_data[:snake_case_resource]  # will display 'project-type', similar to a prop name
+    # puts engine_data[:humanized_resource]   # will display 'Project type', the way we write it
     def parse_app_data
         route = ""
         underscore_resource = []
