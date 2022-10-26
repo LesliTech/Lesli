@@ -35,7 +35,7 @@ class VueGenerator < Rails::Generators::Base
     # to match the engine, namespace, and name of the model
     def create_apps
         #["index", "new", "edit", "show"]
-        ["index"].each do |app| # only index is migrated
+        ["index", "new"].each do |app| # only index is migrated
             destination_path = Rails.root.join(@engine_data[:base_path], "app", "vue3", "apps", @app_data[:path], "#{app}.vue")
 
             copy_file("apps/#{app}_vue.template", destination_path)
