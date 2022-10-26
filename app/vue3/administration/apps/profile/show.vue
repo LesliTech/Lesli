@@ -63,29 +63,29 @@ onMounted(() => {
 </script>
 <template>
     <section class="application-component">
-        <cardInformation></cardInformation>
+        <card-information></card-information>
         <lesli-tabs v-if="storeUser.user.id">
-            <lesli-tab-item title="Information">
-                <formInformation is-editable></formInformation>
+            <lesli-tab-item :title="translations.core.users.view_tab_title_information">
+                <form-information is-editable></form-information>
             </lesli-tab-item>
-            <lesli-tab-item title="Subscriptions">
-                <subscriptionsComponent>
-                </subscriptionsComponent>
+            <lesli-tab-item :title="translations.core.users.view_tab_title_subscriptions">
+                <subscriptions-component>
+                </subscriptions-component>
             </lesli-tab-item>
-            <lesli-tab-item title="Security">
-                <formSecurity></formSecurity>
+            <lesli-tab-item :title="translations.core.users.view_tab_title_security">
+                <form-security></form-security>
             </lesli-tab-item>
-            <lesli-tab-item title="Access management">
-                <changeEmail></changeEmail>
+            <lesli-tab-item :title="translations.core.users.view_tab_title_access_management">
+                <change-email></change-email>
             </lesli-tab-item>
-            <lesli-tab-item title="Session management">
-                <managementSession></managementSession>
+            <lesli-tab-item :title="translations.core.users.view_tab_title_session_management">
+                <management-session></management-session>
             </lesli-tab-item>
-            <lesli-tab-item title="Settings">
+            <lesli-tab-item :title="translations.core.users.view_tab_title_settings">
                 <settings></settings>
             </lesli-tab-item>
-            <lesli-tab-item title="Integrations">
-                <integrationsInformation></integrationsInformation>
+            <lesli-tab-item :title="translations.core.users.view_tab_title_integrations">
+                <integrations-information></integrations-information>
             </lesli-tab-item>
         </lesli-tabs>
     </section>
