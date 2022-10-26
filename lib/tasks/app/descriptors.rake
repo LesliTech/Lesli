@@ -185,7 +185,6 @@ namespace :app do
         def privilege_error privilege, controller_name
             msg = "Privilege #{privilege} is not allowed for #{controller_name}"
             LC::Debug.error(msg)
-            LRM.separator_blank;LRM.separator_blank;
             #raise Exception.new(msg)
         end
 
