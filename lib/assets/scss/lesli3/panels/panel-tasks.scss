@@ -17,29 +17,9 @@ For more information read the license file including with this software.
 
 
 // · 
-import { defineStore } from "pinia"
-
-
-// · 
-export const useLayout = defineStore("core.layout", {
-    state: () => {
-        return {
-            showEngines: false,
-            showNotifications: false,
-            showTasks: false,
-            showFiles: false,
-            showTickets: false,
-            showAnnouncements: false,
-            header: {
-                notifications: lesli.notifications,
-                tickets: lesli.tickets,
-                tasks: lesli.tasks
-            }
-        }
-    },
-    actions: {
-        toggleEngines() {
-            this.showEngines = !this.showEngines
-        }
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+.lesli-panel-tasks {
+    li p {
+        font-size: 1.2rem;
     }
-})
+}
