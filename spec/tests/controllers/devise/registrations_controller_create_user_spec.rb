@@ -68,6 +68,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             }
         }
 
+        pp response
+        pp @password
+
         unless @allow_registration
             expect_response_with_error
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -87,6 +90,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             }
         }
 
+        pp response
+        pp @password
+
         unless @allow_registration
             expect_response_with_error
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -105,6 +111,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
                 password_confirmation: "abc"
             }
         }
+
+        pp response
+        pp @password
 
         unless @allow_registration
             expect_response_with_error
@@ -131,6 +140,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         post :create, params: {
             user: user
         }
+
+        pp response
+        pp @password
 
         unless @allow_registration
             expect_response_with_error
@@ -163,6 +175,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         post :create, params: {
             user: user
         }
+
+        pp response
+        pp @password
 
         unless @allow_registration
             expect_response_with_error
@@ -265,6 +280,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             user: user
         }
 
+        pp response
+        pp @password
+
         unless @allow_registration
             expect_response_with_error
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -292,6 +310,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         post :create, params: {
             user: user
         }
+
+        pp response
+        pp @password
 
         unless @allow_registration
             expect_response_with_error
@@ -322,6 +343,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         post :create, params: {
             user: user
         }
+
+        pp response
+        pp @password
 
         unless @allow_registration
             expect_response_with_error
