@@ -21,21 +21,22 @@ For more information read the license file including with this software.
 require 'lesli_controller_helper'
 
 
-RSpec.describe Users::RegistrationsController, type: :controller, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe Users::RegistrationsController, type: :controller do
 
     before :each do
         request.env["devise.mapping"] = Devise.mappings[:user]
         @allow_registration =  Rails.application.config.lesli[:security][:allow_registration]
         @password = Faker::Internet.password(min_length: 8, max_length: 10, mix_case: true) + "Lesli1$"
-    end
 
-    it "Create a new standard user" do
-
+        # reset password complex
         Account.first.settings.where(:name => "password_digit_count").update(:value => 1)
         Account.first.settings.where(:name => "password_minimum_length").update(:value => 6)
         Account.first.settings.where(:name => "password_lowercase_count").update(:value => 1)
         Account.first.settings.where(:name => "password_uppercase_count").update(:value => 1)
         Account.first.settings.where(:name => "password_special_char_count").update(:value => 1)
+    end
+
+    it "Create a new standard user" do
 
         post(:create, params: {
             user: {
@@ -68,6 +69,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             }
         }
 
+        pp response
+        pp @password
+
         unless @allow_registration
             expect_response_with_error
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -87,6 +91,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             }
         }
 
+        pp response
+        pp @password
+
         unless @allow_registration
             expect_response_with_error
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -105,6 +112,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
                 password_confirmation: "abc"
             }
         }
+
+        pp response
+        pp @password
 
         unless @allow_registration
             expect_response_with_error
@@ -131,6 +141,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         post :create, params: {
             user: user
         }
+
+        pp response
+        pp @password
 
         unless @allow_registration
             expect_response_with_error
@@ -164,6 +177,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             user: user
         }
 
+        pp response
+        pp @password
+
         unless @allow_registration
             expect_response_with_error
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -194,6 +210,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         post :create, params: {
             user: user
         }
+
+        pp response
+        pp @password
 
         unless @allow_registration
             expect_response_with_error
@@ -262,6 +281,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
             user: user
         }
 
+        pp response
+        pp @password
+
         unless @allow_registration
             expect_response_with_error
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -289,6 +311,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         post :create, params: {
             user: user
         }
+
+        pp response
+        pp @password
 
         unless @allow_registration
             expect_response_with_error
@@ -319,6 +344,9 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         post :create, params: {
             user: user
         }
+
+        pp response
+        pp @password
 
         unless @allow_registration
             expect_response_with_error
