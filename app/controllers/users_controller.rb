@@ -29,6 +29,7 @@ class UsersController < ApplicationLesliController
             show: ['index', 'list'],
             edit: [],
             email: [],
+            destroy: [],
         }
     end
 

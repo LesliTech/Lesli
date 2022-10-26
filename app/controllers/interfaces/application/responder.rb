@@ -130,22 +130,6 @@ module Interfaces
                 # Message should be a String
                 message = "" unless message.instance_of?(String)
 
-                # Keep compatibility with Deutsche Leibrenten
-                if defined? DeutscheLeibrenten
-
-                    response_body = {
-                        successful: false,
-                        error: {
-                            message: message,
-                            details: details
-                        }
-                    }
-                    
-                    return render( status: 200, json: response_body.to_json)
-
-                end
-
-
                 # TODO:
                 #   check if active error and then:
                 #       message = error message to sentence
