@@ -24,6 +24,7 @@ import { useRouter, useRoute } from 'vue-router'
 
 // · import lesli stores
 import { useUser } from "LesliVue/stores/user"
+import { useProfile } from "../../stores/users/profile"
 
 // · import profile components
 import cardActions from "./components/card-actions.vue"
@@ -39,6 +40,7 @@ import accessManagement from "./components/access-management.vue"
 
 // · implement stores
 const storeUser = useUser()
+const storeProfile = useProfile()
 const router = useRouter()
 const route = useRoute()
 
@@ -76,29 +78,23 @@ const tab = ref(0)
                 All users
             </lesli-button>
         </lesli-header>
-        <cardInformation></cardInformation>
-        <cardActions></cardActions>
+        <card-information></card-information>
+        <card-actions></card-actions>
         <lesli-tabs v-model="tab" v-if="storeUser.user.id">
             <lesli-tab-item :title="translations.core.users.view_tab_title_information">
-                <formInformation is-editable></formInformation>
+                <form-information is-editable></form-information>
             </lesli-tab-item>
             <lesli-tab-item :title="translations.core.users.view_tab_title_roles_and_privileges">
-                <formRoles></formRoles>
-            </lesli-tab-item>
-            <lesli-tab-item :title="translations.core.users.view_tab_title_security">
-                <formSecurity></formSecurity>
-            </lesli-tab-item>
-            <lesli-tab-item :title="translations.core.users.view_tab_title_access_management">
-                <accessManagement></accessManagement>
+                <form-roles></form-roles>
             </lesli-tab-item>
             <lesli-tab-item :title="translations.core.users.view_tab_title_session_management">
-                <managementSession></managementSession>
+                <management-session></management-session>
             </lesli-tab-item>
             <lesli-tab-item :title="translations.core.users.view_tab_title_settings">
                 <settings></settings>
             </lesli-tab-item>
             <lesli-tab-item :title="translations.core.users.view_tab_title_integrations">
-                <integrationsInformation></integrationsInformation>
+                <integrations-information></integrations-information>
             </lesli-tab-item>
         </lesli-tabs>
     </section>
