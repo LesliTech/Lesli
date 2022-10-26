@@ -45,7 +45,6 @@ const translations = {
 
 // · 
 watch(() => storeLayout.showTasks, () => {
-    console.log('changed')
     storeTask.fetch()
 })
 
