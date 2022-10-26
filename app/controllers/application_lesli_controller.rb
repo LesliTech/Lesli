@@ -160,8 +160,6 @@ class ApplicationLesliController < ApplicationController
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
     def authorize_privileges
 
-        return true
-
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
         granted = current_user.has_privileges4?(params[:controller], params[:action], params[:format])
