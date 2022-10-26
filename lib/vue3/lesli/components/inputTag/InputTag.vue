@@ -16,6 +16,7 @@ For more information read the license file including with this software.
 // ·
 */
 
+import { Input } from "postcss";
 import { ref } from "vue"
 
 const emit = defineEmits(["update:modelValue"])
@@ -55,21 +56,40 @@ const filteredOptions = ref([])
 // · Accepted options - these are shown as tags
 const tags = ref(props.modelValue)
 
+const clearAndEmit = () => {
+    inputValue.value = ""
+    showOptions.value = false
+    emit("update:modelValue", tags.value)
+}
 
 const onEnter = () => {
-    // · Adding the first option shown
-    if (inputValue.value.length > 0 && filteredOptions.value.length > 0) {
-        if (tags.value.find(tag => tag.id === filteredOptions.value[0].id)) {
-            showOptions.value = false
-            return
+    // · Verify if the inputValue is valid
+    if (!inputValue.value.length) return
+    
+    // · Verify if the option is already selected
+    if (tags.value.find( tag => tag[props.showField].toLowerCase() === inputValue.value.toLowerCase())) {
+        clearAndEmit()
+        return
+    }
+
+    // · get the option from the array of filtered options that matches the inputValue
+    const filteredOption = filteredOptions.value.find( option => {
+        
+        if (typeof option[props.showField] === "string") {
+            return option[props.showField].toLowerCase() === inputValue.value.toLowerCase()
         }
 
-        tags.value.push(filteredOptions.value[0])
-        inputValue.value = ""
-        showOptions.value = false
-        emit("update:modelValue", tags.value)
+        return option[props.showField] === inputValue.value
+    })
+
+    if (!filteredOption) {
+        tags.value.push({ [props.showField]: inputValue.value })
+        clearAndEmit()
+        return 
     }
-    emit("update:modelValue", tags.value)
+
+    tags.value.push(filteredOption)    
+    clearAndEmit()
 }
 
 const onClickOption = (option) => {
@@ -132,6 +152,7 @@ const filterOptions = () => {
         <div class="container-input">
             <input
                 @keypress.enter.prevent="onEnter"
+                @keypress.tab.prevent="showOptions = false"
                 @keydown.delete.prevent="onDelete"
                 @keyup.prevent="filterOptions"
                 @keyup.esc.prevent="showOptions = false"
@@ -139,6 +160,7 @@ const filterOptions = () => {
                 v-model="inputValue"
                 type="text"
                 :placeholder="placeholder"
+                ref="inputTag"
             />
         </div>
 
