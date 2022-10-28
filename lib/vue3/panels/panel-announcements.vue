@@ -1,30 +1,46 @@
 <script setup>
 /*
 Copyright (c) 2022, all rights reserved.
+
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
 All intellectual or industrial property rights of the code, texts, trade mark, design, 
 pictures and any other information belongs to the owner of this platform.
+
 Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
+
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
+
+
 // · import vue tools
-import { inject, watch } from "vue"
-import { useRouter } from 'vue-router'
+import { inject, watch, onMounted } from "vue"
+import { useRouter, useRoute } from 'vue-router'
+
+
 // · import store
 import { useLayout } from "LesliVue/stores/layout"
 import { useAnnouncements } from "LesliVue/stores/panels/announcements"
+
+
 // · initialize/inject plugins
 const router = useRouter()
 const url = inject("url")
+
+
 // · implement stores
 const storeLayout = useLayout()
 const storeAnnouncementsPanel = useAnnouncements()
+
+
 // · 
 import editorRichText from "LesliVue/components/editors/richtext.vue"
+
+
 // · defining translations
 const translations = {
     core: {
@@ -35,6 +51,8 @@ const translations = {
         announcements: I18n.t("bell.announcements")
     }
 }
+
+
 // · 
 const closeOptions = {
     yes: { 
@@ -45,8 +63,9 @@ const closeOptions = {
         label: "no",
         value: false
     }
-    
 }
+
+
 // · 
 const selectOptions = [
     { label: "Info", value: "info"}, 
@@ -54,6 +73,8 @@ const selectOptions = [
     { label: "Success", value: "success"},
     { label: "Warning", value: "warning"}
 ]
+
+
 // · 
 const columns = [{
     field: "name",
@@ -65,6 +86,18 @@ const columns = [{
     field: "user_creator",
     label: translations.bell.announcements.column_users_id
 }]
+
+
+// · 
+onMounted(() => {
+
+    // by default the panel creates announcements only for the current page
+    storeAnnouncementsPanel.announcement.base_path = router.currentRoute.value.path
+
+    // by default the announcements can be marked as read
+    storeAnnouncementsPanel.announcement.can_be_closed = true
+})
+
 // · 
 watch(() => storeLayout.showAnnouncements, () => {
     if(storeLayout.showAnnouncements){
@@ -97,27 +130,6 @@ watch(() => storeLayout.showAnnouncements, () => {
                                     required
                                     class="input"
                                     v-model="storeAnnouncementsPanel.announcement.name"
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="columns">
-                        <div class="column is-4">
-                            <label class="label">
-                                {{translations.bell.announcements.column_message}}
-                                <sup class="has-text-danger">*</sup>
-                            </label>
-                        </div>
-                        <div class="column">
-                            <div class="control is-clearfix">
-                                <input
-                                    type="text"
-                                    autocomplete="on"
-                                    name="subject"
-                                    required
-                                    class="input"
-                                    v-model="storeAnnouncementsPanel.announcement.message"
                                 />
                             </div>
                         </div>
@@ -174,7 +186,7 @@ watch(() => storeLayout.showAnnouncements, () => {
                     </div>
 
                     <div class="columns">
-                        <div class="column is-4">
+                        <div class="column is-7">
                             <label class="label">
                                 {{translations.bell.announcements.column_can_be_closed}}
                                 <sup class="has-text-danger">*</sup>
@@ -182,7 +194,13 @@ watch(() => storeLayout.showAnnouncements, () => {
                         </div>
                         <div class="column">
                             <label :for="option.label" class="radio" v-for="option in closeOptions" :key="option">
-                                <input name="user_salutation" type="radio" :id="option.label" :value="option.value" v-model="storeAnnouncementsPanel.announcement.can_be_closed" required/>
+                                <input 
+                                    name="user_salutation" 
+                                    type="radio" 
+                                    :id="option.label" 
+                                    :value="option.value" 
+                                    v-model="storeAnnouncementsPanel.announcement.can_be_closed"
+                                />
                                 {{option.label}}
                             </label>  
                         </div>
