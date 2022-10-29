@@ -33,7 +33,7 @@ const storeAnnouncements = useAnnouncements()
 
 // · initializing
 onMounted(() => {
-    setTimeout(() => storeAnnouncements.getAnnouncements(), 3000)
+    setTimeout(() => storeAnnouncements.getAnnouncements(), 2000)
 })
 
 

@@ -17,74 +17,48 @@ For more information read the license file including with this software.
 
 =end
 
+namespace :lesli do
 
-require "./lib/tasks/lesli_rake"
+    namespace :system do
 
+        desc ""
+        task :status => :environment do |task, args|
 
-class LesliSystemRake < LesliRake
+            revision = LC::System::Info.revision()
+            settings = Lesli::settings()
 
-    def initialize
-        namespace :lesli do
+            L2.br(4)
 
-            namespace :system do
+            L2.m(
+                'Instance: ' << Rails.application.config.lesli[:instance][:name],
+                'Version: ' << revision[:version],
+                'Build: ' << revision[:build]
+            )
 
-                desc ""
-                task :status => :environment do |task, args|
+            L2.br(3)
 
-                    self.status
+            L2.table (Lesli::engines.map { |engine| 
+                {
+                    :engine => engine[:code],
+                    :version => "#{engine[:version]} (#{engine[:type]})",
+                    :core => engine[:core]
+                }
+            })
 
-                end
+            L2.br(3)
 
-            end
+            L2.table(settings.dig("configuration", "locales_available").map { |locale| 
+                { :languages => locale[1], :code => locale[0] }
+            })
+
+            L2.br(3)
+
+            L2.table([LC::System::FileSystem.stats('/', 'GB')])
+
+            L2.br(4)
 
         end
 
     end
 
-    private 
-
-    def status 
-
-        revision = LC::System::Info.revision()
-
-        LC::Debug.msgc(
-            'Instance: ' << Rails.application.config.lesli[:instance][:name],
-            'Version: ' << revision[:version],
-            'Build: ' << revision[:build]
-        )
-
-        LC::Debug.separator_blank
-
-        LC::Debug.table (Lesli::engines.map { |engine| 
-            {
-                :engine => engine[:code],
-                :version => "#{engine[:version]} (#{engine[:type]})",
-                :core => engine[:core]
-            }
-        })
-
-        LC::Debug.separator_blank
-        LC::Debug.separator_blank
-
-        settings = Lesli::settings()
-
-        LC::Debug.table(settings.dig("configuration", "locales_available").map { |locale| 
-            { :languages => locale[1], :code => locale[0] }
-        })
-
-        LC::Debug.separator_blank
-        LC::Debug.separator_blank
-
-        LC::Debug.table([LC::System::FileSystem.stats('/', 'GB')])
-
-        LC::Debug.separator_blank
-        LC::Debug.separator_blank
-        LC::Debug.separator_blank
-
-    end
-
 end
-
-
-#
-LesliSystemRake.new
