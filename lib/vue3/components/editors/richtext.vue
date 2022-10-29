@@ -84,14 +84,8 @@ const watchModelValue = watch(() => props.modelValue, (newContent) => {
     // try to avoid the content update for duplicated content
     if (editorNode.value.editor && editorNode.value.editor.innerHTML !== newContent) {
 
-        // load the initial html content
-        editorNode.value.editor.loadHTML(newContent)
+        updateEditorContent(newContent)
         
-        // after load the content, send the pointer to the end of the content
-        // currently not working, maybe this needs to be moved to another function
-        // and try to move when focus and if the cursor is at the begining and 
-        // if the content is not empty
-        editorNode.value.editor.setSelectedRange(newContent.length - 1)
     }
     
 })
@@ -99,10 +93,49 @@ const watchModelValue = watch(() => props.modelValue, (newContent) => {
 
 onMounted(() => {
     if (props.modelValue && editorNode.value.editor.innerHTML !== props.modelValue) {
-        editorNode.value.editor.loadHTML(props.modelValue)
+        updateEditorContent(props.modelValue)
     }
 })
 
+
+// ·
+function updateEditorContent(content) {
+
+    // return if content is null or empty
+    if (!content || content == "") return;
+
+    try {
+
+        // we need double JSON parse to properly parse json converted 
+        // from json postgresql datatype to text postgresql datatype
+        // we did that due we migrate richtext columns from json to 
+        // text to migrate from quill to trix
+        let json = JSON.parse(JSON.parse("\""+content+"\""))
+
+        // to keep compatibility we stored quill content as { delta: {}, html: {} }
+        // so now it is easy to migrate using the html content stored in the json if it exists
+        if (json.html && json.html != "") {
+            content = json.html
+        }
+
+        // TODO: before we started saving the quill content as a hash including delta and html formats
+        // we were saving only the delta content which is a ugly JSON, if we need to add compatibility
+        // with that old quill content we have to install the delta parser and then convert delta to html
+        
+    } catch(ex) {
+        // it was not possible to parse content as json, that means this content does not comes
+        // from the old quill content saved as JSON :) 
+    }
+
+    // load the initial html content
+    editorNode.value.editor.loadHTML(content)
+    
+    // after load the content, send the pointer to the end of the content
+    // currently not working, maybe this needs to be moved to another function
+    // and try to move when focus and if the cursor is at the begining and 
+    // if the content is not empty
+    editorNode.value.editor.setSelectedRange(content.length - 1)
+}
 
 </script>
 <template>
