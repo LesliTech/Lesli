@@ -48,11 +48,8 @@ function updateEditorContent(content) {
 
     try {
 
-        // we need double JSON parse to properly parse json converted 
-        // from json postgresql datatype to text postgresql datatype
-        // we did that due we migrate richtext columns from json to 
-        // text to migrate from quill to trix
-        let json = JSON.parse(JSON.parse("\""+content+"\""))
+        // convert all quill JSON content to JSON
+        let json = JSON.parse(content)
 
         // to keep compatibility we stored quill content as { delta: {}, html: {} }
         // so now it is easy to migrate using the html content stored in the json if it exists
