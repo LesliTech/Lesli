@@ -25,6 +25,7 @@ import {onMounted} from 'vue'
 
 // · import stores
 import { useAnnouncements } from "LesliVue/stores/announcements"
+import RichtextViewer from "LesliVue/components/editors/richtext-viewer.vue"
 
 
 // · 
@@ -48,7 +49,7 @@ onMounted(() => {
                     v-if="announcement.can_be_closed" 
                     @click="storeAnnouncements.closeAnnouncement(announcement)">
                 </button>
-                <div v-html="announcement.message"></div>
+                <richtext-viewer v-model="announcement.message"></richtext-viewer>
             </div>
         </div>
     </section>
