@@ -1,0 +1,118 @@
+# Copyright (c) 2022, all rights reserved.
+# 
+# All the information provided by this platform is protected by international laws related  to 
+# industrial property, intellectual property, copyright and relative international laws. 
+# All intellectual or industrial property rights of the code, texts, trade mark, design, 
+# pictures and any other information belongs to the owner of this platform.
+# 
+# Without the written permission of the owner, any replication, modification,
+# transmission, publication is strictly forbidden.
+# 
+# For more information read the license file including with this software.
+
+
+# Specs for Lesli Core
+# -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
+name: "Lesli testing for Master"
+on:
+
+  # execute this workflow only when trying to merge from dev branch to master 
+  pull_request:
+    branches: [ "master", "production" ]
+
+jobs:
+  test:
+    name: Test workflow for Lesli Core
+    runs-on: lomax
+    env:
+      RAILS_ENV: test
+    services:
+      postgres:
+        image: postgres:11.5
+        ports:
+          - "5432:5432"
+        env:
+          POSTGRES_DB: leslicloud_test
+          POSTGRES_USER: leslicloud_test
+          POSTGRES_PASSWORD: "leslicloud_test" 
+
+    steps:
+
+
+      # Clone the current repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+
+
+      # Clone our custom actions
+      - name: Checkout github actions repo
+        uses: actions/checkout@v3
+        with:
+          repository: leitfaden/github_actions
+          ref: production
+          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+          path: ./.github/
+
+
+      # Send a message to slack announcing the workflow start
+      - name: Notify slack github actions start 
+        uses: ./.github/actions/slack_job_status
+        with:
+          job-status: INFO
+          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+          channel: alerts
+
+
+      # Use the official receipt to install ruby in ubuntu
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.2
+          bundler-cache: true
+        env:
+          ImageOS: ubuntu20
+
+
+      # Build the Lesli database
+      - name: Set up database schema
+        run: |
+          cp ./config/credentials/testci.yml.enc ./config/credentials/test.yml.enc
+          bundle list
+          bundle exec rake db:drop
+          bundle exec rake db:create
+          bundle exec rake db:migrate
+          bundle exec rake db:setup
+        env:
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.CORE_RAILS_MASTER_KEY_TEST }}
+
+
+      # Run Rspec tests
+      - name: Run Spec tests
+        run: bundle exec rspec spec
+        env:
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.CORE_RAILS_MASTER_KEY_TEST }}
+
+
+      # Install node dependencies needed for vue tests
+      - name: NPM install
+        run: npm install
+
+
+      # Run Vue tests
+      - name: Run Vue tests
+        run: npm run test:vue
+
+
+      # Send a message to slack with the status of the workflow
+      - name: Notify by slack
+        if: always()
+        uses: ./.github/actions/slack_job_status
+        with:
+          job-status: ${{ job.status }}
+          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+          channel: alerts
