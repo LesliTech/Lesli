@@ -86,6 +86,9 @@ module RoutesApp
                         # task management and scheduling - not yet implemented
                         resources :cronos
 
+                        # general feedback
+                        resources :issues
+
                         # system currencies 
                         resources :currencies, only: [:index, :show, :new, :create] do
                             scope module: :currency do

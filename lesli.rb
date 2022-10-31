@@ -31,7 +31,6 @@ module Lesli
                 server_settings = YAML.load_file("./lesli.server.yml")
 
                 return server_settings if server_settings
-                dsdsdsdsd
 
             rescue
             end

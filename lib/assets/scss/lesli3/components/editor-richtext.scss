@@ -1,0 +1,53 @@
+/*
+
+Copyright (c) 2022, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+.component-editor-richtext {
+    border-radius: 3px;
+    border: 1px solid lesli-css-color(silver, 300);
+
+    trix-editor,
+    .trix-button-group,
+    .trix-button-group button,
+    .trix-button-group button:not(:first-child) {
+        border: none;
+    }
+
+    .trix-button-row {
+        margin: 8px 0;
+    }
+
+    .trix-button-group {
+        margin: 0;
+    }
+
+    &.normal {
+        .trix-button-group.trix-button-group--history-tools,
+        .trix-button-group.trix-button-group--file-tools {
+            display: none;
+        }
+    }
+
+    &.small {
+        .trix-button-group.trix-button-group--history-tools,
+        .trix-button-group.trix-button-group--block-tools,
+        .trix-button-group.trix-button-group--file-tools {
+            display: none;
+        }
+    }
+}
