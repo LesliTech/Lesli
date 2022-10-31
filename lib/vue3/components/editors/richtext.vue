@@ -61,9 +61,6 @@ const editorOptions = {
 // · emits every change in the rich text editor
 function handleContentChange() {
 
-    // stop the watcher that waits to load initial content
-    watchModelValue()
-
     // updates the v-model
     emit('update:modelValue', editorContent.value.value)
 
@@ -74,9 +71,6 @@ function handleContentChange() {
 
 // · waits for possible initial content to load into the richtext editor
 const watchModelValue = watch(() => props.modelValue, (newContent) => {  
-
-    // stop the watcher once received the content
-    watchModelValue()
 
     // check for valid content
     newContent = newContent === undefined ? '' : newContent
