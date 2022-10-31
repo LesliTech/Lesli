@@ -20,9 +20,15 @@ For more information read the license file including with this software.
 import { inject, watch } from "vue"
 import { useRouter } from 'vue-router'
 
+
 // · import store
 import { useLayout } from "LesliVue/stores/layout"
 import { useTickets } from "LesliVue/stores/panels/tickets"
+
+
+// · 
+import editorRichText from "LesliVue/components/editors/richtext.vue"
+
 
 // · initialize/inject plugins
 const router = useRouter()
@@ -33,6 +39,7 @@ const url = inject("url")
 const storeLayout = useLayout()
 const storeTicketsPanel = useTickets()
 
+
 // · defining translations
 const translations = {
     core: {
@@ -41,6 +48,8 @@ const translations = {
     main: I18n.t('help.tickets')
 }
 
+
+// · 
 const columns = [{
     field: "subject",
     label: "subject"
@@ -147,8 +156,12 @@ function showTicket(ticket){
                                 {{translations.main.column_description}} <sup class="has-text-danger">*</sup>
                             </label>
                         </div>
-                        <div class="column is-7">
-                            <textarea class="textarea" v-model="storeTicketsPanel.ticket.description"></textarea>
+                    </div>
+
+                    <div class="columns">
+                        <div class="column is-1"></div>
+                        <div class="column is-10">
+                            <editorRichText mode="small" v-model="storeTicketsPanel.ticket.description"></editorRichText>
                         </div>
                     </div>
 

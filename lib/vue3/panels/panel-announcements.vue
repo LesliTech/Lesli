@@ -16,13 +16,16 @@ For more information read the license file including with this software.
 // · 
 */
 
+
 // · import vue tools
-import { inject, watch } from "vue"
-import { useRouter } from 'vue-router'
+import { inject, watch, onMounted } from "vue"
+import { useRouter, useRoute } from 'vue-router'
+
 
 // · import store
 import { useLayout } from "LesliVue/stores/layout"
 import { useAnnouncements } from "LesliVue/stores/panels/announcements"
+
 
 // · initialize/inject plugins
 const router = useRouter()
@@ -32,6 +35,11 @@ const url = inject("url")
 // · implement stores
 const storeLayout = useLayout()
 const storeAnnouncementsPanel = useAnnouncements()
+
+
+// · 
+import editorRichText from "LesliVue/components/editors/richtext.vue"
+
 
 // · defining translations
 const translations = {
@@ -44,6 +52,8 @@ const translations = {
     }
 }
 
+
+// · 
 const closeOptions = {
     yes: { 
         label: "yes", 
@@ -53,18 +63,19 @@ const closeOptions = {
         label: "no",
         value: false
     }
-    
 }
 
+
+// · 
 const selectOptions = [
     { label: "Info", value: "info"}, 
     { label: "Alert", value: "danger"},
-    { label: "Primary", value: "primary"},
-    { label: "Link", value: "link"},
     { label: "Success", value: "success"},
     { label: "Warning", value: "warning"}
 ]
 
+
+// · 
 const columns = [{
     field: "name",
     label: translations.bell.announcements.column_name
@@ -76,12 +87,23 @@ const columns = [{
     label: translations.bell.announcements.column_users_id
 }]
 
+
+// · 
+onMounted(() => {
+
+    // by default the panel creates announcements only for the current page
+    storeAnnouncementsPanel.announcement.base_path = router.currentRoute.value.path
+
+    // by default the announcements can be marked as read
+    storeAnnouncementsPanel.announcement.can_be_closed = true
+})
+
+// · 
 watch(() => storeLayout.showAnnouncements, () => {
     if(storeLayout.showAnnouncements){
         storeAnnouncementsPanel.getAnnouncements()
     }    
 })
-
 </script>
 
 <template>
@@ -91,8 +113,8 @@ watch(() => storeLayout.showAnnouncements, () => {
         </template>
         <template #default>
             <div class="form">
-                <form @submit.prevent="storeAnnouncementsPanel.formSubmit()" class="card py-4">
-                    <div class="columns is-marginless has-border-bottom">
+                <form @submit.prevent="storeAnnouncementsPanel.formSubmit()">
+                    <div class="columns">
                         <div class="column is-4">
                             <label class="label">
                                 {{ translations.bell.announcements.column_name }}
@@ -112,8 +134,8 @@ watch(() => storeLayout.showAnnouncements, () => {
                             </div>
                         </div>
                     </div>
-
-                    <div class="columns is-marginless has-border-bottom">
+                    
+                    <div class="columns">
                         <div class="column is-4">
                             <label class="label">
                                 {{translations.bell.announcements.column_message}}
@@ -122,19 +144,13 @@ watch(() => storeLayout.showAnnouncements, () => {
                         </div>
                         <div class="column">
                             <div class="control is-clearfix">
-                                <input
-                                    type="text"
-                                    autocomplete="on"
-                                    name="subject"
-                                    required
-                                    class="input"
-                                    v-model="storeAnnouncementsPanel.announcement.message"
-                                />
+                                <editor-rich-text mode="small" v-model="storeAnnouncementsPanel.announcement.message">
+                                </editor-rich-text>
                             </div>
                         </div>
                     </div>
 
-                    <div class="columns is-marginless has-border-bottom">
+                    <div class="columns">
                         <div class="column is-4">
                             <label class="label">{{translations.bell.announcements.column_start_at}}</label>
                         </div>
@@ -143,7 +159,7 @@ watch(() => storeLayout.showAnnouncements, () => {
                         </div>
                     </div>
 
-                    <div class="columns is-marginless has-border-bottom">
+                    <div class="columns">
                         <div class="column is-4">
                             <label class="label">{{translations.bell.announcements.column_end_at}}</label>
                         </div>
@@ -153,7 +169,7 @@ watch(() => storeLayout.showAnnouncements, () => {
                     </div>
 
 
-                    <div class="columns is-marginless has-border-bottom">
+                    <div class="columns">
                         <div class="column is-4">
                             <label class="label">
                                 {{translations.bell.announcements.column_kind}}
@@ -169,8 +185,8 @@ watch(() => storeLayout.showAnnouncements, () => {
                         </div>
                     </div>
 
-                    <div class="columns is-marginless has-border-bottom">
-                        <div class="column is-4">
+                    <div class="columns">
+                        <div class="column is-7">
                             <label class="label">
                                 {{translations.bell.announcements.column_can_be_closed}}
                                 <sup class="has-text-danger">*</sup>
@@ -178,29 +194,22 @@ watch(() => storeLayout.showAnnouncements, () => {
                         </div>
                         <div class="column">
                             <label :for="option.label" class="radio" v-for="option in closeOptions" :key="option">
-                                <input name="user_salutation" type="radio" :id="option.label" :value="option.value" v-model="storeAnnouncementsPanel.announcement.can_be_closed" required/>
+                                <input 
+                                    name="user_salutation" 
+                                    type="radio" 
+                                    :id="option.label" 
+                                    :value="option.value" 
+                                    v-model="storeAnnouncementsPanel.announcement.can_be_closed"
+                                />
                                 {{option.label}}
                             </label>  
                         </div>
                     </div>
 
                     <div class="px-3 ql-bg-blue">
-                        <button
-                            type="submit"
-                            class="button is-fullwidth has-text-centered submit-button is-primary"
-                        >
+                        <lesli-button icon="save">
                             {{ translations.core.shared.view_btn_save }}
-                        </button>
-                    </div>
-
-                    <div class="px-3 ql-bg-blue">
-                        <button
-                            type="button"
-                            class="button is-fullwidth has-text-centered submit-button"
-                            @click.stop="storeAnnouncementsPanel.clearForm()"
-                        >
-                        {{ translations.core.shared.view_btn_clear }}
-                        </button>
+                        </lesli-button>
                     </div>
                     
                 </form>

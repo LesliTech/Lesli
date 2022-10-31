@@ -46,8 +46,8 @@ watch(() => storeSearch.columns, (newColumns) => {
 
 // · go to search result view
 // · TODO: this must be dynamic by engine
-function goToResult(project) {
-    url.dl("projects/:id", project.code).go()
+function goToResult(resource) {
+    url.dl("projects/:id", resource.id).go()
 }
 
 </script>
@@ -55,11 +55,6 @@ function goToResult(project) {
     <section 
         v-if="storeSearch.text != ''"
         class="application-search">
-        <div class="columns">
-            <div class="column" v-for="(column) in columns">
-                {{ column.field }}
-            </div>
-        </div>
         <lesli-table
             @click="goToResult"
             :pagination="false"
