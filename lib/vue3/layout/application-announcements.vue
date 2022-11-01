@@ -34,6 +34,12 @@ const storeAnnouncements = useAnnouncements()
 
 // · initializing
 onMounted(() => {
+
+    // IMPORTANT: here we have to watch for Router changes, due vue router
+    // does not reload the entire window, so ouMounted is executed only once
+    // due rightnow we have to manage two different vue applications (vue2 & vue3)
+    // we reload the window everytime, this works... but the best way is to use
+    // only the vue3 router
     setTimeout(() => storeAnnouncements.getAnnouncements(), 2000)
 })
 
