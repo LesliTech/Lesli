@@ -90,7 +90,7 @@ For more information read the license file including with this software.
             ids = next_statuses.split("|").map(&:to_i)
 
             controller = "#{module_underscore}/#{cloud_object.class.name.split("::").last.underscore.pluralize}"
-            destroy = current_user.has_privileges?([controller], ["destroy"])
+            destroy = current_user.has_privileges4?([controller], ["destroy"])
             
             workflow_including_deleted.statuses.where(id: ids).order(number: :asc).order(id: :asc).filter_map do |status|
                 if status.to_be_deleted? && !destroy
