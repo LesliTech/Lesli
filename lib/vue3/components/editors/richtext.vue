@@ -96,7 +96,10 @@ onMounted(() => {
 function updateEditorContent(content) {
 
     // return if content is null or empty
-    if (!content || content == "") return;
+    if (!content || content == ""){
+        editorNode.value.editor.loadHTML("")
+        return
+    } 
 
     try {
 
