@@ -46,7 +46,7 @@ module Auth
             # we insert the privilege only once.
             # Example: If we defined that we need access to UsersController#index in 20 descriptors,
             # in the role_privileges will be only one record for that specific controller and action
-            records = records.uniq
+            records = records.uniq! { |r| [r["controller"], r["action"], r["form"], r["roles_id"]] }
 
             # small check to ensure I have records to update/insert
             return if records.blank?
