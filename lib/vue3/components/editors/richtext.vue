@@ -76,7 +76,7 @@ const watchModelValue = watch(() => props.modelValue, (newContent) => {
     newContent = newContent === undefined ? '' : newContent
 
     // try to avoid the content update for duplicated content
-    if (editorNode.value.editor && editorContent.value.value != newContent) {
+    if (editorContent?.value?.value != newContent) {
 
         updateEditorContent(newContent)
         
