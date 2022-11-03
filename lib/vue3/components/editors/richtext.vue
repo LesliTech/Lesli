@@ -70,7 +70,7 @@ function handleContentChange() {
 
 
 // · waits for possible initial content to load into the richtext editor
-const watchModelValue = watch(() => props.modelValue, (newContent, oldContent) => {  
+const watchModelValue = watch(() => props.modelValue, (newContent) => {  
 
     // check for valid content
     newContent = newContent === undefined ? '' : newContent
