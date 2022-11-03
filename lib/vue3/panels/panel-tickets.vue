@@ -137,22 +137,6 @@ function showTicket(ticket){
                         <div class="column is-1"></div>
                         <div class="column is-3">
                             <label class="label">
-                                {{translations.main.column_cloud_help_catalog_ticket_workspaces_id}}<sup class="has-text-danger">*</sup>
-                            </label>
-                        </div>
-                        <div class="column is-7">
-                            <lesli-select
-                                :options="storeTicketsPanel.workspaceSelect"
-                                v-model="storeTicketsPanel.ticket.cloud_help_catalog_ticket_workspaces_id"
-                            >
-                            </lesli-select>
-                        </div>
-                    </div>
-
-                    <div class="columns">
-                        <div class="column is-1"></div>
-                        <div class="column is-3">
-                            <label class="label">
                                 {{translations.main.column_description}} <sup class="has-text-danger">*</sup>
                             </label>
                         </div>
