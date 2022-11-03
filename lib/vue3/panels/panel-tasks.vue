@@ -42,6 +42,13 @@ const translations = {
     }
 }
 
+// · defining props
+const props = defineProps({
+    instanceEndpoint: {
+        type: String,
+        default: 'focus'
+    }
+})
 
 // · 
 watch(() => storeLayout.showTasks, () => {
