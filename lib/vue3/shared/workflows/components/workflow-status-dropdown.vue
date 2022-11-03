@@ -47,7 +47,7 @@ const props = defineProps({
     },
     // · prop that indicates the object id of the resource that you need to interact with.
     cloudObjectId: {
-        type: String,
+        type: Number,
         required: true,
     },
 })
