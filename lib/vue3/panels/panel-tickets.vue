@@ -66,6 +66,9 @@ const props = defineProps({
     }
 })
 
+// . Reset form on create
+storeTicketsPanel.resetForm()
+
 
 watch(() => storeLayout.showTickets, () => {
     if(storeLayout.showTickets){
