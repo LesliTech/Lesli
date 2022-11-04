@@ -17,7 +17,7 @@ For more information read the license file including with this software.
 */
 
 // · import vue tools
-import { ref, computed, onMounted, watch } from "vue"
+import { ref, computed, onMounted, watch, onUnmounted } from "vue"
 
 // · import stores
 import { useWorkflow } from "LesliVue/stores/shared/workflow"
@@ -47,7 +47,7 @@ const props = defineProps({
     },
     // · prop that indicates the object id of the resource that you need to interact with.
     cloudObjectId: {
-        type: String,
+        type: Number,
         required: true,
     },
 })
@@ -97,6 +97,11 @@ onMounted(() => {
     storeWorkflow.fetchTransitionOptions()
 })
 
+
+// · when component is unmounted, clear the store
+onUnmounted(() => {
+    storeWorkflow.reset()
+})
 </script>
 
 <template>
