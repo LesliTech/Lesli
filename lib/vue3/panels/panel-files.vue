@@ -38,7 +38,7 @@ const translations = {
 }
 
 // · file type to upload, this is the v-model of the select
-const fileType = ref(null)
+const fileType = ref('')
 
 // · this indicates if the file uploader needs to clear the files or not
 const clearFileUploader = ref(false)
@@ -106,6 +106,19 @@ const convertToBase64 = (file) => {
 }
 
 /**
+ * @param {string} word to be singularized
+ * @description singularizes a word that ends with 's' and 'es'
+ * @returns {string} singularized word
+ * @example
+ */
+const singularize = (word) => {
+    if (word.endsWith('ies')) return word.slice(0, -3) + 'y'
+    else if (word.endsWith('es')) return word.slice(0, -2)
+    else if (word.endsWith('s')) return word.slice(0, -1)
+    else return word
+}
+
+/**
  * @param {File[]} files this files are received from the file uploader
  * @description this function is called when the user drops or select files in the file uploader
  */
@@ -133,11 +146,15 @@ const onUploadFiles = async () => {
     // · filesBase64 array is used to store the base64 strings of the files
     const filesBase64 = []
     
+    // · this variable contains something like cloudObject_file, for example: project_file
+    // · is necessary to get the singular form of the word
+    const cloudObjectModel = `${singularize(storeFiles.cloudObject.split('/').pop())}_file`
+
     // · convert the files to base64 and push it to the filesBase64 array
     for (let i = 0; i < storeFiles.filesToUpload.length; i++) {
         const base64File = await convertToBase64(storeFiles.filesToUpload[i])
         filesBase64.push({
-            project_file: {
+            [cloudObjectModel]: {
                 // · file name without the extension
                 name: storeFiles.filesToUpload[i].name.split('.')[0],
                 
@@ -156,6 +173,7 @@ const onUploadFiles = async () => {
     // · change the reactive variable to true for clear the file uploader
     clearFileUploader.value = true
 
+    // · Hide the file uploader panel
     storeLayout.showFiles = false
 }
 
