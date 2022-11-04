@@ -45,11 +45,11 @@ const props = defineProps({
         required: false,
         default: true,
     },
-    // · prop that filter by file type, by default it is null. (image, document etc)
+    // · prop that filter by file type, by default it is empty. (image, document etc)
     fileType: {
         type: String,
         required: false,
-        default: null,
+        default: '',
     },
     // · prop that indicates the cloud module that will be used for interacting with the backend.
     cloudModule: {
@@ -58,12 +58,12 @@ const props = defineProps({
     },
     // · prop that indicates the resource that you need to interact with.
     cloudObject: {
-        type: Object,
+        type: String,
         required: true,
     },
     // · prop that indicates the object id of the resource that you need to interact with.
     cloudObjectId: {
-        type: String,
+        type: Number,
         required: true,
     },
     // · prop the indicates the maximun size of each file that can be uploaded,
