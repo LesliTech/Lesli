@@ -41,7 +41,7 @@ var webpackConfig = []
 
 // · 
 module.exports = env => {
-
+    
 
     // set mode
     env.mode = env.mode ? env.mode : "development"
@@ -200,6 +200,7 @@ module.exports = env => {
 
 
     // push webpack configuration for core app
+    update_software_version("core", env)
     webpackConfig.push(configCore)
 
 
@@ -304,8 +305,13 @@ module.exports = env => {
             return 
         }
 
-        //let engine_info = JSON.parse(webpackConfig[0].plugins[1].definitions.leslicloud_app_info)
+        // set the path to the engine version file by default
         let engine_version_file = `./engines/${engine}/lib/${engine}/version.rb`
+
+        // if core, update the main version file
+        if (engine == "core") {
+            engine_version_file = `./config/initializers/version.rb`
+        } 
 
         fs.readFile(engine_version_file, "utf8", (err, data) => {
 
@@ -324,6 +330,8 @@ module.exports = env => {
             fs.writeFile(engine_version_file, data.join("\n"), "utf8", function (err) {
                 if (err) return console.log(err)
             })
+
+            debug.info(`update version of: ${engine}, to: ${build_date}.${build_time}`)
 
         })
 
