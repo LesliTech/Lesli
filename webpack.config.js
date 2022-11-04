@@ -158,7 +158,15 @@ module.exports = env => {
         module: {
             rules: [{
                 test: /\.vue$/,
-                use: "vue-loader"
+                use: {
+                    loader: "vue-loader",
+                    options: {
+                        compilerOptions: {
+                            // ignore custom html components & elements
+                            isCustomElement: tag => tag === 'trix-editor'
+                        }
+                    }
+                }
             }, {
                 test: /\.css$/,
                 use: [
