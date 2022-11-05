@@ -134,6 +134,14 @@ const singularize = (word) => {
     else return word
 }
 
+/**
+ * 
+ * @param {*} name of the file
+ * @param {*} attachment this is the file that will be uploaded
+ * @param {*} type can be "formData" or "base64"
+ * @description this function returns an object with a correct format accepted by the backend
+ * @returns {object} this function returns an object with the correct format
+ */
 const formatFile = (name, attachment, type = 'formData') => {
     // · this variable contains something like cloudObject_file, for example: project_file
     // · is necessary to get the singular form of the word
@@ -154,6 +162,7 @@ const formatFile = (name, attachment, type = 'formData') => {
         }
     }
 
+    // · if type is formData, return the file in formData format
     const formData = new FormData()
     formData.append(`${cloudObjectModel}[file_type]`, fileType.value)
     formData.append(`${cloudObjectModel}[attachment]`, attachment)
@@ -161,6 +170,13 @@ const formatFile = (name, attachment, type = 'formData') => {
     return formData
 }
 
+/**
+ * @description this function compares the accepted files that were passed by props and form a string
+ * @returns {string} a string with the accepted files extensions
+ * @example
+ * if the accepted files are: images
+ * the function will return: ".jpg,.jpeg,.png,.gif,.svg"
+ */
 const getAcceptedFiles = () => {
     const accepted =  storeFiles.acceptedFiles.reduce((acc, fileType) => {
         return acc + acceptedFiles[fileType].accept
