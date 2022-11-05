@@ -105,7 +105,7 @@ function showUser(user) {
 </script>
 <template>
     <section class="application-component">
-        <lesli-header :title="translations.core.users.view_text_title_users">
+        <lesli-header :title="translations.core.users.view_text_title_users + ' (' +storeUsers.number_of_results+ ')' ">
             <lesli-button icon="add" :to="url.root(props.appMountPath+`/new`)">
                 {{ translations.core.users.view_text_add_user }}
             </lesli-button>
@@ -118,6 +118,7 @@ function showUser(user) {
                 {{ translations.core.shared.view_text_btn_reload }}
             </lesli-button>
         </lesli-header>
+
         <lesli-toolbar :search-placeholder="translations.core.users.view_toolbar_filter_placeholder_search" @search="storeUsers.search">
             
             <lesli-select :options="[
@@ -165,6 +166,7 @@ function showUser(user) {
 
         </lesli-toolbar>
 
+        
         <lesli-table
             :loading="storeUsers.loading"
             :columns="columns"
