@@ -499,6 +499,7 @@ class User < ApplicationLesliRecord
     #]
     def self.list(current_user, query, params)
         type = params[:type]
+
         roles = params[:role].split(",").map { |role| "'#{role}'" }.join(", ") if not params[:role].blank?
 
         operator = type == "exclude" ? 'not in' : 'in'
@@ -566,9 +567,15 @@ class User < ApplicationLesliRecord
     #]
     def self.index(current_user, query, params)
         type = params[:type]
-        roles = params[:role].split(",").map { |role| "'#{role}'" }.join(", ") if not params[:role].blank?
 
         operator = type == "exclude" ? 'not in' : 'in'
+
+        # Filter users by roles
+        unless params[:f].nil?
+            unless params[:f][:role].nil?
+                roles = params[:f][:role].split(",").map { |role| "'#{role}'" }.join(", ") if not params[:f][:role].blank?
+            end
+        end
 
         users = current_user.account.users
         .joins("inner join user_details ud on ud.users_id = users.id")
@@ -578,7 +585,7 @@ class User < ApplicationLesliRecord
                     ur.users_id, string_agg(r.\"name\", ', ') role_names
                 from user_roles ur
                 join roles r
-                    on r.id = ur.roles_id  #{roles.blank? ? "" : "and r.name #{operator} (#{roles})"}
+                    on r.id = ur.roles_id  #{roles.blank? ? "" : "and r.id #{operator} (#{roles})"}
                 where ur.deleted_at is null
                 group by ur.users_id
             ) roles on roles.users_id = users.id
@@ -615,10 +622,15 @@ class User < ApplicationLesliRecord
             "sessions.last_login_at"
         )
 
-        if (query[:filters][:status] == 'active')
-            users = users.where("users.active = ?", true)
-        elsif (query[:filters][:status] == 'inactive')
-            users = users.where("users.active = ?", false)
+        # Filter users by status
+        unless params[:f].nil?
+            unless params[:f][:status].nil?
+                if (params[:f][:status] == 'active')
+                    users = users.where("users.active = ?", true)
+                elsif (params[:f][:status] == 'inactive')
+                    users = users.where("users.active = ?", false)
+                end
+            end
         end
 
         users = users

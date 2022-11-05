@@ -60,7 +60,8 @@ const columns = [{
     sort: true
 }, {
     field: "roles",
-    label: "Roles"
+    label: "Roles",
+    sort: true
 }, {
     field: "active",
     label: "Status",
@@ -92,6 +93,7 @@ const props = defineProps({
 // · initializing
 onMounted(() => {
     storeUsers.fetchIndex()
+    storeUsers.getRoles()
 })
 
 
@@ -115,10 +117,53 @@ function showUser(user) {
                 {{ translations.core.shared.view_text_btn_reload }}
             </lesli-button>
         </lesli-header>
-        <lesli-toolbar
-            :search-placeholder="translations.core.users.view_toolbar_filter_placeholder_search"
-            @search="storeUsers.search">
+        <lesli-toolbar :search-placeholder="translations.core.users.view_toolbar_filter_placeholder_search" @search="storeUsers.search">
+            
+            <lesli-select :options="[
+                    {
+                        label: translations.core.users.view_toolbar_filter_placeholder_all_users,
+                        value: null
+                    }, {
+                        label: translations.core.users.view_toolbar_filter_placeholder_active_users,
+                        value: 'active'
+                    }, {
+                        label: translations.core.users.view_toolbar_filter_placeholder_inactive_users,
+                        value: 'inactive'
+                    },
+                ]"
+                v-model="storeUsers.filters.status"
+                @change="storeUsers.fetchIndex()"
+            >
+            </lesli-select> 
+
+            <lesli-select :options="storeUsers.roles_options"
+                v-model="storeUsers.filters.role"
+                @change="storeUsers.fetchIndex()"
+            >
+            </lesli-select> 
+
+            <lesli-select :options="[{
+                        label: '10',
+                        value: 10
+                    }, {
+                        label: '15',
+                        value: 15
+                    }, {
+                        label: '30',
+                        value: 30
+                    }, {
+                        label: '50',
+                        value: 50
+                    },
+                ]"
+                v-model="storeUsers.filters.per_page"
+                @change="storeUsers.fetchIndex()"
+            >
+            </lesli-select> 
+
+
         </lesli-toolbar>
+
         <lesli-table
             :loading="storeUsers.loading"
             :columns="columns"
