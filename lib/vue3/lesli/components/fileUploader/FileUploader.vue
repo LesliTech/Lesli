@@ -201,7 +201,7 @@ watch(clearCurrentFiles, (value) => {
                             id="file"
                             class="is-hidden"
                             multiple
-                            accept="image/png, image/jpeg, image/jpg"
+                            accept="image/*, application/pdf, application/msword, .csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                         />
                     </label>
                 </div>
