@@ -1,0 +1,119 @@
+# Copyright (c) 2022, all rights reserved.
+# 
+# All the information provided by this platform is protected by international laws related  to 
+# industrial property, intellectual property, copyright and relative international laws. 
+# All intellectual or industrial property rights of the code, texts, trade mark, design, 
+# pictures and any other information belongs to the owner of this platform.
+# 
+# Without the written permission of the owner, any replication, modification,
+# transmission, publication is strictly forbidden.
+# 
+# For more information read the license file including with this software.
+
+
+# Specs for Lesli Core
+# -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
+name: "Lesli new version"
+on:
+  push:
+    branches: [ "production" ]
+
+jobs:
+  version:
+    name: Build new Lesli Core version
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):')"
+
+    steps:
+
+
+      # Clone the current repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+          ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+
+
+      # Clone our custom actions
+      - name: Checkout github actions repo
+        uses: actions/checkout@v3
+        with:
+          repository: leitfaden/github_actions
+          ref: production
+          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+          path: ./tmp/.github/
+
+
+      # Send a message to slack announcing the workflow start
+      - name: Notify slack github actions start 
+        uses: ./tmp/.github/actions/slack_job_status
+        with:
+          job-status: INFO
+          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+          channel: alerts
+
+
+      # Install node dependencies
+      - name: NPM install
+        run: npm install
+
+
+      # Install node dependencies for vue2 apps
+      - name: NPM install vue2
+        run: npm install --prefix ./lib/vue2 
+
+
+      # Compile vue2 app
+      - name: Compile Js vue2 for Production
+        run: npm run webpack2:production
+
+
+      # Compile vue3 app
+      - name: Compile Js vue3 for Production
+        run: npm run webpack3:production
+
+
+      # Comit the javascript apps so the gem includes the compiled version
+      - name: Commit compiled javascript app
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "assets(js): Compile Js to Production"
+          branch: production
+        env:
+          TOKEN: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+
+
+      # Build a new version for the core
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+          WITH_V: true
+
+
+      # Synchronize the production & master branches so we keep the version files
+      - name: Sync master branch with production branch
+        uses: ./tmp/.github/actions/git_branch_sync_branches
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          from_branch: production
+          to_branch: master
+
+
+      # The newly created tag is deleted if a step fails or the workflow is cancelled.
+      - name: Delete Tag
+        if: "cancelled() || failure()"
+        run: git push --delete origin ${{ steps.bumVersion.outputs.new_tag}}
+
+
+      # Send a message to slack with the status of the workflow
+      - name: Notify by slack
+        if: always()
+        uses: ./tmp/.github/actions/slack_job_status
+        with:
+          job-status: ${{ job.status }}
+          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+          channel: alerts
