@@ -43,6 +43,22 @@ const fileType = ref('')
 // · this indicates if the file uploader needs to clear the files or not
 const clearFileUploader = ref(false)
 
+// · extensions that could be used to upload files
+const acceptedFiles = {
+    images: {
+        extensions: ["jpg", "jpeg", "png", "gif", "svg"],
+        accept: ".jpg,.jpeg,.png,.gif,.svg",
+    },
+    plaintext: {
+        extensions: ["txt", "md", "log", "csv"],
+        accept: ".txt,.md,.log,.csv",
+    },
+    documents: {
+        extensions: ["pdf", "doc", "docx", "xls", "xlsx"],
+        accept: ".pdf,.doc,.docx,.xls,.xlsx",
+    },
+}
+
 
 /**
  * @param {File[]} files this files will be validated
@@ -118,6 +134,40 @@ const singularize = (word) => {
     else return word
 }
 
+const formatFile = (name, attachment, type = 'formData') => {
+    // · this variable contains something like cloudObject_file, for example: project_file
+    // · is necessary to get the singular form of the word
+    const cloudObjectModel = `${singularize(storeFiles.cloudObject.split('/').pop())}_file`
+
+    if (type === 'base64') {
+        return {
+            [cloudObjectModel]: {
+                // · name of the file
+                name: name + '-' + new Date().getTime(),
+    
+                // · file extension that user selected
+                file_type: fileType.value,
+    
+                // · file in base64
+                attachment
+            }
+        }
+    }
+
+    const formData = new FormData()
+    formData.append(`${cloudObjectModel}[file_type]`, fileType.value)
+    formData.append(`${cloudObjectModel}[attachment]`, attachment)
+    formData.append(`${cloudObjectModel}[name]`, name + '-' + new Date().getTime())
+    return formData
+}
+
+const getAcceptedFiles = () => {
+    const accepted =  storeFiles.acceptedFiles.reduce((acc, fileType) => {
+        return acc + acceptedFiles[fileType].accept
+    }, '')
+    return accepted
+}
+
 /**
  * @param {File[]} files this files are received from the file uploader
  * @description this function is called when the user drops or select files in the file uploader
@@ -143,35 +193,17 @@ const onUploadFiles = async () => {
         return
     }
     
-    // · filesBase64 array is used to store the base64 strings of the files
-    const filesBase64 = []
-    
-    // · this variable contains something like cloudObject_file, for example: project_file
-    // · is necessary to get the singular form of the word
-    const cloudObjectModel = `${singularize(storeFiles.cloudObject.split('/').pop())}_file`
+    // · files that will be sent to the server
+    const filesToUpload = storeFiles.filesToUpload.map((file) => formatFile(file.name.split('.')[0], file))
 
-    // · convert the files to base64 and push it to the filesBase64 array
-    for (let i = 0; i < storeFiles.filesToUpload.length; i++) {
-        const base64File = await convertToBase64(storeFiles.filesToUpload[i])
-        filesBase64.push({
-            [cloudObjectModel]: {
-                // · file name without the extension
-                name: storeFiles.filesToUpload[i].name.split('.')[0],
-                
-                // · file extension that user selected
-                file_type: fileType.value,
-
-                // · file in base64
-                attachment: base64File.split(',')[1]
-            }
-        })
-    }         
-    
     // · send the files to the server
-    storeFiles.uploadFiles(filesBase64)
+    storeFiles.uploadFiles(filesToUpload)
 
     // · change the reactive variable to true for clear the file uploader
     clearFileUploader.value = true
+
+    // · set file type to empty
+    fileType.value = ''
 
     // · Hide the file uploader panel
     storeLayout.showFiles = false
@@ -210,8 +242,8 @@ watch(() => storeFiles.cloudModule, () => {
                     @files-change="onDropFiles"
                     :clear-files="clearFileUploader"
                     @events-after-clear="clearFileUploader = false"
+                    :accepted-files="getAcceptedFiles()"
                 />
-    
     
                 <button @click="onUploadFiles" class="button is-fullwidth has-text-centered is-primary mt-4">
                     {{ translations.core.shared.view_btn_save_changes }}
