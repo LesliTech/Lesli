@@ -83,7 +83,7 @@ class UsersController < ApplicationLesliController
                         last_sign_in_at: last_sign_in_at,
                         active: user[:active],
                         roles: user[:roles],
-                        last_activity_at: last_action_performed_at,
+                        last_login_at: last_action_performed_at,
                         session_active: session
                     }
                 }))

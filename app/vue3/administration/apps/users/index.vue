@@ -72,8 +72,9 @@ const columns = [{
     label: "Last login",
     sort: true
 }, {
-    field: "last_activity_at",
-    label: "Last activity"
+    field: "last_login_at",
+    label: "Last activity",
+    sort: true
 }]
 
 
