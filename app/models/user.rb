@@ -257,41 +257,15 @@ class User < ApplicationLesliRecord
         # after every commit on roles, role descriptors and privileges
         #Rails.cache.fetch(user_cache_key(abilities_by_controller, self), expires_in: 12.hours) do
 
+            # Abilities hash where we will save all the privileges the user has to
             abilities = {}
 
-            # Evaluate role privileges
-            self.role_privilege_actions
-            .select("
-                bool_or(role_descriptor_privilege_actions.status) as value,
-                system_controller_actions.name as action,
-                system_controllers.name as controller
-            ")
-            .joins(system_action: [:system_controller])
-            .group("
-                system_controller_actions.name,
-                system_controllers.name
-            ")
-            .each do |route|
-                abilities[route["controller"]] = {} if abilities[route["controller"]].nil?
-                abilities[route["controller"]][route["action"]] = route["value"]
-            end
-
-            # Evaluate user privileges
-            self.user_privilege_actions
-            .select("
-                bool_or(status) as value,
-                system_controller_actions.name as action,
-                system_controllers.name as controller
-            ")
-            .joins(system_action: [:system_controller])
-            .group("
-                system_controller_actions.name,
-                system_controllers.name
-            ")
-            .each do |route|
-                abilities[route["controller"]] = {} if abilities[route["controller"]].nil?
-                # If privilege is granted by role or by user keep it as granted
-                abilities[route["controller"]][route["action"]] = abilities[route["controller"]][route["action"]] || route["value"]
+            # We check all the privileges the user has in the cache table according to his roles
+            # and create a key per controller (with the full controller name) that contains an array of all the 
+            # methods/actions with permission
+            self.privileges.all.each do |privilege|
+                abilities[privilege.controller] = [] if abilities[privilege.controller].nil?
+                abilities[privilege.controller] << privilege.action
             end
 
             abilities
