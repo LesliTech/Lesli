@@ -1,5 +1,4 @@
 module Lesli
-    class Application
-        VERSION = "2.0.8"
-    end
+  VERSION = "2.0.8"
+  BUILD = '22112.1031'
 end 
