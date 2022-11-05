@@ -48,6 +48,11 @@ const props = defineProps({
         required: false,
         default: true,
     },
+    acceptedFiles: {
+        type: String,
+        required: false,
+        default: "image/*",
+    },
 })
 
 // · translations
@@ -149,7 +154,7 @@ watch(clearCurrentFiles, (value) => {
                     id="file"
                     class="is-hidden"
                     multiple
-                    accept="image/png, image/jpeg, image/jpg"
+                    :accept="props.acceptedFiles"
                 />
             </label>
             <div v-if="files.length !== 0" class="preview mt-5 mb-4">
@@ -201,7 +206,7 @@ watch(clearCurrentFiles, (value) => {
                             id="file"
                             class="is-hidden"
                             multiple
-                            accept="image/*, application/pdf, application/msword, .csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                            :accept="props.acceptedFiles"
                         />
                     </label>
                 </div>
