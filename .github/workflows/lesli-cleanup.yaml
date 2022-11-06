@@ -16,16 +16,20 @@
 name: "Lesli branches cleanup"
 on:
 
-  schedule:
-    # execute daily at midnight
+  # execute daily at midnight
+  schedule:  
     - cron:  '0 0 * * *'
 
 jobs:
-    cleanup:
-      name: Cleanup workflow
-      runs-on: lomax
-      steps:
+  cleanup:
+    name: Cleanup workflow
+    runs-on: lomax
+    steps:
 
+      # Set the right owner for work folders
+      # NOTE: the path to the _work directory should be dinamically using the available github variables
+      - name: Set folder righ permissions
+        run: "sudo chown -R $USER:$USER /home/ubuntu/actions-runner/_work/${{ github.event.repository.name }}/"
 
       # Clone the current repository
       - name: Checkout repository
