@@ -89,16 +89,6 @@ const columns = [{
 
 
 // · 
-onMounted(() => {
-
-    // by default the panel creates announcements only for the current page
-    storeAnnouncementsPanel.announcement.base_path = router.currentRoute.value.path
-
-    // by default the announcements can be marked as read
-    storeAnnouncementsPanel.announcement.can_be_closed = true
-})
-
-// · 
 watch(() => storeLayout.showAnnouncements, () => {
     if(storeLayout.showAnnouncements){
         storeAnnouncementsPanel.getAnnouncements()
