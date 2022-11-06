@@ -38,6 +38,19 @@ jobs:
 
     steps:
 
+      # Set the right owner for work folders
+      # NOTE: the path to the _work directory should be dinamically using the available github variables
+      - name: Set folder righ permissions
+        run: "sudo chown -R $USER:$USER /home/ubuntu/actions-runner/_work/${{ github.event.repository.name }}/"
+
+      # Send a message to slack announcing the workflow start
+      - name: Notify slack github actions start 
+        uses: LesliTech/github-action-slack-job-status@v1
+        with:
+          channel: alerts
+          job-status: INFO
+          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+
 
       # Clone the current repository
       - name: Checkout code
@@ -45,25 +58,6 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-
-
-      # Clone our custom actions
-      - name: Checkout github actions repo
-        uses: actions/checkout@v3
-        with:
-          repository: leitfaden/github_actions
-          ref: production
-          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-          path: ./.github/
-
-
-      # Send a message to slack announcing the workflow start
-      - name: Notify slack github actions start 
-        uses: ./.github/actions/slack_job_status
-        with:
-          job-status: INFO
-          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
-          channel: alerts
 
 
       # Use the official receipt to install ruby in ubuntu
@@ -111,7 +105,7 @@ jobs:
       # Send a message to slack with the status of the workflow
       - name: Notify by slack
         if: always()
-        uses: ./.github/actions/slack_job_status
+        uses: LesliTech/github-action-slack-job-status@v1
         with:
           job-status: ${{ job.status }}
           slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
