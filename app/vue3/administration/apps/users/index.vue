@@ -68,11 +68,11 @@ const columns = [{
     sort: true,
     custom: true
 }, {
-    field: "last_sign_in_at",
+    field: "last_login_at",
     label: "Last login",
     sort: true
 }, {
-    field: "last_login_at",
+    field: "last_action_performed_at",
     label: "Last activity",
     sort: true
 }]
@@ -87,6 +87,11 @@ const props = defineProps({
         type: String,
         required: false,
         default: "administration/users",
+    },
+    defaultRole: {
+        type: String,
+        required: false,
+        default: "",
     }
 })
 
@@ -105,7 +110,7 @@ function showUser(user) {
 </script>
 <template>
     <section class="application-component">
-        <lesli-header :title="translations.core.users.view_text_title_users + ' (' +storeUsers.number_of_results+ ')' ">
+        <lesli-header :title="translations.core.users.view_text_title_users + ' (' +storeUsers.index.pagination.total+ ')' ">
             <lesli-button icon="add" :to="url.root(props.appMountPath+`/new`)">
                 {{ translations.core.users.view_text_add_user }}
             </lesli-button>
