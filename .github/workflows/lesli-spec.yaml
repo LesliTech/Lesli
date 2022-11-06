@@ -16,9 +16,6 @@
 name: "Lesli testing for Master"
 on:
 
-  push:
-    branches: [ ]
-
   # execute this workflow only when trying to merge from dev branch to master 
   pull_request:
     branches: [ "master", "production" ]
