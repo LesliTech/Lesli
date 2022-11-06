@@ -545,10 +545,8 @@ class User < ApplicationLesliRecord
         operator = type == "exclude" ? 'not in' : 'in'
 
         # Filter users by roles
-        unless params[:f].nil?
-            unless params[:f][:role].nil?
-                roles = params[:f][:role].split(",").map { |role| "'#{role}'" }.join(", ") if not params[:f][:role].blank?
-            end
+        unless params.dig(:f, :role).nil?
+            roles = params[:f][:role].split(",").map { |role| "'#{role}'" }.join(", ") if not params[:f][:role].blank?
         end
 
         users = current_user.account.users
@@ -597,13 +595,12 @@ class User < ApplicationLesliRecord
         )
 
         # Filter users by status
-        unless params[:f].nil?
-            unless params[:f][:status].nil?
-                if (params[:f][:status] == 'active')
-                    users = users.where("users.active = ?", true)
-                elsif (params[:f][:status] == 'inactive')
-                    users = users.where("users.active = ?", false)
-                end
+        
+        unless params.dig(:f, :status).nil?
+            if (params[:f][:status] == 'active')
+                users = users.where("users.active = ?", true)
+            elsif (params[:f][:status] == 'inactive')
+                users = users.where("users.active = ?", false)
             end
         end
 
