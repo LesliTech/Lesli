@@ -29,9 +29,16 @@ Prop that defines the columns to be rendered into the table, the columns will be
 **:records**
 Array with the data to be rendered within the table
 
+**:href**
+Function that build a valid url as a string, used to build an anchor tag inside every cell of the table, this function accept only one parameter corresponding to the current record from the records, here we can use the url plugin of any other resource of the component using an arrow function as prop. IMPORTANT: We should use only if we want to build a link that points to a resource outside the router of the current vue app, if the resource is safe accessible into the vue router, we must use link.
+
+**:link**
+Function that build a valid url as a string, used to build a router-link inside every cell of the table, this function accept only one parameter corresponding to the current record from the records, here we can use the url plugin of any other resource of the component using an arrow function as prop. IMPORTANT: We must use link only if the link points to a resource that is part of the current vue app and is accessible throught the vue router.
+
 **slots** 
 It is possible to render custom html content for individual columns using a template tag with an id corresponding to the
-column field, also we can pass column, record and value params to work with the data corresponding to the column
+column field, also we can pass column, record and value params to work with the data corresponding to the column. 
+_IMPORTANT:_ if props link or href are provided, slot will not work due href and link has precedence.
 
 **options**
 Lesli table provides a dedicated column to print a list of options and actions for every record of the table through
@@ -156,5 +163,25 @@ the "options slot"
             mi primera opcion
         </a>
     </template>
-</lesli-table>s
+</lesli-table>
+```
+
+**Example of a simple table with href:**
+
+```html
+<lesli-table
+    :href="(record) => `link-to-my/${record.id}`"
+    :columns="[{field: 'id', label: 'ID'},{field: 'email', label: 'Email'}]"
+    :records="[{id:0,email:'ldonis@lomax.com.gt'},{id:0,email:'ldonis@gmail.com'},{id:0,email:'emc2@ldonis.com'}]">
+</lesli-table>
+```
+
+**Result:**
+
+```raw
+<lesli-table
+    :href="(record) => `link-to-my/${record.id}`"
+    :columns="[{field: 'id', label: 'ID'},{field: 'email', label: 'Email'}]"
+    :records="[{id:0,email:'ldonis@lomax.com.gt'},{id:0,email:'ldonis@gmail.com'},{id:0,email:'emc2@ldonis.com'}]">
+</lesli-table>
 ```
