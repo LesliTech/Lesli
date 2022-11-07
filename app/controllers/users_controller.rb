@@ -67,10 +67,13 @@ class UsersController < ApplicationLesliController
                 return respond_with_pagination(users, (users.map { |user|
 
                     # last time user use the login form to access the platform
-                    last_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at])
+                    current_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at])
 
                     # last action the user perform an action into the system
                     last_action_performed_at = LC::Date.distance_to_words(user["last_action_performed_at"]) if not user["last_action_performed_at"].blank?
+
+                    # last login from the user
+                    last_login_at = LC::Date.distance_to_words(user[:last_login_at])
 
                     # check if user has an active session
                     session = user["last_login_at"].blank? ? false : true
@@ -80,11 +83,12 @@ class UsersController < ApplicationLesliController
                         name: user[:name],
                         email: user[:email],
                         category: user[:category],
-                        last_sign_in_at: last_sign_in_at,
+                        current_sign_in_at: current_sign_in_at,
                         active: user[:active],
                         roles: user[:roles],
-                        last_activity_at: last_action_performed_at,
-                        session_active: session
+                        last_action_performed_at: last_action_performed_at,
+                        session_active: session,
+                        last_login_at: last_login_at
                     }
                 }))
             }
