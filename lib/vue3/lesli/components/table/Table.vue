@@ -59,6 +59,14 @@ const props = defineProps({
     records: {
         type: Array,
         required: true
+    },
+    link: {
+        type: Function,
+        required: false
+    },
+    href: {
+        type: Function,
+        required: false
     }
 })
 
@@ -184,12 +192,29 @@ function paginate(page) {
                         v-on:click.stop="emit('click', record)"
                         v-for="(column, j) in props.columns" :key="`td-${j}`">
 
+
+                        <!--
+                            Print a standard vue router link
+                        -->
+                        <router-link v-if="props.link" :to="props.link(record)">
+                            {{ record[column.field] }}
+                        </router-link>
+
+
+                        <!--
+                            Print a standard html anchor link
+                        -->
+                        <a v-if="props.href" :href="props.href(record)">
+                            {{ record[column.field] }}
+                        </a>
+
                         <!--
                             Use a slot to render content, so it is possible to 
                             use html elements to render custom componentes for 
                             every column of the table 
+                            DO NOT print the slot if link or href is required
                         -->
-                        <slot
+                        <slot v-if="!props.link && !props.href"
                             :name="column.field"
                             :column="column"
                             :record="record"
@@ -202,6 +227,7 @@ function paginate(page) {
                             {{ record[column.field] }}
 
                         </slot>
+
                     </td>
 
                     <!--
@@ -209,7 +235,7 @@ function paginate(page) {
                         the dropdownActive[i] is to save the open/closed status of the dropdown for 
                         every row of the table (i)
                     -->
-                    <td v-if="slots.options" class="options">
+                    <td v-if="slots.options" class="options p-0">
                         <div :class="['dropdown', 'is-right is-hoverable', { 'is-active': dropdownActive[i] }, {'is-up': i==(props.records.length-1) }]">
                             <div class="dropdown-trigger">
                                 <button class="button has-text-info" 

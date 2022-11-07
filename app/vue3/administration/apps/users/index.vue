@@ -177,8 +177,8 @@ function showUser(user) {
             :columns="columns"
             :records="storeUsers.index.records"
             :pagination="storeUsers.index.pagination"
+            :link="(user) => url.root(props.appMountPath+`/${user.id}`).s"
             @paginate="storeUsers.paginateIndex"
-            @click="showUser"
             @sort="storeUsers.sortIndex">
 
             <template #active="{ value }">
