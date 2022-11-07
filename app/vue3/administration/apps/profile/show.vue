@@ -75,9 +75,6 @@ onMounted(() => {
             <lesli-tab-item :title="translations.core.users.view_tab_title_security">
                 <form-security></form-security>
             </lesli-tab-item>
-            <lesli-tab-item :title="translations.core.users.view_tab_title_access_management">
-                <change-email></change-email>
-            </lesli-tab-item>
             <lesli-tab-item :title="translations.core.users.view_tab_title_session_management">
                 <management-session></management-session>
             </lesli-tab-item>
