@@ -80,11 +80,6 @@ watch(() => storeLayout.showTickets, () => {
     }    
 })
 
-function showTicket(ticket){
-    url.go(`/${props.instanceEndpoint}/tickets/${ticket.id}`)
-}
-
-
 </script>
 
 <template>
@@ -96,11 +91,11 @@ function showTicket(ticket){
             <div class="lastest-tickets" v-if="storeTicketsPanel.tickets.length > 0">
                 <h4>{{ translations.main.view_title_latest_tickets }}</h4>
                 <lesli-table
+                    class="is-narrow"
                     :columns="columns"
                     :records="storeTicketsPanel.tickets"
-                    @click="showTicket"
                     :loading="storeTicketsPanel.loading"
-                >
+                    :href="(ticket) => url.to(`${props.instanceEndpoint}/tickets/${ticket.id}`)">
                 </lesli-table>
             </div>
             <hr>
