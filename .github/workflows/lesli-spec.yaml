@@ -29,7 +29,7 @@ on:
 
 jobs:
   test:
-    name: Test workflow for Lesli Engines
+    name: Test workflow for Lesli Core
     runs-on: lomax
 
     # Do not execute the test if requests comes from another action
