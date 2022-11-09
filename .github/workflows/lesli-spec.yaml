@@ -13,35 +13,51 @@
 
 # Specs for Lesli Core
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
-name: "Lesli testing for Master"
+name: "Lesli specs workflow"
 on:
 
   # execute this workflow only when trying to merge from dev branch to master 
   pull_request:
-    branches: [ "master", "production" ]
+    branches: [master, production]
+
+  # run a test daily at 1 am (Guatemala time)
+  schedule:
+    - cron: '0 1 * * *'
+
+  # Allow to execute this test manually from the Github web app
+  workflow_dispatch:
 
 jobs:
   test:
-    name: Test workflow for Lesli Core
+    name: Test workflow for Lesli Engines
     runs-on: lomax
-    env:
-      RAILS_ENV: test
+
+    # Do not execute the test if requests comes from another action
+    if: "!contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):') && !contains(github.event.head_commit.message, 'ci(workflows):')"
+
+    # Start database service necessary to execute the RSpec tests
     services:
       postgres:
         image: postgres:11.5
-        ports:
-          - "5432:5432"
         env:
-          POSTGRES_DB: leslicloud_test
           POSTGRES_USER: leslicloud_test
-          POSTGRES_PASSWORD: "leslicloud_test" 
+          POSTGRES_DB: leslicloud_test
+          POSTGRES_PASSWORD: "leslicloud_test"
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
 
     steps:
 
+
       # Set the right owner for work folders
-      # NOTE: the path to the _work directory should be dinamically using the available github variables
       - name: Set folder righ permissions
-        run: "sudo chown -R $USER:$USER /home/ubuntu/actions-runner/_work/${{ github.event.repository.name }}/"
+        run: "sudo chown -R $USER:$USER $GITHUB_WORKSPACE/"
+
 
       # Send a message to slack announcing the workflow start
       - name: Notify slack github actions start 
@@ -50,6 +66,7 @@ jobs:
           channel: alerts
           job-status: INFO
           slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+          msg: "Github actions start [ ${{ github.event.pull_request.head.ref }} -> ${{ github.event.pull_request.base.ref }} ]"
 
 
       # Clone the current repository

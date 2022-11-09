@@ -16,9 +16,10 @@
 name: "Lesli branches cleanup"
 on:
 
-  # execute daily at midnight
+  # execute every sunday at 1 am
   schedule:  
-    - cron:  '0 0 * * *'
+    - cron:  '0 1 * * 0'
+
 
 jobs:
   cleanup:
@@ -27,9 +28,9 @@ jobs:
     steps:
 
       # Set the right owner for work folders
-      # NOTE: the path to the _work directory should be dinamically using the available github variables
       - name: Set folder righ permissions
-        run: "sudo chown -R $USER:$USER /home/ubuntu/actions-runner/_work/${{ github.event.repository.name }}/"
+        run: "sudo chown -R $USER:$USER $GITHUB_WORKSPACE/"
+
 
       # Clone the current repository
       - name: Checkout repository
