@@ -314,6 +314,8 @@ module Interfaces::Controllers::Files
         extension = ""
 
         if file_params[:attachment]
+
+            # if attachment is a string, it means that it's a base64 encoded file
             if file_params[:attachment].is_a? String
                 # Base64 images
 
