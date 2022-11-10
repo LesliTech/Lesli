@@ -13,30 +13,60 @@
 
 # Specs for Lesli Core
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
-name: "Lesli testing for Master"
+name: "Lesli specs workflow"
 on:
 
   # execute this workflow only when trying to merge from dev branch to master 
   pull_request:
-    branches: [ "master", "production" ]
+    branches: [master, production]
+
+  # run a test daily at 1 am (Guatemala time)
+  schedule:
+    - cron: '0 1 * * *'
+
+  # Allow to execute this test manually from the Github web app
+  workflow_dispatch:
 
 jobs:
   test:
     name: Test workflow for Lesli Core
     runs-on: lomax
-    env:
-      RAILS_ENV: test
+
+    # Do not execute the test if requests comes from another action
+    if: "!contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):') && !contains(github.event.head_commit.message, 'ci(workflows):')"
+
+    # Start database service necessary to execute the RSpec tests
     services:
       postgres:
         image: postgres:11.5
-        ports:
-          - "5432:5432"
         env:
-          POSTGRES_DB: leslicloud_test
           POSTGRES_USER: leslicloud_test
-          POSTGRES_PASSWORD: "leslicloud_test" 
+          POSTGRES_DB: leslicloud_test
+          POSTGRES_PASSWORD: "leslicloud_test"
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
 
     steps:
+
+
+      # Set the right owner for work folders
+      - name: Set folder righ permissions
+        run: "sudo chown -R $USER:$USER $GITHUB_WORKSPACE/"
+
+
+      # Send a message to slack announcing the workflow start
+      - name: Notify slack github actions start 
+        uses: LesliTech/github-action-slack-job-status@v1
+        with:
+          channel: alerts
+          job-status: INFO
+          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+          msg: "Github actions start [ ${{ github.event.pull_request.head.ref }} -> ${{ github.event.pull_request.base.ref }} ]"
 
 
       # Clone the current repository
@@ -45,25 +75,6 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-
-
-      # Clone our custom actions
-      - name: Checkout github actions repo
-        uses: actions/checkout@v3
-        with:
-          repository: leitfaden/github_actions
-          ref: production
-          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-          path: ./.github/
-
-
-      # Send a message to slack announcing the workflow start
-      - name: Notify slack github actions start 
-        uses: ./.github/actions/slack_job_status
-        with:
-          job-status: INFO
-          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
-          channel: alerts
 
 
       # Use the official receipt to install ruby in ubuntu
@@ -111,7 +122,7 @@ jobs:
       # Send a message to slack with the status of the workflow
       - name: Notify by slack
         if: always()
-        uses: ./.github/actions/slack_job_status
+        uses: LesliTech/github-action-slack-job-status@v1
         with:
           job-status: ${{ job.status }}
           slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}

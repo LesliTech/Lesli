@@ -59,6 +59,14 @@ const props = defineProps({
     records: {
         type: Array,
         required: true
+    },
+    link: {
+        type: Function,
+        required: false
+    },
+    href: {
+        type: Function,
+        required: false
     }
 })
 
@@ -184,12 +192,37 @@ function paginate(page) {
                         v-on:click.stop="emit('click', record)"
                         v-for="(column, j) in props.columns" :key="`td-${j}`">
 
+
+                        <!--
+                            Print a standard vue router link if prop is provided and
+                            there is not a slot for this specific column
+                        -->
+                        <router-link v-if="props.link && !slots[column.field]" :to="props.link(record)">
+                            {{ record[column.field] }}
+                        </router-link>
+
+
+                        <!--
+                            Print a standard html anchor link if prop is provided and
+                            there is not a slot for this specific column
+                        -->
+                        <a v-if="props.href && !slots[column.field]" :href="props.href(record)">
+                            {{ record[column.field] }}
+                        </a>
+
+
                         <!--
                             Use a slot to render content, so it is possible to 
                             use html elements to render custom componentes for 
                             every column of the table 
+                            DO NOT print the slot if link or href is required
+
+                            Slot has priority if we provided a slot for this specific column,
+                            so, we should print the slot if slot is provided if not, we should
+                            print the default slot if href or link prop was not provided :)
                         -->
-                        <slot
+                        <slot 
+                            v-if="slots[column.field] || (!props.href && !props.link)"
                             :name="column.field"
                             :column="column"
                             :record="record"
@@ -202,6 +235,9 @@ function paginate(page) {
                             {{ record[column.field] }}
 
                         </slot>
+
+                        
+
                     </td>
 
                     <!--
@@ -209,7 +245,7 @@ function paginate(page) {
                         the dropdownActive[i] is to save the open/closed status of the dropdown for 
                         every row of the table (i)
                     -->
-                    <td v-if="slots.options" class="options">
+                    <td v-if="slots.options" class="options p-0">
                         <div :class="['dropdown', 'is-right is-hoverable', { 'is-active': dropdownActive[i] }, {'is-up': i==(props.records.length-1) }]">
                             <div class="dropdown-trigger">
                                 <button class="button has-text-info" 

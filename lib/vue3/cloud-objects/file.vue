@@ -16,9 +16,6 @@ For more information read the license file including with this software.
 // · 
 */
 
-// · import vue tools
-import { ref } from "vue"
-
 // · import stores
 import { useCloudObjectFileStore } from "LesliVue/stores/cloud-objects/file"
 import { useLayout } from "LesliVue/stores/layout"
@@ -45,7 +42,8 @@ const props = defineProps({
         required: false,
         default: true,
     },
-    // · prop that filter by file type, by default it is empty. (image, document etc)
+    // · prop that filter by file type, by default it is empty. (image, document, screenshots, plaintext)
+    // · this filter will be applied to the data table that shows the files
     fileType: {
         type: String,
         required: false,
@@ -80,6 +78,22 @@ const props = defineProps({
         required: false,
         default: 10,
     },
+    // · prop that indicates the accepted file types, by default it is images.
+    // · that means that the user can only upload images but you can change it to
+    // · if you send an array with the accepted extensions.
+    // · images includes: "jpg", "jpeg", "png", "gif", "svg"
+    // · plaintext includes: "txt", "md", "log", "csv"
+    // · documents includes: "doc", "docx", "xls", "xlsx", "pdf"
+    acceptedFiles: {
+        type: Array,
+        required: false,
+        default: () => [ 'images' ],
+        validator: (val) => {
+            return val.every((fileType) => {
+                return ['images', 'plaintext', 'documents'].includes(fileType)
+            })
+        }
+    }
 })
 
 // set cloudModule to store
@@ -94,6 +108,8 @@ storeFiles.maxFiles = props.maxFiles
 storeFiles.maxSizeFile = props.maxSizeFile
 // set type to store
 storeFiles.fileType = props.fileType
+// set acceptedFiles to store
+storeFiles.acceptedFiles = props.acceptedFiles
 
 
 /**
