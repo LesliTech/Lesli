@@ -16,15 +16,20 @@
 name: "Lesli branches cleanup"
 on:
 
-  schedule:
-    # execute daily at midnight
-    - cron:  '0 0 * * *'
+  # execute every sunday at 1 am
+  schedule:  
+    - cron:  '0 1 * * 0'
+
 
 jobs:
-    cleanup:
-      name: Cleanup workflow
-      runs-on: lomax
-      steps:
+  cleanup:
+    name: Cleanup workflow
+    runs-on: lomax
+    steps:
+
+      # Set the right owner for work folders
+      - name: Set folder righ permissions
+        run: "sudo chown -R $USER:$USER $GITHUB_WORKSPACE/"
 
 
       # Clone the current repository

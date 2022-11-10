@@ -26,13 +26,20 @@ jobs:
 
     steps:
 
+      # Send a message to slack announcing the workflow start
+      - name: Notify slack github actions start 
+        uses: LesliTech/github-action-slack-job-status@v1
+        with:
+          job-status: INFO
+          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+          channel: alerts
+
 
       # Clone the current repository
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: '0'
-          ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
 
 
@@ -40,19 +47,10 @@ jobs:
       - name: Checkout github actions repo
         uses: actions/checkout@v3
         with:
+          ref: master
           repository: leitfaden/github_actions
-          ref: production
           token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
           path: ./tmp/.github/
-
-
-      # Send a message to slack announcing the workflow start
-      - name: Notify slack github actions start 
-        uses: ./tmp/.github/actions/slack_job_status
-        with:
-          job-status: INFO
-          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
-          channel: alerts
 
 
       # Install node dependencies
@@ -87,8 +85,10 @@ jobs:
 
       # Build a new version for the core
       - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@v1
+        uses: ./tmp/.github/actions/github-action-rails-new-version
+        id: bumVersion
         env:
+          RELEASE_BRANCHES: production
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
           WITH_V: true
@@ -112,7 +112,7 @@ jobs:
       # Send a message to slack with the status of the workflow
       - name: Notify by slack
         if: always()
-        uses: ./tmp/.github/actions/slack_job_status
+        uses: LesliTech/github-action-slack-job-status@v1
         with:
           job-status: ${{ job.status }}
           slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
