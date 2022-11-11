@@ -35,7 +35,6 @@ class ApplicationLesliController < ApplicationController
 
     layout "layouts/application-lesli"
 
-
     protected
 
 
@@ -49,6 +48,13 @@ class ApplicationLesliController < ApplicationController
     #   puts lesli_classname # should also diplay 'CloudHouse::ProjectsController'
     def self.lesli_classname
         return self.name
+    end
+
+
+    # Rescue from "ParameterMissing" when using required params
+    # in controllers
+    rescue_from ActionController::ParameterMissing do |e|
+        respond_with_error("Missing params")
     end
 
     private
