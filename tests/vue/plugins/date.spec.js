@@ -24,9 +24,11 @@ import { createApp } from "vue"
 import dayjs from "dayjs"
 var utc = require('dayjs/plugin/utc')
 var timezone = require('dayjs/plugin/timezone') // dependent on utc plugin
+var relativetime = require('dayjs/plugin/relativeTime.js')
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
+dayjs.extend(relativetime)
 
 
 // · plugins to be tested
