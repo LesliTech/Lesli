@@ -47,7 +47,11 @@ const props = defineProps({
         type: String,
         default: 'normal',
         required: false,
-        validator: (val) => ['full', 'normal', 'small', 'read'].includes(val),
+        validator: (val) => ['full', 'normal', 'small', 'empty'].includes(val),
+    },
+    placeholder: {
+        type: String,
+        required: false
     }
 })
 
@@ -138,6 +142,7 @@ function updateEditorContent(content) {
         <trix-editor 
             ref="editorNode" 
             :input="editorId"
+            :placeholder="props.placeholder"
             @trix-change="handleContentChange">
         </trix-editor>
     </div>
