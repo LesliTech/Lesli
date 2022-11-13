@@ -38,11 +38,16 @@ Function that build a valid url as a string, used to build a router-link inside 
 **slots** 
 It is possible to render custom html content for individual columns using a template tag with an id corresponding to the
 column field, also we can pass column, record and value params to work with the data corresponding to the column. 
-_IMPORTANT:_ if props link or href are provided, slot will not work due href and link has precedence.
+_IMPORTANT:_ if props link or href are provided, slot will not work due href and link has precedence. 
 
 **options**
 Lesli table provides a dedicated column to print a list of options and actions for every record of the table through
 the "options slot"
+
+**detail**
+Lesli table provides a dedicated row to print a "detail" for every record of the table through
+the "detail slot", if we provide this slot the table will render an aditional row (tr) with a single column
+where we can render custom html. 
 
 **Example:**
 
@@ -183,5 +188,33 @@ the "options slot"
     :href="(record) => `link-to-my/${record.id}`"
     :columns="[{field: 'id', label: 'ID'},{field: 'email', label: 'Email'}]"
     :records="[{id:0,email:'ldonis@lomax.com.gt'},{id:0,email:'ldonis@gmail.com'},{id:0,email:'emc2@ldonis.com'}]">
+</lesli-table>
+```
+
+**Example of a simple table with detail:**
+
+```html
+<lesli-table
+    :columns="[{field: 'id', label: 'ID'},{field: 'email', label: 'Email'}]"
+    :records="[{id:0,email:'ldonis@lomax.com.gt'},{id:0,email:'ldonis@gmail.com'},{id:0,email:'emc2@ldonis.com'}]">
+    <template #detail="{ record }">
+        <button class="button">
+            {{ record.email }}
+        </button>
+    </template>
+</lesli-table>
+```
+
+**Result:**
+
+```raw
+<lesli-table
+    :columns="[{field: 'id', label: 'ID'},{field: 'email', label: 'Email'}]"
+    :records="[{id:0,email:'ldonis@lomax.com.gt'},{id:0,email:'ldonis@gmail.com'},{id:0,email:'emc2@ldonis.com'}]">
+    <template #detail="{ record }">
+        <button class="button">
+            {{ record.email }}
+        </button>
+    </template>
 </lesli-table>
 ```

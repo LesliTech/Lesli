@@ -75,6 +75,12 @@ table.lesli-table {
         }
     }
 
+    // icon to show detail row if detail slot is provided
+    td.detailRow {
+        width: 40px;
+        display: inline-block;
+    }
+
     td.options {
         .dropdown {
             .button {
