@@ -20,6 +20,7 @@ For more information read the license file including with this software.
 require "faker"
 require "rails_helper"
 require "support/helpers/response_helper"
+require "support/helpers/lesli_helper"
 
 
 # · Authentication context
@@ -57,5 +58,6 @@ RSpec.configure do |config|
 
     # Include helper methods 
     config.include ResponseHelpers
+    config.include LesliHelper
 
 end
