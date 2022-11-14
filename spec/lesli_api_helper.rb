@@ -17,16 +17,16 @@ For more information read the license file including with this software.
 
 =end
 
-require 'faker'
-require 'rails_helper'
-require 'support/helpers/response_helper'
+require "faker"
+require "rails_helper"
+require "support/helpers/response_helper"
 
 
 # · Authentication context
 # · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-RSpec.shared_context 'request api authentication' do 
+RSpec.shared_context "request api authentication" do  
 
-    password = Rails.application.config.lesli[:security][:password][:development]
+    password = Rails.application.config.lesli.dig(:security, :password)
     password = password + Time.now.year.to_s + "$"
 
     @token = nil
@@ -50,15 +50,13 @@ RSpec.shared_context 'request api authentication' do
         if @token.blank?
 
             # get JWT for api authentication
-            post '/api/users/authentication', params: {
-                authentication: {
-                    "email": @current_user.email,
-                    "password": password,
-                    "source": "Rspec tests"
-                }
-            }
+            post('/api/v2.0/auth/login', params: {
+                "email": @current_user.email,
+                "password": password,
+                "source": "rspec_tests"
+            })
 
-            @token = JSON.parse(response.body)["data"]["token"]
+            @token = JSON.parse(response.body).dig("token")
 
         end
 
