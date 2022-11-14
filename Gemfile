@@ -266,6 +266,9 @@ group :development do
     # Rouge aims to a be a simple, easy-to-extend drop-in replacement for pygments.
     gem "rouge", "3.28.0"
 
+    # Static code analyser to find security issues in Rails applications 
+    gem "spektr", "0.3.4"
+
 end
 
 
