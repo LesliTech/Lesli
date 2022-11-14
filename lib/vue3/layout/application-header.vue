@@ -57,6 +57,11 @@ const props = defineProps({
         type: Boolean,
         default: false,
         required: false
+    },
+    notificationsNumber:{
+        type: Boolean,
+        default: true,
+        required: false
     }
 })
 
@@ -185,7 +190,7 @@ onUnmounted(() => {
 
                 <!-- Notifications -->
                 <a 
-                    v-if="props.showBell"
+                    v-if="props.showBell && props.notificationsNumber"
                     class="navbar-item header-notification-indicator" 
                     @click="() => { if (storeLayout.header.notifications > 0 ) { storeLayout.showNotifications = true }}">
                     <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.notifications > 0 }]">
@@ -193,6 +198,16 @@ onUnmounted(() => {
                     </span>
                     <span class="count" v-if="storeLayout.header.notifications > 0">
                         {{ storeLayout.header.notifications }}
+                    </span>
+                </a>
+
+                <!-- Notifications for DL (temporarily disable the number of notifications) -->
+                <a 
+                    v-if="props.showBell && !props.notificationsNumber"
+                    class="navbar-item header-notification-indicator" 
+                    @click="() => { storeLayout.showNotifications = true }">
+                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.notifications > 0 }]">
+                        notifications
                     </span>
                 </a>
 
