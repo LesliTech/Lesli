@@ -613,6 +613,66 @@ class User < ApplicationLesliRecord
 
 
 
+    # Return a paginated list of users
+    def self.index3(current_user, query, params)
+
+        # sql string to join to user_roles and get all the roles assigned to a user
+        sql_string_for_user_roles = "inner join (
+            select
+                ur.users_id, string_agg(r.\"name\", ', ') role_names
+            from user_roles ur
+            join roles r
+                on r.id = ur.roles_id  
+            where ur.deleted_at is null
+            group by ur.users_id
+        ) roles on roles.users_id = users.id"
+
+        # sql string to joing to user_sessions and get all the active sessions of a user
+        sql_string_for_user_sessions = "left join (
+            select
+                max(last_used_at) as last_action_performed_at,
+                max(created_at) as last_login_at,
+                users_id
+            from user_sessions us
+            where us.deleted_at is null
+            group by(us.users_id)
+        ) sessions on sessions.users_id = users.id"
+
+        users = current_user.account.users
+        .joins(:detail)
+        .joins(sql_string_for_user_roles)
+        .joins(sql_string_for_user_sessions)
+        .where("category = 'user'")
+
+
+        if query.dig(:search)
+            users = users.where(
+                "lower(users.email) like :search or lower(concat(user_details.first_name, ' ', user_details.last_name)) like :search", 
+                { search: "%#{sanitize_sql_like(query.dig(:search))}%" }
+            )
+        end
+
+        users = users.select(
+            :id,
+            :active,
+            :email,
+            :role_names,
+            "CONCAT(user_details.first_name, ' ',user_details.last_name) as name",
+            "current_sign_in_at as current_signin_at",
+            :last_action_performed_at,
+            :last_login_at,
+            "false as editable"
+        )
+
+        return users
+        .page(query[:pagination][:page])
+        .per(query[:pagination][:perPage])
+        .order("#{query[:pagination][:orderBy]} #{query[:pagination][:order]} NULLS LAST")
+
+    end
+
+
+
     # @return [Hash] Detailed information about the user.
     # @description Creates a query that selects all user information from several tables if CloudLock is present
     #     and returns it in a hash
