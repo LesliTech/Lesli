@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 # This module is mainly used as common helpers needed through
 # the Core or engines extracting functionalities that take long
-# to developer to we prefer to use it as a RSpec module helper
+# to develop so we prefer to use it like a RSpec module helper
 
 module LesliHelper
 
