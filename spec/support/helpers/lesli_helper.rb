@@ -29,12 +29,12 @@ module LesliHelper
     #   path given and return it so will be ready to use in the HTTP request
     # @example
     # RSpec.describe "POST:administration/account/files" do
-    #     subject(:file_example) { lesli_fixture_file(Rails.root.join("spec/fixtures/files/lesli-icon.png")) }
+    #     subject(:file_example) { lesli_fixture_file("spec/fixtures/files/lesli-icon.png") }
     #     it "..." do
     #         puts "/administration/account/files", params: { file: file_example }
     #     end
     # end
     def lesli_fixture_file path
-        Rack::Test::UploadedFile.new(path)
+        Rack::Test::UploadedFile.new(Rails.root.join(path))
     end
 end
