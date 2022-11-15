@@ -20,11 +20,7 @@ For more information read the license file including with this software.
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed, inject } from "vue"
 
-
-// · initialize/inject plugins
-const url = inject("url")
-const date = inject("date")
-
+import Pagination from "LesliVue/lesli/components/pagination/Pagination.vue"
 
 // · import stores
 import { useUser } from "LesliVue/stores/user"
@@ -34,6 +30,19 @@ import { useLayout } from "LesliVue/stores/layout"
 // · implement stores
 const storeUser = useUser()
 const storeLayout = useLayout()
+
+// · initialize/inject plugins
+const url = inject("url")
+const date = inject("date")
+
+// · defining emits
+const emit = defineEmits(['paginate'])
+
+// · emit the page selected received from the pagination component
+function paginate(page) {
+    emit('paginate', page)
+    storeUser.paginateNotifications(page)
+}
 
 
 // · 
@@ -62,6 +71,7 @@ watch(() => storeLayout.showNotifications, () => {
                     </a>
                 </li>
             </ul>
+            <Pagination :pagination="storeUser.notifications.pagination" @paginate="paginate"></Pagination>
         </template>
     </lesli-panel>
 </template>
