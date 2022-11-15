@@ -40,7 +40,6 @@ const emit = defineEmits(['paginate'])
 
 // · emit the page selected received from the pagination component
 function paginate(page) {
-    emit('paginate', page)
     storeUser.paginateNotifications(page)
 }
 
