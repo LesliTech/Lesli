@@ -9,15 +9,13 @@ class User::Setting < ApplicationRecord
 
             if defined? CloudOne
 
-                LC::Debug.msg self
-
-                data = {
-                    locale: self.value,
-                }
-
-                user = User.find_by_id(self.users_id)
-                
                 if self.name == 'locale'
+                    data = {
+                        locale: self.value,
+                    }
+
+                    user = User.find_by_id(self.users_id)
+                
                     CloudOne::Firebase::User.update_data(user, data)
                 end
 
