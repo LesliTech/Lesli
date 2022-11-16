@@ -35,7 +35,6 @@ class ApplicationLesliController < ApplicationController
 
     layout "layouts/application-lesli"
 
-
     protected
 
 
@@ -51,6 +50,13 @@ class ApplicationLesliController < ApplicationController
         return self.name
     end
 
+
+    # Rescue from "ParameterMissing" when using required params
+    # in controllers
+    rescue_from ActionController::ParameterMissing do |e|
+        respond_with_error("Missing params")
+    end
+
     private
 
     # Set default query params for:
@@ -61,8 +67,7 @@ class ApplicationLesliController < ApplicationController
         return if !request.format.html?
 
         @account[:revision] = LC::System::Info.revision()
-        # Temporary disable notifications (due DL)
-        @account[:notifications] = 0 # Courier::Bell::Notification.count(current_user, true)
+        @account[:notifications] = Courier::Bell::Notification.count(current_user, true)
         @account[:tasks] = Courier::Focus::Task.count(current_user)
         @account[:tickets] = Courier::Help::Ticket.count(current_user)
         @account[:pushs] = Rails.application.config.lesli.dig(:security, :enable_pushes)

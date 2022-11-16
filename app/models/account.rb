@@ -54,6 +54,7 @@ class Account < ApplicationRecord
     has_one :things,     class_name: "CloudThings::Account",     foreign_key: "id"
     has_one :shared,     class_name: "CloudShared::Account",     foreign_key: "id"
     has_one :portal,     class_name: "CloudPortal::Account",     foreign_key: "id"
+    has_one :social,     class_name: "CloudSocial::Account",     foreign_key: "id"
     has_one :proposal,   class_name: "CloudProposal::Account",   foreign_key: "id"
     has_one :dispatcher, class_name: "CloudDispatcher::Account", foreign_key: "id"
     has_one :storage,    class_name: "CloudStorage::Account",    foreign_key: "id"
@@ -301,6 +302,14 @@ class Account < ApplicationRecord
                 self.work = CloudWork::Account.new
                 self.work.account = self
                 self.work.save!
+            end
+        end
+
+        if defined? CloudSocial
+            if self.social.blank?
+                self.social = CloudSocial::Account.new
+                self.social.account = self
+                self.social.save!
             end
         end
 
