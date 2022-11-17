@@ -4,13 +4,15 @@ module LC
             module Aws
                 class Sns
                     def initialize
-                        @client = ::Aws::SNS::Client.new()
+                        
+                        @client = nil
 
-                        if Rails.application.credentials.providers[:aws][:sns]
+                        if Rails.application.credentials.dig(:providers, :aws, :sns).present?
+
                             sns_credentials = {
-                                region: Rails.application.credentials.providers[:aws][:sns][:region],
-                                access_key_id: Rails.application.credentials.providers[:aws][:sns][:access_key_id],
-                                secret_access_key: Rails.application.credentials.providers[:aws][:sns][:secret_access_key]
+                                region: Rails.application.credentials.dig(:providers, :aws, :sns, :region),
+                                access_key_id: Rails.application.credentials.dig(:providers, :aws, :sns, :access_key_id),
+                                secret_access_key: Rails.application.credentials.dig(:providers, :aws, :sns, :secret_access_key)
                             }
 
                             @client = ::Aws::SNS::Client.new(sns_credentials)
