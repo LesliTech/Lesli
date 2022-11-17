@@ -14,8 +14,10 @@ module Notifications
 
             sms = LC::Config::Providers::Aws::Sns.new()
             begin
-                sms.publish(phone_number: telephone, message: message) if sms.instance_variable_get(:@client).present?
-                log_account_activity("Lesli", "app/jobs/notifications/sms", "sms_send_true", { telephone: telephone })
+                if sms.instance_variable_get(:@client).present?
+                    sms.publish(phone_number: telephone, message: message)
+                    log_account_activity("Lesli", "app/jobs/notifications/sms", "sms_send_true", { telephone: telephone })
+                end
             rescue => error
                 log_account_activity("Lesli", "app/jobs/notifications/sms", "sms_send_false", { telephone: telephone })
                 LC::Debug.msg error
