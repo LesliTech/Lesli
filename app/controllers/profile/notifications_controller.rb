@@ -21,6 +21,7 @@ class Profile::NotificationsController < ApplicationLesliController
 
     def privileges
         {
+            index: [],
             edit: [],
         }
     end
