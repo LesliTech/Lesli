@@ -19,8 +19,6 @@ For more information read the license file including with this software.
 
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed } from "vue"
-import tree_listVue from "../../../../../engines/cloud_help/app/vue2/catalog_ticket_categories/components/tree_list.vue";
-
 
 // · defining emits
 const emit = defineEmits(['paginate']);
