@@ -68,7 +68,7 @@ watch(() => storeLayout.showNotifications, () => {
                 </ul>
             </div>
             <div class="block">
-                <lesli-pagination :pagination="storeUser.notifications.pagination" @paginate="paginate" mode='simple'></lesli-pagination>
+                <lesli-pagination :pagination="storeUser.notifications.pagination" @paginate="paginate" mode="simple"></lesli-pagination>
             </div>
         </template>
     </lesli-panel>
