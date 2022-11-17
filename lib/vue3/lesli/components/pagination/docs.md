@@ -26,7 +26,7 @@ Function executed every time the user clicks on pagination buttons, this functio
 <lesli-pagination
     :pagination="store.pagination"
     @paginate="store.paginate"
-    simple-mode
+    mode="simple"
 >
 </lesli-pagination>
 ```
