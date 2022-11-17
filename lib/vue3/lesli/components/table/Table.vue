@@ -22,10 +22,6 @@ import { ref, reactive, onMounted, watch, computed, useSlots } from "vue"
 
 
 // · 
-import Pagination from "LesliVue/lesli/components/pagination/Pagination.vue"
-
-
-// · 
 const slots = useSlots()
 
 
@@ -324,7 +320,7 @@ function paginate(page) {
 
         </div>
 
-        <Pagination v-if="props.pagination" :pagination="props.pagination" @paginate="paginate"></Pagination>
+        <lesli-pagination v-if="props.pagination" :pagination="props.pagination" @paginate="paginate"></lesli-pagination>
 
     </div>
 </template>
