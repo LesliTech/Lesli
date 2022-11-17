@@ -19,6 +19,7 @@ For more information read the license file including with this software.
 
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed } from "vue"
+import tree_listVue from "../../../../../engines/cloud_help/app/vue2/catalog_ticket_categories/components/tree_list.vue";
 
 
 // · defining emits
@@ -30,6 +31,11 @@ const props = defineProps({
     pagination: {
         type: Object,
         required: true
+    },
+    simpleMode: {
+        type: Boolean,
+        required: false,
+        default: false
     }
 })
 
@@ -85,7 +91,7 @@ const disablePrevious = computed(() => previousPage.value < 1)
 </script>
 <template>
     <nav class="pagination" role="navigation" aria-label="pagination">
-        <ul class="pagination-list">
+        <ul class="pagination-list" v-if="!props.simpleMode">
             <template v-if="props.pagination.pages > 1">
                 <li>
                     <button class="button pagination-link" @click.stop="paginate(1)" :disabled="currentPage == 1">
