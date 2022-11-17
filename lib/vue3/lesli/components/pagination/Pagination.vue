@@ -30,11 +30,12 @@ const props = defineProps({
         type: Object,
         required: true
     },
-    simpleMode: {
-        type: Boolean,
+    mode: {
+        type: String,
+        default: 'complete',
         required: false,
-        default: false
-    }
+        validator: (val) => ['complete', 'simple'].includes(val),
+    },
 })
 
 
@@ -89,7 +90,7 @@ const disablePrevious = computed(() => previousPage.value < 1)
 </script>
 <template>
     <nav class="pagination" role="navigation" aria-label="pagination">
-        <ul class="pagination-list" v-if="!props.simpleMode">
+        <ul class="pagination-list" v-if="props.mode==='complete'">
             <template v-if="props.pagination.pages > 1">
                 <li>
                     <button class="button pagination-link" @click.stop="paginate(1)" :disabled="currentPage == 1">
