@@ -20,8 +20,6 @@ For more information read the license file including with this software.
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed, inject } from "vue"
 
-import Pagination from "LesliVue/lesli/components/pagination/Pagination.vue"
-
 // · import stores
 import { useUser } from "LesliVue/stores/user"
 import { useLayout } from "LesliVue/stores/layout"
@@ -70,7 +68,7 @@ watch(() => storeLayout.showNotifications, () => {
                 </ul>
             </div>
             <div class="block">
-                <Pagination :pagination="storeUser.notifications.pagination" @paginate="paginate"></Pagination>
+                <lesli-pagination :pagination="storeUser.notifications.pagination" @paginate="paginate" simple-mode></lesli-pagination>
             </div>
         </template>
     </lesli-panel>
