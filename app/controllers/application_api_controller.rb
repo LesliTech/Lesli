@@ -32,6 +32,12 @@ class ApplicationApiController < ActionController::API
     @current_user = nil
     @current_session = nil
 
+    protected
+
+    # Rescue from "ParameterMissing" when using required params in controllers
+    rescue_from ActionController::ParameterMissing do |e|
+        respond_with_error("Missing params")
+    end
 
     private
 
