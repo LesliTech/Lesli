@@ -34,6 +34,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             }
 
             @test_user = create_user
+
             post("/administration/users/#{@test_user.id}/settings.json", params: {
                 user_setting: language_settings
             })
