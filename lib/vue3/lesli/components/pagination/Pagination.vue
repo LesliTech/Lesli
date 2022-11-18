@@ -20,7 +20,6 @@ For more information read the license file including with this software.
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed } from "vue"
 
-
 // · defining emits
 const emit = defineEmits(['paginate']);
 
@@ -30,7 +29,13 @@ const props = defineProps({
     pagination: {
         type: Object,
         required: true
-    }
+    },
+    mode: {
+        type: String,
+        default: 'complete',
+        required: false,
+        validator: (val) => ['complete', 'simple'].includes(val),
+    },
 })
 
 
@@ -85,7 +90,7 @@ const disablePrevious = computed(() => previousPage.value < 1)
 </script>
 <template>
     <nav class="pagination" role="navigation" aria-label="pagination">
-        <ul class="pagination-list">
+        <ul class="pagination-list" v-if="props.mode==='complete'">
             <template v-if="props.pagination.pages > 1">
                 <li>
                     <button class="button pagination-link" @click.stop="paginate(1)" :disabled="currentPage == 1">
