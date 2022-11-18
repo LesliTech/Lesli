@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -46,9 +46,6 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         })
 
-        puts(@password)
-        pp(response.body)
-
         unless @allow_registration
             expect_response_with_error
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -69,9 +66,6 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         }
 
-        pp response
-        pp @password
-
         unless @allow_registration
             expect_response_with_error
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -91,9 +85,6 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         }
 
-        pp response
-        pp @password
-
         unless @allow_registration
             expect_response_with_error
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -112,9 +103,6 @@ RSpec.describe Users::RegistrationsController, type: :controller do
                 password_confirmation: "abc"
             }
         }
-
-        pp response
-        pp @password
 
         unless @allow_registration
             expect_response_with_error
@@ -137,13 +125,10 @@ RSpec.describe Users::RegistrationsController, type: :controller do
                 telephone: Faker::PhoneNumber.phone_number
             }
         }
-        
+
         post :create, params: {
             user: user
         }
-
-        pp response
-        pp @password
 
         unless @allow_registration
             expect_response_with_error
@@ -177,9 +162,6 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             user: user
         }
 
-        pp response
-        pp @password
-
         unless @allow_registration
             expect_response_with_error
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -211,9 +193,6 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             user: user
         }
 
-        pp response
-        pp @password
-
         unless @allow_registration
             expect_response_with_error
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -225,7 +204,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             expect(registered_user.detail.first_name).to be_a(String)
             expect(registered_user.detail.last_name).to be_a(String)
             expect(registered_user.detail.telephone).to be_blank
-            
+
         end
     end
 
@@ -244,12 +223,6 @@ RSpec.describe Users::RegistrationsController, type: :controller do
         post :create, params: {
             user: user
         }
-
-        puts("test params")
-        puts(user)
-        puts(@password)
-        puts("test response")
-        puts(response)
 
         unless @allow_registration
             expect_response_with_error
@@ -281,9 +254,6 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             user: user
         }
 
-        pp response
-        pp @password
-
         unless @allow_registration
             expect_response_with_error
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -312,9 +282,6 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             user: user
         }
 
-        pp response
-        pp @password
-
         unless @allow_registration
             expect_response_with_error
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -327,7 +294,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             expect(registered_user.detail.first_name).to be_blank
             expect(registered_user.detail.last_name).to be_blank
             expect(registered_user.detail.telephone).to be_blank
-            
+
         end
     end
 
@@ -345,9 +312,6 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             user: user
         }
 
-        pp response
-        pp @password
-
         unless @allow_registration
             expect_response_with_error
             expect(response_body["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -360,7 +324,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             expect(registered_user.detail.first_name).to be_blank
             expect(registered_user.detail.last_name).to be_blank
             expect(registered_user.detail.telephone).to be_blank
-            
+
         end
     end
 end
