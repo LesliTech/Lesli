@@ -106,6 +106,7 @@ class User < ApplicationLesliRecord
     def change_after_update
         self.initialize_user_after_confirmation if self.confirmed?
         self.initialize_user_after_account_assignation if self.account
+        Courier::One::Firebase::User.sync_user(self)
     end
 
 
