@@ -30,7 +30,7 @@ body.onboarding .welcome {
 
     // title
     h1 {
-        color: lesli-css-color(lesli, brand);
+        color: $lesli-color-primary;
         font-family: "Montserrat";
         font-weight: 800;
         font-size: 24px;
