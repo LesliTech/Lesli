@@ -8,16 +8,22 @@ module Notifications
                 # raise error if telephone is nil or empty
                 raise ArgumentError.new("telephone number is required, got #{telephone}") if telephone.nil? || telephone.empty?
                 raise ArgumentError.new("message is required, got #{message}") if message.nil? || message.empty?
-            
 
-                if not Rails.application.config.lesli[:configuration][:notifications][:sms]
+
+                # regex to verify that telephone is a valid phone number and not contain letters
+                phone_with_country_code_regex = /^(\+?)(\d{1,3})?(\s|-)?(\d{3})(\s|-)?(\d{3})(\s|-)?(\d{4})$/
+                
+                if telephone.match(phone_with_country_code_regex)
+                    raise ArgumentError.new("telephone number is invalid, got #{telephone}")
+                    return
+                end
+
+
+                unless Rails.application.config.lesli[:configuration][:notifications][:sms]
                     LC::Debug.msg "SMS are deactivated.", telephone, message
                     return
                 end
 
-                sms = LC::Config::Providers::Aws::Sns.new()
-
-                # verify telephone
                 # verify if telephone has spaces
                 if telephone.include? " "
                     telephone_elements = telephone.split(" ")
@@ -33,6 +39,7 @@ module Notifications
 
                 LC::Debug.msg "New SMS.", telephone, message if Rails.env == "development"
 
+                sms = LC::Config::Providers::Aws::Sns.new()
                 if sms.instance_variable_get(:@client).present?
                     sms.publish(phone_number: telephone, message: message)
                     log_account_activity("Lesli", "app/jobs/notifications/sms", "sms_send_true", { telephone: telephone })
