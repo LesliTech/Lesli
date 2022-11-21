@@ -24,11 +24,12 @@ class User::AuthProvider < ApplicationLesliRecord
         return User::AuthProvider.find_by(users_id: users_id, provider: provider)
     end
 
+    # @return [CloudDriver::Calendar] Finds or creates a calendar for the user for the specific provider
     def initialize_integration_calendar
         Courier::Driver::Calendar.create_user_calendar(
             self.user,
             name: 'Google Calendar',
-            source_code: :google,
+            source_code: 'google',
         ) if self.provider == 'Google'
     end
 
