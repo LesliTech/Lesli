@@ -18,4 +18,16 @@ For more information read the license file including with this software.
 
 
 // · Include Lesli CSS
-@import "../lesli3/settings/leslicss";
+//@import "../lesli3/settings/leslicss";
+
+
+// · 
+@import "lesli-css";
+
+
+// · Import customization from builder engine
+@import "<%= LC::System::Info.sass_instance('settings') %>";
+
+
+// · Base variables
+$lesli-color-primary: lesli-css-color(blue) !default;
