@@ -37,6 +37,7 @@ user.account.save!
     ["sysadmin", "mr", "Marcos",    "Bonifasi",   "mbonifasi@lomax.com.gt"],
     ["sysadmin", "mr", "Andy",      "Castillo",   "acastillo@lomax.com.gt"],
     ["sysadmin", "ms", "Jenni",     "Sandoval",   "jsandoval@lomax.com.gt"],
+    ["sysadmin", "mr", "Alex",      "Mandryk",   "o.mandryk@8allocate.com"],
 ].each do |user|
     create_development_user(user)
 end
