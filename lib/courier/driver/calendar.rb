@@ -20,26 +20,14 @@ module Courier
     module Driver
         class Calendar
 
-            def self.get_user_calendar(current_user, source_code: :lesli, default: false)
-                return nil unless defined? CloudDriver
+            # @return [Array] An array of calendars for the given user.
+            def self.index(current_user, query)
+                return [] unless defined? CloudDriver
 
-                current_user.account.driver.calendars.eager_load(:detail).find_by(
-                    user_main: current_user,
-                    user_creator: current_user,
-                    source_code: source_code,
-                    cloud_driver_calendar_details: {
-                        default: default
-                    }
-                )
+                CloudDriver::Calendar.index(current_user, query)
             end
 
-            def self.find_by_id(current_user, id)
-                return nil unless defined? CloudDriver
-
-                current_user.account.driver.calendars.find_by_id(id)
-            end
-
-            # @return A hash that contains an array in each key. These arrays contain events, tasks and tickets
+            # @return [Hash] A hash that contains an array in each key. These arrays contain events, tasks and tickets
             #     standarized to be displayed within the calendar
             # @param current_user [User] The user that made this request
             # @param query [Hash] Query information that contains wether all 3 kinkds of records should be included,
@@ -158,6 +146,44 @@ module Courier
                 calendar_data
             end
 
+            # @return [CloudDriver::Calendar] Creates and returns a new calendar for the given user with the given name, source code and default status
+            def self.create_user_calendar(user, name: nil, source_code: 'lesli', default: false)
+                return nil unless defined? CloudDriver
+
+                user.account.driver.calendars.create_with(
+                    detail_attributes: {
+                        name: name,
+                        default: default,
+                    }
+                ).find_or_create_by!(
+                    user_main: user,
+                    user_creator: user,
+                    source_code: source_code
+                )
+            end
+
+            # @return [CloudDriver::Calendar] Returns an instance of the default calendar for the current user.
+            #   If source code is provided and default, it will be evaluated and the result will be returned.
+            def self.get_user_calendar(current_user, source_code: 'lesli', default: false)
+                return nil unless defined? CloudDriver
+
+                current_user.account.driver.calendars.eager_load(:detail).find_by(
+                    user_main: current_user,
+                    user_creator: current_user,
+                    source_code: source_code,
+                    cloud_driver_calendar_details: {
+                        default: default
+                    }
+                )
+            end
+
+            # @return [CloudDriver::Calendar] Returns an instance of a calendar with the given id.
+            def self.find_by_id(current_user, id)
+                return nil unless defined? CloudDriver
+
+                current_user.account.driver.calendars.find_by_id(id)
+            end
+
             protected
 
             def self.filter_records_by_text(records, query_text, fields: ["title", "description"])
@@ -174,21 +200,6 @@ module Courier
                 end
 
                 return records
-            end
-
-            def self.create_user_calendar(user, name: nil, source_code: :lesli, default: false)
-                return nil unless defined? CloudDriver
-
-                user.account.driver.calendars.create_with(
-                    detail_attributes: {
-                        name: name,
-                        default: default,
-                    }
-                ).find_or_create_by!(
-                    user_main: user,
-                    user_creator: user,
-                    source_code: source_code
-                )
             end
 
         end
