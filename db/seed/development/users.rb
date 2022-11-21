@@ -30,13 +30,14 @@ user.account.save!
     ["limited",  "mr", "Guest",    "user", "guest@lesli.cloud"],
     ["sysadmin", "mr", "Test",     "user", "test@lesli.cloud"],
 
-    ["owner",    "mr", "Luis",      "Donis",      "ldonis@lomax.com.gt"],
-    ["owner",    "mr", "Christoph", "Maichel",    "christoph.maichel@wahtari.com"],
-    ["sysadmin", "mr", "Francisco", "Rosal",      "frosal@lomax.com.gt"],
-    ["sysadmin", "mr", "Erick",     "Garcia",     "egarcia@lomax.com.gt"],
-    ["sysadmin", "mr", "Marcos",    "Bonifasi",   "mbonifasi@lomax.com.gt"],
-    ["sysadmin", "mr", "Andy",      "Castillo",   "acastillo@lomax.com.gt"],
-    ["sysadmin", "ms", "Jenni",     "Sandoval",   "jsandoval@lomax.com.gt"],
+    ["owner",    "mr", "Luis",      "Donis",       "ldonis@lomax.com.gt"],
+    ["owner",    "mr", "Christoph", "Maichel",     "christoph.maichel@wahtari.com"],
+    ["sysadmin", "mr", "Francisco", "Rosal",       "frosal@lomax.com.gt"],
+    ["sysadmin", "mr", "Erick",     "Garcia",      "egarcia@lomax.com.gt"],
+    ["sysadmin", "mr", "Marcos",    "Bonifasi",    "mbonifasi@lomax.com.gt"],
+    ["sysadmin", "mr", "Andy",      "Castillo",    "acastillo@lomax.com.gt"],
+    ["sysadmin", "ms", "Jenni",     "Sandoval",    "jsandoval@lomax.com.gt"],
+    ["sysadmin", "mr", "Oleksii",   "Ostafiichuk", "o.ostafiichuk@8allocate.com"],
 ].each do |user|
     create_development_user(user)
 end
