@@ -96,7 +96,7 @@ module ResponseHelpers
         expect(response).to have_http_status(:success)
 
         # In the case of Excel files the response has a specific content type
-        # And it's up the version, so we have to posibilities
+        # And it's up the version, so we have two posibilities
         expect(response.content_type).to be_in([
             "application/vnd.ms-excel", 
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" # For Excel2007 and above
