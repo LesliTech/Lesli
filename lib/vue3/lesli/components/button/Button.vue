@@ -45,6 +45,11 @@ const props = defineProps({
         default: true,
         required: false
     },
+    danger: {
+        type: Boolean,
+        default: false,
+        required: false
+    },
     solid: {
         type: Boolean,
         default: false,
@@ -52,11 +57,23 @@ const props = defineProps({
     }
 })
 
+
+const buttonColor = computed(() => {
+
+    if (props.primary && !props.danger) {
+        return "is-primary"
+    }
+    
+
+    if (props.danger) return "is-danger"
+
+})
+
 </script>
 <template>
     <router-link 
         v-if="to"
-        :class="['button', { 'is-primary': primary }, { 'is-outlined': !solid }, { 'is-loading': loading }]"
+        :class="['button', buttonColor, { 'is-outlined': !solid }, { 'is-loading': loading }]"
         :to="to.toString()">
         <span v-if="icon" class="icon">
             <span class="material-icons">{{ icon }}</span>
@@ -68,7 +85,7 @@ const props = defineProps({
     <button 
         v-if="!props.to" 
         @click="emit('click')" 
-        :class="['button', { 'is-primary': primary }, { 'is-outlined': !solid }, { 'is-loading': loading }]">
+        :class="['button', buttonColor, { 'is-outlined': !solid }, { 'is-loading': loading }]">
         <span v-if="icon" class="icon">
             <span class="material-icons">{{ icon }}</span>
         </span>
