@@ -59,10 +59,10 @@ body.onboarding {
                 }
                 &.active {
                     svg {
-                        fill: lesli-css-color(lesli, brand);
+                        fill: $lesli-color-primary;
                     }
                     span {
-                        color: lesli-css-color(lesli, brand);
+                        color: $lesli-color-primary;
                     }
                 }
             }
@@ -95,7 +95,7 @@ body.onboarding {
                 max-width: 320px;
                 width: 100%;
                 &.skip {
-                    color: lesli-css-color(lesli, brand);
+                    color: $lesli-color-primary;
                 }
             }
         }

@@ -1,25 +1,12 @@
 class User::Setting < ApplicationRecord
+    belongs_to :user, foreign_key: "users_id"
+
     validates :name, presence: true, on: :create
     validates :value, presence: true, on: :create
 
-    after_update :update_associated_record
+    after_update :after_update_settings
 
-    def update_associated_record
-        if saved_change_to_value
-
-            if defined? CloudOne
-
-                if self.name == 'locale'
-                    data = {
-                        locale: self.value,
-                    }
-
-                    user = User.find_by_id(self.users_id)
-                
-                    CloudOne::Firebase::User.update_data(user, data)
-                end
-
-            end
-        end
+    def after_update_settings
+        Courier::One::Firebase::User.sync_user(self.user)
     end
 end
