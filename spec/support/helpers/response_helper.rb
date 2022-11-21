@@ -90,6 +90,25 @@ module ResponseHelpers
         response_json
     end 
 
+    # test a response that contains a xlsx file
+    def expect_response_with_xlsx
+        @@response_json = nil
+        expect(response).to have_http_status(:success)
+
+        # In the case of Excel files the response has a specific content type
+        # And it's up the version, so we have two posibilities
+        expect(response.content_type).to be_in([
+            "application/vnd.ms-excel", 
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" # For Excel2007 and above
+        ])
+    end
+
+    # test a response that contains a PDF file
+    def expect_response_with_pdf
+        @@response_json = nil
+        expect(response).to have_http_status(:success)
+        expect(response.content_type).to eq("application/pdf")
+    end
 
 
 
