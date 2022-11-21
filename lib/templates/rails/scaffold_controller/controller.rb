@@ -80,9 +80,9 @@ class <%= controller_class_name %>Controller < ApplicationController
     # Only allow a list of trusted parameters through.
     def <%= "#{singular_table_name}_params" %>
     <%- if attributes_names.empty? -%>
-        params.fetch(:<%= singular_table_name %>, {}).permit(:id, :name)
+        params.require(:<%= singular_table_name %>).permit(:id, :name)
     <%- else -%>
-        params.fetch(:<%= singular_table_name %>, {}).permit(<%= permitted_params %>)
+        params.require(:<%= singular_table_name %>).permit(<%= permitted_params %>)
     <%- end -%>
     end
 end
