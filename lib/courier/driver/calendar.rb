@@ -197,7 +197,15 @@ module Courier
             def self.find_by_id(current_user, id)
                 return nil unless defined? CloudDriver
 
-                current_user.account.driver.calendars.find_by_id(id)
+                # Filtering the calendars by the current user calendars and the public calendars
+                calendars = current_user.account.driver.calendars.where(
+                    user_main: current_user
+                ).or(
+                    current_user.account.driver.calendars.where(user_main: nil)
+                )
+
+                # Getting the calendar
+                calendars.find_by_id(id)
             end
 
             protected
