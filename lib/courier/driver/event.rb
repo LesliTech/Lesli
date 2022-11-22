@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -23,12 +23,26 @@ module Courier
 
             def self.create(current_user, event_params, calendar=nil)
                 return nil unless defined? CloudDriver
+
+                # Using the EventServices to create the event
                 CloudDriver::EventServices.create(current_user, event_params, calendar)
             end
 
             def self.show(current_user, events_id)
                 return nil unless defined? CloudDriver
-                event = CloudDriver::Event.find_by_id(events_id)
+
+                events = CloudDriver::Event
+
+                # Getting events from the calendars where the user is the owner
+                my_events = events.joins(:calendar).where("cloud_driver_calendars.user_main_id = ?", current_user.id)
+
+                # Getting events where the user is invited
+                invited_events = events.joins("inner join cloud_driver_event_attendants cdea on cdea.cloud_driver_events_id = cloud_driver_events.id and cdea.users_id = #{current_user.id}")
+
+                # Looking for the event with the id provided
+                event = my_events.union(invited_events).find_by_id(events_id)
+
+                # Showing the event
                 event.show(current_user) if event
             end
 
@@ -66,26 +80,26 @@ module Courier
                 return [] unless defined? CloudFocus
                 events = current_user.account.driver.events
                         .select(
-                            :id, 
-                            :title, 
-                            :description, 
-                            :time_start, 
-                            :time_end, 
+                            :id,
+                            :title,
+                            :description,
+                            :time_start,
+                            :time_end,
                             :location,
-                            :url, 
-                            :public, 
-                            :user_main_id, 
-                            :users_id, 
+                            :url,
+                            :public,
+                            :user_main_id,
+                            :users_id,
                             :event_date,
                             "cloud_driver_catalog_event_types.name as event_type"
                         )
                         .joins(:detail)
                         .left_joins(:type)
                         .where("cloud_driver_events.model_id = ? AND cloud_driver_events.model_type = ?", model_id, model_type)
-                
+
                 events = events.where("cloud_driver_catalog_event_types.name = ? ", query[:condition][:type]) unless query[:condition].nil?
                 events = events.page(query[:pagination][:page]).per(query[:pagination][:perPage])
-                
+
                 # If the order column is time_start, we order by event date first, in case the time is not set and 'time_start' is null
                 events = events.order("event_date #{query[:pagination][:order]}") if query[:pagination][:orderColumn] == "time_start"
                 events = events.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
@@ -95,8 +109,8 @@ module Courier
                 events = events.map do |event|
                     organizer = event.user_main
                     {
-                        id: event.id, 
-                        title: event.title, 
+                        id: event.id,
+                        title: event.title,
                         description: event.description,
                         time_start_raw: event.time_start,
                         time_end_raw: event.time_end,
@@ -115,7 +129,7 @@ module Courier
                         }
                     }
                 end
-    
+
                 {
                     events: events,
                     events_count: events_count
