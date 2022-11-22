@@ -63,8 +63,15 @@ module Courier
 
                 calendar = nil
 
+                # Getting the calendars accessible by the current user
+                calendars = current_user.account.driver.calendars.where(
+                    user_main: current_user
+                ).or(
+                    current_user.account.driver.calendars.where(user_main: nil)
+                )
+
                 # Looking for the calendar with the given id
-                calendar = current_user.account.driver.calendars.find_by_id(calendars_id) unless calendars_id.blank?
+                calendar = calendars.find_by_id(calendars_id) unless calendars_id.blank?
 
                 # Using default account calendar if no calendar was found
                 calendar = current_user.account.driver.calendars.default(current_user) unless calendar
