@@ -58,33 +58,54 @@ module Courier
             #     #     focus_tasks: [],
             #     #     help_tickets: []
             #     # }
-            def self.show(current_user, query, calendar=nil)
-
+            def self.show(current_user, query, calendars_id=nil)
                 return nil unless defined? CloudDriver
 
-                calendar = current_user.account.driver.calendars.default unless calendar
+                calendar = nil
 
+                # Looking for the calendar with the given id
+                calendar = current_user.account.driver.calendars.find_by_id(calendars_id) unless calendars_id.blank?
+
+                # Using default account calendar if no calendar was found
+                calendar = current_user.account.driver.calendars.default(current_user) unless calendar
+
+                # Calendar data
                 calendar_data = {
                     id: calendar.id,
-                    name: calendar.name,
+                    name: calendar.detail.name,
+                    users_id: calendar.user_main_id,
+                    user_name: calendar.user_main_id ? calendar.user_main.full_name : nil,
+                    events: [],
                     driver_events: [],
                     focus_tasks: [],
                     help_tickets: [],
-                    external_events: [],
                 }
 
-                query_text = nil
-
-                if (query[:filters][:query]) && (! query[:filters][:query].empty?)
-                    query_text = query[:filters][:query].downcase.split(" ")
+                # If filter dates not provided, force use current month
+                if query[:filters][:start_date].blank? or query[:filters][:end_date].blank?
+                    query[:filters][:start_date] = query[:filters][:start_date] || Time.now.beginning_of_month.to_s
+                    query[:filters][:end_date] = query[:filters][:end_date] || Time.parse(query[:filters][:start_date]).end_of_month.to_s
                 end
 
+                search_text = nil
+
+                LC::Debug.msg query
+
+                # Setting search text
+                if (query[:filters][:search]) && (! query[:filters][:search].empty?)
+                    search_text = query[:filters][:search].downcase.split(" ")
+                end
+
+                # Getting events
+                calendar_events = Courier::Driver::Event.with_deadline(current_user, query, calendar)
+                calendar_events = self.filter_records_by_text(calendar_events, search_text, fields: ["title", "description", "location"])
+                calendar_data[:events] = calendar_events
 
                 # events from CloudDriver
                 # This condition is diferent because, by default, driver events are included
                 unless query[:filters][:include] && query[:filters][:include][:driver_events].to_s.downcase == "false"
                     driver_events = Courier::Driver::Event.with_deadline(current_user, query, calendar)
-                    driver_events = self.filter_records_by_text(driver_events, query_text, fields: ["title", "description", "location"])
+                    driver_events = self.filter_records_by_text(driver_events, search_text, fields: ["title", "description", "location"])
 
                     driver_events = driver_events.map do |event|
                         {
@@ -106,7 +127,7 @@ module Courier
                 # tasks from CloudFocus
                 if (defined? CloudFocus) && (query[:filters][:include]) && (query[:filters][:include][:focus_tasks].to_s.downcase == "true")
                     focus_tasks  = Courier::Focus::Task.with_deadline(current_user, query)
-                    focus_tasks = self.filter_records_by_text(focus_tasks, query_text)
+                    focus_tasks = self.filter_records_by_text(focus_tasks, search_text)
 
                     focus_tasks = focus_tasks.map do |task|
                         {
@@ -126,7 +147,7 @@ module Courier
                 # tickets from CloudHelp
                 if (defined? CloudHelp) && (query[:filters][:include]) && (query[:filters][:include][:help_tickets].to_s.downcase == "true")
                     help_tickets  = Courier::Help::Ticket.with_deadline(current_user, query)
-                    help_tickets = self.filter_records_by_text(help_tickets, query_text, fields: ["subject", "description"])
+                    help_tickets = self.filter_records_by_text(help_tickets, search_text, fields: ["subject", "description"])
 
                     help_tickets = help_tickets.map do |ticket|
                         {
@@ -186,10 +207,10 @@ module Courier
 
             protected
 
-            def self.filter_records_by_text(records, query_text, fields: ["title", "description"])
+            def self.filter_records_by_text(records, search_text, fields: ["title", "description"])
 
-                if query_text
-                    query_text.each do |query_word|
+                if search_text
+                    search_text.each do |query_word|
                         sql = []
                         fields.each do |field|
                             sql.push("lower(#{field}) like '%#{query_word}%'")
