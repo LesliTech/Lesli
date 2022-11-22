@@ -89,14 +89,12 @@ module Courier
 
                 search_text = nil
 
-                LC::Debug.msg query
-
                 # Setting search text
                 if (query[:filters][:search]) && (! query[:filters][:search].empty?)
                     search_text = query[:filters][:search].downcase.split(" ")
                 end
 
-                # Getting events
+                # Getting calendar events
                 calendar_events = Courier::Driver::Event.with_deadline(current_user, query, calendar)
                 calendar_events = self.filter_records_by_text(calendar_events, search_text, fields: ["title", "description", "location"])
                 calendar_data[:events] = calendar_events
@@ -104,20 +102,17 @@ module Courier
                 # events from CloudDriver
                 # This condition is diferent because, by default, driver events are included
                 unless query[:filters][:include] && query[:filters][:include][:driver_events].to_s.downcase == "false"
-                    driver_events = Courier::Driver::Event.with_deadline(current_user, query, calendar)
-                    driver_events = self.filter_records_by_text(driver_events, search_text, fields: ["title", "description", "location"])
-
-                    driver_events = driver_events.map do |event|
+                    driver_events = calendar_events.map do |event|
                         {
                             id: event[:id],
                             title: event[:title],
                             description: event[:description],
-                            date: event[:event_date],
-                            start: event[:time_start],
-                            end: event[:time_end] ? event[:time_end] + 1.second : nil, # The calendar will crash if start and end dates are the same
+                            date: event[:date],
+                            start: event[:start],
+                            end: event[:end],
+                            is_attendant: event[:is_attendant],
                             event_type: event[:event_type],
                             classNames: ["cloud_driver_events"],
-                            is_attendant: event[:is_attendant]
                         }
                     end
 
