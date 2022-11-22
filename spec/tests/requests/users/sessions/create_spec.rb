@@ -67,9 +67,9 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             new_user = FactoryBot.create(:user)
     
             # enable MFA for the new user and its method
-            mfa_enabled = new_user.settings.create_with(:value => true).find_or_create_by(:name => "mfa_enabled")
-            mfa_method = new_user.settings.create_with(:value => "email").find_or_create_by(:name => "mfa_method")
-            mfa_enabled.update(:value => true)
+            new_user.settings.upsert({ value: true, name:"mfa_enabled"}, unique_by: [:users_id, :name])
+            new_user.settings.upsert({ value: "email", name:"mfa_method"}, unique_by: [:users_id, :name])
+
     
             # do request
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -88,8 +88,8 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             new_user = FactoryBot.create(:user)
     
             # enable MFA for the new user and its method
-            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => false)
-            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => :email)
+            new_user.settings.upsert({ value: false, name:"mfa_enabled"}, unique_by: [:users_id, :name])
+            new_user.settings.upsert({ value: "email", name:"mfa_method"}, unique_by: [:users_id, :name])
     
             # do request
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -106,10 +106,10 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             new_user = FactoryBot.create(:user)
     
             # enable MFA for the new user and its method
-            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => "true")
-            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => :email)
+            new_user.settings.upsert({ value: true, name:"mfa_enabled"}, unique_by: [:users_id, :name])
+            new_user.settings.upsert({ value: "email", name:"mfa_method"}, unique_by: [:users_id, :name])
     
-            new_user.settings.update(:name => "mfa_enabled", :value => false) # Now it is disabled
+            new_user.settings.find_by(name: "mfa_enabled").update(:value => false) # Now it is disabled
     
             # do request
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -126,8 +126,8 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             new_user = FactoryBot.create(:user)
     
             # enable MFA for the new user and its method
-            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => Faker::Lorem.word)
-            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => Faker::Lorem.word)
+            new_user.settings.upsert({ value: Faker::Lorem.word, name:"mfa_enabled"}, unique_by: [:users_id, :name])
+            new_user.settings.upsert({ value: Faker::Lorem.word, name:"mfa_method"}, unique_by: [:users_id, :name])
     
             # do request
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -141,8 +141,8 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             new_user = FactoryBot.create(:user)
     
             # enable MFA for the new user and its method
-            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => true)
-            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => Faker::Lorem.word)
+            new_user.settings.upsert({ value: true, name:"mfa_enabled"}, unique_by: [:users_id, :name])
+            new_user.settings.upsert({ value: Faker::Lorem.word, name:"mfa_method"}, unique_by: [:users_id, :name])
     
             # do request
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
