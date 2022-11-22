@@ -28,6 +28,8 @@ user.account.save!
 [
     ["sysadmin", "mr", "SysAdmin", "user", "admin@lesli.cloud"],
     ["limited",  "mr", "Guest",    "user", "guest@lesli.cloud"],
+
+
     ["sysadmin", "mr", "Test",     "user", "test@lesli.cloud"],    
 
     ["owner",    "mr", "Luis",      "Donis",       "ldonis@lomax.com.gt"],
@@ -38,7 +40,8 @@ user.account.save!
     ["sysadmin", "mr", "Andy",      "Castillo",    "acastillo@lomax.com.gt"],
     ["sysadmin", "ms", "Jenni",     "Sandoval",    "jsandoval@lomax.com.gt"],
     ["sysadmin", "mr", "Oleksii",   "Ostafiichuk", "o.ostafiichuk@8allocate.com"],
-    ["sysadmin", "mr", "Alex",      "Mandryk",   "o.mandryk@8allocate.com"],
+    ["sysadmin", "mr", "Alex",      "Mandryk",     "o.mandryk@8allocate.com"],
+    ["sysadmin", "ms", "Ira",       "Bazhynova",   "i.bazhynova@8allocate.com"],
 
 ].each do |user|
     create_development_user(user)
