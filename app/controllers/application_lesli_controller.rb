@@ -104,7 +104,7 @@ class ApplicationLesliController < ApplicationController
             email: current_user.email,
             full_name: current_user.full_name,
             roles: current_user.roles.map(&:name),
-            abilities: {},# current_user.abilities_by_controller,
+            abilities: current_user.abilities_by_controller,
             max_object_level_permission: current_user.roles.map(&:object_level_permission).max,
             settings: current_user.settings.map { |s| { name: s.name, value: s.value } }
         }
