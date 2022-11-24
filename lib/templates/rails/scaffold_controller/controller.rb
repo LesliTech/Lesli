@@ -74,7 +74,7 @@ class <%= controller_class_name %>Controller < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_<%= singular_table_name %>
-        @<%= singular_table_name %> = current_user.account.<%= singular_table_name.pluralize %>.find(class_name, params[:id])
+        @<%= singular_table_name %> = current_user.account.<%= singular_table_name.pluralize %>.find_by_id(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

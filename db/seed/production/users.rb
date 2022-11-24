@@ -17,5 +17,4 @@ For more information read the license file including with this software.
 
 =end
 
-
-# development user
+# IMPORTANT: The production users must be loaded from builder engine seeder

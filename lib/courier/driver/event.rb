@@ -21,9 +21,9 @@ module Courier
     module Driver
         class Event
 
-            def self.create(current_user, event_params)
+            def self.create(current_user, event_params, calendar=nil)
                 return nil unless defined? CloudDriver
-                CloudDriver::EventServices.create(current_user, event_params)
+                CloudDriver::EventServices.create(current_user, event_params, calendar)
             end
 
             def self.show(current_user, events_id)
@@ -39,9 +39,21 @@ module Courier
                 CloudDriver::EventServices.destroy(current_user, event)
             end
 
-            def self.find_integration_event(current_user, external_uid, provider)
+            def self.find_integration_event(current_user, external_uid, source_code)
                 return nil unless defined? CloudDriver
-                event = CloudDriver::Event.find_by(users_id: current_user.id, external_uid: external_uid, source: provider)
+
+                calendar = CloudDriver::Calendar.find_by(
+                    user_main: current_user,
+                    user_creator: current_user,
+                    source_code: source_code,
+                )
+
+                event = CloudDriver::Event.find_by(
+                    external_uid: external_uid,
+                    calendar: calendar
+                )
+
+                event
             end
 
             def self.update(current_user, events_id, event_params)

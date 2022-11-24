@@ -33,8 +33,11 @@ For more information read the license file including with this software.
         <%= render partial: "layouts/partials/application-lesli-content" %>
         <%= render partial: "layouts/partials/application-lesli-engines" %>
         <%= render partial: "layouts/partials/application-lesli-panels" %>
-        <%= render partial: "layouts/partials/application-lesli-footer" %>
+        <%#= render partial: "layouts/partials/application-lesli-footer" %>
     </main>
+    <section id="lesli-application-2" v-cloak>
+        <router-view></router-view>
+    </section>
     <%= render partial: "layouts/partials/application-lesli-javascript" %>
     <%= render partial: "layouts/partials/application-analytics" %>
     <%= render partial: "layouts/partials/application-svgs" %>

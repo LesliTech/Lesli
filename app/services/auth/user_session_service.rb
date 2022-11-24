@@ -46,7 +46,7 @@ module Auth
             Courier::One::Firebase::User.sync_user(@resource) if defined? CloudOne
 
             # send a welcome email to user if first log in
-            UserMailer.with(user: @resource).welcome.deliver_later if @resource.sign_in_count == 1
+            UserMailer.with(user: @resource).welcome.deliver_later if @resource.sign_in_count == 0
 
             return current_session
 

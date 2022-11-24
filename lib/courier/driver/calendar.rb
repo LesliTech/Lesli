@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -19,6 +19,25 @@ For more information read the license file including with this software.
 module Courier
     module Driver
         class Calendar
+
+            def self.get_user_calendar(current_user, source_code: :lesli, default: false)
+                return nil unless defined? CloudDriver
+
+                current_user.account.driver.calendars.eager_load(:detail).find_by(
+                    user_main: current_user,
+                    user_creator: current_user,
+                    source_code: source_code,
+                    cloud_driver_calendar_details: {
+                        default: default
+                    }
+                )
+            end
+
+            def self.find_by_id(current_user, id)
+                return nil unless defined? CloudDriver
+
+                current_user.account.driver.calendars.find_by_id(id)
+            end
 
             # @return A hash that contains an array in each key. These arrays contain events, tasks and tickets
             #     standarized to be displayed within the calendar
@@ -67,11 +86,12 @@ module Courier
                 }
 
                 query_text = nil
+
                 if (query[:filters][:query]) && (! query[:filters][:query].empty?)
                     query_text = query[:filters][:query].downcase.split(" ")
                 end
 
-                
+
                 # events from CloudDriver
                 # This condition is diferent because, by default, driver events are included
                 unless query[:filters][:include] && query[:filters][:include][:driver_events].to_s.downcase == "false"
@@ -91,6 +111,7 @@ module Courier
                             is_attendant: event[:is_attendant]
                         }
                     end
+
                     calendar_data[:driver_events] = driver_events
                 end
 
@@ -110,6 +131,7 @@ module Courier
                             classNames: ["cloud_focus_tasks"]
                         }
                     end
+
                     calendar_data[:focus_tasks] = focus_tasks
                 end
 
@@ -129,6 +151,7 @@ module Courier
                             classNames: ["cloud_help_tickets"]
                         }
                     end
+
                     calendar_data[:help_tickets] = help_tickets
                 end
 
@@ -153,19 +176,21 @@ module Courier
                 return records
             end
 
-            def self.create_user_calendar(user, calendar_name)
+            def self.create_user_calendar(user, name: nil, source_code: :lesli, default: false)
                 return nil unless defined? CloudDriver
 
-                CloudDriver::Calendar.create!(
-                    account: user.account,
-                    user_main: user,
-                    users_id: user.id,
+                user.account.driver.calendars.create_with(
                     detail_attributes: {
-                        name: calendar_name,
-                        default: false,
+                        name: name,
+                        default: default,
                     }
+                ).find_or_create_by!(
+                    user_main: user,
+                    user_creator: user,
+                    source_code: source_code
                 )
             end
+
         end
     end
 end

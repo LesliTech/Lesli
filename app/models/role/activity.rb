@@ -27,8 +27,10 @@ class Role::Activity < CloudObject::Activity
         action_destroy:                         "action_destroy",
         action_update_role_privilege:           "action_update_role_privilege",
         action_create_role_privilege:           "action_create_role_privilege",
-        action_create_descriptor_assignment:    "action_create_descriptor_assignment",
-        action_destroy_descriptor_assignment:   "action_destroy_descriptor_assignment"
+        action_create_descriptor:               "action_create_descriptor",
+        action_destroy_descriptor:              "action_destroy_descriptor",
+        action_create_descriptor_assignment:    "action_create_descriptor_assignment", # deprecated
+        action_destroy_descriptor_assignment:   "action_destroy_descriptor_assignment" # deprecated
     }
 
     def self.options(current_user, query)
@@ -137,16 +139,41 @@ class Role::Activity < CloudObject::Activity
     ##############################  Activities Log Methods   ##############################
     #######################################################################################
 
+    def self.log_create_descriptor(current_user, role, describer)
+
+        role.activities.create(
+            user_creator: current_user,
+            category: "action_create_descriptor",
+            field_name: "descriptors_id",
+            value_to: describer.descriptor.id,
+            description: "Add descriptor: #{ describer.descriptor.name }"
+        )
+    end
+
+    def self.log_destroy_descriptor(current_user, role, describer)
+
+        role.activities.create(
+            user_creator: current_user,
+            category: "action_destroy_descriptor",
+            field_name: "descriptors_id",
+            value_to: describer.descriptor.id,
+            description: "Remove descriptor: #{ describer.descriptor.name }"
+        )
+    end
+
+    # DEPRECATED
     def self.log_create_descriptor_assignment(current_user, role, descriptor_assignment)
         self.log_descriptor_assignment(current_user, role, descriptor_assignment, "action_create_descriptor_assignment")
     end
 
+    # DEPRECATED
     def self.log_destroy_descriptor_assignment(current_user, role, descriptor_assignment)
         self.log_descriptor_assignment(current_user, role, descriptor_assignment, "action_destroy_descriptor_assignment")
     end
 
     protected
 
+    # DEPRECATED
     def self.log_descriptor_assignment(current_user, role, descriptor_assignment, category)
         role.activities.create(
             user_creator: current_user,

@@ -29,8 +29,12 @@ class ApplicationDeviseController < ActionController::Base
     before_action :set_locale
 
     def initialize
+        @account = { 
+            company: {
+                name: Rails.application.config.lesli.dig(:account, :name)
+            }
+        }
         super
-        @account = {}
     end
 
 end

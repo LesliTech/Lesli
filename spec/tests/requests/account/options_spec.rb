@@ -21,7 +21,7 @@ For more information read the license file including with this software.
 require "lesli_request_helper"
 
 
-RSpec.describe "GET:/administration/account/options.json", type: :request do
+RSpec.describe "GET:/administration/account/options.json", type: :request, :unless => defined?(DeutscheLeibrenten) do
     include_context "request user authentication"
 
     # test cases
@@ -34,16 +34,16 @@ RSpec.describe "GET:/administration/account/options.json", type: :request do
         expect(response_body).to be_a(Object)
 
         expect(response_body).to have_key("regions")
-        expect(response_body["regions"].length).to be >0
+        expect(response_body["regions"]).to be_a(Object)
 
         expect(response_body).to have_key("time_zones")
-        expect(response_body["time_zones"].length).to be >0
+        expect(response_body["time_zones"]).to be_a(Object)
 
         expect(response_body).to have_key("countries")
-        expect(response_body["countries"].length).to be >0
+        expect(response_body["countries"]).to be_a(Object)
 
         expect(response_body).to have_key("days_into_week")
-        expect(response_body["days_into_week"].length).to be >0
+        expect(response_body["days_into_week"]).to be_a(Object)
 
     end
 

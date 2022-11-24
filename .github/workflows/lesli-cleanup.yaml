@@ -1,0 +1,63 @@
+# Copyright (c) 2022, all rights reserved.
+# 
+# All the information provided by this platform is protected by international laws related  to 
+# industrial property, intellectual property, copyright and relative international laws. 
+# All intellectual or industrial property rights of the code, texts, trade mark, design, 
+# pictures and any other information belongs to the owner of this platform.
+# 
+# Without the written permission of the owner, any replication, modification,
+# transmission, publication is strictly forbidden.
+# 
+# For more information read the license file including with this software.
+
+
+# Specs for Lesli Core
+# -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
+name: "Lesli branches cleanup"
+on:
+
+  # execute every sunday at 1 am
+  schedule:  
+    - cron:  '0 1 * * 0'
+
+
+jobs:
+  cleanup:
+    name: Cleanup workflow
+    runs-on: lomax
+    steps:
+
+      # Set the right owner for work folders
+      - name: Set folder righ permissions
+        run: "sudo chown -R $USER:$USER $GITHUB_WORKSPACE/"
+
+
+      # Clone the current repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+
+      # Clone our custom actions
+      - name: Checkout github actions repo
+        uses: actions/checkout@v3
+        with:
+          repository: leitfaden/github_actions
+          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+          path: ./.github/
+
+
+      # Clone our custom actions
+      - name: Delete old git branches
+        uses: phpdocker-io/github-actions-delete-abandoned-branches@v1
+        id: delete_branches
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          last_commit_age_days: 15
+          dry_run: no
+
+
+      # Show results
+      - name: Get deleted branches
+        run: "echo 'Deleted branches: ${{ steps.delete_branches.outputs.deleted_branches }}'"

@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -39,8 +39,20 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
         prepare_password_settings
     end
 
-    after :each do 
+    after :each do
         prepare_password_settings
+
+        # Reset password as it was before the test as is using User.first
+        password = Rails.application.config.lesli.dig(:security, :password)
+        password = password + Time.now.year.to_s + "$"
+
+        put :update, params: {
+            user: {
+                password: password,
+                password_confirmation: password
+            }
+        }
+
     end
 
     it "try to update password with no minimum length" do
@@ -128,7 +140,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
                 password_confirmation: password
             }
         }
-    
+
         expect_response_with_successful
 
     end
@@ -143,7 +155,7 @@ RSpec.describe Users::RegistrationsController, type: :controller, :unless => def
                 password_confirmation: password
             }
         }
-    
+
         expect_response_with_successful
 
     end

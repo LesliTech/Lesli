@@ -1,0 +1,79 @@
+<script>
+/*
+%license%
+*/
+
+
+// · import vue tools
+import { ref, reactive, onMounted, watch, computed, inject } from "vue"
+import { useRouter, useRoute } from 'vue-router'
+
+
+// · import lesli stores
+import { use%camel_case_resource% } from "%engine%/stores/%underscore_resource%"
+
+
+// · initialize/inject plugins
+const router = useRouter()
+const msg = inject("msg")
+const url = inject("url")
+
+
+// · implement stores
+const store%camel_case_resource% = use%camel_case_resource%()
+
+
+
+// · translations
+const translations = {
+    core: {
+        shared: I18n.t("core.shared")
+    }
+}
+
+
+// ·
+const columns = [{
+    field: "id",
+    label: "ID",
+    sort: true
+}]
+
+
+
+// · initializing
+onMounted(() => {
+    store%camel_case_resource%.fetch()
+})
+
+
+
+</script>
+<template>
+    <section class="application-component">
+        <lesli-header :title="translations">
+            <lesli-button icon="add" to="/new">
+                add
+            </lesli-button>
+            <lesli-button
+                outlined
+                icon="refresh"
+                :loading="store%camel_case_resource%.loading"
+                @click="store%camel_case_resource%.fetch">
+                reload
+            </lesli-button>
+        </lesli-header>
+        <lesli-toolbar
+            :search-placeholder="search"
+            @search="store%camel_case_resource%..search">
+        </lesli-toolbar>
+        <lesli-table
+            :loading="store%camel_case_resource%..loading"
+            :columns="columns"
+            :records="store%camel_case_resource%.index.records"
+            :pagination="store%camel_case_resource%.index.pagination"
+            @paginate="store%camel_case_resource%.pagination"
+            @sort="store%camel_case_resource%..sort">
+        </lesli-table>
+    </section>
+</template>

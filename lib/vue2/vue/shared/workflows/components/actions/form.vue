@@ -123,7 +123,7 @@ export default {
         },
 
         getActionOptions(){
-            let url = `${this.main_route}/options`
+            let url = `${this.main_route}/options.json`
 
             this.http.get(url).then(result => {
                 if (result.successful) {
@@ -180,7 +180,7 @@ export default {
             }
             this.submitting = true
 
-            this.http.post(this.main_route, data).then(result => {
+            this.http.post(`${this.main_route}.json`, data).then(result => {
                 if (result.successful) {
                     this.msg.success(this.translations.actions.messages_success_action_created)
                     this.bus.publish('post:/module/workflow/action', result.data)
@@ -197,7 +197,7 @@ export default {
         },
 
         putAction(){
-            let url = `${this.main_route}/${this.action_id}`
+            let url = `${this.main_route}/${this.action_id}.json`
 
             let data = {
                 workflow_action: this.action

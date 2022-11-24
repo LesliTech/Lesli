@@ -21,6 +21,10 @@ For more information read the license file including with this software.
 import { ref, reactive, onMounted, watch, getCurrentInstance } from "vue"
 
 
+// · defining emits
+const emit = defineEmits(['markerClick']);
+
+
 // · import & define local components
 import ApexCharts from "apexcharts"
 
@@ -80,6 +84,11 @@ const generalOptions = {
         height: "auto",
         toolbar: {
             show: false
+        },
+        events: {
+            markerClick: function(event, chartContext, { seriesIndex, dataPointIndex }) {
+                emit("markerClick", { seriesIndex, dataPointIndex })
+            }
         }
     },
     title: {

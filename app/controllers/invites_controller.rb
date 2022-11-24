@@ -18,6 +18,8 @@ For more information read the license file including with this software.
 =end
 
 class InvitesController < ApplicationController
+    include Interfaces::Application::Responder
+    protect_from_forgery with: :null_session
     
     # GET /invites/1
     def show

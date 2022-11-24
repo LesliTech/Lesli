@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, onUnmounted, inject } from "vue"
+import { ref, reactive, onUnmounted, inject } from "vue"
 
 
 // · import stores
@@ -29,6 +29,36 @@ import { useSearch } from "LesliVue/stores/search"
 // · implement stores
 const storeLayout = useLayout()
 const storeSearch = useSearch()
+
+
+// · defining props
+const props = defineProps({
+    showEngines: {
+        type: Boolean,
+        default: true,
+        required: false
+    },
+    showBell: {
+        type: Boolean,
+        default: false,
+        required: false
+    },
+    showFocus: {
+        type: Boolean,
+        default: false,
+        required: false
+    },
+    showTickets:{
+        type: Boolean,
+        default: false,
+        required: false
+    },
+    showAnnouncements:{
+        type: Boolean,
+        default: false,
+        required: false
+    }
+})
 
 
 // · translations
@@ -45,12 +75,6 @@ const applicationHeader = ref(null)
 const search = {}
 
 
-// · initializing
-onMounted(() => {
-
-})
-
-
 // · capture user scroll to add special styles for the header
 function handleScroll($event) {
 
@@ -60,7 +84,6 @@ function handleScroll($event) {
     } else {
         applicationHeader.value.classList.remove("scrolling-header-navigation")
     }
-
 }
 
 
@@ -99,42 +122,72 @@ onUnmounted(() => {
                         type="email" 
                         name="global_search"
                         class="input is-medium is-shadowless" 
-                        :placeholder="translations.core.shared.search_placeholder || 'Search in Lesli'"
+                        :placeholder="translations.core.shared.search_placeholder || 'Search...'"
                         @input="storeSearch.doSearch"
                         v-model="storeSearch.text" 
                     />
                     <span class="icon is-left has-text-gray">
-                        <lesli-icon 
-                            id="search"
-                            v-if="(storeSearch.loading == false)">
-                        </lesli-icon>
-                        <lesli-loading 
-                            :icon="true"
-                            v-if="(storeSearch.loading == true)">
+                        <span class="material-icons" v-if="!storeSearch.loading">
+                            search
+                        </span>
+                        <lesli-loading :icon="true" v-if="storeSearch.loading">
                         </lesli-loading>
                     </span>
                 </div>
             </div>
             <div class="header-right">
 
-                <slot></slot>
-
                 <!-- engines selector -->
-                <a class="navbar-item" @click="toggleEngines()">
+                <a  v-if="props.showEngines"
+                    class="navbar-item" @click="toggleEngines()">
                     <span class="material-icons md-36">
-                        rocket_launch
+                        apps
                     </span>
                 </a>
 
-                <!-- header action button -->
-                <a class="navbar-item">
-                    <span class="material-icons md-36">
-                        add_box
+                <!-- Tickets -->
+                <a 
+                    v-if="props.showTickets"
+                    class="navbar-item header-notification-indicator" 
+                    @click="() => { storeLayout.showTickets = true }">
+                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.tickets > 0 }]">
+                        confirmation_number
+                    </span>
+                    <span class="count" v-if="storeLayout.header.tickets > 0">
+                        {{ storeLayout.header.tickets }}
+                    </span>
+                </a>
+
+                <!-- Tasks -->
+                <a  v-if="props.showFocus"
+                    class="navbar-item header-notification-indicator" 
+                    @click="() => { if (storeLayout.header.tasks > 0 ) { storeLayout.showTasks = true }}">
+                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.tasks > 0 }]">
+                        checklist
+                    </span>
+                    <span class="count" v-if="storeLayout.header.tasks > 0">
+                        {{ storeLayout.header.tasks }}
+                    </span>
+                </a>
+
+                <!-- Announcements -->
+                <a 
+                    v-if="props.showAnnouncements"
+                    class="navbar-item header-notification-indicator" 
+                    @click="() => { { storeLayout.showAnnouncements = true }}">
+                    <span :class="['material-icons md-36']">
+                        campaign
+                    </span>
+                    <span>
+                        {{ storeLayout.header.announcements }}
                     </span>
                 </a>
 
                 <!-- Notifications -->
-                <a class="navbar-item header-notification-indicator" @click="storeLayout.showNotifications = true">
+                <a 
+                    v-if="props.showBell"
+                    class="navbar-item header-notification-indicator" 
+                    @click="() => { if (storeLayout.header.notifications > 0 ) { storeLayout.showNotifications = true }}">
                     <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.notifications > 0 }]">
                         notifications
                     </span>

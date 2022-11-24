@@ -70,6 +70,8 @@ class DevGithub < LesliRake
 
             message("Working with: #{engine[:code]}")
 
+            FileUtils.rm_rf engine_path.join(".github")
+
             # create github workflows folder is it does not exist
             FileUtils.mkdir_p engine_path.join(".github", "workflows")
 

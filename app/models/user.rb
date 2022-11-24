@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -50,9 +50,11 @@ class User < ApplicationLesliRecord
     has_many :access_codes,     foreign_key: "users_id"
     has_many :auth_providers,   foreign_key: "users_id"
 
-    has_many :user_roles,               foreign_key: "users_id",    class_name: "User::Role"
-    has_many :roles,                    through: :user_roles,       source: :roles
+    has_many :user_roles,       foreign_key: "users_id",    class_name: "User::Role"
+    has_many :roles,            through: :user_roles,       source: :roles
+    has_many :privileges,       through: :roles
 
+    has_many :role_privileges,          through: :roles,            source: :privileges
     has_many :user_privilege_actions,   foreign_key: "users_id",    class_name: "User::PrivilegeAction"
     has_many :role_privilege_actions,   through: :roles,            source: :privilege_actions
 
@@ -79,7 +81,6 @@ class User < ApplicationLesliRecord
     end
 
 
-
     # @return [void]
     # @description Before creating a user we make sure there is no capitalized email
     def initialize_user
@@ -87,18 +88,10 @@ class User < ApplicationLesliRecord
     end
 
 
-
-    def change_after_update
-        self.initialize_user_after_confirmation if self.confirmed?
-    end
-
-
-
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     #     At the current time, it only creates a default calendar. This is an *after_create* method, and is not
     #     designed to be invoked directly
-
     def initialize_user_details
 
         # create user details
@@ -107,15 +100,29 @@ class User < ApplicationLesliRecord
         # create an alias based on user name
         self.set_alias
 
-    end 
-
-
-
-    def initialize_user_after_confirmation
-        Courier::One::Firebase::User.sync_user(self)
-        Courier::Driver::Calendar.create_user_calendar(self, "Personal Calendar")
     end
 
+
+    def change_after_update
+        self.initialize_user_after_confirmation if self.confirmed?
+        self.initialize_user_after_account_assignation if self.account
+        Courier::One::Firebase::User.sync_user(self)
+    end
+
+
+    # Initialize user settings and dependencies needed
+    def initialize_user_after_confirmation
+        self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
+        self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
+        Courier::One::Firebase::User.sync_user(self)
+    end
+
+
+    # Initialize user settings and dependencies needed
+    # The confirmation occurs before the creation and assignation of the account
+    def initialize_user_after_account_assignation
+        Courier::Driver::Calendar.create_user_calendar(self, name: "Personal Calendar", default: true)
+    end
 
 
     # @return [void]
@@ -152,6 +159,23 @@ class User < ApplicationLesliRecord
     #     actions = ["index", "update"]
     #
     #     current_user.has_privileges?(controllers, actions)
+    def has_privileges4?(controller, action, form='html')
+
+        # set html by default, even if nil is sent as parameter for "form"
+        form ||= 'html'
+
+        begin
+            !self.privileges
+            .where("role_privileges.controller = ?", controller)
+            .where("role_privileges.action = ?", action)
+            .where("role_privileges.form = ?", form)
+            .first.blank?
+        rescue => exception
+            Honeybadger.notify(exception)
+            return false
+        end
+    end
+
     def has_privileges?(controllers, actions)
 
         begin
@@ -234,46 +258,54 @@ class User < ApplicationLesliRecord
         # after every commit on roles, role descriptors and privileges
         #Rails.cache.fetch(user_cache_key(abilities_by_controller, self), expires_in: 12.hours) do
 
+            # Abilities hash where we will save all the privileges the user has to
             abilities = {}
 
-            # Evaluate role privileges
-            self.role_privilege_actions
-            .select("
-                bool_or(role_descriptor_privilege_actions.status) as value,
-                system_controller_actions.name as action,
-                system_controllers.name as controller
-            ")
-            .joins(system_action: [:system_controller])
-            .group("
-                system_controller_actions.name,
-                system_controllers.name
-            ")
-            .each do |route|
-                abilities[route["controller"]] = {} if abilities[route["controller"]].nil?
-                abilities[route["controller"]][route["action"]] = route["value"]
-            end
-
-            # Evaluate user privileges
-            self.user_privilege_actions
-            .select("
-                bool_or(status) as value,
-                system_controller_actions.name as action,
-                system_controllers.name as controller
-            ")
-            .joins(system_action: [:system_controller])
-            .group("
-                system_controller_actions.name,
-                system_controllers.name
-            ")
-            .each do |route|
-                abilities[route["controller"]] = {} if abilities[route["controller"]].nil?
-                # If privilege is granted by role or by user keep it as granted
-                abilities[route["controller"]][route["action"]] = abilities[route["controller"]][route["action"]] || route["value"]
+            # We check all the privileges the user has in the cache table according to his roles
+            # and create a key per controller (with the full controller name) that contains an array of all the 
+            # methods/actions with permission
+            self.privileges.all.each do |privilege|
+                abilities[privilege.controller] = [] if abilities[privilege.controller].nil?
+                abilities[privilege.controller] << privilege.action
             end
 
             abilities
 
         #end
+    end
+
+
+
+    # @return Boolean
+    # @description Check if user has enough privilege to work with the given role
+    def can_work_with_role?(role)
+
+        # get the role if only id is given
+        role = self.account.roles.find_by(:id => role) unless role.class.name == "Role"
+
+        # false if role not found
+        return false if role.blank?
+
+        # not valid role without object levelpermission defined
+        return false if role.object_level_permission.blank?
+
+        # owner role can work with all the roles
+        return true if !self.roles.find_by(name: 'owner').blank?
+
+        # get the max object level permission from the roles the user has assigned
+        user_role_level_max = self.roles.map(&:object_level_permission).max()
+
+        # check if user can work with the object level permission of the role is trying to modify
+        # Note: user only can assigned an object level permission below the max of his own roles
+        # Current user cannot assign role if
+        #       role to assign has greater object level permission than the greater role assigned to the current user
+        #       role to assign is the same of the greater role assigned to the current user
+        #       current user is not sysadmin or owner
+        return false if role.object_level_permission >= user_role_level_max
+
+        # user can work with this role :)
+        return true
+
     end
 
 
@@ -336,31 +368,6 @@ class User < ApplicationLesliRecord
 
 
 
-    # @return Boolean
-    # @description Check if user has enough privilege to work with the given role
-    def can_work_with_role?(role_id)
-
-        return false if role_id.blank?
-
-        role = self.account.roles.find(role_id) rescue nil
-
-        return false if role.blank?
-
-        # check if the current_user can assign this role, current user cannot assign role if
-        #   role to assign has greater object level permission than the greater role assigned to the current user
-        #   role to assign is the same of the greater role assigned to the current user
-        #   current user is not sysadmin or owner
-        self.roles.each do |current_role|
-            return true if current_role.object_level_permission > role.object_level_permission
-            return true if current_role.name == "owner"
-        end
-
-        return false
-
-    end
-
-
-
     # @return [void]
     # @description Register a new notification for the current user
     # @param subject String Short notification description
@@ -371,6 +378,14 @@ class User < ApplicationLesliRecord
         Courier::Bell::Notification.new(self, subject, body:body, url:url, category:category)
     end
 
+
+    # @return [CloudDriver::Calendar]
+    # @description Return the default calendar of the user if source_code is not provided.
+    #               If source_code is provided the method return the specified source calendar.
+    def calendar source_code: :lesli
+        return Courier::Driver::Calendar.get_user_calendar(self, source_code: source_code, default: true) if source_code == :lesli
+        Courier::Driver::Calendar.get_user_calendar(self, source_code: source_code)
+    end
 
 
     # @return [void]
@@ -459,6 +474,7 @@ class User < ApplicationLesliRecord
     #]
     def self.list(current_user, query, params)
         type = params[:type]
+
         roles = params[:role].split(",").map { |role| "'#{role}'" }.join(", ") if not params[:role].blank?
 
         operator = type == "exclude" ? 'not in' : 'in'
@@ -526,9 +542,13 @@ class User < ApplicationLesliRecord
     #]
     def self.index(current_user, query, params)
         type = params[:type]
-        roles = params[:role].split(",").map { |role| "'#{role}'" }.join(", ") if not params[:role].blank?
 
         operator = type == "exclude" ? 'not in' : 'in'
+
+        # Filter users by roles
+        unless params.dig(:f, :role).nil?
+            roles = params[:f][:role].split(",").map { |role| "'#{role}'" }.join(", ") if not params[:f][:role].blank?
+        end
 
         users = current_user.account.users
         .joins("inner join user_details ud on ud.users_id = users.id")
@@ -538,7 +558,7 @@ class User < ApplicationLesliRecord
                     ur.users_id, string_agg(r.\"name\", ', ') role_names
                 from user_roles ur
                 join roles r
-                    on r.id = ur.roles_id  #{roles.blank? ? "" : "and r.name #{operator} (#{roles})"}
+                    on r.id = ur.roles_id  #{roles.blank? ? "" : "and r.id #{operator} (#{roles})"}
                 where ur.deleted_at is null
                 group by ur.users_id
             ) roles on roles.users_id = users.id
@@ -558,9 +578,9 @@ class User < ApplicationLesliRecord
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
         users = users.where("category = ?", query[:filters][:category]) if query[:filters][:category]
         users = users.where("
-            lower(email) like '%#{query[:filters][:search]}%' or
-            LOWER(concat(ud.first_name, ' ', ud.last_name)) like '%#{query[:filters][:search].downcase}%'
-        ")  if not query[:filters][:search].blank?
+            lower(email) like '%#{query[:search]}%' or
+            LOWER(concat(ud.first_name, ' ', ud.last_name)) like '%#{query[:search].downcase}%'
+        ")  if not query[:search].blank?
 
         users = users.select(
             :id,
@@ -575,13 +595,77 @@ class User < ApplicationLesliRecord
             "sessions.last_login_at"
         )
 
-        if (query[:filters][:status] == 'active')
-            users = users.where("users.active = ?", true)
-        elsif (query[:filters][:status] == 'inactive')
-            users = users.where("users.active = ?", false)
+        # Filter users by status
+        
+        unless params.dig(:f, :status).nil?
+            if (params[:f][:status] == 'active')
+                users = users.where("users.active = ?", true)
+            elsif (params[:f][:status] == 'inactive')
+                users = users.where("users.active = ?", false)
+            end
         end
 
         users = users
+        .page(query[:pagination][:page])
+        .per(query[:pagination][:perPage])
+        .order("#{query[:pagination][:orderBy]} #{query[:pagination][:order]} NULLS LAST")
+
+    end
+
+
+
+    # Return a paginated list of users
+    def self.index3(current_user, query, params)
+
+        # sql string to join to user_roles and get all the roles assigned to a user
+        sql_string_for_user_roles = "inner join (
+            select
+                ur.users_id, string_agg(r.\"name\", ', ') role_names
+            from user_roles ur
+            join roles r
+                on r.id = ur.roles_id  
+            where ur.deleted_at is null
+            group by ur.users_id
+        ) roles on roles.users_id = users.id"
+
+        # sql string to joing to user_sessions and get all the active sessions of a user
+        sql_string_for_user_sessions = "left join (
+            select
+                max(last_used_at) as last_action_performed_at,
+                max(created_at) as last_login_at,
+                users_id
+            from user_sessions us
+            where us.deleted_at is null
+            group by(us.users_id)
+        ) sessions on sessions.users_id = users.id"
+
+        users = current_user.account.users
+        .joins(:detail)
+        .joins(sql_string_for_user_roles)
+        .joins(sql_string_for_user_sessions)
+        .where("category = 'user'")
+
+
+        if query.dig(:search)
+            users = users.where(
+                "lower(users.email) like :search or lower(concat(user_details.first_name, ' ', user_details.last_name)) like :search", 
+                { search: "%#{sanitize_sql_like(query.dig(:search))}%" }
+            )
+        end
+
+        users = users.select(
+            :id,
+            :active,
+            :email,
+            :role_names,
+            "CONCAT(user_details.first_name, ' ',user_details.last_name) as name",
+            "current_sign_in_at as current_signin_at",
+            :last_action_performed_at,
+            :last_login_at,
+            "false as editable"
+        )
+
+        return users
         .page(query[:pagination][:page])
         .per(query[:pagination][:perPage])
         .order("#{query[:pagination][:orderBy]} #{query[:pagination][:order]} NULLS LAST")
@@ -613,10 +697,11 @@ class User < ApplicationLesliRecord
             created_at: user[:created_at],
             updated_at: user[:updated_at],
             editable_security: current_user && current_user.has_roles?("owner", "sysadmin"),
-            roles: user.roles.map { |r| { id: r[:id], name: r[:name] } },
+            roles: user.roles.map { |r| { id: r[:id], name: r[:name], permission_level: r[:object_level_permission]} },
             full_name: user.full_name,
             mfa_enabled: user.mfa_settings[:enabled],
             mfa_method:  user.mfa_settings[:method],
+            language: user.settings.find_by(:name => "locale"),
             detail_attributes: {
                 title: user.detail[:title],
                 salutation: user.detail[:salutation],
@@ -639,14 +724,11 @@ class User < ApplicationLesliRecord
     #   puts user_mfa_settings
     #       { :mfa_enabled => true, :mfa_method => "email"}
     def mfa_settings
-        mfa_enabled = self.settings.find_by(:name => "mfa_enabled")
-        mfa_method = self.settings.find_by(:name => "mfa_method")
-        
-        is_mfa_enabled = false
-        is_mfa_enabled ||= (mfa_enabled.value.downcase == "true") unless mfa_enabled.nil?
+        mfa_enabled = self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
+        mfa_method = self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
 
-        {   
-            :enabled => is_mfa_enabled,
+        {
+            :enabled => mfa_enabled.nil? ? false : mfa_enabled.value == 't',
             :method => mfa_method.nil? ? nil : mfa_method.value.to_sym
         }
     end

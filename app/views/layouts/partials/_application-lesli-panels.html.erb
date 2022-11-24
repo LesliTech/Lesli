@@ -18,31 +18,32 @@ For more information read the license file including with this software.
 %>
 
 <%# Loading standar pdf viewer %>
-<% if defined? DeutscheLeibrenten %>
+<%# Temporary disable while moving to vue3 %>
+<% if defined?(DeutscheLeibrenten) && false %>
     <application-component-panel-viewer-pdf></application-component-panel-viewer-pdf>
 <% end %>
 
 
 <%# Loading standard focus panel %>
-<% if defined? CloudFocus %>
-    <application-component-panel-task :instance-endpoint="'<%= lesli_instance_code == "deutsche_leibrenten" ? "crm" : "focus" %>'">
-    </application-component-panel-task>
+<% if defined?(CloudFocus) %>
+    <application-component-panel-tasks :instance-endpoint="'<%= lesli_instance_code == "deutsche_leibrenten" ? "crm" : "focus" %>'">
+    </application-component-panel-tasks>
 <% end %>
 
 
 <%# Loading standar bell panels %>
 <% if defined?(CloudBell) %>
     <application-component-panel-notifications></application-component-panel-notifications>
-    <% if defined?(DeutscheLeibrenten) %>
-        <application-component-panel-announcement></application-component-panel-announcement>
-    <% end %>
+    <application-component-panel-announcements></application-component-panel-announcements>
 <% end %>
 
 
 <%# Loading standar help panels %>
-<% if defined? CloudHelp %>
-    <application-component-panel-support></application-component-panel-support>
+<%# Temporary disable while moving to vue3 %>
+<% if defined?(CloudHelp) %>
+    <application-component-panel-tickets :instance-endpoint="'<%= lesli_instance_code == "deutsche_leibrenten" ? "crm" : "help" %>'"></application-component-panel-tickets>
 <% end %>
+
 
 <%# Loading cloud object files panel %>
 <application-component-panel-files></application-component-panel-files>

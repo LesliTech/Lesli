@@ -1,0 +1,93 @@
+/*
+
+Copyright (c) 2022, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+*/
+
+$light: #ffffff;
+$dark: #000000;
+$dark-gray: #373737;
+
+.lesli-navbar {
+    padding: 2rem 0;
+    background-color: transparent;
+    &-brand {
+        height: 100%;
+    }
+
+    .navbar-start {
+        margin-left: 1rem;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        justify-content: flex-start;
+    }
+    &-link {
+        display: flex;
+        align-items: center;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    
+    &-language {
+        border: 1px solid $dark;
+        border-radius: 8px;
+    }
+
+    &-burger__light span {
+        background-color: $light;
+    }
+
+    &-burger__dark span {
+        background-color: $dark-gray;
+    }
+    
+    
+    
+    .navbar-end {
+        .dropdown.locale .button {
+            background-color: transparent;
+            color: $light;
+            .bulma-arrow-mixin {
+                @include arrow($light);
+            }
+        }
+    }
+}
+
+@include lesli-css-breakpoint-until-tablet() {
+    .lesli-navbar {
+        width: 90%;
+        margin: 0 auto;
+        &-link {
+            color: $dark-gray;
+        }
+        .navbar-start {
+            margin-left: 0;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        .navbar-end, .language-selector {
+            margin-top: 1rem;
+        }
+        .navbar-menu {
+            padding: 2rem;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+        }
+    }
+}

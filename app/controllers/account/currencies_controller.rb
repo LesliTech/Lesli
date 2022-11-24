@@ -1,5 +1,5 @@
 =begin
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -17,6 +17,14 @@ For more information read the license file including with this software.
 =end
 class Account::CurrenciesController < ApplicationLesliController
     before_action :set_account_currency, only: [:show, :update, :destroy]
+
+    def privileges
+        {
+            index: [],
+            show: [],
+            new: [],
+        }
+    end
 
     # GET /account/currencies
     def index
@@ -101,7 +109,6 @@ class Account::CurrenciesController < ApplicationLesliController
     def account_currency_params
         params.require(:account_currency)
         .permit(
-            :id,
             :name,
             :symbol,
             :country_alpha_3

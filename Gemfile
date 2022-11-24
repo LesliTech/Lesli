@@ -80,8 +80,8 @@ gem "font-awesome-sass", "~> 5.15.1"
 
 # · Tools used to build the LESLI Platform
 
-# Message utilities for the Ruby console
-gem "LRM", "0.1.0"
+# Message utilities for the Ruby console.
+gem "L2", "0.4.0"
 
 # Flexible authentication solution for Rails with Warden
 gem "devise", "4.8.1"
@@ -255,13 +255,19 @@ group :development do
 
     # Automatically generate an SVG sprite from a folder of SVG icons.
     # Generate svg sprite for the lesli icons:
-    # svgeez build --prefix="" --source ./app/assets/icons/lesli --destination ./app/views/layouts/partials/_application-svgs.svg
+    # first clean the svg files with svgo nodejs module: https://github.com/svg/svgo
     # and then rename _application-svgs.svg to _application-svgs.html.erb
+    # ·
+    # svgo -f ./app/assets/icons/raw -o ./app/assets/icons/lesli
+    # svgeez build --prefix="" --source ./app/assets/icons/lesli --destination ./app/views/layouts/partials/_application-svgs.svg
     # mv ./app/views/layouts/partials/_application-svgs.svg ./app/views/layouts/partials/_application-svgs.html.erb
     gem "svgeez", "4.1"
 
     # Rouge aims to a be a simple, easy-to-extend drop-in replacement for pygments.
     gem "rouge", "3.28.0"
+
+    # Static code analyser to find security issues in Rails applications 
+    gem "spektr", "0.3.4"
 
 end
 

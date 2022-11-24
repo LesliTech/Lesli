@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -22,18 +22,29 @@ For more information read the license file including with this software.
 class UsersController < ApplicationLesliController
     before_action :set_user, only: [:show, :update, :destroy]
 
+    def privileges
+        {
+            index: ['show', 'list'],
+            new: [],
+            show: ['index', 'list'],
+            edit: [],
+            email: [],
+            destroy: [],
+        }
+    end
+
     def list
         respond_to do |format|
-            format.json { 
+            format.json {
 
                 # Keep compatibility with DeutscheLeibrenten
-                if defined?(DeutscheLeibrenten) 
-                    respond_with_successful(User.list(current_user, @query, params)) 
+                if defined?(DeutscheLeibrenten)
+                    respond_with_successful(User.list(current_user, @query, params))
                 end
 
                 # Lesli v3
-                if !defined?(DeutscheLeibrenten) 
-                    respond_with_successful(User.list(current_user, @query, params)) 
+                if !defined?(DeutscheLeibrenten)
+                    respond_with_successful(User.list(current_user, @query, params))
                 end
 
             }
@@ -50,73 +61,36 @@ class UsersController < ApplicationLesliController
     def index
         respond_to do |format|
             format.html { }
-            format.json { 
+            format.json {
+                users = User.index(current_user, @query, params)
 
-                # Keep compatibility with DeutscheLeibrenten
-                if defined?(DeutscheLeibrenten)
+                return respond_with_pagination(users, (users.map { |user|
 
-                    users = User.index(current_user, @query, params)
+                    # last time user use the login form to access the platform
+                    current_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at])
 
-                    users_count = users.total_count
+                    # last action the user perform an action into the system
+                    last_action_performed_at = LC::Date.distance_to_words(user["last_action_performed_at"]) if not user["last_action_performed_at"].blank?
 
-                    users = users.map do |user|
-                        # last time user use the login form to access the platform
-                        last_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at], Time.current)
-                        # last action the user perform an action into the system
-                        last_action_performed_at = LC::Date.distance_to_words(user["last_action_performed_at"], Time.current) if not user["last_action_performed_at"].blank?
-                        # check if user has an active session
-                        session = user["last_login_at"].blank? ? false : true
+                    # last login from the user
+                    last_login_at = LC::Date.distance_to_words(user[:last_login_at])
 
-                        {
-                            id: user[:id],
-                            name: user[:name],
-                            email: user[:email],
-                            category: user[:category],
-                            last_sign_in_at: last_sign_in_at,
-                            active: user[:active],
-                            roles: user[:roles],
-                            last_activity_at: last_action_performed_at,
-                            session_active: session
-                        }
-                    end
+                    # check if user has an active session
+                    session = user["last_login_at"].blank? ? false : true
 
-                    respond_with_successful({
-                        users_count: users_count,
-                        users: users
-                    }) 
-                end
-
-                # Lesli v3
-                if !defined?(DeutscheLeibrenten) 
-
-                    users = User.index(current_user, @query, params)
-                    
-                    return respond_with_pagination(users, (users.map { |user|
-
-                        # last time user use the login form to access the platform
-                        last_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at])
-
-                        # last action the user perform an action into the system
-                        last_action_performed_at = LC::Date.distance_to_words(user["last_action_performed_at"]) if not user["last_action_performed_at"].blank?
-
-                        # check if user has an active session
-                        session = user["last_login_at"].blank? ? false : true
-
-                        {
-                            id: user[:id],
-                            name: user[:name],
-                            email: user[:email],
-                            category: user[:category],
-                            last_sign_in_at: last_sign_in_at,
-                            active: user[:active],
-                            roles: user[:roles],
-                            last_activity_at: last_action_performed_at,
-                            session_active: session
-                        }
-                    }))
-
-                end
-
+                    {
+                        id: user[:id],
+                        name: user[:name],
+                        email: user[:email],
+                        category: user[:category],
+                        current_sign_in_at: current_sign_in_at,
+                        active: user[:active],
+                        roles: user[:roles],
+                        last_action_performed_at: last_action_performed_at,
+                        session_active: session,
+                        last_login_at: last_login_at
+                    }
+                }))
             }
         end
     end
@@ -168,17 +142,13 @@ class UsersController < ApplicationLesliController
         if user.save
 
             # if a role is provided to assign to the new user
-            if not user_params[:roles_id].blank?
-
+            unless user_params[:roles_id].blank?
                 # check if current user can work with the sent role
                 if current_user.can_work_with_role?(user_params[:roles_id])
-
-                    # get the requested role to assign to the new user
-                    role = current_user.account.roles.find(user_params[:roles_id])
-
+                    # Search the role assigned
+                    role = current_user.account.roles.find_by(id: user_params[:roles_id])
                     # assign role to the new user
                     user.user_roles.create({ role: role })
-
                 end
 
             end
@@ -264,7 +234,7 @@ class UsersController < ApplicationLesliController
 
     def options
 
-        roles = current_user.account.roles.select(:id, :name)
+        roles = current_user.account.roles.select(:id, :name, :object_level_permission)
 
         # only owner can assign any role
         unless current_user.has_roles?("owner")
@@ -276,7 +246,7 @@ class UsersController < ApplicationLesliController
             regions: current_user.account.locations.where(level: "region"),
             salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
             locales: Rails.application.config.lesli.dig(:configuration, :locales_available),
-            mfa_methods: Rails.application.config.lesli.dig(:configuration, :mfa_methods),
+            mfa_methods: Rails.application.config.lesli.dig(:configuration, :mfa_methods)
         })
 
     end
@@ -318,7 +288,7 @@ class UsersController < ApplicationLesliController
         })
 
         # assign the session of the becomer user to the becoming user
-        session[:user_session_id] = becoming_session[:id]        
+        session[:user_session_id] = becoming_session[:id]
 
         # Response successful
         respond_with_successful([current_user, becoming_user])
@@ -393,11 +363,12 @@ class UsersController < ApplicationLesliController
 
     end
 
-    # Resets the user email 
+    # Resets the user email
     def email
+
         user = current_user.account.users.find_by(id: params[:id])
 
-        if user.blank? 
+        if user.blank? || user.id != current_user.id
             return respond_with_not_found
         end
 

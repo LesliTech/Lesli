@@ -79,18 +79,28 @@ class Users::RegistrationsController < Devise::RegistrationsController
         if ::User.with_deleted.find_by(email: sign_up_params["email"])
             return respond_with_error(I18n.t("core.users/registrations.messages_info_user_already_exists"))
         end
-
+        
         # build new user
         user = build_resource(sign_up_params)
-
+        
         # run password complexity validations
         password_complexity = UserValidationService.new(user).password_complexity(sign_up_params[:password])
 
         # return if there are errors with the complexity validations
-        return respond_with_error(password_complexity.error) if not password_complexity.successful?
-
+        return respond_with_error("password_complexity_error", password_complexity.error) if not password_complexity.successful?
+        
         # persist new user
         if user.save
+
+            detail_attributes = params.dig(:user, :detail_attributes)
+
+            unless detail_attributes.nil? || detail_attributes.empty?
+                user.detail.update({ 
+                    first_name: params.dig(:user, :detail_attributes, :first_name) || "",
+                    last_name: params.dig(:user, :detail_attributes, :last_name) || "",
+                    telephone: params.dig(:user, :detail_attributes, :telephone) || ""
+                })
+            end
 
             # save a default locale for user
             user.settings.create(:name => 'locale', :value => I18n.locale)
@@ -137,6 +147,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
         end
             
     end 
+
+    def options
+        respond_with_successful({
+            countries: ::Account.first.locations.where(level: 'country').select(:name, :calling_code)
+        })
+    end
 
 
     protected

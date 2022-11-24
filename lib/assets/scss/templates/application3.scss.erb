@@ -20,8 +20,7 @@ For more information read the license file including with this software.
 
 
 // · Import customization from builder engine
-@import "<%= LC::System::Info.sass_instance_theme %>";
-
+@import "<%= LC::System::Info.sass_instance('settings') %>";
 
 
 // · Configuration
@@ -46,14 +45,20 @@ For more information read the license file including with this software.
 
 // · Loading app layout 
 @import "./lesli3/layout/application-header";
+@import "./lesli3/layout/application-announcements";
 @import "./lesli3/layout/application-engines";
 @import "./lesli3/layout/application-sidebar";
 @import "./lesli3/layout/application-component";
 @import "./lesli3/layout/application-footer";
 @import "./lesli3/layout/application-search";
 
+
 // · Panels :) 
+@import "./lesli3/panels/panel-tasks";
+@import "./lesli3/panels/panel-ticket";
 @import "./lesli3/panels/panel-notification";
+@import "./lesli3/panels/panel-announcements";
+
 
 // · Lesli components
 @import "./lesli3/components/lesli-loading";
@@ -69,9 +74,16 @@ For more information read the license file including with this software.
 @import "./lesli3/components/lesli-avatar";
 @import "./lesli3/components/lesli-toggle";
 @import "./lesli3/components/lesli-map";
+@import "./lesli3/components/lesli-gallery";
+@import "./lesli3/components/lesli-navbar";
+@import "./lesli3/components/lesli-autocomplete";
+
+@import "./lesli3/components/editor-richtext";
+
 
 // · Lesli cloud objects
 @import "./lesli3/cloud-objects/discussion";
+
 
 // · Overrides for vendor libraries
 @import "./lesli3/overrides/sweetalert";
@@ -79,6 +91,10 @@ For more information read the license file including with this software.
 
 // · Include Lesli Standards
 @include lesli-css-normalize();
+
+
+// · Import customization from builder engine
+@import "<%= LC::System::Info.sass_instance('theme') %>";
 
 
 // · 

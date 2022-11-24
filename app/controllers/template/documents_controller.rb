@@ -20,6 +20,16 @@ For more information read the license file including with this software.
 class Template::DocumentsController < ApplicationLesliController
     before_action :set_template_document, only: [:show, :edit, :update, :destroy]
 
+    def privileges
+        {
+            index: [],
+            show: ["generate"],
+            new: [],
+            destroy: [],
+            edit: []
+        }
+    end
+
 =begin
 @return [Json] Json that contains a list of all documents created
 @description Retrieves and returns all documents that belongs to the current_users's account

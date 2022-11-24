@@ -40,20 +40,33 @@ const translations = {
         users: I18n.t("core.users"),
         shared: I18n.t("core.shared")
     }
-}
-    
-// · initializing
-onMounted(() => {
 
+}
+
+// · defining props
+const props = defineProps({
+    appMountPath: {
+        type: String,
+        required: false,
+        default: "administration/users",
+    }
+})
+
+onMounted(() => {
+    storeUser.getOptions()
 })
 
 </script>
 
 <template>
     <section class="application-component">
-        <lesli-header title="Create User"></lesli-header>
+        <lesli-header title="Create User">
+            <lesli-button icon="list" :to="url.root(props.appMountPath)">
+                All users
+            </lesli-button>
+        </lesli-header>
         <div class="box">
-            <formInformation/>
+            <form-information :path="props.appMountPath"></form-information>
         </div>
     </section>
 </template>

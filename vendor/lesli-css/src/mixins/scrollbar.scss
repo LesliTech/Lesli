@@ -31,14 +31,15 @@ Building a better future, one line of code at a time.
 
 
 // · 
-@mixin lesli-css-scrollbar($style:normal, $color:false, $background:false) {
+@mixin lesli-css-scrollbar($style:normal, $color:#ffffff, $background:#ffffff) {
     scrollbar-width: thin;
-    scrollbar-color: #ffffff #ffffff;
+    scrollbar-color: $color $background;
 
     @if $style == hide {
+        scrollbar-width: none;
         &::-webkit-scrollbar {
             width: 0px;
-            background-color: #f5f5f5;
+            background-color: $background;
         }
     }
 
