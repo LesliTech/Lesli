@@ -1,10 +1,10 @@
 # =begin
 
-# Copyright (c) 2020, all rights reserved.
+# Copyright (c) 2022, all rights reserved.
 
-# All the information provided by this platform is protected by international laws related  to 
-# industrial property, intellectual property, copyright and relative international laws. 
-# All intellectual or industrial property rights of the code, texts, trade mark, design, 
+# All the information provided by this platform is protected by international laws related  to
+# industrial property, intellectual property, copyright and relative international laws.
+# All intellectual or industrial property rights of the code, texts, trade mark, design,
 # pictures and any other information belongs to the owner of this platform.
 
 # Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@
 # For more information read the license file including with this software.
 
 # // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-# // · 
+# // ·
 
 # =end
 
@@ -38,7 +38,7 @@ RSpec.describe Users::SessionsController, type: :controller, :unless => defined?
         @user.confirm
     end
 
-    it "login with valid credentials" do 
+    it "login with valid credentials" do
 
         post :create, params: {
             "user": {
@@ -52,7 +52,7 @@ RSpec.describe Users::SessionsController, type: :controller, :unless => defined?
     end
 
 
-    it "try to login with not valid email" do 
+    it "try to login with not valid email" do
 
         post :create, params: {
             "user": {
@@ -66,7 +66,7 @@ RSpec.describe Users::SessionsController, type: :controller, :unless => defined?
 
     end
 
-    it "try to login with not valid password" do 
+    it "try to login with not valid password" do
 
         post :create, params: {
             "user": {
@@ -80,7 +80,7 @@ RSpec.describe Users::SessionsController, type: :controller, :unless => defined?
 
     end
 
-    it "try to login with valid credentials of unconfirmed user" do 
+    it "try to login with valid credentials of unconfirmed user" do
 
         user = Account.first.users.create!({
             email: Faker::Internet.email,
@@ -102,7 +102,7 @@ RSpec.describe Users::SessionsController, type: :controller, :unless => defined?
 
     end
 
-    it "try to login with not valid credentials of unconfirmed user" do 
+    it "try to login with not valid credentials of unconfirmed user" do
 
         user = Account.first.users.create!({
             email: Faker::Internet.email,
@@ -124,7 +124,7 @@ RSpec.describe Users::SessionsController, type: :controller, :unless => defined?
 
     end
 
-    it "Try to login with a user with no roles assigned" do 
+    it "Try to login with a user with no roles assigned" do
 
         user = Account.first.users.create!({
             email: Faker::Internet.email,
@@ -146,7 +146,7 @@ RSpec.describe Users::SessionsController, type: :controller, :unless => defined?
 
     end
 
-    it "Try to login with a user with no active roles assigned" do 
+    it "Try to login with a user with no active roles assigned" do
 
         user = Account.first.users.create!({
             email: Faker::Internet.email,
@@ -189,6 +189,7 @@ RSpec.describe Users::SessionsController, type: :controller, :unless => defined?
             password: @password,
             password_confirmation: @password
         })
+
         user_roles = @user.user_roles.create({ role: @account.roles.find_by(name: "owner") })
         user_roles.roles.update(active: true)
         @user.confirm
@@ -226,6 +227,7 @@ RSpec.describe Users::SessionsController, type: :controller, :unless => defined?
             password: @password,
             password_confirmation: @password
         })
+
         user_roles = @user.user_roles.create({ role: @account.roles.find_by(name: "limited") })
         user_roles.roles.update(active: true)
         @user.confirm

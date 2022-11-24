@@ -57,7 +57,7 @@ export default {
 </script>
 <template>
     <b-sidebar
-        :class="['application-panel', size]"
+        :class="['panel-container', 'application-panel', size]"
         :open.sync="isOpen"
         :right="true"
         :fullheight="true"
@@ -74,4 +74,13 @@ export default {
     </b-sidebar>
 </template>
 <style>
+.panel-container {
+    z-index: 100;
+    position: absolute;
+    width: 100%;
+    top: 0%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
 </style>

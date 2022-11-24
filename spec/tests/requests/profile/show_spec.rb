@@ -76,7 +76,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body["updated_at"]).to be_a(String)
             expect(response_body["mfa_enabled"]).to be_in([true, false])
             expect(response_body["editable_security"]).to be_in([true, false])
-            expect(response_body["mfa_method"]).to eq(@current_user.mfa_settings[:method])
+            expect(response_body["mfa_method"]).to eq(@current_user.mfa_settings[:method].to_s)
         end
 
         it "is expected to validate detail_attributes hash and attributes" do 

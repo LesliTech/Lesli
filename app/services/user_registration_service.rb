@@ -1,9 +1,9 @@
 =begin
 Copyright (c) 2021, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -12,11 +12,11 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 class UserRegistrationService
-    
+
     def initialize(resource)
         @resource = resource
     end
@@ -31,7 +31,7 @@ class UserRegistrationService
 
         # create new account for the new user only if multi-account is allowed
         if allow_multiaccount == true
-            account = Account.create({ 
+            account = Account.create({
                 user: @resource,            # set user as owner of his just created account
                 company_name: "",           # temporary company name
                 status: "onboarding"        # account is active due user already confirmed his email
@@ -46,8 +46,15 @@ class UserRegistrationService
         # add user to his own account
         @resource.account = account
 
-        # add owner role to user
-        @resource.user_roles.create({ role: account.roles.find_by(name: "owner")})
+        # add owner role to user only if multi-account is allowed
+        if allow_multiaccount == true
+            @resource.user_roles.create({ role: account.roles.find_by(name: "owner") })
+        end
+
+        # add profile role to user only if multi-account is allowed
+        if allow_multiaccount == false
+            @resource.user_roles.create({ role: account.roles.find_by(name: "limited") })
+        end
 
         # update user :)
         @resource.save

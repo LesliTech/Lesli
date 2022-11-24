@@ -142,7 +142,7 @@ export default {
                 instructions: group.new_action.instructions,
                 group: group_name
             }
-            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/actions`
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/actions.json`
             group.new_action.submitting = true
 
             this.http.post(url, data).then(result => {

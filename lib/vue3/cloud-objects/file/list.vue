@@ -60,8 +60,8 @@ onMounted(() => {
 <template>
     <lesli-table :columns="columns" :records="store.files">
         <template #options="record">
-                <a class="dropdown-item" :href="store.getUrl(record.value)" target="_blank">{{ translations.core.shared.view_btn_view_file }}</a>
-                <a class="dropdown-item" :href="`${store.getUrl(record.value)}?download=true`" download>{{ translations.core.shared.view_btn_download }}</a>
+                <a class="dropdown-item" :href="`${store.getUrl(record.value)}.json`" target="_blank">{{ translations.core.shared.view_btn_view_file }}</a>
+                <a class="dropdown-item" :href="`${store.getUrl(record.value)}.json?download=true`" download>{{ translations.core.shared.view_btn_download }}</a>
                 <a class="dropdown-item" @click="store.deleteFile(record.value)">{{ translations.core.shared.view_btn_delete }}</a>
         </template>
     </lesli-table>

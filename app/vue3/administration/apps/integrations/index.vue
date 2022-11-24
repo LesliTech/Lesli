@@ -84,6 +84,16 @@ onMounted(() => {
                     {{ value }}
                 </a>
             </template>
+            <template #options="{ record, value }">
+                <a class="dropdown-item" @click="storeIntegration.deleteIntegration(record.id)">
+                    <span class="material-icons">
+                        delete
+                    </span>
+                    <span>
+                        Delete
+                    </span>
+                </a>
+            </template>
         </lesli-table>
     </section>
 </template>

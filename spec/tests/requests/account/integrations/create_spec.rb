@@ -23,16 +23,17 @@ require "lesli_request_helper"
 
 
 RSpec.describe "POST:/administration/account/integrations", type: :request, :unless => defined?(DeutscheLeibrenten) do 
-
     include_context "request user authentication"
 
     it "is expected to respond with integrations created successfully" do
+
         post("/administration/account/integrations.json", params: {
             account_integration: {
                 name: Faker::Superhero.power
             }
         })
         expect_response_with_successful
+
         expect(response_body).to be_a(String)
         expect(response_body.length).to eq(20)
     end

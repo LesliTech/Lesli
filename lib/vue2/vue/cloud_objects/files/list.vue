@@ -244,7 +244,7 @@ export default {
                         <b-icon size="is-small" icon="eye" />
                     </a>
                     <a
-                        :href="`${main_route}/${cloudId}/files/${props.row.id}?download=true`"
+                        :href="`${main_route}/${cloudId}/files/${props.row.id}.json?download=true`"
                         download
                         class="button is-outlined"
                     >

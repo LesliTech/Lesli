@@ -21,7 +21,7 @@ class ApplicationApiController < ActionController::API
     include ActionController::MimeResponds
     include Interfaces::Application::Responder
     include Interfaces::Application::Logger
-    include Application::Requester
+    include Application::Requester    
 
     before_action :set_locale
     before_action :authorize_request
@@ -32,6 +32,12 @@ class ApplicationApiController < ActionController::API
     @current_user = nil
     @current_session = nil
 
+    protected
+
+    # Rescue from "ParameterMissing" when using required params in controllers
+    rescue_from ActionController::ParameterMissing do |e|
+        respond_with_error("Missing params")
+    end
 
     private
 
@@ -122,12 +128,16 @@ class ApplicationApiController < ActionController::API
         response_body_v2 = {
             successful: true,
             data: payload
-        }
+        }        
 
         if payload.as_json.instance_of?(Array)
             return respond_with_http(200, payload)
         elsif payload.blank?
             response_body_v3 = {}
+        elsif payload.instance_of? String
+            response_body_v3 = {
+                message: payload
+            }
         else
             response_body_v3 = {
                 **payload.as_json

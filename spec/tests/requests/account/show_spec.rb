@@ -62,6 +62,8 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body).to have_key("created_at")
             expect(response_body).to have_key("updated_at")
             expect(response_body).to have_key("users_id")
+            expect(response_body).to have_key("city")
+            expect(response_body).to have_key("postal_code")
         end 
 
         it "is expected to have current user account values" do
@@ -91,6 +93,8 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body["linkedin"]).to eq(@current_user.account.linkedin)
             expect(response_body["facebook"]).to eq(@current_user.account.facebook)
             expect(response_body["users_id"]).to eq(@current_user.account.users_id)
+            expect(response_body["city"]).to eq(@current_user.account.city)
+            expect(response_body["postal_code"]).to eq(@current_user.account.postal_code)
         end 
     end
 end

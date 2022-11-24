@@ -22,6 +22,9 @@ import { onMounted, ref } from "vue"
 // · import lesli stores
 import { useAccountSettings } from "Lesli/vue3/administration/stores/accountSettings"
 
+// · Import dayjs library
+import dayjs from "dayjs"
+
 // · implement stores
 const storeAccountSettings = useAccountSettings()
 
@@ -39,47 +42,64 @@ const translations = {
 }
 
 // . declare variables
-const timezoneValue = ref({ label:"", value:"" })
-const timeFormat = ref({ label:"", value:"" })
-const dateFormat = ref({ label:"", value:"" })
-const dateWords = ref({ label:"", value:"" })
-const datetimeWords = ref(dateWords.value.label + timeFormat.value.label )
-const combinedDate = ref(dateFormat.value.label + timeFormat.value.label )
+const combinedDate = ref("")
+const dateWords = ref("")
+let formatDate = ""
+let formatTime = ""
+let formatDateWords = ""
+
 
 // . Functions for updating date format values in store 
-
-function updateTimezone() {
-    storeAccountSettings.settings.datetime_time_zone = timezoneValue.value.value
-}
 function updateDatetime() {
-    combinedDate.value = dateFormat.value.label +" "+ timeFormat.value.label
-    storeAccountSettings.settings.datetime_format_date_time = dateFormat.value.value +" "+timeFormat.value.value
-}
+    if (storeAccountSettings.settings.datetime_format_date == "%d.%m.%Y"){
+        formatDate = dayjs().format('DD.MM.YYYY')
+    } else if (storeAccountSettings.settings.datetime_format_date == "%d-%m-%Y"){
+        formatDate = dayjs().format('DD-MM-YYYY')
+    } else if (storeAccountSettings.settings.datetime_format_date == "%d/%m/%Y"){
+        formatDate = dayjs().format('DD/MM/YYYY')
+    }
 
-function updateDate() {
-    storeAccountSettings.settings.datetime_format_date = dateFormat.value.value
-    updateDatetime()
+    if (storeAccountSettings.settings.datetime_format_time == '%I:%M'){
+        formatTime = dayjs().format('hh:mm')
+    } else if (storeAccountSettings.settings.datetime_format_time == '%I:%M:%S'){
+        formatTime = dayjs().format('hh:mm:ss')
+    } else if (storeAccountSettings.settings.datetime_format_time == '%I:%M %p'){
+        formatTime = dayjs().format('hh:mm A')
+    } else if (storeAccountSettings.settings.datetime_format_time == '%H:%M'){
+        formatTime = dayjs().format('HH:mm')
+    } else if (storeAccountSettings.settings.datetime_format_time == '%H:%M:%S'){
+        formatTime = dayjs().format('HH:mm:ss')
+    }
+    combinedDate.value = formatDate + " " + formatTime
+    storeAccountSettings.settings.datetime_format_date_time = storeAccountSettings.settings.datetime_format_date +" "+storeAccountSettings.settings.datetime_format_time
 }
 
 function updateTime() {
-    storeAccountSettings.settings.datetime_format_time = timeFormat.value.value
     updateDatetime()
     updateDateWords()
 }
 
 function updateDateWords(){
-    datetimeWords.value = dateWords.value.label +" "+ timeFormat.value.label
-    storeAccountSettings.settings.datetime_format_date_time_words = dateWords.value.value +" "+timeFormat.value.value
+
+    if (storeAccountSettings.settings.datetime_format_date_words == '%A, %B %d, %Y'){
+        formatDateWords = dayjs().format('dddd, MMMM DD, YYYY')
+    } else if (storeAccountSettings.settings.datetime_format_date_words== '%a, %b %d, %Y'){
+        formatDateWords = dayjs().format('ddd, MMM DD, YYYY')
+    } else if (storeAccountSettings.settings.datetime_format_date_words == '%b %d, %Y'){
+        formatDateWords = dayjs().format('MMM DD, YYYY')
+    } else if (storeAccountSettings.settings.datetime_format_date_words == '%B %d, %Y'){
+        formatDateWords = dayjs().format('MMMM DD, YYYY')
+    }
+
+    dateWords.value = formatDateWords + " " + formatTime
+    storeAccountSettings.settings.datetime_format_date_time_words = storeAccountSettings.settings.datetime_format_date_words +" "+ storeAccountSettings.settings.datetime_format_time
 }
 
-function initializeValues(){
-    timezoneValue.value = { label: storeAccountSettings.settings.datetime_time_zone, value: storeAccountSettings.settings.datetime_time_zone}
-}
 
 onMounted(() => {
     storeAccountSettings.getOptions()
     storeAccountSettings.getSettings()
-    initializeValues()
+    updateTime()
 })
 
 </script>
@@ -98,8 +118,7 @@ onMounted(() => {
                 <div class="column is-6">
                     <lesli-select v-if="!storeAccountSettings.loading"
                         :options="storeAccountSettings.options.time_zones"
-                        v-model="timezoneValue"
-                        @change="updateTimezone"
+                        v-model="storeAccountSettings.settings.datetime_time_zone"
                     >
                     </lesli-select>
                 </div>
@@ -116,20 +135,20 @@ onMounted(() => {
                     <lesli-select
                         :options="[
                             {
-                                label: '24.03.2018',
+                                label: dayjs().format('DD.MM.YYYY'),
                                 value: '%d.%m.%Y',
                             },
                             {
-                                label: '24-03-2018',
+                                label: dayjs().format('DD-MM-YYYY'),
                                 value: '%d-%m-%Y',
                             },
                             {
-                                label: '24/03/2018',
+                                label: dayjs().format('DD/MM/YYYY'),
                                 value: '%d/%m/%Y',
                             },
                         ]"
-                        v-model="dateFormat"
-                        @change="updateDate"
+                        v-model="storeAccountSettings.settings.datetime_format_date"
+                        @change="updateDatetime"
                     >
                     </lesli-select>
                 </div>
@@ -145,27 +164,27 @@ onMounted(() => {
                     <lesli-select
                         :options="[
                             {
-                                label: '10:30',
+                                label: dayjs().format('hh:mm'),
                                 value: '%I:%M',
                             },
                             {
-                                label: '10:30:20',
+                                label: dayjs().format('hh:mm:ss'),
                                 value: '%I:%M:%S',
                             },
                             {
-                                label: '10:30 PM',
+                                label: dayjs().format('hh:mm A'),
                                 value: '%I:%M %p',
                             },
                             {
-                                label: '22:30',
+                                label: dayjs().format('HH:mm'),
                                 value: '%H:%M',
                             },
                             {
-                                label: '22:30:20',
+                                label: dayjs().format('HH:mm:ss'),
                                 value: '%H:%M:%S',
                             },
                         ]"
-                        v-model="timeFormat"
+                        v-model="storeAccountSettings.settings.datetime_format_time"
                         @change="updateTime"
                     >
                     </lesli-select>
@@ -198,23 +217,23 @@ onMounted(() => {
                     <lesli-select
                         :options="[
                             {
-                                label: 'Saturday, March 24, 2018',
+                                label: dayjs().format('dddd, MMMM DD, YYYY'),
                                 value: '%A, %B %d, %Y',
                             },
                             {
-                                label: 'Sat, Mar 24, 2018',
+                                label: dayjs().format('ddd, MMM DD, YYYY'),
                                 value: '%a, %b %d, %Y',
                             },
                             {
-                                label: 'Mar 24, 2018',
+                                label: dayjs().format('MMM DD, YYYY'),
                                 value: '%b %d, %Y',
                             },
                             {
-                                label: 'March 24, 2018',
+                                label: dayjs().format('MMMM DD, YYYY'),
                                 value: '%B %d, %Y',
                             }
                         ]"
-                        v-model="dateWords"
+                        v-model="storeAccountSettings.settings.datetime_format_date_words"
                         @change="updateDateWords"
                     >
                     </lesli-select>
@@ -232,7 +251,7 @@ onMounted(() => {
                         class="input"
                         type="text"
                         readonly
-                        v-model="datetimeWords"
+                        v-model="dateWords"
                     />
                 </div>
             </div>

@@ -54,6 +54,11 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    onlyDiscussions: {
+        type: Boolean,
+        required: false,
+        default: false
+    }
 });
 
 discussionStore.cloudModule = props.cloudModule
@@ -61,7 +66,7 @@ discussionStore.cloudObject = props.cloudObject
 discussionStore.cloudObjectId = props.cloudObjectId
 
 onMounted(() => {
-    if (discussionStore.filters.showActivityLog) discussionStore.fetchActivityLogs()
+    if (discussionStore.filters.showActivityLog && !props.onlyDiscussions) discussionStore.fetchActivityLogs()
     if (discussionStore.filters.showDiscussion) discussionStore.fetchDiscussions()
 })
 </script>
@@ -70,7 +75,7 @@ onMounted(() => {
     <div class="p-2 discussion">
         <discussion-new></discussion-new>
         <lesli-toolbar @search="discussionStore.search" :search-placeholder="translations.core.shared.view_placeholder_discussion_search" class="mt-4"></lesli-toolbar>
-        <discussion-filters></discussion-filters>
+        <discussion-filters v-if="!props.onlyDiscussions"></discussion-filters>
         <discussion-content></discussion-content>
     </div>
 </template>

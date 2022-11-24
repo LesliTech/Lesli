@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -19,6 +19,16 @@ For more information read the license file including with this software.
 
 class Account::CronosController < ApplicationLesliController
     before_action :set_account_crono, only: [:show, :update, :destroy]
+
+    def privileges
+        {
+            index: [],
+            show: [],
+            new: [],
+            edit: [],
+            destroy: [],
+        }
+    end
 
     # GET /account/cronos
     def index
@@ -99,7 +109,9 @@ class Account::CronosController < ApplicationLesliController
             :hour,
             :day_of_month,
             :month,
-            :day_of_week
+            :day_of_week,
+            :task_name,
+            :engine_code
         )
     end
 end

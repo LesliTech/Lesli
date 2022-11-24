@@ -20,6 +20,10 @@ For more information read the license file including with this software.
 // · 
 .lesli-panel-notifications {
 
+    .lesli-panel-content{
+        overflow-y: scroll;
+    }
+
     .lesli-notification {
         border-bottom: 1px solid lesli-css-color(silver);
     }

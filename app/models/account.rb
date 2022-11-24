@@ -31,6 +31,7 @@ class Account < ApplicationRecord
     has_many :currencies,       foreign_key: "accounts_id", class_name: "Account::Currency"
     has_many :integrations,     foreign_key: "accounts_id"
     has_many :role_descriptors, foreign_key: "accounts_id", class_name: "RoleDescriptor"
+    has_many :descriptors,      foreign_key: "accounts_id"
 
     has_one :template, class_name: "Template", foreign_key: "accounts_id"
 
@@ -53,6 +54,7 @@ class Account < ApplicationRecord
     has_one :things,     class_name: "CloudThings::Account",     foreign_key: "id"
     has_one :shared,     class_name: "CloudShared::Account",     foreign_key: "id"
     has_one :portal,     class_name: "CloudPortal::Account",     foreign_key: "id"
+    has_one :social,     class_name: "CloudSocial::Account",     foreign_key: "id"
     has_one :proposal,   class_name: "CloudProposal::Account",   foreign_key: "id"
     has_one :dispatcher, class_name: "CloudDispatcher::Account", foreign_key: "id"
     has_one :storage,    class_name: "CloudStorage::Account",    foreign_key: "id"
@@ -89,15 +91,14 @@ class Account < ApplicationRecord
             self.template.save!
         end
 
-        # create role descriptors
-        self.role_descriptors.find_or_create_by(name: "owner")
-        self.role_descriptors.find_or_create_by(name: "sysadmin")
-        self.role_descriptors.find_or_create_by(name: "profile")
+        # create role descriptors 
+        # disable due role & privileges v4
+        # self.role_descriptors.find_or_create_by(name: "owner")
+        # self.role_descriptors.find_or_create_by(name: "sysadmin")
+        # self.role_descriptors.find_or_create_by(name: "profile")
 
         # create default roles
         account_roles = Rails.application.config.lesli[:security][:roles] || []
-        account_roles.append "api"       # api-access only
-        account_roles.append "guest"     # read-only
         account_roles.append "limited"   # access only to user profile
         account_roles.prepend "sysadmin" # platform administrator role
         account_roles.prepend "owner"    # super admin role
@@ -114,7 +115,8 @@ class Account < ApplicationRecord
                 object_level_permission: object_level_permission
             })
 
-            role.initialize_role_privileges
+            # disable due role & privileges v4
+            # role.initialize_role_privileges
         end
 
         AccountLocationService.new(self).set_locations
@@ -300,6 +302,14 @@ class Account < ApplicationRecord
                 self.work = CloudWork::Account.new
                 self.work.account = self
                 self.work.save!
+            end
+        end
+
+        if defined? CloudSocial
+            if self.social.blank?
+                self.social = CloudSocial::Account.new
+                self.social.account = self
+                self.social.save!
             end
         end
 

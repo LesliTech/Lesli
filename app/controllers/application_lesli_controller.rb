@@ -18,7 +18,6 @@ For more information read the license file including with this software.
 
 class ApplicationLesliController < ApplicationController
     include Interfaces::Application::Responder
-    # include Application::Responder
     include Application::Requester
     include Application::Logger
     include Application::Polyfill
@@ -36,7 +35,6 @@ class ApplicationLesliController < ApplicationController
 
     layout "layouts/application-lesli"
 
-
     protected
 
 
@@ -50,6 +48,13 @@ class ApplicationLesliController < ApplicationController
     #   puts lesli_classname # should also diplay 'CloudHouse::ProjectsController'
     def self.lesli_classname
         return self.name
+    end
+
+
+    # Rescue from "ParameterMissing" when using required params
+    # in controllers
+    rescue_from ActionController::ParameterMissing do |e|
+        respond_with_error("Missing params")
     end
 
     private
@@ -89,7 +94,8 @@ class ApplicationLesliController < ApplicationController
         @account[:settings] = {
             datetime: Rails.application.config.lesli.dig(:configuration, :datetime),
             currency: (Rails.application.config.lesli[:configuration][:currency] || {})
-                .merge({ locale: Rails.application.config.lesli[:env][:default_locale] })
+                .merge({ locale: Rails.application.config.lesli[:env][:default_locale] }),
+            
         }
         
         # set user information
@@ -99,13 +105,18 @@ class ApplicationLesliController < ApplicationController
             full_name: current_user.full_name,
             roles: current_user.roles.map(&:name),
             abilities: current_user.abilities_by_controller,
-            max_object_level_permission: current_user.roles.map(&:object_level_permission).max
+            max_object_level_permission: current_user.roles.map(&:object_level_permission).max,
+            settings: current_user.settings.map { |s| { name: s.name, value: s.value } }
         }
 
         # 
         if defined?(CloudTalk)
             @account[:cloud_talk] = {
-                firebase: Rails.application.credentials.providers&.dig(:firebase, :web)
+                firebase: {
+                    config: Rails.application.credentials.providers&.dig(:firebase, :web),
+                    user: Rails.application.credentials.providers&.dig(:firebase, :user)
+                },
+                google_translate: Rails.application.credentials.providers&.dig(:google_translate)
             }
         end
 
@@ -157,8 +168,18 @@ class ApplicationLesliController < ApplicationController
 
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
+        granted = current_user.has_privileges4?(params[:controller], params[:action], params[:format])
+
+        # IMPORTANT: compatibility with rolesv3
+        # check if user has access to the requested controller
+        # this search is over all the privileges for all the roles of the user
         # Due this method is executed on every request, we use low level cache to improve performance
-        granted = current_user.has_privileges?([params[:controller]], [params[:action]])
+        if defined?(DeutscheLeibrenten)
+            granted3 = current_user.has_privileges?([params[:controller]], [params[:action]])
+
+            # grant privilege if old privileges granted
+            granted = true if granted3 == true
+        end
 
         # Check if user can be redirected to role default path
         can_redirect_to_default_path = -> () {
@@ -176,12 +197,12 @@ class ApplicationLesliController < ApplicationController
 
         # privilege for object not found
         if granted.blank?
-            log_user_comments("privilege_not_found")
+            log_user_comments(request.path, "privilege_not_found")
             return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] })
         end
         
         unless granted
-            log_user_comments("privilege_not_granted")
+            log_user_comments(request.path ,"privilege_not_granted")
             return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] }) 
         end
     end

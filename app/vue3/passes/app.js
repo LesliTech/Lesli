@@ -24,6 +24,7 @@ import app from "LesliVue/public"
 app({
     data() {
         return {
+            loading: false,
             translations: {
                 main: I18n.t("core.passes/new")
             },
@@ -40,15 +41,16 @@ app({
     methods: {
 
         postPass(event) {
-
+            this.loading = true
             event.preventDefault();
 
             this.http.post("/pass", this.pass).then(result => {
-                this.showNotification("If there is an account associated with this e-mail, your will shortly receive an e-mail with a Magic link for login.", "has-text-success")
+                this.showNotification("If there is an account associated with this e-mail, your will shortly receive an e-mail with a Magic link for login.", "success")
             }).catch(error => {
                 this.showNotification(error.message)
             }).finally(() => {
                 this.pass.email = ""
+                this.loading = false
             })
         },
 

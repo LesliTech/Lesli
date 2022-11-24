@@ -37,6 +37,7 @@ section.lesli-panel {
         top: 0;
         width: 540px;
         height: 100%;
+        overflow-y: scroll;
 
         .lesli-panel-header {
             padding: 1rem 1rem .6rem;

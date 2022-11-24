@@ -22,10 +22,6 @@ import { ref, reactive, onMounted, watch, computed, useSlots } from "vue"
 
 
 // · 
-import Pagination from "LesliVue/lesli/components/pagination/Pagination.vue"
-
-
-// · 
 const slots = useSlots()
 
 
@@ -59,6 +55,14 @@ const props = defineProps({
     records: {
         type: Array,
         required: true
+    },
+    link: {
+        type: Function,
+        required: false
+    },
+    href: {
+        type: Function,
+        required: false
     }
 })
 
@@ -111,6 +115,7 @@ function paginate(page) {
     emit('paginate', page)
 }
 
+
 </script>
 <template>
     <div>
@@ -121,24 +126,48 @@ function paginate(page) {
             <thead>
                 <tr>
 
+                    <!--
+                        Button to show/hide detail row
+                    -->
+                    <th v-if="slots.detail"></th>
+
                     <!-- Define table header, we simple iterate over the defined fields -->
                     <th 
                         @click.stop="sort(column)"
                         v-bind:width="column.width"
                         v-bind:class="tableHeaderClass(column)"
                         v-for="column in props.columns" :key="column.field">
-                        <span v-if="!column.sort">
-                            {{ column.label }}
-                        </span>
-                        <span class="icon-text" v-if="column.sort">
-                            <span>
+
+
+
+                        <!--
+                            Use a slot to render content, so it is possible to 
+                            use html elements to render custom componentes for 
+                            every column header of the table 
+                        -->
+                        <slot
+                            :name="`head(${column.field})`" 
+                            :column="column">
+
+                            <!--
+                                Render the default table header if not custom slot is provided
+                            -->
+                            <span v-if="!column.sort">
                                 {{ column.label }}
                             </span>
-                            <span class="icon">
-                                <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'asc')">arrow_upward</span>
-                                <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'desc')">arrow_downward</span>
+                            <span class="icon-text" v-if="column.sort">
+                                <span>
+                                    {{ column.label }}
+                                </span>
+                                <span class="icon">
+                                    <span class="material-icons" v-if="!currentSort">sort</span>
+                                    <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'asc')">arrow_upward</span>
+                                    <span class="material-icons" v-if="(currentSort == column.field && currentSortDir == 'desc')">arrow_downward</span>
+                                </span>
                             </span>
-                        </span>
+
+                        </slot>
+
                     </th>
 
                     <!-- 
@@ -154,72 +183,129 @@ function paginate(page) {
                     Wait until the store indicate that the request was completed, 
                     create the table rows from records
                 -->
-                <tr  
-                    v-for="(record, i) in props.records" :key="`tr-${i}`">
-                    
-                    <!--
-                        Rendering every defined column
-                    -->
-                    <td 
-                        :class="tableBodyClass(column)"
-                        v-on:click.stop="emit('click', record)"
-                        v-for="(column, j) in props.columns" :key="`td-${j}`">
+                <template v-for="(record, i) in props.records" :key="`tr-${i}`">
+                    <tr>
+                        
 
                         <!--
-                            Use a slot to render content, so it is possible to 
-                            use html elements to render custom componentes for 
-                            every column of the table 
+                            Button to show/hide detail row
                         -->
-                        <slot
-                            :name="column.field"
-                            :column="column"
-                            :record="record"
-                            :value="record[column.field]">
+                        <td v-if="slots.detail" class="detailRow px-0 has-text-centered">
+                            <button class="button is-white px-2" @click="record.detailActive = !record.detailActive">
+                                <span v-if="!record.detailActive" class="material-icons">
+                                    chevron_right
+                                </span>
+                                <span v-if="record.detailActive" class="material-icons">
+                                    expand_more
+                                </span>
+                            </button>
+                        </td>
+
+
+                        <!--
+                            Rendering every defined column
+                        -->
+                        <td 
+                            :class="tableBodyClass(column)"
+                            v-on:click.stop="emit('click', record)"
+                            v-for="(column, j) in props.columns" :key="`td-${j}`">
+
 
                             <!--
-                                Print the text value if no custom slot is used
-                                for the current column
+                                Print a standard vue router link if prop is provided and
+                                there is not a slot for this specific column
                             -->
-                            {{ record[column.field] }}
+                            <router-link v-if="props.link && !slots[column.field]" :to="props.link(record)">
+                                {{ record[column.field] }}
+                            </router-link>
 
-                        </slot>
-                    </td>
+
+                            <!--
+                                Print a standard html anchor link if prop is provided and
+                                there is not a slot for this specific column
+                            -->
+                            <a v-if="props.href && !slots[column.field]" :href="props.href(record)">
+                                {{ record[column.field] }}
+                            </a>
+
+
+                            <!--
+                                Use a slot to render content, so it is possible to 
+                                use html elements to render custom componentes for 
+                                every column of the table 
+                                DO NOT print the slot if link or href is required
+
+                                Slot has priority if we provided a slot for this specific column,
+                                so, we should print the slot if slot is provided if not, we should
+                                print the default slot if href or link prop was not provided :)
+                            -->
+                            <slot 
+                                v-if="slots[column.field] || (!props.href && !props.link)"
+                                :name="column.field"
+                                :column="column"
+                                :record="record"
+                                :value="record[column.field]">
+
+                                <!--
+                                    Print the text value if no custom slot is used
+                                    for the current column
+                                -->
+                                {{ record[column.field] }}
+
+                            </slot>
+
+                            
+
+                        </td>
+
+
+                        <!--
+                            Dedicated options column
+                            the dropdownActive[i] is to save the open/closed status of the dropdown for 
+                            every row of the table (i)
+                        -->
+                        <td v-if="slots.options" class="options p-0">
+                            <div :class="['dropdown', 'is-right is-hoverable', { 'is-active': dropdownActive[i] }, {'is-up': i==(props.records.length-1) }]">
+                                <div class="dropdown-trigger">
+                                    <button class="button has-text-info" 
+                                        @blur="dropdownActive[i] = false"
+                                        @click="dropdownActive[i] = !dropdownActive[i]">
+                                        <span class="icon">
+                                            <span v-if="!dropdownActive[i]" class="material-icons md-24">
+                                                more_vert
+                                            </span>
+                                            <span v-if="dropdownActive[i]" class="material-icons">
+                                                more_horiz
+                                            </span>
+                                        </span>
+                                    </button>
+                                </div>
+                                <Transition>
+                                    <div v-if="dropdownActive[i]" class="dropdown-menu" role="menu">
+                                        <div class="dropdown-content">
+                                            <slot 
+                                                name="options"
+                                                :record="record"
+                                                :value="record.id">
+                                            </slot>
+                                        </div>
+                                    </div>
+                                </Transition>
+                            </div>
+                        </td>
+                    </tr>
+                    
 
                     <!--
-                        Dedicated options column
-                        the dropdownActive[i] is to save the open/closed status of the dropdown for 
-                        every row of the table (i)
+                        Dedicated row for detail, we can add an entire row to show some detail
+                        about the current row
                     -->
-                    <td v-if="slots.options" class="options">
-                        <div :class="['dropdown', 'is-right is-hoverable', { 'is-active': dropdownActive[i] }, {'is-up': i==(props.records.length-1) }]">
-                            <div class="dropdown-trigger">
-                                <button class="button has-text-info" 
-                                    @blur="dropdownActive[i] = false"
-                                    @click="dropdownActive[i] = !dropdownActive[i]">
-                                    <span class="icon">
-                                        <span v-if="!dropdownActive[i]" class="material-icons md-24">
-                                            more_vert
-                                        </span>
-                                        <span v-if="dropdownActive[i]" class="material-icons">
-                                            more_horiz
-                                        </span>
-                                    </span>
-                                </button>
-                            </div>
-                            <Transition>
-                                <div v-if="dropdownActive[i]" class="dropdown-menu" role="menu">
-                                    <div class="dropdown-content">
-                                        <slot 
-                                            name="options"
-                                            :record="record"
-                                            :value="record.id">
-                                        </slot>
-                                    </div>
-                                </div>
-                            </Transition>
-                        </div>
-                    </td>
-                </tr>
+                    <tr v-if="record.detailActive">
+                        <td :colspan="props.columns.length + 1">
+                            <slot name="detail" :record="record"></slot>
+                        </td>
+                    </tr>
+                </template>
             </tbody>
         </table>
 
@@ -234,7 +320,7 @@ function paginate(page) {
 
         </div>
 
-        <Pagination v-if="props.pagination" :pagination="props.pagination" @paginate="paginate"></Pagination>
+        <lesli-pagination v-if="props.pagination" :pagination="props.pagination" @paginate="paginate"></lesli-pagination>
 
     </div>
 </template>

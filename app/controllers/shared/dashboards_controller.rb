@@ -20,6 +20,12 @@ module Shared
     class DashboardsController < ApplicationLesliController
         before_action :set_dashboard, only: [:update, :destroy]
 
+        def privileges 
+            {
+                show: []
+            }
+        end 
+
         # @return [HTML|JSON] HTML view for listing all dashboards or a Json that contains a list 
         #     of all dashboards associated to this *account*
         # @description Retrieves and returns all dashboards associated to a *CloudHelp::Account*. 

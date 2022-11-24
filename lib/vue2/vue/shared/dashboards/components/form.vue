@@ -212,7 +212,7 @@ export default {
                 }
             }
 
-            this.http.post(this.main_route, data).then(result => {
+            this.http.post(`${this.main_route}.json`, data).then(result => {
                 this.submitting_dashboard = false
                 if (result.successful) {
                     this.msg.success(this.translations.dashboards.messages_info_dashboard_created)
@@ -245,7 +245,7 @@ export default {
             data.dashboard.components_attributes = data.dashboard.components_attributes.concat(this.deleted_components)
             this.submitting_dashboard = true
 
-            this.http.put(`${this.main_route}/${this.dashboard_id}`, data).then(result => {
+            this.http.put(`${this.main_route}/${this.dashboard_id}.json`, data).then(result => {
                 this.submitting_dashboard = false
                 this.unsaved_changes = false
                 if (result.successful) {

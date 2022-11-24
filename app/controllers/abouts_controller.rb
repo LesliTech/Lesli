@@ -20,10 +20,16 @@ For more information read the license file including with this software.
 class AboutsController < ApplicationLesliController
     skip_before_action :authorize_privileges, only: []
 
-    def system_requirements
+    def privileges 
+        {
+            dashboard: []
+        }
     end
 
     def dashboard
+    end
+
+    def system_requirements
     end
 
     def version
@@ -42,9 +48,6 @@ class AboutsController < ApplicationLesliController
             format.json { respond_with_successful(@aboutengines) }
         end
         
-    end
-
-    def show
     end
 
 end

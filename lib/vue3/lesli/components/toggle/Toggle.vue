@@ -16,9 +16,16 @@ For more information read the license file including with this software.
 // ·
 */
 
-// · defining emits
-const emit = defineEmits(['update:modelValue']);
 
+// · import vue tools
+import { watch } from "vue"
+
+
+// · defining emits
+const emit = defineEmits(['update:modelValue', 'change']);
+
+
+// · 
 const props = defineProps({
     // · this value is used to set the value of the input type checkbox.
     modelValue: {
@@ -42,6 +49,13 @@ const props = defineProps({
         default: false,
     }
 })
+
+
+// · 
+watch(() => props.modelValue, (val1, val2) => {
+    emit('change', props.modelValue)
+})
+
 </script>
 
 <template>

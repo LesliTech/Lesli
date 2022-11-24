@@ -136,7 +136,7 @@ export default {
             }
 
             let discussion_id = discussion.id
-            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions/${discussion_id}`
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions/${discussion_id}.json`
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
@@ -155,6 +155,13 @@ export default {
     computed: {
         filteredDiscussions(){
             let search_field = this.search.toLowerCase()
+
+            this.discussions = this.discussions.sort( (a, b) => {
+                a = a.data.created_at_raw
+                b = b.data.created_at_raw
+
+                return a > b ? -1 : a < b ? 1 : 0;
+            })
 
             if(search_field){
                 return this.discussions.filter((discussion)=>{

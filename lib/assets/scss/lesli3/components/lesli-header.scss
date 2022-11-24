@@ -21,12 +21,21 @@ For more information read the license file including with this software.
 // · 
 .lesli-header {
     margin-bottom: 32px;
+
+    .navbar-brand{
+        max-width: 700px;
+        width: auto;
+    }
+
     .navbar-item {
         padding: 0;
+        max-width: fit-content;
     }
+
     .actions {
         display: flex;
         gap: 0.5rem;
         align-items: center;
     }
 }
+

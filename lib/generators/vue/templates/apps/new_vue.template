@@ -1,50 +1,48 @@
-<script>
+<script setup>
 /*
 %license%
 */
 
 
-// · List of Imported Components
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentForm from '../components/form.vue'
+// · import vue tools
+import { onMounted } from "vue"
+import { useRouter, useRoute } from 'vue-router'
+
+
+// · import lesli stores
+import { use%camel_case_resource% } from "%engine%/stores/%underscore_resource%"
+
+
+// · import profile components
+import componentForm from "form.vue"
+
+
+// · implement stores
+const store%camel_case_resource% = use%camel_case_resource%()
 
 
 // · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+const router = useRouter()
+const route = useRoute()
 
 
-export default {
-    props: {
-
-    },
-
-    components: {
-        'component-form': componentForm
-    },
-
-    // @return [Object] Data used by this component's methods
-    // @description Returns the data needed for this component to work properly
-    // @data_variable %underscore_resource% [Object] An object representing a %humanized_resource%, with
-    //      the same params as the associated rails model
-    data(){
-        return {
-            %underscore_resource%: {}
-        }
-    },
-
-    // @return [void]
-    // @description Executes the necessary functions needed to initialize this component
-    mounted(){
-
-    },
-
-    methods: {
-        
+// · translations
+const translations = {
+    core: {
+        shared: I18n.t("core.shared")
     }
+
 }
+
 </script>
+
 <template>
-    <section class="section">
-        <component-form :%snake_case_resource%="%underscore_resource%" view-type="new" />
+    <section class="application-component">
+        <lesli-header title="Create %camel_case_resource%">
+            <lesli-button icon="list" :to="url.root(props.appMountPath)">
+                All %underscore_resources%
+            </lesli-button>
+        </lesli-header>
+        <component-form></component-form>
     </section>
 </template>

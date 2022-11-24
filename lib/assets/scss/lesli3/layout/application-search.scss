@@ -26,7 +26,7 @@ For more information read the license file including with this software.
     
     top: var(--lesli-header-height);
     width: 100%;
-    height: auto;
+    min-height: calc(100vh - var(--lesli-header-height) - var(--lesli-footer-height));
     padding: 0 28px;
     max-width: calc(100% - var(--lesli-sidebar-width));
     margin-left: var(--lesli-sidebar-width);
@@ -37,7 +37,7 @@ For more information read the license file including with this software.
 
         table.table {
             thead {
-                display: none;
+                //display: none;
             }
             tbody tr {
                 td {

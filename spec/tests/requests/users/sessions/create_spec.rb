@@ -59,7 +59,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             # shared examples
             expect_response_with_error
         end
-    
+
         # Tests for MFA integration
     
         it "is expected to respond with successfull and default path to /mfa view when a user has MFA enabled" do
@@ -67,8 +67,9 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             new_user = FactoryBot.create(:user)
     
             # enable MFA for the new user and its method
-            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => "true")
-            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
+            new_user.settings.upsert({ value: true, name:"mfa_enabled"}, unique_by: [:users_id, :name])
+            new_user.settings.upsert({ value: "email", name:"mfa_method"}, unique_by: [:users_id, :name])
+
     
             # do request
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -81,14 +82,14 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             expect(response_body["default_path"]).to be_a(String)
             expect(response_body["default_path"]).to eql("mfa")
         end
-    
+
         it "is expected to respond with successfull and do 'normal' login when MFA fields exists but it is disabled" do
             # create the new user
             new_user = FactoryBot.create(:user)
     
             # enable MFA for the new user and its method
-            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => "false")
-            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
+            new_user.settings.upsert({ value: false, name:"mfa_enabled"}, unique_by: [:users_id, :name])
+            new_user.settings.upsert({ value: "email", name:"mfa_method"}, unique_by: [:users_id, :name])
     
             # do request
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -105,10 +106,10 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             new_user = FactoryBot.create(:user)
     
             # enable MFA for the new user and its method
-            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => "true")
-            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => "email")
+            new_user.settings.upsert({ value: true, name:"mfa_enabled"}, unique_by: [:users_id, :name])
+            new_user.settings.upsert({ value: "email", name:"mfa_method"}, unique_by: [:users_id, :name])
     
-            new_user.settings.update(:name => "mfa_enabled", :value => false) # Now it is disabled
+            new_user.settings.find_by(name: "mfa_enabled").update(:value => false) # Now it is disabled
     
             # do request
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -125,8 +126,8 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             new_user = FactoryBot.create(:user)
     
             # enable MFA for the new user and its method
-            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => Faker::Lorem.word)
-            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => Faker::Lorem.word)
+            new_user.settings.upsert({ value: Faker::Lorem.word, name:"mfa_enabled"}, unique_by: [:users_id, :name])
+            new_user.settings.upsert({ value: Faker::Lorem.word, name:"mfa_method"}, unique_by: [:users_id, :name])
     
             # do request
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }
@@ -140,8 +141,8 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             new_user = FactoryBot.create(:user)
     
             # enable MFA for the new user and its method
-            mfa_enabled = new_user.settings.find_or_create_by(:name => "mfa_enabled", :value => "true")
-            mfa_method = new_user.settings.find_or_create_by(:name => "mfa_method", :value => Faker::Lorem.word)
+            new_user.settings.upsert({ value: true, name:"mfa_enabled"}, unique_by: [:users_id, :name])
+            new_user.settings.upsert({ value: Faker::Lorem.word, name:"mfa_method"}, unique_by: [:users_id, :name])
     
             # do request
             post "/login.json", params: { user: { email: new_user.email, password: new_user.password } }

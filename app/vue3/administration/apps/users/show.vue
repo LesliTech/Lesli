@@ -24,6 +24,7 @@ import { useRouter, useRoute } from 'vue-router'
 
 // · import lesli stores
 import { useUser } from "LesliVue/stores/user"
+import { useProfile } from "../../stores/users/profile"
 
 // · import profile components
 import cardActions from "./components/card-actions.vue"
@@ -31,11 +32,15 @@ import cardInformation from "./components/card-information.vue"
 import formInformation from "./components/form-information.vue"
 import managementSession from "./components/management-sessions.vue"
 import formSecurity from "./components/form-security.vue"
+import formRoles from "./components/form-roles-privileges.vue"
 import integrationsInformation from "./components/integrations-information.vue"
+import settings from "./components/settings.vue"
+import accessManagement from "./components/access-management.vue"
 
 
 // · implement stores
 const storeUser = useUser()
+const storeProfile = useProfile()
 const router = useRouter()
 const route = useRoute()
 
@@ -48,32 +53,48 @@ const translations = {
     }
 }
 
+// · defining props
+const props = defineProps({
+    appMountPath: {
+        type: String,
+        required: false,
+        default: "administration/users",
+    }
+})
 
 // · initializing
 onMounted(() => {
+    storeUser.getOptions()
     storeUser.fetch(route.params?.id)
 })
 
 const tab = ref(0)
+
 </script>
 <template>
     <section class="application-component">
-        <cardInformation></cardInformation>
-        <cardActions></cardActions>
-        <lesli-tabs v-model="tab" v-if="this.storeUser.user.id">
-            <lesli-tab-item title="Information">
-                <formInformation is-editable></formInformation>
+        <lesli-header>
+            <lesli-button icon="list" :to="url.root(props.appMountPath)">
+                All users
+            </lesli-button>
+        </lesli-header>
+        <card-information></card-information>
+        <card-actions></card-actions>
+        <lesli-tabs v-model="tab" v-if="storeUser.user.id">
+            <lesli-tab-item :title="translations.core.users.view_tab_title_information">
+                <form-information is-editable></form-information>
             </lesli-tab-item>
-            <lesli-tab-item title="Suscripciones"></lesli-tab-item>
-            <lesli-tab-item title="Security">
-                <formSecurity></formSecurity>
+            <lesli-tab-item :title="translations.core.users.view_tab_title_roles_and_privileges">
+                <form-roles></form-roles>
             </lesli-tab-item>
-            <lesli-tab-item title="Session management">
-                <managementSession></managementSession>
+            <lesli-tab-item :title="translations.core.users.view_tab_title_session_management">
+                <management-session></management-session>
             </lesli-tab-item>
-            <lesli-tab-item title="Settings"></lesli-tab-item>
-            <lesli-tab-item title="Integraciones">
-                <integrationsInformation></integrationsInformation>
+            <lesli-tab-item :title="translations.core.users.view_tab_title_settings">
+                <settings></settings>
+            </lesli-tab-item>
+            <lesli-tab-item :title="translations.core.users.view_tab_title_integrations">
+                <integrations-information></integrations-information>
             </lesli-tab-item>
         </lesli-tabs>
     </section>

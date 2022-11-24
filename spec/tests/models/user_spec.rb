@@ -71,6 +71,33 @@ RSpec.describe "Model:User", type: :model do
 
     end  
 
+    it "is is expected to return the abilities_by_controller defaults by the user" do
+        # Create user with the sysadmin role by default
+        # The sysadmin role has full access to the system, so there must exist the respective descriptors
+        user = FactoryBot.create(:user)
+
+        # Custom specs
+
+        # Check if the user model responds to the call of the abilities_by_controller method
+        expect(user).to respond_to(:abilities_by_controller)
+
+        # Saving the response of the abilities_by_controller call and then execute specifications
+        abilities_by_controller = user.abilities_by_controller
+        
+        expect(abilities_by_controller).to be_a(Hash)
+        expect(abilities_by_controller.size).to be > 0
+        expect(abilities_by_controller[abilities_by_controller.keys.first]).to be_an(Array)
+        expect(abilities_by_controller[abilities_by_controller.keys.first]).not_to be_empty
+        expect(abilities_by_controller[abilities_by_controller.keys.first].first).to be_a(String)
+
+        # Check if in reality the privilege exists
+        expect(
+            user.privileges.find_by(
+                :controller => abilities_by_controller.keys.first, 
+                :action => abilities_by_controller[abilities_by_controller.keys.first].first
+            )
+        ).not_to be_nil
+    end
 end
 
 =begin

@@ -22,7 +22,16 @@ For more information read the license file including with this software.
 table.lesli-table {
     border-collapse: collapse;
     border-radius: 8px;
-    overflow: hidden;
+
+    // standard padding
+    // normally used in tables for index views
+    --table-cell-padding: 1rem;
+
+    // narrow padding
+    // normally used in panels or components where the table is secondary
+    &.is-narrow {
+        --table-cell-padding: 0.25em 0.5em;
+    }
 
     thead {
 
@@ -45,10 +54,31 @@ table.lesli-table {
             padding: 1.4rem 1rem;
             vertical-align: middle;
         }
+
+        // default styles for cell containers
         td {
-            padding: 1rem 1rem;
             vertical-align: middle;
+
+            // if cell has a child link, remove padding 
+            // due <a> will include the corresponding padding
+            // currently only supported by webkit, bug this is part
+            // of the standard so other engines will support soon
+            &:has(a) {
+                padding: 0 !important;
+            }
+
+            // apply styles only to direct anchor elements 
+            & > a {
+                display: block;
+                padding: var(--table-cell-padding);
+            }
         }
+    }
+
+    // icon to show detail row if detail slot is provided
+    td.detailRow {
+        width: 40px;
+        display: inline-block;
     }
 
     td.options {
@@ -68,4 +98,5 @@ table.lesli-table {
             }
         }
     }
+
 }

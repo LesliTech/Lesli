@@ -35,11 +35,13 @@ const pathEngines = path.resolve("engines")
 // get specific modules to work with, example: npm run webpack -- babel bell
 const requestedModules = process.argv.slice(5)
 
+
 var webpackConfig = []
+
 
 // · 
 module.exports = env => {
-
+    
 
     // set mode
     env.mode = env.mode ? env.mode : "development"
@@ -70,8 +72,8 @@ module.exports = env => {
 
         // Set max size limit for JS bundles to 0.98 MB
         performance: {
-            maxAssetSize: 980000,
-            maxEntrypointSize: 980000,
+            maxAssetSize: 1100000,
+            maxEntrypointSize: 1100000,
             assetFilter: function(assetFilename) {
                 return !(['cloud_development/application.js'].includes(assetFilename));
             }
@@ -102,6 +104,7 @@ module.exports = env => {
             "users/sessions": "Lesli/vue3/users/sessions.js",
             "users/passwords": "Lesli/vue3/users/passwords.js",
             "users/registrations": "Lesli/vue3/users/registrations.js",
+            "users/confirmations": "Lesli/vue3/users/confirmations.js",
 
             "mfas/application": "Lesli/vue3/mfas/app.js",
             "otps/application": "Lesli/vue3/otps/app.js",
@@ -110,7 +113,9 @@ module.exports = env => {
 
             "onboardings/application": "Lesli/vue3/onboarding/app.js",
             
-            "administration/application": "Lesli/vue3/administration/app.js"
+            "administration/application": "Lesli/vue3/administration/app.js",
+
+            "websites/application": "Lesli/vue3/websites/app.js",
 
         },
 
@@ -138,19 +143,31 @@ module.exports = env => {
                 LesliCore: path.resolve("app", "vue3"),
                 CloudBell: path.resolve("engines", "cloud_bell", "app", "vue3"),
                 CloudTalk: path.resolve("engines", "cloud_talk", "app", "vue3"),
+                CloudHelp: path.resolve("engines", "cloud_help", "app", "vue3"),
+                CloudWork: path.resolve("engines", "cloud_work", "app", "vue3"),
                 CloudAudit: path.resolve("engines", "cloud_audit", "app", "vue3"),
                 CloudBabel: path.resolve("engines", "cloud_babel", "app", "vue3"),
+                CloudFocus: path.resolve("engines", "cloud_focus", "app", "vue3"),
                 CloudDriver: path.resolve("engines", "cloud_driver", "app", "vue3"),
+                CloudSocial: path.resolve("engines", "cloud_social", "app", "vue3"),
                 CloudDevelopment: path.resolve("engines", "cloud_development", "app", "vue3"),
-
                 MitwerkenCloud: path.resolve("engines", "mitwerken_cloud", "app", "vue3"),
+                DeutscheLeibrenten: path.resolve("engines", "deutsche_leibrenten", "app", "vue3"),
 
             }
         },
         module: {
             rules: [{
                 test: /\.vue$/,
-                use: "vue-loader"
+                use: {
+                    loader: "vue-loader",
+                    options: {
+                        compilerOptions: {
+                            // ignore custom html components & elements
+                            isCustomElement: tag => tag === 'trix-editor'
+                        }
+                    }
+                }
             }, {
                 test: /\.css$/,
                 use: [
@@ -184,6 +201,7 @@ module.exports = env => {
 
 
     // push webpack configuration for core app
+    update_software_version("core", env)
     webpackConfig.push(configCore)
 
 
@@ -194,8 +212,10 @@ module.exports = env => {
     // get the installed engines
     let engines = fs.readdirSync(pathEngines);
 
+
     // remove the keep file from the engines directory
     engines = engines.filter(directory => directory != ".gitkeep")
+
 
     // filter found engines to get only the ones that are ready to work with vue3
     engines = engines.filter(engine => {
@@ -241,6 +261,7 @@ module.exports = env => {
     })
 
 
+    // 
     engines.forEach(engine => {
 
         // clone webpack core configuration (shallow copy) 
@@ -271,7 +292,51 @@ module.exports = env => {
         // push the engine configuration to the webpack config
         webpackConfig.push(configEngine)
 
+        //
+        update_software_version(engine, env)
+
     })
+
+
+    // Update compilation version for frontend and backend
+    function update_software_version(engine, env) {
+
+        // do not change if development
+        if (env.mode != "production") {
+            return 
+        }
+
+        // set the path to the engine version file by default
+        let engine_version_file = `./engines/${engine}/lib/${engine}/version.rb`
+
+        // if core, update the main version file
+        if (engine == "core") {
+            engine_version_file = `./config/initializers/version.rb`
+        } 
+
+        fs.readFile(engine_version_file, "utf8", (err, data) => {
+
+            if (err) {
+                return console.log(err)
+            }
+
+            let date = new Date()
+            var build_date = `${date.getFullYear().toString().substr(2, 2)}${date.getMonth()+1}${date.getDate()}`
+            var build_time = date.getHours().toString().concat(date.getMinutes().toString())
+
+            data = data.split("\n")
+
+            data[2] = `  BUILD = '${build_date}.${build_time}\'`
+
+            fs.writeFile(engine_version_file, data.join("\n"), "utf8", function (err) {
+                if (err) return console.log(err)
+            })
+
+            debug.info(`update version of: ${engine}, to: ${build_date}.${build_time}`)
+
+        })
+
+    }
 
 
     // show a nice debug message :) 
@@ -282,6 +347,7 @@ module.exports = env => {
     })
 
 
+    // 
     return webpackConfig
 
 }

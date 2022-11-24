@@ -35,6 +35,10 @@ Rails.application.routes.draw do
         :omniauth_callbacks => "users/oauth",
     }
 
+    devise_scope :user do
+        get "register/options", to: "users/registrations#options"
+    end
+    
     get :language, to: "application#switch_locale"
 
     extend RoutesBuilder
@@ -42,6 +46,7 @@ Rails.application.routes.draw do
 
     mount CloudKb::Engine    => "/kb"    if defined?(CloudKb)
     mount CloudOne::Engine    => "/one"    if defined?(CloudOne)
+    mount CloudDrop::Engine   => "/drop"   if defined?(CloudDrop)
     mount CloudWork::Engine   => "/work"   if defined?(CloudWork)
     mount CloudTeam::Engine   => "/team"   if defined?(CloudTeam)
     mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)

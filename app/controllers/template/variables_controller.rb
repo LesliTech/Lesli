@@ -11,4 +11,9 @@ class Template::VariablesController < ApplicationLesliController
             end
         end 
     end
+
+    def options
+        respond_with_successful(Template::Variable.options(current_user, @query))
+    end
+
 end

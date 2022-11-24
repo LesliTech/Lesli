@@ -2,9 +2,9 @@
 /*
 Copyright (c) 2022, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 
 
@@ -21,15 +21,14 @@ For more information read the license file including with this software.
 import { ref, reactive, onMounted, watch, computed, inject } from "vue"
 import { useRouter, useRoute } from 'vue-router'
 
+// · import lesli stores
+import { useUsers } from "LesliVue/stores/users"
+
 
 // · initialize/inject plugins
 const router = useRouter()
 const msg = inject("msg")
 const url = inject("url")
-
-
-// · import lesli stores
-import { useUsers } from "LesliVue/stores/users"
 
 
 // · implement stores
@@ -46,7 +45,7 @@ const translations = {
 }
 
 
-// · 
+// ·
 const columns = [{
     field: "id",
     label: "ID",
@@ -61,64 +60,125 @@ const columns = [{
     sort: true
 }, {
     field: "roles",
-    label: "Roles"
+    label: "Roles",
+    sort: true
 }, {
     field: "active",
     label: "Status",
     sort: true,
     custom: true
 }, {
-    field: "last_sign_in_at",
+    field: "last_login_at",
     label: "Last login",
     sort: true
 }, {
-    field: "last_activity_at",
-    label: "Last activity"
+    field: "last_action_performed_at",
+    label: "Last activity",
+    sort: true
 }]
 
 
-// · 
+// ·
 const selection = ref()
+
+// · defining props
+const props = defineProps({
+    appMountPath: {
+        type: String,
+        required: false,
+        default: "administration/users",
+    },
+    defaultRole: {
+        type: String,
+        required: false,
+        default: "",
+    }
+})
 
 
 // · initializing
 onMounted(() => {
     storeUsers.fetchIndex()
+    storeUsers.getRoles()
 })
 
 
 //
 function showUser(user) {
-    router.push(url.admin("users/:id", user.id).s)
+    router.push(url.root(props.appMountPath+`/${user.id}`).s)
 }
 </script>
 <template>
     <section class="application-component">
-        <lesli-header :title="translations.core.users.view_text_title_users">
-            <lesli-button icon="add" :to="url.admin('users/new')" :label="translations.core.users.view_text_add_user">
+        <lesli-header :title="translations.core.users.view_text_title_users + ' (' +storeUsers.index.pagination.total+ ')' ">
+            <lesli-button icon="add" :to="url.root(props.appMountPath+`/new`)">
                 {{ translations.core.users.view_text_add_user }}
             </lesli-button>
-            <lesli-button 
+            <lesli-button
                 outlined
-                icon="refresh"  
+                icon="refresh"
                 :loading="storeUsers.loading"
                 @click="storeUsers.fetchIndex"
-                :label="translations.core.shared.view_text_btn_reload"
             >
                 {{ translations.core.shared.view_text_btn_reload }}
             </lesli-button>
         </lesli-header>
-        <lesli-toolbar 
-            :search-placeholder="translations.core.users.view_toolbar_filter_placeholder_search"
-            @search="storeUsers.search">
+
+        <lesli-toolbar :search-placeholder="translations.core.users.view_toolbar_filter_placeholder_search" @search="storeUsers.search">
+            
+            <lesli-select :options="[
+                    {
+                        label: translations.core.users.view_toolbar_filter_placeholder_all_users,
+                        value: null
+                    }, {
+                        label: translations.core.users.view_toolbar_filter_placeholder_active_users,
+                        value: 'active'
+                    }, {
+                        label: translations.core.users.view_toolbar_filter_placeholder_inactive_users,
+                        value: 'inactive'
+                    },
+                ]"
+                v-model="storeUsers.filters.status"
+                @change="storeUsers.fetchIndex()"
+            >
+            </lesli-select> 
+
+            <lesli-select :options="storeUsers.roles_options"
+                v-model="storeUsers.filters.role"
+                @change="storeUsers.fetchIndex()"
+            >
+            </lesli-select> 
+
+            <lesli-select :options="[{
+                        label: '10',
+                        value: 10
+                    }, {
+                        label: '15',
+                        value: 15
+                    }, {
+                        label: '30',
+                        value: 30
+                    }, {
+                        label: '50',
+                        value: 50
+                    },
+                ]"
+                v-model="storeUsers.filters.per_page"
+                @change="storeUsers.fetchIndex()"
+            >
+            </lesli-select> 
+
+
         </lesli-toolbar>
+
+        
         <lesli-table
             :loading="storeUsers.loading"
             :columns="columns"
             :records="storeUsers.index.records"
             :pagination="storeUsers.index.pagination"
+            :link="(user) => url.root(props.appMountPath+`/${user.id}`).s"
             @paginate="storeUsers.paginateIndex"
-            @click="showUser"
             @sort="storeUsers.sortIndex">
 
             <template #active="{ value }">

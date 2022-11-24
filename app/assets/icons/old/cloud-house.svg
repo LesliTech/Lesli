@@ -1,0 +1,71 @@
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (4035a4f, 2020-05-01)"
+   sodipodi:docname="house.svg">
+  <g
+     id="g855"
+     transform="translate(-0.686,-1029.4)">
+    <rect
+       id="rect833"
+       y="1031.4"
+       x="17"
+       width="3"
+       height="5.9998999"
+       fill="#c0392b" />
+    <path
+       id="path835"
+       transform="translate(0,1028.4)"
+       fill="#bdc3c7"
+       d="M 12,3.0312 3,12 V 13.812 19.188 21 h 1 8 8 1 V 19.188 13.812 12 Z" />
+    <path
+       id="path837"
+       fill="#95a5a6"
+       d="m 12,1032 -9,8.9 v 1.9 0.1 l 9,-9 9,9 v -0.1 -1.9 z" />
+    <g
+       id="g853">
+      <path
+         id="path839"
+         fill="#e74c3c"
+         d="m 12,1029.4 -11.314,11.3 1.4145,1.4 9.8995,-9.9 9.899,9.9 1.415,-1.4 z" />
+      <path
+         id="path841"
+         transform="translate(0,1029.4)"
+         fill="#3498db"
+         d="m 14,9 a 2,2 0 1 1 -4,0 2,2 0 1 1 4,0 z" />
+      <rect
+         id="rect843"
+         y="1043.4"
+         x="10"
+         width="4"
+         height="6"
+         fill="#e67e22" />
+      <path
+         id="path845"
+         transform="translate(1.5,1029.4)"
+         fill="#d35400"
+         d="m 12,17.5 a 0.5,0.5 0 1 1 -1,0 0.5,0.5 0 1 1 1,0 z" />
+      <path
+         id="path847"
+         fill="#2980b9"
+         d="m 12,1036.4 c -1.105,0 -2,0.9 -2,2 0,0.1 0.021,0.3 0.062,0.5 0.222,-0.9 1.006,-1.5 1.938,-1.5 0.932,0 1.716,0.6 1.938,1.5 0.041,-0.2 0.062,-0.4 0.062,-0.5 0,-1.1 -0.895,-2 -2,-2 z" />
+      <path
+         id="path849"
+         transform="translate(1.5,1028.9)"
+         fill="#f1c40f"
+         d="m 12,17.5 a 0.5,0.5 0 1 1 -1,0 0.5,0.5 0 1 1 1,0 z" />
+      <rect
+         id="rect851"
+         y="1042.4"
+         x="10"
+         width="4"
+         height="1"
+         fill="#d35400" />
+    </g>
+  </g>
+</svg>
