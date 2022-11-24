@@ -104,21 +104,19 @@ class ApplicationLesliController < ApplicationController
             email: current_user.email,
             full_name: current_user.full_name,
             roles: current_user.roles.map(&:name),
-            abilities: current_user.abilities_by_controller,
+            abilities: {},# current_user.abilities_by_controller,
             max_object_level_permission: current_user.roles.map(&:object_level_permission).max,
             settings: current_user.settings.map { |s| { name: s.name, value: s.value } }
         }
 
         # 
-        if defined?(CloudTalk)
-            @account[:cloud_talk] = {
-                firebase: {
-                    config: Rails.application.credentials.providers&.dig(:firebase, :web),
-                    user: Rails.application.credentials.providers&.dig(:firebase, :user)
-                },
-                google_translate: Rails.application.credentials.providers&.dig(:google_translate)
-            }
-        end
+        @account[:providers] = {
+            firebase: {
+                config: Rails.application.credentials.dig(:providers, :firebase, :web),
+                user: Rails.application.credentials.dig(:providers, :firebase, :user)
+            },
+            google_translate: Rails.application.credentials.dig(:providers, :google_translate)
+        }
 
     end
 
