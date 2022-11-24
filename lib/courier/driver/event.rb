@@ -28,24 +28,6 @@ module Courier
                 CloudDriver::EventServices.create(current_user, event_params, calendar)
             end
 
-            def self.show(current_user, events_id)
-                return nil unless defined? CloudDriver
-
-                events = CloudDriver::Event
-
-                # Getting events from the calendars where the user is the owner
-                my_events = events.joins(:calendar).where("cloud_driver_calendars.user_main_id = ?", current_user.id)
-
-                # Getting events where the user is invited
-                invited_events = events.joins("inner join cloud_driver_event_attendants cdea on cdea.cloud_driver_events_id = cloud_driver_events.id and cdea.users_id = #{current_user.id}")
-
-                # Looking for the event with the id provided
-                event = my_events.union(invited_events).find_by_id(events_id)
-
-                # Showing the event
-                event.show(current_user) if event
-            end
-
             def self.find(current_user, events_id)
                 return nil unless defined? CloudDriver
 
