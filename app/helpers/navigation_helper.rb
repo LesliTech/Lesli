@@ -153,6 +153,13 @@ module NavigationHelper
         end
     end
 
+    # 03.07 Social engine
+    def navigation_engine_social title: "Social", subtitle: "Team social network"
+        if defined? CloudSocial
+            navigation_engine_item(title, subtitle, "social", cloud_social.root_path, controller_path.include?("cloud_social"))
+        end
+    end
+
     # 03.08 Bell engine
     def navigation_engine_bell title: "Notifications", subtitle: "Announcements and notifications"
         if defined? CloudBell

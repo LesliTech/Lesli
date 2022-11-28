@@ -46,6 +46,8 @@ require 'rspec/rails'
 #
 # Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
+# This is not require as we use an updated version of the database and the schema is always up to date
+=begin
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
 begin
@@ -54,6 +56,7 @@ rescue ActiveRecord::PendingMigrationError => e
     puts e.to_s.strip
     exit 1
 end
+=end
 
 RSpec.configure do |config|
     
