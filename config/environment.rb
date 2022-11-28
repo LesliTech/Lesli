@@ -38,9 +38,4 @@ Rails.application.configure do
     LC::Debug.table (engines)
     LC::Debug.separator_blank(2)
 
-    if (Rails.application.config.lesli.dig(:security, :version) === 4)
-    LC::Debug.info("Roles & privileges version 4 is enabled, check & map your controllers to make it work properly")
-    LC::Debug.separator_blank(2)
-    end
-
 end
