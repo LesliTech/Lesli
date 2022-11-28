@@ -1,4 +1,4 @@
-=begin
+/*
 
 Copyright (c) 2020, all rights reserved.
 
@@ -14,25 +14,20 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-=end
 
-module Courier
-    module One
-        module Firebase
-            class Chatroom
+// · Include Lesli CSS
+//@import "../lesli3/settings/leslicss";
 
-                def self.create(current_user, members, chat_name=nil, type="normal", anonymous=false, user_uid=nil)
-                    return unless defined? CloudOne
-                    CloudOne::Firebase::Chatroom.create(current_user, members, chat_name, type)
-                end
 
-                def self.send_message(sender_user, chatroom_uid, message_text)
-                    return unless defined? CloudOne
-                    CloudOne::Firebase::Chatroom.send_message(sender_user, chatroom_uid, message_text)
-                end
+// · 
+@import "lesli-css";
 
-            end
-        end
-    end
-end
+
+// · Import customization from builder engine
+@import "<%= LC::System::Info.sass_instance('settings') %>";
+
+
+// · Base variables
+$lesli-color-primary: lesli-css-color(blue) !default;

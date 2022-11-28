@@ -21,7 +21,7 @@ class ApplicationApiController < ActionController::API
     include ActionController::MimeResponds
     include Interfaces::Application::Responder
     include Interfaces::Application::Logger
-    include Application::Requester    
+    include Interfaces::Application::Requester
 
     before_action :set_locale
     before_action :authorize_request
@@ -128,7 +128,7 @@ class ApplicationApiController < ActionController::API
         response_body_v2 = {
             successful: true,
             data: payload
-        }        
+        }
 
         if payload.as_json.instance_of?(Array)
             return respond_with_http(200, payload)
