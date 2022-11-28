@@ -15,18 +15,8 @@ For more information read the license file including with this software.
 // ·
 
 =end
-class User::AuthProvider < ApplicationLesliRecord
-    belongs_to :user, foreign_key: 'users_id'
-
-    after_create :initialize_integration_calendar
-
-    # @return [CloudDriver::Calendar] Finds or creates a calendar for the user for the specific provider
-    def initialize_integration_calendar
-        Courier::Driver::Calendar.create_user_calendar(
-            self.user,
-            name: 'Google Calendar',
-            source_code: 'google',
-        ) if self.provider == 'Google'
+class AlterUserSettings < ActiveRecord::Migration[7.0]
+    def change
+        add_index :user_settings, [:users_id, :name], unique: true
     end
-
 end

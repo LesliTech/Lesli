@@ -29,7 +29,7 @@ const emit = defineEmits(['update:modelValue', 'onInput', 'onFocus', 'onBlur', '
 const props = defineProps({
     modelValue: {
         type: [Number, String, Object],
-        required: true
+        required: false
     },
     placeholder: {
         type: String,
