@@ -85,6 +85,51 @@ module ResponseHelpers
         expect(response_json).to have_key('message') 
     end
 
+    # function to expect a response with the given params
+    # example
+    # shared_expects validates the response body with the given arguments
+    # params
+    #   - response_body: the response to validate
+    #   - resquest_body: the payload that was sent to the server
+    #   - expected_response: the expected response is an array of hashes that contain the expected values
+    # example
+    #
+    # shared_expects(response_body, project, [
+    #     { key: "hexid", expected_type: "string" },
+    #     { key: "payment_period", expected_type: "string", expected_value: "no_information" },
+    #     { key: "payment_amount", expected_type: "string", expected_value: "0.0" },
+    #     { key: "quality", expected_type: "integer" },
+    #     { key: "main_file_id", expected_type: "nil" }
+    # ])
+    def shared_expects(response_body, request_body, expected_attrs)
+        expect(response_body).to be_a(Object)
+
+        # iterate over the expected attributes
+        expected_attrs.each do |attr|
+
+            # verify if response has specific attribute
+            expect(response_body).to have_key(attr[:key])
+
+            # verify if response attribute has the expected value type 
+            expect(response_body[attr[:key]]).to be_a(String) if attr[:expected_type] == "string"
+            expect(response_body[attr[:key]]).to be_a(Integer) if attr[:expected_type] == "integer"
+            expect(response_body[attr[:key]]).to be_in([true, false]) if attr[:expected_type] == "boolean"
+            expect(response_body[attr[:key]]).to be_nil if attr[:expected_type] == "nil"
+            expect(response_body[attr[:key]]).to be_empty if attr[:expected_type] == "empty"
+            expect(response_body[attr[:key]]).to be_a(Object) if attr[:expected_type] == "object"
+            expect(response_body[attr[:key]]).to be_a(Hash) if attr[:expected_type] == "hash"
+            expect(response_body[attr[:key]]).to be_an_instance_of(Array) if attr[:expected_type] == "array"
+            
+            # verify if response attribute value is equal to the requested value
+            if request_body[attr[:expected_value]].present?
+                expect(response_body[attr[:key]]).to eq(attr[:expected_value])
+            # verify if response attribute value is equal to some default value
+            elsif request_body[attr[:key]].present?
+                expect(response_body[attr[:key]]).to eq(request_body[attr[:key]])
+            end
+        end
+    end
+
     # shortcut for response_json
     def response_body
         response_json
