@@ -367,6 +367,30 @@ class User < ApplicationLesliRecord
     end
 
 
+    # @return String
+    # @description Generate a token to validate telephone number
+    def generate_telephone_token(length=4)
+
+        raw, enc = Devise.token_generator.create(self.class, :telephone_confirmation_token, type:'number', length:length)
+
+        self.telephone_confirmation_token   = enc
+        self.telephone_confirmation_sent_at = Time.now.utc
+        self.telephone_confirmed_at = nil
+        save(validate: false)
+        raw
+    end
+
+
+    # @return String
+    # @description Mark telephone number as valid and confirmed
+    def confirm_telephone_number
+        self.telephone_confirmation_token   = nil
+        self.telephone_confirmation_sent_at = nil
+        self.telephone_confirmed_at = Time.now.utc
+        save(validate: false)
+    end
+
+
 
     # @return [void]
     # @description Register a new notification for the current user
