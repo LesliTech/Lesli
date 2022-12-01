@@ -451,6 +451,21 @@ class User < ApplicationLesliRecord
         I18n.locale # return current locale
     end
 
+
+    # @return [Boolean]
+    # @description check if user has a confirmed telephone number
+    def telephone_confirmed?
+        !!self.telephone_confirmed_at
+    end
+
+
+    # @return [Boolean]
+    # @description confirm telephone number
+    def telephone_confirm
+        return self.update(telephone_confirmed_at: Time.now.utc) if !self.detail.telephone.blank?
+        return false
+    end
+
     # @param accounnt [Account] The account associated to *current_user*
     # @param roles [String] The roles separate by comma for filter users by role
     # @param type [String] if type=exclude will remove users with roles listed in @param roles
