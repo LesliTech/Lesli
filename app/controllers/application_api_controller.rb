@@ -122,6 +122,8 @@ class ApplicationApiController < ActionController::API
     # Temporal overwrite to keep compatibility
     # ===============================================================
 
+=begin
+
     # Overwrite: Return an standard http 200 respond
     def respond_with_successful payload=nil
 
@@ -253,5 +255,7 @@ class ApplicationApiController < ActionController::API
         })
 
     end
+
+=end
 
 end
