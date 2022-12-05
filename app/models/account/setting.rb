@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -32,23 +32,27 @@ class Account::Setting < ApplicationRecord
             })
         end
 
-        # Set default password complexity configuration 
-        account.settings.create!({ name: 'password_enforce_complexity', value: 1 })
-        account.settings.create!({ name: 'password_expiration_time_days', value: 365 })
-        account.settings.create!({ name: 'password_special_char_count', value: 0 })
-        account.settings.create!({ name: 'password_lowercase_count', value: 0 })
-        account.settings.create!({ name: 'password_uppercase_count', value: 0 })
-        account.settings.create!({ name: 'password_minimum_length', value: 6 })
-        account.settings.create!({ name: 'password_digit_count', value: 0 })
+        self.reset_all(account)
+    end
+
+    def self.reset_all(account)
+        # Set default password complexity configuration
+        account.settings.upsert({ name: 'password_enforce_complexity', value: 1 })
+        account.settings.upsert({ name: 'password_expiration_time_days', value: 365 })
+        account.settings.upsert({ name: 'password_special_char_count', value: 0 })
+        account.settings.upsert({ name: 'password_lowercase_count', value: 0 })
+        account.settings.upsert({ name: 'password_uppercase_count', value: 0 })
+        account.settings.upsert({ name: 'password_minimum_length', value: 6 })
+        account.settings.upsert({ name: 'password_digit_count', value: 0 })
 
         datetime = Rails.application.config.lesli[:configuration][:datetime]
-        account.settings.create!(name: 'datetime_time_zone', value: datetime[:time_zone]) 
-        account.settings.create!(name: 'datetime_start_week_on', value: datetime[:start_week_on]) 
-        account.settings.create!(name: 'datetime_format_date', value: datetime[:formats][:date]) 
-        account.settings.create!(name: 'datetime_format_time', value: datetime[:formats][:time]) 
-        account.settings.create!(name: 'datetime_format_date_time', value: datetime[:formats][:date_time]) 
-        account.settings.create!(name: 'datetime_format_date_words', value: datetime[:formats][:date_words]) 
-        account.settings.create!(name: 'datetime_format_date_time_words', value: datetime[:formats][:date_time_words]) 
+        account.settings.upsert({ name: 'datetime_time_zone', value: datetime[:time_zone] })
+        account.settings.upsert({ name: 'datetime_start_week_on', value: datetime[:start_week_on] })
+        account.settings.upsert({ name: 'datetime_format_date', value: datetime[:formats][:date] })
+        account.settings.upsert({ name: 'datetime_format_time', value: datetime[:formats][:time] })
+        account.settings.upsert({ name: 'datetime_format_date_time', value: datetime[:formats][:date_time] })
+        account.settings.upsert({ name: 'datetime_format_date_words', value: datetime[:formats][:date_words] })
+        account.settings.upsert({ name: 'datetime_format_date_time_words', value: datetime[:formats][:date_time_words] })
     end
 
     def self.theme_settings_keys
@@ -64,7 +68,7 @@ class Account::Setting < ApplicationRecord
     end
 
     def self.index(current_user, query)
-        
+
         query_filters = []
 
         theme_settings = self.theme_settings_keys
