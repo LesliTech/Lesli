@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -25,7 +25,13 @@ require "support/helpers/lesli_helper"
 
 # · Authentication context
 # · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-RSpec.shared_context "request user authentication" do 
+RSpec.shared_context "request user authentication" do
+
+    # Reset account settings
+    before(:each) do
+        @current_user = User.first
+        Account::Setting.reset_all(@current_user.account)
+    end
 
     # Creates a new valid user session
     before(:each) do
@@ -43,7 +49,6 @@ RSpec.shared_context "request user authentication" do
 
         @current_user = User.first
         sign_in(@current_user)
-        
     end
 
 end
@@ -56,7 +61,7 @@ RSpec.configure do |config|
     # Include devise helpers to be able to login on test runtime
     config.include Devise::Test::IntegrationHelpers
 
-    # Include helper methods 
+    # Include helper methods
     config.include ResponseHelpers
     config.include LesliHelper
 
