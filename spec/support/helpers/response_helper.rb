@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,12 +13,12 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 module ResponseHelpers
 
-    # container for the response body parsed as JSON 
+    # container for the response body parsed as JSON
     @@response_json = nil
 
     # return the body of a request response parsed as JSON
@@ -26,7 +26,7 @@ module ResponseHelpers
         # support empty responses from lesli 3 responder
         _response_ = response.body.blank? ? "{}" : response.body
         @@response_json = JSON.parse(_response_) if @@response_json.blank?
-        @@response_json 
+        @@response_json
     end
 
     # test a standard successful response for lesli 3
@@ -56,18 +56,18 @@ module ResponseHelpers
         expect(response_json["records"]).to be_an_instance_of(Array)
 
         expect(response_json["pagination"]["results"]).to eql(response_json["records"].size)
-        
+
         response_json()
     end
 
     # test a standard error response for lesli 3
     def expect_response_with_error
         @@response_json = nil
-        expect(response).to have_http_status(:bad_request) 
+        expect(response).to have_http_status(:bad_request)
         expect(response.content_type).to eq('application/json; charset=utf-8')
         expect(response_json).to be_an_instance_of(Hash)
-        expect(response_json).to have_key('message') 
-        expect(response_json).to have_key('details') 
+        expect(response_json).to have_key('message')
+        expect(response_json).to have_key('details')
     end
 
     # test a standard not found response for lesli 3
@@ -82,7 +82,7 @@ module ResponseHelpers
         @@response_json = nil
         expect(response).to have_http_status(:unauthorized)
         expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(response_json).to have_key('message') 
+        expect(response_json).to have_key('message')
     end
 
     # function to expect a response with the given params
@@ -110,7 +110,7 @@ module ResponseHelpers
             # verify if response has specific attribute
             expect(response_body).to have_key(attr[:key])
 
-            # verify if response attribute has the expected value type 
+            # verify if response attribute has the expected value type
 
             case attr[:expected_type]
                 when "string"
@@ -144,7 +144,7 @@ module ResponseHelpers
     # shortcut for response_json
     def response_body
         response_json
-    end 
+    end
 
     # test a response that contains a xlsx file
     def expect_response_with_xlsx
@@ -154,7 +154,7 @@ module ResponseHelpers
         # In the case of Excel files the response has a specific content type
         # And it's up the version, so we have two posibilities
         expect(response.content_type).to be_in([
-            "application/vnd.ms-excel", 
+            "application/vnd.ms-excel",
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" # For Excel2007 and above
         ])
     end
@@ -184,39 +184,39 @@ module ResponseHelpers
         @@response_json = nil
         expect(response).to have_http_status(:success)
         expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(response_json).to have_key('successful') 
+        expect(response_json).to have_key('successful')
         expect(response_json["successful"]).to eql(true)
         expect(response_json).to have_key("data").or have_key("payload")
     end
 
     def expect_json_response_error
         @@response_json = nil
-        expect(response).to have_http_status(:success) 
+        expect(response).to have_http_status(:success)
         expect(response.content_type).to eq('application/json; charset=utf-8')
-        expect(response_json).to have_key('successful') 
+        expect(response_json).to have_key('successful')
         expect(response_json['successful']).to eql(false)
-        expect(response_json).to have_key('error') 
-        expect(response_json["error"]).to have_key('message') 
+        expect(response_json).to have_key('error')
+        expect(response_json["error"]).to have_key('message')
     end
 
     def expect_json_response_not_found
         @@response_json = nil
         expect(response).to have_http_status(:not_found)
         expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(response_json).to have_key('successful') 
+        expect(response_json).to have_key('successful')
         expect(response_json['successful']).to eql(false)
-        expect(response_json).to have_key('error') 
-        expect(response_json["error"]).to have_key('message') 
+        expect(response_json).to have_key('error')
+        expect(response_json["error"]).to have_key('message')
     end
 
     def expect_json_response_unauthorized
         @@response_json = nil
         expect(response).to have_http_status(:unauthorized)
         expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(response_json).to have_key('successful') 
+        expect(response_json).to have_key('successful')
         expect(response_json['successful']).to eql(false)
-        expect(response_json).to have_key('error') 
-        expect(response_json["error"]).to have_key('message') 
+        expect(response_json).to have_key('error')
+        expect(response_json["error"]).to have_key('message')
     end
 
 end
