@@ -52,28 +52,28 @@ const columns = [{
     sort: true
 }, {
     field: "name",
-    label: "Name",
+    label: translations.core.users.view_table_header_name,
     sort: true
 }, {
     field: "email",
-    label: "Email",
+    label: translations.core.users.view_table_header_email,
     sort: true
 }, {
     field: "roles",
-    label: "Roles",
+    label: translations.core.users.view_table_header_role,
     sort: true
 }, {
     field: "active",
-    label: "Status",
+    label: translations.core.users.view_table_header_status,
     sort: true,
     custom: true
 }, {
     field: "last_login_at",
-    label: "Last login",
+    label: translations.core.users.view_table_header_last_sign_in,
     sort: true
 }, {
     field: "last_action_performed_at",
-    label: "Last activity",
+    label: translations.core.users.view_text_last_activity_at,
     sort: true
 }]
 

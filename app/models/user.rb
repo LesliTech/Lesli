@@ -366,6 +366,36 @@ class User < ApplicationLesliRecord
         raw
     end
 
+    # @return [Boolean]
+    # @description check if user has a confirmed telephone number
+    def telephone_confirmed?
+        !!self.telephone_confirmed_at
+    end
+
+
+    # @return String
+    # @description Generate a token to validate telephone number
+    def generate_telephone_token(length=4)
+
+        raw, enc = Devise.token_generator.create(self.class, :telephone_confirmation_token, type:'number', length:length)
+
+        self.telephone_confirmation_token   = enc
+        self.telephone_confirmation_sent_at = Time.now.utc
+        self.telephone_confirmed_at = nil
+        save(validate: false)
+        raw
+    end
+
+
+    # @return String
+    # @description Mark telephone number as valid and confirmed
+    def confirm_telephone_number
+        self.telephone_confirmation_token   = nil
+        self.telephone_confirmation_sent_at = nil
+        self.telephone_confirmed_at = Time.now.utc
+        save(validate: false)
+    end
+
 
 
     # @return [void]
@@ -450,6 +480,7 @@ class User < ApplicationLesliRecord
 
         I18n.locale # return current locale
     end
+
 
     # @param accounnt [Account] The account associated to *current_user*
     # @param roles [String] The roles separate by comma for filter users by role
