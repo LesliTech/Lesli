@@ -22,9 +22,9 @@ module Courier
         module Firebase
             class Chatroom
 
-                def self.create(current_user, members, chat_name=nil, type="normal", anonymous=false, user_uid=nil)
+                def self.create(current_user, members, chat_name=nil, type="normal", translate:false)
                     return unless defined? CloudOne
-                    CloudOne::Firebase::Chatroom.create(current_user, members, chat_name, type)
+                    CloudOne::Firebase::Chatroom.create(current_user, members, chat_name, type, translate:translate)
                 end
 
                 def self.send_message(sender_user, chatroom_uid, message_text)
