@@ -22,7 +22,9 @@ jobs:
   version:
     name: Build new Lesli Core version
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):')"
+
+    # Do not execute the test if requests comes from another action
+    if: "!contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):') && !contains(github.event.head_commit.message, 'ci(workflows):')"
 
     steps:
 
