@@ -29,8 +29,7 @@ const storeWorkflow = useWorkflow()
 // · defining translations
 const translations = {
     core: {
-        shared: I18n.t("core.shared"),
-        workflowStatuses: I18n.t("core.workflow/statuses"),
+        shared: I18n.t("core.shared")
     }
 }
 
@@ -74,7 +73,7 @@ const workflowStatusKey = computed(() => {
 const options = computed(() => {
     return storeWorkflow.transitionOptions.map(option => {
         return {
-            label: translations.core.workflowStatuses[`column_enum_${option.name}`],
+            label: option.name,
             value: option.id,
         }
     })
