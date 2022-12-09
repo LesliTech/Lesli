@@ -22,7 +22,9 @@ jobs:
   version:
     name: Build new Lesli Core version
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):')"
+
+    # Do not execute the test if requests comes from another action
+    if: "!contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):') && !contains(github.event.head_commit.message, 'ci(workflows):')"
 
     steps:
 
@@ -96,7 +98,7 @@ jobs:
 
       # Synchronize the production & master branches so we keep the version files
       - name: Sync master branch with production branch
-        uses: ./tmp/.github/actions/git_branch_sync_branches
+        uses: ./tmp/.github/actions/github-action-sync-branches
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           from_branch: production
@@ -117,3 +119,4 @@ jobs:
           job-status: ${{ job.status }}
           slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
           channel: alerts
+
