@@ -30,6 +30,7 @@ const storeWorkflow = useWorkflow()
 const translations = {
     core: {
         shared: I18n.t("core.shared"),
+        workflowStatuses: I18n.t("core.workflow/statuses")
     }
 }
 
@@ -69,10 +70,11 @@ const workflowStatusKey = computed(() => {
 })
 
 // · transform options to an acceptable format for the dropdown 
+// · example translations path "core.workflow/statuses.column_enum_published" for statuses
 const options = computed(() => {
     return storeWorkflow.transitionOptions.map(option => {
         return {
-            label: option.name,
+            label: translations.core.workflowStatuses[`column_enum_${option.name}`] ?  translations.core.workflowStatuses[`column_enum_${option.name}`] : option.name,
             value: option.id,
         }
     })
