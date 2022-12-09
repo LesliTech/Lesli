@@ -59,18 +59,6 @@ class CloudObject::Discussion < ApplicationLesliRecord
         )
         .where("#{cloud_object_model.table_name}.id = #{cloud_id}")
         .where("#{cloud_object_model.table_name}.#{account_model.table_name}_id = #{current_user.account.id}")
-
-        # # Filter results by search string
-        # unless search_string.blank?
-        #     discussions = discussions.where("
-        #     (LOWER(ud.first_name) SIMILAR TO '%#{search_string}%') OR 
-        #     (LOWER(ud.last_name) SIMILAR TO '%#{search_string}%') OR 
-        #     (LOWER(#{self.table_name}.content) SIMILAR TO '%#{search_string}%')
-        #     ")
-        # end
-
-        
-        discussions = discussions
         .map { |discussion|
             discussion_attributes = discussion.attributes
             discussion_attributes["created_at_raw"] = discussion_attributes["created_at"]
@@ -82,9 +70,9 @@ class CloudObject::Discussion < ApplicationLesliRecord
         LC::Debug.deprecation(discussions.first.to_json)
         LC::Debug.deprecation(discussions.last.to_json)
 
-        discussions = self.format_discussions(discussions)
+        self.format_discussions(discussions)
 
-        Kaminari.paginate_array(discussions).page(query[:pagination][:page]).per(query[:pagination][:perPage])
+        # Kaminari.paginate_array(discussions).page(query[:pagination][:page]).per(query[:pagination][:perPage])
     end
 
     # @return [Hash] Information about the discussion
