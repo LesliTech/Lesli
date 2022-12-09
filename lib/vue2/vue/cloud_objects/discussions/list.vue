@@ -67,10 +67,16 @@ export default {
 
         getDiscussions() {
             if(this.cloudId){
-                let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions.json`
                 this.loading = true
+                let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions/list.json`
+                let data = {
+                    pagination: {
+                        page: 1,
+                        perPage: 1000
+                    }
+                }
 
-                this.http.get(url).then(result => {
+                this.http.post(url, data).then(result => {
                     if (result.successful) {
                         this.discussions = result.data
                     }
