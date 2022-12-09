@@ -41,14 +41,26 @@ class CloudObject::Discussion < ApplicationLesliRecord
     def self.index(current_user, cloud_id, query)
         cloud_object_model = self.cloud_object_model
         account_model = cloud_object_model.reflect_on_association(:account).klass
-
+        
         # get search string from query params
-        # search_string = query[:search].downcase.gsub(" ","%") unless query[:search].blank?
+        search_string = query[:search].downcase.gsub(" ","%") unless query[:search].blank?
         
         discussions = self.joins(:cloud_object)
         .joins("inner join users u on #{self.table_name}.users_id = u.id")
         .joins("inner join user_details ud on ud.users_id = u.id")
-        .select(
+        .where("#{cloud_object_model.table_name}.id = #{cloud_id}")
+        .where("#{cloud_object_model.table_name}.#{account_model.table_name}_id = #{current_user.account.id}")
+
+        # Filter results by search string
+        unless search_string.blank?
+            discussions = discussions.where("
+            (LOWER(ud.first_name) SIMILAR TO '%#{search_string}%') OR 
+            (LOWER(ud.last_name) SIMILAR TO '%#{search_string}%') OR 
+            (LOWER(#{self.table_name}.content) SIMILAR TO '%#{search_string}%')
+            ")
+        end
+
+        discussions = discussions.select(
             "#{self.table_name}.id",
             "#{self.table_name}.users_id",
             "#{self.table_name}.content",
@@ -57,8 +69,9 @@ class CloudObject::Discussion < ApplicationLesliRecord
             "u.email",
             "CONCAT(ud.first_name, ' ', ud.last_name) as user_name"
         )
-        .where("#{cloud_object_model.table_name}.id = #{cloud_id}")
-        .where("#{cloud_object_model.table_name}.#{account_model.table_name}_id = #{current_user.account.id}")
+        
+        
+        discussions = discussions
         .map { |discussion|
             discussion_attributes = discussion.attributes
             discussion_attributes["created_at_raw"] = discussion_attributes["created_at"]
@@ -67,12 +80,9 @@ class CloudObject::Discussion < ApplicationLesliRecord
             discussion_attributes
         }
 
-        LC::Debug.deprecation(discussions.first.to_json)
-        LC::Debug.deprecation(discussions.last.to_json)
+        discussions = self.format_discussions(discussions)
 
-        self.format_discussions(discussions)
-
-        # Kaminari.paginate_array(discussions).page(query[:pagination][:page]).per(query[:pagination][:perPage])
+        Kaminari.paginate_array(discussions).page(query[:pagination][:page]).per(query[:pagination][:perPage])
     end
 
     # @return [Hash] Information about the discussion
