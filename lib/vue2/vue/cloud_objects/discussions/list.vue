@@ -70,10 +70,8 @@ export default {
                 this.loading = true
                 let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions/list.json`
                 let data = {
-                    pagination: {
-                        page: 1,
-                        perPage: 1000
-                    }
+                    perPage: 100000,
+                    page: 1
                 }
 
                 this.http.post(url, data).then(result => {
