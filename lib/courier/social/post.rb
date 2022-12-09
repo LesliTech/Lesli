@@ -17,8 +17,9 @@ module Courier
 
             def self.index(current_user, query)
                 return [] if not defined? CloudSocial
-                all_posts = CloudSocial::Post.new
-                all_posts.index(current_user, query)
+                # all_posts = CloudSocial::Post.new
+                # all_posts.index(current_user, query)
+                CloudSocial::Post.index(current_user, query)
             end
 
             def self.show(current_user, post_id)
