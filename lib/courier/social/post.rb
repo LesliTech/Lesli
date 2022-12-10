@@ -16,23 +16,23 @@ module Courier
         class Post
 
             def self.index(current_user, query)
-                return [] if not defined? CloudSocial
+                return [] unless defined? CloudSocial
                 CloudSocial::Post.index(current_user, query)
             end
 
             def self.show(current_user, post_id)
-                return [] if not defined? CloudSocial
+                return [] unless defined? CloudSocial
                 post = CloudSocial::Post.new
                 post.show(current_user, post_id)
             end
 
             def self.create(current_user, post_params)
-                return [] if not defined? CloudSocial
+                return [] unless defined? CloudSocial
                 CloudSocial::Post.create(current_user, post_params)
             end
 
             def self.update(current_user, post_id, post_params)
-                return [] if not defined? CloudSocial
+                return [] unless defined? CloudSocial
                 post = CloudSocial::Post.new
                 post.update(current_user, post_id, post_params)
             end
