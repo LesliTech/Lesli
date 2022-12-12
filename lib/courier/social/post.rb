@@ -28,7 +28,7 @@ module Courier
             
             def self.show(current_user, query, post_id)
                 return {} unless defined? CloudSocial
-                post = CloudSocial::Post.find(post_id)
+                post = CloudSocial::Post.find_by_id(post_id)
                 post.show(current_user, query)
             end
             
