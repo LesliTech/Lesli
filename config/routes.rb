@@ -46,7 +46,7 @@ Rails.application.routes.draw do
 
     mount CloudKb::Engine    => "/kb"    if defined?(CloudKb)
     mount CloudOne::Engine    => "/one"    if defined?(CloudOne)
-    mount CloudDrop::Engine   => "/drop"   if defined?(CloudDrop)
+    mount CloudWord::Engine   => "/word"   if defined?(CloudWord)
     mount CloudWork::Engine   => "/work"   if defined?(CloudWork)
     mount CloudTeam::Engine   => "/team"   if defined?(CloudTeam)
     mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
