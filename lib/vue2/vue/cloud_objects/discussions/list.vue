@@ -68,7 +68,7 @@ export default {
         getDiscussions() {
             if(this.cloudId){
                 this.loading = true
-                let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions/list.json`
+                let url = this.url[`${this.module_name.slash}`](`${this.object_name.plural}/${this.cloudId}/discussions/list.json`)
                 let data = {
                     perPage: 100000,
                     page: 1
