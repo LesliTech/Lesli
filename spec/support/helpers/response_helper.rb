@@ -114,21 +114,28 @@ module ResponseHelpers
             # verify if response attribute has the expected value type
             case expected_attr[:expected_type]
                 when "boolean", "bool"
-                    expect(response_body[expected_attr[:key]]).to be_in([true, false])
+                    expect(response_body[expected_attr[:key]]).to be_in([true, false]), "expected '#{expected_attr[:key]}' to be a kind of Boolean, but is '#{response_body[expected_attr[:key]].class}'" unless expected_attr[:or_be_nil]
+                    expect(response_body[expected_attr[:key]]).to be_in([true, false]).or(be_nil), "expected '#{expected_attr[:key]}' to be a kind of Boolean or nil, but is '#{response_body[expected_attr[:key]].class}'"
                 when "string", "str"
-                    expect(response_body[expected_attr[:key]]).to be_a(String)
+                    expect(response_body[expected_attr[:key]]).to be_a(String), "expected '#{expected_attr[:key]}' to be a kind of String, but is '#{response_body[expected_attr[:key]].class}'" unless expected_attr[:or_be_nil]
+                    expect(response_body[expected_attr[:key]]).to be_a(String).or(be_nil), "expected '#{expected_attr[:key]}' to be a kind of String or nil, but is '#{response_body[expected_attr[:key]].class}'"
                 when "integer", "int"
-                    expect(response_body[expected_attr[:key]]).to be_a(Integer)
+                    expect(response_body[expected_attr[:key]]).to be_an(Integer), "expected '#{expected_attr[:key]}' to be a kind of Integer, but is '#{response_body[expected_attr[:key]].class}'" unless expected_attr[:or_be_nil]
+                    expect(response_body[expected_attr[:key]]).to be_an(Integer).or(be_nil), "expected '#{expected_attr[:key]}' to be a kind of Integer or nil, but is '#{response_body[expected_attr[:key]].class}'"
                 when "float"
-                    expect(response_body[expected_attr[:key]]).to be_a(Float)
+                    expect(response_body[expected_attr[:key]]).to be_a(Float), "expected '#{expected_attr[:key]}' to be a kind of Float, but is '#{response_body[expected_attr[:key]].class}'" unless expected_attr[:or_be_nil]
+                    expect(response_body[expected_attr[:key]]).to be_a(Float).or(be_nil), "expected '#{expected_attr[:key]}' to be a kind of Float or nil, but is '#{response_body[expected_attr[:key]].class}'"
                 when "nil"
                     expect(response_body[expected_attr[:key]]).to be_nil
                 when "array"
-                    expect(response_body[expected_attr[:key]]).to be_an_instance_of(Array)
+                    expect(response_body[expected_attr[:key]]).to be_an_instance_of(Array), "expected '#{expected_attr[:key]}' to be a kind of Array, but is '#{response_body[expected_attr[:key]].class}'" unless expected_attr[:or_be_nil]
+                    expect(response_body[expected_attr[:key]]).to be_an_instance_of(Array).or(be_nil), "expected '#{expected_attr[:key]}' to be a kind of Array or nil, but is '#{response_body[expected_attr[:key]].class}'"
                 when "hash"
-                    expect(response_body[expected_attr[:key]]).to be_an_instance_of(Hash)
+                    expect(response_body[expected_attr[:key]]).to be_an_instance_of(Hash), "expected '#{expected_attr[:key]}' to be a kind of Hash, but is '#{response_body[expected_attr[:key]].class}'" unless expected_attr[:or_be_nil]
+                    expect(response_body[expected_attr[:key]]).to be_an_instance_of(Hash).or(be_nil), "expected '#{expected_attr[:key]}' to be a kind of Hash or nil, but is '#{response_body[expected_attr[:key]].class}'"
                 when "object"
-                    expect(response_body[expected_attr[:key]]).to be_an(Object)
+                    expect(response_body[expected_attr[:key]]).to be_an(Object), "expected '#{expected_attr[:key]}' to be a kind of Object, but is '#{response_body[expected_attr[:key]].class}'" unless expected_attr[:or_be_nil]
+                    expect(response_body[expected_attr[:key]]).to be_an(Object).or(be_nil), "expected '#{expected_attr[:key]}' to be a kind of Object or nil, but is '#{response_body[expected_attr[:key]].class}'"
             end
 
             # verify if response value is equal to the expected value
