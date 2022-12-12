@@ -98,6 +98,7 @@ module ResponseHelpers
     #     { key: "hexid", expected_type: "string" },
     #     { key: "payment_period", expected_type: "string", expected_value: "no_information" },
     #     { key: "payment_amount", expected_type: "string", expected_value: "0.0" },
+    #     { key: "payment_amount", expected_type: "string", expected_value: "0.0", or_be_nil: true },
     #     { key: "quality", expected_type: "integer" },
     #     { key: "main_file_id", expected_type: "nil" }
     # ])
@@ -105,38 +106,40 @@ module ResponseHelpers
         expect(response_body).to be_an(Object)
 
         # iterate over the expected attributes
-        expected_attrs.each do |attr|
+        expected_attrs.each do |expected_attr|
 
             # verify if response has specific attribute
-            expect(response_body).to have_key(attr[:key])
+            expect(response_body).to have_key(expected_attr[:key])
 
             # verify if response attribute has the expected value type
-
-            case attr[:expected_type]
-                when "string"
-                    expect(response_body[attr[:key]]).to be_a(String)
-                when "integer"
-                    expect(response_body[attr[:key]]).to be_a(Integer)
+            case expected_attr[:expected_type]
+                when "boolean", "bool"
+                    expect(response_body[expected_attr[:key]]).to be_in([true, false])
+                when "string", "str"
+                    expect(response_body[expected_attr[:key]]).to be_a(String)
+                when "integer", "int"
+                    expect(response_body[expected_attr[:key]]).to be_a(Integer)
                 when "float"
-                    expect(response_body[attr[:key]]).to be_a(Float)
-                when "boolean"
-                    expect(response_body[attr[:key]]).to be_in([true, false])
+                    expect(response_body[expected_attr[:key]]).to be_a(Float)
                 when "nil"
-                    expect(response_body[attr[:key]]).to be_nil
+                    expect(response_body[expected_attr[:key]]).to be_nil
                 when "array"
-                    expect(response_body[attr[:key]]).to be_an_instance_of(Array)
+                    expect(response_body[expected_attr[:key]]).to be_an_instance_of(Array)
                 when "hash"
-                    expect(response_body[attr[:key]]).to be_an_instance_of(Hash)
+                    expect(response_body[expected_attr[:key]]).to be_an_instance_of(Hash)
                 when "object"
-                    expect(response_body[attr[:key]]).to be_an(Object)
+                    expect(response_body[expected_attr[:key]]).to be_an(Object)
             end
 
-            # verify if response attribute value is equal to the requested value
-            if request_body[attr[:expected_value]].present?
-                expect(response_body[attr[:key]]).to eq(attr[:expected_value])
-            # verify if response attribute value is equal to some default value
-            elsif request_body[attr[:key]].present?
-                expect(response_body[attr[:key]]).to eq(request_body[attr[:key]])
+            # verify if response value is equal to the expected value
+            if expected_attr[:expected_value].present?
+                expect(response_body[expected_attr[:key]]).to eq(expected_attr[:expected_value]) unless expected_attr[:or_be_nil]
+                expect(response_body[expected_attr[:key]]).to eq(expected_attr[:expected_value]).or be_nil
+            end
+
+            # verify if response value is equal to request value
+            if request_body[expected_attr[:key]].present?
+                expect(response_body[expected_attr[:key]]).to eq(request_body[expected_attr[:key]])
             end
         end
     end
