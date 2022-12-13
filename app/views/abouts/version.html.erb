@@ -14,7 +14,7 @@
     <article class="engines">
         <% @aboutengines.each do |engine| %>
             <div class="engine">
-                <%= image_tag engine[1][:image] %>
+                <%= lesli_svg(engine[1][:image]) %>
                 <p><%= engine[1][:name] %></p>
                 <p>version: <%= engine[1][:version] %></p>
                 <p>build: <%= engine[1][:build] %></p>

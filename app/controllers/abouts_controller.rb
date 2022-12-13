@@ -22,7 +22,8 @@ class AboutsController < ApplicationLesliController
 
     def privileges 
         {
-            dashboard: []
+            dashboard: [],
+            version: []
         }
     end
 
@@ -36,9 +37,9 @@ class AboutsController < ApplicationLesliController
 
         @aboutengines = LC::System::Info.revisions().map do |engine|
             engine[1][:name] = engine[0].titleize()
-            engine[1][:image] = "#{ engine[0] }/#{ engine[0].sub('cloud_', '') }-logo.svg"
+            engine[1][:image] = engine[0].sub("_", "-")
             if engine[0] == "cloud_dispatcher"
-                engine[1][:image] = "lesli/brand/app-icon.svg"
+                #engine[1][:image] = "lesli/brand/app-icon.svg"
             end
             engine
         end
