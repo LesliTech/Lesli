@@ -32,10 +32,12 @@ module Courier
                 post.show(current_user, query)
             end
             
-            def self.create(params)
+            def self.create(current_user, params)
                 return {} unless defined? CloudSocial
-                post = CloudSocial::Post.new
-                post.create(params)
+                post = current_user.account.social.posts.new(params)
+                post.user = current_user
+                post.save!
+                return post
             end
             
             def self.update(post_id, params)
