@@ -300,7 +300,7 @@ module.exports = env => {
 
     // Update compilation version for frontend and backend
     function update_software_version(engine, env) {
-
+        
         // do not change if development
         if (env.mode != "production") {
             return 
