@@ -458,10 +458,10 @@ class User < ApplicationLesliRecord
     # @description Set the user alias based on the full_name.
     # @example
     #     puts current_user.full_name # John Doe
-    #     puts current_user.set_alias # Jo. Do.
+    #     puts current_user.set_alias # John D.
     def set_alias
-        if self.alias.nil?
-            self.alias = (detail&.first_name && detail&.last_name) ? "#{detail.first_name[0..1]}#{detail.last_name[0..1]}" : ""
+        if self.alias.blank?
+            self.alias = (detail&.first_name && detail&.last_name) ? "#{detail.first_name} #{detail.last_name[0]}." : ""
             self.save
         end
     end
