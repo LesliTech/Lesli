@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,12 +13,12 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 module ResponseHelpers
 
-    # container for the response body parsed as JSON 
+    # container for the response body parsed as JSON
     @@response_json = nil
 
     # return the body of a request response parsed as JSON
@@ -26,7 +26,7 @@ module ResponseHelpers
         # support empty responses from lesli 3 responder
         _response_ = response.body.blank? ? "{}" : response.body
         @@response_json = JSON.parse(_response_) if @@response_json.blank?
-        @@response_json 
+        @@response_json
     end
 
     # test a standard successful response for lesli 3
@@ -56,18 +56,18 @@ module ResponseHelpers
         expect(response_json["records"]).to be_an_instance_of(Array)
 
         expect(response_json["pagination"]["results"]).to eql(response_json["records"].size)
-        
+
         response_json()
     end
 
     # test a standard error response for lesli 3
     def expect_response_with_error
         @@response_json = nil
-        expect(response).to have_http_status(:bad_request) 
+        expect(response).to have_http_status(:bad_request)
         expect(response.content_type).to eq('application/json; charset=utf-8')
         expect(response_json).to be_an_instance_of(Hash)
-        expect(response_json).to have_key('message') 
-        expect(response_json).to have_key('details') 
+        expect(response_json).to have_key('message')
+        expect(response_json).to have_key('details')
     end
 
     # test a standard not found response for lesli 3
@@ -82,7 +82,7 @@ module ResponseHelpers
         @@response_json = nil
         expect(response).to have_http_status(:unauthorized)
         expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(response_json).to have_key('message') 
+        expect(response_json).to have_key('message')
     end
 
     # function to expect a response with the given params
@@ -98,6 +98,7 @@ module ResponseHelpers
     #     { key: "hexid", expected_type: "string" },
     #     { key: "payment_period", expected_type: "string", expected_value: "no_information" },
     #     { key: "payment_amount", expected_type: "string", expected_value: "0.0" },
+    #     { key: "payment_amount", expected_type: "string", expected_value: "0.0", or_be_nil: true },
     #     { key: "quality", expected_type: "integer" },
     #     { key: "main_file_id", expected_type: "nil" }
     # ])
@@ -105,38 +106,47 @@ module ResponseHelpers
         expect(response_body).to be_an(Object)
 
         # iterate over the expected attributes
-        expected_attrs.each do |attr|
+        expected_attrs.each do |expected_attr|
 
             # verify if response has specific attribute
-            expect(response_body).to have_key(attr[:key])
+            expect(response_body).to have_key(expected_attr[:key])
 
-            # verify if response attribute has the expected value type 
-
-            case attr[:expected_type]
-                when "string"
-                    expect(response_body[attr[:key]]).to be_a(String)
-                when "integer"
-                    expect(response_body[attr[:key]]).to be_a(Integer)
+            # verify if response attribute has the expected value type
+            case expected_attr[:expected_type]
+                when "boolean", "bool"
+                    expect(response_body[expected_attr[:key]]).to be_in([true, false]), "expected '#{expected_attr[:key]}' to be a kind of Boolean, but is '#{response_body[expected_attr[:key]].class}'" unless expected_attr[:or_be_nil]
+                    expect(response_body[expected_attr[:key]]).to be_in([true, false]).or(be_nil), "expected '#{expected_attr[:key]}' to be a kind of Boolean or nil, but is '#{response_body[expected_attr[:key]].class}'"
+                when "string", "str"
+                    expect(response_body[expected_attr[:key]]).to be_a(String), "expected '#{expected_attr[:key]}' to be a kind of String, but is '#{response_body[expected_attr[:key]].class}'" unless expected_attr[:or_be_nil]
+                    expect(response_body[expected_attr[:key]]).to be_a(String).or(be_nil), "expected '#{expected_attr[:key]}' to be a kind of String or nil, but is '#{response_body[expected_attr[:key]].class}'"
+                when "integer", "int"
+                    expect(response_body[expected_attr[:key]]).to be_an(Integer), "expected '#{expected_attr[:key]}' to be a kind of Integer, but is '#{response_body[expected_attr[:key]].class}'" unless expected_attr[:or_be_nil]
+                    expect(response_body[expected_attr[:key]]).to be_an(Integer).or(be_nil), "expected '#{expected_attr[:key]}' to be a kind of Integer or nil, but is '#{response_body[expected_attr[:key]].class}'"
                 when "float"
-                    expect(response_body[attr[:key]]).to be_a(Float)
-                when "boolean"
-                    expect(response_body[attr[:key]]).to be_in([true, false])
+                    expect(response_body[expected_attr[:key]]).to be_a(Float), "expected '#{expected_attr[:key]}' to be a kind of Float, but is '#{response_body[expected_attr[:key]].class}'" unless expected_attr[:or_be_nil]
+                    expect(response_body[expected_attr[:key]]).to be_a(Float).or(be_nil), "expected '#{expected_attr[:key]}' to be a kind of Float or nil, but is '#{response_body[expected_attr[:key]].class}'"
                 when "nil"
-                    expect(response_body[attr[:key]]).to be_nil
+                    expect(response_body[expected_attr[:key]]).to be_nil
                 when "array"
-                    expect(response_body[attr[:key]]).to be_an_instance_of(Array)
+                    expect(response_body[expected_attr[:key]]).to be_an_instance_of(Array), "expected '#{expected_attr[:key]}' to be a kind of Array, but is '#{response_body[expected_attr[:key]].class}'" unless expected_attr[:or_be_nil]
+                    expect(response_body[expected_attr[:key]]).to be_an_instance_of(Array).or(be_nil), "expected '#{expected_attr[:key]}' to be a kind of Array or nil, but is '#{response_body[expected_attr[:key]].class}'"
                 when "hash"
-                    expect(response_body[attr[:key]]).to be_an_instance_of(Hash)
+                    expect(response_body[expected_attr[:key]]).to be_an_instance_of(Hash), "expected '#{expected_attr[:key]}' to be a kind of Hash, but is '#{response_body[expected_attr[:key]].class}'" unless expected_attr[:or_be_nil]
+                    expect(response_body[expected_attr[:key]]).to be_an_instance_of(Hash).or(be_nil), "expected '#{expected_attr[:key]}' to be a kind of Hash or nil, but is '#{response_body[expected_attr[:key]].class}'"
                 when "object"
-                    expect(response_body[attr[:key]]).to be_an(Object)
+                    expect(response_body[expected_attr[:key]]).to be_an(Object), "expected '#{expected_attr[:key]}' to be a kind of Object, but is '#{response_body[expected_attr[:key]].class}'" unless expected_attr[:or_be_nil]
+                    expect(response_body[expected_attr[:key]]).to be_an(Object).or(be_nil), "expected '#{expected_attr[:key]}' to be a kind of Object or nil, but is '#{response_body[expected_attr[:key]].class}'"
             end
 
-            # verify if response attribute value is equal to the requested value
-            if request_body[attr[:expected_value]].present?
-                expect(response_body[attr[:key]]).to eq(attr[:expected_value])
-            # verify if response attribute value is equal to some default value
-            elsif request_body[attr[:key]].present?
-                expect(response_body[attr[:key]]).to eq(request_body[attr[:key]])
+            # verify if response value is equal to the expected value
+            if expected_attr[:expected_value].present?
+                expect(response_body[expected_attr[:key]]).to eq(expected_attr[:expected_value]) unless expected_attr[:or_be_nil]
+                expect(response_body[expected_attr[:key]]).to eq(expected_attr[:expected_value]).or be_nil
+            end
+
+            # verify if response value is equal to request value
+            if request_body[expected_attr[:key]].present?
+                expect(response_body[expected_attr[:key]]).to eq(request_body[expected_attr[:key]])
             end
         end
     end
@@ -144,7 +154,7 @@ module ResponseHelpers
     # shortcut for response_json
     def response_body
         response_json
-    end 
+    end
 
     # test a response that contains a xlsx file
     def expect_response_with_xlsx
@@ -154,7 +164,7 @@ module ResponseHelpers
         # In the case of Excel files the response has a specific content type
         # And it's up the version, so we have two posibilities
         expect(response.content_type).to be_in([
-            "application/vnd.ms-excel", 
+            "application/vnd.ms-excel",
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" # For Excel2007 and above
         ])
     end
@@ -184,39 +194,39 @@ module ResponseHelpers
         @@response_json = nil
         expect(response).to have_http_status(:success)
         expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(response_json).to have_key('successful') 
+        expect(response_json).to have_key('successful')
         expect(response_json["successful"]).to eql(true)
         expect(response_json).to have_key("data").or have_key("payload")
     end
 
     def expect_json_response_error
         @@response_json = nil
-        expect(response).to have_http_status(:success) 
+        expect(response).to have_http_status(:success)
         expect(response.content_type).to eq('application/json; charset=utf-8')
-        expect(response_json).to have_key('successful') 
+        expect(response_json).to have_key('successful')
         expect(response_json['successful']).to eql(false)
-        expect(response_json).to have_key('error') 
-        expect(response_json["error"]).to have_key('message') 
+        expect(response_json).to have_key('error')
+        expect(response_json["error"]).to have_key('message')
     end
 
     def expect_json_response_not_found
         @@response_json = nil
         expect(response).to have_http_status(:not_found)
         expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(response_json).to have_key('successful') 
+        expect(response_json).to have_key('successful')
         expect(response_json['successful']).to eql(false)
-        expect(response_json).to have_key('error') 
-        expect(response_json["error"]).to have_key('message') 
+        expect(response_json).to have_key('error')
+        expect(response_json["error"]).to have_key('message')
     end
 
     def expect_json_response_unauthorized
         @@response_json = nil
         expect(response).to have_http_status(:unauthorized)
         expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(response_json).to have_key('successful') 
+        expect(response_json).to have_key('successful')
         expect(response_json['successful']).to eql(false)
-        expect(response_json).to have_key('error') 
-        expect(response_json["error"]).to have_key('message') 
+        expect(response_json).to have_key('error')
+        expect(response_json["error"]).to have_key('message')
     end
 
 end
