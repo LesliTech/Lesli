@@ -49,6 +49,10 @@ class User < ApplicationLesliRecord
     has_one  :integration,      foreign_key: "users_id"
     has_many :access_codes,     foreign_key: "users_id"
     has_many :auth_providers,   foreign_key: "users_id"
+    has_many :posts,            foreign_key: "posts_id"
+    has_many :comments,         foreign_key: "comments_id"
+    has_many :likes             
+
 
     has_many :user_roles,       foreign_key: "users_id",    class_name: "User::Role"
     has_many :roles,            through: :user_roles,       source: :roles
