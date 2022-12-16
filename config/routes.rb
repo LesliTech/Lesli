@@ -18,6 +18,10 @@ For more information read the license file including with this software.
 =end
 
 Rails.application.routes.draw do
+
+    extend RoutesBuilder
+    extend RoutesApp
+    
     devise_for :users,
     :path => "",
     :path_names => {
@@ -34,15 +38,12 @@ Rails.application.routes.draw do
         :sessions => "users/sessions",
         :omniauth_callbacks => "users/oauth",
     }
-
+    
     devise_scope :user do
         get "register/options", to: "users/registrations#options"
     end
-    
-    get :language, to: "application#switch_locale"
 
-    extend RoutesBuilder
-    extend RoutesApp
+    get :language, to: "application#switch_locale"
 
     mount CloudKb::Engine          => "/kb"          if defined?(CloudKb)
     mount CloudOne::Engine         => "/one"         if defined?(CloudOne)
