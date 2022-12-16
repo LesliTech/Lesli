@@ -48,7 +48,8 @@ class User < ApplicationLesliRecord
     has_many :activities,       foreign_key: "users_id"
     has_one  :integration,      foreign_key: "users_id"
     has_many :access_codes,     foreign_key: "users_id"
-    has_many :auth_providers,   foreign_key: "users_id"
+    has_many :auth_providers,   foreign_key: "users_id"     
+
 
     has_many :user_roles,       foreign_key: "users_id",    class_name: "User::Role"
     has_many :roles,            through: :user_roles,       source: :roles
@@ -457,10 +458,10 @@ class User < ApplicationLesliRecord
     # @description Set the user alias based on the full_name.
     # @example
     #     puts current_user.full_name # John Doe
-    #     puts current_user.set_alias # Jo. Do.
+    #     puts current_user.set_alias # John D.
     def set_alias
-        if self.alias.nil?
-            self.alias = (detail&.first_name && detail&.last_name) ? "#{detail.first_name[0..1]}#{detail.last_name[0..1]}" : ""
+        if self.alias.blank?
+            self.alias = (detail&.first_name && detail&.last_name) ? "#{detail.first_name} #{detail.last_name[0]}." : ""
             self.save
         end
     end
