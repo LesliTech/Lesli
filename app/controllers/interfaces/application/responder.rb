@@ -124,6 +124,15 @@ module Interfaces
 
             end
 
+            # JSON failure response due users has to perform an action
+            # example: respond_with_action({ :redirect => "telephone_confirmation" })
+            def respond_with_action (action, message = "Action Required")
+                respond_with_http(490, { 
+                    :message => message,
+                    :action => action 
+                })
+            end
+
             # JSON failure response
             def respond_with_error message = "", details = []
 

@@ -227,6 +227,8 @@ module RoutesApp
                 end
             end
 
+            
+
             scope :about do
                 get "version", to: "abouts#version"
                 get "system-requirements", to: "abouts#system_requirements"
