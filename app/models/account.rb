@@ -59,6 +59,7 @@ class Account < ApplicationRecord
     has_one :dispatcher, class_name: "CloudDispatcher::Account", foreign_key: "id"
     has_one :storage,    class_name: "CloudStorage::Account",    foreign_key: "id"
     has_one :realty,     class_name: "CloudRealty::Account",     foreign_key: "id"
+    has_one :word,       class_name: "CloudWord::Account",       foreign_key: "id"
 
     after_create :initialize_account
     after_create :initialize_account_for_engines
@@ -302,6 +303,14 @@ class Account < ApplicationRecord
                 self.work = CloudWork::Account.new
                 self.work.account = self
                 self.work.save!
+            end
+        end
+
+        if defined? CloudWord
+            if self.word.blank?
+                self.word = CloudWord::Account.new
+                self.word.account = self
+                self.word.save!
             end
         end
 
