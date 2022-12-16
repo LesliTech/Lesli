@@ -77,25 +77,28 @@ module Courier
             end
 
             def self.by_model(model_type, model_id, current_user, query)
-                return [] unless defined? CloudFocus
-                events = current_user.account.driver.events
-                        .select(
-                            :id,
-                            :title,
-                            :description,
-                            :time_start,
-                            :time_end,
-                            :location,
-                            :url,
-                            :public,
-                            :user_main_id,
-                            :users_id,
-                            :event_date,
-                            "cloud_driver_catalog_event_types.name as event_type"
-                        )
-                        .joins(:detail)
-                        .left_joins(:type)
-                        .where("cloud_driver_events.model_id = ? AND cloud_driver_events.model_type = ?", model_id, model_type)
+                return [] unless defined? CloudDriver
+
+                events = current_user.account.driver.events.select(
+                    :id,
+                    :title,
+                    :description,
+                    :time_start,
+                    :time_end,
+                    :location,
+                    :url,
+                    :public,
+                    :user_main_id,
+                    :users_id,
+                    :event_date,
+                    "cloud_driver_catalog_event_types.name as event_type"
+                ).joins(
+                    :detail
+                ).left_joins(
+                    :type
+                ).where(
+                    "cloud_driver_events.model_id = ? AND cloud_driver_events.model_type = ?", model_id, model_type
+                )
 
                 events = events.where("cloud_driver_catalog_event_types.name = ? ", query[:condition][:type]) unless query[:condition].nil?
                 events = events.page(query[:pagination][:page]).per(query[:pagination][:perPage])
