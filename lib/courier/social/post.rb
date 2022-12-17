@@ -40,7 +40,7 @@ module Courier
                 return post
             end
             
-            def self.update(current_user, post_id, params)
+            def self.update(current_user, params, post_id)
                 return {} unless defined? CloudSocial
                 post = CloudSocial::Post.find_by_id(post_id)
                 post.update(params)
