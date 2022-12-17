@@ -26,7 +26,7 @@ module Courier
                 CloudSocial::Post.index(current_user, query)
             end
             
-            def self.show(current_user, post_id, query)
+            def self.show(current_user, query, post_id)
                 return {} unless defined? CloudSocial
                 post = CloudSocial::Post.find_by_id(post_id)
                 post.show(current_user, query)
@@ -40,10 +40,11 @@ module Courier
                 return post
             end
             
-            def self.update(post_id, params)
+            def self.update(current_user, post_id, params)
                 return {} unless defined? CloudSocial
                 post = CloudSocial::Post.find_by_id(post_id)
                 post.update(params)
+                return post
             end
             
         end
