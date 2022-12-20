@@ -32,7 +32,10 @@ module Courier
                 return nil unless defined? CloudDriver
 
                 # Using the EventServices to find the event
-                CloudDriver::EventServices.find(current_user, events_id)
+                event_response = CloudDriver::EventServices.find(current_user, events_id)
+
+                return event_response.payload if event_response.successful?
+                return nil
             end
 
             def self.update(current_user, events_id, event_params)
