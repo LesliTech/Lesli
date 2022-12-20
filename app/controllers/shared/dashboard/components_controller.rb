@@ -32,8 +32,7 @@ module Shared
                     if params[:view_type] == "render"
                         component_data = @dashboard_component.render_data(current_user, @query)
 
-                        return respond_with_successful(component_data) if component_data
-                        return respond_with_unauthorized
+                        return respond_with_successful(component_data)
                     end
 
                     respond_with_successful(@dashboard_component) 
