@@ -31,49 +31,41 @@ module Courier
             def self.find(current_user, events_id)
                 return nil unless defined? CloudDriver
 
-                events = CloudDriver::Event
+                # Using the EventServices to find the event
+                CloudDriver::EventServices.find(current_user, events_id)
+            end
 
-                # Getting events from the calendars where the user is the owner
-                my_events = events.joins(:calendar).where("cloud_driver_calendars.user_main_id = ?", current_user.id)
+            def self.update(current_user, events_id, event_params)
+                return nil unless defined? CloudDriver
 
-                # Getting events where the user is invited
-                invited_events = events.joins("inner join cloud_driver_event_attendants cdea on cdea.cloud_driver_events_id = cloud_driver_events.id and cdea.users_id = #{current_user.id}")
-
-                # Looking for the event with the id provided
-                event = my_events.union(invited_events).find_by_id(events_id)
-
-                # Returning the event
-                event
+                # Using the EventServices to update the event
+                CloudDriver::EventServices.update(current_user, events_id, event_params)
             end
 
             def self.destroy(current_user, events_id)
                 return nil unless defined? CloudDriver
-                event = CloudDriver::Event.find_by_id(events_id)
 
-                CloudDriver::EventServices.destroy(current_user, event)
+                # Using the EventServices to destroy the event
+                CloudDriver::EventServices.destroy(current_user, events_id)
             end
 
             def self.find_integration_event(current_user, external_uid, source_code)
                 return nil unless defined? CloudDriver
 
+                # Looking for the calendar
                 calendar = CloudDriver::Calendar.find_by(
                     user_main: current_user,
                     user_creator: current_user,
                     source_code: source_code,
                 )
 
+                # Looking for the event on the calendar
                 event = CloudDriver::Event.find_by(
                     external_uid: external_uid,
                     calendar: calendar
                 )
 
                 event
-            end
-
-            def self.update(current_user, events_id, event_params)
-                return nil unless defined? CloudDriver
-                event = CloudDriver::Event.find_by_id(events_id)
-                CloudDriver::EventServices.update(current_user, event, event_params)
             end
 
             def self.by_model(model_type, model_id, current_user, query)
@@ -141,6 +133,7 @@ module Courier
 
             def self.with_deadline(current_user, query, calendar)
                 return [] unless defined? CloudDriver
+
                 CloudDriver::Event.with_deadline(current_user, query, calendar)
             end
         end
