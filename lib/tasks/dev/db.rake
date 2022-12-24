@@ -41,16 +41,9 @@ def reset
 
     L2.info("Reset database for development")
 
-    L2.msg("drop database")
     Rake::Task['db:drop'].invoke
-
-    L2.msg("create database")
     Rake::Task['db:create'].invoke
-
-    L2.msg("migrate database")
     Rake::Task['db:migrate'].invoke
-
-    L2.msg("seed database")
     Rake::Task['db:seed'].invoke
 
     #message_separator

@@ -19,16 +19,15 @@ For more information read the license file including with this software.
 
 L2.info("Loading seeds for #{Rails.env.downcase} environment") 
 
-
 L2.br
 
 
 # including tools for seeders
-load "#{Rails.root}/db/seed/tools.rb"
+load Rails.root.join("db", "seed", "tools.rb")
 
 
 # loading core seeders
-load "#{Rails.root}/db/seed/#{Rails.env.downcase}.rb"
+load Rails.root.join("db", "seed", "#{Rails.env.downcase}.rb")
 
 
 # loading engine seeders
@@ -41,9 +40,8 @@ Rails.application.config.lesli[:engines].each do |engine|
     instance_klass::Engine.load_seed
 end
 
-
-L2.cow("Seed process completed!") 
-
-
 # exec maintenance tasks
 Rake.application.invoke_task("app:maintenance") 
+
+
+L2.cow("Seed process completed!") 
