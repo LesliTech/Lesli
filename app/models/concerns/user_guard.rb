@@ -126,7 +126,7 @@ module UserGuard
     # if user has a role with "default path" to use as home to redirect after login
     # IMPORTANT: This home path is used only the send the user after login, the user
     #            and the role are not limited by this configuration
-    def has_role_with_default_path?(limited_to_a_path=false)
+    def has_role_with_default_path?()
 
         # get the roles that contains a path
         role = self.roles.where.not(default_path: [nil, ""])
