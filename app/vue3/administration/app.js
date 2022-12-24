@@ -98,5 +98,4 @@ app("Administration", [{
 }, {
     path: "/account/settings/theme",
     component: appTheme
-}
-])
+}])

@@ -93,6 +93,7 @@ class Role < ApplicationLesliRecord
             :name => self.name,
             :active => self.active,
             :default_path => self.default_path,
+            :limit_to_path => self.limit_to_path,
             :only_my_data => self.only_my_data,
             :object_level_permission => self.object_level_permission,
             :created_at => self.created_at,

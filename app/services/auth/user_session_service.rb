@@ -55,6 +55,11 @@ module Auth
         # get default path of role (if role has default path)
         def default_path
 
+            L2.info "searching for default path"
+            pp @resource.has_role_with_path?
+
+            return "/"
+
             # default path to redirect the user
             default_path = @resource.roles.first.default_path || "/"
 

@@ -164,6 +164,10 @@ class ApplicationLesliController < ApplicationController
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
     def authorize_privileges
 
+        #L2.info "holi 1"
+        current_user.has_limited_role?
+        #L2.info "holi 2"
+
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
         granted = current_user.has_privileges4?(params[:controller], params[:action], params[:format])
@@ -179,8 +183,8 @@ class ApplicationLesliController < ApplicationController
             granted = true if granted3 == true
         end
 
-        # Check if user can be redirected to role default path
-        can_redirect_to_default_path = -> () {
+        # Check if user should be redirected to role default path
+        should_redirect_to_default_path = -> () {
             return false if request[:format] == "json"
             return false if !["show", "index"].include?(params[:action])
             return false if current_user.roles.first[:default_path].blank?
@@ -189,7 +193,7 @@ class ApplicationLesliController < ApplicationController
         }
 
         # if user do not has access to the requested route and can go to default route
-        if (!granted && can_redirect_to_default_path.call())
+        if (!granted && should_redirect_to_default_path.call())
             return redirect_to current_user.roles.first[:default_path]
         end
 

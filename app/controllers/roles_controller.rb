@@ -279,6 +279,7 @@ class RolesController < ApplicationLesliController
             :active,
             :only_my_data,
             :default_path,
+            :limit_to_path,
             :object_level_permission
         )
     end
