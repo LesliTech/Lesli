@@ -121,6 +121,57 @@ module UserGuard
     end
 
 
+    # @return [nil,string]
+    # @description Checks configuration of all the roles assigned to the user
+    # if user has a role with "default path" to use as home to redirect after login
+    # IMPORTANT: This home path is used only the send the user after login, the user
+    #            and the role are not limited by this configuration
+    def has_role_with_default_path?(limited_to_a_path=false)
+
+        # get the roles that contains a path
+        role = self.roles.where.not(default_path: [nil, ""])
+
+        # here we must order the results descendant because we must
+        # keep the path of the hightest object level permission role.
+        # Example: we should use the path of the admin role if user has
+        # admin & employee roles, also order by default_path, so we get first 
+        # the roles with path in case the user has roles with the same object level permission
+        role = role.order(object_level_permission: :desc).order(:default_path)
+
+        # get the first role found, due previously we sort in a descendant order
+        # the first role is going to be the one with highest object level permission
+        # this is going to return nil if no role was found
+        role.first&.default_path
+
+    end
+
+
+    # @return [nil,string]
+    # @description Checks configuration of all the roles assigned to the user
+    # if user has a role limited to a defined path
+    # if user has a high privilege role that overrides any other role configuration
+    def has_role_limited_to_path?()
+
+        # get the roles ordering in descendant mode because we must
+        # keep the path of the hightest object level permission role.
+        # Example: we should use the path of the admin role if user has
+        # admin & employee roles, also order by default_path, so we get first 
+        # the roles with path in case the user has roles with the same object level permission
+        role = self.roles.order(object_level_permission: :desc).order(:default_path)
+
+        # get the first role found, due previously we sort in a descendant order
+        # the first role is going to be the one with highest object level permission
+        # this is going to return nil if no role was found
+        role = role.first
+
+        # return the path of the role if is limited to a that specific path
+        return role.default_path if role.limit_to_path == true 
+
+        # return nil if role has no limits
+        return nil
+    end
+
+
     # @return [void]
     # @description Sets this user as inactive and removes complete access to the platform from them
     # @example
