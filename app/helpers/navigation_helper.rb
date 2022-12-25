@@ -242,7 +242,7 @@ module NavigationHelper
     end
 
     # 07.05 Shared engine
-    def navigation_engine_shared title: "Shared", subtitle: "cloud_shared/shared-logo.svg"
+    def navigation_engine_shared title: "Shared", subtitle: "Shared & Open resources"
         if defined? CloudShared
             navigation_engine_item(title, subtitle, "shared", cloud_shared.root_path, controller_path.include?("cloud_shared"))
         end
