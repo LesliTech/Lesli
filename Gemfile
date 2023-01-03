@@ -81,7 +81,7 @@ gem "font-awesome-sass", "~> 5.15.1"
 # · Tools used to build the LESLI Platform
 
 # Message utilities for the Ruby console.
-gem "L2", "0.4.0"
+gem "L2", "0.5.2"
 
 # Flexible authentication solution for Rails with Warden
 gem "devise", "4.8.1"
@@ -163,9 +163,6 @@ gem "flag-icons-rails", "= 3.4.6.1"
 
 # Make managing application errors a more pleasant experience.
 gem "honeybadger", "4.11.0"
-
-# Cowsay, written in ruby, as a gem.
-gem "ruby_cowsay", "0.1.3"
 
 
 

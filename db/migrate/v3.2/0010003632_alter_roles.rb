@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -16,6 +16,8 @@ For more information read the license file including with this software.
 // ·
 =end
 
-load "#{Rails.root}/db/seed/production/accounts.rb"
-load "#{Rails.root}/db/seed/production/users.rb"
-load "#{Rails.root}/db/seed/production/template.rb"
+class AlterRoles < ActiveRecord::Migration[7.0]
+    def change
+        add_column :roles, :limit_to_path, :boolean
+    end
+end

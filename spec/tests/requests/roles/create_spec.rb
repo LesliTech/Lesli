@@ -128,4 +128,24 @@ RSpec.describe 'POST:/administration/roles.json', type: :request, :unless => def
         expect(response_body["message"]).to be_a(String)
     end
 
+    it "is expected to create a role with default path" do
+        role = FactoryBot.attributes_for(:role)
+
+        role[:default_path] = "/administration/roles"
+        role[:limit_to_path] = true
+
+        post("/administration/roles.json", params: {
+            role: role
+        })
+
+        # shared examples
+        expect_response_with_successful
+
+        expect(response_body).to have_key("default_path")
+        expect(response_body).to have_key("limit_to_path")
+        
+        expect(response_body["default_path"]).to eq("/administration/roles")
+        expect(response_body["limit_to_path"]).to be_truthy
+    end 
+
 end
