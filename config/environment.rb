@@ -34,6 +34,14 @@ Rails.application.configure do
         'Build: ' << revision[:build]
     )
 
+    LC::Debug.separator_blank(1)
+
+    LC::Debug.msgc(
+        'Core: ',
+        'Version: ' << Lesli::VERSION,
+        'Build: ' << Lesli::BUILD
+    )
+
     LC::Debug.separator_blank
     LC::Debug.table (engines)
     LC::Debug.separator_blank(2)
