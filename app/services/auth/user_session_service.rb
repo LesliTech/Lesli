@@ -56,7 +56,7 @@ module Auth
         def default_path
 
             # default path to redirect the user
-            default_path = @resource.roles.first.default_path || "/"
+            default_path = @resource.has_role_with_default_path? || "/"
 
             # if first loggin for account owner send him to the onboarding page
             if @resource.account.onboarding? && @resource.has_roles?("owner")

@@ -14,52 +14,24 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
+namespace :lesli do
+    namespace :users do 
+        desc "List of active users"
+        task :list => :environment do |task, args|
 
-#
-require "./lib/tasks/lesli_rake"
-
-
-#
-class LesliUsersRake < LesliRake
-
-    def initialize
-        namespace :lesli do
-
-            namespace :users do 
-
-                desc "List all the users"
-                task :list => :environment do |task, args|
-                    
-                    # execute requested action
-                    self.list
-
-                end
-
-            end 
+            users = ::User
+            .joins(:detail)
+            .select(
+                :id, :email, 
+                "CONCAT(user_details.first_name, ' ',user_details.last_name) as name",
+                :active,
+                LC::Date2.new.db_column("created_at", "users")
+            ).order(:id)
+        
+            L2.table users
 
         end
-
-    end
-
-    private 
-
-    def list
-        users = ::User
-        .joins("inner join user_details ud on ud.users_id = users.id")
-        .select(
-            :id, :active, :email, :current_sign_in_at, 
-            "CONCAT(ud.first_name, ' ',ud.last_name) as name"
-        ).order(:id)
-
-        LC::Debug.table users
-
-    end
-
+    end 
 end
-
-
-#
-LesliUsersRake.new
