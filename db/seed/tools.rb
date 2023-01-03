@@ -52,8 +52,6 @@ def create_development_user usertocreate, password=nil
             user.settings.create(:name => 'locale', :value => Rails.application.config.lesli[:env][:default_locale]) # add locale
         end
 
-        puts("User with email: #{user.email} registered.")
-
         user
     end
 end

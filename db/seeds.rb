@@ -14,29 +14,34 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
 
-LC::Debug.msg "Loading core seeds for #{Rails.env.downcase} environment"
+L2.info("Loading seeds for #{Rails.env.downcase} environment") 
 
-load "#{Rails.root}/db/seed/tools.rb"
+L2.br
 
-load "#{Rails.root}/db/seed/#{Rails.env.downcase}.rb"
 
-if Rails.application.config.lesli[:instance] != "Lesli"
+# including tools for seeders
+load Rails.root.join("db", "seed", "tools.rb")
 
-    # Every instance (builder module) is loaded into the platform using the same 
-    # name of the engine
-    instance_klass = Rails.application.config.lesli[:instance][:name].safe_constantize
 
-    # If instance account class exists
-    if instance_klass && instance_klass.to_s != "Lesli"
-        LC::Debug.msg "Loading seeds for builder engine"
-        instance_klass::Engine.load_seed
-    end
-    
+# loading core seeders
+load Rails.root.join("db", "seed", "#{Rails.env.downcase}.rb")
+
+
+# loading engine seeders
+Rails.application.config.lesli[:engines].each do |engine|
+
+    # every instance (builder module) is loaded into the platform using the same name of the engine
+    instance_klass = engine[:name].safe_constantize
+
+    # dynamic load seeds from installed engines
+    instance_klass::Engine.load_seed
 end
 
-# exec rake standard deploy task
-Rake.application.invoke_task("app:maintenance")
+# exec maintenance tasks
+Rake.application.invoke_task("app:maintenance") 
+
+
+L2.cow("Seed process completed!") 
