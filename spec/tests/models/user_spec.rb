@@ -111,7 +111,7 @@ RSpec.describe "Model:User", type: :model do
 
         user.user_roles.create({ role: role_limited })
 
-        default_path = user.has_role_with_path?
+        default_path = user.has_role_with_default_path?
 
         expect(default_path).not_to be_nil
         expect(default_path).to be_a(String)
@@ -134,7 +134,7 @@ RSpec.describe "Model:User", type: :model do
         user.user_roles.create({ role: role_admin })
         user.user_roles.create({ role: role_limited })
 
-        default_path = user.has_role_with_path?
+        default_path = user.has_role_with_default_path?
 
         expect(default_path).not_to be_nil
         expect(default_path).to be_a(String)
@@ -158,7 +158,7 @@ RSpec.describe "Model:User", type: :model do
         user.user_roles.create({ role: role_admin })
         user.user_roles.create({ role: role_limited })
 
-        default_path = user.has_role_with_path?
+        default_path = user.has_role_with_default_path?
 
         expect(default_path).not_to be_nil
         expect(default_path).to be_a(String)
@@ -173,7 +173,7 @@ RSpec.describe "Model:User", type: :model do
         # create the new user
         user = FactoryBot.create(:user)
 
-        default_path = user.has_role_with_path?
+        default_path = user.has_role_with_default_path?
 
         expect(default_path).to be_nil
 
