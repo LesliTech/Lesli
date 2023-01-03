@@ -81,7 +81,7 @@ gem "font-awesome-sass", "~> 5.15.1"
 # · Tools used to build the LESLI Platform
 
 # Message utilities for the Ruby console.
-gem "L2", "0.5.1"
+gem "L2", "0.5.2"
 
 # Flexible authentication solution for Rails with Warden
 gem "devise", "4.8.1"
