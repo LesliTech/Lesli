@@ -36,4 +36,14 @@ FactoryBot.define do
         account { Account.first }
     end
 
+    # With default path
+    factory :role_with_default_path, class: "Role" do
+        name { Faker::Lorem.word }
+        active { true }
+        default_path { "/administration/account" }
+        limit_to_path { true }
+        object_level_permission { Faker::Number.number(digits: 2) }
+        account { Account.first }
+    end
+
 end

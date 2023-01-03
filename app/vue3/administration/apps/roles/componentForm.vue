@@ -104,6 +104,28 @@ function isObjectLevelPermissionSelected(olp) {
             <p class="help"> {{ translations.core.roles.view_text_default_path_description }}</p>
         </div>
 
+        <!-- Limit to default path -->
+        <div class="field">
+            <label class="label">
+                {{ translations.core.roles.column_limit_to_path }}
+            </label>
+            <div class="control">
+                <div class="select">
+                    <lesli-select 
+                        v-model="storeRole.role.limit_to_path"
+                        :options="[{
+                            label: translations.core.roles.view_text_limit_to_path,
+                            value: true
+                        }, {
+                            label: translations.core.roles.view_text_allow_all_paths,
+                            value: false
+                        }]">
+                    </lesli-select>
+                </div>
+            </div>
+            <p class="help"> {{ translations.core.roles.view_text_default_path_description }}</p>
+        </div>
+
         <hr>
 
         <!-- Object level permission -->
@@ -141,7 +163,7 @@ function isObjectLevelPermissionSelected(olp) {
                 <sup class="has-text-danger">*</sup>
             </label>
             <div class="control">
-                <div class="select" v-if="storeRole.role.only_my_data">
+                <div class="select">
                     <lesli-select 
                         v-model="storeRole.role.only_my_data"
                         :options="[{
@@ -165,7 +187,7 @@ function isObjectLevelPermissionSelected(olp) {
                 <sup class="has-text-danger">*</sup>
             </label>
             <div class="control">
-                <div class="select" v-if="storeRole.role.active">
+                <div class="select">
                     <lesli-select 
                         v-model="storeRole.role.active"
                         :options="[{

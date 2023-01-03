@@ -16,11 +16,11 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
 namespace :app do
 
+    desc "Group of maintenance tasks for Lesli"
     task maintenance: :environment do
         Rake::Task["app:engines:initialize_account"].invoke 
         Rake::Task["app:descriptors:build"].invoke 
