@@ -27,6 +27,10 @@ export default {
         busSuffix: {
             type: String,
             default: ''
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         }
     },
 
@@ -155,7 +159,7 @@ export default {
 <template>
     <component-data-loading v-if="loading"> </component-data-loading>
     <b-dropdown
-        :disabled="transition_statuses.length === 0"
+        :disabled="transition_statuses.length === 0 || disabled"
         v-else hoverable
         aria-role="list"
         position="is-bottom-left"
