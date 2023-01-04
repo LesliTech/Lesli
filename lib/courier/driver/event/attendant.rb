@@ -30,10 +30,17 @@ module Courier
             end
 
             def self.create(current_user, events_id, event_attendant_params)
-                return {} unless defined? CloudDriver
+                return nil unless defined? CloudDriver
 
                 # Using the CloudDriver services to create the event attendant
                 CloudDriver::Event::AttendantServices.create(current_user, events_id, event_attendant_params)
+            end
+
+            def self.destroy(current_user, events_id, event_attendants_id)
+                return nil unless defined? CloudDriver
+
+                # Using the CloudDriver services to destroy the event attendant
+                CloudDriver::Event::AttendantServices.destroy(current_user, events_id, event_attendants_id)
             end
 
         end
