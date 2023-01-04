@@ -23,7 +23,7 @@ source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 
-ruby "2.7.2"
+ruby "3.1.2"
 
 # · RAILS: gem, dependencies and tools
 
