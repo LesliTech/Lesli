@@ -60,10 +60,10 @@ class UserRegistrationService
         @resource.save
 
         # initialize user with necessary data to work with the platform
-        @resource.initialize_user
+        #@resource.initialize_user
 
         # initialize user dependencies
-        @resource.initialize_user_after_confirmation
+        #@resource.initialize_user_after_confirmation
 
         LC::Response.service(true)
 

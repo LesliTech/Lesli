@@ -88,7 +88,7 @@ class User < ApplicationLesliRecord
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     def save(*args)
-        super
+        super()
         rescue ActiveRecord::RecordNotUnique => error
     end
 
