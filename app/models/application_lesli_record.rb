@@ -154,9 +154,9 @@ class ApplicationLesliRecord < ApplicationRecord
 
         reference_olp = 0
         if user_creator
-            reference_olp = user_creator.roles.first.object_level_permission
+            reference_olp = user_creator.roles.first&.object_level_permission || 0
         elsif user_main
-            reference_olp = user_main.roles.first.object_level_permission
+            reference_olp = user_main.roles.first&.object_level_permission || 0
         end
 
         if current_user_olp >= object_level_permission_threshold && current_user_olp >= reference_olp
