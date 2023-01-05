@@ -29,7 +29,7 @@ const emit = defineEmits(['update:modelValue']);
 const props = defineProps({
     modelValue: {
         type: [Number, String, Boolean],
-        required: true
+        required: false
     },
     options: {
         type: Array,
@@ -48,6 +48,10 @@ const props = defineProps({
         type: String,
         required: false
     }
+})
+
+watch(() => props.modelValue, () => {
+    console.log(props.modelValue)
 })
 
 
