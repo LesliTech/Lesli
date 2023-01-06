@@ -30,7 +30,8 @@ module ServiceResponseHelpers
         @@response = nil
         expect(response.success?).to eq(true)
         expect(response.successful?).to eq(true)
-        expect(response.payload).not_to be_nil
+
+        # If the response is successful, the payload could be present, but the error should be nil
         expect(response.error).to be_nil
 
         @@response = response.payload
@@ -41,6 +42,8 @@ module ServiceResponseHelpers
         @@response = nil
         expect(response.success?).to eq(false)
         expect(response.successful?).to eq(false)
+
+        # If the response is not successful, the error could be present, but the payload should be nil
         expect(response.payload).to be_nil
 
         @@response = response.error
