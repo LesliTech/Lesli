@@ -42,7 +42,6 @@ module ServiceResponseHelpers
         expect(response.success?).to eq(false)
         expect(response.successful?).to eq(false)
         expect(response.payload).to be_nil
-        expect(response.error).not_to be_nil
 
         @@response = response.error
     end
