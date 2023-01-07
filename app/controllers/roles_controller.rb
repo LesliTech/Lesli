@@ -21,7 +21,7 @@ class RolesController < ApplicationLesliController
 
     def privileges
         {
-            index: ['Role::DescribersController#index', 'list'],
+            index: ['Role::DescribersController#index', 'list', 'Role::Activities#index'],
             show: [],
             edit: ['options'],
             new: [],

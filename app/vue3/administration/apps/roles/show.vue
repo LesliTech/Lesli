@@ -1,7 +1,7 @@
 <script setup>
 /*
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -56,6 +56,14 @@ const props = defineProps({
     }
 })
 
+const translations = {
+    core: {
+        roles: I18n.t("core.roles"),
+        users: I18n.t("core.users"),
+        shared: I18n.t("core.shared")
+    }
+}
+
 // · 
 onMounted(() => {
     storeRole.fetchRole(route.params.id)
@@ -77,17 +85,17 @@ function toggleEditor() {
     <section class="application-component">
         <lesli-header :title="'Privileges for: ' + storeRole.role.name + ' role '">
             <lesli-button icon="list" :to="url.root(props.appMountPath)">
-                All roles
+                {{  translations.core.roles.view_btn_roles_list }}
             </lesli-button>
             <lesli-button icon="edit" :to="url.root(props.appMountPath + '/:id/edit', route.params.id)">
-                Edit role
+                {{ translations.core.roles.view_btn_edit_role_information }}
             </lesli-button>
             <lesli-button icon="admin_panel_settings" :solid="editor == 'custom'" @click="toggleEditor">
-                Aditional privileges
+                {{ translations.core.roles.view_btn_edit_privilege_actions }}
             </lesli-button>
         </lesli-header>
         <lesli-toolbar @search="storeRole.searchDescriptors"></lesli-toolbar>
         <componentPrivilegeStandard v-if="editor == 'standard'"></componentPrivilegeStandard>
-        <componentPrivilegeCustom v-if="editor == 'custom'"></componentPrivilegeCustom>
+        <!-- <componentPrivilegeCustom v-if="editor == 'custom'"></componentPrivilegeCustom> -->
     </section>
 </template>
