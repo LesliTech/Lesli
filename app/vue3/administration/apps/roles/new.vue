@@ -67,9 +67,6 @@ onMounted(() => {
             <lesli-button icon="list" :to="url.root(props.appMountPath)">
                 All roles
             </lesli-button>
-            <lesli-button icon="preview" :to="url.root(props.appMountPath+`/${storeRole.role.id}`)">
-                Show role
-            </lesli-button>
         </lesli-header>
         <componentFormRole></componentFormRole>
     </section>
