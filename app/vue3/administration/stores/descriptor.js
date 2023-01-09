@@ -28,15 +28,22 @@ export const useDescriptor = defineStore("administration.descriptor", {
             records: [],
             pagination: {},
             descriptor: {},
-            loading: false
+            loading: false,
+            pagination: {
+                page: 1
+            },
+            index: { 
+                pagination: {},
+                records: []
+            },
         }
     },
     actions: {
 
-        fetch() {
+        fetch(url=this.url.admin("descriptors")) {
             this.loading = true
-            this.http.get(this.url.admin("descriptors")).then(result => {
-                this.pagination = result.pagination
+            this.http.get(url).then(result => {
+                this.index = result
                 this.records = result.records.map(descriptor => {
                     descriptor.created_at = this.date.dateTime(descriptor.created_at)
                     descriptor.updated_at = this.date.dateTime(descriptor.updated_at)
@@ -88,7 +95,24 @@ export const useDescriptor = defineStore("administration.descriptor", {
                 this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
             })
 
-        }
+        },
+        /**
+        * @description This action is used to sort the results
+        */
+        sortIndex(column, direction) {
+            this.fetch(this.url.admin("descriptors").order(column, direction))
+        },
+        /**
+         * @description This action is used to search
+         * @param {string} search_string 
+         */
+        search(search_string) {
+            this.fetch(this.url.admin("descriptors").search(search_string))
+        },
+        paginateIndex(page) {
+            this.pagination.page = page
+            this.fetch(this.url.admin("descriptors").paginate(this.pagination.page))
+        },
 
     }
 })

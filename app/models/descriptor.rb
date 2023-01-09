@@ -36,11 +36,24 @@ class Descriptor < ApplicationLesliRecord
     end 
 
     def self.index(current_user, query)
-        current_user.account.descriptors
-        .select(:id, :name, :engine, :reference, :created_at, :updated_at)
+
+        # Get search string from query params
+        search_string = query[:search].downcase.gsub(" ","%") unless query[:search].blank?
+
+        descriptors = current_user.account.descriptors
+
+        # Filter results by search string
+        unless search_string.blank?
+            descriptors = descriptors.where("(LOWER(descriptors.name) SIMILAR TO :search_string)", search_string: "%#{sanitize_sql_like(search_string, " ")}%")
+        end
+
+        descriptors = descriptors.select(:id, :name, :engine, :reference, :created_at, :updated_at)
         .page(query[:pagination][:page])
         .per(query[:pagination][:perPage])
-        .order(:engine, :reference)
+        .order("#{query[:pagination][:orderBy]} #{query[:pagination][:order]} NULLS LAST")
+
+        descriptors
+
     end 
 
     def show(current_user, query)
