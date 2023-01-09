@@ -206,7 +206,9 @@ function isObjectLevelPermissionSelected(olp) {
 
         <div class="field is-grouped">
             <div class="control">
-                <input type="submit" class="button is-link" :value="translations.core.shared.view_btn_save" />
+                <lesli-button icon="save">
+                    {{ translations.core.shared.view_btn_save }}
+                </lesli-button>      
             </div>
         </div>
     </form>
