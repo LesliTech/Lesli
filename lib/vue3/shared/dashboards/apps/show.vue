@@ -32,7 +32,7 @@ const storeDashboard = useDashboard()
 
 // · 
 const props = defineProps({
-    engine: {
+    cloudModule: {
         type: String, 
         require: true
     },
@@ -45,23 +45,18 @@ const props = defineProps({
 
 // · 
 onMounted(() => {
-    storeDashboard.getDashboard("help")
+    storeDashboard.getDashboard(cloudModule)
 })
 
 </script>
 <template>
     <section class="application-component">
-
-        <!--lesli-header :title="storeDashboard.dashboard.name"></lesli-header-->
-
-        <div class="columns is-variable is-2 is-multiline dashboard-components">
+        <lesli-header title="My dashboard"></lesli-header>
+        <div class="columns is-multiline">
             <div 
-                v-for="(component, index) in storeDashboard.dashboard.components" 
-                :key="component.id"
-                :class="['column', 'is-' + component.layout]">
-                
-                <component :is="renderComponents[component.component_id]">
-                </component>
+                v-for="(component, index) in components" :key="index"
+                :class="['column', 'is-' + component?.size]">
+                <component :component.sync="component" :is="dashcomponents[component.id]"></component>
             </div>
         </div>
     </section>
