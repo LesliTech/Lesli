@@ -48,7 +48,8 @@ const translations = {
 // · 
 const columns = [{
     field: "id",
-    label: "ID"
+    label: "ID",
+    sort: true
 }, {
     field: "name",
     label: "Name",
@@ -56,10 +57,6 @@ const columns = [{
 },  {
     field: "reference",
     label: "Reference",
-    sort: true
-}, {
-    field: "path",
-    label: "Path",
     sort: true
 }, {
     field: "updated_at",
@@ -94,12 +91,15 @@ function showDescriptor(d) {
                 {{ translations.core.role_descriptors.view_btn_new_role_descriptor }}
             </lesli-button>
         </lesli-header>
-        <lesli-toolbar></lesli-toolbar>
+        <lesli-toolbar @search="storeDescriptor.search"></lesli-toolbar>
         <lesli-table
             @click="showDescriptor"
+            :link="(descriptor) => url.admin('descriptors/:id', descriptor.id).s"
             :columns="columns"
             :records="storeDescriptor.records"
-            :pagination="storeDescriptor.pagination"
+            :pagination="storeDescriptor.index.pagination"
+            @paginate="storeDescriptor.paginateIndex"
+            @sort="storeDescriptor.sortIndex"
         ></lesli-table>
     </section>
 </template>
