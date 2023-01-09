@@ -16,7 +16,7 @@
 
 class AlterDescriptors < ActiveRecord::Migration[7.0]
     def change
-        add_column  :descriptors,   :description,       :string
+        add_column  :descriptors,   :description,       :text
         add_column  :descriptors,   :descriptors_id,    :bigint
         add_index   :descriptors,   :descriptors_id
     end
