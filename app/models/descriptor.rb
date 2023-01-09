@@ -27,6 +27,8 @@ class Descriptor < ApplicationLesliRecord
     # role_privileges table when a descriptor is removed from role_describers
     has_many :describers_all, -> { with_deleted }, foreign_key: "descriptors_id", class_name: "Role::Describer"
 
+    validates :name, presence: true
+
     def self.list(current_user, query)
         current_user.account.descriptors
         .select(:id, :name, :code, :path)
