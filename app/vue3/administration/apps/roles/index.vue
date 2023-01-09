@@ -75,11 +75,6 @@ onMounted(() => {
 })
 
 
-// · 
-function showRole(r) {
-    router.push(url.root(props.appMountPath+`/${r.id}`).s)
-}
-
 </script>
 <template>
     <section class="application-component">
@@ -98,7 +93,7 @@ function showRole(r) {
         </lesli-header>
         <lesli-toolbar @search="storeRole.search"></lesli-toolbar>
         <lesli-table
-            @click="showRole"
+            :link="(role) => url.root(props.appMountPath+`/${role.id}`).s"
             :columns="columns"
             :records="storeRole.records"
             :pagination="storeRole.index.pagination"
@@ -126,7 +121,7 @@ function showRole(r) {
                         {{ translations.core.roles.view_btn_edit_role_information }}
                     </span>
                 </a>
-                <a class="dropdown-item">
+                <a class="dropdown-item" :href="url.admin(`users`).filter({ role: [record.id] })">
                     <span class="material-icons">
                         groups
                     </span>
@@ -134,15 +129,7 @@ function showRole(r) {
                         {{ translations.core.roles.view_btn_users_list }}
                     </span>
                 </a>
-                <a class="dropdown-item">
-                    <span class="material-icons">
-                        history
-                    </span>
-                    <span>
-                        {{ translations.core.roles.view_btn_logs }}
-                    </span>
-                </a>
-                <a class="dropdown-item">
+                <a class="dropdown-item" @click="storeRole.deleteRole(record.id)">
                     <span class="material-icons">
                         delete
                     </span>

@@ -45,7 +45,8 @@ export const useRole = defineStore("administration.role", {
                 column: "id",
                 direction: "desc"
             },
-            search_string: ""
+            search_string: "",
+            role_activities: {}
         }
     },
     actions: {
@@ -199,7 +200,32 @@ export const useRole = defineStore("administration.role", {
         search(search_string) {
             this.search_string = search_string
             this.fetch()
+        },
+        /**
+         * @description This action is used to delete a role
+         * @param {Integer} role_id id of the role to be deleted 
+         */
+        deleteRole(role_id){            
+            this.http.delete(this.url.admin('roles/:id', {id: role_id})).then(result => {
+                this.msg.success(I18n.t("core.users.messages_success_operation"))
+                this.fetch()
+            }).catch(error => {
+                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
+            })
+        },
+        /**
+         * @description This action is used to fetch activity logs from a role
+         */
+        fetchLogs(){
+            this.loading = true
+            this.http.get(this.url.admin('roles/:id/activities', {id: this.role.id})).then(result => {
+                this.role_activities = result.activities             
+                this.loading = false
+            }).catch(error => {
+                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
+            })     
         }
+
 
     }
 })
