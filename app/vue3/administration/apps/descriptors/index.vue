@@ -36,6 +36,14 @@ const url = inject("url")
 // · 
 const storeDescriptor = useDescriptor()
 
+const translations = {
+    core: {
+        roles: I18n.t("core.roles"),
+        users: I18n.t("core.users"),
+        role_descriptors: I18n.t('core.role_descriptors'),
+        shared: I18n.t("core.shared")
+    }
+}
 
 // · 
 const columns = [{
@@ -73,7 +81,19 @@ function showDescriptor(d) {
 </script>
 <template>
     <section class="application-component">
-        <lesli-header title="Role Descriptors"></lesli-header>
+        <lesli-header title="Role Descriptors">
+            <lesli-button
+                outlined
+                icon="refresh"
+                :loading="storeDescriptor.loading"
+                @click="storeDescriptor.fetch()"
+            >
+                {{ translations.core.shared.view_text_btn_reload }}
+            </lesli-button>
+            <lesli-button icon="add" :to="url.admin(`descriptors/new`)">
+                {{ translations.core.role_descriptors.view_btn_new_role_descriptor }}
+            </lesli-button>
+        </lesli-header>
         <lesli-toolbar></lesli-toolbar>
         <lesli-table
             @click="showDescriptor"

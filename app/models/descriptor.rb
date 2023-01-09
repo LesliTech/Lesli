@@ -48,10 +48,9 @@ class Descriptor < ApplicationLesliRecord
             :id => self.id,
             :reference => self.reference,
             :engine => self.engine,
-            :path => self.path,
             :name => self.name,
             :privileges => self.privileges.select(:id, :controller, :action, :created_at)
         }
-    end 
-
+    end
+    
 end

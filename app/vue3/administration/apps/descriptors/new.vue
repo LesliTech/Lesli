@@ -1,7 +1,6 @@
 <script setup>
 /*
-
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -19,7 +18,7 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed, inject } from "vue"
+import { onMounted } from "vue"
 import { useRouter, useRoute } from 'vue-router'
 
 
@@ -29,46 +28,35 @@ import { useDescriptor } from "../../stores/descriptor"
 // · import components
 import descriptorForm from "./components/descriptor-form.vue"
 
-
-// · initialize/inject plugins
+// · implement stores
+const storeDescriptor = useDescriptor()
 const router = useRouter()
 const route = useRoute()
-const msg = inject("msg")
-const url = inject("url")
 
+// · translations
+const translations = {
+    core: {
+        roles: I18n.t("core.roles"),
+        shared: I18n.t("core.shared"),
+        role_descriptors: I18n.t('core.role_descriptors')
+    }
 
-// · 
-const storeDescriptor = useDescriptor()
+}
 
-
-// · 
 onMounted(() => {
-    storeDescriptor.fetchDescriptor(route.params.id)
 })
 
-
-const columns = [{
-    field: 'id',
-    label: 'ID'
-}, {
-    field: 'controller',
-    label: 'Controller'
-}, {
-    field: 'action',
-    label: 'Action'
-}, {
-    field: 'created_at',
-    label: 'Created at'
-}]
-
 </script>
+
 <template>
     <section class="application-component">
-        <lesli-header :title="'Descriptor: '+storeDescriptor.descriptor.name">
+        <lesli-header :title="translations.core.role_descriptors.view_btn_new_role_descriptors">
             <lesli-button icon="list" :to="url.admin('descriptors')">
                 {{ translations.core.view_btn_list }}
             </lesli-button>
         </lesli-header>
-        <descriptor-form is-editable></descriptor-form>
+        <div class="box">
+            <descriptor-form></descriptor-form>
+        </div>
     </section>
 </template>
