@@ -27,12 +27,14 @@ export const useDescriptor = defineStore("administration.descriptor", {
             list: [],
             records: [],
             pagination: {},
-            descriptor: {}
+            descriptor: {},
+            loading: false
         }
     },
     actions: {
 
         fetch() {
+            this.loading = true
             this.http.get(this.url.admin("descriptors")).then(result => {
                 this.pagination = result.pagination
                 this.records = result.records.map(descriptor => {
@@ -40,6 +42,7 @@ export const useDescriptor = defineStore("administration.descriptor", {
                     descriptor.updated_at = this.date.dateTime(descriptor.updated_at)
                     return descriptor
                 })
+                this.loading = false
             })
         },
 
@@ -60,6 +63,31 @@ export const useDescriptor = defineStore("administration.descriptor", {
                     return descriptor
                 })
             })
+        },
+        
+        resetDescriptor(){
+            this.descriptor = {}
+        },
+        
+        createDescriptor(){
+            this.loading = true
+            this.http.post(this.url.admin("descriptors"), { descriptor: this.descriptor }).then(result => {
+                this.msg.success(I18n.t("core.users.messages_success_operation"))
+                this.loading = false
+            }).catch(error => {
+                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
+            })
+
+        },
+        updateDescriptor(){
+            this.loading = true
+            this.http.put(this.url.admin("descriptors/:id", this.descriptor.id), { descriptor: this.descriptor }).then(result => {
+                this.msg.success(I18n.t("core.users.messages_success_operation"))
+                this.loading = false
+            }).catch(error => {
+                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
+            })
+
         }
 
     }
