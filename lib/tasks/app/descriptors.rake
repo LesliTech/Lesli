@@ -33,7 +33,7 @@ namespace :app do
         desc "Build descriptors and privileges according to the app controllers"
         task build: :environment do
 
-            LC::Debug.msg("Registering new Descriptors")
+            L2.msg("Registering new Descriptors")
 
             # get all the engines, controllers and actions
             engines = LC::System::Controllers.scan2
@@ -177,15 +177,14 @@ namespace :app do
             end
 
             # Synchronize the descriptor privileges with the role privilege cache table 
-            LC::Debug.msg("Synchronize privileges")
+            L2.msg("Synchronize privileges")
             Auth::RolePrivilegesService.new.synchronize_privileges
 
         end
 
         def privilege_error privilege, controller_name
             msg = "Privilege #{privilege} is not allowed for #{controller_name}"
-            LC::Debug.error(msg)
-            #raise Exception.new(msg)
+            L2.error(msg)
         end
 
     end

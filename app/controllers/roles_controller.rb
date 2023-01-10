@@ -21,7 +21,7 @@ class RolesController < ApplicationLesliController
 
     def privileges
         {
-            index: ['Role::DescribersController#index', 'list'],
+            index: ['Role::DescribersController#index', 'list', 'Role::Activities#index'],
             show: [],
             edit: ['options'],
             new: [],
@@ -279,6 +279,7 @@ class RolesController < ApplicationLesliController
             :active,
             :only_my_data,
             :default_path,
+            :limit_to_path,
             :object_level_permission
         )
     end
