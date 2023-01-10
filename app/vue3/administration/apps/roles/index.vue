@@ -1,7 +1,7 @@
 <script setup>
 /*
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -36,30 +36,28 @@ const url = inject("url")
 
 // · 
 const storeRole = useRole()
-const actualPath = route.fullPath.slice(1)
+
+const translations = {
+    core: {
+        roles: I18n.t("core.roles"),
+        users: I18n.t("core.users"),
+        shared: I18n.t("core.shared")
+    }
+}
 
 // · 
 const columns = [{
-    field: "id",
-    label: "ID"
-}, {
     field: "name",
-    label: "Name",
+    label: translations.core.shared.view_text_name,
     sort: true
-},  {
+}, {
+    field: "user_count",
+    label: translations.core.roles.view_text_users_count,
+    sort: true
+}, {
     field: "active",
-    label: "Status",
+    label: translations.core.users.view_table_header_status,
     sort: true
-}, {
-    field: "usage_count",
-    label: "Usage",
-    sort: true
-}, {
-    field: "created_at",
-    label: "Created at"
-}, {
-    field: "creator_name",
-    label: "Created by"
 }]
 
 // · defining props
@@ -77,30 +75,70 @@ onMounted(() => {
 })
 
 
-// · 
-function showRole(r) {
-    router.push(url.root(props.appMountPath+`/${r.id}`).s)
-}
-
 </script>
 <template>
     <section class="application-component">
         <lesli-header title="Roles & privileges">
+            <lesli-button
+                outlined
+                icon="refresh"
+                :loading="storeRole.loading"
+                @click="storeRole.fetch()"
+            >
+                {{ translations.core.shared.view_text_btn_reload }}
+            </lesli-button>
             <lesli-button icon="add" :to="url.root(props.appMountPath+`/new`)">
-                Create role
+                {{ translations.core.roles.view_btn_new_role }}
             </lesli-button>
         </lesli-header>
-        <lesli-toolbar></lesli-toolbar>
+        <lesli-toolbar @search="storeRole.search"></lesli-toolbar>
         <lesli-table
-            @click="showRole"
+            :link="(role) => url.root(props.appMountPath+`/${role.id}`).s"
             :columns="columns"
             :records="storeRole.records"
             :pagination="storeRole.index.pagination"
             @paginate="storeRole.paginateIndex"
+            @sort="storeRole.sortIndex"
             >
             <template #active="{ value }">
                 <span class="tag is-success is-light" v-if="value">active</span>
             </template>
+
+            <template #options="{ record, value }">
+                <a class="dropdown-item" :href="url.root(props.appMountPath+`/${record.id}`)">
+                    <span class="material-icons">
+                        settings
+                    </span>
+                    <span>
+                        {{ translations.core.roles.view_btn_edit_privilege_actions }}
+                    </span>
+                </a>
+                <a class="dropdown-item" :href="url.root(props.appMountPath+`/${record.id}/edit`)">
+                    <span class="material-icons">
+                        edit
+                    </span>
+                    <span>
+                        {{ translations.core.roles.view_btn_edit_role_information }}
+                    </span>
+                </a>
+                <a class="dropdown-item" :href="url.admin(`users`).filter({ role: [record.id] })">
+                    <span class="material-icons">
+                        groups
+                    </span>
+                    <span>
+                        {{ translations.core.roles.view_btn_users_list }}
+                    </span>
+                </a>
+                <a class="dropdown-item" @click="storeRole.deleteRole(record.id)">
+                    <span class="material-icons">
+                        delete
+                    </span>
+                    <span>
+                        {{ translations.core.users.view_btn_revoke_access }}
+                    </span>
+                </a>
+            </template>
+
         </lesli-table>
     </section>
 </template>
