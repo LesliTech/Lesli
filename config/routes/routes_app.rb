@@ -225,6 +225,12 @@ module RoutesApp
                     end
                     resources :mappings
                 end
+
+                resources :system_controllers, only: [:index] do 
+                    collection do
+                        get :options 
+                    end
+                end 
             end
 
             scope :about do
