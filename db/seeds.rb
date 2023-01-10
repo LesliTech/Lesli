@@ -41,7 +41,7 @@ Rails.application.config.lesli[:engines].each do |engine|
 end
 
 # exec maintenance tasks
-Rake.application.invoke_task("app:maintenance") 
+#Rake.application.invoke_task("app:maintenance") 
 
 
 L2.cow("Seed process completed!") 

@@ -1,6 +1,5 @@
-<%
 =begin
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -16,5 +15,12 @@ For more information read the license file including with this software.
 // · 
 
 =end
-%>
-<router-view></router-view>
+class Role::Descriptor < ApplicationRecord
+    def self.index(current_user, query)
+        []
+    end
+
+    def show(current_user, query)
+        self
+    end
+end

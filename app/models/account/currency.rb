@@ -101,8 +101,6 @@ class Account::Currency < ApplicationLesliRecord
             pagination[:page]
         ).per(
             pagination[:perPage]
-        ).order(
-            "#{pagination[:orderBy]} #{pagination[:order]} nulls last"
         )
 
         LC::Response.pagination(
