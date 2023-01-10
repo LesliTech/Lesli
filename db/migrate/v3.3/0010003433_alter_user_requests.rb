@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,24 +14,21 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
-class CreateUserRequestsExt < ActiveRecord::Migration[6.0]
+class AlterUserRequests < ActiveRecord::Migration[7.0]
     def change
-        create_table :user_requests_ext do |t|
-            t.string :request_agent
-            t.string :request_controller
-            t.string :request_method
-            t.string :request_action
-            t.string :request_format
-            t.string :request_url
-            t.json   :params
 
-            t.datetime :deleted_at, index: true
-            t.timestamps
+        # We must delete the never used extension table
+        # IMPORTANT: This statement must be deleted one the migration was executed :) 
+        if ActiveRecord::Base.connection.table_exists? 'user_requests_ext'
+            drop_table :user_requests_ext
         end
-        add_reference :user_requests_ext, :users, foreign_key: true
-        add_reference :user_requests_ext, :user_sessions, foreign_key: true
+
+        remove_column user_requests, :request_agent
+
+        add_column :user_requests, :request_count, :integer
+
+        add_index(:user_requests, [:request_controller, :request_action, :request_format, :users_id, :user_sessions_id], unique: true, name: 'user_requests_index')
     end
 end

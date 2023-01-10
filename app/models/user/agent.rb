@@ -1,5 +1,5 @@
 =begin
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -15,6 +15,6 @@ For more information read the license file including with this software.
 // · 
 
 =end
-class User::Webpush < ApplicationLesliRecord
+class User::Agent < ApplicationRecord
     belongs_to :user, foreign_key: "users_id"
 end
