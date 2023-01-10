@@ -30,7 +30,7 @@
 00.37. user_access_codes
 00.38. user_shortcuts
 00.39. user_auth_provider
-00.40. user_requests
+00.40. user_agents
 
 00.50. descriptors
 00.51. descriptor_privileges
