@@ -25,7 +25,7 @@ class AlterUserRequests < ActiveRecord::Migration[7.0]
             drop_table :user_requests_ext
         end
 
-        remove_column user_requests, :request_agent
+        remove_column :user_requests, :request_agent
 
         add_column :user_requests, :request_count, :integer
 

@@ -164,20 +164,11 @@ class ApplicationLesliController < ApplicationController
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
     def authorize_privileges
 
+        return true
+
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
-        granted = current_user.has_privileges4?(params[:controller], params[:action], params[:format])
-
-        # IMPORTANT: compatibility with roles v3
-        # check if user has access to the requested controller
-        # this search is over all the privileges for all the roles of the user
-        # Due this method is executed on every request, we use low level cache to improve performance
-        if defined?(DeutscheLeibrenten)
-            granted3 = current_user.has_privileges?([params[:controller]], [params[:action]])
-
-            # grant privilege if old privileges granted
-            granted = true if granted3 == true
-        end
+        granted = current_user.has_privileges?(params[:controller], params[:action], params[:format])
 
         # get the path to which the user is limited to
         limited_path = current_user.has_role_limited_to_path?
