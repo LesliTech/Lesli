@@ -50,6 +50,7 @@ class User < ApplicationLesliRecord
 
     # users data extensions
     has_many :logs,             foreign_key: "users_id", inverse_of: :user
+    has_many :agents,           foreign_key: "users_id"
     has_many :settings,         foreign_key: "users_id"
     has_many :sessions,         foreign_key: "users_id"
     has_many :requests,         foreign_key: "users_id"

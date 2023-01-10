@@ -18,9 +18,9 @@ For more information read the license file including with this software.
 
 class ApplicationLesliController < ApplicationController
     include Interfaces::Application::Responder
-    include Application::Requester
-    include Application::Logger
-    include Application::Polyfill
+    include Interfaces::Application::Requester
+    include Interfaces::Application::Logger
+    #include Application::Polyfill
 
     protect_from_forgery with: :exception
 
