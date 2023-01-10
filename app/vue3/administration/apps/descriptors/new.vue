@@ -30,8 +30,6 @@ import descriptorForm from "./components/descriptor-form.vue"
 
 // · implement stores
 const storeDescriptor = useDescriptor()
-const router = useRouter()
-const route = useRoute()
 
 // · translations
 const translations = {
@@ -44,6 +42,7 @@ const translations = {
 }
 
 onMounted(() => {
+    storeDescriptor.getDescriptorsOptions()
 })
 
 </script>
