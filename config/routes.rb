@@ -68,6 +68,7 @@ Rails.application.routes.draw do
     mount CloudInsights::Engine => "/insights" if defined?(CloudInsights)
     mount CloudProposal::Engine => "/proposal" if defined?(CloudProposal)
     mount CloudDevelopment::Engine => "/development" if defined?(CloudDevelopment)
+    mount CloudScraper::Engine => "/scraper" if defined?(CloudScraper)
 
     mount CloudShared::Engine => "/shared" if defined?(CloudShared)
     mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
