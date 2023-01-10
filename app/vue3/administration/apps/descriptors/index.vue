@@ -1,7 +1,7 @@
 <script setup>
 /*
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -19,8 +19,8 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed, inject } from "vue"
-import { useRouter, useRoute } from 'vue-router'
+import {onMounted, inject } from "vue"
+import { useRouter } from 'vue-router'
 
 
 // · import lesli stores
@@ -28,8 +28,6 @@ import { useDescriptor } from "../../stores/descriptor"
 
 
 // · initialize/inject plugins
-const router = useRouter()
-const msg = inject("msg")
 const url = inject("url")
 
 
@@ -69,12 +67,6 @@ onMounted(() => {
     storeDescriptor.fetch()
 })
 
-
-// · 
-function showDescriptor(d) {
-    router.push(url.admin("descriptors/:id", d.id).s)
-}
-
 </script>
 <template>
     <section class="application-component">
@@ -93,7 +85,6 @@ function showDescriptor(d) {
         </lesli-header>
         <lesli-toolbar @search="storeDescriptor.search"></lesli-toolbar>
         <lesli-table
-            @click="showDescriptor"
             :link="(descriptor) => url.admin('descriptors/:id', descriptor.id).s"
             :columns="columns"
             :records="storeDescriptor.records"

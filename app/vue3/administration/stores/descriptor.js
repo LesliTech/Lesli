@@ -36,6 +36,7 @@ export const useDescriptor = defineStore("administration.descriptor", {
                 pagination: {},
                 records: []
             },
+            descriptors_options: []
         }
     },
     actions: {
@@ -71,11 +72,15 @@ export const useDescriptor = defineStore("administration.descriptor", {
                 })
             })
         },
-        
+        /**
+        * @description This action is used to reset descriptor object
+        */
         resetDescriptor(){
             this.descriptor = {}
         },
-        
+        /**
+        * @description This action is used to create a descriptor
+        */
         createDescriptor(){
             this.loading = true
             this.http.post(this.url.admin("descriptors"), { descriptor: this.descriptor }).then(result => {
@@ -86,6 +91,9 @@ export const useDescriptor = defineStore("administration.descriptor", {
             })
 
         },
+        /**
+        * @description This action is used to update a descriptor
+        */
         updateDescriptor(){
             this.loading = true
             this.http.put(this.url.admin("descriptors/:id", this.descriptor.id), { descriptor: this.descriptor }).then(result => {
@@ -104,15 +112,36 @@ export const useDescriptor = defineStore("administration.descriptor", {
         },
         /**
          * @description This action is used to search
-         * @param {string} search_string 
+         * @param {string} search_string
          */
         search(search_string) {
             this.fetch(this.url.admin("descriptors").search(search_string))
         },
+        /**
+         * @description This action is used to paginate index
+         * @param {string} page actual page 
+         */
         paginateIndex(page) {
             this.pagination.page = page
             this.fetch(this.url.admin("descriptors").paginate(this.pagination.page))
         },
+        /**
+        * @description This action is used to get descriptors as options
+        */
+        getDescriptorsOptions(){
+            this.loading = true
+            this.descriptors_options = []
+            this.http.get(this.url.admin("descriptors/list")).then(result => {
+                result.forEach((descriptor)=>{
+                    this.descriptors_options.push({
+                        label: descriptor.name,
+                        value: descriptor.id
+                    })
+                })
+                
+                this.loading = false
+            })
+        }
 
     }
 })

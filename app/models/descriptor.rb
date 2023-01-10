@@ -31,7 +31,7 @@ class Descriptor < ApplicationLesliRecord
 
     def self.list(current_user, query)
         current_user.account.descriptors
-        .select(:id, :name, :code, :path)
+        .select(:id, :name)
         .order(:name)
     end 
 
@@ -62,6 +62,8 @@ class Descriptor < ApplicationLesliRecord
             :reference => self.reference,
             :engine => self.engine,
             :name => self.name,
+            :description => self.description,
+            :descriptors_id => self.descriptors_id,
             :privileges => self.privileges.select(:id, :controller, :action, :created_at)
         }
     end

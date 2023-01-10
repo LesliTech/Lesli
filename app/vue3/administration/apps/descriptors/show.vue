@@ -1,7 +1,7 @@
 <script setup>
 /*
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed, inject } from "vue"
+import { onMounted, inject } from "vue"
 import { useRouter, useRoute } from 'vue-router'
 
 
@@ -31,19 +31,26 @@ import descriptorForm from "./components/descriptor-form.vue"
 
 
 // · initialize/inject plugins
-const router = useRouter()
 const route = useRoute()
-const msg = inject("msg")
 const url = inject("url")
 
 
 // · 
 const storeDescriptor = useDescriptor()
 
+const translations = {
+    core: {
+        roles: I18n.t("core.roles"),
+        role_descriptors: I18n.t('core.role_descriptors'),
+        shared: I18n.t("core.shared")
+    }
+}
+
 
 // · 
 onMounted(() => {
     storeDescriptor.fetchDescriptor(route.params.id)
+    storeDescriptor.getDescriptorsOptions()
 })
 
 
@@ -69,6 +76,8 @@ const columns = [{
                 {{ translations.core.view_btn_list }}
             </lesli-button>
         </lesli-header>
-        <descriptor-form is-editable></descriptor-form>
+        <div class="box">
+            <descriptor-form is-editable></descriptor-form>
+        </div>
     </section>
 </template>
