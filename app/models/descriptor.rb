@@ -50,7 +50,7 @@ class Descriptor < ApplicationLesliRecord
         descriptors = descriptors.select(:id, :name, :engine, :reference, :created_at, :updated_at)
         .page(query[:pagination][:page])
         .per(query[:pagination][:perPage])
-        .order("#{query[:pagination][:orderBy]} #{query[:pagination][:order]} NULLS LAST")
+        .order("#{query[:order][:by]} #{query[:order][:dir]} NULLS LAST")
 
         descriptors
 
