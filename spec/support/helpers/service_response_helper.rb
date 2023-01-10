@@ -19,34 +19,34 @@ For more information read the license file including with this software.
 module ServiceResponseHelpers
 
     # container for the response body parsed as JSON
-    @@response = nil
+    @@service_response = nil
 
-    def response_body
-        @@response
+    def service_response_body
+        @@service_response
     end
 
     # test a standard successful response
-    def expect_response_with_successful(response)
-        @@response = nil
+    def expect_service_response_with_successful(response)
+        @@service_response = nil
         expect(response.success?).to eq(true)
         expect(response.successful?).to eq(true)
 
         # If the response is successful, the payload could be present, but the error should be nil
         expect(response.error).to be_nil
 
-        @@response = response.payload
+        @@service_response = response.payload
     end
 
     # test a standard error response
-    def expect_response_with_error(response)
-        @@response = nil
+    def expect_service_response_with_error(response)
+        @@service_response = nil
         expect(response.success?).to eq(false)
         expect(response.successful?).to eq(false)
 
         # If the response is not successful, the error could be present, but the payload should be nil
         expect(response.payload).to be_nil
 
-        @@response = response.error
+        @@service_response = response.error
     end
 
 end
