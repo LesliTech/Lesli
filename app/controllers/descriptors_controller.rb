@@ -17,13 +17,15 @@ For more information read the license file including with this software.
 =end
 
 class DescriptorsController < ApplicationLesliController
-    before_action :set_descriptor, only: [:show]
+    before_action :set_descriptor, only: [:show, :update]
 
     def privileges 
         {
             list: [],
             index: [],
-            show: []
+            show: [],
+            new: [],
+            edit: []
         }
     end
 
@@ -52,6 +54,31 @@ class DescriptorsController < ApplicationLesliController
             end
         end
     end
+
+    # POST /descriptor
+    def create
+        descriptor = current_user.account.descriptors.new(descriptor_params)
+        descriptor.account = current_user.account
+
+        if descriptor.save
+            respond_with_successful(descriptor)
+        else
+            respond_with_error(descriptor.errors.full_messages.to_sentence)
+        end
+    end
+
+    # PATCH/PUT /descriptor/1
+    def update
+        old_attributes = @descriptor.attributes
+
+        if @descriptor.update(descriptor_params)
+            new_attributes = @descriptor.attributes
+            respond_with_successful(@descriptor)
+        else
+            respond_with_error(@descriptor.errors.full_messages.to_sentence)
+        end
+    end
+    
 
     private
 
