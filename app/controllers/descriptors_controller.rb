@@ -57,7 +57,7 @@ class DescriptorsController < ApplicationLesliController
 
     # POST /descriptor
     def create
-        descriptor = Descriptor.new(descriptor_params)
+        descriptor = current_user.account.descriptors.new(descriptor_params)
         descriptor.account = current_user.account
 
         if descriptor.save
