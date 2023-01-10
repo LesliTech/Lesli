@@ -27,18 +27,33 @@ class Descriptor < ApplicationLesliRecord
     # role_privileges table when a descriptor is removed from role_describers
     has_many :describers_all, -> { with_deleted }, foreign_key: "descriptors_id", class_name: "Role::Describer"
 
+    validates :name, presence: true
+
     def self.list(current_user, query)
         current_user.account.descriptors
-        .select(:id, :name, :code, :path)
+        .select(:id, :name)
         .order(:name)
     end 
 
     def self.index(current_user, query)
-        current_user.account.descriptors
-        .select(:id, :name, :engine, :reference, :created_at, :updated_at)
+
+        # Get search string from query params
+        search_string = query[:search].downcase.gsub(" ","%") unless query[:search].blank?
+
+        descriptors = current_user.account.descriptors
+
+        # Filter results by search string
+        unless search_string.blank?
+            descriptors = descriptors.where("(LOWER(descriptors.name) SIMILAR TO :search_string)", search_string: "%#{sanitize_sql_like(search_string, " ")}%")
+        end
+
+        descriptors = descriptors.select(:id, :name, :engine, :reference, :created_at, :updated_at)
         .page(query[:pagination][:page])
         .per(query[:pagination][:perPage])
-        .order(:engine, :reference)
+        .order("#{query[:pagination][:orderBy]} #{query[:pagination][:order]} NULLS LAST")
+
+        descriptors
+
     end 
 
     def show(current_user, query)
@@ -46,10 +61,11 @@ class Descriptor < ApplicationLesliRecord
             :id => self.id,
             :reference => self.reference,
             :engine => self.engine,
-            :path => self.path,
             :name => self.name,
+            :description => self.description,
+            :descriptors_id => self.descriptors_id,
             :privileges => self.privileges.select(:id, :controller, :action, :created_at)
         }
-    end 
-
+    end
+    
 end

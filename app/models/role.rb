@@ -51,6 +51,9 @@ class Role < ApplicationLesliRecord
     def self.index(current_user, query)
         role_max = current_user.roles.map(&:object_level_permission).max()
 
+        # Get search string from query params
+        search_string = query[:search].downcase.gsub(" ","%") unless query[:search].blank?
+
         roles = current_user.account.roles
         .joins("
             left join (
@@ -70,14 +73,15 @@ class Role < ApplicationLesliRecord
         .order(object_level_permission: :desc, name: :asc)
         .select(:id, :name, :active, :only_my_data, :default_path, :object_level_permission, "users.user_count")
 
-        unless query[:filters].blank?
-            roles = roles.where("lower(roles.name) like ?", "%#{query[:filters][:text].downcase.strip}%") unless query[:filters][:text].blank?
+        # Filter results by search string
+        unless search_string.blank?
+            roles = roles.where("(LOWER(roles.name) SIMILAR TO :search_string)", search_string: "%#{sanitize_sql_like(search_string, " ")}%")
+        end
 
+        unless query[:filters].blank?
             unless query[:filters][:object_level_permission].blank?
                 role_max = query[:filters][:object_level_permission] if query[:filters][:object_level_permission].to_i <= role_max
-            end
-
-            
+            end 
         end
 
         roles
@@ -93,6 +97,7 @@ class Role < ApplicationLesliRecord
             :name => self.name,
             :active => self.active,
             :default_path => self.default_path,
+            :limit_to_path => self.limit_to_path,
             :only_my_data => self.only_my_data,
             :object_level_permission => self.object_level_permission,
             :created_at => self.created_at,

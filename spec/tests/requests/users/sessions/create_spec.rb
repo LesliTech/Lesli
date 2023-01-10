@@ -150,6 +150,5 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             # shared examples
             expect_response_with_successful
         end
-
     end
 end
