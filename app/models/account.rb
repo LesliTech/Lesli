@@ -60,8 +60,6 @@ class Account < ApplicationRecord
     has_one :storage,    class_name: "CloudStorage::Account",    foreign_key: "id"
     has_one :realty,     class_name: "CloudRealty::Account",     foreign_key: "id"
     has_one :scraper,    class_name: "CloudScraper::Account",     foreign_key: "id"
-
-
     has_one :word,       class_name: "CloudWord::Account",       foreign_key: "id"
 
     after_create :initialize_account
