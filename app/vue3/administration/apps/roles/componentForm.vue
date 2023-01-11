@@ -1,7 +1,7 @@
 <script setup>
 /*
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -206,10 +206,9 @@ function isObjectLevelPermissionSelected(olp) {
 
         <div class="field is-grouped">
             <div class="control">
-                <input type="submit" class="button is-link" :value="translations.core.shared.view_btn_save" />
-            </div>
-            <div class="control">
-                <button class="button is-link is-light">Cancel</button>
+                <lesli-button icon="save">
+                    {{ translations.core.shared.view_btn_save }}
+                </lesli-button>      
             </div>
         </div>
     </form>
