@@ -77,7 +77,7 @@ class User < ApplicationLesliRecord
     # callbacks
     before_create :before_create_user
     after_create :after_create_user
-    after_update :after_update_user
+
 
     # type of user
     #   system user
@@ -88,7 +88,7 @@ class User < ApplicationLesliRecord
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     def save(*args)
-        super
+        super()
         rescue ActiveRecord::RecordNotUnique => error
     end
 
@@ -130,13 +130,13 @@ class User < ApplicationLesliRecord
 
 
     # Initialize user settings and dependencies needed
-    def after_update_user
+    def after_confirmation_user
         return unless self.confirmed?
 
         self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
         self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
 
-        
+        return unless self.account
         Courier::One::Firebase::User.sync_user(self)
         Courier::Driver::Calendar.create_user_calendar(self, name: "Personal Calendar", default: true)
     end

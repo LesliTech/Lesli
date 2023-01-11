@@ -224,7 +224,6 @@ module NavigationHelper
         end
     end
 
-
     # IT & HELP DESK
 
     # 07.01 Kb engine

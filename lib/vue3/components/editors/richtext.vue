@@ -41,7 +41,7 @@ const editorContent = ref(null)     // input container
 const props = defineProps({
     modelValue: {
         type: String,
-        required: true,
+        required: false
     },
     mode: {
         type: String,

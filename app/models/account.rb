@@ -55,6 +55,7 @@ class Account < ApplicationRecord
     has_one :shared,     class_name: "CloudShared::Account",     foreign_key: "id"
     has_one :portal,     class_name: "CloudPortal::Account",     foreign_key: "id"
     has_one :social,     class_name: "CloudSocial::Account",     foreign_key: "id"
+    has_one :scraper,    class_name: "CloudScraper::Account",    foreign_key: "id"
     has_one :proposal,   class_name: "CloudProposal::Account",   foreign_key: "id"
     has_one :dispatcher, class_name: "CloudDispatcher::Account", foreign_key: "id"
     has_one :storage,    class_name: "CloudStorage::Account",    foreign_key: "id"

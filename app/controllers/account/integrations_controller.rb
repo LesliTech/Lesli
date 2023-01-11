@@ -55,14 +55,18 @@ class Account::IntegrationsController < ApplicationLesliController
             email = Account::Integration.generate_random_email(account_integration_params[:name])
 
             user = current_user.account.users.find_or_create_by(email: email) do |user|
+
+                user.password = SecureRandom.hex(10)
+                user.save!
+
                 user.category = "integration"
                 user.active = true
                 user.confirm
+                user.detail.first_name = account_integration_params[:name]
+                user.detail.save!
 
                 user.user_roles.create({ role: ::Role.find_by(:name => "limited") })
 
-                user.detail.first_name = account_integration_params[:name]
-                user.save!
             end
 
             if (user.valid?)
