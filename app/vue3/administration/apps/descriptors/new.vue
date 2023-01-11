@@ -1,7 +1,6 @@
 <script setup>
 /*
-
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -19,55 +18,44 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed, inject } from "vue"
-import { useRouter, useRoute } from "vue-router"
-import componentFormRole from "./componentForm.vue"
+import { onMounted } from "vue"
+import { useRouter, useRoute } from 'vue-router'
 
 
 // · import lesli stores
-import { useRole } from "../../stores/role"
+import { useDescriptor } from "../../stores/descriptor"
 
+// · import components
+import descriptorForm from "./components/descriptor-form.vue"
 
-// · initialize/inject plugins
-const router = useRouter()
-const route = useRoute()
-const msg = inject("msg")
-const url = inject("url")
+// · implement stores
+const storeDescriptor = useDescriptor()
 
-
-// · 
-const storeRole = useRole()
-
-
-// · 
+// · translations
 const translations = {
     core: {
-        shared: I18n.t('core.shared'),
-        roles: I18n.t('core.roles')
+        roles: I18n.t("core.roles"),
+        shared: I18n.t("core.shared"),
+        role_descriptors: I18n.t('core.role_descriptors')
     }
+
 }
 
-// · defining props
-const props = defineProps({
-    appMountPath: {
-        type: String,
-        required: false,
-        default: "administration/roles",
-    }
-})
-
-// · 
 onMounted(() => {
+    storeDescriptor.getDescriptorsOptions()
 })
 
 </script>
+
 <template>
     <section class="application-component">
-        <lesli-header title="Create a new role">
-            <lesli-button icon="list" :to="url.root(props.appMountPath)">
-                All roles
+        <lesli-header :title="translations.core.role_descriptors.view_btn_new_role_descriptors">
+            <lesli-button icon="list" :to="url.admin('descriptors')">
+                {{ translations.core.view_btn_list }}
             </lesli-button>
         </lesli-header>
-        <componentFormRole></componentFormRole>
+        <div class="box">
+            <descriptor-form></descriptor-form>
+        </div>
     </section>
 </template>

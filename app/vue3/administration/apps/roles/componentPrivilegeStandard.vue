@@ -1,7 +1,7 @@
 <script setup>
 /*
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -40,26 +40,30 @@ const storeDescriptor = useDescriptor()
 // · :index, :show, :new, :edit, :create, :update, :destroy, :search
 const columnDescriptors = [{
     field: 'name',
-    label: 'Name'
+    label: ''
 },{
     field: 'index',
-    label: 'index',
+    label: 'Index',
     align: 'center'
 },{
     field: 'show',
-    label: 'show',
+    label: 'Show',
     align: 'center'
 },{
     field: 'new',
-    label: 'new',
+    label: 'Create',
     align: 'center'
 },{
     field: 'edit',
-    label: 'edit',
+    label: 'Update',
     align: 'center'
 },{
     field: 'destroy',
-    label: 'destroy',
+    label: 'Destroy',
+    align: 'center'
+}, {
+    field: 'search',
+    label: 'Search',
     align: 'center'
 }]
 

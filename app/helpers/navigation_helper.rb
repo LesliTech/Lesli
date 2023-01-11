@@ -217,6 +217,12 @@ module NavigationHelper
 
     # INTELLIGENCE
 
+    # 06.06 Scraper engine
+    def navigation_engine_scraper title: "Scraper", subtitle: "Scraper"
+        if defined? CloudScraper
+            navigation_engine_item(title, subtitle, "scraper", cloud_scraper.root_path, controller_path.include?("cloud_scraper"))
+        end
+    end
 
     # IT & HELP DESK
 
