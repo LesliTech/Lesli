@@ -28,14 +28,11 @@ class Descriptor < ApplicationLesliRecord
 
     validates :name, presence: true
 
-    after_create :initialize_descriptor_privileges
-
     def initialize_descriptor_privileges
 
         # assign ["show", "update"] actions from profile descriptor to the role
-        if self.name == "profile"
+        DescriptorService.add_profile_privileges(self) if self.name == "profile"
 
-        end
     end
 
     def self.list(current_user, query)
