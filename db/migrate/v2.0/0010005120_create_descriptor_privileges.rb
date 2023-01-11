@@ -21,7 +21,7 @@ class CreateDescriptorPrivileges < ActiveRecord::Migration[7.0]
         create_table :descriptor_privileges do |t|
             t.string    :controller 
             t.string    :action
-            t.string    :form
+            #t.string    :form
             t.datetime  :deleted_at, index: true
             t.timestamps
         end

@@ -33,6 +33,54 @@ namespace :app do
         desc "Build descriptors and privileges according to the app controllers"
         task build: :environment do
 
+            # Adding default system actions for profile descriptor
+            [
+                {
+                    category: "show",
+                    contollers: [
+                        {name: "profiles", actions: ["show"] }, # enable profile view
+                        {name: "users", actions: ["options"] },
+                        {name: "profile/subscriptions", actions: ["options", "index"] }, # enable profile subscriptions
+                        {name: "user/sessions", actions: ["index"] } # seession management
+                    ]
+                },
+                {
+                    category: "update",
+                    contollers: [
+                        {name: "users", actions: ["options", "update"] }, # enable user edition
+                    ]
+                }
+            ].each do |data|
+                data[:contollers].each do |controller|
+
+                    controller[:actions].each do |action_name|
+
+                        system_controller_action = SystemController.joins(:actions)
+                        .where("system_controllers.name = ?", controller[:name])
+                        .where("system_controller_actions.name = ?", action_name)
+                        .first
+
+                        next unless system_controller_action
+
+                        action = role_descriptor
+                        .privilege_actions
+                        .find_or_initialize_by(
+                            category: data[:category],
+                            system_action: system_action
+                        )
+
+                        action.status = true
+                        action.save
+
+                    end
+                end
+            end
+        end
+
+
+        desc "Build descriptors and privileges according to the app controllers"
+        task build2: :environment do
+
             L2.msg("Registering new Descriptors")
 
             # get all the engines, controllers and actions

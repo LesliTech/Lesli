@@ -94,11 +94,10 @@ class Account < ApplicationRecord
             self.template.save!
         end
 
-        # create role descriptors 
-        # disable due role & privileges v4
-        # self.role_descriptors.find_or_create_by(name: "owner")
-        # self.role_descriptors.find_or_create_by(name: "sysadmin")
-        # self.role_descriptors.find_or_create_by(name: "profile")
+        # create initial descriptors 
+        self.descriptors.find_or_create_by(name: "owner")
+        self.descriptors.find_or_create_by(name: "sysadmin")
+        self.descriptors.find_or_create_by(name: "profile")
 
         # create default roles
         account_roles = Rails.application.config.lesli[:security][:roles] || []
@@ -118,8 +117,6 @@ class Account < ApplicationRecord
                 object_level_permission: object_level_permission
             })
 
-            # disable due role & privileges v4
-            # role.initialize_role_privileges
         end
 
         AccountLocationService.new(self).set_locations
