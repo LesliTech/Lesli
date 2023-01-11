@@ -59,6 +59,7 @@ class Account < ApplicationRecord
     has_one :dispatcher, class_name: "CloudDispatcher::Account", foreign_key: "id"
     has_one :storage,    class_name: "CloudStorage::Account",    foreign_key: "id"
     has_one :realty,     class_name: "CloudRealty::Account",     foreign_key: "id"
+    has_one :scraper,    class_name: "CloudScraper::Account",     foreign_key: "id"
     has_one :word,       class_name: "CloudWord::Account",       foreign_key: "id"
 
     after_create :initialize_account
@@ -319,6 +320,14 @@ class Account < ApplicationRecord
                 self.social = CloudSocial::Account.new
                 self.social.account = self
                 self.social.save!
+            end
+        end
+
+        if defined? CloudScraper
+            if self.scraper.blank?
+                self.scraper = CloudScraper::Account.new
+                self.scraper.account = self
+                self.scraper.save!
             end
         end
 
