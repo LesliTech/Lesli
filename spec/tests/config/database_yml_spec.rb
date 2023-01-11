@@ -23,7 +23,7 @@ require "rails_helper"
 RSpec.describe "Config/database.yml" do
 
     before(:all) do
-        @database = YAML.load(File.read(Rails.root.join("config", "database.yml")), aliases: true)
+        @database = YAML.load(File.read(Rails.root.join("config", "database.yml")))
     end
 
     it "expect to have a common configuration section" do
