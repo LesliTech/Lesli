@@ -10,19 +10,16 @@ namespace :app do
             engines = LC::System::Controllers.scan2
 
             # Register descriptors and privileges for all the accounts
-            Account.all.each do |account|
+            engines.each do |engine, controllers|
 
-                engines.each do |engine, controllers|
+                controllers.each do |controller_name, controller_actions|
 
-                    controllers.each do |controller_name, controller_actions|
+                    controller = SystemController.find_or_create_by!(name: controller_name)
+                    
+                    controller_actions.each do |action_name|
 
-                        controller = SystemController.find_or_create_by(name: controller_name)
-                        
-                        controller_actions.each do |action_name|
+                        controller.actions.find_or_create_by!(name: action_name)
 
-                            controller.actions.find_or_create_by(name: action_name)
-
-                        end
                     end
                 end
             end

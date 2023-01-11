@@ -52,26 +52,21 @@ namespace :app do
                 }
             ].each do |data|
                 data[:contollers].each do |controller|
-
                     controller[:actions].each do |action_name|
 
                         system_controller_action = SystemController.joins(:actions)
                         .where("system_controllers.name = ?", controller[:name])
                         .where("system_controller_actions.name = ?", action_name)
-                        .first
+                        .select(
+                            "system_controllers.name as controller_name",
+                            "system_controller_actions.name as controller_action"
+                        ).first
 
-                        next unless system_controller_action
-
-                        action = role_descriptor
-                        .privilege_actions
-                        .find_or_initialize_by(
-                            category: data[:category],
-                            system_action: system_action
+                        descriptor = Descriptor.find_by(name: "profile")
+                        descriptor.privileges.find_or_create_by(
+                            controller: system_controller_action[:controller_name],
+                            action: system_controller_action[:controller_action]
                         )
-
-                        action.status = true
-                        action.save
-
                     end
                 end
             end
