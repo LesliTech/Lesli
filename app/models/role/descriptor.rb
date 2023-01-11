@@ -16,11 +16,6 @@ For more information read the license file including with this software.
 
 =end
 class Role::Descriptor < ApplicationRecord
-    def self.index(current_user, query)
-        []
-    end
-
-    def show(current_user, query)
-        self
-    end
+    belongs_to :role, foreign_key: "roles_id", class_name: "::Role"
+    belongs_to :descriptor, foreign_key: "descriptors_id", class_name: "::Descriptor"
 end

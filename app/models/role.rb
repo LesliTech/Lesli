@@ -19,16 +19,14 @@ For more information read the license file including with this software.
 
 class Role < ApplicationLesliRecord
 
-    belongs_to :account,                foreign_key: "accounts_id"
+    belongs_to :account,   foreign_key: "accounts_id"
 
-    has_many :activities,               foreign_key: "roles_id"
-    has_many :privileges,               foreign_key: "roles_id",    class_name: "Role::Privilege",  dependent: :delete_all
-    has_many :describers,               foreign_key: "roles_id"
-    has_many :descriptor_assignments,   foreign_key: "roles_id",    class_name: "DescriptorAssignment",  dependent: :delete_all
-    has_many :privilege_actions,        through: :descriptor_assignments
+    has_many :activities,  foreign_key: "roles_id"
+    has_many :privileges,  foreign_key: "roles_id", class_name: "Role::Privilege", dependent: :delete_all
+    has_many :role_descriptors, foreign_key: "roles_id", class_name: "Role::Descriptor", dependent: :delete_all
 
-    before_create :initialize_role
-    after_create :generate_code
+    before_create :before_create_role
+    after_create :after_create_role, :initialize_role_privileges
 
     validates :name, presence: :true
     validates :object_level_permission, presence: :true
@@ -106,7 +104,7 @@ class Role < ApplicationLesliRecord
         }
     end
 
-    def initialize_role
+    def before_create_role
 
         # default role for limited roles
         if self.name == "limited"
@@ -118,7 +116,7 @@ class Role < ApplicationLesliRecord
 
     end
 
-    def generate_code
+    def after_create_role
         role_code = name
             .downcase                           # string to lowercase
             .gsub(/[^0-9A-Za-z\s\-\_]/, '')     # remove special characters from string
@@ -137,22 +135,12 @@ class Role < ApplicationLesliRecord
     #   role = Role.new(detail_attributes: {name: "test_role", object_level_permission: 10})
     #   # This method will be called automatically within an after_create callback
     #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
-    # DEPRECATED disable due role & privileges v4
     def initialize_role_privileges
-        LC::Debug.deprecation("This will be deleted once Role & Privileges 4 is on production")
-        if (self.name == "sysadmin" || self.name == "owner")
-            self.descriptor_assignments
-            .find_or_create_by(
-                descriptor: self.account.role_descriptors.find_by(name: self.name)
-            )
-        end
-
-        # assign ["show", "update"] actions from profile descriptor to the role
-        ["show", "update"].each do |category|
-            self.descriptor_assignments
-            .find_or_create_by(
-                descriptor: self.account.role_descriptors.find_by(name: "profile"),
-                category: category
+        if (self.name == "owner" || self.name == "sysadmin" || self.name == "profile")
+            descriptor = self.name
+            descriptor = "limited" if descriptor == "profile"
+            self.role_descriptors.find_or_create_by(
+                descriptor: self.account.descriptors.find_by(name: self.name)
             )
         end
     end

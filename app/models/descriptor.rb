@@ -20,14 +20,23 @@ class Descriptor < ApplicationLesliRecord
     belongs_to :account,  foreign_key: "accounts_id",    class_name: "Account"
     has_many :privileges, foreign_key: "descriptors_id"
     has_many :activities, foreign_key: "descriptors_id"
-    has_many :describers, foreign_key: "descriptors_id", class_name: "Role::Describer"
 
     # this scope is needed to allow to join with deleted descriptors
     # join with deleted descriptors is needed to know which privileges we have to remove from the
     # role_privileges table when a descriptor is removed from role_describers
-    has_many :describers_all, -> { with_deleted }, foreign_key: "descriptors_id", class_name: "Role::Describer"
+    has_many :descriptors_all, -> { with_deleted }, foreign_key: "descriptors_id", class_name: "Role::Descriptor"
 
     validates :name, presence: true
+
+    after_create :initialize_descriptor_privileges
+
+    def initialize_descriptor_privileges
+
+        # assign ["show", "update"] actions from profile descriptor to the role
+        if self.name == "profile"
+
+        end
+    end
 
     def self.list(current_user, query)
         current_user.account.descriptors
@@ -47,7 +56,7 @@ class Descriptor < ApplicationLesliRecord
             descriptors = descriptors.where("(LOWER(descriptors.name) SIMILAR TO :search_string)", search_string: "%#{sanitize_sql_like(search_string, " ")}%")
         end
 
-        descriptors = descriptors.select(:id, :name, :engine, :reference, :created_at, :updated_at)
+        descriptors = descriptors.select(:id, :name, :created_at, :updated_at)
         .page(query[:pagination][:page])
         .per(query[:pagination][:perPage])
         .order("#{query[:order][:by]} #{query[:order][:dir]} NULLS LAST")
@@ -59,8 +68,6 @@ class Descriptor < ApplicationLesliRecord
     def show(current_user, query)
         { 
             :id => self.id,
-            :reference => self.reference,
-            :engine => self.engine,
             :name => self.name,
             :description => self.description,
             :descriptors_id => self.descriptors_id,

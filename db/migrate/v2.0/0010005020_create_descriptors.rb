@@ -20,13 +20,11 @@ class CreateDescriptors < ActiveRecord::Migration[7.0]
     def change
         create_table :descriptors do |t|
             t.string    :name
-            t.string    :engine
-            t.string    :controller 
-            t.string    :action
-            t.string    :reference
+            t.string    :description
             t.datetime  :deleted_at, index: true
             t.timestamps
         end
         add_reference :descriptors, :accounts, foreign_key:true
+        add_reference :descriptors, :descriptors, foreign_key:true
     end
 end
