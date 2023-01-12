@@ -1,3 +1,21 @@
+=begin
+
+Copyright (c) 2023, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·
+=end
+
 module Notifications
 
     class Sms < ApplicationJob
@@ -37,11 +55,11 @@ module Notifications
             # raise error if telephone is nil or empty
             raise ArgumentError.new("telephone number is invalid, got #{telephone}") if telephone.nil? || telephone.empty?
             raise ArgumentError.new("message is invalid, got #{message}") if message.nil? || message.empty? || message.length > 100
-            
+
 
             # regex to verify that telephone is a valid phone number and not contain letters
-            phone_with_country_code_regex = /^(\+)(\d{1,3})(\s|-)(\d{4,10})$/
-            
+            phone_with_country_code_regex = /^(\+)(1[ \-\+]{0,3}|\+1[ -\+]{0,3}|\+1|\+)?((\(\+?1-[2-9][0-9]{1,2}\))|(\(\+?[2-8][0-9][0-9]\))|(\(\+?[1-9][0-9]\))|(\(\+?[17]\))|(\([2-9][2-9]\))|([ \-\.]{0,3}[0-9]{2,4}))?([ \-\.][0-9])?([ \-\.]{0,3}[0-9]{2,4}){2,3}$/
+
             match_groups = telephone.match(phone_with_country_code_regex)
 
             unless telephone.match(phone_with_country_code_regex)
@@ -50,9 +68,9 @@ module Notifications
             end
 
             # verify if telephone has spaces
-            
+
             telephone_elements = telephone.split(" ")
-            
+
             telephone_number = telephone_elements[1]
             telephone_code = telephone_elements[0]
 
@@ -60,7 +78,6 @@ module Notifications
             telephone_number = telephone_number.to_i
 
             telephone = "#{telephone_code} #{telephone_number}"
-            
 
             {
                 telephone: telephone,
