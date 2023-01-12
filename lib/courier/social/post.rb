@@ -46,13 +46,14 @@ module Courier
                 post.update(params)
                 return post
             end
-
+            
             def self.destroy(current_user, post_id)
                 return {} unless defined? CloudSocial
                 post = CloudSocial::Post.find_by_id(post_id)
-                post.destroy
+                unless post.nil?
+                    return post.destroy
+                end
             end
-            
         end
     end
 end
