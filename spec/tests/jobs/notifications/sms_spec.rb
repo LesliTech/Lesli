@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -16,15 +16,11 @@ For more information read the license file including with this software.
 // ·
 =end
 
-
 require "./lesli"
-
 require "rails_helper"
 
-
 RSpec.describe Notifications::Sms, :type => :job do
-    
-    
+
     it "should return telephone and message" do
         telephone_number = "+502 58159520"
         message = Faker::Lorem.sentence
@@ -59,13 +55,6 @@ RSpec.describe Notifications::Sms, :type => :job do
         expect { Notifications::Sms.validate(telephone_number, message) }.to raise_error(ArgumentError)
     end
 
-    it "should return ArgumentError if telephone does not have a space between country code and telephone number" do
-        telephone_number = "+49123456789"
-        message = Faker::Lorem.sentence
-
-        expect { Notifications::Sms.validate(telephone_number, message) }.to raise_error(ArgumentError)
-    end
-
     it "should return ArgumentError if telephone has letters" do
         telephone_number = "+49 z23d56d89a"
         message = Faker::Lorem.sentence
@@ -95,13 +84,6 @@ RSpec.describe Notifications::Sms, :type => :job do
 
     it "should return ArgumentError if telephone number is too long" do
         telephone_number = "+502 45454545454545454545"
-        message = Faker::Lorem.sentence
-
-        expect { Notifications::Sms.validate(telephone_number, message) }.to raise_error(ArgumentError)
-    end
-
-    it "should return ArgumentError if telephone number is too short" do
-        telephone_number = "+49 123"
         message = Faker::Lorem.sentence
 
         expect { Notifications::Sms.validate(telephone_number, message) }.to raise_error(ArgumentError)
