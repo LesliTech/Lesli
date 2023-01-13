@@ -231,6 +231,7 @@ class User < ApplicationLesliRecord
     #    }
     #]
     def self.index(current_user, query, params)
+
         type = params[:type]
 
         operator = type == "exclude" ? 'not in' : 'in'
@@ -264,7 +265,11 @@ class User < ApplicationLesliRecord
                 group by(us.users_id)
             ) sessions on sessions.users_id = users.id
         ")
-        .where("category = 'user'")
+
+        # Filter users by category
+        unless params.dig(:f, :category).nil?
+            users = users.where("category like '%#{params[:f][:category]}%'")
+        end
 
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
         users = users.where("
