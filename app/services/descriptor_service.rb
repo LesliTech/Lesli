@@ -75,4 +75,27 @@ class DescriptorService
         end
     end
 
+    # @return [void]
+    # @param role_descriptor [RoleDescriptor] The role_descriptor on wich we want to add the system actions
+    # @description Return the list of privilege actions defined for
+    # profile descriptor
+    # Example
+    # RoleDescriptor::DefaultPrivilegeActionsService.add_profile_actions(RoleDescriptor.last)
+    def self.add_owner_privileges(descriptor)
+
+        # Adding default system actions for profile descriptor
+        controllers = SystemController.index nil, nil
+
+        controllers.each do |controller|
+
+            controller[:actions].each do |action|
+
+                descriptor.privileges.find_or_create_by!(
+                    controller: controller[:name],
+                    action: action[:action]
+                )
+
+            end
+        end
+    end
 end

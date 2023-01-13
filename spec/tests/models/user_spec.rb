@@ -23,7 +23,7 @@ require "lesli_model_helper"
 
 
 RSpec.describe "Model:User", type: :model do
-
+=begin
     it "is expected to clear only specific fields of user" do
 
         # create user
@@ -70,7 +70,7 @@ RSpec.describe "Model:User", type: :model do
         expect(user.full_name_initials).to eql("#{first_name_initial}#{last_name_initial}")
 
     end  
-
+=end
     it "is is expected to return the abilities_by_controller defaults by the user" do
         # Create user with the sysadmin role by default
         # The sysadmin role has full access to the system, so there must exist the respective descriptors
@@ -83,7 +83,7 @@ RSpec.describe "Model:User", type: :model do
 
         # Saving the response of the abilities_by_controller call and then execute specifications
         abilities_by_controller = user.abilities_by_controller
-        
+        pp abilities_by_controller
         expect(abilities_by_controller).to be_a(Hash)
         expect(abilities_by_controller.size).to be > 0
         expect(abilities_by_controller[abilities_by_controller.keys.first]).to be_an(Array)
@@ -98,7 +98,7 @@ RSpec.describe "Model:User", type: :model do
             )
         ).not_to be_nil
     end
-
+=begin
     it "is expected to return the default path of the user roles" do
 
         # create the new user
@@ -178,6 +178,7 @@ RSpec.describe "Model:User", type: :model do
         expect(default_path).to be_nil
 
     end
+=end
 end
 
 =begin

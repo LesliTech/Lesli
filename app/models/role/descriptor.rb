@@ -15,7 +15,15 @@ For more information read the license file including with this software.
 // · 
 
 =end
-class Role::Descriptor < ApplicationRecord
+class Role::Descriptor < ApplicationLesliRecord
     belongs_to :role, foreign_key: "roles_id", class_name: "::Role"
     belongs_to :descriptor, foreign_key: "descriptors_id", class_name: "::Descriptor"
+
+    after_create :synchronize_privileges
+
+    def synchronize_privileges
+        # Syncronize the descriptor privileges with the role privilege cache table 
+        Auth::RolePrivilegesService.new.synchronize_privileges(self.roles_id)
+    end 
+
 end

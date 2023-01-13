@@ -225,6 +225,13 @@ namespace :app do
 
         end
 
+        task sync: :environment do
+            descriptor = Descriptor.find_by(id: 4)
+            DescriptorService.add_owner_privileges(descriptor)
+            #Auth::RolePrivilegesService.new.synchronize_privileges
+        end
+
+
         def privilege_error privilege, controller_name
             msg = "Privilege #{privilege} is not allowed for #{controller_name}"
             L2.error(msg)
