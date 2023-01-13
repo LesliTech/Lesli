@@ -136,11 +136,11 @@ class Role < ApplicationLesliRecord
     #   # This method will be called automatically within an after_create callback
     #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
     def initialize_role_privileges
-        if (self.name == "owner" || self.name == "sysadmin" || self.name == "profile")
+        if (self.name == "owner" || self.name == "sysadmin" || self.name == "limited")
             descriptor = self.name
-            descriptor = "limited" if descriptor == "profile"
+            descriptor = "profile" if descriptor == "limited"
             self.role_descriptors.find_or_create_by(
-                descriptor: self.account.descriptors.find_by(name: self.name)
+                descriptor: self.account.descriptors.find_by(name: descriptor)
             )
         end
     end

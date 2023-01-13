@@ -66,25 +66,19 @@ module UserGuard
     #     current_user.abilities_by_controller
     def abilities_by_controller
 
-        # Due this method is executed on every HTML request, we use low level cache to improve performance
-        # It is not usual to the privileges to change so often, however the cache will be deleted
-        # after every commit on roles, role descriptors and privileges
-        #Rails.cache.fetch(user_cache_key(abilities_by_controller, self), expires_in: 12.hours) do
+        # Abilities hash where we will save all the privileges the user has to
+        abilities = {}
 
-            # Abilities hash where we will save all the privileges the user has to
-            abilities = {}
+        # We check all the privileges the user has in the cache table according to his roles
+        # and create a key per controller (with the full controller name) that contains an array of all the 
+        # methods/actions with permission
+        self.privileges.all.each do |privilege|
+            abilities[privilege.controller] = [] if abilities[privilege.controller].nil?
+            abilities[privilege.controller] << privilege.action
+        end
 
-            # We check all the privileges the user has in the cache table according to his roles
-            # and create a key per controller (with the full controller name) that contains an array of all the 
-            # methods/actions with permission
-            self.privileges.all.each do |privilege|
-                abilities[privilege.controller] = [] if abilities[privilege.controller].nil?
-                abilities[privilege.controller] << privilege.action
-            end
+        abilities
 
-            abilities
-
-        #end
     end
 
 
