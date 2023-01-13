@@ -264,9 +264,9 @@ class User < ApplicationLesliRecord
                 group by(us.users_id)
             ) sessions on sessions.users_id = users.id
         ")
+        .where("category = 'user'")
 
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
-        users = users.where("category = ?", query[:filters][:category]) if query[:filters][:category]
         users = users.where("
             lower(email) like '%#{query[:search]}%' or
             LOWER(concat(ud.first_name, ' ', ud.last_name)) like '%#{query[:search].downcase}%'
