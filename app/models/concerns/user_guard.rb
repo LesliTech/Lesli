@@ -40,8 +40,8 @@ module UserGuard
     #     controllers = ["cloud_house/companies", "cloud_house/projects"]
     #     actions = ["index", "update"]
     #
-    #     current_user.has_privileges4?(controllers, actions)
-    def has_privileges4?(controller, action, form='html')
+    #     current_user.has_privileges?(controllers, actions)
+    def has_privileges?(controller, action, form="html")
 
         # set html by default, even if nil is sent as parameter for "form"
         form ||= 'html'
@@ -50,7 +50,7 @@ module UserGuard
             !self.privileges
             .where("role_privileges.controller = ?", controller)
             .where("role_privileges.action = ?", action)
-            .where("role_privileges.form = ?", form)
+            #.where("role_privileges.form = ?", form)
             .first.blank?
         rescue => exception
             Honeybadger.notify(exception)
