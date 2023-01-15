@@ -164,8 +164,6 @@ class ApplicationLesliController < ApplicationController
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
     def authorize_privileges
 
-        return true
-
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
         granted = current_user.has_privileges?(params[:controller], params[:action], params[:format])
@@ -188,12 +186,12 @@ class ApplicationLesliController < ApplicationController
 
         # privilege for object not found
         if granted.blank?
-            log_user_comments(request.path, "privilege_not_found")
+            current_user.logs.create({ title: "privilege_not_found", description: request.path })
             return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] })
         end
         
         unless granted
-            log_user_comments(request.path ,"privilege_not_granted")
+            current_user.logs.create({ title: "privilege_not_granted", description: request.path })
             return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] }) 
         end
     end
