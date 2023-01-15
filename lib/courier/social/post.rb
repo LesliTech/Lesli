@@ -29,7 +29,7 @@ module Courier
             def self.show(current_user, query, post_id)
                 return {} unless defined? CloudSocial
                 post = CloudSocial::Post.find_by_id(post_id)
-                post.show(current_user, query)
+                post.show(current_user)
             end
             
             def self.create(current_user, params)
@@ -49,10 +49,9 @@ module Courier
             
             def self.destroy(current_user, post_id)
                 return {} unless defined? CloudSocial
-                post = CloudSocial::Post.find_by_id(post_id)
-                unless post.nil?
-                    return post.destroy
-                end
+                
+                # Using the PostServices to destroy the post
+                CloudSocial::PostServices.destroy(current_user, post_id)
             end
         end
     end
