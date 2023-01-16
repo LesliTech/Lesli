@@ -18,35 +18,6 @@ For more information read the license file including with this software.
 class Role::DescriptorsController < ApplicationController
     before_action :set_role_descriptor, only: [:show, :update, :destroy]
 
-    # GET /role/descriptors
-    def index
-        respond_to do |format|
-            format.html {}
-            format.json do
-                respond_with_successful(Role::Descriptor.index(current_user, @query))
-            end
-        end
-    end
-
-    # GET /role/descriptors/1
-    def show
-        respond_to do |format|
-            format.html {}
-            format.json do
-                return respond_with_not_found unless @role_descriptor
-                return respond_with_successful(@role_descriptor.show(current_user, @query))
-            end
-        end
-    end
-
-    # GET /role/descriptors/new
-    def new
-    end
-
-    # GET /role/descriptors/1/edit
-    def edit
-    end
-
     # POST /role/descriptors
     def create
         role_descriptor = Role::Descriptor.new(role_descriptor_params)
@@ -54,17 +25,6 @@ class Role::DescriptorsController < ApplicationController
             respond_with_successful(role_descriptor)
         else
             respond_with_error(role_descriptor.errors.full_messages.to_sentence)
-        end
-    end
-
-    # PATCH/PUT /role/descriptors/1
-    def update
-        return respond_with_not_found unless @role_descriptor
-
-        if @role_descriptor.update(role_descriptor_params)
-            respond_with_successful(@role_descriptor.show(current_user, @query))
-        else
-            respond_with_error(@role_descriptor.errors.full_messages.to_sentence)
         end
     end
 

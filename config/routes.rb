@@ -18,10 +18,6 @@ For more information read the license file including with this software.
 =end
 
 Rails.application.routes.draw do
-  namespace :role do
-    resources :descriptors
-  end
-
     extend RoutesBuilder
     extend RoutesApp
     

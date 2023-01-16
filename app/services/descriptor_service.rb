@@ -35,7 +35,7 @@ class DescriptorService
     # profile descriptor
     # Example
     # RoleDescriptor::DefaultPrivilegeActionsService.add_profile_actions(RoleDescriptor.last)
-    def self.add_profile_privileges(descriptor)
+    def add_profile_privileges()
 
         # Adding default system actions for profile descriptor
         [
@@ -66,7 +66,7 @@ class DescriptorService
                         "system_controller_actions.name as controller_action"
                     ).first
 
-                    descriptor.privileges.find_or_create_by(
+                    @descriptor.privileges.find_or_create_by(
                         controller: system_controller_action[:controller_name],
                         action: system_controller_action[:controller_action]
                     )
@@ -81,7 +81,7 @@ class DescriptorService
     # profile descriptor
     # Example
     # RoleDescriptor::DefaultPrivilegeActionsService.add_profile_actions(RoleDescriptor.last)
-    def self.add_owner_privileges(descriptor)
+    def add_owner_privileges()
 
         # Adding default system actions for profile descriptor
         controllers = SystemController.index nil, nil
@@ -90,7 +90,7 @@ class DescriptorService
 
             controller[:actions].each do |action|
 
-                descriptor.privileges.find_or_create_by!(
+                @descriptor.privileges.find_or_create_by!(
                     controller: controller[:name],
                     action: action[:action]
                 )
