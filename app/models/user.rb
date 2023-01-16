@@ -406,5 +406,4 @@ class User < ApplicationLesliRecord
         }
 
     end
-
 end
