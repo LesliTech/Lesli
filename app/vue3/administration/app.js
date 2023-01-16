@@ -29,6 +29,7 @@ import appUsersNew from "Lesli/vue3/administration/apps/users/new.vue"
 
 import appDescriptorsIndex from "Lesli/vue3/administration/apps/descriptors/index.vue"
 import appDescriptorsShow from "Lesli/vue3/administration/apps/descriptors/show.vue"
+import appDescriptorsNew from "Lesli/vue3/administration/apps/descriptors/new.vue"
 
 import appRolesIndex from "Lesli/vue3/administration/apps/roles/index.vue"
 import appRolesShow from "Lesli/vue3/administration/apps/roles/show.vue"
@@ -69,6 +70,9 @@ app("Administration", [{
     path: "/descriptors/:id",
     component: appDescriptorsShow
 }, {
+    path: "/descriptors/new",
+    component: appDescriptorsNew
+}, {
     path: "/roles",
     component: appRolesIndex
 }, {
@@ -98,5 +102,4 @@ app("Administration", [{
 }, {
     path: "/account/settings/theme",
     component: appTheme
-}
-])
+}])

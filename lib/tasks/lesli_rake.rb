@@ -19,7 +19,6 @@ For more information read the license file including with this software.
 
 
 # dependencies
-require "ruby_cowsay"
 require "./lesli"
 
 
@@ -37,7 +36,7 @@ class LesliRake
         random_cows = rand(0..(pretty_cows.size-1))
 
         # show simple text message
-        message((Cow.new({ :cow => Cow.cows[pretty_cows[random_cows]] })).say(message))
+        #message((Cow.new({ :cow => Cow.cows[pretty_cows[random_cows]] })).say(message))
         
     end
 

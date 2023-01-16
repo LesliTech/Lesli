@@ -36,7 +36,7 @@ class Account::Location < ApplicationRecord
         locations = current_user.account.locations.where(query_filters.join(" and "))
 
         if query[:pagination]
-            locations = locations.order("#{query[:pagination][:orderBy]} #{query[:pagination][:order]} NULLS LAST")
+            locations = locations.order("#{query[:order][:by]} #{query[:order][:dir]} NULLS LAST")
         end
 
         locations
