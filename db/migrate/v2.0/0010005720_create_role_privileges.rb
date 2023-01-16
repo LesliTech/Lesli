@@ -16,22 +16,21 @@ For more information read the license file including with this software.
 // · 
 =end
 
-module LC
+class CreateRolePrivileges < ActiveRecord::Migration[7.0]
+    def change
 
-    class Sql
-
-        def self.sanitize_for_like string
-            sanitize_for_search(string)
+        # Production instances have previous implementation of role_privileges and is needed to drop it
+        if ActiveRecord::Base.connection.table_exists? 'role_privileges'
+            drop_table :role_privileges
         end
 
-        #https://api.rubyonrails.org/classes/ActiveRecord/Sanitization/ClassMethods.html#method-i-sanitize_sql_like
-        def self.sanitize_for_search string
-            return nil if string.blank?
-            escape_character = "\\"
-            pattern = Regexp.union(escape_character, "%", "_")
-            string = string.gsub(pattern) { |x| [escape_character, x].join }
-            return "%#{string.downcase.gsub(' ','%')}%"
-        end 
-
+        create_table :role_privileges do |t|
+            t.string   :controller
+            t.string   :action
+            t.datetime :deleted_at, index: true
+            t.timestamps
+        end
+        add_reference :role_privileges, :roles, foreign_key: true
+        add_index(:role_privileges, [:controller, :action, :roles_id], unique: true, name: 'role_privilege_controller_action')
     end
 end

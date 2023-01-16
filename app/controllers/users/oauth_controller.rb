@@ -17,8 +17,6 @@ For more information read the license file including with this software.
 
 =end
 class Users::OauthController < Devise::OmniauthCallbacksController
-    include Application::Responder
-    include Application::Logger
 
     # This is the callbacks controller. This controller will be handling the third-party redirects back to our application.
     # It is a Devise convention to create a controller method named as the authentication strategy, this means that there

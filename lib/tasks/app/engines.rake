@@ -19,10 +19,10 @@ namespace :app do
     namespace :engines do
 
         desc "Add account for new engines added to existing instance"
-        task initialize_account: :environment do
+        task initialize: :environment do
 
             Account.all.each do |account|
-                account.initialize_account_for_engines
+                account.initialize_engines
             end
 
             L2.msg "Engines initialized for accounts"
