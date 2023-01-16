@@ -68,13 +68,6 @@ class User < ApplicationLesliRecord
     has_many :privileges,       through: :roles
 
 
-    # user roles & privileges association compatibility
-    # this comes from the first implementation of the role descriptors
-    has_many :role_privileges,          through: :roles,            source: :privileges
-    has_many :user_privilege_actions,   foreign_key: "users_id",    class_name: "User::PrivilegeAction"
-    has_many :role_privilege_actions,   through: :roles,            source: :privilege_actions
-
-
     # callbacks
     before_create :before_create_user
     after_create :after_create_user

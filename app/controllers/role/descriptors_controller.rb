@@ -20,8 +20,10 @@ class Role::DescriptorsController < ApplicationController
 
     # POST /role/descriptors
     def create
-        role_descriptor = Role::Descriptor.new(role_descriptor_params)
+        role_descriptor = @role.descriptors.new(role_descriptor_params)
+        
         if role_descriptor.save
+            Role::Activity.log_create_descriptor_assignment(current_user, @role, role_descriptor)
             respond_with_successful(role_descriptor)
         else
             respond_with_error(role_descriptor.errors.full_messages.to_sentence)
@@ -33,6 +35,7 @@ class Role::DescriptorsController < ApplicationController
         return respond_with_not_found unless @role_descriptor
 
         if @role_descriptor.destroy
+            Role::Activity.log_destroy_descriptor_assignment(current_user, @role, @role_descriptor)
             respond_with_successful
         else
             respond_with_error(@role_descriptor.errors.full_messages.to_sentence)
@@ -41,9 +44,14 @@ class Role::DescriptorsController < ApplicationController
 
     private
 
-    # Use callbacks to share common setup or constraints between actions.
+    def set_role
+        @role = current_user.account.roles.find_by(id: params[:role_id])
+    end
+
     def set_role_descriptor
-        @role_descriptor = current_user.account.role_descriptors.find_by_id(params[:id])
+        set_role 
+        return respond_with_not_found unless @role 
+        @role_descriptor = @role.descriptors.find_by(id: params[:id])
     end
 
     # Only allow a list of trusted parameters through.
