@@ -35,12 +35,12 @@ namespace :app do
 
             profile_descriptors = Descriptor.where(name: "profile")
             profile_descriptors.each do |descriptor|
-                DescriptorService.new(descriptor).add_profile_privileges()
+                DescriptorService.add_profile_privileges(descriptor)
             end
 
             owner_admin_descriptors = Descriptor.where(name: ["owner", "sysadmin"])
             owner_admin_descriptors.each do |descriptor|
-                DescriptorService.new(descriptor).add_owner_privileges()
+                DescriptorService.add_owner_privileges(descriptor)
             end
 
             Auth::RolePrivilegesService.new.synchronize_privileges()
