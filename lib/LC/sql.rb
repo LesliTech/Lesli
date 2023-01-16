@@ -20,6 +20,10 @@ module LC
 
     class Sql
 
+        def self.sanitize_for_like string
+            sanitize_for_search(string)
+        end
+
         #https://api.rubyonrails.org/classes/ActiveRecord/Sanitization/ClassMethods.html#method-i-sanitize_sql_like
         def self.sanitize_for_search string
             return nil if string.blank?
