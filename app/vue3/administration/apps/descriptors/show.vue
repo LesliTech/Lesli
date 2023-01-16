@@ -1,7 +1,7 @@
 <script setup>
 /*
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -19,28 +19,40 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed, inject } from "vue"
+import { onMounted, inject } from "vue"
 import { useRouter, useRoute } from 'vue-router'
 
 
 // · import lesli stores
-import { useDescriptor } from "../../stores/descriptor"
+import { useDescriptor } from "LesliCore/administration/stores/descriptor"
+
+
+// · import components
+import descriptorForm from "./components/form.vue"
+import privileges from "./components/privileges.vue"
 
 
 // · initialize/inject plugins
-const router = useRouter()
 const route = useRoute()
-const msg = inject("msg")
 const url = inject("url")
 
 
 // · 
 const storeDescriptor = useDescriptor()
 
+const translations = {
+    core: {
+        roles: I18n.t("core.roles"),
+        role_descriptors: I18n.t('core.role_descriptors'),
+        shared: I18n.t("core.shared")
+    }
+}
+
 
 // · 
 onMounted(() => {
     storeDescriptor.fetchDescriptor(route.params.id)
+    storeDescriptor.getDescriptorsOptions()
 })
 
 
@@ -62,16 +74,15 @@ const columns = [{
 <template>
     <section class="application-component">
         <lesli-header :title="'Descriptor: '+storeDescriptor.descriptor.name">
-            <lesli-button icon="format_list_numbered">
-                descriptors
+            <lesli-button icon="list" :to="url.admin('descriptors')">
+                {{ translations.core.view_btn_list }}
             </lesli-button>
         </lesli-header>
-        <lesli-table
-            :columns="columns"
-            :records="storeDescriptor.descriptor.privileges">
-            <template #active="{ value }">
-                <span class="tag is-success is-light" v-if="value">active</span>
-            </template>
-        </lesli-table>
+        <div class="box">
+            <descriptor-form is-editable></descriptor-form>
+        </div>
+
+        <privileges></privileges>        
+
     </section>
 </template>

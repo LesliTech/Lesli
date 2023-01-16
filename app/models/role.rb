@@ -19,16 +19,14 @@ For more information read the license file including with this software.
 
 class Role < ApplicationLesliRecord
 
-    belongs_to :account,                foreign_key: "accounts_id"
+    belongs_to :account,   foreign_key: "accounts_id"
 
-    has_many :activities,               foreign_key: "roles_id"
-    has_many :privileges,               foreign_key: "roles_id",    class_name: "Role::Privilege",  dependent: :delete_all
-    has_many :describers,               foreign_key: "roles_id"
-    has_many :descriptor_assignments,   foreign_key: "roles_id",    class_name: "DescriptorAssignment",  dependent: :delete_all
-    has_many :privilege_actions,        through: :descriptor_assignments
+    has_many :activities,  foreign_key: "roles_id"
+    has_many :privileges,  foreign_key: "roles_id", class_name: "Role::Privilege", dependent: :delete_all
+    has_many :role_descriptors, foreign_key: "roles_id", class_name: "Role::Descriptor", dependent: :delete_all
 
-    before_create :initialize_role
-    after_create :generate_code
+    before_create :before_create_role
+    after_create :after_create_role, :initialize_role_privileges
 
     validates :name, presence: :true
     validates :object_level_permission, presence: :true
@@ -51,6 +49,9 @@ class Role < ApplicationLesliRecord
     def self.index(current_user, query)
         role_max = current_user.roles.map(&:object_level_permission).max()
 
+        # Get search string from query params
+        search_string = query[:search].downcase.gsub(" ","%") unless query[:search].blank?
+
         roles = current_user.account.roles
         .joins("
             left join (
@@ -70,14 +71,15 @@ class Role < ApplicationLesliRecord
         .order(object_level_permission: :desc, name: :asc)
         .select(:id, :name, :active, :only_my_data, :default_path, :object_level_permission, "users.user_count")
 
-        unless query[:filters].blank?
-            roles = roles.where("lower(roles.name) like ?", "%#{query[:filters][:text].downcase.strip}%") unless query[:filters][:text].blank?
+        # Filter results by search string
+        unless search_string.blank?
+            roles = roles.where("(LOWER(roles.name) SIMILAR TO :search_string)", search_string: "%#{sanitize_sql_like(search_string, " ")}%")
+        end
 
+        unless query[:filters].blank?
             unless query[:filters][:object_level_permission].blank?
                 role_max = query[:filters][:object_level_permission] if query[:filters][:object_level_permission].to_i <= role_max
-            end
-
-            
+            end 
         end
 
         roles
@@ -93,15 +95,16 @@ class Role < ApplicationLesliRecord
             :name => self.name,
             :active => self.active,
             :default_path => self.default_path,
+            :limit_to_path => self.limit_to_path,
             :only_my_data => self.only_my_data,
             :object_level_permission => self.object_level_permission,
             :created_at => self.created_at,
             :updated_at => self.updated_at,
-            :descriptors => self.describers.joins(:descriptor).select(:id, :name, :engine, :reference, :descriptors_id)
+            :descriptors => self.role_descriptors.joins(:descriptor).select(:id, :name, :descriptors_id)
         }
     end
 
-    def initialize_role
+    def before_create_role
 
         # default role for limited roles
         if self.name == "limited"
@@ -113,7 +116,7 @@ class Role < ApplicationLesliRecord
 
     end
 
-    def generate_code
+    def after_create_role
         role_code = name
             .downcase                           # string to lowercase
             .gsub(/[^0-9A-Za-z\s\-\_]/, '')     # remove special characters from string
@@ -132,22 +135,12 @@ class Role < ApplicationLesliRecord
     #   role = Role.new(detail_attributes: {name: "test_role", object_level_permission: 10})
     #   # This method will be called automatically within an after_create callback
     #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
-    # DEPRECATED disable due role & privileges v4
     def initialize_role_privileges
-        LC::Debug.deprecation("This will be deleted once Role & Privileges 4 is on production")
-        if (self.name == "sysadmin" || self.name == "owner")
-            self.descriptor_assignments
-            .find_or_create_by(
-                descriptor: self.account.role_descriptors.find_by(name: self.name)
-            )
-        end
-
-        # assign ["show", "update"] actions from profile descriptor to the role
-        ["show", "update"].each do |category|
-            self.descriptor_assignments
-            .find_or_create_by(
-                descriptor: self.account.role_descriptors.find_by(name: "profile"),
-                category: category
+        if (self.name == "owner" || self.name == "sysadmin" || self.name == "limited")
+            descriptor = self.name
+            descriptor = "profile" if descriptor == "limited"
+            self.role_descriptors.find_or_create_by(
+                descriptor: self.account.descriptors.find_by(name: descriptor)
             )
         end
     end

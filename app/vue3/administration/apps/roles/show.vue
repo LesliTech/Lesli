@@ -1,7 +1,7 @@
 <script setup>
 /*
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -31,6 +31,7 @@ import { useDescriptor } from "../../stores/descriptor"
 // · import components
 import componentPrivilegeCustom from "./componentPrivilegeCustom.vue"
 import componentPrivilegeStandard from "./componentPrivilegeStandard.vue"
+import roleLogs from "./logs.vue"
 
 
 // · initialize/inject plugins
@@ -45,7 +46,7 @@ const storeRole = useRole()
 const storeDescriptor = useDescriptor()
 
 // · 
-const editor = ref('standard')
+const editor = ref('privileges')
 
 // · defining props
 const props = defineProps({
@@ -56,6 +57,14 @@ const props = defineProps({
     }
 })
 
+const translations = {
+    core: {
+        roles: I18n.t("core.roles"),
+        users: I18n.t("core.users"),
+        shared: I18n.t("core.shared")
+    }
+}
+
 // · 
 onMounted(() => {
     storeRole.fetchRole(route.params.id)
@@ -65,11 +74,11 @@ onMounted(() => {
 // · 
 function toggleEditor() {
 
-    if (editor.value == 'standard') {
-        return editor.value = 'custom'
+    if (editor.value == 'privileges') {
+        return editor.value = 'logs'
     }
 
-    editor.value = 'standard'
+    editor.value = 'privileges'
 }
 
 </script>
@@ -77,17 +86,20 @@ function toggleEditor() {
     <section class="application-component">
         <lesli-header :title="'Privileges for: ' + storeRole.role.name + ' role '">
             <lesli-button icon="list" :to="url.root(props.appMountPath)">
-                All roles
+                {{  translations.core.roles.view_btn_roles_list }}
             </lesli-button>
-            <lesli-button icon="edit" :to="url.root(props.appMountPath+`/edit`)">
-                Edit role
+            <lesli-button icon="edit" :to="url.root(props.appMountPath + '/:id/edit', route.params.id)">
+                {{ translations.core.roles.view_btn_edit_role_information }}
             </lesli-button>
-            <lesli-button icon="admin_panel_settings" :solid="editor == 'custom'" @click="toggleEditor">
-                Aditional privileges
+            <lesli-button v-if="editor == 'privileges'" icon="history" :solid="editor == 'logs'" @click="toggleEditor">
+                {{ translations.core.roles.view_btn_logs  }}
+            </lesli-button>
+            <lesli-button v-if="editor == 'logs'" icon="settings" :solid="editor == 'privileges'" @click="toggleEditor">
+                {{ translations.core.roles.view_btn_edit_privilege_actions }}
             </lesli-button>
         </lesli-header>
         <lesli-toolbar @search="storeRole.searchDescriptors"></lesli-toolbar>
-        <componentPrivilegeStandard v-if="editor == 'standard'"></componentPrivilegeStandard>
-        <componentPrivilegeCustom v-if="editor == 'custom'"></componentPrivilegeCustom>
+        <componentPrivilegeStandard v-if="editor == 'privileges'"></componentPrivilegeStandard>
+        <roleLogs v-if="editor == 'logs'"></roleLogs>
     </section>
 </template>

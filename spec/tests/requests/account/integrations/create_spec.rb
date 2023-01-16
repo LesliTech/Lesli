@@ -32,6 +32,7 @@ RSpec.describe "POST:/administration/account/integrations", type: :request, :unl
                 name: Faker::Superhero.power
             }
         })
+
         expect_response_with_successful
 
         expect(response_body).to be_a(String)

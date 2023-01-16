@@ -23,28 +23,29 @@ For more information read the license file including with this software.
 
 
 // · 
-body.abouts.version {
+body.about-version {
 
-    .engines {
-        @include lesli-css-flex-columns($column-width: 200px, $gap: 10px);
-    }
+    .application-component .engines {
+        @include lesli-css-flex-columns($column-width: 200px, $gap: 14px);
+        justify-content: start;
 
-    .engine {
-        padding: 1.4rem 0;
-        text-align: center;
-        background-color: rgba(lesli-css-color(blue), .05);
-        box-shadow: 0 1px 3px rgba(lesli-css-color(blue, 900), 0.12), 0 1px 2px rgba(lesli-css-color(blue, 900), 0.24);
-
-        img {
-            width: 100%;
-            max-width: 35px;
-            margin-bottom: .4rem;
-        }
-
-        p {
-            color: lesli-css-color(black, 300);
-        }
-
-    }
+        .engine {
+            padding: 1.4rem 0;
+            text-align: center;
+            border-radius: 4px;
+            background-color: rgba(lesli-css-color(blue), .05);
+            box-shadow: 0 3px 10px rgba(lesli-css-color(slate, 100), 0.45);
     
+            svg {
+                width: 100%;
+                max-width: 40px;
+                margin-bottom: .4rem;
+                fill: $lesli-color-primary;
+            }
+    
+            p {
+                color: lesli-css-color(black, 100);
+            }
+        }
+    }
 }
