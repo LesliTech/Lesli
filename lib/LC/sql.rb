@@ -21,7 +21,8 @@ module LC
     class Sql
 
         #https://api.rubyonrails.org/classes/ActiveRecord/Sanitization/ClassMethods.html#method-i-sanitize_sql_like
-        def self.sanitize_for_like string
+        def self.sanitize_for_search string
+            return nil if string.blank?
             escape_character = "\\"
             pattern = Regexp.union(escape_character, "%", "_")
             string = string.gsub(pattern) { |x| [escape_character, x].join }

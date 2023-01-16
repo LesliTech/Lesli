@@ -28,6 +28,10 @@ class Descriptor < ApplicationLesliRecord
 
     validates :name, presence: true
 
+    before_create :check_if_descriptor_can_be_processed
+    before_update :check_if_descriptor_can_be_processed
+    before_destroy :check_if_descriptor_can_be_processed
+
     after_create :initialize_descriptor_privileges
 
     def initialize_descriptor_privileges
@@ -39,6 +43,13 @@ class Descriptor < ApplicationLesliRecord
 
     end
 
+    def check_if_descriptor_can_be_processed
+        if (["owner", "sysadmin", "profile"].include? self.name)
+            errors.add(:something, "some failure happened.")
+            raise ActiveRecord::RecordInvalid.new(self)
+        end
+    end
+
     def self.list(current_user, query)
         current_user.account.descriptors
         .select(:id, :name)
@@ -48,21 +59,41 @@ class Descriptor < ApplicationLesliRecord
     def self.index(current_user, query)
 
         # Get search string from query params
-        search_string = query[:search].downcase.gsub(" ","%") unless query[:search].blank?
+        search_string = LC::Sql.sanitize_for_search(query[:search])
 
-        descriptors = current_user.account.descriptors
+        descriptors = current_user.account.descriptors.select(
+            :id,
+            :name,
+            :description,
+            "coalesce(actions.total, 0) as privileges_count",
+            LC::Date2.new.date_time.db_timestamps("descriptors")
+        )
+
+        # Count the amount of privileges assigned to every descriptor
+        descriptors = descriptors.joins("
+            left join  (
+                select
+                    count(1) as total,
+                    descriptors_id
+                from descriptor_privileges
+                --where apga.status = TRUE
+                group by descriptors_id
+            ) as actions
+                on actions.descriptors_id = descriptors.id
+        ")
+        
+        # skip native descriptors
+        descriptors = descriptors.where.not("descriptors.name in (?)", ["owner", "sysadmin", "profile"])
 
         # Filter results by search string
         unless search_string.blank?
-            descriptors = descriptors.where("(LOWER(descriptors.name) SIMILAR TO :search_string)", search_string: "%#{sanitize_sql_like(search_string, " ")}%")
+            descriptors = descriptors.where("(LOWER(descriptors.name) SIMILAR TO ?)", search_string)
         end
 
-        descriptors = descriptors.select(:id, :name, :created_at, :updated_at)
+        descriptors
         .page(query[:pagination][:page])
         .per(query[:pagination][:perPage])
         .order("#{query[:order][:by]} #{query[:order][:dir]} NULLS LAST")
-
-        descriptors
 
     end 
 
