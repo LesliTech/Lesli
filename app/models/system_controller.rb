@@ -28,6 +28,8 @@ class SystemController < ApplicationLesliRecord
     }, _suffix: true
 
     def self.index current_user, query
+
+        # get a matrix of controllers and actions
         c = SystemController.joins(:actions).select(
             "system_controllers.name as id",
             "system_controllers.name as controller",
@@ -48,21 +50,36 @@ class SystemController < ApplicationLesliRecord
             "
         ).order("system_controllers.name, importance, system_controller_actions.name")
 
-        # as arrays
-
         cc = {}
-        ccc = []
 
+        # convert the matrix to a hash of controllers with the available actions as values
+        # example:
+        #   my_controller: [my list of actions]
         c.each do |c|
-            cc[c[:controller]] = { id: c[:controller_id], name: c[:controller], actions: []} if cc[c[:controller]].blank?
-            cc[c[:controller]][:actions].push({ id: c[:action_id], action: c[:action]})
+
+            # create a uniq container for every action that belongs to a specific controller
+            if cc[c[:controller]].blank?
+                cc[c[:controller]] = { 
+                    id: c[:controller_id], 
+                    name: c[:controller], 
+                    actions: []
+                } 
+            end
+
+            # push every action to his specic controller
+            cc[c[:controller]][:actions].push({ 
+                id: c[:action_id], 
+                action: c[:action]
+            })
         end
 
-        cc.each { |c| 
-            ccc.push(c[1])
-        }
+        # convert the hash to a simple array
+        # example:
+        #   from: my_controller: [my list of actions]
+        #   to: [{my_controller: [my list of actions]}]
+        #cc.map { |k,v| v }
 
-        ccc
+        return cc
 
     end 
 
