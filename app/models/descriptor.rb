@@ -28,10 +28,6 @@ class Descriptor < ApplicationLesliRecord
 
     validates :name, presence: true
 
-    before_create :check_if_descriptor_can_be_processed
-    before_update :check_if_descriptor_can_be_processed
-    before_destroy :check_if_descriptor_can_be_processed
-
     after_create :initialize_descriptor_privileges
 
     def initialize_descriptor_privileges
@@ -41,13 +37,6 @@ class Descriptor < ApplicationLesliRecord
 
         DescriptorService.add_owner_privileges(self) if ["owner", "sysadmin"].include?(self.name)
 
-    end
-
-    def check_if_descriptor_can_be_processed
-        if (["owner", "sysadmin", "profile"].include? self.name)
-            errors.add(:something, "some failure happened.")
-            raise ActiveRecord::RecordInvalid.new(self)
-        end
     end
 
     def self.list(current_user, query)
