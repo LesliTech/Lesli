@@ -50,6 +50,7 @@ class User < ApplicationLesliRecord
 
     # users data extensions
     has_many :logs,             foreign_key: "users_id", inverse_of: :user
+    has_many :agents,           foreign_key: "users_id"
     has_many :settings,         foreign_key: "users_id"
     has_many :sessions,         foreign_key: "users_id"
     has_many :requests,         foreign_key: "users_id"
@@ -65,13 +66,6 @@ class User < ApplicationLesliRecord
     has_many :user_roles,       foreign_key: "users_id",    class_name: "User::Role"
     has_many :roles,            through: :user_roles,       source: :roles
     has_many :privileges,       through: :roles
-
-
-    # user roles & privileges association compatibility
-    # this comes from the first implementation of the role descriptors
-    has_many :role_privileges,          through: :roles,            source: :privileges
-    has_many :user_privilege_actions,   foreign_key: "users_id",    class_name: "User::PrivilegeAction"
-    has_many :role_privilege_actions,   through: :roles,            source: :privilege_actions
 
 
     # callbacks
@@ -189,13 +183,13 @@ class User < ApplicationLesliRecord
         end
 
         # sort by name by default
-        if query[:pagination][:orderColumn] == "id"
-            query[:pagination][:orderColumn] = "first_name"
-            query[:pagination][:order] = "asc"
+        if query[:order][:by] == "id"
+            query[:order][:by] = "first_name"
+            query[:order][:dir] = "asc"
         end
 
-        users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
-        users = users.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
+        #users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
+        #users = users.order("? ? NULLS LAST", query[:order][:by], query[:order][:dir])
 
         users = users.select(
             :id,
@@ -297,7 +291,7 @@ class User < ApplicationLesliRecord
         users = users
         .page(query[:pagination][:page])
         .per(query[:pagination][:perPage])
-        .order("#{query[:pagination][:orderBy]} #{query[:pagination][:order]} NULLS LAST")
+        .order("#{query[:order][:by]} #{query[:order][:dir]} NULLS LAST")
 
     end
 
@@ -404,5 +398,4 @@ class User < ApplicationLesliRecord
         }
 
     end
-
 end

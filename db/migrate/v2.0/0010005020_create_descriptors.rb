@@ -16,22 +16,15 @@ For more information read the license file including with this software.
 // · 
 =end
 
-module LC
-
-    class Sql
-
-        def self.sanitize_for_like string
-            sanitize_for_search(string)
+class CreateDescriptors < ActiveRecord::Migration[7.0]
+    def change
+        create_table :descriptors do |t|
+            t.string    :name
+            t.string    :description
+            t.datetime  :deleted_at, index: true
+            t.timestamps
         end
-
-        #https://api.rubyonrails.org/classes/ActiveRecord/Sanitization/ClassMethods.html#method-i-sanitize_sql_like
-        def self.sanitize_for_search string
-            return nil if string.blank?
-            escape_character = "\\"
-            pattern = Regexp.union(escape_character, "%", "_")
-            string = string.gsub(pattern) { |x| [escape_character, x].join }
-            return "%#{string.downcase.gsub(' ','%')}%"
-        end 
-
+        add_reference :descriptors, :accounts, foreign_key:true
+        add_reference :descriptors, :descriptors, foreign_key:true
     end
 end

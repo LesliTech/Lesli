@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -16,22 +16,19 @@ For more information read the license file including with this software.
 // · 
 =end
 
-module LC
+class AlterUserRequests < ActiveRecord::Migration[7.0]
+    def change
 
-    class Sql
-
-        def self.sanitize_for_like string
-            sanitize_for_search(string)
+        # We must delete the never used extension table
+        # IMPORTANT: This statement must be deleted one the migration was executed :) 
+        if ActiveRecord::Base.connection.table_exists? 'user_requests_ext'
+            drop_table :user_requests_ext
         end
 
-        #https://api.rubyonrails.org/classes/ActiveRecord/Sanitization/ClassMethods.html#method-i-sanitize_sql_like
-        def self.sanitize_for_search string
-            return nil if string.blank?
-            escape_character = "\\"
-            pattern = Regexp.union(escape_character, "%", "_")
-            string = string.gsub(pattern) { |x| [escape_character, x].join }
-            return "%#{string.downcase.gsub(' ','%')}%"
-        end 
+        remove_column :user_requests, :request_agent
 
+        add_column :user_requests, :request_count, :integer
+
+        add_index(:user_requests, [:request_controller, :request_action, :request_format, :users_id, :user_sessions_id], unique: true, name: 'user_requests_index')
     end
 end

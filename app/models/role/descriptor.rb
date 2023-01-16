@@ -1,6 +1,5 @@
 =begin
-
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,24 +13,17 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 =end
+class Role::Descriptor < ApplicationLesliRecord
+    belongs_to :role, foreign_key: "roles_id", class_name: "::Role"
+    belongs_to :descriptor, foreign_key: "descriptors_id", class_name: "::Descriptor"
 
-module LC
+    after_create :synchronize_privileges
 
-    class Sql
+    def synchronize_privileges
+        # Syncronize the descriptor privileges with the role privilege cache table 
+        Auth::RolePrivilegesService.new.synchronize_privileges(self.roles_id)
+    end 
 
-        def self.sanitize_for_like string
-            sanitize_for_search(string)
-        end
-
-        #https://api.rubyonrails.org/classes/ActiveRecord/Sanitization/ClassMethods.html#method-i-sanitize_sql_like
-        def self.sanitize_for_search string
-            return nil if string.blank?
-            escape_character = "\\"
-            pattern = Regexp.union(escape_character, "%", "_")
-            string = string.gsub(pattern) { |x| [escape_character, x].join }
-            return "%#{string.downcase.gsub(' ','%')}%"
-        end 
-
-    end
 end
