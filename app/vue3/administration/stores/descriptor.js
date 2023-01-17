@@ -54,6 +54,8 @@ export const useDescriptor = defineStore("administration.descriptor", {
         fetchDescriptor(id) {
             this.http.get(this.url.admin("descriptors/:id", id)).then(result => {
                 this.descriptor = result
+                this.getDescriptorsOptions()
+                this.fetchDescriptorPrivileges()
             })
         },
 
@@ -65,12 +67,15 @@ export const useDescriptor = defineStore("administration.descriptor", {
                 })
             })
         },
+
         /**
         * @description This action is used to reset descriptor object
         */
-        resetDescriptor(){
+        resetDescriptor() {
             this.descriptor = {}
+            this.privileges = {}
         },
+        
         /**
         * @description This action is used to create a descriptor
         */
@@ -83,8 +88,8 @@ export const useDescriptor = defineStore("administration.descriptor", {
             }).catch(error => {
                 this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
             })
-
         },
+        
         /**
         * @description This action is used to update a descriptor
         */
@@ -143,6 +148,7 @@ export const useDescriptor = defineStore("administration.descriptor", {
                     if (!this.privileges[controllerAction.action]) {
                         this.privileges[controllerAction.action] = []
                     }
+                    controllerAction["active"] = controllerAction.descriptor_privilege_id ? true : false
                     this.privileges[controllerAction.action].push(controllerAction)
                 })
             })
