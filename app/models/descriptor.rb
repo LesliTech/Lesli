@@ -72,7 +72,7 @@ class Descriptor < ApplicationLesliRecord
         ")
         
         # skip native descriptors
-        descriptors = descriptors.where.not("descriptors.name in (?)", ["owner", "sysadmin", "profile"])
+        #descriptors = descriptors.where.not("descriptors.name in (?)", ["owner", "sysadmin", "profile"])
 
         # Filter results by search string
         unless search_string.blank?

@@ -48,7 +48,12 @@ class SystemController < ApplicationLesliRecord
                 else 9
             end as importance
             "
-        ).order("system_controllers.name, importance, system_controller_actions.name")
+        )
+        #.where("system_controller_actions.name in ('index', 'create', 'update', 'show', 'destroy')")
+        #.order("system_controllers.name, importance, system_controller_actions.name")
+        .order("importance DESC")
+
+        return c
 
         cc = {}
 

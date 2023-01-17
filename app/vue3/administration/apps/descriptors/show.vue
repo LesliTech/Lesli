@@ -78,9 +78,10 @@ const columns = [{
                 {{ translations.core.view_btn_list }}
             </lesli-button>
         </lesli-header>
-        <div class="box">
-            <descriptor-form is-editable></descriptor-form>
-        </div>
+
+        <descriptor-form is-editable></descriptor-form>
+
+        <br><br>
 
         <privileges></privileges>        
 

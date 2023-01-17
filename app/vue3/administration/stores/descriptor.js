@@ -45,11 +45,7 @@ export const useDescriptor = defineStore("administration.descriptor", {
             this.loading = true
             this.http.get(url).then(result => {
                 this.index = result
-                this.records = result.records.map(descriptor => {
-                    descriptor.created_at = this.date.dateTime(descriptor.created_at)
-                    descriptor.updated_at = this.date.dateTime(descriptor.updated_at)
-                    return descriptor
-                })
+                this.records = result.records
                 this.loading = false
             })
         },
@@ -84,6 +80,7 @@ export const useDescriptor = defineStore("administration.descriptor", {
         createDescriptor(){
             this.loading = true
             this.http.post(this.url.admin("descriptors"), { descriptor: this.descriptor }).then(result => {
+                this.descriptor.id = result.id
                 this.msg.success(I18n.t("core.users.messages_success_operation"))
                 this.loading = false
             }).catch(error => {
