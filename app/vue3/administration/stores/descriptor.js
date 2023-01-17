@@ -172,12 +172,11 @@ export const useDescriptor = defineStore("administration.descriptor", {
 
         // Add privilege to descriptor
         deletePrivilege(action) {
-            this.http.delete(this.url.admin("descriptors/:id/privileges", this.descriptor.id), {
-                descriptor_privilege: {
-                    controller_id: action.controller_id,
-                    action_id: action.action_id
-                }
-            }).then(result => {
+            console.log(action)
+            this.http.delete(this.url.admin("descriptors/:descriptorId/privileges/:descriptorPrivilegeId", {
+                descriptorId: this.descriptor.id,
+                descriptorPrivilegeId: action.descriptor_privilege_id
+            })).then(result => {
                 console.log(result)
             }).catch(error => {
                 console.log(error)

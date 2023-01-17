@@ -179,7 +179,7 @@ module RoutesApp
                 # Descriptors for roles
                 resources :descriptors, only: [:index, :show, :edit, :create, :update] do
                     scope module: :descriptor do
-                        resources :privileges, only: [:index, :create, :delete]
+                        resources :privileges, only: [:index, :create, :destroy]
                     end
                     collection do 
                         get :list
