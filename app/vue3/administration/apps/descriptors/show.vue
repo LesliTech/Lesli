@@ -24,10 +24,12 @@ import { useRouter, useRoute } from 'vue-router'
 
 
 // · import lesli stores
-import { useDescriptor } from "../../stores/descriptor"
+import { useDescriptor } from "LesliCore/administration/stores/descriptor"
+
 
 // · import components
-import descriptorForm from "./components/descriptor-form.vue"
+import descriptorForm from "./components/form.vue"
+import privileges from "./components/privileges.vue"
 
 
 // · initialize/inject plugins
@@ -79,5 +81,8 @@ const columns = [{
         <div class="box">
             <descriptor-form is-editable></descriptor-form>
         </div>
+
+        <privileges></privileges>        
+
     </section>
 </template>
