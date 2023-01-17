@@ -53,12 +53,13 @@ const columns = [{
     label: "Name",
     sort: true
 },  {
-    field: "reference",
-    label: "Reference",
+    field: "privileges_count",
+    label: "Privileges",
+    align: "center",
     sort: true
 }, {
-    field: "updated_at",
-    label: "Updated at"
+    field: "created_at_date",
+    label: "Created at"
 }]
 
 
@@ -75,8 +76,7 @@ onMounted(() => {
                 outlined
                 icon="refresh"
                 :loading="storeDescriptor.loading"
-                @click="storeDescriptor.fetch()"
-            >
+                @click="storeDescriptor.fetch()">
                 {{ translations.core.shared.view_text_btn_reload }}
             </lesli-button>
             <lesli-button icon="add" :to="url.admin(`descriptors/new`)">
