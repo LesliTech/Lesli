@@ -21,6 +21,12 @@ class Descriptor::Privilege < ApplicationLesliRecord
     validates :controller, presence: true
     validates :action, presence: true
 
+    after_save :synchronize_privileges
+
+    def synchronize_privileges
+
+    end 
+
     def self.index current_user, query, params
         pp params
         return SystemController.joins(:actions)
@@ -28,6 +34,7 @@ class Descriptor::Privilege < ApplicationLesliRecord
             left join descriptor_privileges
             on descriptor_privileges.controller = system_controllers.name
 	        and descriptor_privileges.action = system_controller_actions.name 
+            and descriptor_privileges.deleted_at IS NULL
 	        and descriptors_id = ?", params[:descriptor_id]])
         ).select(
             "system_controllers.name as controller",
