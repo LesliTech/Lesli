@@ -40,7 +40,7 @@ module UserPolyfill
     end
 
 
-    def has_privileges?(controllers, actions)
+    def has_privileges3?(controllers, actions)
 
         begin
 

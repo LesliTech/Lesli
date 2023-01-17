@@ -63,6 +63,10 @@ const props = defineProps({
     href: {
         type: Function,
         required: false
+    },
+    headless: {
+        type: Boolean,
+        default: false
     }
 })
 
@@ -121,9 +125,9 @@ function paginate(page) {
     <div>
         <table 
             :id="props.id"
-            class="table is-fullwidth lesli-table"
+            class="table is-fullwidth lesli-table mb-0"
             :class="props.class">
-            <thead>
+            <thead v-if="!headless">
                 <tr>
 
                     <!--
@@ -299,12 +303,14 @@ function paginate(page) {
                     <!--
                         Dedicated row for detail, we can add an entire row to show some detail
                         about the current row
-                    -->
-                    <tr v-if="record.detailActive">
-                        <td :colspan="props.columns.length + 1">
+                        <tr v-if="record.detailActive">
+                        <td class="is-paddingless" :colspan="props.columns.length + 1">
                             <slot name="detail" :record="record"></slot>
                         </td>
                     </tr>
+                    -->
+                    <slot v-if="record.detailActive" name="detail" :record="record"></slot>
+                    
                 </template>
             </tbody>
         </table>
