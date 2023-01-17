@@ -84,20 +84,13 @@ class DescriptorService
     def self.add_owner_privileges(descriptor)
 
         # Adding default system actions for profile descriptor
-        controllers = SystemController.index nil, nil
+        controllers = SystemController.index(nil, nil)
 
-        controllers.each do |controller_name, controller|
-
-            controller[:actions].each do |action|
-
-                descriptor.privileges.find_or_create_by!(
-                    controller: controller[:name],
-                    action: action[:action]
-                )
-
-            end
-
+        controllers.each do |controller_action|
+            descriptor.privileges.find_or_create_by!(
+                controller: controller_action[:controller],
+                action: controller_action[:action]
+            )
         end
-
     end
 end

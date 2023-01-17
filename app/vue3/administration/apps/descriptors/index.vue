@@ -85,7 +85,7 @@ onMounted(() => {
         </lesli-header>
         <lesli-toolbar @search="storeDescriptor.search"></lesli-toolbar>
         <lesli-table
-            :link="(descriptor) => url.admin('descriptors/:id', descriptor.id).s"
+            :link="(descriptor) => url.admin('descriptors/:id/edit', descriptor.id).s"
             :columns="columns"
             :records="storeDescriptor.records"
             :pagination="storeDescriptor.index.pagination"

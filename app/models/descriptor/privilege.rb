@@ -22,18 +22,22 @@ class Descriptor::Privilege < ApplicationLesliRecord
     validates :action, presence: true
 
     def self.index current_user, query, params
-        SystemController.joins(:actions)
-        .select(
+        pp params
+        return SystemController.joins(:actions)
+        .joins(sanitize_sql_array(["
+            left join descriptor_privileges
+            on descriptor_privileges.controller = system_controllers.name
+	        and descriptor_privileges.action = system_controller_actions.name 
+	        and descriptors_id = ?", params[:descriptor_id]])
+        ).select(
             "system_controllers.name as controller",
             "system_controllers.id as controller_id",
             "system_controller_actions.name as action",
             "system_controller_actions.id as action_id",
-            Descriptor::Privilege
-                .where("controller = system_controllers.name")
-                .where("action = system_controller_actions.name")
-                .where("descriptors_id = ?", params[:descriptor_id])
-                .arel.exists.as("active")
-        ).order("system_controllers.name", "system_controller_actions.name")
-
+            "descriptor_privileges.id as descriptor_privilege_id"
+        ).order(
+            "system_controllers.name", 
+            "system_controller_actions.name"
+        )
     end
 end

@@ -53,8 +53,8 @@ const translations = {
 
 // · 
 onMounted(() => {
+    storeDescriptor.resetDescriptor()
     storeDescriptor.fetchDescriptor(route.params.id)
-    storeDescriptor.getDescriptorsOptions()
 })
 
 
