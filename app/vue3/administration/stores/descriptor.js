@@ -28,6 +28,7 @@ export const useDescriptor = defineStore("administration.descriptor", {
             records: [],
             pagination: {},
             descriptor: {},
+            privileges: {},
             loading: false,
             pagination: {
                 page: 1
@@ -53,10 +54,6 @@ export const useDescriptor = defineStore("administration.descriptor", {
         fetchDescriptor(id) {
             this.http.get(this.url.admin("descriptors/:id", id)).then(result => {
                 this.descriptor = result
-                this.descriptor.privileges = this.descriptor.privileges.map(privilege => {
-                    privilege.created_at = this.date.dateTime(privilege.created_at)
-                    return privilege
-                })
             })
         },
 
@@ -137,6 +134,47 @@ export const useDescriptor = defineStore("administration.descriptor", {
                 })
                 
                 this.loading = false
+            })
+        },
+
+        fetchDescriptorPrivileges() {
+            this.http.get(this.url.admin("descriptors/:id/privileges", this.descriptor.id)).then(result => {
+                result.forEach(controllerAction => {
+                    if (!this.privileges[controllerAction.action]) {
+                        this.privileges[controllerAction.action] = []
+                    }
+                    this.privileges[controllerAction.action].push(controllerAction)
+                })
+            })
+        },
+
+
+        // Add privilege to descriptor
+        postPrivilege(action) {
+            this.http.post(this.url.admin("descriptors/:id/privileges", this.descriptor.id), {
+                descriptor_privilege: {
+                    controller_id: action.controller_id,
+                    action_id: action.action_id
+                }
+            }).then(result => {
+                console.log(result)
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+
+        // Add privilege to descriptor
+        deletePrivilege(action) {
+            this.http.delete(this.url.admin("descriptors/:id/privileges", this.descriptor.id), {
+                descriptor_privilege: {
+                    controller_id: action.controller_id,
+                    action_id: action.action_id
+                }
+            }).then(result => {
+                console.log(result)
+            }).catch(error => {
+                console.log(error)
             })
         }
 

@@ -15,16 +15,49 @@ For more information read the license file including with this software.
 // · 
 
 =end
-class Descriptor::PrivilegesController < ApplicationController
-    before_action :set_descriptor_privilege, only: []
+class Descriptor::PrivilegesController < ApplicationLesliController
+    before_action :set_descriptor, only: [:create]
+
+    def index 
+        respond_with_successful(Descriptor::Privilege.index(current_user, @query, params))
+    end
+
+    def create 
+
+        system_controller = SystemController.joins(:actions)
+        .where("system_controllers.id = ?", descriptor_privilege_params[:controller_id])
+        .where("system_controller_actions.id = ?", descriptor_privilege_params[:action_id])
+        .select(
+            "system_controllers.name as controller_name",
+            "system_controller_actions.name as action_name"
+        ).first
+
+        descriptor_privilege = @descriptor.privileges.create(
+            :controller => system_controller[:controller_name],
+            :action => system_controller[:action_name]
+        )
+
+        respond_with_successful(descriptor_privilege)
+    end
+
+    def destroy 
+
+    end
 
     private
 
+    def set_descriptor 
+        @descriptor = current_user.account.descriptors.find_by(:id => params[:descriptor_id])
+        pp @descriptor
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_descriptor_privilege
+        set_descriptor()
     end
 
     # Only allow a list of trusted parameters through.
     def descriptor_privilege_params
+        params.fetch(:descriptor_privilege, {}).permit(:id, :controller_id, :action_id)
     end
 end

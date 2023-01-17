@@ -62,8 +62,11 @@ const translations = {
 }
 
 
+//
 const tab = ref(0)
 
+
+//
 const columns = [{
     label: 'name',
     field: 'controller' 
@@ -72,22 +75,39 @@ const columns = [{
     field: 'active'
 }]
 
+
+//
 onMounted(() => {
-    storeSystemController.fetchControllers()
-    storeSystemController.fetchOptions()
+    //storeSystemController.fetchControllers()
+    setTimeout(() => storeDescriptor.fetchDescriptorPrivileges(), 2000)
+    
 })
+
+
+//
+function addPrivilege(action) {
+    if (action.active) {
+        storeDescriptor.postPrivilege(action)
+    } else {
+        storeDescriptor.deletePrivilege(action)
+    }
+}
 
 </script>
 <template>
+
     <lesli-tabs v-model="tab">
         <lesli-tab-item icon="list" title="Index">
             <lesli-table
                 headless
-                v-if="storeSystemController.controllerActions.index"
+                v-if="storeDescriptor.privileges.index"
                 :columns="columns"
-                :records="storeSystemController.controllerActions.index">
+                :records="storeDescriptor.privileges.index">
                 <template #active="{ record }">
-                    <lesli-toggle v-model="record.active"></lesli-toggle>
+                    <lesli-toggle 
+                        v-model="record.active"
+                        @update:modelValue="addPrivilege(record)">
+                    </lesli-toggle>
                 </template>
             </lesli-table>
         </lesli-tab-item>
@@ -95,11 +115,14 @@ onMounted(() => {
         <lesli-tab-item icon="add" title="Create">
             <lesli-table
                 headless
-                v-if="storeSystemController.controllerActions.create"
+                v-if="storeDescriptor.privileges.create"
                 :columns="columns"
-                :records="storeSystemController.controllerActions.create">
+                :records="storeDescriptor.privileges.create">
                 <template #active="{ record }">
-                    <lesli-toggle v-model="record.active"></lesli-toggle>
+                    <lesli-toggle 
+                        v-model="record.active"
+                        @update:modelValue="addPrivilege(record)">
+                    </lesli-toggle>
                 </template>
             </lesli-table>
         </lesli-tab-item>
@@ -107,11 +130,14 @@ onMounted(() => {
         <lesli-tab-item icon="edit" title="Update">
             <lesli-table
                 headless
-                v-if="storeSystemController.controllerActions.update"
+                v-if="storeDescriptor.privileges.update"
                 :columns="columns"
-                :records="storeSystemController.controllerActions.update">
+                :records="storeDescriptor.privileges.update">
                 <template #active="{ record }">
-                    <lesli-toggle v-model="record.active"></lesli-toggle>
+                    <lesli-toggle 
+                        v-model="record.active"
+                        @update:modelValue="addPrivilege(record)">
+                    </lesli-toggle>
                 </template>
             </lesli-table>
         </lesli-tab-item>
@@ -119,11 +145,14 @@ onMounted(() => {
         <lesli-tab-item icon="visibility" title="Show">
             <lesli-table
                 headless
-                v-if="storeSystemController.controllerActions.show"
+                v-if="storeDescriptor.privileges.show"
                 :columns="columns"
-                :records="storeSystemController.controllerActions.show">
+                :records="storeDescriptor.privileges.show">
                 <template #active="{ record }">
-                    <lesli-toggle v-model="record.active"></lesli-toggle>
+                    <lesli-toggle 
+                        v-model="record.active"
+                        @update:modelValue="addPrivilege(record)">
+                    </lesli-toggle>
                 </template>
             </lesli-table>
         </lesli-tab-item>
@@ -131,11 +160,14 @@ onMounted(() => {
         <lesli-tab-item icon="delete" title="Destroy">
             <lesli-table
                 headless
-                v-if="storeSystemController.controllerActions.destroy"
+                v-if="storeDescriptor.privileges.destroy"
                 :columns="columns"
-                :records="storeSystemController.controllerActions.destroy">
+                :records="storeDescriptor.privileges.destroy">
                 <template #active="{ record }">
-                    <lesli-toggle v-model="record.active"></lesli-toggle>
+                    <lesli-toggle 
+                        v-model="record.active"
+                        @update:modelValue="addPrivilege(record)">
+                    </lesli-toggle>
                 </template>
             </lesli-table>
         </lesli-tab-item>
