@@ -82,7 +82,8 @@ class DevGithub < LesliRake
 
         end
 
-        command("git branch -D github-actions && git checkout -b github-actions && git add .github && git commit -m \"ci: update github workflows and actions\"")
+        # command("git branch -D github-actions && git checkout -b github-actions && git add .github && git commit -m \"ci: update github workflows and actions\" && git push origin github-actions")
+        command("git checkout master")
 
         # for every installed engine
         Lesli::engines.each do |engine|
@@ -133,8 +134,9 @@ class DevGithub < LesliRake
 
             end
 
-            # message("cd ./engines/#{engine[:code]} && git branch -D github-actions && git checkout -b github-actions && git add .github && git commit -m \"ci: update github workflows and actions\"")
-            command("cd ./engines/#{engine[:code]} && git branch -D github-actions && git checkout -b github-actions && git add .github && git commit -m \"ci: update github workflows and actions\"")
+            # message("cd ./engines/#{engine[:code]} && git branch -D github-actions && git checkout -b github-actions && git add .github && git commit -m \"ci: update github workflows and actions\" && git push origin github-actions")
+            # command("cd ./engines/#{engine[:code]} && git branch -D github-actions && git checkout -b github-actions && git add .github && git commit -m \"ci: update github workflows and actions\" && git push origin github-actions")
+            command("git checkout master")
 
         end
 
