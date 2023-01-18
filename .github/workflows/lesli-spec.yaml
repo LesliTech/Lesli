@@ -132,13 +132,13 @@ jobs:
           token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
           repository: leitfaden/cloud_driver
 
-      - name: Checkout cloud_drop
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/cloud_drop
-          ref: master
-          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-          repository: leitfaden/cloud_drop
+      # - name: Checkout cloud_drop
+      #   uses: actions/checkout@v3
+      #   with:
+      #     path: ./engines/cloud_drop
+      #     ref: master
+      #     token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+      #     repository: leitfaden/cloud_drop
 
       # - name: Checkout cloud_federation
       #   uses: actions/checkout@v3
@@ -260,13 +260,13 @@ jobs:
           token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
           repository: leitfaden/cloud_talk
 
-      - name: Checkout cloud_team
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/cloud_team
-          ref: master
-          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-          repository: leitfaden/cloud_team
+      # - name: Checkout cloud_team
+      #   uses: actions/checkout@v3
+      #   with:
+      #     path: ./engines/cloud_team
+      #     ref: master
+      #     token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+      #     repository: leitfaden/cloud_team
 
       # - name: Checkout cloud_text
       #   uses: actions/checkout@v3
