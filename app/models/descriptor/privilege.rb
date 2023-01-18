@@ -19,9 +19,6 @@ class Descriptor::Privilege < ApplicationLesliRecord
     belongs_to :descriptor, foreign_key: "descriptors_id"
     belongs_to :action, foreign_key: "system_controller_actions_id", class_name: "SystemController::Action"
 
-    #validates :controller, presence: true
-    #validates :action, presence: true
-
     after_save :synchronize_privileges
 
     def synchronize_privileges
@@ -31,11 +28,9 @@ class Descriptor::Privilege < ApplicationLesliRecord
     def self.index current_user, query, params
         SystemController.joins(:actions)
         .joins(sanitize_sql_array(["
-            left join descriptor_privileges
-            on descriptor_privileges.controller = system_controllers.name
-	        and descriptor_privileges.action = system_controller_actions.name 
-            and descriptor_privileges.deleted_at IS NULL
-	        and descriptors_id = ?", params[:descriptor_id]])
+            LEFT JOIN descriptor_privileges
+            ON descriptor_privileges.system_controller_actions_id = system_controller_actions.id 
+	        AND descriptors_id = ?", params[:descriptor_id]])
         ).select(
             "system_controllers.name as controller",
             "system_controllers.id as controller_id",

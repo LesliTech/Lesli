@@ -19,9 +19,6 @@ For more information read the license file including with this software.
 class CreateDescriptorPrivileges < ActiveRecord::Migration[7.0]
     def change
         create_table :descriptor_privileges do |t|
-            #t.string    :controller 
-            #t.string    :action
-            #t.string    :form
             t.datetime  :deleted_at, index: true
             t.timestamps
         end
