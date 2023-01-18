@@ -1,6 +1,6 @@
 <script setup>
 /*
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -148,7 +148,11 @@ onMounted(() => {
         <lesli-toolbar @search="storeWorkflow.searchWorkflows" :search-placeholder="translations.core.workflows.view_placeholder_search_text" class="mt-4">
         </lesli-toolbar>
 
-        <lesli-table :columns="columns" :records="workflows">
+        <lesli-table 
+            :columns="columns" 
+            :records="workflows"
+            :link="(workflow) => url.root(`${props.appMountPath}/${workflow.id}`).s"
+        >
         </lesli-table>
 
     </section>

@@ -27,7 +27,7 @@ import { useWorkflow } from "LesliVue/stores/shared/workflow"
 
 // · import components
 import workflowForm from "../components/workflow-form.vue"
-
+import checksList from "./checks/index.vue"
 
 // · defining props
 const props = defineProps({
@@ -51,15 +51,16 @@ const props = defineProps({
 // · implement stores
 const storeWorkflow = useWorkflow()
 
+
+// set props to store
+storeWorkflow.cloudModule = props.cloudModule
+storeWorkflow.cloudObject = props.cloudObject
+
 // · translations
 const translations = {
     workflows: I18n.t('core.workflows'),
     core: I18n.t('core.shared')
 }
-
-// set props to store
-storeWorkflow.cloudModule = props.cloudModule
-storeWorkflow.cloudObject = props.cloudObject
 
 </script>
 
@@ -73,10 +74,24 @@ storeWorkflow.cloudObject = props.cloudObject
 
         <lesli-tabs v-model="tab">
             <lesli-tab-item title="Edition mode">
-                <workflow-form :app-mount-path="props.appMountPath"></workflow-form>
+                <workflow-form :app-mount-path="props.appMountPath" is-editable></workflow-form>
+            </lesli-tab-item>
+            <lesli-tab-item title="chart mode">
+
             </lesli-tab-item>
 
-            <lesli-tab-item title="Chart mode">
+            <lesli-tab-item title="Edition mode">
+                <workflow-form :app-mount-path="props.appMountPath"></workflow-form>
+            </lesli-tab-item>
+            
+            <lesli-tab-item title="Actions">
+            </lesli-tab-item>
+
+            <lesli-tab-item title="Checks">
+                <checks-list></checks-list>
+            </lesli-tab-item>
+
+            <lesli-tab-item title="Associations">
             </lesli-tab-item>
         </lesli-tabs>
     </section>
