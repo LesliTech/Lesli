@@ -40,11 +40,11 @@ class Role::Descriptor < ApplicationLesliRecord
             "role_descriptors.privilege_update",
             "role_descriptors.privilege_destroy",
             "role_descriptors.id as role_descriptor_id",
-            Descriptor::Privilege.where("descriptor_privileges.descriptors_id = descriptors.id and action = 'index'").arel.exists.as("has_index"),
-            Descriptor::Privilege.where("descriptor_privileges.descriptors_id = descriptors.id and action = 'show'").arel.exists.as("has_show"),
-            Descriptor::Privilege.where("descriptor_privileges.descriptors_id = descriptors.id and action = 'create'").arel.exists.as("has_create"),
-            Descriptor::Privilege.where("descriptor_privileges.descriptors_id = descriptors.id and action = 'update'").arel.exists.as("has_update"),
-            Descriptor::Privilege.where("descriptor_privileges.descriptors_id = descriptors.id and action = 'destroy'").arel.exists.as("has_destroy")
+            Descriptor::Privilege.joins(action: :system_controller).where("descriptor_privileges.descriptors_id = descriptors.id and system_controller_actions.name = 'index'").arel.exists.as("has_index"),
+            Descriptor::Privilege.joins(action: :system_controller).where("descriptor_privileges.descriptors_id = descriptors.id and system_controller_actions.name = 'show'").arel.exists.as("has_show"),
+            Descriptor::Privilege.joins(action: :system_controller).where("descriptor_privileges.descriptors_id = descriptors.id and system_controller_actions.name = 'create'").arel.exists.as("has_create"),
+            Descriptor::Privilege.joins(action: :system_controller).where("descriptor_privileges.descriptors_id = descriptors.id and system_controller_actions.name = 'update'").arel.exists.as("has_update"),
+            Descriptor::Privilege.joins(action: :system_controller).where("descriptor_privileges.descriptors_id = descriptors.id and system_controller_actions.name = 'destroy'").arel.exists.as("has_destroy")
         )
     end
 

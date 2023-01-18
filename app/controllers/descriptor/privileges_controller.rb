@@ -24,17 +24,13 @@ class Descriptor::PrivilegesController < ApplicationLesliController
 
     def create 
 
-        system_controller = SystemController.joins(:actions)
+        system_controller_action = SystemController::Action.joins(:system_controller)
         .where("system_controllers.id = ?", descriptor_privilege_params[:controller_id])
         .where("system_controller_actions.id = ?", descriptor_privilege_params[:action_id])
-        .select(
-            "system_controllers.name as controller_name",
-            "system_controller_actions.name as action_name"
-        ).first
+        .first
 
         descriptor_privilege = @descriptor.privileges.create(
-            :controller => system_controller[:controller_name],
-            :action => system_controller[:action_name]
+            :action => system_controller_action
         )
 
         respond_with_successful(descriptor_privilege)
