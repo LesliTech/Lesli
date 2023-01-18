@@ -17,9 +17,10 @@ For more information read the license file including with this software.
 =end
 class Descriptor::Privilege < ApplicationLesliRecord
     belongs_to :descriptor, foreign_key: "descriptors_id"
+    belongs_to :action, foreign_key: "system_controller_actions_id", class_name: "SystemController::Action"
 
-    validates :controller, presence: true
-    validates :action, presence: true
+    #validates :controller, presence: true
+    #validates :action, presence: true
 
     after_save :synchronize_privileges
 
