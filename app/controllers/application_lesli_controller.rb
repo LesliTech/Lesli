@@ -18,9 +18,9 @@ For more information read the license file including with this software.
 
 class ApplicationLesliController < ApplicationController
     include Interfaces::Application::Responder
-    include Application::Requester
-    include Application::Logger
-    include Application::Polyfill
+    include Interfaces::Application::Requester
+    include Interfaces::Application::Logger
+    #include Application::Polyfill
 
     protect_from_forgery with: :exception
 
@@ -166,18 +166,7 @@ class ApplicationLesliController < ApplicationController
 
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
-        granted = current_user.has_privileges4?(params[:controller], params[:action], params[:format])
-
-        # IMPORTANT: compatibility with roles v3
-        # check if user has access to the requested controller
-        # this search is over all the privileges for all the roles of the user
-        # Due this method is executed on every request, we use low level cache to improve performance
-        if defined?(DeutscheLeibrenten)
-            granted3 = current_user.has_privileges?([params[:controller]], [params[:action]])
-
-            # grant privilege if old privileges granted
-            granted = true if granted3 == true
-        end
+        granted = current_user.has_privileges?(params[:controller], params[:action], params[:format])
 
         # get the path to which the user is limited to
         limited_path = current_user.has_role_limited_to_path?
@@ -197,12 +186,12 @@ class ApplicationLesliController < ApplicationController
 
         # privilege for object not found
         if granted.blank?
-            log_user_comments(request.path, "privilege_not_found")
+            current_user.logs.create({ title: "privilege_not_found", description: request.path })
             return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] })
         end
         
         unless granted
-            log_user_comments(request.path ,"privilege_not_granted")
+            current_user.logs.create({ title: "privilege_not_granted", description: request.path })
             return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] }) 
         end
     end
