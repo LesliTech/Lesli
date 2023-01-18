@@ -37,6 +37,11 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    appMountPath: {
+        type: String,
+        required: false,
+        default: "",
+    }
 })
 
 // set props to store
@@ -47,6 +52,7 @@ storeWorkflow.cloudObject = props.cloudObject
 const translations = {
     core: {
         workflows: I18n.t("core.workflows"),
+        shared: I18n.t("core.shared"),
     }
 }
 
@@ -125,6 +131,18 @@ onMounted(() => {
     <section class="application-component">
         
         <lesli-header :title="translations.core.workflows.view_title_workflows">
+            <lesli-button
+                outlined
+                icon="refresh"
+                :loading="storeWorkflow.loading"
+                @click="storeWorkflow.fetchWorkflows()"
+            >
+                {{ translations.core.shared.view_text_btn_reload }}
+            </lesli-button>
+            
+            <lesli-button  icon="add" :to="url.root(props.appMountPath + '/new')">
+                add
+            </lesli-button>
         </lesli-header>
 
         <lesli-toolbar @search="storeWorkflow.searchWorkflows" :search-placeholder="translations.core.workflows.view_placeholder_search_text" class="mt-4">
