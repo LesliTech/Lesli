@@ -157,7 +157,7 @@ module Shared
             workflows = workflows
             .page(pagination[:page])
             .per(pagination[:perPage])
-            .order(pagination[:orderColumn].to_sym => pagination[:order].to_sym)
+            .order("#{query[:order][:by]} #{query[:order][:dir]} NULLS LAST")
             
             response[:workflows] = workflows.select(
                 :id,
