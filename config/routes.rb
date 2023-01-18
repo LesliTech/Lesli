@@ -18,7 +18,6 @@ For more information read the license file including with this software.
 =end
 
 Rails.application.routes.draw do
-
     extend RoutesBuilder
     extend RoutesApp
     

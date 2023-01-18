@@ -56,9 +56,9 @@
         "sass-true": "7.0.0"
     },
     "scripts": {
-        "webpack:production": "npm run webpack2:production",
-        "webpack:watch": "npm run webpack2:watch",
-        "webpack": "npm run webpack2 && npm run webpack3",
+        "webpack:production": "npm run webpack3:production",
+        "webpack:watch": "npm run webpack3:watch",
+        "webpack": "npm run webpack3 && npm run webpack3",
 
         "webpack2:production": "npm run --prefix ./lib/vue2 webpack:production",
         "webpack2:watch": "npm run --prefix ./lib/vue2 webpack:watch",
