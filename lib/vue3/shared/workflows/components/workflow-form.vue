@@ -22,12 +22,14 @@ import { inject, onMounted } from "vue"
 
 // · import stores
 import { useWorkflow } from "LesliVue/stores/shared/workflow"
+import { useWorkflowStatus } from "LesliVue/stores/shared/workflows/status"
 
 // · import vue router composable
 import { useRouter, useRoute } from "vue-router"
 
 // · implement stores
 const storeWorkflow = useWorkflow()
+const storeStatus = useWorkflowStatus()
 
 // · initialize/inject plugins
 const router = useRouter()
@@ -55,10 +57,25 @@ const translations = {
     core: I18n.t('core.shared')
 }
 
-const columns = [
-{
-    field: "xpath",
+const columns = [{
+    field: "name",
     label: ""
+},
+{
+    field: "number",
+    label: ""
+},
+{
+    field: "marks"
+},
+{
+    field: "completed_workflow"
+},
+{
+    field: "failed_workflow"
+},
+{
+    field: "to_be_deleted"
 }]
 
 
@@ -74,8 +91,13 @@ const onUpdate = () => {
  */
 const onCreate = () => {
     storeWorkflow.postWorkflow()
-    router.push(url.root(props.appMountPath).s)
 }
+
+
+function selectAsInitial(selected_status){
+    storeWorkflow.updateWorkflowStatus(selected_status.id, "normal")
+}
+
 
 
 onMounted(() => {
@@ -111,17 +133,15 @@ onMounted(() => {
     
     <div class="block">
         <!-- Status workflows form -->
-        <form @submit.prevent="">
+        <form @submit.prevent="storeWorkflow.postStatus()">
 
             <!-- Workflow status name -->
             <div class="columns is-marginless has-border-bottom">
                 <div class="column">
                     <label class="label">
-                        Add new status to the workflow
+                        {{ translations.workflows.view_title_add_new_status }}
                     </label>
-                </div>
-                <div class="column is-10">
-                    <input class="input" type="text">
+                    <input class="input" type="text" v-model="storeWorkflow.new_status_name">
                 </div>
                 <div class="column">
                     <lesli-button icon="add">
@@ -130,6 +150,7 @@ onMounted(() => {
                 </div>
             </div>
 
+          
 
             <div class="columns is-marginless has-border-bottom">
                 <div class="column">
@@ -140,6 +161,42 @@ onMounted(() => {
             </div>
 
         </form>
+
+        <lesli-table 
+                :records="storeWorkflow.workflow.statuses"
+                :columns="columns"
+            >
+                <template #number="{ value }">
+                    <input 
+                        type="text"
+                        class="input"
+                        @input=""
+                        v-model="value"
+                    />
+                </template>
+
+                <template #marks="{ record }">
+                    <lesli-button icon="play_circle" @click="selectAsInitial(record)"></lesli-button>
+                    <lesli-button icon="check_circle"></lesli-button>
+                    <lesli-button icon="cancel"></lesli-button>
+                    <lesli-button icon="auto_delete"></lesli-button>
+                </template>
+
+                <template #options="{ record }">
+                    <a class="dropdown-item" @click="storeWorkflow.deleteWorkflowStatus(record.id)">
+                        <span class="material-icons">
+                            delete
+                        </span>
+                        <span>
+                            Delete
+                        </span>
+                    </a>
+                </template>
+
+
+
+            </lesli-table>
+
 
     </div>
 
