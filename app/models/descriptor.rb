@@ -92,7 +92,12 @@ class Descriptor < ApplicationLesliRecord
             :name => self.name,
             :description => self.description,
             :descriptors_id => self.descriptors_id,
-            :privileges => self.privileges.select(:id, :controller, :action, :created_at)
+            :privileges => self.privileges.joins(action: :system_controller).select(
+                "descriptor_privileges.id",
+                "system_controllers.name as controlle_name",
+                "system_controller_actions.name as action_name",
+                "descriptor_privileges.created_at"
+            )
         }
     end
     
