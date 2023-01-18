@@ -28,8 +28,7 @@ class Descriptor::Privilege < ApplicationLesliRecord
     end 
 
     def self.index current_user, query, params
-        pp params
-        return SystemController.joins(:actions)
+        SystemController.joins(:actions)
         .joins(sanitize_sql_array(["
             left join descriptor_privileges
             on descriptor_privileges.controller = system_controllers.name

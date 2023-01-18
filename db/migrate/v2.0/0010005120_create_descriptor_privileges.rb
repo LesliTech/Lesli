@@ -19,12 +19,13 @@ For more information read the license file including with this software.
 class CreateDescriptorPrivileges < ActiveRecord::Migration[7.0]
     def change
         create_table :descriptor_privileges do |t|
-            t.string    :controller 
-            t.string    :action
+            #t.string    :controller 
+            #t.string    :action
             #t.string    :form
             t.datetime  :deleted_at, index: true
             t.timestamps
         end
         add_reference :descriptor_privileges, :descriptors, foreign_key:true
+        add_reference :descriptor_privileges, :system_controller_actions, foreign_key:true
     end
 end

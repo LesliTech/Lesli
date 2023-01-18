@@ -15,8 +15,12 @@ For more information read the license file including with this software.
 // · 
 
 =end
-class Role::DescriptorsController < ApplicationController
+class Role::DescriptorsController < ApplicationLesliController
     before_action :set_role_descriptor, only: [:show, :update, :destroy]
+
+    def index 
+        respond_with_successful(Role::Descriptor.index(current_user, @query, params))
+    end
 
     # POST /role/descriptors
     def create
@@ -56,6 +60,6 @@ class Role::DescriptorsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def role_descriptor_params
-        params.require(:role_descriptor).permit(:id, :name)
+        params.require(:role_descriptor).permit(:id, :name, :privilege_index)
     end
 end

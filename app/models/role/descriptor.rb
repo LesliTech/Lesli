@@ -26,4 +26,26 @@ class Role::Descriptor < ApplicationLesliRecord
         Auth::RolePrivilegesService.new.synchronize_privileges(self.roles_id)
     end 
 
+    def self.index current_user, query, params
+        current_user.account.descriptors
+        .joins(sanitize_sql_array(["
+                left join role_descriptors 
+                on role_descriptors.descriptors_id = descriptors.id 
+        "])).select(
+            "descriptors.id",
+            "descriptors.name",
+            "role_descriptors.privilege_index",
+            "role_descriptors.privilege_show",
+            "role_descriptors.privilege_create",
+            "role_descriptors.privilege_update",
+            "role_descriptors.privilege_destroy",
+            "role_descriptors.id as role_descriptor_id",
+            Descriptor::Privilege.where("descriptor_privileges.descriptors_id = descriptors.id and action = 'index'").arel.exists.as("has_index"),
+            Descriptor::Privilege.where("descriptor_privileges.descriptors_id = descriptors.id and action = 'show'").arel.exists.as("has_show"),
+            Descriptor::Privilege.where("descriptor_privileges.descriptors_id = descriptors.id and action = 'create'").arel.exists.as("has_create"),
+            Descriptor::Privilege.where("descriptor_privileges.descriptors_id = descriptors.id and action = 'update'").arel.exists.as("has_update"),
+            Descriptor::Privilege.where("descriptor_privileges.descriptors_id = descriptors.id and action = 'destroy'").arel.exists.as("has_destroy")
+        )
+    end
+
 end
