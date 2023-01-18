@@ -33,159 +33,18 @@ namespace :app do
         desc "Build descriptors and privileges according to the app controllers"
         task build: :environment do
 
-            L2.msg("Registering new Descriptors")
-
-            # get all the engines, controllers and actions
-            engines = LC::System::Controllers.scan2
-
-            # Register descriptors and privileges for all the accounts
-            Account.all.each do |account|
-
-                engines.each do |engine, controllers|
-
-                    controllers.each do |controller, actions|
-
-                        # Build a strig with the standard name of a Rails controller,
-                        #   Example: "UsersControllers, CloudBell::NotificationsController"
-                        # sometimes we need a second split to deal with third level deep of controllers
-                        #   Example: "Account::Currency::ExchangeRatesController" from "account/currency/exchange_rates"
-                        cn = controller.split('/')   # split the controller path by namespace
-                        .collect(&:capitalize)          # uppercase the first letter to match the class name convention of Rails
-                        .join("::")                     # join by ruby class separator for namespaces
-                        .split('_')                     # work with compound words like "exchange_rates"
-                        .collect { |x| x[0] = x[0].upcase; x } # convert ['exchange', 'rates'] to ['Exchange', 'Rates']
-                        .join('').concat("Controller")  # finally join the parts of the class name and concat Controller
-
-                        # Validate that the class exists
-                        # sometimes a bad or wrong route can misspell a controller name
-                        next unless Object.const_defined?(cn)
-
-                        # Create a new instance of the controller class
-                        co = Object.const_get(cn).new
-
-                        # Check if the controller has privileges defined, this must be a public class method 
-                        # defined in the controller. 
-                        #example: 
-                        #   def self.privileges
-                        #       {
-                        #           list: ["UsersController#index"]
-                        #       }
-                        #   end
-                        next unless co.methods.include?(:privileges)
-
-                        # Work with the list of privileges need by the controller 
-                        # to be able to work in a complete view
-                        co.privileges.each do |descriptor_action, privileges|
-
-                            # remove "duplicated" descriptors
-                            # in this context new & created are the same, so edit & update
-                            next if [:create, :update].include?(descriptor_action)
-
-                            # push my own action to privileges due descriptor also needs access to the .json requests 
-                            privileges.push(descriptor_action.to_s)
-
-                            # some methods needs aditional privileges by default
-                            privileges.push('create') if descriptor_action == :new
-                            privileges.push('update') if descriptor_action == :edit
-                            privileges.push('search') if descriptor_action == :index
-
-                            # controller name for humans, ready to be translated by babel
-                            controller_name = "#{cn.sub('Controller','').sub('::','')}#{descriptor_action.capitalize}".underscore.sub('/','_')
-
-                            # controller path like the route paths build by rails
-                            controller_path = cn.sub("::", "/").sub("Controller", "").underscore
-
-                            # Register the new descriptor if it does not exists
-                            descriptor = account.descriptors.create_with({
-                                :name => controller_path,
-                                :reference => cn
-                            }).find_or_create_by({ 
-                                :controller => controller,
-                                :action => descriptor_action,
-                                :engine => engine
-                            }) 
-
-                            # We must assign all the descriptors to the owner and sysadmin roles
-                            account.roles.find_by(name: 'owner').describers.find_or_create_by({
-                                descriptor: descriptor
-                            })
-                            account.roles.find_by(name: 'sysadmin').describers.find_or_create_by({
-                                descriptor: descriptor
-                            })
-
-                            # Register the current controller into the descriptor privileges, so the role grants
-                            # permissions to render the requested page as html and as json
-                            descriptor.privileges.find_or_create_by({
-                                :controller => controller_path,
-                                :action => descriptor_action,
-                                :form => "html"
-                            })
-
-                            # Register the privileges needed by the object and related to the controller
-                            # the controller can register requested privileges in two ways:
-                            #   - ResourceController#action
-                            #   - action (from the same controller)
-                            privileges.each do |privilege|
-
-                                # check if is privilege from external controller 
-                                if privilege.include?('#')
-                                    privilege_controller = privilege.split("#")[0].sub("::", "/").sub("Controller", "").underscore
-                                    privilege_action = privilege.split("#")[1].downcase
-                                else 
-                                    # here we are working with the second scenario, the controller is registering
-                                    # privilege for an action from the same controller
-                                    privilege_controller = controller
-                                    privilege_action = privilege
-                                end
-
-                                # check if my descriptor action is only requiring privileges of the same category
-                                case descriptor_action
-                                when :index
-                                    privilege_error(privilege, controller_name) if denied_privileges_for_index.include?(privilege_action)
-                                when :show  
-                                    privilege_error(privilege, controller_name) if denied_privileges_for_show.include?(privilege_action)
-                                when :new
-                                    privilege_error(privilege, controller_name) if denied_privileges_for_new.include?(privilege_action)
-                                when :edit
-                                    privilege_error(privilege, controller_name) if denied_privileges_for_edit.include?(privilege_action)
-                                when :destroy
-                                    privilege_error(privilege, controller_name) if denied_privileges_for_destroy.include?(privilege_action)
-                                end
-
-                                # register the desire privilege for the controller
-                                descriptor.privileges.find_or_create_by({
-                                    :controller => privilege_controller,
-                                    :action => privilege_action,
-                                    :form => "json"
-                                })
-
-                            end 
-
-                        end
-
-                    end
-                end
-
-                # Allow the limited role to always access to the profile
-                descriptor_profile = account.descriptors.find_by(name: 'profiles')
-                if descriptor_profile
-                    account.roles.find_by(name: 'limited').describers.find_or_create_by({
-                        descriptor: descriptor_profile
-                    })
-                end
-
+            profile_descriptors = Descriptor.where(name: "profile")
+            profile_descriptors.each do |descriptor|
+                DescriptorService.add_profile_privileges(descriptor)
             end
 
-            # Synchronize the descriptor privileges with the role privilege cache table 
-            L2.msg("Synchronize privileges")
-            Auth::RolePrivilegesService.new.synchronize_privileges
+            owner_admin_descriptors = Descriptor.where(name: ["owner", "sysadmin"])
+            owner_admin_descriptors.each do |descriptor|
+                DescriptorService.add_owner_privileges(descriptor)
+            end
+
+            Auth::RolePrivilegesService.new.synchronize_privileges()
 
         end
-
-        def privilege_error privilege, controller_name
-            msg = "Privilege #{privilege} is not allowed for #{controller_name}"
-            L2.error(msg)
-        end
-
     end
 end
