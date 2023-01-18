@@ -368,8 +368,13 @@ class UsersController < ApplicationLesliController
 
         user = current_user.account.users.find_by(id: params[:id])
 
-        if user.blank? || user.id != current_user.id
+        if user.blank?
             return respond_with_not_found
+        end
+
+        # users can change only the own email
+        if user.id != current_user.id
+            return respond_with_unauthorized
         end
 
         if params[:user][:email]
