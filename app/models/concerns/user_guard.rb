@@ -40,8 +40,8 @@ module UserGuard
     #     controllers = ["cloud_house/companies", "cloud_house/projects"]
     #     actions = ["index", "update"]
     #
-    #     current_user.has_privileges4?(controllers, actions)
-    def has_privileges4?(controller, action, form='html')
+    #     current_user.has_privileges?(controllers, actions)
+    def has_privileges?(controller, action, form="html")
 
         # set html by default, even if nil is sent as parameter for "form"
         form ||= 'html'
@@ -50,7 +50,7 @@ module UserGuard
             !self.privileges
             .where("role_privileges.controller = ?", controller)
             .where("role_privileges.action = ?", action)
-            .where("role_privileges.form = ?", form)
+            #.where("role_privileges.form = ?", form)
             .first.blank?
         rescue => exception
             Honeybadger.notify(exception)
@@ -66,25 +66,19 @@ module UserGuard
     #     current_user.abilities_by_controller
     def abilities_by_controller
 
-        # Due this method is executed on every HTML request, we use low level cache to improve performance
-        # It is not usual to the privileges to change so often, however the cache will be deleted
-        # after every commit on roles, role descriptors and privileges
-        #Rails.cache.fetch(user_cache_key(abilities_by_controller, self), expires_in: 12.hours) do
+        # Abilities hash where we will save all the privileges the user has to
+        abilities = {}
 
-            # Abilities hash where we will save all the privileges the user has to
-            abilities = {}
+        # We check all the privileges the user has in the cache table according to his roles
+        # and create a key per controller (with the full controller name) that contains an array of all the 
+        # methods/actions with permission
+        self.privileges.all.each do |privilege|
+            abilities[privilege.controller] = [] if abilities[privilege.controller].nil?
+            abilities[privilege.controller] << privilege.action
+        end
 
-            # We check all the privileges the user has in the cache table according to his roles
-            # and create a key per controller (with the full controller name) that contains an array of all the 
-            # methods/actions with permission
-            self.privileges.all.each do |privilege|
-                abilities[privilege.controller] = [] if abilities[privilege.controller].nil?
-                abilities[privilege.controller] << privilege.action
-            end
+        abilities
 
-            abilities
-
-        #end
     end
 
 
