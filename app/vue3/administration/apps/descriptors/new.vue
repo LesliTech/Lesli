@@ -23,10 +23,10 @@ import { useRouter, useRoute } from 'vue-router'
 
 
 // · import lesli stores
-import { useDescriptor } from "../../stores/descriptor"
+import { useDescriptor } from "LesliCore/administration/stores/descriptor"
 
 // · import components
-import descriptorForm from "./components/descriptor-form.vue"
+import descriptorForm from "./components/form.vue"
 
 // · implement stores
 const storeDescriptor = useDescriptor()

@@ -30,8 +30,6 @@ class AccountLocationService
 
     def default_location
 
-        puts "-- Processing default parent location"
-
         Account::Location.find_or_create_by!(
             name: "Empty",
             level: "empty",
@@ -39,13 +37,9 @@ class AccountLocationService
             account: @account
         )
 
-        puts "-- Default parent location import complete"
-
     end
 
     def import_continents
-
-        puts '-- Processing continents'
 
         continents = [{
             name: 'Africa',
@@ -80,13 +74,9 @@ class AccountLocationService
             )
         end
 
-        puts '-- Continents import complete'
-
     end
 
     def import_countries
-
-        puts '-- Processing countries'
 
         countries = [{
             name: "Afghanistan",
@@ -2106,8 +2096,6 @@ class AccountLocationService
             )
 
         end
-
-        puts '-- Countries import complete'
 
     end
 
