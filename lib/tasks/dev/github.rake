@@ -57,7 +57,7 @@ class DevGithub < LesliRake
 
         # get all the available workflows
         workflows_for_core = Dir.glob(Rails.root.join("engines", "github_actions", "workflows", "core", "*"))
-        workflows_for_modules = Dir.glob(Rails.root.join("engines", "github_actions", "workflows", "module", "*"))
+        workflows_for_engines = Dir.glob(Rails.root.join("engines", "github_actions", "workflows", "engine", "*"))
         workflows_for_builders = Dir.glob(Rails.root.join("engines", "github_actions", "workflows", "builder", "*"))
 
         message("Working with: core")
@@ -103,7 +103,7 @@ class DevGithub < LesliRake
             FileUtils.mkdir_p engine_path.join(".github", "workflows")
 
             # work with every workflow file found on github actions repository
-            workflows_for_modules.each do |file_path|
+            workflows_for_engines.each do |file_path|
                 next if engine[:type] == "builder"
 
                 # get the name of the workflow file
