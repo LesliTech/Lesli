@@ -71,6 +71,7 @@ class User < ApplicationLesliRecord
     # callbacks
     before_create :before_create_user
     after_create :after_create_user
+    after_create :after_confirmation_user, if: :confirmed?
 
 
     # type of user
