@@ -28,8 +28,7 @@ class CreateUserAgents < ActiveRecord::Migration[7.0]
         end
 
         add_reference :user_agents, :users, foreign_key: true
-        add_reference :user_agents, :user_sessions, foreign_key: true
 
-        add_index(:user_agents, [:platform, :os, :browser, :version, :users_id, :user_sessions_id], unique: true, name: 'user_agents_index')
+        add_index(:user_agents, [:platform, :os, :browser, :version, :users_id], unique: true, name: 'user_agents_index')
     end
 end
