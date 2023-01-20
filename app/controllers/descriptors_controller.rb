@@ -79,6 +79,6 @@ class DescriptorsController < ApplicationLesliController
 
     # Only allow a list of trusted parameters through.
     def descriptor_params
-        params.fetch(:descriptor, {}).permit(:id, :name, :description, :descriptors_id)
+        params.require(:descriptor).permit(:id, :name, :description, :descriptors_id)
     end
 end
