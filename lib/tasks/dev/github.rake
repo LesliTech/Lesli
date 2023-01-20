@@ -87,9 +87,6 @@ class DevGithub < LesliRake
         # for every installed engine
         Lesli::engines.each do |engine|
 
-            # CloudDispatcher has a different file structure as it should not include itself too
-            next unless engine[:code] == "cloud_dispatcher"
-
             engine_path = Rails.root.join("engines", engine[:code])
 
             next unless File.exists?(engine_path)
