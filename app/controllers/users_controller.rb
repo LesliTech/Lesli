@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -36,17 +36,7 @@ class UsersController < ApplicationLesliController
     def list
         respond_to do |format|
             format.json {
-
-                # Keep compatibility with DeutscheLeibrenten
-                if defined?(DeutscheLeibrenten)
-                    respond_with_successful(User.list(current_user, @query, params))
-                end
-
-                # Lesli v3
-                if !defined?(DeutscheLeibrenten)
-                    respond_with_successful(User.list(current_user, @query, params))
-                end
-
+                respond_with_successful(User.list(current_user, @query, params))
             }
         end
     end
