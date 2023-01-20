@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -20,10 +20,10 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli3", type: :request do
     describe "GET:/administration.json", type: :request do
         include_context "request user authentication"
-        
+
         it "is expected pass share example response with successful" do
             get("/administration.json")
 
@@ -38,7 +38,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect_response_with_successful
 
             #validate response hash not null and keywords
-            expect(response_body).not_to be_nil 
+            expect(response_body).not_to be_nil
             expect(response_body).to be_an(Hash)
             expect(response_body).to have_key("id")
             expect(response_body).to have_key("status")
@@ -64,15 +64,15 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body).to have_key("users_id")
             expect(response_body).to have_key("city")
             expect(response_body).to have_key("postal_code")
-        end 
+        end
 
         it "is expected to have current user account values" do
             get("/administration.json")
 
             #share examples
             expect_response_with_successful
-            
-            #validate keyvalues values 
+
+            #validate keyvalues values
             expect(response_body["id"]).to eq(@current_user.account.id)
             expect(response_body["status"]).to eq(@current_user.account.status)
             expect(response_body["company_name"]).to eq(@current_user.account.company_name)
@@ -95,6 +95,6 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body["users_id"]).to eq(@current_user.account.users_id)
             expect(response_body["city"]).to eq(@current_user.account.city)
             expect(response_body["postal_code"]).to eq(@current_user.account.postal_code)
-        end 
+        end
     end
 end

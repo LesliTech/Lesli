@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,13 +13,13 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
 require "lesli_request_helper"
 
-RSpec.describe 'PUT:/administration/roles.json', type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe 'PUT:/administration/roles.json', type: :request do
 
     include_context "request user authentication"
 
@@ -36,7 +36,7 @@ RSpec.describe 'PUT:/administration/roles.json', type: :request, :unless => defi
         })
 
         # shared examples
-        expect_response_with_successful        
+        expect_response_with_successful
 
         # custom specs
         expect(response_body["id"]).to eql(role.id)
@@ -58,7 +58,7 @@ RSpec.describe 'PUT:/administration/roles.json', type: :request, :unless => defi
         })
 
         # shared examples
-        expect_response_with_error 
+        expect_response_with_error
 
         # custom specs
         expect(response_body["message"]).to eql(I18n.t("core.roles.messages_danger_updating_role_object_level_permission_too_high"))
@@ -74,7 +74,7 @@ RSpec.describe 'PUT:/administration/roles.json', type: :request, :unless => defi
         role.object_level_permission = @current_user.roles.map(&:object_level_permission).max()
         role.save!
 
-        
+
 
         sign_in(user)
 
@@ -85,7 +85,7 @@ RSpec.describe 'PUT:/administration/roles.json', type: :request, :unless => defi
         })
 
         # shared examples
-        expect_response_with_error 
+        expect_response_with_error
 
         # custom specs
         expect(response_body["message"]).to eql(I18n.t("core.roles.messages_danger_updating_role_object_level_permission_too_high"))

@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -22,12 +22,12 @@ For more information read the license file including with this software.
 require "lesli_request_helper"
 
 
-RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli 3" do
 
     describe "GET:/administration/users.json", type: :request do
 
         include_context "request user authentication"
-        
+
         it "is expected to respond with users index" do
 
             get "/administration/users.json", params: {
@@ -51,15 +51,15 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
         it "is expected to respond with total of user with a specific role" do
 
             ["owner", "sysadmin", "api", "guest", "limited"].each do |role|
-        
+
                 get "/administration/users/list.json?role=#{role}"
-                
+
                 expect_response_with_successful
-        
+
                 users_by_role_in_database = @current_user.account.users.joins(:roles).where("roles.name = ?", role).count
 
                 expect(response_body.size).to eql(users_by_role_in_database)
-        
+
             end
         end
     end
