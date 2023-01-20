@@ -16,7 +16,7 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
 
         document_mappings.find_all {|mapping| mapping.variable_type.include? "table"}.each do |document_map|
 
-            unless document_map["table_alias"].blank?
+            if not document_map["table_alias"].blank?
                 table_alias = document_map["table_alias"]
             elsif (document_map["table_alias"].nil?)  # use table name
                 table_alias = document_map["table_name"]
