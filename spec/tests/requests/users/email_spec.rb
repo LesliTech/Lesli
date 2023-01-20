@@ -79,5 +79,4 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             expect(response).to redirect_to("/login")
         end
     end
-
 end

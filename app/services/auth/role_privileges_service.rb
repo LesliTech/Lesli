@@ -26,11 +26,27 @@ module Auth
         def synchronize_privileges role_id = nil
 
             # bulk all the descriptor privileges
-            records = Descriptor.joins(:privileges, :role_descriptors_all).with_deleted.select(
-                "descriptor_privileges.controller",
-                "descriptor_privileges.action",
-                "role_descriptors.roles_id"
-            )
+            # this script was built manually for performance
+            # basically what it does is get the controllers and actions
+            # assigned to a descriptor through the descriptor_privileges table
+            records = Descriptor.joins("
+                INNER JOIN descriptor_privileges
+	            ON descriptor_privileges.deleted_at IS NULL 
+	            AND descriptor_privileges.descriptors_id = descriptors.id 
+            ").joins("
+                INNER JOIN role_descriptors 
+	            ON role_descriptors.descriptors_id = descriptors.id
+            ").joins("
+                INNER JOIN system_controller_actions 
+	            ON system_controller_actions.id = descriptor_privileges.system_controller_actions_id 
+            ").joins("
+                INNER JOIN system_controllers 
+                ON system_controllers.id = system_controller_actions.system_controllers_id 
+            ").select(
+                "system_controllers.name as controller", 
+                "system_controller_actions.name as action", 
+                "role_descriptors.roles_id as roles_id" 
+            ).with_deleted
 
             # synchronize only for the given role, this is needed to sync only modified roles
             records = records.where("role_descriptors.roles_id" => role_id) if role_id

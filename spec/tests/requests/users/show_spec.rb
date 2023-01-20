@@ -24,7 +24,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
 
     describe "GET:/administration/users/:id.json", type: :request do
         include_context "request user authentication"
-        
+
         it "is expected to respond with the first user created" do
             user = FactoryBot.create(:user)
 
