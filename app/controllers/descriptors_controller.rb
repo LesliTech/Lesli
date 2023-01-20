@@ -19,16 +19,6 @@ For more information read the license file including with this software.
 class DescriptorsController < ApplicationLesliController
     before_action :set_descriptor, only: [:show, :update]
 
-    def privileges 
-        {
-            list: [],
-            index: [],
-            show: [],
-            new: [],
-            edit: []
-        }
-    end
-
     # GET /descriptors/list.json
     def list
         respond_with_successful(Descriptor.list(current_user, @query))
@@ -89,6 +79,6 @@ class DescriptorsController < ApplicationLesliController
 
     # Only allow a list of trusted parameters through.
     def descriptor_params
-        params.fetch(:descriptor, {}).permit(:id, :name, :description, :descriptors_id)
+        params.require(:descriptor).permit(:id, :name, :description, :descriptors_id)
     end
 end

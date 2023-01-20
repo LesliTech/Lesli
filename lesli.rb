@@ -193,10 +193,15 @@ module Lesli
         # specific settings for dedicated on-premises instance (not core)
         if instance_engine[:name] != "Lesli"
 
-            instance_settings = YAML.load_file(File.join("./engines", instance_engine[:code], "lesli.yml"))
+            instance_settings = YAML.load_file(File.join("./engines", instance_engine[:code], "lesli.yml"))            
 
             # overwrite core settings with specific settings from instance
             lesli_settings = lesli_settings.deep_merge(instance_settings)
+
+            # if we specify a list of locales for the instance we must replace the one from the core
+            if (instance_settings.dig("configuration", "locales"))
+                lesli_settings["configuration"]["locales"] = instance_settings["configuration"]["locales"]
+            end
 
         end
 
@@ -209,6 +214,11 @@ module Lesli
 
                 # overwrite core and instance settings with specific settings for server
                 lesli_settings = lesli_settings.deep_merge(server_settings)
+
+                # if we specify a list of locales for the server we must replace the one from the core and builder
+                if (server_settings.dig("configuration", "locales"))
+                    lesli_settings["configuration"]["locales"] = server_settings["configuration"]["locales"]
+                end
 
             rescue => exception
 
