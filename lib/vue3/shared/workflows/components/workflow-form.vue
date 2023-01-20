@@ -171,7 +171,6 @@ onMounted(() => {
                         type="text"
                         class="input"
                         @input=""
-                        v-model="value"
                     />
                 </template>
 

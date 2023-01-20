@@ -77,7 +77,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <lesli-header title="Checks">
+    <lesli-header title="Actions">
         <lesli-button
             outlined
             icon="refresh"
