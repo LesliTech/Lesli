@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -22,37 +22,37 @@ module Courier
         class Notification
 
             def self.count(current_user, only_own_notifications=false)
-                return 0 if not defined? CloudBell
+                return 0 unless defined? CloudBell
                 CloudBell::Notification.count(current_user, only_own_notifications)
             end
 
             def self.index(current_user, query, only_own_notifications=false)
-                return [] if not defined? CloudBell
+                return [] unless defined? CloudBell
                 CloudBell::Notification.index(current_user, query, only_own_notifications)
             end
 
             def self.read(current_user, id)
-                return 0 if not defined? CloudBell
+                return 0 unless defined? CloudBell
                 CloudBell::Notification.read(current_user, id)
             end
 
             def self.new(
-                user, 
-                subject, 
-                url:nil, 
+                user,
+                subject,
+                url:nil,
                 body:nil,
-                media:nil, 
-                payload:nil, 
+                media:nil,
+                payload:nil,
                 channel:nil,
-                category:nil, 
-                notification_type:nil, 
-                user_receiver_id:nil, 
-                role_receiver_names:nil, 
+                category:nil,
+                notification_type:nil,
+                user_receiver_id:nil,
+                role_receiver_names:nil,
                 user_receiver_emails:nil
             )
 
                 # exit if CloudBell is not installed
-                return { :id => 0 } if not defined? CloudBell
+                return { :id => 0 } unless defined? CloudBell
                 CloudBell::NotificationService.generate(
                     user,
                     subject,
