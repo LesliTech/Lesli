@@ -79,5 +79,4 @@ RSpec.describe "Tests for Lesli 3" do
             expect(response).to redirect_to("/login")
         end
     end
-
 end

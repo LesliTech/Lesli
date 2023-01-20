@@ -54,8 +54,6 @@ onMounted(() => {
                 {{ translations.core.view_btn_list }}
             </lesli-button>
         </lesli-header>
-        <div class="box">
-            <descriptor-form></descriptor-form>
-        </div>
+        <descriptor-form></descriptor-form>
     </section>
 </template>
