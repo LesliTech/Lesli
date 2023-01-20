@@ -62,7 +62,7 @@ module Interfaces
                         request_controller: controller_path,
                         request_method: request.method,
                         request_action: action_name,
-                        request_format: request.format.symbol,
+                        request_format: request.format.symbol || "html",
                         request_url: request.path,
                         user_sessions_id: session[:user_session_id],
                         request_count: 1
@@ -91,19 +91,17 @@ module Interfaces
 
                 user_agent = get_user_agent(false)
 
-
                 # Try to save a unique record for this agent configuration
                 current_user.agents.upsert({
-                        platform: user_agent[:platform],
-                        os: user_agent[:os],
-                        browser: user_agent[:browser],
-                        version: user_agent[:version],
-                        user_sessions_id: session[:user_session_id],
+                        os: user_agent[:os] || "unknown",
+                        platform: user_agent[:platform] || "unknown",
+                        browser: user_agent[:browser] || "unknown",
+                        version: user_agent[:version] || "unknown",
                         count: 1
                     }, 
 
                     # group of columns to consider a agent as unique
-                    unique_by: [:platform, :os, :browser, :version, :users_id, :user_sessions_id],
+                    unique_by: [:platform, :os, :browser, :version, :users_id],
 
                     # if request id is not unique, increase the counter for this configuration
                     on_duplicate: Arel.sql("count = user_agents.count + 1")
