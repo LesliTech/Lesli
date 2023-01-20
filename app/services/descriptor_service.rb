@@ -39,38 +39,22 @@ class DescriptorService
 
         # Adding default system actions for profile descriptor
         [
-            {
-                category: "show",
-                contollers: [
-                    {name: "profiles", actions: ["show"] }, # enable profile view
-                    {name: "users", actions: ["options"] },
-                    {name: "profile/subscriptions", actions: ["options", "index"] }, # enable profile subscriptions
-                    {name: "user/sessions", actions: ["index"] } # seession management
-                ]
-            },
-            {
-                category: "update",
-                contollers: [
-                    { name: "users", actions: ["options", "update"] }, # enable user edition
-                ]
-            }
-        ].each do |data|
-            data[:contollers].each do |controller|
-                controller[:actions].each do |action_name|
+            { controller: "profiles", actions: ["show"] }, # enable profile view
+            { controller: "users", actions: ["options"] },
+            { controller: "profile/subscriptions", actions: ["options", "index"] }, # enable profile subscriptions
+            { controller: "user/sessions", actions: ["index"] }, # seession management
+            { controller: "users", actions: ["options", "update"] } # enable user edition
+        ].each do |controller_action|
 
-                    system_controller_action = SystemController.joins(:actions)
-                    .where("system_controllers.name = ?", controller[:name])
-                    .where("system_controller_actions.name = ?", action_name)
-                    .select(
-                        "system_controllers.name as controller_name",
-                        "system_controller_actions.name as controller_action"
-                    ).first
+            controller_action[:actions].each do |action_name|
 
-                    descriptor.privileges.find_or_create_by(
-                        controller: system_controller_action[:controller_name],
-                        action: system_controller_action[:controller_action]
-                    )
-                end
+                system_controller_action = SystemController::Action.joins(:system_controller)
+                .where("system_controllers.name = ?", controller_action[:controller])
+                .where("system_controller_actions.name = ?", action_name).first
+
+                descriptor.privileges.find_or_create_by(
+                    action: system_controller_action
+                )
             end
         end
     end
@@ -84,20 +68,12 @@ class DescriptorService
     def self.add_owner_privileges(descriptor)
 
         # Adding default system actions for profile descriptor
-        controllers = SystemController.index nil, nil
+        actions = SystemController::Action.all
 
-        controllers.each do |controller_name, controller|
-
-            controller[:actions].each do |action|
-
-                descriptor.privileges.find_or_create_by!(
-                    controller: controller[:name],
-                    action: action[:action]
-                )
-
-            end
-
+        actions.each do |action|
+            descriptor.privileges.find_or_create_by(
+                action: action
+            )
         end
-
     end
 end

@@ -39,6 +39,11 @@ const props = defineProps({
         type: Boolean,
         required: false,
         default: false
+    },
+    paddingless: {
+        type: Boolean,
+        default: false,
+        required: false
     }
 })
 
@@ -61,7 +66,7 @@ watchEffect(() => {
 
 </script>
 <template>
-    <div v-if="isActive">
+    <div v-if="isActive" :class="[{ 'p-5': !paddingless }]">
         <slot></slot>
     </div>
 </template>

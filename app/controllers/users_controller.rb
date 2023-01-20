@@ -245,7 +245,7 @@ class UsersController < ApplicationLesliController
             roles: roles,
             regions: current_user.account.locations.where(level: "region"),
             salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
-            locales: Rails.application.config.lesli.dig(:configuration, :locales_available),
+            locales: Rails.application.config.lesli.dig(:configuration, :locales),
             mfa_methods: Rails.application.config.lesli.dig(:configuration, :mfa_methods)
         })
 
@@ -368,8 +368,13 @@ class UsersController < ApplicationLesliController
 
         user = current_user.account.users.find_by(id: params[:id])
 
-        if user.blank? || user.id != current_user.id
+        if user.blank?
             return respond_with_not_found
+        end
+
+        # users can change only the own email
+        if user.id != current_user.id
+            return respond_with_unauthorized
         end
 
         if params[:user][:email]

@@ -1,8 +1,11 @@
 class CreateRoleDescriptors < ActiveRecord::Migration[7.0]
     def change
         create_table :role_descriptors do |t|
-            t.string :category
-            
+            t.boolean :privilege_index
+            t.boolean :privilege_show
+            t.boolean :privilege_create
+            t.boolean :privilege_update
+            t.boolean :privilege_destroy
             t.datetime :deleted_at, index: true
             t.timestamps
         end
