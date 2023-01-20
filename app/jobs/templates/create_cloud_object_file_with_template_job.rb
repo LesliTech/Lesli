@@ -16,7 +16,7 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
 
         document_mappings.find_all {|mapping| mapping.variable_type.include? "table"}.each do |document_map|
 
-            if not document_map["table_alias"].blank?
+            unless document_map["table_alias"].blank?
                 table_alias = document_map["table_alias"]
             elsif (document_map["table_alias"].nil?)  # use table name
                 table_alias = document_map["table_name"]
@@ -28,7 +28,7 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
 
             query[:mapping][document_map["name"]] = { field_name: document_map["field_name"], alias: document_map["table_alias"]}
 
-            if not (document_map["table_name"].blank?)
+            unless (document_map["table_name"].blank?)
                 query[:fields].push("#{table_alias}.#{document_map["field_name"]} as #{document_map["name"]}")
             end
         end
@@ -124,7 +124,7 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
             rc = Regexp.quote(char)
             rc = rc.force_encoding('ASCII-8BIT')
             regexp = /#{regexp}(?<tag#{i}>(#{XML_TAG})*)#{rc}/
-            if not replacement.blank?
+            unless replacement.blank?
                 tag_pattern << '\k<tag' + i.to_s + '>'
                 tag_pattern << replacement if i.zero?
             else

@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -68,12 +68,12 @@ class ApplicationApiController < ActionController::API
             end
 
             # Query opaque token takes precedence over the authorization header
-            if not params[:access_token].blank?
+            unless params[:access_token].blank?
                 token = params[:access_token]
             end
 
             # return without session if token was not provided
-            return if not token
+            return unless token
 
             # check if token is a valid JWT
             jwt = LC::System::Jwt.decode(token)

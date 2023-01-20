@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -59,7 +59,7 @@ class User < ApplicationLesliRecord
     has_many :activities,       foreign_key: "users_id"
     has_one  :integration,      foreign_key: "users_id"
     has_many :access_codes,     foreign_key: "users_id"
-    has_many :auth_providers,   foreign_key: "users_id"     
+    has_many :auth_providers,   foreign_key: "users_id"
 
 
     # users can have many roles and too many privileges through the roles
@@ -161,7 +161,7 @@ class User < ApplicationLesliRecord
     def self.list(current_user, query, params)
         type = params[:type]
 
-        roles = params[:role].split(",").map { |role| "'#{role}'" }.join(", ") if not params[:role].blank?
+        roles = params[:role].split(",").map { |role| "'#{role}'" }.join(", ") unless params[:role].blank?
 
         operator = type == "exclude" ? 'not in' : 'in'
 
@@ -233,7 +233,7 @@ class User < ApplicationLesliRecord
 
         # Filter users by roles
         unless params.dig(:f, :role).nil?
-            roles = params[:f][:role].split(",").map { |role| "'#{role}'" }.join(", ") if not params[:f][:role].blank?
+            roles = params[:f][:role].split(",").map { |role| "'#{role}'" }.join(", ") unless params[:f][:role].blank?
         end
 
         users = current_user.account.users
@@ -264,7 +264,7 @@ class User < ApplicationLesliRecord
         users = users.where("
             lower(email) like '%#{query[:search]}%' or
             LOWER(concat(ud.first_name, ' ', ud.last_name)) like '%#{query[:search].downcase}%'
-        ")  if not query[:search].blank?
+        ")  unless query[:search].blank?
 
         users = users.select(
             :id,
@@ -280,7 +280,7 @@ class User < ApplicationLesliRecord
         )
 
         # Filter users by status
-        
+
         unless params.dig(:f, :status).nil?
             if (params[:f][:status] == 'active')
                 users = users.where("users.active = ?", true)
@@ -307,7 +307,7 @@ class User < ApplicationLesliRecord
                 ur.users_id, string_agg(r.\"name\", ', ') role_names
             from user_roles ur
             join roles r
-                on r.id = ur.roles_id  
+                on r.id = ur.roles_id
             where ur.deleted_at is null
             group by ur.users_id
         ) roles on roles.users_id = users.id"
@@ -332,7 +332,7 @@ class User < ApplicationLesliRecord
 
         if query.dig(:search)
             users = users.where(
-                "lower(users.email) like :search or lower(concat(user_details.first_name, ' ', user_details.last_name)) like :search", 
+                "lower(users.email) like :search or lower(concat(user_details.first_name, ' ', user_details.last_name)) like :search",
                 { search: "%#{sanitize_sql_like(query.dig(:search))}%" }
             )
         end

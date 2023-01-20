@@ -28,7 +28,7 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
 
         document_mappings.find_all {|mapping| mapping.variable_type.include? "table"}.each do |document_map|
 
-            if not document_map["table_alias"].blank?
+            unless document_map["table_alias"].blank?
                 table_alias = document_map["table_alias"]
             elsif (document_map["table_alias"].nil?)  # use table name
                 table_alias = document_map["table_name"]
@@ -40,7 +40,7 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
 
             query[:mapping][document_map["name"]] = { field_name: document_map["field_name"], alias: document_map["table_alias"]}
 
-            if not (document_map["table_name"].blank?)
+            unless (document_map["table_name"].blank?)
                 query[:fields].push("#{table_alias}.#{document_map["field_name"]} as #{document_map["name"]}")
             end
         end

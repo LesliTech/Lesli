@@ -60,7 +60,7 @@ class UsersController < ApplicationLesliController
                     current_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at])
 
                     # last action the user perform an action into the system
-                    last_action_performed_at = LC::Date.distance_to_words(user["last_action_performed_at"]) if not user["last_action_performed_at"].blank?
+                    last_action_performed_at = LC::Date.distance_to_words(user["last_action_performed_at"]) unless user["last_action_performed_at"].blank?
 
                     # last login from the user
                     last_login_at = LC::Date.distance_to_words(user[:last_login_at])
