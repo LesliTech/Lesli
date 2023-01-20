@@ -22,14 +22,12 @@ import { inject, onMounted } from "vue"
 
 // · import stores
 import { useWorkflow } from "LesliVue/stores/shared/workflow"
-import { useWorkflowStatus } from "LesliVue/stores/shared/workflows/status"
 
 // · import vue router composable
 import { useRouter, useRoute } from "vue-router"
 
 // · implement stores
 const storeWorkflow = useWorkflow()
-const storeStatus = useWorkflowStatus()
 
 // · initialize/inject plugins
 const router = useRouter()
@@ -90,15 +88,71 @@ const onUpdate = () => {
  * @description This function is used to create a new workflow
  */
 const onCreate = () => {
-    storeWorkflow.postWorkflow()
+    storeWorkflow.postWorkflow().then(()=> {
+        router.push(url.root(`${props.appMountPath}/${storeWorkflow.workflow.id}`).s)
+    })
 }
 
-
+/**
+ * @description This function is used to set the selected_status as initial
+ */
 function selectAsInitial(selected_status){
-    storeWorkflow.updateWorkflowStatus(selected_status.id, "normal")
+    for(let key in storeWorkflow.workflow.statuses){
+        let status = storeWorkflow.workflow.statuses[key]
+
+        if(status.id == selected_status.id){
+            storeWorkflow.workflow.statuses[key].status_type = 'initial'
+            continue
+        }
+
+        if(status.status_type == 'initial'){
+            storeWorkflow.workflow.statuses[key].status_type = 'normal'
+        }
+    }
 }
 
+/**
+ * @description This function is used to change the type of the selected status
+ */
+function changeStatusType(selected_status, new_status_type){
+    for(let key in storeWorkflow.workflow.statuses){
 
+        if(storeWorkflow.workflow.statuses[key].id == selected_status.id){
+
+            if(selected_status.status_type == new_status_type){
+                storeWorkflow.workflow.statuses[key].status_type = 'normal'
+            }else{
+                storeWorkflow.workflow.statuses[key].status_type = new_status_type
+            }
+        }  
+
+    }
+}
+/**
+ * @description This function is used to delete a status
+ */
+function deleteStatus(deleted_status){
+
+    let new_statuses = Object.values(storeWorkflow.workflow.statuses).filter((status) => {
+        if (status.id != deleted_status.id){
+            return status
+        }
+    })
+
+    deleted_status['_destroy'] = true
+
+    storeWorkflow.deleted_workflow_statuses.push(deleted_status)
+    storeWorkflow.workflow.statuses = new_statuses
+}
+
+/**
+ * @description This function is used to create a new status for a workflow
+ */
+ const createStatus = () => {
+    storeWorkflow.postStatus().then(()=>{
+        storeWorkflow.fetchWorkflow(route.params?.id)
+    })
+}
 
 onMounted(() => {
     if (!props.isEditable){
@@ -107,6 +161,8 @@ onMounted(() => {
         storeWorkflow.fetchWorkflow(route.params?.id)
     }
 })
+
+
 
 </script>
 <template>
@@ -133,7 +189,7 @@ onMounted(() => {
     
     <div class="block">
         <!-- Status workflows form -->
-        <form @submit.prevent="storeWorkflow.postStatus()">
+        <form @submit.prevent="createStatus()">
 
             <!-- Workflow status name -->
             <div class="columns is-marginless has-border-bottom">
@@ -141,7 +197,9 @@ onMounted(() => {
                     <label class="label">
                         {{ translations.workflows.view_title_add_new_status }}
                     </label>
-                    <input class="input" type="text" v-model="storeWorkflow.new_status_name">
+                </div>
+                <div class="column is-8">
+                    <input class="input" type="text" v-model="storeWorkflow.new_status_name" :disabled="!storeWorkflow.workflow.id">
                 </div>
                 <div class="column">
                     <lesli-button icon="add">
@@ -150,51 +208,48 @@ onMounted(() => {
                 </div>
             </div>
 
-          
-
-            <div class="columns is-marginless has-border-bottom">
-                <div class="column">
-                    <lesli-button icon="save">
-                        save
-                    </lesli-button>  
-                </div>
-            </div>
-
         </form>
 
         <lesli-table 
-                :records="storeWorkflow.workflow.statuses"
-                :columns="columns"
-            >
-                <template #number="{ value }">
-                    <input 
-                        type="text"
-                        class="input"
-                        @input=""
-                    />
-                </template>
+            :records="storeWorkflow.workflow.statuses"
+            :columns="columns"
+            v-if="!storeWorkflow.loading && storeWorkflow.workflow.statuses"
+        >
+            <template #number="{ record }">
+                <input 
+                    type="text"
+                    class="input"
+                    v-model="record.number"
+                    @input=""
+                />
+            </template>
 
-                <template #marks="{ record }">
-                    <lesli-button icon="play_circle" @click="selectAsInitial(record)"></lesli-button>
-                    <lesli-button icon="check_circle"></lesli-button>
-                    <lesli-button icon="cancel"></lesli-button>
-                    <lesli-button icon="auto_delete"></lesli-button>
-                </template>
+            <template #marks="{ record }">
+                <lesli-button icon="play_circle" @click="selectAsInitial(record)"></lesli-button>
+                <lesli-button icon="check_circle" @click="changeStatusType(record, 'completed_successfully')"></lesli-button>
+                <lesli-button icon="cancel" @click="changeStatusType(record, 'completed_unsuccessfully')"></lesli-button>
+                <lesli-button icon="auto_delete" @click="changeStatusType(record, 'to_be_deleted')"></lesli-button>
+            </template>
 
-                <template #options="{ record }">
-                    <a class="dropdown-item" @click="storeWorkflow.deleteWorkflowStatus(record.id)">
-                        <span class="material-icons">
-                            delete
-                        </span>
-                        <span>
-                            Delete
-                        </span>
-                    </a>
-                </template>
+            <template #options="{ record }">
+                <a class="dropdown-item" @click="deleteStatus(record)">
+                    <span class="material-icons">
+                        delete
+                    </span>
+                    <span>
+                        Delete
+                    </span>
+                </a>
+            </template>
+        </lesli-table>
 
-
-
-            </lesli-table>
+        <div class="columns is-marginless has-border-bottom" v-if="!storeWorkflow.loading && storeWorkflow.workflow.statuses">
+            <div class="column">
+                <lesli-button icon="save" @click="storeWorkflow.updateWorkflowStatuses">
+                    save
+                </lesli-button>  
+            </div>
+        </div>
 
 
     </div>

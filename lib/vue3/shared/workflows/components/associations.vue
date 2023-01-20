@@ -50,7 +50,6 @@ const props = defineProps({
 // · implement stores
 const storeAssociation = useAssociations()
 
-
 // · translations
 const translations = {
     core: I18n.t('core.shared'),
@@ -60,7 +59,10 @@ const translations = {
 onMounted(() => {
     // · get workflow association options
     storeAssociation.getAssociationOptions()
+    storeAssociation.getAssociations()
 })
+
+
 
 
 function selectOption (new_association){
@@ -71,7 +73,6 @@ function selectOption (new_association){
     if(selected_association){
         storeAssociation.association_details = {}
         selected_association.details.forEach((detail)=>{
-            console.log(detail)
 
             detail.list.forEach((option)=>{
                 storeAssociation.association_details[detail.field_name]= {
@@ -81,8 +82,6 @@ function selectOption (new_association){
 
             })
         })
-
-        console.log( storeAssociation.association_details)
         
     }
 
@@ -95,7 +94,7 @@ function selectOption (new_association){
     <lesli-header title="Associations">
     </lesli-header>
 
-    <form>
+    <form @submit.prevent="storeAssociation.postAssociation">
         <div class="columns is-marginless has-border-bottom">
                 <!-- Association -->
                 <div class="column">
@@ -105,8 +104,8 @@ function selectOption (new_association){
                     </label>
                     <lesli-select
                         :options="storeAssociation.options_select"
-                        v-model="new_association"
-                        @change="selectOption(new_association)"
+                        v-model="storeAssociation.association.workflow_for"
+                        @change="selectOption(storeAssociation.association.workflow_for)"
                     >
                     </lesli-select>
                     <p>{{ translations.associations.view_text_column_workflow_for_description }}</p>
@@ -117,13 +116,14 @@ function selectOption (new_association){
                     <label class="label">
                         {{ translations.associations.column_global }}
                     </label>
-                    <input type="checkbox" v-model="checked" >
+                    <input type="checkbox" v-model="storeAssociation.association.global">
+                    <span v-if="storeAssociation.association.global"> {{translations.core.view_text_yes}} </span>
+                    <span v-else> {{translations.core.view_text_no}} </span>
                 </div>
 
-                
-                <div class="column">
+                <!-- <div class="column">
 
-                    <div v-for="detail in storeAssociation.options['ticket'].details" 
+                    <div v-for="detail in storeAssociation.options.values(storeAssociation.options)[0].details" 
                         :key="detail.field_name"
                     >
                         <label class="label">
@@ -143,13 +143,15 @@ function selectOption (new_association){
 
 
  
-                </div>
+                </div> -->
         </div>
-
         <div class="columns is-marginless has-border-bottom">
-
+            <div class="column">
+                <lesli-button icon="save">
+                    save
+                </lesli-button>  
+            </div>
         </div>
-
     </form>
 
 

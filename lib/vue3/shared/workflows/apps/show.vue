@@ -18,8 +18,8 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { onMounted } from "vue"
-import { useRouter, useRoute } from 'vue-router'
+import { onMounted, inject } from "vue"
+import { useRouter } from 'vue-router'
 
 
 // · import stores
@@ -52,6 +52,10 @@ const props = defineProps({
 // · implement stores
 const storeWorkflow = useWorkflow()
 
+// · initialize/inject plugins
+const router = useRouter()
+const url = inject("url")
+
 
 // set props to store
 storeWorkflow.cloudModule = props.cloudModule
@@ -61,6 +65,15 @@ storeWorkflow.cloudObject = props.cloudObject
 const translations = {
     workflows: I18n.t('core.workflows'),
     core: I18n.t('core.shared')
+}
+
+/**
+ * @description This function is used to delete a workflow
+ */
+ const deleteWorkflow = () => {
+    storeWorkflow.deleteWorkflow().then(()=> {
+        router.push(url.root(`${props.appMountPath}`).s)
+    })
 }
 
 </script>
@@ -77,12 +90,9 @@ const translations = {
             <lesli-tab-item title="Edition mode">
                 <workflow-form :app-mount-path="props.appMountPath" is-editable></workflow-form>
             </lesli-tab-item>
-            <lesli-tab-item title="chart mode">
 
-            </lesli-tab-item>
+            <lesli-tab-item title="Chart mode">
 
-            <lesli-tab-item title="Edition mode">
-                <workflow-form :app-mount-path="props.appMountPath"></workflow-form>
             </lesli-tab-item>
             
             <lesli-tab-item title="Actions">
@@ -95,6 +105,22 @@ const translations = {
             <lesli-tab-item title="Associations">
                 <association-form></association-form>
             </lesli-tab-item>
+
+            <lesli-tab-item title="Delete">
+                <div class="card">
+                    <div class="card-content">
+                        <h5 class="title is-5">{{translations.workflows.view_title_delete_workflow}}</h5>
+                        <span class="has-text-danger">
+                            {{translations.workflows.messages_danger_delete_workflow_description}}
+                        </span>
+                        <br>
+                        <br>
+                        <lesli-button @click="deleteWorkflow">Delete</lesli-button>
+                    </div>
+                </div>
+                
+            </lesli-tab-item>
+
         </lesli-tabs>
     </section>
 </template>
