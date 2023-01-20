@@ -61,6 +61,19 @@ module ResponseHelpers
     end
 
     # test a standard error response for lesli 3
+    def expect_response_with_action
+        @@response_json = nil
+        expect(response).to have_http_status(490)
+        expect(response.content_type).to eq('application/json; charset=utf-8')
+        expect(response_json).to be_an_instance_of(Hash)
+        expect(response_json).to have_key('message')
+        expect(response_json).to have_key('action')
+        expect(response_json["action"].keys.first).to be_in(['redirect'])
+
+        response_json()
+    end
+
+    # test a standard error response for lesli 3
     def expect_response_with_error
         @@response_json = nil
         expect(response).to have_http_status(:bad_request)
@@ -68,6 +81,8 @@ module ResponseHelpers
         expect(response_json).to be_an_instance_of(Hash)
         expect(response_json).to have_key('message')
         expect(response_json).to have_key('details')
+
+        response_json()
     end
 
     # test a standard not found response for lesli 3
