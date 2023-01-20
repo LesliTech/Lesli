@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli 3" do
 
     describe "PUT:/administration/users/:id/actions/email.json", type: :request do
         include_context "request user authentication"
@@ -35,7 +35,7 @@ RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
             put("/administration/users/#{@current_user.id}/actions/email.json", params: {
                 user: { email: @new_email }
             })
-            
+
             expect_response_with_successful
             expect(response_body).to eql(@new_email)
         end

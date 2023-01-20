@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 # include helpers, configuration & initializers for request tests
 require "lesli_controller_helper"
 
-RSpec.describe Users::RegistrationsController, type: :controller, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe Users::RegistrationsController, type: :controller do
 
     include_context 'controller user authentication'
 

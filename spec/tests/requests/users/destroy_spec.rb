@@ -1,6 +1,6 @@
 # =begin
 
-# Copyright (c) 2020, all rights reserved.
+# Copyright (c) 2023, all rights reserved.
 
 # All the information provided by this platform is protected by international laws related  to
 # industrial property, intellectual property, copyright and relative international laws.
@@ -20,7 +20,7 @@
 # include helpers, configuration & initializers for request tests
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli 3" do
 
     describe "DEL:/administration/users/:id.json with user with invalid permissions", type: :request do
         include_context "request user authentication"
