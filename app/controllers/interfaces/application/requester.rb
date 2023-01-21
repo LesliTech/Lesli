@@ -46,13 +46,13 @@ module Interfaces
                 # get user's preferred language
                 # IMPORTANT:
                 #       Here it's not possible to use the methods provided by devise to check if user is
-                #       authetnicated "user_signed_in", due those methods redirects to the login controller
+                #       authenticated "user_signed_in", due those methods redirects to the login controller
                 #       if user is not authenticated; For some scenarios we need to have control of the behavior
                 #       for not authenticated user requests, thats why here we go deeper and check if user is
                 #       authenticated checking the warden storage
                 locale = current_user.locale || locale if warden.authenticated?
 
-                # language defined by the request from user settings
+                # language defined in the http header request
                 unless request.headers["Require-Language"].blank?
                     locale = request.headers["Require-Language"]
                 end
@@ -65,10 +65,29 @@ module Interfaces
         
             end
 
-
             # Set the user language based on url configuration or browser/os default language
             def set_locale_public
-                I18n.locale = params[:locale] || get_browser_locale || I18n.default_locale
+
+                # language defined in the http header request
+                unless request.headers["Require-Language"].blank?
+                    locale = request.headers["Require-Language"]
+                end
+
+                # use locale defined in the url
+                locale = params[:locale] if locale.blank?
+                
+                # use the language from the browser/os
+                get_browser_locale if locale.blank?
+
+                # use the default locale if no custom locale was found
+                return I18n.locale = I18n.default_locale if locale.blank?
+
+                # use default locale if requested language is not supported
+                locale = I18n.default_locale unless I18n.available_locales.include?(locale.to_sym)
+
+                # set the new locale
+                I18n.locale = locale
+        
             end
 
             private
