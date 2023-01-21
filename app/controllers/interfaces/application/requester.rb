@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2023, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
 module Interfaces
@@ -38,9 +38,29 @@ module Interfaces
                     },
                     group: params[:group] || ""
                 }
+
+                if defined?(DeutscheLeibrenten)
+                    @query = {
+                        search: params[:search] || "",
+                        filters: params[:filters] ? params[:filters] : {},
+                        pagination: {
+                            perPage: (params[:perPage] ? params[:perPage].to_i : 15),
+                            page: (params[:page] ? params[:page].to_i : 1),
+                            order: (params[:order] ? params[:order] : "desc"),
+                            orderBy: (params[:orderBy] ? params[:orderBy] : "id"),
+                            orderColumn: (params[:orderColumn] ? params[:orderColumn] : "id")
+                        },
+                        order: {
+                            by: (params[:orderBy] ? params[:orderBy] : "id"),
+                            dir: (params[:order] ? params[:order] : "desc")
+                        }
+                    }
+                    
+                    @query[:filters][:search] = @query[:search] unless @query[:filters][:search]
+                end
             end
 
-
+            # Set the user language based on user_settings, session configuration or instance default locale
             def set_locale
 
                 # get saved language in session, browser language or the default in config
@@ -48,25 +68,30 @@ module Interfaces
                 locale = session[:locale] || I18n.default_locale
 
                 # get user's preferred language
-                # IMPORTANT:
-                #       Here it's not possible to use the methods provided by devise to check if user is
+                # IMPORTANT: 
+                #       Here it's not possible to use the methods provided by devise to check if user is 
                 #       authetnicated "user_signed_in", due those methods redirects to the login controller
-                #       if user is not authenticated; For some scenarios we need to have control of the behavior
-                #       for not authenticated user requests, thats why here we go deeper and check if user is
+                #       if user is not authenticated; For some scenarios we need to have control of the behavior 
+                #       for not authenticated user requests, thats why here we go deeper and check if user is 
                 #       authenticated checking the warden storage
                 locale = current_user.locale || locale if warden.authenticated?
-
+        
                 # language defined by the request from user settings
-                unless request.headers["Require-Language"].blank?
+                if not request.headers["Require-Language"].blank?
                     locale = request.headers["Require-Language"]
                 end
 
                 # use default locale if requested language is not supported
-                locale = I18n.default_locale unless I18n.available_locales.include?(locale.to_sym)
-
+                locale = I18n.default_locale if not I18n.available_locales.include?(locale.to_sym)
+        
                 # set the new locale
                 I18n.locale = locale
+        
+            end
 
+            # Set the user language based on url configuration or browser/os default language
+            def set_locale_public
+                I18n.locale = params[:locale] || get_browser_locale || I18n.default_locale
             end
 
             private
