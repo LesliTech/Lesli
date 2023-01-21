@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -36,17 +36,7 @@ class UsersController < ApplicationLesliController
     def list
         respond_to do |format|
             format.json {
-
-                # Keep compatibility with DeutscheLeibrenten
-                if defined?(DeutscheLeibrenten)
-                    respond_with_successful(User.list(current_user, @query, params))
-                end
-
-                # Lesli v3
-                if !defined?(DeutscheLeibrenten)
-                    respond_with_successful(User.list(current_user, @query, params))
-                end
-
+                respond_with_successful(User.list(current_user, @query, params))
             }
         end
     end
@@ -70,7 +60,7 @@ class UsersController < ApplicationLesliController
                     current_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at])
 
                     # last action the user perform an action into the system
-                    last_action_performed_at = LC::Date.distance_to_words(user["last_action_performed_at"]) if not user["last_action_performed_at"].blank?
+                    last_action_performed_at = LC::Date.distance_to_words(user["last_action_performed_at"]) unless user["last_action_performed_at"].blank?
 
                     # last login from the user
                     last_login_at = LC::Date.distance_to_words(user[:last_login_at])

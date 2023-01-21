@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "POST:/password.json", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "POST:/password.json", type: :request do
     it "is expected to respond with successful standard json response" do
         @user = FactoryBot.create(:user)
 

@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -21,13 +21,13 @@ For more information read the license file including with this software.
 require "lesli_request_helper"
 
 
-RSpec.describe "GET:/administration/account/options.json", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "GET:/administration/account/options.json", type: :request do
     include_context "request user authentication"
 
     # test cases
     it "is expected to respond with all the records from account settings" do
         get("/administration/account/options.json")
-        
+
         # shared examples
         expect_response_with_successful
 

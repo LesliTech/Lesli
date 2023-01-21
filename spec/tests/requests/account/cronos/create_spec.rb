@@ -1,5 +1,5 @@
 =begin
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli3", type: :request do
     describe "POST:/administration/account/cronos.json", type: :request do
         include_context "request user authentication"
 
@@ -28,7 +28,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
             #share examples
             expect_response_with_error
-        end 
+        end
 
         it "is expected to respond with error when settings in params is empty" do
             post("/administration/account/cronos.json", params: {
@@ -37,10 +37,10 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
             #share examples
             expect_response_with_error
-        end 
+        end
 
         it "is expected to respond with a crono created successfully" do
-            
+
             account_crono = {
                 :name => Faker::Lorem.word,
                 :description => Faker::Lorem.paragraph,
@@ -49,17 +49,17 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 :day_of_month => Time.now.day,
                 :month => Time.now.month,
                 :day_of_week => Time.now.wday,
-                :task_name =>  Faker::Lorem.word, 
+                :task_name =>  Faker::Lorem.word,
                 :engine_code => Faker::Lorem.word
             }
-            
+
             post("/administration/account/cronos.json", params: {
                 account_crono: account_crono
             })
 
             #share examples
             expect_response_with_successful
-    
+
             expect(response_body).to be_a(Hash)
             expect(response_body).to have_key("id")
             expect(response_body["id"]).to be_a(Numeric)
@@ -124,7 +124,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         end
 
         it "is expected to respond with fail when params to create are empty" do
-            
+
             account_crono = {
                 :name => "",
                 :description => "",
@@ -133,7 +133,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 :day_of_month => "",
                 :month => "",
                 :day_of_week => "",
-                :task_name =>  "", 
+                :task_name =>  "",
                 :engine_code => ""
             }
 
@@ -154,7 +154,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         end
 
         it "is expected to respond with fail when params to create are nil or undefined" do
-            
+
             account_crono = {
                 :name => nil,
                 :description => nil,
@@ -163,7 +163,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 :day_of_month => nil,
                 :month => nil,
                 :day_of_week => nil,
-                :task_name =>  nil, 
+                :task_name =>  nil,
                 :engine_code => nil
             }
 

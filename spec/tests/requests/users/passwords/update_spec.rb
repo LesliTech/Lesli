@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -20,14 +20,14 @@ For more information read the license file including with this software.
 
 require 'lesli_request_helper'
 
-RSpec.describe "PUT:/password.json", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "PUT:/password.json", type: :request do
 
     it "is expected to respond with successful standard json response" do
 
         @user = FactoryBot.create(:user)
         @token = @user.generate_password_reset_token
 
-        @user = {    
+        @user = {
             password: "my_new_password123",
             password_confirmation: "my_new_password123",
             reset_password_token: @token
@@ -41,14 +41,14 @@ RSpec.describe "PUT:/password.json", type: :request, :unless => defined?(Deutsch
 
     it "is expected to respond with error when no valid params are sent" do
 
-        @user = {    
+        @user = {
             password: "",
             password_confirmation: "",
             reset_password_token: ""
         }
 
         put("/password.json", params: { user: @user })
-        
+
         expect_response_with_error
         expect(response_body).to be_a(Hash)
         expect(response_body).to have_key("message")

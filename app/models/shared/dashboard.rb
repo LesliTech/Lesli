@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 module Shared
@@ -24,10 +24,10 @@ module Shared
 
         after_update :verify_default_dashboard
         after_create :verify_default_dashboard
-        
+
         # @return [void]
         # @param account [LesliEngine::Account]
-        # @description Initializes a default dummy dashboard for the account. This guarantees that the users 
+        # @description Initializes a default dummy dashboard for the account. This guarantees that the users
         #     will be able to access the dashboard page. Even if it's empty.
         # @example
         #     # Imagine you are adding a new engine to your instance (CloudProposal)
@@ -43,7 +43,7 @@ module Shared
             )
         end
 
-        # @return [Hash] Hash of containing the information of the dashboard and its components. 
+        # @return [Hash] Hash of containing the information of the dashboard and its components.
         # @description Returns a hash with information about the dashboard and all its *components*.
         #     Each component is returned in the configuration view, not the render view. This means that
         #     this method is ment to be used when updating the dashboard
@@ -80,7 +80,7 @@ module Shared
                     dashboards = dashboards.where("LOWER(name) LIKE ?", "%#{query_word}%")
                 end
             end
-            
+
             dashboards = dashboards.map do |dashboard|
                 dashboard_attributes = dashboard.attributes
 
@@ -132,7 +132,7 @@ module Shared
                 components_configuration_options: component_model.configuration_options,
                 descriptions: {}
             }
-            
+
             if block_given?
                 yield(options)
             else
@@ -177,7 +177,7 @@ module Shared
                 raise ActiveRecord::Rollback
             end
         end
-        
+
         # @return [Hash] Hash that contains information about the class
         # @description Returns dynamic information based on the current implementation of this abstract class
         # @example
@@ -186,7 +186,7 @@ module Shared
         #     puts dynamic_info[:component_model] # will print a new instance of CloudHelp::Dashboard::Component
         def self.dynamic_info
             module_info = self.lesli_classname().split("::")
-            
+
             module_name = module_info[0].sub("Cloud", "").downcase
 
             {

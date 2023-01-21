@@ -1,5 +1,5 @@
 =begin
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli3", type: :request do
     describe "DELETE:/administration/account/cronos/:id", type: :request do
         include_context "request user authentication"
 
@@ -31,7 +31,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 :day_of_month => Time.now.day,
                 :month => Time.now.month,
                 :day_of_week => Time.now.wday,
-                :task_name =>  Faker::Lorem.word, 
+                :task_name =>  Faker::Lorem.word,
                 :engine_code => Faker::Lorem.word
             }
 
@@ -39,7 +39,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             crono.save
 
             delete("/administration/account/cronos/#{crono.id}.json")
-            
+
             #share examples
             expect_response_with_successful
         end
@@ -54,7 +54,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                 :day_of_month => Time.now.day,
                 :month => Time.now.month,
                 :day_of_week => Time.now.wday,
-                :task_name =>  Faker::Lorem.word, 
+                :task_name =>  Faker::Lorem.word,
                 :engine_code => Faker::Lorem.word
             }
 
@@ -72,5 +72,5 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body).to have_key("message")
             expect(response_body["message"]).to be_a(String)
         end
-    end 
+    end
 end
