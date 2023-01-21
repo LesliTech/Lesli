@@ -7,6 +7,6 @@ class ApplicationPublicController < ApplicationController
     #include Application::Responder
     #include Application::Logger
 
-    before_action :set_locale
+    before_action :set_locale_public
     before_action :set_helpers_for_request
 end
