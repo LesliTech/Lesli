@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -21,8 +21,8 @@ For more information read the license file including with this software.
 require "lesli_request_helper"
 
 
-RSpec.describe "PUT:/otp", type: :request, :unless => defined?(DeutscheLeibrenten) do
-    
+RSpec.describe "PUT:/otp", type: :request do
+
     it "is expected to redirect to '/otp/new' when the param 't' is not sent" do
         put("/otp.json")
         expect_response_with_error

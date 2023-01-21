@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -95,9 +95,9 @@ class ApplicationLesliController < ApplicationController
             datetime: Rails.application.config.lesli.dig(:configuration, :datetime),
             currency: (Rails.application.config.lesli[:configuration][:currency] || {})
                 .merge({ locale: Rails.application.config.lesli[:env][:default_locale] }),
-            
+
         }
-        
+
         # set user information
         @account[:current_user] = {
             id: current_user.id,
@@ -109,7 +109,7 @@ class ApplicationLesliController < ApplicationController
             settings: current_user.settings.map { |s| { name: s.name, value: s.value } }
         }
 
-        # 
+        #
         @account[:providers] = {
             firebase: {
                 config: Rails.application.credentials.dig(:providers, :firebase, :web),
@@ -130,7 +130,7 @@ class ApplicationLesliController < ApplicationController
         return unless Lesli.instance[:code] == "lesli_cloud"
 
         @account[:customization] = {}
-        
+
         logos = {}
         logo_identifiers = Account::File.file_types.keys
         custom_logos = current_user.account.files.where("file_type in (?)", logo_identifiers).order(id: :desc).all
@@ -176,23 +176,23 @@ class ApplicationLesliController < ApplicationController
         #   limited_path must not to be equal to the current path (to avoid a loop)
         #   request must not to be AJAX
         #   request must be for show or index views
-        if  !limited_path.blank? and 
-            !(limited_path == request.original_fullpath) and 
+        if  !limited_path.blank? and
+            !(limited_path == request.original_fullpath) and
             !(request[:format] == "json") and
             ["show", "index"].include?(params[:action])
 
             return redirect_to(limited_path)
-        end 
+        end
 
         # privilege for object not found
         if granted.blank?
             current_user.logs.create({ title: "privilege_not_found", description: request.path })
             return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] })
         end
-        
+
         unless granted
             current_user.logs.create({ title: "privilege_not_granted", description: request.path })
-            return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] }) 
+            return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] })
         end
     end
 
@@ -201,7 +201,7 @@ class ApplicationLesliController < ApplicationController
     def authorize_request
 
         # check if the users is logged into the system
-        if not user_signed_in?
+        unless user_signed_in?
 
             message = "Please Login to view that page!"
 
@@ -212,7 +212,7 @@ class ApplicationLesliController < ApplicationController
                 if request.fullpath != "/"
 
                     # redirect with requested url, so user will be redirected after login
-                    redirect_to("/login?r=#{request.fullpath}", notice: message) and return 
+                    redirect_to("/login?r=#{request.fullpath}", notice: message) and return
 
                 end
 
@@ -224,7 +224,7 @@ class ApplicationLesliController < ApplicationController
         end
 
         # run aditinal validations only for html requests
-        return true if not request.format.html?
+        return true unless request.format.html?
 
         # get the current user session
         current_session = current_user.sessions.find_by(id: session[:user_session_id])

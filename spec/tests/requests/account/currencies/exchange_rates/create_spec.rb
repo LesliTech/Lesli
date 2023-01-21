@@ -1,9 +1,9 @@
 =begin
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -12,13 +12,13 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli3", type: :request do
     describe "POST:/administration/account/currencies/:currency_id/exchange_rates", type: :request do
         include_context "request user authentication"
 
@@ -46,10 +46,10 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             post("/administration/account/currencies/#{@new_currency.id}/exchange_rates.json", params: {
                 currency_exchange_rate: @exchange_rates_params
             })
-    
+
 
             expect_response_with_successful
-            
+
             expect(response_body).to be_a(Hash)
 
             expect(response_body).to have_key("id")
@@ -62,7 +62,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body).to have_key("valid_from")
             expect(response_body["valid_from"]).to be_a(String)
             expect(LC::Date2.new(Time.parse(response_body["valid_from"])).date_time.to_s).to eql(LC::Date2.new(@valid_from).date_time.to_s)
-            
+
             expect(response_body).to have_key("valid_to")
             expect(response_body["valid_to"]).to be_a(String)
             expect(LC::Date2.new(Time.parse(response_body["valid_to"])).date_time.to_s).to eql(LC::Date2.new(@valid_to).date_time.to_s)
@@ -85,7 +85,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         end
 
 
-        it "is expected to respond with currency not found" do 
+        it "is expected to respond with currency not found" do
             # Get an invalid currency_id
             @currencies =  @current_user.account.currencies unless @current_user.account.currencies.empty?
             @invalid_currency_id = @currencies.nil? ? 1 : @currencies.all.order(id: :asc).last["id"] + 1
@@ -102,7 +102,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             })
 
             expect_response_with_not_found
-                
+
             expect(response_body).to be_a(Hash)
 
             expect(response_body.keys).to contain_exactly("message")
@@ -133,12 +133,12 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             })
 
             expect_response_with_error
-            
+
             expect(response_body).to be_a(Hash)
 
             expect(response_body).to have_key("message")
             expect(response_body["message"]).to be_a(String)
-            
+
             expect(response_body).to have_key("details")
             expect(response_body["details"]).to be_a(Array)
         end
@@ -167,12 +167,12 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             })
 
             expect_response_with_error
-            
+
             expect(response_body).to be_a(Hash)
 
             expect(response_body).to have_key("message")
             expect(response_body["message"]).to be_a(String)
-            
+
             expect(response_body).to have_key("details")
             expect(response_body["details"]).to be_a(Array)
         end
@@ -190,12 +190,12 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             post("/administration/account/currencies/#{@new_currency.id}/exchange_rates.json", params: {})
 
             expect_response_with_error
-            
+
             expect(response_body).to be_a(Hash)
 
             expect(response_body).to have_key("message")
             expect(response_body["message"]).to be_a(String)
-            
+
             expect(response_body).to have_key("details")
             expect(response_body["details"]).to be_a(Array)
         end

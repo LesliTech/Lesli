@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -27,7 +27,7 @@ module ApplicationHelper
     # return true if the controller requested belongs to the administration area
     def deprecated_is_lesli_engine_administration?
         [
-            "accounts", "account", "roles", "profiles", "users", "abouts", 
+            "accounts", "account", "roles", "profiles", "users", "abouts",
             "settings", "cronos", "onboardings", "role_descriptors"
         ].include?(lesli_engine)
     end
@@ -35,7 +35,7 @@ module ApplicationHelper
     # return true if the controller belongs to an engine nor to builder or administration area
     def deprecated_is_lesli_engine?(engine=nil)
         current_engine = lesli_engine
-        return current_engine == engine if not engine.blank?
+        return current_engine == engine unless engine.blank?
         return false if deprecated_is_lesli_engine_administration?
         return true
     end
@@ -44,7 +44,7 @@ module ApplicationHelper
     # this helper return the name of the engine of the code we are running on
     # example: https://lesli.cloud/driver/events/1/edit -> engine loaded: cloud_driver
     def deprecated_lesli_engine_or_instance
-        return lesli_instance_code if not deprecated_is_lesli_engine?
+        return lesli_instance_code unless deprecated_is_lesli_engine?
         return lesli_engine
     end
 

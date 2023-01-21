@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -22,14 +22,14 @@ module Courier
         class Announcement
 
             def self.count(current_user)
-                return 0 if not defined? CloudBell
+                return 0 unless defined? CloudBell
                 CloudBell::Announcement.count(current_user)
             end
 
             def self.list(current_user, query)
-                return [] if not defined? CloudBell
-                return [] if not current_user.has_privileges?(["cloud_bell/announcements"], ["list"])
-                
+                return [] unless defined? CloudBell
+                return [] unless current_user.has_privileges?(["cloud_bell/announcements"], ["list"])
+
                 CloudBell::Announcement.list(current_user, query)
             end
         end
