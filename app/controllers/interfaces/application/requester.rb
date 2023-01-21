@@ -77,7 +77,7 @@ module Interfaces
                 locale = params[:locale] if locale.blank?
                 
                 # use the language from the browser/os
-                get_browser_locale if locale.blank?
+                locale = get_browser_locale if locale.blank?
 
                 # use the default locale if no custom locale was found
                 return I18n.locale = I18n.default_locale if locale.blank?
