@@ -1,19 +1,14 @@
 =begin
-
 Copyright (c) 2023, all rights reserved.
-
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
-
 Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
-
 For more information read the license file including with this software.
-
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 module Interfaces
@@ -38,27 +33,8 @@ module Interfaces
                     },
                     group: params[:group] || ""
                 }
-
-                if defined?(DeutscheLeibrenten)
-                    @query = {
-                        search: params[:search] || "",
-                        filters: params[:filters] ? params[:filters] : {},
-                        pagination: {
-                            perPage: (params[:perPage] ? params[:perPage].to_i : 15),
-                            page: (params[:page] ? params[:page].to_i : 1),
-                            order: (params[:order] ? params[:order] : "desc"),
-                            orderBy: (params[:orderBy] ? params[:orderBy] : "id"),
-                            orderColumn: (params[:orderColumn] ? params[:orderColumn] : "id")
-                        },
-                        order: {
-                            by: (params[:orderBy] ? params[:orderBy] : "id"),
-                            dir: (params[:order] ? params[:order] : "desc")
-                        }
-                    }
-                    
-                    @query[:filters][:search] = @query[:search] unless @query[:filters][:search]
-                end
             end
+
 
             # Set the user language based on user_settings, session configuration or instance default locale
             def set_locale
@@ -88,6 +64,7 @@ module Interfaces
                 I18n.locale = locale
         
             end
+
 
             # Set the user language based on url configuration or browser/os default language
             def set_locale_public
