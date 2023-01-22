@@ -1,10 +1,10 @@
 # =begin
 
-# Copyright (c) 2020, all rights reserved.
+# Copyright (c) 2023, all rights reserved.
 
-# All the information provided by this platform is protected by international laws related  to 
-# industrial property, intellectual property, copyright and relative international laws. 
-# All intellectual or industrial property rights of the code, texts, trade mark, design, 
+# All the information provided by this platform is protected by international laws related  to
+# industrial property, intellectual property, copyright and relative international laws.
+# All intellectual or industrial property rights of the code, texts, trade mark, design,
 # pictures and any other information belongs to the owner of this platform.
 
 # Without the written permission of the owner, any replication, modification,
@@ -13,18 +13,18 @@
 # For more information read the license file including with this software.
 
 # // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-# // · 
+# // ·
 
 # =end
 
 # include helpers, configuration & initializers for request tests
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli 3", :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli 3" do
 
     describe "GET:/administration/users/:id.json", type: :request do
         include_context "request user authentication"
-        
+
         it "is expected to respond with the first user created" do
             user = FactoryBot.create(:user)
 

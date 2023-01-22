@@ -66,10 +66,10 @@ onMounted(() => {
     <section class="application-component">
         <lesli-header :title="'Edit: ' + storeRole.role.name + ' role '">
             <lesli-button icon="list" :to="url.root(props.appMountPath)">
-                All roles
+                {{  translations.core.roles.view_btn_roles_list }}
             </lesli-button>
-            <lesli-button icon="preview" :to="url.root(props.appMountPath+`/${storeRole.role.id}`)">
-                Show role
+            <lesli-button icon="settings" :to="url.root(props.appMountPath+`/${storeRole.role.id}`)">
+               {{  translations.core.roles.view_btn_edit_privilege_actions }}
             </lesli-button>
         </lesli-header>
         <componentFormRole></componentFormRole>

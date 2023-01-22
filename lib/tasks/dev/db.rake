@@ -14,63 +14,55 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
-require "./lib/tasks/lesli_rake"
+namespace :dev do
+    namespace :db do
 
-class Db < LesliRake
-
-    def initialize
-        namespace :dev do
-            namespace :db do
-
-                desc ""
-                task :reset => :environment do |task, args|
-                    ARGV.each { |a| task a.to_sym do ; end }
-        
-                    env = 'development'
-                    env = ARGV[1] if not ARGV[1].blank?
-
-                    # execute command
-                    reset env
-        
-                end
-
-            end
-
+        desc "Drop, build, migrate & seed database (development only)"
+        task :reset => :environment do |task, args|
+            reset()
         end
 
-    end
-
-
-
-    private
-
-
-
-    # Push code to remote branch/origin for all engines
-    def reset environment
-
-        message("Reset database for #{environment}")
-
-        message("drop database")
-        Rake::Task['db:drop'].invoke
-
-        message("create database")
-        Rake::Task['db:create'].invoke
-
-        message("migrate database")
-        Rake::Task['db:migrate'].invoke
-
-        message("seed database")
-        Rake::Task['db:seed'].invoke
-
-        message_separator
-        message_cow
+        desc "Load development seeders"
+        task :seed => :environment do |task, args|
+            seed()
+        end
 
     end
 
 end
 
-Db.new
+
+# Drop, build, migrate & seed database (development only)
+def reset 
+
+    return if Rails.env.production?
+
+    L2.info("Reset database for development")
+
+    Rake::Task['db:drop'].invoke
+    Rake::Task['db:create'].invoke
+    Rake::Task['db:migrate'].invoke
+    Rake::Task['db:seed'].invoke
+
+    #message_separator
+    #message_cow
+
+end
+
+
+# Load development seeders for any environment
+def seed
+    
+    load Rails.root.join("db", "seed", "tools.rb")
+    load Rails.root.join("db", "seed", "development.rb")
+
+    Rails.application.config.lesli[:engines].each do |engine|
+        instance_klass = engine[:name].safe_constantize
+        if File.exists?(instance_klass::Engine.root.join("db", "seed", "development.rb"))
+            load(instance_klass::Engine.root.join("db", "seed", "development.rb"))
+        end
+    end
+
+end 

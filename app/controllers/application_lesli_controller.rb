@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -18,9 +18,9 @@ For more information read the license file including with this software.
 
 class ApplicationLesliController < ApplicationController
     include Interfaces::Application::Responder
-    include Application::Requester
-    include Application::Logger
-    include Application::Polyfill
+    include Interfaces::Application::Requester
+    include Interfaces::Application::Logger
+    #include Application::Polyfill
 
     protect_from_forgery with: :exception
 
@@ -95,9 +95,9 @@ class ApplicationLesliController < ApplicationController
             datetime: Rails.application.config.lesli.dig(:configuration, :datetime),
             currency: (Rails.application.config.lesli[:configuration][:currency] || {})
                 .merge({ locale: Rails.application.config.lesli[:env][:default_locale] }),
-            
+
         }
-        
+
         # set user information
         @account[:current_user] = {
             id: current_user.id,
@@ -109,7 +109,7 @@ class ApplicationLesliController < ApplicationController
             settings: current_user.settings.map { |s| { name: s.name, value: s.value } }
         }
 
-        # 
+        #
         @account[:providers] = {
             firebase: {
                 config: Rails.application.credentials.dig(:providers, :firebase, :web),
@@ -130,7 +130,7 @@ class ApplicationLesliController < ApplicationController
         return unless Lesli.instance[:code] == "lesli_cloud"
 
         @account[:customization] = {}
-        
+
         logos = {}
         logo_identifiers = Account::File.file_types.keys
         custom_logos = current_user.account.files.where("file_type in (?)", logo_identifiers).order(id: :desc).all
@@ -166,42 +166,33 @@ class ApplicationLesliController < ApplicationController
 
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
-        granted = current_user.has_privileges4?(params[:controller], params[:action], params[:format])
+        granted = current_user.has_privileges?(params[:controller], params[:action], params[:format])
 
-        # IMPORTANT: compatibility with rolesv3
-        # check if user has access to the requested controller
-        # this search is over all the privileges for all the roles of the user
-        # Due this method is executed on every request, we use low level cache to improve performance
-        if defined?(DeutscheLeibrenten)
-            granted3 = current_user.has_privileges?([params[:controller]], [params[:action]])
+        # get the path to which the user is limited to
+        limited_path = current_user.has_role_limited_to_path?
 
-            # grant privilege if old privileges granted
-            granted = true if granted3 == true
-        end
+        # to redirect to the limited path we must check:
+        #   limited_path must not to be nil or empty string ("")
+        #   limited_path must not to be equal to the current path (to avoid a loop)
+        #   request must not to be AJAX
+        #   request must be for show or index views
+        if  !limited_path.blank? and
+            !(limited_path == request.original_fullpath) and
+            !(request[:format] == "json") and
+            ["show", "index"].include?(params[:action])
 
-        # Check if user can be redirected to role default path
-        can_redirect_to_default_path = -> () {
-            return false if request[:format] == "json"
-            return false if !["show", "index"].include?(params[:action])
-            return false if current_user.roles.first[:default_path].blank?
-            return false if current_user.roles.first[:default_path] == request.original_fullpath
-            return true
-        }
-
-        # if user do not has access to the requested route and can go to default route
-        if (!granted && can_redirect_to_default_path.call())
-            return redirect_to current_user.roles.first[:default_path]
+            return redirect_to(limited_path)
         end
 
         # privilege for object not found
         if granted.blank?
-            log_user_comments(request.path, "privilege_not_found")
+            current_user.logs.create({ title: "privilege_not_found", description: request.path })
             return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] })
         end
-        
+
         unless granted
-            log_user_comments(request.path ,"privilege_not_granted")
-            return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] }) 
+            current_user.logs.create({ title: "privilege_not_granted", description: request.path })
+            return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] })
         end
     end
 
@@ -210,7 +201,7 @@ class ApplicationLesliController < ApplicationController
     def authorize_request
 
         # check if the users is logged into the system
-        if not user_signed_in?
+        unless user_signed_in?
 
             message = "Please Login to view that page!"
 
@@ -221,7 +212,7 @@ class ApplicationLesliController < ApplicationController
                 if request.fullpath != "/"
 
                     # redirect with requested url, so user will be redirected after login
-                    redirect_to("/login?r=#{request.fullpath}", notice: message) and return 
+                    redirect_to("/login?r=#{request.fullpath}", notice: message) and return
 
                 end
 
@@ -233,7 +224,7 @@ class ApplicationLesliController < ApplicationController
         end
 
         # run aditinal validations only for html requests
-        return true if not request.format.html?
+        return true unless request.format.html?
 
         # get the current user session
         current_session = current_user.sessions.find_by(id: session[:user_session_id])

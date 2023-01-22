@@ -101,11 +101,13 @@ module.exports = env => {
         // engine javascript apps are defined dynamically
         entry: {
             
+            // devise apps
             "users/sessions": "Lesli/vue3/users/sessions.js",
             "users/passwords": "Lesli/vue3/users/passwords.js",
             "users/registrations": "Lesli/vue3/users/registrations.js",
             "users/confirmations": "Lesli/vue3/users/confirmations.js",
 
+            // alternative logins 
             "mfas/application": "Lesli/vue3/mfas/app.js",
             "otps/application": "Lesli/vue3/otps/app.js",
             "passes/application": "Lesli/vue3/passes/app.js",
@@ -116,7 +118,9 @@ module.exports = env => {
             "administration/application": "Lesli/vue3/administration/app.js",
 
             "websites/application": "Lesli/vue3/websites/app.js",
-
+            
+            "errors/application": "Lesli/vue3/errors/app.js",
+            
         },
 
 
@@ -150,6 +154,8 @@ module.exports = env => {
                 CloudFocus: path.resolve("engines", "cloud_focus", "app", "vue3"),
                 CloudDriver: path.resolve("engines", "cloud_driver", "app", "vue3"),
                 CloudSocial: path.resolve("engines", "cloud_social", "app", "vue3"),
+                CloudScraper: path.resolve("engines", "cloud_scraper", "app", "vue3"),
+                CloudShared: path.resolve("engines", "cloud_shared", "app", "vue3"),
                 CloudDevelopment: path.resolve("engines", "cloud_development", "app", "vue3"),
                 MitwerkenCloud: path.resolve("engines", "mitwerken_cloud", "app", "vue3"),
                 DeutscheLeibrenten: path.resolve("engines", "deutsche_leibrenten", "app", "vue3"),
@@ -274,14 +280,35 @@ module.exports = env => {
         configEngine.output.path = path.resolve(pathEngines, engine, "app", "assets", "javascripts")
         configEngine.entry = {}
 
-        // path to the vue app main mount file
-        var appPath = path.resolve(pathEngines, engine, "app", "vue3", "app.js")
 
-        // stop process if vue3 app does not exists
-        if (!fs.existsSync(appPath)) { return; }
+        // scan the vue folder to get all the vue3 apps
+        var appFolder = path.resolve(pathEngines, engine, "app", "vue3")
 
-        // add vue3 apps found into the webpack compilation pipeline
-        configEngine.entry[(`${engine}/application`)] = appPath
+        // filter to remove the folders
+        let files = fs.readdirSync(appFolder, { withFileTypes: true })
+            .filter(item => !item.isDirectory())
+            .map(item => item.name)
+
+        // register every vue3 app found
+        files.forEach(file => {
+
+            // path to the vue app main mount file
+            let appPath = path.resolve(appFolder, file)
+
+            // stop process if vue3 app does not exists
+            if (!fs.existsSync(appPath)) { return; }
+
+            let appname = path.parse(file).name
+
+            // compatibility, but we should change the app filename from app.js to application.js
+            if (appname == 'app') {
+                appname = 'application'
+            }
+
+            // add vue3 apps found into the webpack compilation pipeline
+            configEngine.entry[(`${engine}/${appname}`)] = appPath
+
+        })
 
         // set new output to engine app folder
         configEngine.output.filename = "[name].js"

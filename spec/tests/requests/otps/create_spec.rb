@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "POST:/otp", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "POST:/otp", type: :request do
     it "is expected to respond with data equal to nil, when email is not sent" do
         post("/otp")
         expect_response_with_successful
@@ -31,4 +31,4 @@ RSpec.describe "POST:/otp", type: :request, :unless => defined?(DeutscheLeibrent
         expect_response_with_successful
         expect(response_body).to be_a(String)
     end
-end 
+end

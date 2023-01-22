@@ -18,6 +18,9 @@ For more information read the license file including with this software.
 =end
 
 Rails.application.routes.draw do
+    extend RoutesBuilder
+    extend RoutesApp
+    
     devise_for :users,
     :path => "",
     :path_names => {
@@ -34,44 +37,43 @@ Rails.application.routes.draw do
         :sessions => "users/sessions",
         :omniauth_callbacks => "users/oauth",
     }
-
+    
     devise_scope :user do
         get "register/options", to: "users/registrations#options"
     end
-    
+
     get :language, to: "application#switch_locale"
 
-    extend RoutesBuilder
-    extend RoutesApp
-
-    mount CloudKb::Engine    => "/kb"    if defined?(CloudKb)
-    mount CloudOne::Engine    => "/one"    if defined?(CloudOne)
-    mount CloudWord::Engine   => "/word"   if defined?(CloudWord)
-    mount CloudWork::Engine   => "/work"   if defined?(CloudWork)
-    mount CloudTeam::Engine   => "/team"   if defined?(CloudTeam)
-    mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
-    mount CloudHelp::Engine   => "/help"   if defined?(CloudHelp)
-    mount CloudText::Engine   => "/text"   if defined?(CloudText)
-    mount CloudTalk::Engine   => "/talk"   if defined?(CloudTalk)
-    mount CloudBooks::Engine  => "/books"  if defined?(CloudBooks)
-    mount CloudAudit::Engine  => "/audit"  if defined?(CloudAudit)
-    mount CloudLesli::Engine  => "/lesli"  if defined?(CloudLesli)
-    mount CloudBabel::Engine  => "/babel"  if defined?(CloudBabel)
-    mount CloudHouse::Engine  => "/house"  if defined?(CloudHouse)
-    mount CloudFocus::Engine  => "/focus"  if defined?(CloudFocus)
-    mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
-    mount CloudMailer::Engine => "/mailer" if defined?(CloudMailer)
-    mount CloudPortal::Engine => "/portal" if defined?(CloudPortal)
-    mount CloudRealty::Engine => "/realty" if defined?(CloudRealty)
-    mount CloudThings::Engine => "/inventory" if defined?(CloudThings)
-    mount CloudStorage::Engine => "/storage" if defined?(CloudStorage)
-    mount CloudInsights::Engine => "/insights" if defined?(CloudInsights)
-    mount CloudProposal::Engine => "/proposal" if defined?(CloudProposal)
+    mount CloudKb::Engine          => "/kb"          if defined?(CloudKb)
+    mount CloudOne::Engine         => "/one"         if defined?(CloudOne)
+    mount CloudWord::Engine        => "/word"        if defined?(CloudWord)
+    mount CloudWork::Engine        => "/work"        if defined?(CloudWork)
+    mount CloudTeam::Engine        => "/team"        if defined?(CloudTeam)
+    mount CloudBell::Engine        => "/bell"        if defined?(CloudBell)
+    mount CloudHelp::Engine        => "/help"        if defined?(CloudHelp)
+    mount CloudText::Engine        => "/text"        if defined?(CloudText)
+    mount CloudTalk::Engine        => "/talk"        if defined?(CloudTalk)
+    mount CloudBooks::Engine       => "/books"       if defined?(CloudBooks)
+    mount CloudAudit::Engine       => "/audit"       if defined?(CloudAudit)
+    mount CloudLesli::Engine       => "/lesli"       if defined?(CloudLesli)
+    mount CloudBabel::Engine       => "/babel"       if defined?(CloudBabel)
+    mount CloudHouse::Engine       => "/house"       if defined?(CloudHouse)
+    mount CloudFocus::Engine       => "/focus"       if defined?(CloudFocus)
+    mount CloudSocial::Engine      => "/social"      if defined?(CloudSocial)
+    mount CloudDriver::Engine      => "/driver"      if defined?(CloudDriver)
+    mount CloudMailer::Engine      => "/mailer"      if defined?(CloudMailer)
+    mount CloudPortal::Engine      => "/portal"      if defined?(CloudPortal)
+    mount CloudRealty::Engine      => "/realty"      if defined?(CloudRealty)
+    mount CloudThings::Engine      => "/things"      if defined?(CloudThings)
+    mount CloudScraper::Engine     => "/scraper"     if defined?(CloudScraper)
+    mount CloudStorage::Engine     => "/storage"     if defined?(CloudStorage)
+    mount CloudInsights::Engine    => "/insights"    if defined?(CloudInsights)
+    mount CloudProposal::Engine    => "/proposal"    if defined?(CloudProposal)
     mount CloudDevelopment::Engine => "/development" if defined?(CloudDevelopment)
 
-    mount CloudShared::Engine => "/shared" if defined?(CloudShared)
-    mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
-    mount CloudFederation::Engine => "/cloud" if defined?(CloudFederation)
+    mount CloudShared::Engine      => "/shared"      if defined?(CloudShared)
+    mount CloudDispatcher::Engine  => "/api"         if defined?(CloudDispatcher)
+    mount CloudFederation::Engine  => "/cloud"       if defined?(CloudFederation)
 
     match "/404", :to => "errors#not_found",             :via => :all
     match "/401", :to => "errors#unauthorized",          :via => :all

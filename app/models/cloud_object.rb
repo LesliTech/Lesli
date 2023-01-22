@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -86,7 +86,7 @@ class CloudObject < ApplicationLesliRecord
     end
 
     # @return [String]
-    # @optional_param extended [Boolean] Defaults to false. Some cloud objects support an extended global identifier with more characters  
+    # @optional_param extended [Boolean] Defaults to false. Some cloud objects support an extended global identifier with more characters
     # @description Returns a string that represents and identifies this cloud_object from all other cloud_objects in the same account
     # @example
     #     ticket = CloudHelp::Ticket.find(1)

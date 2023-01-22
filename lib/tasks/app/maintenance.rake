@@ -16,13 +16,14 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
 namespace :app do
 
+    desc "Group of maintenance tasks for Lesli"
     task maintenance: :environment do
-        Rake::Task["app:engines:initialize_account"].invoke 
+        Rake::Task["app:controllers:build"].invoke 
+        Rake::Task["app:engines:initialize"].invoke 
         Rake::Task["app:descriptors:build"].invoke 
         Rake::Task["cloud_babel:scan"].invoke if defined?(CloudBabel)
     end

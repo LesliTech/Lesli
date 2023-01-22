@@ -1,9 +1,9 @@
 =begin
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -12,17 +12,17 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli3", type: :request do
     describe "DELETE:/administration/account/currencies/:currency_id/exchange_rates/:id", type: :request do
         include_context "request user authentication"
 
-        it "is expected to respond with a exchange rate deleted successfully" do 
+        it "is expected to respond with a exchange rate deleted successfully" do
             # create a valid currency
             @new_currency = @current_user.account.currencies.create!({
                 name: Faker::Currency.name,
@@ -48,7 +48,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         end
 
 
-        it "is expected to respond with not found when an ID that does not exist is given" do 
+        it "is expected to respond with not found when an ID that does not exist is given" do
             # this is a new currency, therefore does not have any exchange rate yet, no records
             @new_currency = @current_user.account.currencies.create!({
                 name: Faker::Currency.name,
