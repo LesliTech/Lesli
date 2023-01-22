@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -36,7 +36,7 @@ module Interfaces
             # .joins(:detail)
             # .page(query[:pagination][:page])
             # .per(query[:pagination][:perPage])
-            # 
+            #
             # respond_with_successful_pagination(tasks)
             #
             # IMPORTANT: It is strictly necessary to use the pagination methods
@@ -44,7 +44,7 @@ module Interfaces
             def respond_with_pagination(records, payload=nil)
 
                 #validate if record has data and pages
-                if !records.empty? && records.total_pages > 0 
+                if !records.empty? && records.total_pages > 0
                     return respond_with_http(200, {
                         :pagination => {
                             :page => records.current_page,
@@ -52,7 +52,7 @@ module Interfaces
                             :total => records.total_count,
                             :results => records.length
                         },
-                        :records => payload || records 
+                        :records => payload || records
                     })
                 end
 
@@ -65,8 +65,8 @@ module Interfaces
                         :total => 0,
                         :results => 0
                     },
-                    #records is empty in core 
-                    :records => [] 
+                    #records is empty in core
+                    :records => []
                 })
             end
 
@@ -86,15 +86,15 @@ module Interfaces
                     return render(status: 404, json: response_body.to_json)
                 end
 
-                respond_with_http(404, { 
+                respond_with_http(404, {
                     message: I18n.t("core.shared.messages_danger_not_found")
                 })
             end
 
-            
+
             # JSON not found response
             def respond_with_unauthorized(detail = {})
-            
+
                 error_object = { }
 
                 # Keep compatibility with Deutsche Leibrenten
@@ -124,6 +124,15 @@ module Interfaces
 
             end
 
+            # JSON failure response due users has to perform an action
+            # example: respond_with_action({ :redirect => "telephone_confirmation" })
+            def respond_with_action (action, message = "Action Required")
+                respond_with_http(490, {
+                    :message => message,
+                    :action => action
+                })
+            end
+
             # JSON failure response
             def respond_with_error message = "", details = []
 
@@ -146,7 +155,7 @@ module Interfaces
             def respond_with_http status, payload
                 return render(status: status, content_type: 'application/json', json: payload.to_json) unless payload.nil?
                 return render(status: status, content_type: 'application/json', json: "")
-            end 
+            end
 
         end
     end

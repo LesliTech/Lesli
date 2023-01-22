@@ -41,7 +41,7 @@ const editorContent = ref(null)     // input container
 const props = defineProps({
     modelValue: {
         type: String,
-        required: true,
+        required: false
     },
     mode: {
         type: String,
@@ -90,9 +90,40 @@ const watchModelValue = watch(() => props.modelValue, (newContent) => {
 
 
 onMounted(() => {
+
+    // load initial content, mostly from database
     if (props.modelValue && editorNode.value.editor.innerHTML !== props.modelValue) {
         updateEditorContent(props.modelValue)
     }
+
+    // listen for file attachment, so we can store images as base64
+    editorNode.value.addEventListener("trix-attachment-add", function(event) {
+
+        // create a new reader
+        let reader = new FileReader();
+        
+        // read the attachment
+        reader.readAsDataURL(event.attachment.file);
+
+        // listen for the file to be loaded into the reader
+        reader.addEventListener('load', ()=> {
+
+            // create a temporary img container for our new attached file
+            let image = document.createElement('img');
+            image.src = reader.result;
+            let tmp = document.createElement('div');
+            tmp.appendChild(image);
+
+            // insert our attached image into the main html content (of the editor)
+            editorNode.value.editor.insertHTML(tmp.innerHTML)
+
+            // here we should remove the original attachment file from trix
+            // but for some reason this does not work :'(
+            event.attachment = ""
+
+        }, false);
+
+    })
 })
 
 
@@ -135,6 +166,8 @@ function updateEditorContent(content) {
     editorNode.value.editor.setSelectedRange(content.length - 1)
 }
 
+
+
 </script>
 <template>
     <div :class="['component-editor-richtext', props.mode]">
@@ -147,3 +180,8 @@ function updateEditorContent(content) {
         </trix-editor>
     </div>
 </template>
+<style>
+.attachment--png {
+    display: none !important;
+}
+</style>

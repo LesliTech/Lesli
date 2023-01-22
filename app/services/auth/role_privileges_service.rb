@@ -26,33 +26,39 @@ module Auth
         def synchronize_privileges role_id = nil
 
             # bulk all the descriptor privileges
-            records = Descriptor.joins(:privileges, :describers_all).with_deleted.select(
-                "descriptor_privileges.controller",
-                "descriptor_privileges.action",
-                "descriptor_privileges.form",
-                "role_describers.deleted_at",
-                "role_describers.roles_id"
-            )
+            # this script was built manually for performance
+            # basically what it does is get the controllers and actions
+            # assigned to a descriptor through the descriptor_privileges table
+            records = Descriptor.joins("
+                INNER JOIN descriptor_privileges
+	            ON descriptor_privileges.deleted_at IS NULL 
+	            AND descriptor_privileges.descriptors_id = descriptors.id 
+            ").joins("
+                INNER JOIN role_descriptors 
+	            ON role_descriptors.descriptors_id = descriptors.id
+            ").joins("
+                INNER JOIN system_controller_actions 
+	            ON system_controller_actions.id = descriptor_privileges.system_controller_actions_id 
+            ").joins("
+                INNER JOIN system_controllers 
+                ON system_controllers.id = system_controller_actions.system_controllers_id 
+            ").select(
+                "system_controllers.name as controller", 
+                "system_controller_actions.name as action", 
+                "role_descriptors.roles_id as roles_id" 
+            ).with_deleted
 
             # synchronize only for the given role, this is needed to sync only modified roles
-            records = records.where("role_describers.roles_id" => role_id) if role_id
+            records = records.where("role_descriptors.roles_id" => role_id) if role_id
 
             # convert the results to json so it is easy to insert/update
-            records = records.as_json(only: [:controller, :action, :form, :roles_id, :deleted_at])
-
-            
-            # IMPORTANT: We must save only uniq privileges in the role_privilege table
-            # this means that it does not matters how many times we defined a privilege dependency
-            # we insert the privilege only once.
-            # Example: If we defined that we need access to UsersController#index in 20 descriptors,
-            # in the role_privileges will be only one record for that specific controller and action
-            records = records.uniq! { |r| [r["controller"], r["action"], r["form"], r["roles_id"]] }
+            records = records.as_json(only: [:controller, :action, :roles_id])
 
             # small check to ensure I have records to update/insert
             return if records.blank?
 
             # bulk update/insert into role privilege cache table
-            Role::Privilege.with_deleted.upsert_all(records, unique_by: [:controller, :action, :form, :roles_id])
+            Role::Privilege.with_deleted.upsert_all(records, unique_by: [:controller, :action, :roles_id])
 
         end 
 

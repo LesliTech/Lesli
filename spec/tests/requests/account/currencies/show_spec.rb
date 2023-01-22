@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,14 +13,14 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
 
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli3", type: :request do
     describe "GET:/administration/account/currencies/:id.json", type: :request do
         include_context "request user authentication"
 
@@ -53,15 +53,15 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             new_object.save!
             return new_object
         end
-        
+
         # test cases
         #one or more test could fail when first run them, verify the routes, controller locations and names
         #
 
         it "is expected to respond with the record data" do
             create_element
-            
-            #make sure you have created some elements before run test and reference its id 
+
+            #make sure you have created some elements before run test and reference its id
             account_object = create_element
 
             get("/administration/account/currencies/#{account_object.id}.json")
@@ -74,7 +74,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         it "is expected to respond with not found when an invalid ID is sent" do
 
             @current_user.account.currencies.create!({
-                :name => 'Quetzal', 
+                :name => 'Quetzal',
                 :symbol => 'GTQ',
                 :user => @current_user,
                 :user_main => @current_user

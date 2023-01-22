@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -37,9 +37,9 @@ class ApplicationLesliRecord < ApplicationRecord
 
         module_info = self.class.name.split("::")
 
-        return if not Object.const_defined?("#{module_info[0]}::CustomValidation::Field")
+        return unless Object.const_defined?("#{module_info[0]}::CustomValidation::Field")
 
-        custom_validation_fields_model= "#{module_info[0]}::CustomValidation::Field".constantize 
+        custom_validation_fields_model= "#{module_info[0]}::CustomValidation::Field".constantize
 
         fields_to_validate = custom_validation_fields_model.where(
             :model_to_validate => self.class.name,
@@ -60,7 +60,7 @@ class ApplicationLesliRecord < ApplicationRecord
 =begin
 @return [Boolean]
 @param fields_list [Array] The list of the fields to delete
-@description Set all fields to nil excluding foreign key ids 
+@description Set all fields to nil excluding foreign key ids
 @example
     company_details = CloudHouse::Company.first.detail
     puts company_details #will display an instance of the object
@@ -68,26 +68,26 @@ class ApplicationLesliRecord < ApplicationRecord
         "id": 1,
         "users_id": 512,
         "name": "Company 1",
-        "company_type": "Bank"    
+        "company_type": "Bank"
     }
     company_details.clear_fields
-    puts company_details.clear_fields 
+    puts company_details.clear_fields
     {
         "id": 1,
         "users_id": 512,
         "name": nil,
-        "company_type": nil    
+        "company_type": nil
     }
 =end
-    def clear_fields(fields_list = nil)    
+    def clear_fields(fields_list = nil)
         attributes_hash = {}
         self.attributes.keys.each do |key|
-            if key != "id" && 
-                key != "created_at" && 
-                key != "updated_at" && 
-                key != "deleted_at" && 
+            if key != "id" &&
+                key != "created_at" &&
+                key != "updated_at" &&
+                key != "deleted_at" &&
                 !(key.include? "_id")
-                    unless fields_list.nil? 
+                    unless fields_list.nil?
                         if (fields_list.include?(key))
                             attributes_hash["#{key}"] = nil
                         end
@@ -102,7 +102,7 @@ class ApplicationLesliRecord < ApplicationRecord
     end
 
     # @return [String] The name of this class, starting with 'Cloud'
-    # @description Returns the Lesli engine and class name associated to this model. This method must be overwritten 
+    # @description Returns the Lesli engine and class name associated to this model. This method must be overwritten
     #   if you create a new engine that inherits from another Lesli engine (like DeutscheLeibrenten previously CloudHaus)
     # @example
     #   puts CloudHouse::Project.lesli_classname # Will diplay 'CloudHouse::Project'
@@ -114,7 +114,7 @@ class ApplicationLesliRecord < ApplicationRecord
     # @return [Integer] The threshold value when an user olp priviliges change from '>' to '>='
     # @description The return value indicates an administrator olp threhold (if any). This number indicates
     #   when the condition for editing values should be changed from '>' to '>='
-    # @example 
+    # @example
     #   # Imagine 5 users:
     #   # 'user_a' has an object_level_permission of 10
     #   # 'user_b' has an object_level_permission of 10
@@ -154,9 +154,9 @@ class ApplicationLesliRecord < ApplicationRecord
 
         reference_olp = 0
         if user_creator
-            reference_olp = user_creator.roles.first.object_level_permission
+            reference_olp = user_creator.roles.first&.object_level_permission || 0
         elsif user_main
-            reference_olp = user_main.roles.first.object_level_permission
+            reference_olp = user_main.roles.first&.object_level_permission || 0
         end
 
         if current_user_olp >= object_level_permission_threshold && current_user_olp >= reference_olp

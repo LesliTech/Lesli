@@ -39,8 +39,8 @@ onMounted(() => {
 
 </script>
 <template>
-<form @submit.prevent="storeUser.setLanguage">
-    <div class="field is-horizontal">
+    <form @submit.prevent="storeUser.setLanguage">
+        <div class="field is-horizontal">
             <div class="field-label">
                 <label class="label"> Select preferred language </label>
             </div>
@@ -54,19 +54,19 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
-    </div>
-    <div class="field is-horizontal">
-        <div class="field-label is-normal">
         </div>
-        <div class="field-body">
-            <div class="field">
-                <div class="control">
-                    <lesli-button icon="save">
-                        {{ translations.shared.view_btn_save }}
-                    </lesli-button>                    
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <lesli-button icon="save">
+                            {{ translations.shared.view_btn_save }}
+                        </lesli-button>                    
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
 </template>

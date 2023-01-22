@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,12 +13,12 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 require "lesli_request_helper"
 
-RSpec.describe 'POST:/administration/roles.json', type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe 'POST:/administration/roles.json', type: :request do
 
     include_context "request user authentication"
 
@@ -126,6 +126,26 @@ RSpec.describe 'POST:/administration/roles.json', type: :request, :unless => def
 
         expect(response_body).to have_key("message")
         expect(response_body["message"]).to be_a(String)
+    end
+
+    it "is expected to create a role with default path" do
+        role = FactoryBot.attributes_for(:role)
+
+        role[:default_path] = "/administration/roles"
+        role[:limit_to_path] = true
+
+        post("/administration/roles.json", params: {
+            role: role
+        })
+
+        # shared examples
+        expect_response_with_successful
+
+        expect(response_body).to have_key("default_path")
+        expect(response_body).to have_key("limit_to_path")
+
+        expect(response_body["default_path"]).to eq("/administration/roles")
+        expect(response_body["limit_to_path"]).to be_truthy
     end
 
 end
