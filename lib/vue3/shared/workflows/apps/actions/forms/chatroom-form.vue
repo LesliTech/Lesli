@@ -32,52 +32,15 @@ const translations = {
     bell: I18n.t('bell.notifications')
 }
 
-
 </script>
 
 <template>
 
-    <!-- Subject -->
+    <!-- Sender user -->
     <div class="columns is-marginless has-border-bottom">
         <div class="column">
             <label class="label">
-                {{ translations.bell.column_subject }}
-                <sup class="has-text-danger">*</sup>
-            </label>
-            <div class="control is-clearfix">
-                <input
-                    type="text"
-                    autocomplete="on"
-                    name="subject"
-                    required
-                    class="input"
-                    v-model="storeActions.action.input_data.subject"
-                />
-            </div>
-        </div>
-    </div>
-
-    <!-- Body -->
-    <div class="columns is-marginless has-border-bottom">
-        <div class="column">
-            <label class="label">
-                {{ translations.bell.column_body }}
-            </label>
-            <textarea
-                name="body"
-                rows="3"
-                maxlength="500"
-                class="textarea"
-                v-model="storeActions.action.input_data.body"
-            ></textarea>
-        </div>
-    </div>
-
-    <!-- Send notification to -->
-    <div class="columns is-marginless has-border-bottom">
-        <div class="column">
-            <label class="label">
-                {{ translations.actions.column_send_notification_to }}
+                {{ translations.actions.view_text_sender_user }}
                 <sup class="has-text-danger">*</sup>
             </label>
             <div class="control">
@@ -88,6 +51,7 @@ const translations = {
                 </lesli-select>
             </div>
         </div>
+
         <!-- Custom users -->
         <div class="column"  v-if="storeActions.concerning_users.type == 'custom' ">
             <label class="label">{{ translations.actions.view_title_employee}}</label>
@@ -99,6 +63,22 @@ const translations = {
                     showField="email"
                 />
             </div>
+        </div>
+    </div>
+
+    <!-- Message content -->
+    <div class="columns is-marginless has-border-bottom">
+        <div class="column">
+            <label class="label">
+                {{ translations.actions.view_text_message_content }}
+            </label>
+            <textarea
+                name="body"
+                rows="3"
+                maxlength="500"
+                class="textarea"
+                v-model="storeActions.action.input_data.message_text"
+            ></textarea>
         </div>
     </div>
 

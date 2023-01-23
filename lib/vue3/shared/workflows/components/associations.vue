@@ -97,7 +97,7 @@ function selectOption (new_association){
     <form @submit.prevent="storeAssociation.postAssociation">
         <div class="columns is-marginless has-border-bottom">
                 <!-- Association -->
-                <div class="column">
+                <div class="column is-4">
                     <label class="label">
                         {{translations.associations.view_title_assign_to}}
                         <sup class="has-text-danger">*</sup>
@@ -112,7 +112,7 @@ function selectOption (new_association){
                 </div>
 
                 <!-- Global assignment -->
-                <div class="column">
+                <div class="column is-4" v-if="storeAssociation.association.workflow_for">
                     <label class="label">
                         {{ translations.associations.column_global }}
                     </label>
@@ -121,18 +121,14 @@ function selectOption (new_association){
                     <span v-else> {{translations.core.view_text_no}} </span>
                 </div>
 
-                <!-- <div class="column">
+                <div class="column is-4" v-if="!storeAssociation.association.global && storeAssociation.association.workflow_for">
 
-                    <div v-for="detail in storeAssociation.options.values(storeAssociation.options)[0].details" 
-                        :key="detail.field_name"
+
+                    <div v-for="detail in storeAssociation.association_details" 
+                        :key="detail.id"
                     >
-                        <label class="label">
-                            {{ detail.field_name }}
-                        </label>
-                        <pre>{{ detail.field_name }}</pre>
-                        <pre>{{  storeAssociation.association_details["ticket_type"] }}</pre>
                         <lesli-select
-                            :options="storeAssociation.association_details[detail.field_name]"
+                            :options="detail"
                             v-model="new_association"
                         >
                         </lesli-select>
@@ -143,7 +139,7 @@ function selectOption (new_association){
 
 
  
-                </div> -->
+                </div>
         </div>
         <div class="columns is-marginless has-border-bottom">
             <div class="column">
