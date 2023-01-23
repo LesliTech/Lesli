@@ -209,41 +209,69 @@ onMounted(() => {
             </div>
 
         </form>
+        
+        <br>
 
-        <lesli-table 
+        <div class="block">
+            <lesli-table 
             :records="storeWorkflow.workflow.statuses"
             :columns="columns"
             v-if="!storeWorkflow.loading && storeWorkflow.workflow.statuses"
-        >
-            <template #number="{ record }">
-                <input 
-                    type="text"
-                    class="input"
-                    v-model="record.number"
-                    @input=""
-                />
-            </template>
+            >
+                <template #number="{ record }">
+                    <input 
+                        type="text"
+                        class="input"
+                        v-model="record.number"
+                        @input=""
+                    />
+                </template>
 
-            <template #marks="{ record }">
-                <lesli-button icon="play_circle" @click="selectAsInitial(record)"></lesli-button>
-                <lesli-button icon="check_circle" @click="changeStatusType(record, 'completed_successfully')"></lesli-button>
-                <lesli-button icon="cancel" @click="changeStatusType(record, 'completed_unsuccessfully')"></lesli-button>
-                <lesli-button icon="auto_delete" @click="changeStatusType(record, 'to_be_deleted')"></lesli-button>
-            </template>
+                <template #marks="{ record }">
 
-            <template #options="{ record }">
-                <a class="dropdown-item" @click="deleteStatus(record)">
-                    <span class="material-icons">
-                        delete
-                    </span>
-                    <span>
-                        Delete
-                    </span>
-                </a>
-            </template>
-        </lesli-table>
+                    <div class="field has-addons">
+                        <p class="control">
+                            <button class="button is-primary is-outlined" @click="selectAsInitial(record)">
+                                <span class="material-icons">play_circle</span>
+                                <span>Initial</span>
+                            </button>
+                        </p>
+                        <p class="control">
+                            <button class="button is-success is-outlined" @click="changeStatusType(record, 'completed_successfully')">
+                                <span class="material-icons">check_circle</span>
+                                <span>Completed</span>
+                            </button>
+                        </p>
+                        <p class="control">
+                            <button class="button is-warning is-outlined" @click="changeStatusType(record, 'completed_unsuccessfully')">
+                                <span class="material-icons">cancel</span>
+                                <span>Completed unsuccessfully</span>
+                            </button>
+                        </p>
+                        <p class="control">
+                            <button class="button is-danger is-outlined" @click="changeStatusType(record, 'to_be_deleted')">
+                                <span class="material-icons">auto_delete</span>
+                                <span>To be deleted</span>
+                            </button>
+                        </p>
+                    </div>
+                </template>
 
-        <div class="columns is-marginless has-border-bottom" v-if="!storeWorkflow.loading && storeWorkflow.workflow.statuses">
+                <template #options="{ record }">
+                    <a class="dropdown-item" @click="deleteStatus(record)">
+                        <span class="material-icons">
+                            delete
+                        </span>
+                        <span>
+                            Delete
+                        </span>
+                    </a>
+                </template>
+            </lesli-table>
+
+        </div>
+
+        <div class="columns is-marginless has-border-bottom block" v-if="!storeWorkflow.loading && storeWorkflow.workflow.statuses">
             <div class="column">
                 <lesli-button icon="save" @click="storeWorkflow.updateWorkflowStatuses">
                     save

@@ -20,10 +20,10 @@ For more information read the license file including with this software.
 import { ref, computed, onMounted } from "vue"
 
 // · import stores
-import { useChecks } from "LesliVue/stores/shared/workflows/checks"
+import { useActions } from "LesliVue/stores/shared/workflows/actions"
 
 // · implement store
-const storeChecks = useChecks()
+const storeActions = useActions()
 
 const props = defineProps({
     appMountPath: {
@@ -71,7 +71,7 @@ const columns = [
 
 onMounted(() => {
     // · get workflow status
-    storeChecks.fetchChecks()
+    storeActions.fetchActions()
 })
 
 </script>
@@ -81,8 +81,8 @@ onMounted(() => {
         <lesli-button
             outlined
             icon="refresh"
-            :loading="storeChecks.loading"
-            @click="storeChecks.fetchChecks()"
+            :loading="storeActions.loading"
+            @click="storeActions.fetchActions()"
         >
             {{ translations.core.shared.view_text_btn_reload }}
         </lesli-button>
@@ -94,7 +94,7 @@ onMounted(() => {
 
     <lesli-table 
         :columns="columns" 
-        :records="storeChecks.checks"
+        :records="storeActions.actions"
     >
     </lesli-table>
 

@@ -21,6 +21,7 @@ import { ref, computed, onMounted } from "vue"
 
 // · import stores
 import { useChecks } from "LesliVue/stores/shared/workflows/checks"
+import checksForm from "./form.vue"
 
 // · implement store
 const storeChecks = useChecks()
@@ -74,6 +75,16 @@ onMounted(() => {
     storeChecks.fetchChecks()
 })
 
+/**
+ * @description This function is used to fetch check info
+ */
+function showCheck(check){
+    storeChecks.fetchCheck(check.id).then(()=>{
+        storeChecks.showPanel = "true"
+    })
+    
+}
+
 </script>
 
 <template>
@@ -87,7 +98,7 @@ onMounted(() => {
             {{ translations.core.shared.view_text_btn_reload }}
         </lesli-button>
         
-        <lesli-button  icon="add" :to="url.root(props.appMountPath + '/new')">
+        <lesli-button  icon="add" @click="storeChecks.showPanel = true">
             add
         </lesli-button>
     </lesli-header>
@@ -96,6 +107,38 @@ onMounted(() => {
         :columns="columns" 
         :records="storeChecks.checks"
     >
+
+        <template #options="{ record }">
+            <a class="dropdown-item" @click="showCheck(record)">
+                <span class="material-icons">
+                    edit
+                </span>
+                <span>
+                    Edit
+                </span>
+            </a>
+            <a class="dropdown-item" @click="storeChecks.deleteCheck(record.id)">
+                <span class="material-icons">
+                    delete
+                </span>
+                <span>
+                    Delete
+                </span>
+            </a>
+        </template>
+
     </lesli-table>
+
+
+    <lesli-panel v-model:open="storeChecks.showPanel">
+        <template #header>
+            Check
+        </template>
+        <template #default>
+            <checks-form></checks-form>
+
+        </template>
+    </lesli-panel>
+
 
 </template>

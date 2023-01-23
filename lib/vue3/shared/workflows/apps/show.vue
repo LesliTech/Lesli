@@ -28,6 +28,7 @@ import { useWorkflow } from "LesliVue/stores/shared/workflow"
 // · import components
 import workflowForm from "../components/workflow-form.vue"
 import checksList from "./checks/index.vue"
+import actionsList from "./actions/index.vue"
 import associationForm from "../components/associations.vue"
 
 // · defining props
@@ -81,7 +82,7 @@ const translations = {
 <template>
     <section class="application-component">
         <lesli-header :title="translations.workflows.view_title_main">
-            <lesli-button icon="list" :to="url.help('workflows')">
+            <lesli-button icon="list" :to="url.root(props.appMountPath)">
                 {{ translations.core.view_btn_list }}
             </lesli-button>
         </lesli-header>
@@ -96,6 +97,7 @@ const translations = {
             </lesli-tab-item>
             
             <lesli-tab-item title="Actions">
+                <actions-list></actions-list>
             </lesli-tab-item>
 
             <lesli-tab-item title="Checks">

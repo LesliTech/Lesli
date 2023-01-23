@@ -66,7 +66,7 @@ storeWorkflow.cloudObject = props.cloudObject
 <template>
     <section class="application-component">
         <lesli-header :title="translations.workflows.view_title_main">
-            <lesli-button icon="list" :to="url.help('workflows')">
+            <lesli-button icon="list" :to="url.root(props.appMountPath)">
                 {{ translations.core.view_btn_list }}
             </lesli-button>
         </lesli-header>
