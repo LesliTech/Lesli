@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli3", type: :request do
     describe "GET:/administration/profile/subscriptions/options.json", type: :request do
         include_context "request user authentication"
 
@@ -28,7 +28,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
             #share examples
             expect_response_with_successful
-        end 
+        end
 
         it "is expected to respond a hash not empty with diferent key value" do
             get("/administration/profile/subscriptions/options.json")
@@ -37,14 +37,14 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect_response_with_successful
 
             #validate response hash not null and keywords
-            expect(response_body).not_to be_nil 
+            expect(response_body).not_to be_nil
             expect(response_body).to be_an(Hash)
             expect(response_body.length).to be >= 1
             expect(response_body.keys.sort).to eq ["engines", "notification_types"].sort
         end
 
         #validate engines array
-        it "is expected to validate engines list" do 
+        it "is expected to validate engines list" do
             get("/administration/profile/subscriptions/options.json")
 
             #share examples
@@ -55,7 +55,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         end
 
         #validate notification type hash
-        it "is expected to validate notification_types list" do 
+        it "is expected to validate notification_types list" do
             get("/administration/profile/subscriptions/options.json")
 
             #share examples

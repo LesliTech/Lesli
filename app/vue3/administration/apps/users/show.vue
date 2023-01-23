@@ -73,13 +73,8 @@ const tab = ref(0)
 </script>
 <template>
     <section class="application-component">
-        <lesli-header>
-            <lesli-button icon="list" :to="url.root(props.appMountPath)">
-                All users
-            </lesli-button>
-        </lesli-header>
         <card-information></card-information>
-        <card-actions></card-actions>
+        <!--card-actions></card-actions-->
         <lesli-tabs v-model="tab" v-if="storeUser.user.id">
             <lesli-tab-item :title="translations.core.users.view_tab_title_information">
                 <form-information is-editable></form-information>
@@ -87,13 +82,13 @@ const tab = ref(0)
             <lesli-tab-item :title="translations.core.users.view_tab_title_roles_and_privileges">
                 <form-roles></form-roles>
             </lesli-tab-item>
-            <lesli-tab-item :title="translations.core.users.view_tab_title_session_management">
+            <lesli-tab-item :title="translations.core.users.view_tab_title_session_management" paddingless>
                 <management-session></management-session>
             </lesli-tab-item>
             <lesli-tab-item :title="translations.core.users.view_tab_title_settings">
                 <settings></settings>
             </lesli-tab-item>
-            <lesli-tab-item :title="translations.core.users.view_tab_title_integrations">
+            <lesli-tab-item :title="translations.core.users.view_tab_title_integrations || 'Integrations'">
                 <integrations-information></integrations-information>
             </lesli-tab-item>
         </lesli-tabs>

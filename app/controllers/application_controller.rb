@@ -2,11 +2,11 @@
 
 Lesli
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -15,25 +15,25 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
 class ApplicationController < ActionController::Base
-    
+
     layout "layouts/application-public"
 
     def initialize
         super
         @account = {}
     end
- 
+
     def switch_locale
 
         local = I18n.locale
 
         # check if param locale was sent by the user
-        if not params[:locale].blank?
+        unless params[:locale].blank?
 
             locale = params[:locale].to_sym
 
@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
 
         respond_with_successful({
             locale: I18n.locale,
-            default_locale: I18n.default_locale, 
+            default_locale: I18n.default_locale,
             available_locales: I18n.available_locales
         })
 
