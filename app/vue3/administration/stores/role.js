@@ -98,56 +98,18 @@ export const useRole = defineStore("administration.role", {
 
         getDescriptors() {
 
-            let url = this.url.admin("roles/:id/describers", this.role.id)
+            let url = this.url.admin("roles/:id/descriptors", this.role.id)
 
             if (this.descriptorSearchString != '') {
                 url = url.search(this.descriptorSearchString)
             }
 
-            this.http.get(url).then(descriptors => {
+            this.http.get(url).then(result => {
 
+                console.log(result)
                 // reset the list of descriptors
-                this.descriptors = []
-                this.descriptorsCustom = []
+                this.descriptors = result
 
-                // temporary container for the descriptor matrix
-                let descriptorgrid = {}
-
-                // convert list of descriptors from: controller/action to controller/actions (like a matrix)
-                descriptors.forEach(descriptor => {
-
-                    if (['index', 'show', 'new', 'edit', 'destroy', 'search'].includes(descriptor.action)) {
-
-                        if (!descriptorgrid[descriptor.reference]) {
-                            descriptorgrid[descriptor.reference] = {
-                                id: descriptor.id,
-                                name: descriptor.name,
-                                reference: descriptor.reference,
-                                controller: descriptor.controller,
-                                index: null, 
-                                show: null, 
-                                create: null, 
-                                update: null, 
-                                destroy: null
-                            }
-                        }
-
-                        // add the id of the descriptor that the action belongs to
-                        descriptorgrid[descriptor.reference][descriptor.action] = {
-                            id: descriptor.id,
-                            active: descriptor.active
-                        }
-
-                        return;
-
-                    }
-
-                    this.descriptorsCustom.push(descriptor)
-
-                })
-
-                // return the arrys only
-                this.descriptors = Object.values(descriptorgrid)
 
             })
         },

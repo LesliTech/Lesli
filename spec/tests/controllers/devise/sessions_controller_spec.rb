@@ -1,6 +1,6 @@
 # =begin
 
-# Copyright (c) 2022, all rights reserved.
+# Copyright (c) 2023, all rights reserved.
 
 # All the information provided by this platform is protected by international laws related  to
 # industrial property, intellectual property, copyright and relative international laws.
@@ -21,7 +21,7 @@
 require "lesli_controller_helper"
 
 
-RSpec.describe Users::SessionsController, type: :controller, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe Users::SessionsController, type: :controller do
     before :each do
         request.env["HTTP_ACCEPT"] = "application/json"
         request.env["devise.mapping"] = Devise.mappings[:user]
@@ -174,7 +174,7 @@ RSpec.describe Users::SessionsController, type: :controller, :unless => defined?
 end
 
 
-RSpec.describe Users::SessionsController, type: :controller, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe Users::SessionsController, type: :controller do
     before :each do
         request.env["HTTP_ACCEPT"] = "application/json"
         request.env["devise.mapping"] = Devise.mappings[:user]
@@ -212,7 +212,7 @@ RSpec.describe Users::SessionsController, type: :controller, :unless => defined?
     end
 end
 
-RSpec.describe Users::SessionsController, type: :controller, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe Users::SessionsController, type: :controller do
     before :each do
         request.env["HTTP_ACCEPT"] = "application/json"
         request.env["devise.mapping"] = Devise.mappings[:user]

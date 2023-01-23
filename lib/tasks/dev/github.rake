@@ -48,9 +48,8 @@ class DevGithub < LesliRake
     # Distribute github workflows and actions to all the installed engines
     def actions
 
-
         # check if github actions repository exist
-        if not File.exists?(Rails.root.join("engines", "github_actions"))
+        unless File.exists?(Rails.root.join("engines", "github_actions"))
             message("Actions folder not found! - please clone the repo into the engines folder.")
             return
         end

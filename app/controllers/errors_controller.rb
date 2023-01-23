@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -60,20 +60,6 @@ class ErrorsController < ApplicationController
         respond_to do |format|
             format.html { }
             format.json {
-
-                if defined?(DeutscheLeibrenten)
-
-                    response_body = {
-                        successful: false,
-                        error: {
-                            message: I18n.t("core.shared.messages_danger_internal_error"),
-                            details: []
-                        }
-                    }
-
-                    return render(status: 500, json: response_body.to_json)
-
-                end
 
                 respond_with_http(500, {
                     message: I18n.t("core.shared.messages_danger_internal_error"),

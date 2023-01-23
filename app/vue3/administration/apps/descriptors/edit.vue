@@ -40,6 +40,8 @@ const url = inject("url")
 // · 
 const storeDescriptor = useDescriptor()
 
+
+// · 
 const translations = {
     core: {
         roles: I18n.t("core.roles"),
@@ -51,8 +53,8 @@ const translations = {
 
 // · 
 onMounted(() => {
+    storeDescriptor.resetDescriptor()
     storeDescriptor.fetchDescriptor(route.params.id)
-    storeDescriptor.getDescriptorsOptions()
 })
 
 
@@ -78,9 +80,10 @@ const columns = [{
                 {{ translations.core.view_btn_list }}
             </lesli-button>
         </lesli-header>
-        <div class="box">
-            <descriptor-form is-editable></descriptor-form>
-        </div>
+
+        <descriptor-form is-editable></descriptor-form>
+
+        <br><br>
 
         <privileges></privileges>        
 

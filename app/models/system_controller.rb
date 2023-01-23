@@ -18,16 +18,7 @@ For more information read the license file including with this software.
 class SystemController < ApplicationLesliRecord
     has_many :actions,    foreign_key: "system_controllers_id"
 
-    enum category: {
-        index:   'index',
-        create:  'create',
-        update:  'update',
-        show:    'show',
-        destroy: 'destroy',
-        search:  'search'
-    }, _suffix: true
-
-    def self.index current_user, query
+    def self.index current_user, query, matrix:false
 
         # get a matrix of controllers and actions
         c = SystemController.joins(:actions).select(
@@ -48,7 +39,12 @@ class SystemController < ApplicationLesliRecord
                 else 9
             end as importance
             "
-        ).order("system_controllers.name, importance, system_controller_actions.name")
+        )
+        #.where("system_controller_actions.name in ('index', 'create', 'update', 'show', 'destroy')")
+        #.order("system_controllers.name, importance, system_controller_actions.name")
+        .order("importance DESC")
+
+        return c unless matrix
 
         cc = {}
 
@@ -72,12 +68,6 @@ class SystemController < ApplicationLesliRecord
                 action: c[:action]
             })
         end
-
-        # convert the hash to a simple array
-        # example:
-        #   from: my_controller: [my list of actions]
-        #   to: [{my_controller: [my list of actions]}]
-        #cc.map { |k,v| v }
 
         return cc
 

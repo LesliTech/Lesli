@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -19,10 +19,10 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli3", type: :request do
     describe "GET:/administration/account/settings.json", type: :request do
         include_context "request user authentication"
-        
+
         settings_params = {
             datetime_format_date: "%d/%m/%Y",
             datetime_format_time: "%H:%M:%S",
@@ -52,9 +52,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
             #share examples
             expect_response_with_error
-        end 
+        end
 
-        
+
         it "is expected to respond with error when settings in params is empty" do
             post("/administration/account/settings.json", params: {
                 settings: {}
@@ -62,7 +62,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
             #share examples
             expect_response_with_error
-        end 
+        end
 
         it "is expected to respond with succesful with settings value nil" do
             post("/administration/account/settings.json", params: {
@@ -74,7 +74,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
             #verify if the setting sent was correctly save
             expect(@current_user.account.settings.find_by(name: "theme")["value"]).to be_nil
-        end 
+        end
 
         it "is expected to respond with succesful set/create settings" do
 
@@ -88,43 +88,43 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #verify if the setting sent was correctly save
 
             expect(response_body['datetime_format_date']).to eql(settings_params['datetime_format_date'])
-    
+
             expect(response_body['datetime_format_time']).to eql(settings_params['datetime_format_time'])
-    
+
             expect(response_body['datetime_format_date_words']).to eql(settings_params['datetime_format_date_words'])
-    
+
             expect(response_body['datetime_format_date_time']).to eql(settings_params['datetime_format_date_time'])
-    
+
             expect(response_body['datetime_format_date_time_words']).to eql(settings_params['datetime_format_date_time_words'])
-    
+
             expect(response_body['datetime_time_zone']).to eql(settings_params['datetime_time_zone'])
-    
+
             expect(response_body['password_enforce_complexity']).to eql(settings_params['password_enforce_complexity'])
-    
+
             expect(response_body['password_minimum_length']).to eql(settings_params['password_minimum_length'])
-    
+
             expect(response_body['password_expiration_time_days']).to eql(settings_params['password_expiration_time_days'])
-    
+
             expect(response_body['password_special_char_count']).to eql(settings_params['password_special_char_count'])
-    
+
             expect(response_body['password_uppercase_count']).to eql(settings_params['password_uppercase_count'])
-    
+
             expect(response_body['password_lowercase_count']).to eql(settings_params['password_lowercase_count'])
-    
+
             expect(response_body['password_digit_count']).to eql(settings_params['password_digit_count'])
-    
+
             expect(response_body['lesli_theme_color_primary']).to eql(settings_params['lesli_theme_color_primary'])
-    
+
             expect(response_body['lesli_theme_color_secondary']).to eql(settings_params['lesli_theme_color_secondary'])
-    
+
             expect(response_body['lesli_theme_header_color']).to eql(settings_params['lesli_theme_header_color'])
-    
+
             expect(response_body['lesli_theme_sidebar_color']).to eql(settings_params['lesli_theme_sidebar_color'])
-    
+
             expect(response_body['lesli_theme_color_background']).to eql(settings_params['lesli_theme_color_background'])
-    
+
             expect(response_body['lesli_theme_font_color']).to eql(settings_params['lesli_theme_font_color'])
-    
+
             expect(response_body['lesli_theme_font_size']).to eql(settings_params['lesli_theme_font_size'])
         end
     end

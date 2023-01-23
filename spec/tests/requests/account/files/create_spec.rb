@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -20,11 +20,11 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli3", type: :request do
     describe "POST:/administration/account/files.json", type: :request do
         include ActionDispatch::TestProcess::FixtureFile
         include_context "request user authentication"
-        
+
         it "is expected pass share example response with successful" do
 
             post("/administration/account/files.json",params: {
@@ -36,7 +36,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             })
             #share example
             expect_response_with_successful
-            
+
         end
 
         it "is expected to respond a hash not empty with diferent key value" do
@@ -50,8 +50,8 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             })
             #share example
             expect_response_with_successful
-            
-            #keyvalues check 
+
+            #keyvalues check
             expect(response_body).to be_a(Hash)
             expect(response_body).to have_key("id")
             expect(response_body).to have_key("name")
@@ -81,9 +81,9 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body).to have_key("accounts_id")
             expect(response_body["accounts_id"]).to be_a(Numeric)
         end
-        
+
         it "is expected to fail when all params are empty" do
-        
+
             post("/administration/account/files.json",params: {
                 account_file: {
                     name: "",
@@ -104,7 +104,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         end
 
         it "is expected succesful when name param is empty" do
-        
+
             post("/administration/account/files.json",params: {
                 account_file: {
                     name: "",
@@ -112,14 +112,14 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                     attachment: fixture_file_upload("lesli-icon.png", "image/png"),
                 }
             })
-           
+
             #share example
             expect_response_with_successful
 
         end
 
         it "is expected to fail when name and file_type params are empty" do
-        
+
             post("/administration/account/files.json",params: {
                 account_file: {
                     name: "",
@@ -127,15 +127,15 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                     attachment: fixture_file_upload("lesli-icon.png", "image/png"),
                 }
             })
-           
+
             #share example
             expect_response_with_error
 
         end
 
-        
+
         it "is expected to fail when attachment param is empty" do
-        
+
             post("/administration/account/files.json",params: {
                 account_file: {
                     name: "company_logo",
@@ -143,14 +143,14 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                     attachment: "",
                 }
             })
-           
+
             #share example
             expect_response_with_error
 
         end
 
         it "is expected to fail when all params are nil" do
-        
+
             post("/administration/account/files.json",params: {
                 account_file: {
                     name: nil,
@@ -160,11 +160,11 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             })
             #share example
             expect_response_with_error
-        
+
         end
 
         it "is expected succesful when name param is nil" do
-        
+
             post("/administration/account/files.json",params: {
                 account_file: {
                     name: nil,
@@ -172,12 +172,12 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                     attachment: fixture_file_upload("lesli-icon.png", "image/png"),
                 }
             })
-           
+
             #share example fail
             expect_response_with_successful
         end
         it "is expected to fail when name and file_type params are nil" do
-        
+
             post("/administration/account/files.json",params: {
                 account_file: {
                     name: nil,
@@ -185,15 +185,15 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                     attachment: fixture_file_upload("lesli-icon.png", "image/png"),
                 }
             })
-           
+
             #share example
             expect_response_with_error
 
         end
 
-        
+
         it "is expected to fail when attachment param is nil" do
-        
+
             post("/administration/account/files.json",params: {
                 account_file: {
                     name: "company_logo",
@@ -201,11 +201,11 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
                     attachment: nil,
                 }
             })
-           
+
             #share example
             expect_response_with_error
 
         end
-        
+
     end
 end

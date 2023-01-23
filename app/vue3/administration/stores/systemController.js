@@ -25,21 +25,19 @@ export const useSystemController = defineStore("administration.systemController"
     state: () => {
         return {
             options: { categories: []},
-            controllerActions: []
+            controllerActions: {},
         }
     },
     actions: {
 
         fetchControllers() {
             this.http.get(this.url.admin("system_controllers")).then(result => {
-                this.controllerActions = result.map(c => {
-                    c['active'] = false
-                    c.actions = c.actions.map(a => {
-                        a['active'] = false
-                        return a
-                    })
-                    //console.log(c)
-                    return c
+                result.forEach(controllerAction => {
+                    if (!this.controllerActions[controllerAction.action]) {
+                        this.controllerActions[controllerAction.action] = []
+                    }
+                    controllerAction['active'] = false
+                    this.controllerActions[controllerAction.action].push(controllerAction)
                 })
             }).catch(error => {
                 console.log(error)

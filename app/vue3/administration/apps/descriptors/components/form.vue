@@ -20,19 +20,24 @@ For more information read the license file including with this software.
 // · import vue tools
 import { inject, onMounted } from "vue"
 
+
 // · import lesli stores
 import { useDescriptor } from "../../../stores/descriptor"
+
 
 // · import vue router composable
 import { useRouter, useRoute } from "vue-router"
 
+
 // · implement stores
 const storeDescriptor = useDescriptor()
+
 
 // · initialize/inject plugins
 const router = useRouter()
 const url = inject("url")
 const route = useRoute()
+
 
 // · defining props
 const props = defineProps({
@@ -66,7 +71,6 @@ const onUpdate = () => {
  */
 const onCreate = () => {
     storeDescriptor.createDescriptor()
-    router.push(url.admin('descriptors').s)
 }
 
 onMounted(() => {
@@ -79,71 +83,48 @@ onMounted(() => {
 
 </script>
 <template>
-    <form v-if="!storeDescriptor.loading" class="information" @submit.prevent="
-            isEditable
-                ? onUpdate()
-                : onCreate()
-    ">
+    <form 
+        class="information"
+        v-if="!storeDescriptor.loading"
+        @submit.prevent="isEditable ? onUpdate() : onCreate()">
 
-        <div class="columns is-marginless has-border-bottom">
-            <div class="column is-4">
-                <label class="label">
-                    {{ translations.core.view_text_name }}
-                    <sup class="has-text-danger">*</sup>
-                </label>
-            </div>
-            <div class="column">
-                <div class="control is-clearfix">
-                    <input name="name" v-model="storeDescriptor.descriptor.name" required="required" type="text" class="input"> 
-                </div>
+        <div class="field">
+            <label class="label">
+                {{ translations.core.view_text_name }}
+                <sup class="has-text-danger">*</sup>
+            </label>
+            <div class="control">
+                <input name="name" v-model="storeDescriptor.descriptor.name" required="required" type="text" class="input"> 
             </div>
         </div>
 
-        <div class="columns is-marginless has-border-bottom">
-            <div class="column is-4">
-                <label class="label">
-                    {{ translations.core.role_descriptors.view_text_assign_parent_descriptor }}
-                </label>
-            </div>
-            <div class="column">
-                <div class="control is-clearfix">
-                    <lesli-select
-                        v-model="storeDescriptor.descriptor.descriptors_id"
-                        :options="storeDescriptor.descriptors_options"
-                    >
-                    </lesli-select>
-                </div>
+        <div class="field">
+            <label class="label">
+                {{ translations.core.role_descriptors.view_text_assign_parent_descriptor }}
+            </label>
+            <div class="control">
+                <lesli-select
+                    v-model="storeDescriptor.descriptor.descriptors_id"
+                    :options="storeDescriptor.descriptors_options">
+                </lesli-select>
             </div>
         </div>
 
-
-        <div class="columns is-marginless has-border-bottom">
-            <div class="column is-4">
-                <label class="label">
-                    {{ translations.core.role_descriptors.column_description }}
-                </label>
-            </div>
-            <div class="column">
-                <div class="control is-clearfix">
-                    <textarea class="textarea" v-model="storeDescriptor.descriptor.description"></textarea>
-                </div>
+        <div class="field">
+            <label class="label">
+                {{ translations.core.role_descriptors.column_description }}
+            </label>
+            <div class="control">
+                <textarea class="textarea" v-model="storeDescriptor.descriptor.description"></textarea>
             </div>
         </div>
 
-        <div class="columns is-marginless has-border-bottom">
-            <div class="column is-4">
-                <label class="label">
-                </label>
-            </div>
-            <div class="column">
-                <div class="control is-clearfix">
-                    <lesli-button icon="save">
-                        {{ translations.core.shared.view_btn_save }}
-                    </lesli-button>       
-                </div>
+        <div class="field">
+            <div class="control">
+                <lesli-button icon="save">
+                    {{ translations.core.shared.view_btn_save }}
+                </lesli-button>       
             </div>
         </div>
-
     </form>
-
 </template>

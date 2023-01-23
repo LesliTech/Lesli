@@ -109,6 +109,8 @@ class Users::SessionsController < Devise::SessionsController
         # respond successful and send the path user should go
         respond_with_successful({ default_path: session_service.default_path() })
 
+        log_user_agent()
+
     end
 
     def destroy
