@@ -233,25 +233,25 @@ onMounted(() => {
                         <p class="control">
                             <button class="button is-primary is-outlined" @click="selectAsInitial(record)">
                                 <span class="material-icons">play_circle</span>
-                                <span>Initial</span>
+                                <span></span>
                             </button>
                         </p>
                         <p class="control">
                             <button class="button is-success is-outlined" @click="changeStatusType(record, 'completed_successfully')">
                                 <span class="material-icons">check_circle</span>
-                                <span>Completed</span>
+                                <span></span>
                             </button>
                         </p>
                         <p class="control">
                             <button class="button is-warning is-outlined" @click="changeStatusType(record, 'completed_unsuccessfully')">
                                 <span class="material-icons">cancel</span>
-                                <span>Completed unsuccessfully</span>
+                                <span></span>
                             </button>
                         </p>
                         <p class="control">
                             <button class="button is-danger is-outlined" @click="changeStatusType(record, 'to_be_deleted')">
                                 <span class="material-icons">auto_delete</span>
-                                <span>To be deleted</span>
+                                <span></span>
                             </button>
                         </p>
                     </div>
