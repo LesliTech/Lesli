@@ -93,7 +93,7 @@ const translations = {
             <label class="label">{{ translations.actions.view_title_employee}}</label>
             <div class="control">
                 <lesli-input-tag
-                    v-model="storeActions.receiverUsers"
+                    v-model="storeActions.action.concerning_users"
                     :options="storeActions.options['users']"
                     :filterFields="['name', 'email']"
                     showField="email"

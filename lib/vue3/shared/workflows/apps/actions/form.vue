@@ -26,6 +26,8 @@ import { useRouter, useRoute } from 'vue-router'
 import { useActions } from "LesliVue/stores/shared/workflows/actions"
 import notificationForm from "./forms/notification-form.vue"
 import emailForm from "./forms/email-form.vue"
+import taskForm from "./forms/task-form.vue"
+import chatroomForm from "./forms/chatroom-form.vue"
 
 
 // · initialize/inject plugins
@@ -154,6 +156,8 @@ const activeOptions = {
 
         <notification-form v-if="storeActions.action.action_type == 'create_bell_notification'"></notification-form>
         <email-form v-if="storeActions.action.action_type == 'send_core_email'"></email-form>
+        <task-form v-if="storeActions.action.action_type == 'create_focus_task'"></task-form>
+        <chatroom-form v-if="storeActions.action.action_type == 'send_talk_chatroom_message'"></chatroom-form>
 
 
         <!-- Submit form button -->
