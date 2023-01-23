@@ -47,6 +47,11 @@ const props = defineProps({
     reset: {
         type: String,
         required: false
+    },
+    required: {
+        type: Boolean,
+        required: false,
+        default: false
     }
 })
 
@@ -70,7 +75,7 @@ function onChange() {
     <div>
         <div :class="['control', {'has-icons-left': props.icon}]">
             <div class="select is-fullwidth">
-                <select @change="onChange" v-model="selected">
+                <select @change="onChange" v-model="selected" :required="props.required">
                     <option value="" hidden>{{ props.placeholder }}</option>
                     <option 
                         v-if="props.reset"
