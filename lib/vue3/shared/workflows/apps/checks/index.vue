@@ -85,6 +85,16 @@ function showCheck(check){
     
 }
 
+/**
+ * @description This function is used to create a new check
+ */
+ const onCreate = () => {
+    storeChecks.reset()
+    storeChecks.showPanel = true
+}
+
+
+
 </script>
 
 <template>
@@ -98,7 +108,7 @@ function showCheck(check){
             {{ translations.core.shared.view_text_btn_reload }}
         </lesli-button>
         
-        <lesli-button  icon="add" @click="storeChecks.showPanel = true">
+        <lesli-button  icon="add" @click="onCreate">
             add
         </lesli-button>
     </lesli-header>

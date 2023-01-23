@@ -22,6 +22,10 @@ import { ref, computed, onMounted } from "vue"
 // · import stores
 import { useActions } from "LesliVue/stores/shared/workflows/actions"
 
+
+import actionForm from "./form.vue"
+
+
 // · implement store
 const storeActions = useActions()
 
@@ -97,5 +101,8 @@ onMounted(() => {
         :records="storeActions.actions"
     >
     </lesli-table>
+
+    <actionForm></actionForm>
+
 
 </template>
