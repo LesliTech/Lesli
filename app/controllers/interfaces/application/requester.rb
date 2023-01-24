@@ -50,7 +50,7 @@ module Interfaces
                 #       if user is not authenticated; For some scenarios we need to have control of the behavior
                 #       for not authenticated user requests, thats why here we go deeper and check if user is
                 #       authenticated checking the warden storage
-                locale = current_user.locale || locale if warden.authenticated?
+                locale = current_user.locale if warden.authenticated?
 
                 # language defined in the http header request
                 unless request.headers["Require-Language"].blank?
@@ -62,7 +62,7 @@ module Interfaces
 
                 # set the new locale
                 I18n.locale = locale
-        
+
             end
 
             # Set the user language based on url configuration or browser/os default language
