@@ -62,7 +62,21 @@ onMounted(() => {
     storeAssociation.getAssociations()
 })
 
-
+//. · columns of the table
+const columns = [
+    {
+        field: "workflow_for",
+        label: translations.associations.column_workflow_for,
+    },
+    {
+        field: "global",
+        label: translations.associations.column_global,
+    },
+    {
+        field: "details",
+        label: translations.associations.view_table_header_details,
+    }
+]
 
 
 function selectOption (new_association){
@@ -149,6 +163,24 @@ function selectOption (new_association){
             </div>
         </div>
     </form>
+
+    <br>
+
+    <lesli-table
+        :records="storeAssociation.associations"
+        :columns="columns" 
+    >
+        <template #options="{ record }">
+                <a class="dropdown-item" @click="storeAssociation.deleteAssociation(record.id)">
+                    <span class="material-icons">
+                        delete
+                    </span>
+                    <span>
+                        Delete
+                    </span>
+                </a>
+        </template>
+    </lesli-table>
 
 
 </template>

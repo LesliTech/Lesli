@@ -137,7 +137,6 @@ function select(option) {
     document.getElementById(inputId).blur();
     emit('select', option);
     emit('update:modelValue', option)
-    inputText.value = ''
 }
 
 

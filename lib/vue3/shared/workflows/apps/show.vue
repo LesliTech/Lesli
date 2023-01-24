@@ -30,6 +30,7 @@ import workflowForm from "../components/workflow-form.vue"
 import checksList from "./checks/index.vue"
 import actionsList from "./actions/index.vue"
 import associationForm from "../components/associations.vue"
+import chart from "../components/chart.vue"
 
 // · defining props
 const props = defineProps({
@@ -93,7 +94,7 @@ const translations = {
             </lesli-tab-item>
 
             <lesli-tab-item title="Chart mode">
-
+                <chart></chart>
             </lesli-tab-item>
             
             <lesli-tab-item title="Actions">
