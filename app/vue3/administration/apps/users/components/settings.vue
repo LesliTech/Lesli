@@ -19,17 +19,21 @@ For more information read the license file including with this software.
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed } from "vue"
 
+
 // · import lesli stores
 import { useUser } from "LesliVue/stores/user" 
 
+
 // · implement stores
 const storeUser = useUser()
+
 
 // · translations
 const translations = {
     users: I18n.t("core.users"),
     shared: I18n.t("core.shared")
 }
+
 
 // · initializing
 onMounted(() => {
@@ -46,11 +50,14 @@ onMounted(() => {
             </div>
             <div class="field-body">
                 <div class="field is-narrow">
-                    <div class="control" :for="locale" v-for="locale in storeUser.options.locales" :key="locale">
-                        <label class="radio">
-                            <input type="radio" :id="locale" :value="locale.value" v-model="storeUser.language" />
-                            {{locale.label}}
-                        </label>  
+                    <div class="control">
+                        <div class="select">
+                            <lesli-select 
+                                icon="language" 
+                                v-model="storeUser.language"
+                                :options="storeUser.options.locales">
+                            </lesli-select>
+                        </div>
                     </div>
                 </div>
             </div>
