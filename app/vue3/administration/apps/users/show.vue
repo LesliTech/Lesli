@@ -68,7 +68,6 @@ onMounted(() => {
     storeUser.fetch(route.params?.id)
 })
 
-const tab = ref(0)
 
 </script>
 <template>
