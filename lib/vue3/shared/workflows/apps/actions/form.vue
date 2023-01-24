@@ -28,6 +28,10 @@ import notificationForm from "./forms/notification-form.vue"
 import emailForm from "./forms/email-form.vue"
 import taskForm from "./forms/task-form.vue"
 import chatroomForm from "./forms/chatroom-form.vue"
+import cloudObjectFileForm from "./forms/cloud-object-file-form.vue"
+import cloudObjectCloneForm from "./forms/cloud-object-clone-form.vue"
+import sendCloudObjectFileForm from "./forms/send-cloud-object-file.vue"
+
 
 
 // · initialize/inject plugins
@@ -48,6 +52,7 @@ onMounted(() => {
     // · get workflow actions options
     storeActions.getOptions()
     storeActions.getUsers()
+    storeActions.getCloudObjectFileOptions()
 })
 
 const activeOptions = {
@@ -158,6 +163,9 @@ const activeOptions = {
         <email-form v-if="storeActions.action.action_type == 'send_core_email'"></email-form>
         <task-form v-if="storeActions.action.action_type == 'create_focus_task'"></task-form>
         <chatroom-form v-if="storeActions.action.action_type == 'send_talk_chatroom_message'"></chatroom-form>
+        <cloud-object-file-form v-if="storeActions.action.action_type == 'create_cloud_object_file'"></cloud-object-file-form>
+        <cloud-object-clone-form v-if="storeActions.action.action_type == 'cloud_object_clone'"></cloud-object-clone-form>
+        <send-cloud-object-file-form v-if="storeActions.action.action_type =='create_and_send_cloud_object_file'"></send-cloud-object-file-form>
 
 
         <!-- Submit form button -->

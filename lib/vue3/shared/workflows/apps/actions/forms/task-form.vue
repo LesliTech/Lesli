@@ -140,7 +140,7 @@ onMounted(() => {
             <label class="label">{{ translations.actions.view_title_employee}}</label>
             <div class="control">
                 <lesli-input-tag
-                    v-model="storeActions.action.concerning_users"
+                    v-model="storeActions.action.concerning_users.list[0]"
                     :options="storeActions.options['users']"
                     :filterFields="['name', 'email']"
                     showField="email"
