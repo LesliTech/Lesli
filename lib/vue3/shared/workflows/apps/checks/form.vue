@@ -41,11 +41,6 @@ const translations = {
     roles: I18n.t('core.roles')
 }
 
-onMounted(() => {
-    // · get workflow check options
-    storeChecks.getCheckOptions()
-})
-
 const activeOptions = {
     yes: { 
         label: translations.core.view_text_yes, 
@@ -58,7 +53,7 @@ const activeOptions = {
 }
 
 // · the user selected for checks
-const employee = ref("")
+const employee = ref(storeChecks.check?.user_name)
 
 const selectUser = () => {
     const user = employee.value
@@ -70,14 +65,23 @@ const selectUser = () => {
     }
 }
 
+
+onMounted(() => {
+    // · get workflow check options
+    storeChecks.getCheckOptions()
+})
+
+
 </script>
 
 <template>
     <form @submit.prevent="storeChecks.formSubmit()" v-if="!storeChecks.loading">
         <div class="card-content">
             <div class="field">
-                <label class="label">{{translations.checks.column_name}}</label>
-                <sup class="has-text-danger">*</sup>
+                <label class="label">
+                    {{translations.checks.column_name}}
+                    <sup class="has-text-danger">*</sup>
+                </label>
                 <div class="control">
                     <input
                             type="text"
@@ -105,7 +109,10 @@ const selectUser = () => {
                 </div>
             </div>
             <div class="field">
-                <label class="label">{{ translations.checks.column_initial_status_id }}</label>
+                <label class="label">
+                    {{ translations.checks.column_initial_status_id }}
+                    <sup class="has-text-danger">*</sup>
+                </label>
                 <sup class="has-text-danger">*</sup>
                 <div class="control">
                     <lesli-select
@@ -125,8 +132,10 @@ const selectUser = () => {
                 </div>
             </div>
             <div class="field">
-                <label class="label">{{ translations.checks.column_roles_id }}</label>
-                <sup class="has-text-danger">*</sup>
+                <label class="label">
+                    {{ translations.checks.column_roles_id }}
+                    <sup class="has-text-danger">*</sup>
+                </label>
                 <div class="control">
                     <lesli-select
                         required
@@ -136,8 +145,10 @@ const selectUser = () => {
                 </div>
             </div>
             <div class="field">
-                <label class="label">{{ translations.checks.column_user_type }}</label>
-                <sup class="has-text-danger">*</sup>
+                <label class="label">
+                    {{ translations.checks.column_user_type }}
+                    <sup class="has-text-danger">*</sup>
+                </label>
                 <div class="control">
                     <lesli-select
                         required

@@ -156,28 +156,73 @@ function deleteStatus(deleted_status){
 
 
 function possibleFollowUpStatuses(){
-    let label = [{value: null, label: translations.workflows.view_placeholder_select_status}]
 
-    console.log(label)
+    let label = [{value: null, label:translations.workflows.view_placeholder_select_status}]
 
-    if(storeWorkflow.selected_workflow_status.id == null){
-        return label
-    }
+    storeWorkflow.selected_status.id = 3
 
-    if(! storeWorkflow.selected_workflow_status.next_statuses){
+    if(! storeWorkflow.selected_status.next_statuses){
         label = label.concat(Object.values(storeWorkflow.workflow.statuses))
+        label.sort((a,b) => a.number - b.number)
+
+        storeWorkflow.status_select = []
+
+        label.forEach((option)=>{
+            storeWorkflow.status_select.push({
+                label: option.name,
+                value: option.id
+            })
+        })
+
+        // storeWorkflow.status_select = label
+
+        console.log(storeWorkflow.status_select)
+
         return label
     }
     
+    let follow_up_statuses  = storeWorkflow.selected_status.next_statuses.split('|').map((element)=>{
+        return parseInt(element)
+    })
+
+    label =  label.concat(Object.values(storeWorkflow.workflow.statuses).filter(element => {
+        return ! follow_up_statuses.includes(element.id)
+    }))
+
+    console.log("label")
+
+    console.log(label)
+
+    return label.sort((a,b) => a.number - b.number)
+    
 }
+
+
+function addFollowUpStatus(){
+    if(storeWorkflow.selected_status.id != null){
+        if(storeWorkflow.selected_status.next_statuses){
+            storeWorkflow.selected_status.next_statuses += `|${storeWorkflow.selected_status.id}`
+        }else{
+            storeWorkflow.selected_status.next_statuses = `${storeWorkflow.selected_status.id}`
+        }
+        storeWorkflow.selected_status.id = null
+    }
+}
+
 
 
 onMounted(() => {
     if (!props.isEditable){
         storeWorkflow.workflow = {}
     } else {
-        storeWorkflow.fetchWorkflow(route.params?.id)
+        storeWorkflow.fetchWorkflow(route.params?.id).then(()=>{
+            possibleFollowUpStatuses()
+        })
+        
     }
+
+    
+
 })
 
 
@@ -186,11 +231,10 @@ onMounted(() => {
 <template>
     <div class="block">
         <!-- Workflow form -->
-        <form v-if="!storeWorkflow.loading" class="information" @submit.prevent="
-                isEditable
-                    ? onUpdate()
-                    : onCreate()
-        ">
+        <form 
+            v-if="!storeWorkflow.loading" 
+            class="information" 
+            @submit.prevent="isEditable? onUpdate() : onCreate()">
 
             <!-- Name -->
             <div class="columns is-marginless has-border-bottom">
@@ -291,7 +335,7 @@ onMounted(() => {
                                     <span class="select is-fullwidth is-empty">
 
                                         <lesli-select
-                                            :options="possibleFollowUpStatuses"
+                                            :options="storeWorkflow.status_select"
                                             @change="addFollowUpStatus"
                                             v-model="selectedStatus"
                                         >

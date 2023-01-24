@@ -32,9 +32,6 @@ const translations = {
     tasks: I18n.t('focus.tasks')
 }
 
-onMounted(() => {
-    storeActions.getTasksOptions()
-})
 
 </script>
 
@@ -139,12 +136,12 @@ onMounted(() => {
         <div class="column"  v-if="storeActions.concerning_users.type == 'custom' ">
             <label class="label">{{ translations.actions.view_title_employee}}</label>
             <div class="control">
-                <lesli-input-tag
-                    v-model="storeActions.action.concerning_users.list[0]"
+                <lesli-autocomplete
+                    :placeholder="translations.core.view_placeholder_select_option"
+                    v-model="storeActions.action.concerning_users.list"
                     :options="storeActions.options['users']"
-                    :filterFields="['name', 'email']"
-                    showField="email"
-                />
+                    :select-by="user => user.name">
+                </lesli-autocomplete>
             </div>
         </div>
 

@@ -73,6 +73,16 @@ const columns = [
     },
 ]
 
+const tab = ref(0)
+
+/**
+ * @description This function is used to show an action info
+ */
+function showAction(action){
+    tab.value = 1
+    storeActions.fetchAction(action.id)
+}
+
 onMounted(() => {
     // · get workflow status
     storeActions.fetchActions()
@@ -81,28 +91,35 @@ onMounted(() => {
 </script>
 
 <template>
-    <lesli-header title="Actions">
-        <lesli-button
-            outlined
-            icon="refresh"
-            :loading="storeActions.loading"
-            @click="storeActions.fetchActions()"
-        >
-            {{ translations.core.shared.view_text_btn_reload }}
-        </lesli-button>
+    <lesli-tabs v-model="tab">
+        <lesli-tab-item title="List" paddingless>
+            <lesli-header title="Actions">
+                <lesli-button
+                    outlined
+                    icon="refresh"
+                    :loading="storeActions.loading"
+                    @click="storeActions.fetchActions()"
+                >
+                    {{ translations.core.shared.view_text_btn_reload }}
+                </lesli-button>
+            </lesli-header>
+
+            <lesli-table 
+                :columns="columns" 
+                :records="storeActions.actions"
+                @click="showAction"
+            >
+            </lesli-table>
+        </lesli-tab-item>
+
+        <lesli-tab-item title="New">
+            <actionForm></actionForm>
+        </lesli-tab-item>
         
-        <lesli-button  icon="add" :to="url.root(props.appMountPath + '/new')">
-            add
-        </lesli-button>
-    </lesli-header>
+        <lesli-tab-item title="Action">
+            <actionForm is-editable></actionForm>
+        </lesli-tab-item>
 
-    <lesli-table 
-        :columns="columns" 
-        :records="storeActions.actions"
-    >
-    </lesli-table>
-
-    <actionForm></actionForm>
-
+    </lesli-tabs>
 
 </template>

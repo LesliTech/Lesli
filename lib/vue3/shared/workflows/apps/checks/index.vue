@@ -116,17 +116,10 @@ function showCheck(check){
     <lesli-table 
         :columns="columns" 
         :records="storeChecks.checks"
+        @click="showCheck"
     >
 
         <template #options="{ record }">
-            <a class="dropdown-item" @click="showCheck(record)">
-                <span class="material-icons">
-                    edit
-                </span>
-                <span>
-                    Edit
-                </span>
-            </a>
             <a class="dropdown-item" @click="storeChecks.deleteCheck(record.id)">
                 <span class="material-icons">
                     delete

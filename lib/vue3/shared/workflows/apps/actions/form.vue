@@ -39,6 +39,16 @@ const router = useRouter()
 const url = inject("url")
 
 
+// · defining props
+const props = defineProps({
+    isEditable: {
+        type: Boolean,
+        required: false,
+        default: false
+    }
+})
+
+
 // · implement stores
 const storeActions = useActions()
 
@@ -53,6 +63,12 @@ onMounted(() => {
     storeActions.getOptions()
     storeActions.getUsers()
     storeActions.getCloudObjectFileOptions()
+    storeActions.getTasksOptions()
+
+    if(!props.isEditable){
+        storeActions.reset()
+    }
+
 })
 
 const activeOptions = {
@@ -66,10 +82,27 @@ const activeOptions = {
     }
 }
 
+/**
+ * @description This function is used to update the action information
+ */
+ const onUpdate = () => {
+    storeActions.updateAction()
+}
+
+/**
+ * @description This function is used to create a new action
+ */
+const onCreate = () => {
+    storeActions.postAction()
+}
+
+
 </script>
 
 <template>
-    <form @submit.prevent="storeActions.formSubmit()" v-if="!storeActions.loading">
+    <form 
+        @submit.prevent="isEditable? onUpdate() : onCreate()"
+        v-if="!storeActions.loading">
 
         <div class="columns is-marginless has-border-bottom">
 
@@ -150,7 +183,8 @@ const activeOptions = {
                     <lesli-select
                         required
                         v-model="storeActions.action.action_type"
-                        :options="storeActions.options['action_types']">
+                        :options="storeActions.options['action_types']"
+                        :disabled="props.isEditable">
                     </lesli-select>
                     <span>{{ translations.actions.view_text_column_action_type_description }}</span>
                 </div>

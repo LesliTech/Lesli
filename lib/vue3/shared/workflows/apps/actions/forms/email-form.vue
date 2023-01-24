@@ -82,18 +82,18 @@ const translations = {
             <div class="control">
                 <lesli-select
                     required
-                    v-model="storeActions.concerning_users.type"
+                    v-model="storeActions.action.concerning_users.type"
                     :options="storeActions.options['concerning_user_types']">
                 </lesli-select>
             </div>
         </div>
 
         <!-- Custom users -->
-        <div class="column"  v-if="storeActions.concerning_users.type == 'custom' ">
+        <div class="column"  v-if="storeActions.action.concerning_users.type == 'custom' ">
             <label class="label">{{ translations.actions.view_title_employee}}</label>
             <div class="control">
                 <lesli-input-tag
-                    v-model="storeActions.action.concerning_users.list[0]"
+                    v-model="storeActions.action.concerning_users.list"
                     :options="storeActions.options['users']"
                     :filterFields="['name', 'email']"
                     showField="email"
