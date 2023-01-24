@@ -154,6 +154,24 @@ function deleteStatus(deleted_status){
     })
 }
 
+
+function possibleFollowUpStatuses(){
+    let label = [{value: null, label: translations.workflows.view_placeholder_select_status}]
+
+    console.log(label)
+
+    if(storeWorkflow.selected_workflow_status.id == null){
+        return label
+    }
+
+    if(! storeWorkflow.selected_workflow_status.next_statuses){
+        label = label.concat(Object.values(storeWorkflow.workflow.statuses))
+        return label
+    }
+    
+}
+
+
 onMounted(() => {
     if (!props.isEditable){
         storeWorkflow.workflow = {}
@@ -212,62 +230,95 @@ onMounted(() => {
         
         <br>
 
-        <div class="block">
-            <lesli-table 
-            :records="storeWorkflow.workflow.statuses"
-            :columns="columns"
-            v-if="!storeWorkflow.loading && storeWorkflow.workflow.statuses"
-            >
-                <template #number="{ record }">
-                    <input 
-                        type="text"
-                        class="input"
-                        v-model="record.number"
-                        @input=""
-                    />
-                </template>
-
-                <template #marks="{ record }">
-
-                    <div class="field has-addons">
-                        <p class="control">
-                            <button class="button is-primary is-outlined" @click="selectAsInitial(record)">
-                                <span class="material-icons">play_circle</span>
-                                <span></span>
-                            </button>
-                        </p>
-                        <p class="control">
-                            <button class="button is-success is-outlined" @click="changeStatusType(record, 'completed_successfully')">
-                                <span class="material-icons">check_circle</span>
-                                <span></span>
-                            </button>
-                        </p>
-                        <p class="control">
-                            <button class="button is-warning is-outlined" @click="changeStatusType(record, 'completed_unsuccessfully')">
-                                <span class="material-icons">cancel</span>
-                                <span></span>
-                            </button>
-                        </p>
-                        <p class="control">
-                            <button class="button is-danger is-outlined" @click="changeStatusType(record, 'to_be_deleted')">
-                                <span class="material-icons">auto_delete</span>
-                                <span></span>
-                            </button>
-                        </p>
+        <div class="block" v-if="!storeWorkflow.loading && storeWorkflow.workflow.statuses">
+            <div class="columns">
+                <div class="column is-8">
+                    <span class="has-text-weight-bold">
+                        {{translations.workflows.view_title_select_status}}
+                    </span>
+                    <div class="menu-list is-bg-dark is-hoverable">
+                        <a v-for="status in storeWorkflow.workflow.statuses" class="list-item" @click="storeWorkflow.selected_status = status">
+                            <div class="columns">
+                                <!-- Status name -->
+                                <div class="column is-paddingless-right is-7">
+                                    {{ status.name }}
+                                </div>
+                                <!-- Status number -->
+                                <div class="column is-paddingless-x is-2">
+                                    <input type="number" class="input" v-model="status.number"/>
+                                </div>
+                                <!-- Change status buttons -->
+                                <div class="column is-paddingless-left is-3">
+                                    <span class="is-pulled-right has-background-white">
+                                        <div class="field has-addons">
+                                            <p class="control">
+                                                <button class="button is-primary is-outlined" @click="selectAsInitial(status)">
+                                                    <span class="material-icons">play_circle</span>
+                                                    <span></span>
+                                                </button>
+                                            </p>
+                                            <p class="control">
+                                                <button class="button is-success is-outlined" @click="changeStatusType(status, 'completed_successfully')">
+                                                    <span class="material-icons">check_circle</span>
+                                                    <span></span>
+                                                </button>
+                                            </p>
+                                            <p class="control">
+                                                <button class="button is-warning is-outlined" @click="changeStatusType(status, 'completed_unsuccessfully')">
+                                                    <span class="material-icons">cancel</span>
+                                                    <span></span>
+                                                </button>
+                                            </p>
+                                            <p class="control">
+                                                <button class="button is-danger is-outlined" @click="changeStatusType(status, 'to_be_deleted')">
+                                                    <span class="material-icons">auto_delete</span>
+                                                    <span></span>
+                                                </button>
+                                            </p>
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </template>
+                </div>
 
-                <template #options="{ record }">
-                    <a class="dropdown-item" @click="deleteStatus(record)">
-                        <span class="material-icons">
-                            delete
-                        </span>
-                        <span>
-                            Delete
-                        </span>
-                    </a>
-                </template>
-            </lesli-table>
+                <div class="column is-4">
+                    <label class="label">{{translations.workflows.view_title_select_transition_status}}</label>
+                    <div class="columns">
+                        <div class="column">
+                                <div class="control is-expanded">
+                                    <span class="select is-fullwidth is-empty">
+
+                                        <lesli-select
+                                            :options="possibleFollowUpStatuses"
+                                            @change="addFollowUpStatus"
+                                            v-model="selectedStatus"
+                                        >
+                                        </lesli-select>
+                                    </span>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <span class="has-text-weight-bold">
+                                {{translations.workflows.view_title_transition_statuses_list}}
+                            </span>
+                            <div class="menu-list is-hoverable">
+                                <!-- <a v-for="(workflow_status, key) in nextStatusesOfSelectedStatus" :key="key" class="list-item">
+                                    {{workflow_status.number}} -
+                                    {{object_utils.translateEnum(translations.core, 'column_enum_status', workflow_status.name)}}
+                                    <button type="button" class="delete is-pulled-right" @click="deleteFollowUpStatus(workflow_status)">
+                                    </button>
+                                </a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+            </div>
 
         </div>
 
