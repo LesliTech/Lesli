@@ -190,6 +190,12 @@ module ResponseHelpers
         expect(response).to have_http_status(:success)
         expect(response.content_type).to eq("application/pdf")
     end
+    
+    
+    def expect_to_be_redirected
+        @@response_json = nil
+        expect(response).to have_http_status(:redirect)
+    end
 
 
 
