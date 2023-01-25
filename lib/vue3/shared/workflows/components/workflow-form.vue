@@ -157,9 +157,7 @@ function deleteStatus(deleted_status){
 
 function possibleFollowUpStatuses(){
 
-    let label = [{value: null, label:translations.workflows.view_placeholder_select_status}]
-
-    storeWorkflow.selected_status.id = 3
+    let label = []
 
     if(! storeWorkflow.selected_status.next_statuses){
         label = label.concat(Object.values(storeWorkflow.workflow.statuses))
@@ -174,10 +172,6 @@ function possibleFollowUpStatuses(){
             })
         })
 
-        // storeWorkflow.status_select = label
-
-        console.log(storeWorkflow.status_select)
-
         return label
     }
     
@@ -189,25 +183,42 @@ function possibleFollowUpStatuses(){
         return ! follow_up_statuses.includes(element.id)
     }))
 
-    console.log("label")
-
-    console.log(label)
-
     return label.sort((a,b) => a.number - b.number)
     
 }
 
+function  nextStatusesOfSelectedStatus(){
+    storeWorkflow.transition_statuses = []
+    if(! storeWorkflow.workflow.statuses[storeWorkflow.selected_status.id]){
+        storeWorkflow.transition_statuses = []
+    }
+    if(storeWorkflow.selected_status.next_statuses){
+        let next_statuses_ids = storeWorkflow.selected_status.next_statuses.split('|')
+        next_statuses_ids.forEach((id)=>{
+            storeWorkflow.transition_statuses.push(next_statuses_ids.workflow.statuses[id])
+        })
+    }
+
+}
+
 
 function addFollowUpStatus(){
-    if(storeWorkflow.selected_status.id != null){
+    if(storeWorkflow.status_transition != null){
         if(storeWorkflow.selected_status.next_statuses){
-            storeWorkflow.selected_status.next_statuses += `|${storeWorkflow.selected_status.id}`
+            storeWorkflow.selected_status.next_statuses += `|${storeWorkflow.status_transition}`
         }else{
-            storeWorkflow.selected_status.next_statuses = `${storeWorkflow.selected_status.id}`
+            storeWorkflow.selected_status.next_statuses = `${storeWorkflow.status_transition}`
         }
-        storeWorkflow.selected_status.id = null
+
+        storeWorkflow.status_select = []
+
+        storeWorkflow.status_transition = null
     }
+
+    nextStatusesOfSelectedStatus()
 }
+
+
 
 
 
@@ -217,12 +228,8 @@ onMounted(() => {
     } else {
         storeWorkflow.fetchWorkflow(route.params?.id).then(()=>{
             possibleFollowUpStatuses()
-        })
-        
+        })      
     }
-
-    
-
 })
 
 
@@ -281,7 +288,11 @@ onMounted(() => {
                         {{translations.workflows.view_title_select_status}}
                     </span>
                     <div class="menu-list is-bg-dark is-hoverable">
-                        <a v-for="status in storeWorkflow.workflow.statuses" class="list-item" @click="storeWorkflow.selected_status = status">
+                        <a v-for="status in storeWorkflow.workflow.statuses" 
+                            class="list-item" 
+                            @click="storeWorkflow.selected_status = status"
+                            :class="{'is-active':storeWorkflow.selected_status.id == status.id}"
+                        >
                             <div class="columns">
                                 <!-- Status name -->
                                 <div class="column is-paddingless-right is-7">
@@ -327,17 +338,16 @@ onMounted(() => {
                     </div>
                 </div>
 
-                <div class="column is-4">
+                <div class="column is-4" v-if="storeWorkflow.selected_status.id">
                     <label class="label">{{translations.workflows.view_title_select_transition_status}}</label>
                     <div class="columns">
                         <div class="column">
                                 <div class="control is-expanded">
                                     <span class="select is-fullwidth is-empty">
-
                                         <lesli-select
                                             :options="storeWorkflow.status_select"
                                             @change="addFollowUpStatus"
-                                            v-model="selectedStatus"
+                                            v-model="storeWorkflow.status_transition"
                                         >
                                         </lesli-select>
                                     </span>
@@ -350,12 +360,9 @@ onMounted(() => {
                                 {{translations.workflows.view_title_transition_statuses_list}}
                             </span>
                             <div class="menu-list is-hoverable">
-                                <!-- <a v-for="(workflow_status, key) in nextStatusesOfSelectedStatus" :key="key" class="list-item">
-                                    {{workflow_status.number}} -
-                                    {{object_utils.translateEnum(translations.core, 'column_enum_status', workflow_status.name)}}
-                                    <button type="button" class="delete is-pulled-right" @click="deleteFollowUpStatus(workflow_status)">
-                                    </button>
-                                </a> -->
+                                <a v-for="(workflow_status, key) in storeWorkflow.transition_statuses" :key="key" class="list-item">
+                                    {{ workflow_status.number }}
+                                </a>
                             </div>
                         </div>
                     </div>
