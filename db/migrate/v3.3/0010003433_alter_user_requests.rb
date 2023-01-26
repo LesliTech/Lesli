@@ -29,6 +29,9 @@ class AlterUserRequests < ActiveRecord::Migration[7.0]
 
         add_column :user_requests, :request_count, :integer
 
+        # Temporary required to avoid error "could not create unique index" as there are duplicated records already in production
+        ActiveRecord::Base.connection.execute("TRUNCATE TABLE user_requests RESTART IDENTITY CASCADE;")
+
         add_index(:user_requests, [:request_controller, :request_action, :request_format, :users_id, :user_sessions_id], unique: true, name: 'user_requests_index')
     end
 end

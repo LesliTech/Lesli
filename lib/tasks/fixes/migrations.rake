@@ -45,4 +45,36 @@ namespace :fixes do
         puts "FINISHED"
     end
 
+    desc "Fix data"
+    task data: :environment do
+        owner_descriptor = Descriptor.find_or_create_by(name: 'owner', accounts_id: 1)
+        sysadmin_descriptor = Descriptor.find_or_create_by(name: 'sysadmin', accounts_id: 1)
+        profile_descriptor = Descriptor.find_or_create_by(name: 'profile', accounts_id: 1)
+
+        owner_role = Role.find_by(name: 'owner')
+        sysadmin_role = Role.find_by(name: 'sysadmin')
+
+        Role::Descriptor.find_or_create_by(
+            role: owner_role,
+            descriptor: owner_descriptor,
+            privilege_index: true,
+            privilege_show: true,
+            privilege_create: true,
+            privilege_update: true,
+            privilege_destroy: true,
+        )
+
+        Role::Descriptor.find_or_create_by(
+            role: sysadmin_role,
+            descriptor: sysadmin_descriptor,
+            privilege_index: true,
+            privilege_show: true,
+            privilege_create: true,
+            privilege_update: true,
+            privilege_destroy: true,
+        )
+
+        puts "FINISHED"
+    end
+
 end
