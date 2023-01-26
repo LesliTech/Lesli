@@ -20,8 +20,8 @@ For more information read the license file including with this software.
 class ApplicationApiController < ActionController::API
     include ActionController::MimeResponds
     include Interfaces::Application::Responder
-    include Interfaces::Application::Logger
     include Interfaces::Application::Requester
+    include Interfaces::Application::Logger
 
     before_action :set_locale
     before_action :authorize_request
@@ -33,6 +33,10 @@ class ApplicationApiController < ActionController::API
     @current_session = nil
 
     protected
+
+    attr_reader :query
+    attr_reader :current_user
+    attr_reader :current_session
 
     # Rescue from "ParameterMissing" when using required params in controllers
     rescue_from ActionController::ParameterMissing do |e|
@@ -93,7 +97,6 @@ class ApplicationApiController < ActionController::API
             )
 
         }).call()
-
 
         if @current_session.blank?
             return respond_with_unauthorized I18n.t("core.shared.messages_danger_not_valid_authorization_token_found")

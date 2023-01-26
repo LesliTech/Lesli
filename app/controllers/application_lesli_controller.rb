@@ -20,7 +20,6 @@ class ApplicationLesliController < ApplicationController
     include Interfaces::Application::Responder
     include Interfaces::Application::Requester
     include Interfaces::Application::Logger
-    #include Application::Polyfill
 
     protect_from_forgery with: :exception
 
@@ -70,8 +69,8 @@ class ApplicationLesliController < ApplicationController
         @account[:notifications] = Courier::Bell::Notification.count(current_user, true)
         @account[:tasks] = Courier::Focus::Task.count(current_user)
         @account[:tickets] = Courier::Help::Ticket.count(current_user)
-        @account[:pushs] = Rails.application.config.lesli.dig(:security, :enable_pushes)
-        @account[:shortcuts] = current_user.shortcuts.select(:id, :name, :url)
+        # temporary disable shortcuts, not used on mw or lesli
+        @account[:shortcuts] = [] # current_user.shortcuts.select(:id, :name, :url)
 
 
         # default customization, set on before_action :set_customization hook
