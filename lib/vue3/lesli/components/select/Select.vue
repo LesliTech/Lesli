@@ -51,7 +51,7 @@ const props = defineProps({
     
     required: {
         type: Boolean,
-        required: false,
+        default: false
     }
 })
 
