@@ -36,6 +36,7 @@ prop that allows to disable the select component
 <lesli-select
     v-model="selection"
     icon="public"
+    required
     :options="[{
         label: 'Primera opcion',
         value: 'option_one'
@@ -50,6 +51,7 @@ prop that allows to disable the select component
 <lesli-select
     v-model="selection"
     icon="public"
+    required
     :options="[{
         label: 'Primera opcion',
         value: 'option_one'
