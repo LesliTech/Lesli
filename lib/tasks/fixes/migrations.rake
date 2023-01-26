@@ -12,7 +12,7 @@ namespace :fixes do
         ActiveRecord::Base.connection.exec_query("INSERT INTO schema_migrations (version) VALUES ('10003914');")
 
         # 10005220_create_descriptor_activities.rb
-        ActiveRecord::Base.connection.exec_query("INSERT INTO schema_migrations (version) VALUES ('10005220');")
+        # ActiveRecord::Base.connection.exec_query("INSERT INTO schema_migrations (version) VALUES ('10005220');")
 
         # 10005620_create_role_activities.rb
         ActiveRecord::Base.connection.exec_query("INSERT INTO schema_migrations (version) VALUES ('10005620');")
