@@ -7,6 +7,7 @@ The component lesli select is registered globally and is meant to be used in all
 <lesli-select
     v-model="selection"
     icon="public"
+    required
     :options="[{
         label: 'Primera opcion',
         value: 'option_one'
@@ -21,6 +22,7 @@ The component lesli select is registered globally and is meant to be used in all
 <lesli-select
     v-model="selection"
     icon="public"
+    required
     :options="[{
         label: 'Primera opcion',
         value: 'option_one'
