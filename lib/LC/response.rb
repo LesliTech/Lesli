@@ -71,5 +71,10 @@ module LC
             return OpenStruct.new({ successful?: successful, success?: successful, error: payload })
         end
 
+        def self.service2 successful, payload=nil
+            return OpenStruct.new({ successful?: successful, payload: payload }) if successful == true
+            return OpenStruct.new({ successful?: successful, type: :not_found, error: payload })
+        end
+
     end
 end

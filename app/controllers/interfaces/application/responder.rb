@@ -97,16 +97,6 @@ module Interfaces
 
                 error_object = { }
 
-                # Keep compatibility with Deutsche Leibrenten
-                if defined? DeutscheLeibrenten
-                    error_object = {
-                        successful: false,
-                        error: {
-                            message: I18n.t("core.shared.view_text_unauthorized_request")
-                        }
-                    }
-                end
-
                 error_object[:message] = I18n.t("core.shared.view_text_unauthorized_request")
                 error_object[:detail] = detail if Rails.env == "development"
 
