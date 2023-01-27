@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -20,10 +20,10 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli3", type: :request do
     describe "GET:/administration/profile.json", type: :request do
         include_context "request user authentication"
-            
+
         it "is expected to respond with successful" do
             get("/administration/profile.json")
 
@@ -38,7 +38,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect_response_with_successful
 
             #validate response hash not null and keywords
-            expect(response_body).not_to be_nil 
+            expect(response_body).not_to be_nil
             expect(response_body).to be_an(Hash)
             expect(response_body.length).to be >= 1
             expect(response_body).to have_key("id")
@@ -55,8 +55,8 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body).to have_key("updated_at")
 
         end
- 
-        it "is expected to validate type data of hash" do 
+
+        it "is expected to validate type data of hash" do
             get("/administration/profile.json")
 
             #share examples
@@ -79,14 +79,14 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body["mfa_method"]).to eq(@current_user.mfa_settings[:method].to_s)
         end
 
-        it "is expected to validate detail_attributes hash and attributes" do 
+        it "is expected to validate detail_attributes hash and attributes" do
             get("/administration/profile.json")
 
             #share examples
             expect_response_with_successful
 
             #validate detail_atributes as a hash, keyword and keyword values
-            expect(response_body["detail_attributes"]).not_to be_nil 
+            expect(response_body["detail_attributes"]).not_to be_nil
             expect(response_body["detail_attributes"]).to be_an(Hash)
             expect(response_body["detail_attributes"]).to have_key("address")
             expect(response_body["detail_attributes"]["address"]).to eql(@current_user.detail[:address])
@@ -108,14 +108,14 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response_body["detail_attributes"]["work_region"]).to eq(@current_user.detail[:work_region])
         end
 
-        it "is expected to validate roles hash and attributes" do 
+        it "is expected to validate roles hash and attributes" do
             get("/administration/profile.json")
-            
+
             #share examples
             expect_response_with_successful
 
             #validate roles hash, keyword and keyword values
-            expect(response_body["roles"].first).not_to be_nil 
+            expect(response_body["roles"].first).not_to be_nil
             expect(response_body["roles"].first).to be_an(Hash)
             expect(response_body["roles"].first).to have_key("id")
             expect(response_body["roles"].first["id"]).to eq(@current_user.roles.first.id)

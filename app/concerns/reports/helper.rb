@@ -1,9 +1,9 @@
 =begin
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -12,7 +12,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 module Reports
@@ -82,7 +82,7 @@ module Reports
             #     'column_enum_status_'
             # @param translation_path [String] The scope that indicates where to find the translation
             # @descriptions Translates the value of a status to a localized language. This is only in case the statuses
-            #     are the default values created with the default workflow: "created" and "closed". Otherwise, the 
+            #     are the default values created with the default workflow: "created" and "closed". Otherwise, the
             #     value of the status will be the one given by the user
             # @example
             #     puts translate_status('created') # This will print something like 'Creado' in spanish
@@ -119,9 +119,9 @@ module Reports
             #     puts safe_divide('', nil) # This will display 0
             def self.safe_divide(num, den, round = 2)
 
-                return 0 if not num
+                return 0 unless num
 
-                return 0 if not den
+                return 0 unless den
 
                 return 0 if den == 0
 

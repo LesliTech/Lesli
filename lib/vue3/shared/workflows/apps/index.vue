@@ -1,6 +1,6 @@
 <script setup>
 /*
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -37,6 +37,11 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    appMountPath: {
+        type: String,
+        required: false,
+        default: "",
+    }
 })
 
 // set props to store
@@ -47,6 +52,8 @@ storeWorkflow.cloudObject = props.cloudObject
 const translations = {
     core: {
         workflows: I18n.t("core.workflows"),
+        shared: I18n.t("core.shared"),
+        actions: I18n.t("core.workflow/actions.column_name")
     }
 }
 
@@ -98,7 +105,7 @@ const workflows = computed(() => {
 const columns = [
     {
         field: "name",
-        label: translations.core.workflows.column_name,
+        label: translations.core.actions.column_name,
     },
     {
         field: "validation",
@@ -125,12 +132,28 @@ onMounted(() => {
     <section class="application-component">
         
         <lesli-header :title="translations.core.workflows.view_title_workflows">
+            <lesli-button
+                outlined
+                icon="refresh"
+                :loading="storeWorkflow.loading"
+                @click="storeWorkflow.fetchWorkflows()"
+            >
+                {{ translations.core.shared.view_text_btn_reload }}
+            </lesli-button>
+            
+            <lesli-button  icon="add" :to="url.root(props.appMountPath + '/new')">
+                add
+            </lesli-button>
         </lesli-header>
 
         <lesli-toolbar @search="storeWorkflow.searchWorkflows" :search-placeholder="translations.core.workflows.view_placeholder_search_text" class="mt-4">
         </lesli-toolbar>
 
-        <lesli-table :columns="columns" :records="workflows">
+        <lesli-table 
+            :columns="columns" 
+            :records="workflows"
+            :link="(workflow) => url.root(`${props.appMountPath}/${workflow.id}`).s"
+        >
         </lesli-table>
 
     </section>

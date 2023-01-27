@@ -28,6 +28,7 @@ export const useDescriptor = defineStore("administration.descriptor", {
             records: [],
             pagination: {},
             descriptor: {},
+            privileges: {},
             loading: false,
             pagination: {
                 page: 1
@@ -45,11 +46,7 @@ export const useDescriptor = defineStore("administration.descriptor", {
             this.loading = true
             this.http.get(url).then(result => {
                 this.index = result
-                this.records = result.records.map(descriptor => {
-                    descriptor.created_at = this.date.dateTime(descriptor.created_at)
-                    descriptor.updated_at = this.date.dateTime(descriptor.updated_at)
-                    return descriptor
-                })
+                this.records = result.records
                 this.loading = false
             })
         },
@@ -57,10 +54,8 @@ export const useDescriptor = defineStore("administration.descriptor", {
         fetchDescriptor(id) {
             this.http.get(this.url.admin("descriptors/:id", id)).then(result => {
                 this.descriptor = result
-                this.descriptor.privileges = this.descriptor.privileges.map(privilege => {
-                    privilege.created_at = this.date.dateTime(privilege.created_at)
-                    return privilege
-                })
+                this.getDescriptorsOptions()
+                this.fetchDescriptorPrivileges()
             })
         },
 
@@ -72,25 +67,29 @@ export const useDescriptor = defineStore("administration.descriptor", {
                 })
             })
         },
+
         /**
         * @description This action is used to reset descriptor object
         */
-        resetDescriptor(){
+        resetDescriptor() {
             this.descriptor = {}
+            this.privileges = {}
         },
+        
         /**
         * @description This action is used to create a descriptor
         */
         createDescriptor(){
             this.loading = true
             this.http.post(this.url.admin("descriptors"), { descriptor: this.descriptor }).then(result => {
+                this.descriptor.id = result.id
                 this.msg.success(I18n.t("core.users.messages_success_operation"))
                 this.loading = false
             }).catch(error => {
                 this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
             })
-
         },
+        
         /**
         * @description This action is used to update a descriptor
         */
@@ -140,6 +139,47 @@ export const useDescriptor = defineStore("administration.descriptor", {
                 })
                 
                 this.loading = false
+            })
+        },
+
+        fetchDescriptorPrivileges() {
+            this.http.get(this.url.admin("descriptors/:id/privileges", this.descriptor.id)).then(result => {
+                result.forEach(controllerAction => {
+                    if (!this.privileges[controllerAction.action]) {
+                        this.privileges[controllerAction.action] = []
+                    }
+                    controllerAction["active"] = controllerAction.descriptor_privilege_id ? true : false
+                    this.privileges[controllerAction.action].push(controllerAction)
+                })
+            })
+        },
+
+
+        // Add privilege to descriptor
+        postPrivilege(action) {
+            this.http.post(this.url.admin("descriptors/:id/privileges", this.descriptor.id), {
+                descriptor_privilege: {
+                    controller_id: action.controller_id,
+                    action_id: action.action_id
+                }
+            }).then(result => {
+                console.log(result)
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+
+        // Add privilege to descriptor
+        deletePrivilege(action) {
+            console.log(action)
+            this.http.delete(this.url.admin("descriptors/:descriptorId/privileges/:descriptorPrivilegeId", {
+                descriptorId: this.descriptor.id,
+                descriptorPrivilegeId: action.descriptor_privilege_id
+            })).then(result => {
+                console.log(result)
+            }).catch(error => {
+                console.log(error)
             })
         }
 

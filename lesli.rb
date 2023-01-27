@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -51,13 +51,13 @@ module Lesli
 
         # builder lesli.yml file configuration
         builder_settings = {}
-        
+
         # return empty if engine folder does not exists
-        return [] if not Dir.exist?("./engines")
+        return [] unless Dir.exist?("./engines")
 
         # search for the builder engine (main module)
         Dir.entries("./engines").each do |engine|
-            
+
             # next if engine is not an engine
             next if [".","..",".gitkeep"].include?(engine)
 
@@ -119,7 +119,7 @@ module Lesli
                     name: gem[0].split('_').collect(&:capitalize).join, # Convert to CamelCase
                     version: gem[1]
                 })
-                
+
             end
 
         end
@@ -193,10 +193,15 @@ module Lesli
         # specific settings for dedicated on-premises instance (not core)
         if instance_engine[:name] != "Lesli"
 
-            instance_settings = YAML.load_file(File.join("./engines", instance_engine[:code], "lesli.yml"))
+            instance_settings = YAML.load_file(File.join("./engines", instance_engine[:code], "lesli.yml"))            
 
             # overwrite core settings with specific settings from instance
-            lesli_settings = lesli_settings.deep_merge(instance_settings) 
+            lesli_settings = lesli_settings.deep_merge(instance_settings)
+
+            # if we specify a list of locales for the instance we must replace the one from the core
+            if (instance_settings.dig("configuration", "locales"))
+                lesli_settings["configuration"]["locales"] = instance_settings["configuration"]["locales"]
+            end
 
         end
 
@@ -208,7 +213,12 @@ module Lesli
                 server_settings = YAML.load_file("./lesli.server.yml")
 
                 # overwrite core and instance settings with specific settings for server
-                lesli_settings = lesli_settings.deep_merge(server_settings) 
+                lesli_settings = lesli_settings.deep_merge(server_settings)
+
+                # if we specify a list of locales for the server we must replace the one from the core and builder
+                if (server_settings.dig("configuration", "locales"))
+                    lesli_settings["configuration"]["locales"] = server_settings["configuration"]["locales"]
+                end
 
             rescue => exception
 

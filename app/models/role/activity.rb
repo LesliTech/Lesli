@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -69,11 +69,11 @@ class Role::Activity < CloudObject::Activity
             lower(role_activities.description) similar to '%#{query_text}%' or
             lower(user_details.first_name) similar to '%#{query_text}%' or
             lower(user_details.last_name) similar to '%#{query_text}%'
-        ") if not query_text.blank?
+        ") unless query_text.blank?
 
         activities = activities.where("
             role_activities.category = ?", filters[:text_category]
-        ) if not (filters[:text_category]).blank?
+        ) unless (filters[:text_category]).blank?
 
         activities = activities.page(query[:pagination][:page])
         .per(query[:pagination][:perPage])

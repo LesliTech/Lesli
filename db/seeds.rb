@@ -16,10 +16,17 @@ For more information read the license file including with this software.
 // · 
 =end
 
+L2.br;L2.br;L2.br;
+
 
 L2.info("Loading seeds for #{Rails.env.downcase} environment") 
 
+
 L2.br
+
+
+# controllers and actions are always required 
+Rake.application.invoke_task("app:controllers:build") 
 
 
 # including tools for seeders
@@ -39,6 +46,7 @@ Rails.application.config.lesli[:engines].each do |engine|
     # dynamic load seeds from installed engines
     instance_klass::Engine.load_seed
 end
+
 
 # exec maintenance tasks
 Rake.application.invoke_task("app:maintenance") 

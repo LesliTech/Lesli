@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli3", type: :request do
     describe "GET:/administration/account/settings.json", type: :request do
         include_context "request user authentication"
 
@@ -51,18 +51,18 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
         it "is expected to respond with all the records from account settings" do
             settings = []
             get("/administration/account/settings.json")
-    
-    
+
+
             # shared examples
             expect_response_with_successful
-    
+
             expect(response_body).to be_a(Array)
-    
+
             #Get the settings from the response body
             for i in response_body do
                 settings.append(i['name'])
             end
-    
+
             # Verify if the expected settings are present in the response body
             expect("datetime_format_date").to be_in(settings)
             expect("datetime_format_time").to be_in(settings)
@@ -77,7 +77,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect("password_uppercase_count").to be_in(settings)
             expect("password_lowercase_count").to be_in(settings)
             expect("password_digit_count").to be_in(settings)
-            
+
         end
 
     end

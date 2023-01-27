@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -20,14 +20,14 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli3", type: :request do
     describe "GET:/administration/account/files.json", type: :request do
         include ActionDispatch::TestProcess::FixtureFile
         include_context "request user authentication"
-        
+
         it "is expected pass share example response with successful" do
             @current_user.account.files.destroy_all
-        
+
             file_subject = @current_user.account.files.new({
                 name: "lesli-icon",
                 attachment: fixture_file_upload("lesli-icon.png", "image/png"),
@@ -46,7 +46,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
 
         it "is expected to return files account with all keys" do
             @current_user.account.files.destroy_all
-        
+
             file_subject = @current_user.account.files.new({
                 name: "lesli-icon",
                 attachment: fixture_file_upload("lesli-icon.png", "image/png"),
@@ -58,8 +58,8 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             #share example
             expect_response_with_successful
 
-            #validate keywords 
-            expect(response_body).not_to be_nil 
+            #validate keywords
+            expect(response_body).not_to be_nil
             expect(response_body).to be_an(Array)
             expect(response_body.first).to be_an(Hash)
             expect(response_body.length).to be >= 1
