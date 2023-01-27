@@ -18,9 +18,30 @@ For more information read the license file including with this software.
 
 class UserService < LesliService
 
-    def list 
-        current_user.account.users
-        .order(name: :asc)
+
+    # Return a list of users that belongs to the account of the current_user
+    # this list is meant to be used in selectors, autocomplets, etc
+    def list query=nil, params=nil
+        users = current_user.account.users        
+
+        if params[:role].present?
+            # add simple quotes to the roles so the sql can manage the query
+            roles = params[:role].split(",").map { |role| "'#{role}'" }.join(", ")
+            users = users.joins("
+                inner join (
+                    select
+                        ur.users_id, string_agg(r.\"name\", ', ') role_names
+                    from user_roles ur
+                    join roles r
+                        on r.id = ur.roles_id 
+                        and r.name in ( #{ roles } )
+                    where ur.deleted_at is null
+                    group by ur.users_id
+                ) roles on roles.users_id = users.id
+            ")
+        end
+
+        users = users.order(name: :asc)
         .select(
             :id,
             :email,
@@ -29,7 +50,10 @@ class UserService < LesliService
         ).as_json
     end
 
-    def index query
+
+    # @return [Array] Paginated index of users.
+    # @description Return a paginated array of users, used mostly in frontend views
+    def index query, params
 
         # sql string to join to user_roles and get all the roles assigned to a user
         sql_string_for_user_roles = "inner join (
@@ -63,7 +87,7 @@ class UserService < LesliService
         if query.dig(:search)
             users = users.where(
                 "lower(users.email) like :search or lower(concat(user_details.first_name, ' ', user_details.last_name)) like :search",
-                { search: "%#{LC::Sql.sanitize_for_search(query.dig(:search))}%" }
+                { search: "%#{LC::Sql.sanitize_for_search(query.dig(:search))}" }
             )
         end
 
@@ -71,7 +95,7 @@ class UserService < LesliService
             :id,
             :active,
             :email,
-            :role_names,
+            "role_names as roles",
             "CONCAT(user_details.first_name, ' ',user_details.last_name) as name",
             "current_sign_in_at as current_signin_at",
             :last_action_performed_at,
@@ -83,12 +107,13 @@ class UserService < LesliService
         .page(query[:pagination][:page])
         .per(query[:pagination][:perPage])
         .order("#{query[:order][:by]} #{query[:order][:dir]} NULLS LAST")
-
     end
 
-    def show 
 
-        user = resource
+    # Creates a query that selects all user information from several tables if CloudLock is present
+    def show (user=nil)
+
+        user = user || resource
 
         return {
             id: user[:id],
@@ -102,7 +127,7 @@ class UserService < LesliService
             full_name: user.full_name,
             mfa_enabled: user.mfa_settings[:enabled],
             mfa_method:  user.mfa_settings[:method],
-            locale: user.settings.find_by(:name => "locale")[:value],
+            locale: user.settings.select(:value).find_by(:name => "locale"),
             detail_attributes: {
                 title: user.detail[:title],
                 salutation: user.detail[:salutation],
@@ -129,8 +154,8 @@ class UserService < LesliService
         user = User.new({
             :active => true,
             :email => user_params[:email],
-            #:alias => user_params[:alias],
-            #:detail_attributes => user_params[:detail_attributes]
+            :alias => user_params[:alias] || "",
+            :detail_attributes => user_params[:detail_attributes] || {}
         })
 
         # assign a random password
