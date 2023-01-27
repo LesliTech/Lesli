@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "GET:/administration/users/:id/resources/become.json with an user with no privileges", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "GET:/administration/users/:id/resources/become.json with an user with no privileges", type: :request do
     include_context "request user authentication"
 
     # helper methods
@@ -28,7 +28,7 @@ RSpec.describe "GET:/administration/users/:id/resources/become.json with an user
     let(:create_limited_user) { FactoryBot.create(:user, role_name: "limited") }
     let(:create_owner_user) { FactoryBot.create(:user, role_name: "owner") }
 
-    it "with an user with no privileges" do    
+    it "with an user with no privileges" do
         limited_user = create_limited_user
         random_user = User.where("id != ?", limited_user.id).order("random()").first
 

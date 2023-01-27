@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -20,15 +20,15 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "Tests for Lesli3", type: :request do
     describe "GET:/administration/account/files/:id.json", type: :request do
         include ActionDispatch::TestProcess::FixtureFile
         include_context "request user authentication"
-        
+
         it "is expected to response with successful image" do
 
             @current_user.account.files.destroy_all
-        
+
             file_subject = @current_user.account.files.create!({
                 name: "lesli-icon",
                 file_type: "app_logo",
@@ -37,7 +37,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             })
 
             file_subject.update({})
-            
+
             get("/administration/account/files/#{file_subject.id}.json")
 
             #respond with an image
@@ -45,13 +45,13 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             expect(response.content_type).to be_a(String)
             expect(response.content_type).to eq("image/png")
             expect(response.body).to be_a(String)
-            
+
         end
 
         it "is expected to response with fail image" do
 
             @current_user.account.files.destroy_all
-        
+
             file_subject = @current_user.account.files.create!({
                 name: "lesli-icon",
                 file_type: "app_logo",
@@ -62,7 +62,7 @@ RSpec.describe "Tests for Lesli3", type: :request, :unless => defined?(DeutscheL
             file_subject.update({})
 
             get("/administration/account/files/#{file_subject.id + 1 }.json")
-            
+
             #expect to not found dude to wrong file id
             expect_response_with_not_found
         end

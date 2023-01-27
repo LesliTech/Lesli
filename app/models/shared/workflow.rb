@@ -61,7 +61,7 @@ module Shared
     that contain the transitions between *states*
 @example
     workflow = CloudHelp::Workflow.first.full_workflow
-    responseWithSuccessful(workflow)
+    respond_with_successful(workflow)
 =end
         def show
             dynamic_info = self.class.dynamic_info
@@ -157,7 +157,7 @@ module Shared
             workflows = workflows
             .page(pagination[:page])
             .per(pagination[:perPage])
-            .order(pagination[:orderColumn].to_sym => pagination[:order].to_sym)
+            .order("#{query[:order][:by]} #{query[:order][:dir]} NULLS LAST")
             
             response[:workflows] = workflows.select(
                 :id,
@@ -309,9 +309,9 @@ module Shared
     ticket = CloudHelp::Ticket.new(ticket_params)
     CloudHelp::Workflow.set_workflow(ticket)
     if ticket.save
-        responseWithSuccessful
+        respond_with_successful
     else
-        responseWithError(ticket.errors.full_messages.to_sentence)
+        respond_with_error(ticket.errors.full_messages.to_sentence)
     end
 =end
         def self.set_workflow(cloud_object)

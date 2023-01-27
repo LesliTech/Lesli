@@ -118,7 +118,9 @@ module.exports = env => {
             "administration/application": "Lesli/vue3/administration/app.js",
 
             "websites/application": "Lesli/vue3/websites/app.js",
-
+            
+            "errors/application": "Lesli/vue3/errors/app.js",
+            
         },
 
 

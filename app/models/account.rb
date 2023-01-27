@@ -64,8 +64,8 @@ class Account < ApplicationRecord
     has_one :word,       class_name: "CloudWord::Account",       foreign_key: "id"
 
     after_create :initialize_account
-    after_create :initialize_account_for_engines
-    after_create :initialize_account_for_instance
+    after_create :initialize_engines
+    after_create :initialize_instance
     after_create :initialize_settings
 
     # account status
@@ -94,11 +94,10 @@ class Account < ApplicationRecord
             self.template.save!
         end
 
-        # create role descriptors 
-        # disable due role & privileges v4
-        # self.role_descriptors.find_or_create_by(name: "owner")
-        # self.role_descriptors.find_or_create_by(name: "sysadmin")
-        # self.role_descriptors.find_or_create_by(name: "profile")
+        # create initial descriptors 
+        self.descriptors.find_or_create_by(name: "owner")
+        self.descriptors.find_or_create_by(name: "sysadmin")
+        self.descriptors.find_or_create_by(name: "profile")
 
         # create default roles
         account_roles = Rails.application.config.lesli[:security][:roles] || []
@@ -118,8 +117,6 @@ class Account < ApplicationRecord
                 object_level_permission: object_level_permission
             })
 
-            # disable due role & privileges v4
-            # role.initialize_role_privileges
         end
 
         AccountLocationService.new(self).set_locations
@@ -127,7 +124,7 @@ class Account < ApplicationRecord
         self.onboarding!
     end
 
-    def initialize_account_for_engines
+    def initialize_engines
 
         if defined? CloudDispatcher
             if self.dispatcher.blank?
@@ -334,7 +331,7 @@ class Account < ApplicationRecord
 
     end
 
-    def initialize_account_for_instance
+    def initialize_instance
 
         # Every instance (builder module) is loaded into the platform using the same
         # name of the engine

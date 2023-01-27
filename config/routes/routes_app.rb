@@ -177,7 +177,10 @@ module RoutesApp
 
 
                 # Descriptors for roles
-                resources :descriptors, only: [:index, :show, :create, :update] do
+                resources :descriptors, only: [:index, :show, :edit, :create, :update] do
+                    scope module: :descriptor do
+                        resources :privileges, only: [:index, :create, :destroy]
+                    end
                     collection do 
                         get :list
                     end
@@ -188,7 +191,7 @@ module RoutesApp
                     scope module: :role do
                         resources :privileges, only: [:index]
                         resources :activities, only: [:index]
-                        resources :describers, only: [:index, :create, :destroy]
+                        resources :descriptors, only: [:index, :create, :destroy]
                     end
                     collection do
                         get :list
@@ -225,6 +228,13 @@ module RoutesApp
                     end
                     resources :mappings
                 end
+
+                # general system controllers and actions
+                resources :system_controllers, only: [:index] do 
+                    collection do
+                        get :options 
+                    end
+                end 
             end
 
             scope :about do

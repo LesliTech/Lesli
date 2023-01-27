@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -22,7 +22,7 @@ module Courier
         class Task
 
             def self.count(current_user)
-                return 0 if not defined? CloudFocus
+                return 0 unless defined? CloudFocus
                 CloudFocus::Task.count(current_user)
             end
 
@@ -69,7 +69,7 @@ module Courier
             end
 
             def self.options(current_user, query)
-                return {} if not defined? CloudFocus
+                return {} unless defined? CloudFocus
                 CloudFocus::Task.options(current_user, query)
             end
 

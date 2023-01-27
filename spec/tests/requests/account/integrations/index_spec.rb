@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -28,11 +28,11 @@ data = [
     { :name => Faker::Superhero.power },
 ]
 
-RSpec.describe "GET:/administration/account/integrations", type: :request, :unless => defined?(DeutscheLeibrenten) do
+RSpec.describe "GET:/administration/account/integrations", type: :request do
 
     include_context "request user authentication"
 
-    it "is expected to respond with integrations" do 
+    it "is expected to respond with integrations" do
 
         [
             { :name => Faker::Superhero.power },
@@ -48,7 +48,7 @@ RSpec.describe "GET:/administration/account/integrations", type: :request, :unle
         get("/administration/account/integrations.json")
 
         expect_response_with_pagination
-        
+
         expect(response_body).to be_an(Object)
         expect(response_body).to have_key("pagination")
         expect(response_body).to have_key("records")

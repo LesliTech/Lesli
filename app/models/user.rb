@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -50,15 +50,15 @@ class User < ApplicationLesliRecord
 
     # users data extensions
     has_many :logs,             foreign_key: "users_id", inverse_of: :user
+    has_many :agents,           foreign_key: "users_id"
     has_many :settings,         foreign_key: "users_id"
     has_many :sessions,         foreign_key: "users_id"
     has_many :requests,         foreign_key: "users_id"
-    has_many :webpushes,        foreign_key: "users_id"
     has_many :shortcuts,        foreign_key: "users_id"
     has_many :activities,       foreign_key: "users_id"
     has_one  :integration,      foreign_key: "users_id"
     has_many :access_codes,     foreign_key: "users_id"
-    has_many :auth_providers,   foreign_key: "users_id"     
+    has_many :auth_providers,   foreign_key: "users_id"
 
 
     # users can have many roles and too many privileges through the roles
@@ -67,16 +67,10 @@ class User < ApplicationLesliRecord
     has_many :privileges,       through: :roles
 
 
-    # user roles & privileges association compatibility
-    # this comes from the first implementation of the role descriptors
-    has_many :role_privileges,          through: :roles,            source: :privileges
-    has_many :user_privilege_actions,   foreign_key: "users_id",    class_name: "User::PrivilegeAction"
-    has_many :role_privilege_actions,   through: :roles,            source: :privilege_actions
-
-
     # callbacks
     before_create :before_create_user
     after_create :after_create_user
+    after_create :after_confirmation_user, if: :confirmed?
 
 
     # type of user
@@ -166,7 +160,7 @@ class User < ApplicationLesliRecord
     def self.list(current_user, query, params)
         type = params[:type]
 
-        roles = params[:role].split(",").map { |role| "'#{role}'" }.join(", ") if not params[:role].blank?
+        roles = params[:role].split(",").map { |role| "'#{role}'" }.join(", ") unless params[:role].blank?
 
         operator = type == "exclude" ? 'not in' : 'in'
 
@@ -189,13 +183,13 @@ class User < ApplicationLesliRecord
         end
 
         # sort by name by default
-        if query[:pagination][:orderColumn] == "id"
-            query[:pagination][:orderColumn] = "first_name"
-            query[:pagination][:order] = "asc"
+        if query[:order][:by] == "id"
+            query[:order][:by] = "first_name"
+            query[:order][:dir] = "asc"
         end
 
-        users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
-        users = users.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
+        #users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
+        #users = users.order("? ? NULLS LAST", query[:order][:by], query[:order][:dir])
 
         users = users.select(
             :id,
@@ -231,13 +225,14 @@ class User < ApplicationLesliRecord
     #    }
     #]
     def self.index(current_user, query, params)
+
         type = params[:type]
 
         operator = type == "exclude" ? 'not in' : 'in'
 
         # Filter users by roles
         unless params.dig(:f, :role).nil?
-            roles = params[:f][:role].split(",").map { |role| "'#{role}'" }.join(", ") if not params[:f][:role].blank?
+            roles = params[:f][:role].split(",").map { |role| "'#{role}'" }.join(", ") unless params[:f][:role].blank?
         end
 
         users = current_user.account.users
@@ -263,14 +258,12 @@ class User < ApplicationLesliRecord
                 where us.deleted_at is null
                 group by(us.users_id)
             ) sessions on sessions.users_id = users.id
-        ")
+        ").where("category = 'user'")
 
-        users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
-        users = users.where("category = ?", query[:filters][:category]) if query[:filters][:category]
         users = users.where("
             lower(email) like '%#{query[:search]}%' or
             LOWER(concat(ud.first_name, ' ', ud.last_name)) like '%#{query[:search].downcase}%'
-        ")  if not query[:search].blank?
+        ")  unless query[:search].blank?
 
         users = users.select(
             :id,
@@ -286,7 +279,7 @@ class User < ApplicationLesliRecord
         )
 
         # Filter users by status
-        
+
         unless params.dig(:f, :status).nil?
             if (params[:f][:status] == 'active')
                 users = users.where("users.active = ?", true)
@@ -298,7 +291,7 @@ class User < ApplicationLesliRecord
         users = users
         .page(query[:pagination][:page])
         .per(query[:pagination][:perPage])
-        .order("#{query[:pagination][:orderBy]} #{query[:pagination][:order]} NULLS LAST")
+        .order("#{query[:order][:by]} #{query[:order][:dir]} NULLS LAST")
 
     end
 
@@ -313,7 +306,7 @@ class User < ApplicationLesliRecord
                 ur.users_id, string_agg(r.\"name\", ', ') role_names
             from user_roles ur
             join roles r
-                on r.id = ur.roles_id  
+                on r.id = ur.roles_id
             where ur.deleted_at is null
             group by ur.users_id
         ) roles on roles.users_id = users.id"
@@ -338,7 +331,7 @@ class User < ApplicationLesliRecord
 
         if query.dig(:search)
             users = users.where(
-                "lower(users.email) like :search or lower(concat(user_details.first_name, ' ', user_details.last_name)) like :search", 
+                "lower(users.email) like :search or lower(concat(user_details.first_name, ' ', user_details.last_name)) like :search",
                 { search: "%#{sanitize_sql_like(query.dig(:search))}%" }
             )
         end
@@ -405,5 +398,4 @@ class User < ApplicationLesliRecord
         }
 
     end
-
 end
