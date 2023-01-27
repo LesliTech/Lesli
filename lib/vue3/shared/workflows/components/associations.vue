@@ -179,7 +179,7 @@ function selectOption (new_association){
                             delete
                         </span>
                         <span>
-                            Delete
+                            {{ translations.core.view_btn_delete }}
                         </span>
                     </a>
             </template>
