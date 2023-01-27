@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -56,10 +56,8 @@ module Courier
                 return nil unless defined? CloudDriver
 
                 user.account.driver.calendars.create_with(
-                    detail_attributes: {
-                        name: name,
-                        default: default,
-                    }
+                    name: name,
+                    default: default,
                 ).find_or_create_by!(
                     user_main: user,
                     user_creator: user,
@@ -72,13 +70,11 @@ module Courier
             def self.get_user_calendar(current_user, source_code: 'lesli', default: false)
                 return nil unless defined? CloudDriver
 
-                current_user.account.driver.calendars.eager_load(:detail).find_by(
+                current_user.account.driver.calendars.find_by(
                     user_main: current_user,
                     user_creator: current_user,
                     source_code: source_code,
-                    cloud_driver_calendar_details: {
-                        default: default
-                    }
+                    default: default
                 )
             end
 
