@@ -147,6 +147,7 @@ module.exports = env => {
                 LesliCore: path.resolve("app", "vue3"),
                 CloudBell: path.resolve("engines", "cloud_bell", "app", "vue3"),
                 CloudTalk: path.resolve("engines", "cloud_talk", "app", "vue3"),
+                CloudTeam: path.resolve("engines", "cloud_team", "app", "vue3"),
                 CloudHelp: path.resolve("engines", "cloud_help", "app", "vue3"),
                 CloudWork: path.resolve("engines", "cloud_work", "app", "vue3"),
                 CloudAudit: path.resolve("engines", "cloud_audit", "app", "vue3"),
