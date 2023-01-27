@@ -24,7 +24,7 @@ class UsersController < ApplicationLesliController
 
     def list
         respond_to do |format|
-            format.json { respond_with_successful(UserService.new(current_user).list()) }
+            format.json { respond_with_successful(UserService.new(current_user).list(query, params)) }
         end
     end
 
@@ -39,38 +39,7 @@ class UsersController < ApplicationLesliController
         respond_to do |format|
             format.html { }
             format.json {
-                
-                return respond_with_pagination(UserService.new(current_user).index(@query))
-
-                users = User.index(current_user, @query, params)
-
-                return respond_with_pagination(users, (users.map { |user|
-
-                    # last time user use the login form to access the platform
-                    current_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at])
-
-                    # last action the user perform an action into the system
-                    last_action_performed_at = LC::Date.distance_to_words(user["last_action_performed_at"]) unless user["last_action_performed_at"].blank?
-
-                    # last login from the user
-                    last_login_at = LC::Date.distance_to_words(user[:last_login_at])
-
-                    # check if user has an active session
-                    session = user["last_login_at"].blank? ? false : true
-
-                    {
-                        id: user[:id],
-                        name: user[:name],
-                        email: user[:email],
-                        category: user[:category],
-                        current_sign_in_at: current_sign_in_at,
-                        active: user[:active],
-                        roles: user[:roles],
-                        last_action_performed_at: last_action_performed_at,
-                        session_active: session,
-                        last_login_at: last_login_at
-                    }
-                }))
+                return respond_with_pagination(UserService.new(current_user).index(query, params))
             }
         end
     end
@@ -127,11 +96,14 @@ class UsersController < ApplicationLesliController
     def destroy
         return respond_with_not_found unless @user
 
-        if @user.delete
-            current_user.logs.create({ description: "deleted_user #{@user.id}-#{@user.full_name} by_user_id: #{current_user.id}" })
-            respond_with_successful(@user)
+        # get the user found in the UserService
+        user = @user.result
+
+        if user.delete
+            current_user.logs.create({ description: "deleted_user #{user.id}-#{user.full_name} by_user_id: #{current_user.id}" })
+            respond_with_successful(user)
           else
-            respond_with_error(@user.errors.full_messages.to_sentence)
+            respond_with_error(user.errors.full_messages.to_sentence)
         end
     end
 

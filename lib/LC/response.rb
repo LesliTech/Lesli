@@ -37,6 +37,7 @@ module LC
         #     tasks
         # )
         # respond_with_successful(response_message)
+        # DEPRECATED: Use LesliServices instead
         def self.pagination current_page, total_pages, total_count, length, data
             {
                 pagination: {
@@ -57,6 +58,7 @@ module LC
         # 
         # response_message = LC::Response.search(tasks)
         # respond_with_successful(response_message)
+        # DEPRECATED: Use LesliServices instead
         def self.search payload
             {
                 columns: payload.first.as_json.keys,
@@ -66,15 +68,10 @@ module LC
 
 
         # Response template for service objects
+        # DEPRECATED: Use LesliServices instead
         def self.service successful, payload=nil
             return OpenStruct.new({ successful?: successful, success?: successful, payload: payload }) if successful == true
             return OpenStruct.new({ successful?: successful, success?: successful, error: payload })
         end
-
-        def self.service2 successful, payload=nil
-            return OpenStruct.new({ successful?: successful, payload: payload }) if successful == true
-            return OpenStruct.new({ successful?: successful, type: :not_found, error: payload })
-        end
-
     end
 end

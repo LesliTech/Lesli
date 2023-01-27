@@ -36,6 +36,8 @@ class ApplicationLesliController < ApplicationController
 
     protected
 
+    attr_reader :query
+
 
     # @return [String] The name of this class, starting with 'Cloud'
     # @description Returns the Lesli engine and class name associated to this model. This method must be overwritten
