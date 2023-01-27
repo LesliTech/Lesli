@@ -48,9 +48,14 @@ const props = defineProps({
         type: String,
         required: false
     },
-    
     required: {
         type: Boolean,
+        required: false,
+        default: false
+    },
+    disabled: {
+        type: Boolean,
+        required: false,
         default: false
     }
 })
@@ -75,7 +80,7 @@ function onChange() {
     <div>
         <div :class="['control', {'has-icons-left': props.icon}]">
             <div class="select is-fullwidth">
-                <select @change="onChange" v-model="selected" :required="required">
+                <select @change="onChange" v-model="selected" :required="props.required" :disabled="props.disabled">
                     <option value="" hidden>{{ props.placeholder }}</option>
                     <option 
                         v-if="props.reset"
