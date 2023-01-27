@@ -23,7 +23,7 @@ class ApplicationApiController < ActionController::API
     include Interfaces::Application::Requester
     include Interfaces::Application::Logger
 
-    before_action :set_locale
+    before_action :set_locale_public
     before_action :authorize_request
     before_action :authorize_privileges
     before_action :set_helpers_for_request

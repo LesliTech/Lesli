@@ -27,13 +27,12 @@ module Courier
             def self.show current_user, query, params
                 #return unless defined?(EngineName)
                 user = UserService.new(current_user).find(params[:id])
-                return user
+                user.show
             end
 
             def self.index current_user, query, params                
                 #return unless defined?(EngineName)
-                return UserService.new(current_user).index(query)
-                User.index current_user, query, params
+                UserService.new(current_user).index(query, params)
             end
 
         end
