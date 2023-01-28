@@ -25,8 +25,7 @@ RSpec.describe "Tests for Lesli 3" do
     describe "DEL:/administration/users/:id.json with user with invalid permissions", type: :request do
         include_context "request user authentication"
 
-=begin
-        it "is expected to respond with unauthorized when is deleting a user" do
+        it "is expected to respond with unauthorized when is deleting a user with higher role" do
             admin_user = FactoryBot.create(:user)
             limited_user = FactoryBot.create(:user, role_name: "limited")
 
@@ -34,12 +33,10 @@ RSpec.describe "Tests for Lesli 3" do
 
             delete "/administration/users/#{admin_user.id}.json"
 
-            pp response.body
-
             # shared examples
             expect_response_with_unauthorized
         end
-=end
+
         it "is expected to delete a user from db" do
             limited_user = FactoryBot.create(:user, role_name: "limited")
 

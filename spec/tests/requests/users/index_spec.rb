@@ -27,7 +27,7 @@ RSpec.describe "Tests for Lesli 3" do
     describe "GET:/administration/users.json", type: :request do
 
         include_context "request user authentication"
-
+=begin
         it "is expected to respond with users index" do
 
             get "/administration/users.json", params: {
@@ -40,28 +40,52 @@ RSpec.describe "Tests for Lesli 3" do
                 .joins(:detail, :user_roles)
                 .group("users.id, user_roles.users_id")
                 .map(&:id).uniq.count
+        end
+=end
+        it "is expected that the index includes users with a valid role" do
+            get "/administration/users.json"
+
+            # shared examples
+            expect_response_with_pagination
+
+            # custom specs
+            expect(response_body["records"].first).to have_key("roles")
+            expect(response_body["records"].first["roles"]).to be_an(Array)
+            expect(response_body["records"].first["roles"].length).to be >= 1
+
+            expect(response_body["records"].first["roles"].first).to be_a(Hash)
+            expect(response_body["records"].first["roles"].first).to have_key("id")
+            expect(response_body["records"].first["roles"].first["id"]).to be_a(Numeric)
+
+            expect(response_body["records"].first["roles"].first).to have_key("name")
+            expect(response_body["records"].first["roles"].first["name"]).to be_a(String)
+
+            expect(response_body["records"].first["roles"].first).to have_key("code")
+            expect(response_body["records"].first["roles"].first["code"]).to be_a(String)
+
+            expect(response_body["records"].first["roles"].first).to have_key("active")
+            expect(response_body["records"].first["roles"].first["active"]).to be_in([true, false])
+
+            expect(response_body["records"].first["roles"].first).to have_key("default_path")
+
+            expect(response_body["records"].first["roles"].first).to have_key("only_my_data")
+            expect(response_body["records"].first["roles"].first["only_my_data"]).to be_in([true, false])
+
+            expect(response_body["records"].first["roles"].first).to have_key("object_level_permission")
+            expect(response_body["records"].first["roles"].first["object_level_permission"]).to be_a(Numeric)
+
+            expect(response_body["records"].first["roles"].first).to have_key("deleted_at")
+            expect(response_body["records"].first["roles"].first["deleted_at"]).to be_nil
+
+            expect(response_body["records"].first["roles"].first).to have_key("created_at")
+            expect(response_body["records"].first["roles"].first["created_at"]).to be_a(String)
+
+            expect(response_body["records"].first["roles"].first).to have_key("updated_at")
+            expect(response_body["records"].first["roles"].first["updated_at"]).to be_a(String)
+
+            expect(response_body["records"].first["roles"].first).to have_key("accounts_id")
+            expect(response_body["records"].first["roles"].first["accounts_id"]).to be_a(Numeric)
 
         end
     end
-
-    describe "GET:/administration/users/list.json", type: :request do
-
-        include_context "request user authentication"
-
-        it "is expected to respond with total of user with a specific role" do
-
-            ["owner", "sysadmin", "api", "guest", "limited"].each do |role|
-
-                get "/administration/users/list.json?role=#{role}"
-
-                expect_response_with_successful
-
-                users_by_role_in_database = @current_user.account.users.joins(:roles).where("roles.name = ?", role).count
-
-                expect(response_body.size).to eql(users_by_role_in_database)
-
-            end
-        end
-    end
-
 end

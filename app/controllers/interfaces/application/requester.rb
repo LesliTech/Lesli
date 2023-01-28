@@ -83,7 +83,7 @@ module Interfaces
                 return I18n.locale = I18n.default_locale if locale.blank?
 
                 # use default locale if requested language is not supported
-                locale = I18n.default_locale unless I18n.available_locales.include?(locale.to_sym)
+                return I18n.locale = I18n.default_locale unless I18n.available_locales.include?(locale.to_sym)
 
                 # set the new locale
                 I18n.locale = locale
