@@ -18,29 +18,50 @@ For more information read the license file including with this software.
 */
 
 
+// · import vue tools
+import { onMounted, computed } from "vue"
+
+
+// · import lesli stores
+import { useDashboard } from "LesliVue/stores/shared/dashboard"
+
+
+// · implement stores
+const storeDashboard = useDashboard()
+
+
 // · 
-import { defineAsyncComponent } from "vue";
+const props = defineProps({
+    engine: {
+        type: String, 
+        require: true
+    },
+    renderComponents: {
+        type: Object,
+        require: true
+    }
+})
 
-import helloWorld from "LesliVue/shared/dashboards/dashcomponents/helloWorld.vue"
 
-const dashcomponents = {
-    "core-hello-world": helloWorld 
-}
-
-const components = [{
-    id: "core-hello-world",
-    size: "10"
-}]
+// · 
+onMounted(() => {
+    storeDashboard.getDashboard("help")
+})
 
 </script>
 <template>
     <section class="application-component">
-        <lesli-header title="My dashboard"></lesli-header>
-        <div class="columns is-multiline">
+
+        <!--lesli-header :title="storeDashboard.dashboard.name"></lesli-header-->
+
+        <div class="columns is-variable is-2 is-multiline dashboard-components">
             <div 
-                v-for="(component, index) in components" :key="index"
-                :class="['column', 'is-' + component?.size]">
-                <component :component.sync="component" :is="dashcomponents[component.id]"></component>
+                v-for="(component, index) in storeDashboard.dashboard.components" 
+                :key="component.id"
+                :class="['column', 'is-' + component.layout]">
+                
+                <component :is="renderComponents[component.component_id]">
+                </component>
             </div>
         </div>
     </section>
