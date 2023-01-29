@@ -14,14 +14,25 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 %>
+
+<%# the charset attribute specifies the character encoding for the HTML document. %>
 <meta charset="utf-8">
+
+<%# this gives the browser instructions on how to control the page's dimensions and scaling. %>
 <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<%# defines the title of the document. %>
 <title><%= website_title %></title>
+
+<%# rails standard meta tags %>
 <%= csrf_meta_tags %>
 <%= favicon %>
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<%# provide a short description of the page %>
+<meta name="description" content="<%= website_meta_description %>">
+
 
 <% appstore_app_id = Rails.application.credentials.dig(:providers, :apple, :app_id) %>
 <% if appstore_app_id %>
