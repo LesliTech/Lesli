@@ -52,6 +52,10 @@ const columns = [
         label: "Name",
     },
     {
+        field: "action_type",
+        label: "Action type",
+    },
+    {
         field: "initial_status_name",
         label: "Initial status",
     },
@@ -60,16 +64,8 @@ const columns = [
         label: "Final status",
     },
     {
-        field: "role_name",
-        label: "Role",
-    },
-    {
-        field: "user_type",
-        label: "Verification type",
-    },
-    {
-        field: "user_name",
-        label: "Employee",
+        field: "active",
+        label: "",
     },
 ]
 
@@ -109,6 +105,14 @@ onMounted(() => {
                 :records="storeActions.actions"
                 @click="showAction"
             >
+                <template #active="{ value }">
+                    <span class="tag is-success" v-if="value">
+                        {{ translations.core.shared.view_text_active }}
+                    </span>
+                    <span class="tag is-warning" v-if="!value">
+                        {{ translations.core.shared.view_text_inactive }}
+                    </span>
+                </template>
             </lesli-table>
         </lesli-tab-item>
 
@@ -116,7 +120,7 @@ onMounted(() => {
             <actionForm></actionForm>
         </lesli-tab-item>
         
-        <lesli-tab-item title="Action">
+        <lesli-tab-item title="Edit action" :disabled="!storeActions.action.id">
             <actionForm is-editable></actionForm>
         </lesli-tab-item>
 

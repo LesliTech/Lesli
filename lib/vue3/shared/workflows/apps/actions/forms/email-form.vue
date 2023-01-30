@@ -43,6 +43,41 @@ const translations = {
                 {{ translations.actions.column_subject }}
                 <sup class="has-text-danger">*</sup>
             </label>
+
+            <div class="field has-addons">
+                <p class="control">
+                    <button class="button is-outlined" @click="storeActions.addReference('global_identifier', 'subject')" :title="translations.actions.messages_info_tooltip_add_resource_identifier_reference">
+                        <span class="material-icons">format_list_numbered</span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button class="button is-outlined" @click="storeActions.addReference('status', 'subject')" :title="translations.actions.messages_info_tooltip_add_status_reference">
+                        <span class="material-icons">info</span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button class="button is-outlined" @click="storeActions.addReference('current_user', 'subject')" :title="translations.actions.messages_info_tooltip_add_current_user_reference">
+                        <span class="material-icons">person</span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button class="button is-outlined" @click="storeActions.addReference('user_creator', 'subject')" :title="translations.actions.messages_info_tooltip_add_user_creator_reference">
+                        <span class="material-icons">person_add</span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button class="button is-outlined" @click="storeActions.addReference('user_reviewer', 'subject')" :title="translations.actions.messages_info_tooltip_add_user_reviewer_reference">
+                        <span class="material-icons">person_search</span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button class="button is-outlined" @click="storeActions.addReference('user_branch_office', 'subject')" :title="translations.actions.messages_info_tooltip_add_user_branch_office_reference">
+                        <span class="material-icons">person_pin_circle</span>
+                    </button>
+                </p>
+            </div>
+
+
             <div class="control is-clearfix">
                 <input
                     type="text"
@@ -62,6 +97,38 @@ const translations = {
             <label class="label">
                 {{ translations.actions.column_body }}
             </label>
+            <div class="field has-addons">
+                <p class="control">
+                    <button class="button is-outlined" @click="storeActions.addReference('global_identifier', 'body')" :title="translations.actions.messages_info_tooltip_add_resource_identifier_reference">
+                        <span class="material-icons">format_list_numbered</span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button class="button is-outlined" @click="storeActions.addReference('status', 'body')" :title="translations.actions.messages_info_tooltip_add_status_reference">
+                        <span class="material-icons">info</span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button class="button is-outlined" @click="storeActions.addReference('current_user', 'body')" :title="translations.actions.messages_info_tooltip_add_current_user_reference">
+                        <span class="material-icons">person</span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button class="button is-outlined" @click="storeActions.addReference('user_creator', 'body')" :title="translations.actions.messages_info_tooltip_add_user_creator_reference">
+                        <span class="material-icons">person_add</span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button class="button is-outlined" @click="storeActions.addReference('user_reviewer', 'body')" :title="translations.actions.messages_info_tooltip_add_user_reviewer_reference">
+                        <span class="material-icons">person_search</span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button class="button is-outlined" @click="storeActions.addReference('user_branch_office', 'body')" :title="translations.actions.messages_info_tooltip_add_user_branch_office_reference">
+                        <span class="material-icons">person_pin_circle</span>
+                    </button>
+                </p>
+            </div>
             <textarea
                 name="body"
                 rows="3"
