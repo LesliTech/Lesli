@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { inject, onMounted } from "vue"
+import { inject, onMounted, watch } from "vue"
 
 // · import stores
 import { useWorkflow } from "LesliVue/stores/shared/workflow"
@@ -131,18 +131,36 @@ function changeStatusType(selected_status, new_status_type){
 /**
  * @description This function is used to delete a status
  */
-function deleteStatus(deleted_status){
+function deleteStatus(){
 
     let new_statuses = Object.values(storeWorkflow.workflow.statuses).filter((status) => {
-        if (status.id != deleted_status.id){
+        if (status.id != storeWorkflow.selected_status.id){
             return status
         }
     })
 
-    deleted_status['_destroy'] = true
+    storeWorkflow.selected_status['_destroy'] = true
 
-    storeWorkflow.deleted_workflow_statuses.push(deleted_status)
+    storeWorkflow.deleted_workflow_statuses.push(storeWorkflow.selected_status)
     storeWorkflow.workflow.statuses = new_statuses
+
+    for(let status_id in storeWorkflow.workflow.statuses){
+        let workflow_status = storeWorkflow.workflow.statuses[status_id]
+
+        if(workflow_status.next_statuses){
+            workflow_status.next_statuses = workflow_status.next_statuses.replace(
+                new RegExp(`([^0-9]${storeWorkflow.selected_status.id}$)|(^${storeWorkflow.selected_status.id}[^0-9])|(^${storeWorkflow.selected_status.id}$)`,'g'), ''
+            ).replace(
+                new RegExp(`([^0-9]${storeWorkflow.selected_status.id}[^0-9])`,'g'), '|'
+            )
+            if(workflow_status.next_statuses.length == 0){
+                workflow_status.next_statuses = null
+            }
+        }
+    }
+
+    storeWorkflow.selected_status = {}
+
 }
 
 /**
@@ -154,19 +172,20 @@ function deleteStatus(deleted_status){
     })
 }
 
+/**
+ * @description This function is used to change the possible status to add to a status selected
+ */
+function statusesOptions(){
 
-function possibleFollowUpStatuses(){
+    let label = []
+    storeWorkflow.status_select = []
 
-    let label = [{value: null, label:translations.workflows.view_placeholder_select_status}]
-
-    storeWorkflow.selected_status.id = 3
-
+    // Check if the status selected doesn't have next statuses
     if(! storeWorkflow.selected_status.next_statuses){
         label = label.concat(Object.values(storeWorkflow.workflow.statuses))
         label.sort((a,b) => a.number - b.number)
 
-        storeWorkflow.status_select = []
-
+        
         label.forEach((option)=>{
             storeWorkflow.status_select.push({
                 label: option.name,
@@ -174,58 +193,102 @@ function possibleFollowUpStatuses(){
             })
         })
 
-        // storeWorkflow.status_select = label
-
-        console.log(storeWorkflow.status_select)
-
         return label
     }
     
+    // If the selected status has next statuses, show all possible states omitting the ones you already have 
     let follow_up_statuses  = storeWorkflow.selected_status.next_statuses.split('|').map((element)=>{
         return parseInt(element)
     })
 
     label =  label.concat(Object.values(storeWorkflow.workflow.statuses).filter(element => {
-        return ! follow_up_statuses.includes(element.id)
+        return !follow_up_statuses.includes(element.id)
     }))
 
-    console.log("label")
+    label.sort((a,b) => a.number - b.number)
 
-    console.log(label)
+    return label.forEach((option)=>{
+        storeWorkflow.status_select.push({
+            label: option.name,
+            value: option.id
+        })
+    })
 
-    return label.sort((a,b) => a.number - b.number)
-    
 }
 
-
+/**
+ * @description This function is used to add a status as a next status
+ */
 function addFollowUpStatus(){
-    if(storeWorkflow.selected_status.id != null){
+    if(storeWorkflow.status_transition != null){
         if(storeWorkflow.selected_status.next_statuses){
-            storeWorkflow.selected_status.next_statuses += `|${storeWorkflow.selected_status.id}`
+            storeWorkflow.selected_status.next_statuses += `|${storeWorkflow.status_transition}`
         }else{
-            storeWorkflow.selected_status.next_statuses = `${storeWorkflow.selected_status.id}`
+            storeWorkflow.selected_status.next_statuses = `${storeWorkflow.status_transition}`
         }
-        storeWorkflow.selected_status.id = null
+
+        storeWorkflow.status_select = storeWorkflow.status_select.filter(status => status.value != storeWorkflow.status_transition)
+        storeWorkflow.status_transition = null
     }
+
 }
 
+/**
+ * @description This function is used to change the type of the selected status
+ */
+function  nextStatusesOfSelectedStatus(){
+    let transition_statuses = []
 
+    if(! storeWorkflow.workflow.statuses[storeWorkflow.selected_status.id]){
+        return transition_statuses
+    }
+    if(storeWorkflow.selected_status.next_statuses){
+        let next_statuses_ids = storeWorkflow.selected_status.next_statuses.split('|')
+        next_statuses_ids.forEach((id)=>{
+            transition_statuses.push(storeWorkflow.workflow.statuses[id])
+        })
+    }
+
+    storeWorkflow.list_status = transition_statuses
+
+    return transition_statuses
+
+}
+
+/**
+ * @description This function is used to change the selected status 
+ */
+function selectStatus(status){
+    storeWorkflow.selected_status = status
+}
+
+/**
+ * @description This function is used to delete a transition status from the selected status 
+ */
+function deleteTransitionStatus(status_id){
+
+    storeWorkflow.selected_status.next_statuses = storeWorkflow.selected_status.next_statuses.replace(
+        new RegExp(`([^0-9]${status_id}$)|(^${status_id}[^0-9])|(^${status_id}$)`,'g'), ''
+    ).replace(
+        new RegExp(`([^0-9]${status_id}[^0-9])`,'g'), '|'
+    )
+}
+
+// Watch changes in next status to update status options and list of next statuses
+watch(() => storeWorkflow.selected_status.next_statuses, () => {
+    statusesOptions()
+    nextStatusesOfSelectedStatus()
+})
 
 onMounted(() => {
     if (!props.isEditable){
-        storeWorkflow.workflow = {}
+        storeWorkflow.resetWorkflow()
     } else {
         storeWorkflow.fetchWorkflow(route.params?.id).then(()=>{
-            possibleFollowUpStatuses()
-        })
-        
+            statusesOptions()
+        })      
     }
-
-    
-
 })
-
-
 
 </script>
 <template>
@@ -281,7 +344,11 @@ onMounted(() => {
                         {{translations.workflows.view_title_select_status}}
                     </span>
                     <div class="menu-list is-bg-dark is-hoverable">
-                        <a v-for="status in storeWorkflow.workflow.statuses" class="list-item" @click="storeWorkflow.selected_status = status">
+                        <a v-for="status in storeWorkflow.workflow.statuses" 
+                            class="list-item" 
+                            @click="selectStatus(status)"
+                            :class="{'is-active':storeWorkflow.selected_status.id == status.id}"
+                        >
                             <div class="columns">
                                 <!-- Status name -->
                                 <div class="column is-paddingless-right is-7">
@@ -296,25 +363,25 @@ onMounted(() => {
                                     <span class="is-pulled-right has-background-white">
                                         <div class="field has-addons">
                                             <p class="control">
-                                                <button class="button is-primary is-outlined" @click="selectAsInitial(status)">
+                                                <button class="button is-primary is-outlined" @click="selectAsInitial(status)" :title="translations.workflows.messages_info_tooltip_status_initial">
                                                     <span class="material-icons">play_circle</span>
                                                     <span></span>
                                                 </button>
                                             </p>
                                             <p class="control">
-                                                <button class="button is-success is-outlined" @click="changeStatusType(status, 'completed_successfully')">
+                                                <button class="button is-success is-outlined" @click="changeStatusType(status, 'completed_successfully')" :title="translations.workflows.messages_info_tooltip_status_completed_successfully">
                                                     <span class="material-icons">check_circle</span>
                                                     <span></span>
                                                 </button>
                                             </p>
                                             <p class="control">
-                                                <button class="button is-warning is-outlined" @click="changeStatusType(status, 'completed_unsuccessfully')">
+                                                <button class="button is-warning is-outlined" @click="changeStatusType(status, 'completed_unsuccessfully')" :title="translations.workflows.messages_info_tooltip_status_completed_unsuccessfully">
                                                     <span class="material-icons">cancel</span>
                                                     <span></span>
                                                 </button>
                                             </p>
                                             <p class="control">
-                                                <button class="button is-danger is-outlined" @click="changeStatusType(status, 'to_be_deleted')">
+                                                <button class="button is-danger is-outlined" @click="changeStatusType(status, 'to_be_deleted')" :title="translations.workflows.messages_info_tooltip_status_to_be_deleted">
                                                     <span class="material-icons">auto_delete</span>
                                                     <span></span>
                                                 </button>
@@ -327,17 +394,16 @@ onMounted(() => {
                     </div>
                 </div>
 
-                <div class="column is-4">
+                <div class="column is-4" v-if="storeWorkflow.selected_status.id">
                     <label class="label">{{translations.workflows.view_title_select_transition_status}}</label>
                     <div class="columns">
                         <div class="column">
                                 <div class="control is-expanded">
                                     <span class="select is-fullwidth is-empty">
-
                                         <lesli-select
                                             :options="storeWorkflow.status_select"
                                             @change="addFollowUpStatus"
-                                            v-model="selectedStatus"
+                                            v-model="storeWorkflow.status_transition"
                                         >
                                         </lesli-select>
                                     </span>
@@ -350,18 +416,20 @@ onMounted(() => {
                                 {{translations.workflows.view_title_transition_statuses_list}}
                             </span>
                             <div class="menu-list is-hoverable">
-                                <!-- <a v-for="(workflow_status, key) in nextStatusesOfSelectedStatus" :key="key" class="list-item">
-                                    {{workflow_status.number}} -
-                                    {{object_utils.translateEnum(translations.core, 'column_enum_status', workflow_status.name)}}
-                                    <button type="button" class="delete is-pulled-right" @click="deleteFollowUpStatus(workflow_status)">
+                                <a v-for="workflow_status in storeWorkflow.list_status" class="list-item">
+                                    {{ workflow_status.number }} - {{ workflow_status.name }}
+                                    <button type="button" class="delete is-pulled-right" @click="deleteTransitionStatus(workflow_status.id)">
                                     </button>
-                                </a> -->
+                                </a>
                             </div>
                         </div>
                     </div>
+                    <div class="columns">
+                        <div class="column">
+                            <lesli-button @click="deleteStatus" danger icon="delete">Delete status</lesli-button>
+                        </div>
+                    </div>
                 </div>
-                
-
             </div>
 
         </div>

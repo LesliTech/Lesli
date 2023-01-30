@@ -58,8 +58,5 @@ const translations = {
 </script>
 
 <template>
-   <mermaid-chart>
-    flowchart TD
-        Start --> Stop
-   </mermaid-chart>
+
 </template>

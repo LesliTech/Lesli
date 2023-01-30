@@ -53,6 +53,7 @@ const translations = {
     core: {
         workflows: I18n.t("core.workflows"),
         shared: I18n.t("core.shared"),
+        actions: I18n.t("core.workflow/actions.column_name")
     }
 }
 
@@ -104,7 +105,7 @@ const workflows = computed(() => {
 const columns = [
     {
         field: "name",
-        label: translations.core.workflows.column_name,
+        label: translations.core.actions.column_name,
     },
     {
         field: "validation",

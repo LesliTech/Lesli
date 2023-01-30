@@ -13,6 +13,9 @@ Function executed every time the user click on the header of the table to sort b
 **@paginate(page)**
 Function executed every time the user clicks on pagination buttons, this function receive the page the user requested for.
 
+**headless**
+Remove the head section from the table
+
 **:pagination**
 Prop that contain the pagination structure, this is the same returned by "response_with_pagination"
 
@@ -39,6 +42,10 @@ Function that build a valid url as a string, used to build a router-link inside 
 It is possible to render custom html content for individual columns using a template tag with an id corresponding to the
 column field, also we can pass column, record and value params to work with the data corresponding to the column. 
 _IMPORTANT:_ if props link or href are provided, slot will not work due href and link has precedence. 
+
+**buttons**
+Lesli table provides a dedicated column to print a group of buttons for every record of the table through
+the "buttons" slot
 
 **options**
 Lesli table provides a dedicated column to print a list of options and actions for every record of the table through
@@ -214,6 +221,39 @@ where we can render custom html.
     <template #detail="{ record }">
         <button class="button">
             {{ record.email }}
+        </button>
+    </template>
+</lesli-table>
+```
+
+
+**Example of a simple table with buttons:**
+
+```html
+<lesli-table
+    :columns="[{field: 'id', label: 'ID'},{field: 'email', label: 'Email'}]"
+    :records="[{id:0,email:'ldonis@lomax.com.gt'},{id:0,email:'ldonis@gmail.com'},{id:0,email:'emc2@ldonis.com'}]">
+    <template #buttons="{ record }">
+        <button class="button is-outlined is-danger" @click="alert(record.id)">
+            <span class="material-icons">
+                delete
+            </span>
+        </button>
+    </template>
+</lesli-table>
+```
+
+**Result:**
+
+```raw
+<lesli-table
+    :columns="[{field: 'id', label: 'ID'},{field: 'email', label: 'Email'}]"
+    :records="[{id:0,email:'ldonis@lomax.com.gt'},{id:0,email:'ldonis@gmail.com'},{id:0,email:'emc2@ldonis.com'}]">
+    <template #buttons="{ record }">
+        <button class="button is-outlined is-danger" @click="alert(record.id)">
+            <span class="material-icons">
+                delete
+            </span>
         </button>
     </template>
 </lesli-table>

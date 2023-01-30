@@ -19,13 +19,9 @@ For more information read the license file including with this software.
 
 // · import vue tools
 import { onMounted } from "vue"
-import { useRouter, useRoute } from 'vue-router'
-
 
 // · import stores
 import { useAssociations } from "LesliVue/stores/shared/workflows/associations"
-
-// · import components
 
 
 // · defining props
@@ -78,7 +74,9 @@ const columns = [
     }
 ]
 
-
+/**
+ * @description This function is used to select an option for association
+ */
 function selectOption (new_association){
     let selected_association = storeAssociation.options.find((association) =>{
         return association.workflow_for == new_association
@@ -86,101 +84,106 @@ function selectOption (new_association){
 
     if(selected_association){
         storeAssociation.association_details = {}
-        selected_association.details.forEach((detail)=>{
 
-            detail.list.forEach((option)=>{
-                storeAssociation.association_details[detail.field_name]= {
-                    label: option.name,
-                    value: option.id
-                }
+        storeAssociation.association_details = selected_association
 
+        storeAssociation.select_details = {}
+
+        Object.values(storeAssociation.association_details.details).forEach((detail)=>{
+            storeAssociation.select_details[detail.field_name] = []
+            
+            detail.list.forEach((list_item)=>{
+                storeAssociation.select_details[detail.field_name].push({
+                    label: list_item.name,
+                    value: list_item.id
+                })
             })
         })
         
+    } else {
+        storeAssociation.select_details = []
     }
 
 }
 
-
 </script>
 
 <template>
-    <lesli-header title="Associations">
-    </lesli-header>
+    <lesli-header title="Associations"></lesli-header>
 
-    <form @submit.prevent="storeAssociation.postAssociation">
-        <div class="columns is-marginless has-border-bottom">
-                <!-- Association -->
-                <div class="column is-4">
-                    <label class="label">
-                        {{translations.associations.view_title_assign_to}}
-                        <sup class="has-text-danger">*</sup>
-                    </label>
-                    <lesli-select
-                        :options="storeAssociation.options_select"
-                        v-model="storeAssociation.association.workflow_for"
-                        @change="selectOption(storeAssociation.association.workflow_for)"
-                    >
-                    </lesli-select>
-                    <p>{{ translations.associations.view_text_column_workflow_for_description }}</p>
-                </div>
-
-                <!-- Global assignment -->
-                <div class="column is-4" v-if="storeAssociation.association.workflow_for">
-                    <label class="label">
-                        {{ translations.associations.column_global }}
-                    </label>
-                    <input type="checkbox" v-model="storeAssociation.association.global">
-                    <span v-if="storeAssociation.association.global"> {{translations.core.view_text_yes}} </span>
-                    <span v-else> {{translations.core.view_text_no}} </span>
-                </div>
-
-                <div class="column is-4" v-if="!storeAssociation.association.global && storeAssociation.association.workflow_for">
-
-
-                    <div v-for="detail in storeAssociation.association_details" 
-                        :key="detail.id"
-                    >
+    <div class="block">
+        <form @submit.prevent="storeAssociation.postAssociation">
+            <div class="columns is-marginless has-border-bottom">
+                    <!-- Association -->
+                    <div class="column is-4">
+                        <label class="label">
+                            {{translations.associations.view_title_assign_to}}
+                            <sup class="has-text-danger">*</sup>
+                        </label>
                         <lesli-select
-                            :options="detail"
-                            v-model="new_association"
+                            :options="storeAssociation.options_select"
+                            v-model="storeAssociation.association.workflow_for"
+                            @change="selectOption(storeAssociation.association.workflow_for)"
                         >
                         </lesli-select>
                         <p>{{ translations.associations.view_text_column_workflow_for_description }}</p>
-
-
                     </div>
 
+                    <!-- Global assignment -->
+                    <div class="column is-4" v-if="storeAssociation.association.workflow_for">
+                        <label class="label">
+                            {{ translations.associations.column_global }}
+                        </label>
+                        <input type="checkbox" v-model="storeAssociation.association.global">
+                        <span v-if="storeAssociation.association.global"> {{translations.core.view_text_yes}} </span>
+                        <span v-else> {{translations.core.view_text_no}} </span>
+                    </div>
 
- 
-                </div>
-        </div>
-        <div class="columns is-marginless has-border-bottom">
-            <div class="column">
-                <lesli-button icon="save">
-                    save
-                </lesli-button>  
+                    <div class="column is-4" v-if="!storeAssociation.association.global && storeAssociation.association.workflow_for">
+
+                        <div v-for="detail in storeAssociation.select_details" 
+                            :key="detail"
+                        >
+                            <label class="label">
+                                {{ Object.keys(storeAssociation.select_details).find(key => storeAssociation.select_details[key] === detail) }}
+                            </label>
+                            <lesli-select
+                                :options="detail"
+                                v-model="storeAssociation.association[Object.keys(storeAssociation.select_details).find(key => storeAssociation.select_details[key] === detail)]"
+                            >
+                            </lesli-select>
+                            <p>{{ translations.associations.view_text_column_workflow_for_description }}</p>
+
+                        </div>
+                    </div>
             </div>
-        </div>
-    </form>
+            <div class="columns is-marginless has-border-bottom">
+                <div class="column">
+                    <lesli-button icon="save">
+                        save
+                    </lesli-button>  
+                </div>
+            </div>
+        </form>
+    </div>
 
-    <br>
-
-    <lesli-table
+    <div class="block">
+        <lesli-table
         :records="storeAssociation.associations"
-        :columns="columns" 
-    >
-        <template #options="{ record }">
-                <a class="dropdown-item" @click="storeAssociation.deleteAssociation(record.id)">
-                    <span class="material-icons">
-                        delete
-                    </span>
-                    <span>
-                        Delete
-                    </span>
-                </a>
-        </template>
-    </lesli-table>
-
+        :columns="columns"
+        v-if="storeAssociation.associations.length > 0 " 
+        >
+            <template #options="{ record }">
+                    <a class="dropdown-item" @click="storeAssociation.deleteAssociation(record.id)">
+                        <span class="material-icons">
+                            delete
+                        </span>
+                        <span>
+                            {{ translations.core.view_btn_delete }}
+                        </span>
+                    </a>
+            </template>
+        </lesli-table>
+    </div>
 
 </template>

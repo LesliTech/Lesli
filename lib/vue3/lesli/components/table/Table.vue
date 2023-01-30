@@ -179,6 +179,8 @@ function paginate(page) {
                     -->
                     <th v-if="slots.options"></th>
 
+                    <th v-if="slots.buttons"></th>
+
                 </tr>
             </thead>
             <tbody>
@@ -295,6 +297,16 @@ function paginate(page) {
                                         </div>
                                     </div>
                                 </Transition>
+                            </div>
+                        </td>
+
+                        <td v-if="slots.buttons" class="p-0">
+                            <div class="buttons">
+                                <slot 
+                                    name="buttons"
+                                    :record="record"
+                                    :value="record.id">
+                                </slot>
                             </div>
                         </td>
                     </tr>

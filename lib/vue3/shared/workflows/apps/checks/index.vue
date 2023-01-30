@@ -125,7 +125,7 @@ function showCheck(check){
                     delete
                 </span>
                 <span>
-                    Delete
+                    {{ translations.core.shared.view_btn_delete }}
                 </span>
             </a>
         </template>
