@@ -36,6 +36,7 @@ mermaid.initialize({
 })
 
 
+/*
 // · change some default settings
 mermaid.sequenceConfig = {
     diagramMarginX: 50,
@@ -46,6 +47,7 @@ mermaid.sequenceConfig = {
     mirrorActors: true,
     actorFontSize: 16
 };
+*/
 
 
 // · 
@@ -53,13 +55,13 @@ onMounted(() => {
 
     // re-render the diagram every time we visit the page
     // this is necessary for SPAs
-    mermaidnode.value.removeAttribute("data-processed")
-    mermaid.init(undefined, mermaidnode.value)
+    //mermaidnode.value.removeAttribute("data-processed")
+    //mermaid.init(undefined, mermaidnode.value)
+    //mermaid.initialize({ startOnLoad: true });
 
 })
 </script>
 <template>
-    <div ref="mermaidnode" class="mermaid">
-        <slot></slot>
-    </div>
+    <pre ref="mermaidnode" class="mermaid">
+    </pre>
 </template>
