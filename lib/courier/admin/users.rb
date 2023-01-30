@@ -1,6 +1,6 @@
 =begin
-    
-Copyright (c) 2020, all rights reserved.
+
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,17 +14,27 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-    
 =end
+module Courier
+    module Admin
+        class Users
 
-class ProfilesController < ApplicationLesliController
+            def self.list(current_user, query, params)
+                #return unless defined?(EngineName)
+                UserService.new(current_user).list()
+            end
 
-    # GET /profile
-    def show
-        respond_to do |format|
-            format.html {}
-            format.json { respond_with_successful(UserService.new(current_user).show(current_user)) }
+            def self.show current_user, query, params
+                #return unless defined?(EngineName)
+                user = UserService.new(current_user).find(params[:id])
+                user.show
+            end
+
+            def self.index current_user, query, params                
+                #return unless defined?(EngineName)
+                UserService.new(current_user).index(query, params)
+            end
+
         end
     end
-
 end
