@@ -45,14 +45,13 @@ const props = defineProps({
 
 // · 
 onMounted(() => {
-    storeDashboard.getDashboard(cloudModule)
+    storeDashboard.getDashboard(props.cloudModule)
 })
 
 </script>
 <template>
     <section class="application-component">
-        <lesli-header title="My dashboard"></lesli-header>
-        <div class="columns is-multiline">
+        <div class="columns is-variable is-2 is-multiline dashboard-components">
             <div 
                 v-for="(component, index) in components" :key="index"
                 :class="['column', 'is-' + component?.size]">
