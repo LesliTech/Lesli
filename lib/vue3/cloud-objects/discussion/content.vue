@@ -35,5 +35,9 @@ const discussionStore = useCloudObjectDiscussionStore()
                 </div>
             </template>
         </discussion-element>
+        <lesli-pagination
+            :pagination="discussionStore.pagination"
+            @paginate="discussionStore.paginateDiscussions">
+        </lesli-pagination>
     </div>
 </template>
