@@ -33,9 +33,11 @@ module LesliHelper
     # return the information about the current engine
     def lesli_engine(property=nil)
 
+        engine = nil 
+
         # build a special object for the administration section
         if is_lesli_administration?()
-            return { 
+            engine = { 
                 :name => "Administration", 
                 :code => "administration",
                 :core => 3 
@@ -44,20 +46,26 @@ module LesliHelper
 
         # build a special object for the onboarding section
         if is_lesli_onboarding?()
-            return { 
+            engine = { 
                 :name => "Onboarding", 
                 :code => "onboardings",
                 :core => 3 
             } 
         end
 
-        # search for the info of the current engine
-        engine = Rails.application.config.lesli.dig(:engines).select { |engine| 
-            engine[:code] == lesli_controller() 
-        }.first
+        if engine.nil? 
+
+            # search for the info of the current engine
+            engine = Rails.application.config.lesli.dig(:engines).select { |engine| 
+                engine[:code] == lesli_controller() 
+            }.first
+        end
         
-        # build a special object for the core
-        engine = { :name => "Lesli", :code => "lesli", :core => 3 } if engine.nil?
+        if engine.nil?
+
+            # build a special object for the core
+            engine = { :name => "Lesli", :code => "lesli", :core => 3 } 
+        end
 
         # return specific property if requested
         return engine.dig(property) unless property.blank?
