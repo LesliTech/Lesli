@@ -65,5 +65,27 @@ watch(discussionStore.filters, (filters) => {
             <p class="mb-2">{{ translations.core.shared.view_text_activity_logs }}</p>
             <lesli-toggle v-model="discussionStore.filters.showActivityLog"/>
         </div>
+        
+        <div class="discussion-filters-item mt-5">
+            <lesli-select
+                :options="[
+                    {
+                        label: '10',
+                        value: 10
+                    }, {
+                        label: '15',
+                        value: 15
+                    }, {
+                        label: '30',
+                        value: 30
+                    }, {
+                        label: '50',
+                        value: 50
+                    },
+                ]"
+                v-model="discussionStore.filters.per_page"
+                @change="discussionStore.fetchDiscussions()">
+            </lesli-select>
+        </div>
     </div>
 </template>
