@@ -53,9 +53,9 @@ onMounted(() => {
     <section class="application-component">
         <div class="columns is-variable is-2 is-multiline dashboard-components">
             <div 
-                v-for="(component, index) in components" :key="index"
-                :class="['column', 'is-' + component?.size]">
-                <component :component.sync="component" :is="dashcomponents[component.id]"></component>
+                v-for="(component, index) in storeDashboard.dashboard.components" :key="index"
+                :class="['column', 'is-' + component?.layout]">
+                <component :component.sync="component" :is="renderComponents[component.component_id]"></component>
             </div>
         </div>
     </section>
