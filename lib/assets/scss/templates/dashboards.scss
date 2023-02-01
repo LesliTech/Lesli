@@ -1,6 +1,5 @@
 /*
-
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,64 +13,21 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
 
 
-// · Include Lesli CSS
-@import "lesli-css/";
-
+// · 
+@import "lesli-css";
 
 
 // · 
-// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
-section.lesli-dashboards {
-
-    section.columns {
-
-        div.column {
-            height: 280px;
+main {
+    background-color: #F0F8FF; 
+    .application-component .column {
+        margin-bottom: .5rem;
+        .card {
+            border-radius: .8rem;
+            box-shadow: 0px 4px 8px rgba(176, 190, 197, 0.24);
         }
-
-        div.widget-component {
-            height: 100%;
-        }
-
     }
-
-    nav.component-header {
-
-        div.navbar-start .navbar-item {
-            padding-right: 0;
-            padding-left: 0;
-        }
-
-    }
-
-    // main widget container
-    div.widget-component {
-        background-color: lesli-css-color(solid, white);
-        box-shadow: 0 10px 27px 0 rgba(0,0,0,.15);
-        overflow-x: hidden;
-        overflow-y: scroll;
-        border: none;
-    }
-
-    div.card {
-
-        div.card-header {
-            box-shadow: none;
-
-            h3.card-header-title {
-                font-size: 1.1rem;
-            }
- 
-        }
-
-        div.card-content {
-            padding: 0px;
-        }
-
-    }
-    
 }
