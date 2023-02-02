@@ -18,20 +18,19 @@ For more information read the license file including with this software.
 =end
 module Shared
     class Dashboard::ComponentsController < ApplicationLesliController
-        before_action :set_dashboard, only: [:index, :create]
-        before_action :set_dashboard_component, only: [:destroy]
+        before_action :set_dashboard, only: [:show, :index, :create]
+        before_action :set_dashboard_component, only: [:show, :destroy]
 
 
         def show
             respond_to do |format|
                 format.html {}
                 format.json do
-                    set_dashboard_component
+
                     return respond_with_not_found unless @dashboard_component
 
-                    if params[:view_type] == "render"
+                    if params[:view] == "data"
                         component_data = @dashboard_component.render_data(current_user, @query)
-
                         return respond_with_successful(component_data)
                     end
 
@@ -40,10 +39,9 @@ module Shared
             end
         end
 
-private
+        private
 
         def set_dashboard
-
             dynamic_info = self.class.dynamic_info
             dashboard_model = dynamic_info[:dashboard_model]
             module_name = dynamic_info[:module_name]
@@ -55,9 +53,7 @@ private
         end
 
         def set_dashboard_component
-            set_dashboard
             return unless @dashboard
-
             @dashboard_component = @dashboard.components.find_by(id: params[:id])
         end
 
