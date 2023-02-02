@@ -173,16 +173,25 @@ function selectOption (new_association){
         :columns="columns"
         v-if="storeAssociation.associations.length > 0 " 
         >
-            <template #options="{ record }">
-                    <a class="dropdown-item" @click="storeAssociation.deleteAssociation(record.id)">
-                        <span class="material-icons">
-                            delete
-                        </span>
-                        <span>
-                            {{ translations.core.view_btn_delete }}
-                        </span>
-                    </a>
+            <template #buttons="{ record }">
+                <button class="button is-outlined is-danger" @click="storeAssociation.deleteAssociation(record.id)">
+                    <span class="material-icons">
+                        delete
+                    </span>
+                </button>
             </template>
+
+
+            <template #global="{ value }">
+                <span class="tag is-success" v-if="value">
+                    yes
+                </span>
+                <span class="tag is-warning" v-if="!value">
+                    no
+                </span>
+            </template> 
+
+
         </lesli-table>
     </div>
 

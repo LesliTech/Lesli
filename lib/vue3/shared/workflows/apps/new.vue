@@ -75,9 +75,6 @@ storeWorkflow.cloudObject = props.cloudObject
             <lesli-tab-item title="Edition mode">
                 <workflow-form :app-mount-path="props.appMountPath"></workflow-form>
             </lesli-tab-item>
-
-            <lesli-tab-item title="Chart mode">
-            </lesli-tab-item>
         </lesli-tabs>
     </section>
 </template>
