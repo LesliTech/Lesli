@@ -23,10 +23,11 @@ module Shared
         enum component_ids: {}
 
         def render_data(current_user, query)
-            if self.class.respond_to?(component_id.to_sym) && self.class.component_ids[component_id.to_sym]
-                self.public_send(component_id.to_sym, current_user, query)
+            model_method = component_id.gsub("-","_").to_sym
+            if self.class.respond_to?(model_method) && self.class.component_ids[model_method]
+                self.public_send(model_method, current_user, query)
             else
-                nil
+                return "model method not found"
             end
         end
 
