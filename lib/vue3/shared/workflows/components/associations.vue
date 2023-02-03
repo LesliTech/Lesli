@@ -184,10 +184,10 @@ function selectOption (new_association){
 
             <template #global="{ value }">
                 <span class="tag is-success" v-if="value">
-                    yes
+                    {{ translations.core.view_text_yes}}
                 </span>
                 <span class="tag is-warning" v-if="!value">
-                    no
+                    {{ translations.core.view_text_no }}
                 </span>
             </template> 
 
