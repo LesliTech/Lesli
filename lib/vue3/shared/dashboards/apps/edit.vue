@@ -81,7 +81,7 @@ onMounted(() => {
                 <render :cloud-module="'help'"></render>
             </lesli-tab-item>
 
-            <lesli-tab-item :title="translations.dashboards.view_tab_title_delet">
+            <lesli-tab-item :title="translations.dashboards.view_tab_title_delete">
                 <div class="card">
                     <div class="card-content">
                         <span class="has-text-danger">

@@ -55,7 +55,7 @@ onMounted(() => {
             <div 
                 v-for="(component, index) in storeDashboard.dashboard.components" :key="index"
                 :class="['column', 'is-' + component?.layout]">
-                <component :component.sync="component" :is="storeDashboard.dashboard.components[component.component_id]"></component>
+                <component :component.sync="component" :is="`component-${component.component_id.replace(/\_/g,'-')}`"></component>
             </div>
         </div>
     </section>
