@@ -58,7 +58,7 @@ class UserServices < LesliServices
         # sql string to join to user_roles and get all the roles assigned to a user
         sql_string_for_user_roles = "inner join (
             select
-                ur.users_id, string_agg(r.\"name\", ', ') role_names
+                ur.users_id, string_agg(r.\"name\", ', ') rolenames
             from user_roles ur
             join roles r
                 on r.id = ur.roles_id
@@ -70,7 +70,6 @@ class UserServices < LesliServices
         sql_string_for_user_sessions = "left join (
             select
                 max(last_used_at) as last_action_performed_at,
-                max(created_at) as last_login_at,
                 users_id
             from user_sessions us
             where us.deleted_at is null
@@ -78,30 +77,29 @@ class UserServices < LesliServices
         ) sessions on sessions.users_id = users.id"
 
         users = current_user.account.users
-        .joins(:detail)
         .joins(sql_string_for_user_roles)
         .joins(sql_string_for_user_sessions)
         .where("category = 'user'")
 
-
         if query.dig(:search)
             users = users.where(
-                "lower(users.email) like :search or lower(concat(user_details.first_name, ' ', user_details.last_name)) like :search",
+                "lower(users.email) like :search or name like :search",
                 { search: "%#{LC::Sql.sanitize_for_search(query.dig(:search))}" }
             )
         end
 
         users = users.select(
             :id,
-            :active,
+            :name,
             :email,
-            "role_names as roles",
-            "CONCAT(user_details.first_name, ' ',user_details.last_name) as name",
-            "current_sign_in_at as current_signin_at",
-            :last_action_performed_at,
-            :last_login_at,
-            "false as editable"
+            :active,
+            :rolenames,
+            :current_sign_in_at,
+            "false as editable",
+            LC::Date2.new.date_time.db_column("current_sign_in_at"),
+            LC::Date2.new.date_time.db_column("last_action_performed_at")
         )
+
 
         return users
         .page(query[:pagination][:page])
