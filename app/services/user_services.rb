@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 // · 
 =end
 
-class UserService < LesliService
+class UserServices < LesliServices
 
 
     # Return a list of users that belongs to the account of the current_user
