@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { onMounted } from "vue"
+import { onMounted, inject } from "vue"
 import { useRouter, useRoute } from 'vue-router'
 
 
@@ -29,6 +29,9 @@ import { useDashboard } from "LesliVue/stores/shared/dashboard"
 import dashboardForm from "../dashcomponents/dashboard-form.vue"
 import render from "../dashcomponents/render.vue"
 
+// ·
+const router = useRouter()
+const url = inject("url")
 
 // · defining props
 const props = defineProps({
@@ -40,6 +43,10 @@ const props = defineProps({
     // · prop that indicates the cloud module that will be used for interacting with the backend.
     cloudModule: {
         type: String,
+        required: true,
+    },
+    renderComponents: {
+        type: Object,
         required: true,
     }
 })
@@ -56,6 +63,16 @@ const translations = {
 
 // set props to store
 storeDashboard.cloudModule = props.cloudModule
+
+/**
+ * @description This function is used to delete a dashboard
+ */
+ const onDeleteDashboard = () => {
+    storeDashboard.deleteDashboard().then(()=> {
+        router.push(url.root(`${props.appMountPath}`).s)
+    })
+}
+
 
 onMounted(() => {
     storeDashboard.getDashboardOptions()
@@ -78,7 +95,7 @@ onMounted(() => {
             </lesli-tab-item>
 
             <lesli-tab-item title="Render view">
-                <render :cloud-module="'help'"></render>
+                <render :cloud-module="props.cloudModule" :render-components="props.renderComponents"></render>
             </lesli-tab-item>
 
             <lesli-tab-item :title="translations.dashboards.view_tab_title_delete">
@@ -89,7 +106,7 @@ onMounted(() => {
                         </span>
                         <br>
                         <br>
-                        <lesli-button @click="storeDashboard.deleteDashboard">Delete</lesli-button>
+                        <lesli-button @click="onDeleteDashboard">{{ translations.dashboards.view_btn_delete_dashboard }}</lesli-button>
                     </div>
                 </div>
             </lesli-tab-item>
