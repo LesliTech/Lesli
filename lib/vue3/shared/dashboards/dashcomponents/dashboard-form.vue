@@ -32,6 +32,7 @@ const storeDashboard = useDashboard()
 // · initialize/inject plugins
 const router = useRouter()
 const url = inject("url")
+const msg = inject("msg")
 const route = useRoute()
 
 // · defining props
@@ -90,6 +91,7 @@ const onCreate = () => {
 * @description This function is used to add a new component to dashboard
 */
 function addComponent(){
+    msg.warning(translations.dashboards.messages_warning_save_changes_reminder)
     let new_component = {
         id: `${storeDashboard.new_component_id}-${storeDashboard.default_component_configuration.index}`,
         name: '',
@@ -120,6 +122,7 @@ function selectDashboardComponent(selected_component){
 * @description This function is used to remove a component from the dashboard
 */
 function removeComponent(deleted_component){
+    msg.warning(translations.dashboards.messages_warning_save_changes_reminder)
     storeDashboard.dashboard.components = storeDashboard.dashboard.components.filter((component)=> {
         return component.id != deleted_component.id
     })

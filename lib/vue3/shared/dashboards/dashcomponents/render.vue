@@ -44,19 +44,14 @@ const props = defineProps({
 
 
 // · 
-onMounted(() => {
-    storeDashboard.getDashboard(props.cloudModule)
-})
 
 </script>
 <template>
-    <section class="application-component">
-        <div class="columns is-variable is-2 is-multiline dashboard-components">
-            <div 
-                v-for="(component, index) in storeDashboard.dashboard.components" :key="index"
-                :class="['column', 'is-' + component?.layout]">
-                <component :component.sync="component" :is="`component-${component.component_id.replace(/\_/g,'-')}`"></component>
-            </div>
+    <div class="columns is-variable is-2 is-multiline dashboard-components">
+        <div 
+            v-for="(component, index) in storeDashboard.dashboard.components" :key="index"
+            :class="['column', 'is-' + component?.layout]">
+            <component :component.sync="component" :is="props.renderComponents[component.component_id]"></component>
         </div>
-    </section>
+    </div>
 </template>
