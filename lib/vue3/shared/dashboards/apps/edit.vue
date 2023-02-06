@@ -27,6 +27,7 @@ import { useDashboard } from "LesliVue/stores/shared/dashboard"
 
 // · import components
 import dashboardForm from "../dashcomponents/dashboard-form.vue"
+import render from "../dashcomponents/render.vue"
 
 
 // · defining props
@@ -77,9 +78,20 @@ onMounted(() => {
             </lesli-tab-item>
 
             <lesli-tab-item title="Render view">
+                <render :cloud-module="'help'"></render>
             </lesli-tab-item>
 
-            <lesli-tab-item title="Delete">
+            <lesli-tab-item :title="translations.dashboards.view_tab_title_delet">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="has-text-danger">
+                            {{translations.dashboards.messages_danger_delete_confirmation}}
+                        </span>
+                        <br>
+                        <br>
+                        <lesli-button @click="storeDashboard.deleteDashboard">Delete</lesli-button>
+                    </div>
+                </div>
             </lesli-tab-item>
 
         </lesli-tabs>
