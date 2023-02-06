@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 // ·
 =end
 
-class LesliService
+class LesliServices
 
 
     # Set container attributes to manage the life-cycle of the service
