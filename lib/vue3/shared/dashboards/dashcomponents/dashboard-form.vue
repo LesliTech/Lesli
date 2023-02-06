@@ -86,11 +86,49 @@ const onCreate = () => {
     })
 }
 
+/**
+* @description This function is used to add a new component to dashboard
+*/
 function addComponent(){
-    storeDashboard.dashboard.components.push(storeDashboard.selected_dashboard_component.id)
+    let new_component = {
+        id: `${storeDashboard.new_component_id}-${storeDashboard.default_component_configuration.index}`,
+        name: '',
+        component_id: storeDashboard.new_component_id,
+        layout: storeDashboard.default_component_configuration.layout,
+        index: storeDashboard.default_component_configuration.index++,
+        query_configuration: {
+            filters: {},
+            pagination: {}
+        },
+        custom_configuration: {
+            arrangement: {}
+        }
+    }
+    storeDashboard.dashboard.components.push(new_component)
 }
 
+/**
+* @description This function is used to select a component
+*/
 function selectDashboardComponent(selected_component){
+    if(storeDashboard.dashboard.components.find( component => component.id == selected_component.id)){
+        storeDashboard.selected_dashboard_component = selected_component
+    }  
+}
+
+/**
+* @description This function is used to remove a component from the dashboard
+*/
+function removeComponent(deleted_component){
+    storeDashboard.dashboard.components = storeDashboard.dashboard.components.filter((component)=> {
+        return component.id != deleted_component.id
+    })
+
+    // We check if the component id is a real number. If it is, de stage it to delete it when saved
+    if(! isNaN(deleted_component.id)){
+        deleted_component._destroy = true
+        storeDashboard.deleted_components.push(deleted_component)
+    }
 }
 
 
@@ -98,21 +136,20 @@ onMounted(() => {
     if (!props.isEditable){
         storeDashboard.resetDashboard()
     } else {
-        storeDashboard.fetchDashboard(route.params?.id).then(()=>{
-        })      
+        storeDashboard.resetDashboard()
+        storeDashboard.fetchDashboard(route.params?.id)     
     }
 })
 
 </script>
 <template>
+    
     <div class="block">
-        <fieldset>
-            <form class="mb-4" 
-                v-if="!storeDashboard.loading" 
-                @submit.prevent="isEditable ? onUpdate() : onCreate()"
-            >
-
-               
+        <form class="mb-4" 
+            v-if="!storeDashboard.loading" 
+            @submit.prevent="isEditable ? onUpdate() : onCreate()"
+        >
+            <fieldset>
                 <div class="columns">
                     <div class="column is-4">
                         <!-- Name -->
@@ -152,182 +189,177 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
+            </fieldset>
 
+            <hr>
         
-            </form>
-        </fieldset>
+            <div class="columns">
 
-        <hr>
-        
-        <div class="columns">
-            <div class="column is-6">
-                <h6 class="title is-6">
-                    {{ translations.dashboards.view_title_add_component }}
-                </h6>
-                <!-- Select a new component -->
-                <div class="field">
-                    <div class="control">
-                        <lesli-select
-                            v-model="storeDashboard.selected_dashboard_component.id"
-                            :options="storeDashboard.options.component_ids"
-                            @change="addComponent"
-                        ></lesli-select>
+                <div class="column is-6">
+                    <h6 class="title is-6">
+                        {{ translations.dashboards.view_title_add_component }}
+                    </h6>
+                    <!-- Select a new component -->
+                    <div class="field">
+                        <div class="control">
+                            <lesli-select
+                                v-model="storeDashboard.new_component_id"
+                                :options="storeDashboard.options.component_ids"
+                                @change="addComponent"
+                            ></lesli-select>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard list of components -->
+                    <div class="menu-list is-hoverable">
+                        <a
+                            v-for="(component, index) in storeDashboard.dashboard.components"
+                            :key="index"
+                            @click="selectDashboardComponent(component)"
+                            :class="['list-item',  {'is-active':  ( storeDashboard.selected_dashboard_component && component.id == storeDashboard.selected_dashboard_component.id) }]"
+                        >
+                            {{ component.component_id }}
+                            <button type="button" class="delete is-small is-pulled-right" @click="removeComponent(component)">
+                            </button>
+                        </a>
                     </div>
                 </div>
 
-                <!-- Dashboard components -->
-                <div class="menu-list is-hoverable">
-                    <a
-                        v-for="(component, index) in storeDashboard.dashboard.components"
-                        :key="index"
-                        @click="selectDashboardComponent(component)"
-                        :class="['list-item',  {'is-active': (storeDashboard.selected_dashboard_component && component.id == storeDashboard.selected_dashboard_component.id) }]"
+                <!-- Components settings -->
+                <div class="column is-6" v-if="storeDashboard.selected_dashboard_component.component_id">
+                    <h6 class="title is-6">
+                        {{ translations.dashboards.view_title_component_configuration }}
+                    </h6>
+                    <!-- Name component -->
+                    <div class="field">
+                        <label class="label">
+                            {{ translations.components.column_name }}
+                        </label>
+                        <div class="control">
+                            <input class="input" type="text" v-model="storeDashboard.selected_dashboard_component.name">
+                        </div>
+                    </div>
+
+                    <div class="columns">
+                        <div class="column is-6">
+                            <!-- Index component -->
+                            <div class="field">
+                                <label class="label">
+                                    {{ translations.components.column_number }}
+                                </label>
+                                <div class="control">
+                                    <input class="input" type="number" v-model="storeDashboard.selected_dashboard_component.index">
+                                    <p>{{ translations.components.view_text_column_number_description }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column is-6">
+                            <!-- Width component -->
+                            <div class="field">
+                                <label class="label">
+                                    {{ translations.components.column_layout }}
+                                </label>
+                                <div class="control">
+                                    <lesli-select
+                                        v-model="storeDashboard.selected_dashboard_component.layout"
+                                        :options="[{
+                                                label: '8.3%',
+                                                value: 1,
+                                            }, {
+                                                label: '16.7%',
+                                                value: 2,
+                                            }, {
+                                                label: '25%',
+                                                value: 3,
+                                            }, {
+                                                label: '33.3%',
+                                                value: 4,
+                                            }, {
+                                                label: '41.7%',
+                                                value: 5,
+                                            }, {
+                                                label: '50%',
+                                                value: 6,
+                                            }, {
+                                                label: '58.3%',
+                                                value: 7,
+                                            }, {
+                                                label: '66.7%',
+                                                value: 8,
+                                            }, {
+                                                label: '75%',
+                                                value: 9,
+                                            }, {
+                                                label: '83.3%',
+                                                value: 10,
+                                            }, {
+                                                label: '91.7%',
+                                                value: 11,
+                                            }, {
+                                                label: '100%',
+                                                value: 12,
+                                            },
+                                        ]"
+                                    >
+                                    </lesli-select>
+                                    <p>{{ translations.components.view_text_column_layout_description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conditional options -->
+                    <div
+                        class="column is-6"
+                        v-for="(option, index) in storeDashboard.options.components_configuration_options[storeDashboard.selected_dashboard_component.component_id]"
+                        :key="`query-${index}`"
                     >
-                        {{ component }}
-                        <button type="button" class="delete is-small is-pulled-right" @click="removeComponentFromDashboard(component)">
-                        </button>
-                    </a>
-                </div>
-            </div>
-
-
-            <div class="column is-6" v-if="storeDashboard.selected_dashboard_component.id">
-                <h6 class="title is-6">
-                    {{ translations.dashboards.view_title_component_configuration }}
-                </h6>
-                <!-- Name component -->
-                <div class="field">
-                    <label class="label">
-                        {{ translations.components.column_name }}
-                    </label>
-                    <div class="control">
-                        <input class="input" type="text" v-model="storeDashboard.selected_dashboard_component.name">
-                    </div>
-                </div>
-
-                <div class="columns">
-                    <div class="column is-6">
-                        <!-- Number component -->
-                        <div class="field">
+                        <!-- Boolean options -->
+                        <div class="field" v-if="option.type == 'Boolean'">
                             <label class="label">
-                                {{ translations.components.column_number }}
+                                {{ translations.main_components[`column_configuration_${option.name}`] }}
                             </label>
                             <div class="control">
-                                <input class="input" type="number" v-model="storeDashboard.selected_dashboard_component.number">
-                                <p>{{ translations.components.view_text_column_number_description }}</p>
+                                <label :for="option_radio.label" class="radio" v-for="option_radio in radio_options" :key="option_radio">
+                                    <input 
+                                        name="active" 
+                                        type="radio" 
+                                        :id="option_radio.label" 
+                                        :value="option_radio.value"
+                                        v-model="storeDashboard.selected_dashboard_component[option.column][option.group][option.name]" 
+                                    />
+                                    {{ option_radio.label }}
+                                </label>
+                                <p>{{ translations.main_components[`view_text_column_configuration_${option.name}_description`] }}</p> 
                             </div>
                         </div>
-                        
 
-                    </div>
-
-                    <div class="column is-6">
-                        <!-- Width component -->
-                        <div class="field">
+                        <!-- Integer options -->
+                        <div class="field" v-if="option.type == 'Integer'">
                             <label class="label">
-                                {{ translations.components.column_layout }}
+                                {{ translations.main_components[`column_configuration_${option.name}`] }}
                             </label>
                             <div class="control">
-                                <lesli-select
-                                    v-model="storeDashboard.selected_dashboard_component.layout"
-                                    :options="[{
-                                            label: '8.3%',
-                                            value: 1,
-                                        }, {
-                                            label: '16.7%',
-                                            value: 2,
-                                        }, {
-                                            label: '25%',
-                                            value: 3,
-                                        }, {
-                                            label: '33.3%',
-                                            value: 4,
-                                        }, {
-                                            label: '41.7%',
-                                            value: 5,
-                                        }, {
-                                            label: '50%',
-                                            value: 6,
-                                        }, {
-                                            label: '58.3%',
-                                            value: 7,
-                                        }, {
-                                            label: '66.7%',
-                                            value: 8,
-                                        }, {
-                                            label: '75%',
-                                            value: 9,
-                                        }, {
-                                            label: '83.3%',
-                                            value: 10,
-                                        }, {
-                                            label: '91.7%',
-                                            value: 11,
-                                        }, {
-                                            label: '100%',
-                                            value: 12,
-                                        },
-                                    ]"
-                                >
-                                </lesli-select>
-                                <p>{{ translations.components.view_text_column_layout_description }}</p>
+                                <input class="input" type="number" v-model="storeDashboard.selected_dashboard_component[option.column][option.group][option.name]">
+                                <p>{{ translations.main_components[`view_text_column_configuration_${option.name}_description`] }}</p> 
                             </div>
                         </div>
                     </div>
-
-                </div>
-
-
-                <div
-                    class="column is-6"
-                    v-for="(option, index) in storeDashboard.options.components_configuration_options[storeDashboard.selected_dashboard_component.id]"
-                    :key="`query-${index}`"
-                >
-                    <div class="field" v-if="option.type == 'Boolean'">
-                        <label class="label">
-                            {{ translations.main_components[`column_configuration_${option.name}`] }}
-                        </label>
-                        <div class="control">
-                            <label :for="option_radio.label" class="radio" v-for="option_radio in radio_options" :key="option_radio">
-                                <input 
-                                    name="active" 
-                                    type="radio" 
-                                    :id="option_radio.label" 
-                                    :value="option_radio.value"
-                                    v-model="storeDashboard.selected_dashboard_component[option.column][option.group][option.name]" 
-                                />
-                                {{ option_radio.label }}
-                            </label>
-                            <p>{{ translations.main_components[`view_text_column_configuration_${option.name}_description`] }}</p> 
-                        </div>
-                    </div>
-
-
-                    <div class="field" v-if="option.type == 'Integer'">
-                        <label class="label">
-                            {{ translations.main_components[`column_configuration_${option.name}`] }}
-                        </label>
-                        <div class="control">
-                            <input class="input" type="number" v-model="storeDashboard.selected_dashboard_component[option.column][option.group][option.name]">
-                            <p>{{ translations.main_components[`view_text_column_configuration_${option.name}_description`] }}</p> 
-                        </div>
-                    </div>
-
                 </div>
 
             </div>
 
-        </div>
-
-        <div class="field is-grouped">
-            <div class="control">
-                <lesli-button icon="save">
-                    {{ translations.dashboards.view_btn_save_dashboard }}
-                </lesli-button> 
+            <!-- Save button -->
+            <div class="field is-grouped">
+                <div class="control">
+                    <lesli-button icon="save">
+                        {{ translations.dashboards.view_btn_save_dashboard }}
+                    </lesli-button> 
+                </div>
             </div>
-        </div>
+        </form>
         
-
     </div>
 
 </template>
