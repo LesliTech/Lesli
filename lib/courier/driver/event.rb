@@ -21,6 +21,13 @@ module Courier
     module Driver
         class Event
 
+            def self.index(current_user, query)
+                return {} unless defined? CloudDriver
+
+                CloudDriver::EventServices.index(current_user, query)
+            end
+            
+
             def self.create(current_user, event_params, calendar=nil)
                 return nil unless defined? CloudDriver
 
