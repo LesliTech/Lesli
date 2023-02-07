@@ -2,9 +2,9 @@
 
 Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 class LesliService
@@ -23,7 +23,6 @@ class LesliService
     @resource;
     @failures;
     @current_user;
-
 
     # Service constructor
     # current_user is always required to initialize a service object
@@ -43,6 +42,11 @@ class LesliService
 
     # Find an specific resource through the main id
     def find id
+        # Look for the resource in the database
+        # self.resource = current_user.account.users.find_by_id(id) # example
+
+        # Should always return self
+        self
     end
 
 
@@ -57,22 +61,22 @@ class LesliService
 
 
     # Standard method to show data from the database
-    def show 
+    def show
     end
 
 
     # Standard method to create new resource into the database
-    def create 
+    def create params
     end
 
 
     # Standard method to update resources into the database
-    def update
+    def update params
     end
 
 
     # Standard method to delete data from the database
-    def delete 
+    def delete
     end
 
 
