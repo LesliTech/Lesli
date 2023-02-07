@@ -42,11 +42,10 @@ const props = defineProps({
         required: false,
         default: false,
     },
-    appMountPath: {
+    cloudModule: {
         type: String,
-        required: false,
-        default: "",
-    }
+        required: true,
+    },
 })
 
 
@@ -123,7 +122,7 @@ const onUpdate = () => {
  */
 const onCreate = () => {
     storeDashboard.postDashboard().then(()=> {
-        router.push(url.root(`${props.appMountPath}`).s)
+        router.push(url[props.cloudModule]('dashboards').s)
     })
 }
 
@@ -188,8 +187,7 @@ onMounted(() => {
 <template>
     
     <div class="block">
-        <form class="mb-4" 
-            v-if="!storeDashboard.loading" 
+        <form class="mb-4"  
             @submit.prevent="isEditable ? onUpdate() : onCreate()"
         >
             <fieldset>
@@ -359,7 +357,7 @@ onMounted(() => {
             <!-- Save button -->
             <div class="field is-grouped">
                 <div class="control">
-                    <lesli-button icon="save">
+                    <lesli-button icon="save" :loading="storeDashboard.loading">
                         {{ translations.dashboards.view_btn_save_dashboard }}
                     </lesli-button> 
                 </div>

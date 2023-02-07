@@ -31,11 +31,6 @@ import dashboardForm from "../dashcomponents/dashboard-form.vue"
 
 // · defining props
 const props = defineProps({
-    appMountPath: {
-        type: String,
-        required: false,
-        default: "",
-    },
     // · prop that indicates the cloud module that will be used for interacting with the backend.
     cloudModule: {
         type: String,
@@ -65,12 +60,12 @@ onMounted(() => {
 <template>
     <section class="application-component">
         <lesli-header :title="translations.dashboards.view_title_main">
-            <lesli-button icon="list" :to="url.root(props.appMountPath)">
+            <lesli-button icon="list" :to="url[props.cloudModule]('dashboards')">
                 {{ translations.core.view_btn_list }}
             </lesli-button>
         </lesli-header>
 
-        <dashboard-form :app-mount-path="props.appMountPath"></dashboard-form>
+        <dashboard-form :cloud-module="props.cloudModule"></dashboard-form>
 
     </section>
 </template>
