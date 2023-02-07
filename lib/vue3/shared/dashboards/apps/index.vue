@@ -31,11 +31,6 @@ const props = defineProps({
     cloudModule: {
         type: String,
         required: true,
-    },
-    appMountPath: {
-        type: String,
-        required: false,
-        default: "",
     }
 })
 
@@ -84,7 +79,7 @@ onMounted(() => {
                 {{ translations.core.view_text_btn_reload }}
             </lesli-button>
             
-            <lesli-button  icon="add" :to="url.root(props.appMountPath + '/new')">
+            <lesli-button  icon="add" :to="url[props.cloudModule]('dashboards/new')">
                 add
             </lesli-button>
         </lesli-header>
@@ -95,7 +90,7 @@ onMounted(() => {
         <lesli-table 
             :columns="columns" 
             :records="storeDashboard.dashboards"
-            :link="(dashboard) => url.root(`${props.appMountPath}/${dashboard.id}`).s"
+            :link="(dashboard) => url[props.cloudModule](`dashboards/${dashboard.id}/edit`).s"
         >
         </lesli-table>
 

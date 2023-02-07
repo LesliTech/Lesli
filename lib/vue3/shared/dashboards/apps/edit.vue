@@ -35,11 +35,6 @@ const url = inject("url")
 
 // · defining props
 const props = defineProps({
-    appMountPath: {
-        type: String,
-        required: false,
-        default: "",
-    },
     // · prop that indicates the cloud module that will be used for interacting with the backend.
     cloudModule: {
         type: String,
@@ -69,7 +64,7 @@ storeDashboard.cloudModule = props.cloudModule
  */
  const onDeleteDashboard = () => {
     storeDashboard.deleteDashboard().then(()=> {
-        router.push(url.root(`${props.appMountPath}`).s)
+        router.push(url[props.cloudModule]('dashboards').s)
     })
 }
 
@@ -83,7 +78,7 @@ onMounted(() => {
 <template>
     <section class="application-component">
         <lesli-header :title="translations.dashboards.view_title_main">
-            <lesli-button icon="list" :to="url.root(props.appMountPath)">
+            <lesli-button icon="list" :to="url[props.cloudModule]('dashboards')">
                 {{ translations.core.view_btn_list }}
             </lesli-button>
         </lesli-header>
@@ -91,7 +86,7 @@ onMounted(() => {
 
         <lesli-tabs v-model="tab">
             <lesli-tab-item title="Edition mode">
-                <dashboard-form :app-mount-path="props.appMountPath" is-editable></dashboard-form>
+                <dashboard-form :cloud-module="props.cloudModule" is-editable></dashboard-form>
             </lesli-tab-item>
 
             <lesli-tab-item title="Render view">
