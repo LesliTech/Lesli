@@ -294,8 +294,7 @@ onMounted(() => {
 <template>
     <div class="block">
         <!-- Workflow form -->
-        <form 
-            v-if="!storeWorkflow.loading" 
+        <form  
             class="information" 
             @submit.prevent="isEditable? onUpdate() : onCreate()">
 
@@ -337,7 +336,7 @@ onMounted(() => {
         
         <br>
 
-        <div class="block" v-if="!storeWorkflow.loading && storeWorkflow.workflow.statuses">
+        <div class="block" v-if="storeWorkflow.workflow.statuses">
             <div class="columns">
                 <div class="column is-8">
                     <span class="has-text-weight-bold">
@@ -434,9 +433,9 @@ onMounted(() => {
 
         </div>
 
-        <div class="columns is-marginless has-border-bottom block" v-if="!storeWorkflow.loading && storeWorkflow.workflow.statuses">
+        <div class="columns is-marginless has-border-bottom block" v-if="storeWorkflow.workflow.statuses">
             <div class="column">
-                <lesli-button icon="save" @click="storeWorkflow.updateWorkflowStatuses">
+                <lesli-button icon="save" @click="storeWorkflow.updateWorkflowStatuses" :loading="storeWorkflow.loading">
                     save
                 </lesli-button>  
             </div>
