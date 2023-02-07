@@ -21,7 +21,7 @@ module Interfaces
             #   filtering
             def set_helpers_for_request
                 @query = {
-                    search: params[:search] || "",
+                    search: params[:search] || nil,
                     filters: params[:f] ? params[:f] : {},
                     pagination: {
                         perPage: (params[:perPage] ? params[:perPage].to_i : 10),
