@@ -23,8 +23,12 @@ For more information read the license file including with this software.
 @import "lesli-css/";
 
 
-
 // · users management & user profile 
-@import "../users.scss";
-@import "../abouts";
+body.cloudadministration-users, 
+body.cloudadministration-profile {
+    @import "../users.scss";
+}
 
+
+// · 
+@import "../abouts";

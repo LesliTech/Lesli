@@ -59,7 +59,7 @@ const columns = [{
     label: translations.core.users.view_table_header_email,
     sort: true
 }, {
-    field: "roles",
+    field: "rolenames",
     label: translations.core.users.view_table_header_role,
     sort: true
 }, {
@@ -68,11 +68,11 @@ const columns = [{
     sort: true,
     custom: true
 }, {
-    field: "last_login_at",
+    field: "current_sign_in_at_string",
     label: translations.core.users.view_table_header_last_sign_in,
     sort: true
 }, {
-    field: "last_action_performed_at",
+    field: "last_action_performed_at_string",
     label: translations.core.users.view_text_last_activity_at,
     sort: true
 }]

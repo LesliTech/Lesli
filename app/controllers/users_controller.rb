@@ -24,7 +24,7 @@ class UsersController < ApplicationLesliController
 
     def list
         respond_to do |format|
-            format.json { respond_with_successful(UserService.new(current_user).list(query, params)) }
+            format.json { respond_with_successful(UserServices.new(current_user).list(query, params)) }
         end
     end
 
@@ -39,7 +39,7 @@ class UsersController < ApplicationLesliController
         respond_to do |format|
             format.html { }
             format.json {
-                return respond_with_pagination(UserService.new(current_user).index(query, params))
+                return respond_with_pagination(UserServices.new(current_user).index(query, params))
             }
         end
     end
@@ -58,7 +58,7 @@ class UsersController < ApplicationLesliController
 
     def create
 
-        user = UserService.new(current_user).create(user_params)
+        user = UserServices.new(current_user).create(user_params)
 
         if user.successful?
             respond_with_successful(user.result)
@@ -96,7 +96,7 @@ class UsersController < ApplicationLesliController
     def destroy
         return respond_with_not_found unless @user
 
-        # get the user found in the UserService
+        # get the user found in the UserServices
         user = @user.result
 
         if user.delete
@@ -116,7 +116,7 @@ class UsersController < ApplicationLesliController
     #     # This will either display nil or an instance of Account::User
     def set_user
         #@user = current_user.account.users.find_by(id: params[:id])
-        @user = UserService.new(current_user).find(params[:id])
+        @user = UserServices.new(current_user).find(params[:id])
     end
 
     def options

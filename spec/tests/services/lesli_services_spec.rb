@@ -22,10 +22,10 @@ For more information read the license file including with this software.
 require "lesli_service_helper"
 
 
-RSpec.describe LesliService do
+RSpec.describe LesliServices do
 
     before(:each) do
-        @lesli_service = LesliService.new(User.first)
+        @lesli_service = LesliServices.new(User.first)
     end
 
     it "is expected to return only the authorized methods for services" do
@@ -46,7 +46,7 @@ RSpec.describe LesliService do
             :result
         ]
 
-        expect(lesli_service_methods).to match_array(LesliService.instance_methods(false))
+        expect(lesli_service_methods).to match_array(LesliServices.instance_methods(false))
 
     end
 
