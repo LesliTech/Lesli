@@ -21,18 +21,18 @@ module Courier
 
             def self.list(current_user, query, params)
                 #return unless defined?(EngineName)
-                UserService.new(current_user).list()
+                UserServices.new(current_user).list()
             end
 
             def self.show current_user, query, params
                 #return unless defined?(EngineName)
-                user = UserService.new(current_user).find(params[:id])
+                user = UserServices.new(current_user).find(params[:id])
                 user.show
             end
 
             def self.index current_user, query, params                
                 #return unless defined?(EngineName)
-                UserService.new(current_user).index(query, params)
+                UserServices.new(current_user).index(query, params)
             end
 
         end
