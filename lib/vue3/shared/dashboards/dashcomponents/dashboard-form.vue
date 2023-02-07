@@ -71,6 +71,46 @@ const radio_options = {
     }
 }
 
+const layout_options = [
+    {
+        label: '8.3%',
+        value: 1,
+    }, {
+        label: '16.7%',
+        value: 2,
+    }, {
+        label: '25%',
+        value: 3,
+    }, {
+        label: '33.3%',
+        value: 4,
+    }, {
+        label: '41.7%',
+        value: 5,
+    }, {
+        label: '50%',
+        value: 6,
+    }, {
+        label: '58.3%',
+        value: 7,
+    }, {
+        label: '66.7%',
+        value: 8,
+    }, {
+        label: '75%',
+        value: 9,
+    }, {
+        label: '83.3%',
+        value: 10,
+    }, {
+        label: '91.7%',
+        value: 11,
+    }, {
+        label: '100%',
+        value: 12,
+    }
+]
+
 /**
  * @description This function is used to update the workflow information
  */
@@ -266,44 +306,7 @@ onMounted(() => {
                                 <div class="control">
                                     <lesli-select
                                         v-model="storeDashboard.selected_dashboard_component.layout"
-                                        :options="[{
-                                                label: '8.3%',
-                                                value: 1,
-                                            }, {
-                                                label: '16.7%',
-                                                value: 2,
-                                            }, {
-                                                label: '25%',
-                                                value: 3,
-                                            }, {
-                                                label: '33.3%',
-                                                value: 4,
-                                            }, {
-                                                label: '41.7%',
-                                                value: 5,
-                                            }, {
-                                                label: '50%',
-                                                value: 6,
-                                            }, {
-                                                label: '58.3%',
-                                                value: 7,
-                                            }, {
-                                                label: '66.7%',
-                                                value: 8,
-                                            }, {
-                                                label: '75%',
-                                                value: 9,
-                                            }, {
-                                                label: '83.3%',
-                                                value: 10,
-                                            }, {
-                                                label: '91.7%',
-                                                value: 11,
-                                            }, {
-                                                label: '100%',
-                                                value: 12,
-                                            },
-                                        ]"
+                                        :options="layout_options"
                                     >
                                     </lesli-select>
                                     <p>{{ translations.components.view_text_column_layout_description }}</p>
