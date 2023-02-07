@@ -66,19 +66,16 @@ module Shared
             dynamic_info = self.dynamic_info
             module_name = dynamic_info[:module_name]
 
+            # get search string from query params
+            search_string = query[:search].downcase.gsub(" ","%") unless query[:search].blank?
+
             dashboards = self.where(
                 "cloud_#{module_name}_accounts_id".to_sym => current_user.account.id
-            ).order(
-                query[:pagination][:orderColumn].to_sym => query[:pagination][:order].to_sym
-            )
+            ).order(ActiveRecord::Base.sanitize_sql_for_order("#{query[:order][:by]} #{query[:order][:dir]}"))
 
-            # We filter by a text string written by the user
-            if query[:filters][:query] && !query[:filters][:query].empty?
-                query_words = query[:filters][:query].split(" ")
-                query_words.each do |query_word|
-                    query_word = query_word.strip.downcase
-                    dashboards = dashboards.where("LOWER(name) LIKE ?", "%#{query_word}%")
-                end
+            # Filter results by search string
+            unless search_string.blank?
+                dashboards = dashboards.where("(LOWER(name) SIMILAR TO :search_string)", search_string: "%#{sanitize_sql_like(search_string)}%")
             end
 
             dashboards = dashboards.map do |dashboard|

@@ -100,10 +100,6 @@ onMounted(() => {
 })
 
 
-// · when component is unmounted, clear the store
-onUnmounted(() => {
-    storeWorkflow.reset()
-})
 </script>
 
 <template>
@@ -111,5 +107,6 @@ onUnmounted(() => {
         :options="options" 
         :label="translations.core.shared.view_btn_change_status" 
         v-model="dropdownValue"
+        v-if="!storeWorkflow.loading"
     />
 </template>

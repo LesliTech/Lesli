@@ -118,18 +118,14 @@ function showCheck(check){
         :records="storeChecks.checks"
         @click="showCheck"
     >
-
-        <template #options="{ record }">
-            <a class="dropdown-item" @click="storeChecks.deleteCheck(record.id)">
+        <template #buttons="{ record }">
+            <button class="button is-outlined is-danger" @click="storeChecks.deleteCheck(record.id)">
                 <span class="material-icons">
                     delete
                 </span>
-                <span>
-                    {{ translations.core.shared.view_btn_delete }}
-                </span>
-            </a>
+            </button>
         </template>
-
+        
     </lesli-table>
 
 
