@@ -218,7 +218,7 @@ module Shared
             dynamic_info = self.class.dynamic_info
             component_model = dynamic_info[:component_model]
 
-            component_id = params[:component_id].to_sym
+            component_id = sanitize(params[:component_id].to_sym)
 
             # We verify if the method exists, and if it is in the available component list
             if component_model.respond_to?(component_id) && component_model.component_ids[component_id]
