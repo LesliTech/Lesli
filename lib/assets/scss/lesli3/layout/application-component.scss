@@ -29,4 +29,5 @@ section.application-component {
     margin-left: var(--lesli-sidebar-width);
     max-width: calc(100% - var(--lesli-sidebar-width));
     min-height: calc(100vh - var(--lesli-header-height) - var(--lesli-footer-height));
+    min-height: calc(100vh - var(--lesli-header-height)); // footer is not enable
 }

@@ -33,10 +33,11 @@ const props = defineProps({
     series: {
         type: Array,
         required: true
-    },
+    },  
     labels: {
         type: Array,
-        required: true
+        required: false,
+        default: []
     }
 })
 
@@ -74,12 +75,31 @@ const barOptions = {
     }
 };
 
+
+const parsedSeries = ref([{ data: [] }])
+
+
+// 
+function updateSeries(data) {
+    parsedSeries.value = [{ 
+        data: props.series
+    }]
+}
+
+onMounted(() => {
+    updateSeries()
+})
+
+watch(() => props.series, () => {
+    updateSeries()
+})
+
 </script>
 <template>
     <componentChartGeneral 
         type="bar"
         :title="title"
-        :series="series"
+        :series="parsedSeries"
         :labels="labels"
         :options="barOptions">
     </componentChartGeneral>
