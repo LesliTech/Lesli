@@ -90,7 +90,7 @@ class UserServices < LesliServices
 
         users = users.select(
             :id,
-            :name,
+            "COALESCE(name, '') as name",
             :email,
             :active,
             :rolenames,
