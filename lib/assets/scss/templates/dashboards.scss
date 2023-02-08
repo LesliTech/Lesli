@@ -1,6 +1,5 @@
 /*
-
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,64 +13,34 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
 
 
-// · Include Lesli CSS
-@import "lesli-css/";
-
+// · 
+@import "lesli-css";
 
 
 // · 
-// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
-section.lesli-dashboards {
+main {
+    background-color: #F0F8FF; 
 
-    section.columns {
+    // column container for widgets
+    .application-component .column {
+        margin-bottom: .5rem;
 
-        div.column {
-            height: 280px;
+        // widget card
+        .card {
+            border-radius: .8rem;
+            box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
         }
 
-        div.widget-component {
-            height: 100%;
-        }
-
-    }
-
-    nav.component-header {
-
-        div.navbar-start .navbar-item {
-            padding-right: 0;
-            padding-left: 0;
-        }
-
-    }
-
-    // main widget container
-    div.widget-component {
-        background-color: lesli-css-color(solid, white);
-        box-shadow: 0 10px 27px 0 rgba(0,0,0,.15);
-        overflow-x: hidden;
-        overflow-y: scroll;
-        border: none;
-    }
-
-    div.card {
-
-        div.card-header {
-            box-shadow: none;
-
-            h3.card-header-title {
-                font-size: 1.1rem;
+        // widgets with tables
+        table.lesli-table thead {
+            background-color: transparent;
+            border-bottom: 1px solid lesli-css-color(slate);
+            th {
+                padding-bottom: 0px;
             }
- 
         }
-
-        div.card-content {
-            padding: 0px;
-        }
-
     }
-    
 }

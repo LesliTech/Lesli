@@ -20,12 +20,6 @@ module Shared
     class DashboardsController < ApplicationLesliController
         before_action :set_dashboard, only: [:update, :destroy]
 
-        def privileges 
-            {
-                show: []
-            }
-        end 
-
         # @return [HTML|JSON] HTML view for listing all dashboards or a Json that contains a list 
         #     of all dashboards associated to this *account*
         # @description Retrieves and returns all dashboards associated to a *CloudHelp::Account*. 
@@ -224,7 +218,7 @@ module Shared
             dynamic_info = self.class.dynamic_info
             component_model = dynamic_info[:component_model]
 
-            component_id = params[:component_id].to_sym
+            component_id = sanitize(params[:component_id].to_sym)
 
             # We verify if the method exists, and if it is in the available component list
             if component_model.respond_to?(component_id) && component_model.component_ids[component_id]

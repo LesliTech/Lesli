@@ -38,7 +38,7 @@ module Interfaces::Controllers::Discussions
         if block_given?
             yield(@discussions)
         else
-            respond_with_successful(@discussions)
+            respond_with_pagination(@discussions)
         end
     end
 

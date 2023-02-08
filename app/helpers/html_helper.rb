@@ -18,22 +18,6 @@ For more information read the license file including with this software.
 
 module HtmlHelper
 
-    # return a string with a css class to identify the body
-    # example: builder engine-controller action
-    def application_body_class()
-        application_body_class = lesli_instance_code
-        [application_body_class, controller_path.gsub("/","-"), action_name].join(" ")
-    end
-
-    # build the text for the html document title
-    # this helper works only for rails pages, for vue apps the title must be handled with JS
-    def website_title
-        return @application_html_title if @application_html_title
-        title = controller_path.gsub("cloud","").gsub("_", "")
-        prefix = @account.dig(:company, :name)
-        "#{prefix} · #{title}"
-    end
-
     # build a url path to change locales
     def language_url(locale)
         "/language?locale=#{locale}"
@@ -57,8 +41,31 @@ module HtmlHelper
         end
     end 
 
-    def lesli_icon(icon, group="icon")
-        LC::Debug.deprecation('Use: lesli_svg instead')
-    end 
+    def application_body_class()
+        website_body_class()
+    end
+
+    # return a string with a css class to identify the body
+    # example: builder engine-controller action
+    def website_body_class()
+        application_body_class = lesli_instance_code
+        [application_body_class, controller_path.gsub("/","-"), action_name].join(" ")
+    end
+
+    # build the text for the html document title
+    # this helper works only for rails pages, for vue apps the title must be handled with JS
+    def website_title
+        return @application_html_title if @application_html_title
+        title = controller_path.gsub("cloud","").gsub("_", "")
+        prefix = @account.dig(:company, :name)
+        "#{prefix} - #{title}"
+    end
+
+    # build description using custom data from controller or engine gem description
+    def website_meta_description
+        engine = lesli_engine(:code)
+        return "" if engine == 'administration' || engine == 'lesli'
+        @application_html_description || Gem::Specification.find_by_name(engine).description
+    end
 
 end

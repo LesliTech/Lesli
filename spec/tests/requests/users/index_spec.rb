@@ -40,28 +40,18 @@ RSpec.describe "Tests for Lesli 3" do
                 .joins(:detail, :user_roles)
                 .group("users.id, user_roles.users_id")
                 .map(&:id).uniq.count
+        end
+
+        it "is expected that the index includes users with a valid role" do
+            get "/administration/users.json"
+
+            # shared examples
+            expect_response_with_pagination
+
+            # custom specs
+            expect(response_body["records"].first).to have_key("rolenames")
+            expect(response_body["records"].first["rolenames"]).to be_an(String)
 
         end
     end
-
-    describe "GET:/administration/users/list.json", type: :request do
-
-        include_context "request user authentication"
-
-        it "is expected to respond with total of user with a specific role" do
-
-            ["owner", "sysadmin", "api", "guest", "limited"].each do |role|
-
-                get "/administration/users/list.json?role=#{role}"
-
-                expect_response_with_successful
-
-                users_by_role_in_database = @current_user.account.users.joins(:roles).where("roles.name = ?", role).count
-
-                expect(response_body.size).to eql(users_by_role_in_database)
-
-            end
-        end
-    end
-
 end

@@ -117,7 +117,7 @@ module Interfaces
 
                 account = Account.first
 
-                account.activities.create({
+                return account.activities.create({
                     system_module: system_module,
                     system_process: system_process,
                     description: description,
