@@ -1,6 +1,7 @@
-=begin
+<script setup>
+/*
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,14 +15,32 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-=end
 
-FactoryBot.define do
-    factory :webpush, class: "User::Webpush" do
-        endpoint { Faker::Internet.url }
-        auth_key { Faker::Lorem.word }
-        p256dh_key { Faker::Lorem.word }
-        users_id { nil } # this param will be given by the call of create_list in the test
-    end
-end
+// · import vue tools
+import { onMounted, inject, ref } from "vue"
+
+
+// · 
+const props = defineProps({
+    title: {
+        type: String, 
+        require: false,
+        default: ""
+    }
+})
+
+</script>
+<template>
+    <div class="card">
+        <div class="card-content p-3">
+            <div class="content help">
+                <h6 class="title is-6 has-text-centered mb-2">
+                    {{ props.title }}
+                </h6>
+                <slot></slot>
+            </div>
+        </div>
+    </div>
+</template>

@@ -19,24 +19,11 @@ For more information read the license file including with this software.
 
 class ProfilesController < ApplicationLesliController
 
-    def privileges
-        {
-            show: [
-                'UsersController#options',
-                'User::SessionsController#index',
-                'Profile::SubscriptionsController#index',
-                'Profile::SubscriptionsController#options',
-                'Profile::NotificationsController#index',
-                'CloudBell::AnnouncementsController#list',
-            ]
-        }
-    end
-
     # GET /profile
     def show
         respond_to do |format|
             format.html {}
-            format.json { respond_with_successful(current_user.show(current_user)) }
+            format.json { respond_with_successful(UserServices.new(current_user).show(current_user)) }
         end
     end
 

@@ -54,7 +54,8 @@ const props = defineProps({
     },
     records: {
         type: Array,
-        required: true
+        required: true,
+        default: []
     },
     link: {
         type: Function,
@@ -119,7 +120,6 @@ function paginate(page) {
     emit('paginate', page)
 }
 
-
 </script>
 <template>
     <div>
@@ -179,6 +179,8 @@ function paginate(page) {
                     -->
                     <th v-if="slots.options"></th>
 
+                    <th v-if="slots.buttons"></th>
+
                 </tr>
             </thead>
             <tbody>
@@ -219,7 +221,7 @@ function paginate(page) {
                                 Print a standard vue router link if prop is provided and
                                 there is not a slot for this specific column
                             -->
-                            <router-link v-if="props.link && !slots[column.field]" :to="props.link(record)">
+                            <router-link v-if="props.link && !slots[column.field]" :to="props.link(record).toString()">
                                 {{ record[column.field] }}
                             </router-link>
 
@@ -295,6 +297,16 @@ function paginate(page) {
                                         </div>
                                     </div>
                                 </Transition>
+                            </div>
+                        </td>
+
+                        <td v-if="slots.buttons" class="p-0">
+                            <div class="buttons">
+                                <slot 
+                                    name="buttons"
+                                    :record="record"
+                                    :value="record.id">
+                                </slot>
                             </div>
                         </td>
                     </tr>

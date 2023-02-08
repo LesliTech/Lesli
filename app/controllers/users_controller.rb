@@ -22,22 +22,9 @@ For more information read the license file including with this software.
 class UsersController < ApplicationLesliController
     before_action :set_user, only: [:show, :update, :destroy]
 
-    def privileges
-        {
-            index: ['show', 'list'],
-            new: [],
-            show: ['index', 'list'],
-            edit: [],
-            email: [],
-            destroy: [],
-        }
-    end
-
     def list
         respond_to do |format|
-            format.json {
-                respond_with_successful(User.list(current_user, @query, params))
-            }
+            format.json { respond_with_successful(UserServices.new(current_user).list(query, params)) }
         end
     end
 
@@ -52,35 +39,7 @@ class UsersController < ApplicationLesliController
         respond_to do |format|
             format.html { }
             format.json {
-                users = User.index(current_user, @query, params)
-
-                return respond_with_pagination(users, (users.map { |user|
-
-                    # last time user use the login form to access the platform
-                    current_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at])
-
-                    # last action the user perform an action into the system
-                    last_action_performed_at = LC::Date.distance_to_words(user["last_action_performed_at"]) unless user["last_action_performed_at"].blank?
-
-                    # last login from the user
-                    last_login_at = LC::Date.distance_to_words(user[:last_login_at])
-
-                    # check if user has an active session
-                    session = user["last_login_at"].blank? ? false : true
-
-                    {
-                        id: user[:id],
-                        name: user[:name],
-                        email: user[:email],
-                        category: user[:category],
-                        current_sign_in_at: current_sign_in_at,
-                        active: user[:active],
-                        roles: user[:roles],
-                        last_action_performed_at: last_action_performed_at,
-                        session_active: session,
-                        last_login_at: last_login_at
-                    }
-                }))
+                return respond_with_pagination(UserServices.new(current_user).index(query, params))
             }
         end
     end
@@ -90,13 +49,8 @@ class UsersController < ApplicationLesliController
             format.html {}
             format.json {
 
-                return respond_with_not_found unless @user
-
-                user = @user.show(current_user).merge({
-                    #is_editable: @user.is_editable_by?(current_user)
-                })
-
-                respond_with_successful(user)
+                return respond_with_not_found unless @user.found?
+                return respond_with_successful(@user.show)
 
             }
         end
@@ -104,73 +58,12 @@ class UsersController < ApplicationLesliController
 
     def create
 
-        # check if request has an email to create the user
-        if user_params[:email].blank?
-            respond_with_error(I18n.t("core.users.messages_danger_not_valid_email_found"))
-            return
-        end
+        user = UserServices.new(current_user).create(user_params)
 
-        # register the new user
-        user = User.new({
-            :active => true,
-            :email => user_params[:email],
-            :alias => user_params[:alias],
-            :detail_attributes => user_params[:detail_attributes]
-        })
-
-        # assign a random password
-        user.password = Devise.friendly_token
-
-        # enrol user to my own account
-        user.account = current_user.account
-
-
-        # users created through the administration area does not need to confirm their accounts
-        # instead we send a password reset link, so they can have access to the platform
-        user.confirm
-
-        if user.save
-
-            # if a role is provided to assign to the new user
-            unless user_params[:roles_id].blank?
-                # check if current user can work with the sent role
-                if current_user.can_work_with_role?(user_params[:roles_id])
-                    # Search the role assigned
-                    role = current_user.account.roles.find_by(id: user_params[:roles_id])
-                    # assign role to the new user
-                    user.user_roles.create({ role: role })
-                end
-
-            end
-
-            # role validation - if new user does not have any role assigned
-            if user.roles.blank?
-
-                # assign limited role
-                user.user_roles.create({ role: current_user.account.roles.find_by(:name => "limited") })
-
-            end
-
-            # saving logs with information about the creation of the user
-            user.logs.create({ description: "user_created_at " + LC::Date.to_string_datetime(LC::Date.datetime) })
-            user.logs.create({ description: "user_created_by " + current_user.id.to_s })
-            user.logs.create({ description: "user_created_with_role " + user.user_roles.first.roles_id.to_s })
-
-            User.log_activity_create(current_user, user)
-
-            respond_with_successful(user)
-
-            begin
-                # users created through the administration area does not need to confirm their accounts
-                # instead we send a password reset link, so they can have access to the platform
-                UserMailer.with(user: user).invitation_instructions.deliver_now
-            rescue => exception
-                Honeybadger.notify(exception)
-                user.logs.create({ description: "user_creation_email_failed " + exception.message })
-            end
-
-        else
-            respond_with_error(user.errors.full_messages.to_sentence)
+        if user.successful?
+            respond_with_successful(user.result)
+        else 
+            respond_with_error(user.errors)
         end
 
     end
@@ -203,11 +96,14 @@ class UsersController < ApplicationLesliController
     def destroy
         return respond_with_not_found unless @user
 
-        if @user.delete
-            current_user.logs.create({ description: "deleted_user #{@user.id}-#{@user.full_name} by_user_id: #{current_user.id}" })
-            respond_with_successful(@user)
+        # get the user found in the UserServices
+        user = @user.result
+
+        if user.delete
+            current_user.logs.create({ description: "deleted_user #{user.id}-#{user.full_name} by_user_id: #{current_user.id}" })
+            respond_with_successful(user)
           else
-            respond_with_error(@user.errors.full_messages.to_sentence)
+            respond_with_error(user.errors.full_messages.to_sentence)
         end
     end
 
@@ -219,7 +115,8 @@ class UsersController < ApplicationLesliController
     #     puts @user
     #     # This will either display nil or an instance of Account::User
     def set_user
-        @user = current_user.account.users.find_by(id: params[:id])
+        #@user = current_user.account.users.find_by(id: params[:id])
+        @user = UserServices.new(current_user).find(params[:id])
     end
 
     def options

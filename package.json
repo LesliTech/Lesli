@@ -24,10 +24,12 @@
         "remixicon": "2.5.0",
         "v-calendar": "3.0.0-alpha.8",
         "sweetalert2": "11.4.8",
+        "sortablejs": "1.15.0",
         "apexcharts": "3.36.3",
         "trix": "2.0.4",
 
         "@fullcalendar/core": "6.0.2",
+        "@fullcalendar/list": "6.0.2",
         "@fullcalendar/daygrid": "6.0.2",
         "@fullcalendar/timegrid": "6.0.2",
         "@fullcalendar/interaction": "6.0.2",
@@ -58,7 +60,7 @@
     "scripts": {
         "webpack:production": "npm run webpack3:production",
         "webpack:watch": "npm run webpack3:watch",
-        "webpack": "npm run webpack2 && npm run webpack3",
+        "webpack": "npm run webpack3",
 
         "webpack2:production": "npm run --prefix ./lib/vue2 webpack:production",
         "webpack2:watch": "npm run --prefix ./lib/vue2 webpack:watch",

@@ -21,7 +21,7 @@ module Interfaces
             #   filtering
             def set_helpers_for_request
                 @query = {
-                    search: params[:search] || "",
+                    search: params[:search] || nil,
                     filters: params[:f] ? params[:f] : {},
                     pagination: {
                         perPage: (params[:perPage] ? params[:perPage].to_i : 10),
@@ -83,7 +83,7 @@ module Interfaces
                 return I18n.locale = I18n.default_locale if locale.blank?
 
                 # use default locale if requested language is not supported
-                locale = I18n.default_locale unless I18n.available_locales.include?(locale.to_sym)
+                return I18n.locale = I18n.default_locale unless I18n.available_locales.include?(locale.to_sym)
 
                 # set the new locale
                 I18n.locale = locale
