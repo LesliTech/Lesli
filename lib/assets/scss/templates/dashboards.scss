@@ -23,11 +23,24 @@ For more information read the license file including with this software.
 // · 
 main {
     background-color: #F0F8FF; 
+
+    // column container for widgets
     .application-component .column {
         margin-bottom: .5rem;
+
+        // widget card
         .card {
             border-radius: .8rem;
             box-shadow: 0px 4px 8px rgba(176, 190, 197, 0.24);
+        }
+
+        // widgets with tables
+        table.lesli-table thead {
+            background-color: transparent;
+            border-bottom: 1px solid lesli-css-color(slate);
+            th {
+                padding-bottom: 0px;
+            }
         }
     }
 }
