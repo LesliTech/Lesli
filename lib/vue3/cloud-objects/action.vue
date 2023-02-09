@@ -108,7 +108,7 @@ onMounted(() => {
 
             <div class="card">
                 <div
-                    :class="['card-header']"
+                    :class="['card-header', {'has-text-success': completedActions(group) == group.actions.length}]"
                     role="button"
                     :aria-controls="`action-group-${index}`"
                 >
