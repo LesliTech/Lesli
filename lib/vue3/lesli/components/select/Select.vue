@@ -81,7 +81,7 @@ function onChange() {
         <div :class="['control', {'has-icons-left': props.icon}]">
             <div class="select is-fullwidth">
                 <select @change="onChange" v-model="selected" :required="props.required" :disabled="props.disabled">
-                    <option value="" hidden>{{ props.placeholder }}</option>
+                    <option value="" disabled>{{ props.placeholder }}</option>
                     <option 
                         v-if="props.reset"
                         :value="{ value: 'reset', label: 'reset' }">
