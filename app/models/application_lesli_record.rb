@@ -142,8 +142,12 @@ class ApplicationLesliRecord < ApplicationRecord
     def is_editable_by?(current_user)
         return false unless current_user
 
-        if current_user == user_creator || current_user == user_main
+        if current_user == user_creator 
             return true
+        end
+
+        if defined? (user_main)
+            return true if current_user == user_main
         end
 
         current_user_olp = User
