@@ -13,6 +13,7 @@ yarn.lock
 /lib/vue2/node_modules
 /lib/vue3/node_modules
 
+
 # Ignore all logfiles and tempfiles.
 *.dump 
 /log/*
@@ -61,6 +62,7 @@ yarn.lock
 /engines/*
 /engines2/*
 /enginesdev/*
+/enginesprod/*
 !/engines/.gitkeep
 
 
