@@ -22,8 +22,13 @@ For more information read the license file including with this software.
 div.lesli-tab {
     div.tabs {
         margin-bottom: 0;
+        li.is-active {
+            font-weight: 600;
+        }
     }
     div.tab-items {
-        //margin: 0 -2rem;
+        background-color: white;
+        box-shadow: $lesli-box-shadow;
+        border-radius:0 0 5px 5px;
     }
 }
