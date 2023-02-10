@@ -89,7 +89,7 @@ const disablePrevious = computed(() => previousPage.value < 1)
 
 </script>
 <template>
-    <nav class="pagination" role="navigation" aria-label="pagination">
+    <nav class="pagination mb-5" role="navigation" aria-label="pagination">
         <ul class="pagination-list" v-if="props.mode==='complete'">
             <template v-if="props.pagination.pages > 1">
                 <li>

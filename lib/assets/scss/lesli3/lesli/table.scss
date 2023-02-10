@@ -20,8 +20,7 @@ For more information read the license file including with this software.
 
 // · 
 table.lesli-table {
-    border-collapse: collapse;
-    border-radius: 8px;
+    box-shadow: $lesli-box-shadow;
 
     // standard padding
     // normally used in tables for index views
