@@ -1,6 +1,6 @@
-/*
+=begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,17 +14,15 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+=end
+module LC
+    class String 
 
-*/
+        def self.sanitize string
+            return "" if string.blank?
+            string.gsub!(/[^a-z0-9\-_\s]+/i, "")
+            string
+        end
 
-
-// · 
-.is-fullwidth {
-    width: 100%;
-}
-
-
-//
-.hover:hover {
-    cursor: pointer;
-}
+    end
+end

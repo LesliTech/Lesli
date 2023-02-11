@@ -43,12 +43,13 @@ For more information read the license file including with this software.
             text-align: left;
             align-items: center;
             padding: 1rem .4rem;
-            border-radius: 12px;
             margin-bottom: 1rem;
+            border-radius: .8rem;
             border: 2px solid transparent;
             background-color: lesli-css-color(silver, 100);
             box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
             transition: all ease-in-out .4s;
+            box-shadow: $lesli-box-shadow;
             &:hover {
                 background-color: #F0F4FF;
             }

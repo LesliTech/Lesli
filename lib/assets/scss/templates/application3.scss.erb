@@ -1,5 +1,6 @@
 /*
-Copyright (c) 2022, all rights reserved.
+
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -31,10 +32,6 @@ For more information read the license file including with this software.
 @import "./lesli3/bulma/loader";
 
 
-// · Include vendors
-//@import "trix/dist/trix.css";
-
-
 // · Loading components, settings and helpers
 @import "./lesli3/helpers/display";
 @import "./lesli3/fonts/remixicons";
@@ -60,25 +57,27 @@ For more information read the license file including with this software.
 @import "./lesli3/panels/panel-announcements";
 
 
-// · Lesli components
-@import "./lesli3/components/lesli-loading";
-@import "./lesli3/components/lesli-toolbar";
-@import "./lesli3/components/lesli-header";
-@import "./lesli3/components/lesli-empty";
-@import "./lesli3/components/lesli-table";
-@import "./lesli3/components/lesli-msg";
-@import "./lesli3/components/lesli-tab";
-@import "./lesli3/components/lesli-panel";
-@import "./lesli3/components/lesli-input-tag";
-@import "./lesli3/components/lesli-file-uploader";
-@import "./lesli3/components/lesli-avatar";
-@import "./lesli3/components/lesli-toggle";
-@import "./lesli3/components/lesli-map";
-@import "./lesli3/components/lesli-gallery";
-@import "./lesli3/components/lesli-navbar";
-@import "./lesli3/components/lesli-autocomplete";
-
+// · Standard components
 @import "./lesli3/components/editor-richtext";
+
+
+// · Lesli vue components
+@import "./lesli3/lesli/autocomplete";
+@import "./lesli3/lesli/avatar";
+@import "./lesli3/lesli/empty";
+@import "./lesli3/lesli/file-uploader";
+@import "./lesli3/lesli/gallery";
+@import "./lesli3/lesli/header";
+@import "./lesli3/lesli/input-tag";
+@import "./lesli3/lesli/loading";
+@import "./lesli3/lesli/map";
+@import "./lesli3/lesli/msg";
+@import "./lesli3/lesli/navbar";
+@import "./lesli3/lesli/panel";
+@import "./lesli3/lesli/tab";
+@import "./lesli3/lesli/table";
+@import "./lesli3/lesli/toggle";
+@import "./lesli3/lesli/toolbar";
 
 
 // · Lesli cloud objects
@@ -152,9 +151,3 @@ h6 {
 // Vue Animation component
 .v-enter-active, .v-leave-active { transition: opacity 0.5s ease; }
 .v-enter-from, .v-leave-to { opacity: 0; }
-
-
-//
-.hover:hover {
-    cursor: pointer;
-}
