@@ -75,19 +75,19 @@ onMounted(() => {
         <card-information></card-information>
         <!--card-actions></card-actions-->
         <lesli-tabs v-model="tab" v-if="storeUser.user.id">
-            <lesli-tab-item :title="translations.core.users.view_tab_title_information">
+            <lesli-tab-item icon="info_outline" :title="translations.core.users.view_tab_title_information">
                 <form-information is-editable></form-information>
             </lesli-tab-item>
-            <lesli-tab-item :title="translations.core.users.view_tab_title_roles_and_privileges">
+            <lesli-tab-item icon="security" :title="translations.core.users.view_tab_title_roles_and_privileges">
                 <form-roles></form-roles>
             </lesli-tab-item>
-            <lesli-tab-item :title="translations.core.users.view_tab_title_session_management" paddingless>
+            <lesli-tab-item icon="devices" :title="translations.core.users.view_tab_title_session_management" paddingless>
                 <management-session></management-session>
             </lesli-tab-item>
-            <lesli-tab-item :title="translations.core.users.view_tab_title_settings">
+            <lesli-tab-item icon="settings" :title="translations.core.users.view_tab_title_settings">
                 <settings></settings>
             </lesli-tab-item>
-            <lesli-tab-item :title="translations.core.users.view_tab_title_integrations || 'Integrations'">
+            <lesli-tab-item icon="sync_alt" :title="translations.core.users.view_tab_title_integrations || 'Integrations'">
                 <integrations-information></integrations-information>
             </lesli-tab-item>
         </lesli-tabs>

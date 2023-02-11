@@ -231,8 +231,9 @@ this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
             module_name = dynamic_info[:module_name]
             module_code = dynamic_info[:module_code]
             full_module_name = dynamic_info[:full_module_name]
-            status_model = sanitize(dynamic_info[:status_model])
-            cloud_object_model = "#{full_module_name}::#{sanitize(params[:cloud_object_name]).camelize}".constantize
+            status_model = dynamic_info[:status_model]
+            cloud_object_name = LC::String.sanitize(params[:cloud_object_name].camelize)
+            cloud_object_model = "#{full_module_name}::#{cloud_object_name}".constantize
 
             cloud_object = cloud_object_model.find_by(
                 id: params[:cloud_object_id],
