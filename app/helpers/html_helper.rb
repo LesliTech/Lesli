@@ -63,9 +63,10 @@ module HtmlHelper
 
     # build description using custom data from controller or engine gem description
     def website_meta_description
-        engine = lesli_engine(:code)
-        return "" if engine == 'administration' || engine == 'lesli'
-        @application_html_description || Gem::Specification.find_by_name(engine).description
+        # if want to get description from gem you can use:
+        # Gem::Specification.find_by_name(engine_name).description
+        # Gem::Specification.find_by_name(engine_name).summary
+        @application_html_description || ""
     end
 
 end
