@@ -98,7 +98,8 @@ Rails.application.configure do
     config.assets.digest = true
 
     # Full error reports are disabled and caching is turned on.
-    config.consider_all_requests_local = false
+    # this can be temporary enable through lesli.yml settings file
+    config.consider_all_requests_local = config.lesli.dig(:security, :enable_debug) || false
 
     # Use the lowest log level to ensure availability of diagnostic information when problems arise.
     config.log_level = :error
