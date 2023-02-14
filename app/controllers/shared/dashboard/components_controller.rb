@@ -20,7 +20,11 @@ module Shared
     class Dashboard::ComponentsController < ApplicationLesliController
         before_action :set_dashboard, only: [:show, :index, :create]
         before_action :set_dashboard_component, only: [:show, :destroy]
+        before_action :set_query_for_dashboard
 
+        def set_query_for_dashboard
+            @query[:pagination][:perPage] = 5
+        end
 
         def show
             respond_to do |format|
