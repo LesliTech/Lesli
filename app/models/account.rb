@@ -330,6 +330,14 @@ class Account < ApplicationRecord
             end
         end
 
+        if defined? CloudTime
+            if self.time.blank?
+                self.time = CloudTime::Account.new
+                self.time.account = self
+                self.time.save!
+            end
+        end
+
     end
 
     def initialize_instance
