@@ -53,6 +53,7 @@ Rails.application.routes.draw do
     mount CloudHelp::Engine        => "/help"        if defined?(CloudHelp)
     mount CloudText::Engine        => "/text"        if defined?(CloudText)
     mount CloudTalk::Engine        => "/talk"        if defined?(CloudTalk)
+    mount CloudTime::Engine        => "/time"        if defined?(CloudTime)
     mount CloudBooks::Engine       => "/books"       if defined?(CloudBooks)
     mount CloudAudit::Engine       => "/audit"       if defined?(CloudAudit)
     mount CloudLesli::Engine       => "/lesli"       if defined?(CloudLesli)
