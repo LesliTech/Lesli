@@ -16,6 +16,10 @@ For more information read the license file including with this software.
 // · 
 
 %>
+
+<%#  %>
+<% protected_controllers = ['confirmations2'] %>
+
 <% # Get an specific site tracking id or use the development default %>
 <% tracking_id = Rails.application.credentials.dig(:providers, :analytics) || '1' %>
 
@@ -24,27 +28,29 @@ For more information read the license file including with this software.
 
 <% if Rails.env.production? && enable_analytics %>
 
-<script type="text/javascript">
+    <% if !protected_controllers.include?(controller_name) %>
 
-    function loadMatomoAnalytics() {
-        var _paq = window._paq = window._paq || [];
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-        (function() {
-            var u="https://analytics.lesli.tech/";
-            _paq.push(['setTrackerUrl', u+'matomo.php']);
-            _paq.push(['setSiteId', <%= tracking_id %>]);
-            var d=document, 
-                g=d.createElement('script'), 
-                s=d.getElementsByTagName('script')[0];
-                g.async=true; 
-                g.src=u+'matomo.js'; 
-                s.parentNode.insertBefore(g,s);
-        })();
-    }
+        <script type="text/javascript">
 
-    setTimeout(() => { loadMatomoAnalytics() }, 2000);
-    
-</script>
+            function loadMatomoAnalytics() {
+                var _paq = window._paq = window._paq || [];
+                _paq.push(['trackPageView']);
+                _paq.push(['enableLinkTracking']);
+                (function() {
+                    var u="https://analytics.lesli.tech/";
+                    _paq.push(['setTrackerUrl', u+'matomo.php']);
+                    _paq.push(['setSiteId', <%= tracking_id %>]);
+                    var d=document, 
+                        g=d.createElement('script'), 
+                        s=d.getElementsByTagName('script')[0];
+                        g.async=true; 
+                        g.src=u+'matomo.js'; 
+                        s.parentNode.insertBefore(g,s);
+                })();
+            }
 
+            setTimeout(() => { loadMatomoAnalytics() }, 2000);
+            
+        </script>
+    <% end %>
 <% end %>
