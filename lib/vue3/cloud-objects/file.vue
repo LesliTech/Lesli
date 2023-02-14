@@ -59,10 +59,15 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    // · prop that indicates the resource that you need to interact with.
+    cloudObjectSingular: {
+        type: String,
+        required: false,
+    },
     // · prop that indicates the object id of the resource that you need to interact with.
     cloudObjectId: {
         type: Number,
-        required: true,
+        required: false,
     },
     // · prop the indicates the maximun size of each file that can be uploaded,
     // · by default it is 1MB but the value is in bytes. That means that 
@@ -98,8 +103,10 @@ const props = defineProps({
 
 // set cloudModule to store
 storeFiles.cloudModule = props.cloudModule
-// set cloudId to store
+// set cloudObject to store
 storeFiles.cloudObject = props.cloudObject
+// set cloudObjectSingular to store
+storeFiles.cloudObjectSingular = props.cloudObjectSingular
 // set cloudObjectId to store
 storeFiles.cloudObjectId = props.cloudObjectId
 // set maxFile to store

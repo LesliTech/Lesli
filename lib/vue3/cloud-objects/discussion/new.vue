@@ -75,8 +75,15 @@ const singularize = (word) => {
 const onAddComment = () => {
     if (!comment.value) return
 
+    let discussionModel = ""
+
     // · the discussion model to be used for adding a new discussion
-    const discussionModel = `${singularize(discussionStore.cloudObject.split('/').pop())}_discussion`
+    if(!discussionStore.cloudObjectSingular){
+        discussionModel = `${singularize(discussionStore.cloudObject.split('/').pop())}_discussion`
+    } else {
+        discussionModel = `${discussionStore.cloudObjectSingular}_discussion`
+    }
+
     const payload = {}
 
     if (props.isReply) {

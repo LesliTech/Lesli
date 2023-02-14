@@ -145,7 +145,15 @@ const singularize = (word) => {
 const formatFile = (name, attachment, type = 'formData') => {
     // · this variable contains something like cloudObject_file, for example: project_file
     // · is necessary to get the singular form of the word
-    const cloudObjectModel = `${singularize(storeFiles.cloudObject.split('/').pop())}_file`
+
+    let cloudObjectModel= ""
+
+    if(!storeFiles.cloudObjectSingular){
+        cloudObjectModel = `${singularize(storeFiles.cloudObject.split('/').pop())}_file`
+    } else {
+        cloudObjectModel = `${storeFiles.cloudObjectSingular}_file`
+    }
+
 
     if (type === 'base64') {
         return {
