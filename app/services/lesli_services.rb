@@ -20,14 +20,16 @@ class LesliServices
 
 
     # Set container attributes to manage the life-cycle of the service
+    @query;
     @resource;
     @failures;
     @current_user;
 
+
     # Service constructor
     # current_user is always required to initialize a service object
     # current user is used to get the data only from the account context
-    def initialize current_user
+    def initialize current_user, query={}
 
         # make the current user globaly available in the service object
         @current_user = current_user
@@ -37,6 +39,8 @@ class LesliServices
 
         # stores any error found during the life-cycle of the service object
         @failures = []
+
+        @query = query
     end
 
 
@@ -128,4 +132,6 @@ class LesliServices
 
     attr_reader :failures
     attr_writer :failures
+
+    attr_reader :query
 end
