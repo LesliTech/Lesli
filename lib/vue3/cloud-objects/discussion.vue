@@ -49,6 +49,11 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    // · prop that indicates the resource that you need to interact with.
+    cloudObjectSingular: {
+        type: Object,
+        required: false
+    },
     // · prop that indicates the object id of the resource that you need to interact with.
     cloudObjectId: {
         type: String,
@@ -63,6 +68,7 @@ const props = defineProps({
 
 discussionStore.cloudModule = props.cloudModule
 discussionStore.cloudObject = props.cloudObject 
+discussionStore.cloudObjectSingular = props.cloudObjectSingular 
 discussionStore.cloudObjectId = props.cloudObjectId
 
 onMounted(() => {
