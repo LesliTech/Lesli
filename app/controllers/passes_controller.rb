@@ -67,7 +67,7 @@ class PassesController < ApplicationController
         access_code.delete
 
         # check if user meet requirements to create a new session
-        Auth::UserValidationService.new(access_code.user).valid? do |result|
+        User::ValidationService.new(access_code.user).valid? do |result|
             # if user do not meet requirements to create a new session
             unless result.success?
                 log.update(title: "session_creation_failed", description: error_msg)
@@ -76,7 +76,7 @@ class PassesController < ApplicationController
         end
 
         # create a new session service instance for the current user 
-        session_service = Auth::UserSessionService.new(resource, log)
+        session_service = User::SessionService.new(resource, log)
 
         # register a new session for the user
         current_session = session_service.register(get_user_agent, request.remote_ip, "otp_web_session")
