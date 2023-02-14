@@ -15,7 +15,7 @@ For more information read the license file including with this software.
 // ·
 =end
 
-class UserRegistrationService
+class User::RegistrationService
 
     def initialize(resource)
         @resource = resource
