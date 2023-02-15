@@ -75,7 +75,6 @@ app({
                 setTimeout(() => { this.url.go("/login") }, 5000)
                 
             }).catch((err)=>{
-                console.log(err)
                 this.showNotification(err.message)
             })
 
@@ -88,7 +87,7 @@ app({
             this.verifyPasswords()
         },
 
-        showNotification(message,type = "is-danger") {
+        showNotification(message,type = "danger") {
             this.notification.message = message
             this.notification.type = type
             this.notification.show = true
