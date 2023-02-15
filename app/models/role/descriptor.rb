@@ -23,7 +23,7 @@ class Role::Descriptor < ApplicationLesliRecord
 
     def synchronize_privileges
         # Syncronize the descriptor privileges with the role privilege cache table 
-        Auth::RolePrivilegesService.new.synchronize_privileges(self.roles_id)
+        Role::PrivilegeService.new.synchronize_privileges(self.roles_id)
     end 
 
     def self.index current_user, query, params

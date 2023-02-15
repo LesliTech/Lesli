@@ -18,13 +18,6 @@ For more information read the license file including with this software.
 
 class OnboardingsController < ApplicationLesliController
 
-    def privileges 
-        {
-            show: [],
-            new: [],
-        }
-    end
-
     # GET /onboarding
     def show
         respond_to do |format|
