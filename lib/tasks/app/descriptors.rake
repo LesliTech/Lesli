@@ -43,7 +43,7 @@ namespace :app do
                 DescriptorService.add_owner_privileges(descriptor)
             end
 
-            Auth::RolePrivilegesService.new.synchronize_privileges()
+            Role::PrivilegeService.new.synchronize_privileges()
 
         end
     end
