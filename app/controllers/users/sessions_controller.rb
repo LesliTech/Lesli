@@ -63,7 +63,7 @@ class Users::SessionsController < Devise::SessionsController
         end
 
         # check if user meet requirements to create a new session
-        Auth::UserValidationService.new(resource).valid? do |result|
+        User::ValidationService.new(resource).valid? do |result|
 
             # if user do not meet requirements to login
             unless result.success?
@@ -84,7 +84,7 @@ class Users::SessionsController < Devise::SessionsController
         # remember_me(user) if sign_in_params[:remember_me] == '1'
 
         # create a new session service instance for the current user 
-        session_service = Auth::UserSessionService.new(resource, log)
+        session_service = User::SessionService.new(resource, log)
 
         # register a new session for the user
         current_session = session_service.register(get_user_agent, request.remote_ip)
@@ -93,7 +93,7 @@ class Users::SessionsController < Devise::SessionsController
         session[:user_session_id] = current_session[:id]
 
         # create a new multi factor authentication service instance for the current user 
-        mfa_service = Auth::UserMfaService.new(resource, log)
+        mfa_service = User::MfaService.new(resource, log)
 
         # generate a new mfa for the current session (if enabled)
         mfa_service.generate do |success|

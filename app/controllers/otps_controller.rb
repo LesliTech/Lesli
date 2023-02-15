@@ -65,7 +65,7 @@ class OtpsController < ApplicationController
         access_code.delete
 
         # check if user meet requirements to create a new session
-        Auth::UserValidationService.new(resource).valid? do |result|
+        User::ValidationService.new(resource).valid? do |result|
 
             # if user do not meet requirements to login
             unless result.success?
@@ -80,7 +80,7 @@ class OtpsController < ApplicationController
         end
 
         # create a new session service instance for the current user 
-        session_service = Auth::UserSessionService.new(resource, log)
+        session_service = User::SessionService.new(resource, log)
 
         # register a new session for the user
         current_session = session_service.register(get_user_agent, request.remote_ip, "otp_web_session")

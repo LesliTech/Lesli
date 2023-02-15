@@ -55,7 +55,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
         
         # if new account, launch account onboarding in another thread, 
         # so the user can continue with the registration process
-        Thread.new { UserRegistrationService.new(user).create_account } if user.account.blank?
+        Thread.new { User::RegistrationService.new(user).create_account } if user.account.blank?
 
     end
 
