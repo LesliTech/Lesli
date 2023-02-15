@@ -84,7 +84,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         user = build_resource(sign_up_params)
 
         # run password complexity validations
-        password_complexity = UserValidationService.new(user).password_complexity(sign_up_params[:password])
+        password_complexity = User::ValidationService.new(user).password_complexity(sign_up_params[:password])
 
         # return if there are errors with the complexity validations
         return respond_with_error("password_complexity_error", password_complexity.error) unless password_complexity.successful?
@@ -119,7 +119,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         log = @user.logs.create({ title: "password_update_atempt" })
 
         # run password complexity validations
-        password_complexity = UserValidationService.new(@user).password_complexity(sign_up_params[:password])
+        password_complexity = User::ValidationService.new(@user).password_complexity(sign_up_params[:password])
 
         # return if there are errors with the complexity validations
         return respond_with_error(password_complexity.error[0], password_complexity.error) unless password_complexity.successful?
