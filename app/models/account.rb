@@ -120,7 +120,7 @@ class Account < ApplicationRecord
 
         end
 
-        AccountLocationService.new(self).set_locations
+        Account::LocationService.new(self).set_locations
 
         self.onboarding!
     end
