@@ -45,7 +45,7 @@ const props = defineProps({
 
 
 // ·
-const date = ref(new Date())
+const date = props.modelValue ? ref(props.modelValue) : ref(new Date())
 
 
 // ·
