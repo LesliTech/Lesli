@@ -40,7 +40,15 @@ const props = defineProps({
         type: Boolean,
         required: false,
         default: false
-    }
+    },
+    minDate: {
+        type: [Date, Object]
+    },
+    required: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
 })
 
 
@@ -68,7 +76,7 @@ watch(dateRange, () => {
 
 </script>
 <template>
-    <DatePicker v-if="!range" v-model="date" :mode="mode">
+    <DatePicker v-if="!range" v-model="date" :mode="mode" :min-date="props.minDate" :is-required="props.required">
         <template v-slot="{ inputValue, inputEvents }">
             <input
                 class="input is-default"
