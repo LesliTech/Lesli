@@ -51,6 +51,11 @@ const props = defineProps({
         type: Number,
         required: true,
     },
+    // · prop that indicates the resource that you need to interact with.
+    cloudObjectSingular: {
+        type: Object,
+        required: false,
+    },
 })
 
 // · defining emits
@@ -60,6 +65,7 @@ const emit = defineEmits(['onUpdatedStatus']);
 storeWorkflow.cloudModule = props.cloudModule
 storeWorkflow.cloudObject = props.cloudObject
 storeWorkflow.cloudObjectId = props.cloudObjectId
+storeWorkflow.cloudObjectSingular = props.cloudObjectSingular
 
 // · dropdown's current value
 const dropdownValue = ref(null)
