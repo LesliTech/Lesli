@@ -16,6 +16,8 @@ For more information read the license file including with this software.
 // · 
 
 =end
+
+require 'json'
 module Shared
     class Workflow < ApplicationLesliRecord
         self.abstract_class = true
@@ -64,10 +66,55 @@ module Shared
     respond_with_successful(workflow)
 =end
         def show
+
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             status_model = dynamic_info[:status_model]
 
+            data = {}
+            statuses = status_model.select(
+                :id,
+                :name,
+                :number,
+                :status_type,
+                :next_statuses
+            ).where(
+                workflow: self
+            ).order(
+                number: :asc
+            )
+
+
+
+            return {
+                id: id,
+                name: name,
+                deletion_protection: deletion_protection,
+                statuses_count: statuses.size,
+                default: default,
+                created_at: LC::Date.to_string_datetime(created_at),
+                updated_at: LC::Date.to_string_datetime(updated_at),
+                statuses: statuses.map do |status| 
+                    
+                    statuses = [] 
+
+                    unless status.next_statuses.blank?
+                        statuses = status.next_statuses.split('|').map(&:to_i) 
+                    end
+
+                    {
+                        :id => status.id,
+                        :name => status.name,
+                        :number => status.number,
+                        :status_type => status.status_type,
+                        :next_statuses => statuses,
+                        :next => statuses
+                    }
+                end
+                
+            }
+
+=begin
             data = {}
             nodes = status_model.select(
                 :id,
@@ -100,6 +147,7 @@ module Shared
                 updated_at: LC::Date.to_string_datetime(updated_at),
                 statuses: data
             }
+=end
         end
 
 =begin
