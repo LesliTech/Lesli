@@ -34,7 +34,7 @@ class User::RegistrationService
             account = Account.create({
                 user: @resource,            # set user as owner of his just created account
                 company_name: "",           # temporary company name
-                status: "onboarding"        # account is active due user already confirmed his email
+                status: :active             # account is active due user already confirmed his email
             })
         end
 
