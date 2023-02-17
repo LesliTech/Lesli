@@ -16,6 +16,7 @@ For more information read the license file including with this software.
 // · 
 
 =end
+
 module Shared
     class Workflow < ApplicationLesliRecord
         self.abstract_class = true
@@ -64,12 +65,13 @@ module Shared
     respond_with_successful(workflow)
 =end
         def show
+
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             status_model = dynamic_info[:status_model]
 
             data = {}
-            nodes = status_model.select(
+            statuses = status_model.select(
                 :id,
                 :name,
                 :number,
@@ -81,25 +83,36 @@ module Shared
                 number: :asc
             )
 
-            statuses_count = 0
-            nodes.each do |node|
-                node = node.attributes
-                statuses_count = statuses_count += 1    # This is a counter to get the status with the highest number (frontend use)
-                node["new_number"] = node["number"]     # This is a frontend user value. Allows the user to change the number without the input moving
-                node["visited"] = false                 # This is a flag for frontend use
-                data[node["id"]] = node
-            end
 
-            {
+
+            return {
                 id: id,
                 name: name,
                 deletion_protection: deletion_protection,
-                statuses_count: statuses_count,
+                statuses_count: statuses.size,
                 default: default,
                 created_at: LC::Date.to_string_datetime(created_at),
                 updated_at: LC::Date.to_string_datetime(updated_at),
-                statuses: data
+                statuses: statuses.map do |status| 
+                    
+                    statuses = [] 
+
+                    unless status.next_statuses.blank?
+                        statuses = status.next_statuses.split('|').map(&:to_i) 
+                    end
+
+                    {
+                        :id => status.id,
+                        :name => status.name,
+                        :number => status.number,
+                        :status_type => status.status_type,
+                        :next_statuses => statuses,
+                        :next => statuses
+                    }
+                end
+                
             }
+
         end
 
 =begin
