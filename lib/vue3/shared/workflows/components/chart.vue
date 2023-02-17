@@ -18,15 +18,17 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { onMounted, inject } from "vue"
+import { onMounted, inject, watch } from "vue"
 import { useRouter } from 'vue-router'
 
 
 // · import stores
 import { useWorkflow } from "LesliVue/stores/shared/workflow"
 
+
 // · import components
 import mermaidChart from "LesliVue/components/diagrams/mermaid.vue"
+
 
 // · defining props
 const props = defineProps({
@@ -37,8 +39,10 @@ const props = defineProps({
     }
 })
 
+
 // · implement stores
 const storeWorkflow = useWorkflow()
+
 
 // · initialize/inject plugins
 const router = useRouter()
@@ -47,6 +51,7 @@ const url = inject("url")
 
 // set props to store
 
+
 // · translations
 const translations = {
     workflows: I18n.t('core.workflows'),
@@ -54,9 +59,16 @@ const translations = {
 }
 
 
+watch(()=> storeWorkflow.workflow, (workflow) => {
+    workflow.statuses.forEach(status => {
+        console.log(JSON.parse(JSON.stringify(status)))
+    })
+})
+
 
 </script>
 
 <template>
-
+    <mermaid-chart type="graph" :markers="storeWorkflow.workflow.statuses" v-if="storeWorkflow.workflow.statuses">
+    </mermaid-chart>
 </template>
