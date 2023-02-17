@@ -26,7 +26,7 @@ class ApplicationDeviseController < ActionController::Base
     
     layout "layouts/application-public"
 
-    before_action :set_locale
+    before_action :set_locale_public
 
     def initialize
         @account = { 
