@@ -215,8 +215,27 @@ class UserServices < LesliServices
 
     end
 
+    def update params
+
+        old_attributes = resource.detail.attributes.merge({
+            active: resource.active
+        })
+
+        if resource.update(params)
+            new_attributes = resource.detail.attributes.merge({
+                active: resource.active
+            })
+
+            ::User.log_activity_update(current_user, resource, old_attributes, new_attributes)
+        else
+            self.error(resource.errors.full_messages.to_sentence)
+        end
+
+        self
+    end
+
     def find id
-        self.resource = current_user.account.users.find_by(id: id)
+        self.resource = current_user.account.users.joins(:detail).find_by(id: id)
         self
     end
 end
