@@ -81,7 +81,7 @@ class Users::OauthController < Devise::OmniauthCallbacksController
     def authenticate(auth_params, session_source, current_user=nil)
 
         # find the user by email provided
-        user = UserRegistrationService.new(
+        user = User::RegistrationService.new(
             User.find_by(email: auth_params[:info][:email])
         ).oauth(auth_params)
 
@@ -90,7 +90,7 @@ class Users::OauthController < Devise::OmniauthCallbacksController
         end
 
         # check if user meet requirements to login
-        user_validation = UserValidationService.new(user).valid?
+        user_validation = User::ValidationService.new(user).valid?
 
         # if user do not meet requirements to login
         unless user_validation.success?

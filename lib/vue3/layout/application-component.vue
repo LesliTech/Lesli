@@ -1,8 +1,7 @@
-=begin
+<script setup>
+/*
 
-Lesli
-
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -16,26 +15,10 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
-=end
-
-class ApplicationDeviseController < ActionController::Base
-    include Interfaces::Application::Responder
-    include Interfaces::Application::Requester
-    include Interfaces::Application::Logger
-    
-    layout "layouts/application-public"
-
-    before_action :set_locale_public
-
-    def initialize
-        @account = { 
-            company: {
-                name: Rails.application.config.lesli.dig(:account, :name)
-            }
-        }
-        super
-    end
-
-end
-    
+*/
+</script>
+<template>
+    <section class="application-component">
+        <slot></slot>
+    </section>
+</template>
