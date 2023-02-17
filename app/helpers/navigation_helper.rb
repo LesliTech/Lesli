@@ -167,6 +167,13 @@ module NavigationHelper
         end
     end
 
+    # 03.09 Time engine
+    def navigation_engine_time title: "Time managment", subtitle: "Track your time"
+        if defined? CloudTime
+            navigation_engine_item(title, subtitle, "time", cloud_time.root_path, controller_path.include?("cloud_time"))
+        end
+    end
+
     # 03.10 Talk engine
     def navigation_engine_talk title: "Talk", subtitle: "Real-time communication"
         if defined? CloudTalk
