@@ -32,7 +32,9 @@ class User::ValidationService
 
         result = LC::Response.service(false, {"message"=>I18n.t("core.users/sessions.the_user_has_no_assigned_role")}) unless self.active_roles?
 
-        yield(result)
+        yield(result) if block_given?
+
+        return result
 
     end
 
