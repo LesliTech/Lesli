@@ -59,11 +59,6 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    // · prop that indicates the resource that you need to interact with.
-    cloudObjectSingular: {
-        type: String,
-        required: false,
-    },
     // · prop that indicates the object id of the resource that you need to interact with.
     cloudObjectId: {
         type: Number,
@@ -105,8 +100,6 @@ const props = defineProps({
 storeFiles.cloudModule = props.cloudModule
 // set cloudObject to store
 storeFiles.cloudObject = props.cloudObject
-// set cloudObjectSingular to store
-storeFiles.cloudObjectSingular = props.cloudObjectSingular
 // set cloudObjectId to store
 storeFiles.cloudObjectId = props.cloudObjectId
 // set maxFile to store

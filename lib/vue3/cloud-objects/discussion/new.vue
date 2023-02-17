@@ -63,10 +63,13 @@ const buttonText = computed(() => props.isReply ? translations.core.shared.view_
  * @returns {string} singularized word
  */
 const singularize = (word) => {
-    if (word.endsWith('ies')) return word.slice(0, -3) + 'y'
-    else if (word.endsWith('es')) return word.slice(0, -2)
-    else if (word.endsWith('s')) return  word.slice(0, -1)
-    else return word 
+    if(word.match(/^[0-9]+$/)){
+        return word
+    }
+    if(word.endsWith('ies')){
+        return word.slice(0, -3).concat('y')
+    }
+    return word.slice(0, -1)
 }
 
 /**
@@ -75,14 +78,8 @@ const singularize = (word) => {
 const onAddComment = () => {
     if (!comment.value) return
 
-    let discussionModel = ""
-
     // · the discussion model to be used for adding a new discussion
-    if(!discussionStore.cloudObjectSingular){
-        discussionModel = `${singularize(discussionStore.cloudObject.split('/').pop())}_discussion`
-    } else {
-        discussionModel = `${discussionStore.cloudObjectSingular}_discussion`
-    }
+    let discussionModel = `${singularize(discussionStore.cloudObject)}_discussion`
 
     const payload = {}
 

@@ -128,10 +128,13 @@ const convertToBase64 = (file) => {
  * @example
  */
 const singularize = (word) => {
-    if (word.endsWith('ies')) return word.slice(0, -3) + 'y'
-    else if (word.endsWith('es')) return word.slice(0, -2)
-    else if (word.endsWith('s')) return word.slice(0, -1)
-    else return word
+    if(word.match(/^[0-9]+$/)){
+        return word
+    }
+    if(word.endsWith('ies')){
+        return word.slice(0, -3).concat('y')
+    }
+    return word.slice(0, -1)
 }
 
 /**
@@ -146,14 +149,7 @@ const formatFile = (name, attachment, type = 'formData') => {
     // · this variable contains something like cloudObject_file, for example: project_file
     // · is necessary to get the singular form of the word
 
-    let cloudObjectModel= ""
-
-    if(!storeFiles.cloudObjectSingular){
-        cloudObjectModel = `${singularize(storeFiles.cloudObject.split('/').pop())}_file`
-    } else {
-        cloudObjectModel = `${storeFiles.cloudObjectSingular}_file`
-    }
-
+    let cloudObjectModel = `${singularize(storeFiles.cloudObject)}_file`
 
     if (type === 'base64') {
         return {
