@@ -48,10 +48,8 @@ class UsersController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json {
-
                 return respond_with_not_found unless @user.found?
                 return respond_with_successful(@user.show)
-
             }
         end
     end
@@ -71,24 +69,14 @@ class UsersController < ApplicationLesliController
     def update
 
         # validate that user exists
-        return respond_with_not_found unless @user
-        #return respond_with_unauthorized unless @user.is_editable_by?(current_user)
+        return respond_with_not_found unless @user.found?
 
-        old_attributes = @user.detail.attributes.merge({
-            active: @user.active
-        })
+        @user.update(user_params)
 
-        if @user.update(user_params)
-            new_attributes = @user.detail.attributes.merge({
-                active: @user.active
-            })
-
-            # return a successful response
-            respond_with_successful(@user)
-
-            User.log_activity_update(current_user, @user, old_attributes, new_attributes)
-        else
-            respond_with_error(@user.errors.full_messages.to_sentence)
+        if @user.successful?
+            respond_with_successful(@user.result)
+        else 
+            respond_with_error(@user.errors)
         end
 
     end
@@ -115,7 +103,6 @@ class UsersController < ApplicationLesliController
     #     puts @user
     #     # This will either display nil or an instance of Account::User
     def set_user
-        #@user = current_user.account.users.find_by(id: params[:id])
         @user = UserServices.new(current_user).find(params[:id])
     end
 

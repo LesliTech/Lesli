@@ -122,7 +122,6 @@ class Account < ApplicationRecord
 
         Account::LocationService.new(self).set_locations
 
-        self.onboarding!
     end
 
     def initialize_engines
