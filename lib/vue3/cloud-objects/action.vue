@@ -42,13 +42,8 @@ const props = defineProps({
     },
     // · prop that indicates the resource that you need to interact with.
     cloudObject: {
-        type: Object,
+        type: String,
         required: true,
-    },
-    // · prop that indicates the resource that you need to interact with.
-    cloudObjectSingular: {
-        type: Object,
-        required: false,
     },
     // · prop that indicates the object id of the resource that you need to interact with.
     cloudObjectId: {
@@ -59,7 +54,6 @@ const props = defineProps({
 
 actionStore.cloudModule = props.cloudModule
 actionStore.cloudObject = props.cloudObject 
-actionStore.cloudObjectSingular = props.cloudObjectSingular 
 actionStore.cloudObjectId = props.cloudObjectId
 
 function  completedActions(group){
@@ -69,10 +63,6 @@ function  completedActions(group){
 
 onMounted(() => {
     actionStore.getActions()
-    if(!props.cloudObjectSingular){
-        actionStore.singularize(props.cloudObject)
-    }
-
 })
 
 </script>
