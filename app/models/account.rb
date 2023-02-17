@@ -43,6 +43,7 @@ class Account < ApplicationRecord
     has_one :help,       class_name: "CloudHelp::Account",       foreign_key: "id"
     has_one :text,       class_name: "CloudText::Account",       foreign_key: "id"
     has_one :talk,       class_name: "CloudTalk::Account",       foreign_key: "id"
+    has_one :time,       class_name: "CloudTime::Account",       foreign_key: "id"
     has_one :work,       class_name: "CloudWork::Account",       foreign_key: "id"
     has_one :audit,      class_name: "CloudAudit::Account",      foreign_key: "id"
     has_one :lesli,      class_name: "CloudLesli::Account",      foreign_key: "id"
@@ -326,6 +327,14 @@ class Account < ApplicationRecord
                 self.scraper = CloudScraper::Account.new
                 self.scraper.account = self
                 self.scraper.save!
+            end
+        end
+
+        if defined? CloudTime
+            if self.time.blank?
+                self.time = CloudTime::Account.new
+                self.time.account = self
+                self.time.save!
             end
         end
 
