@@ -15,7 +15,7 @@ For more information read the license file including with this software.
 // ·
 =end
 
-class UserRegistrationService
+class User::RegistrationService
 
     def initialize(resource)
         @resource = resource
@@ -34,7 +34,7 @@ class UserRegistrationService
             account = Account.create({
                 user: @resource,            # set user as owner of his just created account
                 company_name: "",           # temporary company name
-                status: "onboarding"        # account is active due user already confirmed his email
+                status: :active             # account is active due user already confirmed his email
             })
         end
 

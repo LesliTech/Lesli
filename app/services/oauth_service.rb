@@ -16,9 +16,9 @@ For more information read the license file including with this software.
 =end
 require "jwt"
 
-class OauthSecretGeneratorService
+class OauthService
 
-    def self.generate_apple_client_secret
+    def self.apple_client_secret
         # Related documentation: https://developer.apple.com/documentation/sign_in_with_apple/generate_and_validate_tokens
 
         team_id = Rails.application.credentials.dig(:providers, :apple, :team_id)

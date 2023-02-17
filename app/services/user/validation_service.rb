@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,23 +13,29 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
-class UserValidationService
+class User::ValidationService
 
     def initialize(resource)
         @resource = resource
     end
 
     def valid?
-        return LC::Response.service(false, {"message"=>I18n.t("devise.errors.custom.confirmation_required")}) unless self.confirmed?
 
-        return LC::Response.service(false, {"message"=>I18n.t("core.users/sessions.the_user_has_no_assigned_role")}) if self.roles_empty?
+        result = LC::Response.service(true)
 
-        return LC::Response.service(false, {"message"=>I18n.t("deutscheleibrenten.users/sessions.role_access_denied")}) unless self.active_roles?
+        result = LC::Response.service(false, {"message"=>I18n.t("devise.errors.custom.confirmation_required")}) unless self.confirmed?
 
-        LC::Response.service(true)
+        result = LC::Response.service(false, {"message"=>I18n.t("core.users/sessions.the_user_has_no_assigned_role")}) if self.roles_empty?
+
+        result = LC::Response.service(false, {"message"=>I18n.t("core.users/sessions.the_user_has_no_assigned_role")}) unless self.active_roles?
+
+        yield(result) if block_given?
+
+        return result
+
     end
 
     # validates if password meet with the minimum password requirements
@@ -108,6 +114,7 @@ class UserValidationService
 
             # check if the password has te minium number of numbers required xD
             if settings[:name] == 'password_digit_count'
+
                 if settings[:value].to_i > password_string_no_special.scan(/[^A-Za-z]/).length
                     password_settings_errors.push('error_password_digit_count')
                 end

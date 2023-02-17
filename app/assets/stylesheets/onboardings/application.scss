@@ -21,7 +21,7 @@ For more information read the license file including with this software.
 
 
 // · 
-body.onboarding {
+body.cloudonboarding {
     background-color: #F6F7FC;
 
     // · 
@@ -127,7 +127,7 @@ body.onboarding {
 
 
 @include lesli-css-breakpoint-tablet {
-    body.onboarding {
+    body.cloudonboarding {
         .hero-body {
             min-width: 750px;
         }
