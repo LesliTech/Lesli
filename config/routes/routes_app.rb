@@ -131,30 +131,21 @@ module RoutesApp
                     # user helper resources
                     member do
 
-                        # close sessions of users
+                        # request password change
+                        post :passwordrequest
+
+                        # reset password (generate random)
+                        post :passwordreset
+
+                        # Remove all user access :lock
+                        post :revokeaccess
+
+                        # close all user sessions
                         post :logout
 
-                        # enable/disable user access
-                        post :lock
+                        # user impersonate - disabled by default
+                        get  :become
 
-                        # force password reset
-                        post :password
-
-                        scope :resources do
-
-                            # user impersonate - disabled by default
-                            get  :become
-
-                            # close sessions of users
-                            post :logout
-
-                            # enable/disable user access
-                            post :lock
-
-                            # force password reset
-                            post :password
-
-                        end
                     end
 
                     collection do
