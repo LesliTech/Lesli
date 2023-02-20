@@ -11,7 +11,7 @@
         "@babel/core": "7.14.6",
         "@babel/preset-env": "7.14.7",
         
-        "webpack": "5.44.0",
+        "webpack": "5.62.2",
         "webpack-cli": "4.7.2",
         "terser-webpack-plugin": "5.2.4",
         
