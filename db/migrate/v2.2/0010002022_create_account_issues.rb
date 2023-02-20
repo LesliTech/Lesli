@@ -28,7 +28,7 @@ class CreateAccountIssues < ActiveRecord::Migration[7.0]
             # Relevant data
             t.string    :message
             t.boolean   :subscribed
-            t.string    :category   # contact_us, feedback, error_report
+            t.string    :category   # contact_us, feedback, report_error, report_abuse, block_object, etc.
             t.string    :status     # created, reviewed, solved, closed
             t.string    :source     # where the issue was reported:  web_page, email, call_center, etc.
             t.string    :reference  # reference to a specific group of reporters
