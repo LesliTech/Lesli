@@ -71,6 +71,16 @@ class LesliServices
 
     # Standard method to create new resource into the database
     def create params
+        # Example:
+        # user = current_user.account.users.new(params)
+
+        # if user.save
+        #     self.resource = user
+        # else
+        #     self.error(user.errors.full_messages.to_sentence)
+        # end
+
+        self
     end
 
 
