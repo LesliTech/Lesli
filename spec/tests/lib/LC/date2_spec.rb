@@ -86,31 +86,31 @@ RSpec.describe LC::Date2, type: :model do
     # -- from iso8601 string
 
     it "should parse a new date from iso8601 string" do 
-        datetime = LC::Date2.new("1990-09-11T05:05:05+00:00").date
+        datetime = LC::Date2.new("2011-10-05T14:48:00.000Z").date
         expect(LC::Date2.new(datetime.get).date.get).to eql(datetime.get)
         expect(LC::Date2.new(datetime.get).date.to_s).to eql(datetime.to_s)
     end
 
     it "should parse a new time from iso8601 string" do 
-        datetime = LC::Date2.new("1990-09-11T05:05:05+00:00").time
+        datetime = LC::Date2.new("2011-10-05T14:48:00.000Z").time
         expect(LC::Date2.new(datetime.get).time.get).to eql(datetime.get)
         expect(LC::Date2.new(datetime.get).time.to_s).to eql(datetime.to_s)
     end
 
     it "should parse a new date_time from iso8601 string" do 
-        datetime = LC::Date2.new("1990-09-11T05:05:05+00:00").date_time
+        datetime = LC::Date2.new("2011-10-05T14:48:00.000Z").date_time
         expect(LC::Date2.new(datetime.get).date_time.get).to eql(datetime.get)
         expect(LC::Date2.new(datetime.get).date_time.to_s).to eql(datetime.to_s)
     end
 
     it "should parse a new date_words from iso8601 string" do 
-        datetime = LC::Date2.new("1990-09-11T05:05:05+00:00").date_words
+        datetime = LC::Date2.new("2011-10-05T14:48:00.000Z").date_words
         expect(LC::Date2.new(datetime.get).date_words.get).to eql(datetime.get)
         expect(LC::Date2.new(datetime.get).date_words.to_s).to eql(datetime.to_s)
     end
 
     it "should parse a new date_time_words from iso8601 string" do 
-        datetime = LC::Date2.new("1990-09-11T05:05:05+00:00").date_time_words
+        datetime = LC::Date2.new("2011-10-05T14:48:00.000Z").date_time_words
         expect(LC::Date2.new(datetime.get).date_time_words.get).to eql(datetime.get)
         expect(LC::Date2.new(datetime.get).date_time_words.to_s).to eql(datetime.to_s)
     end
