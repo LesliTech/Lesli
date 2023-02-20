@@ -16,8 +16,8 @@ For more information read the license file including with this software.
 
 =end
 class Account::Issue < ApplicationRecord
-    belongs_to :account,    foreign_key: "accounts_id", optional: true
-    belongs_to :user,       foreign_key: "users_id",    optional: true
+    belongs_to :account,    foreign_key: "accounts_id"
+    belongs_to :user,       foreign_key: "users_id"
 
     enum category: {
         feedback: "feedback",
@@ -43,13 +43,4 @@ class Account::Issue < ApplicationRecord
         call_center: "call_center",
         mobile_app: "mobile_app",
     }, _default: "not_specified"
-
-    def self.index(current_user, query)
-        []
-    end
-
-    def show(current_user, query)
-        self
-    end
-
 end
