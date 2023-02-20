@@ -26,8 +26,8 @@ import { useRouter, useRoute } from 'vue-router'
 import { useUser } from "LesliVue/stores/user"
 import { useProfile } from "../../stores/users/profile"
 
+
 // · import profile components
-import cardActions from "./components/card-actions.vue"
 import cardInformation from "./components/card-information.vue"
 import formInformation from "./components/form-information.vue"
 import managementSession from "./components/management-sessions.vue"
@@ -35,6 +35,7 @@ import formSecurity from "./components/form-security.vue"
 import formRoles from "./components/form-roles-privileges.vue"
 import integrationsInformation from "./components/integrations-information.vue"
 import settings from "./components/settings.vue"
+import actions from "./components/actions.vue"
 import accessManagement from "./components/access-management.vue"
 
 
@@ -43,6 +44,7 @@ const storeUser = useUser()
 const storeProfile = useProfile()
 const router = useRouter()
 const route = useRoute()
+
 
 // · translations
 const translations = {
@@ -53,6 +55,7 @@ const translations = {
     }
 }
 
+
 // · defining props
 const props = defineProps({
     appMountPath: {
@@ -61,6 +64,11 @@ const props = defineProps({
         default: "administration/users",
     }
 })
+
+
+// · 
+const tab = ref(5)
+
 
 // · initializing
 onMounted(() => {
@@ -73,7 +81,6 @@ onMounted(() => {
 <template>
     <section class="application-component">
         <card-information></card-information>
-        <!--card-actions></card-actions-->
         <lesli-tabs v-model="tab" v-if="storeUser.user.id">
             <lesli-tab-item icon="info_outline" :title="translations.core.users.view_tab_title_information">
                 <form-information is-editable></form-information>
@@ -89,6 +96,9 @@ onMounted(() => {
             </lesli-tab-item>
             <lesli-tab-item icon="sync_alt" :title="translations.core.users.view_tab_title_integrations || 'Integrations'">
                 <integrations-information></integrations-information>
+            </lesli-tab-item>
+            <lesli-tab-item icon="manage_accounts" :title="translations.core.users.view_tab_title_actions || 'Actions'">
+                <actions></actions>
             </lesli-tab-item>
         </lesli-tabs>
     </section>
