@@ -46,9 +46,6 @@ watch(() => storeAccountSettings.settings.lesli_theme_header_color, () => {
 })
 
 watch(() => storeAccountSettings.settings.lesli_theme_sidebar_color, () => {
-    
-    console.log("sidebar color")
-    console.log(storeAccountSettings.settings.lesli_theme_sidebar_color)
     document.querySelector(':root').style.setProperty('--lesli-sidebar-color', storeAccountSettings.settings.lesli_theme_sidebar_color)
 })
 

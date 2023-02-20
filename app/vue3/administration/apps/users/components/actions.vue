@@ -26,6 +26,13 @@ import { useUser } from "LesliVue/stores/user"
 const storeUser = useUser()
 
 
+// · translations
+const translations = {
+    users: I18n.t("core.users"),
+    shared: I18n.t("core.shared")
+}
+
+
 </script>
 <template>
     <div>
@@ -36,7 +43,9 @@ const storeUser = useUser()
                         lock_reset
                     </span>
                 </span>
-                <span>Request password</span>
+                <span>
+                    {{ translations.users.view_btn_request_password_change }}
+                </span>
             </button>
         </div>
 
@@ -47,7 +56,7 @@ const storeUser = useUser()
                         key
                     </span>
                 </span>
-                <span>Reset password</span>
+                <span>{{ translations.users.view_btn_password_reset }}</span>
             </button>
         </div>
 
@@ -58,18 +67,18 @@ const storeUser = useUser()
                         lock_outline
                     </span>
                 </span>
-                <span>Revoke access</span>
+                <span>{{ translations.users.view_btn_revoke_access }}</span>
             </button>
         </div>
 
         <div class="mb-4">
             <button class="button is-link is-light is-outlined" @click="storeUser.doLogout">
                 <span class="icon">
-                <span class="material-icons">
-                    logout
+                    <span class="material-icons">
+                        logout
+                    </span>
                 </span>
-                </span>
-                <span>Forced logout</span>
+                <span>{{ translations.users.view_btn_logout }}</span>
             </button>
         </div>
 
@@ -80,7 +89,7 @@ const storeUser = useUser()
                         delete_forever
                     </span>
                 </span>
-                <span>Mark as deleted</span>
+                <span>{{ translations.users.view_btn_delete_user }}</span>
             </button>
         </div>
     </div>
