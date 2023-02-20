@@ -19,22 +19,8 @@ For more information read the license file including with this software.
 class Account::IssuesServices < LesliServices
 
     def create account_issue_params
-
-        # Issues could be created without user, but never anonymous
-        # check if request has an email to create the issue
-        if account_issue_params[:email].blank?
-            self.error(I18n.t("core.users.messages_danger_not_valid_email_found"))
-            return self
-        end
-
-        # Find user by its email
-        current_user = User.find_by_email(account_issue_params[:email])
-
-        account_issue = Account::Issue.new(account_issue_params)
-
-        # Trying to assign user and account to the issue
+        account_issue = current_user.account.issues.new(account_issue_params)
         account_issue.user = current_user
-        account_issue.account = current_user&.account
 
         if account_issue.save
             self.resource = account_issue
