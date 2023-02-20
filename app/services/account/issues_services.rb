@@ -19,8 +19,15 @@ For more information read the license file including with this software.
 class Account::IssuesServices < LesliServices
 
     def create account_issue_params
-        account_issue = current_user.account.issues.new(account_issue_params)
-        account_issue.user = current_user
+        account_issue = ::Account::Issue.new(account_issue_params)
+
+        # Issues can be created without a user,
+        # so we need to check if the current_user is present to use its account
+        # instead of using the account_id from the params
+        if current_user
+            account_issue.user = current_user
+            account_issue.account = current_user.account
+        end
 
         if account_issue.save
             self.resource = account_issue
