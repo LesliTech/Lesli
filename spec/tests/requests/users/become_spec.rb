@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 
 require "lesli_request_helper"
 
-RSpec.describe "GET:/administration/users/:id/resources/become.json with an user with no privileges", type: :request do
+RSpec.describe "GET:/administration/users/:id/become.json with an user with no privileges", type: :request do
     include_context "request user authentication"
 
     # helper methods
@@ -32,7 +32,7 @@ RSpec.describe "GET:/administration/users/:id/resources/become.json with an user
         limited_user = create_limited_user
         random_user = User.where("id != ?", limited_user.id).order("random()").first
 
-        get "/administration/users/#{random_user.id}/resources/become.json"
+        get "/administration/users/#{random_user.id}/become.json"
 
         # shared examples
         expect_response_with_unauthorized
@@ -44,7 +44,7 @@ RSpec.describe "GET:/administration/users/:id/resources/become.json with an user
 
         random_user = User.where("id != ?", owner_user.id).order("random()").first
 
-        get "/administration/users/#{random_user.id}/resources/become.json"
+        get "/administration/users/#{random_user.id}/become.json"
 
         # shared examples
         expect_response_with_unauthorized
