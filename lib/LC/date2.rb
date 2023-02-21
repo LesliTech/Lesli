@@ -140,7 +140,7 @@ module LC
 
             return datetime if datetime.is_a?(Time)
 
-            if datetime.is_a?(::String) and (datetime.size == 24 or datetime.size == 27) and datetime[10] == "T"
+            if datetime.is_a?(::String) and datetime.size == 25 and datetime[10] == "T"
                 return ::DateTime.iso8601(datetime) 
             end 
 
