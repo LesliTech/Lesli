@@ -76,4 +76,44 @@ onMounted(() => {
             </div>
         </div>
     </form>
+            <nav class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <button class="button is-small" @click="doRequestPasswordChange()">
+                        <span class="icon">
+                            <span class="material-icons">
+                                key
+                            </span>
+                        </span>
+                        <span> {{ translations.core.users.view_btn_request_password_change }}</span>
+                    </button>
+                </div>
+                <div class="level-item">
+                    <button class="button" @click="doUserLogout()">
+                        <span class="icon">
+                            <span class="material-icons">
+                                logout
+                            </span>
+                        </span>
+                        <span>  {{ translations.core.users.view_btn_force_logout }}</span>
+                    </button>
+                </div>
+                <div class="level-item">
+                    <button class="button is-white" @click="doRevokeAccess()">
+                        <span class="icon">
+                            <span class="material-icons">
+                                lock_outline
+                            </span>
+                        </span>
+                        <span> {{ translations.core.users.view_btn_revoke_access }} </span>
+                    </button>
+                </div>
+                <div class="level-item">
+                    <button class="button is-white" @click="confirmMarkUserAsDeleted()">
+                        <span class="icon"><i class="fas fa-user-slash"></i></span>
+                        <span> {{ translations.core.users.view_btn_mark_user_as_deleted }} </span>
+                    </button>
+                </div>
+            </div>
+        </nav>
 </template>

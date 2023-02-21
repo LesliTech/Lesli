@@ -11,6 +11,14 @@
 # For more information read the license file including with this software.
 
 
+
+# -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
+# PLEASE DO NOT MODIFY THIS FILE ON THE CORE,
+# THIS FILE SHOULD BE MODIFIED ON THE leitfaden/github_actions REPOSITORY
+# -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
+
+
+
 # Specs for Lesli Core
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
 name: "Lesli specs workflow"
@@ -132,21 +140,21 @@ jobs:
           token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
           repository: leitfaden/cloud_driver
 
-      # - name: Checkout cloud_drop
-      #   uses: actions/checkout@v3
-      #   with:
-      #     path: ./engines/cloud_drop
-      #     ref: master
-      #     token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-      #     repository: leitfaden/cloud_drop
+      - name: Checkout cloud_drop
+        uses: actions/checkout@v3
+        with:
+          path: ./engines/cloud_drop
+          ref: master
+          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+          repository: leitfaden/cloud_drop
 
-      # - name: Checkout cloud_federation
-      #   uses: actions/checkout@v3
-      #   with:
-      #     path: ./engines/cloud_federation
-      #     ref: master
-      #     token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-      #     repository: leitfaden/cloud_federation
+      - name: Checkout cloud_federation
+        uses: actions/checkout@v3
+        with:
+          path: ./engines/cloud_federation
+          ref: master
+          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+          repository: leitfaden/cloud_federation
 
       - name: Checkout cloud_focus
         uses: actions/checkout@v3
@@ -164,21 +172,21 @@ jobs:
           token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
           repository: leitfaden/cloud_help
 
-      # - name: Checkout cloud_house
-      #   uses: actions/checkout@v3
-      #   with:
-      #     path: ./engines/cloud_house
-      #     ref: master
-      #     token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-      #     repository: leitfaden/cloud_house
+      - name: Checkout cloud_house
+        uses: actions/checkout@v3
+        with:
+          path: ./engines/cloud_house
+          ref: master
+          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+          repository: leitfaden/cloud_house
 
-      # - name: Checkout cloud_kb
-      #   uses: actions/checkout@v3
-      #   with:
-      #     path: ./engines/cloud_kb
-      #     ref: master
-      #     token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-      #     repository: leitfaden/cloud_kb
+      - name: Checkout cloud_kb
+        uses: actions/checkout@v3
+        with:
+          path: ./engines/cloud_kb
+          ref: master
+          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+          repository: leitfaden/cloud_kb
 
       - name: Checkout cloud_mailer
         uses: actions/checkout@v3
@@ -196,13 +204,13 @@ jobs:
           token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
           repository: leitfaden/cloud_one
 
-      # - name: Checkout cloud_portal
-      #   uses: actions/checkout@v3
-      #   with:
-      #     path: ./engines/cloud_portal
-      #     ref: master
-      #     token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-      #     repository: leitfaden/cloud_portal
+      - name: Checkout cloud_portal
+        uses: actions/checkout@v3
+        with:
+          path: ./engines/cloud_portal
+          ref: master
+          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+          repository: leitfaden/cloud_portal
 
       - name: Checkout cloud_proposal
         uses: actions/checkout@v3
@@ -212,13 +220,13 @@ jobs:
           token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
           repository: leitfaden/cloud_proposal
 
-      # - name: Checkout cloud_realty
-      #   uses: actions/checkout@v3
-      #   with:
-      #     path: ./engines/cloud_realty
-      #     ref: master
-      #     token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-      #     repository: leitfaden/cloud_realty
+      - name: Checkout cloud_realty
+        uses: actions/checkout@v3
+        with:
+          path: ./engines/cloud_realty
+          ref: master
+          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+          repository: leitfaden/cloud_realty
 
       - name: Checkout cloud_scraper
         uses: actions/checkout@v3
@@ -260,21 +268,21 @@ jobs:
           token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
           repository: leitfaden/cloud_talk
 
-      # - name: Checkout cloud_team
-      #   uses: actions/checkout@v3
-      #   with:
-      #     path: ./engines/cloud_team
-      #     ref: master
-      #     token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-      #     repository: leitfaden/cloud_team
+      - name: Checkout cloud_team
+        uses: actions/checkout@v3
+        with:
+          path: ./engines/cloud_team
+          ref: master
+          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+          repository: leitfaden/cloud_team
 
-      # - name: Checkout cloud_text
-      #   uses: actions/checkout@v3
-      #   with:
-      #     path: ./engines/cloud_text
-      #     ref: master
-      #     token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-      #     repository: leitfaden/cloud_text
+      - name: Checkout cloud_text
+        uses: actions/checkout@v3
+        with:
+          path: ./engines/cloud_text
+          ref: master
+          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+          repository: leitfaden/cloud_text
 
       - name: Checkout cloud_things
         uses: actions/checkout@v3
@@ -292,13 +300,13 @@ jobs:
           token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
           repository: leitfaden/cloud_word
 
-      # - name: Checkout cloud_work
-      #   uses: actions/checkout@v3
-      #   with:
-      #     path: ./engines/cloud_work
-      #     ref: master
-      #     token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-      #     repository: leitfaden/cloud_work
+      - name: Checkout cloud_work
+        uses: actions/checkout@v3
+        with:
+          path: ./engines/cloud_work
+          ref: master
+          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+          repository: leitfaden/cloud_work
 
 
       # Use the official receipt to install ruby in ubuntu

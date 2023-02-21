@@ -11,6 +11,14 @@
 # For more information read the license file including with this software.
 
 
+
+# -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
+# PLEASE DO NOT MODIFY THIS FILE ON THE CORE,
+# THIS FILE SHOULD BE MODIFIED ON THE leitfaden/github_actions REPOSITORY
+# -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
+
+
+
 # Specs for Lesli Core
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
 name: "Lesli new core version"
@@ -58,16 +66,6 @@ jobs:
       # Install node dependencies
       - name: NPM install
         run: npm install
-
-
-      # Install node dependencies for vue2 apps
-      - name: NPM install vue2
-        run: npm install --prefix ./lib/vue2
-
-
-      # Compile vue2 app
-      - name: Compile Js vue2 for Production
-        run: npm run webpack2:production
 
 
       # Compile vue3 app

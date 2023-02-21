@@ -106,22 +106,94 @@ class UsersController < ApplicationLesliController
         @user = UserServices.new(current_user).find(params[:id])
     end
 
-    def options
 
-        roles = current_user.account.roles.select(:id, :name, :object_level_permission)
+    # Force the user to update his password
+    def passwordrequest
 
-        # only owner can assign any role
-        unless current_user.has_roles?("owner")
-            roles = roles.where("object_level_permission < ?", (current_user.roles.map{ |r| r[:object_level_permission] }).max)
+        # get user
+        user = User.find_by(id: params[:id])
+
+        # check if user exist
+        if user.blank?
+            return respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
         end
 
-        respond_with_successful({
-            roles: roles,
-            regions: current_user.account.locations.where(level: "region"),
-            salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
-            locales: Rails.application.config.lesli.dig(:configuration, :locales_available),
-            mfa_methods: Rails.application.config.lesli.dig(:configuration, :mfa_methods)
-        })
+        # expire password
+        user.set_password_as_expired
+
+        user.logs.create({ description: "request_password_change by_user_id: " + current_user.id.to_s })
+
+        # Response successful
+        respond_with_successful
+
+    end
+
+    # Reset password (generate random)
+    def passwordreset
+
+        # get user
+        user = User.find_by(id: params[:id])
+
+        # check if user exist
+        if user.blank?
+            return respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
+        end
+
+        # expire password
+        pass = user.password_reset
+
+        user.logs.create({ description: "password_reset by_user_id: " + current_user.id.to_s })
+
+        # Response successful
+        respond_with_successful(pass)
+
+    end
+
+    # Remove all user access 
+    def revokeaccess
+
+        # get user
+        user = User.find_by(id: params[:id])
+
+        # check if user exist
+        if user.blank?
+            return respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
+        end
+
+        # delete user active sessions
+        user.close_session
+
+        # add delete date to the last active session
+        user.revoke_access
+
+        user.logs.create({ description: "revoke_access by_user_id: " + current_user.id.to_s })
+
+        # Response successful
+        respond_with_successful
+
+    end
+
+    # this method is going to close all the open user sessions
+    def logout
+
+        # get user
+        user = User.find(params[:id])
+
+        # check if user exist
+        if user.blank?
+            return respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
+        end
+
+        # Integrations cannot be logged out. Since this is equivalent to revoking their access
+        return respond_with_error I18n.t("core.users.messages_warning_cannot_log_out_integration") if user.integration?
+
+        # delete user active sessions
+        sessions_count = user.sessions.delete_all
+
+        user.logs.create({ description: "close_session by_user_id: " + current_user.id.to_s })
+
+        # Response successful
+        respond_with_successful sessions_count
 
     end
 
@@ -169,71 +241,24 @@ class UsersController < ApplicationLesliController
 
     end
 
-    # this method is going to close all the open user sessions
-    def logout
 
-        # get user
-        user = User.find(params[:id])
 
-        # check if user exist
-        if user.blank?
-            return respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
+    def options
+
+        roles = current_user.account.roles.select(:id, :name, :object_level_permission)
+
+        # only owner can assign any role
+        unless current_user.has_roles?("owner")
+            roles = roles.where("object_level_permission < ?", (current_user.roles.map{ |r| r[:object_level_permission] }).max)
         end
 
-        # Integrations cannot be logged out. Since this is equivalent to revoking their access
-        return respond_with_error I18n.t("core.users.messages_warning_cannot_log_out_integration") if user.integration?
-
-        # delete user active sessions
-        sessions_count = user.sessions.delete_all
-
-        user.logs.create({ description: "close_session by_user_id: " + current_user.id.to_s })
-
-        # Response successful
-        respond_with_successful sessions_count
-
-    end
-
-    def lock
-
-        # get user
-        user = User.find_by(id: params[:id])
-
-        # check if user exist
-        if user.blank?
-            return respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
-        end
-
-        # delete user active sessions
-        user.close_session
-
-        # add delete date to the last active session
-        user.revoke_access
-
-        user.logs.create({ description: "revoke_access by_user_id: " + current_user.id.to_s })
-
-        # Response successful
-        respond_with_successful
-
-    end
-
-    # Force the user to update his password
-    def password
-
-        # get user
-        user = User.find_by(id: params[:id])
-
-        # check if user exist
-        if user.blank?
-            return respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
-        end
-
-        # expire password
-        user.set_password_as_expired
-
-        user.logs.create({ description: "request_password_change by_user_id: " + current_user.id.to_s })
-
-        # Response successful
-        respond_with_successful
+        respond_with_successful({
+            roles: roles,
+            regions: current_user.account.locations.where(level: "region"),
+            salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
+            locales: Rails.application.config.lesli.dig(:configuration, :locales_available),
+            mfa_methods: Rails.application.config.lesli.dig(:configuration, :mfa_methods)
+        })
 
     end
 

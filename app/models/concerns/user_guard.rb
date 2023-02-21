@@ -184,6 +184,16 @@ module UserGuard
 
 
     # @return [void]
+    # @description Change user password forcing user to reset the password
+    # @todo validate object level permission
+    def password_reset
+        pass = SecureRandom.hex(10)
+        self.update(password: pass)
+        pass
+    end
+
+
+    # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     def has_expired_password?
         return false if self.password_expiration_at.blank?

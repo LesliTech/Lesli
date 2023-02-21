@@ -112,33 +112,18 @@ export const useAccountSettings = defineStore("account_settings", {
         getSettings (){
             this.loading = true
             this.http.get(this.url.admin("account/settings")).then(result => {
-                this.parseSettings(result)
-                this.settings.lesli_theme_color_primary = getComputedStyle(document.documentElement).getPropertyValue('--lesli-color-primary')
-                this.settings.lesli_theme_header_color = getComputedStyle(document.documentElement).getPropertyValue('--lesli-header-color')
-                this.settings.lesli_theme_sidebar_color = getComputedStyle(document.documentElement).getPropertyValue('--lesli-sidebar-color')
-                this.settings.lesli_theme_color_background= getComputedStyle(document.documentElement).getPropertyValue('--lesli-color-background')
-                this.settings.lesli_theme_font_color = getComputedStyle(document.documentElement).getPropertyValue('--lesli-font-color')
-                this.settings.lesli_theme_font_size = getComputedStyle(document.documentElement).getPropertyValue('--lesli-font-size')
-                this.settings.lesli_theme_font_size= this.settings.lesli_theme_font_size.replace(/\D/g,'')
+                result.forEach(setting => {
+                    if (setting.name in this.settings){
+                        this.settings[setting.name] = setting.value
+                    }
+                })
             }).catch(error => {
                 this.msg.danger(I18n.t("core.shared").messages_danger_internal_error)
+            }).finally(() => {
+                this.loading = false
             })
         },
         
-        /**
-         * @description This action is used to parse the settings fetched
-         * @param {Object} settings_raw The records fetched from settings
-         */
-        parseSettings(settings_raw){
-            settings_raw.forEach(setting_raw => {
-                if (setting_raw.name in this.settings){
-                    this.settings[setting_raw.name] = setting_raw.value
-                    this.old_settings[setting_raw.name] = setting_raw.value
-                }
-            })
-            this.loading = false
-        },
-
         /**
          * @description This action is used to replace the new settings with the old settings
          * @param {Object} setting_name The setting that is going to be replaced
