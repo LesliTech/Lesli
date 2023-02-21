@@ -67,7 +67,7 @@ const props = defineProps({
 
 
 // · 
-const tab = ref(5)
+const tab = ref(0)
 
 
 // · initializing
