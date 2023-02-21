@@ -29,6 +29,6 @@ RSpec.describe "POST:/otp", type: :request do
     it "is expected to respond with otp" do
         post("/otp.json", params: { email: User.first()[:email] })
         expect_response_with_successful
-        expect(response_body).to be_a(String)
+        expect(response_body).to be_nill
     end
 end
