@@ -17,18 +17,24 @@ For more information read the license file including with this software.
 
 =end
 
-require "lesli_request_helper"
+module Courier
+    module Time
+        class TimeRecord
 
-RSpec.describe "POST:/otp", type: :request do
-    it "is expected to respond with data equal to nil, when email is not sent" do
-        post("/otp")
-        expect_response_with_successful
-        expect(response_body).to eql({})
-    end
+            def self.find(current_user, id)
+                return {} unless defined? CloudTime
+                CloudTime::TimeRecordServices.new(current_user).find(id)
+            end
+            
+            def self.index(current_user, query)
+                return {} unless defined? CloudTime
+                CloudTime::TimeRecordServices.new(current_user, query).index
+            end
 
-    it "is expected to respond with otp" do
-        post("/otp.json", params: { email: User.first()[:email] })
-        expect_response_with_successful
-        expect(response_body).to be_a_kind_of(Hash)
+            def self.create(current_user, params)
+                return unless defined? CloudTime
+                CloudTime::TimeRecordServices.new(current_user).create(params)
+            end
+        end
     end
 end
