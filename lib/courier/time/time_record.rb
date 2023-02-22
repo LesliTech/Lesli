@@ -17,19 +17,24 @@ For more information read the license file including with this software.
 
 =end
 
+module Courier
+    module Time
+        class TimeRecord
 
-# get settings
-company = Rails.application.config.lesli.dig(:account)
+            def self.find(current_user, id)
+                return {} unless defined? CloudTime
+                CloudTime::TimeRecordServices.new(current_user).find(id)
+            end
+            
+            def self.index(current_user, query)
+                return {} unless defined? CloudTime
+                CloudTime::TimeRecordServices.new(current_user, query).index
+            end
 
-
-# create account
-Account.find_or_create_by(company_name: company[:name]) do |account|
-    account.company_name = company[:name]
-    account.public_email = company[:email]
-    account.company_tag_line = company[:tag_line]
-    account.registered!
-    account.save!
+            def self.create(current_user, params)
+                return unless defined? CloudTime
+                CloudTime::TimeRecordServices.new(current_user).create(params)
+            end
+        end
+    end
 end
-
-
-LC::Debug.msgc "Accounts successfully created!"

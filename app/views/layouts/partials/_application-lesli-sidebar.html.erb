@@ -1,6 +1,6 @@
 <%#
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -23,7 +23,7 @@ app_icon = "app-icon"
 app_logo = "app-logo"
 
 # custom icons for LesliCloud
-if defined?(LesliCloud)
+if defined?(LesliCloud) || defined?(LesliBuilder)
     app_icon = "app-icon-light"
     app_logo = "app-logo-light"
 end
@@ -59,7 +59,7 @@ end
     <% unless Rails.application.config.lesli.dig(:context).blank? %>
         <template v-slot:context>
             <p v-cloak class="has-background-warning has-text-centered py-2">
-                <%= Rails.application.config.lesli[:context] %>
+                <%= Rails.application.config.lesli.dig(:context) %>
             </p>
         </template>
     <% end %>
