@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -22,7 +22,7 @@ class Account::Setting < ApplicationRecord
     belongs_to :account, foreign_key: "accounts_id"
 
     def self.initialize_data(account)
-        lesli_config = Rails.application.config.lesli[:configuration]
+        lesli_config = Rails.application.config.lesli.dig(:configuration)
 
         # Initializing datetime settings
         lesli_config[:datetime].each do |key, value|
@@ -46,7 +46,7 @@ class Account::Setting < ApplicationRecord
         account.settings.find_or_create_by(name: 'password_minimum_length').update(value: 6)
         account.settings.find_or_create_by(name: 'password_digit_count').update(value: 0)
 
-        datetime = Rails.application.config.lesli[:configuration][:datetime]
+        datetime = Rails.application.config.lesli.dig(:configuration, :datetime)
         account.settings.find_or_create_by(name: 'datetime_time_zone').update(value: datetime[:time_zone])
         account.settings.find_or_create_by(name: 'datetime_start_week_on').update(value: datetime[:start_week_on])
         account.settings.find_or_create_by(name: 'datetime_format_date').update(value: datetime[:formats][:date])

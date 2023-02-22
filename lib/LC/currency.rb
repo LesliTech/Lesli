@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -30,13 +30,13 @@ module LC
             format: "%u %n"
         }
 
-        if Rails.application.config.lesli[:configuration] && Rails.application.config.lesli[:configuration][:currency]
+        if Rails.application.config.lesli.dig(:configuration, :currency)
             @settings = @settings.merge(
-                Rails.application.config.lesli[:configuration][:currency]
+                Rails.application.config.lesli.dig(:configuration, :currency)
             )
         end
 
-        def self.format(value, symbol = symbol(), precision = @settings[:precision])            
+        def self.format(value, symbol = symbol(), precision = @settings[:precision])
             return "#{number_to_currency(value, separator: @settings[:separator], delimiter: @settings[:delimiter], precision: precision, unit: symbol, format: @settings[:format])}"
         end
 

@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -25,7 +25,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
 
     before :each do
         request.env["devise.mapping"] = Devise.mappings[:user]
-        @allow_registration =  Rails.application.config.lesli[:security][:allow_registration]
+        @allow_registration =  Rails.application.config.lesli.dig(:security, :allow_registration)
         @password = Faker::Internet.password(min_length: 8, max_length: 10, mix_case: true) + "Lesli1$"
 
         # reset password complex

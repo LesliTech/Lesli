@@ -1,5 +1,5 @@
 =begin
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -27,7 +27,7 @@ class User::RegistrationService
         return LC::Response.service(false, I18n.t("core.users.messages_info_user_already_belongs_to_account")) if @resource.account
 
         # check if instance is for multi-account
-        allow_multiaccount = Rails.application.config.lesli[:security][:allow_multiaccount]
+        allow_multiaccount = Rails.application.config.lesli.dig(:security, :allow_multiaccount)
 
         # create new account for the new user only if multi-account is allowed
         if allow_multiaccount == true
@@ -55,7 +55,7 @@ class User::RegistrationService
         if allow_multiaccount == false
             # Custom instances can define a custom default role for new users on registration when multi-account is not allowed
             # Otherwise, the default role is "limited"
-            custom_default_role_name = Rails.application.config.lesli[:security][:custom_default_role]
+            custom_default_role_name = Rails.application.config.lesli.dig(:security, :custom_default_role)
 
             if custom_default_role_name.present?
                 @resource.user_roles.create({ role: account.roles.find_by(name: custom_default_role_name) })
