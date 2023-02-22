@@ -94,4 +94,12 @@ module ApplicationHelper
         return Rails.application.credentials.integrations[integration_name][:access_token]
     end
 
+    # adds active class to mitwerken main menu links
+    def is_active?(link_path)
+        if current_page?(link_path)
+          "mw-navbar-link__active"
+        else
+          ""
+        end
+      end
 end
