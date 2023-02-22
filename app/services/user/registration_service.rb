@@ -53,7 +53,15 @@ class User::RegistrationService
 
         # add profile role to user only if multi-account is allowed
         if allow_multiaccount == false
-            @resource.user_roles.create({ role: account.roles.find_by(name: "limited") })
+            # Custom instances can define a custom default role for new users on registration when multi-account is not allowed
+            # Otherwise, the default role is "limited"
+            custom_default_role_name = Rails.application.config.lesli[:security][:custom_default_role]
+
+            if custom_default_role_name.present?
+                @resource.user_roles.create({ role: account.roles.find_by(name: custom_default_role_name) })
+            else
+                @resource.user_roles.create({ role: account.roles.find_by(name: "limited") })
+            end
         end
 
         # update user :)
