@@ -131,14 +131,14 @@ onMounted(() => {
                     </lesli-select>
                 </div>
             </div>
-            <div class="field">
+            <div class="field" v-if="storeChecks.check.user_type == 'any' || storeChecks.check.user_type == null">
                 <label class="label">
                     {{ translations.checks.column_roles_id }}
-                    <sup class="has-text-danger">*</sup>
+                    <sup v-if="storeChecks.check.user_type == 'any' || storeChecks.check.user_type == null" class="has-text-danger">*</sup>
                 </label>
                 <div class="control">
                     <lesli-select
-                        required
+                        :required="storeChecks.check.user_type == 'any' || storeChecks.check.user_type == null"
                         v-model="storeChecks.check.roles_id"
                         :options="storeChecks.options['roles']">
                     </lesli-select>
@@ -147,11 +147,11 @@ onMounted(() => {
             <div class="field">
                 <label class="label">
                     {{ translations.checks.column_user_type }}
-                    <sup class="has-text-danger">*</sup>
+                    <sup v-if="storeChecks.check.roles_id == null" class="has-text-danger">*</sup>
                 </label>
                 <div class="control">
                     <lesli-select
-                        required
+                        :required="storeChecks.check.roles_id == null"
                         v-model="storeChecks.check.user_type"
                         :options="storeChecks.options['user_types']">
                     </lesli-select>
