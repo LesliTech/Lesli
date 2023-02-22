@@ -29,7 +29,6 @@ import { useWorkflow } from "LesliVue/stores/shared/workflow"
 // · import components
 import componentWorkflowStatuses from "../components/workflow-statuses.vue"
 import componentWorkflowVisualize from "../components/workflow-visualize.vue"
-//import componentWorkflowNext from "../components/workflow-next.vue"
 
 
 import workflowForm from "../components/workflow-form.vue"
@@ -74,10 +73,6 @@ storeWorkflow.cloudModule = props.cloudModule
 storeWorkflow.cloudObject = props.cloudObject
 
 
-//
-const tab = ref(1)
-
-
 // · translations
 const translations = {
     workflows: I18n.t('core.workflows'),
@@ -106,14 +101,8 @@ onMounted(() => {
                 {{ translations.core.view_btn_list }}
             </lesli-button>
         </lesli-header>
-
-<!--
-<lesli-tab-item title="Edition mode">
-<workflow-form :app-mount-path="props.appMountPath" is-editable></workflow-form>
-</lesli-tab-item>
--->
-
-        <lesli-tabs v-model="tab">
+        {{ storeWorkflow.tab }}
+        <lesli-tabs v-model="storeWorkflow.tab">
             <lesli-tab-item title="Statuses">
                 <component-workflow-statuses :app-mount-path="props.appMountPath" is-editable></component-workflow-statuses>
             </lesli-tab-item>
