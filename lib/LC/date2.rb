@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -27,7 +27,7 @@ module LC
 
             # NOTE: user should be able to change this through settings table
             # get initial datetime configuration
-            config = Rails.application.config.lesli[:configuration][:datetime]
+            config = Rails.application.config.lesli.dig(:configuration, :datetime)
 
 
             # NOTE: Do not modify settings here,
@@ -36,7 +36,7 @@ module LC
 
             # TODO: User should be able to select an appropiate datetime format in an easy way,
             # the Administration module must be present to the users a curated list of different
-            # datetime format options with examples, also user should be able to manually modify 
+            # datetime format options with examples, also user should be able to manually modify
             # the format through an "advanced view"
             @settings = {
                 :time_zone => config[:time_zone],
@@ -141,8 +141,8 @@ module LC
             return datetime if datetime.is_a?(Time)
 
             if datetime.is_a?(::String) and datetime.size == 25 and datetime[10] == "T"
-                return ::DateTime.iso8601(datetime) 
-            end 
+                return ::DateTime.iso8601(datetime)
+            end
 
             return ::DateTime.strptime(datetime, format)
         end
