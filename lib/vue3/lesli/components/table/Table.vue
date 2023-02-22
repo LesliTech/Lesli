@@ -320,7 +320,11 @@ function paginate(page) {
                     </td>
                 </tr>
                 -->
-                <slot v-if="record.detailActive" name="detail" :record="record"></slot>
+                <tr v-if="record.detailActive">
+                    <td colspan="100%">
+                        <slot name="detail" :record="record"></slot>
+                    </td>
+                </tr>
                 
             </template>
         </tbody>

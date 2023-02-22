@@ -60,10 +60,6 @@ const props = defineProps({
     }
 })
 
-watch(() => props.modelValue, () => {
-    console.log(props.modelValue)
-})
-
 
 // · 
 const selected = ref(props.modelValue)
@@ -81,7 +77,7 @@ function onChange() {
         <div :class="['control', {'has-icons-left': props.icon}]">
             <div class="select is-fullwidth">
                 <select @change="onChange" v-model="selected" :required="props.required" :disabled="props.disabled">
-                    <option value="" disabled>{{ props.placeholder }}</option>
+                    <option value="" disabled selected hidden>{{ props.placeholder }}</option>
                     <option 
                         v-if="props.reset"
                         :value="{ value: 'reset', label: 'reset' }">
