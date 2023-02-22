@@ -121,7 +121,7 @@ class OtpsController < ApplicationController
 
             UserMailer.with(user: @user, token: raw).otp_instructions.deliver_now
 
-            respond_with_successful(raw)
+            respond_with_successful()
 
         else
             respond_with_error(otp.errors.full_messages.to_sentence)

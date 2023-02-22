@@ -154,7 +154,6 @@ onMounted(() => {
     if (!props.isEditable){
         storeDashboard.resetDashboard()
     } else {
-        storeDashboard.resetDashboard()
         storeDashboard.fetchDashboard(route.params?.id)     
     }
 })

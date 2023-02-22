@@ -94,9 +94,8 @@ class ApplicationLesliController < ApplicationController
 
         @account[:settings] = {
             datetime: Rails.application.config.lesli.dig(:configuration, :datetime),
-            currency: (Rails.application.config.lesli[:configuration][:currency] || {})
-                .merge({ locale: Rails.application.config.lesli[:env][:default_locale] }),
-
+            currency: (Rails.application.config.lesli.dig(:configuration, :currency) || {})
+                .merge({ locale: Rails.application.config.lesli.dig(:env, :default_locale) }),
         }
 
         # set user information

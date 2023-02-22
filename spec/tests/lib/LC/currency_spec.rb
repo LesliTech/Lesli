@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -25,7 +25,7 @@ require "rails_helper"
 RSpec.describe LC::Currency, type: :model do
 
     it "LC::Currency.symbol with default values" do
-        default_settings = Rails.application.config.lesli[:configuration]
+        default_settings = Rails.application.config.lesli.dig(:configuration)
         default_settings = default_settings[:currency] if default_settings
         symbol = "$"
 
@@ -38,7 +38,7 @@ RSpec.describe LC::Currency, type: :model do
     end
 
     it "LC::Currency.format with default values" do
-        default_settings = Rails.application.config.lesli[:configuration]
+        default_settings = Rails.application.config.lesli.dig(:configuration)
         default_settings = default_settings[:currency] if default_settings
 
         symbol = "$"
@@ -70,9 +70,9 @@ RSpec.describe LC::Currency, type: :model do
     end
 
     it "LC::Currency.format with custom values" do
-        default_settings = Rails.application.config.lesli[:configuration]
+        default_settings = Rails.application.config.lesli.dig(:configuration)
         default_settings = default_settings[:currency] if default_settings
-        
+
         separator = "."
         delimiter = ","
         format_ = "%u %n"
