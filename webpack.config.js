@@ -154,6 +154,7 @@ module.exports = env => {
                 CloudAudit: path.resolve("engines", "cloud_audit", "app", "vue3"),
                 CloudBabel: path.resolve("engines", "cloud_babel", "app", "vue3"),
                 CloudFocus: path.resolve("engines", "cloud_focus", "app", "vue3"),
+                CloudMailer: path.resolve("engines", "cloud_mailer", "app", "vue3"),
                 CloudDriver: path.resolve("engines", "cloud_driver", "app", "vue3"),
                 CloudSocial: path.resolve("engines", "cloud_social", "app", "vue3"),
                 CloudShared: path.resolve("engines", "cloud_shared", "app", "vue3"),

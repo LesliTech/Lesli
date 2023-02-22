@@ -57,26 +57,14 @@ const title = computed(() => props.isReply ? translations.core.shared.view_text_
 const buttonText = computed(() => props.isReply ? translations.core.shared.view_btn_add_reply : translations.core.shared.view_btn_add_comment)
 
 /**
- * 
- * @param {string} word to be singularized
- * @description singularizes a word that ends with 's'
- * @returns {string} singularized word
- */
-const singularize = (word) => {
-    if (word.endsWith('ies')) return word.slice(0, -3) + 'y'
-    else if (word.endsWith('es')) return word.slice(0, -2)
-    else if (word.endsWith('s')) return  word.slice(0, -1)
-    else return word 
-}
-
-/**
  * @description function to be called when the user clicks on the 'Add Comment' or 'Add Reply' button
  */
 const onAddComment = () => {
     if (!comment.value) return
 
     // · the discussion model to be used for adding a new discussion
-    const discussionModel = `${singularize(discussionStore.cloudObject.split('/').pop())}_discussion`
+    let discussionModel = `${discussionStore.utils.singularize(discussionStore.cloudObject)}_discussion`
+
     const payload = {}
 
     if (props.isReply) {
