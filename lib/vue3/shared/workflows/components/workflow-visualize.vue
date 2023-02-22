@@ -60,6 +60,10 @@ const translations = {
 const fullView = ref(false)
 
 
+// · 
+const changed = ref(false)
+
+
 function selectStatus(status){
     storeWorkflow.selected_status = status
 }
@@ -76,78 +80,127 @@ function enterFullView() {
 </script>
 
 <template>
-
-    <div class="columns">
-        <div class="column" v-if="!fullView">
-            <ul>
-                <li 
-                    @click="selectStatus(status)"
-                    :class="[{ 'selected': storeWorkflow.selected_status.id == status.id }]"
-                    v-for="status in storeWorkflow.workflow.statuses">
-                    <span class="icon-text">
-                        <span>{{ status.name }} </span>
-                        <span class="icon">
-                            <span class="material-icons">
-                                done
-                            </span>
-                        </span>
-                    </span>
-                </li>
-            </ul>
-            <button class="button" @click="storeWorkflow.updateWorkflow()">save</button>
+    <div class="notification is-warning has-text-centered" v-if="changed">
+        <span class="icon-text">
+            <span class="icon">
+                <span class="material-icons has-text-danger">
+                    warning
+                </span>
+            </span>
+            <span><b>Changes dont saved</b></span>
+            <span class="icon">
+                <span class="material-icons has-text-danger">
+                    warning
+                </span>
+            </span>
+        </span>
+    </div>
+    <div class="columns mb-4">
+        <div class="column">
+            <h4 class="is-4">
+                Statuses
+            </h4>
         </div>
-        <div class="column is-flex-grow-1">
+        <div class="column has-text-centered">
             <button class="button" @click="enterFullView()">
-                <span class="icon-text">
-                    <span>full view</span>
-                    <span class="icon">
-                        <span class="material-icons">
-                            open_in_full
-                        </span>
+                <span class="icon">
+                    <span class="material-icons">
+                        open_in_full
                     </span>
                 </span>
             </button>
-            <mermaid-chart type="stateDiagram-v2" :markers="storeWorkflow.workflow.statuses" v-if="storeWorkflow.workflow.statuses">
+        </div>
+        <div class="column has-text-right">
+            <h4 class="is-4">
+                Next statuses
+            </h4>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column" v-if="!fullView">
+            <ul class="statuses-working">
+                <li>
+                    <a 
+                        @click="selectStatus(status)"
+                        :class="[{ 'selected': storeWorkflow.selected_status.id == status.id }]"
+                        v-for="status in storeWorkflow.workflow.statuses">
+                        <span class="icon-text">
+                            <span>{{ status.name }} </span>
+                            <span class="icon">
+                                <span class="material-icons">
+                                    done
+                                </span>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="column is-flex-grow-1">
+            <mermaid-chart 
+                type="stateDiagram-v2" 
+                v-if="storeWorkflow.workflow.statuses"
+                :markers="storeWorkflow.workflow.statuses"
+                @change="() => { changed = true }">
             </mermaid-chart>
         </div>
         <div class="column" v-if="!fullView">
-            <ul>
-                <li
-                    @click="addStatus(status)"
-                    :class="[{ 'selected': storeWorkflow.selected_status?.next?.includes(status.id) }]"
-                    v-for="status in storeWorkflow.workflow.statuses">
-                    <span class="icon-text">
-                        <span>{{ status.name }} </span>
-                        <span class="icon">
-                            <span class="material-icons">
-                                check_circle
+            <ul class="statuses-available">
+                <li>
+                    <a
+                        @click="addStatus(status)"
+                        :class="[{ 'selected': storeWorkflow.selected_status?.next?.includes(status.id) }]"
+                        v-for="status in storeWorkflow.workflow.statuses">
+                        <span class="icon-text">
+                            <span class="icon">
+                                <span class="material-icons">
+                                    done
+                                </span>
                             </span>
+                            <span>{{ status.name }} </span>
                         </span>
-                    </span>
+                    </a>
                 </li> 
             </ul>
         </div>
     </div>
+    <div>
+        <button class="button is-primary is-fullwidth">
+            <span class="icon">
+                <span class="material-icons">
+                    save
+                </span>
+            </span>
+            <span>
+                <b>save</b>
+            </span>
+        </button>
+    </div>
 </template>
 <style>
-    .column li {
+    .column li a{
+        display: block;
         padding: .6rem 1rem;
-        margin-bottom: .4rem;
+        margin-bottom: 1rem;
         border-radius: 5px;
         border: 1px solid transparent;
+        box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
     }
-    .column li span.icon-text {
+    .column li a span.icon-text {
         justify-content: space-between;
         width: 100%;
     }
-    .column li span.material-icons{
+    .column li a span.material-icons{
         font-size: 0px;
     }
-    .column li.selected {
+    .column li a.selected {
         border-color: blue;
     }
-    .column li.selected span.material-icons{
+    .column li a.selected span.material-icons{
         font-size: 1.1rem;
         color: blue;
+    }
+    .statuses-available li a {
+        text-align: right;
     }
 </style>

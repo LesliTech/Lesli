@@ -22,6 +22,10 @@ For more information read the license file including with this software.
 import { onMounted, ref, watch } from "vue"
 
 
+// · defining emits
+const emit = defineEmits(['change']);
+
+
 // · import third-party libraries
 import mermaid from "mermaid";
 
@@ -214,8 +218,20 @@ onMounted(() => {
 })
 
 
-// · 
-watch(() => props.markers, () => { renderDiagram() }, { deep: true })
+// · listen for changes on markers
+watch(() => props.markers, () => {
+
+    // update diagram to render new diagram markers 
+    renderDiagram();
+
+    // let the parent component know that markers have changed
+    emit('change');
+
+}, { 
+
+    // watch for nested attributes in the markers array
+    deep: true 
+})
 
 </script>
 <template>
