@@ -40,6 +40,7 @@ class [[service_name]] < LesliServices
 
         if new_[[object_name_singular]].save
             self.resource = new_[[object_name_singular]]
+            # ACTIVITY LOGS GO HERE
         else
             self.error(new_[[object_name_singular]].errors.full_messages.to_sentence)
         end
