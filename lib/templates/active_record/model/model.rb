@@ -3,12 +3,5 @@
 =end
 <% module_namespacing do -%>
 class <%= class_name %> < ApplicationRecord
-    def self.index(current_user, query)
-        []
-    end
-
-    def show(current_user, query)
-        self
-    end
 end
 <% end -%>
