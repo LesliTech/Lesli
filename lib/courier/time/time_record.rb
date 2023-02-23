@@ -35,6 +35,11 @@ module Courier
                 return unless defined? CloudTime
                 CloudTime::TimeRecordServices.new(current_user).create(params)
             end
+
+            def self.update(current_user, id, params)
+                return unless defined? CloudTime
+                CloudTime::TimeRecordServices.new(current_user).update(id, params)
+            end
         end
     end
 end
