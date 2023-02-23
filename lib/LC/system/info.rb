@@ -88,6 +88,10 @@ module LC
 
             end
 
+            def self.theme(property, value_if_nil=nil)
+                Rails.application.config.lesli.dig(:theme, property) || value_if_nil
+            end
+
             def self.sass_instance(file)
                 instance_code = instance()[:code]
                 return "lesli3/settings/variables" if instance_code == 'lesli'
