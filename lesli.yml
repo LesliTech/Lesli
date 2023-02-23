@@ -80,6 +80,16 @@ security:
     password: "lesli"
 
 
+# Main color palette for Lesli
+theme:
+    color_background: #F0F8FF
+    color_primary: #112A62 # Lesli navy
+    color_sidebar: #112A62 # Lesli navy
+    color_sidebar: #172347 # Lesli ocean
+    color_header: transparent
+    color_footer: transparent
+
+
 # Configuration by environment
 env:
     development:
