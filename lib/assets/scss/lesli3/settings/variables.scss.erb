@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -17,29 +17,32 @@ For more information read the license file including with this software.
 */
 
 
-// · default colors, if there is no a custom palette in the settings
-$lesli-color-primary: lesli-css-color(blue) !default;
-$lesli-color-background: white !default;
+// · Lesli main theme definition, 
+// · color customizzation is possible through lesli.yml file
+$lesli-color-primary: <%= LC::System::Info.theme(:color_primary, "#112A62") %>;
+$lesli-header-color: <%= LC::System::Info.theme(:color_header, "transparent") %>;
+$lesli-footer-color: <%= LC::System::Info.theme(:color_footer, "transparent") %>;
+$lesli-sidebar-color: <%= LC::System::Info.theme(:color_sidebar, "#112A62") %>;
+$lesli-sidebar-hover: <%= LC::System::Info.theme(:color_sidebar_hover, "#172347") %>;
+$lesli-color-background: <%= LC::System::Info.theme(:color_background, "#F0F8FF") %>;
 
-$lesli-header-color: white !default;
-$lesli-header-height: 100px !default;
+// · defaults
+$lesli-logo-color: $lesli-sidebar-color;
+$lesli-font-color: lesli-css-color(black);
 
-$lesli-footer-color: white !default;
-$lesli-footer-height: 84px !default;
+// · constants
+$lesli-font-size: 16px;
+$lesli-header-height: 100px;
+$lesli-footer-height: 84px;
+$lesli-sidebar-width: 50px;
 
-$lesli-sidebar-width: 50px !default;
-$lesli-sidebar-color: #fffcf9 !default;
-$lesli-sidebar-hover: white !default;
 
-$lesli-logo-color: #fff !default;
-
-$lesli-font-color: black !default;
-$lesli-font-size: 16px !default;
-
+// · harcoded styles D:
 $lesli-box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 
 
-// · define native CSS variables to use along the stylesheets
+// · here we prioritize css variables defined dynamically in the header
+// · those variable values come from the database in the account_settings table
 :root {
     --lesli-color-primary: var(--lesli-theme-color-primary, #{$lesli-color-primary});
     --lesli-color-background: var(--lesli-theme-color-background, #{$lesli-color-background});
