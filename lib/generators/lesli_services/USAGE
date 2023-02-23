@@ -1,0 +1,24 @@
+Description:
+    This generator creates the service file based on Lesli conventions according to the path given.
+
+Example:
+    bin/rails generate lesli_services core/things
+
+    This will create:
+        /app/services/thing_services.rb
+    
+    bin/rails generate lesli_services core/users
+
+    This will create:
+        /app/services/user_services.rb
+
+    bin/rails generate lesli_services cloud_shared/projects
+
+    This will create:
+        /engines/cloud_shared/app/services/cloud_shared/project_services.rb
+    
+    bin/rails generate lesli_services lesli_cloud/accounts
+
+    This will create:
+        /engines/lesli_cloud/app/services/lesli_cloud/account_services.rb
+
