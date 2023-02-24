@@ -40,6 +40,11 @@ module Courier
                 return unless defined? CloudTime
                 CloudTime::TimeRecordServices.new(current_user).update(id, params)
             end
+
+            def self.destroy(current_user, id)
+                return unless defined? CloudTime
+                CloudTime::TimeRecordServices.new(current_user).destroy(id)
+            end
         end
     end
 end
