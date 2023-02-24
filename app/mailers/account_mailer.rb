@@ -25,7 +25,7 @@ class AccountMailer < ApplicationLesliMailer
 
         mail(
             to: email,
-            subject: "Issue received"
+            subject: I18n.t("core.accounts.mailer_subject_issue")
         )
     end
 end
