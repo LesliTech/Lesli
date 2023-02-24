@@ -97,7 +97,7 @@ module ApplicationHelper
     # adds active class to mitwerken main menu links
     def is_active?(link_path)
         if current_page?(link_path)
-          "mw-navbar-link__active"
+          "navbar-link_active"
         else
           ""
         end
