@@ -45,7 +45,7 @@ app({
             event.preventDefault();
 
             this.http.post("/pass", this.pass).then(result => {
-                this.showNotification("If there is an account associated with this e-mail, your will shortly receive an e-mail with a Magic link for login.", "success")
+                this.showNotification(I18n.t("core.passes.messages_info_you_will_received_email"), "success")
             }).catch(error => {
                 this.showNotification(error.message)
             }).finally(() => {
