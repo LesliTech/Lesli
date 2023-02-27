@@ -43,4 +43,26 @@ class Account::Issue < ApplicationRecord
         call_center: "call_center",
         mobile_app: "mobile_app",
     }, _default: "not_specified"
+
+    def self.index(current_user, query)
+
+        # Get search string from query params
+        search_string = query[:search].downcase.gsub(" ","%") unless query[:search].blank?
+
+        issues = current_user.account.issues
+
+        # Filter results by search string
+        unless search_string.blank?
+            issues = issues.where("(LOWER(first_name) SIMILAR TO :search_string)", search_string: "%#{sanitize_sql_like(search_string, " ")}%")
+        end
+
+        issues = issues
+        .page(query[:pagination][:page])
+        .per(query[:pagination][:perPage])
+
+        issues
+
+    end
+
+
 end
