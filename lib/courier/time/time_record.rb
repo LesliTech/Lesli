@@ -43,7 +43,7 @@ module Courier
 
             def self.destroy(current_user, id)
                 return nil unless defined? CloudTime
-                CloudTime::TimeRecordServices.new(current_user).find(id).destroy(id)
+                CloudTime::TimeRecordServices.new(current_user).find(id).destroy
             end
         end
     end
