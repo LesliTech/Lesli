@@ -94,13 +94,13 @@ const sliderInfo = computed(() => `${currentPosition.value + 1} / ${props.images
         <!-- Slider -->
         <div v-else-if="props.mode === 'slider'" class="slider">
             <img :src="sliderImage.url" :alt="sliderImage.name">
-            <div class="slider-controls">
+            <div v-if=" props.images.length > 1" class="slider-controls">
                 <div class="actions">
                     <lesli-button @click="onPreviousImage" solid icon="arrow_back"></lesli-button>
                     <lesli-button @click="onNextImage"  solid icon="arrow_forward"></lesli-button>
                 </div>
                 <h3 class="info">{{ sliderInfo }}</h3>
-            </div>
+        </div>
         </div>
     </div>
 </template>
