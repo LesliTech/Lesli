@@ -101,7 +101,7 @@ onMounted(() => {
                 {{ translations.core.view_btn_list }}
             </lesli-button>
         </lesli-header>
-        {{ storeWorkflow.tab }}
+
         <lesli-tabs v-model="storeWorkflow.tab">
             <lesli-tab-item title="Statuses">
                 <component-workflow-statuses :app-mount-path="props.appMountPath" is-editable></component-workflow-statuses>
@@ -112,5 +112,4 @@ onMounted(() => {
             </lesli-tab-item>
         </lesli-tabs>
     </section>
-    <!--component-workflow-next></component-workflow-next-->
 </template>
