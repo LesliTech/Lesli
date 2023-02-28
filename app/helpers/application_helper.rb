@@ -59,18 +59,18 @@ module ApplicationHelper
     def deprecated_is_lesli_instance?(instance=nil, engine=nil)
 
         # return instance name
-        return Rails.application.config.lesli[:info][:name] if instance.blank? and engine.blank?
+        return Rails.application.config.lesli.dig(:info, :name) if instance.blank? and engine.blank?
 
         # current engine id
         current_engine = controller_path.split('/')[0]
 
         # validate instance
-        if Rails.application.config.lesli[:info][:name] == instance and engine.blank?
+        if Rails.application.config.lesli.dig(:info, :name) == instance and engine.blank?
             return true
         end
 
         # validate instance and engine
-        if Rails.application.config.lesli[:info][:name] == instance and current_engine == engine
+        if Rails.application.config.lesli.dig(:info, :name) == instance and current_engine == engine
             return true
         end
 
@@ -94,4 +94,12 @@ module ApplicationHelper
         return Rails.application.credentials.integrations[integration_name][:access_token]
     end
 
+    # adds active class to mitwerken main menu links
+    def is_active?(link_path)
+        if current_page?(link_path)
+          "navbar-link_active"
+        else
+          ""
+        end
+      end
 end

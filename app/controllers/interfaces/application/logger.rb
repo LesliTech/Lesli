@@ -113,7 +113,7 @@ module Interfaces
             # this is disabled by default in the settings file
             def log_account_activity system_module, system_process, title=nil, payload=nil, description=nil
 
-                return if !Rails.application.config.lesli[:security][:log_activity]
+                return if !Rails.application.config.lesli.dig(:security, :log_activity)
 
                 account = Account.first
 
