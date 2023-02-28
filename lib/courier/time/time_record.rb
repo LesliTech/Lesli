@@ -37,8 +37,13 @@ module Courier
             end
 
             def self.update(current_user, id, params)
-                return unless defined? CloudTime
-                CloudTime::TimeRecordServices.new(current_user).update(id, params)
+                return nil unless defined? CloudTime
+                CloudTime::TimeRecordServices.new(current_user).find(id).update(params)
+            end
+
+            def self.destroy(current_user, id)
+                return nil unless defined? CloudTime
+                CloudTime::TimeRecordServices.new(current_user).find(id).destroy
             end
         end
     end
