@@ -60,11 +60,6 @@ const props = defineProps({
     }
 })
 
-watch(() => props.modelValue, () => {
-    console.log(props.modelValue)
-})
-
-
 // · 
 const selected = ref(props.modelValue)
 

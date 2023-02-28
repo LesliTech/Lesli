@@ -25,6 +25,10 @@ $dark-gray: #373737;
         height: 100%;
     }
 
+    &-current-path {
+        text-decoration: underline;
+    }
+
     .navbar-start {
         margin-left: 1rem;
         display: flex;
@@ -32,6 +36,7 @@ $dark-gray: #373737;
         align-items: center;
         justify-content: flex-start;
     }
+
     &-link {
         display: flex;
         align-items: center;

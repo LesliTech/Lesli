@@ -19,6 +19,8 @@ class Account::Issue < ApplicationRecord
     belongs_to :account,    foreign_key: "accounts_id"
     belongs_to :user,       foreign_key: "users_id", optional: true
 
+    after_create            :send_confirmation_email
+
     enum category: {
         feedback: "feedback",
         contact_us: "contact_us",
@@ -43,4 +45,9 @@ class Account::Issue < ApplicationRecord
         call_center: "call_center",
         mobile_app: "mobile_app",
     }, _default: "not_specified"
+
+    def send_confirmation_email
+        AccountMailer.with(email: self.email).issue_received_confirmation.deliver_later
+    end
+
 end

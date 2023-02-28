@@ -1,9 +1,9 @@
 =begin
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -12,7 +12,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -21,29 +21,29 @@ require "lesli_request_helper"
 
 RSpec.describe "Lesli::engines" do
 
-    before(:all) do 
+    before(:all) do
         @lesli_engines = Lesli::engines()
     end
 
-    it "expect to return with an array of engines and gems" do 
+    it "expect to return with an array of engines and gems" do
 
         expect(@lesli_engines).to be_an(Array)
 
         unless @lesli_engines.empty?
-            
+
             @lesli_engines.each do |engine|
 
                 expect(engine).to have_key(:type)
                 expect(engine[:type]).to be_a(String)
-    
+
                 expect(engine).to have_key(:code)
                 expect(engine[:code]).to be_a(String)
-                
+
                 expect(engine).to have_key(:name)
                 expect(engine[:name]).to be_a(String)
-                
+
                 expect(engine).to have_key(:version)
-    
+
                 if engine[:type] == "engine" || engine[:type] == "builder"
                     expect(engine).to have_key(:github)
                     expect(engine[:version]).to be_a(String)
@@ -56,11 +56,11 @@ end
 
 RSpec.describe "Lesli::instance" do
 
-    before(:all) do 
+    before(:all) do
         @lesli_instance = Lesli::instance()
     end
 
-    it "expect to return with a hash of lesli instance" do 
+    it "expect to return with a hash of lesli instance" do
         expect(@lesli_instance).to be_a(Hash)
 
         expect(@lesli_instance).to have_key(:name)
@@ -73,17 +73,17 @@ RSpec.describe "Lesli::instance" do
 end
 
 
-RSpec.describe "Lesli::settings" do 
+RSpec.describe "Lesli::settings" do
 
     before(:all) do
         @lesli_settings = Lesli::settings()
     end
 
-    it "expect to return with a hash of lesli settings" do 
+    it "expect to return with a hash of lesli settings" do
         expect(@lesli_settings).to be_a(Hash)
     end
 
-    it "expect to return with lesli info settings" do 
+    it "expect to return with lesli info settings" do
 
         expect(@lesli_settings).to have_key("info")
         expect(@lesli_settings["info"]).to be_a(Hash)
@@ -119,7 +119,7 @@ RSpec.describe "Lesli::settings" do
 
         expect(@lesli_settings["account"]).to have_key("email")
         expect(@lesli_settings["account"]["email"]).to be_a(String)
-        
+
         expect(@lesli_settings["account"]).to have_key("tag_line")
         expect(@lesli_settings["account"]["tag_line"]).to be_a(String)
     end
@@ -131,16 +131,13 @@ RSpec.describe "Lesli::settings" do
 
         expect(@lesli_settings["configuration"]).to have_key("locales_available")
         expect(@lesli_settings["configuration"]["locales_available"]).to be_a(Hash)
-        
+
         expect(@lesli_settings["configuration"]["locales_available"]).to have_key("en")
         expect(@lesli_settings["configuration"]["locales_available"]["en"]).to be_a(String)
 
-        expect(@lesli_settings["configuration"]["locales_available"]).to have_key("es")
-        expect(@lesli_settings["configuration"]["locales_available"]["es"]).to be_a(String)
-
         expect(@lesli_settings["configuration"]).to have_key("locales")
         expect(@lesli_settings["configuration"]["locales"]).to be_an(Array)
-        expect(@lesli_settings["configuration"]["locales"]).to include("en", "es")
+        expect(@lesli_settings["configuration"]["locales"]).to include("en")
 
         expect(@lesli_settings["configuration"]).to have_key("datetime")
         expect(@lesli_settings["configuration"]["datetime"]).to be_a(Hash)
@@ -157,7 +154,7 @@ RSpec.describe "Lesli::settings" do
 
         expect(@lesli_settings["configuration"]["datetime"]).to have_key("formats")
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to be_a(Hash)
-        
+
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date")
         expect(@lesli_settings["configuration"]["datetime"]["formats"]["date"]).to eql(Rails.application.config.lesli_settings["configuration"]["datetime"]["formats"]["date"])
         expect(@lesli_settings["configuration"]["datetime"]["formats"]["date"]).to be_a(String)
@@ -218,7 +215,7 @@ RSpec.describe "Lesli::settings" do
 
     end
 
-    it "expect to return with lesli env settings" do 
+    it "expect to return with lesli env settings" do
 
         expect(@lesli_settings).to have_key("env")
         expect(@lesli_settings["env"]).to be_a(Hash)
@@ -246,14 +243,14 @@ RSpec.describe "Lesli::settings" do
 
     end
 
-    it "expect to return with a engines key" do 
+    it "expect to return with a engines key" do
 
         expect(@lesli_settings).to have_key("engines")
         expect(@lesli_settings["engines"]).to be_an(Array)
 
     end
 
-    it "expect to return with a instance key" do 
+    it "expect to return with a instance key" do
 
         expect(@lesli_settings).to have_key("instance")
         expect(@lesli_settings["instance"]).to be_a(Hash)
