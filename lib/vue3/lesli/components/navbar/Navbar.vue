@@ -63,6 +63,8 @@ const onClickLink = (link) => {
     else router.push(link.url)
 }
 
+const current_path = computed(() => router.currentRoute.value.path)
+
 </script>
 
 <template>
@@ -83,12 +85,12 @@ const onClickLink = (link) => {
             </div>
             <div :class="['navbar-menu', isActive]" :id="uniqueId">
                 <div v-if="startLinks" class="navbar-start">
-                    <a v-for="(link, i) in startLinks" :key="link.name" @click="onClickLink(link)"  class="lesli-navbar-link">
+                    <a v-for="(link, i) in startLinks" :key="link.name" @click="onClickLink(link)" :class="['lesli-navbar-link', current_path == link.url ? 'lesli-navbar-current-path' : '']">
                         {{ link.name }}
                     </a>
                 </div>
                 <div v-if="endLinks" class="navbar-end">
-                    <a v-for="(link, i) in endLinks" :key="link.name" @click="onClickLink(link)" class="lesli-navbar-link">
+                    <a v-for="(link, i) in endLinks" :key="link.name" @click="onClickLink(link)" :class="['lesli-navbar-link', current_path == link.url ? 'lesli-navbar-current-path' : '']">
                         {{ link.name }}
                     </a>
                 </div>
