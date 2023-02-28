@@ -20,11 +20,7 @@ For more information read the license file including with this software.
 @import "lesli-css";
 
 
-// · Import customization from builder engine
-@import "<%= LC::System::Info.sass_instance('settings') %>";
-
-
-// · Configuration
+// · Configuration & variables
 @import "./lesli3/settings/variables";
 
 
@@ -90,10 +86,6 @@ For more information read the license file including with this software.
 
 // · Include Lesli Standards
 @include lesli-css-normalize();
-
-
-// · Import customization from builder engine
-@import "<%= LC::System::Info.sass_instance('theme') %>";
 
 
 // · 

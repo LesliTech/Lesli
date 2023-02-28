@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2021, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -30,14 +30,14 @@ namespace :lesli do
             L2.br(4)
 
             L2.m(
-                'Instance: ' << Rails.application.config.lesli[:instance][:name],
+                'Instance: ' << Rails.application.config.lesli.dig(:instance, :name),
                 'Version: ' << revision[:version],
                 'Build: ' << revision[:build]
             )
 
             L2.br(3)
 
-            L2.table (Lesli::engines.map { |engine| 
+            L2.table (Lesli::engines.map { |engine|
                 {
                     :engine => engine[:code],
                     :version => "#{engine[:version]} (#{engine[:type]})",
@@ -47,7 +47,7 @@ namespace :lesli do
 
             L2.br(3)
 
-            L2.table(settings.dig("configuration", "locales_available").map { |locale| 
+            L2.table(settings.dig("configuration", "locales_available").map { |locale|
                 { :languages => locale[1], :code => locale[0] }
             })
 

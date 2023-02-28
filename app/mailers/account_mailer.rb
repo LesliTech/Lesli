@@ -16,20 +16,16 @@ For more information read the license file including with this software.
 // ·
 
 =end
+class AccountMailer < ApplicationLesliMailer
+    def issue_received_confirmation
+        email = params[:email]
+        build_data_from_params(params, {
+            url: "/",
+        })
 
-
-# get settings
-company = Rails.application.config.lesli.dig(:account)
-
-
-# create account
-Account.find_or_create_by(company_name: company[:name]) do |account|
-    account.company_name = company[:name]
-    account.public_email = company[:email]
-    account.company_tag_line = company[:tag_line]
-    account.registered!
-    account.save!
+        mail(
+            to: email,
+            subject: I18n.t("core.accounts.mailer_subject_issue")
+        )
+    end
 end
-
-
-LC::Debug.msgc "Accounts successfully created!"
