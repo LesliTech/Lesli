@@ -58,10 +58,11 @@ class Account::IntegrationsController < ApplicationLesliController
 
                 user.password = SecureRandom.hex(10)
                 user.confirm
+
                 user.category = "integration"
                 user.active = true
                 user.save!
-
+                
                 user.detail.first_name = account_integration_params[:name]
                 user.detail.save!
 
