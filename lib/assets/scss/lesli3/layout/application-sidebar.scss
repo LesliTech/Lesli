@@ -16,8 +16,8 @@ For more information read the license file including with this software.
 */
 
 $lesli-sidebar-color-text: findColorInvert($lesli-sidebar-color) !default;
-$lesli-sidebar-hover-color: $lesli-sidebar-color !default;
-$lesli-sidebar-hover-text: findColorInvert($lesli-sidebar-hover-color) !default;;
+$lesli-sidebar-hover-color: $lesli-sidebar-hover !default;
+$lesli-sidebar-hover-text: findColorInvert($lesli-sidebar-hover) !default;
 
 
 // · Navigation sidebar
@@ -41,6 +41,7 @@ aside.application-sidebar {
         height: var(--lesli-header-height);
         max-height: var(--lesli-header-height);
         background-color: var(--lesli-logo-color);
+        background-color: transparent;
         justify-content: center;
     }
 

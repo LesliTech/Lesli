@@ -42,7 +42,7 @@ const props = defineProps({
     },
     // · prop that indicates the resource that you need to interact with.
     cloudObject: {
-        type: Object,
+        type: String,
         required: true,
     },
     // · prop that indicates the object id of the resource that you need to interact with.
@@ -63,7 +63,6 @@ function  completedActions(group){
 
 onMounted(() => {
     actionStore.getActions()
-    actionStore.singularize(props.cloudObject)
 })
 
 </script>

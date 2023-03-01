@@ -23,15 +23,112 @@ import { onMounted, ref, watch } from "vue"
 
 
 // · import third-party libraries
-import mermaid from 'mermaid';
+import mermaid from "mermaid";
+
+
+// · props
+const props = defineProps({
+    type: {
+        type: String,
+        default: "graph"
+    },
+    direction: {
+        type: String,
+        default: "TB"
+    },
+    markers: {
+        type: Array,
+        required: true
+    }
+})
+
+
+// · mermaid global configuration
+const config = { 
+    startOnLoad: false,
+    init: {
+        theme: 'base', 
+        gitGraph: {
+            mainBranchName: 'master'
+        }
+    }
+}
+
+
+// · Graph container (as SVG plain string)
+const graphSVG = ref(null)
+
+
+// · Mermaid graph markers container
+const graphDefinitionMarkers  = ref([])
 
 
 // · initialize graph
-mermaid.initialize({ startOnLoad: false });
+mermaid.initialize(config);
+
+
+// · General metod to add nodes to the graph
+// params:
+//      a = initial state
+//      b = final state
+//      c = conector
+function addMarker(a,b=false,c="-->") {
+    if (!b ) {
+        graphDefinitionMarkers.value.push(`${a}`)    
+        return
+    }
+    graphDefinitionMarkers.value.push(`${a}${c}${b}`)
+}
+
+
+// · Add marker to Graph & State Diagram
+function addGraphMarker(a,b) {
+    addMarker(a,b)
+}
+
+
+// · load individual marker
+function loadMarkers() {
+
+    var addMarkerFunction = addGraphMarker;
+
+    switch (props.type) {
+        case 'graph': addMarkerFunction = addGraphMarker; break;
+        case 'stateDiagram-v2': addMarkerFunction = addGraphMarker; break;
+    }
+
+    props.markers.forEach(marker => {
+
+        addMarkerFunction(`${marker.id}(${marker.name})`)
+
+        if (marker.next) {
+            marker.next.forEach(next => {
+                addMarkerFunction(`${marker.id}[${marker.name}]`, next)
+            })
+        } 
+    })
+}
+
+
+// · 
+onMounted(() => {
+
+    // add diagram type and direction 
+    graphDefinitionMarkers.value = [props.type + " " + props.direction]
+
+    // load markers sent as props
+    loadMarkers()
+
+    // render diagram
+    graphSVG.value = mermaid.mermaidAPI.render("graphDiv", graphDefinitionMarkers.value.join(" \n"));
+
+})
+
 
 </script>
 <template>
-    <pre class="mermaid">
-    <slot></slot>
-    </pre>
+    <div id="graphDiv"></div>
+    <div class="has-text-centered">
+        <div v-html="graphSVG"></div>
+    </div>
 </template>

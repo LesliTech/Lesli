@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -24,34 +24,34 @@ class ApplicationLesliMailer < ActionMailer::Base
 
     # Set a dynamic template according to the engine that is sending the email
     # this is equivalent to: default template_path: -> { "engine_name/emails" }
-    default( 
+    default(
 
-        from: -> { 
-            
-            instance = Rails.application.config.lesli[:instance]
+        from: -> {
+
+            instance = Rails.application.config.lesli.dig(:instance)
 
             # add custom email name for emails sent from www.lesli.cloud
-            if instance[:code] == 'lesli_cloud' 
+            if instance[:code] == 'lesli_cloud'
                 return email_address_with_name(
                     Rails.configuration.lesli_settings["env"]["action_mailer"]["default_options_from"], 
                     "Lesli"
                 )
-            end 
+            end
 
             Rails.configuration.lesli_settings["env"]["action_mailer"]["default_options_from"]
 
         },
 
-        template_path: -> { 
+        template_path: -> {
 
-            instance = Rails.application.config.lesli[:instance]
+            instance = Rails.application.config.lesli.dig(:instance)
 
             # get class that is executing the mailer
             module_info = self.class.name.split("::")
 
             # mailers from engines
             if module_info.length > 1
-                return "#{ instance[:code] }/emails/#{(module_info[0].underscore)}/#{ module_info[1].underscore }" 
+                return "#{ instance[:code] }/emails/#{(module_info[0].underscore)}/#{ module_info[1].underscore }"
             end
 
             # mailers from core
@@ -60,11 +60,11 @@ class ApplicationLesliMailer < ActionMailer::Base
         }
 
     )
-    
+
     after_action :log_mail_requests
 
     def initialize
-        
+
         super
 
         # some @email data is defined on: LesliMails/src/partials/data.html
@@ -73,7 +73,7 @@ class ApplicationLesliMailer < ActionMailer::Base
         @data = {}
         @app = {}
 
-    end 
+    end
 
 
     protected
@@ -93,7 +93,7 @@ class ApplicationLesliMailer < ActionMailer::Base
 
     def build_customization_from_params(params)
 
-        instance = Rails.application.config.lesli[:instance]
+        instance = Rails.application.config.lesli.dig(:instance)
 
         # lesli is the code used for the core. If there are no builder engines,
         # the instance namespace is "/"
@@ -103,7 +103,7 @@ class ApplicationLesliMailer < ActionMailer::Base
         # using cdn logos by default (testing feature)
         # @custom[:logo] = "#{instance_path}brand/app-logo.svg"
         @custom[:logo] = "https://cdn.lesli.tech/leslicloud/brand/app-logo.png"
-        
+
         return if params[:user].blank? || params[:user].class.name != "User"
 
         custom_logo = params[:user].account.files.where(file_type: "app_logo").last
@@ -115,11 +115,11 @@ class ApplicationLesliMailer < ActionMailer::Base
 
     end
 
-    
+
     def build_app_from_params(params)
 
         @app[:host] = default_url_options[:host]
-        @app[:instance] = Rails.application.config.lesli[:instance]
+        @app[:instance] = Rails.application.config.lesli.dig(:instance)
         @app[:company] = {
             id: 0,
             name: "",
@@ -138,7 +138,7 @@ class ApplicationLesliMailer < ActionMailer::Base
 
     def build_recipients_from_users(users)
         if users.is_a?(Array)
-            users.map { |user| email_address_with_name(user.email, user.full_name) } 
+            users.map { |user| email_address_with_name(user.email, user.full_name) }
         end
     end
 
@@ -151,7 +151,7 @@ class ApplicationLesliMailer < ActionMailer::Base
     def build_recipients_from_emails()
     end
 
-    
+
     private
 
 
@@ -165,7 +165,7 @@ class ApplicationLesliMailer < ActionMailer::Base
         end
 
         # TODO: Save template path and view used within the email
-        Account::Activity.log_email("#{self.class.to_s}/#{self.action_name}", self.action_name, title, payload) 
+        Account::Activity.log_email("#{self.class.to_s}/#{self.action_name}", self.action_name, title, payload)
 
     end
 

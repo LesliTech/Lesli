@@ -11,7 +11,7 @@
         "@babel/core": "7.14.6",
         "@babel/preset-env": "7.14.7",
         
-        "webpack": "5.44.0",
+        "webpack": "5.62.2",
         "webpack-cli": "4.7.2",
         "terser-webpack-plugin": "5.2.4",
         
@@ -24,7 +24,7 @@
         
         "vue": "2.6.14",
         "vue-router": "3.5.2",
-        "vue-loader": "15.9.6",
+        "vue-loader": "15.10.1",
         "vue-template-compiler": "2.6.14",
 
         "v-calendar": "2.3.0",

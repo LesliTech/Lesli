@@ -75,7 +75,7 @@ module Interfaces
 
                 # use locale defined in the url
                 locale = params[:locale] if locale.blank?
-                
+
                 # use the language from the browser/os
                 locale = get_browser_locale if locale.blank?
 
@@ -93,11 +93,18 @@ module Interfaces
             private
 
             def get_browser_locale
+
                 # get user's preferred language from browser
                 browser_locale = request.headers['HTTP_ACCEPT_LANGUAGE'] || request.headers['Accept-Language'] || ""
-                browser_locale = browser_locale.scan(/[a-z]{2}(?=;)/).find do |locale|
+
+                # extract locale from accept language header
+                browser_locale = browser_locale.scan(/^[a-z]{2}/).find do |locale|
+                    
+                    # validate if browser language is in the list of supported languages
                     I18n.available_locales.include?(locale.to_sym)
                 end
+
+                browser_locale
             end
 
         end
