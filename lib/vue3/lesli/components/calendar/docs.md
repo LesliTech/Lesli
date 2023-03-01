@@ -11,12 +11,12 @@ Provide a set of html view components to allow user work with date and time
 ## Use examples:
 
 ```html
-<lesli-calendar :v-model="mydate" mode="dateTime">
+<lesli-calendar v-model="mydate" mode="dateTime">
 </lesli-calendar>
 ```
 
 
 ```raw
-<lesli-calendar :v-model="mydate" mode="dateTime">
+<lesli-calendar v-model="mydate" mode="dateTime">
 </lesli-calendar>
 ```
