@@ -52,14 +52,17 @@ const translations = {
             <div class="media-content">
                 <div class="content mb-0">
                     <p>
+                        <!-- 
                         <strong>
-                            <!-- salutation -->
+                            object_utils.translateEnum(translations.core.shared, 'column_enum_salutation', user.detail_attributes.salutation )
+                            {{ storeUser.user.detail_attributes.salutation }}
                         </strong>
-                        <strong>{{ storeUser.user.detail_attributes.first_name }}</strong>
-                        <strong>{{' '}}</strong>
-                        <strong>{{ storeUser.user.detail_attributes.last_name }}</strong>
-                        <br>
-                        {{ storeUser.user.detail_attributes.title }}
+                        -->
+                        <h5 class="title is-5 mb-0">
+                            {{ storeUser.user.detail_attributes.first_name }}
+                            {{ storeUser.user.detail_attributes.last_name }}
+                        </h5>
+                        <p>{{ storeUser.user.detail_attributes.title }}</p>
                     </p>
                 </div>
 
@@ -87,76 +90,5 @@ const translations = {
                 </nav>
             </div>
         </div>
-
-        <nav class="level" v-if="false">
-            <div class="level-left">
-                <div class="level-item">
-                    <button class="button is-small" @click="doRequestPasswordChange()">
-                        <span class="icon">
-                            <span class="material-icons">
-                                key
-                            </span>
-                        </span>
-                        <span> {{ translations.core.users.view_btn_request_password_change }}</span>
-                    </button>
-                </div>
-                <div class="level-item">
-                    <button class="button" @click="doUserLogout()">
-                        <span class="icon">
-                            <span class="material-icons">
-                                logout
-                            </span>
-                        </span>
-                        <span>  {{ translations.core.users.view_btn_force_logout }}</span>
-                    </button>
-                </div>
-                <div class="level-item">
-                    <button class="button is-white" @click="doRevokeAccess()">
-                        <span class="icon">
-                            <span class="material-icons">
-                                lock_outline
-                            </span>
-                        </span>
-                        <span> {{ translations.core.users.view_btn_revoke_access }} </span>
-                    </button>
-                </div>
-                <div class="level-item">
-                    <button class="button is-white" @click="confirmMarkUserAsDeleted()">
-                        <span class="icon"><i class="fas fa-user-slash"></i></span>
-                        <span> {{ translations.core.users.view_btn_mark_user_as_deleted }} </span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="level-right">
-                <div class="level-item">
-                    <div class="dropdown is-hoverable header-language-selector">
-                        <div class="dropdown-trigger">
-                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                                <span class="icon has-text-grey-light">
-                                    <span class="flag-icon flag-icon-gb"></span>
-                                </span>
-                            </button>
-                        </div>
-                        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                            <div class="dropdown-content">
-                                <a class="dropdown-item" href="/language?locale=es">
-                                    <span class="icon has-text-grey-light">
-                                        <span class="flag-icon flag-icon-es"></span>
-                                    </span>
-                                    <span>Español</span>
-                                </a>
-                                <a class="dropdown-item" href="/language?locale=de">
-                                    <span class="icon has-text-grey-light">
-                                        <span class="flag-icon flag-icon-de"></span>
-                                    </span>
-                                    <span>Deutsch</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
     </div>
 </template>

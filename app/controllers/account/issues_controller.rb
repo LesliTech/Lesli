@@ -1,5 +1,5 @@
 =begin
-Copyright (c) 2022, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -17,12 +17,6 @@ For more information read the license file including with this software.
 =end
 class Account::IssuesController < ApplicationLesliController
     before_action :set_account_issue, only: [:show, :update, :destroy]
-
-    def privileges
-        {
-            new: [],
-        }
-    end
 
     # GET /account/issues
     def index
@@ -97,7 +91,7 @@ class Account::IssuesController < ApplicationLesliController
 
     # Only allow a list of trusted parameters through.
     def account_issue_params
-        params.fetch(:account_issue, {}).permit(
+        params.require(:account_issue).permit(
             :id,
             :first_name,
             :last_name,
@@ -110,6 +104,8 @@ class Account::IssuesController < ApplicationLesliController
             :status,
             :source,
             :reference,
+            :model_type,
+            :model_id,
         )
     end
 end

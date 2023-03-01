@@ -11,6 +11,14 @@
 # For more information read the license file including with this software.
 
 
+
+# -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
+# PLEASE DO NOT MODIFY THIS FILE ON THE CORE,
+# THIS FILE SHOULD BE MODIFIED ON THE leitfaden/github_actions REPOSITORY
+# -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
+
+
+
 # Specs for Lesli Core
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
 name: "Lesli branches cleanup"

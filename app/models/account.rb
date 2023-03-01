@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -25,6 +25,7 @@ class Account < ApplicationRecord
     has_many :roles,            foreign_key: "accounts_id"
     has_many :files,            foreign_key: "accounts_id"
     has_many :cronos,           foreign_key: "accounts_id"
+    has_many :issues,           foreign_key: "accounts_id", class_name: "Account::Issue"
     has_many :settings,         foreign_key: "accounts_id", class_name: "Account::Setting"
     has_many :locations,        foreign_key: "accounts_id"
     has_many :activities,       foreign_key: "accounts_id", class_name: "Account::Activity"
@@ -95,13 +96,13 @@ class Account < ApplicationRecord
             self.template.save!
         end
 
-        # create initial descriptors 
+        # create initial descriptors
         self.descriptors.find_or_create_by(name: "owner")
         self.descriptors.find_or_create_by(name: "sysadmin")
         self.descriptors.find_or_create_by(name: "profile")
 
         # create default roles
-        account_roles = Rails.application.config.lesli[:security][:roles] || []
+        account_roles = Rails.application.config.lesli.dig(:security, :roles) || []
         account_roles.append "limited"   # access only to user profile
         account_roles.prepend "sysadmin" # platform administrator role
         account_roles.prepend "owner"    # super admin role
@@ -122,7 +123,6 @@ class Account < ApplicationRecord
 
         Account::LocationService.new(self).set_locations
 
-        self.onboarding!
     end
 
     def initialize_engines
@@ -344,7 +344,7 @@ class Account < ApplicationRecord
 
         # Every instance (builder module) is loaded into the platform using the same
         # name of the engine
-        instance = Rails.application.config.lesli[:instance][:name]
+        instance = Rails.application.config.lesli.dig(:instance, :name)
 
 
         # Build an account class base on instance (engine) name
