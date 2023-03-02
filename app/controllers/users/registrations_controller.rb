@@ -80,8 +80,22 @@ class Users::RegistrationsController < Devise::RegistrationsController
             return respond_with_error(I18n.t("core.users/registrations.messages_info_user_already_exists"))
         end
 
+        # build new user params
+        user_params = sign_up_params
+
+        # adding detail attributes if they are present
+        detail_attributes = params.dig(:user, :detail_attributes)
+
+        unless detail_attributes.nil? || detail_attributes.empty?
+            user_params[:detail_attributes] = {
+                first_name: params.dig(:user, :detail_attributes, :first_name) || "",
+                last_name: params.dig(:user, :detail_attributes, :last_name) || "",
+                telephone: params.dig(:user, :detail_attributes, :telephone) || "",
+            }
+        end
+
         # build new user
-        user = build_resource(sign_up_params)
+        user = build_resource(user_params)
 
         # run password complexity validations
         password_complexity = User::ValidationService.new(user).password_complexity(sign_up_params[:password])
@@ -91,16 +105,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
         # persist new user
         if user.save
-
-            detail_attributes = params.dig(:user, :detail_attributes)
-
-            unless detail_attributes.nil? || detail_attributes.empty?
-                user.detail.update({
-                    first_name: params.dig(:user, :detail_attributes, :first_name) || "",
-                    last_name: params.dig(:user, :detail_attributes, :last_name) || "",
-                    telephone: params.dig(:user, :detail_attributes, :telephone) || ""
-                })
-            end
 
             # save a default locale for user
             user.settings.create(:name => 'locale', :value => I18n.locale)
