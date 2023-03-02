@@ -48,29 +48,30 @@ const translations = {
 // · 
 const columns = [{
     field: "id",
-    label: "id",
+    label: "Id",
     sort: true
 }, {
-    field: "first_name",
-    label: "first_name",
-    sort: true
-}, {
-    field: "last_name",
-    label: "last_name",
+    field: "full_name",
+    label: "Full name",
     sort: true
 }, {
     field: "email",
-    label: "email",
+    label: "Email",
     sort: true
 }, {
     field: "category",
-    label: "category",
+    label: "Category",
     sort: true
 }, {
     field: "status",
-    label: "status",
+    label: "Status",
     sort: true
-}]
+}, {
+    field: "created_at_string",
+    label: "Created at",
+    sort: true
+}
+]
 
 // · 
 onMounted(() => {

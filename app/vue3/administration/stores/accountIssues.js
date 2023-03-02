@@ -77,6 +77,13 @@ export const useAccountIssues = defineStore("administration.account.issues", {
                 this.loading = false
             })
         },
+        updateStatus(){
+            this.http.put(this.url.admin("account/issues/:id", this.issue.id), { account_issue: this.issue }).then(result => {
+                this.msg.success(I18n.t("core.users.messages_success_operation"))
+            }).catch(error => {
+                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
+            })
+        },
         /**
         * @description This action is used to get an issue
         */

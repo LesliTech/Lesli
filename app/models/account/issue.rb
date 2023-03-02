@@ -62,6 +62,20 @@ class Account::Issue < ApplicationRecord
             ", search_string: "%#{sanitize_sql_like(search_string, " ")}%")
         end
 
+        issues = issues.select(
+            :id,
+            "CONCAT(first_name, ' ', last_name) as full_name",
+            :email,
+            :category,
+            :status,
+            :source,
+            :telephone,
+            :company_name,
+            :reference,
+            :message,
+            LC::Date2.new.date_time.db_column("created_at")
+        )
+
         issues = issues
         .page(query[:pagination][:page])
         .per(query[:pagination][:perPage])
@@ -83,7 +97,7 @@ class Account::Issue < ApplicationRecord
             :status => self.status,
             :source => self.source,
             :reference => self.reference,
-            :created_at =>  self.created_at
+            :created_at =>  LC::Date2.new(self.created_at).date_time.to_s 
         }
     end
 
