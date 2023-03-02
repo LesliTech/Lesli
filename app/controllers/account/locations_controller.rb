@@ -20,14 +20,6 @@ For more information read the license file including with this software.
 class Account::LocationsController < ApplicationLesliController
     before_action :set_account_location, only: [:show, :update, :destroy]
 
-    def privileges
-        {
-            index: [],
-            show: [],
-            new: [],
-        }
-    end
-
     # GET /locations
     def index
         respond_with_successful(Account::Location.list(current_user, @query))
