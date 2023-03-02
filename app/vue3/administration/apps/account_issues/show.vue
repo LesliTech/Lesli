@@ -56,14 +56,19 @@ onMounted(() => {
 
 
 // · 
+watch(() => storeIssues.issue.status, () => {
+    storeIssues.updateStatus()
+} , { immediate: false })
+
 
 </script>
 <template>
     <section class="application-component">
-        <lesli-header title="Issue">
+        <lesli-header :title="`${storeIssues.issue.id} - ${storeIssues.issue.status}`">
             <lesli-dropdown
                 :options="storeIssues.options.statuses"
                 label="Change status"
+                v-model="storeIssues.issue.status"
             ></lesli-dropdown>
             <lesli-button icon="list" :to="url.admin('account/issues')">
                 Issues
@@ -109,8 +114,10 @@ onMounted(() => {
                 </div>
 
             <div class="content">
-                <p>{{ storeIssues.issue.message }}</p>
+                <h6>Message</h6>
+                <textarea readonly class="textarea has-fixed-size">{{ storeIssues.issue.message }}</textarea>
                 <br>
+                <p class="subtitle is-6">Created at</p>
                 <time datetime="2016-1-1">{{ storeIssues.issue.created_at }}</time>
             </div>
         </div>
