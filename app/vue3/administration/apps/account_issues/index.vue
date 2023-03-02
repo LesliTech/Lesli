@@ -47,6 +47,10 @@ const translations = {
 
 // · 
 const columns = [{
+    field: "id",
+    label: "id",
+    sort: true
+}, {
     field: "first_name",
     label: "first_name",
     sort: true
@@ -61,6 +65,10 @@ const columns = [{
 }, {
     field: "category",
     label: "category",
+    sort: true
+}, {
+    field: "status",
+    label: "status",
     sort: true
 }]
 
@@ -91,7 +99,10 @@ onMounted(() => {
             :pagination="storeIssues.index.pagination"
             @paginate="storeIssues.paginateIndex"
             @sort="storeIssues.sortIndex"
-            >
+        >
+            <template #email="{ value }">
+                <a :href="'mailto:' + value">{{value}}</a>
+            </template>
         </lesli-table>
     </section>
 </template>

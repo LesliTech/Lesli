@@ -82,11 +82,15 @@ class Account::IssuesController < ApplicationLesliController
         end
     end
 
+    def options
+        respond_with_successful(current_user.account.issues.options(current_user, @query))
+    end
+
     private
 
     # Use callbacks to share common setup or constraints between actions.
     def set_account_issue
-        @account_issue = current_user.account.account_issues.find_by_id(params[:id])
+        @account_issue = current_user.account.issues.find_by_id(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

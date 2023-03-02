@@ -24,10 +24,13 @@ import { defineStore } from "pinia"
 export const useAccountIssues = defineStore("administration.account.issues", {
     state: () => {
         return {
-            options: {},
-            records: [],
+            options: {
+                statuses: []
+            },
+            issue: {},
             pagination: {
-                page: 1
+                page: 1,
+                per_page: 10
             },
             index: { 
                 pagination: {},
@@ -37,44 +40,77 @@ export const useAccountIssues = defineStore("administration.account.issues", {
         }
     },
     actions: {
-
-        fetch() {
+        /**
+        * @description This action is used to get the options for status
+        */
+        getOptions(){
             this.loading = true
-            this.http.get(this.url.admin("account/issues").paginate(this.pagination.page)).then(result => {
+
+            this.options = {
+                statuses: []
+            }
+
+            this.http.get(this.url.admin("account/issues/options")).then((result)=>{
+                result["statuses"].forEach((status)=>{
+                    this.options["statuses"].push({
+                        label: status.text,
+                        value: status.value
+                    })
+                })
+            }).catch(error => {
+                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
+            }).finally(() => {
+                this.loading = false
+            })
+
+        },
+        /**
+        * @description This action is used to get the list of issues
+        */
+        fetch(url= this.url.admin("account/issues")) {
+            this.loading = true
+            this.http.get(url.paginate(this.pagination.page, this.pagination.per_page)).then(result => {
                 this.index = result
+            }).catch(error => {
+                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
+            }).finally(() => {
                 this.loading = false
             })
         },
+        /**
+        * @description This action is used to get an issue
+        */
+        getIssue(issue_id) {
+            this.loading = true
 
+            this.http.get(this.url.admin("account/issues/:id", issue_id)).then((response) => {
+                this.issue = response
+            }).catch((error) => {
+                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
+            }).finally(() => {
+                this.loading = false
+            })
+        },
+        /* @description This action is used to paginate account issues from index
+        * @param {String} page The actual page showing.
+        */
         paginateIndex(page) {
             this.pagination.page = page
             this.fetch()
-        },
-
-        fetchRole(id) {
-            this.loading = true
-            this.http.get(this.url.admin("roles/:id", id)).then(result => {
-                this.role = result
-                this.getDescriptors()
-                this.loading = false
-            })
         },
   
         /**
          * @description This action is used to sort the results
          */
         sortIndex(column, direction) {
-            this.order.column = column
-            this.order.direction = direction
-            this.fetch()
+            this.fetch(this.url.admin("account/issues").order(column, direction))
         },
         /**
          * @description This action is used to search
          * @param {string} search_string 
          */
         search(search_string) {
-            this.search_string = search_string
-            this.fetch()
+            this.fetch(this.url.admin("account/issues").search(search_string))
         },
     }
 })

@@ -55,15 +55,42 @@ class Account::Issue < ApplicationRecord
 
         # Filter results by search string
         unless search_string.blank?
-            issues = issues.where("(LOWER(first_name) SIMILAR TO :search_string)", search_string: "%#{sanitize_sql_like(search_string, " ")}%")
+            issues = issues.where("(LOWER(first_name) SIMILAR TO :search_string) OR
+                (LOWER(email) SIMILAR TO :search_string) OR
+                (LOWER(category) SIMILAR TO :search_string) OR
+                (LOWER(status) SIMILAR TO :search_string)
+            ", search_string: "%#{sanitize_sql_like(search_string, " ")}%")
         end
 
         issues = issues
         .page(query[:pagination][:page])
         .per(query[:pagination][:perPage])
+        .order("#{query[:order][:by]} #{query[:order][:dir]} NULLS LAST")
 
         issues
 
+    end
+
+    def show (current_user, query)
+        {
+            :id => self.id,
+            :first_name => self.first_name,
+            :last_name => self.last_name,
+            :email => self.email,
+            :telephone => self.telephone,
+            :message => self.message,
+            :category => self.category,
+            :status => self.status,
+            :source => self.source,
+            :reference => self.reference,
+            :created_at =>  self.created_at
+        }
+    end
+
+    def self.options (current_user, query)
+        return {
+            statuses: statuses.map { |status, _value| {value: _value, text: status} }
+        }
     end
 
 

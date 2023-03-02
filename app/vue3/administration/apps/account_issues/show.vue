@@ -19,36 +19,30 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed, inject } from "vue"
+import { ref, reactive, onMounted, watch, inject } from "vue"
 import { useRouter, useRoute } from 'vue-router'
 
 
 // · import lesli stores
-import { useRole } from "../../stores/role"
-import { useDescriptor } from "../../stores/descriptor"
+import { useAccountIssues } from "../../stores/accountIssues"
 
 
 // · import components
-import componentPrivilegeCustom from "./componentPrivilegeCustom.vue"
-import componentPrivilegeStandard from "./componentPrivilegeStandard.vue"
-import roleLogs from "./logs.vue"
+import ComponentWorkflowStatusDropdown from "LesliVue/shared/workflows/components/workflow-status-dropdown.vue"
 
 
 // · initialize/inject plugins
 const router = useRouter()
 const route = useRoute()
-const msg = inject("msg")
 const url = inject("url")
 
 
 // · 
-const storeRole = useRole()
-const storeDescriptor = useDescriptor()
+const storeIssues = useAccountIssues()
 
 
 const translations = {
     core: {
-        roles: I18n.t("core.roles"),
         users: I18n.t("core.users"),
         shared: I18n.t("core.shared")
     }
@@ -56,7 +50,8 @@ const translations = {
 
 // · 
 onMounted(() => {
-
+    storeIssues.getIssue(route.params.id)
+    storeIssues.getOptions()
 })
 
 
@@ -65,6 +60,64 @@ onMounted(() => {
 </script>
 <template>
     <section class="application-component">
+        <lesli-header title="Issue">
+            <lesli-dropdown
+                :options="storeIssues.options.statuses"
+                label="Change status"
+            ></lesli-dropdown>
+            <lesli-button icon="list" :to="url.admin('account/issues')">
+                Issues
+            </lesli-button>
+        </lesli-header>
+
+        <div class="card">
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-content">
+                        <p class="title is-4">{{ storeIssues.issue.first_name + " " +storeIssues.issue.last_name}}</p>
+                        <h6>
+                            <span class="icon is-small">
+                                <span class="material-icons">
+                                    email
+                                </span>
+                                </span>
+                            <span> Email</span>
+                        </h6>
+                        <p class="subtitle is-6"><a :href="'mailto:' + storeIssues.issue.email">{{ storeIssues.issue.email }}</a></p>
+                        
+                        <h6>
+                            <span class="icon is-small">
+                                <span class="material-icons">
+                                    call
+                                </span>
+                                </span>
+                            <span> Telephone</span>
+                        </h6>
+                        <p class="subtitle is-6">{{ storeIssues.issue.telephone }}</p>
+
+                        <h6>
+                            <span class="icon is-small">
+                                <span class="material-icons">
+                                    list
+                                </span>
+                                </span>
+                            <span> Category</span>
+                        </h6>
+                        <p class="subtitle is-6">{{ storeIssues.issue.category }}</p>
+
+                    </div>
+                </div>
+
+            <div class="content">
+                <p>{{ storeIssues.issue.message }}</p>
+                <br>
+                <time datetime="2016-1-1">{{ storeIssues.issue.created_at }}</time>
+            </div>
+        </div>
+</div>
+
+
+
        
     </section>
 </template>

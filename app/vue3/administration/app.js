@@ -44,6 +44,8 @@ import appBranding from "Lesli/vue3/administration/apps/branding/index.vue"
 import appTheme from "Lesli/vue3/administration/apps/theme/index.vue"
 import appAccountShow from "Lesli/vue3/administration/apps/accounts/show.vue"
 import appAccountIssues from "Lesli/vue3/administration/apps/account_issues/index.vue"
+import appAccountIssuesShow from "Lesli/vue3/administration/apps/account_issues/show.vue"
+
 
 
 
@@ -111,4 +113,8 @@ app("Administration", [{
 }, {
     path: "/account/issues",
     component: appAccountIssues
-}])
+}, {
+    path: "/account/issues/:id",
+    component: appAccountIssuesShow
+},
+])
