@@ -23,7 +23,8 @@ class Account::IssuesController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json do
-                respond_with_pagination(Account::Issue.index(current_user, @query))
+                return respond_with_pagination(Account::IssuesServices.new(current_user).index(query, params))
+                # respond_with_pagination(Account::Issue.index(current_user, @query))
             end
         end
     end
@@ -33,8 +34,8 @@ class Account::IssuesController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json do
-                return respond_with_not_found unless @account_issue
-                return respond_with_successful(@account_issue.show(current_user, @query))
+                return respond_with_not_found unless @account_issue.found?
+                return respond_with_successful(@account_issue.show)
             end
         end
     end
@@ -62,13 +63,16 @@ class Account::IssuesController < ApplicationLesliController
 
     # PATCH/PUT /account/issues/1
     def update
-        return respond_with_not_found unless @account_issue
+         # validate that the issue exists
+         return respond_with_not_found unless @account_issue.found?
 
-        if @account_issue.update(account_issue_params)
-            respond_with_successful(@account_issue.show(current_user, @query))
-        else
-            respond_with_error(@account_issue.errors.full_messages.to_sentence)
-        end
+         @account_issue.update(account_issue_params)
+ 
+         if @account_issue.successful?
+             respond_with_successful(@account_issue.result)
+         else 
+             respond_with_error(@account_issue.errors)
+         end
     end
 
     # DELETE /account/issues/1
@@ -90,7 +94,7 @@ class Account::IssuesController < ApplicationLesliController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_account_issue
-        @account_issue = current_user.account.issues.find_by_id(params[:id])
+        @account_issue = Account::IssuesServices.new(current_user).find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
