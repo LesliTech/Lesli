@@ -24,7 +24,6 @@ class Account::IssuesController < ApplicationLesliController
             format.html {}
             format.json do
                 return respond_with_pagination(Account::IssuesServices.new(current_user).index(query, params))
-                # respond_with_pagination(Account::Issue.index(current_user, @query))
             end
         end
     end
