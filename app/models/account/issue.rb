@@ -45,61 +45,7 @@ class Account::Issue < ApplicationRecord
         call_center: "call_center",
         mobile_app: "mobile_app",
     }, _default: "not_specified"
-
-    def self.index(current_user, query)
-
-        # Get search string from query params
-        search_string = query[:search].downcase.gsub(" ","%") unless query[:search].blank?
-
-        issues = current_user.account.issues
-
-        # Filter results by search string
-        unless search_string.blank?
-            issues = issues.where("(LOWER(first_name) SIMILAR TO :search_string) OR
-                (LOWER(email) SIMILAR TO :search_string) OR
-                (LOWER(category) SIMILAR TO :search_string) OR
-                (LOWER(status) SIMILAR TO :search_string)
-            ", search_string: "%#{sanitize_sql_like(search_string, " ")}%")
-        end
-
-        issues = issues.select(
-            :id,
-            "CONCAT(first_name, ' ', last_name) as full_name",
-            :email,
-            :category,
-            :status,
-            :source,
-            :telephone,
-            :company_name,
-            :reference,
-            :message,
-            LC::Date2.new.date_time.db_column("created_at")
-        )
-
-        issues = issues
-        .page(query[:pagination][:page])
-        .per(query[:pagination][:perPage])
-        .order("#{query[:order][:by]} #{query[:order][:dir]} NULLS LAST")
-
-        issues
-
-    end
-
-    def show (current_user, query)
-        {
-            :id => self.id,
-            :first_name => self.first_name,
-            :last_name => self.last_name,
-            :email => self.email,
-            :telephone => self.telephone,
-            :message => self.message,
-            :category => self.category,
-            :status => self.status,
-            :source => self.source,
-            :reference => self.reference,
-            :created_at =>  LC::Date2.new(self.created_at).date_time.to_s 
-        }
-    end
+    
 
     def self.options (current_user, query)
         return {

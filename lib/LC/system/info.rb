@@ -89,7 +89,6 @@ module LC
             end
 
             def self.theme(property, value_if_nil=nil)
-                puts Rails.application.config.lesli.dig(:theme)
                 Rails.application.config.lesli.dig(:theme, property) || value_if_nil
             end
 
