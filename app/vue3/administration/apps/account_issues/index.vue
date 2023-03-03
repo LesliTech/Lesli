@@ -39,9 +39,9 @@ const storeIssues = useAccountIssues()
 
 const translations = {
     core: {
-        roles: I18n.t("core.roles"),
-        users: I18n.t("core.users"),
-        shared: I18n.t("core.shared")
+        shared: I18n.t("core.shared"),
+        issues: I18n.t("core.account/issues"),
+        users: I18n.t("core.users")
     }
 }
 
@@ -52,23 +52,23 @@ const columns = [{
     sort: true
 }, {
     field: "full_name",
-    label: "Full name",
+    label: translations.core.issues.column_full_name,
     sort: true
 }, {
     field: "email",
-    label: "Email",
+    label: translations.core.shared.view_text_email,
     sort: true
 }, {
     field: "category",
-    label: "Category",
+    label: translations.core.shared.view_text_category,
     sort: true
 }, {
     field: "status",
-    label: "Status",
+    label: translations.core.users.view_table_header_status,
     sort: true
 }, {
     field: "created_at_string",
-    label: "Created at",
+    label: translations.core.shared.column_created_at,
     sort: true
 }
 ]
@@ -82,7 +82,7 @@ onMounted(() => {
 </script>
 <template>
     <section class="application-component">
-        <lesli-header title="Account Issues">
+        <lesli-header :title="translations.core.issues.view_title_account_issues">
             <lesli-button
                 outlined
                 icon="refresh"

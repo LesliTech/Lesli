@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, inject } from "vue"
+import { onMounted, watch, inject } from "vue"
 import { useRouter, useRoute } from 'vue-router'
 
 
@@ -27,12 +27,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { useAccountIssues } from "../../stores/accountIssues"
 
 
-// · import components
-import ComponentWorkflowStatusDropdown from "LesliVue/shared/workflows/components/workflow-status-dropdown.vue"
-
-
 // · initialize/inject plugins
-const router = useRouter()
 const route = useRoute()
 const url = inject("url")
 
@@ -43,8 +38,9 @@ const storeIssues = useAccountIssues()
 
 const translations = {
     core: {
-        users: I18n.t("core.users"),
-        shared: I18n.t("core.shared")
+        shared: I18n.t("core.shared"),
+        issues: I18n.t("core.account/issues"),
+        users: I18n.t("core.users")
     }
 }
 
@@ -71,7 +67,7 @@ watch(() => storeIssues.issue.status, () => {
                 v-model="storeIssues.issue.status"
             ></lesli-dropdown>
             <lesli-button icon="list" :to="url.admin('account/issues')">
-                Issues
+                {{ translations.core.shared.view_tab_title_list }}
             </lesli-button>
         </lesli-header>
 
@@ -86,7 +82,7 @@ watch(() => storeIssues.issue.status, () => {
                                     email
                                 </span>
                                 </span>
-                            <span> Email</span>
+                            <span> {{ translations.core.shared.view_text_email }}</span>
                         </h6>
                         <p class="subtitle is-6"><a :href="'mailto:' + storeIssues.issue.email">{{ storeIssues.issue.email }}</a></p>
                         
@@ -96,7 +92,7 @@ watch(() => storeIssues.issue.status, () => {
                                     call
                                 </span>
                                 </span>
-                            <span> Telephone</span>
+                            <span> {{ translations.core.shared.view_text_telephone }}</span>
                         </h6>
                         <p class="subtitle is-6">{{ storeIssues.issue.telephone }}</p>
 
@@ -106,7 +102,7 @@ watch(() => storeIssues.issue.status, () => {
                                     list
                                 </span>
                                 </span>
-                            <span> Category</span>
+                            <span> {{ translations.core.shared.view_text_category }}</span>
                         </h6>
                         <p class="subtitle is-6">{{ storeIssues.issue.category }}</p>
 
@@ -114,10 +110,10 @@ watch(() => storeIssues.issue.status, () => {
                 </div>
 
             <div class="content">
-                <h6>Message</h6>
+                <h6>{{ translations.core.issues.view_text_message }}</h6>
                 <textarea readonly class="textarea has-fixed-size">{{ storeIssues.issue.message }}</textarea>
                 <br>
-                <p class="subtitle is-6">Created at</p>
+                <p class="subtitle is-6">{{ translations.core.shared.column_created_at }}</p>
                 <time datetime="2016-1-1">{{ storeIssues.issue.created_at }}</time>
             </div>
         </div>
