@@ -26,7 +26,7 @@ const slots = useSlots()
 
 
 // · defining emits
-const emit = defineEmits(['click', 'sort', 'paginate']);
+const emit = defineEmits(['click', 'sort', 'paginate', 'details']);
 
 
 // · defining props
@@ -120,6 +120,13 @@ function paginate(page) {
     emit('paginate', page)
 }
 
+
+// · 
+function openDetails(record) {
+    record.detailActive = !record.detailActive
+    setTimeout(() => { emit('details', record.detailActive) }, 500)
+}
+
 </script>
 <template>
     <table 
@@ -195,8 +202,8 @@ function paginate(page) {
                     <!--
                         Button to show/hide detail row
                     -->
-                    <td v-if="slots.detail" class="detailRow px-0 has-text-centered">
-                        <button class="button is-white px-2" @click="record.detailActive = !record.detailActive">
+                    <td v-if="slots.detail" class="detail-row px-2 has-text-centered">
+                        <button class="button is-white px-2" @click="openDetails(record)">
                             <span v-if="!record.detailActive" class="material-icons">
                                 chevron_right
                             </span>
