@@ -110,7 +110,7 @@ module NavigationHelper
     end
 
     # 02.05 Mailer engine
-    def navigation_engine_mailer title: "Mailer", subtitle: "cloud_mailer/mailer-logo.svg"
+    def navigation_engine_mailer title: "Mailer", subtitle: "Email automation system"
         if defined? CloudMailer
             navigation_engine_item(title, subtitle, "mailer", cloud_mailer.root_path, controller_path.include?("cloud_mailer"))
         end
