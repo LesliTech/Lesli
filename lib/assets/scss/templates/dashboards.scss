@@ -1,4 +1,5 @@
 /*
+
 Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -20,29 +21,28 @@ For more information read the license file including with this software.
 @import "lesli-css";
 
 
-// · 
-main {
-    background-color: #F0F8FF; 
+// · Configuration & variables
+@import "./lesli3/settings/variables";
 
-    // column container for widgets
-    .application-component .column {
-        margin-bottom: .5rem;
 
-        // widget card
-        .card {
-            border-radius: .6rem;
-            box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
-        }
+// column container for widgets
+.application-component .column {
+    margin-bottom: .6rem;
 
-        // widgets with tables
-        table.lesli-table {
-            box-shadow: none;
-            thead {
-                background-color: transparent;
-                border-bottom: 1px solid lesli-css-color(slate);
-                th {
-                    padding-bottom: 0px;
-                }
+    div.component-chart {
+        border-radius: .6rem;
+        box-shadow: $lesli-box-shadow;
+        background-color: lesli-css-color(solid, white);
+    }
+
+    // widgets with tables
+    table.lesli-table {
+        box-shadow: $lesli-box-shadow;
+        thead {
+            background-color: transparent;
+            border-bottom: 1px solid lesli-css-color(slate);
+            th {
+                padding-bottom: 0px;
             }
         }
     }
