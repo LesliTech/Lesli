@@ -37,6 +37,7 @@ table.lesli-table {
         th {
             border: none;
             font-weight: 700;
+            vertical-align: middle;
         }
 
         .icon-text:hover {
@@ -71,9 +72,8 @@ table.lesli-table {
     }
 
     // icon to show detail row if detail slot is provided
-    td.detailRow {
+    td.detail-row {
         width: 40px;
-        display: inline-block;
     }
 
     td.options {
