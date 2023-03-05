@@ -1,6 +1,5 @@
 <script setup>
 /*
-
 Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -28,19 +27,19 @@ const props = defineProps({
         type: String, 
         require: false,
         default: ""
+    },
+    transparent: {
+        type: Boolean,
+        require: false,
+        default: false
     }
 })
-
 </script>
 <template>
-    <div class="card">
-        <div class="card-content p-3">
-            <div class="content help">
-                <h6 class="title is-6 has-text-centered mb-2">
-                    {{ props.title }}
-                </h6>
-                <slot></slot>
-            </div>
-        </div>
+    <div :class="['dashboard-component', 'help', { 'transparent':props.transparent }]">
+        <h6 class="title is-6 has-text-centered mb-3">
+            {{ props.title }}
+        </h6>
+        <slot></slot>
     </div>
 </template>
