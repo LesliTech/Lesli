@@ -42,6 +42,9 @@ gem "sassc-rails", "2.1.2"
 # Pg is the Ruby interface to the PostgreSQL RDBMS. It works with PostgreSQL 9.3 and later.
 gem "pg", "1.3.3"
 
+# text search
+gem 'pg_search'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", "1.10.3", require: false
 
