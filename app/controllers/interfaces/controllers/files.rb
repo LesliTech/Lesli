@@ -1,10 +1,10 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 module Interfaces::Controllers::Files
@@ -22,7 +22,7 @@ module Interfaces::Controllers::Files
     require "base64"
 
     # @return [Json] Json that contains a list of all files related to a *cloud_object*
-    # @description Retrieves and returns all files associated to a *cloud_object*. The id of the 
+    # @description Retrieves and returns all files associated to a *cloud_object*. The id of the
     #     *cloud_object* is within the *params* attribute. If the child class provides a block, the function is
     #     yielded sending the files as parameters. The block given *must* return the HTTP response
     # @example
@@ -65,7 +65,7 @@ module Interfaces::Controllers::Files
                     file_attributes["editable"] = file.is_editable_by?(current_user)
                     file_attributes
                 end
-                
+
                 if block_given?
                     yield(@files)
                 else
@@ -90,10 +90,10 @@ module Interfaces::Controllers::Files
 
     # @controller_action_param :attachment [File] The uploaded attachment
     # @controller_action_param :name [String] The name to be displayed
-    # @controller_action_param :file_type [String] The file type of 
-    # @return [Json] Json that contains wheter the creation of the file was successful or not. 
+    # @controller_action_param :file_type [String] The file type of
+    # @return [Json] Json that contains wheter the creation of the file was successful or not.
     #     If it is not successful, it returs an error message
-    # @description Creates a new file associated to a *cloud_object*. The id of the 
+    # @description Creates a new file associated to a *cloud_object*. The id of the
     #     *cloud_object* is within the *params* attribute. If the child class provides a block, the function is
     #     yielded sending the cloud_object as first param, and the file as second param.
     #     The block given *must* return the HTTP response
@@ -135,7 +135,7 @@ module Interfaces::Controllers::Files
 
                 # Setting up file uploader to upload in background
                 Files::AwsUploadJob.perform_later(file)
-                
+
                 if block_given?
                     yield(cloud_object, file)
                 else
@@ -157,10 +157,10 @@ module Interfaces::Controllers::Files
 
     # @controller_action_param :attachment [File] The uploaded attachment
     # @controller_action_param :name [String] The name to be displayed
-    # @controller_action_param :file_type [String] The file type of 
-    # @return [Json] Json that contains wheter the creation of the file was successful or not. 
+    # @controller_action_param :file_type [String] The file type of
+    # @return [Json] Json that contains wheter the creation of the file was successful or not.
     #     If it is not successful, it returs an error message
-    # @description Updates an existing file associated to a *cloud_object*. The id of the 
+    # @description Updates an existing file associated to a *cloud_object*. The id of the
     #     *cloud_object* is within the *params* attribute. If the child class provides a block, the function is
     #     yielded sending the cloud_object as first param, and the file as second param.
     #     The block given *must* return the HTTP response
@@ -184,7 +184,7 @@ module Interfaces::Controllers::Files
 
                 # Setting up file uploader to upload in background
                 Files::AwsUploadJob.perform_later(@file)
-                
+
                 if block_given?
                     yield(@cloud_object, @file)
                 else
@@ -206,7 +206,7 @@ module Interfaces::Controllers::Files
 
     # @return [void]
     # @description Prepares the files for download and redirects the explorer to a new window,
-    #     where they can view/download the file. The id of the 
+    #     where they can view/download the file. The id of the
     #     *cloud_object* and the id of the *file* are within the *params* attribute
     # @example
     #     # Executing this controller's action from javascript's frontend
@@ -218,23 +218,28 @@ module Interfaces::Controllers::Files
         return respond_with_not_found unless @file
 
         file_model = file_model()
-        
+
         disposition = "inline"
         disposition = "attachment" if params["download"]
-        
-        # Sending file using CarrierWave
-        if @file.attachment_s3.file
 
-            # We either get the file from AWS and serve it ourselves or provide a direct AWS link with expiration time
-            if @file.size_mb && @file.size_mb > file_model.size_threshold
-                redirect_to(@file.refresh_external_url, allow_other_host: true)
+        begin
+            # Sending file using CarrierWave
+            if @file.attachment_s3.file
+
+                # We either get the file from AWS and serve it ourselves or provide a direct AWS link with expiration time
+                if @file.size_mb && @file.size_mb > file_model.size_threshold
+                    redirect_to(@file.refresh_external_url, allow_other_host: true)
+                else
+                    send_data(@file.attachment_s3.read, filename: @file.attachment_s3_identifier, disposition: disposition, stream: "true")
+                end
+            elsif @file.attachment_public.file
+                redirect_to(@file.attachment_public_url, allow_other_host: true)
             else
-                send_data(@file.attachment_s3.read, filename: @file.attachment_s3_identifier, disposition: disposition, stream: "true")
+                send_data(@file.attachment.read, filename: @file.attachment_identifier, disposition: disposition, stream: "true")
             end
-        elsif @file.attachment_public.file
-            redirect_to(@file.attachment_public_url, allow_other_host: true)
-        else
-            send_data(@file.attachment.read, filename: @file.attachment_identifier, disposition: disposition, stream: "true")
+        rescue => exception
+            # Returning an empty response if the file is not found on storage
+            send_data(nil)
         end
     end
 
@@ -262,7 +267,7 @@ module Interfaces::Controllers::Files
                     category: "action_destroy_file",
                     description: @file.name
                 )
-                
+
                 respond_with_successful
             end
         else
@@ -417,7 +422,7 @@ module Interfaces::Controllers::Files
     end
 
     # @return [void]
-    # @description Sets the variable @file. The variable contains the file 
+    # @description Sets the variable @file. The variable contains the file
     #     to be updated based on the id of the *cloud_object* and the id of the *file*. The variable
     #     will only be available if the file belongs to the current_user's account
     # @example
@@ -429,7 +434,7 @@ module Interfaces::Controllers::Files
     def set_file
         set_cloud_object
         return unless @cloud_object
-        
+
         @file = @cloud_object.files.find_by(id: params[:id])
     end
 
@@ -466,7 +471,7 @@ module Interfaces::Controllers::Files
             :file_type
         )
     end
-    
+
     # @return [CloudObject::File] The file model that the controller will handle
     # @descriptions Constantizes and returns the file model associated to this controller. This method
     #      can be overrided by the implementation in the child controller
@@ -478,4 +483,3 @@ module Interfaces::Controllers::Files
         self.class.name.gsub("Controller","").singularize.constantize
     end
 end
-    
