@@ -23,7 +23,7 @@ class Account::IssuesController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json do
-                return respond_with_pagination(Account::IssuesServices.new(current_user).index(query, params))
+                return respond_with_pagination(Account::IssueServices.new(current_user).index(query, params))
             end
         end
     end
@@ -93,7 +93,7 @@ class Account::IssuesController < ApplicationLesliController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_account_issue
-        @account_issue = Account::IssuesServices.new(current_user).find(params[:id])
+        @account_issue = Account::IssueServices.new(current_user).find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

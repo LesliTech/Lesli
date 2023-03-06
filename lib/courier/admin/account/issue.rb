@@ -17,10 +17,10 @@ For more information read the license file including with this software.
 =end
 module Courier
     module Admin
-        class Account::Issues
+        class Account::Issue
 
             def self.create current_user, params
-                ::Account::IssuesServices.new(current_user).create(params)
+                ::Account::IssueServices.new(current_user).create(params)
             end
 
         end

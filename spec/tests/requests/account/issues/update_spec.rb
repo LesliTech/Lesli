@@ -38,7 +38,7 @@ RSpec.describe "PUT:/administration/account/issues/:id.json", type: :request do
             source: ["not_specified", "web_page", "web_app", "api", "email", "call_center", "mobile_app"].sample,
             reference: Faker::Internet.url,
 
-        }    
+        }
 
         issue = @current_user.account.issues.new(issue_params)
         issue.user = @current_user
@@ -66,8 +66,6 @@ RSpec.describe "PUT:/administration/account/issues/:id.json", type: :request do
         })
 
         expect_response_with_successful
-
-        puts response_body
 
         # shared_expects validates the response body with the given arguments
         shared_expects(response_body, new_issue_params, [
@@ -116,7 +114,5 @@ RSpec.describe "PUT:/administration/account/issues/:id.json", type: :request do
         expect_response_with_error
 
     end
-
-  
 
 end
