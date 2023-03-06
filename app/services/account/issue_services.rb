@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 // ·
 =end
 
-class Account::IssuesServices < LesliServices
+class Account::IssueServices < LesliServices
 
     def create account_issue_params
         account_issue = ::Account::Issue.new(account_issue_params)
@@ -92,7 +92,7 @@ class Account::IssuesServices < LesliServices
             status: issue[:status],
             source: issue[:source],
             reference: issue[:reference],
-            created_at:  LC::Date2.new(issue[:created_at]).date_time.to_s 
+            created_at:  LC::Date2.new(issue[:created_at]).date_time.to_s
         }
     end
 
@@ -108,7 +108,6 @@ class Account::IssuesServices < LesliServices
 
         self
     end
-
 
     def find id
         self.resource = current_user.account.issues.find_by(id: id)
