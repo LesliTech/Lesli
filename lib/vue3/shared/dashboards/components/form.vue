@@ -203,67 +203,52 @@ function onDeleteDashboard() {
 
 </script>
 <template>
-    <form @submit.prevent="isEditable ? onUpdate() : onCreate()">
-        <fieldset>
-            <div class="columns">
-                <div class="column is-4">
-                    <!-- Name -->
-                    <div class="field">
-                        <label class="label">
-                            {{translations.dashboards.column_name}}
-                            <sup class="has-text-danger">*</sup>
-                        </label>
-                        <div class="control">
-                            <input class="input" type="text" v-model="storeDashboard.dashboard.name" required>
-                        </div>
+    <lesli-form class="mb-6" @submit="isEditable ? onUpdate() : onCreate()">
+        <div class="columns">
+            <div class="column is-4">
+                <!-- Name -->
+                <div class="field">
+                    <label class="label">
+                        {{translations.dashboards.column_name}}
+                        <sup class="has-text-danger">*</sup>
+                    </label>
+                    <div class="control">
+                        <input class="input" type="text" v-model="storeDashboard.dashboard.name" required>
                     </div>
                 </div>
+            </div>
 
-                <div class="column is-4">
-                    <!-- Role -->
-                    <div class="field">
-                        <label class="label">{{ translations.dashboards.column_roles_id }}</label>
-                        <div class="control">
-                            <lesli-select
-                                v-model="storeDashboard.dashboard.roles_id"
-                                :options="storeDashboard.options.roles"
-                            ></lesli-select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="column is-4">
-                    <!-- Default -->
-                    <div class="field">
-                        <label class="label">{{ translations.dashboards.column_default }}</label>
+            <div class="column is-4">
+                <!-- Role -->
+                <div class="field">
+                    <label class="label">{{ translations.dashboards.column_roles_id }}</label>
+                    <div class="control">
                         <lesli-select
-                            v-model="storeDashboard.dashboard.default"
-                            :options="default_options">
-                        </lesli-select>
+                            v-model="storeDashboard.dashboard.roles_id"
+                            :options="storeDashboard.options.roles"
+                        ></lesli-select>
                     </div>
                 </div>
             </div>
 
-            <!-- Save button -->
-            <div class="is-flex is-justify-content-space-between">
-                <lesli-button icon="save" :loading="storeDashboard.loading">
-                    {{ translations.dashboards.view_btn_save_dashboard }}
-                </lesli-button> 
-                <lesli-button danger icon="delete" @click="onDeleteDashboard">
-                    {{ translations.dashboards.view_btn_delete_dashboard }}
-                </lesli-button>
+            <div class="column is-4">
+                <!-- Default -->
+                <div class="field">
+                    <label class="label">{{ translations.dashboards.column_default }}</label>
+                    <lesli-select
+                        v-model="storeDashboard.dashboard.default"
+                        :options="default_options">
+                    </lesli-select>
+                </div>
             </div>
-        </fieldset>
-    </form>
-
-    <div class="field is-horizontal my-5">
-        <div class="field-label is-normal">
-            <label class="label">
-                {{ translations.dashboards.view_title_add_component }}
-            </label>
         </div>
-        <div class="field-body">
-            <div class="field is-narrow">
+
+        <!-- Save button -->
+        <div class="is-flex is-justify-content-space-between">
+            <div class="field">
+                <label class="label">
+                    {{ translations.dashboards.view_title_add_component }}
+                </label>
                 <div class="control">
                     <lesli-select
                         v-model="storeDashboard.new_component_id"
@@ -272,14 +257,14 @@ function onDeleteDashboard() {
                     </lesli-select>
                 </div>
             </div>
+            <div class="buttons">
+                <lesli-button icon="save" :loading="storeDashboard.loading">
+                    {{ translations.dashboards.view_btn_save_dashboard }}
+                </lesli-button> 
+                <lesli-button danger icon="delete" @click="onDeleteDashboard">
+                    {{ translations.dashboards.view_btn_delete_dashboard }}
+                </lesli-button>
+            </div>
         </div>
-    </div>
+    </lesli-form>
 </template>
-<style>
-fieldset {
-    padding: 1rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-}
-</style>

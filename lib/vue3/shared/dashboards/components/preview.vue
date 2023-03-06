@@ -122,8 +122,3 @@ function sizeDecrease(component) {
         </div>
     </div>
 </template>
-<style>
-    .control-label {
-        Width: 90px;
-    }
-</style>
