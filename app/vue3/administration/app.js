@@ -43,6 +43,11 @@ import appDatetime from "Lesli/vue3/administration/apps/date_time/index.vue"
 import appBranding from "Lesli/vue3/administration/apps/branding/index.vue"
 import appTheme from "Lesli/vue3/administration/apps/theme/index.vue"
 import appAccountShow from "Lesli/vue3/administration/apps/accounts/show.vue"
+import appAccountIssues from "Lesli/vue3/administration/apps/account_issues/index.vue"
+import appAccountIssuesShow from "Lesli/vue3/administration/apps/account_issues/show.vue"
+
+
+
 
 // · 
 app("Administration", [{
@@ -102,4 +107,14 @@ app("Administration", [{
 }, {
     path: "/account/settings/theme",
     component: appTheme
-}])
+}, {
+    path: "/account/settings/theme",
+    component: appTheme
+}, {
+    path: "/account/issues",
+    component: appAccountIssues
+}, {
+    path: "/account/issues/:id",
+    component: appAccountIssuesShow
+},
+])
