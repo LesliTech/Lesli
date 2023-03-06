@@ -1,5 +1,5 @@
-<script setup>
 /*
+
 Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -17,29 +17,12 @@ For more information read the license file including with this software.
 */
 
 
-// · import vue tools
-import { onMounted, inject, ref } from "vue"
-
-
 // · 
-const props = defineProps({
-    title: {
-        type: String, 
-        require: false,
-        default: ""
-    },
-    transparent: {
-        type: Boolean,
-        require: false,
-        default: false
+.lesli-form {
+    fieldset {
+        padding: 1rem;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        background-color: #fff;
     }
-})
-</script>
-<template>
-    <div :class="['dashboard-component', 'help', { 'transparent':props.transparent }]">
-        <h6 class="title is-6 has-text-centered mb-3">
-            {{ props.title }}
-        </h6>
-        <slot></slot>
-    </div>
-</template>
+}
