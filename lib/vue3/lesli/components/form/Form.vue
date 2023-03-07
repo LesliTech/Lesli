@@ -1,6 +1,6 @@
 <script setup>
 /*
-Copyright (c) 2023, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -18,28 +18,21 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { onMounted, inject, ref } from "vue"
+import { ref, watch, onMounted } from "vue"
 
 
-// · 
-const props = defineProps({
-    title: {
-        type: String, 
-        require: false,
-        default: ""
-    },
-    transparent: {
-        type: Boolean,
-        require: false,
-        default: false
-    }
-})
+// · defining emits
+const emit = defineEmits(['submit']);
+
+
+// · defining props
+const props = defineProps({})
+
 </script>
 <template>
-    <div :class="['dashboard-component', 'help', { 'transparent':props.transparent }]">
-        <h6 class="title is-6 has-text-centered mb-3">
-            {{ props.title }}
-        </h6>
-        <slot></slot>
-    </div>
+    <form class="lesli-form" @submit.prevent="emit('submit')">
+        <fieldset>
+            <slot></slot>
+        </fieldset>
+    </form>
 </template>

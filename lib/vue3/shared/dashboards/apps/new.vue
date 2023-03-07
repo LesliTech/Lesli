@@ -25,8 +25,9 @@ import { useRouter, useRoute } from 'vue-router'
 // · import stores
 import { useDashboard } from "LesliVue/stores/shared/dashboard"
 
+
 // · import components
-import dashboardForm from "../dashcomponents/dashboard-form.vue"
+import dashboardForm from "../components/form.vue"
 
 
 // · defining props
