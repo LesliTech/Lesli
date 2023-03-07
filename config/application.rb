@@ -85,5 +85,7 @@ module Lesli
             env.export_concurrent = false
         end
 
+        config.hosts << "50a6-200-114-115-138.ngrok.io"
+
     end
 end
