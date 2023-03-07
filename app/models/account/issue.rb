@@ -45,6 +45,14 @@ class Account::Issue < ApplicationRecord
         call_center: "call_center",
         mobile_app: "mobile_app",
     }, _default: "not_specified"
+    
+
+    def self.options (current_user, query)
+        return {
+            statuses: statuses.map { |status, _value| {value: _value, text: status} }
+        }
+    end
+
 
     def send_confirmation_email
         AccountMailer.with(email: self.email).issue_received_confirmation.deliver_later
