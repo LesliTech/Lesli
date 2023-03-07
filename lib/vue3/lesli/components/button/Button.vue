@@ -18,8 +18,10 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed, getCurrentInstance } from "vue"
+import { ref, reactive, onMounted, watch, computed, useSlots } from "vue"
 
+// · 
+const slots = useSlots()
 
 // · defining emits
 const emit = defineEmits(['click']);
@@ -54,6 +56,16 @@ const props = defineProps({
         type: Boolean,
         default: false,
         required: false
+    },
+    small: {
+        type: Boolean,
+        default: false,
+        required: false
+    },
+    iconOnly: {
+        type: Boolean,
+        default: false,
+        required: false
     }
 })
 
@@ -64,7 +76,6 @@ const buttonColor = computed(() => {
         return "is-primary"
     }
     
-
     if (props.danger) return "is-danger"
 
 })
@@ -85,11 +96,11 @@ const buttonColor = computed(() => {
     <button 
         v-if="!props.to" 
         @click="emit('click')" 
-        :class="['button', buttonColor, { 'is-outlined': !solid }, { 'is-loading': loading }]">
-        <span v-if="icon" class="icon">
+        :class="['button', buttonColor, { 'is-outlined': !solid }, { 'is-loading': loading }, { 'is-small': small }]">
+        <span v-if="icon" :class="['icon', { 'is-small': small }]">
             <span class="material-icons">{{ icon }}</span>
         </span>
-        <span>
+        <span v-if="!iconOnly">
             <slot></slot>
         </span>
     </button>
