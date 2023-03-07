@@ -171,7 +171,7 @@ watch(() => props.labels, (newLabels) => {
 
 </script>
 <template>
-    <div>
+    <div class="component-chart">
         <h3 v-if="!!title">{{ title }}</h3>
         <p v-if="!!subtitle">{{ subtitle }}</p>
         <div :id="chartId"></div>

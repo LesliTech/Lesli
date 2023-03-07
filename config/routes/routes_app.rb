@@ -87,7 +87,11 @@ module RoutesApp
                         resources :cronos
 
                         # general feedback
-                        resources :issues
+                        resources :issues do
+                            collection do
+                                get :options
+                            end
+                        end
 
                         # system currencies 
                         resources :currencies, only: [:index, :show, :new, :create] do

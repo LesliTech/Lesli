@@ -20,19 +20,6 @@ For more information read the license file including with this software.
 class Account::SettingsController < ApplicationLesliController
     before_action :set_account_setting, only: [:destroy]
 
-    def privileges
-        {
-            index: [],
-            new: [],
-            edit: [],
-            destroy: [],
-            security: [],
-            date_time: [],
-            branding: [],
-            theme: [],
-        }
-    end
-
     # GET /settings
     def index
         respond_to do |format|
