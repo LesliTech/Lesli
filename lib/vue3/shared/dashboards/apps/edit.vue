@@ -25,13 +25,16 @@ import { useRouter, useRoute } from 'vue-router'
 // · import stores
 import { useDashboard } from "LesliVue/stores/shared/dashboard"
 
+
 // · import components
-import dashboardForm from "../dashcomponents/dashboard-form.vue"
-import render from "../dashcomponents/render.vue"
+import dashboardForm from "../components/form.vue"
+import dashboardPreview from "../components/preview.vue"
+
 
 // ·
 const router = useRouter()
 const url = inject("url")
+
 
 // · defining props
 const props = defineProps({
@@ -77,36 +80,12 @@ onMounted(() => {
 
 <template>
     <section class="application-component">
-        <lesli-header :title="translations.dashboards.view_title_main">
+        <lesli-header :title="storeDashboard.dashboard.name">
             <lesli-button icon="list" :to="url[props.cloudModule]('dashboards')">
                 {{ translations.core.view_btn_list }}
             </lesli-button>
         </lesli-header>
-
-
-        <lesli-tabs v-model="tab">
-            <lesli-tab-item title="Edition mode">
-                <dashboard-form :cloud-module="props.cloudModule" is-editable></dashboard-form>
-            </lesli-tab-item>
-
-            <lesli-tab-item title="Render view">
-                <render :cloud-module="props.cloudModule" :render-components="props.renderComponents"></render>
-            </lesli-tab-item>
-
-            <lesli-tab-item :title="translations.dashboards.view_tab_title_delete">
-                <div class="card">
-                    <div class="card-content">
-                        <span class="has-text-danger">
-                            {{translations.dashboards.messages_danger_delete_confirmation}}
-                        </span>
-                        <br>
-                        <br>
-                        <lesli-button @click="onDeleteDashboard">{{ translations.dashboards.view_btn_delete_dashboard }}</lesli-button>
-                    </div>
-                </div>
-            </lesli-tab-item>
-
-        </lesli-tabs>
-
+        <dashboard-form :cloud-module="props.cloudModule" is-editable></dashboard-form>
+        <dashboard-preview :cloud-module="props.cloudModule" :render-components="props.renderComponents"></dashboard-preview>
     </section>
 </template>
