@@ -238,8 +238,15 @@ module Interfaces::Controllers::Files
                 send_data(@file.attachment.read, filename: @file.attachment_identifier, disposition: disposition, stream: "true")
             end
         rescue => exception
-            # Returning an empty response if the file is not found on storage
-            send_data(nil)
+            # Logging the failure to retrieve the file
+            @file.cloud_object.activities.create(
+                user_creator: current_user,
+                category: "action_not_found_file",
+                description: "#{@file.name} - #{@file.attachment_identifier}"
+            )
+
+            # Returning a generic image in response if the file is not found on storage
+            redirect_to("/assets/global/generic.png")
         end
     end
 
