@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 import { onMounted } from "vue"
 
 // · import store
-import { useNotification } from "LesliVue/stores/shared/notification"
+import { useNotification } from "LesliVue/stores/shared/cloud_bell/notification"
 
 // · import components
 import editorRichText from "LesliVue/components/editors/richtext.vue"
