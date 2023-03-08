@@ -56,9 +56,6 @@ RSpec.shared_context "request api authentication" do
                 "source": "rspec_tests"
             })
 
-            pp request
-            pp response.body
-
             @token = JSON.parse(response.body).dig("token")
 
         end
