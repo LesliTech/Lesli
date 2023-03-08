@@ -25,6 +25,9 @@ module Lesli
         # Initialize configuration defaults for originally generated Rails version.
         config.load_defaults 7.0
 
+        # deprecated, will be deleted at January, 2022
+        config.lesli_settings = Lesli::settings(Rails.env) 
+
         # Lesli configuration 
         config.lesli = Lesli::settings(Rails.env).deep_symbolize_keys
 
