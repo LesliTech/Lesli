@@ -26,9 +26,9 @@ module Courier
                 CloudTime::TimeRecordServices.new(current_user).find(id)
             end
             
-            def self.index(current_user, query)
+            def self.index(current_user, query, user_id=nil)
                 return {} unless defined? CloudTime
-                CloudTime::TimeRecordServices.new(current_user, query).index
+                CloudTime::TimeRecordServices.new(current_user, query).index(user_id)
             end
 
             def self.create(current_user, params)
