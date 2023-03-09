@@ -23,7 +23,6 @@ module Lesli
 
     @@builder = ''
     @@engines = []
-    @@modules = []
     @@settings = Hash.new
     @@settings_lesli = Hash.new
     @@settings_builder = Hash.new
@@ -57,7 +56,16 @@ module Lesli
     # Get collection of installed engines (as code)
     def Lesli.engines
 
+        # list of required gems
+        gems = []
+
+        # list of installed engines (cloned repos)
+        engines = []
+
+        # return list of engines if found
         return @@engines if @@engines.any?
+
+        settings_load()
 
         # return empty if engine folder does not exists
         return [] unless Dir.exist?("./engines")
@@ -100,7 +108,7 @@ module Lesli
             next unless engine_info["load"] == true
 
             # add engine to the installed engines collection
-            @@engines.push({
+            engines.push({
                 type: engine_info["type"] || "engine",
                 code: engine_info["code"],
                 name: engine_info["name"],
@@ -114,16 +122,6 @@ module Lesli
 
         end
 
-        @@engines
-
-    end
-
-
-    def Lesli.modules 
-
-        gems = []
-
-        return @@modules if @@modules.any?
         
         # defined empty array if no modules defined for builder
         if @@settings_server.key?("modules")
@@ -140,15 +138,14 @@ module Lesli
 
         end
 
-        @@modules = @@engines.clone
 
         # load gems into the engine collection
         gems.each do |gem|
 
             # ignore gem if is already in the engines collection as cloned repo
-            next if @@modules.find { |modulo| modulo[:code] == gem[:code] }
+            next if engines.find { |engine| engine[:code] == gem[:code] }
 
-            @@modules.push({
+            engines.push({
                 type: "gem",
                 code: gem[:code],
                 name: gem[:name],
@@ -157,7 +154,7 @@ module Lesli
 
         end
 
-        @@modules
+        @@engines = engines.clone
 
     end
 
@@ -168,7 +165,7 @@ module Lesli
         name = "Lesli"
         code = "lesli"
 
-        @@engines.each do |engine|
+        engines().each do |engine|
             next if engine[:type] != "builder"
             name = engine[:name]
             code = engine[:code]
@@ -186,6 +183,8 @@ module Lesli
     def Lesli.settings env="development"
 
         return @@settings unless @@settings.empty?
+
+        settings_load()
 
         @@settings = @@settings_lesli.clone
 
@@ -211,9 +210,7 @@ module Lesli
         # parse available locale codes for Rails
         @@settings["configuration"]["locales"] = @@settings["configuration"]["locales"].keys
 
-        @@settings["engines"] = modules()
-
-        @@settings["modules"] = modules()
+        @@settings["engines"] = engines()
 
         @@settings["instance"] = instance()
 
@@ -238,9 +235,5 @@ module Lesli
             end
         }
     end
-
-
-    # initialize settings files
-    settings_load()
 
 end
