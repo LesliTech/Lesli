@@ -95,7 +95,7 @@ Rails.application.configure do
 
     config.action_mailer.perform_deliveries = true
 
-    config.action_mailer.delivery_method = Rails.configuration.lesli_settings["env"]["action_mailer"]["delivery_method"].to_sym
+    config.action_mailer.delivery_method = Rails.configuration.lesli.dig(:env, :action_mailer, :delivery_method).to_sym
 
     # add configuration for SMTP using mailgun 
     if config.action_mailer.delivery_method == :smtp
@@ -108,16 +108,16 @@ Rails.application.configure do
         }
     end
 
-    config.action_mailer.asset_host = Rails.configuration.lesli_settings["env"]["action_mailer"]["asset_host"]
+    config.action_mailer.asset_host = Rails.configuration.lesli.dig(:env, :action_mailer, :asset_host)
     
     config.action_mailer.default_url_options = { 
-        host: Rails.configuration.lesli_settings["env"]["action_mailer"]["default_url_options_host"] 
+        host: Rails.configuration.lesli.dig(:env, :action_mailer, :default_url_options_host)
     }
 
     config.action_mailer.default_options = {
 
         # this option is also customized in app/mailers/application_lesli_mailer.rb
-        from: Rails.configuration.lesli_settings["env"]["action_mailer"]["default_options_from"]
+        from: Rails.configuration.lesli.dig(:env, :action_mailer, :default_options_from)
     }
 
 end
