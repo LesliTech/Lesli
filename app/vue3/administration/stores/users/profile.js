@@ -19,6 +19,10 @@ For more information read the license file including with this software.
 // · 
 import { defineStore } from "pinia"
 import { useUser } from "LesliVue/stores/user"
+import { useUtils } from "LesliVue/composables/utils"
+
+
+const storeUtils = useUtils()
 
 
 // · 
@@ -48,6 +52,10 @@ export const useProfile = defineStore("profile", {
             this.roles = []
             this.http.get(this.url.admin("profile")).then(result => {                
                 this.profile = result
+                this.profile['initials'] = storeUtils.initials(
+                    this.profile.detail_attributes?.first_name,
+                    this.profile.detail_attributes?.last_name
+                )
                 this.parseRoles(result.roles)
             }).catch(error => {
                 console.log(error)

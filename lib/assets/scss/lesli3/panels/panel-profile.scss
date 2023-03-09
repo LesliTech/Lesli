@@ -1,4 +1,5 @@
 /*
+
 Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -17,30 +18,31 @@ For more information read the license file including with this software.
 
 
 // · 
-import { defineStore } from "pinia"
+.lesli-panel-profile {
 
-
-// · 
-export const useLayout = defineStore("core.layout", {
-    state: () => {
-        return {
-            showEngines: false,
-            showNotifications: false,
-            showTasks: false,
-            showFiles: false,
-            showTickets: false,
-            showProfile: false,
-            showAnnouncements: false,
-            header: {
-                notifications: lesli.notifications,
-                tickets: lesli.tickets,
-                tasks: lesli.tasks
-            }
-        }
-    },
-    actions: {
-        toggleEngines() {
-            this.showEngines = !this.showEngines
-        }
+    .lesli-panel-background {
+        display: none !important;
     }
-})
+
+    .lesli-panel-content {
+        width: 400px !important;
+    }
+
+    .lesli-panel-header {
+        border-bottom: none !important;
+    }
+
+    figure {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: lesli-css-color(silver, 100);
+        border: 2px solid var(--lesli-color-primary, lesli-css-color(blue));
+    }
+    .alternative-avatar {
+        font-weight: 200;
+        font-size: 3rem;
+        color: var(--lesli-color-primary, lesli-css-color(blue));
+    }
+}
