@@ -199,7 +199,7 @@ onUnmounted(() => {
                 <!-- Profile options -->
                 <div class="dropdown is-right is-hoverable header-user-options">
                     <div class="dropdown-trigger">
-                        <span class="material-icons md-36">
+                        <span class="material-icons md-36" @click="storeLayout.showProfile = true">
                             account_box
                         </span>
                     </div>
