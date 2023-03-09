@@ -17,16 +17,9 @@ For more information read the license file including with this software.
 
 %>
 
-<%# Loading standar pdf viewer %>
-<%# Temporary disable while moving to vue3 %>
-<% if defined?(DeutscheLeibrenten) && false %>
-    <application-component-panel-viewer-pdf></application-component-panel-viewer-pdf>
-<% end %>
-
-
 <%# Loading standard focus panel %>
 <% if defined?(CloudFocus) %>
-    <application-component-panel-tasks :instance-endpoint="'<%= lesli_instance_code == "deutsche_leibrenten" ? "crm" : "focus" %>'">
+    <application-component-panel-tasks>
     </application-component-panel-tasks>
 <% end %>
 
@@ -39,11 +32,12 @@ For more information read the license file including with this software.
 
 
 <%# Loading standar help panels %>
-<%# Temporary disable while moving to vue3 %>
 <% if defined?(CloudHelp) %>
-    <application-component-panel-tickets :instance-endpoint="'<%= lesli_instance_code == "deutsche_leibrenten" ? "crm" : "help" %>'"></application-component-panel-tickets>
+    <application-component-panel-tickets></application-component-panel-tickets>
 <% end %>
 
+<%# Loading user profile panel %>
+<application-component-panel-profile></application-component-panel-profile>
 
 <%# Loading cloud object files panel %>
 <application-component-panel-files></application-component-panel-files>
