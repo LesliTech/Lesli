@@ -33,7 +33,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
             return flash[:danger] = I18n.t("core.users/confirmations.messages_warning_invalid_token")
         end
 
-        # check if token belongs to a uncofirmed user
+        # check if token belongs to a unconfirmed user
         user = User.find_by(:confirmation_token => token, :confirmed_at => nil)
 
         # validate that user were found
@@ -45,10 +45,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
         log = user.logs.create({ description: "confirmation_atempt_successful" })
 
         # confirm the user
-        user.confirm
-
-        # force token deletion so we are sure nobody will be able to use the token again
-        user.update(confirmation_token: nil)
+        User::RegistrationService.new(user).confirm
 
         # let the user knows that the confirmation is done
         flash[:success] = I18n.t("core.users/confirmations.messages_success_email_updated")
