@@ -75,52 +75,73 @@ watch(() => storeIssues.issue.status, () => {
             <div class="card-content">
                 <div class="media">
                     <div class="media-content">
-                        <p class="title is-4">{{ storeIssues.issue.first_name + " " +storeIssues.issue.last_name}}</p>
-                        <h6>
-                            <span class="icon is-small">
-                                <span class="material-icons">
-                                    email
-                                </span>
-                                </span>
-                            <span> {{ translations.core.shared.view_text_email }}</span>
-                        </h6>
-                        <p class="subtitle is-6"><a :href="'mailto:' + storeIssues.issue.email">{{ storeIssues.issue.email }}</a></p>
-                        
-                        <h6>
-                            <span class="icon is-small">
-                                <span class="material-icons">
-                                    call
-                                </span>
-                                </span>
-                            <span> {{ translations.core.shared.view_text_telephone }}</span>
-                        </h6>
-                        <p class="subtitle is-6">{{ storeIssues.issue.telephone }}</p>
+                        <div class="columns">
+                            <div class="column">
 
-                        <h6>
-                            <span class="icon is-small">
-                                <span class="material-icons">
-                                    list
-                                </span>
-                                </span>
-                            <span> {{ translations.core.shared.view_text_category }}</span>
-                        </h6>
-                        <p class="subtitle is-6">{{ storeIssues.issue.category }}</p>
+                                <p class="title is-4">{{ storeIssues.issue.first_name + " " +storeIssues.issue.last_name}}</p>
+                                <h6>
+                                    <span class="icon is-small">
+                                        <span class="material-icons">
+                                            email
+                                        </span>
+                                        </span>
+                                    <span> {{ translations.core.shared.view_text_email }}</span>
+                                </h6>
+                                <p class="subtitle is-6"><a :href="'mailto:' + storeIssues.issue.email">{{ storeIssues.issue.email }}</a></p>
+                                
+                                <h6>
+                                    <span class="icon is-small">
+                                        <span class="material-icons">
+                                            call
+                                        </span>
+                                        </span>
+                                    <span> {{ translations.core.shared.view_text_telephone }}</span>
+                                </h6>
+                                <p class="subtitle is-6">{{ storeIssues.issue.telephone }}</p>
+
+                            </div>
+
+                            <div class="column">
+                                <h6>
+                                    <span> {{ translations.core.shared.view_text_category }}</span>
+                                </h6>
+                                <p class="subtitle is-6">{{ storeIssues.issue.category }}</p>
+
+                                <h6>
+                                    <span>{{ translations.core.issues.view_text_source }} </span>
+                                </h6>
+                                <p class="subtitle is-6">{{ storeIssues.issue.source }}</p>
+
+                                <h6>
+                                    <span>{{ translations.core.issues.view_text_model_type }} </span>
+                                </h6>
+                                <p class="subtitle is-6">{{ storeIssues.issue.model_type }}</p>
+
+                                <h6>
+                                    <span>{{ translations.core.issues.view_text_model_id }}</span>
+                                </h6>
+                                <p class="subtitle is-6">{{ storeIssues.issue.model_id }}</p>
+
+                            </div>
+
+
+                        </div>
+                        
 
                     </div>
                 </div>
 
-            <div class="content">
-                <h6>{{ translations.core.issues.view_text_message }}</h6>
-                <textarea readonly class="textarea has-fixed-size">{{ storeIssues.issue.message }}</textarea>
-                <br>
-                <p class="subtitle is-6">{{ translations.core.shared.column_created_at }}</p>
-                <time datetime="2016-1-1">{{ storeIssues.issue.created_at }}</time>
+                <div class="content">
+                    <h6>{{ translations.core.issues.view_text_message }}</h6>
+                    <textarea readonly class="textarea has-fixed-size">{{ storeIssues.issue.message }}</textarea>
+                    <br>
+                    <p class="subtitle is-6">{{ translations.core.shared.column_created_at }}</p>
+                    <time datetime="2016-1-1">{{ storeIssues.issue.created_at }}</time>
+                </div>
             </div>
+
         </div>
-</div>
 
 
-
-       
     </section>
 </template>

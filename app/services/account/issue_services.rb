@@ -27,6 +27,14 @@ class Account::IssueServices < LesliServices
         if current_user
             account_issue.user = current_user
             account_issue.account = current_user.account
+
+            # Set email and full name from the current user if not provided
+            unless account_issue_params[:email] || account_issue_params[:first_name]
+                account_issue.email = current_user.email
+                account_issue.first_name = current_user.detail.first_name
+                account_issue.last_name = current_user.detail.last_name
+            end
+
         end
 
         if account_issue.save
@@ -92,6 +100,8 @@ class Account::IssueServices < LesliServices
             status: issue[:status],
             source: issue[:source],
             reference: issue[:reference],
+            model_type: issue[:model_type],
+            model_id: issue[:model_id],
             created_at:  LC::Date2.new(issue[:created_at]).date_time.to_s
         }
     end
