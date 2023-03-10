@@ -55,12 +55,12 @@ class LesliServices
 
 
     # Standard method to list data from the database
-    def list query=nil, params=nil
+    def list params=nil
     end
 
 
     # Standard method to index data from the database
-    def index query, params=nil
+    def index params=nil
     end
 
 

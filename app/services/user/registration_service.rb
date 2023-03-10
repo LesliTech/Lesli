@@ -21,6 +21,26 @@ class User::RegistrationService
         @resource = resource
     end
 
+    def confirm
+
+        return LC::Response.service(false, I18n.t("core.shared.messages_warning_user_not_found")) if @resource.blank?
+
+        # confirm the user
+        @resource.confirm
+
+        # force token deletion so we are sure nobody will be able to use the token again
+        @resource.update(confirmation_token: nil)
+
+        # send a welcome email to user as is confirmed
+        UserMailer.with(user: @resource).welcome.deliver_later
+
+        # initialize user dependencies
+        @resource.after_confirmation_user
+
+        LC::Response.service(true)
+
+    end
+
     def create_account
 
         return LC::Response.service(false, I18n.t("core.shared.messages_warning_user_not_found")) if @resource.blank?
@@ -68,7 +88,7 @@ class User::RegistrationService
         @resource.save
 
         # initialize user dependencies
-        @resource.after_confirmation_user
+        @resource.after_account_assignation
 
         LC::Response.service(true)
 
