@@ -18,26 +18,15 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { onMounted, inject, ref } from "vue"
+import { onMounted } from "vue"
 import { useRouter, useRoute } from 'vue-router'
 
 
 // · import stores
 import { useWorkflow } from "LesliVue/stores/shared/workflow"
 
-
 // · import components
-import componentWorkflowStatuses from "../components/workflow-statuses.vue"
-import componentWorkflowVisualize from "../components/workflow-visualize.vue"
-import componentWorkflowNext from "../components/workflow-next.vue"
-
-
-
 import workflowForm from "../components/workflow-form.vue"
-import checksList from "./checks/index.vue"
-import actionsList from "./actions/index.vue"
-import associationForm from "../components/associations.vue"
-
 
 
 // · defining props
@@ -54,26 +43,13 @@ const props = defineProps({
     },
     // · prop that indicates the resource that you need to interact with.
     cloudObject: {
-        type: String,
+        type: Object,
         required: true,
     },
 })
 
-
 // · implement stores
 const storeWorkflow = useWorkflow()
-
-
-// · initialize/inject plugins
-const router = useRouter()
-const route = useRoute()
-const url = inject("url")
-
-
-// set props to store
-storeWorkflow.cloudModule = props.cloudModule
-storeWorkflow.cloudObject = props.cloudObject
-
 
 // · translations
 const translations = {
@@ -81,42 +57,24 @@ const translations = {
     core: I18n.t('core.shared')
 }
 
+// set props to store
+storeWorkflow.cloudModule = props.cloudModule
+storeWorkflow.cloudObject = props.cloudObject
 
-// · This function is used to delete a workflow
-const deleteWorkflow = () => {
-    storeWorkflow.deleteWorkflow().then(()=> {
-        router.push(url.root(`${props.appMountPath}`).s)
-    })
-}
-
-
-// · 
-onMounted(() => {
-    storeWorkflow.fetchWorkflow(route.params?.id)
-})
 </script>
 
 <template>
     <section class="application-component">
-        <lesli-header :title="storeWorkflow.workflow.name">
+        <lesli-header :title="translations.workflows.view_title_main">
             <lesli-button icon="list" :to="url.root(props.appMountPath)">
                 {{ translations.core.view_btn_list }}
             </lesli-button>
         </lesli-header>
 
-        <lesli-tabs v-model="storeWorkflow.tab">
-            <lesli-tab-item title="Statuses">
-                <component-workflow-statuses :app-mount-path="props.appMountPath" is-editable></component-workflow-statuses>
-            </lesli-tab-item>
-
-            <lesli-tab-item title="Visualize">
-                <component-workflow-visualize></component-workflow-visualize>
-            </lesli-tab-item>
-            <lesli-tab-item title="Actions">
-                <actions-list></actions-list>
+        <lesli-tabs v-model="tab">
+            <lesli-tab-item title="Edition mode">
+                <workflow-form :app-mount-path="props.appMountPath"></workflow-form>
             </lesli-tab-item>
         </lesli-tabs>
     </section>
-
-    <component-workflow-next></component-workflow-next>
 </template>

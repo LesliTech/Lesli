@@ -29,6 +29,10 @@ const props = defineProps({
     open: {
         type: Boolean,
         default: false
+    },
+    title: {
+        type: String,
+        required: false
     }
 })
 
@@ -44,6 +48,7 @@ watch(() => props.open, value => isOpen.value = value)
 function close() {
     emit('update:open', false)
     emit('open', false)
+    console.log("close")
 }
 
 </script>
@@ -62,6 +67,7 @@ function close() {
                     <div class="is-flex-grow-1">
                         <h4>
                             <slot name="header"></slot>
+                            {{ props.title }}
                         </h4>
                     </div>
                     <div class="hover" @click="close">
