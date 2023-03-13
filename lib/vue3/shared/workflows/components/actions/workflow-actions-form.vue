@@ -22,16 +22,22 @@ import { inject, watch, onMounted, ref } from "vue"
 import { useRouter, useRoute } from 'vue-router'
 
 
-// · import store
-import { useActions } from "LesliVue/stores/shared/workflows/actions"
-import notificationForm from "./forms/notification-form.vue"
-import emailForm from "./forms/email-form.vue"
-import taskForm from "./forms/task-form.vue"
+// · import action components
+import workflowActionsFormNotification from "./workflow-actions-form-notification.vue"
+import workflowActionsFormEmail from "./workflow-actions-form-email.vue"
+import workflowActionsFormTask from "./workflow-actions-form-task.vue"
+import workflowActionsFormChatroom from "./workflow-actions-form-chatroom.vue"
+
+/*
 import chatroomForm from "./forms/chatroom-form.vue"
 import cloudObjectFileForm from "./forms/cloud-object-file-form.vue"
 import cloudObjectCloneForm from "./forms/cloud-object-clone-form.vue"
 import sendCloudObjectFileForm from "./forms/send-cloud-object-file.vue"
+*/
 
+
+// · import store
+import { useActions } from "LesliVue/stores/shared/workflows/actions"
 
 
 // · initialize/inject plugins
@@ -52,11 +58,13 @@ const props = defineProps({
 // · implement stores
 const storeActions = useActions()
 
+
 // · defining translations
 const translations = {
     core: I18n.t('core.shared'),
     actions: I18n.t('core.workflow/actions')
 }
+
 
 onMounted(() => {
     // · get workflow actions options
@@ -71,6 +79,7 @@ onMounted(() => {
 
 })
 
+
 const activeOptions = {
     yes: { 
         label: translations.core.view_text_yes, 
@@ -82,27 +91,24 @@ const activeOptions = {
     }
 }
 
-/**
- * @description This function is used to update the action information
- */
- const onUpdate = () => {
+
+// This function is used to update the action information
+const onUpdate = () => {
     storeActions.updateAction()
 }
 
-/**
- * @description This function is used to create a new action
- */
+
+// This function is used to create a new action
 const onCreate = () => {
     storeActions.postAction()
 }
 
-
 </script>
-
 <template>
     <form 
-        @submit.prevent="isEditable? onUpdate() : onCreate()"
-        v-if="!storeActions.loading">
+        class="mb-4"
+        v-if="!storeActions.loading"
+        @submit.prevent="isEditable? onUpdate() : onCreate()">
 
         <div class="columns is-marginless has-border-bottom">
 
@@ -193,14 +199,16 @@ const onCreate = () => {
 
         <hr>
 
-        <notification-form v-if="storeActions.action.action_type == 'create_bell_notification'"></notification-form>
-        <email-form v-if="storeActions.action.action_type == 'send_core_email'"></email-form>
-        <task-form v-if="storeActions.action.action_type == 'create_focus_task'"></task-form>
-        <chatroom-form v-if="storeActions.action.action_type == 'send_talk_chatroom_message'"></chatroom-form>
-        <cloud-object-file-form v-if="storeActions.action.action_type == 'create_cloud_object_file'"></cloud-object-file-form>
-        <cloud-object-clone-form v-if="storeActions.action.action_type == 'cloud_object_clone'"></cloud-object-clone-form>
-        <send-cloud-object-file-form v-if="storeActions.action.action_type =='create_and_send_cloud_object_file'"></send-cloud-object-file-form>
+        <workflow-actions-form-task v-if="storeActions.action.action_type == 'create_focus_task'"></workflow-actions-form-task>
+        <workflow-actions-form-email v-if="storeActions.action.action_type == 'send_core_email'"></workflow-actions-form-email>
+        <workflow-actions-form-chatroom v-if="storeActions.action.action_type == 'send_talk_chatroom_message'"></workflow-actions-form-chatroom>
+        <workflow-actions-form-notification v-if="storeActions.action.action_type == 'create_bell_notification'"></workflow-actions-form-notification>
 
+        <!--
+        < cloud-object-file-form v-if="storeActions.action.action_type == 'create_cloud_object_file'" >< /cloud-object-file-form >
+        < cloud-object-clone-form v-if="storeActions.action.action_type == 'cloud_object_clone'" >< /cloud-object-clone-form >
+        < send-cloud-object-file-form v-if="storeActions.action.action_type =='create_and_send_cloud_object_file'" >< /send-cloud-object-file-form >
+        -->
 
         <!-- Submit form button -->
         <div class="columns is-marginless has-border-bottom">

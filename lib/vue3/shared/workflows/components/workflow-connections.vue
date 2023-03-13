@@ -66,14 +66,31 @@ const changed = ref(false)
 
 // · 
 function selectStatus(status){
+
+    // Important: here we keep the selectedStatus with a reference 
+    // of the status in the workflow object in the store, so,
+    // we can modify selectedStatus directly and the changes will 
+    // affect the corresponding status in the workflow in the store :) 
     storeWorkflow.selectedStatus = status
 }
 
 
-// · 
-function addStatus(status) {
-    let i = storeWorkflow.workflow.statuses.findIndex(s => s.id == storeWorkflow.selectedStatus.id)
-    storeWorkflow.workflow.statuses[i].next.push(status.id)
+// · add or remove a next status to the selected status
+function addRemoveStatus(status) {
+
+    // search for the status (validate if status is already in the next statuses for the current status)
+    let i = storeWorkflow.selectedStatus.next_statuses.findIndex(statusId => statusId == status.id)
+
+    // remove the status if exists
+    if (i >= 0) {
+        storeWorkflow.selectedStatus.next_statuses.splice(i, 1)
+        return
+        
+    }
+
+    // add the status if the status does not exist
+    storeWorkflow.selectedStatus.next_statuses.push(status.id)
+    
 }
 
 
@@ -84,7 +101,7 @@ function enterFullView() {
 </script>
 <template>
     <div class="mb-4" v-if="changed">
-        <button class="button is-primary is-fullwidth">
+        <button class="button is-primary is-fullwidth" @click="storeWorkflow.putWorkflow()">
             <span class="icon">
                 <span class="material-icons">
                     save
@@ -95,6 +112,7 @@ function enterFullView() {
             </span>
         </button>
     </div>
+    {{ storeWorkflow.selectedStatus.next_statuses }}
     <div class="columns mb-4">
         <div class="column">
             <h4 class="is-4">
@@ -148,8 +166,8 @@ function enterFullView() {
             <ul class="statuses-available">
                 <li>
                     <a
-                        @click="addStatus(status)"
-                        :class="[{ 'selected': storeWorkflow.selectedStatus?.next?.includes(status.id) }]"
+                        @click="addRemoveStatus(status)"
+                        :class="[{ 'selected': storeWorkflow.selectedStatus?.next_statuses?.includes(status.id) }]"
                         v-for="status in storeWorkflow.workflow.statuses">
                         <span class="icon-text">
                             <span class="icon">
@@ -165,7 +183,7 @@ function enterFullView() {
         </div>
     </div>
     <div v-if="changed">
-        <button class="button is-primary is-fullwidth">
+        <button class="button is-primary is-fullwidth" @click="storeWorkflow.putWorkflow()">
             <span class="icon">
                 <span class="material-icons">
                     save

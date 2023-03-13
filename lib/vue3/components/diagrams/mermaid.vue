@@ -176,9 +176,9 @@ function loadMarkers() {
 
         addMarkerDetails(marker)
 
-        if (marker.next) {
+        if (marker.next_statuses) {
 
-            marker.next.forEach(next => {
+            marker.next_statuses.forEach(next => {
                 addMarkerFunction(marker.id, next)
             })
         } 
