@@ -103,6 +103,10 @@ function setDiagramDetails() {
 //      - add diagram initial marker (if needed, usually only for state diagrams)
 function addMarkerDetails(marker) {
 
+    // add default style classes a.k.a klase
+    // Note: class is a reserved js word so instead we use klase to refer to css classes in code
+    addMarker("classDef selected fill:white,color:blue,stroke:blue")
+
     if (props.type=='flowchart') {
         addMarker(`${marker.id}(${ (marker.name || marker.id) })`);
         return;
@@ -147,7 +151,7 @@ function addMarker(a,b=false,c="-->") {
 
 
 // · Add marker for flow diagrams
-function addFlowMarker(a,b) {
+function addFlowMarker(a,b, klase=null) {
 
     // add state machine marker
     addMarker(a,b)
@@ -155,8 +159,12 @@ function addFlowMarker(a,b) {
 
 
 // · Add marker for state diagrams
-function addStateMarker(a,b) {
+function addStateMarker(a,b, klase=null) {
 
+    if (klase) {
+        a = `${a}:::${klase}`
+    }
+    
     // add state machine marker
     addMarker(a,b)
 }
@@ -179,7 +187,7 @@ function loadMarkers() {
         if (marker.next_statuses) {
 
             marker.next_statuses.forEach(next => {
-                addMarkerFunction(marker.id, next)
+                addMarkerFunction(marker.id, next, marker.klase)
             })
         } 
     })

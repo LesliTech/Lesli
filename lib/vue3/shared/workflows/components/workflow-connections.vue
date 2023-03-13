@@ -67,11 +67,14 @@ const changed = ref(false)
 // · 
 function selectStatus(status){
 
+    storeWorkflow.selectedStatus['klase'] = ""
+
     // Important: here we keep the selectedStatus with a reference 
     // of the status in the workflow object in the store, so,
     // we can modify selectedStatus directly and the changes will 
     // affect the corresponding status in the workflow in the store :) 
     storeWorkflow.selectedStatus = status
+    storeWorkflow.selectedStatus['klase'] = "selected"
 }
 
 
@@ -100,7 +103,10 @@ function enterFullView() {
 }
 </script>
 <template>
-    <div class="mb-4" v-if="changed">
+
+
+    <!-- Message to save changes in workflow -->
+    <div class="mb-4" v-if="changed && false">
         <button class="button is-primary is-fullwidth" @click="storeWorkflow.putWorkflow()">
             <span class="icon">
                 <span class="material-icons">
@@ -112,7 +118,7 @@ function enterFullView() {
             </span>
         </button>
     </div>
-    {{ storeWorkflow.selectedStatus.next_statuses }}
+
     <div class="columns mb-4">
         <div class="column">
             <h4 class="is-4">
@@ -137,24 +143,21 @@ function enterFullView() {
     <div class="columns">
         <div class="column" v-if="!fullView">
             <ul class="statuses-working">
-                <li>
-                    <a 
-                        @click="selectStatus(status)"
-                        :class="[{ 'selected': storeWorkflow.selectedStatus.id == status.id }]"
-                        v-for="status in storeWorkflow.workflow.statuses">
-                        <span class="icon-text">
-                            <span>{{ status.name }} </span>
-                            <span class="icon">
-                                <span class="material-icons">
-                                    done
-                                </span>
+                <li @click="selectStatus(status)"
+                    :class="['hover', { 'selected': storeWorkflow.selectedStatus.id == status.id }]"
+                    v-for="status in storeWorkflow.workflow.statuses">
+                    <span class="icon-text is-flex-wrap-nowrap">
+                        <span class="icon">
+                            <span class="material-icons">
+                                done
                             </span>
                         </span>
-                    </a>
+                        <span>{{ status.name }}</span>
+                    </span>
                 </li>
             </ul>
         </div>
-        <div class="column is-flex-grow-1">
+        <div class="column is-flex-grow-2">
             <mermaid-chart 
                 type="stateDiagram-v2" 
                 v-if="storeWorkflow.workflow.statuses"
@@ -164,24 +167,23 @@ function enterFullView() {
         </div>
         <div class="column" v-if="!fullView">
             <ul class="statuses-available">
-                <li>
-                    <a
-                        @click="addRemoveStatus(status)"
-                        :class="[{ 'selected': storeWorkflow.selectedStatus?.next_statuses?.includes(status.id) }]"
-                        v-for="status in storeWorkflow.workflow.statuses">
-                        <span class="icon-text">
-                            <span class="icon">
-                                <span class="material-icons">
-                                    done
-                                </span>
+                <li @click="addRemoveStatus(status)"
+                    :class="['has-text-right', { 'selected': storeWorkflow.selectedStatus?.next_statuses?.includes(status.id) }]"
+                    v-for="status in storeWorkflow.workflow.statuses">
+                    <span class="icon-text is-flex-wrap-nowrap">
+                        <span>{{ status.name }}</span>
+                        <span class="icon">
+                            <span class="material-icons">
+                                done
                             </span>
-                            <span>{{ status.name }} </span>
                         </span>
-                    </a>
+                    </span>
                 </li> 
             </ul>
         </div>
     </div>
+
+    <!-- Message to save changes in workflow -->
     <div v-if="changed">
         <button class="button is-primary is-fullwidth" @click="storeWorkflow.putWorkflow()">
             <span class="icon">
@@ -196,6 +198,27 @@ function enterFullView() {
     </div>
 </template>
 <style>
+    .statuses-working li,
+    .statuses-available li {
+        padding: .6rem 1rem;
+        margin-bottom: 1rem;
+        border-radius: 5px;
+        border: 1px solid transparent;
+        box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+    }
+
+    .statuses-working li.selected,
+    .statuses-available li.selected {
+        border-color: blue;
+        color: blue;
+    }
+
+    .statuses-working li.selected span.material-icons,
+    .statuses-available li.selected span.material-icons{
+        font-size: 1.1rem;
+        color: blue;
+    }
+/*
     .column li a{
         display: block;
         padding: .6rem 1rem;
@@ -221,4 +244,5 @@ function enterFullView() {
     .statuses-available li a {
         text-align: right;
     }
+*/
 </style>
