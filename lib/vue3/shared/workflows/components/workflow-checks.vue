@@ -21,7 +21,7 @@ import { ref, computed, onMounted } from "vue"
 
 // · import stores
 import { useChecks } from "LesliVue/stores/shared/workflows/checks"
-import checksForm from "./form.vue"
+import checksForm from "./checks/workflow-checks-form.vue"
 
 // · implement store
 const storeChecks = useChecks()
@@ -98,26 +98,15 @@ function showCheck(check){
 </script>
 
 <template>
-    <lesli-header title="Checks">
-        <lesli-button
-            outlined
-            icon="refresh"
-            :loading="storeChecks.loading"
-            @click="storeChecks.fetchChecks()"
-        >
-            {{ translations.core.shared.view_text_btn_reload }}
-        </lesli-button>
-        
-        <lesli-button  icon="add" @click="onCreate">
-            add
-        </lesli-button>
-    </lesli-header>
+
+    <lesli-button  icon="add" @click="onCreate">
+        add
+    </lesli-button>
 
     <lesli-table 
         :columns="columns" 
         :records="storeChecks.checks"
-        @click="showCheck"
-    >
+        @click="showCheck">
         <template #buttons="{ record }">
             <button class="button is-outlined is-danger" @click="storeChecks.deleteCheck(record.id)">
                 <span class="material-icons">
@@ -125,9 +114,7 @@ function showCheck(check){
                 </span>
             </button>
         </template>
-        
     </lesli-table>
-
 
     <lesli-panel v-model:open="storeChecks.showPanel">
         <template #header>
@@ -135,7 +122,6 @@ function showCheck(check){
         </template>
         <template #default>
             <checks-form></checks-form>
-
         </template>
     </lesli-panel>
 

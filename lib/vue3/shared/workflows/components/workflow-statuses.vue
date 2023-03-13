@@ -128,10 +128,6 @@ watch(() => storeWorkflow.workflow, (newVal) => {
             </form>
         </fieldset>
 
-        <div v-if="modified" class="has-text-centered has-text-warning-dark mb-5">
-            <span><b>*</b> changes dont saved <b>*</b></span>
-        </div>
-
         <lesli-table 
             v-if="storeWorkflow.workflow.statuses"
             :columns="columns"
@@ -179,7 +175,7 @@ watch(() => storeWorkflow.workflow, (newVal) => {
                 </p>
             </template>
             <template #statuses="{ record }">
-                {{ record.next.length }} statuses
+                {{ record.next_statuses.length }} statuses
             </template>
             <template #options="{ record }">
                 <a class="dropdown-item" @click="panelNext(record)">

@@ -27,17 +27,14 @@ import { useWorkflow } from "LesliVue/stores/shared/workflow"
 
 
 // · import components
-import componentWorkflowStatuses from "../components/workflow-statuses.vue"
-import componentWorkflowVisualize from "../components/workflow-visualize.vue"
-import componentWorkflowNext from "../components/workflow-next.vue"
-
-
-
 import workflowForm from "../components/workflow-form.vue"
-import checksList from "./checks/index.vue"
-import actionsList from "./actions/index.vue"
-import associationForm from "../components/associations.vue"
-
+import componentWorkflowStatuses from "../components/workflow-statuses.vue"
+import componentWorkflowAssociations from "../components/workflow-associations.vue"
+import componentWorkflowConnections from "../components/workflow-connections.vue"
+import componentWorkflowActions from "../components/workflow-actions.vue"
+import componentWorkflowChecks from "../components/workflow-checks.vue"
+import componentWorkflowDelete from "../components/workflow-delete.vue"
+import componentWorkflowNext from "../components/workflow-next.vue"
 
 
 // · defining props
@@ -82,41 +79,46 @@ const translations = {
 }
 
 
-// · This function is used to delete a workflow
-const deleteWorkflow = () => {
-    storeWorkflow.deleteWorkflow().then(()=> {
-        router.push(url.root(`${props.appMountPath}`).s)
-    })
-}
-
-
 // · 
 onMounted(() => {
     storeWorkflow.fetchWorkflow(route.params?.id)
 })
 </script>
-
 <template>
     <section class="application-component">
         <lesli-header :title="storeWorkflow.workflow.name">
             <lesli-button icon="list" :to="url.root(props.appMountPath)">
                 {{ translations.core.view_btn_list }}
             </lesli-button>
+            <lesli-button icon="settings" icon-only>
+            </lesli-button>
         </lesli-header>
 
         <lesli-tabs v-model="storeWorkflow.tab">
-            <lesli-tab-item title="Statuses">
+            <lesli-tab-item icon="done" title="Statuses">
                 <component-workflow-statuses :app-mount-path="props.appMountPath" is-editable></component-workflow-statuses>
             </lesli-tab-item>
 
-            <lesli-tab-item title="Visualize">
-                <component-workflow-visualize></component-workflow-visualize>
+            <lesli-tab-item icon="cable" title="Connections">
+                <component-workflow-connections></component-workflow-connections>
             </lesli-tab-item>
-            <lesli-tab-item title="Actions">
-                <actions-list></actions-list>
+
+            <lesli-tab-item icon="auto_awesome" title="Automation" paddingless>
+                <component-workflow-actions></component-workflow-actions>
+            </lesli-tab-item>
+
+            <lesli-tab-item icon="security" title="Validations" paddingless>
+                <component-workflow-checks></component-workflow-checks>
+            </lesli-tab-item>
+
+            <lesli-tab-item icon="share" title="Associations" paddingless>
+                <component-workflow-associations></component-workflow-associations>
+            </lesli-tab-item>
+
+            <lesli-tab-item icon="delete_outline" title="Delete">
+                <component-workflow-delete></component-workflow-delete>
             </lesli-tab-item>
         </lesli-tabs>
     </section>
-
     <component-workflow-next></component-workflow-next>
 </template>
