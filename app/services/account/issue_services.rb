@@ -29,11 +29,11 @@ class Account::IssueServices < LesliServices
             account_issue.account = current_user.account
 
             # Set email and full name from the current user if not provided
-            if account_issue_params[:email].blank?
+            unless account_issue_params.dig(:email)
                 account_issue.email = current_user.email
             end
 
-            if account_issue_params[:first_name].blank?
+            unless account_issue_params.dig(:first_name)
                 account_issue.first_name = current_user.detail.first_name
                 account_issue.last_name = current_user.detail.last_name
             end
