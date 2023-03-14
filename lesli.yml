@@ -78,6 +78,8 @@ security:
     allow_registration: true
     allow_invitation: true
     password: "lesli"
+    require_telephone_confirm: false
+    # default_role: "limited" # Default role after registration
 
 
 # Main color palette for Lesli
