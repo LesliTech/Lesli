@@ -51,7 +51,7 @@ onMounted(() => {
 </script>
 <template>
     <section class="application-component">
-        <div class="columns is-multiline is-variable is-4">
+        <div class="columns is-multiline is-variable is-4 dashboard-components">
             <div 
                 v-for="(component, index) in storeDashboard.dashboard.components" :key="index"
                 :class="['column', 'is-' + component?.layout]">

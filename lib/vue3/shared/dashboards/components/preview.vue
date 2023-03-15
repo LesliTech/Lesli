@@ -62,7 +62,7 @@ function sizeDecrease(component) {
 
 </script>
 <template>
-    <div class="columns is-multiline is-variable is-4">
+    <div class="columns is-multiline is-variable is-4 dashboard-components">
         <div 
             :class="['column', 'is-' + component?.layout]"
             v-for="(component, index) in storeDashboard.dashboard.components" :key="index">
@@ -73,7 +73,7 @@ function sizeDecrease(component) {
             <div class="mt-4 mb-2">
                 <div class="field has-addons is-justify-content-center">
                     <p class="control">
-                        <button class="button" @click="sizeDecrease(component)">
+                        <button class="button is-small" @click="sizeDecrease(component)">
                             <span class="icon is-small">
                                 <span class="material-icons">
                                     remove
@@ -81,11 +81,11 @@ function sizeDecrease(component) {
                             </span>
                         </button>
                     </p>
-                    <p class="control control-label has-text-centered pt-2">
+                    <p class="control control-label has-text-centered px-4">
                         size    
                     </p>
                     <p class="control">
-                        <button class="button" @click="sizeIncrease(component)">
+                        <button class="button is-small" @click="sizeIncrease(component)">
                             <span class="icon is-small">
                                 <span class="material-icons">
                                     add
@@ -97,7 +97,7 @@ function sizeDecrease(component) {
 
                 <div class="field has-addons is-justify-content-center">
                     <p class="control">
-                        <button class="button" @click="sizeDecrease(component)">
+                        <button class="button is-small" @click="sizeDecrease(component)">
                             <span class="icon is-small">
                                 <span class="material-icons">
                                     chevron_left
@@ -105,11 +105,11 @@ function sizeDecrease(component) {
                             </span>
                         </button>
                     </p>
-                    <p class="control control-label has-text-centered pt-2">
+                    <p class="control control-label has-text-centered px-4">
                         position
                     </p>
                     <p class="control">
-                        <button class="button" @click="sizeIncrease(component)">
+                        <button class="button is-small" @click="sizeIncrease(component)">
                             <span class="icon is-small">
                                 <span class="material-icons">
                                     chevron_right

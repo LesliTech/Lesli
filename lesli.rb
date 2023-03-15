@@ -21,26 +21,39 @@ require "yaml"
 
 module Lesli
 
-    def Lesli.settings_server
+    @@builder = ''
+    @@engines = []
+    @@settings = Hash.new
+    @@settings_lesli = Hash.new
+    @@settings_builder = Hash.new
+    @@settings_server = Hash.new
 
-        # specific settings for server, override core and instance settings
-        if File.exist?(File.join("./lesli.server.yml"))
 
-            begin
+    # Load settings files
+    def Lesli.settings_load
 
-                server_settings = YAML.load_file("./lesli.server.yml")
+        path = File.join("./engines", @@builder, "lesli.yml")
 
-                return server_settings if server_settings
+        begin 
 
-            rescue
-            end
+            # Lesli core settings
+            @@settings_lesli = YAML.load_file("./lesli.yml")
 
+            # build path to lesli engine info file
+            @@settings_builder = YAML.load_file(path) if File.exist?(path)
+
+            # specific settings for server, override core and instance settings
+            @@settings_server = YAML.load_file("./lesli.server.yml") if File.exist?(File.join("./lesli.server.yml"))
+
+        rescue => e
+
+            pp e
         end
-
-        return {}
 
     end
 
+
+    # Get collection of installed engines (as code)
     def Lesli.engines
 
         # list of required gems
@@ -49,8 +62,10 @@ module Lesli
         # list of installed engines (cloned repos)
         engines = []
 
-        # builder lesli.yml file configuration
-        builder_settings = {}
+        # return list of engines if found
+        return @@engines if @@engines.any?
+
+        settings_load()
 
         # return empty if engine folder does not exists
         return [] unless Dir.exist?("./engines")
@@ -58,7 +73,7 @@ module Lesli
         # search for the builder engine (main module)
         Dir.entries("./engines").each do |engine|
 
-            # next if engine is not an engine
+            # ignore non folders
             next if [".","..",".gitkeep"].include?(engine)
 
             # build path to lesli engine info file
@@ -67,22 +82,24 @@ module Lesli
             # next if lesli engine info file does not exist
             next unless File.exist?(path)
 
-            # next if lesli engine info file does not contain valid json data
             begin
+
                 # get engine information from settings file
                 engine_lesli_file = YAML.load_file(path)
             rescue  => error
+
+                # next if lesli engine info file does not contain valid json data
                 next
             end
 
             # current engine information lesli.yml file
             engine_info = engine_lesli_file["info"]
 
-            # save copy of lesli.yml of the builder engine
-            builder_settings = engine_lesli_file if engine_info["type"] == "builder"
-
             # build engine code just converting the engine name to underscore
             engine_info["code"] = engine_info["name"].gsub(/(.)([A-Z])/,'\1_\2').downcase
+
+            # save engine builder code
+            @@builder = engine_info["code"] if engine_info["type"] == "builder"
 
             # next if engine name does not match
             next unless engine_info["code"] == engine
@@ -95,7 +112,6 @@ module Lesli
                 type: engine_info["type"] || "engine",
                 code: engine_info["code"],
                 name: engine_info["name"],
-                core: engine_info["core"] || 2,
                 version: "latest",
                 github: {
                     url: "https://github.com/leitfaden/#{engine_info['code']}",
@@ -106,69 +122,50 @@ module Lesli
 
         end
 
+        
         # defined empty array if no modules defined for builder
-        if builder_settings.key?("modules")
+        if @@settings_server.key?("modules")
 
             # add required engine-gem like to the engines collection
-            builder_settings["modules"].each do |gem|
-
-                # add gem to the installed engines collection
-                gems.push({
+            gems = @@settings_server["modules"].map do |gem|
+                {
                     type: "gem",
                     code: gem[0],
                     name: gem[0].split('_').collect(&:capitalize).join, # Convert to CamelCase
                     version: gem[1]
-                })
-
+                }
             end
 
         end
 
-        # get specific server settings
-        settings_server = settings_server()
-
-        # check if custom engines defined in lesli.server.yml
-        if settings_server.key?("modules")
-
-            # Server defined modules has priority over the other settings files
-            gems = []
-
-            # asign gems to engines definition
-            settings_server["modules"].each do |gem|
-                gems.push({
-                    type: "gem",
-                    code: gem[0],
-                    name: gem[0].split('_').collect(&:capitalize).join, # Convert to CamelCase
-                    version: gem[1]
-                })
-            end
-
-        end
 
         # load gems into the engine collection
         gems.each do |gem|
+
             # ignore gem if is already in the engines collection as cloned repo
-            next if engines.find { |engine| engine[:code] == gem[:code]}
+            next if engines.find { |engine| engine[:code] == gem[:code] }
+
             engines.push({
                 type: "gem",
                 code: gem[:code],
                 name: gem[:name],
                 version: gem[:version]
             })
+
         end
 
-        engines
+        @@engines = engines.clone
 
     end
 
+
+    # Get the builder information
     def Lesli.instance
 
         name = "Lesli"
         code = "lesli"
 
-        engines = engines()
-
-        engines.each do |engine|
+        engines().each do |engine|
             next if engine[:type] != "builder"
             name = engine[:name]
             code = engine[:code]
@@ -182,70 +179,61 @@ module Lesli
 
     end
 
+
     def Lesli.settings env="development"
 
-        # Lesli core settings
-        lesli_settings = YAML.load_file("./lesli.yml")
+        return @@settings unless @@settings.empty?
 
-        # get Lesli instance (builder engine)
-        instance_engine = instance()
+        settings_load()
 
-        # specific settings for dedicated on-premises instance (not core)
-        if instance_engine[:name] != "Lesli"
+        @@settings = @@settings_lesli.clone
 
-            instance_settings = YAML.load_file(File.join("./engines", instance_engine[:code], "lesli.yml"))            
+        @@settings = deep_merge(@@settings, @@settings_builder)
 
-            # overwrite core settings with specific settings from instance
-            lesli_settings = lesli_settings.deep_merge(instance_settings)
+        @@settings = deep_merge(@@settings, @@settings_server)
 
-            # if we specify a list of locales for the instance we must replace the one from the core
-            if (instance_settings.dig("configuration", "locales"))
-                lesli_settings["configuration"]["locales"] = instance_settings["configuration"]["locales"]
-            end
-
+        # overwrite list of options
+        if (@@settings_builder.dig("configuration", "locales"))
+            @@settings["configuration"]["locales"] = @@settings_builder["configuration"]["locales"]
         end
 
-        # specific settings for server, override core and instance settings
-        if File.exist?(File.join("./lesli.server.yml"))
-
-            begin
-
-                server_settings = YAML.load_file("./lesli.server.yml")
-
-                # overwrite core and instance settings with specific settings for server
-                lesli_settings = lesli_settings.deep_merge(server_settings)
-
-                # if we specify a list of locales for the server we must replace the one from the core and builder
-                if (server_settings.dig("configuration", "locales"))
-                    lesli_settings["configuration"]["locales"] = server_settings["configuration"]["locales"]
-                end
-
-            rescue => exception
-
-            end
-
+        if (@@settings_server.dig("configuration", "locales"))
+            @@settings["configuration"]["locales"] = @@settings_server["configuration"]["locales"]
         end
 
         # disable web push notifications by default if bell is not installed
-        lesli_settings["security"]["enable_pushes"] = false if !defined?(CloudBell)
+        @@settings["security"]["enable_pushes"] = false if !defined?(CloudBell)
 
         # parse available locales for instance
-        lesli_settings["configuration"]["locales_available"] = lesli_settings["configuration"]["locales"]
-
-        # MFA methods configured
-        lesli_settings["configuration"]["mfa_methods"] = lesli_settings["configuration"]["mfa_methods"]
+        @@settings["configuration"]["locales_available"] = @@settings["configuration"]["locales"]
 
         # parse available locale codes for Rails
-        lesli_settings["configuration"]["locales"] = lesli_settings["configuration"]["locales"].keys
+        @@settings["configuration"]["locales"] = @@settings["configuration"]["locales"].keys
 
-        lesli_settings["engines"] = engines()
+        @@settings["engines"] = engines()
 
-        lesli_settings["instance"] = instance()
+        @@settings["instance"] = instance()
 
-        lesli_settings["env"] = lesli_settings["env"][env]
+        @@settings["env"] = @@settings["env"][env]
 
-        lesli_settings
+        @@settings
 
+    end
+
+
+
+    # @param tgt [Hash] target hash that we will be **altering**
+    # @param src [Hash] read from this source hash
+    # @return the modified target hash
+    # @note this one does not merge Arrays
+    def Lesli.deep_merge(tgt_hash, src_hash)
+        tgt_hash.merge!(src_hash) { |key, oldval, newval|
+            if oldval.kind_of?(Hash) && newval.kind_of?(Hash)
+                deep_merge(oldval, newval)
+            else
+                newval
+            end
+        }
     end
 
 end
