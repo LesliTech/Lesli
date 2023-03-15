@@ -22,8 +22,6 @@ For more information read the license file including with this software.
 
         validates :name, presence: true
 
-        before_update :parse_next_statuses
-
         enum status_type: {
             initial: "initial",
             completed_successfully: "completed_successfully",
@@ -106,12 +104,6 @@ For more information read the license file including with this software.
 
 private
 
-        def parse_next_statuses
-            unless self.next_statuses.blank?
-                self.next_statuses = JSON.parse(self.next_statuses).join("|")
-                #rescue
-            end
-        end
 
 =begin
 @return [Hash] Hash that contains information about the class
