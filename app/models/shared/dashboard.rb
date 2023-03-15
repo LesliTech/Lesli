@@ -188,6 +188,7 @@ module Shared
 
             {
                 module_name: module_name,
+                full_module_name: module_info[0],
                 component_model: "#{self.name}::Component".constantize
             }
         end
