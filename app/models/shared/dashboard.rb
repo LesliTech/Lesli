@@ -65,12 +65,13 @@ module Shared
         def self.list(current_user, query)
             dynamic_info = self.dynamic_info
             module_name = dynamic_info[:module_name]
+            full_module_name = dynamic_info[:full_module_name].underscore
 
             # get search string from query params
             search_string = query[:search].downcase.gsub(" ","%") unless query[:search].blank?
 
             dashboards = self.where(
-                "cloud_#{module_name}_accounts_id".to_sym => current_user.account.id
+                "#{full_module_name}_accounts_id".to_sym => current_user.account.id
             ).order(ActiveRecord::Base.sanitize_sql_for_order("#{query[:order][:by]} #{query[:order][:dir]}"))
 
             # Filter results by search string
