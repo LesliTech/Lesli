@@ -49,10 +49,11 @@ module Shared
             dynamic_info = self.class.dynamic_info
             dashboard_model = dynamic_info[:dashboard_model]
             module_name = dynamic_info[:module_name]
+            full_module_name = dynamic_info[:full_module_name].underscore
 
             @dashboard = dashboard_model.find_by(
                 id: params[:dashboard_id],
-                "cloud_#{module_name}_accounts_id".to_sym => current_user.account.id
+                "#{full_module_name}_accounts_id".to_sym => current_user.account.id
             )
         end
 
@@ -81,6 +82,7 @@ module Shared
         def component_params
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
+            full_module_name = dynamic_info[:full_module_name]
 
             params.require(:dashboard_component).permit(
                 :next_components,
@@ -101,12 +103,13 @@ module Shared
     puts info[:dashboard_model] # will return an instance of CloudHelp::Dashboard
 =end
         def self.dynamic_info
-            core_module_info = lesli_classname().split("::")    # This information displays the real core engine
+            module_info = lesli_classname().split("::")    # This information displays the real core engine
             builder_module_info = self.name.split("::")         # This information displays the builder engine name (if this is an instance of a builder engine)
-            lesli_module_name = core_module_info[0].sub("Cloud", "").downcase
+            lesli_module_name = module_info[0].sub("Cloud", "").downcase
 
             {
                 module_name: lesli_module_name,
+                full_module_name: module_info[0],
                 model: "#{builder_module_info[0]}::Dashboard::Component".constantize,
                 dashboard_model: "#{builder_module_info[0]}::Dashboard".constantize
             }
