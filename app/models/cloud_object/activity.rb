@@ -33,7 +33,8 @@ class CloudObject::Activity < ApplicationLesliRecord
         action_email_sent:              "action_email_sent",
         action_create_file:             "action_create_file",
         action_update_file:             "action_update_file",
-        action_destroy_file:            "action_destroy_file"
+        action_destroy_file:            "action_destroy_file",
+        action_not_found_file:          "action_not_found_file",
     }
 
     # @return [User] This method will always return nil

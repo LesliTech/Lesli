@@ -71,6 +71,7 @@ class User < ApplicationLesliRecord
     before_create :before_create_user
     after_create :after_create_user
     after_create :after_confirmation_user, if: :confirmed?
+    after_create :after_account_assignation
 
 
     # type of user
@@ -129,8 +130,11 @@ class User < ApplicationLesliRecord
 
         self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
         self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
+    end
 
+    def after_account_assignation
         return unless self.account
+
         Courier::One::Firebase::User.sync_user(self)
         Courier::Driver::Calendar.create_user_calendar(self, name: "Personal Calendar", default: true)
     end

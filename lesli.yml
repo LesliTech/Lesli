@@ -78,14 +78,15 @@ security:
     allow_registration: true
     allow_invitation: true
     password: "lesli"
+    require_telephone_confirm: false
+    # default_role: "limited" # Default role after registration
 
 
 # Main color palette for Lesli
 theme:
-    color_background: #F0F8FF
-    color_primary: #112A62 # Lesli navy
-    color_sidebar: #112A62 # Lesli navy
-    color_sidebar: #172347 # Lesli ocean
+    color_background: "#F0F8FF"
+    color_primary: "#112A62" # Lesli navy
+    color_sidebar: "#112A62" # Lesli navy
     color_header: transparent
     color_footer: transparent
 
