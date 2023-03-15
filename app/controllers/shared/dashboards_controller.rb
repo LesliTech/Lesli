@@ -126,9 +126,10 @@ module Shared
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             model = dynamic_info[:model]
+            full_module_name = dynamic_info[:full_module_name].underscore
 
             dashboard = model.new(dashboard_params)
-            dashboard["cloud_#{module_name}_accounts_id".to_sym] = current_user.account.id
+            dashboard["#{full_module_name}_accounts_id".to_sym] = current_user.account.id
             dashboard.user_creator = current_user
 
             if dashboard.save
@@ -242,6 +243,7 @@ private
             dynamic_info = self.class.dynamic_info
             model = dynamic_info[:model]
             module_name = dynamic_info[:module_name]
+            full_module_name = dynamic_info[:full_module_name].underscore
 
             # When params[:id] is 'default' order of priority is:
             # Main dashboard for user goes first
@@ -250,7 +252,7 @@ private
             if params[:id] == "default"
                 # Main dashboard for user
                 @dashboard = model.find_by(
-                    "cloud_#{module_name}_accounts_id".to_sym => current_user.account.id,
+                    "#{full_module_name}_accounts_id".to_sym => current_user.account.id,
                     main: true,
                     user_main_id: current_user.id
                 )
@@ -258,20 +260,20 @@ private
                 
                 # Main dashboard for role
                 @dashboard = model.find_by(
-                    "cloud_#{module_name}_accounts_id".to_sym => current_user.account.id,
+                    "#{full_module_name}_accounts_id".to_sym => current_user.account.id,
                     roles_id: current_user.roles.first.id
                 )
                 return if @dashboard
 
                 # Default dashboard
                 @dashboard = model.find_by(
-                    "cloud_#{module_name}_accounts_id".to_sym => current_user.account.id,
+                    "#{full_module_name}_accounts_id".to_sym => current_user.account.id,
                     default: true
                 )
             else
                 @dashboard = model.find_by(
                     id: params[:id],
-                    "cloud_#{module_name}_accounts_id".to_sym => current_user.account.id
+                    "#{full_module_name}_accounts_id".to_sym => current_user.account.id,
                 )
             end
         end
