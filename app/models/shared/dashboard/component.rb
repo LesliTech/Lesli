@@ -49,6 +49,7 @@ module Shared
             module_name = module_info[0].sub("Cloud", "").downcase
             {
                 module_name: module_name,
+                full_module_name: module_info[0],
                 engine_name: module_info[0]
             }
         end
