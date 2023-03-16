@@ -106,8 +106,7 @@ module Shared
                         :name => status.name,
                         :number => status.number,
                         :status_type => status.status_type,
-                        :next_statuses => statuses,
-                        :next => statuses
+                        :next_statuses => statuses
                     }
                 end
                 
