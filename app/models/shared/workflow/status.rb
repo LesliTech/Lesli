@@ -104,6 +104,7 @@ For more information read the license file including with this software.
 
 private
 
+
 =begin
 @return [Hash] Hash that contains information about the class
 @description Returns dynamic information based on the current implementation of this abstract class
