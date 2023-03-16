@@ -21,9 +21,11 @@ import { onMounted, ref } from "vue"
 
 // · import store
 import { useCloudObjectFileStore } from "LesliVue/stores/cloud-objects/file"
+import { useLayout } from "LesliVue/stores/layout"
 
 // · implement store
 const store = useCloudObjectFileStore()
+const storeLayout = useLayout()
 
 // · defining translations
 const translations = {
@@ -31,8 +33,6 @@ const translations = {
         shared: I18n.t("core.shared"),
     }
 }
-
-const dropdownActive = ref(false)
 
 // · columns of the table
 const columns = [
@@ -48,7 +48,15 @@ const columns = [
         field: "created_at",
         label: translations.core.shared.column_created_at,
     },
-];
+]
+
+
+/**
+* @description function that is called when the user click on the new file button.
+*/
+const onClickNewFile = () => {
+    storeLayout.showFiles = !storeLayout.showFiles
+}
 
 onMounted(() => {
     // · fetch the files from server
@@ -58,6 +66,18 @@ onMounted(() => {
 </script>
 
 <template>
+
+    <div class="is-flex is-justify-content-end mb-4">
+        <button class="button is-primary"  type="button" @click="onClickNewFile">
+            <span >
+                {{ translations.core.shared.view_title_new_file }}
+            </span>
+            <span class="icon is-small">
+                <span class="material-icons">add</span>
+            </span>
+        </button>
+    </div>
+
     <lesli-table :columns="columns" :records="store.files">
         <template #options="record">
                 <a class="dropdown-item" :href="`${store.getUrl(record.value)}.json`" target="_blank">{{ translations.core.shared.view_btn_view_file }}</a>
@@ -65,4 +85,5 @@ onMounted(() => {
                 <a class="dropdown-item" @click="store.deleteFile(record.value)">{{ translations.core.shared.view_btn_delete }}</a>
         </template>
     </lesli-table>
+
 </template>
