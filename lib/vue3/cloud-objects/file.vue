@@ -22,6 +22,7 @@ import { useLayout } from "LesliVue/stores/layout"
 
 // · import components
 import filesList from "LesliVue/cloud-objects/file/list.vue" 
+import filesGrid from "LesliVue/cloud-objects/file/grid.vue" 
 
 // · implement store
 const storeFiles = useCloudObjectFileStore()
@@ -93,7 +94,13 @@ const props = defineProps({
                 return ['images', 'plaintext', 'documents'].includes(fileType)
             })
         }
-    }
+    },
+    // · prop that indicates the mode for showing files
+    mode: {
+        type: String,
+        required: false,
+        default: "list"
+    },
 })
 
 // set cloudModule to store
@@ -111,28 +118,11 @@ storeFiles.fileType = props.fileType
 // set acceptedFiles to store
 storeFiles.acceptedFiles = props.acceptedFiles
 
-
-/**
- * @description function that is called when the user click on the new file button.
- */
-const onClickNewFile = () => {
-    storeLayout.showFiles = !storeLayout.showFiles
-}
-
 </script>
 
 <template>
-    <div class="is-flex is-justify-content-end mb-4">
-        <button v-if="props.showNewFileButton" class="button is-primary" @click="onClickNewFile">
-            <span >
-                {{ translations.core.shared.view_title_new_file }}
-            </span>
-            <span class="icon is-small">
-                <span class="material-icons">add</span>
-            </span>
-        </button>
-    </div>
     <div class="files">
-        <files-list></files-list>
+        <files-grid v-if="props.mode=='grid'"></files-grid>
+        <files-list v-else></files-list>
     </div>
 </template>
