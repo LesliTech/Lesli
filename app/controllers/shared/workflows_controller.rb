@@ -313,11 +313,11 @@ private
                 :deletion_protection,
                 statuses_attributes: [
                     :id,
-                    :next_statuses,
                     :status_type,
                     :name,
                     :number,
-                    :_destroy
+                    :_destroy,
+                    next_statuses: []
                 ]
             )
         end

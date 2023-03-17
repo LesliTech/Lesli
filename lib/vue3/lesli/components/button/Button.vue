@@ -57,6 +57,11 @@ const props = defineProps({
         default: false,
         required: false
     },
+    info: {
+        type: Boolean,
+        default: false,
+        required: false
+    },
     solid: {
         type: Boolean,
         default: false,
@@ -80,6 +85,8 @@ const buttonColor = computed(() => {
     if (props.warning) return "is-warning"
 
     if (props.danger) return "is-danger"
+
+    if (props.info) return "is-info"
 
     return "is-primary"
 
