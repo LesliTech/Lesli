@@ -189,11 +189,17 @@ const onUploadFiles = async () => {
     const arefilesValid = validateFiles(storeFiles.filesToUpload)
     
     // · If files aren't valid, stop the function
-    if (!arefilesValid) return
+    if (!arefilesValid) {
+        // · set file type to empty
+        fileType.value = ''
+        return
+    }
 
     // · If file type select isn't valid, stop the function
     if (!fileType.value) {
         msg.danger(translations.core.shared.messages_danger_file_type_required)
+        // · set file type to empty
+        fileType.value = ''
         return
     }
     
