@@ -25,9 +25,9 @@ module Courier
                 CloudTime::ActivityTypeServices.new(current_user).find(id)
             end
 
-            def self.index(current_user, query, user_id=nil)
+            def self.index(current_user, query)
                 return {} unless defined? CloudTime
-                CloudTime::ActivityTypeServices.index(current_user, query)
+                CloudTime::ActivityTypeServices.new(current_user).index(query, {})
             end
 
             def self.create(current_user, params)
@@ -45,9 +45,9 @@ module Courier
                 CloudTime::ActivityTypeServices.new(current_user).find(id).destroy
             end
 
-            def self.options(current_user, id)
+            def self.options
                 return nil unless defined? CloudTime
-                CloudTime::ActivityType.options
+                CloudTime::Catalog::ActivityType.options
             end
         end
     end
