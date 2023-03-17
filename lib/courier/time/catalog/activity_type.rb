@@ -37,16 +37,24 @@ module Courier
 
             def self.update(current_user, id, params)
                 return nil unless defined? CloudTime
-                CloudTime::ActivityTypeServices.new(current_user).find(id).update(params)
+
+                activity_type = CloudTime::ActivityTypeServices.new(current_user).find(id)
+                return nil unless activity_type.found?
+
+                activity_type.update(params)
             end
 
             def self.destroy(current_user, id)
                 return nil unless defined? CloudTime
-                CloudTime::ActivityTypeServices.new(current_user).find(id).destroy
+
+                activity_type = CloudTime::ActivityTypeServices.new(current_user).find(id)
+                return nil unless activity_type.found?
+
+                activity_type.destroy
             end
 
             def self.options
-                return nil unless defined? CloudTime
+                return {} unless defined? CloudTime
                 CloudTime::Catalog::ActivityType.options
             end
         end
