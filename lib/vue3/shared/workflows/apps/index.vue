@@ -1,5 +1,6 @@
 <script setup>
 /*
+
 Copyright (c) 2023, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -16,14 +17,21 @@ For more information read the license file including with this software.
 // · 
 */
 
+
 // · import vue tools
 import { ref, computed, onMounted } from "vue"
+
+
+// · import stores
+import workflowPanelNew from "../components/panel-workflow.vue"
 
 // · import stores
 import { useWorkflow } from "LesliVue/stores/shared/workflow"
 
+
 // · implement store
 const storeWorkflow = useWorkflow()
+
 
 // · defining props
 const props = defineProps({
@@ -44,9 +52,11 @@ const props = defineProps({
     }
 })
 
+
 // set props to store
 storeWorkflow.cloudModule = props.cloudModule
 storeWorkflow.cloudObject = props.cloudObject
+
 
 // · defining translations
 const translations = {
@@ -58,73 +68,26 @@ const translations = {
 }
 
 
-/**
- * @param {*} workflow
- * @description This function is used to get the validation column of the table
- */
-const getValidation = (workflow) => {
-    const countTrueChecks = Object.keys(workflow.checks).reduce((acc, key) => {
-        if (workflow.checks[key].passed) return acc + 1
-        return acc
-    }, 0)
-
-    return countTrueChecks === 4 ? 
-        translations.core.workflows.view_text_fully_configured :
-        `${countTrueChecks} ${translations.core.workflows.view_text_posibble_issue}`
-}
-
-/**
- * @param {*} workflow
- * @description This function is used to get the connected_to column of the table
- */
-const getConnectedTo = (workflow) => {
-    if (workflow.connected_to.length === 0) return translations.core.workflows.view_text_without_connections
-    
-    // return string like "Match, Project"
-    return workflow.connected_to.map((item) => {
-        // capitalize first letter of each word and return the string
-        return item.workflow_for.charAt(0).toUpperCase() + item.workflow_for.slice(1)
-    }).join(", ")
-}
-
-// · workflows to use in the table
-const workflows = computed(() => {
-    return storeWorkflow.workflows.map(workflow => {
-        getValidation(workflow)
-        return {
-            id: workflow.id,
-            name: workflow.name,
-            validation: getValidation(workflow),
-            default: workflow.default,
-            connectedTo: getConnectedTo(workflow),
-        }
-    })
-})
-
 // · columns of the table
-const columns = [
-    {
-        field: "name",
-        label: translations.core.actions.column_name,
-    },
-    {
-        field: "validation",
-        label: translations.core.workflows.column_validation,
-    },
-    {
-        field: "default",
-        label: translations.core.workflows.column_default,
-    },
-    {
-        field: "connectedTo",
-        label: translations.core.workflows.column_connected_to,
-    },
-];
+const columns = [{
+    field: "name",
+    label: translations.core.actions.column_name,
+}, {
+    field: "validation",
+    label: translations.core.workflows.column_validation,
+}, {
+    field: "default",
+    label: translations.core.workflows.column_default,
+}, {
+    field: "connectedTo",
+    label: translations.core.workflows.column_connected_to,
+}];
+
 
 onMounted(() => {
-    // · get workflow status
     storeWorkflow.fetchWorkflows()
 })
+
 
 </script>
 
@@ -136,25 +99,26 @@ onMounted(() => {
                 outlined
                 icon="refresh"
                 :loading="storeWorkflow.loading"
-                @click="storeWorkflow.fetchWorkflows()"
-            >
+                @click="storeWorkflow.fetchWorkflows()">
                 {{ translations.core.shared.view_text_btn_reload }}
             </lesli-button>
             
-            <lesli-button  icon="add" :to="url.root(props.appMountPath + '/new')">
-                add
+            <lesli-button  icon="add" @click="storeWorkflow.panelNew = true">
+                add new workflow
             </lesli-button>
         </lesli-header>
 
-        <lesli-toolbar @search="storeWorkflow.searchWorkflows" :search-placeholder="translations.core.workflows.view_placeholder_search_text" class="mt-4">
+        <lesli-toolbar 
+            @search="storeWorkflow.searchWorkflows" 
+            :search-placeholder="translations.core.workflows.view_placeholder_search_text">
         </lesli-toolbar>
 
         <lesli-table 
             :columns="columns" 
-            :records="workflows"
-            :link="(workflow) => url.root(`${props.appMountPath}/${workflow.id}`).s"
-        >
+            :records="storeWorkflow.workflows.records"
+            :link="(workflow) => url.root(`${props.appMountPath}/${workflow.id}`)">
         </lesli-table>
 
     </section>
+    <workflow-panel-new></workflow-panel-new>
 </template>
