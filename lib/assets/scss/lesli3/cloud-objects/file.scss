@@ -1,0 +1,73 @@
+/*
+Copyright (c) 2023, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+.files {
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-gap: 5px;
+
+        .add-file{
+            width: 95%;
+            height: 65%;
+            color: #A1A1A1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            cursor: pointer;
+
+            span{
+                margin: 10px 0;
+            }
+            .material-icons{
+                scale: 3;
+            }
+        }
+  
+        .file-container {
+            position: relative;
+        }
+        
+        .delete-button {
+            position: absolute;
+            top: 10%;
+            right: 0%;
+            transform: translate(-50%, -50%);
+            padding: 10px;
+            background-color: #FFFFFF;
+            color: #252525;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        img {
+            width: 95%;
+            height: 65%;
+        }
+        
+        .file-container:hover .delete-button {
+            opacity: 1;
+        }
+    }
+      
+}
+
