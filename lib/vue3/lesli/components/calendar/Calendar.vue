@@ -24,7 +24,7 @@ import 'v-calendar/dist/style.css';
 
 
 // · defining emits
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'change']);
 
 
 // · defining props
@@ -49,6 +49,9 @@ const props = defineProps({
         required: false,
         default: false
     },
+    placeholder: {
+        type: String,
+    }
 })
 
 
@@ -76,17 +79,22 @@ watch(dateRange, () => {
 
 </script>
 <template>
-    <DatePicker v-if="!range" v-model="date" :mode="mode" :min-date="props.minDate" :is-required="props.required">
+    <DatePicker v-if="!range" v-model="date" :mode="mode" class="lesli-calendar" :min-date="props.minDate" :is-required="props.required" @change="emit('change', $event)">
         <template v-slot="{ inputValue, inputEvents }">
             <input
                 class="input is-default"
                 v-on="inputEvents"
-                :value="inputValue"
+                :value="placeholder ? placeholder : inputValue"
             />
+            <span class="icons is-small">
+                <span class="material-icons">
+                    date_range
+                </span>
+            </span>
         </template>
     </DatePicker>
 
-    <DatePicker v-if="range" v-model="dateRange" is-range>
+    <DatePicker v-if="range" v-model="dateRange" is-range @change="emit('change', $event)">
         <template v-slot="{ inputValue, inputEvents }">
             <input
                 class="input is-default"
