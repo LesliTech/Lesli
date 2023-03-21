@@ -20,7 +20,8 @@ For more information read the license file including with this software.
 import { ref, computed, onMounted, watch, onUnmounted } from "vue"
 
 // · import stores
-import { useWorkflow } from "LesliVue/stores/shared/workflow"
+// import { useWorkflow } from "LesliVue/stores/shared/workflow"
+import { useWorkflow } from "LesliVue/stores/shared/workflow2"
 
 // · implement store
 const storeWorkflow = useWorkflow()
