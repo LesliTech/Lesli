@@ -26,15 +26,21 @@ $lesli-sidebar-color: <%= LC::System::Info.theme(:color_sidebar, "#112A62") %>;
 $lesli-sidebar-hover: <%= LC::System::Info.theme(:color_sidebar_hover, "#172347") %>;
 $lesli-color-background: <%= LC::System::Info.theme(:color_background, "#F0F8FF") %>;
 
+
 // · defaults
 $lesli-logo-color: $lesli-sidebar-color;
 $lesli-font-color: lesli-css-color(black);
+
 
 // · constants
 $lesli-font-size: 16px;
 $lesli-header-height: 100px;
 $lesli-footer-height: 84px;
 $lesli-sidebar-width: 50px;
+
+
+// · Import customization from builder engine
+@import "<%= LC::System::Info.sass_variables_path %>";
 
 
 // · harcoded styles D:
