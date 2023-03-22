@@ -40,20 +40,17 @@ const props = defineProps({
 })
 
 
-
 // · defining emits 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue'])
+
 
 const activeStep = ref(props.modelValue)
-// const activeStep = ref(props.modelValue.number)
-const dropdownActive = ref(false)
 
-const setActiveStep = (step) => {
-    emit("update:modelValue", activeStep.value)
-
-    // activeStep.value = step
-}
-
+watch(props.modelValue, () => {
+    if (activeStep.value) {
+        emit("update:modelValue", activeStep.value)
+    }
+})
 
 </script>
 <template>
@@ -64,43 +61,6 @@ const setActiveStep = (step) => {
                 <div class="step-line" v-if="index !== steps.length - 1"></div>
                 <div class="step-label">{{ step.name }}</div>
             </div>
-        </div>
-        <div class="editor">
-            <div :class="['dropdown', 'is-right is-hoverable']">
-                <div class="dropdown-trigger">
-                    <button class="button" 
-                        @blur="dropdownActive = false"
-                        @click="dropdownActive = !dropdownActive">
-                        <span class="icon">
-                            <span v-if="!dropdownActive" class="material-icons">
-                                edit
-                            </span>
-                            <span v-if="dropdownActive" class="material-icons">
-                                close
-                            </span>
-                        </span>
-                    </button>
-                </div>
-                <Transition>
-                    <div v-if="dropdownActive" class="dropdown-menu" role="menu">
-                        <div class="dropdown-content">
-                            <div class="dropdown-item" v-for="option in props.stepsOptions">
-                                <div :class="{ active: option.number === activeStep.number }">
-                                    <!-- <a  @click="setActiveStep(option.number)" > -->
-                                    <a  @click="setActiveStep(option)">
-                                        {{ option.name }}
-                                    </a>
-                                    <span v-if="option.number === activeStep.number" class="material-icons">
-                                            check_circle
-                                    </span>
-                                </div>
-                             
-                            </div>
-                        </div>
-                    </div>
-                </Transition>
-            </div>
-
         </div>
     </div>
 </template>
