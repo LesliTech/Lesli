@@ -16,20 +16,6 @@ For more information read the license file including with this software.
 // · 
 %>
 
-<%
-
-# default icons
-app_icon = "app-icon"
-app_logo = "app-logo"
-
-# custom icons for LesliCloud
-if defined?(LesliCloud) || defined?(MitwerkenCloud)
-    app_icon = "app-icon-light"
-    app_logo = "app-logo-light"
-end
-
-%>
-
 <%# check if custom navigation partial exists, getting the path from application helper %>
 <% custom_sidebar_path = "layouts/#{lesli_engine.dig(:code)}/partials/application-sidebar" %>
 
@@ -45,8 +31,8 @@ end
 <application-component-sidebar>
 
     <template v-slot:brand>
-        <%= customization_instance_logo_tag(logo: app_icon, options: { alt: "App logo", class: "is-hidden-desktop" }) %>
-        <%= customization_instance_logo_tag(logo: app_logo, options: { alt: "App logo", class: "is-hidden-touch" }) %>
+        <%= customization_instance_logo_tag(logo: "app-icon", options: { alt: "App logo", class: "is-hidden-desktop" }) %>
+        <%= customization_instance_logo_tag(logo: "app-logo", options: { alt: "App logo", class: "is-hidden-touch" }) %>
     </template>
 
     <%# render navigation partial %>
