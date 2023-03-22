@@ -92,10 +92,10 @@ module LC
                 Rails.application.config.lesli.dig(:theme, property) || value_if_nil
             end
 
-            def self.sass_instance(file)
+            def self.sass_variables_path()
                 instance_code = instance()[:code]
                 return "lesli3/settings/variables" if instance_code == 'lesli'
-                return "#{instance_code}/lesli/#{file}"
+                return "#{instance_code}/lesli/variables"
             end
 
         end
