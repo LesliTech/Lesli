@@ -51,15 +51,11 @@ const discussionStore = useCloudObjectDiscussionStore()
 
 // · computed property that returns the discussion or activity log content that will be displayed in the component's element. 
 const getDiscussionContent = computed(() => {
-    if (props.discussion.type === 'activityLog') {
-        if(props.discussion?.category == 'notification'){
-            return `${props.discussion.description}`
-        }
-        else{
-            return `${props.discussion.field_name}: (${props.discussion.value_from}) - (${props.discussion.value_to})`
-        }
 
-    }
+    if (props.discussion.type === 'activityLog' && props.discussion?.category == 'notification') return `${props.discussion.description}`
+    
+    if (props.discussion.type === 'activityLog') return `${props.discussion.field_name}: (${props.discussion.value_from}) - (${props.discussion.value_to})`
+
     if (props.discussion.type === 'discussion' || props.isReply) return props.discussion.content
 })
 
