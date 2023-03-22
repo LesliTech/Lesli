@@ -18,18 +18,18 @@ For more information read the license file including with this software.
 
 
 // · Lesli main theme definition, 
-// · color customizzation is possible through lesli.yml file
-$lesli-color-primary: <%= LC::System::Info.theme(:color_primary, "#112A62") %>;
-$lesli-header-color: <%= LC::System::Info.theme(:color_header, "transparent") %>;
-$lesli-footer-color: <%= LC::System::Info.theme(:color_footer, "transparent") %>;
-$lesli-sidebar-color: <%= LC::System::Info.theme(:color_sidebar, "#112A62") %>;
-$lesli-sidebar-hover: <%= LC::System::Info.theme(:color_sidebar_hover, "#172347") %>;
-$lesli-color-background: <%= LC::System::Info.theme(:color_background, "#F0F8FF") %>;
+// · see: https://github.com/leitfaden/cloud_development/blob/master/documentation/design/02-theme.md
+$lesli-color-primary: <%= LC::System::Info.theme(:color_primary, "#112A62") %> !default;
+$lesli-header-color: <%= LC::System::Info.theme(:color_header, "transparent") %> !default;
+$lesli-footer-color: <%= LC::System::Info.theme(:color_footer, "transparent") %> !default;
+$lesli-sidebar-color: <%= LC::System::Info.theme(:color_sidebar, "#112A62") %> !default;
+$lesli-sidebar-hover: <%= LC::System::Info.theme(:color_sidebar_hover, "#172347") %> !default;
+$lesli-color-background: <%= LC::System::Info.theme(:color_background, "#F0F8FF") %> !default;
 
 
 // · defaults
 $lesli-logo-color: $lesli-sidebar-color;
-$lesli-font-color: lesli-css-color(black);
+$lesli-font-color: lesli-css-color(black) !default;
 
 
 // · constants
@@ -37,10 +37,6 @@ $lesli-font-size: 16px;
 $lesli-header-height: 100px;
 $lesli-footer-height: 84px;
 $lesli-sidebar-width: 50px;
-
-
-// · Import customization from builder engine
-@import "<%= LC::System::Info.sass_variables_path %>";
 
 
 // · harcoded styles D:
@@ -115,3 +111,11 @@ body.layout-expanded {
         --lesli-sidebar-width: 100px;
     }
 }
+
+
+// · generic variables (aliases)
+$color-primary: $lesli-color-primary;
+$color-header: $lesli-header-color;
+$color-footer: $lesli-footer-color;
+$color-sidebar: $lesli-sidebar-color;
+$color-background: $lesli-color-background;
