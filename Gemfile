@@ -122,6 +122,12 @@ gem "aws-sdk-ses", "1.47.0"
 # Standalone provider to use the Amazon Web Services in applications
 gem "fog-aws", "3.13.0"
 
+# HTML to PDF
+gem "wicked_pdf", "~> 2.1.0"
+
+# Provides binaries for WKHTMLTOPDF project in an easily accessible package.
+gem "wkhtmltopdf-binary", "~> 0.12.6"
+
 # Prawn is a fast, tiny, and nimble PDF generator for Ruby
 gem "prawn", "2.4.0"
 
@@ -166,6 +172,8 @@ gem "flag-icons-rails", "= 3.4.6.1"
 
 # Make managing application errors a more pleasant experience.
 gem "honeybadger", "4.11.0"
+
+
 
 
 
