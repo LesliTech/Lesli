@@ -16,8 +16,13 @@ For more information read the license file including with this software.
 // · 
 */
 
+
 // · 
 @import "lesli-css";
+
+// · Import customization from builder engine
+// · see: https://github.com/leitfaden/cloud_development/blob/master/documentation/design/02-theme.md
+@import "<%= LC::System::Info.sass_instance_file('variables') %>";
 
 
 // · Configuration & variables
@@ -79,6 +84,7 @@ For more information read the license file including with this software.
 @import "./lesli3/lesli/table";
 @import "./lesli3/lesli/toggle";
 @import "./lesli3/lesli/toolbar";
+@import "./lesli3/lesli/calendar";
 
 
 // · Lesli cloud objects
@@ -149,3 +155,8 @@ h6 {
 // Vue Animation component
 .v-enter-active, .v-leave-active { transition: opacity 0.5s ease; }
 .v-enter-from, .v-leave-to { opacity: 0; }
+
+
+// · Import theme overrides from builder engine
+// · see: https://github.com/leitfaden/cloud_development/blob/master/documentation/design/02-theme.md
+@import "<%= LC::System::Info.sass_instance_file('theme') %>";

@@ -49,6 +49,9 @@ const props = defineProps({
         required: false,
         default: false
     },
+    placeholderValue: {
+        type: String,
+    }
 })
 
 
@@ -76,17 +79,22 @@ watch(dateRange, () => {
 
 </script>
 <template>
-    <DatePicker v-if="!range" v-model="date" :mode="mode" :min-date="props.minDate" :is-required="props.required">
+    <DatePicker v-if="!range" v-model="date" :mode="mode" class="lesli-calendar" :min-date="props.minDate" :is-required="props.required" >
         <template v-slot="{ inputValue, inputEvents }">
             <input
                 class="input is-default"
                 v-on="inputEvents"
-                :value="inputValue"
+                :value="placeholderValue ? placeholderValue : inputValue"
             />
+            <span class="icons is-small">
+                <span class="material-icons">
+                    date_range
+                </span>
+            </span>
         </template>
     </DatePicker>
 
-    <DatePicker v-if="range" v-model="dateRange" is-range>
+    <DatePicker v-if="range" v-model="dateRange" is-range >
         <template v-slot="{ inputValue, inputEvents }">
             <input
                 class="input is-default"
