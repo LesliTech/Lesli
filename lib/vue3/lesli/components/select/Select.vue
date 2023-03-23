@@ -16,76 +16,121 @@ For more information read the license file including with this software.
 // · 
 */
 
-
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed } from "vue"
-
+import { ref, reactive, onMounted, watch, computed } from "vue";
 
 // · defining emits
-const emit = defineEmits(['update:modelValue']);
-
+const emit = defineEmits(["update:modelValue"]);
 
 // · defining props
 const props = defineProps({
     modelValue: {
         type: [Number, String, Boolean],
-        required: false
+        required: false,
     },
     options: {
         type: Array,
-        required: true
+        required: true,
     },
     placeholder: {
         type: String,
         required: false,
-        default: "Select..."
+        default: "Select...",
     },
     icon: {
         type: String,
-        required: false
+        required: false,
     },
     reset: {
         type: String,
-        required: false
+        required: false,
     },
     required: {
         type: Boolean,
         required: false,
-        default: false
+        default: false,
     },
     disabled: {
         type: Boolean,
         required: false,
-        default: false
+        default: false,
+    },
+});
+
+// ·
+const selected = ref("");
+
+// ·
+// · function that handles change event of select element
+function onChange(event) {
+    // · if the selected value is the default option, 
+    // . set selected to empty string and emit an event with empty string as value
+    // . to notify parent component that the value has changed
+    if (event.target.value === "") {
+        selected.value = "";
+        emit("update:modelValue", "");
+    // · otherwise, set selected to the selected value 
+    // . and emit an event with the selected value as the value 
+    // . to notify parent component that the value has changed
+    } else {
+        selected.value = event.target.value;
+        emit("update:modelValue", selected.value);
     }
-})
-
-// · 
-const selected = ref(props.modelValue)
-
-
-// · 
-function onChange() {
-    emit('update:modelValue', selected.value)
 }
 
+// · watch for changes to the modelValue prop
+watch(
+    () => props.modelValue,
+    (newValue) => {
+        // · if the new value is null or empty string, set selected to empty string
+        if (newValue === null || newValue === "") {
+            selected.value = "";
+        // · otherwise, set selected to the new value
+        } else {
+            selected.value = newValue;
+        }
+    }
+);
+
+// · watch for changes to the selected value
+watch(
+    () => selected.value,
+    (newValue) => {
+        // · if the new value is null or empty string, emit an event with empty string as value 
+        // . to notify parent component that the value has changed
+        if (newValue === null || newValue === "") {
+            emit("update:modelValue", "");
+        // · otherwise, emit an event with the selected value as the value 
+        // . to notify parent component that the value has changed
+        } else {
+            emit("update:modelValue", newValue);
+        }
+    }
+);
 
 </script>
 <template>
     <div>
-        <div :class="['control', {'has-icons-left': props.icon}]">
+        <div :class="['control', { 'has-icons-left': props.icon }]">
             <div class="select is-fullwidth">
-                <select @change="onChange" v-model="selected" :required="props.required" :disabled="props.disabled">
+                <select
+                    @change="onChange"
+                    v-model="selected"
+                    :required="props.required"
+                    :disabled="props.disabled"
+                >
                     <option value="" disabled>{{ props.placeholder }}</option>
-                    <option 
+                    <option
                         v-if="props.reset"
-                        :value="{ value: 'reset', label: 'reset' }">
+                        :value="{ value: 'reset', label: 'reset' }"
+                    >
                         {{ props.reset }}
                     </option>
-                    <option 
-                        v-for="(option, index) in props.options" 
+                    <option
+                        v-for="(option, index) in props.options"
                         :value="option.value"
-                        :key="index">
+                        :key="index"
+                    >
                         {{ option.label }}
                     </option>
                 </select>
