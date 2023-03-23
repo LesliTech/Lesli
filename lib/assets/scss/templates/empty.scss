@@ -1,0 +1,27 @@
+/*
+
+Copyright (c) 2023, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · DO NOT DELETE THIS FILE
+
+// · This file is needed due SASS does not support conditional imports, so, to allow customization
+// · based on the existance of "customization" files, what we do is to check if customization file
+// · exists then we return the SASS path for that file if not, we return the path to this file then
+// · in this way we avoid non-existance errors from SASS.
+
+// · For details check the code in: lib/LC/system/info.rb:95

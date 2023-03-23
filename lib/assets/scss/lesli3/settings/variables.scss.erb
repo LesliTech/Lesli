@@ -17,14 +17,21 @@ For more information read the license file including with this software.
 */
 
 
+// · Import customization from builder engine
+@import "<%= LC::System::Info.sass_instance_file('variables') %>";
+
+
 // · Lesli main theme definition, 
-// · see: https://github.com/leitfaden/cloud_development/blob/master/documentation/design/02-theme.md
 $lesli-color-primary: <%= LC::System::Info.theme(:color_primary, "#112A62") %> !default;
 $lesli-header-color: <%= LC::System::Info.theme(:color_header, "transparent") %> !default;
 $lesli-footer-color: <%= LC::System::Info.theme(:color_footer, "transparent") %> !default;
 $lesli-sidebar-color: <%= LC::System::Info.theme(:color_sidebar, "#112A62") %> !default;
 $lesli-sidebar-hover: <%= LC::System::Info.theme(:color_sidebar_hover, "#172347") %> !default;
 $lesli-color-background: <%= LC::System::Info.theme(:color_background, "#F0F8FF") %> !default;
+
+
+// · To understand more about customization go to:
+// · https://github.com/leitfaden/cloud_development/blob/master/documentation/design/02-theme.md
 
 
 // · defaults
@@ -41,6 +48,12 @@ $lesli-sidebar-width: 50px;
 
 // · harcoded styles D:
 $lesli-box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+
+
+// · Variables used for components
+$lesli-sidebar-color-text: findColorInvert($lesli-sidebar-color) !default;
+$lesli-sidebar-hover-text: findColorInvert($lesli-sidebar-hover) !default;
+$lesli-sidebar-hover-color: $lesli-sidebar-hover !default;
 
 
 // · here we prioritize css variables defined dynamically in the header
