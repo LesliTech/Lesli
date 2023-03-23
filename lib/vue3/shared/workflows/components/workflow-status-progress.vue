@@ -22,7 +22,6 @@ import { ref, computed, onMounted } from "vue"
 // · import stores
 import { useWorkflow } from "LesliVue/stores/shared/workflow2"
 
-import stepper from "LesliVue/components/diagrams/stepper.vue"
 
 // · implement store
 const storeWorkflow = useWorkflow()
@@ -64,9 +63,6 @@ const props = defineProps({
     },
 })
 
-// · defining emits
-const emit = defineEmits(['onUpdatedStatus'])
-
 
 // returns a string like: "mitweken_cloud_workflow_statuses_id"
 const workflowStatusKey = computed(() => {
@@ -89,7 +85,6 @@ storeWorkflow.currentStatus = props.currentStatus
  const onUpdatedStatus = (status) => {
     storeWorkflow.currentStatus = status
     storeWorkflow.updateStatus({[workflowStatusKey.value]: status.id})
-    emit('onUpdatedStatus')
 }
 
 // · fetch transition options
@@ -102,45 +97,65 @@ onMounted(() => {
 
 <template>
 
-    <stepper
-        :steps="storeWorkflow.workflow_statuses"
-        v-model="storeWorkflow.currentStatus"
-        :stepsOptions="storeWorkflow.workflow_statuses"
-    >
-    </stepper>
-
-    <!-- Change the current status of the object -->
-
-    <div :class="['dropdown', 'is-right is-hoverable']">
-        <div class="dropdown-trigger">
-            <button class="button"
-                @blur="dropdownActive = false"
-                @click="dropdownActive = !dropdownActive">
-                <span class="icon">
-                    <span v-if="!dropdownActive" class="material-icons">
-                        edit
-                    </span>
-                    <span v-if="dropdownActive" class="material-icons">
-                        close
-                    </span>
-                </span>
-            </button>
-        </div>
-        <Transition>
-            <div v-if="dropdownActive" class="dropdown-menu" role="menu">
-                <div class="dropdown-content">
-                    <div class="dropdown-item" v-for="option in storeWorkflow.workflow_statuses">
-                        <div :class="{ active: option.number === currentStatus.number }">
-                            <a  @click="onUpdatedStatus(option)">
-                                {{ option.name }}
-                            </a>
-                            <span v-if="option.number === currentStatus.number" class="material-icons">
-                                    check_circle
-                            </span>
+    <div class="workflow-status-progress">
+        <div class="columns">
+            <div class="column">
+                <div class="stepper-component">
+                    <div class="step-bar">
+                        <div v-for="(step, index) in storeWorkflow.workflow_statuses"
+                            :key="index"
+                            class="step"
+                        >
+                            <div class="step-content">
+                                <div class="circle" :class="{ active: storeWorkflow.currentStatus.number >= step.number }"></div>
+                                <label class="label" :class="{ active: storeWorkflow.currentStatus.number >= step.number }">{{ step.name }}</label>
+                            </div>
+                            <div class="line" v-if="index !== storeWorkflow.workflow_statuses.length - 1" :class="{ active: storeWorkflow.currentStatus.number > step.number }"></div>
                         </div>
                     </div>
                 </div>
             </div>
-        </Transition>
+            <div class="column">
+                <!-- Change the current status of the object -->
+                <div :class="['dropdown', 'is-right is-hoverable', { 'is-active': dropdownActive }]">
+                    <div class="dropdown-trigger">
+                        <button class="button"
+                            @blur="dropdownActive = false"
+                            @click="dropdownActive = !dropdownActive">
+                            <span class="icon">
+                                <span v-if="!dropdownActive" class="material-icons">
+                                    edit
+                                </span>
+                                <span v-if="dropdownActive" class="material-icons">
+                                    close
+                                </span>
+                            </span>
+                        </button>
+                    </div>
+                    <Transition>
+                        <div v-if="dropdownActive" class="dropdown-menu" role="menu">
+                            <div class="dropdown-content">
+                                <div class="dropdown-item" v-for="option in storeWorkflow.workflow_statuses" :class="{ active: option.number === storeWorkflow.currentStatus.number }">
+                                    <div class="media is-align-items-center">
+                                        <div class="media-content">
+                                            <a  class="content" @click="onUpdatedStatus(option)"> 
+                                                <span>{{ option.name }} </span>
+                                            </a>
+                                        </div>
+                                        <span v-if="option.number === storeWorkflow.currentStatus.number" class="material-icons media-right">
+                                                check_circle
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </Transition>
+                </div>
+
+            </div>
+        </div> 
+
     </div>
+
+   
 </template>
