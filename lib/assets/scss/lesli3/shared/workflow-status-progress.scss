@@ -18,6 +18,9 @@ For more information read the license file including with this software.
 
 .workflow-status-progress{
 
+  .column{
+    width: 100%;
+  }
 
   .stepper-component{
 
@@ -92,6 +95,7 @@ For more information read the license file including with this software.
   }
 
   .dropdown{
+    float: right;
     &-item.active{
       background-color: rgba($lesli-color-primary, 0.1);
       span{
@@ -102,10 +106,17 @@ For more information read the license file including with this software.
     &-menu{
       .material-icons{
         color: $lesli-color-primary;
-        float: right;
       }
     }
 
+    .media{
+      display: flex;
+    }
+
+    .media-right{
+      // float: right;
+      align-self: flex-end;
+    }
 
   }
 }
