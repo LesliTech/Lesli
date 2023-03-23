@@ -17,13 +17,9 @@ For more information read the license file including with this software.
 */
 
 .workflow-status-progress{
-
-  .column{
-    width: 100%;
-  }
-
+  display: flex;
+  flex-direction: row;
   .stepper-component{
-
 
     .step-bar {
       display: flex;
@@ -94,29 +90,31 @@ For more information read the license file including with this software.
 
   }
 
-  .dropdown{
-    float: right;
-    &-item.active{
-      background-color: rgba($lesli-color-primary, 0.1);
-      span{
-        color: $lesli-color-primary;
-      }
+  .edit{
+    .dropdown{
+        &-row.active{
+            display: flex;
+            background-color: rgba($lesli-color-primary, 0.1);
+            a{
+                justify-content: space-between;
+            }
+            span{
+                color: $lesli-color-primary;
+            }
+        }
     }
-
-    &-menu{
-      .material-icons{
-        color: $lesli-color-primary;
-      }
-    }
-
-    .media{
-      display: flex;
-    }
-
-    .media-right{
-      // float: right;
-      align-self: flex-end;
-    }
-
   }
+}
+
+
+@include lesli-css-breakpoint-mobile() {
+    .stepper-component{
+        width: 80%;
+        .step-content{
+            width: 80% !important;
+        }
+    }
+    .edit{
+        width: 20%;
+    }
 }
