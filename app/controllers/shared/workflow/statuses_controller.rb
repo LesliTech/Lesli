@@ -21,6 +21,12 @@ module Shared
         before_action :set_workflow, only: [:index, :create]
         before_action :set_workflow_status, only: [:destroy]
 
+        def index
+            return respond_with_not_found unless @workflow
+
+            respond_with_successful(@workflow.statuses)
+        end
+
 =begin
 @controller_action_param :workflow_for [String] The name of the *cloud_object* this workflow is assigned to
 @controller_action_param :global [Boolean] Wheter this status is global or not
