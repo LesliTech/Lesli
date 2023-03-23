@@ -56,9 +56,8 @@ const props = defineProps({
         type: Number,
         required: true,
     },
-    // · prop that indicates the object id of the resource that you need to interact with.
-    currentStatus: {
-        type: Object,
+    workflowStatusId: {
+        type: Number,
         required: true,
     },
 })
@@ -76,20 +75,23 @@ storeWorkflow.cloudModule = props.cloudModule
 storeWorkflow.cloudObject = props.cloudObject
 storeWorkflow.cloudObjectId = props.cloudObjectId
 storeWorkflow.workflowId = props.workflowId
-storeWorkflow.currentStatus = props.currentStatus
+storeWorkflow.workflowStatusId = props.workflowStatusId
 
 
 /**
  * @description This function is called when the user updates the status of the project.
  */
  const onUpdatedStatus = (status) => {
-    storeWorkflow.currentStatus = status
+    storeWorkflow.workflowStatusId = status.id
     storeWorkflow.updateStatus({[workflowStatusKey.value]: status.id})
+    storeWorkflow.getCurrentStatus()
 }
 
 // · fetch transition options
 onMounted(() => {
-    storeWorkflow.fetchWorkflowStatuses()
+    storeWorkflow.fetchWorkflowStatuses().then(()=>{
+        storeWorkflow.getCurrentStatus()
+    })
 })
 
 
@@ -136,16 +138,19 @@ onMounted(() => {
                         <div v-if="dropdownActive" class="dropdown-menu" role="menu">
                             <div class="dropdown-content">
                                 <div class="dropdown-item" v-for="option in storeWorkflow.workflow_statuses" :class="{ active: option.number === storeWorkflow.currentStatus.number }">
-                                    <div class="media is-align-items-center">
+                                    <div class="media">
                                         <div class="media-content">
                                             <a  class="content" @click="onUpdatedStatus(option)"> 
                                                 <span>{{ option.name }} </span>
                                             </a>
                                         </div>
-                                        <span v-if="option.number === storeWorkflow.currentStatus.number" class="material-icons media-right">
+                                        <div class="media-right">
+                                            <span v-if="option.number === storeWorkflow.currentStatus.number" class="material-icons">
                                                 check_circle
-                                        </span>
+                                            </span>
+                                        </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
