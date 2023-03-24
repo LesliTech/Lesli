@@ -16,65 +16,61 @@ For more information read the license file including with this software.
 // · 
 */
 
+
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed } from "vue";
+import { ref, reactive, onMounted, watch, computed } from "vue"
+
 
 // · defining emits
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue']);
+
 
 // · defining props
 const props = defineProps({
     modelValue: {
         type: [Number, String, Boolean],
-        required: false,
+        required: false
     },
     options: {
         type: Array,
-        required: true,
+        required: true
     },
     placeholder: {
         type: String,
         required: false,
-        default: "Select...",
+        default: "Select..."
     },
     icon: {
         type: String,
-        required: false,
+        required: false
     },
     reset: {
         type: String,
-        required: false,
+        required: false
     },
     required: {
         type: Boolean,
         required: false,
-        default: false,
+        default: false
     },
     disabled: {
         type: Boolean,
         required: false,
-        default: false,
-    },
-});
+        default: false
+    }
+})
 
-// ·
+// · create a reactive variable to store the selected value of the select element
 const selected = ref("");
 
-// ·
 // · function that handles change event of select element
 function onChange(event) {
-    // · if the selected value is the default option, 
-    // . set selected to empty string and emit an event with empty string as value
-    // . to notify parent component that the value has changed
+    // · if the selected value is the default option, set selected to empty string
     if (event.target.value === "") {
         selected.value = "";
-        emit("update:modelValue", "");
-    // · otherwise, set selected to the selected value 
-    // . and emit an event with the selected value as the value 
-    // . to notify parent component that the value has changed
+    // · otherwise, set selected to the selected value
     } else {
         selected.value = event.target.value;
-        emit("update:modelValue", selected.value);
     }
 }
 
