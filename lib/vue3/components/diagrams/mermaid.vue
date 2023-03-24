@@ -21,13 +21,15 @@ For more information read the license file including with this software.
 // · import vue tools
 import { onMounted, ref, watch } from "vue"
 
+// · import third-party libraries
+import mermaid from "mermaid"
+
 
 // · defining emits
 const emit = defineEmits(['change']);
 
 
-// · import third-party libraries
-import mermaid from "mermaid";
+
 
 
 // · props
