@@ -57,7 +57,7 @@ onMounted(() => {
     <form @submit.prevent="storeNotification.sendNotification()">
         <fieldset>
             <!-- Notification type -->
-            <field>
+            <div class="field">
                 <label class="label">
                     {{ translations.core.view_text_notification_type }}
                     <sup class="has-text-danger">*</sup>
@@ -70,10 +70,10 @@ onMounted(() => {
                     >
                     </lesli-select>
                 </div>
-            </field>
+            </div>
 
             <!-- Subject -->
-            <field>
+            <div class="field">
                 <label class="label">
                     {{ translations.core.view_text_subject}}
                     <sup class="has-text-danger">*</sup>
@@ -89,10 +89,10 @@ onMounted(() => {
                         v-model="storeNotification.notification.subject"
                     />
                 </div>
-            </field>
+            </div>
 
             <!-- Body -->
-            <field>
+            <div class="field">
                 <label class="label">
                     {{ translations.core.view_text_body}}
                 </label>
@@ -107,14 +107,16 @@ onMounted(() => {
                     class="textarea"
                     v-model="storeNotification.notification.body"
                 ></textarea>
-            </field>
+            </div>
 
             <!-- Send button -->
-            <field>
-                <lesli-button icon="send">
-                    {{ translations.core.view_btn_send }}
-                </lesli-button>  
-            </field>
+            <div class="field">
+                <p class="control">
+                    <lesli-button icon="send">
+                        {{ translations.core.view_btn_send }}
+                    </lesli-button>  
+                </p>
+            </div>
 
         </fieldset>
 
