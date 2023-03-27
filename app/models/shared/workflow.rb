@@ -23,6 +23,26 @@ module Shared
 
         after_update :verify_default_workflow
 
+        before_save :parse_next_statuses
+
+        def parse_next_statuses
+
+            self.statuses.map do |status|
+
+                # Here we receive the next statuses as JSON string from the controller
+                # instead of parse the string to JSON we just remove the JSON codes
+                status.next_statuses = status.next_statuses.to_s
+                .gsub(" ","")
+                .gsub("\\","")
+                .gsub("\"","")
+                .gsub("[","")
+                .gsub("]","")
+                .gsub(",","|")
+
+                status
+            end
+        end
+
 =begin
 @return [Boolean] Wheter the workflow was deleted or not
 @description Attempts to delete this workflow.
@@ -83,8 +103,6 @@ module Shared
                 number: :asc
             )
 
-
-
             return {
                 id: id,
                 name: name,
@@ -94,11 +112,11 @@ module Shared
                 created_at: LC::Date.to_string_datetime(created_at),
                 updated_at: LC::Date.to_string_datetime(updated_at),
                 statuses: statuses.map do |status| 
-                    
-                    statuses = [] 
 
+                    next_statuses = [] 
+                    
                     unless status.next_statuses.blank?
-                        statuses = status.next_statuses.split('|').map(&:to_i) 
+                        next_statuses = status.next_statuses.split('|').map(&:to_i) 
                     end
 
                     {
@@ -106,10 +124,9 @@ module Shared
                         :name => status.name,
                         :number => status.number,
                         :status_type => status.status_type,
-                        :next_statuses => statuses
+                        :next_statuses => next_statuses
                     }
-                end
-                
+                end                
             }
 
         end
