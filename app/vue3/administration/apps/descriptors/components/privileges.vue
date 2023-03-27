@@ -97,7 +97,7 @@ function addPrivilege(action) {
 <template>
 
     <lesli-tabs v-model="tab">
-        <lesli-tab-item icon="list" title="Index">
+        <lesli-tab-item paddingless icon="list" title="Index">
             <lesli-table
                 headless
                 v-if="storeDescriptor.privileges.index"
@@ -112,7 +112,7 @@ function addPrivilege(action) {
             </lesli-table>
         </lesli-tab-item>
 
-        <lesli-tab-item icon="add" title="Create">
+        <lesli-tab-item paddingless icon="add" title="Create">
             <lesli-table
                 headless
                 v-if="storeDescriptor.privileges.create"
@@ -127,7 +127,7 @@ function addPrivilege(action) {
             </lesli-table>
         </lesli-tab-item>
 
-        <lesli-tab-item icon="edit" title="Update">
+        <lesli-tab-item paddingless icon="edit" title="Update">
             <lesli-table
                 headless
                 v-if="storeDescriptor.privileges.update"
@@ -142,7 +142,7 @@ function addPrivilege(action) {
             </lesli-table>
         </lesli-tab-item>
 
-        <lesli-tab-item icon="visibility" title="Show">
+        <lesli-tab-item paddingless icon="visibility" title="Show">
             <lesli-table
                 headless
                 v-if="storeDescriptor.privileges.show"
@@ -157,7 +157,7 @@ function addPrivilege(action) {
             </lesli-table>
         </lesli-tab-item>
 
-        <lesli-tab-item icon="delete" title="Destroy">
+        <lesli-tab-item paddingless icon="delete" title="Destroy">
             <lesli-table
                 headless
                 v-if="storeDescriptor.privileges.destroy"
