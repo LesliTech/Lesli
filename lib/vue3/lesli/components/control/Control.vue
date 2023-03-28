@@ -17,26 +17,22 @@ For more information read the license file including with this software.
 */
 
 
-// · import stores
-import { useWorkflow } from "LesliVue/stores/shared/workflow"
+// · import vue tools
 
 
-// · implement stores
-const storeWorkflow = useWorkflow()
 
-
-// · 
-const translations = {
-    workflows: I18n.t("core.workflows")
-}
+// · defining props
+const props = defineProps({
+    title: {
+        type: String,
+        default: null
+    }
+})
 
 </script>
 <template>
-    <div class="p-5">
-        <h5 class="title is-5">{{ translations.workflows.view_title_delete_workflow }}</h5>
-        <p class="mb-5">
-            {{ translations.workflows.messages_danger_delete_workflow_description }}
-        </p>
-        <lesli-button danger icon="delete" @click="storeWorkflow.deleteWorkflow()">Delete</lesli-button>
+    <div class="is-flex is-justify-content-space-between is-align-items-center p-4">
+        <h5 class="title is-5 m-0" v-if="title">{{ title }}</h5>
+        <slot></slot>
     </div>
 </template>

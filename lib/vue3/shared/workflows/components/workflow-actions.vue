@@ -87,7 +87,6 @@ onMounted(() => {
 
 </script>
 <template>
-    <div class="pb-5"></div>
     <lesli-tabs v-model="tab">
         <lesli-tab-item title="Registered actions">
             <lesli-table 
