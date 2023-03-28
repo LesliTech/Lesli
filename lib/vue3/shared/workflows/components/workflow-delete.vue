@@ -24,12 +24,18 @@ import { useWorkflow } from "LesliVue/stores/shared/workflow"
 // · implement stores
 const storeWorkflow = useWorkflow()
 
+
+// · 
+const translations = {
+    workflows: I18n.t("core.workflows")
+}
+
 </script>
 <template>
     <div class="p-5">
-        <h5 class="title is-5">{{translations.workflows.view_title_delete_workflow}}</h5>
+        <h5 class="title is-5">{{ translations.workflows.view_title_delete_workflow }}</h5>
         <p class="mb-5">
-            {{translations.workflows.messages_danger_delete_workflow_description}}
+            {{ translations.workflows.messages_danger_delete_workflow_description }}
         </p>
         <lesli-button danger icon="delete" @click="storeWorkflow.deleteWorkflow()">Delete</lesli-button>
     </div>
