@@ -125,7 +125,7 @@ watch(() => storeIssues.issue.status, () => {
                                 <h6>
                                     <span>{{ translations.core.shared.view_table_header_reference }}</span>
                                 </h6>
-                                <p class="subtitle is-6">{{ storeIssues.issue.reference }}</p>
+                                <a class="subtitle is-6" :href="storeIssues.issue.reference">{{ storeIssues.issue.reference }}</a>
 
                             </div>
 
