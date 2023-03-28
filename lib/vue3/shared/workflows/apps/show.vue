@@ -111,7 +111,7 @@ onMounted(() => {
                 <component-workflow-checks></component-workflow-checks>
             </lesli-tab-item>
 
-            <lesli-tab-item icon="share" title="Associations" paddingless>
+            <lesli-tab-item icon="share" title="Associations">
                 <component-workflow-associations></component-workflow-associations>
             </lesli-tab-item>
 
