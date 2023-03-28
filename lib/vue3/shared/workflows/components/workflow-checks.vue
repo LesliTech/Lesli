@@ -94,14 +94,15 @@ function showCheck(check){
 }
 
 
-
 </script>
 
 <template>
 
-    <lesli-button  icon="add" @click="onCreate">
-        add
-    </lesli-button>
+    <lesli-control title="Validaciones para cambio de estado">
+        <lesli-button  icon="add" @click="onCreate">
+            add
+        </lesli-button>
+    </lesli-control>
 
     <lesli-table 
         :columns="columns" 
