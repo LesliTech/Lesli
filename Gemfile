@@ -28,7 +28,7 @@ ruby "2.7.2"
 # · RAILS: gem, dependencies and tools
 
 # Rails framework
-gem "rails", "7.0.2.2"
+gem "rails", "7.0.4.3"
 
 # A set of common locale data and translations to internationalize and/or localize your Rails applications.
 gem "rails-i18n", "7.0.2"
