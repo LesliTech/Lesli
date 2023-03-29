@@ -20,7 +20,6 @@ For more information read the license file including with this software.
 module Courier
     module Team
         class Employee
-
             def self.all()
 
                 employees = []
@@ -50,6 +49,33 @@ module Courier
                 employee.show(current_user, query)
             end
 
+            def self.find(current_user, id)
+                return {} unless defined? CloudTeam
+                CloudTeam::EmployeeServices.new(current_user).find(id)
+            end
+
+            def self.create(current_user, params)
+                return unless defined? CloudTeam
+                CloudTeam::EmployeeServices.new(current_user).create(params)
+            end
+
+            def self.update(current_user, id, params)
+                return nil unless defined? CloudTeam
+
+                employee = CloudTeam::EmployeeServices.new(current_user).find(id)
+                return nil unless employee.found?
+
+                employee.update(params)
+            end
+
+            def self.destroy(current_user, id)
+                return nil unless defined? CloudTeam
+
+                employee = CloudTeam::EmployeeServices.new(current_user).find(id)
+                return nil unless employee.found?
+
+                employee.destroy
+            end
         end
     end
 end
