@@ -83,7 +83,7 @@ onMounted(() => {
 
 </script>
 <template>
-    <form 
+    <lesli-form 
         class="information"
         v-if="!storeDescriptor.loading"
         @submit.prevent="isEditable ? onUpdate() : onCreate()">
@@ -126,5 +126,5 @@ onMounted(() => {
                 </lesli-button>       
             </div>
         </div>
-    </form>
+    </lesli-form>
 </template>

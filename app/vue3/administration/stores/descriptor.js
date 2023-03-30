@@ -145,6 +145,9 @@ export const useDescriptor = defineStore("administration.descriptor", {
         fetchDescriptorPrivileges() {
             this.http.get(this.url.admin("descriptors/:id/privileges", this.descriptor.id)).then(result => {
                 result.forEach(controllerAction => {
+
+                    controllerAction.controller = controllerAction.controller.replace("cloud_", "")
+
                     if (!this.privileges[controllerAction.action]) {
                         this.privileges[controllerAction.action] = []
                     }
