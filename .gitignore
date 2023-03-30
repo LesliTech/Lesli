@@ -97,3 +97,5 @@ postgres_data
 # Gemsets
 .ruby-gemset
 .rbenv-gemset
+
+/config/credentials/environment.key

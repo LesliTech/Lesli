@@ -57,8 +57,9 @@ body {
         .logo {
             img {
                 width: 180px;
-                &.lesli_cloud-logo {
-                    width: 86px;
+                &.lesli_cloud-logo,
+                &.lesli_builder-logo {
+                    height: 100px;
                 }
             }
             p {
