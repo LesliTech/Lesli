@@ -1,0 +1,77 @@
+/*
+
+Copyright (c) 2023, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · 
+[data-tooltip] {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+
+    // Hide the tooltip content by default
+    &:before,
+    &:after {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    // Position tooltip above the element 
+    &::before {
+        position: absolute;
+        bottom: 110%;
+        left: 50%;
+        margin-bottom: 5px;
+        margin-left: -80px;
+        padding: 7px;
+        width: 160px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        background-color: #000;
+        background-color: hsla(0, 0%, 20%, 0.9);
+        color: #fff;
+        content: attr(data-tooltip);
+        text-align: center;
+        font-size: 14px;
+        line-height: 1.2;
+    }
+
+    // Triangle hack to make tooltip look like a speech bubble 
+    &:after {
+        position: absolute;
+        bottom: 110%;
+        left: 50%;
+        margin-left: -5px;
+        width: 0;
+        border-top: 5px solid #000;
+        border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+        border-right: 5px solid transparent;
+        border-left: 5px solid transparent;
+        content: " ";
+        font-size: 0;
+        line-height: 0;
+    }
+
+    // Show tooltip content on hover 
+    &:hover:before,
+    &:hover:after {
+        visibility: visible;
+        opacity: 1;
+    }
+}
