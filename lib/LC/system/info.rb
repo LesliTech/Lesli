@@ -92,7 +92,7 @@ module LC
                 Rails.application.config.lesli.dig(:theme, property) || value_if_nil
             end
 
-            def self.sass_instance_file(file)
+            def self.sass_instance_file(file, default="templates/empty")
                 instance_code = instance()[:code]
 
                 # path for import in SASS files
@@ -108,7 +108,7 @@ module LC
                 return path_sass if exists
 
                 # return an empty file to avoid SASS @import errors
-                return "templates/empty"
+                return default
                 
             end
 
