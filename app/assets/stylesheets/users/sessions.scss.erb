@@ -17,5 +17,6 @@ For more information read the license file including with this software.
 */
 
 
-// ·
-@import "lesli3/pages/users/sessions.scss.erb";
+// · First look for custom stylesheet from builder engine, 
+// · if not found use the auth template from lesli pages
+@import "<%= LC::System::Info.sass_instance_file('lesli/users/sessions', 'lesli3/pages/auth') %>";
