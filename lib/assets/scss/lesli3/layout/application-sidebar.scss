@@ -16,10 +16,19 @@ For more information read the license file including with this software.
 */
 
 
-// · variables
+// · text color white or black depending in the luminance of the selected color
 $lesli-sidebar-color-text: findColorInvert($lesli-sidebar-color) !default;
-$lesli-sidebar-hover-text: findColorInvert($lesli-sidebar-hover) !default;
-$lesli-sidebar-hover-color: $lesli-sidebar-hover !default;
+
+// · background color behavior when hover the sidebar
+$lesli-sidebar-hover-color: findDarkColor($lesli-sidebar-color) !default;
+
+// · find a lighter color for hover if the luminance of the selected color is too dark
+@if colorLuminance($lesli-sidebar-color) <= 0.5 {
+    $lesli-sidebar-hover-color: findLightColor($lesli-sidebar-color) !default;
+}
+
+// · find exactly the inverted background color to use as text color, so we have contrast
+$lesli-sidebar-hover-text: findColorInvert($lesli-sidebar-hover-color) !default;
 
 
 // · Navigation sidebar
