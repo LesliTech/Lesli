@@ -120,4 +120,7 @@ Rails.application.configure do
         from: Rails.configuration.lesli.dig(:env, :action_mailer, :default_options_from)
     }
 
+    # allow development domain customization through hosts file
+    config.hosts << ".lesli"
+
 end

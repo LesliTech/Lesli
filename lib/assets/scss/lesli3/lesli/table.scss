@@ -40,8 +40,15 @@ table.lesli-table {
             vertical-align: middle;
         }
 
-        .icon-text:hover {
-            cursor: pointer;
+        // keep text and icons in the same line
+        .icon-text {
+            flex-wrap: nowrap;
+            span {
+                white-space: nowrap;
+            }
+            &:hover {
+                cursor: pointer;
+            }
         }
 
         border-radius: 10px 10px 0 0;
