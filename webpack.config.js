@@ -163,7 +163,7 @@ module.exports = env => {
                 CloudDevelopment: path.resolve("engines", "cloud_development", "app", "vue3"),
                 MitwerkenCloud: path.resolve("engines", "mitwerken_cloud", "app", "vue3"),
                 DeutscheLeibrenten: path.resolve("engines", "deutsche_leibrenten", "app", "vue3"),
-
+                HypoManager: path.resolve("engines", "hypo_manager", "app", "vue3")
             }
         },
         module: {
