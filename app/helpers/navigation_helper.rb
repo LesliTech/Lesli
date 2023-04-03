@@ -33,7 +33,7 @@ module NavigationHelper
     # Prints a vue router link inside a list item
     def navigation_vue_item(link_path)
         content_tag(:li) do
-            content_tag("router-link exact", :to => link_path) do
+            content_tag("router-link", :to => link_path) do
                 yield
             end
         end
@@ -44,7 +44,7 @@ module NavigationHelper
         rmi=icon
 
         # default vue router links for single page applications
-        html_element = "router-link exact"
+        html_element = "router-link"
         html_options = { :to => path }
 
         # if reload is nedeed, we use a standard "a" tag
