@@ -101,6 +101,11 @@ function addRemoveStatus(status) {
 function enterFullView() {
     fullView.value = !fullView.value
 }
+
+
+function reset() {
+    storeWorkflow.workflow.statuses.map(e => e.next_statuses = [])
+}
 </script>
 <template>
 
@@ -196,6 +201,9 @@ function enterFullView() {
             </span>
         </button>
     </div>
+    <div class="mt-5">
+        <a @click="reset()">reset</a>
+    </div>
 </template>
 <style>
     .statuses-working li,
@@ -218,31 +226,4 @@ function enterFullView() {
         font-size: 1.1rem;
         color: blue;
     }
-/*
-    .column li a{
-        display: block;
-        padding: .6rem 1rem;
-        margin-bottom: 1rem;
-        border-radius: 5px;
-        border: 1px solid transparent;
-        box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
-    }
-    .column li a span.icon-text {
-        justify-content: space-between;
-        width: 100%;
-    }
-    .column li a span.material-icons{
-        font-size: 0px;
-    }
-    .column li a.selected {
-        border-color: blue;
-    }
-    .column li a.selected span.material-icons{
-        font-size: 1.1rem;
-        color: blue;
-    }
-    .statuses-available li a {
-        text-align: right;
-    }
-*/
 </style>
