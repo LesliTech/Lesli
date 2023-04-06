@@ -25,6 +25,10 @@ For more information read the license file including with this software.
     .navbar-brand{
         max-width: 700px;
         width: auto;
+        span {
+            font-size: 30px;
+            padding-right: 15px;
+        }
     }
 
     .navbar-item {
