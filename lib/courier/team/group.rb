@@ -27,7 +27,7 @@ module Courier
 
             def self.index(current_user, query)
                 return {} unless defined? CloudTeam
-                CloudTeam::GroupServices.new(current_user).index(query, {})
+                CloudTeam::GroupServices.new(current_user, query).index()
             end
 
             def self.create(current_user, params)

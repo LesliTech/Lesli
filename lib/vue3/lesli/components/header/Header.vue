@@ -26,6 +26,10 @@ const props = defineProps({
     title: {
         type: String,
         default: null
+    },
+    back: {
+        type: Object,
+        required: false
     }
 })
 
@@ -34,6 +38,11 @@ const props = defineProps({
     <nav class="navbar lesli-header">
         <div class="navbar-brand">
             <div class="navbar-item">
+                <router-link v-if="back" :to="to.toString()">
+                    <span class="material-icons">
+                        arrow_back
+                    </span>
+                </router-link>
                 <h1 v-if="title">{{ title }}</h1>
             </div>
         </div>
