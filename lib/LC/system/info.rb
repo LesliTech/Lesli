@@ -96,7 +96,7 @@ module LC
                 instance_code = instance()[:code]
 
                 # path for import in SASS files
-                path_sass = "#{instance_code}/lesli/#{file}"
+                path_sass = "#{instance_code}/#{file}"
 
                 # path of file in disk, absolute path to the source file
                 path_full = Rails.root.join("engines", instance_code, "app", "assets", "stylesheets", path_sass + ".scss")
