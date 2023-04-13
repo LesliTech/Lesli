@@ -61,10 +61,6 @@ $dark-gray: #373737;
     
     
     .navbar-end {
-        a:first-child {
-            font-weight: bold;
-        }
-        gap: 1rem;
         .dropdown.locale .button {
             background-color: transparent;
             color: $light;
