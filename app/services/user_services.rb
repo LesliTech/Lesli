@@ -184,9 +184,17 @@ class UserServices < LesliServices
             # role validation - if new user does not have any role assigned
             if user.roles.blank?
 
-                # assign limited role
-                user.user_roles.create({ role: current_user.account.roles.find_by(:name => "limited") })
+                default_role_name = current_user.account.settings.find_by(:name => "default_role").value
+                
+                if default_role_name.present?
+                    # assign default role
+                    user.user_roles.create({ role:  current_user.account.roles.find_by(:name => default_role_name)})
 
+                else
+                    # assign limited role
+                    user.user_roles.create({ role: current_user.account.roles.find_by(:name => "limited") })
+                end 
+                
             end
 
             # saving logs with information about the creation of the user
