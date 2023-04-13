@@ -44,7 +44,8 @@ export const useAccountSettings = defineStore("account_settings", {
                 lesli_theme_sidebar_color: null,
                 lesli_theme_color_background: null,
                 lesli_theme_font_color: null,
-                lesli_theme_font_size: null
+                lesli_theme_font_size: null,
+                default_role: null,
             },
             old_settings: {
                 lesli_theme_color_primary: null,
@@ -58,6 +59,7 @@ export const useAccountSettings = defineStore("account_settings", {
             options: {
                 time_zones: []
             },
+            roles: {},
             branding_logos: {},
             record_files: [],
             new_file: {
@@ -104,7 +106,24 @@ export const useAccountSettings = defineStore("account_settings", {
             })
         },
 
-        
+        /**
+         * @description This action is used to fetch the user's roles
+         */
+        getRoles(){
+            this.loading = true
+            this.http.get(this.url.admin("roles")).then(result => {
+                this.roles = result.records.map(record =>{
+                    return {
+                        label: record.name,
+                        value: record.name,
+                    };
+                })
+            }).catch(error => {
+                this.msg.danger(I18n.t("core.shared").messages_danger_internal_error)
+            }).finally(() => {
+                this.loading = false
+            })
+        },  
 
         /**
          * @description This action is used to fetch the currently configured settings
