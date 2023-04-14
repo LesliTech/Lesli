@@ -45,7 +45,7 @@ export const useAccountSettings = defineStore("account_settings", {
                 lesli_theme_color_background: null,
                 lesli_theme_font_color: null,
                 lesli_theme_font_size: null,
-                default_role: null,
+                default_role_id: null,
             },
             old_settings: {
                 lesli_theme_color_primary: null,
@@ -112,10 +112,11 @@ export const useAccountSettings = defineStore("account_settings", {
         getRoles(){
             this.loading = true
             this.http.get(this.url.admin("roles")).then(result => {
+                console.log(result);
                 this.roles = result.records.map(record =>{
                     return {
                         label: record.name,
-                        value: record.name,
+                        value: record.id,
                     };
                 })
             }).catch(error => {
