@@ -88,7 +88,7 @@ onMounted(() => {
                 </div>
                 <div class="column is-6">
                     <lesli-select
-                            v-model="storeAccountSettings.settings.default_role"
+                            v-model="storeAccountSettings.settings.default_role_id"
                             :placeholder="translations.core.view_placeholder_select_option"
                             :options="storeAccountSettings.roles"
                             ></lesli-select>
