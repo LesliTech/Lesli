@@ -73,11 +73,15 @@ class User::RegistrationService
 
         # add profile role to user only if multi-account is allowed
         if allow_multiaccount == false
-            # Custom instances can define a default role for new users on registration when multi-account is not allowed
+            # Assigning default role if defined in account settings
+            # Otherwise custom instances can define a default role for new users on registration when multi-account is not allowed
             # Otherwise, the default role is "limited"
+            default_role_id = account.settings.find_by(:name => "default_role_id").value
             default_role_name = Rails.application.config.lesli.dig(:security, :default_role)
-
-            if default_role_name.present?
+                
+            if default_role_id.present?
+                @resource.user_roles.create({ role: account.roles.find_by(:id => default_role_id)})
+            elsif default_role_name.present?
                 @resource.user_roles.create({ role: account.roles.find_by(name: default_role_name) })
             else
                 @resource.user_roles.create({ role: account.roles.find_by(name: "limited") })
