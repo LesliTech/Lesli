@@ -111,9 +111,8 @@ export const useAccountSettings = defineStore("account_settings", {
          */
         getRoles(){
             this.loading = true
-            this.http.get(this.url.admin("roles")).then(result => {
-                console.log(result);
-                this.roles = result.records.map(record =>{
+            this.http.get(this.url.admin("roles/list")).then(result => {
+                this.roles = result.map(record =>{
                     return {
                         label: record.name,
                         value: record.id,
