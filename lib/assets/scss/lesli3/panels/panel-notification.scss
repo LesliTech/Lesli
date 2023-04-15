@@ -26,10 +26,17 @@ For more information read the license file including with this software.
 
     .lesli-notification {
         border-bottom: 1px solid lesli-css-color(silver);
+        &:hover {
+            cursor: default;
+        }
+        &[href]:hover {
+            cursor: pointer;
+        }
     }
 
     .notification-title {
-        font-size: 15px;
+        text-transform: capitalize;
+        font-size: 16px;
         font-weight: 600;
     }
 
@@ -37,12 +44,9 @@ For more information read the license file including with this software.
         font-size: 15px;
     }
 
-    .notification-date span {
-        padding: .4rem 0;
+    .notification-date {
+        span, button {
+            font-size: 13px;
+        }
     }
-
-    span, button {
-        font-size: 14px;
-    }
-
 }
