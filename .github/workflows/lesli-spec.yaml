@@ -64,9 +64,6 @@ jobs:
         ports:
           - 5432:5432
 
-    env: 
-      BUNDLE_GEMFILE: ./tmp/.github/env/Gemfile
-
     steps:
 
       # Set the right owner for work folders
@@ -101,6 +98,10 @@ jobs:
           slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
           msg: "Github actions start [ ${{ github.event.pull_request.head.ref }} -> ${{ github.event.pull_request.base.ref }} ]"
 
+      - name: Set up database schema
+        run: |
+          cp -fr ./tmp/.github/env/Gemfile ./Gemfile
+          cp -fr ./tmp/.github/env/Gemfile.lock ./Gemfile.lock
 
       # · Checkout engines (most used engines)
 
