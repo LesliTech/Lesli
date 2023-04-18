@@ -225,7 +225,6 @@ onMounted(() => {
             </div>
         </div>
 
-
         <div class="field is-horizontal">
             <div class="field-label is-normal">
             </div>

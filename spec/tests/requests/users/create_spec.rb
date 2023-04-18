@@ -47,7 +47,9 @@ RSpec.describe "Tests for Lesli 3" do
 
         it "is expected to assign limited role to user" do
             user = FactoryBot.attributes_for(:user)
-            user[:account] = nil # by default the method creates an account for the user, so we do not need it
+            if user[:account].settings.exists?(name: "default_role_id")
+                user[:account].settings.find_by(name: "default_role_id").update(value: nil)
+            end
 
             post("/administration/users.json", params: {
                 user: user
@@ -61,6 +63,27 @@ RSpec.describe "Tests for Lesli 3" do
             expect(roles.find { |role| role[:name] == "limited" }).to_not be_nil
         end
 
+
+        it "is expected to assign default role to user from account settings" do
+            user = FactoryBot.attributes_for(:user)
+            if user[:account].settings.exists?(name: "default_role_id")
+                user[:account].settings.find_by(name: "default_role_id").update(value:  Role.find_by(name: "sysadmin").id)
+            else
+                user[:account].settings.create(name: "default_role_id", value: Role.find_by(name: "sysadmin").id ) 
+            end
+
+            post("/administration/users.json", params: {
+                user: user
+            })
+
+            # shared examples
+            expect_response_with_successful
+
+            # custom specs
+            roles = User.find_by_id(response_body["id"]).roles
+            expect(roles.find { |role| role.id  == user[:account].settings.find_by(name: "default_role_id").value.to_i}).to_not be_nil
+        end
+
         it "is expected to assign the role sent in the user params" do
             user = FactoryBot.attributes_for(:user)
             user[:account] = nil # by default the method creates an account for the user, so we do not need it
@@ -72,7 +95,6 @@ RSpec.describe "Tests for Lesli 3" do
 
             # shared examples
             expect_response_with_successful
-
             # custom specs
             user_roles = User.find_by_id(response_body["id"]).roles
             expect(user_roles.find { |role| role.id == user[:roles_id] }).to_not be_nil
