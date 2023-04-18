@@ -185,8 +185,8 @@ class UserServices < LesliServices
             if user.roles.blank?
 
                 default_role_id = current_user.account.settings.find_by(:name => "default_role_id")&.value
-                
-                if default_role_id.present?
+                owner_role_id =  current_user.account.roles.find_by(:name => "owner").id
+                if default_role_id.present? && default_role_id != owner_role_id
                     # assign default role
                     user.user_roles.create({ role:  current_user.account.roles.find_by(:id => default_role_id)})
 
