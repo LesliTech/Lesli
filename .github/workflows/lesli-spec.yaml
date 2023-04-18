@@ -98,6 +98,8 @@ jobs:
           slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
           msg: "Github actions start [ ${{ github.event.pull_request.head.ref }} -> ${{ github.event.pull_request.base.ref }} ]"
 
+
+      # Copy lock files for dependencies and packages
       - name: Set up package files
         run: |
           cp -fr ./tmp/.github/env/Gemfile ./Gemfile
