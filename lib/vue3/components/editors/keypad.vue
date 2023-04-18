@@ -43,15 +43,23 @@ const active = ref(false)
 
 function addValue(event) {
     event.preventDefault();
-
     texto.value += event.target.innerHTML 
-
-    emit('update:modelValue', texto.value)
 }
 
-function accept() {
+function accept(event) {
+    event.preventDefault();
     active.value = false
     emit('update:active', active.value)
+}
+
+function clear(event) {
+    event.preventDefault();
+    texto.value = ""
+}
+
+function backspace(event) {
+    event.preventDefault();
+    texto.value = texto.value.slice(0, -1);
 }
 
 onMounted(() => {
@@ -59,6 +67,8 @@ onMounted(() => {
 })
 
 watch(() => props.active, () => active.value = props.active)
+
+watch(() => texto.value, () => emit('update:modelValue', texto.value))
 
 </script>
 <template>
@@ -70,7 +80,7 @@ watch(() => props.active, () => active.value = props.active)
                     <td><button @click="addValue">2</button></td>
                     <td><button @click="addValue">3</button></td>
                     <td rowspan="2" class="keypad-action-accept">
-                        <button @click="accept()">
+                        <button @click="accept">
                             <span class="material-icons">
                                 done
                             </span>
@@ -87,7 +97,7 @@ watch(() => props.active, () => active.value = props.active)
                     <td><button @click="addValue">8</button></td>
                     <td><button @click="addValue">9</button></td>
                     <td class="keypad-action-clear">
-                        <button @click="addValue">
+                        <button @click="clear">
                             <span class="material-icons">
                                 clear
                             </span>
@@ -99,7 +109,7 @@ watch(() => props.active, () => active.value = props.active)
                     <td><button @click="addValue">0</button></td>
                     <td><button @click="addValue">.</button></td>
                     <td class="keypad-action-backspace">
-                        <button>
+                        <button @click="backspace">
                             <span class="material-icons">
                                 backspace
                             </span>
