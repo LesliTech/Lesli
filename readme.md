@@ -45,6 +45,7 @@ rake app:maintenance RAILS_ENV=production
 __Run server__
 
 ```bash
+rails s --binding=0.0.0.0
 rails s --environment=test
 rails s --environment=development
 RAILS_SERVE_STATIC_FILES=true rails s --environment=production 
