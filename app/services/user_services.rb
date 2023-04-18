@@ -184,7 +184,7 @@ class UserServices < LesliServices
             # role validation - if new user does not have any role assigned
             if user.roles.blank?
 
-                default_role_id = current_user.account.settings.find_by(:name => "default_role_id").value
+                default_role_id = current_user.account.settings.find_by(:name => "default_role_id")&.value
                 
                 if default_role_id.present?
                     # assign default role
