@@ -47,7 +47,7 @@ For more information read the license file including with this software.
     .circle {
       width: 30px;
       height: 30px;
-      background-color: #ccc;
+      background-color: transparent;
       border-radius: 50%;
       justify-content: center;
       align-items: center;
@@ -62,7 +62,7 @@ For more information read the license file including with this software.
     .label {
       text-align: center;
       margin-top: 10px;
-      color: #ccc;
+      color: transparent;
       display: block;
     }
     
@@ -73,7 +73,7 @@ For more information read the license file including with this software.
       transform: translate(-50%, -50%);
       height: 1px;
       width: calc(100% - 5px);
-      background-color: #ccc;
+      background-color: transparent;
     }
     
     .label.active {
