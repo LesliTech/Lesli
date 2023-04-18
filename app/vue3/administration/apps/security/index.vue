@@ -38,6 +38,8 @@ const translations = {
 
 onMounted(() => {
     storeAccountSettings.getSettings()
+    storeAccountSettings.getRoles()
+
 })
 
 </script>
@@ -75,6 +77,21 @@ onMounted(() => {
                     <p class="has-text-info">
                         {{ translations.core.account.settings.view_text_password_complex_description }}
                     </p>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column is-4">
+                    <label class="label">
+                        {{ translations.core.account.settings.column_default_role }}
+                    </label>
+                </div>
+                <div class="column is-6">
+                    <lesli-select
+                            v-model="storeAccountSettings.settings.default_role_id"
+                            :placeholder="translations.core.view_placeholder_select_option"
+                            :options="storeAccountSettings.roles"
+                            ></lesli-select>
                 </div>
             </div>
 
