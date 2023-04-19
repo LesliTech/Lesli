@@ -1,0 +1,95 @@
+/*
+
+Copyright (c) 2023, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · 
+.component-keypad {
+    width: 100%;
+    bottom: 0;
+    z-index: 999;
+    padding: 1rem;
+    position: absolute;
+    background-color: $color-background;
+    border-top: 3px solid darken($color-background, 5);
+
+    table.table {
+        background-color: transparent;
+
+        td {
+            padding: 0;
+            border: none;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            background-color: transparent;
+            border: none;
+            color: $primary;
+            padding: 1.4rem 1rem;
+            font-size: 2.2rem;
+            font-weight: 500;
+        }
+
+        .keypad-action-backspace,
+        .keypad-action-accept,
+        .keypad-action-clear {
+            vertical-align: middle;
+
+            button {
+                border-radius: 5px;
+            }
+
+            .material-icons {
+                font-size: 2rem;
+            }
+        }
+
+        .keypad-action-accept button {
+            background-color: $primary;
+            .material-icons {
+                color: white;
+            }
+        }
+
+        .keypad-action-clear button {
+            background-color: darken($color-background, 5);
+        }
+        
+    }
+}
+
+
+@keyframes input-cursor-blink {
+    0% {
+        opacity: 0;
+    }
+}
+
+
+.keypad-input {
+
+    &::after {
+        content: "";
+        width: 2px;
+        height: 20px;
+        background: $lesli-color-primary;
+        display: inline-block;
+        animation: input-cursor-blink 1.2s steps(2) infinite;
+    }
+}
