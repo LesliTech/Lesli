@@ -19,6 +19,11 @@
 
 
 
+# TODO:
+#   Validate to use production branch only if core branch is production
+
+
+
 # Specs for Lesli Core
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
 name: "Lesli specs workflow"
@@ -67,7 +72,7 @@ jobs:
     steps:
 
       # Set the right owner for work folders
-      - name: Set folder righ permissions
+      - name: Set folder permissions
         run: "sudo chown -R $USER:$USER $GITHUB_WORKSPACE/"
 
 
@@ -98,12 +103,6 @@ jobs:
           slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
           msg: "Github actions start [ ${{ github.event.pull_request.head.ref }} -> ${{ github.event.pull_request.base.ref }} ]"
 
-
-      # Copy lock files for dependencies and packages
-      - name: Set up package files
-        run: |
-          cp -fr ./tmp/.github/env/Gemfile ./Gemfile
-          cp -fr ./tmp/.github/env/Gemfile.lock ./Gemfile.lock
 
       # · Checkout engines (most used engines)
 
@@ -203,14 +202,30 @@ jobs:
           token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
           repository: leitfaden/cloud_time
 
+
       # Use the official receipt to install ruby in ubuntu
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7.2
-          bundler-cache: true
+          bundler-cache: false
         env:
           ImageOS: ubuntu20
+
+
+      # Use custom Ruby dependencies cache (if exists)
+      - name: Download Ruby dependencies cache
+        uses: actions/cache@v3
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('Gemfile') }}
+
+
+      # Install ruby gems
+      - name: Install Ruby gems
+        run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
 
 
       # Build the Lesli database
