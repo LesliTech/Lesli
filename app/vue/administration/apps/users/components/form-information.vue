@@ -20,33 +20,34 @@ For more information read the license file including with this software.
 // · import vue tools
 import { inject, onMounted, ref, onUnmounted } from "vue"
 
+
 // · import lesli stores
 import { useUser } from "LesliApp/administration/stores/user"
+
 
 // · import vue router composable
 import { useRouter, useRoute } from "vue-router"
 
+
 // · implement stores
 const storeUser = useUser()
+
 
 // · initialize/inject plugins
 const router = useRouter()
 const url = inject("url")
 const route = useRoute()
 
+
 // · defining props
 const props = defineProps({
-    isEditable: {
+    editable: {
         type: Boolean,
         required: false,
         default: false,
-    },
-    path: {
-        type: String,
-        required: false,
-        default: "administration/users",
     }
 })
+
 
 // · 
 const translations = {
@@ -54,21 +55,18 @@ const translations = {
     shared: I18n.t("core.shared")
 }
 
+
 const options = {}
 
-/**
- * @description This function is used to update the user information
- */
+
 const onUpdate = () => {
     storeUser.updateInformation()
 }
 
-/**
- * @description This function is used to create a new user
- */
+
 const onCreate = () => {
     storeUser.newUser()
-    router.push(url.root(props.path).toString())
+    router.push(url.admin("admin").toString())
 }
 
 const userRole = ref({ label:"", value:"" })
@@ -78,7 +76,7 @@ function updateRole(){
 }
 
 onMounted(() => {
-    if (!props.isEditable){
+    if (!props.editable){
         storeUser.resetUserStore()
     } else {
         storeUser.fetch(route.params?.id)
@@ -87,11 +85,7 @@ onMounted(() => {
 
 </script>
 <template>
-    <form class="information" @submit.prevent="
-            isEditable
-                ? onUpdate()
-                : onCreate()
-    ">
+    <form class="information" @submit.prevent="props.editable ? onUpdate() : onCreate()">
         <div class="field is-horizontal">
             <div class="field-label">
                 <label class="label"> {{ translations.shared.view_text_salutation}} </label>
@@ -191,7 +185,7 @@ onMounted(() => {
             </div>
         </div>
 
-        <div class="field is-horizontal" v-if="isEditable">
+        <div class="field is-horizontal" v-if="props.editable">
             <div class="field-label is-normal">
                 <label class="label"> {{ translations.users.view_text_role }} </label>
             </div>

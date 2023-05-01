@@ -24,7 +24,7 @@ import { ref, reactive, onMounted, watch } from "vue"
 
 
 // · import & define local components
-import componentChartGeneral from "Leslicomponents/charts/general.vue"
+import componentChartGeneral from "Lesli/components/charts/general.vue"
 
 
 // · defining props

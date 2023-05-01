@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 import { ref, computed, onMounted } from "vue"
 
 // · import stores
-import { useDashboard } from "Lesli/stores/shared/dashboard"
+import { useDashboard } from "Lesli/shared/stores/dashboard"
 
 // · implement store
 const storeDashboard = useDashboard()
