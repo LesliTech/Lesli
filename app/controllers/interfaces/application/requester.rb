@@ -1,14 +1,33 @@
 =begin
-Copyright (c) 2023, all rights reserved.
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
-pictures and any other information belongs to the owner of this platform.
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
-For more information read the license file including with this software.
+
+Lesli
+
+Copyright (c) 2023, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Your Smart Business Assistant. 
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
 module Interfaces
@@ -16,22 +35,17 @@ module Interfaces
         module Requester
 
             # Set default query params for:
-            #   pagination
-            #   sorting
-            #   filtering
             def set_helpers_for_request
                 @query = {
                     search: params[:search] || nil,
-                    filters: params[:f] ? params[:f] : {},
                     pagination: {
-                        perPage: (params[:perPage] ? params[:perPage].to_i : 10),
+                        perPage: (params[:perPage] ? params[:perPage].to_i : 25),
                         page: (params[:page] ? params[:page].to_i : 1)
                     },
                     order: {
                         by: (params[:orderBy] ? params[:orderBy] : "id"),
                         dir: (params[:order] ? params[:order] : "desc")
-                    },
-                    group: params[:group] || ""
+                    }
                 }
             end
 

@@ -24,14 +24,16 @@ class CreateAccountCronos < ActiveRecord::Migration[6.1]
             t.string  :description
             t.integer :status
 
-            t.string  :engine
-            t.string  :rake         # The rake command that will execute the task
+            t.string  :engine_code
+
+            # The rake command that will execute the task
+            t.string  :rake
 
             t.integer :minute
             t.integer :hour
-            t.integer :day_of_month
             t.integer :month
             t.integer :day_of_week
+            t.integer :day_of_month
 
             t.datetime :deleted_at, index: true
             t.timestamps

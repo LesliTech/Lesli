@@ -108,7 +108,7 @@ class Role < ApplicationLesliRecord
 
         # default role for limited roles
         if self.name == "limited"
-           self.default_path ||= "/administration/profile" # profile path
+           self.path_default ||= "/administration/profile" # profile path
         end
 
         # enable roles by default
@@ -125,7 +125,7 @@ class Role < ApplicationLesliRecord
 
         role_code = I18n.transliterate(role_code) + id.to_s # transform UTF-8 characters to ASCI
 
-        self.update_attribute('code', role_code)
+        self.update_attribute("code", role_code)
     end
 
     # @return [void]

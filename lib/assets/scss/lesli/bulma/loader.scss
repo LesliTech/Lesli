@@ -19,55 +19,40 @@ For more information read the license file including with this software.
 
 
 // · 
-@import "bulma/sass/utilities/_all";
-
-
-// · 
-$primary: $info;
-$primary-invert: $info-invert;
-
-
-// · Links
-$link: $info;
-$link-invert: $info-invert;
-$link-focus-border: $info;
-
-
-// · Override framework colors
-$custom-colors: (
-    "primary": ($primary, $primary-invert), 
-    "link": ($link, $link-invert)
-);
-
-
-
-$colors: mergeColorMaps(
-    (
-        "white": ($white, $black), 
-        "black": ($black, $white), 
-        "light": ($light, $light-invert), 
-        "dark": ($dark, $dark-invert), 
-        "primary": ($primary, $primary-invert, $primary-light, $primary-dark), 
-        "link": ($link, $link-invert, $link-light, $link-dark), 
-        "info": ($info, $info-invert, $info-light, $info-dark), 
-        "success": ($success, $success-invert, $success-light, $success-dark), 
-        "warning": ($warning, $warning-invert, $warning-light, $warning-dark), 
-        "danger": ($danger, $danger-invert, $danger-light, $danger-dark)
-    ), 
-    $custom-colors
-);
-
+$primary: $lesli-color-primary;
 
 
 // · Border radius
-$radius: 2px;
+$radius: 8px;
 $radius-small: 3px;
 $radius-large: 4px;
 
 $control-radius: $radius;
 $control-radius-small: $radius-small;
 
+$navbar-background-color: transparent;
+
+$table-cell-padding: 1rem;
 
 // · Import Bulma and Buefy styles
 @import "bulma/bulma.sass";
-@import "buefy/src/scss/buefy";
+@import "bulma/sass/utilities/functions";
+
+
+
+// · Bulma elements/components overrides
+
+
+// · 
+.dropdown-item {
+    display: flex;
+    span.icon {
+        margin-right: 8px;
+    }
+}
+
+
+fieldset.block {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}

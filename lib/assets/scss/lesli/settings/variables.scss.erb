@@ -1,0 +1,129 @@
+/*
+
+Copyright (c) 2023, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · Import customization from builder engine
+@import "<%= LC::System::Info.sass_instance_file('variables') %>";
+
+
+// · Lesli main theme definition, 
+$lesli-color-primary: <%= LC::System::Info.theme(:color_primary, "#112A62") %> !default;
+$lesli-header-color: <%= LC::System::Info.theme(:color_header, "transparent") %> !default;
+$lesli-footer-color: <%= LC::System::Info.theme(:color_footer, "transparent") %> !default;
+$lesli-sidebar-color: <%= LC::System::Info.theme(:color_sidebar, "#112A62") %> !default;
+$lesli-sidebar-hover: <%= LC::System::Info.theme(:color_sidebar_hover, "#172347") %> !default;
+$lesli-color-background: <%= LC::System::Info.theme(:color_background, "#F0F8FF") %> !default;
+
+
+// · To understand more about customization go to:
+// · https://github.com/leitfaden/cloud_development/blob/master/documentation/design/02-theme.md
+
+$lesli-sidebar-color: lighten($lesli-sidebar-color, 8%);
+
+// · defaults
+$lesli-logo-color: $lesli-sidebar-color;
+$lesli-font-color: lesli-css-color(black) !default;
+
+
+// · constants
+$lesli-font-size: 16px;
+$lesli-header-height: 100px;
+$lesli-footer-height: 84px;
+$lesli-sidebar-width: 50px;
+
+
+// · harcoded styles D:
+$lesli-box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+
+
+// · here we prioritize css variables defined dynamically in the header
+// · those variable values come from the database in the account_settings table
+:root {
+    --lesli-color-primary: var(--lesli-theme-color-primary, #{$lesli-color-primary});
+    --lesli-color-background: var(--lesli-theme-color-background, #{$lesli-color-background});
+    
+    --lesli-header-color: var(--lesli-theme-header-color, #{$lesli-header-color});
+    --lesli-header-height: var(--lesli-theme-header-height, #{$lesli-header-height});
+    
+    --lesli-footer-color: var(--lesli-theme-footer-color, #{$lesli-footer-color});
+    --lesli-footer-height: var(--lesli-theme-footer-height, #{$lesli-footer-height});
+    
+    --lesli-sidebar-color: var(--lesli-theme-sidebar-color, #{$lesli-sidebar-color});
+    --lesli-sidebar-width: var(--lesli-theme-sidebar-width, #{$lesli-sidebar-width});
+
+    --lesli-logo-color: var(--lesli-theme-logo-color, #{$lesli-logo-color});
+    
+    --lesli-font-size: var(--lesli-theme-font-size, #{$lesli-font-size});
+    --lesli-font-color: var(--lesli-theme-font-color, #{$lesli-font-color});
+}
+
+
+// Mobile Up to 768px
+@include lesli-css-breakpoint-mobile {
+    :root {
+        --lesli-sidebar-width: 50px;
+    }
+}
+
+
+// Tablet Between 769px and 1023px
+@include lesli-css-breakpoint-tablet {
+    :root {
+        --lesli-sidebar-width: 100px;
+    }   
+}
+
+
+// Desktop Between 1024px and 1215px
+@include lesli-css-breakpoint-desktop {
+    :root {
+        --lesli-sidebar-width: 200px;
+    }   
+}
+
+
+// Widescreen Between 1216px and 1407px
+@include lesli-css-breakpoint-widescreen {
+    :root {
+        --lesli-sidebar-width: 225px;
+    }   
+}
+
+
+// Widescreen Between 1216px and 1407px
+@include lesli-css-breakpoint-fullhd {
+    :root {
+        --lesli-sidebar-width: 328px;
+    }   
+}
+
+
+//
+body.layout-expanded {
+    :root {
+        --lesli-sidebar-width: 100px;
+    }
+}
+
+
+// · generic variables (aliases)
+$color-primary: $lesli-color-primary;
+$color-header: $lesli-header-color;
+$color-footer: $lesli-footer-color;
+$color-sidebar: $lesli-sidebar-color;
+$color-background: $lesli-color-background;

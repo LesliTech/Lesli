@@ -1,20 +1,33 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Lesli
 
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
-pictures and any other information belongs to the owner of this platform.
+Copyright (c) 2023, Lesli Technologies, S. A.
 
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-For more information read the license file including with this software.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Your Smart Business Assistant. 
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
-
+// · 
 =end
 
 module RoutesApp
@@ -28,7 +41,7 @@ module RoutesApp
             resource :pass, only: [:show, :create, :update]
 
             # Invitation requests - users ask to join an account
-            resource :invite, only: [:show, :create]
+            #resource :invite, only: [:show, :create]
 
             # Initial settings for account
             resource :onboarding, only: [:show, :create]
@@ -86,13 +99,6 @@ module RoutesApp
                         # task management and scheduling - not yet implemented
                         resources :cronos
 
-                        # general feedback
-                        resources :issues do
-                            collection do
-                                get :options
-                            end
-                        end
-
                         # system currencies 
                         resources :currencies, only: [:index, :show, :new, :create] do
                             scope module: :currency do
@@ -105,7 +111,7 @@ module RoutesApp
 
                     end
 
-                    # account catalog & options
+                    # extensions to the users methods
                     collection do
                         get :options
                     end
@@ -113,6 +119,8 @@ module RoutesApp
 
                 # User administration
                 resources :users, only: [:index, :show, :update, :create, :destroy] do
+
+                    # extensions to the user methods
                     scope module: :user do
 
                         # sessions management
@@ -129,11 +137,6 @@ module RoutesApp
 
                         #
                         resources :settings, only: [:create]
-
-                    end
-
-                    # user helper resources
-                    member do
 
                         # request password change
                         post :passwordrequest
@@ -152,24 +155,14 @@ module RoutesApp
 
                     end
 
+                    # extensions to the users methods
                     collection do
                         get :options
                         get :list
                     end
-
-                    member do
-                        scope :actions do
-
-                            # hability to change users email
-                            # TODO:
-                            #   if new email is not provided, generate a new one
-                            #   id + email
-                            put :email
-
-                        end
-                    end
                 end
 
+=begin
 
                 # Descriptors for roles
                 resources :descriptors, only: [:index, :show, :edit, :create, :update] do
@@ -230,12 +223,10 @@ module RoutesApp
                         get :options 
                     end
                 end 
+=end
             end
 
-            scope :about do
-                get "version", to: "abouts#version"
-                get "system-requirements", to: "abouts#system_requirements"
-            end
+            resource :about, only: [:show]
 
             get "dashboard", to: "abouts#dashboard"
 

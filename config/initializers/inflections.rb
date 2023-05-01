@@ -15,8 +15,6 @@
 #   inflect.acronym "RESTful"
 # end
 
-
-
 ActiveSupport::Inflector.inflections do |inflect|
   
     # Leave and Leaves is an irregular noun, so we should specify it so rails can pluralize it properly

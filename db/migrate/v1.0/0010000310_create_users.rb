@@ -24,13 +24,13 @@ class CreateUsers < ActiveRecord::Migration[5.2]
             # Hard-lock strategy
             t.boolean   :active, default: true, null: false
 
-            # Multi-authorization strategy: user|integration
-            t.string    :category, default: "user", null: false
-
             # Customizable
             t.string    :alias
+            t.string    :salutation
+            t.string    :first_name
+            t.string    :last_name
 
-            # Database authenticatable
+            # authenticatable
             t.string    :email,              null: false, default: ""
             t.string    :encrypted_password, null: false, default: ""
 
@@ -49,10 +49,16 @@ class CreateUsers < ActiveRecord::Migration[5.2]
             t.inet      :last_sign_in_ip
 
             # Confirmable
-            t.string    :confirmation_token
-            t.datetime  :confirmed_at
-            t.datetime  :confirmation_sent_at
             t.string    :unconfirmed_email # Only if using reconfirmable
+            t.string    :confirmation_token
+            t.datetime  :confirmation_sent_at
+            t.datetime  :confirmed_at
+
+            # Telephone confirmation (custom)
+            t.string    :telephone
+            t.string    :telephone_confirmation_token
+            t.datetime  :telephone_confirmation_sent_at
+            t.datetime  :telephone_confirmed_at
 
             # Lockable
             t.integer   :failed_attempts, default: 0, null: false # Only if lock strategy is :failed_attempts
@@ -73,9 +79,9 @@ class CreateUsers < ActiveRecord::Migration[5.2]
         add_reference :users, :accounts, foreign_key: true
 
         add_index :users, :email,                unique: true
-        add_index :users, :reset_password_token, unique: true
-        add_index :users, :confirmation_token,   unique: true
         add_index :users, :unlock_token,         unique: true
+        add_index :users, :confirmation_token,   unique: true
+        add_index :users, :reset_password_token, unique: true
 
         # adding account owner (user)
         add_reference :accounts, :users, foreign_key: true

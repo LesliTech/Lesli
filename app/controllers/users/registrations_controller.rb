@@ -69,6 +69,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     #    this.http.post('127.0.0.1/register', data);
     def create
 
+        L2.info "sign_up_params"
+        pp sign_up_params
+
         # Check if instance allow multi-account
         if !Rails.application.config.lesli.dig(:security, :allow_registration)
             respond_with_error(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -80,22 +83,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
             return respond_with_error(I18n.t("core.users/registrations.messages_info_user_already_exists"))
         end
 
-        # build new user params
-        user_params = sign_up_params
-
-        # adding detail attributes if they are present
-        detail_attributes = params.dig(:user, :detail_attributes)
-
-        unless detail_attributes.nil? || detail_attributes.empty?
-            user_params[:detail_attributes] = {
-                first_name: params.dig(:user, :detail_attributes, :first_name) || "",
-                last_name: params.dig(:user, :detail_attributes, :last_name) || "",
-                telephone: params.dig(:user, :detail_attributes, :telephone) || "",
-            }
-        end
-
         # build new user
-        user = build_resource(user_params)
+        user = build_resource(sign_up_params)
+        pp user
 
         # run password complexity validations
         password_complexity = User::ValidationService.new(user).password_complexity(sign_up_params[:password])
@@ -184,7 +174,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
     #    #    }
     #    #}
     def configure_sign_up_params
-        devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :password, :password_confirmation])
+        devise_parameter_sanitizer.permit(:sign_up, keys: [
+            :email, 
+            :password, 
+            :password_confirmation
+        ])
+
+    end
+
+    def sign_up_params
+        params.permit(:sign_up, 
+            :email, 
+            :password, 
+            :password_confirmation,
+            :first_name,
+            :last_name,
+            :telephone,
+        )
     end
 
 end

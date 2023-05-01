@@ -1,11 +1,11 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:Deutsche Leibrenten CRM
+PRODID:Company name
 CALSCALE:GREGORIAN
 BEGIN:VTIMEZONE
 TZID:Europe/Berlin
 TZURL:http://tzurl.org/zoneinfo-outlook/Europe/Berlin
-X-LIC-LOCATION:Europe/Berlin
+X-LIC-LOCATION:{{timezone}}
 BEGIN:STANDARD
 TZOFFSETFROM:-0600
 TZOFFSETTO:-0600
@@ -17,8 +17,8 @@ BEGIN:VEVENT
 ORGANIZER;CN={{organizer_name}}:MAILTO:{{organizer_email}}
 DTSTAMP:{{dtstamp}}
 UID:{{uid}}
-DTSTART;TZID=Europe/Berlin:{{dtstart}}
-DTEND;TZID=Europe/Berlin:{{dtend}}
+DTSTART;TZID={{timezone}}:{{dtstart}}
+DTEND;TZID={{timezone}}:{{dtend}}
 SUMMARY:{{summary}}
 URL:{{url}}
 DESCRIPTION:{{description}}

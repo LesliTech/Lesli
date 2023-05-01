@@ -27,13 +27,7 @@ class AboutsController < ApplicationLesliController
         }
     end
 
-    def dashboard
-    end
-
-    def system_requirements
-    end
-
-    def version
+    def show
 
         @aboutengines = LC::System::Info.revisions().map do |engine|
             engine[1][:name] = engine[0].titleize()

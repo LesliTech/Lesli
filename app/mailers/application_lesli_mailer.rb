@@ -33,12 +33,12 @@ class ApplicationLesliMailer < ActionMailer::Base
             # add custom email name for emails sent from www.lesli.cloud
             if instance[:code] == 'lesli_cloud'
                 return email_address_with_name(
-                    Rails.configuration.lesli_settings["env"]["action_mailer"]["default_options_from"], 
+                    Rails.configuration.lesli.dig(:env, :action_mailer, :default_options_from), 
                     "Lesli"
                 )
             end
 
-            Rails.configuration.lesli_settings["env"]["action_mailer"]["default_options_from"]
+            Rails.configuration.lesli.dig(:env, :action_mailer, :default_options_from)
 
         },
 

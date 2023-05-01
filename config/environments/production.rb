@@ -118,32 +118,20 @@ Rails.application.configure do
 
 
     # mailer settings
-    config.default_url = Rails.configuration.lesli_settings["default_url"]
+    config.default_url = Rails.configuration.lesli.dig(:env, :default_url)
 
-    config.action_mailer.delivery_method = Rails.configuration.lesli_settings["env"]["action_mailer"]["delivery_method"].to_sym
+    config.action_mailer.asset_host = Rails.configuration.lesli.dig(:env, :action_mailer, :asset_host)
 
-    # SES configuration credentials are initialzied in config/initializers/aws.rb
-    # add configuration for SMTP using mailgun 
-    if config.action_mailer.delivery_method == :smtp
-        config.action_mailer.smtp_settings = {
-            authentication: :plain,
-            port: Rails.application.credentials.dig(:providers, :mailgun, :smtp, :port),
-            address: Rails.application.credentials.dig(:providers, :mailgun, :smtp, :address),
-            password: Rails.application.credentials.dig(:providers, :mailgun, :smtp, :password),
-            user_name: Rails.application.credentials.dig(:providers, :mailgun, :smtp, :user_name)
-        }
-    end
-
-    config.action_mailer.asset_host = Rails.configuration.lesli_settings["env"]["action_mailer"]["asset_host"]
+    config.action_mailer.delivery_method = Rails.configuration.lesli.dig(:env, :action_mailer, :delivery_method)
 
     config.action_mailer.default_url_options = { 
-        host: Rails.configuration.lesli_settings["env"]["action_mailer"]["default_url_options_host"] 
+        host: Rails.configuration.lesli.dig(:env, :action_mailer, :default_url_options_host)
     }
 
     config.action_mailer.default_options = {
 
         # this option is also customized in app/mailers/application_lesli_mailer.rb
-        from: Rails.configuration.lesli_settings["env"]["action_mailer"]["default_options_from"]
+        from: Rails.configuration.lesli.dig(:env, :action_mailer, :default_options_from)
     }
 
 end

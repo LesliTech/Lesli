@@ -1,46 +1,39 @@
 =begin
+    
+Lesli
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2023, Lesli Technologies, S. A.
 
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
-pictures and any other information belongs to the owner of this platform.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
-For more information read the license file including with this software.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Your Smart Business Assistant. 
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
-
+// · 
 =end
 
 module NavigationHelper
 
     # Prints a html link inside a list item
-    def navigation_item(link_path)
-        class_name = request.original_fullpath.include?(link_path) ? "is-active" : nil
-        class_name = current_page?(link_path) ? "is-active" : nil
-        content_tag(:li) do
-            content_tag(:a, :href => link_path, :class => class_name) do
-                yield
-            end
-        end
-    end
-
-    # Prints a vue router link inside a list item
-    def navigation_vue_item(link_path)
-        content_tag(:li) do
-            content_tag("router-link", :to => link_path) do
-                yield
-            end
-        end
-    end
-
-    # Prints a link for lesli-navigation
-    def navigation_lesli_item(path, label, icon=nil, rmi:nil, reload:false)
+    def navigation_item(path, label, icon=nil, reload:false)
         rmi=icon
 
         # default vue router links for single page applications
@@ -306,16 +299,6 @@ module NavigationHelper
     def navigation_engine_development title: "Dev", subtitle: "Development notes"
         if defined? CloudDevelopment
             navigation_engine_item(title, subtitle, "development", cloud_development.root_path, controller_path.include?("cloud_development"))
-        end
-    end
-
-    # DEPRECATED
-    def nav_link(link_path)
-        class_name = current_page?(link_path) ? "is-active" : nil
-        content_tag(:li) do
-            content_tag(:a, :href => link_path, :class => class_name) do
-                yield
-            end
         end
     end
 

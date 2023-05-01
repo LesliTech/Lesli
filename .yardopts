@@ -1,7 +1,0 @@
-yardoc 
-    engines/cloud_dispatcher/app/controllers/cloud_dispatcher/v20/auth/logins_controller.rb
-    engines/cloud_dispatcher/app/controllers/cloud_dispatcher/v20/auth/registrations_controller.rb
---tag license 
---tag description 
---tag url
---type-name-tag controller_action_param: "Controller Action Parameters"

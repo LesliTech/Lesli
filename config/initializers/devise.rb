@@ -305,14 +305,14 @@ Devise.setup do |config|
 
 
     # Social Login middleware
-    config.omniauth :google_oauth2, Rails.application.credentials.dig(:providers, :google, :client_id), Rails.application.credentials.dig(:providers, :google, :client_secret), {
-        prompt: 'consent',
-        scope: (defined? CloudDriver) ? 'email,profile,calendar' : 'email,profile' 
-    }
+    # config.omniauth :google_oauth2, Rails.application.credentials.dig(:providers, :google, :client_id), Rails.application.credentials.dig(:providers, :google, :client_secret), {
+    #     prompt: 'consent',
+    #     scope: (defined? CloudDriver) ? 'email,profile,calendar' : 'email,profile' 
+    # }
 
-    config.omniauth :facebook, Rails.application.credentials.dig(:providers, :facebook, :client_id), Rails.application.credentials.dig(:providers, :facebook, :client_secret), {
-        scope: 'email,public_profile'
-    }
+    # config.omniauth :facebook, Rails.application.credentials.dig(:providers, :facebook, :client_id), Rails.application.credentials.dig(:providers, :facebook, :client_secret), {
+    #     scope: 'email,public_profile'
+    # }
 
 end
 
@@ -336,14 +336,14 @@ module Devise
         end
 
         # generate a random hexadecimal string with a fixed length
-        def random_hex(length, upcase)
+        def hex(length, upcase)
             raw = SecureRandom.hex(length)
             raw = raw.upcase if upcase
             raw
         end
 
         # generate a random number with a fixed length
-        def random_number(length)
+        def number(length)
 
             # Calculate the upper bound for the random number generator
             # upper_bound = 1,000,000
@@ -369,21 +369,12 @@ module Devise
 
         end
 
-        # DEPRECATED
-        # This declaration attach a new method to the Devise module to generate user-friendly tokens
-        # we use this method to reset password through Dispatcher or like-otp validations
-        # important we use this method only when we need compatibility with Devise
-        # example: easy password reset, through otp
-        def generate_token(klass, column, length=2, upcase=false)
-            key = key_for(column)
-
-            loop do
-                raw = SecureRandom.hex(length)
-                raw = raw.upcase if upcase
-                enc = OpenSSL::HMAC.hexdigest(@digest, key, raw)
-                break [raw, enc] unless klass.to_adapter.find_first({ column => enc })
-            end
-
+        def random_hex(length, upcase)
+            hex(length, upcase)
+        end
+        
+        def random_number(length)
+            number(length)
         end
     end
 end

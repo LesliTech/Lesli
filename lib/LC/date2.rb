@@ -34,19 +34,29 @@ module LC
             # if you need a different date format you should change it in the config file
             # Check the docs for more information: /development/docs/rails-lib-time
 
-            # TODO: User should be able to select an appropiate datetime format in an easy way,
-            # the Administration module must be present to the users a curated list of different
-            # datetime format options with examples, also user should be able to manually modify
-            # the format through an "advanced view"
+            # configuration example
+            # @settings = {
+            #     :time_zone => config[:time_zone],
+            #     :start_week_on => config[:start_week_on],
+            #     :format => {
+            #         :date => "%d.%m.%Y",
+            #         :time => "%H:%M %p", # 12 hours datetime format
+            #         :time => "%H:%M",    # 24 hours datetime format (default)
+            #         :date_time => "%d.%m.%Y %I:%M %p", # 12 hours datetime format
+            #         :date_time => "%d.%m.%Y %H:%M",    # 24 hours datetime format (default)
+            #         :date_words => "%A, %B %d, %Y",
+            #         :date_time_words => "%A, %B %d, %Y, %I:%M %p", # 12 hours datetime in words format
+            #         :date_time_words => "%A, %B %d, %Y, %H:%M"    # 24 hours datetime in words format (default)
+            #     }
+            # }
+
             @settings = {
                 :time_zone => config[:time_zone],
                 :start_week_on => config[:start_week_on],
                 :format => {
                     :date => "%d.%m.%Y",
-                    :time => "%H:%M %p", # 12 hours datetime format
-                    :time => "%H:%M",    # 24 hours datetime format (default)
-                    :date_time => "%d.%m.%Y %I:%M %p", # 12 hours datetime format
-                    :date_time => "%d.%m.%Y %H:%M",    # 24 hours datetime format (default)
+                    :time => "%H:%M",
+                    :date_time => config[:formats][:date_time],
                     :date_words => "%A, %B %d, %Y",
                     :date_time_words => "%A, %B %d, %Y, %I:%M %p", # 12 hours datetime in words format
                     :date_time_words => "%A, %B %d, %Y, %H:%M"    # 24 hours datetime in words format (default)

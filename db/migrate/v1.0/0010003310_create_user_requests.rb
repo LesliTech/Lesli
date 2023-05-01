@@ -20,17 +20,20 @@ For more information read the license file including with this software.
 class CreateUserRequests < ActiveRecord::Migration[6.0]
     def change
         create_table :user_requests do |t|
-            t.string :request_agent
-            t.string :request_controller
-            t.string :request_method
-            t.string :request_action
-            t.string :request_url
-            t.json   :params
+            t.string    :request_controller
+            t.string    :request_action
+            t.string    :request_method
+            t.string    :request_format
+            t.string    :request_url
+            t.integer   :request_count
 
-            t.datetime :deleted_at, index: true
+            t.datetime  :deleted_at, index: true
             t.timestamps
         end
-        add_reference :user_requests, :users, foreign_key: true
-        add_reference :user_requests, :user_sessions, foreign_key: true
+
+        add_reference(:user_requests, :users, foreign_key: true)
+        add_reference(:user_requests, :user_sessions, foreign_key: true)
+
+        add_index(:user_requests, [:request_controller, :request_action, :request_format, :users_id, :user_sessions_id], unique: true, name: "user_requests_index")
     end
 end

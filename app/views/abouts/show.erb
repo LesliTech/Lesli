@@ -1,1 +1,25 @@
-<router-view></router-view>
+<section class="application-component">
+
+    <%
+        revision = LC::System::Info.revision()
+        version = "version: #{ revision[:version] }"
+        build = "build: #{ revision[:build] }"
+    %>
+
+    <div class="header mb-6 pb-4 pl-3">
+        <h3 class="is-size-3"><%= LC::System::Info.instance[:code].titleize() %></h3>
+        <h4 class="is-size-4"><%= version %> &bull; <%= build %></h4>
+    </div>
+
+    <article class="engines">
+        <% @aboutengines.each do |engine| %>
+            <div class="engine">
+                <%= lesli_svg(engine[1][:image]) %>
+                <p><%= engine[1][:name] %></p>
+                <p>version: <%= engine[1][:version] %></p>
+                <p>build: <%= engine[1][:build] %></p>
+            </div>
+        <% end %>
+    </article>
+
+</section>

@@ -1,21 +1,36 @@
 =begin
 
-Copyright (c) 2023, all rights reserved.
+Lesli
 
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
-pictures and any other information belongs to the owner of this platform.
+Copyright (c) 2023, Lesli Technologies, S. A.
 
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-For more information read the license file including with this software.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Your Smart Business Assistant. 
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
-def create_development_user usertocreate, password=nil
+
+def create_development_user email, rolename, firstname, lastname, password:nil
 
     # get password
     if password.blank?
@@ -23,33 +38,29 @@ def create_development_user usertocreate, password=nil
         password = password + Time.now.year.to_s + "$"
     end
 
-    # user information
-    email = usertocreate[4]
-    last_name = usertocreate[3]
-    role_name = usertocreate[0]
-    salutation = usertocreate[1]
-    first_name = usertocreate[2]
-
     account = Account.find_by(company_name: Rails.application.config.lesli.dig(:account, :name))
 
     # create development users if email is not registered yet
     ::User.find_or_create_by(email: email) do |user|
+        user.account = account
         user.password = password
         user.password_confirmation = password
-        user.account = account
 
         # confirm user through device
         user.confirm unless user.confirmed?
 
-        user.detail.salutation = salutation
-        user.detail.first_name = first_name
-        user.detail.last_name = last_name
-        user.detail.save!
+        user.first_name = firstname
+        user.last_name = lastname
+        user.save!
 
-        user.user_roles.create({ role: Role.find_by("name" => role_name) })
+        user.user_roles.create({ role: Role.find_by("name" => rolename) })
 
         if user
-            user.settings.create(:name => 'locale', :value => Rails.application.config.lesli.dig(:env, :default_locale)) # add locale
+            # add locale
+            user.settings.create(
+                :name => 'locale', 
+                :value => Rails.application.config.lesli.dig(:env, :default_locale)
+            ) 
         end
 
         user

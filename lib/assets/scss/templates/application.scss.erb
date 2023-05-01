@@ -1,0 +1,159 @@
+/*
+
+Copyright (c) 2023, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · 
+@import "lesli-css";
+
+
+// · Configuration & variables
+@import "./lesli/settings/variables";
+
+
+// · Include Bulma 
+@import "./lesli/bulma/loader";
+
+
+// · Loading components, settings and helpers
+@import "./lesli/helpers/display";
+@import "./lesli/helpers/tooltip";
+@import "./lesli/fonts/remixicons";
+@import "./lesli/fonts/families";
+@import "./lesli/fonts/mdicons";
+@import "flag-icon";
+
+
+// · Loading app layout 
+@import "./lesli/layout/application-header";
+@import "./lesli/layout/application-announcements";
+@import "./lesli/layout/application-engines";
+@import "./lesli/layout/application-sidebar";
+@import "./lesli/layout/application-component";
+@import "./lesli/layout/application-footer";
+@import "./lesli/layout/application-search";
+
+
+// · Panels :) 
+@import "./lesli/panels/panel-tasks";
+@import "./lesli/panels/panel-ticket";
+@import "./lesli/panels/panel-profile";
+@import "./lesli/panels/panel-notification";
+@import "./lesli/panels/panel-announcements";
+
+
+// · Standard components
+@import "./lesli/components/editor-richtext";
+
+// · Shared
+@import "./lesli/shared/workflow-status-progress";
+
+
+// · Lesli vue components
+@import "./lesli/lesli/autocomplete";
+@import "./lesli/lesli/avatar";
+@import "./lesli/lesli/empty";
+@import "./lesli/lesli/file-uploader";
+@import "./lesli/lesli/gallery";
+@import "./lesli/lesli/header";
+@import "./lesli/lesli/input-tag";
+@import "./lesli/lesli/loading";
+@import "./lesli/lesli/map";
+@import "./lesli/lesli/msg";
+@import "./lesli/lesli/navbar";
+@import "./lesli/lesli/panel";
+@import "./lesli/lesli/form";
+@import "./lesli/lesli/tab";
+@import "./lesli/lesli/table";
+@import "./lesli/lesli/toggle";
+@import "./lesli/lesli/toolbar";
+@import "./lesli/lesli/calendar";
+
+
+// · Lesli cloud objects
+@import "./lesli/cloud-objects/discussion";
+@import "./lesli/cloud-objects/file";
+
+
+// · Overrides for vendor libraries
+@import "./lesli/overrides/sweetalert";
+
+
+// · Include Lesli Standards
+@include lesli-css-normalize();
+
+
+// · 
+html,
+body {
+    color: var(--lesli-font-color);
+    font-size: var(--lesli-font-size);
+    background-color: var(--lesli-color-background);
+    font-family: "Exo", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
+    scrollbar-color: var(--lesli-color-primary) transparent;
+    scrollbar-width: thin;
+    font-weight: normal;
+    line-height: 158%;
+}
+
+
+// · headings and links
+a, 
+h1 {
+    font-family: "Montserrat", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
+}
+
+h1 {
+    line-height: 148%;
+    font-weight: 800;
+    font-size: 24px;
+}
+
+h2 {
+    line-height: 140%;
+    font-weight: 800;
+    font-size: 22px;
+}
+
+h3 {
+    line-height: 140%;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+h4 {
+    line-height: 140%;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+h5, 
+h6 {
+    line-height: 120%;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+
+// Vue Animation component
+.v-enter-active, .v-leave-active { transition: opacity 0.5s ease; }
+.v-enter-from, .v-leave-to { opacity: 0; }
+
+
+// · Import theme overrides from builder engine
+// · see: https://github.com/leitfaden/cloud_development/blob/master/documentation/design/02-theme.md
+@import "<%= LC::System::Info.sass_instance_file('theme') %>";

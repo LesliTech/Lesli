@@ -23,8 +23,17 @@ class CreateRoles < ActiveRecord::Migration[6.0]
             t.string    :name
             t.string    :code
             t.boolean   :active
-            t.string    :default_path
-            t.boolean   :only_my_data, default: false
+
+            # redirect users to path after login
+            t.string    :path_default
+
+            # allow users to access resources only inside the :path_default 
+            t.boolean   :path_limited
+            
+            # allow users to work only with data created or assigned to them
+            t.boolean   :isolated, default: false
+
+            # role hierarchy
             t.integer   :object_level_permission, default: 10
 
             t.datetime :deleted_at, index: true

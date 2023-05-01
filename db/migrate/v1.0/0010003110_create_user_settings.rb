@@ -19,5 +19,6 @@ class CreateUserSettings < ActiveRecord::Migration[6.0]
             t.timestamps
         end
         add_reference :user_settings, :users, foreign_key: true
+        add_index :user_settings, [:users_id, :name], unique: true
     end
 end

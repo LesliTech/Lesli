@@ -2,11 +2,11 @@
     <img width="200" alt="Lesli logo" src="./app/assets/images/lesli/brand/app-logo.svg" />
 </p>
 
-<h3 align="center">Your Smart Business Assistant</h3>
+<h3 align="center">Ruby on Rails high-level development platform.</h3>
 
 <hr/>
 
-Version 3
+Version 4
 
 ### Development 
 
@@ -38,12 +38,9 @@ rake db:create RAILS_ENV=production
 rake db:migrate RAILS_ENV=production
 rake db:seed RAILS_ENV=production 
 rake app:maintenance RAILS_ENV=production
-
-# Restore database with a dump file
 ```
 
 __Run server__
-
 ```bash
 rails s --binding=0.0.0.0
 rails s --environment=test
@@ -58,20 +55,9 @@ RAILS_SERVE_STATIC_FILES=true rails s --environment=production
 * [Core resources](./docs/core-resources.md)
 
 
-
-### License
--------
-Copyright (c) 2022, all rights reserved.
-
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
-pictures and any other information belongs to the owner of this platform.
-
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
-
-For more information read the license file including with this software.
+### License  
+------
+Software developed in [Guatemala](http://visitguatemala.com/) by [LesliTech](https://www.lesli.tech) distributed under the *General Public License v 3.0* you can read the full license [here](http://www.gnu.org/licenses/gpl-3.0.html)
 
 <br>
 

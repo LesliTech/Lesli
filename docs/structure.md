@@ -1,0 +1,12 @@
+```
+Lesli
+    lib
+        vue
+            cloudobjects
+            components
+            composables
+            layout
+            lesli
+            panels
+            shared
+```

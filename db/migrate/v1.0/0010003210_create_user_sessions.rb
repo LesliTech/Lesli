@@ -29,9 +29,6 @@ class CreateUserSessions < ActiveRecord::Migration[6.0]
             t.string :session_token     # authentication token
             t.string :session_source    # session created for/with
 
-            # this is just reference, the new column is in the migration v1.7
-            # t.string :activation_code   # token to activate the session 
-
             t.integer  :usage_count                     # total number of interactions 
             t.datetime :last_used_at                    # last datetime token was used
             t.datetime :expiration_at, index: true      # auto-expire session at

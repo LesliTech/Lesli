@@ -24,20 +24,7 @@ For more information read the license file including with this software.
 // · Templates
 //= link templates/pdf.css 
 //= link templates/public.css 
-//= link templates/application2.css 
-//= link templates/application3.css
-
-
-// · Themes
-//= link themes/blank.css 
-//= link themes/lesli-blue/lesli-blue.css 
-//= link themes/lesli-ocean/lesli-ocean.css 
-//= link themes/deutsche-blue/deutsche-blue.css 
-//= link themes/mitwerken-green/mitwerken-green.css 
-
-
-// · Translation methods
-//= link i18n.js
+//= link templates/application.css
 
 
 // · Core stylesheets
@@ -46,6 +33,10 @@ For more information read the license file including with this software.
 
 // · Core javascripts apps
 //= link_tree ../javascripts .js
+
+
+// · Translation methods
+//= link i18n.js
 
 
 // · Login styles
