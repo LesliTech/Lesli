@@ -48,7 +48,15 @@ export const useUsers = defineStore("core.users", {
                 role: null,
                 status: 'active'
             },
-            roles_options: []
+            roles_options: [],
+
+            user: {
+                roles_id: null,
+                email: null,
+                first_name: null,
+                last_name: null,
+                telephone: null,
+            }
         }
     },
     actions: {
@@ -105,6 +113,15 @@ export const useUsers = defineStore("core.users", {
                 this.loading = false
             })
         },
+
+
+        postUsers() {
+            return this.http.post(this.url.admin("users"), {
+                user: this.user
+            })
+        },
+
+
 
         doLogout(userId) {
             this.http.post(this.url.admin("users/:id/logout", userId).toString())

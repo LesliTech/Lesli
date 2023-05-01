@@ -32,56 +32,154 @@ Building a better future, one line of code at a time.
 
 
 // · import vue tools
-import { onMounted } from "vue"
+import { onMounted, inject } from "vue"
 import { useRouter, useRoute } from 'vue-router'
 
 
 // · import lesli stores
-import { useUser } from "LesliApp/administration/stores/user"
-
-
-// · import profile components
-import formInformation from "./components/form-information.vue"
+import { useUsers } from "LesliApp/administration/stores/users"
 
 
 // · implement stores
-const storeUser = useUser()
+const storeUsers = useUsers()
 const router = useRouter()
 const route = useRoute()
+const url = inject("url")
+const msg = inject("msg")
 
 
 // · translations
 const translations = {
-    core: {
-        roles: I18n.t("core.roles"),
-        users: I18n.t("core.users"),
-        shared: I18n.t("core.shared")
-    }
-
+    users: I18n.t("core.users"),
+    shared: I18n.t("core.shared")
 }
 
-
-// · defining props
-const props = defineProps({
-
-})
-
 // · 
-onMounted(() => {
-    storeUser.getOptions()
-})
-
+const onCreate = () => {
+    storeUsers.postUsers().then(result => {
+        msg.success(I18n.t("core.users.messages_success_operation"))
+        router.push(url.admin("users").toString())
+    }).catch(error => {
+        msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
+    })
+}
 </script>
 
 <template>
-    <section class="application-component">
+    <application-component>
         <lesli-header title="Create User">
-            <lesli-button icon="list" :to="url.root(props.appMountPath)">
+            <lesli-button icon="list" :to="url.admin('users')">
                 All users
             </lesli-button>
         </lesli-header>
-        <div class="box">
-            <form-information></form-information>
-        </div>
-    </section>
+
+        <lesli-form @submit="onCreate()">
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label"> 
+                        {{translations.shared.view_text_email}}
+                        <span class="is-danger">*</span>
+                    </label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <input name="user_email" v-model="storeUsers.user.email" required="required" type="email" class="input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label"> 
+                        {{ translations.shared.view_text_first_name }}
+                    </label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <input name="first_name" v-model="storeUsers.user.first_name" type="text" class="input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label"> {{ translations.shared.view_text_last_name }} </label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <input name="last_name" v-model="storeUsers.user.last_name" class="input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label"> {{ translations.shared.view_text_telephone }} </label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <input name="user_number" v-model="storeUsers.user.telephone" class="input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label"> {{ translations.users.view_text_role }} </label>
+                </div>
+                <!--
+                <div class="field-body">
+                    <div class="field is-narrow">
+                        <div class="control">
+                            <div>
+                                <span name="user_role" class="tag is-success" v-for="role in storeUser.user.roles" :key="role">{{role.name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                -->
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label"> {{ translations.users.view_text_role }} </label>
+                </div>
+                <div class="field-body">
+                    <div class="field is-narrow">
+                        <div class="control">
+                            <div class="select is-fullwidth">
+                                <!--lesli-select
+                                    :options="storeUser.rolesSelect"
+                                    v-model="storeUser.user.roles_id"
+                                >
+                                </lesli-select -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <lesli-button icon="save">
+                                {{ translations.shared.view_btn_save }}
+                            </lesli-button>                 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </lesli-form>
+    </application-component>
 </template>

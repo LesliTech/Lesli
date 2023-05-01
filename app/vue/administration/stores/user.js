@@ -44,13 +44,13 @@ export const useUser = defineStore("user", {
                 records: []
             },
             user: {
-                email: null,
                 roles_id: null,
-                alias:  null,
+                email: null,
+                alias: null,
+                first_name: null,
+                last_name: null,
+                telephone: null,
                 detail_attributes: {
-                    first_name: null,
-                    last_name: null,
-                    telephone: null,
                     salutation: null,
                     title: null,
                 }
@@ -107,6 +107,8 @@ export const useUser = defineStore("user", {
         }
     },
     actions: {
+
+
         /**
          * @description This action is used to get users information
          * @param {String} id Id of the user, if not provided list all users
@@ -330,20 +332,7 @@ export const useUser = defineStore("user", {
                 }
             })
         },
-        
-        /**
-         * @description This action is used to create a new user
-         */
-        newUser(){
-            this.http.post(this.url.admin("users"), {
-                user: this.user
-            }).then(result => {
-                this.fetch()
-                this.msg.success(I18n.t("core.users.messages_success_operation"))
-            }).catch(error => {
-                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
-            })
-        },
+    
 
         /**
          * @description This action is used to get engine subscriptions options
