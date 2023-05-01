@@ -1,31 +1,44 @@
 <%#
 
-Copyright (c) 2022, all rights reserved.
+Lesli
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
-pictures and any other information belongs to the owner of this platform.
+Copyright (c) 2023, Lesli Technologies, S. A.
 
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-For more information read the license file including with this software.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Your Smart Business Assistant. 
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 %>
 
-<%= navigation_lesli_item(main_app.account_path, I18n.t("core.shared.sidebar_nav_account"), "ri-building-4-line"); %>
-<%= navigation_lesli_item(main_app.users_path, I18n.t("core.shared.sidebar_nav_users"), "ri-user-line"); %>
-<%= navigation_lesli_item(main_app.account_integrations_path, I18n.t("core.shared.sidebar_nav_integrations"), "ri-plug-line"); %>
+<%= navigation_item(main_app.account_path, I18n.t("core.shared.sidebar_nav_account"), "ri-building-4-line"); %>
+<%= navigation_item(main_app.users_path, I18n.t("core.shared.sidebar_nav_users"), "ri-user-line"); %>
+<%= navigation_item(main_app.account_integrations_path, I18n.t("core.shared.sidebar_nav_integrations"), "ri-plug-line"); %>
 
-<%= navigation_lesli_item(main_app.descriptors_path, "Role descriptors", "ri-shield-check-line"); %>
-<%= navigation_lesli_item(main_app.roles_path, I18n.t("core.shared.sidebar_nav_roles_privileges"), "ri-shield-user-line"); %>
-<%= navigation_lesli_item(main_app.account_issues_path,  I18n.t("core.account/issues.view_title_account_issues"), "ri-focus-line"); %>
+<%#= navigation_item(main_app.descriptors_path, "Role descriptors", "ri-shield-check-line"); %>
+<%#= navigation_item(main_app.roles_path, I18n.t("core.shared.sidebar_nav_feedback"), "ri-feedback-line"); %>
 
-<%= navigation_lesli_item(main_app.security_account_settings_path, I18n.t("core.account/settings.view_tab_title_security_settings"), "ri-lock-line"); %>
-<%#= navigation_lesli_item(main_app.account_currencies_path, I18n.t("core.shared.sidebar_nav_currencies"), "ri-time-line"); %>
-<%= navigation_lesli_item(main_app.date_time_account_settings_path, I18n.t("core.account/settings.view_tab_title_time_settings"), "ri-time-line"); %>
-<%= navigation_lesli_item(main_app.branding_account_settings_path, I18n.t("core.account/settings.view_tab_title_branding"), "ri-image-line"); %>
-<%= navigation_lesli_item(main_app.theme_account_settings_path, I18n.t("core.account/settings.view_tab_title_theme"), "ri-paint-brush-line"); %>
+<%= navigation_item(main_app.security_account_settings_path, I18n.t("core.account/settings.view_tab_title_security_settings"), "ri-lock-line"); %>
+<%#= navigation_item(main_app.account_currencies_path, I18n.t("core.shared.sidebar_nav_currencies"), "ri-time-line"); %>
+<%= navigation_item(main_app.date_time_account_settings_path, I18n.t("core.account/settings.view_tab_title_time_settings"), "ri-time-line"); %>
+<%= navigation_item(main_app.branding_account_settings_path, I18n.t("core.account/settings.view_tab_title_branding"), "ri-image-line"); %>
+<%= navigation_item(main_app.theme_account_settings_path, I18n.t("core.account/settings.view_tab_title_theme"), "ri-paint-brush-line"); %>

@@ -18,6 +18,12 @@ export const use%camel_case_resource% = defineStore("%engine%.%underscore_resour
     },
     actions: {
 
+        fetchUsers
+        getUsers
+        putUsers
+        postUsers
+        deleteUsers
+
         fetch(id=null) {
             this.loading = true
 

@@ -95,18 +95,7 @@ Rails.application.configure do
 
     config.action_mailer.perform_deliveries = true
 
-    config.action_mailer.delivery_method = Rails.configuration.lesli.dig(:env, :action_mailer, :delivery_method).to_sym
-
-    # add configuration for SMTP using mailgun 
-    if config.action_mailer.delivery_method == :smtp
-        config.action_mailer.smtp_settings = {
-            authentication: :plain,
-            port: Rails.application.credentials.providers[:mailgun][:smtp][:port],
-            address: Rails.application.credentials.providers[:mailgun][:smtp][:server],
-            password: Rails.application.credentials.providers[:mailgun][:smtp][:password],
-            user_name: Rails.application.credentials.providers[:mailgun][:smtp][:username]
-        }
-    end
+    config.action_mailer.delivery_method = Rails.configuration.lesli.dig(:env, :action_mailer, :delivery_method)
 
     config.action_mailer.asset_host = Rails.configuration.lesli.dig(:env, :action_mailer, :asset_host)
     

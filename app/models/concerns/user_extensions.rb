@@ -53,7 +53,7 @@ module UserExtensions
     #     other_user = User.last
     #     puts other_user.name # can print jane.smith@email.com
     def full_name
-        (detail.blank? || detail.first_name.blank?) ? email : detail.first_name + " " + detail.last_name.to_s
+        self.first_name.blank? ? email : self.first_name + " " + self.last_name.to_s
     end
 
 
@@ -62,7 +62,7 @@ module UserExtensions
     # @example
     #     puts current_user.full_name_initials # would print JD
     def full_name_initials
-        detail.first_name.blank? ? "" : detail.first_name[0].upcase + "" + (detail.last_name.blank? ? "" : detail.last_name[0].upcase)
+        self.first_name.blank? ? "" : self.first_name[0].upcase + "" + (self.last_name.blank? ? "" : self.last_name[0].upcase)
     end
 
 
@@ -73,7 +73,7 @@ module UserExtensions
     #     puts current_user.set_alias # John D.
     def set_alias
         if self.alias.blank?
-            self.alias = (detail&.first_name && detail&.last_name) ? "#{detail.first_name} #{detail.last_name[0]}." : ""
+            self.alias = full_name_initials() 
             self.save
         end
     end

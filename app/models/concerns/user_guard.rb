@@ -123,19 +123,19 @@ module UserGuard
     def has_role_with_default_path?()
 
         # get the roles that contains a path
-        role = self.roles.where.not(default_path: [nil, ""])
+        role = self.roles.where.not(path_default: [nil, ""])
 
         # here we must order the results descendant because we must
         # keep the path of the hightest object level permission role.
         # Example: we should use the path of the admin role if user has
         # admin & employee roles, also order by default_path, so we get first 
         # the roles with path in case the user has roles with the same object level permission
-        role = role.order(object_level_permission: :desc).order(:default_path)
+        role = role.order(object_level_permission: :desc).order(:path_default)
 
         # get the first role found, due previously we sort in a descendant order
         # the first role is going to be the one with highest object level permission
         # this is going to return nil if no role was found
-        role.first&.default_path
+        role.first&.path_default
 
     end
 
@@ -151,7 +151,7 @@ module UserGuard
         # Example: we should use the path of the admin role if user has
         # admin & employee roles, also order by default_path, so we get first 
         # the roles with path in case the user has roles with the same object level permission
-        role = self.roles.order(object_level_permission: :desc).order(:default_path)
+        role = self.roles.order(object_level_permission: :desc).order(:path_default)
 
         # get the first role found, due previously we sort in a descendant order
         # the first role is going to be the one with highest object level permission
@@ -159,7 +159,7 @@ module UserGuard
         role = role.first
 
         # return the path of the role if is limited to a that specific path
-        return role.default_path if role.limit_to_path == true 
+        return role.path_default_ if role.path_limited == true 
 
         # return nil if role has no limits
         return nil

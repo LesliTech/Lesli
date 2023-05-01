@@ -1,24 +1,39 @@
+#
 # Lesli
-# 
-# Copyright (c) 2020, all rights reserved.
-# 
-# All the information provided by this platform is protected by international laws related  to 
-# industrial property, intellectual property, copyright and relative international laws. 
-# All intellectual or industrial property rights of the code, texts, trade mark, design, 
-# pictures and any other information belongs to the owner of this platform.
-# 
-# Without the written permission of the owner, any replication, modification,
-# transmission, publication is strictly forbidden.
-# 
-# For more information read the license file including with this software.
+#
+# Copyright (c) 2023, Lesli Technologies, S. A.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see http://www.gnu.org/licenses/.
+#
+# Lesli · Your Smart Business Assistant. 
+#
+# Made with ♥ by https://www.lesli.tech
+# Building a better future, one line of code at a time.
+#
+# @contact  hello@lesli.tech
+# @website  https://lesli.tech
+# @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+#
+# // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+# // · 
 
 info:
     name: "Lesli"
     code: "lesli"
     github: 
-        url: "https://github.com/leitfaden/Lesli" 
-        ssh: "git@github.com:leitfaden/Lesli.git" 
-        ssh_backup: "git@github.com:LesliTech/Lesli.git" 
+        url: "https://github.com/LesliTech/Lesli" 
+        ssh: "git@github.com:LesliTech/Lesli.git" 
 
 
 # required modules
@@ -49,7 +64,6 @@ configuration:
         tr: "Türkçe"        # Turkish
         ro: "Română"        # Romanian
         bg: "български"     # Bulgarian
-        ru: "Россия"        # Russian
 
     datetime: 
         time_zone: "America/Guatemala" 
@@ -60,26 +74,18 @@ configuration:
             date_time: "%d/%m/%Y %H:%M"
             date_words: "%A, %B %d, %Y"
             date_time_words: "%A, %B %d, %Y, %H:%M"
-    mfa_methods:
-        email: "email"
 
 
 # Instance security settings
 security:
-    log_activity: true
+    password: "tardis"
     enable_debug: false
-    enable_pushes: false
-    enable_commands: true
     enable_becoming: false
     enable_analytics: true
     enable_login_otp: true
     enable_login_link: true
     allow_multiaccount: true
-    allow_registration: true
-    allow_invitation: true
-    password: "lesli"
-    require_telephone_confirm: false
-    # default_role: "limited" # Default role after registration
+    allow_registration: true    
 
 
 # Main color palette for Lesli

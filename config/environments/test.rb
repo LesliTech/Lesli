@@ -67,9 +67,7 @@ end
 Rails.application.configure do
 
     config.action_view.cache_template_loading = true
-
-    # Deactivate the sending of e-mails
-    # Enable this to test mailers
+    
     config.action_mailer.perform_deliveries = false
 
     config.action_mailer.default_url_options = { 

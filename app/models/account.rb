@@ -89,13 +89,6 @@ class Account < ApplicationRecord
 
     def initialize_account
 
-        #create template reference
-        if self.template.blank?
-            self.template = Template.new
-            self.template.account = self
-            self.template.save!
-        end
-
         # create initial descriptors
         self.descriptors.find_or_create_by(name: "owner")
         self.descriptors.find_or_create_by(name: "sysadmin")

@@ -25,32 +25,13 @@ namespace :lesli do
         task :status => :environment do |task, args|
 
             # get lesli settings
-            revision = LC::System::Info.revision()
-            settings = Lesli::settings()
+            revision = Lesli::System.revision()
+            settings = Lesli::System.settings()
 
-            L2.br(4)
-
-            # print release version 
-            L2.m(
-                'Instance: ' << Rails.application.config.lesli.dig(:instance, :name),
-                'Version: ' << revision[:version],
-                'Build: ' << revision[:build]
-            )
-
-            L2.br(3)
-
-            # print installed modules
-            L2.table (Lesli::engines.map { |engine|
-                {
-                    :engines => engine[:code],
-                    :version => "#{engine[:version]} (#{engine[:type]})"
-                }
-            })
-
-            L2.br(3)
+            L2.br()
 
             # print available languages
-            L2.table(settings.dig("configuration", "locales_available").map { |locale|
+            L2.table(settings.dig(:configuration, :locales_available).map { |locale|
                 { :languages => locale[1], :code => locale[0] }
             })
 

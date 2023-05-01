@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
         @account = {}
     end
 
-    def switch_locale
+    def language
 
         local = I18n.locale
 

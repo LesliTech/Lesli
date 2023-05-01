@@ -1,28 +1,51 @@
 /*
-Copyright (c) 2020, all rights reserved.
+Lesli
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
-pictures and any other information belongs to the owner of this platform.
+Copyright (c) 2023, Lesli Technologies, S. A.
 
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-For more information read the license file including with this software.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Ruby on Rails Development Platform.
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
 
 
-// · 
-@import "lesli-css/";
+// · text color white or black depending in the luminance of the selected color
+$lesli-sidebar-color-text: findColorInvert($lesli-sidebar-color) !default;
+
+// · background color behavior when hover the sidebar
+$lesli-sidebar-hover-color: findDarkColor($lesli-sidebar-color) !default;
+
+// · find a lighter color for hover if the luminance of the selected color is too dark
+@if colorLuminance($lesli-sidebar-color) <= 0.5 {
+    $lesli-sidebar-hover-color: findLightColor($lesli-sidebar-color) !default;
+}
+
+// · find exactly the inverted background color to use as text color, so we have contrast
+$lesli-sidebar-hover-text: findColorInvert($lesli-sidebar-hover-color) !default;
 
 
-
-// · Navigation sidebar - new
-// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
+// · Navigation sidebar
 aside.application-sidebar {
     position: fixed;
     top: 0;
@@ -32,145 +55,173 @@ aside.application-sidebar {
     display: flex;
     flex-direction: column;
     transition: all linear .2s;
-    width: var(--app-navigation-width);
+    width: var(--lesli-sidebar-width);
+    background-color: var(--lesli-sidebar-color);
+    border-right: 1px solid lesli-css-color(silver, 300);
 
     // logo
-    a.brand {
-        padding: .4rem;
-        max-height: var(--app-header-height);
+    .brand {
+        padding: 4px;
         display: flex;
-        align-items: center;
+        height: var(--lesli-header-height);
+        max-height: var(--lesli-header-height);
+        background-color: var(--lesli-logo-color);
+        background-color: transparent;
         justify-content: center;
-
-        img {
-            margin: 0 auto;
-            max-width: 100%;
-            max-height: 100%;
-        }
-
     }
 
-    nav {
-        flex: 1;
-        display: flex;
-        overflow-y: auto;
-        flex-direction: column;
-        @include lesli-css-scrollbar("");
+    // allow the container to scroll over the navigation items
+    nav.menu {
+        // hide scrollbar
+        @include lesli-css-scrollbar(hide);
+        overflow-y: scroll;
+    }
 
-        ul.menu-list:first-child {
-            flex: 1;
+    p.menu-label {
+        padding-left: 26px;
+        font-size: .85rem;
+        margin: .4rem 0;
+        color: $lesli-sidebar-color-text;
+    }
+
+    // link container
+    li {
+
+        // link
+        a {
+            color: $lesli-sidebar-color-text;
+            text-align: center;
+            padding: 1rem 0;
+
+            // highlight sidebar navigation item when selected
+            // highlight sidebar navigation item on hover
+            &:hover,
+            &.is-active,        // rails routes
+            &.route-is-active   // vue routes
+            {
+                color: $lesli-sidebar-hover-text;
+                background-color: $lesli-sidebar-hover-color;
+            }
+
+            // icons from reixicons
+            span.icono {
+                font-size: 30px;
+                
+            }
+
+            // link text
+            span.text,
+            span.chevron {
+                display: none;
+            }
+
         }
 
-        p.menu-label {
-            padding-left: 8px;
+        &.lesli-navigation-list {
+
+            &.active {
+                background-color: $lesli-sidebar-hover-color;
+                ul {
+                    height: auto;
+                }
+            }
+
+            .lesli-navigation-list-label {
+                padding: 1rem;
+                border-radius: 6px;
+                border: 1px solid lesli-css-color(silver, 300);
+                max-width: 75px;
+                margin: 0 auto 1rem;
+            }
+
+            // submenus
+            ul {
+                height: 0;
+                border-left: none;
+                overflow: hidden;
+                display: block;
+                padding: 0;
+                margin: 0;
+                & > a span {
+                    display: none;
+                }
+                
+            }
+        }
+    }
+}
+
+
+// · 
+@include lesli-css-breakpoint-tablet {
+
+    // · Navigation sidebar
+    aside.application-sidebar {
+
+        // logo
+        .brand {
+            padding: .2rem;
+        }
+    }
+}
+
+
+// · 
+@include lesli-css-breakpoint-desktop {
+    aside.application-sidebar {
+
+        // logo container
+        .brand {
+            padding: 1rem 0rem;
         }
 
-        // navigation link container
+        // link container
         li {
 
-            // nav link
-            a {
-                font-size: 1rem;
-                padding: 1.2rem 0;
-                border-radius: 0px;
-                align-items: center;
-                text-align: center;
-                transition: all linear .2s;
-
-                i {
-                    width: 3rem;
-                    font-size: 1.2rem;
-                    text-align: center;
-                    position: relative;
-                    transition: all linear .2s;
-
-                    &.flag-icon {
-                        height: 16px;
-                    }
-
-                }
-
-                img { width: 1.4rem; }
-                span { display: none; }
-
-                span.icon { 
-                    margin-left: auto; 
-
-                    i {
-                        width: initial;
-                    }
-
-                }
-
-                i, img, span.icon i {
-                    transition: all linear .2s;
-                }
-
-            }
-
-            ul {
-                margin: 0;
-                border-left: none;
-                padding-left: .6rem;
-
-                a {
-                    font-size: 1.1rem;
-                    padding: .8rem 0;
-
-                    i {
-                        font-size: 1rem;
-                    }
-
-                }
-
-            }
-
-        }
-
-        hr {
-            margin: .8rem 0;
-        }
-
-    }
-
-}
-
-
-
-// · 
-// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
-@include lesli-css-breakpoint("tablet") {
-
-    aside.application-sidebar {
-        nav li {
-            a {
-                padding-left: 0;
-                span {
-                    display: block;
-                    font-size: .65rem;
-                    word-wrap: break-word;
-                    text-transform: uppercase;
-                }
-            }
-        }
-    }
-}
-
-
-
-// · 
-// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
-@include lesli-css-breakpoint("desktop") {
-
-    aside.application-sidebar {
-        nav li {
+            // link
             a {
                 display: flex;
-                text-align: left;
-                padding-left: .6rem;
-                span {
+                padding: 1.6rem 0;
+                align-items: center;
+
+                // main icon
+                svg.icono,
+                span.icono {
+                    width: 75px;
+                }
+
+                // link label
+                span.text {
+                    display: inline-block;
+                }
+    
+                span.text {
                     font-size: 1rem;
-                    text-transform: initial;
+                    display: inline-block;
+                    flex-grow: 1;
+                    text-align: left;
+                    &.iconless {
+                        margin-left: 74px;
+                    }
+                }
+    
+                span.chevron {
+                    display: inline-flex;
+                    margin-right: 16px;
+                    
+                }
+
+            }
+
+            &.lesli-navigation-list {
+                .lesli-navigation-list-label {
+                    padding: 0;
+                    border: none;
+                    display: flex;
+                    padding: 1.6rem 0;
+                    max-width: 100%;
+                    align-items: center;
+                    margin-bottom: 0;
                 }
             }
         }

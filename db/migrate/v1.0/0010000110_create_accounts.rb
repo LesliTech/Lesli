@@ -33,6 +33,8 @@ class CreateAccounts < ActiveRecord::Migration[5.2]
             t.integer   :country
             t.string    :address
             t.string    :region
+            t.string    :city
+            t.string    :postal_code
 
             # contact details
             t.string    :website

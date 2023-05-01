@@ -34,8 +34,8 @@ class User < ApplicationLesliRecord
             :recoverable,
             :validatable,
             :confirmable,
-            :trackable,
-            :omniauthable, omniauth_providers: [:google_oauth2, :facebook]
+            :trackable
+            #:omniauthable, omniauth_providers: [:google_oauth2, :facebook]
 
 
     # user details are saved on separate table

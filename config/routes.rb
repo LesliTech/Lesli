@@ -1,24 +1,39 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Lesli
 
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
-pictures and any other information belongs to the owner of this platform.
+Copyright (c) 2023, Lesli Technologies, S. A.
 
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-For more information read the license file including with this software.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Your Smart Business Assistant. 
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
-
+// · 
 =end
 
 Rails.application.routes.draw do
+
     extend RoutesBuilder
+    extend RoutesEngines
     extend RoutesApp
     
     devise_for :users,
@@ -35,46 +50,10 @@ Rails.application.routes.draw do
         :confirmations => "users/confirmations",
         :passwords => "users/passwords",
         :sessions => "users/sessions",
-        :omniauth_callbacks => "users/oauth",
+        #:omniauth_callbacks => "users/oauth",
     }
-    
-    devise_scope :user do
-        get "register/options", to: "users/registrations#options"
-    end
 
-    get :language, to: "application#switch_locale"
-
-    mount CloudKb::Engine          => "/kb"          if defined?(CloudKb)
-    mount CloudOne::Engine         => "/one"         if defined?(CloudOne)
-    mount CloudWord::Engine        => "/word"        if defined?(CloudWord)
-    mount CloudWork::Engine        => "/work"        if defined?(CloudWork)
-    mount CloudTeam::Engine        => "/team"        if defined?(CloudTeam)
-    mount CloudBell::Engine        => "/bell"        if defined?(CloudBell)
-    mount CloudHelp::Engine        => "/help"        if defined?(CloudHelp)
-    mount CloudText::Engine        => "/text"        if defined?(CloudText)
-    mount CloudTalk::Engine        => "/talk"        if defined?(CloudTalk)
-    mount CloudTime::Engine        => "/time"        if defined?(CloudTime)
-    mount CloudBooks::Engine       => "/books"       if defined?(CloudBooks)
-    mount CloudAudit::Engine       => "/audit"       if defined?(CloudAudit)
-    mount CloudLesli::Engine       => "/lesli"       if defined?(CloudLesli)
-    mount CloudBabel::Engine       => "/babel"       if defined?(CloudBabel)
-    mount CloudHouse::Engine       => "/house"       if defined?(CloudHouse)
-    mount CloudFocus::Engine       => "/focus"       if defined?(CloudFocus)
-    mount CloudSocial::Engine      => "/social"      if defined?(CloudSocial)
-    mount CloudDriver::Engine      => "/driver"      if defined?(CloudDriver)
-    mount CloudMailer::Engine      => "/mailer"      if defined?(CloudMailer)
-    mount CloudPortal::Engine      => "/portal"      if defined?(CloudPortal)
-    mount CloudRealty::Engine      => "/realty"      if defined?(CloudRealty)
-    mount CloudThings::Engine      => "/things"      if defined?(CloudThings)
-    mount CloudScraper::Engine     => "/scraper"     if defined?(CloudScraper)
-    mount CloudStorage::Engine     => "/storage"     if defined?(CloudStorage)
-    mount CloudInsights::Engine    => "/insights"    if defined?(CloudInsights)
-    mount CloudProposal::Engine    => "/proposal"    if defined?(CloudProposal)
-    mount CloudDevelopment::Engine => "/development" if defined?(CloudDevelopment)
-
-    mount CloudShared::Engine      => "/shared"      if defined?(CloudShared)
-    mount CloudDispatcher::Engine  => "/api"         if defined?(CloudDispatcher)
-    mount CloudFederation::Engine  => "/cloud"       if defined?(CloudFederation)
+    get :language, to: "application#language"
 
     match "/404", :to => "errors#not_found",             :via => :all
     match "/401", :to => "errors#unauthorized",          :via => :all
@@ -87,5 +66,4 @@ Rails.application.routes.draw do
     unauthenticated :user do
         root to: "websites#show", as: :root_unauthenticated
     end
-
 end

@@ -79,7 +79,6 @@ class UserServices < LesliServices
         users = current_user.account.users
         .joins(sql_string_for_user_roles)
         .joins(sql_string_for_user_sessions)
-        .where("category = 'user'")
 
         if query.dig(:search)
             users = users.where(
@@ -90,12 +89,10 @@ class UserServices < LesliServices
 
         users = users.select(
             :id,
-            "COALESCE(name, '') as name",
+            "CONCAT(COALESCE(first_name, ''), ' ', COALESCE(last_name, '')) as name",
             :email,
             :active,
             :rolenames,
-            :current_sign_in_at,
-            "false as editable",
             LC::Date2.new.date_time.db_column("current_sign_in_at"),
             LC::Date2.new.date_time.db_column("last_action_performed_at")
         )
@@ -117,6 +114,9 @@ class UserServices < LesliServices
             id: user[:id],
             email: user[:email],
             alias: user[:alias],
+            salutation: user[:salutation],
+            first_name: user[:first_name],
+            last_name: user[:last_name],
             active: user[:active],
             created_at: user[:created_at],
             updated_at: user[:updated_at],
@@ -128,9 +128,6 @@ class UserServices < LesliServices
             locale: user.settings.select(:value).find_by(:name => "locale"),
             detail_attributes: {
                 title: user.detail[:title],
-                salutation: user.detail[:salutation],
-                first_name: user.detail[:first_name],
-                last_name: user.detail[:last_name],
                 telephone: user.detail[:telephone],
                 address: user.detail[:address],
                 work_city: user.detail[:work_city],

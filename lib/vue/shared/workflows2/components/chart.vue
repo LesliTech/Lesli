@@ -1,0 +1,74 @@
+<script setup>
+/*
+Copyright (c) 2023, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · import vue tools
+import { onMounted, inject, watch } from "vue"
+import { useRouter } from 'vue-router'
+
+
+// · import stores
+import { useWorkflow } from "Lesli/stores/shared/workflow"
+
+
+// · import components
+import mermaidChart from "Leslicomponents/diagrams/mermaid.vue"
+
+
+// · defining props
+const props = defineProps({
+    appMountPath: {
+        type: String,
+        required: false,
+        default: "",
+    }
+})
+
+
+// · implement stores
+const storeWorkflow = useWorkflow()
+
+
+// · initialize/inject plugins
+const router = useRouter()
+const url = inject("url")
+
+
+// set props to store
+
+
+// · translations
+const translations = {
+    workflows: I18n.t('core.workflows'),
+    core: I18n.t('core.shared')
+}
+
+
+watch(()=> storeWorkflow.workflow, (workflow) => {
+    workflow.statuses.forEach(status => {
+        console.log(JSON.parse(JSON.stringify(status)))
+    })
+})
+
+
+</script>
+
+<template>
+    <mermaid-chart type="graph" :markers="storeWorkflow.workflow.statuses" v-if="storeWorkflow.workflow.statuses">
+    </mermaid-chart>
+</template>

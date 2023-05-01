@@ -33,7 +33,7 @@ module LC
                 }
 
                 # Get the name of the instance (builder engine)
-                instance = Rails.configuration.lesli_settings["instance"][:name]
+                instance = Rails.configuration.lesli.dig(:instance, :name)
                 
                 # Get the list of controllers and actions of the core
                 Rails.application.routes.routes.each do |route| 
@@ -54,7 +54,7 @@ module LC
                 end
 
                 # Get the list of controllers and actions from engines
-                Rails.configuration.lesli_settings["engines"].each do |engine|
+                Rails.configuration.lesli.dig(:engines).each do |engine|
 
                     # load and retrieve the list of controllers and actions from an engine
                     routes = "#{engine[:name]}::Engine".constantize.routes.routes.each do |route| 
@@ -85,7 +85,7 @@ module LC
             def self.scan
                 controller_list = {}
 
-                instance = Rails.configuration.lesli_settings["instance"][:name]
+                instance = Rails.configuration.lesli.dig(:instance, :name)
                 
                 Rails.application.routes.routes.each do |route| 
                     route = route.defaults 
@@ -100,7 +100,7 @@ module LC
                     controller_list[route[:controller]].push(route[:action])
                 end
 
-                Rails.configuration.lesli_settings["engines"].each do |engine|
+                Rails.configuration.lesli.dig(:engines).each do |engine|
                     platform = "rails_engine"
                     platform = "rails_builder" if engine[:type] == "builder"
                     routes = "#{engine[:name]}::Engine".constantize.routes.routes.each do |route| 
