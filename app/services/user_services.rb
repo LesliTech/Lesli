@@ -150,6 +150,9 @@ class UserServices < LesliServices
             :active => true,
             :email => user_params[:email],
             :alias => user_params[:alias] || "",
+            :first_name => user_params[:first_name] || "",
+            :last_name => user_params[:last_name] || "",
+            :telephone => user_params[:telephone] || "",
             :detail_attributes => user_params[:detail_attributes] || {}
         })
 

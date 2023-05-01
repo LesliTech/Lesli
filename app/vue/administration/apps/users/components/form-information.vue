@@ -22,7 +22,7 @@ import { inject, onMounted, ref, onUnmounted } from "vue"
 
 
 // · import lesli stores
-import { useUser } from "LesliApp/administration/stores/user"
+import { useUsers } from "LesliApp/administration/stores/users"
 
 
 // · import vue router composable
@@ -30,7 +30,7 @@ import { useRouter, useRoute } from "vue-router"
 
 
 // · implement stores
-const storeUser = useUser()
+const storeUsers = useUsers()
 
 
 // · initialize/inject plugins
@@ -64,10 +64,7 @@ const onUpdate = () => {
 }
 
 
-const onCreate = () => {
-    storeUser.newUser()
-    router.push(url.admin("admin").toString())
-}
+
 
 const userRole = ref({ label:"", value:"" })
 
@@ -76,11 +73,7 @@ function updateRole(){
 }
 
 onMounted(() => {
-    if (!props.editable){
-        storeUser.resetUserStore()
-    } else {
-        storeUser.fetch(route.params?.id)
-    }
+
 })
 
 </script>
@@ -127,7 +120,7 @@ onMounted(() => {
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <input name="first_name" v-model="storeUser.user.detail_attributes.first_name" type="text" class="input">
+                        <input name="first_name" v-model="storeUser.user.first_name" type="text" class="input">
                     </div>
                 </div>
             </div>
@@ -140,7 +133,7 @@ onMounted(() => {
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <input name="last_name" v-model="storeUser.user.detail_attributes.last_name" class="input">
+                        <input name="last_name" v-model="storeUser.user.last_name" class="input">
                     </div>
                 </div>
             </div>
@@ -166,7 +159,7 @@ onMounted(() => {
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <input name="user_number" v-model="storeUser.user.detail_attributes.telephone" class="input">
+                        <input name="user_number" v-model="storeUser.user.telephone" class="input">
                     </div>
                 </div>
             </div>
