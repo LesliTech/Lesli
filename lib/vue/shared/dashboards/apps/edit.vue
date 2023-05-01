@@ -23,7 +23,7 @@ import { useRouter, useRoute } from 'vue-router'
 
 
 // · import stores
-import { useDashboard } from "Lesli/stores/shared/dashboard"
+import { useDashboard } from "Lesli/shared/stores/dashboard"
 
 
 // · import components
