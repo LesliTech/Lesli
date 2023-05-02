@@ -36,42 +36,29 @@ const translations = {
 </script>
 <template>
     <div>
-        <div class="mb-4">
-            <button class="button is-link is-light is-outlined" @click="storeUser.doRequestPasswordChange">
-                <span class="icon">
-                    <span class="material-icons">
-                        lock_reset
-                    </span>
-                </span>
-                <span>
-                    {{ translations.users.view_btn_request_password_change }}
-                </span>
-            </button>
-        </div>
+        <fieldset class="mb-4">
+            <legend>Force the user to change the password</legend>
+            <lesli-button
+                primary
+                outlined
+                icon="lock_reset"
+                @click="storeUser.doRequestPasswordChange">
+                {{ translations.users.view_btn_request_password_change }}
+            </lesli-button>
+        </fieldset>
 
-        <div class="mb-4">
+        <fieldset class="mb-4">
             <button class="button is-link is-light is-outlined" @click="storeUser.doPasswordReset">
                 <span class="icon">
                     <span class="material-icons">
                         key
                     </span>
                 </span>
-                <span>{{ translations.users.view_btn_password_reset }}</span>
+                <span>{{ translations.users.view_btn_password_reset || "Password request" }}</span>
             </button>
-        </div>
+        </fieldset>
 
-        <div class="mb-4">
-            <button class="button is-link is-light is-outlined" @click="storeUser.doRevokeAccess">
-                <span class="icon">
-                    <span class="material-icons">
-                        lock_outline
-                    </span>
-                </span>
-                <span>{{ translations.users.view_btn_revoke_access }}</span>
-            </button>
-        </div>
-
-        <div class="mb-4">
+        <fieldset class="mb-4">
             <button class="button is-link is-light is-outlined" @click="storeUser.doLogout">
                 <span class="icon">
                     <span class="material-icons">
@@ -80,9 +67,22 @@ const translations = {
                 </span>
                 <span>{{ translations.users.view_btn_logout }}</span>
             </button>
-        </div>
+        </fieldset>
 
-        <div class="mb-4">
+        <hr />
+
+        <fieldset class="mb-4">
+            <button class="button is-danger is-light is-outlined" @click="storeUser.doRevokeAccess">
+                <span class="icon">
+                    <span class="material-icons">
+                        lock_outline
+                    </span>
+                </span>
+                <span>{{ translations.users.view_btn_revoke_access }}</span>
+            </button>
+        </fieldset>
+
+        <fieldset class="mb-4">
             <button class="button is-danger is-light is-outlined" @click="storeUser.markUserAsDeleted">
                 <span class="icon">
                     <span class="material-icons">
@@ -91,6 +91,16 @@ const translations = {
                 </span>
                 <span>{{ translations.users.view_btn_delete_user }}</span>
             </button>
-        </div>
+        </fieldset>
     </div>
 </template>
+<style scoped>
+    fieldset {
+        padding: 1.6rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    legend {
+        color: #555;
+    }
+</style>

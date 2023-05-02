@@ -22,7 +22,7 @@ import { inject, onMounted, ref, onUnmounted } from "vue"
 
 
 // · import lesli stores
-import { useUsers } from "LesliApp/administration/stores/users"
+import { useUser } from "LesliApp/administration/stores/user"
 
 
 // · import vue router composable
@@ -30,7 +30,7 @@ import { useRouter, useRoute } from "vue-router"
 
 
 // · implement stores
-const storeUsers = useUsers()
+const storeUser = useUser()
 
 
 // · initialize/inject plugins
@@ -63,9 +63,6 @@ const onUpdate = () => {
     storeUser.updateInformation()
 }
 
-
-
-
 const userRole = ref({ label:"", value:"" })
 
 function updateRole(){
@@ -78,7 +75,7 @@ onMounted(() => {
 
 </script>
 <template>
-    <form class="information" @submit.prevent="props.editable ? onUpdate() : onCreate()">
+    <form class="information" @submit.prevent="onUpdate()">
         <div class="field is-horizontal">
             <div class="field-label">
                 <label class="label"> {{ translations.shared.view_text_salutation}} </label>
@@ -187,25 +184,6 @@ onMounted(() => {
                     <div class="control">
                         <div>
                             <span name="user_role" class="tag is-success" v-for="role in storeUser.user.roles" :key="role">{{role.name}}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="field is-horizontal" v-else>
-            <div class="field-label is-normal">
-                <label class="label"> {{ translations.users.view_text_role }} </label>
-            </div>
-            <div class="field-body">
-                <div class="field is-narrow">
-                    <div class="control">
-                        <div class="select is-fullwidth">
-                            <lesli-select
-                                :options="storeUser.rolesSelect"
-                                v-model="storeUser.user.roles_id"
-                            >
-                            </lesli-select>
                         </div>
                     </div>
                 </div>

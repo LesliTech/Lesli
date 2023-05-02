@@ -28,10 +28,9 @@ import { useProfile } from "Lesli/shared/stores/profile"
 
 
 // · import profile components
-import cardInformation from "../users/components/card-information.vue"
-import formInformation from "../users/components/form-information.vue"
+import cardInformation from "../users/components/information-card.vue"
+import formInformation from "../users/components/information-form.vue"
 import managementSession from "../users/components/management-sessions.vue"
-import formSecurity from "../users/components/form-security.vue"
 import integrationsInformation from "../users/components/integrations-information.vue"
 import subscriptionsComponent from "./components/subscriptions.vue"
 import settings from "../users/components/settings.vue"
@@ -74,7 +73,7 @@ onMounted(() => {
                 </subscriptions-component>
             </lesli-tab-item>
             <lesli-tab-item :title="translations.core.users.view_tab_title_security">
-                <form-security></form-security>
+                <!--form-security></form-security-->
             </lesli-tab-item>
             <lesli-tab-item :title="translations.core.users.view_tab_title_session_management">
                 <management-session></management-session>

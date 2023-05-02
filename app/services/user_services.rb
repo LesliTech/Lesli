@@ -114,21 +114,25 @@ class UserServices < LesliServices
             id: user[:id],
             email: user[:email],
             alias: user[:alias],
+            active: user[:active],
+            full_name: user.full_name,
             salutation: user[:salutation],
             first_name: user[:first_name],
             last_name: user[:last_name],
-            active: user[:active],
-            created_at: user[:created_at],
-            updated_at: user[:updated_at],
-            editable_security: current_user && current_user.has_roles?("owner", "sysadmin"),
+            telephone: user[:telephone],
+            
+            locale: user.settings.select(:value).find_by(:name => "locale"),
+
             roles: user.roles.map { |r| { id: r[:id], name: r[:name], permission_level: r[:object_level_permission]} },
-            full_name: user.full_name,
+
             mfa_enabled: user.mfa_settings[:enabled],
             mfa_method:  user.mfa_settings[:method],
-            locale: user.settings.select(:value).find_by(:name => "locale"),
+
+            created_at: user[:created_at],
+            updated_at: user[:updated_at],
+            
             detail_attributes: {
                 title: user.detail[:title],
-                telephone: user.detail[:telephone],
                 address: user.detail[:address],
                 work_city: user.detail[:work_city],
                 work_region: user.detail[:work_region],
