@@ -38,12 +38,17 @@ import { useRouter, useRoute } from 'vue-router'
 
 // · import lesli stores
 import { useUsers } from "LesliApp/administration/stores/users"
+import { useRoles } from "LesliApp/administration/stores/roles"
 
 
 // · implement stores
 const storeUsers = useUsers()
+const storeRoles = useRoles()
 const router = useRouter()
 const route = useRoute()
+
+
+// · implement composables
 const url = inject("url")
 const msg = inject("msg")
 
@@ -57,12 +62,18 @@ const translations = {
 // · 
 const onCreate = () => {
     storeUsers.postUsers().then(result => {
+        storeUsers.user = {}
         msg.success(I18n.t("core.users.messages_success_operation"))
         router.push(url.admin("users").toString())
     }).catch(error => {
         msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
     })
 }
+
+//
+onMounted(() => {
+    storeRoles.fetchList()
+})
 </script>
 
 <template>
@@ -74,6 +85,7 @@ const onCreate = () => {
         </lesli-header>
 
         <lesli-form @submit="onCreate()">
+            <p>User information</p>
             <div class="field is-horizontal">
                 <div class="field-label is-normal">
                     <label class="label"> 
@@ -135,32 +147,14 @@ const onCreate = () => {
                 <div class="field-label is-normal">
                     <label class="label"> {{ translations.users.view_text_role }} </label>
                 </div>
-                <!--
-                <div class="field-body">
-                    <div class="field is-narrow">
-                        <div class="control">
-                            <div>
-                                <span name="user_role" class="tag is-success" v-for="role in storeUser.user.roles" :key="role">{{role.name}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                -->
-            </div>
-
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label"> {{ translations.users.view_text_role }} </label>
-                </div>
                 <div class="field-body">
                     <div class="field is-narrow">
                         <div class="control">
                             <div class="select is-fullwidth">
-                                <!--lesli-select
-                                    :options="storeUser.rolesSelect"
-                                    v-model="storeUser.user.roles_id"
-                                >
-                                </lesli-select -->
+                                <lesli-select
+                                    :options="storeRoles.listOptions"
+                                    v-model="storeUsers.user.roles_id">
+                                </lesli-select>
                             </div>
                         </div>
                     </div>

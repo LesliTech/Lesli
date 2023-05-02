@@ -29,7 +29,7 @@ const translations = {
 }
 
 // · 
-export const useUsers = defineStore("core.users", {
+export const useUsers = defineStore("administration.users", {
     state: () => {
         return {
             loading: false,
@@ -122,7 +122,7 @@ export const useUsers = defineStore("core.users", {
         },
 
 
-
+        /*
         doLogout(userId) {
             this.http.post(this.url.admin("users/:id/logout", userId).toString())
             .then(result => {
@@ -177,6 +177,6 @@ export const useUsers = defineStore("core.users", {
                 this.loading = false
             })
         }
-
+        */
     }
 })

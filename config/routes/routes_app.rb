@@ -162,7 +162,7 @@ module RoutesApp
                     end
                 end
 
-=begin
+
 
                 # Descriptors for roles
                 resources :descriptors, only: [:index, :show, :edit, :create, :update] do
@@ -223,7 +223,7 @@ module RoutesApp
                         get :options 
                     end
                 end 
-=end
+
             end
 
             resource :about, only: [:show]

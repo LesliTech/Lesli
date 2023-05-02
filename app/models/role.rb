@@ -31,21 +31,6 @@ class Role < ApplicationLesliRecord
     validates :name, presence: :true
     validates :object_level_permission, presence: :true
 
-
-    def self.list current_user, query
-
-        role_max = current_user.roles.map(&:object_level_permission).max()
-
-        unless query[:filters][:object_level_permission].blank?
-            role_max = query[:filters][:object_level_permission] if query[:filters][:object_level_permission].to_i <= role_max
-        end
-
-        roles = current_user.account.roles.select(:id, :name, :object_level_permission)
-
-        roles = roles.where("object_level_permission <= ?", role_max)
-        roles = roles.order(object_level_permission: :desc, name: :asc)
-    end
-
     def self.index(current_user, query)
         role_max = current_user.roles.map(&:object_level_permission).max()
 
