@@ -34,7 +34,8 @@ application({
                 message: "",
                 show: false,
                 type: "default"
-            }
+            },
+            errors: ["holi"]
         }
     },
     mounted() {
@@ -52,7 +53,7 @@ application({
 
         validateEmail() {
             if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.sign_in.email)) {
-
+                console.log("error")
             }
         },
 

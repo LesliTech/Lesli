@@ -39,7 +39,7 @@ class RolesController < ApplicationLesliController
     #    this.http.get(`127.0.0.1/house/roles`);
     def list
         respond_to do |format|
-            format.json { respond_with_successful(Role.list(current_user, @query)) }
+            format.json { respond_with_successful(RoleServices.new(current_user).list()) }
         end
     end
 
