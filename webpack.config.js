@@ -1,6 +1,5 @@
 "use strict"
 /*
-
 Lesli
 
 Copyright (c) 2023, Lesli Technologies, S. A.
@@ -35,23 +34,24 @@ Building a better future, one line of code at a time.
 // · Including plugins and dependencies
 var fs = require("fs")
 var path = require("path")
-var yaml = require("js-yaml")
+var dayjs = require("dayjs")
 var webpack = require("webpack")
 var debug = require("lesli-js/debug/nodejs")
 var TerserPlugin = require("terser-webpack-plugin")
 var { VueLoaderPlugin } = require("vue-loader")
 
 
-// · set the path to the engines folder
+
+
 const pathEngines = path.resolve("engines")
 
-
-// get specific modules to work with, example: npm run webpack -- babel bell
-const requestedModules = process.argv.slice(5)
 
 
 var webpackConfig = []
 
+const applicationCore = require("./webpack/core")
+
+const applicationEngines = require("./webpack/engines")
 
 // · 
 module.exports = env => {
@@ -67,7 +67,7 @@ module.exports = env => {
 
 
     // Base webpack configuration, this includes only core assets
-    var configCore = {
+    var configuration = {
 
         watch: env.watch == "true",
         mode: production ? "production" : "development",
@@ -113,34 +113,12 @@ module.exports = env => {
 
         // Defined the core apps as main entry apps
         // engine javascript apps are defined dynamically
-        entry: {
-
-
-            // devise apps
-            "users/sessions": "LesliApp/users/sessions.js",
-            "users/passwords": "LesliApp/users/passwords.js",
-            "users/registrations": "LesliApp/users/registrations.js",
-            "users/confirmations": "LesliApp/users/confirmations.js",
-
-
-            // alternative logins 
-            "mfas/application": "LesliApp/mfas/application.js",
-            "otps/application": "LesliApp/otps/application.js",
-            "passes/application": "LesliApp/passes/application.js",
-            //"feedback/application": "LesliApp/invites/app.js",
-
-
-            // core apps
-            "administration/application": "LesliApp/administration/application.js",
-            "onboardings/application": "LesliApp/onboarding/application.js",
-            "websites/application": "LesliApp/websites/application.js",
-            //"errors/application": "LesliApp/errors/app.js"
-        },
+        entry: { },
 
 
         // Set the name of the compiled javascript files
         output: {
-            path: path.resolve("app", "assets", "javascripts"),
+            path: "",
             filename: "[name].js"
         },
 
@@ -157,6 +135,8 @@ module.exports = env => {
                 // Set aliases as shortcuts to import modules
                 Lesli: path.resolve("lib", "vue"), 
                 LesliApp: path.resolve("app", "vue"),
+                LesliBuilder: path.resolve("engines", "lesli_builder", "app", "vue"),
+
                 CloudAdmin: path.resolve("app", "vue", "administration"),
                 CloudBell: path.resolve("engines", "cloud_bell", "app", "vue"),
                 CloudTalk: path.resolve("engines", "cloud_talk", "app", "vue"),
@@ -210,176 +190,23 @@ module.exports = env => {
 
             // custom constants
             new webpack.DefinePlugin({
-                lesli_app_mode_production: JSON.stringify(production),
-                lesli_app_mode_development: JSON.stringify(!production),
+                lesli_application_production: JSON.stringify(production),
+                lesli_application_development: JSON.stringify(!production),
+                lesli_application_version: JSON.stringify(dayjs().format("YYMMDD.HHmm")),
                 __VUE_OPTIONS_API__: true,
-                __VUE_PROD_DEVTOOLS__: true,
+                __VUE_PROD_DEVTOOLS__: true
             })
         ]
 
     }
 
+    // we always compile the core
+    webpackConfig.push(Object.assign({}, configuration, applicationCore))
 
-    // push webpack configuration for core app
-    update_software_version("core", env)
-    webpackConfig.push(configCore)
-
-
-    // exit configuration builder if no engines installed
-    if (!fs.existsSync(pathEngines)) { return webpackConfig; }
-
-
-    // get the installed engines
-    let engines = fs.readdirSync(pathEngines);
-
-
-    // remove the keep file from the engines directory
-    engines = engines.filter(directory => directory != ".gitkeep")
-
-
-    // filter found engines to get only the ones that are ready to work with vue
-    engines = engines.filter(engine => {
-
-        // get and parse engine information files (lesli.yml)
-        let lesliConfigPath = path.resolve(pathEngines, engine, "lesli.yml")
-
-        // exit if lesli.yml does not exists
-        if (!fs.existsSync(lesliConfigPath)) { return false }
-
-        // load LesliConfig
-        let lesliConfig = yaml.load(fs.readFileSync(lesliConfigPath))
-
-        // exit if engine does not have to be loaded
-        if (lesliConfig.info.load == false) { return false }
-
-        // build engine code from engine name
-        lesliConfig.info["code"] = lesliConfig.info["name"].split(/(?=[A-Z])/).join('_').toLowerCase()
-
-        // check if user sent specific modules to work with through "webpack -- engine1 engine2 etc.."
-        if (requestedModules.length > 0) {
-
-            // check if current engine belongs to the list of desire engines
-            if (!requestedModules.includes(lesliConfig.info.code.replace("cloud_", ""))) {
-
-                // if the engine to exclude is not a builder
-                if (lesliConfig.info.type != "builder") {
-                    return false
-                }
-
-            }
-
-        }
-
-        // check if vue folder exists for given engine
-        if (!fs.existsSync(path.resolve(pathEngines, engine, "app", "vue"))) {
-            return
-        }
-
-        // include engine into the collections of active engines
-        return lesliConfig.info.code == engine
-
+    applicationEngines.forEach(engine => {
+        webpackConfig.push(Object.assign({}, configuration, engine.config))
     })
-
-
-    // 
-    engines.forEach(engine => {
-
-        // clone webpack core configuration (shallow copy) 
-        let configEngine = Object.assign({}, configCore)
-
-        // ensure to clone output configuration (shallow copy) 
-        configEngine.output = Object.assign({}, configCore.output)
-
-        // remove config used for core, so we can add specific configuration for the engines
-        configEngine.output.path = path.resolve(pathEngines, engine, "app", "assets", "javascripts")
-        configEngine.entry = {}
-
-
-        // scan the vue folder to get all the vue apps
-        var appFolder = path.resolve(pathEngines, engine, "app", "vue")
-
-        // filter to remove the folders
-        let files = fs.readdirSync(appFolder, { withFileTypes: true })
-            .filter(item => !item.isDirectory())
-            .map(item => item.name)
-
-        // register every vue app found
-        files.forEach(file => {
-
-            // path to the vue app main mount file
-            let appPath = path.resolve(appFolder, file)
-
-            // stop process if vue app does not exists
-            if (!fs.existsSync(appPath)) { return; }
-
-            let appname = path.parse(file).name
-
-            // compatibility, but we should change the app filename from app.js to application.js
-            if (appname == 'app') {
-                appname = 'application'
-            }
-
-            // add vue apps found into the webpack compilation pipeline
-            configEngine.entry[(`${engine}/${appname}`)] = appPath
-
-        })
-
-        // set new output to engine app folder
-        configEngine.output.filename = "[name].js"
-
-        // check if the engine has vue apps to compile
-        if (Object.keys(configEngine.entry).length <= 0) { return }
-
-        // push the engine configuration to the webpack config
-        webpackConfig.push(configEngine)
-
-        //
-        update_software_version(engine, env)
-
-    })
-
-
-    // Update compilation version for frontend and backend
-    function update_software_version(engine, env) {
-        
-        // do not change if development
-        if (env.mode != "production") {
-            return 
-        }
-
-        // set the path to the engine version file by default
-        let engine_version_file = `./engines/${engine}/lib/${engine}/version.rb`
-
-        // if core, update the main version file
-        if (engine == "core") {
-            engine_version_file = `./config/initializers/version.rb`
-        } 
-
-        fs.readFile(engine_version_file, "utf8", (err, data) => {
-
-            if (err) {
-                return console.log(err)
-            }
-
-            let date = new Date()
-            var build_date = `${date.getFullYear().toString().substr(2, 2)}${date.getMonth()+1}${date.getDate()}`
-            var build_time = date.getHours().toString().concat(date.getMinutes().toString())
-
-            data = data.split("\n")
-
-            data[2] = `  BUILD = '${build_date}.${build_time}\'`
-
-            fs.writeFile(engine_version_file, data.join("\n"), "utf8", function (err) {
-                if (err) return console.log(err)
-            })
-
-            debug.info(`update version of: ${engine}, to: ${build_date}.${build_time}`)
-
-        })
-
-    }
-
-
+    
     // show a nice debug message :) 
     webpackConfig.forEach(config => {
         for (let [name, path] of Object.entries(config.entry)) {
@@ -387,6 +214,7 @@ module.exports = env => {
         }
     })
 
+    debug.hr()
 
     // 
     return webpackConfig
