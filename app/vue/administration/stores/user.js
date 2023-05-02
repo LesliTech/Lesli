@@ -35,7 +35,7 @@ import { defineStore } from "pinia"
 
 
 // · 
-export const useUser = defineStore("user", {
+export const useUser = defineStore("administration.user", {
     state: () => {
         return {
             loading: false,
@@ -55,38 +55,15 @@ export const useUser = defineStore("user", {
                     title: null,
                 }
             },
+            role_names: "",
+            subscriptions: {},
             sessions: [],
-            columns_sessions: [{
-                field: 'id',
-                label: 'ID'
-            }, {
-                field: 'user_agent',
-                label: 'Device'
-            }, {
-                field: 'session_source',
-                label: 'Source'
-            }, {
-                field: 'created_at_date',
-                label: 'Created at'
-            }, {
-                field: 'last_used_at_string',
-                label: 'Last used at'
-            }],
             options: {
                 salutations: null,
                 roles: [],
                 engines: [],
                 locales: []
-            },
-            current_user: {}, 
-            subscriptions: {},
-            language: null,
-            roles: [],
-            rolesToggle: {},
-            rolesSelect: [],
-            pagination: {
-                page: 1
-            },
+            }
         }
     },
     getters: {
@@ -113,7 +90,7 @@ export const useUser = defineStore("user", {
          * @description This action is used to get users information
          * @param {String} id Id of the user, if not provided list all users
          */
-        fetch(id=null) {
+        getUser(id=null) {
             this.loading = true
 
             // get the profile by default
@@ -126,12 +103,11 @@ export const useUser = defineStore("user", {
                 this.user = result
                 this.user.password = ""
                 this.user.password_confirmation = ""
-                this.roles = []
-                result.roles.forEach(role => {
-                    this.roles.push(role.id)
-                })
+
                 this.language = result.locale ? result.locale.value : this.language
-                this.parseRolesToggle()
+
+                this.role_names = result.roles.map(role => role.name).join(", ")
+                
             }).catch(error => {
                 this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
             }).finally(() => {
@@ -139,6 +115,26 @@ export const useUser = defineStore("user", {
             })
 
         },
+
+
+        fetchSessions() {
+            if (!this.sessions.length > 0) {
+                this.getSessions()
+            }
+        },
+
+
+        getSessions() {
+            this.http.get(this.url.admin("users/:id/sessions", this.user.id )).then(result => {                
+                this.sessions = result.records
+            }).catch(error => {
+                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
+            }).finally(() => {
+                this.loading = false
+            })
+        },
+
+
 
         /**
          * @description This action is used to set roles in toggle options
@@ -266,19 +262,7 @@ export const useUser = defineStore("user", {
             })
         },
         
-        /**
-         * @description This action is used to get sessions from a user
-         */
-        fetchSessions() {
-            this.loading = true
-            this.http.get(this.url.admin("users/:id/sessions", this.user.id )).then(result => {                
-                this.sessions = result.records
-            }).catch(error => {
-                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
-            }).finally(() => {
-                this.loading = false
-            })
-        },
+
 
         /**
          * @description This action is used to set a new role to the user

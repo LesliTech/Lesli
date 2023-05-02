@@ -38,24 +38,26 @@ import { useRouter, useRoute } from 'vue-router'
 
 // · import lesli stores
 import { useUser } from "LesliApp/administration/stores/user"
-import { useProfile } from "Lesli/shared/stores/profile"
 
 
 // · import profile components
-import cardInformation from "./components/card-information.vue"
-import formInformation from "./components/form-information.vue"
+import informationCard from "./components/information-card.vue"
+import informationForm from "./components/information-form.vue"
+
 import managementSession from "./components/management-sessions.vue"
-import formSecurity from "./components/form-security.vue"
+import managementSecurity from "./components/management-security.vue"
+
+
+
+
+
 import formRoles from "./components/form-roles-privileges.vue"
 import integrationsInformation from "./components/integrations-information.vue"
 import settings from "./components/settings.vue"
-import actions from "./components/actions.vue"
-import accessManagement from "./components/access-management.vue"
 
 
 // · implement stores
 const storeUser = useUser()
-const storeProfile = useProfile()
 const router = useRouter()
 const route = useRoute()
 
@@ -87,32 +89,29 @@ const tab = ref(0)
 // · initializing
 onMounted(() => {
     storeUser.getOptions()
-    storeUser.fetch(route.params?.id)
+    storeUser.getUser(route.params?.id)
 })
 
 
 </script>
 <template>
     <section class="application-component">
-        <card-information></card-information>
+        <information-card></information-card>
         <lesli-tabs v-model="tab" v-if="storeUser.user.id">
             <lesli-tab-item icon="info_outline" :title="translations.core.users.view_tab_title_information">
-                <form-information is-editable></form-information>
+                <information-form></information-form>
             </lesli-tab-item>
             <lesli-tab-item icon="security" :title="translations.core.users.view_tab_title_roles_and_privileges">
-                <form-roles></form-roles>
+                <!--form-roles></form-roles -->
+            </lesli-tab-item>
+            <lesli-tab-item icon="lock_outline" :title="translations.core.users.view_tab_title_security || 'Security'">
+                <management-security></management-security>
             </lesli-tab-item>
             <lesli-tab-item icon="devices" :title="translations.core.users.view_tab_title_session_management" paddingless>
                 <management-session></management-session>
             </lesli-tab-item>
             <lesli-tab-item icon="settings" :title="translations.core.users.view_tab_title_settings">
-                <settings></settings>
-            </lesli-tab-item>
-            <lesli-tab-item icon="sync_alt" :title="translations.core.users.view_tab_title_integrations || 'Integrations'">
-                <integrations-information></integrations-information>
-            </lesli-tab-item>
-            <lesli-tab-item icon="manage_accounts" :title="translations.core.users.view_tab_title_actions || 'Actions'">
-                <actions></actions>
+                <!--settings></settings-->
             </lesli-tab-item>
         </lesli-tabs>
     </section>

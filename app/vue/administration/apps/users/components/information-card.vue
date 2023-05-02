@@ -53,7 +53,7 @@ const translations = {
 
 </script>
 <template>
-    <div class="information mb-5">
+    <div class="information-card mb-5">
         <div class="media is-align-items-center">
             <div class="media-left">
                 <figure class="image is-128x128">
@@ -73,17 +73,18 @@ const translations = {
                         </strong>
                         -->
                         <h5 class="title is-5 mb-0">
-                            {{ storeUser.user.detail_attributes.first_name }}
-                            {{ storeUser.user.detail_attributes.last_name }}
+                            {{ storeUser.user.first_name }}
+                            {{ storeUser.user.last_name }}
                         </h5>
                         <p>{{ storeUser.user.detail_attributes.title }}</p>
                     </p>
                 </div>
 
-                <nav class="level is-mobile mb-0">
+                <div class="level is-mobile">
                     <div class="level-left">
-                        <a  v-if="storeUser.user.email"
-                            :href="'mailto:'+storeUser.user.email" class="level-item" aria-label="reply">
+                        <a  class="level-item mr-4"
+                            v-if="storeUser.user.email"  
+                            :href="'mailto:'+storeUser.user.email">
                             <span class="icon is-small mr-2">
                                 <span class="material-icons">
                                     email
@@ -91,17 +92,28 @@ const translations = {
                             </span>
                             {{ storeUser.user.email }}
                         </a>
-                        <a  v-if="storeUser.user.detail_attributes.telephone"
-                            :href="'tel:'+storeUser.user.detail_attributes.telephone" class="level-item" aria-label="retweet">
+                        <a  class="level-item mr-4"
+                            v-if="storeUser.user.telephone"
+                            :href="'tel:'+storeUser.user.telephone">
                             <span class="icon is-small mr-2">
                                 <span class="material-icons">
                                     phone
                                 </span>
                             </span>
-                            {{ storeUser.user.detail_attributes.telephone }}
+                            {{ storeUser.user.telephone }}
                         </a>
+
+                        <!-- Show the max role -->
+                        <p class="level-item">
+                            <span class="icon is-small mr-2">
+                                <span class="material-icons">
+                                    security
+                                </span>
+                            </span>
+                            {{ storeUser.role_names }}
+                        </p>
                     </div>
-                </nav>
+                </div>
             </div>
         </div>
     </div>

@@ -19,7 +19,6 @@ For more information read the license file including with this software.
 
 class User::Detail < ApplicationLesliRecord
     belongs_to :user, foreign_key: "users_id"
-    after_update :update_associated_record
 
     before_save :validate_work_region
 
@@ -28,26 +27,6 @@ class User::Detail < ApplicationLesliRecord
         mrs: 'mrs',
         ms: 'ms'
     }
-
-    def update_associated_record
-        if saved_change_to_first_name? || saved_change_to_last_name? || saved_change_to_telephone?
-
-            self.user.set_alias
-
-            self.user.update(name: self.user.full_name)
-
-            if defined? CloudOne
-
-                data = {
-                    full_name: self.user.full_name,
-                    telephone: self.telephone,
-                }
-
-                CloudOne::Firebase::User.update_data(self.user, data)
-
-            end
-        end
-    end
 
     protected
 

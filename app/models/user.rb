@@ -72,6 +72,7 @@ class User < ApplicationLesliRecord
     after_create :after_create_user
     after_create :after_confirmation_user, if: :confirmed?
     after_create :after_account_assignation
+    after_update :update_associated_record
 
 
     # type of user
@@ -119,6 +120,7 @@ class User < ApplicationLesliRecord
         User::Detail.find_or_create_by({ user: self })
 
         # create an alias based on user name
+        # defined in user extensions
         self.set_alias
 
     end
@@ -137,6 +139,26 @@ class User < ApplicationLesliRecord
 
         Courier::One::Firebase::User.sync_user(self)
         Courier::Driver::Calendar.create_user_calendar(self, name: "Personal Calendar", default: true)
+    end
+
+
+    def update_associated_record
+        if saved_change_to_first_name? || saved_change_to_last_name? || saved_change_to_telephone?
+
+            # defined in user extensions
+            self.set_alias
+
+            if defined? CloudOne
+
+                data = {
+                    full_name: self.user.full_name,
+                    telephone: self.telephone,
+                }
+
+                CloudOne::Firebase::User.update_data(self.user, data)
+
+            end
+        end
     end
 
 end

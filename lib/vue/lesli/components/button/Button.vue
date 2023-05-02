@@ -108,7 +108,14 @@ const buttonColor = computed(() => {
     <button 
         v-if="!props.to" 
         @click="emit('click')" 
-        :class="['button', buttonColor, { 'is-outlined': !solid }, { 'is-loading': loading }, { 'is-small': small }]">
+        :class="[
+            'button', 
+            'is-link',
+            'is-light',
+            buttonColor, 
+            { 'is-outlined': !solid }, 
+            { 'is-loading': loading }, 
+            { 'is-small': small }]">
         <span v-if="icon" :class="['icon', { 'is-small': small }]">
             <span class="material-icons">{{ icon }}</span>
         </span>
