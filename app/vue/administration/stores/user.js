@@ -91,6 +91,7 @@ export const useUser = defineStore("administration.user", {
          * @param {String} id Id of the user, if not provided list all users
          */
         getUser(id=null) {
+
             this.loading = true
 
             // get the profile by default

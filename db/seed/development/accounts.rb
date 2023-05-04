@@ -32,4 +32,4 @@ Account.find_or_create_by(company_name: company[:name]) do |account|
 end
 
 
-LC::Debug.msgc "Accounts successfully created!"
+L2.msg("Accounts successfully created!")

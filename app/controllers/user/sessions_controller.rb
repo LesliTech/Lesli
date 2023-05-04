@@ -28,7 +28,7 @@ class User::SessionsController < ApplicationLesliController
                 if params[:user_id].to_i != current_user.id and not current_user.has_privileges?(["users"], ["index"])
                     return respond_with_unauthorized
                 end
-                return respond_with_successful(User::Session.index(current_user, @query, params, session[:user_session_id]))
+                return respond_with_pagination(User::Session.index(current_user, @query, params, session[:user_session_id]))
             end
         end
     end

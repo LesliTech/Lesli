@@ -135,7 +135,14 @@ module UserGuard
         # get the first role found, due previously we sort in a descendant order
         # the first role is going to be the one with highest object level permission
         # this is going to return nil if no role was found
-        role.first&.path_default
+        default_path = role.first&.path_default  || "/"
+
+        # if first loggin for account owner send him to the onboarding page
+        if self.account.onboarding? && self.has_roles?("owner")
+            default_path = "/onboarding"
+        end
+
+        default_path
 
     end
 

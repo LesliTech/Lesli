@@ -226,10 +226,6 @@ module RoutesApp
 
             end
 
-            resource :about, only: [:show]
-
-            get "dashboard", to: "abouts#dashboard"
-
         end
     end
 end

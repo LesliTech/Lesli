@@ -18,16 +18,16 @@ For more information read the license file including with this software.
 
 
 // · Import customization from builder engine
-@import "<%= LC::System::Info.sass_instance_file('variables') %>";
+@import "<%= Lesli::System.sass_instance_file('variables') %>";
 
 
 // · Lesli main theme definition, 
-$lesli-color-primary: <%= LC::System::Info.theme(:color_primary, "#112A62") %> !default;
-$lesli-header-color: <%= LC::System::Info.theme(:color_header, "transparent") %> !default;
-$lesli-footer-color: <%= LC::System::Info.theme(:color_footer, "transparent") %> !default;
-$lesli-sidebar-color: <%= LC::System::Info.theme(:color_sidebar, "#112A62") %> !default;
-$lesli-sidebar-hover: <%= LC::System::Info.theme(:color_sidebar_hover, "#172347") %> !default;
-$lesli-color-background: <%= LC::System::Info.theme(:color_background, "#F0F8FF") %> !default;
+$lesli-color-primary: <%= Lesli::System.theme(:color_primary, "#112A62") %> !default;
+$lesli-header-color: <%= Lesli::System.theme(:color_header, "transparent") %> !default;
+$lesli-footer-color: <%= Lesli::System.theme(:color_footer, "transparent") %> !default;
+$lesli-sidebar-color: <%= Lesli::System.theme(:color_sidebar, "#112A62") %> !default;
+$lesli-sidebar-hover: <%= Lesli::System.theme(:color_sidebar_hover, "#172347") %> !default;
+$lesli-color-background: <%= Lesli::System.theme(:color_background, "#F0F8FF") %> !default;
 
 
 // · To understand more about customization go to:

@@ -42,32 +42,17 @@ module Interfaces
             # IMPORTANT: It is strictly necessary to use the pagination methods
             #            to make this work properly
             def respond_with_pagination(records, payload=nil)
-
-                #validate if record has data and pages
-                if !records.empty? && records.total_pages > 0
-                    return respond_with_http(200, {
-                        :pagination => {
-                            :page => records.current_page,
-                            :pages => records.total_pages,
-                            :total => records.total_count,
-                            :results => records.length
-                        },
-                        :records => payload || records
-                    })
-                end
-
-                #Standar pagination response with 0 results in page 1 when records is empty
-                return respond_with_http(200, {
+                
+                respond_with_http(200, {
                     :pagination => {
-                        #pagination always stars in page 1
-                        :page =>  @query[:pagination][:page],
-                        :pages =>  1,
-                        :total => 0,
-                        :results => 0
+                        :page => records.current_page,
+                        :pages => records.total_pages,
+                        :total => records.total_count,
+                        :results => records.length
                     },
-                    #records is empty in core
-                    :records => []
+                    :records => payload || records
                 })
+
             end
 
 

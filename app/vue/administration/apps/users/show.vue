@@ -37,23 +37,19 @@ import { useRouter, useRoute } from 'vue-router'
 
 
 // · import lesli stores
-import { useUser } from "LesliApp/administration/stores/user"
+import { useUser } from "CloudAdmin/stores/user"
 
 
 // · import profile components
-import informationCard from "./components/information-card.vue"
-import informationForm from "./components/information-form.vue"
+import informationCard from "CloudAdmin/apps/users/components/information-card.vue"
+import informationForm from "CloudAdmin/apps/users/components/information-form.vue"
 
-import managementSession from "./components/management-sessions.vue"
-import managementSecurity from "./components/management-security.vue"
+import managementSession from "CloudAdmin/apps/users/components/management-sessions.vue"
+import managementSecurity from "CloudAdmin/apps/users/components/management-security.vue"
+import managementSettings from "CloudAdmin/apps/users/components/management-settings.vue"
 
-
-
-
-
-import formRoles from "./components/form-roles-privileges.vue"
-import integrationsInformation from "./components/integrations-information.vue"
-import settings from "./components/settings.vue"
+import formRoles from "CloudAdmin/apps/users/components/form-roles-privileges.vue"
+import integrationsInformation from "CloudAdmin/apps/users/components/integrations-information.vue"
 
 
 // · implement stores
@@ -95,7 +91,7 @@ onMounted(() => {
 
 </script>
 <template>
-    <section class="application-component">
+    <application-component>
         <information-card></information-card>
         <lesli-tabs v-model="tab" v-if="storeUser.user.id">
             <lesli-tab-item icon="info_outline" :title="translations.core.users.view_tab_title_information">
@@ -107,12 +103,12 @@ onMounted(() => {
             <lesli-tab-item icon="lock_outline" :title="translations.core.users.view_tab_title_security || 'Security'">
                 <management-security></management-security>
             </lesli-tab-item>
-            <lesli-tab-item icon="devices" :title="translations.core.users.view_tab_title_session_management" paddingless>
+            <lesli-tab-item icon="devices" :title="translations.core.users.view_tab_title_session || 'Sessions'" paddingless>
                 <management-session></management-session>
             </lesli-tab-item>
             <lesli-tab-item icon="settings" :title="translations.core.users.view_tab_title_settings">
-                <!--settings></settings-->
+                <management-settings></management-settings>
             </lesli-tab-item>
         </lesli-tabs>
-    </section>
+    </application-component>
 </template>

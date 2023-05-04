@@ -39,7 +39,7 @@ module Interfaces
                 @query = {
                     search: params[:search] || nil,
                     pagination: {
-                        perPage: (params[:perPage] ? params[:perPage].to_i : 25),
+                        perPage: (params[:perPage] ? params[:perPage].to_i : 15),
                         page: (params[:page] ? params[:page].to_i : 1)
                     },
                     order: {

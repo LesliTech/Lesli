@@ -19,13 +19,15 @@ For more information read the license file including with this software.
 section.lesli-panel {
     
     div.lesli-panel-background {
-        background: rgba(230, 230, 230, .4);
         position: fixed;
         z-index: 38;
         height: 100%;
         width: 100%;
         top: 0;
         left: 0;
+        &.overlay {
+            background: rgba(230, 230, 230, .4);
+        }
     }
 
     div.lesli-panel-content {

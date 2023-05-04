@@ -111,7 +111,7 @@ For more information read the license file including with this software.
                     :class="['button', 'is-primary', 'is-fullwidth', 'mb-2', {'is-loading':loading}]">
                     Log in
                 </button>
-                <% if Rails.application.config.lesli.dig(:security, :allow_registration) %>
+                <% if Rails.application.config.lesli.dig(:security, :allow_registration) && false %>
                     <p class="account has-text-centered">
                         Still not registered? 
                         <%= link_to new_user_registration_path, :class => "has-text-primary" do %>
@@ -141,7 +141,7 @@ For more information read the license file including with this software.
 
 
         <%# Dynamic check if instance allow users to login through magic links (passes) %>
-        <% if Rails.application.config.lesli.dig(:security, :enable_login_link) %>
+        <% if Rails.application.config.lesli.dig(:security, :enable_login_link) && false %>
             <%= link_to pass_path, :class => "pass-new" do %>
                 <span class="icon mr-2">
                     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -155,7 +155,7 @@ For more information read the license file including with this software.
 
 
         <%# Dynamic check if instance allow users to login through one time passwords %>
-        <% if Rails.application.config.lesli.dig(:security, :enable_login_otp) %>
+        <% if Rails.application.config.lesli.dig(:security, :enable_login_otp) && false %>
             <%= link_to otp_path, :class => "otp-new" do %>
                 <span class="con mr-2">
                     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">

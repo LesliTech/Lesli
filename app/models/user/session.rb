@@ -74,48 +74,25 @@ class User::Session < ApplicationLesliRecord
 
     def self.index(current_user, query, params, current_session_id)
         user_id = params[:user_id]
-        user_id = current_user.id unless current_user.has_privileges?(["users"], ["index"])
 
-        sessions = User::Session
-        .all
+        User::Session.all
         .joins(:user)
-        .where(users_id:user_id)
+        .where(users_id: user_id)
         .where("users.accounts_id = ?", current_user.account.id)
         .where("expiration_at > ? or expiration_at is ?", Time.now.utc, nil)
         .select(
             :id,
-            :user_remote,
             :user_agent,
             :session_source,
-            LC::Date2.new.date_time.db_timestamps("user_sessions"),
-            LC::Date2.new.date_time.db_column("expiration_at"),
-            LC::Date2.new.date_time.db_column("last_used_at"),
-            :users_id
+            Date2.new.date_time.db_timestamps("user_sessions"),
+            Date2.new.date_time.db_column("expiration_at"),
+            Date2.new.date_time.db_column("last_used_at"),
+            "case when #{current_session_id} = user_sessions.id then true else false end as current_session"
         )
         .page(query[:pagination][:page])
         .per(query[:pagination][:perPage])
         .order(updated_at: :desc)
 
-        LC::Response.pagination(
-            sessions.current_page,
-            sessions.total_pages,
-            sessions.total_count,
-            sessions.length,
-            sessions.map do |session|
-                {
-                    id: session[:id],
-                    user_remote: session[:user_remote],
-                    user_agent: session[:user_agent],
-                    session_source: session[:session_source],
-                    created_at_date: session[:created_at_date],
-                    updated_at_date: session[:updated_at_date],
-                    expiration_at_string: session[:expiration_at_string],
-                    last_used_at_string: session[:last_used_at_string],
-                    users_id: session[:users_id],
-                    current_session: current_session_id.eql?(session[:id])
-                }
-            end
-        )
     end
 
     def active?

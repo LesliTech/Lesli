@@ -59,23 +59,24 @@ const translations = {
     shared: I18n.t("core.shared")
 }
 
+
 // · 
 const onCreate = () => {
     storeUsers.postUsers().then(result => {
         storeUsers.user = {}
         msg.success(I18n.t("core.users.messages_success_operation"))
-        router.push(url.admin("users").toString())
+        router.push(url.admin("users/:id", result.id).toString())
     }).catch(error => {
         msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
     })
 }
 
-//
+
+// · 
 onMounted(() => {
     storeRoles.fetchList()
 })
 </script>
-
 <template>
     <application-component>
         <lesli-header title="Create User">

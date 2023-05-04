@@ -22,8 +22,9 @@ class ProfilesController < ApplicationLesliController
     # GET /profile
     def show
         respond_to do |format|
+            user = UserServices.new(current_user).find(current_user.id)
             format.html {}
-            format.json { respond_with_successful(UserServices.new(current_user).show(current_user)) }
+            format.json { respond_with_successful(user.show()) }
         end
     end
 
