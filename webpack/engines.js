@@ -98,7 +98,7 @@ engines.forEach(engine => {
         const alias = engine.split("_").map(str => str.charAt(0).toUpperCase() + str.replace("cloud_").slice(1)).join("");
 
         // add vue apps found into the webpack compilation pipeline
-        config.entry[(`${engine}/application`)] = `${alias}/${appname}`
+        config.entry[(`${engine}/${appname}`)] = `${alias}/${appname}`
 
     })
 

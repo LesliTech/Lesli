@@ -125,5 +125,31 @@ module Lesli
             Rails.application.config.lesli.dig(:engines)
         end
 
+        # return color customization from lesli.yml
+        def self.theme(property, value_if_nil=nil)
+            Rails.application.config.lesli.dig(:theme, property) || value_if_nil
+        end
+
+        # return the path to a custom theme.scss file in a builder engine
+        def self.sass_instance_file(file, default="templates/empty")
+            instance_code = instance()[:code]
+
+            # path for import in SASS files
+            path_sass = "#{instance_code}/#{file}"
+
+            # path of file in disk, absolute path to the source file
+            path_full = Rails.root.join("engines", instance_code, "app", "assets", "stylesheets", path_sass + ".scss")
+
+            # check if customization.scss file exists
+            exists = File.exist?(path_full)
+
+            # return the file to the path only if it exists
+            return path_sass if exists
+
+            # return an empty file to avoid SASS @import errors
+            return default
+            
+        end
+
     end
 end

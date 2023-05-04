@@ -33,6 +33,11 @@ const props = defineProps({
     title: {
         type: String,
         required: false
+    },
+    overlay: {
+        type: Boolean,
+        required: false,
+        default: true
     }
 })
 
@@ -48,7 +53,6 @@ watch(() => props.open, value => isOpen.value = value)
 function close() {
     emit('update:open', false)
     emit('open', false)
-    console.log("close")
 }
 
 </script>
@@ -57,7 +61,7 @@ function close() {
         <Transition>
             <div 
                 v-if="isOpen" 
-                class="lesli-panel-background"
+                :class="[{ 'lesli-panel-background': props.overlay }]"
                 @click="close">
             </div>
         </Transition>

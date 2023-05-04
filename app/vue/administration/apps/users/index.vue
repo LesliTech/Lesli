@@ -122,6 +122,7 @@ onMounted(() => {
 function showUser(user) {
     router.push(url.root(props.appMountPath+`/${user.id}`).s)
 }
+
 </script>
 <template>
     <section class="application-component">

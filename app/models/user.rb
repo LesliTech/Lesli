@@ -137,8 +137,8 @@ class User < ApplicationLesliRecord
     def after_account_assignation
         return unless self.account
 
-        Courier::One::Firebase::User.sync_user(self)
-        Courier::Driver::Calendar.create_user_calendar(self, name: "Personal Calendar", default: true)
+        #Courier::One::Firebase::User.sync_user(self)
+        #Courier::Driver::Calendar.create_user_calendar(self, name: "Personal Calendar", default: true)
     end
 
 

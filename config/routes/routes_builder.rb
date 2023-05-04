@@ -23,7 +23,7 @@ module RoutesBuilder
             router.instance_exec do
 
                 # get routes builder from builder engine, through gem installation path
-                require LC::System::Info.path.join("routes")
+                require Lesli::System.path.join("routes")
                 extend RoutesEngine
                 
             end

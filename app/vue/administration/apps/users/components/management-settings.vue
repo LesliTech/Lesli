@@ -46,7 +46,7 @@ onMounted(() => {
     <form @submit.prevent="storeUser.setLanguage">
         <div class="field is-horizontal">
             <div class="field-label">
-                <label class="label"> Select preferred language </label>
+                <label class="label">Select preferred language </label>
             </div>
             <div class="field-body">
                 <div class="field is-narrow">

@@ -44,7 +44,7 @@ export const useUsers = defineStore("administration.users", {
                 records: []
             },
             filters :{
-                per_page: 10,
+                per_page: 15,
                 role: null,
                 status: 'active'
             },
@@ -165,7 +165,7 @@ export const useUsers = defineStore("administration.users", {
                 this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
             })
         },
-
+*/
         fetchList() {
             this.loading = true
             return this.http.get(this.url.admin("users/list")).then(response => {
@@ -177,6 +177,6 @@ export const useUsers = defineStore("administration.users", {
                 this.loading = false
             })
         }
-        */
+        
     }
 })

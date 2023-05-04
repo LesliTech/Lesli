@@ -67,10 +67,10 @@ class ApplicationLesliController < ApplicationController
         # @account is only for html requests
         return if !request.format.html?
 
-        @account[:revision] = LC::System::Info.revision()
-        @account[:notifications] = Courier::Bell::Notification.count(current_user, true)
-        @account[:tasks] = Courier::Focus::Task.count(current_user)
-        @account[:tickets] = Courier::Help::Ticket.count(current_user)
+        @account[:revision] = Lesli::System.revision()
+        @account[:notifications] = 0 #Courier::Bell::Notification.count(current_user, true)
+        @account[:tasks] = 0 #Courier::Focus::Task.count(current_user)
+        @account[:tickets] = 0 #Courier::Help::Ticket.count(current_user)
         # temporary disable shortcuts, not used on mw or lesli
         @account[:shortcuts] = [] # current_user.shortcuts.select(:id, :name, :url)
 
