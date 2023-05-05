@@ -14,7 +14,6 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
-
 =end
 
 class ApplicationLesliMailer < ActionMailer::Base
@@ -47,6 +46,9 @@ class ApplicationLesliMailer < ActionMailer::Base
             instance = Rails.application.config.lesli.dig(:instance)
 
             # get class that is executing the mailer
+            L2.msg "---   ---   ---   ---   ---"
+            pp self
+            L2.msg "---   ---   ---   ---   ---"
             module_info = self.class.name.split("::")
 
             # mailers from engines
@@ -90,32 +92,6 @@ class ApplicationLesliMailer < ActionMailer::Base
 
     end
 
-
-    def build_customization_from_params(params)
-
-        instance = Rails.application.config.lesli.dig(:instance)
-
-        # lesli is the code used for the core. If there are no builder engines,
-        # the instance namespace is "/"
-        instance_path = ""
-        instance_path = "#{instance[:code]}/" if instance[:code] != "lesli"
-
-        # using cdn logos by default (testing feature)
-        # @custom[:logo] = "#{instance_path}brand/app-logo.svg"
-        @custom[:logo] = "https://cdn.lesli.tech/leslicloud/brand/app-logo.png"
-
-        return if params[:user].blank? || params[:user].class.name != "User"
-
-        custom_logo = params[:user].account.files.where(file_type: "app_logo").last
-
-        if custom_logo
-            @custom[:logo] = custom_logo.attachment.url if custom_logo.attachment_identifier
-            @custom[:logo] = custom_logo.attachment_public.url if custom_logo.attachment_public_identifier
-        end
-
-    end
-
-
     def build_app_from_params(params)
 
         @app[:host] = default_url_options[:host]
@@ -133,6 +109,30 @@ class ApplicationLesliMailer < ActionMailer::Base
             name: params[:user].account.company_name,
             tag_line: params[:user].account.company_tag_line,
         }
+
+    end
+
+    def build_customization_from_params(params)
+
+        instance = Rails.application.config.lesli.dig(:instance)
+
+        # lesli is the code used for the core. If there are no builder engines,
+        # the instance namespace is "/"
+        instance_path = ""
+        instance_path = "#{instance[:code]}/" if instance[:code] != "lesli"
+
+        # using cdn logos by default (testing feature)
+        # @custom[:logo] = "#{instance_path}brand/app-logo.svg"
+        @custom[:logo] = "https://cdn.lesli.tech/leslicloud/brand/app-logo.png"
+
+        return if params[:user].blank? || params[:user].class.name != "User"
+
+        custom_logo = nil # params[:user].account.files.where(file_type: "app_logo").last
+
+        if custom_logo
+            @custom[:logo] = custom_logo.attachment.url if custom_logo.attachment_identifier
+            @custom[:logo] = custom_logo.attachment_public.url if custom_logo.attachment_public_identifier
+        end
 
     end
 

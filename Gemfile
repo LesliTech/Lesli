@@ -53,6 +53,8 @@ gem "rails", "7.0.4.3"
 gem "rails-i18n", "7.0.6"
 
 # It's a small library to provide the Rails I18n translations on the Javascript.
+# We must stick to the version 3 due version 4 changed completed the behavior of
+# the locale files creation for the frontend
 gem "i18n-js", "3.9.2" # "4.2.3"
 
 # Integrate SassC-Ruby into Rails.
@@ -204,7 +206,7 @@ group :development, :test do
 
     # Preview email in the default browser instead of sending it
     # https://github.com/ryanb/letter_opener
-    gem "letter_opener"
+    gem "letter_opener", "1.8.1"
 
     # Documentation generation tool for the Ruby programming language
     # https://github.com/lsegal/yard

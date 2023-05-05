@@ -24,15 +24,15 @@ class CreateUsers < ActiveRecord::Migration[5.2]
             # Hard-lock strategy
             t.boolean   :active, default: true, null: false
 
+            # authenticatable
+            t.string    :email,              null: false, default: ""
+            t.string    :encrypted_password, null: false, default: ""
+
             # Customizable
             t.string    :alias
             t.string    :salutation
             t.string    :first_name
             t.string    :last_name
-
-            # authenticatable
-            t.string    :email,              null: false, default: ""
-            t.string    :encrypted_password, null: false, default: ""
 
             # Recoverable
             t.string    :reset_password_token

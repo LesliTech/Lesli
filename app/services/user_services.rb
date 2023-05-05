@@ -193,9 +193,9 @@ class UserServices < LesliServices
             end
 
             # saving logs with information about the creation of the user
-            user.logs.create({ description: "user_created_at " + Date2.new.date_time.to_s })
-            user.logs.create({ description: "user_created_by " + current_user.id.to_s })
-            user.logs.create({ description: "user_created_with_role " + user.user_roles.first.roles_id.to_s })
+            user.logs.create({ title: "user_created_at", description: Date2.new.date_time.to_s })
+            user.logs.create({ title: "user_created_by", description: current_user.email })
+            user.logs.create({ title: "user_created_with_role", description: user.user_roles.first.role.name + " " + user.user_roles.first.role.id.to_s})
 
             User.log_activity_create(current_user, user)
 
@@ -207,7 +207,7 @@ class UserServices < LesliServices
                 UserMailer.with(user: user).invitation_instructions.deliver_now
             rescue => exception
                 Honeybadger.notify(exception)
-                user.logs.create({ description: "user_creation_email_failed " + exception.message })
+                user.logs.create({ title: "user_creation_email_failed ", description: exception.message })
             end
 
         else
