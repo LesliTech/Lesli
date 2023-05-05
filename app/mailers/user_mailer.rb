@@ -14,7 +14,6 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
-
 =end
 
 class UserMailer < ApplicationLesliMailer
@@ -36,24 +35,6 @@ class UserMailer < ApplicationLesliMailer
                 subject: I18n.t("core.users.mailer_subject_welcome")
             )
         end
-    end
-
-
-    # not used mailer
-    def first_access
-        user = params[:user]
-        token = params[:token]
-        build_data_from_params(params, {
-                url: "/pass?t=#{token}",
-                user: {
-                    full_name: user.full_name
-                }
-        })
-
-        mail(
-            to: email_address_with_name(user.email, user.full_name),
-            subject: 'I18n.t("core.passes.mailer_login_link_instructions")'
-        )
     end
 
 
@@ -80,29 +61,12 @@ class UserMailer < ApplicationLesliMailer
     end
 
 
-    # not used mailer
-    # Send confirmation instruction email with the link and token to validate the account
-    def confirmation_instructions
-        user = params[:user]
-        token = user.confirmation_token
-        build_data_from_params(params, {
-            url: "/confirmation?k="+token,
-            user: {
-                full_name: user.full_name,
-                roles: user.roles.map(&:name)||[]
-            }
-        })
-
-        mail(
-            to: email_address_with_name(user.email, user.full_name),
-            subject: I18n.t("core.users.mailer_welcome_please_confirm_your_account")
-        )
-    end
-
     # Send a link with a reset password token
     def reset_password_instructions
+
         user = params[:user]
         token = params[:token]
+
         build_data_from_params(params, {
             url: "/password/edit?reset_password_token=#{token}",
             user: {

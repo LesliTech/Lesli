@@ -77,9 +77,10 @@ end
 Rails.application.configure do
 
     # Raise an Error When an Asset is Not Found
-    config.assets.unknown_asset_fallback = false
+    config.assets.unknown_asset_fallback = true
 
-    # Force to not use digest, if this is not false Rails will fingerprint the assets by default and precompile is needed
+    # Force to not use digest, 
+    # if this is not false Rails will fingerprint the assets by default and precompile is needed
     config.assets.digest = false
 
     # Enable/disable caching. By default caching is disabled.
@@ -95,7 +96,7 @@ Rails.application.configure do
 
     config.action_mailer.perform_deliveries = true
 
-    config.action_mailer.delivery_method = Rails.configuration.lesli.dig(:env, :action_mailer, :delivery_method)
+    config.action_mailer.delivery_method = Rails.configuration.lesli.dig(:env, :action_mailer, :delivery_method).to_sym
 
     config.action_mailer.asset_host = Rails.configuration.lesli.dig(:env, :action_mailer, :asset_host)
     
