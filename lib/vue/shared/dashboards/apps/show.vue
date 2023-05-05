@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { onMounted, computed } from "vue"
+import { onMounted } from "vue"
 
 
 // · import lesli stores
@@ -32,11 +32,11 @@ const storeDashboard = useDashboard()
 
 // · 
 const props = defineProps({
-    cloudModule: {
+    engine: {
         type: String, 
         require: true
     },
-    renderComponents: {
+    components: {
         type: Object,
         require: true
     }
@@ -45,7 +45,7 @@ const props = defineProps({
 
 // · 
 onMounted(() => {
-    storeDashboard.getDashboard(props.cloudModule)
+    storeDashboard.getDashboard(props.engine)
 })
 
 </script>
@@ -55,7 +55,7 @@ onMounted(() => {
             <div 
                 v-for="(component, index) in storeDashboard.dashboard.components" :key="index"
                 :class="['column', 'is-' + component?.layout]">
-                <component :component.sync="component" :is="renderComponents[component.component_id]"></component>
+                <component :component.sync="component" :is="components[component.component_id]"></component>
             </div>
         </div>
     </section>
