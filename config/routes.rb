@@ -35,7 +35,7 @@ Rails.application.routes.draw do
     extend RoutesBuilder
     extend RoutesEngines
     extend RoutesApp
-    
+
     devise_for :users,
     :path => "",
     :path_names => {

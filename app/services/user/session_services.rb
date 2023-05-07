@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 // · 
 =end
 
-class User::SessionServices < ApplicationLesliService
+class User::SessionServices < ApplicationLesliServices
 
     # create a new session
     def create(user_agent, remote_ip, session_source="devise_standard_session")

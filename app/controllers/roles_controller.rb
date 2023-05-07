@@ -19,15 +19,6 @@ For more information read the license file including with this software.
 class RolesController < ApplicationLesliController
     before_action :set_role, only: [:show, :update, :destroy]
 
-    def privileges
-        {
-            index: ['Role::DescribersController#index', 'list', 'Role::Activities#index'],
-            show: [],
-            edit: ['options'],
-            new: [],
-            destroy: [],
-        }
-    end
 
     #@return [HTML|JSON] HTML view for listing all roles or a Json that contains a list of all roles
     #    associated to this *account*
@@ -55,7 +46,7 @@ class RolesController < ApplicationLesliController
         respond_to do |format|
             format.html { }
             format.json {
-                respond_with_pagination(Role.index(current_user, @query))
+                respond_with_pagination(RoleServices.new(current_user, @query).index)
             }
         end
     end
@@ -255,7 +246,7 @@ class RolesController < ApplicationLesliController
     #     puts @role
     #     # This will either display nil or an instance of Role
     def set_role
-        @role = current_user.account.roles.find_by(id: params[:id])
+        @role = RoleServices.new(current_user).find(params[:id])
     end
 
     # @return [Parameters] Allowed parameters for the role

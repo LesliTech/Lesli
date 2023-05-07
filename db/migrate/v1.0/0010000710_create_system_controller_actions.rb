@@ -22,7 +22,6 @@ class CreateSystemControllerActions < ActiveRecord::Migration[6.1]
         create_table :system_controller_actions do |t|
             t.string :name
             t.datetime :deleted_at, index: true
-
             t.timestamps
         end
 

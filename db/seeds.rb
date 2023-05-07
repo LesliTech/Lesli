@@ -19,15 +19,10 @@ For more information read the license file including with this software.
 L2.br;L2.br;L2.br;
 
 
-L2.info("Loading seeds for #{Rails.env.downcase} environment")
+L2.msg("Loading seeds for #{Rails.env.downcase} environment")
 
 
 L2.br
-
-
-# controllers and actions are always required
-Rake.application.invoke_task("app:controllers:build")
-
 
 # including tools for seeders
 load Rails.root.join("db", "seed", "tools.rb")
@@ -42,6 +37,12 @@ Rails.application.config.lesli.dig(:engines).each do |engine|
 
     # every instance (builder module) is loaded into the platform using the same name of the engine
     instance_klass = engine[:name].safe_constantize
+
+    L2.msg(
+        "Loading seeds for #{instance_klass} environment", 
+        "Version: #{instance_klass::VERSION}", 
+        "Build: #{instance_klass::BUILD}"
+    )
 
     # dynamic load seeds from installed engines
     instance_klass::Engine.load_seed

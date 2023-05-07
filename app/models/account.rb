@@ -90,9 +90,9 @@ class Account < ApplicationRecord
     def initialize_account
 
         # create initial descriptors
-        self.descriptors.find_or_create_by(name: "owner")
-        self.descriptors.find_or_create_by(name: "sysadmin")
-        self.descriptors.find_or_create_by(name: "profile")
+        # self.descriptors.find_or_create_by(name: "owner")
+        # self.descriptors.find_or_create_by(name: "sysadmin")
+        # self.descriptors.find_or_create_by(name: "profile")
 
         # create default roles
         account_roles = Rails.application.config.lesli.dig(:security, :roles) || []

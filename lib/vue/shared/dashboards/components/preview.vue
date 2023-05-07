@@ -32,11 +32,11 @@ const storeDashboard = useDashboard()
 
 // · 
 const props = defineProps({
-    cloudModule: {
+    engine: {
         type: String, 
         require: true
     },
-    renderComponents: {
+    components: {
         type: Object,
         require: true
     }
@@ -78,7 +78,7 @@ function remove(component) {
 
 
                     <!-- Dashboard widget preview -->
-                    <component :component.sync="component" :is="props.renderComponents[component.component_id]">
+                    <component :component.sync="component" :is="props.components[component.component_id]">
                     </component>
 
 

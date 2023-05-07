@@ -56,7 +56,7 @@ module Lesli
             @@settings_builder = YAML.load_file(path) if File.exist?(path)
 
             # specific settings for server, override core and instance settings
-            @@settings_server = YAML.load_file("./lesli.server.yml") if File.exist?(File.join("./lesli.server.yml"))
+            @@settings_server ||= YAML.load_file("./lesli.server.yml") if File.exist?(File.join("./lesli.server.yml"))
 
         rescue => e
 
@@ -140,7 +140,7 @@ module Lesli
         if @@settings_server.key?("modules")
 
             # add required engine-gem like to the engines collection
-            gems = @@settings_server["modules"].map do |gem|
+            gems = @@settings_server.dig("modules").map do |gem|
                 {
                     type: "gem",
                     code: gem[0],
