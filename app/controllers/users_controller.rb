@@ -242,7 +242,6 @@ class UsersController < ApplicationLesliController
     end
 
 
-
     def options
 
         roles = current_user.account.roles.select(:id, :name, :object_level_permission)
@@ -260,29 +259,6 @@ class UsersController < ApplicationLesliController
             mfa_methods: Rails.application.config.lesli.dig(:configuration, :mfa_methods)
         })
 
-    end
-
-    # Resets the user email
-    def email
-
-        user = current_user.account.users.find_by(id: params[:id])
-
-        if user.blank?
-            return respond_with_not_found
-        end
-
-        # users can change only the own email
-        if user.id != current_user.id
-            return respond_with_unauthorized
-        end
-
-        if params[:user][:email]
-            user.update(email: params[:user][:email])
-        end
-
-        user.logs.create({ description: "changed_email_address_id: " + current_user.id.to_s })
-
-        respond_with_successful(params[:user][:email])
     end
 
     private

@@ -37,6 +37,8 @@ const url = inject("url")
 // · 
 const storeRole = useRole()
 
+
+// · 
 const translations = {
     core: {
         roles: I18n.t("core.roles"),
@@ -45,20 +47,26 @@ const translations = {
     }
 }
 
+
 // · 
 const columns = [{
     field: "name",
     label: translations.core.shared.view_text_name,
     sort: true
 }, {
-    field: "user_count",
-    label: translations.core.roles.view_text_users_count,
+    field: "users",
+    label: translations.core.roles.view_text_users || 'Users',
+    sort: true
+}, {
+    field: "isolated",
+    label: translations.core.roles.view_text_isolated || 'Isolated',
     sort: true
 }, {
     field: "active",
     label: translations.core.users.view_table_header_status,
     sort: true
 }]
+
 
 // · defining props
 const props = defineProps({
@@ -68,6 +76,7 @@ const props = defineProps({
         default: "administration/roles",
     }
 })
+
 
 // · 
 onMounted(() => {

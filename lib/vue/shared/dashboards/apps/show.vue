@@ -45,6 +45,7 @@ const props = defineProps({
 
 // · 
 onMounted(() => {
+    storeDashboard.engine = props.engine
     storeDashboard.getDashboard(props.engine)
 })
 

@@ -81,8 +81,6 @@ module Shared
 
             dashboards = dashboards.map do |dashboard|
                 dashboard_attributes = dashboard.attributes
-
-                dashboard_attributes["created_at"] = LC::Date.to_string_datetime(dashboard.created_at)
                 dashboard_attributes
             end
 

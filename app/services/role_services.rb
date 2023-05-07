@@ -21,7 +21,7 @@ class RoleServices < LesliServices
 
     # Return a list of roles that the user is able to work with
     # according to object level permission
-    def list query=nil, params=nil
+    def list
 
         # get the max object level permission assigned to user through roles
         role_max = current_user.roles.map(&:object_level_permission).max()
@@ -36,14 +36,58 @@ class RoleServices < LesliServices
 
     # @return [Array] Paginated index of users.
     # @description Return a paginated array of users, used mostly in frontend views
-    def index query, params
+    def index 
+
+        role_max = current_user.roles.map(&:object_level_permission).max()
+
+        roles = current_user.account.roles
+        .joins("
+            left join (
+                select
+                    count(1) users,
+                    roles_id
+                from user_roles
+                inner join  users as u
+                    on u.id = user_roles.users_id
+                    and u.deleted_at is null
+                where user_roles.deleted_at is null
+                group by (roles_id)
+            )
+            users on users.roles_id = roles.id
+        ")
+        .where("roles.object_level_permission <= ?", role_max)
+        .select(
+            :id, 
+            :name, 
+            :active, 
+            :isolated, 
+            :path_default, 
+            :object_level_permission, 
+            "users.users"
+        )
+
+        roles
+        .page(query[:pagination][:page])
+        .per(query[:pagination][:perPage])
+        .order(object_level_permission: :desc, name: :asc)
 
     end
 
 
     # Creates a query that selects all user information from several tables if CloudLock is present
-    def show (user=nil)
-
+    def show
+        {
+            :id => resource.id,
+            :name => resource.name,
+            :active => resource.active,
+            :isolated => resource.isolated,
+            :path_default => resource.path_default,
+            :path_limited => resource.path_limited,
+            :object_level_permission => resource.object_level_permission,
+            :created_at => resource.created_at,
+            :updated_at => resource.updated_at,
+            #:descriptors => resource.descriptors#.joins(:system_descriptor).select(:id, :name, :descriptors_id)
+        }
     end
 
     def create user_params
@@ -55,7 +99,7 @@ class RoleServices < LesliServices
     end
 
     def find id
-        self.resource = current_user.account.users.joins(:detail).find_by(id: id)
+        self.resource = current_user.account.roles.find_by(id: id)
         self
     end
 end

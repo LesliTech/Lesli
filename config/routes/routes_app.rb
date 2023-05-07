@@ -34,14 +34,11 @@ module RoutesApp
     def self.extended(router)
         router.instance_exec do
 
-
             # Alternative logins
             resource :mfa,  only: [:show, :update]
             resource :otp,  only: [:show, :create, :update]
             resource :pass, only: [:show, :create, :update]
 
-            # Invitation requests - users ask to join an account
-            #resource :invite, only: [:show, :create]
 
             # Initial settings for account
             resource :onboarding, only: [:show, :create]
@@ -163,17 +160,6 @@ module RoutesApp
                 end
 
 
-
-                # Descriptors for roles
-                resources :descriptors, only: [:index, :show, :edit, :create, :update] do
-                    scope module: :descriptor do
-                        resources :privileges, only: [:index, :create, :destroy]
-                    end
-                    collection do 
-                        get :list
-                    end
-                end 
-
                 # roles & privileges management
                 resources :roles, only: [:index, :show, :edit, :update, :create, :destroy] do
                     scope module: :role do
@@ -224,8 +210,13 @@ module RoutesApp
                     end
                 end 
 
-            end
+                resources :system_descriptors, only: [:index] do 
+                    scope module: :system_descriptors do
+                        resources :privileges, only: [:index]
+                    end
+                end 
 
+            end
         end
     end
 end

@@ -104,12 +104,50 @@ export const useRole = defineStore("administration.role", {
                 url = url.search(this.descriptorSearchString)
             }
 
-            this.http.get(url).then(result => {
+            this.http.get(url).then(descriptors => {
 
-                console.log(result)
                 // reset the list of descriptors
-                this.descriptors = result
+                this.descriptors = []
+                this.descriptorsCustom = []
 
+                // temporary container for the descriptor matrix
+                let descriptorgrid = {}
+
+                // convert list of descriptors from: controller/action to controller/actions (like a matrix)
+                descriptors.forEach(descriptor => {
+
+                    if (["list", "index", "show", "create", "edit", "destroy"].includes(descriptor.action)) {
+
+                        if (!descriptorgrid[descriptor.reference]) {
+                            descriptorgrid[descriptor.reference] = {
+                                id: descriptor.id,
+                                name: descriptor.name,
+                                reference: descriptor.reference,
+                                controller: descriptor.controller,
+                                index: null, 
+                                show: null, 
+                                create: null, 
+                                update: null, 
+                                destroy: null
+                            }
+                        }
+
+                        // add the id of the descriptor that the action belongs to
+                        descriptorgrid[descriptor.reference][descriptor.action] = {
+                            id: descriptor.id,
+                            active: descriptor.active
+                        }
+
+                        return;
+
+                    }
+
+                    this.descriptorsCustom.push(descriptor)
+
+                })
+
+                // return the arrys only
+                this.descriptors = Object.values(descriptorgrid)
 
             })
         },

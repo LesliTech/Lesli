@@ -19,53 +19,54 @@ For more information read the license file including with this software.
 // · import vue tools
 import { ref, computed, onMounted } from "vue"
 
+
 // · import stores
 import { useDashboard } from "Lesli/shared/stores/dashboard"
+
 
 // · implement store
 const storeDashboard = useDashboard()
 
+
 // · defining props
 const props = defineProps({
-    // · prop that indicates the cloud module that will be used for interacting with the backend.
-    cloudModule: {
+    engine: {
         type: String,
         required: true,
     }
 })
 
-storeDashboard.cloudModule = props.cloudModule
+
 
 // · defining translations
 const translations = {
-    main: I18n.t(`${props.cloudModule}.dashboards`),
+    main: I18n.t(`${props.engine}.dashboards`),
     dashboards: I18n.t('core.dashboards'),
     core: I18n.t('core.shared')
 }
 
 
 // · columns of the table
-const columns = [
-    {
-        field: "name",
-        label: translations.dashboards.column_name,
-    },
-    {
-        field: "default",
-        label: translations.dashboards.column_default,
-    },
-    {
-        field: "created_at",
-        label: translations.dashboards.column_created_at,
-    }
-]
+const columns = [{
+    field: "name",
+    label: translations.dashboards.column_name,
+}, {
+    field: "default",
+    label: translations.dashboards.column_default,
+}, {
+    field: "created_at",
+    label: translations.dashboards.column_created_at,
+}, {
+    field: "updated_at",
+    label: translations.dashboards.column_updated_at,
+}]
 
 onMounted(() => {
+    storeDashboard.engine = props.engine
     storeDashboard.fetchDashboards()
 })
 
 </script>
-
 <template>
     <section class="application-component">
         
@@ -74,12 +75,11 @@ onMounted(() => {
                 outlined
                 icon="refresh"
                 :loading="storeDashboard.loading"
-                @click="storeDashboard.getDashboards(props.cloudModule)"
-            >
+                @click="storeDashboard.getDashboards(props.engine)">
                 {{ translations.core.view_text_btn_reload }}
             </lesli-button>
             
-            <lesli-button  icon="add" :to="url[props.cloudModule]('dashboards/new')">
+            <lesli-button  icon="add" :to="url[props.engine]('dashboards/new')">
                 add
             </lesli-button>
         </lesli-header>
@@ -90,8 +90,7 @@ onMounted(() => {
         <lesli-table 
             :columns="columns" 
             :records="storeDashboard.dashboards"
-            :link="(dashboard) => url[props.cloudModule](`dashboards/${dashboard.id}/edit`).s"
-        >
+            :link="(dashboard) => url[props.engine](`dashboards/${dashboard.id}/edit`)">
         </lesli-table>
 
     </section>

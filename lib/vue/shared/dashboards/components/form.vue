@@ -47,7 +47,7 @@ const props = defineProps({
         required: false,
         default: false,
     },
-    cloudModule: {
+    engine: {
         type: String,
         required: true,
     },
@@ -60,8 +60,8 @@ const translations = {
     components: I18n.t('core.dashboard/components'),
     core: I18n.t('core.shared'),
     roles: I18n.t('core.roles'),
-    main: I18n.t(`${storeDashboard.cloudModule}.dashboards`),
-    main_components: I18n.t(`${storeDashboard.cloudModule}.dashboard/components`)
+    main: I18n.t(`${storeDashboard.engine}.dashboards`),
+    main_components: I18n.t(`${storeDashboard.engine}.dashboard/components`)
 }
 
 
@@ -97,26 +97,6 @@ const layout_options = [{
     value: 12
 }]
 
-const layout_options2 = [{
-    label: 'one quarter',
-    value: 3
-}, {
-    label: 'one third',
-    value: 4
-}, {
-    label: 'half',
-    value: 6
-}, {
-    label: 'two thirds',
-    value: 8
-}, {
-    label: 'three quarters',
-    value: 9
-}, {
-    label: 'full',
-    value: 12
-}]
-
 
 /**
  * @description This function is used to update the workflow information
@@ -131,7 +111,7 @@ const onUpdate = () => {
  */
 const onCreate = () => {
     storeDashboard.postDashboard().then(()=> {
-        router.push(url[props.cloudModule]('dashboards').s)
+        router.push(url[props.engine]('dashboards').s)
     })
 }
 
@@ -187,6 +167,7 @@ function removeComponent(deleted_component){
 
 
 onMounted(() => {
+    storeDashboard.engine = props.engine
     if (!props.isEditable){
         storeDashboard.resetDashboard()
     } else {
@@ -197,7 +178,7 @@ onMounted(() => {
 // This function is used to delete a dashboard
 function onDeleteDashboard() {
     storeDashboard.deleteDashboard().then(()=> {
-        router.push(url[props.cloudModule]('dashboards').s)
+        router.push(url[props.engine]('dashboards').s)
     })
 }
 

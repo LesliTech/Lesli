@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 class Role::PrivilegeService
 
     def synchronize_privileges role_id = nil
-
+        return
         # bulk all the descriptor privileges
         # this script was built manually for performance
         # basically what it does is get the controllers and actions

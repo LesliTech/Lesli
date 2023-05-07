@@ -16,10 +16,11 @@ For more information read the license file including with this software.
 
 =end
 class Role::DescriptorsController < ApplicationLesliController
+    before_action :set_role, only: [:index]
     before_action :set_role_descriptor, only: [:show, :update, :destroy]
 
     def index 
-        respond_with_successful(Role::Descriptor.index(current_user, @query, params))
+        respond_with_successful(Role::Descriptor.index(current_user, @query, @role))
     end
 
     # POST /role/descriptors

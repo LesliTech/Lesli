@@ -16,8 +16,8 @@ For more information read the license file including with this software.
 
 =end
 class Role::Descriptor < ApplicationLesliRecord
-    belongs_to :role, foreign_key: "roles_id", class_name: "::Role"
-    belongs_to :descriptor, foreign_key: "descriptors_id", class_name: "::Descriptor"
+    belongs_to :role, foreign_key: "roles_id"
+    belongs_to :system_descriptor, foreign_key: "system_descriptors_id"
 
     after_save :synchronize_privileges
 
@@ -26,26 +26,28 @@ class Role::Descriptor < ApplicationLesliRecord
         Role::PrivilegeService.new.synchronize_privileges(self.roles_id)
     end 
 
-    def self.index current_user, query, params
-        current_user.account.descriptors
-        .joins(sanitize_sql_array(["
-                left join role_descriptors 
-                on role_descriptors.descriptors_id = descriptors.id 
-        "])).select(
-            "descriptors.id",
-            "descriptors.name",
-            "role_descriptors.privilege_index",
-            "role_descriptors.privilege_show",
-            "role_descriptors.privilege_create",
-            "role_descriptors.privilege_update",
-            "role_descriptors.privilege_destroy",
-            "role_descriptors.id as role_descriptor_id",
-            Descriptor::Privilege.joins(action: :system_controller).where("descriptor_privileges.descriptors_id = descriptors.id and system_controller_actions.name = 'index'").arel.exists.as("has_index"),
-            Descriptor::Privilege.joins(action: :system_controller).where("descriptor_privileges.descriptors_id = descriptors.id and system_controller_actions.name = 'show'").arel.exists.as("has_show"),
-            Descriptor::Privilege.joins(action: :system_controller).where("descriptor_privileges.descriptors_id = descriptors.id and system_controller_actions.name = 'create'").arel.exists.as("has_create"),
-            Descriptor::Privilege.joins(action: :system_controller).where("descriptor_privileges.descriptors_id = descriptors.id and system_controller_actions.name = 'update'").arel.exists.as("has_update"),
-            Descriptor::Privilege.joins(action: :system_controller).where("descriptor_privileges.descriptors_id = descriptors.id and system_controller_actions.name = 'destroy'").arel.exists.as("has_destroy")
-        )
-    end
+    def self.index current_user, query, role
 
+        # get the active descriptors assigned to the role
+        fromrole = role.descriptors
+        .joins(:system_descriptor)
+        .select("system_descriptors_id as id", :name, :reference, :controller, :action, :engine, "true as active")
+
+
+        # get all the available descriptors in the platform
+        available = ::SystemDescriptor.select(:id, :name, :reference, :controller, :action, :engine, "false as active")
+
+
+        #unless query[:search].blank?
+            #search_string = LC::Sql.sanitize_for_like(query[:search])
+            #sql = "lower(name) like :s or lower(engine) like :s or lower(controller) like :s or lower(action) like :s"
+            #fromrole = fromrole.where(sql, :s => search_string)
+            #available = available.where(sql, :s => search_string)
+        #end
+
+        # join descriptors (active & available) so we return a list of descriptor including info
+        # about which descriptor is enabled
+        return (fromrole + available).uniq{ |p| p[:id] }
+
+    end
 end

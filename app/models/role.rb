@@ -22,8 +22,9 @@ class Role < ApplicationLesliRecord
     belongs_to :account,   foreign_key: "accounts_id"
 
     has_many :activities,  foreign_key: "roles_id"
+    has_many :descriptors, foreign_key: "roles_id", dependent: :delete_all
     has_many :privileges,  foreign_key: "roles_id", class_name: "Role::Privilege", dependent: :delete_all
-    has_many :role_descriptors, foreign_key: "roles_id", class_name: "Role::Descriptor", dependent: :delete_all
+    
 
     before_create :before_create_role
     after_create :after_create_role, :initialize_role_privileges
@@ -31,63 +32,6 @@ class Role < ApplicationLesliRecord
     validates :name, presence: :true
     validates :object_level_permission, presence: :true
 
-    def self.index(current_user, query)
-        role_max = current_user.roles.map(&:object_level_permission).max()
-
-        # Get search string from query params
-        search_string = query[:search].downcase.gsub(" ","%") unless query[:search].blank?
-
-        roles = current_user.account.roles
-        .joins("
-            left join (
-                select
-                    count(1) user_count,
-                    roles_id
-                from user_roles
-                inner join  users as u
-                    on u.id = user_roles.users_id
-                    and u.deleted_at is null
-                where user_roles.deleted_at is null
-                group by (roles_id)
-            )
-            users on users.roles_id = roles.id
-        ")
-        .where("roles.object_level_permission <= ?", role_max)
-        .order(object_level_permission: :desc, name: :asc)
-        .select(:id, :name, :active, :only_my_data, :default_path, :object_level_permission, "users.user_count")
-
-        # Filter results by search string
-        unless search_string.blank?
-            roles = roles.where("(LOWER(roles.name) SIMILAR TO :search_string)", search_string: "%#{sanitize_sql_like(search_string, " ")}%")
-        end
-
-        unless query[:filters].blank?
-            unless query[:filters][:object_level_permission].blank?
-                role_max = query[:filters][:object_level_permission] if query[:filters][:object_level_permission].to_i <= role_max
-            end 
-        end
-
-        roles
-        .page(query[:pagination][:page])
-        .per(query[:pagination][:perPage])
-        .order(object_level_permission: :desc, name: :asc)
-
-    end
-
-    def show
-        {
-            :id => self.id,
-            :name => self.name,
-            :active => self.active,
-            :default_path => self.default_path,
-            :limit_to_path => self.limit_to_path,
-            :only_my_data => self.only_my_data,
-            :object_level_permission => self.object_level_permission,
-            :created_at => self.created_at,
-            :updated_at => self.updated_at,
-            :descriptors => self.role_descriptors.joins(:descriptor).select(:id, :name, :descriptors_id)
-        }
-    end
 
     def before_create_role
 
@@ -121,11 +65,12 @@ class Role < ApplicationLesliRecord
     #   # This method will be called automatically within an after_create callback
     #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
     def initialize_role_privileges
+        return 
         if (self.name == "owner" || self.name == "sysadmin" || self.name == "limited")
             descriptor = self.name
             descriptor = "profile" if descriptor == "limited"
-            self.role_descriptors.find_or_create_by(
-                descriptor: self.account.descriptors.find_by(name: descriptor)
+            SystemDescriptor.find_or_create_by(
+                descriptor: SystemDescriptor.find_by(name: descriptor)
             )
         end
     end
