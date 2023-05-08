@@ -13,8 +13,6 @@ class ApplicationLesliValidator
         # stores any error found during the life-cycle of the service object
         @failures = []
 
-        validate()
-
     end
 
     def valid?

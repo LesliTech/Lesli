@@ -79,7 +79,7 @@ function toggleEditor() {
             <lesli-button icon="list" :to="url.root(props.appMountPath)">
                 All roles
             </lesli-button>
-            <lesli-button icon="edit" :to="url.root(props.appMountPath+`/edit`)">
+            <lesli-button icon="edit" :to="url.admin('roles/:id/edit', route.params.id)">
                 Edit role
             </lesli-button>
             <lesli-button icon="admin_panel_settings" :solid="editor == 'custom'" @click="toggleEditor">

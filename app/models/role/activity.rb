@@ -135,51 +135,25 @@ class Role::Activity < CloudObject::Activity
         new_category
     end
 
-    #######################################################################################
-    ##############################  Activities Log Methods   ##############################
-    #######################################################################################
-
-    def self.log_create_descriptor(current_user, role, describer)
+    def self.log_create_descriptor(current_user, role, descriptor)
 
         role.activities.create(
             user_creator: current_user,
             category: "action_create_descriptor",
             field_name: "descriptors_id",
-            value_to: describer.descriptor.id,
-            description: "Add descriptor: #{ describer.descriptor.name }"
+            value_to: descriptor.id,
+            description: "Add descriptor: #{ descriptor.system_descriptor.name }"
         )
     end
 
-    def self.log_destroy_descriptor(current_user, role, describer)
-
+    def self.log_destroy_descriptor(current_user, role, descriptor)
         role.activities.create(
             user_creator: current_user,
             category: "action_destroy_descriptor",
             field_name: "descriptors_id",
-            value_to: describer.descriptor.id,
-            description: "Remove descriptor: #{ describer.descriptor.name }"
+            value_to: descriptor.id,
+            description: "Remove descriptor: #{ descriptor.system_descriptor.name }"
         )
     end
 
-    # DEPRECATED
-    def self.log_create_descriptor_assignment(current_user, role, descriptor_assignment)
-        self.log_descriptor_assignment(current_user, role, descriptor_assignment, "action_create_descriptor_assignment")
-    end
-
-    # DEPRECATED
-    def self.log_destroy_descriptor_assignment(current_user, role, descriptor_assignment)
-        self.log_descriptor_assignment(current_user, role, descriptor_assignment, "action_destroy_descriptor_assignment")
-    end
-
-    protected
-
-    # DEPRECATED
-    def self.log_descriptor_assignment(current_user, role, descriptor_assignment, category)
-        role.activities.create(
-            user_creator: current_user,
-            category: category,
-            field_name: descriptor_assignment.category,
-            description: descriptor_assignment.descriptor.name
-        )
-    end
 end

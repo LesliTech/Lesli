@@ -84,10 +84,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
         user = build_resource(sign_up_params)
 
         # run password complexity validations
-        password_complexity = User::ValidationService.new(user).password_complexity(sign_up_params[:password])
+        user_validator = UsersValidator.new(user).password_complexity(sign_up_params[:password])
 
         # return if there are errors with the complexity validations
-        return respond_with_error("password_complexity_error", password_complexity.error) unless password_complexity.successful?
+        unless user_validator.valid?
+            return respond_with_error("password_complexity_error", password_complexity.failures)
+        end
 
         # persist new user
         if user.save
@@ -100,7 +102,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
         else
             respond_with_error(user.errors.full_messages.to_sentence)
         end
-
     end
 
     # Self password update through the the profile/administration area

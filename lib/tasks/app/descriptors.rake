@@ -65,6 +65,8 @@ namespace :app do
 
                 ["index", "show", "create", "edit", "destroy"].each do |descriptor_action|
 
+                    next unless policy.respond_to?(descriptor_action.to_sym)
+
                     # controller name for humans, ready to be translated by babel
                     descriptor_name = controller.name.sub(' ','').underscore
 

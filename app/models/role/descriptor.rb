@@ -29,42 +29,22 @@ class Role::Descriptor < ApplicationLesliRecord
     def self.index current_user, query, role
 
         # get the active descriptors assigned to the role
-        fromrole = role.descriptors
-        .joins(system_descriptor: :system_controller)
+        SystemDescriptor
+        .joins(:system_controller)
+        .joins(%(
+            LEFT OUTER JOIN "role_descriptors" 
+            ON "role_descriptors"."deleted_at" IS NULL 
+            AND "role_descriptors"."system_descriptors_id" = "system_descriptors"."id"
+            AND "role_descriptors"."roles_id" = #{role.id}
+        ))
         .select(
-            "system_descriptors_id as id", 
+            "coalesce(role_descriptors.system_descriptors_id, system_descriptors.id) as id", 
             "system_descriptors.name as name", 
             "system_controllers.reference as reference", 
             "system_controllers.route as controller", 
-            "system_descriptors.category as action",
+            "system_descriptors.category as action", 
             "system_controllers.engine as engine", 
-            "true as active"
+            "case when role_descriptors.system_descriptors_id is null then false else true end as active"
         )
-
-        #return fromrole
-        # get all the available descriptors in the platform
-        available = ::SystemDescriptor.joins(:system_controller)
-        .select(
-            "system_descriptors.id as id", 
-            "system_descriptors.name as name", 
-            "system_controllers.reference as reference", 
-            "system_controllers.route as controller", 
-            "system_descriptors.category as action",
-            "system_controllers.engine as engine", 
-            "false as active"
-        )
-
-
-        #unless query[:search].blank?
-            #search_string = LC::Sql.sanitize_for_like(query[:search])
-            #sql = "lower(name) like :s or lower(engine) like :s or lower(controller) like :s or lower(action) like :s"
-            #fromrole = fromrole.where(sql, :s => search_string)
-            #available = available.where(sql, :s => search_string)
-        #end
-
-        # join descriptors (active & available) so we return a list of descriptor including info
-        # about which descriptor is enabled
-        return (fromrole + available).uniq{ |p| p[:id] }
-
     end
 end

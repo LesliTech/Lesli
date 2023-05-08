@@ -14,7 +14,6 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
 class Users::ConfirmationsController < Devise::ConfirmationsController
@@ -44,15 +43,17 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
         # register a log with a validation atempt for the user
         log = user.logs.create({ description: "confirmation_atempt_successful" })
 
+        registration_service = User::RegistrationService.new(user)
+
         # confirm the user
-        User::RegistrationService.new(user).confirm
+        registration_service.confirm
 
         # let the user knows that the confirmation is done
         flash[:success] = I18n.t("core.users/confirmations.messages_success_email_updated")
         
         # if new account, launch account onboarding in another thread, 
         # so the user can continue with the registration process
-        Thread.new { User::RegistrationService.new(user).create_account } if user.account.blank?
+        Thread.new { registration_service.create_account } if user.account.blank?
 
     end
 

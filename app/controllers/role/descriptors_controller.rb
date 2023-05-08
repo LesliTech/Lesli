@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 
 =end
 class Role::DescriptorsController < ApplicationLesliController
-    before_action :set_role, only: [:index]
+    before_action :set_role
     before_action :set_role_descriptor, only: [:show, :update, :destroy]
 
     def index 
@@ -25,10 +25,21 @@ class Role::DescriptorsController < ApplicationLesliController
 
     # POST /role/descriptors
     def create
-        role_descriptor = @role.descriptors.new(role_descriptor_params)
+
+        role_descriptor_status = false
+
+        system_descriptor = SystemDescriptor.find_by(:id => role_descriptor_params[:id])
+        role_descriptor = @role.descriptors.with_deleted.find_by(:system_descriptor => system_descriptor)
         
-        if role_descriptor.save
-            Role::Activity.log_create_descriptor_assignment(current_user, @role, role_descriptor)
+        if not role_descriptor
+            role_descriptor = @role.descriptors.new(:system_descriptor => system_descriptor)
+            role_descriptor_status = role_descriptor.save
+        elsif role_descriptor.deleted?
+            role_descriptor_status = role_descriptor.recover
+        end
+
+        if role_descriptor_status
+            Role::Activity.log_create_descriptor(current_user, @role, role_descriptor)
             respond_with_successful(role_descriptor)
         else
             respond_with_error(role_descriptor.errors.full_messages.to_sentence)
@@ -40,7 +51,7 @@ class Role::DescriptorsController < ApplicationLesliController
         return respond_with_not_found unless @role_descriptor
 
         if @role_descriptor.destroy
-            Role::Activity.log_destroy_descriptor_assignment(current_user, @role, @role_descriptor)
+            Role::Activity.log_destroy_descriptor(current_user, @role, @role_descriptor)
             respond_with_successful
         else
             respond_with_error(@role_descriptor.errors.full_messages.to_sentence)
@@ -54,9 +65,8 @@ class Role::DescriptorsController < ApplicationLesliController
     end
 
     def set_role_descriptor
-        set_role 
         return respond_with_not_found unless @role 
-        @role_descriptor = @role.descriptors.find_by(id: params[:id])
+        @role_descriptor = @role.descriptors.find_by(system_descriptors_id: params[:id])
     end
 
     # Only allow a list of trusted parameters through.

@@ -136,23 +136,25 @@ class RolesController < ApplicationLesliController
     def update
 
         # Respond with 404 if role was not found
-        return respond_with_not_found unless @role
+        return respond_with_not_found unless @role.found?
+
+        role = @role.result
 
         # check if current user can work with role
-        unless current_user.can_work_with_role?(@role)
+        unless current_user.can_work_with_role?(role)
             return respond_with_error(I18n.t("core.roles.messages_danger_updating_role_object_level_permission_too_high"))
         end
 
-        old_attributes = @role.attributes
+        old_attributes = role.attributes
 
-        if @role.update(role_params)
-            new_attributes = @role.attributes
+        if role.update(role_params)
+            new_attributes = role.attributes
 
-            respond_with_successful(@role)
+            respond_with_successful(role)
 
-            Role::Activity.log_update(current_user, @role, old_attributes, new_attributes)
+            Role::Activity.log_update(current_user, role, old_attributes, new_attributes)
         else
-            respond_with_error(@role.errors.full_messages.to_sentence)
+            respond_with_error(role.errors.full_messages.to_sentence)
         end
     end
 
