@@ -165,15 +165,15 @@ export const useRole = defineStore("administration.role", {
         },
 
         postDescriptor(descriptor) {
-            this.http.post(this.url.admin("roles/:id/describers", this.role.id), {
-                role_describer: {
+            this.http.post(this.url.admin("roles/:id/descriptors", this.role.id), {
+                role_descriptor: {
                     id: descriptor.id
                 }
             })
         },
 
         deleteDescriptor(descriptor) {
-            this.http.delete(this.url.admin("roles/:id/describers/:descriptor_id", {
+            this.http.delete(this.url.admin("roles/:id/descriptors/:descriptor_id", {
                 id: this.role.id,
                 descriptor_id: descriptor.id
             }))

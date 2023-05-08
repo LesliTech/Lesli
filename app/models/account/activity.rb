@@ -10,13 +10,9 @@ class Account::Activity < ApplicationRecord
             payload: payload
         )
     end
-
-    def log_activity(system_module, system_process, description=nil)
-        LC::Debug.deprecation("use Account::Activity.log instead")
-    end
     
     def self.log_email(system_module_action, description="email", title="email_sent", payload=nil)
-        activity = Account.first.activities.create(
+        activity = Account&.first&.activities&.create(
             system_module: system_module_action,
             system_process: "mailer",
             description: description,

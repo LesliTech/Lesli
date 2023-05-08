@@ -16,10 +16,10 @@ For more information read the license file including with this software.
 // ·
 =end
 
-L2.br;L2.br;L2.br;
+L2.br(4)
 
 
-L2.msg("Loading seeds for #{Rails.env.downcase} environment")
+L2.info("Loading seeds for #{Rails.env.downcase} environment")
 
 
 L2.br

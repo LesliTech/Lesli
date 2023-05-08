@@ -17,6 +17,12 @@ class RolesPolicy < ApplicationLesliPolicy
         ]
     end
 
+    def create 
+        [
+            
+        ]
+    end
+
     def edit
         [
             'RolesController#options'
