@@ -30,12 +30,29 @@ class Role::Descriptor < ApplicationLesliRecord
 
         # get the active descriptors assigned to the role
         fromrole = role.descriptors
-        .joins(:system_descriptor)
-        .select("system_descriptors_id as id", :name, :reference, :controller, :action, :engine, "true as active")
+        .joins(system_descriptor: :system_controller)
+        .select(
+            "system_descriptors_id as id", 
+            "system_descriptors.name as name", 
+            "system_controllers.reference as reference", 
+            "system_controllers.route as controller", 
+            "system_descriptors.category as action",
+            "system_controllers.engine as engine", 
+            "true as active"
+        )
 
-
+        #return fromrole
         # get all the available descriptors in the platform
-        available = ::SystemDescriptor.select(:id, :name, :reference, :controller, :action, :engine, "false as active")
+        available = ::SystemDescriptor.joins(:system_controller)
+        .select(
+            "system_descriptors.id as id", 
+            "system_descriptors.name as name", 
+            "system_controllers.reference as reference", 
+            "system_controllers.route as controller", 
+            "system_descriptors.category as action",
+            "system_controllers.engine as engine", 
+            "false as active"
+        )
 
 
         #unless query[:search].blank?

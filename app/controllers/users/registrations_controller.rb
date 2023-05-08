@@ -14,8 +14,8 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
-
 =end
+
 class Users::RegistrationsController < Devise::RegistrationsController
     before_action :configure_sign_up_params, only: [:create, :update]
 
@@ -69,9 +69,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     #    this.http.post('127.0.0.1/register', data);
     def create
 
-        L2.info "sign_up_params"
-        pp sign_up_params
-
         # Check if instance allow multi-account
         if !Rails.application.config.lesli.dig(:security, :allow_registration)
             respond_with_error(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
@@ -85,7 +82,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
         # build new user
         user = build_resource(sign_up_params)
-        pp user
 
         # run password complexity validations
         password_complexity = User::ValidationService.new(user).password_complexity(sign_up_params[:password])

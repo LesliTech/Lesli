@@ -4,7 +4,7 @@ namespace :app do
         desc "Scan new routes added and create role privileges"
         task build: :environment do
 
-            L2.msg("Scanning for controllers")
+            L2.msg("Registering engines, controllers and actions")
 
             # get all the engines, controllers and actions
             engines = scan_for_engine_controllers
@@ -12,14 +12,32 @@ namespace :app do
             # Register descriptors and privileges for all the accounts
             engines.each do |engine, controllers|
 
-                controllers.each do |controller_name, controller_actions|
+                controllers.each do |controller_route, controller_actions|
 
-                    controller = SystemController.find_or_create_by!(name: controller_name)
+                    # Build a strig with the standard name of a Rails controller from the standard routes
+                    # Examples: 
+                    #   users converts to Users 
+                    #   cloud_bell/notifications converts to CloudBell::Notifications
+                    # sometimes we need a second split to deal with third level deep of controllers
+                    # Example: "Account::Currency::ExchangeRatesController" from "account/currency/exchange_rates"
+                    reference = controller_route
+                    .split('/')                     # split the controller path by namespace
+                    .collect(&:capitalize)          # uppercase the first letter to match the class name convention of Rails
+                    .join("::")                     # join by ruby class separator for namespaces
+                    .split('_')                     # work with compound words like "exchange_rates"
+                    .collect { |x| x[0] = x[0].upcase; x } # convert ['exchange', 'rates'] to ['Exchange', 'Rates']
+                    .join('')
+
+                    name = reference.sub('::',' ')
+
+                    controller = SystemController.create_with({
+                        name: name,
+                        :engine => engine,
+                        :reference => reference
+                    }).find_or_create_by!(route: controller_route)
                     
                     controller_actions.each do |action_name|
-
                         controller.actions.find_or_create_by!(name: action_name)
-
                     end
                 end
             end

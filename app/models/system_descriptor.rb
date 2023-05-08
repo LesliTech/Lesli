@@ -1,12 +1,7 @@
 
 class SystemDescriptor < ApplicationLesliRecord
     has_many :privileges, foreign_key: "system_descriptors_id"
-
-    # this scope is needed to allow to join with deleted descriptors
-    # join with deleted descriptors is needed to know which privileges we have to remove from the
-    # role_privileges table when a descriptor is removed from role_describers
-    #has_many :role_descriptors_all, -> { with_deleted }, foreign_key: "descriptors_id", class_name: "Role::Descriptor"
-
+    belongs_to :system_controller, foreign_key: "system_controllers_id"
     validates :name, presence: true
 
     #after_create :initialize_descriptor_privileges
@@ -20,11 +15,6 @@ class SystemDescriptor < ApplicationLesliRecord
 
     end
 
-    def self.list(current_user, query)
-        current_user.account.descriptors
-        .select(:id, :name)
-        .order(:name)
-    end 
 
     def show(current_user, query)
         { 

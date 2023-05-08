@@ -1,0 +1,2 @@
+class AccountPolicy < ApplicationLesliPolicy
+end
