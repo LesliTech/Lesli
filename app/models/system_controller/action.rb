@@ -1,4 +1,5 @@
 =begin
+
 Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -13,8 +14,8 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
+
 class SystemController::Action < ApplicationLesliRecord
     belongs_to :system_controller, foreign_key: "system_controllers_id"
 end

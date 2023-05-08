@@ -1,13 +1,6 @@
 
 class SystemDescriptor::Privilege < ApplicationLesliRecord
     belongs_to :system_descriptor, foreign_key: "system_descriptors_id"
-    #belongs_to :action, foreign_key: "system_controller_actions_id", class_name: "SystemController::Action"
-
-    after_save :synchronize_privileges
-
-    def synchronize_privileges
-
-    end 
 
     def self.index current_user, query, params
         SystemController.joins(:actions)

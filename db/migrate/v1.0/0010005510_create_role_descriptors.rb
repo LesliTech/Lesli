@@ -1,7 +1,6 @@
 class CreateRoleDescriptors < ActiveRecord::Migration[7.0]
     def change
         create_table :role_descriptors do |t|
-            t.string :category
             t.datetime :deleted_at, index: true
             t.timestamps
         end

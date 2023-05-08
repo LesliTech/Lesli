@@ -18,7 +18,15 @@ For more information read the license file including with this software.
 
 require "#{Rails.root}/lib/LC/system/controllers.rb"
 
-Dir.glob("#{Rails.root}/lib/policies/*.rb").each { |policies| load policies }
+load "#{Rails.root}/lib/policies/application_lesli_policy.rb"
+
+Dir.glob("#{Rails.root}/lib/policies/*.rb").each do |policies| 
+    
+    return if policies == "application_lesli_policy.rb"; 
+    
+    load policies;
+    
+end
 
 namespace :app do
     namespace :descriptors do
@@ -39,110 +47,88 @@ namespace :app do
 
             L2.msg("Registering new Descriptors")
 
-            # get all the engines, controllers and actions
-            engines = LC::System::Controllers.scan2
+            SystemController.all.each do |controller| 
 
-            engines.each do |engine, controllers|
+                # join the parts of the class name and concat Controller
+                policy_name = controller.reference + "Policy"
 
-                controllers.each do |controller, actions|
+                # finally join the parts of the class name and concat Controller
+                controller_name = controller.reference + "Controller"
 
-                    # Build a strig with the standard name of a Rails controller,
-                    #   Example: "UsersControllers, CloudBell::NotificationsController"
-                    # sometimes we need a second split to deal with third level deep of controllers
-                    #   Example: "Account::Currency::ExchangeRatesController" from "account/currency/exchange_rates"
-                    objeto = controller.split('/')      # split the controller path by namespace
-                    .collect(&:capitalize)          # uppercase the first letter to match the class name convention of Rails
-                    .join("::")                     # join by ruby class separator for namespaces
-                    .split('_')                     # work with compound words like "exchange_rates"
-                    .collect { |x| x[0] = x[0].upcase; x } # convert ['exchange', 'rates'] to ['Exchange', 'Rates']
+                # Validate that the class exists
+                # sometimes a bad or wrong route can misspell a controller name
+                next unless Object.const_defined?(policy_name)
 
-                    policy_name = objeto.join('').concat("Policy")  # finally join the parts of the class name and concat Controller
-                    controller_name = objeto.join('').concat("Controller")  # finally join the parts of the class name and concat Controller
-
-                    # Validate that the class exists
-                    # sometimes a bad or wrong route can misspell a controller name
-                    next unless Object.const_defined?(policy_name)
-
-                    # Create a new instance of the controller class
-                    policy = Object.const_get(policy_name).new
+                # Create a new instance of the controller class
+                policy = Object.const_get(policy_name).new
 
 
-                    ["index", "show", "create", "edit", "destroy"].each do |descriptor_action|
+                ["index", "show", "create", "edit", "destroy"].each do |descriptor_action|
 
-                        # controller name for humans, ready to be translated by babel
-                        controller_babel = "#{controller_name.sub('Controller','').sub('::','')}#{descriptor_action.capitalize}".underscore.sub('/','_')
+                    # controller name for humans, ready to be translated by babel
+                    descriptor_name = controller.name.sub(' ','').underscore
 
-                        # controller path like the route paths build by rails
-                        controller_path = controller_name.sub("::", "/").sub("Controller", "").underscore
+                    # Register the new descriptor if it does not exists
+                    descriptor = SystemDescriptor.create_with({
+                        :system_controller => controller
+                    }).find_or_create_by({ 
+                        :name => descriptor_name,
+                        :category => descriptor_action
+                    }) 
 
-                        # Register the new descriptor if it does not exists
-                        descriptor = SystemDescriptor.create_with({
-                            :name => controller_path,
-                            :reference => controller
-                        }).find_or_create_by({ 
-                            :controller => controller,
-                            :action => descriptor_action,
-                            :engine => engine
-                        }) 
+                    Account.all.each do |account|
 
-                        Account.all.each do |account|
-
-                            # We must assign all the descriptors to the owner and sysadmin roles (default roles)
-                            account.roles.find_by(name: 'owner').descriptors.find_or_create_by({
-                                system_descriptor: descriptor
-                            })
-
-                            account.roles.find_by(name: 'sysadmin').descriptors.find_or_create_by({
-                                system_descriptor: descriptor
-                            })
-
-                        end
-
-
-                        # Register the current controller into the descriptor privileges, so the role grants
-                        # permissions to render the requested page as html and as json
-                        descriptor.privileges.find_or_create_by({
-                            :controller => controller_path,
-                            :action => descriptor_action
+                        # We must assign all the descriptors to the owner and sysadmin roles (default roles)
+                        account.roles.find_by(name: 'owner').descriptors.find_or_create_by({
+                            system_descriptor: descriptor
                         })
 
-                        # Register the privileges needed by the object and related to the controller
-                        # the controller can register requested privileges in two ways:
-                        #   - ResourceController#action
-                        #   - action (from the same controller)
-                        policy.send(descriptor_action).each do |privilege|
-
-                            privilege_controller = privilege.split("#")[0].sub("::", "/").sub("Controller", "").underscore
-                            privilege_action = privilege.split("#")[1].downcase
-
-                            # check if my descriptor action is only requiring privileges of the same category
-                            case descriptor_action
-                            when :index
-                                privilege_error(privilege, controller_name) if denied_privileges_for_index.include?(privilege_action)
-                            when :show  
-                                privilege_error(privilege, controller_name) if denied_privileges_for_show.include?(privilege_action)
-                            when :new
-                                privilege_error(privilege, controller_name) if denied_privileges_for_new.include?(privilege_action)
-                            when :edit
-                                privilege_error(privilege, controller_name) if denied_privileges_for_edit.include?(privilege_action)
-                            when :destroy
-                                privilege_error(privilege, controller_name) if denied_privileges_for_destroy.include?(privilege_action)
-                            end
-
-                            # register the desire privilege for the controller
-                            descriptor.privileges.find_or_create_by({
-                                :controller => privilege_controller,
-                                :action => privilege_action
-                            })
-
-                        end
+                        account.roles.find_by(name: 'sysadmin').descriptors.find_or_create_by({
+                            system_descriptor: descriptor
+                        })
 
                     end
 
+
+                    # Register the current controller into the descriptor privileges, so the role grants
+                    # permissions to render the requested page as html and as json
+                    descriptor.privileges.find_or_create_by({
+                        :controller => controller.route,
+                        :action => descriptor_action
+                    })
+
+                    # Register the privileges needed by the object and related to the controller
+                    # the controller can register requested privileges in two ways:
+                    #   - ResourceController#action
+                    #   - action (from the same controller)
+                    policy.send(descriptor_action).each do |privilege|
+
+                        privilege_controller = privilege.split("#")[0].sub("::", "/").sub("Controller", "").underscore
+                        privilege_action = privilege.split("#")[1].downcase
+
+                        # check if my descriptor action is only requiring privileges of the same category
+                        case descriptor_action
+                        when :index
+                            privilege_error(privilege, controller_name) if denied_privileges_for_index.include?(privilege_action)
+                        when :show  
+                            privilege_error(privilege, controller_name) if denied_privileges_for_show.include?(privilege_action)
+                        when :new
+                            privilege_error(privilege, controller_name) if denied_privileges_for_new.include?(privilege_action)
+                        when :edit
+                            privilege_error(privilege, controller_name) if denied_privileges_for_edit.include?(privilege_action)
+                        when :destroy
+                            privilege_error(privilege, controller_name) if denied_privileges_for_destroy.include?(privilege_action)
+                        end
+
+                        # register the desire privilege for the controller
+                        descriptor.privileges.find_or_create_by({
+                            :controller => privilege_controller,
+                            :action => privilege_action
+                        })
+
+                    end
                 end
-
             end
-
         end
 
         def privilege_error privilege, controller_name

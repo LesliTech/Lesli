@@ -21,23 +21,28 @@ class Role < ApplicationLesliRecord
 
     belongs_to :account,   foreign_key: "accounts_id"
 
+
+    # Role resources
     has_many :activities,  foreign_key: "roles_id"
     has_many :descriptors, foreign_key: "roles_id", dependent: :delete_all
     has_many :privileges,  foreign_key: "roles_id", class_name: "Role::Privilege", dependent: :delete_all
     
 
+    # initializers for new roles
     before_create :before_create_role
     after_create :after_create_role, :initialize_role_privileges
 
+
+    # validations
     validates :name, presence: :true
     validates :object_level_permission, presence: :true
 
 
     def before_create_role
 
-        # default role for limited roles
+        # default path for limited roles
         if self.name == "limited"
-           self.path_default ||= "/administration/profile" # profile path
+           self.path_default ||= "/administration/profile" 
         end
 
         # enable roles by default
@@ -46,24 +51,21 @@ class Role < ApplicationLesliRecord
     end
 
     def after_create_role
+
+        # generate a unique code for the role
         role_code = name
             .downcase                           # string to lowercase
             .gsub(/[^0-9A-Za-z\s\-\_]/, '')     # remove special characters from string
             .gsub(/-/, '_')                     # replace dashes with underscore
             .gsub(/\s+/, '_')                   # replace spaces or spaces with single dash
 
-        role_code = I18n.transliterate(role_code) + id.to_s # transform UTF-8 characters to ASCI
+        # transform UTF-8 characters to ASCI (ex: name in german)
+        role_code = I18n.transliterate(role_code) + id.to_s 
 
         self.update_attribute("code", role_code)
     end
 
-    # @return [void]
-    # @description Creates all privileges for this role in default false value. The task app:routes:build cannot be used
-    #   because it is a rake task, and because it scans routes for all roles, and it would be very inefficient
-    # @example
-    #   role = Role.new(detail_attributes: {name: "test_role", object_level_permission: 10})
-    #   # This method will be called automatically within an after_create callback
-    #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
+    # default roles must have privileges by default
     def initialize_role_privileges
         return 
         if (self.name == "owner" || self.name == "sysadmin" || self.name == "limited")
@@ -76,7 +78,7 @@ class Role < ApplicationLesliRecord
     end
 
     # @return [Boolean]
-    # @description Returns if a role it is assigned to users.
+    # @description Returns if a role is assigned to users.
     def has_users?
         User::Role.where(role: self).count > 0
     end

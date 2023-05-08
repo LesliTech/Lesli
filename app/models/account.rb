@@ -14,29 +14,26 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
-
 =end
 
 class Account < ApplicationRecord
 
+    # accounts always belongs to a user
     belongs_to :user, foreign_key: "users_id", optional: true
 
+
+    # account resources
     has_many :users,            foreign_key: "accounts_id"
     has_many :roles,            foreign_key: "accounts_id"
     has_many :files,            foreign_key: "accounts_id"
     has_many :cronos,           foreign_key: "accounts_id"
-    has_many :issues,           foreign_key: "accounts_id", class_name: "Account::Issue"
     has_many :settings,         foreign_key: "accounts_id", class_name: "Account::Setting"
     has_many :locations,        foreign_key: "accounts_id"
     has_many :activities,       foreign_key: "accounts_id", class_name: "Account::Activity"
     has_many :currencies,       foreign_key: "accounts_id", class_name: "Account::Currency"
-    has_many :integrations,     foreign_key: "accounts_id"
-    has_many :role_descriptors, foreign_key: "accounts_id", class_name: "RoleDescriptor"
-    has_many :descriptors,      foreign_key: "accounts_id"
 
-    has_one :template, class_name: "Template", foreign_key: "accounts_id"
 
-    # core engines
+    # standard engines
     has_one :kb,         class_name: "CloudKb::Account",         foreign_key: "id"
     has_one :one,        class_name: "CloudOne::Account",        foreign_key: "id"
     has_one :team,       class_name: "CloudTeam::Account",       foreign_key: "id"
@@ -46,6 +43,7 @@ class Account < ApplicationRecord
     has_one :talk,       class_name: "CloudTalk::Account",       foreign_key: "id"
     has_one :time,       class_name: "CloudTime::Account",       foreign_key: "id"
     has_one :work,       class_name: "CloudWork::Account",       foreign_key: "id"
+    has_one :word,       class_name: "CloudWord::Account",       foreign_key: "id"
     has_one :audit,      class_name: "CloudAudit::Account",      foreign_key: "id"
     has_one :lesli,      class_name: "CloudLesli::Account",      foreign_key: "id"
     has_one :books,      class_name: "CloudBooks::Account",      foreign_key: "id"
@@ -57,20 +55,19 @@ class Account < ApplicationRecord
     has_one :shared,     class_name: "CloudShared::Account",     foreign_key: "id"
     has_one :portal,     class_name: "CloudPortal::Account",     foreign_key: "id"
     has_one :social,     class_name: "CloudSocial::Account",     foreign_key: "id"
-    has_one :scraper,    class_name: "CloudScraper::Account",    foreign_key: "id"
+    has_one :storage,    class_name: "CloudStorage::Account",    foreign_key: "id"
     has_one :proposal,   class_name: "CloudProposal::Account",   foreign_key: "id"
     has_one :dispatcher, class_name: "CloudDispatcher::Account", foreign_key: "id"
-    has_one :storage,    class_name: "CloudStorage::Account",    foreign_key: "id"
-    has_one :realty,     class_name: "CloudRealty::Account",     foreign_key: "id"
-    has_one :scraper,    class_name: "CloudScraper::Account",     foreign_key: "id"
-    has_one :word,       class_name: "CloudWord::Account",       foreign_key: "id"
+    
 
+    # initializers for new accounts
     after_create :initialize_account
     after_create :initialize_engines
     after_create :initialize_instance
     after_create :initialize_settings
 
-    # account status
+
+    # account statuses
     enum status: [
         :registered,
         :onboarding,
@@ -89,17 +86,11 @@ class Account < ApplicationRecord
 
     def initialize_account
 
-        # create initial descriptors
-        # self.descriptors.find_or_create_by(name: "owner")
-        # self.descriptors.find_or_create_by(name: "sysadmin")
-        # self.descriptors.find_or_create_by(name: "profile")
-
-        # create default roles
-        account_roles = Rails.application.config.lesli.dig(:security, :roles) || []
-        account_roles.append "limited"   # access only to user profile
-        account_roles.prepend "sysadmin" # platform administrator role
-        account_roles.prepend "owner"    # super admin role
-        account_roles.uniq.each do |role_name|
+        [   # create default roles for the new account        
+            "limited",   # access only to user profile
+            "sysadmin",  # platform administrator role
+            "owner"      # super admin role
+        ].each do |role_name|
 
             object_level_permission = 10
             object_level_permission = 2147483647 if role_name == "owner"
@@ -118,6 +109,8 @@ class Account < ApplicationRecord
 
     end
 
+
+    # initialize engines for new accounts
     def initialize_engines
 
         if defined? CloudDispatcher
@@ -229,9 +222,6 @@ class Account < ApplicationRecord
                 self.house = CloudHouse::Account.new
                 self.house.account = self
                 self.house.save!
-                if defined? DeutscheLeibrenten
-                    DeutscheLeibrenten::Account.initialize_workflows(self)
-                end
             end
         end
 
@@ -375,9 +365,4 @@ class Account < ApplicationRecord
         }
     end
 
-
-    # Especific associations for dedicated instances
-    # This modules does not belongs to Lesli core, thats why we have the association here
-    has_one :mitwerken, class_name: "MitwerkenCloud::Account", foreign_key: "id"
-    has_one :hypo_manager, class_name: "HypoManager::Account", foreign_key: "id"
 end
