@@ -98,12 +98,23 @@ export const useUser = defineStore("administration.user", {
 
                 this.language = result.locale ? result.locale.value : this.language
 
-                this.role_names = result.roles.map(role => role.name).join(", ")
+                // Backend should return the list of roles ordered by object level permission
+                this.role_names = result.roles[0].name
                 
             }).catch(error => {
                 this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
             }).finally(() => {
                 this.loading = false
+            })
+        },
+
+        putUser() {
+            this.http.put(this.url.admin("users/:id", this.user.id), {
+                user: this.user
+            }).then(result => {
+                this.msg.success(I18n.t("core.users.messages_success_operation"))
+            }).catch(error => {
+                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
             })
         },
 
@@ -265,21 +276,6 @@ export const useUser = defineStore("administration.user", {
 
 
 
-
-
-
-
-putUser() {
-    this.http.put(this.url.admin("users/:id", this.user.id), {
-        user: this.user
-    }).then(result => {
-        this.msg.success(I18n.t("core.users.messages_success_operation"))
-    }).catch(error => {
-        this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
-    })
-},
-
-
 updatePassword() {
     this.http.put("/", {
         user: {
@@ -294,8 +290,6 @@ updatePassword() {
         this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
     })
 },
-
-
 
 //  This action is used to change the user status active or inactive
 putUserStatus(){
@@ -321,6 +315,5 @@ putUserStatus(){
         }
     })
 },
-
 
 */

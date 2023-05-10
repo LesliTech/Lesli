@@ -114,7 +114,6 @@ const props = defineProps({
 // · initializing
 onMounted(() => {
     storeUsers.fetchUsers()
-    //storeUsers.getRoles()
 })
 
 
@@ -134,7 +133,7 @@ function showUser(user) {
                 outlined
                 icon="refresh"
                 :loading="storeUsers.loading"
-                @click="storeUsers.fetchIndex">
+                @click="storeUsers.getUsers()">
                 {{ translations.core.shared.view_text_btn_reload }}
             </lesli-button>
         </lesli-header>

@@ -114,58 +114,12 @@ export const useUsers = defineStore("administration.users", {
             })
         },
 
-
         postUsers() {
             return this.http.post(this.url.admin("users"), {
                 user: this.user
             })
         },
 
-
-        /*
-        doLogout(userId) {
-            this.http.post(this.url.admin("users/:id/logout", userId).toString())
-            .then(result => {
-                this.msg.success(translations.core.users.messages_success_operation)
-            }).catch(error => {
-                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
-            })
-        },
-
-        doLock(userId) {
-            this.http.post(this.url.admin("users/:id/lock", userId).toString())
-            .then(result => {
-                this.fetchIndex()
-                this.msg.success(I18n.t("core.users.messages_success_operation"))
-            }).catch(error => {
-                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
-            })
-        },
-
-        translateEnum(value, translations, enum_prefix){
-            const new_value = translations[`${enum_prefix}_${value}`]
-            if(new_value){
-                return new_value
-            }
-
-            return value
-        },
-
-        getRoles(){
-            this.roles_options = [{label: I18n.t("core.users").view_toolbar_filter_all_roles, value: null}]
-            this.http.get(this.url.admin('roles/list')).then(result => {
-                result.forEach((option)=>{
-                    const name = this.translateEnum(option.name, I18n.t("core.roles"), 'column_enum_role')
-                    this.roles_options.push({
-                        label: name,
-                        value: option.id
-                    })
-                })
-            }).catch(error => {
-                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
-            })
-        },
-*/
         fetchList() {
             this.loading = true
             return this.http.get(this.url.admin("users/list")).then(response => {
