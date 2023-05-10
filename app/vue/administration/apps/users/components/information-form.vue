@@ -45,21 +45,9 @@ const translations = {
     shared: I18n.t("core.shared")
 }
 
-
-// · 
-const onUpdate = () => {
-    storeUser.updateInformation()
-}
-
-
-// · 
-function updateRole(){
-    storeUser.user.roles_id = userRole.value.value
-}
-
 </script>
 <template>
-    <form class="information" @submit.prevent="onUpdate()">
+    <form class="information" @submit.prevent="storeUser.putUser()">
         <div class="field is-horizontal">
             <div class="field-label">
                 <label class="label"> {{ translations.shared.view_text_salutation}} </label>
@@ -158,22 +146,6 @@ function updateRole(){
                 </div>
             </div>
         </div>
-
-        <div class="field is-horizontal">
-            <div class="field-label is-normal">
-                <label class="label"> {{ translations.users.view_text_role }} </label>
-            </div>
-            <div class="field-body">
-                <div class="field is-narrow">
-                    <div class="control">
-                        <div>
-                            <span name="user_role" class="tag is-success" v-for="role in storeUser.user.roles" :key="role">{{role.name}}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="field is-horizontal">
             <div class="field-label is-normal">
             </div>
