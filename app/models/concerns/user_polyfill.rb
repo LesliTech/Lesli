@@ -22,24 +22,6 @@ For more information read the license file including with this software.
 module UserPolyfill
     extend ActiveSupport::Concern
 
-
-    # @return [void]
-    # @description Delete all the active sessions for a given user
-    # TODO:
-    #   add support to delete sessions for specific devices
-    #   add support to delete all sesssions
-    # DEPRECATED
-    def close_session
-
-        # get last session of the user
-        session = self.sessions.last
-
-        # add delete date to the last active session if active session exists
-        session.destroy unless session.blank?
-
-    end
-
-
     def has_privileges3?(controllers, actions)
 
         begin

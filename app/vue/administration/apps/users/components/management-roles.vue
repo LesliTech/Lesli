@@ -23,9 +23,12 @@ import { ref, reactive, onMounted, watch, computed } from "vue"
 
 // · import lesli stores
 import { useUser } from "LesliApp/administration/stores/user"    
+import { useRoles } from "LesliApp/administration/stores/roles"
+
 
 // · implement stores
 const storeUser = useUser()
+const storeRoles = useRoles()
 
 
 // · 
@@ -36,27 +39,42 @@ const translations = {
 }
 
 
-/**
- * @description This function is used to assign or delete role from user
- */
-function updateRole(role, select){
-    if (select) {
-        storeUser.addUserRole(role)
+// · 
+function updateRole(role){
+    if (role.active) {
+        storeUser.postRole(role)
     } else {
-        storeUser.deleteUserRole(role)
+        storeUser.deleteRole(role)
     }
 }
 
-</script>
 
+// · 
+onMounted(() => {
+    storeUser.getRoles()
+})
+</script>
 <template>
-    <h4>{{ translations.users.view_text_roles_assigned }}</h4>
+    <div class="media px-6" v-for="role in storeUser.roles">
+        <div class="media-content pt-4">
+            <h4>{{ role.name }}</h4>
+            <p style="color:#aaa;">
+                {{ role.description }}
+                Profile view, Role view, Role create, Role update
+            </p>
+        </div>
+        <div class="media-right pt-4">
+            <lesli-toggle v-model="role.active" @change="updateRole(role)">
+            </lesli-toggle>
+        </div>
+    </div>
+    <lesli-empty v-if="storeUser.roles.length == 0"></lesli-empty>
+    <!--
     <div class="roles-types">
         <div 
             class="card roles-types-item p-4 is-flex is-flex-direction-column is-justify-content-space-between is-clickable" 
             v-for="role in storeUser.options.roles"
-            :key="role"
-        >
+            :key="role">
             <div class="role-type-title">
                 <span class="has-text-weight-semibold is-size-5 ">
                     {{ role.name }}
@@ -70,4 +88,5 @@ function updateRole(role, select){
             </div>
         </div>
     </div>
+    -->
 </template>

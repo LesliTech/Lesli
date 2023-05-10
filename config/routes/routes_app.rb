@@ -124,32 +124,31 @@ module RoutesApp
                         resources :sessions, only: [:index, :destroy]
 
                         # assign and remove roles to users 
-                        resources :roles, only: [:create, :destroy]
+                        resources :roles, only: [:index, :create, :destroy]
 
                         # shortcuts
                         resources :shortcuts, only: [:index, :create, :update, :destroy]
 
-                        # auth providers
-                        resources :auth_providers, only: []
-
                         #
                         resources :settings, only: [:create]
+                    end
+
+                    member do 
 
                         # request password change
-                        post :passwordrequest
+                        post :requestpassword
 
                         # reset password (generate random)
                         post :passwordreset
 
-                        # Remove all user access :lock
-                        post :revokeaccess
-
                         # close all user sessions
                         post :logout
 
+                        # Remove all user access :lock
+                        post :revokeaccess
+
                         # user impersonate - disabled by default
                         get  :become
-
                     end
 
                     # extensions to the users methods
@@ -171,36 +170,6 @@ module RoutesApp
                         get :list
                         get :options
                     end
-                end
-
-                # template generators
-                namespace :template do
-                    resources :documents do
-                        collection do
-                            get :options
-                        end
-                        scope :resources do
-                            member do
-                                post :generate
-                            end
-                        end
-                    end
-                    resources :audience_documents do
-                        collection do
-                            get :options
-                        end
-                        member do
-                            scope :resources do
-                                post :generate_file
-                            end
-                        end
-                    end
-                    resources :variables do
-                        collection do
-                            get :options 
-                        end
-                    end
-                    resources :mappings
                 end
 
                 # general system controllers and actions

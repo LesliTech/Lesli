@@ -18,17 +18,18 @@ For more information read the license file including with this software.
 =end
 
 class User::RolesController < ApplicationLesliController
-    before_action :set_user, only: [:create, :destroy]
+    before_action :set_user, only: [:index, :create, :destroy]
     before_action :set_user_role, only: [:create, :destroy]
 
-    def privileges
-        {
-            new: [],
-            destroy: [],
-        }
+    # Get the list of assigned roles of the requested user
+    # we filter the roles according to the object level permission
+    # of the current_user
+    def index 
+        #respond_with_successful(@user.available_roles)
+        respond_with_successful(RoleServices.new(current_user).available_roles_for(@user))
     end
 
-    # POST /user/roles
+    # POST /user/:user_id/roles
     def create
         # get the role to assign to the user
         role = current_user.account.roles.find(user_role_params[:id])
@@ -45,7 +46,7 @@ class User::RolesController < ApplicationLesliController
         User.log_activity_create_user_role(current_user, @user, role)
     end
 
-    # DELETE /user/roles/1
+    # DELETE /user/:user_id/roles/:role_id
     def destroy
 
         # get the role to assign to the user

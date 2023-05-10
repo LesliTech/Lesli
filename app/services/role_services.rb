@@ -16,21 +16,16 @@ For more information read the license file including with this software.
 // · 
 =end
 
-class RoleServices < LesliServices
+class RoleServices < ApplicationLesliServices
 
 
     # Return a list of roles that the user is able to work with
     # according to object level permission
     def list
-
-        # get the max object level permission assigned to user through roles
-        role_max = current_user.roles.map(&:object_level_permission).max()
-
-        roles = current_user.account.roles
-        .where("object_level_permission <= ?", role_max)
+        current_user.account.roles
+        .where("object_level_permission <= ?", current_user.max_object_level_permission)
         .order(object_level_permission: :desc, name: :asc)
         .select(:id, :name, :object_level_permission)
-        
     end
 
 
@@ -38,9 +33,7 @@ class RoleServices < LesliServices
     # @description Return a paginated array of users, used mostly in frontend views
     def index 
 
-        role_max = current_user.roles.map(&:object_level_permission).max()
-
-        roles = current_user.account.roles
+        current_user.account.roles
         .joins("
             left join (
                 select
@@ -55,18 +48,17 @@ class RoleServices < LesliServices
             )
             users on users.roles_id = roles.id
         ")
-        .where("roles.object_level_permission <= ?", role_max)
+        .where("roles.object_level_permission < ?", current_user.max_object_level_permission)
         .select(
             :id, 
             :name, 
             :active, 
             :isolated, 
+            :description,
             :path_default, 
             :object_level_permission, 
             "users.users"
         )
-
-        roles
         .page(query[:pagination][:page])
         .per(query[:pagination][:perPage])
         .order(object_level_permission: :desc, name: :asc)
@@ -90,12 +82,31 @@ class RoleServices < LesliServices
         }
     end
 
-    def create user_params
+    # @return Array
+    # @description Return a list of roles available for the current_user
+    def available_roles_for(user)
 
-    end
+        roles = current_user.account.roles
+        .joins(%(
+            left join user_roles
+            on user_roles.roles_id = roles.id
+            and user_roles.users_id = #{ user.id }
+        ))
+        .where("object_level_permission < ?", current_user.max_object_level_permission)
+        .order(object_level_permission: :desc)
+        .select(
+            "coalesce(roles.id, user_roles.roles_id) as id", 
+            "name", 
+            "object_level_permission",
+            "case when user_roles.roles_id is null then false else true end as active"
+        )
 
-    def update params
+        # only owner can assign any role
+        #unless self.has_roles?("owner")
+        #    roles = roles.where("object_level_permission < ?", (self.roles.map{ |r| r[:object_level_permission] }).max)
+        #end
 
+        roles || []
     end
 
     def find id

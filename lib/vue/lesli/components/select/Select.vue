@@ -60,8 +60,10 @@ const props = defineProps({
     }
 })
 
+
 // · create a reactive variable to store the selected value of the select element
 const selected = ref("");
+
 
 // · function that handles change event of select element
 function onChange(event) {
@@ -74,24 +76,34 @@ function onChange(event) {
     }
 }
 
-// · watch for changes to the modelValue prop
-watch(
-    () => props.modelValue,
-    (newValue) => {
-        // · if the new value is null or empty string, set selected to empty string
-        if (newValue === null || newValue === "") {
-            selected.value = "";
-        // · otherwise, set selected to the new value
-        } else {
-            selected.value = newValue;
-        }
+
+// · 
+function setInitialValue(value) {
+    // · if the new value is null or empty string, set selected to empty string
+    if (value === null || value === "") {
+        selected.value = "";
+    // · otherwise, set selected to the new value
+    } else {
+        selected.value = value;
     }
-);
+}
+
+
+// · 
+onMounted(() => {
+    setInitialValue(props.modelValue)
+})
+
+
+// · watch for changes to the modelValue prop
+watch(() => props.modelValue, value => {
+    setInitialValue(value)
+});
+
 
 // · watch for changes to the selected value
-watch(
-    () => selected.value,
-    (newValue) => {
+watch(() => selected.value, newValue => {
+
         // · if the new value is null or empty string, emit an event with empty string as value 
         // . to notify parent component that the value has changed
         if (newValue === null || newValue === "") {
@@ -113,20 +125,17 @@ watch(
                     @change="onChange"
                     v-model="selected"
                     :required="props.required"
-                    :disabled="props.disabled"
-                >
+                    :disabled="props.disabled">
                     <option value="" disabled>{{ props.placeholder }}</option>
                     <option
                         v-if="props.reset"
-                        :value="{ value: 'reset', label: 'reset' }"
-                    >
+                        :value="{ value: 'reset', label: 'reset' }">
                         {{ props.reset }}
                     </option>
                     <option
                         v-for="(option, index) in props.options"
                         :value="option.value"
-                        :key="index"
-                    >
+                        :key="index">
                         {{ option.label }}
                     </option>
                 </select>

@@ -32,7 +32,7 @@ Building a better future, one line of code at a time.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed, onUnmounted } from "vue"
+import { ref, onMounted } from "vue"
 import { useRouter, useRoute } from 'vue-router'
 
 
@@ -44,12 +44,10 @@ import { useUser } from "CloudAdmin/stores/user"
 import informationCard from "CloudAdmin/apps/users/components/information-card.vue"
 import informationForm from "CloudAdmin/apps/users/components/information-form.vue"
 
+import managementRoles from "CloudAdmin/apps/users/components/management-roles.vue"
 import managementSession from "CloudAdmin/apps/users/components/management-sessions.vue"
 import managementSecurity from "CloudAdmin/apps/users/components/management-security.vue"
 import managementSettings from "CloudAdmin/apps/users/components/management-settings.vue"
-
-import formRoles from "CloudAdmin/apps/users/components/form-roles-privileges.vue"
-import integrationsInformation from "CloudAdmin/apps/users/components/integrations-information.vue"
 
 
 // · implement stores
@@ -68,27 +66,16 @@ const translations = {
 }
 
 
-// · defining props
-const props = defineProps({
-    appMountPath: {
-        type: String,
-        required: false,
-        default: "administration/users",
-    }
-})
-
-
 // · 
 const tab = ref(0)
 
 
 // · initializing
 onMounted(() => {
+    storeUser.$reset()
     storeUser.getOptions()
     storeUser.getUser(route.params?.id)
 })
-
-
 </script>
 <template>
     <application-component>
@@ -98,7 +85,7 @@ onMounted(() => {
                 <information-form></information-form>
             </lesli-tab-item>
             <lesli-tab-item icon="security" :title="translations.core.users.view_tab_title_roles_and_privileges">
-                <!--form-roles></form-roles -->
+                <management-roles></management-roles>
             </lesli-tab-item>
             <lesli-tab-item icon="lock_outline" :title="translations.core.users.view_tab_title_security || 'Security'">
                 <management-security></management-security>

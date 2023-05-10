@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 
 
 // · import vue tools
-import { inject, onMounted, ref, onUnmounted } from "vue"
+import { onMounted, inject } from "vue"
 
 
 // · import lesli stores
@@ -35,18 +35,8 @@ const storeUser = useUser()
 
 // · initialize/inject plugins
 const router = useRouter()
-const url = inject("url")
 const route = useRoute()
-
-
-// · defining props
-const props = defineProps({
-    editable: {
-        type: Boolean,
-        required: false,
-        default: false,
-    }
-})
+const url = inject("url")
 
 
 // · 
@@ -56,22 +46,16 @@ const translations = {
 }
 
 
-const options = {}
-
-
+// · 
 const onUpdate = () => {
     storeUser.updateInformation()
 }
 
-const userRole = ref({ label:"", value:"" })
 
+// · 
 function updateRole(){
     storeUser.user.roles_id = userRole.value.value
 }
-
-onMounted(() => {
-
-})
 
 </script>
 <template>
@@ -175,7 +159,7 @@ onMounted(() => {
             </div>
         </div>
 
-        <div class="field is-horizontal" v-if="props.editable">
+        <div class="field is-horizontal">
             <div class="field-label is-normal">
                 <label class="label"> {{ translations.users.view_text_role }} </label>
             </div>

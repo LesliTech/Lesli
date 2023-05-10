@@ -237,6 +237,46 @@ class UserServices < ApplicationLesliServices
         self
     end
 
+
+    # force the user to change the password (at next login)
+    def request_password
+
+        # expire password
+        resource.set_password_as_expired
+
+        resource.logs.create({ title: "request_password", description: "by_user: " + current_user.email })
+    end
+
+
+    # generate a random password for the user
+    def password_reset
+
+        # generate random password
+        pass = resource.password_reset
+
+        resource.logs.create({ title: "password_reset", description: "by_user: " + current_user.email })
+
+        pass
+    end
+
+    def logout
+        # delete user active sessions
+        resource.sessions.destroy_all
+
+        resource.logs.create({ title: "close_sessions", description: "by_user: " + current_user.email })
+    end
+
+    def revoke_access
+
+        # delete user active sessions
+        self.logout
+
+        # add delete date to the last active session
+        resource.revoke_access
+
+        resource.logs.create({ title: "revoke_access", description: "by_user: " + current_user.email })
+    end
+
     def find id
         self.resource = current_user.account.users.joins(:detail).find_by(id: id)
         self

@@ -25,7 +25,10 @@ export const useRoles = defineStore("administration.roles", {
     state: () => {
         return {
             list: [],
-            listOptions: []
+            index: {
+                pagination: {},
+                records: []
+            }
         }
     },
     actions: {
@@ -43,6 +46,7 @@ export const useRoles = defineStore("administration.roles", {
                 this.list = result
 
                 // parse the list of roles to be used in select control
+                /*
                 this.listOptions = []
                 this.listOptions = result.map(role => {
                     return {
@@ -50,7 +54,22 @@ export const useRoles = defineStore("administration.roles", {
                         value: role.id
                     }
                 })
+                */
             })
-        }
+        },
+
+        fetchRoles() {
+            if (!this.list.length > 0) {
+                this.getRoles()
+            }
+        },
+
+        // Get the list of role user is able to work with
+        // according to object level permissions
+        getRoles() {
+            this.http.get(this.url.admin("roles")).then(result => {
+                this.index = result
+            })
+        },
     }
 })
