@@ -22,6 +22,22 @@ For more information read the license file including with this software.
 module UserGuard
     extend ActiveSupport::Concern
 
+
+    def max_object_level_permission
+
+        # get the max object level permission from roles assigned to the user
+        level = self.roles.map(&:object_level_permission).max()
+
+        # if user has no roles assigned, we return the lowest role available 
+        # NOTE: This should not be possible due the user needs a role to login
+        unless level 
+            return (self.account.roles.map(&:object_level_permission).min() + 1)
+        end
+
+        # return the level found
+        level
+    end
+
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     # @param *roles [String] One or more roles to be checked
@@ -86,10 +102,6 @@ module UserGuard
     # @description Check if user has enough privilege to work with the given role
     def can_work_with_role?(role)
 
-        L2.info "can work with role?"
-
-        pp role.class.name
-
         # get the role if only id is given
         role = self.account.roles.find_by(:id => role) unless role.class.name == "Role"
 
@@ -99,12 +111,8 @@ module UserGuard
         # not valid role without object levelpermission defined
         return false if role.object_level_permission.blank?
 
-        L2.msg "role 3"
-
         # owner role can work with all the roles
         return true if !self.roles.find_by(name: 'owner').blank?
-
-        L2.msg "role 4"
 
         # get the max object level permission from the roles the user has assigned
         user_role_level_max = self.roles.map(&:object_level_permission).max()
@@ -116,8 +124,6 @@ module UserGuard
         #       role to assign is the same of the greater role assigned to the current user
         #       current user is not sysadmin or owner
         return false if role.object_level_permission >= user_role_level_max
-
-        L2.msg "role 5"
 
         # user can work with this role :)
         return true

@@ -34,7 +34,6 @@ import informationForm from "CloudAdmin/apps/users/components/information-form.v
 import managementSession from "CloudAdmin/apps/users/components/management-sessions.vue"
 import managementSecurity from "CloudAdmin/apps/users/components/management-security.vue"
 
-import formRoles from "CloudAdmin/apps/users/components/form-roles-privileges.vue"
 import integrationsInformation from "CloudAdmin/apps/users/components/integrations-information.vue"
 import settings from "CloudAdmin/apps/users/components/management-settings.vue"
 /*

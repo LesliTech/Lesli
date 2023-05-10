@@ -39,11 +39,9 @@ const translations = {
 onMounted(() => {
     storeUser.getOptions()
 })
-
-
 </script>
 <template>
-    <form @submit.prevent="storeUser.setLanguage">
+    <lesli-form @submit="storeUser.postLanguage">
         <div class="field is-horizontal">
             <div class="field-label">
                 <label class="label">Select preferred language </label>
@@ -54,7 +52,7 @@ onMounted(() => {
                         <div class="select">
                             <lesli-select 
                                 icon="language" 
-                                v-model="storeUser.language"
+                                v-model="storeUser.user.locale.value"
                                 :options="storeUser.options.locales">
                             </lesli-select>
                         </div>
@@ -75,5 +73,5 @@ onMounted(() => {
                 </div>
             </div>
         </div>
-    </form>
+    </lesli-form>
 </template>

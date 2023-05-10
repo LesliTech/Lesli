@@ -72,17 +72,12 @@ onMounted(() => {
 <template>
     <lesli-table
         :columns="columns"
-        :records="storeUser.sessions">
+        :records="storeUser.sessions.records">
 
-        <template #options="{ record, value }">
-            <a class="dropdown-item" @click="storeUser.closeSession(record.id)">
-                <span class="material-icons">
-                    logout
-                </span>
-                <span>
-                    {{ translations.users.view_btn_logout }}
-                </span>
-            </a>
+        <template #buttons="{ record, value }">
+            <lesli-button danger icon="delete" @click="storeUser.deleteSession(record.id)">
+                {{ translations.users.view_btn_logout }}
+            </lesli-button>
         </template>
     </lesli-table>
 </template>

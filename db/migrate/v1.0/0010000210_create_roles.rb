@@ -22,6 +22,7 @@ class CreateRoles < ActiveRecord::Migration[6.0]
         create_table :roles do |t|
             t.string    :name
             t.string    :code
+            t.string    :description
             t.boolean   :active
 
             # redirect users to path after login

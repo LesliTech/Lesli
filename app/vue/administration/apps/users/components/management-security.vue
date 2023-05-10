@@ -39,58 +39,49 @@ const translations = {
         <fieldset class="mb-4">
             <legend>Force the user to change the password</legend>
             <lesli-button
-                primary
-                outlined
                 icon="lock_reset"
-                @click="storeUser.doRequestPasswordChange">
-                {{ translations.users.view_btn_request_password_change }}
+                @click="storeUser.doRequestPassword">
+                {{ translations.users.view_btn_request_password || "Request password" }}
             </lesli-button>
         </fieldset>
 
         <fieldset class="mb-4">
-            <button class="button is-link is-light is-outlined" @click="storeUser.doPasswordReset">
-                <span class="icon">
-                    <span class="material-icons">
-                        key
-                    </span>
-                </span>
-                <span>{{ translations.users.view_btn_password_reset || "Password request" }}</span>
-            </button>
+            <legend>Generate a new password for the user</legend>
+            <lesli-button
+                icon="key"
+                @click="storeUser.doPasswordReset">
+                {{ translations.users.view_btn_password_reset || "Password reset" }}
+            </lesli-button>
         </fieldset>
 
         <fieldset class="mb-4">
-            <button class="button is-link is-light is-outlined" @click="storeUser.doLogout">
-                <span class="icon">
-                    <span class="material-icons">
-                        logout
-                    </span>
-                </span>
-                <span>{{ translations.users.view_btn_logout }}</span>
-            </button>
-        </fieldset>
-
-        <hr />
-
-        <fieldset class="mb-4">
-            <button class="button is-danger is-light is-outlined" @click="storeUser.doRevokeAccess">
-                <span class="icon">
-                    <span class="material-icons">
-                        lock_outline
-                    </span>
-                </span>
-                <span>{{ translations.users.view_btn_revoke_access }}</span>
-            </button>
+            <legend>Close all the active sessions of the user</legend>
+            <lesli-button
+                icon="logout"
+                @click="storeUser.doLogout">
+                {{ translations.users.view_btn_logout }}
+            </lesli-button>
         </fieldset>
 
         <fieldset class="mb-4">
-            <button class="button is-danger is-light is-outlined" @click="storeUser.markUserAsDeleted">
-                <span class="icon">
-                    <span class="material-icons">
-                        delete_forever
-                    </span>
-                </span>
-                <span>{{ translations.users.view_btn_delete_user }}</span>
-            </button>
+            <legend>Remove all user access</legend>
+            <lesli-button
+                danger
+                icon="lock_outline"
+                @click="storeUser.doRevokeAccess">
+                {{ translations.users.view_btn_revoke_access }}
+            </lesli-button>
+        </fieldset>
+
+        <br><br>
+
+        <fieldset class="mb-4">
+            <lesli-button
+                danger
+                icon="delete_forever"
+                @click="storeUser.deleteUser">
+                {{ translations.users.view_btn_delete_user }}
+            </lesli-button>
         </fieldset>
     </div>
 </template>

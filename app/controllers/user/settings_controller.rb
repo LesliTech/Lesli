@@ -19,30 +19,11 @@ For more information read the license file including with this software.
 
 class User::SettingsController < ApplicationLesliController
     before_action :set_user, only: [:create]
-    before_action :set_user_setting, only: [:show, :edit, :update, :destroy]
-
-    def privileges
-        {
-            new: [],
-        }
-    end
+    before_action :set_user_setting, only: [:destroy]
 
     # GET /user/settings
     def index
         respond_with_successful(['hola'])
-    end
-
-    # GET /user/settings/1
-    def show
-    end
-
-    # GET /user/settings/new
-    def new
-        @user_setting = User::Setting.new
-    end
-
-    # GET /user/settings/1/edit
-    def edit
     end
 
     # POST /user/settings
@@ -58,18 +39,6 @@ class User::SettingsController < ApplicationLesliController
         respond_with_successful(settings)
     end
 
-    # PATCH/PUT /user/settings/1
-    def update
-        #if @user_setting.update(user_setting_params)
-        respond_with_successful
-    end
-
-    # DELETE /user/settings/1
-    def destroy
-        @user_setting.destroy
-        redirect_to user_settings_url, notice: 'Setting was successfully destroyed.'
-    end
-
     private
 
     # Use callbacks to share common setup or constraints between actions.
@@ -79,8 +48,6 @@ class User::SettingsController < ApplicationLesliController
     end
 
     def set_user_setting
-        set_user
-
         @user_setting = @user.settings.find_by_id(params[:id])
     end
 
