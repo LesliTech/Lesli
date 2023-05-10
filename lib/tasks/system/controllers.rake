@@ -1,4 +1,4 @@
-namespace :app do
+namespace :system do
     namespace :controllers do
 
         desc "Scan new routes added and create role privileges"

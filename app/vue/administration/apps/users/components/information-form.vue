@@ -160,5 +160,4 @@ const translations = {
             </div>
         </div>
     </form>
-
 </template>

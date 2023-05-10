@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 class User::Role < ApplicationLesliRecord
     belongs_to :user, foreign_key: "users_id"
-    belongs_to :roles, foreign_key: "roles_id", class_name: "::Role"
     belongs_to :role, foreign_key: "roles_id", class_name: "::Role"
-    has_many :privileges,  through: :roles
+    belongs_to :roles, foreign_key: "roles_id", class_name: "::Role"
+    has_many :privileges, through: :roles
 end

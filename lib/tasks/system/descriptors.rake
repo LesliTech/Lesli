@@ -16,10 +16,12 @@ For more information read the license file including with this software.
 // · 
 =end
 
-require "#{Rails.root}/lib/LC/system/controllers.rb"
 
+# Load base policy file
 load "#{Rails.root}/lib/policies/application_lesli_policy.rb"
 
+
+# Load all the core policies (except the base policy)
 Dir.glob("#{Rails.root}/lib/policies/*.rb").each do |policies| 
     
     return if policies == "application_lesli_policy.rb"; 
@@ -28,7 +30,7 @@ Dir.glob("#{Rails.root}/lib/policies/*.rb").each do |policies|
     
 end
 
-namespace :app do
+namespace :system do
     namespace :descriptors do
 
         # standard methods must have privilege requests only to do actions related
@@ -47,13 +49,13 @@ namespace :app do
 
             L2.msg("Registering new Descriptors")
 
-            SystemController.all.each do |controller| 
+            SystemController.all.each do |system_controller| 
 
                 # join the parts of the class name and concat Controller
-                policy_name = controller.reference + "Policy"
+                policy_name = system_controller.reference + "Policy"
 
                 # finally join the parts of the class name and concat Controller
-                controller_name = controller.reference + "Controller"
+                controller_name = system_controller.reference + "Controller"
 
                 # Validate that the class exists
                 # sometimes a bad or wrong route can misspell a controller name
@@ -67,12 +69,15 @@ namespace :app do
 
                     next unless policy.respond_to?(descriptor_action.to_sym)
 
+                    # Search for the system_action corresponding to the action policy
+                    system_action = system_controller.actions.find_by(:name => descriptor_action)
+
                     # controller name for humans, ready to be translated by babel
-                    descriptor_name = controller.name.sub(' ','').underscore
+                    descriptor_name = system_controller.name.sub(' ','').underscore
 
                     # Register the new descriptor if it does not exists
-                    descriptor = SystemDescriptor.create_with({
-                        :system_controller => controller
+                    system_descriptor = SystemDescriptor.create_with({
+                        :system_controller => system_controller
                     }).find_or_create_by({ 
                         :name => descriptor_name,
                         :category => descriptor_action
@@ -82,21 +87,19 @@ namespace :app do
 
                         # We must assign all the descriptors to the owner and sysadmin roles (default roles)
                         account.roles.find_by(name: 'owner').descriptors.find_or_create_by({
-                            system_descriptor: descriptor
+                            system_descriptor: system_descriptor
                         })
 
                         account.roles.find_by(name: 'sysadmin').descriptors.find_or_create_by({
-                            system_descriptor: descriptor
+                            system_descriptor: system_descriptor
                         })
 
                     end
 
-
-                    # Register the current controller into the descriptor privileges, so the role grants
+                    # Register the current controller into the system_descriptor privileges, so the role grants
                     # permissions to render the requested page as html and as json
-                    descriptor.privileges.find_or_create_by({
-                        :controller => controller.route,
-                        :action => descriptor_action
+                    system_descriptor.privileges.find_or_create_by({
+                        :system_controller_action => system_action
                     })
 
                     # Register the privileges needed by the object and related to the controller
@@ -123,9 +126,8 @@ namespace :app do
                         end
 
                         # register the desire privilege for the controller
-                        descriptor.privileges.find_or_create_by({
-                            :controller => privilege_controller,
-                            :action => privilege_action
+                        system_descriptor.privileges.find_or_create_by({
+                            :system_controller_action => system_action
                         })
 
                     end
