@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 
 =end
 class Role::DescriptorsController < ApplicationLesliController
-    before_action :set_role
+    before_action :set_role, only: [:index, :show, :update, :create, :destroy]
     before_action :set_role_descriptor, only: [:show, :update, :destroy]
 
     def index 

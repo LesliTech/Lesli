@@ -18,19 +18,15 @@ For more information read the license file including with this software.
 
 class CreateRolePrivileges < ActiveRecord::Migration[7.0]
     def change
-
-        # Production instances have previous implementation of role_privileges and is needed to drop it
-        if ActiveRecord::Base.connection.table_exists? 'role_privileges'
-            drop_table :role_privileges
-        end
-
         create_table :role_privileges do |t|
             t.string   :controller
             t.string   :action
+            t.boolean  :active
             t.datetime :deleted_at, index: true
             t.timestamps
         end
-        add_reference :role_privileges, :roles, foreign_key: true
-        add_index(:role_privileges, [:controller, :action, :roles_id], unique: true, name: 'role_privilege_controller_action')
+        add_reference(:role_privileges, :roles, foreign_key: true)
+        add_index(:role_privileges, [:controller, :action, :roles_id], unique: true, name: 'role_privileges_index')
+        add_index(:role_privileges, [:controller, :action, :roles_id, :active], unique: true, name: 'role_privileges_full_index')
     end
 end
