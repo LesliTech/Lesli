@@ -103,18 +103,6 @@ class UsersController < ApplicationLesliController
         end
     end
 
-    # @return [void]
-    # @description Sets the requested user based on the current_users's account
-    # @example
-    #     # Executing this method from a controller action:
-    #     set_user
-    #     puts @user
-    #     # This will either display nil or an instance of Account::User
-    def set_user
-        @user = UserServices.new(current_user).find(params[:id])
-    end
-
-
     # Force the user to update his password
     def requestpassword
         if @user.request_password
@@ -208,6 +196,17 @@ class UsersController < ApplicationLesliController
     end
 
     private
+
+    # @return [void]
+    # @description Sets the requested user based on the current_users's account
+    # @example
+    #     # Executing this method from a controller action:
+    #     set_user
+    #     puts @user
+    #     # This will either display nil or an instance of Account::User
+    def set_user
+        @user = UserServices.new(current_user).find(params[:id])
+    end
 
     def user_params
         params.require(:user).permit(
