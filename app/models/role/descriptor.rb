@@ -46,7 +46,6 @@ class Role::Descriptor < ApplicationLesliRecord
 
     # Syncronize the descriptor privileges with the role privilege cache table 
     def synchronize_privileges
-        L2.info "synchronize_privileges model"
     
         # bulk all the descriptor privileges
         # this script was built manually for performance, maintenance
@@ -81,15 +80,10 @@ class Role::Descriptor < ApplicationLesliRecord
         # small check to ensure I have records to update/insert
         return if records.blank?
 
-        pp records
-
         # bulk update/insert into role privilege cache table
         # IMPORTANT: Due to the importance and how delicate this process is, it is better
         #            to copy the controller name and actions from the system, instead of 
         #            just have a reference to the system_controller_actions table
-        Role::Privilege.with_deleted.upsert_all(
-            records, 
-            unique_by: [:controller, :action, :roles_id]
-        )
+        Role::Privilege.with_deleted.upsert_all(records, unique_by: [:controller, :action, :roles_id])
     end 
 end

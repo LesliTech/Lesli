@@ -28,4 +28,7 @@ class RolesPolicy < ApplicationLesliPolicy
             'RolesController#options'
         ]
     end
+
+    def destroy 
+    end
 end
