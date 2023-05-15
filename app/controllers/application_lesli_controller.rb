@@ -166,7 +166,7 @@ class ApplicationLesliController < ApplicationController
         return true
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
-        granted = current_user.has_privileges?(params[:controller], params[:action], params[:format])
+        granted = current_user.has_privileges?(params[:controller], params[:action])
 
         # get the path to which the user is limited to
         limited_path = current_user.has_role_limited_to_path?
