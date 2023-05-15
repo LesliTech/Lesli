@@ -78,7 +78,7 @@ namespace :system do
                     # standard methods, if the method is not defined in the policy means
                     # privilege for that specific controller/action is not desire
                     next unless policy.respond_to?(descriptor_action.to_sym)
-
+                    
                     # Search for the system_action corresponding to the action policy
                     system_action = system_controller.actions.find_by(:name => descriptor_action)
 
@@ -123,7 +123,7 @@ namespace :system do
                     (policy.send(descriptor_action) || []).each do |privilege|
 
                         # use the policy information to build the controller and action reference names
-                        privilege_controller = privilege.split("#")[0].sub("::", "/").sub("Controller", "").underscore
+                        privilege_controller = privilege.split("#")[0].sub("Controller", "") # privilege.split("#")[0].sub("::", "/").sub("Controller", "").underscore
                         privilege_action = privilege.split("#")[1].downcase
 
                         # check if my descriptor action is only requiring privileges of the same category
@@ -140,8 +140,16 @@ namespace :system do
                             privilege_error(privilege, controller_name) if denied_privileges_for_destroy.include?(privilege_action)
                         end
 
+                        # Search for the system_action corresponding to the action policy
+                        system_action = SystemController::Action.joins(:system_controller)
+                        .where("system_controllers.reference = ?", privilege_controller)
+                        .where("system_controller_actions.name = ?", privilege_action)
+                        .first
+
+                        next unless system_action
+
                         # register the desire privilege for the controller
-                        system_descriptor.privileges.find_or_create_by({
+                        system_descriptor.privileges.find_or_create_by!({
                             :system_controller_action => system_action
                         })
 
@@ -163,9 +171,10 @@ namespace :system do
         # http://chrisstump.online/2016/02/12/rails-production-eager-loading/
         def require_policies
             require "#{Rails.root}/lib/policies/application_lesli_policy.rb"
-            Dir.glob("#{Rails.root}/lib/policies/**/*.rb").each do |policies| 
-                require policies; 
-            end
+            require "#{Rails.root}/lib/policies/users_policy.rb"
+            #Dir.glob("#{Rails.root}/lib/policies/**/*.rb").each do |policies| 
+            #    require policies; 
+            #end
         end
 
     end

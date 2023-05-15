@@ -27,6 +27,6 @@ class CreateRolePrivileges < ActiveRecord::Migration[7.0]
         end
         add_reference(:role_privileges, :roles, foreign_key: true)
         add_index(:role_privileges, [:controller, :action, :roles_id], unique: true, name: 'role_privileges_index')
-        add_index(:role_privileges, [:controller, :action, :roles_id, :active], unique: true, name: 'role_privileges_full_index')
+        #add_index(:role_privileges, [:controller, :action, :active, :roles_id], unique: true, name: 'role_privileges_full_index')
     end
 end
