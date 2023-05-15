@@ -82,6 +82,7 @@ class RoleServices < ApplicationLesliServices
         }
     end
 
+
     # @return Array
     # @description Return a list of roles available for the current_user
     def available_roles_for(user)

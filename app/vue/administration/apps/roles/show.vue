@@ -58,6 +58,7 @@ const props = defineProps({
 
 // · 
 onMounted(() => {
+    storeRole.$reset()
     storeRole.fetchRole(route.params.id)
 })
 

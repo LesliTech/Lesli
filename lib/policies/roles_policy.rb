@@ -2,25 +2,16 @@
 class RolesPolicy < ApplicationLesliPolicy
 
     def index
-        [
-            'RolesController#list',
-            'Role::ActivitiesController#index',
-            'Role::DescribersController#index'
-        ]
     end
 
     def show
         [
-            'UserController#logout',
-            'UserController#options',
-            'User::SessionsController#index'
+            'Role::DescriptorsController#create',
+            'Role::DescriptorsController#destroy'
         ]
     end
 
     def create 
-        [
-            
-        ]
     end
 
     def edit

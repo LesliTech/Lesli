@@ -2,8 +2,16 @@
 class UsersPolicy < ApplicationLesliPolicy
     def show
         [
-            'UserController#logout',
-            'UserController#options',
+            'UsersController#logout',
+            'UsersController#options',
+            'User::SessionsController#index'
+        ]
+        return [
+            'User::SessionsController#index'
+        ]
+    end
+    def index 
+        [
             'User::SessionsController#index'
         ]
     end
