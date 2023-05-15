@@ -123,7 +123,7 @@ namespace :system do
                     (policy.send(descriptor_action) || []).each do |privilege|
 
                         # use the policy information to build the controller and action reference names
-                        privilege_controller = privilege.split("#")[0].sub("Controller", "") # privilege.split("#")[0].sub("::", "/").sub("Controller", "").underscore
+                        privilege_controller = privilege.split("#")[0].sub("Controller", "")
                         privilege_action = privilege.split("#")[1].downcase
 
                         # check if my descriptor action is only requiring privileges of the same category
@@ -156,6 +156,9 @@ namespace :system do
                     end
                 end
             end
+
+            # Synchronize privileges cache for all the roles
+            PrivilegeServices.new(Role.all).synchronize
         end
 
         def privilege_error privilege, controller_name
@@ -171,7 +174,7 @@ namespace :system do
         # http://chrisstump.online/2016/02/12/rails-production-eager-loading/
         def require_policies
             require "#{Rails.root}/lib/policies/application_lesli_policy.rb"
-            require "#{Rails.root}/lib/policies/users_policy.rb"
+            require "#{Rails.root}/lib/policies/roles_policy.rb"
             #Dir.glob("#{Rails.root}/lib/policies/**/*.rb").each do |policies| 
             #    require policies; 
             #end

@@ -53,20 +53,10 @@ module RoutesApp
                 resource :profile, only: [:show] do
                     scope module: :profile do
 
-                        # subscriptions to web push notifications
-                        resources :webpushes, only: [:index, :create]
-
                         # current user notifications
                         resources :notifications, only: [:index, :update]
 
-                        # current user subscriptions management
-                        resources :subscriptions, only: [:index] do
-                            collection do
-                                get :options
-                            end
-                        end
                     end
-
                 end
 
                 # account management

@@ -6,9 +6,6 @@ class UsersPolicy < ApplicationLesliPolicy
             'UsersController#options',
             'User::SessionsController#index'
         ]
-        return [
-            'User::SessionsController#index'
-        ]
     end
     def index 
         [
