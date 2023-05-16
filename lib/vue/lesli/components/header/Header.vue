@@ -43,7 +43,7 @@ const props = defineProps({
                         arrow_back
                     </span>
                 </router-link>
-                <h1 v-if="title">{{ title }}</h1>
+                <h1 class="title is-4" v-if="title">{{ title }}</h1>
             </div>
         </div>
         <div class="navbar-menu">

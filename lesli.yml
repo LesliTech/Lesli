@@ -90,9 +90,9 @@ security:
 
 # Main color palette for Lesli
 theme:
-    color_background: "#F0F8FF"
-    color_primary: "#112A62" # Lesli navy
-    color_sidebar: "#112A62" # Lesli navy
+    color_background: "#fbf7f4"
+    color_primary: "#193d8d"
+    color_sidebar: "#fbf7f4"
     color_header: transparent
     color_footer: transparent
 

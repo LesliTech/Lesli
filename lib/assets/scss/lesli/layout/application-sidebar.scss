@@ -34,7 +34,7 @@ Building a better future, one line of code at a time.
 $lesli-sidebar-color-text: findColorInvert($lesli-sidebar-color) !default;
 
 // · background color behavior when hover the sidebar
-$lesli-sidebar-hover-color: findDarkColor($lesli-sidebar-color) !default;
+$lesli-sidebar-hover-color: $primary; // findDarkColor($lesli-sidebar-color) !default;
 
 // · find a lighter color for hover if the luminance of the selected color is too dark
 @if colorLuminance($lesli-sidebar-color) <= 0.5 {

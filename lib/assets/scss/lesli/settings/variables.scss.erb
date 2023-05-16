@@ -33,7 +33,6 @@ $lesli-color-background: <%= Lesli::System.theme(:color_background, "#F0F8FF") %
 // · To understand more about customization go to:
 // · https://github.com/leitfaden/cloud_development/blob/master/documentation/design/02-theme.md
 
-$lesli-sidebar-color: lighten($lesli-sidebar-color, 8%);
 
 // · defaults
 $lesli-logo-color: $lesli-sidebar-color;
@@ -49,6 +48,15 @@ $lesli-sidebar-width: 50px;
 
 // · harcoded styles D:
 $lesli-box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+
+
+// · generic variables (aliases)
+$primary: $lesli-color-primary;
+$color-primary: $lesli-color-primary;
+$color-header: $lesli-header-color;
+$color-footer: $lesli-footer-color;
+$color-sidebar: $lesli-sidebar-color;
+$color-background: $lesli-color-background;
 
 
 // · here we prioritize css variables defined dynamically in the header
@@ -119,12 +127,3 @@ body.layout-expanded {
         --lesli-sidebar-width: 100px;
     }
 }
-
-
-// · generic variables (aliases)
-$primary: $lesli-color-primary;
-$color-primary: $lesli-color-primary;
-$color-header: $lesli-header-color;
-$color-footer: $lesli-footer-color;
-$color-sidebar: $lesli-sidebar-color;
-$color-background: $lesli-color-background;

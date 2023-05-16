@@ -95,13 +95,20 @@ const buttonColor = computed(() => {
 </script>
 <template>
     <router-link 
-        v-if="to"
-        :class="['button', buttonColor, { 'is-outlined': !solid }, { 'is-loading': loading }]"
-        :to="to.toString()">
-        <span v-if="icon" class="icon">
+        v-if="props.to" 
+        :to="to.toString()"
+        :class="[
+            'button', 
+            'is-link',
+            'is-light',
+            buttonColor, 
+            { 'is-outlined': !solid }, 
+            { 'is-loading': loading }, 
+            { 'is-small': small }]">
+        <span v-if="icon" :class="['icon', { 'is-small': small }]">
             <span class="material-icons">{{ icon }}</span>
         </span>
-        <span>
+        <span v-if="!iconOnly">
             <slot></slot>
         </span>
     </router-link>

@@ -34,7 +34,6 @@ module NavigationHelper
 
     # Prints a html link inside a list item
     def navigation_item(path, label, icon=nil, reload:false)
-        rmi=icon
 
         # default vue router links for single page applications
         html_element = "router-link"
@@ -54,8 +53,7 @@ module NavigationHelper
 
                 # print a full menu item if icon was requested
                 if icon
-                    #concat content_tag("lesli-icon", nil, :id => icon, :class=> "icono") if icon
-                    concat content_tag("span", nil, :class => [rmi, "icono"]) #if rmi
+                    concat content_tag("span", nil, :class => [icon, "icono"])
                     concat content_tag(:span, label, :class => "text") 
                 end 
                 
