@@ -251,16 +251,6 @@ class DevGit < LesliRake
         command("rm -r vendor/*")
 
 
-        # legacy libraries 
-        [
-            "buefy",
-            "quill",
-            "bulma-o-steps",
-            "bulma-extensions"
-        ].each do |package|
-            FileUtils.cp_r "lib/vue2/node_modules/#{package}/", "vendor/#{package}", :verbose => true
-        end
-
         # updated version of libraries
         [
             "trix",
@@ -276,13 +266,15 @@ class DevGit < LesliRake
             next if file.end_with?(".css")
             next if file.end_with?(".scss")
             next if file.end_with?(".sass")
+            next if file.end_with?("LICENSE")
+            next if file.end_with?("License")
+            next if file.end_with?("license")
             next if File.directory?(file)
-            #FileUtils.rm(file, :verbose => true) if file.index("README.md")
             FileUtils.rm(file, :verbose => true) 
         end
 
         # commit any change in vendor
-        #command("git add vendor && git commit -m \"vendor: update npm dependencies (vendors)\" vendor")
+        command("git add vendor && git commit -m \"vendor: update npm dependencies (vendors)\" vendor")
 
     end
 

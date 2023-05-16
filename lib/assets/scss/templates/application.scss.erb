@@ -33,7 +33,7 @@ For more information read the license file including with this software.
 @import "./lesli/helpers/display";
 @import "./lesli/helpers/tooltip";
 @import "./lesli/fonts/remixicons";
-@import "./lesli/fonts/families";
+//@import "./lesli/fonts/families";
 @import "./lesli/fonts/mdicons";
 @import "flag-icon";
 
@@ -59,8 +59,18 @@ For more information read the license file including with this software.
 // · Standard components
 @import "./lesli/components/editor-richtext";
 
+
 // · Shared
 @import "./lesli/shared/workflow-status-progress";
+
+
+// · Lesli cloud objects
+@import "./lesli/cloud-objects/discussion";
+@import "./lesli/cloud-objects/file";
+
+
+// · Overrides for vendor libraries
+@import "./lesli/overrides/sweetalert";
 
 
 // · Lesli vue components
@@ -84,68 +94,19 @@ For more information read the license file including with this software.
 @import "./lesli/lesli/calendar";
 
 
-// · Lesli cloud objects
-@import "./lesli/cloud-objects/discussion";
-@import "./lesli/cloud-objects/file";
-
-
-// · Overrides for vendor libraries
-@import "./lesli/overrides/sweetalert";
-
-
 // · Include Lesli Standards
-@include lesli-css-normalize();
+//@include lesli-css-normalize();
 
 
-// · 
 html,
 body {
     color: var(--lesli-font-color);
     font-size: var(--lesli-font-size);
     background-color: var(--lesli-color-background);
-    font-family: "Exo", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
     scrollbar-color: var(--lesli-color-primary) transparent;
     scrollbar-width: thin;
     font-weight: normal;
     line-height: 158%;
-}
-
-
-// · headings and links
-a, 
-h1 {
-    font-family: "Montserrat", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
-}
-
-h1 {
-    line-height: 148%;
-    font-weight: 800;
-    font-size: 24px;
-}
-
-h2 {
-    line-height: 140%;
-    font-weight: 800;
-    font-size: 22px;
-}
-
-h3 {
-    line-height: 140%;
-    font-weight: 800;
-    font-size: 20px;
-}
-
-h4 {
-    line-height: 140%;
-    font-weight: 600;
-    font-size: 18px;
-}
-
-h5, 
-h6 {
-    line-height: 120%;
-    font-weight: 500;
-    font-size: 16px;
 }
 
 
