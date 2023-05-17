@@ -31,7 +31,7 @@ For more information read the license file including with this software.
         padding: 1.3rem;
         max-width: 100%;
         margin-left: var(--lesli-sidebar-width);
-        background-color: lesli-css-color(solid, white);
+        background-color: var(--lesli-color-background);
         @include lesli-css-scrollbar(hide);
         overflow-y: scroll;
 
@@ -54,6 +54,7 @@ For more information read the license file including with this software.
                 background-color: #F0F4FF;
             }
             &.is-active {
+                background-color: #F0F4FF;
                 border-color: var(--lesli-color-primary);
                 box-shadow: none;
             }
@@ -67,8 +68,7 @@ For more information read the license file including with this software.
 
         // title
         span {
-            font-family: "Exo";
-            font-weight: bold;
+            font-weight: 600;
             font-size: 20px;
         }
 

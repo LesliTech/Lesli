@@ -30,20 +30,19 @@ Building a better future, one line of code at a time.
 */
 
 
+// use the default background color so we can use bulma functions to find the rest of colors
+@if $lesli-sidebar-color = "transparent" {
+    $lesli-sidebar-color: $lesli-color-background;
+}
+
+
 // · text color white or black depending in the luminance of the selected color
 $lesli-sidebar-color-text: findColorInvert($lesli-sidebar-color) !default;
 
-// · background color behavior when hover the sidebar
-$lesli-sidebar-hover-color: $primary; // findDarkColor($lesli-sidebar-color) !default;
-
-// · find a lighter color for hover if the luminance of the selected color is too dark
-@if colorLuminance($lesli-sidebar-color) <= 0.5 {
-    $lesli-sidebar-hover-color: findLightColor($lesli-sidebar-color) !default;
-}
 
 // · find exactly the inverted background color to use as text color, so we have contrast
-$lesli-sidebar-hover-text: findColorInvert($lesli-sidebar-hover-color) !default;
-
+$lesli-sidebar-hover-text: findColorInvert($lesli-sidebar-hover) !default;
+$lesli-sidebar-hover: darken(#f0f4ff, 6);
 
 // · Navigation sidebar
 aside.application-sidebar {
@@ -100,7 +99,7 @@ aside.application-sidebar {
             &.route-is-active   // vue routes
             {
                 color: $lesli-sidebar-hover-text;
-                background-color: $lesli-sidebar-hover-color;
+                background-color: $lesli-sidebar-hover;
             }
 
             // icons from reixicons
@@ -120,7 +119,7 @@ aside.application-sidebar {
         &.lesli-navigation-list {
 
             &.active {
-                background-color: $lesli-sidebar-hover-color;
+                background-color: $lesli-sidebar-hover;
                 ul {
                     height: auto;
                 }
