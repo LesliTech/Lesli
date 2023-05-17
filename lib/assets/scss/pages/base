@@ -56,11 +56,8 @@ body {
         // logo container
         .logo {
             img {
-                width: 180px;
-                &.lesli_cloud-logo,
-                &.lesli_builder-logo {
-                    height: 100px;
-                }
+                width: initial;
+                height: initial;
             }
             p {
                 font-weight: 600;
