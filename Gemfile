@@ -201,7 +201,7 @@ group :development, :test do
     # rspec-rails is a testing framework for Rails 5+.
     # https://github.com/rspec/rspec-rails
     # Using beta version of rspect-rails due: https://github.com/rails/rails/issues/35417
-    gem "rspec-rails", "= 5.1.0"
+    gem "rspec-rails", "6.0.2"
 
     # https://github.com/rspec/rspec-mocks
     gem "rspec-mocks", "~> 3.10"
