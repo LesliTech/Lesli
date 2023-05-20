@@ -113,3 +113,7 @@ jobs:
           bundle exec rake db:setup
         env:
           RAILS_ENV: test
+
+      # Run Rspec tests
+      - name: Run Spec tests
+        run: bundle exec rspec spec
