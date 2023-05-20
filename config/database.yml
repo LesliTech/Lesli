@@ -10,28 +10,28 @@ common: &common
 
 development:
     <<: *common
-    database: <%= Rails.application.credentials.db[:database] %>
-    username: <%= Rails.application.credentials.db[:username] %>
-    password: <%= Rails.application.credentials.db[:password] %>
-    port: <%= Rails.application.credentials.db.dig(:port) || 5432 %>
+    database: <%= Rails.application.credentials.dig(:db, :database) %>
+    username: <%= Rails.application.credentials.dig(:db, :username) %>
+    password: <%= Rails.application.credentials.dig(:db, :password) %>
+    port: <%= Rails.application.credentials.dig(:db, :port) || 5432 %>
 
 test:
     <<: *common
-    database: <%= Rails.application.credentials.db[:database] %>
-    username: <%= Rails.application.credentials.db[:username] %>
-    password: <%= Rails.application.credentials.db[:password] %>
-    port: <%= Rails.application.credentials.db[:port] %>
+    database: <%= Rails.application.credentials.dig(:db, :database) || "lesli_test" %>
+    username: <%= Rails.application.credentials.dig(:db, :username) || "lesli_test" %>
+    password: <%= Rails.application.credentials.dig(:db, :password) || "lesli_test" %>
+    port: <%= Rails.application.credentials.dig(:db, :port) || 5432 %>
 
 production:
     <<: *common
-    port: <%= Rails.application.credentials.db[:port] %>
-    host: <%= Rails.application.credentials.db[:host] %>
-    database: <%= Rails.application.credentials.db[:database] %>
-    username: <%= Rails.application.credentials.db[:username] %>
-    password: <%= Rails.application.credentials.db[:password] %>
+    port: <%= Rails.application.credentials.dig(:db, :port) %>
+    host: <%= Rails.application.credentials.dig(:db, :host) %>
+    database: <%= Rails.application.credentials.dig(:db, :database) %>
+    username: <%= Rails.application.credentials.dig(:db, :username) %>
+    password: <%= Rails.application.credentials.dig(:db, :password) %>
 
 production_dev:
     <<: *common
-    database: <%= Rails.application.credentials.db[:database] %>
-    username: <%= Rails.application.credentials.db[:username] %>
-    password: <%= Rails.application.credentials.db[:password] %>
+    database: <%= Rails.application.credentials.dig(:db, :database) %>
+    username: <%= Rails.application.credentials.dig(:db, :username) %>
+    password: <%= Rails.application.credentials.dig(:db, :password) %>
