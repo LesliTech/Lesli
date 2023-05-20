@@ -1,14 +1,31 @@
-# Copyright (c) 2023, all rights reserved.
-#
-# All the information provided by this platform is protected by international laws related  to
-# industrial property, intellectual property, copyright and relative international laws.
-# All intellectual or industrial property rights of the code, texts, trade mark, design,
-# pictures and any other information belongs to the owner of this platform.
-#
-# Without the written permission of the owner, any replication, modification,
-# transmission, publication is strictly forbidden.
-#
-# For more information read the license file including with this software.
+# Lesli
+
+# Copyright (c) 2023, Lesli Technologies, S. A.
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see http://www.gnu.org/licenses/.
+
+# Lesli · Ruby on Rails Development Platform.
+
+# Made with ♥ by https://www.lesli.tech
+# Building a better future, one line of code at a time.
+
+# @contact  hello@lesli.tech
+# @website  https://www.lesli.tech
+# @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+# // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+# // · 
 
 
 
@@ -16,11 +33,6 @@
 # PLEASE DO NOT MODIFY THIS FILE ON THE CORE,
 # THIS FILE SHOULD BE MODIFIED ON THE leitfaden/github_actions REPOSITORY
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
-
-
-
-# TODO:
-#   Validate to use production branch only if core branch is production
 
 
 
@@ -37,7 +49,7 @@ on:
 
   # run a test daily at 1 am (Guatemala time)
   schedule:
-    - cron: '0 0 * * 0'
+    - cron: '0 1 * * *'
 
 
   # Allow to execute this test manually from the Github web app
@@ -46,7 +58,7 @@ on:
 jobs:
   test:
     name: Test workflow for Lesli Core
-    runs-on: lomax
+    runs-on: ubuntu-latest
 
 
     # Do not execute the test if requests comes from another action
@@ -69,10 +81,11 @@ jobs:
         ports:
           - 5432:5432
 
+
     steps:
 
       # Set the right owner for work folders
-      - name: Set folder permissions
+      - name: Set folder righ permissions
         run: "sudo chown -R $USER:$USER $GITHUB_WORKSPACE/"
 
 
@@ -84,148 +97,14 @@ jobs:
           token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
 
 
-      # Clone our custom actions
-      - name: Checkout github actions repo
-        uses: actions/checkout@v3
-        with:
-          ref: master
-          repository: leitfaden/github_actions
-          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-          path: ./tmp/.github/
-
-
-      # Send a message to slack announcing the workflow start
-      - name: Notify slack github actions start
-        uses: ./tmp/.github/actions/github-action-slack-job-status
-        with:
-          channel: alerts
-          job-status: INFO
-          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
-          msg: "Github actions start [ ${{ github.event.pull_request.head.ref }} -> ${{ github.event.pull_request.base.ref }} ]"
-
-
-      # · Checkout engines (most used engines)
-
-      - name: Checkout cloud_audit
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/cloud_audit
-          ref: master
-          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-          repository: leitfaden/cloud_audit
-
-      - name: Checkout cloud_babel
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/cloud_babel
-          ref: master
-          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-          repository: leitfaden/cloud_babel
-
-      - name: Checkout cloud_bell
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/cloud_bell
-          ref: master
-          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-          repository: leitfaden/cloud_bell
-
-      - name: Checkout cloud_development
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/cloud_development
-          ref: master
-          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-          repository: leitfaden/cloud_development
-
-      - name: Checkout cloud_dispatcher
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/cloud_dispatcher
-          ref: master
-          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-          repository: leitfaden/cloud_dispatcher
-
-      - name: Checkout cloud_driver
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/cloud_driver
-          ref: master
-          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-          repository: leitfaden/cloud_driver
-
-      - name: Checkout cloud_help
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/cloud_help
-          ref: master
-          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-          repository: leitfaden/cloud_help
-
-      - name: Checkout cloud_one
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/cloud_one
-          ref: master
-          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-          repository: leitfaden/cloud_one
-
-      - name: Checkout cloud_shared
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/cloud_shared
-          ref: master
-          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-          repository: leitfaden/cloud_shared
-
-      - name: Checkout cloud_talk
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/cloud_talk
-          ref: master
-          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-          repository: leitfaden/cloud_talk
-
-      - name: Checkout cloud_team
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/cloud_team
-          ref: master
-          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-          repository: leitfaden/cloud_team
-
-      - name: Checkout cloud_time
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/cloud_time
-          ref: master
-          token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-          repository: leitfaden/cloud_time
-
-
       # Use the official receipt to install ruby in ubuntu
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7.2
-          bundler-cache: false
+          bundler-cache: true
         env:
           ImageOS: ubuntu20
-
-
-      # Use custom Ruby dependencies cache (if exists)
-      - name: Download Ruby dependencies cache
-        uses: actions/cache@v3
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('Gemfile') }}
-
-
-      # Install ruby gems
-      - name: Install Ruby gems
-        run: |
-          bundle config path vendor/bundle
-          bundle install --jobs 4 --retry 3
 
 
       # Build the Lesli database
@@ -258,14 +137,3 @@ jobs:
       # Run Vue tests
       - name: Run Vue tests
         run: npm run test:vue
-
-
-      # Send a message to slack with the status of the workflow
-      - name: Notify by slack
-        if: always()
-        uses: ./tmp/.github/actions/github-action-slack-job-status
-        with:
-          job-status: ${{ job.status }}
-          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
-          channel: alerts
-
