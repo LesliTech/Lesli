@@ -90,12 +90,12 @@ security:
 
 # Main color palette for Lesli
 theme:
-    color_background: "#fbf7f4"
+    color_background: "#f8fafb"
     color_primary: "#193d8d"
     color_sidebar: transparent
     color_header: transparent
     color_footer: transparent
-    color_sidebar_hover: "#d1deff"
+    color_sidebar_hover: "#dee7ec"
 
 
 # Configuration by environment

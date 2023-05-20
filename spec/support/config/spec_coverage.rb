@@ -31,24 +31,42 @@ Building a better future, one line of code at a time.
 =end
 
 
-# This module is mainly used as common helpers needed through
-# the Core or engines extracting functionalities that take long
-# to develop so we prefer to use it like a RSpec module helper
+# Test coverage
+require "simplecov"
+require "simplecov-console"
 
-module LesliHelper
 
-    # @param path [String] the location of the file you want to load
-    # @return [FILE] image/JSON/HTML/CSV...
-    # @description This method will look for the file according to the
-    #   path given and return it so will be ready to use in the HTTP request
-    # @example
-    # RSpec.describe "POST:administration/account/files" do
-    #     subject(:file_example) { lesli_fixture_file("spec/fixtures/files/lesli-icon.png") }
-    #     it "..." do
-    #         puts "/administration/account/files", params: { file: file_example }
-    #     end
-    # end
-    def lesli_fixture_file path
-        Rack::Test::UploadedFile.new(Rails.root.join(path))
+# COVERAGE=true rspec spec
+# run test coverage on demand only
+if ENV["COVERAGE"]
+
+    # add console stats and html generator
+    SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+        SimpleCov::Formatter::HTMLFormatter,
+        SimpleCov::Formatter::Console,
+    ])
+
+    # limit the number of missing lines
+    SimpleCov::Formatter::Console.missing_len = 20 
+
+    # configure the files to track and ignore
+    SimpleCov.start do 
+        #track_files 'lib/**/*.rb'
+        add_filter '/lib'
+        add_filter '/spec'
+        add_filter '/vendor'
+        add_filter '/app/models'
+        add_filter '/app/helpers'
+        add_filter '/app/mailers'
+        add_filter '/engines'
+        add_filter '/config'
     end
+
+    # execute test coverage after test suites
+    RSpec.configure do |config|
+        config.after(:suite) do
+            RSpec::Puppet::Coverage.report!
+        end
+    end
+
 end

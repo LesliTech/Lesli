@@ -24,7 +24,7 @@ namespace :app do
     task maintenance: :environment do
         Rake::Task["system:controllers:build"].invoke 
         Rake::Task["system:descriptors:build"].invoke 
-        Rake::Task["app:engines:initialize"].invoke 
+        Rake::Task["system:engines:initialize"].invoke 
         Rake::Task["cloud_babel:scan"].invoke if defined?(CloudBabel)
     end
 

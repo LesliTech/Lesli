@@ -42,7 +42,7 @@ $lesli-sidebar-color-text: findColorInvert($lesli-sidebar-color) !default;
 
 // · find exactly the inverted background color to use as text color, so we have contrast
 $lesli-sidebar-hover-text: findColorInvert($lesli-sidebar-hover) !default;
-$lesli-sidebar-hover: darken(#f0f4ff, 6);
+$lesli-sidebar-hover: darken($lesli-color-background, 8);
 
 // · Navigation sidebar
 aside.application-sidebar {
