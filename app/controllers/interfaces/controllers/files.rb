@@ -17,9 +17,7 @@ For more information read the license file including with this software.
 
 =end
 module Interfaces::Controllers::Files
-    require 'zip'
-    require 'aws-sdk-s3'
-    require "base64"
+
 
     # @return [Json] Json that contains a list of all files related to a *cloud_object*
     # @description Retrieves and returns all files associated to a *cloud_object*. The id of the
@@ -74,15 +72,7 @@ module Interfaces::Controllers::Files
             end
 
             format.zip do
-                @files = file_model.joins(
-                    :cloud_object
-                ).where(
-                    "#{file_model.table_name}.id in (#{params[:ids]})"
-                ).where(
-                    "#{cloud_object_model.table_name}.#{account_model.table_name}_id = #{current_user.account.id}"
-                )
 
-                handle_zip_download(@files)
             end
         end
     end
@@ -301,21 +291,7 @@ module Interfaces::Controllers::Files
     #     # Executing this controller's action from javascript's frontend
     #     this.http.get('127.0.0.1/house/projects/1/resources/files-zip-download&ids=1,2,3,4');
     def zip_download
-        LC::Debug.deprecation "Use the index method with application/zip instead"
-
-        file_model = file_model() # If there is a custom file model, it must be returned in this method
-        cloud_object_model = file_model.cloud_object_model
-        account_model = cloud_object_model.reflect_on_association(:account).klass
-
-        files = file_model.joins(
-            :cloud_object
-        ).where(
-            "#{file_model.table_name}.id in (#{params[:ids]})"
-        ).where(
-            "#{cloud_object_model.table_name}.#{account_model.table_name}_id = #{current_user.account.id}"
-        )
-
-        handle_zip_download(files)
+ 
     end
 
     protected
@@ -384,29 +360,7 @@ module Interfaces::Controllers::Files
     #     # Executing this controller's action from javascript's frontend
     #     this.http.get('127.0.0.1/house/options/project/1/files/zip&ids=1,2,3,4');
     def handle_zip_download(files)
-        s3 = LC::Config::Providers::Aws::S3.new()
 
-        zip_stream = ::Zip::OutputStream.write_buffer do |zip|
-            files.each do |file|
-                # Handling an AWS S3 file
-                if file.attachment_s3.file
-                    file_filepath = file.attachment_s3.current_path
-                    filename = file.attachment_s3_identifier
-                    file_obj = s3.get_object(file_filepath)
-                    zip.put_next_entry filename
-                    zip.print file_obj.body.read
-                # Haindling a local storage file
-                elsif file.attachment.file
-                    file_filepath = file.attachment.current_path
-                    filename = file.attachment_identifier
-                    next unless ::File.exist?(file_filepath)
-                    zip.put_next_entry filename
-                    zip.print IO.binread(file_filepath)
-                end
-            end
-        end
-        zip_stream.rewind
-        send_data zip_stream.read, filename: "all_documents_#{Date.today.strftime('%d_%B_%Y')}.zip", type: 'application/zip'
     end
 
     # @return [void]

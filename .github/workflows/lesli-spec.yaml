@@ -70,8 +70,8 @@ jobs:
       postgres:
         image: postgres:11.5
         env:
-          POSTGRES_USER: lesli_test
-          POSTGRES_DB: lesli_test
+          POSTGRES_DB: "lesli_test"
+          POSTGRES_USER: "lesli_test"
           POSTGRES_PASSWORD: "lesli_test"
         options: >-
           --health-cmd pg_isready
