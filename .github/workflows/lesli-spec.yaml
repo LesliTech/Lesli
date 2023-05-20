@@ -102,3 +102,14 @@ jobs:
         with:
           ruby-version: 3.1.2
           bundler-cache: true
+
+
+      # Build the Lesli database
+      - name: Set up database schema
+        run: |
+          bundle exec rake db:drop
+          bundle exec rake db:create
+          bundle exec rake db:migrate
+          bundle exec rake db:setup
+        env:
+          RAILS_ENV: test
