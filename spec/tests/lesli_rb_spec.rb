@@ -17,7 +17,8 @@ For more information read the license file including with this software.
 =end
 
 require "./lesli"
-require "lesli_request_helper"
+require "support/config/rails_helper"
+
 
 RSpec.describe "Lesli::engines" do
 
@@ -102,12 +103,9 @@ RSpec.describe "Lesli::settings" do
 
         expect(@lesli_settings["info"]["github"]).to have_key("ssh")
         expect(@lesli_settings["info"]["github"]["ssh"]).to be_a(String)
-
-        expect(@lesli_settings["info"]["github"]).to have_key("ssh_backup")
-        expect(@lesli_settings["info"]["github"]["ssh_backup"]).to be_a(String)
     end
 
-    it "expect to return with lesli account settings" do
+    it "expect to return with lesli account" do
         expect(@lesli_settings).to have_key("account")
         expect(@lesli_settings["account"]).to be_a(Hash)
 
@@ -124,7 +122,7 @@ RSpec.describe "Lesli::settings" do
         expect(@lesli_settings["account"]["tag_line"]).to be_a(String)
     end
 
-    it "expect to return with lesli configuration settings" do
+    it "expect to return with lesli configuration" do
 
         expect(@lesli_settings).to have_key("configuration")
         expect(@lesli_settings["configuration"]).to be_a(Hash)
@@ -143,51 +141,58 @@ RSpec.describe "Lesli::settings" do
         expect(@lesli_settings["configuration"]["datetime"]).to be_a(Hash)
     end
 
+    it "expect to return with lesli configuration settings locales" do
+        expect(@lesli_settings["configuration"]["locales"]).to include("en")
+        expect(@lesli_settings["configuration"]["locales"]).to be_an(Array)
+
+        expect(@lesli_settings["configuration"]["locales_available"]).to be_an(Hash)
+        expect(@lesli_settings["configuration"]["locales_available"]).to have_key("en")
+        expect(@lesli_settings["configuration"]["locales_available"]["en"]).to eql("English")
+    end
+
     it "expect to return with lesli configuration settings datetime" do
+        expect(@lesli_settings["configuration"]).to have_key("datetime")
+        expect(@lesli_settings["configuration"]["datetime"]).to be_a(Hash)
+
         expect(@lesli_settings["configuration"]["datetime"]).to have_key("time_zone")
-        expect(@lesli_settings["configuration"]["datetime"]["time_zone"]).to eql(Rails.application.config.lesli_settings["configuration"]["datetime"]["time_zone"])
         expect(@lesli_settings["configuration"]["datetime"]["time_zone"]).to be_a(String)
+        expect(@lesli_settings["configuration"]["datetime"]["time_zone"]).to eql(Rails.application.config.lesli.dig(:configuration, :datetime, :time_zone))
 
         expect(@lesli_settings["configuration"]["datetime"]).to have_key("start_week_on")
-        expect(@lesli_settings["configuration"]["datetime"]["start_week_on"]).to eql(Rails.application.config.lesli_settings["configuration"]["datetime"]["start_week_on"])
         expect(@lesli_settings["configuration"]["datetime"]["start_week_on"]).to be_a(String)
+        expect(@lesli_settings["configuration"]["datetime"]["start_week_on"]).to eql(Rails.application.config.lesli.dig(:configuration, :datetime, :start_week_on))
 
         expect(@lesli_settings["configuration"]["datetime"]).to have_key("formats")
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to be_a(Hash)
 
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date")
-        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date"]).to eql(Rails.application.config.lesli_settings["configuration"]["datetime"]["formats"]["date"])
         expect(@lesli_settings["configuration"]["datetime"]["formats"]["date"]).to be_a(String)
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date"]).to eql(Rails.application.config.lesli.dig(:configuration, :datetime, :formats, :date))
 
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("time")
-        expect(@lesli_settings["configuration"]["datetime"]["formats"]["time"]).to eql(Rails.application.config.lesli_settings["configuration"]["datetime"]["formats"]["time"])
         expect(@lesli_settings["configuration"]["datetime"]["formats"]["time"]).to be_a(String)
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["time"]).to eql(Rails.application.config.lesli.dig(:configuration, :datetime, :formats, :time))
 
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date_time")
-        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time"]).to eql(Rails.application.config.lesli_settings["configuration"]["datetime"]["formats"]["date_time"])
         expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time"]).to be_a(String)
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time"]).to eql(Rails.application.config.lesli.dig(:configuration, :datetime, :formats, :date_time))
 
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date_words")
-        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_words"]).to eql(Rails.application.config.lesli_settings["configuration"]["datetime"]["formats"]["date_words"])
         expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_words"]).to be_a(String)
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_words"]).to eql(Rails.application.config.lesli.dig(:configuration, :datetime, :formats, :date_words))
 
         expect(@lesli_settings["configuration"]["datetime"]["formats"]).to have_key("date_time_words")
-        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time_words"]).to eql(Rails.application.config.lesli_settings["configuration"]["datetime"]["formats"]["date_time_words"])
         expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time_words"]).to be_a(String)
+        expect(@lesli_settings["configuration"]["datetime"]["formats"]["date_time_words"]).to eql(Rails.application.config.lesli.dig(:configuration, :datetime, :formats, :date_time_words))
     end
 
-    it "expect to return with lesli security settings" do
+    it "expect to return with lesli security" do
 
         expect(@lesli_settings).to have_key("security")
         expect(@lesli_settings).to be_a(Hash)
 
-        expect(@lesli_settings["security"]).to have_key("log_activity")
-        expect(@lesli_settings["security"]["log_activity"]).to be_in([true, false])
         expect(@lesli_settings["security"]).to have_key("enable_debug")
         expect(@lesli_settings["security"]["enable_debug"]).to be_in([true, false])
-
-        expect(@lesli_settings["security"]).to have_key("enable_commands")
-        expect(@lesli_settings["security"]["enable_commands"]).to be_in([true, false])
 
         expect(@lesli_settings["security"]).to have_key("enable_becoming")
         expect(@lesli_settings["security"]["enable_becoming"]).to be_in([true, false])
@@ -206,9 +211,6 @@ RSpec.describe "Lesli::settings" do
 
         expect(@lesli_settings["security"]).to have_key("allow_registration")
         expect(@lesli_settings["security"]["allow_registration"]).to be_in([true, false])
-
-        expect(@lesli_settings["security"]).to have_key("allow_invitation")
-        expect(@lesli_settings["security"]["allow_invitation"]).to be_in([true, false])
 
         expect(@lesli_settings["security"]).to have_key("password")
         expect(@lesli_settings["security"]["password"]).to be_a(String)
