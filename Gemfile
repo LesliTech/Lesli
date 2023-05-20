@@ -49,6 +49,9 @@ ruby "3.1.2"
 # Rails framework
 gem "rails", "7.0.4.3"
 
+# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
+gem "sprockets-rails", "3.4.2"
+
 # A set of common locale data and translations to internationalize and/or localize your Rails applications.
 gem "rails-i18n", "7.0.6"
 
@@ -56,9 +59,6 @@ gem "rails-i18n", "7.0.6"
 # We must stick to the version 3 due version 4 changed completed the behavior of
 # the locale files creation for the frontend
 gem "i18n-js", "3.9.2" # "4.2.3"
-
-# Integrate SassC-Ruby into Rails.
-gem "sassc-rails", "2.1.2"
 
 # Pg is the Ruby interface to the PostgreSQL RDBMS. It works with PostgreSQL 9.3 and later.
 gem "pg", "1.5.3"
@@ -71,7 +71,7 @@ gem "bootsnap", "1.16.0", require: false
 # · Tools used to extend Rails functionality
 
 # text search
-#gem "pg_search"
+gem "pg_search"
 
 # UNIONs in ActiveRecord! Adds proper union and union_all methods to ActiveRecord::Relation.
 gem "active_record_union", "1.3.0"
@@ -85,9 +85,6 @@ gem "fast_jsonparser", "0.6.0"
 # Middleware that will make Rack-based apps CORS compatible. 
 gem "rack-cors", "1.1.1"
 
-# Upload files in your Ruby applications, map them to a range of ORMs, store them on different backends.
-#gem "carrierwave", "2.2.2"
-
 # Clean, powerful, agnostic, customizable and sophisticated paginator for Rails
 gem "kaminari", "1.2.2"
 
@@ -99,7 +96,7 @@ gem "jwt", "2.7.0"
 
 
 
-# · Tools used to build the LESLI Platform
+# · Tools used to build the LESLI Platformx
 
 # Message utilities for the Ruby console.
 gem "L2", "0.5.2"
@@ -107,77 +104,11 @@ gem "L2", "0.5.2"
 # Flexible authentication solution for Rails with Warden
 gem "devise", "4.9.2"
 
-# A generalized Rack framework for multiple-provider authentication.
-# gem "omniauth", "2.0.4"
-
-# A Google OAuth2 strategy for OmniAuth 1.x. This allows you to login to Google with your ruby app.
-# gem "omniauth-google-oauth2", "1.0.0"
-
-# Facebook OAuth2 Strategy for OmniAuth
-# gem "omniauth-facebook", "9.0.0"
-
-# Client for accessing Google APIs
-# gem "google-api-client", "0.53.0", require: 'google/apis/calendar_v3'
-
-# Official AWS Ruby gem that provides rails utilities
-# gem "aws-sdk-rails", "3.6.1"
-
-# Official AWS Ruby gem for Amazon Simple Storage Service (Amazon S3). This gem is part of the AWS SDK for Ruby.
-# gem "aws-sdk-s3", "1.113.0"
-
-# Official AWS Ruby gem for Amazon Elastic Compute Cloud (Amazon EC2). This gem is part of the AWS SDK for Ruby.
-# gem "aws-sdk-ec2", "1.300.0"
-
-# Official AWS Ruby gem for Amazon Lightsail. This gem is part of the AWS SDK for Ruby.
-# gem "aws-sdk-lightsail", "1.63.0"
-
-# Official AWS Ruby gem for Amazon Simple Notification Service (Amazon SNS). 
-# gem "aws-sdk-sns", "1.53.0"
-
-# Official AWS Ruby gem for Amazon Simple Email Service (Amazon SES).
-# gem "aws-sdk-ses", "1.47.0"
-
-# Standalone provider to use the Amazon Web Services in applications
-# gem "fog-aws", "3.13.0"
-
 # HTML to PDF
 gem "wicked_pdf", "~> 2.1.0"
 
 # Provides binaries for WKHTMLTOPDF project in an easily accessible package.
 gem "wkhtmltopdf-binary", "~> 0.12.6"
-
-# Prawn is a fast, tiny, and nimble PDF generator for Ruby
-#gem "prawn", "2.4.0"
-
-# Prawn::Table provides tables for the Prawn PDF toolkit
-#gem "prawn-table", "0.2.2"
-
-# A nifty gem, in pure Ruby, to parse PDF files and combine (merge) them with other PDF files
-#gem "combine_pdf"
-
-# Convert office documents to PDF using LibreOffice.
-#gem "libreconv", "0.9.5"
-
-# Find and replace variables inside a Micorsoft Word (.docx) template
-#gem "docx_replace", "1.0.0"
-
-# Scrape text from common file formats (.pdf,.doc,.docx, .sketch, .txt) with a single convenient command.
-#gem "doc_ripper", "0.0.9"
-
-# xlsx spreadsheet generation with charts, images, automated column width, customizable styles and full schema validation.
-# gem "caxlsx", "3.1.1"
-
-# Caxlsx_Rails provides an Caxlsx renderer so you can move all your spreadsheet code from your controller into view files.
-# gem "caxlsx_rails", "0.6.2"
-
-# http/rest api client library
-# gem "faraday" #Workaround to allow google-cloud-firestore work
-
-# rubyzip is a ruby module for reading and writing zip files
-# gem "rubyzip", "2.3.2"
-
-# In Gem hell migrating to RubyZip v1.0.0? Include zip-zip in your Gemfile and everything's coming up roses!
-# gem "zip-zip", "0.3"
 
 # HTTP User Agent parser
 gem "useragent", "0.16.10"
@@ -185,13 +116,68 @@ gem "useragent", "0.16.10"
 # The sys-filesystem library provides a cross-platform interface for gathering filesystem information.
 gem "sys-filesystem", "1.4.3"
 
-# collection of all country flags in SVG
-gem "flag-icons-rails", "3.4.6.1"
-
 # Make managing application errors a more pleasant experience.
 gem "honeybadger", "5.2.1"
 
 
+# · Gems for development environment
+group :development do
+
+    # · Tools to build Lesli assets
+
+    # collection of all country flags in SVG
+    gem "flag-icons-rails", "3.4.6.1"
+
+    # Integrate SassC-Ruby into Rails.
+    gem "sassc-rails", "2.1.2"
+
+    # Automatically generate an SVG sprite from a folder of SVG icons.
+    # Generate svg sprite for the lesli icons:
+    # first clean the svg files with svgo nodejs module: https://github.com/svg/svgo
+    # and then rename _application-svgs.svg to _application-svgs.html.erb
+    # see the readme file in the icons folder for usage examples
+    gem "svgeez", "4.1"
+
+
+    # · Tools for development
+
+    # Go faster, off the Rails
+    gem "derailed_benchmarks", "2.1.2"
+
+    # The Listen gem listens to file modifications and notifies you about the changes. Works everywhere!
+    gem "listen", "3.8.0"
+
+    gem "spring"
+
+    gem "spring-watcher-listen", "~> 2.0.0"
+
+    # Static code analyser to find security issues in Rails applications 
+    gem "spektr", "0.3.4"
+
+    # Brakeman detects security vulnerabilities in Ruby on Rails applications via static analysis.
+    # brakeman -o brakeman.html --faster
+    gem "brakeman", "5.4.1"
+
+end
+
+
+# · Gems for test environment
+group :test do
+
+    # Adds support for Capybara system testing and selenium driver
+    gem "capybara", ">= 2.15"
+
+    gem "rails-controller-testing"
+    gem "rails-ujs"
+
+    # Sprockets needs jquery to render views on test environment
+    gem "jquery-rails"
+
+    # FactoryBot
+    # https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#configure-your-test-suite
+    gem "factory_bot_rails"
+
+end
 
 
 # · Gems for development & test environment
@@ -244,79 +230,6 @@ group :development, :test do
     gem "sys-proctable" if Gem.win_platform?
 
 end
-
-
-
-
-# · Gems for development environment
-group :development do
-
-    # Go faster, off the Rails
-    gem "derailed_benchmarks", "2.1.2"
-
-    gem "sprockets", "4.0.3"
-
-    # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-    # this gem is necessary to use the rails generator 
-    gem "sprockets-rails", "3.4.2"
-
-    # The Listen gem listens to file modifications and notifies you about the changes. Works everywhere!
-    gem "listen", "3.8.0"
-
-    gem "spring"
-
-    gem "spring-watcher-listen", "~> 2.0.0"
-
-    #gem "web-console", ">= 3.3.0"
-
-    #gem "rack-mini-profiler"
-
-    #gem "memory_profiler"
-
-    # A fast, safe and extensible Markdown to (X)HTML parser
-    gem "redcarpet", "3.6.0"
-
-    # Automatically generate an SVG sprite from a folder of SVG icons.
-    # Generate svg sprite for the lesli icons:
-    # first clean the svg files with svgo nodejs module: https://github.com/svg/svgo
-    # and then rename _application-svgs.svg to _application-svgs.html.erb
-    # see the readme file in the icons folder for usage examples
-    gem "svgeez", "4.1"
-
-    # Rouge aims to a be a simple, easy-to-extend drop-in replacement for pygments.
-    gem "rouge", "3.28.0"
-
-    # Static code analyser to find security issues in Rails applications 
-    gem "spektr", "0.3.4"
-
-    # Brakeman detects security vulnerabilities in Ruby on Rails applications via static analysis.
-    # brakeman -o brakeman.html --faster
-    gem "brakeman", "5.4.1"
-
-end
-
-
-
-
-# · Gems for test environment
-group :test do
-
-    # Adds support for Capybara system testing and selenium driver
-    gem "capybara", ">= 2.15"
-
-    gem "rails-controller-testing"
-    gem "rails-ujs"
-
-    # Sprockets needs jquery to render views on test environment
-    gem "jquery-rails"
-
-    # FactoryBot
-    # https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#configure-your-test-suite
-    gem "factory_bot_rails"
-
-end
-
-
 
 
 # · Automatically load Lesli modules as gems
