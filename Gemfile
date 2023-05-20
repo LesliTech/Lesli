@@ -186,7 +186,7 @@ gem "useragent", "0.16.10"
 gem "sys-filesystem", "1.4.3"
 
 # collection of all country flags in SVG
-gem "flag-icons-rails", "= 3.4.6.1"
+gem "flag-icons-rails", "3.4.6.1"
 
 # Make managing application errors a more pleasant experience.
 gem "honeybadger", "5.2.1"

@@ -31,24 +31,16 @@ Building a better future, one line of code at a time.
 =end
 
 
-# This module is mainly used as common helpers needed through
-# the Core or engines extracting functionalities that take long
-# to develop so we prefer to use it like a RSpec module helper
+require "faker"
+require "support/config/rails_helper"
+require "support/helpers/service_response_helper"
 
-module LesliHelper
 
-    # @param path [String] the location of the file you want to load
-    # @return [FILE] image/JSON/HTML/CSV...
-    # @description This method will look for the file according to the
-    #   path given and return it so will be ready to use in the HTTP request
-    # @example
-    # RSpec.describe "POST:administration/account/files" do
-    #     subject(:file_example) { lesli_fixture_file("spec/fixtures/files/lesli-icon.png") }
-    #     it "..." do
-    #         puts "/administration/account/files", params: { file: file_example }
-    #     end
-    # end
-    def lesli_fixture_file path
-        Rack::Test::UploadedFile.new(Rails.root.join(path))
-    end
+# · Configuration
+RSpec.configure do |config|
+
+    # Include helper methods
+    config.include ServiceResponseHelpers
+    config.include LesliHelper
+
 end

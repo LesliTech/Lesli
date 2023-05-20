@@ -1,7 +1,4 @@
 {
-    "compilerOptions": {
-        "charset": "utf8"
-    },
     "exclude": [
         "node_modules"
     ]

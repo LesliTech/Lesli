@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2022, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,9 +14,19 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
+namespace :system do
+    namespace :engines do
 
-require "faker"
-require "rails_helper"
-require "support/helpers/response_helper"
+        desc "Add account for new engines added to existing instance"
+        task initialize: :environment do
+
+            L2.msg("Initializing installed engines")
+
+            Account.all.each do |account|
+                account.initialize_engines
+            end
+
+        end
+    end
+end

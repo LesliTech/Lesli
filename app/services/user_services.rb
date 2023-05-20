@@ -44,7 +44,7 @@ class UserServices < ApplicationLesliServices
         users.order(name: :asc).select(
             :id,
             :email,
-            :name,
+            "CONCAT_WS(' ', first_name, last_name) as name",
             :alias
         ).as_json
     end
