@@ -2,7 +2,7 @@
 
 
 
-class SystemDescriptorService < ApplicationLesliServices
+class SystemDescriptorServices < ApplicationLesliServices
 
     def index
 

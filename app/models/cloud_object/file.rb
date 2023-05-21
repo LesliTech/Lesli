@@ -20,7 +20,7 @@ class CloudObject::File < ApplicationLesliRecord
     include ActiveModel::Dirty
 
     self.abstract_class = true
-    mount_uploader :attachment_s3,      AwsUploader
+    mount_uploader :attachment_s3,      PublicUploader
     mount_uploader :attachment_public,  PublicUploader
     mount_uploader :attachment,         LocalUploader
 
