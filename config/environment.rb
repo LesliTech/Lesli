@@ -38,7 +38,7 @@ Rails.application.initialize!
 
 # Lesli initialize validations
 Rails.application.configure do
-=begin
+
     errors = []
 
     # Essentials, we must provide a database connection
@@ -81,5 +81,5 @@ Rails.application.configure do
     L2.table(engines)
 
     L2.br(2)
-=end
+
 end

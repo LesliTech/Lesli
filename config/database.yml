@@ -17,9 +17,9 @@ development:
 
 test:
     <<: *common
-    database: <%= Rails.application.credentials.dig(:db, :database) || "lesli_test" %>
-    username: <%= Rails.application.credentials.dig(:db, :username) || "lesli_test" %>
-    password: <%= Rails.application.credentials.dig(:db, :password) || "lesli_test" %>
+    database: <%= Rails.application.credentials.dig(:db, :database) %>
+    username: <%= Rails.application.credentials.dig(:db, :username) %>
+    password: <%= Rails.application.credentials.dig(:db, :password) %>
     port: <%= Rails.application.credentials.dig(:db, :port) || 5432 %>
 
 production:
