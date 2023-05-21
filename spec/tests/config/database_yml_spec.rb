@@ -23,17 +23,9 @@ require "support/config/rails_helper"
 RSpec.describe "Config/database.yml" do
 
     before(:all) do
-        #@database = Rails.configuration.database_configuration
-
-        @database = YAML.load(File.read(Rails.root.join("config", "database.yml")))
-
+        @database = YAML.unsafe_load(File.read(Rails.root.join("config", "database.yml")))
     end
 
-    it "test" do 
-        pp @database
-    end
-
-=begin
     it "expect to have a common configuration section" do
         expect(@database).to have_key("common") 
         expect(@database["common"]).to have_key("pool") 
@@ -65,9 +57,9 @@ RSpec.describe "Config/database.yml" do
         expect(@database["development"]["adapter"]).to eql("postgresql")
         expect(@database["development"]["encoding"]).to eql("unicode")
         expect(@database["development"]["reconnect"]).to eql(false)
-        expect(@database["development"]["database"]).to eql(Rails.application.credentials.db[:database])
-        expect(@database["development"]["username"]).to eql(Rails.application.credentials.db[:username])
-        expect(@database["development"]["password"].to_s).to eql(Rails.application.credentials.db[:password])
+        expect(@database["development"]["database"]).to eql("<%= Rails.application.credentials.dig(:db, :database) %>")
+        expect(@database["development"]["username"]).to eql("<%= Rails.application.credentials.dig(:db, :username) %>")
+        expect(@database["development"]["password"]).to eql("<%= Rails.application.credentials.dig(:db, :password) %>")
     end
 
     it "expect to have a configuration section for environment: test" do
@@ -87,9 +79,9 @@ RSpec.describe "Config/database.yml" do
         expect(@database["test"]["adapter"]).to eql("postgresql")
         expect(@database["test"]["encoding"]).to eql("unicode")
         expect(@database["test"]["reconnect"]).to eql(false)
-        expect(@database["test"]["database"]).to eql(Rails.application.credentials.db[:database])
-        expect(@database["test"]["username"]).to eql(Rails.application.credentials.db[:username])
-        expect(@database["test"]["password"].to_s).to eql(Rails.application.credentials.db[:password])
+        expect(@database["test"]["database"]).to eql("<%= Rails.application.credentials.dig(:db, :database) %>")
+        expect(@database["test"]["username"]).to eql("<%= Rails.application.credentials.dig(:db, :username) %>")
+        expect(@database["test"]["password"]).to eql("<%= Rails.application.credentials.dig(:db, :password) %>")
     end
 
     it "expect to have a configuration section for environment: production" do
@@ -108,8 +100,9 @@ RSpec.describe "Config/database.yml" do
         expect(@database["production"]["adapter"]).to eql("postgresql")
         expect(@database["production"]["encoding"]).to eql("unicode")
         expect(@database["production"]["reconnect"]).to eql(false)
-        expect(@database["production"]["database"]).to eql(Rails.application.credentials.db[:database])
-        expect(@database["production"]["username"]).to eql(Rails.application.credentials.db[:username])
+        expect(@database["production"]["database"]).to eql("<%= Rails.application.credentials.dig(:db, :database) %>")
+        expect(@database["production"]["username"]).to eql("<%= Rails.application.credentials.dig(:db, :username) %>")
+        expect(@database["production"]["password"]).to eql("<%= Rails.application.credentials.dig(:db, :password) %>")
     end
-=end
+
 end

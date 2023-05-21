@@ -51,6 +51,7 @@
 
 # Ignore credentials and keys.
 /config/credentials/*
+!/config/credentials/testci.key
 !/config/credentials/testci.yml.enc
 !/config/credentials/.gitkeep
 
@@ -100,3 +101,5 @@ Gemfile.lock
 /bin/bearer
 /node_modules
 brakeman.html
+
+/config/credentials/test.key
