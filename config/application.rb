@@ -109,9 +109,9 @@ module Lesli
         end
 
         # workaround for the sassc/engine.rb:43: [BUG] Segmentation fault
-        config.assets.configure do |env|
-            env.export_concurrent = false
-        end
+        #config.assets.configure do |env|
+        #    env.export_concurrent = false
+        #end
 
     end
 end
