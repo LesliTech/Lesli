@@ -22,80 +22,77 @@ For more information read the license file including with this software.
 
 
 // · Configuration & variables
-@import "./lesli/settings/variables";
+@import "lesli/settings/variables";
 
 
 // · Include Bulma 
-@import "./lesli/bulma/loader";
+@import "lesli/bulma/loader";
 
 
 // · Loading components, settings and helpers
-@import "./lesli/helpers/display";
-@import "./lesli/helpers/tooltip";
-@import "./lesli/fonts/remixicons";
-//@import "./lesli/fonts/families";
-@import "./lesli/fonts/mdicons";
-@import "flag-icon";
+@import "lesli/helpers/display";
+@import "lesli/helpers/tooltip";
+@import "lesli/fonts/remixicons";
+//@import "lesli/fonts/families";
+@import "lesli/fonts/mdicons";
+//@import "flag-icon";
 
 
 // · Loading app layout 
-@import "./lesli/layout/application-header";
-@import "./lesli/layout/application-announcements";
-@import "./lesli/layout/application-engines";
-@import "./lesli/layout/application-sidebar";
-@import "./lesli/layout/application-component";
-@import "./lesli/layout/application-footer";
-@import "./lesli/layout/application-search";
+@import "lesli/layout/application-header";
+@import "lesli/layout/application-announcements";
+@import "lesli/layout/application-engines";
+@import "lesli/layout/application-sidebar";
+@import "lesli/layout/application-component";
+@import "lesli/layout/application-footer";
+@import "lesli/layout/application-search";
 
 
 // · Panels :) 
-@import "./lesli/panels/panel-tasks";
-@import "./lesli/panels/panel-ticket";
-@import "./lesli/panels/panel-profile";
-@import "./lesli/panels/panel-notification";
-@import "./lesli/panels/panel-announcements";
+@import "lesli/panels/panel-tasks";
+@import "lesli/panels/panel-ticket";
+@import "lesli/panels/panel-profile";
+@import "lesli/panels/panel-notification";
+@import "lesli/panels/panel-announcements";
 
 
 // · Standard components
-@import "./lesli/components/editor-richtext";
+@import "lesli/components/editor-richtext";
 
 
 // · Shared
-@import "./lesli/shared/workflow-status-progress";
+@import "lesli/shared/workflow-status-progress";
 
 
 // · Lesli cloud objects
-@import "./lesli/cloud-objects/discussion";
-@import "./lesli/cloud-objects/file";
+@import "lesli/cloud-objects/discussion";
+@import "lesli/cloud-objects/file";
 
 
 // · Overrides for vendor libraries
-@import "./lesli/overrides/sweetalert";
+@import "lesli/overrides/sweetalert";
 
 
 // · Lesli vue components
-@import "./lesli/lesli/autocomplete";
-@import "./lesli/lesli/avatar";
-@import "./lesli/lesli/empty";
-@import "./lesli/lesli/file-uploader";
-@import "./lesli/lesli/gallery";
-@import "./lesli/lesli/header";
-@import "./lesli/lesli/input-tag";
-@import "./lesli/lesli/loading";
-@import "./lesli/lesli/map";
-@import "./lesli/lesli/msg";
-@import "./lesli/lesli/navbar";
-@import "./lesli/lesli/panel";
-@import "./lesli/lesli/form";
-@import "./lesli/lesli/tab";
-@import "./lesli/lesli/table";
-@import "./lesli/lesli/toggle";
-@import "./lesli/lesli/toolbar";
-@import "./lesli/lesli/calendar";
+@import "lesli/lesli/autocomplete";
+@import "lesli/lesli/avatar";
+@import "lesli/lesli/empty";
+@import "lesli/lesli/file-uploader";
+@import "lesli/lesli/gallery";
+@import "lesli/lesli/header";
+@import "lesli/lesli/input-tag";
+@import "lesli/lesli/loading";
+@import "lesli/lesli/map";
+@import "lesli/lesli/msg";
+@import "lesli/lesli/navbar";
+@import "lesli/lesli/panel";
+@import "lesli/lesli/form";
+@import "lesli/lesli/tab";
+@import "lesli/lesli/table";
+@import "lesli/lesli/toggle";
+@import "lesli/lesli/toolbar";
+@import "lesli/lesli/calendar";
 
-
-// · Include Lesli Standards
-//@include lesli-css-normalize();
 
 
 html,
@@ -113,6 +110,7 @@ body {
 // Vue Animation component
 .v-enter-active, .v-leave-active { transition: opacity 0.5s ease; }
 .v-enter-from, .v-leave-to { opacity: 0; }
+
 
 
 // · Import theme overrides from builder engine

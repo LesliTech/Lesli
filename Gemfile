@@ -52,6 +52,9 @@ gem "rails", "7.0.4.3"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails", "3.4.2"
 
+# Integrate SassC-Ruby into Rails.
+gem "sassc-rails", "2.1.2"
+
 # A set of common locale data and translations to internationalize and/or localize your Rails applications.
 gem "rails-i18n", "7.0.6"
 
@@ -99,7 +102,7 @@ gem "jwt", "2.7.0"
 
 
 
-# · Tools used to build the LESLI Platformx
+# · Tools used to build the LESLI Platform
 
 # Message utilities for the Ruby console.
 gem "L2", "0.5.2"
@@ -119,69 +122,11 @@ gem "useragent", "0.16.10"
 # The sys-filesystem library provides a cross-platform interface for gathering filesystem information.
 gem "sys-filesystem", "1.4.3"
 
+# collection of all country flags in SVG
+gem "flag-icons-rails", "3.4.6.1"
+
 # Make managing application errors a more pleasant experience.
-gem "honeybadger", "5.2.1"
-
-
-# · Gems for development environment
-group :development do
-
-    # · Tools to build Lesli assets
-
-    # collection of all country flags in SVG
-    gem "flag-icons-rails", "3.4.6.1"
-
-    # Integrate SassC-Ruby into Rails.
-    gem "sassc-rails", "2.1.2"
-
-    # Automatically generate an SVG sprite from a folder of SVG icons.
-    # Generate svg sprite for the lesli icons:
-    # first clean the svg files with svgo nodejs module: https://github.com/svg/svgo
-    # and then rename _application-svgs.svg to _application-svgs.html.erb
-    # see the readme file in the icons folder for usage examples
-    gem "svgeez", "4.1"
-
-
-    # · Tools for development
-
-    # Go faster, off the Rails
-    gem "derailed_benchmarks", "2.1.2"
-
-    # The Listen gem listens to file modifications and notifies you about the changes. Works everywhere!
-    gem "listen", "3.8.0"
-
-    gem "spring"
-
-    gem "spring-watcher-listen", "~> 2.0.0"
-
-    # Static code analyser to find security issues in Rails applications 
-    gem "spektr", "0.3.4"
-
-    # Brakeman detects security vulnerabilities in Ruby on Rails applications via static analysis.
-    # brakeman -o brakeman.html --faster
-    gem "brakeman", "5.4.1"
-
-end
-
-
-# · Gems for test environment
-group :test do
-
-    # Adds support for Capybara system testing and selenium driver
-    gem "capybara", ">= 2.15"
-
-    gem "rails-controller-testing"
-    gem "rails-ujs"
-
-    # Sprockets needs jquery to render views on test environment
-    gem "jquery-rails"
-
-    # FactoryBot
-    # https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#configure-your-test-suite
-    gem "factory_bot_rails"
-
-end
-
+#gem "honeybadger", "5.2.1"
 
 # · Gems for development & test environment
 group :development, :test do
@@ -231,6 +176,58 @@ group :development, :test do
 
     # sys-proctable for rails 7 compatibility in Windows platforms
     gem "sys-proctable" if Gem.win_platform?
+
+end
+
+# · Gems for development environment
+group :development do
+
+    # · Tools to build Lesli assets
+
+
+    # Automatically generate an SVG sprite from a folder of SVG icons.
+    # Generate svg sprite for the lesli icons:
+    # first clean the svg files with svgo nodejs module: https://github.com/svg/svgo
+    # and then rename _application-svgs.svg to _application-svgs.html.erb
+    # see the readme file in the icons folder for usage examples
+    gem "svgeez", "4.1"
+
+
+    # · Tools for development
+
+    # Go faster, off the Rails
+    gem "derailed_benchmarks", "2.1.2"
+
+    # The Listen gem listens to file modifications and notifies you about the changes. Works everywhere!
+    gem "listen", "3.8.0"
+
+    gem "spring"
+
+    gem "spring-watcher-listen", "~> 2.0.0"
+
+    # Static code analyser to find security issues in Rails applications 
+    gem "spektr", "0.3.4"
+
+    # Brakeman detects security vulnerabilities in Ruby on Rails applications via static analysis.
+    # brakeman -o brakeman.html --faster
+    gem "brakeman", "5.4.1"
+
+end
+
+
+
+# · Gems for test environment
+group :test do
+
+    gem "rails-controller-testing"
+    gem "rails-ujs"
+
+    # Sprockets needs jquery to render views on test environment
+    gem "jquery-rails"
+
+    # FactoryBot
+    # https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#configure-your-test-suite
+    gem "factory_bot_rails"
 
 end
 
