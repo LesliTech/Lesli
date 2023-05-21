@@ -85,6 +85,9 @@ gem "fast_jsonparser", "0.6.0"
 # Middleware that will make Rack-based apps CORS compatible. 
 gem "rack-cors", "1.1.1"
 
+# Upload files in your Ruby applications, map them to a range of ORMs, store them on different backends.
+gem "carrierwave", "2.2.3"
+
 # Clean, powerful, agnostic, customizable and sophisticated paginator for Rails
 gem "kaminari", "1.2.2"
 
