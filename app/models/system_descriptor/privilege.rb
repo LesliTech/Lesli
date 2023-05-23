@@ -1,7 +1,7 @@
 
 class SystemDescriptor::Privilege < ApplicationLesliRecord
-    belongs_to :system_descriptor, foreign_key: "system_descriptors_id"
-    belongs_to :system_controller_action, class_name: "SystemController::Action", foreign_key: "system_controller_actions_id"
+    belongs_to :system_descriptor
+    belongs_to :system_controller_action, class_name: "SystemController::Action"
 
     def self.index current_user, query, params
         SystemController.joins(:actions)

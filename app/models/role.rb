@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 class Role < ApplicationLesliRecord
 
-    belongs_to :account,   foreign_key: "accounts_id"
+    belongs_to :account
 
 
     # Role resources

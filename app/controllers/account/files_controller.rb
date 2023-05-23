@@ -19,15 +19,6 @@ For more information read the license file including with this software.
 class Account::FilesController < ApplicationLesliController
     before_action :set_account_file, only: [:show, :update, :destroy]
 
-    def privileges
-        {
-            index: [],
-            new: [],
-            show: [],
-            destroy: [],
-        }
-    end
-
     # GET /account/files
     def index
         respond_to do |format|
@@ -71,7 +62,8 @@ class Account::FilesController < ApplicationLesliController
 
     # POST /account/files
     def create
-
+        L2.msg "params"
+        pp account_file_params
         account_file = current_user.account.files.new(account_file_params)
         account_file.user_creator = current_user
 

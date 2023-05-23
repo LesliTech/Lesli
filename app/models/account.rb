@@ -19,15 +19,15 @@ For more information read the license file including with this software.
 class Account < ApplicationRecord
 
     # accounts always belongs to a user
-    belongs_to :user, foreign_key: "users_id", optional: true
+    belongs_to :user, optional: true
 
 
     # account resources
-    has_many :users,            foreign_key: "accounts_id"
-    has_many :roles,            foreign_key: "accounts_id"
+    has_many :users
+    has_many :roles
     has_many :files,            foreign_key: "accounts_id"
     has_many :cronos,           foreign_key: "accounts_id"
-    has_many :settings,         foreign_key: "accounts_id", class_name: "Account::Setting"
+    has_many :settings
     has_many :locations,        foreign_key: "accounts_id"
     has_many :activities,       foreign_key: "accounts_id", class_name: "Account::Activity"
     has_many :currencies,       foreign_key: "accounts_id", class_name: "Account::Currency"

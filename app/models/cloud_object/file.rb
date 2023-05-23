@@ -29,8 +29,8 @@ class CloudObject::File < ApplicationLesliRecord
 
     belongs_to :user_creator, class_name: "::User", foreign_key: "users_id"
 
-    validates_presence_of :attachment, on: :create
-    validates_presence_of :file_type
+    #validates_presence_of :attachment, on: :create
+    #validates_presence_of :file_type
 
     enum file_type: {}
 

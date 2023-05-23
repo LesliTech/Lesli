@@ -33,9 +33,9 @@ class Account::File < CloudObject::File
     def self.index(current_user, query)
         data = current_user.account.files
 
-        if query[:filters]["only"] == "logos"
-            data = data.where("file_type in (?)", self.file_types.keys)
-        end
+        # if query[:filters]["only"] == "logos"
+        #     data = data.where("file_type in (?)", self.file_types.keys)
+        # end
 
         data
     end

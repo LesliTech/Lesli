@@ -24,29 +24,13 @@ class User < ApplicationLesliRecord
     include UserActivities
     include UserPolyfill
 
-    acts_as_paranoid
-
-    validates :email, :presence => true
-
-    devise  :database_authenticatable,
-            :registerable,
-            :rememberable,
-            :recoverable,
-            :validatable,
-            :confirmable,
-            :trackable
-            #:omniauthable, omniauth_providers: [:google_oauth2, :facebook]
-
-
     # user details are saved on separate table
-    has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy
+    has_one :detail, inverse_of: :user, autosave: true, dependent: :destroy
     accepts_nested_attributes_for :detail, update_only: true
 
-
     # users belongs to an account only... and must have a role
-    belongs_to :account, foreign_key: "accounts_id", optional: true
+    belongs_to :account, optional: true
     belongs_to :role, foreign_key: "roles_id", optional: true
-
 
     # users data extensions
     has_many :logs,             foreign_key: "users_id", inverse_of: :user
@@ -60,12 +44,22 @@ class User < ApplicationLesliRecord
     has_many :access_codes,     foreign_key: "users_id"
     has_many :auth_providers,   foreign_key: "users_id"
 
-
     # users can have many roles and too many privileges through the roles
     has_many :user_roles,       foreign_key: "users_id",    class_name: "User::Role"
     has_many :roles,            through: :user_roles,       source: :roles
     has_many :privileges,       through: :roles
 
+    # devise implementation
+    devise  :database_authenticatable,
+            :registerable,
+            :rememberable,
+            :recoverable,
+            :validatable,
+            :confirmable,
+            :trackable
+            #:omniauthable, omniauth_providers: [:google_oauth2, :facebook]
+
+    validates :email, :presence => true
 
     # callbacks
     before_create :before_create_user
@@ -75,31 +69,10 @@ class User < ApplicationLesliRecord
     after_update :update_associated_record
 
 
-    # type of user
-    #   system user
-    #   integration apps
-    enum category: { user: "user", integration: "integration" }
-
-
-    # @return [void]
-    # @description After creating a user, creates the necessary resources for them to access the different engines.
+    # allow save duplicated users to execute callbacks
     def save(*args)
         super()
         rescue ActiveRecord::RecordNotUnique => error
-    end
-
-
-    # @return [void]
-    # @description After creating a user, creates the necessary resources for them to access the different engines.
-    def user_creator
-        return nil
-    end
-
-
-    # @return [void]
-    # @description After creating a user, creates the necessary resources for them to access the different engines.
-    def user_main
-        return self
     end
 
 
@@ -148,6 +121,7 @@ class User < ApplicationLesliRecord
             # defined in user extensions
             self.set_alias
 
+            return 
             if defined? CloudOne
 
                 data = {

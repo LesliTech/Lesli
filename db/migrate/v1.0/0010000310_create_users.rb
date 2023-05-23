@@ -38,6 +38,10 @@ class CreateUsers < ActiveRecord::Migration[5.2]
             t.string    :reset_password_token
             t.datetime  :reset_password_sent_at
 
+            # Password and access management
+            t.datetime  :password_expiration_at
+            t.datetime  :locked_until
+
             # Rememberable
             t.datetime  :remember_created_at
 
@@ -65,27 +69,19 @@ class CreateUsers < ActiveRecord::Migration[5.2]
             t.string    :unlock_token # Only if unlock strategy is :email or :both
             t.datetime  :locked_at
 
-            
-
-            # Password and access management
-            t.datetime  :password_expiration_at
-            t.datetime  :locked_until
-
             # Acts as paranoid
             t.datetime  :deleted_at, index: true
-            t.timestamps null: false
-
+            t.timestamps
         end
 
-        add_reference :users, :accounts, foreign_key: true
+        add_reference(:users, :account, foreign_key: { to_table: :accounts })
 
-        add_index :users, :email,                unique: true
-        add_index :users, :unlock_token,         unique: true
-        add_index :users, :confirmation_token,   unique: true
-        add_index :users, :reset_password_token, unique: true
+        add_index(:users, :email,                unique: true)
+        add_index(:users, :unlock_token,         unique: true)
+        add_index(:users, :confirmation_token,   unique: true)
+        add_index(:users, :reset_password_token, unique: true)
 
         # adding account owner (user)
-        add_reference :accounts, :users, foreign_key: true
-
+        add_reference(:accounts, :user, foreign_key: { to_table: :users })
     end
 end

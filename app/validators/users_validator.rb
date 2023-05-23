@@ -19,6 +19,7 @@ For more information read the license file including with this software.
 class UsersValidator < ApplicationLesliValidator
 
     def validate 
+        active?()
         confirmed?()
         roles_empty?()
         active_roles?()
@@ -126,6 +127,25 @@ class UsersValidator < ApplicationLesliValidator
     end
 
     private
+
+
+    # check if user is able to create a new session
+    def active?
+
+        unless @resource.active? && @resource.locked_until != nil
+
+            # save a locked log for the requested user
+            @resource.logs.create({
+                title: "session_creation_failed",
+                description: "user_locked"
+            })
+
+            return false
+
+        end
+
+        return true
+    end
 
     def confirmed?
 
