@@ -49,10 +49,10 @@ class Users::SessionsController < Devise::SessionsController
     def create
 
         # search for a existing user 
-        resource = User.find_for_database_authentication(email: sign_in_params[:email], active: true)
+        user = User.find_for_database_authentication(email: sign_in_params[:email])
 
         # respond with a no valid credentials generic error if not valid user found
-        unless resource
+        unless user
             Account::Activity.log("core", "/session/create", "session_creation_failed", "no_valid_email", {
                 email: (sign_in_params[:email] || "")
             }) 
@@ -60,10 +60,10 @@ class Users::SessionsController < Devise::SessionsController
         end
 
         # save a invalid credentials log for the requested user
-        log = resource.logs.new({ title: "session_creation_atempt" })
+        log = user.logs.new({ title: "session_creation_atempt" })
 
         # check password validation
-        unless resource.valid_password?(sign_in_params[:password])
+        unless user.valid_password?(sign_in_params[:password])
 
             # save a invalid credentials log for the requested user
             log.update({
@@ -77,7 +77,7 @@ class Users::SessionsController < Devise::SessionsController
         end
 
         # check if user meet requirements to create a new session
-        UsersValidator.new(resource).valid? do |valid, failures|
+        UsersValidator.new(user).valid? do |valid, failures|
 
             # if user do not meet requirements to login
             unless valid
@@ -100,13 +100,13 @@ class Users::SessionsController < Devise::SessionsController
 
 
         # create a new session for the user
-        current_session = User::SessionServices.new(resource).create(get_user_agent, request.remote_ip)
+        current_session = User::SessionServices.new(user).create(get_user_agent, request.remote_ip)
 
         # make session id globally available
         session[:user_session_id] = current_session[:id]
 
         # create a new multi factor authentication service instance for the current user 
-        #mfa_service = User::MfaService.new(resource, log)
+        #mfa_service = User::MfaService.new(user, log)
 
         # generate a new mfa for the current session (if enabled)
         #mfa_service.generate do |success|
@@ -115,10 +115,10 @@ class Users::SessionsController < Devise::SessionsController
         #end 
 
         # do a user login
-        sign_in(:user, resource)
+        sign_in(:user, user)
 
         # respond successful and send the path user should go
-        respond_with_successful({ default_path: resource.has_role_with_default_path?() })
+        respond_with_successful({ default_path: user.has_role_with_default_path?() })
 
         log_user_agent()
 

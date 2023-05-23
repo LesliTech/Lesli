@@ -1,8 +1,8 @@
 
 class SystemDescriptor < ApplicationLesliRecord
-    has_many :privileges, foreign_key: "system_descriptors_id"
-    has_many :role_descriptors, foreign_key: "system_descriptors_id", class_name: "Role::Descriptor"
-    belongs_to :system_controller, foreign_key: "system_controllers_id"
+    has_many :privileges
+    has_many :role_descriptors, class_name: "Role::Descriptor"
+    belongs_to :system_controller
     validates :name, presence: true
 
     #after_create :initialize_descriptor_privileges

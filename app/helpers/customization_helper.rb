@@ -45,12 +45,10 @@ module CustomizationHelper
     def customization_instance_logo(tag: false, logo: "app-logo", variant: "light", mode: "web", options: {alt: "Logo"})
 
         # loading logo from builder assets
-        # the dasherize is a workaround to keep compatibility with the 
-        # older version of this helper
-        logo_path = "#{lesli_instance_code}/brand/#{logo.dasherize}.svg"
+        logo_path = "#{lesli_instance_code}/brand/#{logo}.svg"
 
         # load favicon as PNG for better compatibility between web browsers
-        logo_path = "#{lesli_instance_code}/brand/#{logo.dasherize}.png" if logo == 'favicon'
+        logo_path = "#{lesli_instance_code}/brand/#{logo}.png" if logo == 'favicon'
 
         # loading logo from core, only if builder engine was not installed
         logo_path = "lesli/brand/#{logo}.svg" if lesli_instance_code == "lesli"

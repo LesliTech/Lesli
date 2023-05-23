@@ -6,6 +6,7 @@ class CreateSystemDescriptors < ActiveRecord::Migration[7.0]
             t.datetime :deleted_at, index: true
             t.timestamps
         end
-        add_reference :system_descriptors, :system_controllers, foreign_key: true
+
+        add_reference(:system_descriptors, :system_controller, foreign_key: { to_table: :system_controllers })
     end
 end

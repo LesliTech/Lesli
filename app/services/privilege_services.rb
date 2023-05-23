@@ -35,13 +35,13 @@ class PrivilegeServices < ApplicationLesliServices
         # all the raw privileges (this includes duplicated privileges)
         records = SystemDescriptor.joins(%(
             INNER JOIN system_descriptor_privileges
-            ON system_descriptor_privileges.system_descriptors_id = system_descriptors.id
+            ON system_descriptor_privileges.system_descriptor_id = system_descriptors.id
         )).joins(%(
             INNER JOIN system_controller_actions 
-            ON system_controller_actions .id = system_descriptor_privileges.system_controller_actions_id
+            ON system_controller_actions.id = system_descriptor_privileges.system_controller_action_id
         )).joins(%(
             INNER JOIN system_controllers 
-            ON system_controllers.id = system_controller_actions.system_controllers_id
+            ON system_controllers.id = system_controller_actions.system_controller_id
         )).joins(%(
             INNER JOIN role_descriptors 
             ON role_descriptors.system_descriptors_id = system_descriptors.id

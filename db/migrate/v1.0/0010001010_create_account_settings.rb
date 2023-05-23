@@ -24,6 +24,6 @@ class CreateAccountSettings < ActiveRecord::Migration[6.0]
             t.string :value
             t.timestamps
         end
-        add_reference :account_settings, :accounts, foreign_key: true
+        add_reference(:account_settings, :account, foreign_key: { to_table: :accounts })
     end
 end

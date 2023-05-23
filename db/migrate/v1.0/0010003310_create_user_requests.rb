@@ -23,17 +23,13 @@ class CreateUserRequests < ActiveRecord::Migration[6.0]
             t.string    :request_controller
             t.string    :request_action
             t.string    :request_method
-            t.string    :request_format
-            t.string    :request_url
             t.integer   :request_count
-
-            t.datetime  :deleted_at, index: true
             t.timestamps
         end
 
         add_reference(:user_requests, :users, foreign_key: true)
         add_reference(:user_requests, :user_sessions, foreign_key: true)
 
-        add_index(:user_requests, [:request_controller, :request_action, :request_format, :users_id, :user_sessions_id], unique: true, name: "user_requests_index")
+        add_index(:user_requests, [:request_controller, :request_action, :users_id, :user_sessions_id], unique: true, name: "user_requests_index")
     end
 end

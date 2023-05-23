@@ -75,14 +75,12 @@ module Interfaces
                         request_controller: controller_path,
                         request_method: request.method,
                         request_action: action_name,
-                        request_format: request.format.symbol || "html",
-                        request_url: request.path,
                         user_sessions_id: session[:user_session_id],
                         request_count: 1
                     },
 
                     # group of columns to consider a request as unique
-                    unique_by: [:request_controller, :request_action, :request_format, :users_id, :user_sessions_id],
+                    unique_by: [:request_controller, :request_action, :users_id, :user_sessions_id],
 
                     # if request id is not unique, increase the counter for this configuration
                     on_duplicate: Arel.sql("request_count = user_requests.request_count + 1")

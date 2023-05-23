@@ -17,5 +17,5 @@ For more information read the license file including with this software.
 =end
 
 class SystemController < ApplicationLesliRecord
-    has_many :actions, foreign_key: "system_controllers_id"
+    has_many :actions
 end

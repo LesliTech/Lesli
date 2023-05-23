@@ -33,9 +33,9 @@ For more information read the license file including with this software.
 @import "lesli/helpers/display";
 @import "lesli/helpers/tooltip";
 @import "lesli/fonts/remixicons";
-//@import "lesli/fonts/families";
+@import "lesli/fonts/families";
 @import "lesli/fonts/mdicons";
-//@import "flag-icon";
+//@import "flag-icon"; import only where it is needed :)
 
 
 // · Loading app layout 
@@ -104,6 +104,11 @@ body {
     scrollbar-width: thin;
     font-weight: normal;
     line-height: 158%;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Montserrat", $family-primary;
 }
 
 
