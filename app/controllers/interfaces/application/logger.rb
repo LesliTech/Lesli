@@ -75,12 +75,12 @@ module Interfaces
                         request_controller: controller_path,
                         request_method: request.method,
                         request_action: action_name,
-                        user_sessions_id: session[:user_session_id],
+                        user_session_id: session[:user_session_id],
                         request_count: 1
                     },
 
                     # group of columns to consider a request as unique
-                    unique_by: [:request_controller, :request_action, :users_id, :user_sessions_id],
+                    unique_by: [:request_controller, :request_action, :user_id, :user_session_id],
 
                     # if request id is not unique, increase the counter for this configuration
                     on_duplicate: Arel.sql("request_count = user_requests.request_count + 1")
@@ -112,7 +112,7 @@ module Interfaces
                     },
 
                     # group of columns to consider a agent as unique
-                    unique_by: [:platform, :os, :browser, :version, :users_id],
+                    unique_by: [:platform, :os, :browser, :version, :user_id],
 
                     # if request id is not unique, increase the counter for this configuration
                     on_duplicate: Arel.sql("count = user_agents.count + 1")

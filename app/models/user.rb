@@ -46,7 +46,7 @@ class User < ApplicationLesliRecord
 
     # users data extensions
     has_many :logs
-    has_many :agents,           foreign_key: "users_id"
+    has_many :agents
     has_many :settings
     has_many :sessions
     has_many :requests
@@ -57,8 +57,8 @@ class User < ApplicationLesliRecord
     has_many :auth_providers,   foreign_key: "users_id"
 
     # users can have many roles and too many privileges through the roles
-    has_many :user_roles 
-    has_many :roles,            through: :user_roles,       source: :roles
+    has_many :user_roles,       class_name: "User::Role" 
+    has_many :roles,            through: :user_roles, source: :role
     has_many :privileges,       through: :roles
 
     # devise implementation
