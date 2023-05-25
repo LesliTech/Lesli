@@ -1,32 +1,51 @@
 <script setup>
 /*
-Copyright (c) 2022, all rights reserved.
+Lesli
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
-pictures and any other information belongs to the owner of this platform.
+Copyright (c) 2023, Lesli Technologies, S. A.
 
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-For more information read the license file including with this software.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Ruby on Rails Development Platform.
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
+
 
 // · import vue tools
 import { onMounted, ref } from "vue"
 
+
 // · import lesli stores
 import { useAccountSettings } from "LesliApp/administration/stores/accountSettings"
+
 
 // · Import dayjs library
 import dayjs from "dayjs"
 
+
 // · implement stores
 const storeAccountSettings = useAccountSettings()
+
 
 // · translations
 const translations = {
@@ -40,6 +59,7 @@ const translations = {
         shared: I18n.t('core.shared'),
     },
 }
+
 
 // . declare variables
 const combinedDate = ref("")
@@ -104,11 +124,10 @@ onMounted(() => {
 
 </script>
 <template>
-    <section class="application-component">
-        <lesli-header 
-            :title="translations.core.account.settings.view_tab_title_time_settings">
+    <application-component>
+        <lesli-header :title="translations.core.account.settings.view_tab_title_time_settings">
         </lesli-header>
-        <form @submit.prevent="storeAccountSettings.postSettings" v-if="!storeAccountSettings.loading">
+        <lesli-form @submit="storeAccountSettings.postSettings" v-if="!storeAccountSettings.loading">
             <div class="columns">
                 <div class="column is-4">
                     <label class="label">
@@ -269,6 +288,6 @@ onMounted(() => {
                     </lesli-button>
                 </div>
             </div>
-        </form>
-    </section>
+        </lesli-form>
+    </application-component>
 </template>

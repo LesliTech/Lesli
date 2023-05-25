@@ -101,33 +101,33 @@ class Account::Setting < ApplicationRecord
         # filter[:password] will indicate if must show password settings.
         # For example, filter[:theme] = true
 
-        if query[:filters][:theme] == "true"
-            theme_settings.map do |setting_name|
-                query_filters.push("name = '#{setting_name}'")
-            end
-        end
+        # if query[:filters][:theme] == "true"
+        #     theme_settings.map do |setting_name|
+        #         query_filters.push("name = '#{setting_name}'")
+        #     end
+        # end
 
-        if query[:filters][:time] == "true"
-            time_settings.map do |setting_name|
-                query_filters.push("name = '#{setting_name}'")
-            end
-        end
+        # if query[:filters][:time] == "true"
+        #     time_settings.map do |setting_name|
+        #         query_filters.push("name = '#{setting_name}'")
+        #     end
+        # end
 
-        if query[:filters][:password] == "true"
-            password_settings.map do |setting_name|
-                query_filters.push("name = '#{setting_name}'")
-            end
-        end
+        # if query[:filters][:password] == "true"
+        #     password_settings.map do |setting_name|
+        #         query_filters.push("name = '#{setting_name}'")
+        #     end
+        # end
 
-        if query[:filters][:goals] == "true"
-            query_filters.push("name = 'configuration_dashboard_goals'")
-        end
+        # if query[:filters][:goals] == "true"
+        #     query_filters.push("name = 'configuration_dashboard_goals'")
+        # end
 
-        if query[:filters][:currency] == "true"
-            currency_settings.map do |setting_name|
-                query_filters.push("name = '#{setting_name}'")
-            end
-        end
+        # if query[:filters][:currency] == "true"
+        #     currency_settings.map do |setting_name|
+        #         query_filters.push("name = '#{setting_name}'")
+        #     end
+        # end
 
         current_user.account.settings.order(created_at: :asc).where(query_filters.join(" or "))
 
