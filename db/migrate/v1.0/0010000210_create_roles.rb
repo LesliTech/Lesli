@@ -53,6 +53,7 @@ class CreateRoles < ActiveRecord::Migration[6.0]
             t.datetime :deleted_at, index: true
             t.timestamps
         end
+
         add_reference(:roles, :account, foreign_key: { to_table: :accounts })
     end
 end

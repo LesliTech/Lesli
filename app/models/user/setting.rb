@@ -1,5 +1,5 @@
 class User::Setting < ApplicationRecord
-    belongs_to :user, foreign_key: "users_id"
+    belongs_to :user
 
     validates :name, presence: true, on: :create
     validates :value, presence: true, on: :create

@@ -1,20 +1,33 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Lesli
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
-pictures and any other information belongs to the owner of this platform.
+Copyright (c) 2023, Lesli Technologies, S. A.
 
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-For more information read the license file including with this software.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Ruby on Rails Development Platform.
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
 class CreateUserSessions < ActiveRecord::Migration[6.0]
@@ -23,9 +36,7 @@ class CreateUserSessions < ActiveRecord::Migration[6.0]
 
             t.inet   :user_remote       # IPv4 and IPv6 hosts and networks
             t.string :user_agent 
-            t.string :user_uuid         # unique user identifier
 
-            t.string :session_uuid      # unique session identifier
             t.string :session_token     # authentication token
             t.string :session_source    # session created for/with
 
@@ -36,6 +47,6 @@ class CreateUserSessions < ActiveRecord::Migration[6.0]
 
             t.timestamps
         end
-        add_reference :user_sessions, :users, foreign_key: true
+        add_reference(:user_sessions, :user, foreign_key: { to_table: :users })
     end
 end
