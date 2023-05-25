@@ -53,15 +53,7 @@ def create_development_user email, rolename, firstname, lastname, password:nil
         user.last_name = lastname
         user.save!
 
-        user.user_roles.create({ role: Role.find_by("name" => rolename) })
-
-        if user
-            # add locale
-            user.settings.create(
-                :name => 'locale', 
-                :value => Rails.application.config.lesli.dig(:env, :default_locale)
-            ) 
-        end
+        #user.user_roles.create({ role: Role.find_by("name" => rolename) })
 
         user
     end

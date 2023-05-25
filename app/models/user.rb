@@ -1,20 +1,33 @@
 =begin
 
-Copyright (c) 2023, all rights reserved.
+Lesli
 
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
-pictures and any other information belongs to the owner of this platform.
+Copyright (c) 2023, Lesli Technologies, S. A.
 
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-For more information read the license file including with this software.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
 
+Lesli · Ruby on Rails Development Platform.
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 =end
 
 class User < ApplicationLesliRecord
@@ -24,28 +37,27 @@ class User < ApplicationLesliRecord
     include UserActivities
     include UserPolyfill
 
+    # users belongs to an account only... and must have a role
+    belongs_to :account, optional: true
+
     # user details are saved on separate table
     has_one :detail, inverse_of: :user, autosave: true, dependent: :destroy
     accepts_nested_attributes_for :detail, update_only: true
 
-    # users belongs to an account only... and must have a role
-    belongs_to :account, optional: true
-    belongs_to :role, foreign_key: "roles_id", optional: true
-
     # users data extensions
-    has_many :logs,             foreign_key: "users_id", inverse_of: :user
+    has_many :logs
     has_many :agents,           foreign_key: "users_id"
-    has_many :settings,         foreign_key: "users_id"
-    has_many :sessions,         foreign_key: "users_id"
-    has_many :requests,         foreign_key: "users_id"
+    has_many :settings
+    has_many :sessions
+    has_many :requests
     has_many :shortcuts,        foreign_key: "users_id"
-    has_many :activities,       foreign_key: "users_id"
+    has_many :activities
     has_one  :integration,      foreign_key: "users_id"
     has_many :access_codes,     foreign_key: "users_id"
     has_many :auth_providers,   foreign_key: "users_id"
 
     # users can have many roles and too many privileges through the roles
-    has_many :user_roles,       foreign_key: "users_id",    class_name: "User::Role"
+    has_many :user_roles 
     has_many :roles,            through: :user_roles,       source: :roles
     has_many :privileges,       through: :roles
 

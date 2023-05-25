@@ -27,10 +27,9 @@ class CreateUserActivities < ActiveRecord::Migration[6.0]
                     column["name"].parameterize.underscore.to_sym
                 )
             end
-            t.bigint :owner_id
             t.timestamps
         end
-        add_foreign_key :user_activities, :users, column: :users_id
-        add_foreign_key :user_activities, :users, column: :owner_id
+        add_reference(:user_activities, :user, foreign_key: { to_table: :users })
+        add_reference(:user_activities, :assigned, foreign_key: { to_table: :users })
     end
 end

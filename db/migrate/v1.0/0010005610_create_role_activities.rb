@@ -10,8 +10,7 @@ class CreateRoleActivities < ActiveRecord::Migration[6.0]
             end
             t.timestamps
         end
-        
-        add_reference   :role_activities, :roles, foreign_key: true, index: { name: "role_activities_roles" }
-        add_foreign_key :role_activities, :users, column: :users_id
+        add_reference(:role_activities, :role, foreign_key: { to_table: :roles })
+        add_reference(:role_activities, :user, foreign_key: { to_table: :users })
     end
 end
