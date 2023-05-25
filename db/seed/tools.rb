@@ -53,7 +53,7 @@ def create_development_user email, rolename, firstname, lastname, password:nil
         user.last_name = lastname
         user.save!
 
-        #user.user_roles.create({ role: Role.find_by("name" => rolename) })
+        user.user_roles.create!({ role: Role.find_by("name" => rolename) })
 
         user
     end

@@ -1,26 +1,39 @@
 =begin
 
-Copyright (c) 2023, all rights reserved.
+Lesli
 
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
-pictures and any other information belongs to the owner of this platform.
+Copyright (c) 2023, Lesli Technologies, S. A.
 
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-For more information read the license file including with this software.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
 
+Lesli · Ruby on Rails Development Platform.
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 =end
 
-require 'bcrypt'
+require "bcrypt"
 
 class User::Session < ApplicationLesliRecord
-    belongs_to :user, foreign_key: "users_id"
+    belongs_to :user
 
     after_create :set_session_token
 
@@ -34,26 +47,7 @@ class User::Session < ApplicationLesliRecord
 
         return if self.session_source == "devise_standar_session"
 
-        rebuild_uuid = true
-
-        while rebuild_uuid do
-
-            user_uuid = SecureRandom.uuid
-            session_uuid = SecureRandom.uuid
-
-            # assign token to user if token is unique
-            unless User::Session.find_by(:user_uuid => user_uuid, :session_uuid => session_uuid)
-                self.user_uuid = user_uuid
-                self.session_uuid = session_uuid
-                self.save!
-                rebuild_uuid = false
-            end
-
-        end
-
-
         return unless self.session_token.blank?
-
 
         rebuild_token = true
 

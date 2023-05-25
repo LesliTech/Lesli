@@ -48,7 +48,7 @@ module UserActivities
         #   User.log_activity_create(User.find(1), user)
         def log_activity_create(current_user, user)
             user.activities.create(
-                owner: current_user,
+                assigned: current_user,
                 category: "action_create"
             )
         end
