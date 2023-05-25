@@ -19,6 +19,8 @@ For more information read the license file including with this software.
 class CloudObject::File < ApplicationLesliRecord
     include ActiveModel::Dirty
 
+    belongs_to :user
+
     self.abstract_class = true
     mount_uploader :attachment_s3,      PublicUploader
     mount_uploader :attachment_public,  PublicUploader
@@ -27,12 +29,10 @@ class CloudObject::File < ApplicationLesliRecord
     before_save  :set_public_accesibility
     after_update :update_attachment
 
-    belongs_to :user_creator, class_name: "::User", foreign_key: "users_id"
+    validates_presence_of :attachment, on: :create
+    validates_presence_of :category
 
-    #validates_presence_of :attachment, on: :create
-    #validates_presence_of :file_type
-
-    enum file_type: {}
+    enum category: {}
 
     # @return [String] This method will return the path of the file
     # @param current_user [User] The user that made a request to execute this method

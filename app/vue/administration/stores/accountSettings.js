@@ -17,6 +17,7 @@ For more information read the license file including with this software.
 
 // ·
 import { defineStore } from "pinia";
+import axios from "axios";
 
 // ·
 export const useAccountSettings = defineStore("account_settings", {
@@ -258,8 +259,23 @@ export const useAccountSettings = defineStore("account_settings", {
          * @description this action is used to process a file that is going to be uploaded
          */
         processFile(event, logo) {
+
+            /*
+            const formData = new FormData();
+            formData.append('account_file[name]', "test")
+            formData.append('account_file[file_type]', "app_logo")
+            formData.append('account_file[attachment]', event.target.files[0]);
+            var headers = { 'Content-Type': 'multipart/form-data' };
+
+            this.http.post(this.url.admin('account/files'), formData, { headers }).then((res) => {
+                res.data.files; // binary representation of the file
+                res.status; // HTTP status
+            });
+
+            return 
+            */
             this.new_file = event.target.files[0]
-            this.new_file.url = URL.createObjectURL(this.new_file)
+            //this.new_file.url = URL.createObjectURL(this.new_file)
             this.postFile(logo)
         },
 
@@ -269,12 +285,15 @@ export const useAccountSettings = defineStore("account_settings", {
          * @description this action is used to post a file into account files
          */
         postFile(logo) {
+
             const formData = new FormData()
             formData.append('account_file[name]', logo.identifier)
-            formData.append('account_file[file_type]', logo.identifier)
+            formData.append('account_file[category]', logo.identifier)
             formData.append('account_file[attachment]', this.new_file)
+            var headers = { 'Content-Type': 'multipart/form-data' };
 
-            this.http.post(this.url.admin('account/files'), formData).then((result) => {
+            this.http.postFile(this.url.admin('account/files'), formData).then((res) => {
+            //this.http.post(this.url.admin('account/files'), formData, { headers }).then((res) => {
                 this.msg.success(I18n.t("core.account/settings").messages_success_image_uploaded_successfully)
             }).catch(error => {
                 console.log(error)

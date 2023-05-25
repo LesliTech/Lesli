@@ -42,7 +42,8 @@ class CreateAccountFiles < ActiveRecord::Migration[6.1]
             end
             t.timestamps
         end
-        add_reference :account_files, :users, foreign_key: true
-        add_reference :account_files, :accounts, foreign_key: true
+
+        add_reference(:account_files, :user, foreign_key: { to_table: :users })
+        add_reference(:account_files, :account, foreign_key: { to_table: :accounts })
     end
 end
