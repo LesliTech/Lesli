@@ -18,17 +18,14 @@ For more information read the license file including with this software.
 =end
 
 class Account::File < CloudObject::File
+    belongs_to :account
+    belongs_to :cloud_object, class_name: "::Account", foreign_key: "account_id"
 
-    enum file_type: {
+    enum category: {
         app_icon: "app_icon",
         app_logo: "app_logo",
-        favicon: "favicon",
-        template: "template",
-        template_audience: "template_audience"
+        favicon: "favicon"
     }
-
-    belongs_to :account, foreign_key: "accounts_id"
-    belongs_to :cloud_object, class_name: "::Account", foreign_key: "accounts_id"
 
     def self.index(current_user, query)
         data = current_user.account.files

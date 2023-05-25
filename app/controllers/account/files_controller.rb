@@ -37,7 +37,7 @@ class Account::FilesController < ApplicationLesliController
         disposition = "attachment" if params["download"]
 
         # Sending file using CarrierWave
-        if @account_file.attachment_s3.file
+        if @account_file.attachment_s3&.file
 
             # We either get the file from AWS and serve it ourselves or provide a direct AWS link with expiration time
             if @account_file.size_mb && @account_file.size_mb > Account::File.size_threshold
@@ -45,7 +45,7 @@ class Account::FilesController < ApplicationLesliController
             else
                 send_data(@account_file.attachment_s3.read, filename: @account_file.attachment_s3_identifier, disposition: disposition, stream: "true")
             end
-        elsif @account_file.attachment_public.file
+        elsif @account_file.attachment_public&.file
             redirect_to @account_file.attachment_public_url, allow_other_host: true
         else
             send_data(@account_file.attachment.read, filename: @account_file.attachment_identifier, disposition: disposition, stream: "true")
@@ -62,10 +62,8 @@ class Account::FilesController < ApplicationLesliController
 
     # POST /account/files
     def create
-        L2.msg "params"
-        pp account_file_params
         account_file = current_user.account.files.new(account_file_params)
-        account_file.user_creator = current_user
+        account_file.user = current_user
 
         if account_file.save
             # IMPORTANT: This update is neccesary after the save so the file can have
@@ -73,7 +71,7 @@ class Account::FilesController < ApplicationLesliController
             account_file.update({})
 
             # Setting up file uploader to upload in background
-            Files::AwsUploadJob.perform_later(account_file)
+            #Files::AwsUploadJob.perform_later(account_file)
             respond_with_successful(account_file)
         else
             respond_with_error(account_file.errors.full_messages.to_sentence)
@@ -111,6 +109,6 @@ class Account::FilesController < ApplicationLesliController
 
     # Only allow a list of trusted parameters through.
     def account_file_params
-        params.require(:account_file).permit(:id, :name, :attachment, :file_type)
+        params.require(:account_file).permit(:id, :name, :attachment, :category)
     end
 end

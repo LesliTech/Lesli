@@ -2,7 +2,7 @@
     <img width="200" alt="Lesli logo" src="./app/assets/images/lesli/brand/app-logo.svg" />
 </p>
 
-<h3 align="center">Ruby on Rails high-level development platform.</h3>
+<h3 align="center">Ruby on Rails SaaS development platform.</h3>
 
 <hr/>
 

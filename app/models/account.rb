@@ -25,7 +25,7 @@ class Account < ApplicationRecord
     # account resources
     has_many :users
     has_many :roles
-    has_many :files,            foreign_key: "accounts_id"
+    has_many :files
     has_many :cronos,           foreign_key: "accounts_id"
     has_many :settings
     has_many :locations,        foreign_key: "accounts_id"

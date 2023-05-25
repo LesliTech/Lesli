@@ -11,22 +11,22 @@
     "name": "attachment_public",
     "type": "string"
 },{
-    "name": "public",
-    "type": "boolean"
-},{
-    "name": "file_type",
+    "name": "category",
     "type": "string"
-},{
-    "name": "deleted_at",
-    "type": "datetime",
-    "index": true
 },{
     "name": "size_mb",
     "type": "decimal"
 },{
-    "name": "external_url",
+    "name": "public",
+    "type": "boolean"
+},{
+    "name": "public_url",
     "type": "text"
 },{
-    "name": "external_url_expiration_date",
+    "name": "public_url_expiration_date",
     "type": "datetime"
+},{
+    "name": "deleted_at",
+    "type": "datetime",
+    "index": true
 }]
