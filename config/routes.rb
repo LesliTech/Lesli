@@ -31,9 +31,6 @@ Building a better future, one line of code at a time.
 =end
 
 Rails.application.routes.draw do
-  namespace :user do
-    resources :tokens
-  end
 
     extend RoutesBuilder
     extend RoutesEngines
