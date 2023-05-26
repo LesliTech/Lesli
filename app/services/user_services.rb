@@ -229,11 +229,11 @@ class UserServices < ApplicationLesliServices
                 active: resource.active
             })
 
-            ::User.log_activity_update(current_user, resource, old_attributes, new_attributes)
+            resource.log_activity_update(current_user, resource, old_attributes, new_attributes)
         else
             self.error(resource.errors.full_messages.to_sentence)
         end
-
+        
         self
     end
 

@@ -30,9 +30,9 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class User::Activity < ApplicationRecord
+class User::Activity < CloudObject::Activity
     belongs_to :user
-    belongs_to :assigned, :class_name => "User"
+    belongs_to :assigned, class_name: "User"
 
     enum category: {
         action_create:                          "action_create",

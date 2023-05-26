@@ -40,8 +40,7 @@ Rails.application.config.lesli.dig(:engines).each do |engine|
 
     L2.msg(
         "Loading seeds for #{instance_klass} environment", 
-        "Version: #{instance_klass::VERSION}", 
-        "Build: #{instance_klass::BUILD}"
+        "Version: #{instance_klass::VERSION} - Build: #{instance_klass::BUILD}"
     )
 
     # dynamic load seeds from installed engines
