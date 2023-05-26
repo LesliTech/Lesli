@@ -1,7 +1,8 @@
 =begin
-<%= File.read(Pathname.new(LESLI_ROOT).join("license")).to_s.force_encoding("ASCII-8BIT") %>
-=end
+<%= File.read(Pathname.new(LESLI_ROOT).join("lesli.txt")).to_s.force_encoding("ASCII-8BIT") %>=end
+
 <% if namespaced? -%>
+
 require_dependency "<%= namespaced_path %>/application_controller"
 
 <% end -%>
@@ -9,23 +10,32 @@ require_dependency "<%= namespaced_path %>/application_controller"
 class <%= controller_class_name %>Controller < ApplicationController
     before_action :set_<%= singular_table_name %>, only: [:show, :update, :destroy]
 
+    # GET <%= route_url %>/list.json
+    def list
+        respond_to do |format|
+            format.html {}
+            format.json do
+                respond_with_successful(<%= class_name %>Services.new(current_user, query).list)
+            end
+        end
+    end
+
     # GET <%= route_url %>
     def index
         respond_to do |format|
             format.html {}
             format.json do
-                respond_with_pagination(<%= class_name %>.index(current_user, @query))
+                respond_with_pagination(<%= class_name %>Services.new(current_user, query).index)
             end
         end
     end
 
-    # GET <%= route_url %>/1
+    # GET <%= route_url %>/:id
     def show
         respond_to do |format|
             format.html {}
             format.json do
-                return respond_with_not_found unless @<%= singular_table_name %>
-                return respond_with_successful(@<%= singular_table_name %>.show(current_user, @query))
+                return respond_with_successful(@<%= singular_table_name %>.show)
             end
         end
     end
@@ -34,28 +44,28 @@ class <%= controller_class_name %>Controller < ApplicationController
     def new
     end
 
-    # GET <%= route_url %>/1/edit
+    # GET <%= route_url %>/:id/edit
     def edit
     end
 
     # POST <%= route_url %>
     def create
-        <%= singular_table_name %> = <%= orm_class.build(class_name, "#{singular_table_name}_params") %>
-        if <%= singular_table_name %>.save
-            respond_with_successful(<%= singular_table_name %>)
+        <%= singular_table_name %> = <%= class_name %>Services.new(current_user, query).create(<%= singular_table_name %>_params)
+        if <%= singular_table_name %>.successful?
+            respond_with_successful(<%= singular_table_name %>.result)
         else
-            respond_with_error(<%= singular_table_name %>.errors.full_messages.to_sentence)
+            respond_with_error(<%= singular_table_name %>.errors)
         end
     end
 
-    # PATCH/PUT <%= route_url %>/1
+    # PATCH/PUT <%= route_url %>/:id
     def update
-        return respond_with_not_found unless @<%= singular_table_name %>
+        @<%= singular_table_name %>.update(<%= singular_table_name %>_params)
 
-        if @<%= singular_table_name %>.update(<%= singular_table_name %>_params)
-            respond_with_successful(@<%= singular_table_name %>.show(current_user, @query))
+        if @<%= singular_table_name %>.successful?
+            respond_with_successful(@<%= singular_table_name %>.result)
         else
-            respond_with_error(@<%= singular_table_name %>.errors.full_messages.to_sentence)
+            respond_with_error(@<%= singular_table_name %>.errors)
         end
     end
 
@@ -74,7 +84,8 @@ class <%= controller_class_name %>Controller < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_<%= singular_table_name %>
-        @<%= singular_table_name %> = current_user.account.<%= singular_table_name.pluralize %>.find_by_id(params[:id])
+        @<%= singular_table_name %> = <%= class_name %>Services.new(current_user, query).find(params[:id])
+        return respond_with_not_found unless @<%= singular_table_name %>.found?
     end
 
     # Only allow a list of trusted parameters through.
