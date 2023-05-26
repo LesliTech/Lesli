@@ -51,7 +51,7 @@ class User < ApplicationLesliRecord
     has_many :sessions
     has_many :requests
     has_many :shortcuts,        foreign_key: "users_id"
-    has_many :activities
+    has_many :activities,       class_name: "User::Activity"
     has_one  :integration,      foreign_key: "users_id"
     has_many :access_codes,     foreign_key: "users_id"
     has_many :auth_providers,   foreign_key: "users_id"

@@ -31,6 +31,9 @@ Building a better future, one line of code at a time.
 =end
 
 Rails.application.routes.draw do
+  namespace :user do
+    resources :tokens
+  end
 
     extend RoutesBuilder
     extend RoutesEngines
@@ -60,7 +63,7 @@ Rails.application.routes.draw do
     match "/500", :to => "errors#internal_server_error", :via => :all
 
     authenticated :user do
-        root to: redirect("/dashboard"), as: :root_authenticated
+        root to: redirect("/administration"), as: :root_authenticated
     end
 
     unauthenticated :user do

@@ -31,6 +31,26 @@ module UserActivities
         self.logs.create(session, description)
     end
 
+    def log_activity_update(current_user, user, old_attributes, new_attributes)
+        old_attributes.except!("id", "users_id", "created_at", "updated_at", "deleted_at")
+        old_attributes.each do |key, value|
+            if value != new_attributes[key]
+                value_from = value
+                value_to = new_attributes[key]
+                value_from = Courier::Core::Date.to_string_datetime(value_from) if value_from.is_a?(Time) || value_from.is_a?(Date)
+                value_to = Courier::Core::Date.to_string_datetime(value_to) if value_to.is_a?(Time) || value_to.is_a?(Date)
+
+                user.activities.create!(
+                    assigned: current_user,
+                    category: "action_update",
+                    field_name: key,
+                    value_from: value_from,
+                    value_to: value_to
+                )
+            end
+        end
+    end    
+
 
     # Define class methods from given block
     # This allows to inject class methods to the User model, so we can use:
