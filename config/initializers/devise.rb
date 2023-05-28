@@ -368,13 +368,5 @@ module Devise
             padded_str
 
         end
-
-        def random_hex(length, upcase)
-            hex(length, upcase)
-        end
-        
-        def random_number(length)
-            number(length)
-        end
     end
 end

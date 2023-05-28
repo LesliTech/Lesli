@@ -1,0 +1,27 @@
+Description:
+    Creates a full Lesli resource
+
+Example:
+    rails generate lesli Core/Things
+    rails generate lesli CloudEngine/Things
+
+
+    This will create:
+
+        Rails resources:
+            /engines/CloudEngine/db/migrate/create_things.rb
+            /engines/CloudEngine/app/controllers/things_controller.rb
+            /engines/CloudEngine/app/models/thing.rb
+
+        Rails views:
+            /engines/CloudEngine/app/views/things
+            /engines/CloudEngine/app/views/things/index.html.erb
+            /engines/CloudEngine/app/views/things/edit.html.erb
+            /engines/CloudEngine/app/views/things/show.html.erb
+            /engines/CloudEngine/app/views/things/new.html.erb
+            /engines/CloudEngine/app/views/things/_form.html.erb
+            /engines/CloudEngine/app/views/things/_token.html.erb
+
+        Rspec tests:
+            /engines/CloudEngine/spec/requests/things_spec.rb
+            /engines/CloudEngine/spec/models/thing_spec.rb
