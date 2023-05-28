@@ -1,0 +1,112 @@
+/*
+<%= File.read(Pathname.new(LESLI_ROOT).join("lesli.txt")).to_s.force_encoding("ASCII-8BIT") %>*/
+
+
+// · 
+import { defineStore } from "pinia"
+
+
+// · 
+export const use<%= @information_vue[:resource] %> = defineStore("<%= @information_vue[:engine] %>.<%= @information_vue[:resource] %>", {
+    state: () => {
+        return {
+            <%= @information_vue[:store_name].singularize %>: {
+                id: null
+            },
+            list: [],
+            index: {
+                loading: false,
+                search: "",
+                pagination: {},
+                records: [],
+            },
+            options: {
+            }
+        }
+    },
+    actions: {
+
+        search(search_string) {
+            this.index.pagination.page = 1
+            this.index.search = search_string
+            this.index.loading = true
+            this.getUsers()
+        },
+
+        fetchList() {
+            return this.http.get(this.url.<%= @information_vue[:engine_code].sub('cloud_', '') %>("<%= @information_vue[:resource_code] %>/list")).then(result => {
+                this.list = result
+            }).catch(error => {
+                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
+            })
+        },
+
+        fetch<%= @information_vue[:resource] %>() {
+
+            if (this.index.pagination?.results > 0) {
+                return 
+            }
+
+            this.index.loading = true
+            this.get<%= @information_vue[:resource] %>()
+
+        },
+
+        fetch<%= @information_vue[:resource].singularize %>() {
+
+            if (this.<%= @information_vue[:resource].singularize %>?.id != null) {
+                return 
+            }
+
+            this.index.loading = true
+            this.get<%= @information_vue[:resource].singularize %>()
+        },
+
+        get<%= @information_vue[:resource] %>() {
+            this.http.get(
+                this.url
+                .<%= @information_vue[:engine_code].sub('cloud_', '') %>("<%= @information_vue[:resource_code] %>")
+                .search(this.index.search)
+                .paginate(this.index.pagination.page, this.index.pagination.perPage)
+            ).then(result => {
+                this.index = result
+            }).catch(error => {
+                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
+            }).finally(() => {
+                this.index.loading = false
+            })
+        },
+
+        get<%= @information_vue[:resource].singularize %>() {
+            this.http.get(this.url.<%= @information_vue[:engine_code].sub('cloud_', '') %>("<%= @information_vue[:resource_code] %>/:id", this.<%= @information_vue[:store_name].singularize %>.id)).then(result => {
+                this.<%= @information_vue[:resource].singularize.downcase %> = result
+            }).catch(error => {
+                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
+            })
+        },
+
+        post<%= @information_vue[:resource] %>() {
+            return this.http.post(this.url.<%= @information_vue[:engine_code].sub('cloud_', '') %>("<%= @information_vue[:resource_code] %>"), {
+                <%= @information_vue[:store_name].singularize %>: this.<%= @information_vue[:store_name].singularize %>
+            })
+        },
+
+        put<%= @information_vue[:resource] %>() {
+            return this.http.post(this.url.<%= @information_vue[:engine_code].sub('cloud_', '') %>("<%= @information_vue[:resource_code] %>/:id", this.<%= @information_vue[:store_name].singularize %>.id), {
+                <%= @information_vue[:store_name].singularize %>: this.<%= @information_vue[:store_name].singularize %>
+            })
+        },
+
+        delete<%= @information_vue[:resource] %>() {
+            return this.http.delete(this.url.<%= @information_vue[:engine_code].sub('cloud_', '') %>("<%= @information_vue[:resource_code] %>/:id", this.<%= @information_vue[:store_name].singularize %>.id))
+        },
+
+        getOptions() {
+            this.http.get(this.url.<%= @information_vue[:engine_code].sub('cloud_', '') %>("<%= @information_vue[:resource_code] %>/options")).then(result => {
+                this.options = result
+            }).catch(error => {
+                this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
+            })
+        }
+    }
+})

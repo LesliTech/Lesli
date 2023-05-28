@@ -37,49 +37,52 @@ require_relative "application"
 Rails.application.initialize!
 
 # Lesli initialize validations
-Rails.application.configure do
 
-    errors = []
+if Rails.const_defined?("Server")
+    Rails.application.configure do
 
-    # Essentials, we must provide a database connection
-    errors.push("Error with database credentials") if !Rails.application.credentials.config.has_key?(:db)
-    errors.push("Error with database credentials") if !Rails.application.credentials.db.has_key?(:database)
-    errors.push("Error with database credentials") if !Rails.application.credentials.db.has_key?(:username)
-    errors.push("Error with database credentials") if !Rails.application.credentials.db.has_key?(:password)
+        errors = []
 
-    # exit execution if there are errors
-    if errors.size > 0
-        L2.fatal(*errors);  exit;
+        # Essentials, we must provide a database connection
+        errors.push("Error with database credentials") if !Rails.application.credentials.config.has_key?(:db)
+        errors.push("Error with database credentials") if !Rails.application.credentials.db.has_key?(:database)
+        errors.push("Error with database credentials") if !Rails.application.credentials.db.has_key?(:username)
+        errors.push("Error with database credentials") if !Rails.application.credentials.db.has_key?(:password)
+
+        # exit execution if there are errors
+        if errors.size > 0
+            L2.fatal(*errors);  exit;
+        end
+
+        # instance name from builder
+        instance = Rails.application.config.lesli.dig(:instance, :name)
+
+        # get version and build number
+        revision = Lesli::System.revision()
+
+        # get installed engines
+        engines = Lesli::System.engines().map { |engine| {
+            :engine => engine[:code], :version => "#{engine[:version]} (#{engine[:type]})"
+        }}
+
+        # print pretty instance information 
+
+        L2.br(4)
+
+        # core information
+        L2.m("Lesli: ", "Version: " << Lesli::VERSION, "Build: " << Lesli::BUILD)
+
+        L2.br()
+
+        # builder information
+        L2.m("Instance: " << instance, "Version: " << revision[:version], "Build: " << revision[:build])
+
+        L2.br(2)
+
+        # print list of engines
+        L2.table(engines)
+
+        L2.br(2)
+
     end
-
-    # instance name from builder
-    instance = Rails.application.config.lesli.dig(:instance, :name)
-
-    # get version and build number
-    revision = Lesli::System.revision()
-
-    # get installed engines
-    engines = Lesli::System.engines().map { |engine| {
-        :engine => engine[:code], :version => "#{engine[:version]} (#{engine[:type]})"
-    }}
-
-    # print pretty instance information 
-
-    L2.br(4)
-
-    # core information
-    L2.m("Lesli: ", "Version: " << Lesli::VERSION, "Build: " << Lesli::BUILD)
-
-    L2.br()
-
-    # builder information
-    L2.m("Instance: " << instance, "Version: " << revision[:version], "Build: " << revision[:build])
-
-    L2.br(2)
-
-    # print list of engines
-    L2.table(engines)
-
-    L2.br(2)
-
 end

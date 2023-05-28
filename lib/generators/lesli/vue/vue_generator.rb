@@ -1,32 +1,73 @@
 =begin
-Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
-pictures and any other information belongs to the owner of this platform.
+Lesli
 
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
+Copyright (c) 2023, Lesli Technologies, S. A.
 
-For more information read the license file including with this software.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Ruby on Rails Development Platform.
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 =end
-class VueGenerator < Rails::Generators::Base
-    source_root File.expand_path('templates', __dir__)
-    argument :model, type: :string
 
+
+# · 
+require "#{Rails.root}/lib/generators/application_lesli_generator.rb"
+
+
+# · 
+class Lesli::VueGenerator < ApplicationLesliGenerator
+    source_root File.expand_path("templates", __dir__)
+
+    def generator
+        L2.msg "Generating vue application"
+    end
+
+    def generate_stores
+
+        template("store_js.template", @information_vue[:path_store])
+
+        # destination_path = Rails.root.join(@engine_data[:base_path], "app", "vue3", "stores", "#{@app_data[:underscore_resource]}.js")
+        # copy_file("stores/store_js.template", destination_path)
+        # gsub_file(destination_path, "%license%", @license)
+        # gsub_file(destination_path, "%engine%", @app_data[:engine])
+        # gsub_file(destination_path, "%app_route%", @app_data[:route])
+        # gsub_file(destination_path, "%underscore_resource%", @app_data[:underscore_resource])
+        # gsub_file(destination_path, "%underscore_resources%", @app_data[:underscore_resource].pluralize)
+        # gsub_file(destination_path, "%camel_case_resource%", @app_data[:camel_case_resource])
+        # gsub_file(destination_path, "%camel_case_resources%", @app_data[:camel_case_resource].pluralize)
+        # gsub_file(destination_path, "%snake_case_resource%", @app_data[:snake_case_resource])
+        # gsub_file(destination_path, "%humanized_resource%", @app_data[:humanized_resource])
+        # gsub_file(destination_path, "%humanized_resources%", @app_data[:humanized_resource].pluralize)
+    end
+
+=begin
 
     # Sets the variables @engine_data, which contains information about the engine, and
     # @app_data, which contains information about the name and namespace of the created app
     def parse_app_name
         @engine_data = parse_engine_data
         @app_data = parse_app_data
-
-        pp @app_data
-
         @license = File.read(Rails.root.join("license")).to_s.force_encoding("ASCII-8BIT")
     end
 
@@ -66,7 +107,7 @@ class VueGenerator < Rails::Generators::Base
         gsub_file(destination_path, "%humanized_resources%", @app_data[:humanized_resource].pluralize)
     end
 
-=begin
+
     # Creates the js file of the form component.
     # Copies the content of the template found in ./templates/components/form_vue.template and modifies some placeholders
     # to match the engine, namespace, and name of the model
@@ -86,7 +127,7 @@ class VueGenerator < Rails::Generators::Base
             gsub_file(destination_path, "%humanized_resource%", @app_data[:humanized_resource])
         end
     end
-=end
+
 
     private
 
@@ -165,4 +206,5 @@ class VueGenerator < Rails::Generators::Base
         }
         
     end
+=end
 end

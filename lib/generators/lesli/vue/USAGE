@@ -1,0 +1,17 @@
+Description:
+    Creates a full Lesli vue application
+
+Example:
+    rails generate lesli Core/Things
+    rails generate lesli CloudEngine/Things
+
+    This will create:
+
+        vue files:
+            /engines/CloudEngine/lib/vue/apps/things/components/form.vue
+            /engines/CloudEngine/lib/vue/apps/things/index.vue
+            /engines/CloudEngine/lib/vue/apps/things/show.vue
+            /engines/CloudEngine/lib/vue/apps/things/new.vue
+
+        store:
+            /engines/CloudEngine/lib/vue/apps/stores/things.js

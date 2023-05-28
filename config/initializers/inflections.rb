@@ -17,6 +17,6 @@
 
 ActiveSupport::Inflector.inflections do |inflect|
   
-    # Leave and Leaves is an irregular noun, so we should specify it so rails can pluralize it properly
+    # Leave and Leaves are irregular nouns, so we should specify it so rails can pluralize it properly
     inflect.irregular "leave", "leaves"
 end
