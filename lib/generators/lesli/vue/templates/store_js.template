@@ -6,7 +6,7 @@
 import { defineStore } from "pinia"
 
 // · 
-export const use<%= @info[:resource] %> = defineStore("<%= @info[:engine] %>.<%= @info[:resource] %>", {
+export const use<%= @info[:resources] %> = defineStore("<%= @info[:engine] %>.<%= @info[:resource] %>", {
     state: () => {
         return {
             <%= @info[:resource_camel] %>: {
