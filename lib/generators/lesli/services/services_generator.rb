@@ -36,21 +36,12 @@ require "#{Rails.root}/lib/generators/application_lesli_generator.rb"
 
 
 # · 
-class LesliGenerator < ApplicationLesliGenerator
-    source_root File.expand_path('templates', __dir__)
-    
-    def main
+class Lesli::ServicesGenerator < ApplicationLesliGenerator
+    source_root File.expand_path("templates", __dir__)
 
-        L2.msg "Generating rails scaffold"
+    def generator
+        L2.msg "Generating services"
 
-        L2.msg "Generating cloud objects"
-
-        generate("lesli:services", name)
-
-        L2.msg "Generating rspec tests"
-
-        L2.msg "Generating vue application"
-        generate("lesli:vue", name)
-
+        template("services_rb.template", @services[:path])
     end
 end

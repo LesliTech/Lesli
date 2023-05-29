@@ -33,6 +33,7 @@ class ApplicationLesliGenerator < Rails::Generators::NamedBase
 
     @info;
     @vue;
+    @services;
 
     def parse_information 
 
@@ -58,9 +59,17 @@ class ApplicationLesliGenerator < Rails::Generators::NamedBase
         }
     end
 
+    def parse_services 
+
+        path_base = Rails.root.join("engines", @info[:engine_code], "app", "services")
+
+        @services = {
+            :path => path_base.join(@info[:resource].downcase + "_services.rb")
+        }
+    end
+
     def parse_vue
 
-        # generator information 
         path_base = Rails.root.join("engines", @info[:engine_code], "lib", "vue")
 
         @vue = {

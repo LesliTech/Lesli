@@ -1,0 +1,9 @@
+Description:
+    Creates a Lesli services object
+
+Example:
+    rails generate lesli:services Core/Things
+    rails generate lesli:services CloudEngine/Things
+
+    This will create:
+        /engines/CloudEngine/app/services/thing_services.rb
