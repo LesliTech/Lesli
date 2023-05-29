@@ -44,21 +44,11 @@ class Lesli::VueGenerator < ApplicationLesliGenerator
     end
 
     def generate_stores
+        template("store_js.template", @vue[:path_store])
+    end
 
-        template("store_js.template", @information_vue[:path_store])
-
-        # destination_path = Rails.root.join(@engine_data[:base_path], "app", "vue3", "stores", "#{@app_data[:underscore_resource]}.js")
-        # copy_file("stores/store_js.template", destination_path)
-        # gsub_file(destination_path, "%license%", @license)
-        # gsub_file(destination_path, "%engine%", @app_data[:engine])
-        # gsub_file(destination_path, "%app_route%", @app_data[:route])
-        # gsub_file(destination_path, "%underscore_resource%", @app_data[:underscore_resource])
-        # gsub_file(destination_path, "%underscore_resources%", @app_data[:underscore_resource].pluralize)
-        # gsub_file(destination_path, "%camel_case_resource%", @app_data[:camel_case_resource])
-        # gsub_file(destination_path, "%camel_case_resources%", @app_data[:camel_case_resource].pluralize)
-        # gsub_file(destination_path, "%snake_case_resource%", @app_data[:snake_case_resource])
-        # gsub_file(destination_path, "%humanized_resource%", @app_data[:humanized_resource])
-        # gsub_file(destination_path, "%humanized_resources%", @app_data[:humanized_resource].pluralize)
+    def generate_apps 
+        template("index_js.template", @vue[:path_apps].join("index.vue"))
     end
 
 =begin
@@ -91,20 +81,6 @@ class Lesli::VueGenerator < ApplicationLesliGenerator
             gsub_file(destination_path, "%humanized_resource%", @app_data[:humanized_resource])
             gsub_file(destination_path, "%humanized_resources%", @app_data[:humanized_resource].pluralize)
         end
-
-        # create store
-        destination_path = Rails.root.join(@engine_data[:base_path], "app", "vue3", "stores", "#{@app_data[:underscore_resource]}.js")
-        copy_file("stores/store_js.template", destination_path)
-        gsub_file(destination_path, "%license%", @license)
-        gsub_file(destination_path, "%engine%", @app_data[:engine])
-        gsub_file(destination_path, "%app_route%", @app_data[:route])
-        gsub_file(destination_path, "%underscore_resource%", @app_data[:underscore_resource])
-        gsub_file(destination_path, "%underscore_resources%", @app_data[:underscore_resource].pluralize)
-        gsub_file(destination_path, "%camel_case_resource%", @app_data[:camel_case_resource])
-        gsub_file(destination_path, "%camel_case_resources%", @app_data[:camel_case_resource].pluralize)
-        gsub_file(destination_path, "%snake_case_resource%", @app_data[:snake_case_resource])
-        gsub_file(destination_path, "%humanized_resource%", @app_data[:humanized_resource])
-        gsub_file(destination_path, "%humanized_resources%", @app_data[:humanized_resource].pluralize)
     end
 
 
