@@ -2,8 +2,8 @@ Description:
     Creates a full Lesli vue application
 
 Example:
-    rails generate lesli Core/Things
-    rails generate lesli CloudEngine/Things
+    rails generate lesli:vue Core/Things
+    rails generate lesli:vue CloudEngine/Things
 
     This will create:
 
