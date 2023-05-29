@@ -31,35 +31,42 @@ Building a better future, one line of code at a time.
 =end
 class ApplicationLesliGenerator < Rails::Generators::NamedBase 
 
-    @information_vue;
+    @info;
+    @vue;
 
-    def parse_information_vue 
+    def parse_information 
 
-        engine, resource = name.split("/")
+        engine, resources = name.split("/")
 
         # engine information 
         engine_code = engine.underscore
 
         # resource information 
-        resource_code = resource.underscore
+        resources_code = resources.underscore
 
-        # generator information 
-        path_base = Rails.root.join("engines", engine_code, "lib", "vue")
-        store_name = resource_code.camelcase(:lower)
-
-        @information_vue = {
+        @info = {
             :engine => engine,
             :engine_code => engine_code,
+            :engine_name => engine_code.sub('cloud_', ''),
 
-            :resource => resource,
-            :resource_code => resource_code,
-            
-            :path_base => path_base,
-            :path_apps => path_base.join("apps", resource_code),
-            :path_store => path_base.join("stores", "#{ store_name }.js"),
+            :resources => resources,
+            :resources_code => resources_code,
+            :resources_camel => resources_code.camelcase(:lower),
 
-            :store_name => store_name,
+            :resource => resources.singularize,
+            :resource_camel => resources_code.singularize.camelcase(:lower)
         }
     end
 
+    def parse_vue
+
+        # generator information 
+        path_base = Rails.root.join("engines", @info[:engine_code], "lib", "vue")
+
+        @vue = {
+            :path_base => path_base,
+            :path_apps => path_base.join("apps", @info[:resources_code]),
+            :path_store => path_base.join("stores", "#{ @info[:resources_camel] }.js")
+        }
+    end
 end
