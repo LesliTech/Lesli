@@ -59,7 +59,7 @@ onMounted(() => {
 <template>
     <application-component>
         <lesli-header :title="<%= @info[:resources] %>">
-            <lesli-button icon="add" :to="url.<%= @info[:engine_name] %>("<%= @info[:resource_codes] %>/new")">
+            <lesli-button icon="add" :to="url.<%= @info[:engine_name] %>('<%= @info[:resources_code] %>/new')">
                 {{ translations.core.shared.view_text_btn_add }}
             </lesli-button>
             <lesli-button
