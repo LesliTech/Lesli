@@ -278,7 +278,6 @@ class UserServices < ApplicationLesliServices
     end
 
     def find id
-        self.resource = current_user.account.users.joins(:detail).find_by(id: id)
-        self
+        super(current_user.account.users.joins(:detail).find_by(id: id))
     end
 end

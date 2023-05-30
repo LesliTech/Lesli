@@ -43,7 +43,11 @@ For more information read the license file including with this software.
 
                     <%# Logo container %>
                     <div class="logo has-text-centered mb-5">
-                        <%= image_tag custom_app_logo_path, :class => "#{lesli_instance_code}-logo", :alt => "logo" %>
+                        <%= image_tag(
+                            "#{lesli_instance_code}/brand/app-auth.svg",    # dynamic path to the instance main logo
+                            :class => "#{lesli_instance_code}-logo",        # dynamic class according to the instance
+                            :alt => "Main logo") 
+                        %>
                         <h1 class="has-text-primary">Create account to discover Lesli</h1>
                     </div>
 

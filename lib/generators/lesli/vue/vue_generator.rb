@@ -40,7 +40,7 @@ class Lesli::VueGenerator < ApplicationLesliGenerator
     source_root File.expand_path("templates", __dir__)
 
     def generator
-        L2.msg "Generating vue application"
+        L2.msg "Generating Lesli vue application"
     end
 
     def generate_stores

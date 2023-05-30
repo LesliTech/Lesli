@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails Development Platform.
+Lesli · Ruby on Rails SaaS development platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -30,9 +30,9 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-#class Account::Activity < ApplicationRecord
+
 class Account::Activity < CloudObject::Activity
-    belongs_to :account, foreign_key: "accounts_id"
+    belongs_to :account
 
     def self.log(system_module_action, system_process, title=nil, description=nil, payload=nil)
         Account.first.activities.create(
@@ -44,8 +44,8 @@ class Account::Activity < CloudObject::Activity
         )
     end
     
-    def self.log_email(system_module_action, description="email", title="email_sent", payload=nil)
-        activity = Account&.first&.activities&.create(
+    def self.log_email(system_module_action, title="email_sent", description="email", payload=nil)
+        Account&.first&.activities&.create(
             system_module: system_module_action,
             system_process: "mailer",
             description: description,

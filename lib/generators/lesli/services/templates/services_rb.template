@@ -9,8 +9,7 @@ class <%= @info[:resource] %>Services < ApplicationLesliServices
     # @description Finds for the resource by the given ID
     # @example
     def find id
-        self.resource = self.current_user.account.<%= @info[:engine_name] %>.<%= @info[:resource].downcase %>.find_by_id(id)
-        self
+        super(self.current_user.account.<%= @info[:engine_name] %>.<%= @info[:resource].downcase %>.find_by_id(id))
     end
 
     # @overwrite
