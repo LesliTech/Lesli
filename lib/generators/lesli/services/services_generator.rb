@@ -40,7 +40,7 @@ class Lesli::ServicesGenerator < ApplicationLesliGenerator
     source_root File.expand_path("templates", __dir__)
 
     def generator
-        L2.msg "Generating services"
+        L2.msg "Generating Lesli Rails services"
 
         template("services_rb.template", @services[:path])
     end

@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails Development Platform.
+Lesli · Ruby on Rails SaaS development platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -40,6 +40,6 @@ class CreateAccountActivities < ActiveRecord::Migration[6.0]
             t.json   :payload
             t.timestamps
         end
-        add_reference :account_activities, :accounts, foreign_key:true
+        add_reference(:account_activities, :account, foreign_key: { to_table: :accounts })
     end
 end

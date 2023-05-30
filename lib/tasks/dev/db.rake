@@ -33,17 +33,27 @@ Building a better future, one line of code at a time.
 namespace :dev do
     namespace :db do
 
-        desc "Drop, build, migrate & seed database (development only)"
+        desc "Drop, build, migrate & seed Lesli database (development only)"
         task :reset => :environment do |task, args|
             reset()
         end
 
-        desc "Load development seeders"
-        task :seed => :environment do |task, args|
-            seed()
+        desc "Build, migrate & seed Lesli database"
+        task :setup => :environment do |task, args|
+            setup()
         end
-
     end
+end
+
+
+# Build, migrate & seed database (development only)
+def setup
+
+    L2.info("Setup Lesli database for development")
+
+    Rake::Task['db:create'].invoke
+    Rake::Task['db:migrate'].invoke
+    Rake::Task['db:seed'].invoke
 
 end
 
@@ -53,26 +63,11 @@ def reset
 
     return if Rails.env.production?
 
-    L2.info("Reset database for development")
+    L2.info("Reset Lesli database for development")
 
     Rake::Task['db:drop'].invoke
     Rake::Task['db:create'].invoke
     Rake::Task['db:migrate'].invoke
     Rake::Task['db:seed'].invoke
 
-end
-
-
-# Load development seeders for any environment
-def seed
-
-    load Rails.root.join("db", "seed", "tools.rb")
-    load Rails.root.join("db", "seed", "development.rb")
-
-    Rails.application.config.lesli.dig(:engines).each do |engine|
-        instance_klass = engine[:name].safe_constantize
-        if File.exists?(instance_klass::Engine.root.join("db", "seed", "development.rb"))
-            load(instance_klass::Engine.root.join("db", "seed", "development.rb"))
-        end
-    end
 end

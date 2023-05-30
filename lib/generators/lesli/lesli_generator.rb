@@ -41,15 +41,14 @@ class LesliGenerator < ApplicationLesliGenerator
     
     def main
 
-        L2.msg "Generating rails scaffold"
+        #L2.msg "Generating rails scaffold"
 
-        L2.msg "Generating cloud objects"
+        #L2.msg "Generating cloud objects"
 
         generate("lesli:services", name)
 
-        L2.msg "Generating rspec tests"
+        #L2.msg "Generating rspec tests"
 
-        L2.msg "Generating vue application"
         generate("lesli:vue", name)
 
     end
