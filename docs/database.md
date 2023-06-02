@@ -13,7 +13,7 @@
 00.10. account_settings
 00.11. account_locations    //-> system_locations??
 00.12. account_activities
-00.13. account_integrations //-> this should be part of the user, share a session token for integrations
+00.13. account_logs
 00.14. account_files
 00.15. account_currencies
 00.16. account_currency_exchange_rates
@@ -33,7 +33,7 @@
 00.37. user_access_codes //-> rename as passes ??
 00.38. user_shortcuts
 00.40. user_agents
-00.41. user_tokens
+00.41. user_tokens //-> new implementation for account integrations, this shares the session token
 
 
 00.02. roles (reference only)

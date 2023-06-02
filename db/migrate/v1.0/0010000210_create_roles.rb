@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails Development Platform.
+Lesli · Ruby on Rails SaaS development platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -50,7 +50,7 @@ class CreateRoles < ActiveRecord::Migration[6.0]
             # role hierarchy
             t.integer   :object_level_permission, default: 10
 
-            t.datetime :deleted_at, index: true
+            t.datetime  :deleted_at, index: true
             t.timestamps
         end
 

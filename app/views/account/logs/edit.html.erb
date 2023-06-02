@@ -1,3 +1,4 @@
+<%
 =begin
 
 Lesli
@@ -17,7 +18,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails Development Platform.
+Lesli · Ruby on Rails SaaS development platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -29,18 +30,5 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 =end
-
-class CreateAccountIntegrations < ActiveRecord::Migration[6.0]
-    def change
-        create_table :account_integrations do |t|
-            t.string :name
-            t.timestamps
-            t.bigint   :user_main_id
-        end
-        
-        add_reference :account_integrations, :users,    foreign_key: true
-        add_reference :account_integrations, :accounts, foreign_key: true
-        add_foreign_key :account_integrations, :users,  column: :user_main_id
-
-    end
-end
+%>
+<router-view></router-view>
