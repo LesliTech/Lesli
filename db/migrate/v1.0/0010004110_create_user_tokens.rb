@@ -29,18 +29,13 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 =end
-class CreateAccountActivities < ActiveRecord::Migration[6.0]
+class CreateUserTokens < ActiveRecord::Migration[7.0]
     def change
-        table_base_structure = JSON.parse(File.read(Rails.root.join('db','structure','00000004_activities.json')))
-        create_table :account_activities do |t|
-            table_base_structure.each do |column|
-                t.send(
-                    column["type"].parameterize.underscore.to_sym,
-                    column["name"].parameterize.underscore.to_sym
-                )
-            end
+        create_table :user_tokens do |t|
+            t.string :name
+            t.string :description
             t.timestamps
         end
-        add_reference(:account_activities, :account, foreign_key: { to_table: :accounts })
+        add_reference(:user_tokens, :user, foreign_key: { to_table: :users })
     end
 end

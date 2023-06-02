@@ -47,6 +47,7 @@ class User < ApplicationLesliRecord
     # users data extensions
     has_many :logs
     has_many :agents
+    has_many :tokens
     has_many :settings
     has_many :sessions
     has_many :requests

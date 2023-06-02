@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails Development Platform.
+Lesli · Ruby on Rails SaaS development platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -40,9 +40,9 @@ class CreateUserSessions < ActiveRecord::Migration[6.0]
             t.string :session_token     # authentication token
             t.string :session_source    # session created for/with
 
-            t.integer  :usage_count                     # total number of interactions 
-            t.datetime :last_used_at                    # last datetime token was used
-            t.datetime :expiration_at, index: true      # auto-expire session at
+            t.integer  :usage_count                 # total number of interactions 
+            t.datetime :last_used_at                # last datetime token was used
+            t.datetime :expiration_at, index: true  # auto-expire session at
             t.datetime :deleted_at, index: true
 
             t.timestamps

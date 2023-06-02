@@ -29,18 +29,16 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 =end
-class CreateAccountActivities < ActiveRecord::Migration[6.0]
+class CreateAccountLogs < ActiveRecord::Migration[6.0]
     def change
-        table_base_structure = JSON.parse(File.read(Rails.root.join('db','structure','00000004_activities.json')))
-        create_table :account_activities do |t|
-            table_base_structure.each do |column|
-                t.send(
-                    column["type"].parameterize.underscore.to_sym,
-                    column["name"].parameterize.underscore.to_sym
-                )
-            end
+        create_table :account_logs do |t|
+            t.string :system_module
+            t.string :system_process
+            t.string :description
+            t.string :title
+            t.json   :payload
             t.timestamps
         end
-        add_reference(:account_activities, :account, foreign_key: { to_table: :accounts })
+        add_reference(:account_logs, :account, foreign_key: { to_table: :accounts })
     end
 end
