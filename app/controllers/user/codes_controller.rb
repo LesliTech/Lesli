@@ -29,89 +29,89 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class Account::LogsController < ApplicationController
-    before_action :set_account_log, only: [:show, :update, :destroy]
+class User::CodesController < ApplicationController
+    before_action :set_user_code, only: [:show, :update, :destroy]
 
-    # GET /account/logs/list.json
+    # GET /user/codes/list.json
     def list
         respond_to do |format|
             format.html {}
             format.json do
-                respond_with_successful(Account::LogServices.new(current_user, query).list)
+                respond_with_successful(User::CodeServices.new(current_user, query).list)
             end
         end
     end
 
-    # GET /account/logs
+    # GET /user/codes
     def index
         respond_to do |format|
             format.html {}
             format.json do
-                respond_with_pagination(Account::LogServices.new(current_user, query).index)
+                respond_with_pagination(User::CodeServices.new(current_user, query).index)
             end
         end
     end
 
-    # GET /account/logs/:id
+    # GET /user/codes/:id
     def show
         respond_to do |format|
             format.html {}
             format.json do
-                return respond_with_successful(@account_log.show)
+                return respond_with_successful(@user_code.show)
             end
         end
     end
 
-    # GET /account/logs/new
+    # GET /user/codes/new
     def new
     end
 
-    # GET /account/logs/:id/edit
+    # GET /user/codes/:id/edit
     def edit
     end
 
-    # POST /account/logs
+    # POST /user/codes
     def create
-        account_log = Account::LogServices.new(current_user, query).create(account_log_params)
-        if account_log.successful?
-            respond_with_successful(account_log.result)
+        user_code = User::CodeServices.new(current_user, query).create(user_code_params)
+        if user_code.successful?
+            respond_with_successful(user_code.result)
         else
-            respond_with_error(account_log.errors)
+            respond_with_error(user_code.errors)
         end
     end
 
-    # PATCH/PUT /account/logs/:id
+    # PATCH/PUT /user/codes/:id
     def update
-        @account_log.update(account_log_params)
+        @user_code.update(user_code_params)
 
-        if @account_log.successful?
-            respond_with_successful(@account_log.result)
+        if @user_code.successful?
+            respond_with_successful(@user_code.result)
         else
-            respond_with_error(@account_log.errors)
+            respond_with_error(@user_code.errors)
         end
     end
 
-    # DELETE /account/logs/1
+    # DELETE /user/codes/1
     def destroy
-        return respond_with_not_found unless @account_log
+        return respond_with_not_found unless @user_code
 
-        if @account_log.destroy
+        if @user_code.destroy
             respond_with_successful
         else
-            respond_with_error(@account_log.errors.full_messages.to_sentence)
+            respond_with_error(@user_code.errors.full_messages.to_sentence)
         end
     end
 
     private
 
     # Use callbacks to share common setup or constraints between actions.
-    def set_account_log
-        @account_log = Account::LogServices.new(current_user, query).find(params[:id])
-        return respond_with_not_found unless @account_log.found?
+    def set_user_code
+        @user_code = User::CodeServices.new(current_user, query).find(params[:id])
+        return respond_with_not_found unless @user_code.found?
     end
 
     # Only allow a list of trusted parameters through.
-    def account_log_params
-        params.require(:account_log).permit(:id, :name)
+    def user_code_params
+        params.require(:user_code).permit(:id, :name)
     end
 end

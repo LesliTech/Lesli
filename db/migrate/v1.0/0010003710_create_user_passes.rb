@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails Development Platform.
+Lesli · Ruby on Rails SaaS development platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -30,19 +30,16 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class CreateAccountCronoSubscriptions < ActiveRecord::Migration[7.0]
+class CreateUserCodes < ActiveRecord::Migration[6.1]
     def change
-        create_table :account_crono_subscriptions do |t|
-            t.string        :engine_code
-            t.string        :task_name
-            t.boolean       :active
-            
-            t.datetime      :deleted_at, index: true
-            
+        create_table :user_codes do |t|
+            t.string :token
+            t.string :token_type
+            t.datetime :expiration_at,  index: true
+            t.datetime :deleted_at,     index: true
             t.timestamps
         end
-
-        add_reference(:account_crono_subscriptions, :user, foreign_key: { to_table: :users })
-        add_reference(:account_crono_subscriptions, :account_crono, foreign_key: { to_table: :account_cronos })
+        add_reference(:user_codes, :user, foreign_key: { to_table: :users })
+        add_index(:user_codes, :token, unique: true)
     end
 end

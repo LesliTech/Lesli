@@ -17,26 +17,20 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Ruby on Rails SaaS development platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 =end
 
 Rails.application.routes.draw do
-  namespace :user do
-    resources :tokens
-  end
-  namespace :account do
-    resources :logs
-  end
 
     extend RoutesBuilder
     extend RoutesEngines
@@ -55,11 +49,9 @@ Rails.application.routes.draw do
         :registrations => "users/registrations",
         :confirmations => "users/confirmations",
         :passwords => "users/passwords",
-        :sessions => "users/sessions",
-        #:omniauth_callbacks => "users/oauth",
+        :sessions => "users/sessions"
     }
 
-    get :language, to: "application#language"
 
     match "/404", :to => "errors#not_found",             :via => :all
     match "/401", :to => "errors#unauthorized",          :via => :all

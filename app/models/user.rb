@@ -46,16 +46,14 @@ class User < ApplicationLesliRecord
 
     # users data extensions
     has_many :logs
+    has_many :codes
     has_many :agents
     has_many :tokens
     has_many :settings
     has_many :sessions
     has_many :requests
-    has_many :shortcuts,        foreign_key: "users_id"
+    has_many :shortcuts
     has_many :activities,       class_name: "User::Activity"
-    has_one  :integration,      foreign_key: "users_id"
-    has_many :access_codes,     foreign_key: "users_id"
-    has_many :auth_providers,   foreign_key: "users_id"
 
     # users can have many roles and too many privileges through the roles
     has_many :user_roles,       class_name: "User::Role" 
