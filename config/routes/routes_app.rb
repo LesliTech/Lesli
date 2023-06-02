@@ -17,16 +17,16 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Ruby on Rails SaaS development platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 =end
 
@@ -34,11 +34,13 @@ module RoutesApp
     def self.extended(router)
         router.instance_exec do
 
+            # Language selector
+            get :language, to: "application#language"
+
             # Alternative logins
             resource :mfa,  only: [:show, :update]
             resource :otp,  only: [:show, :create, :update]
             resource :pass, only: [:show, :create, :update]
-
 
             # Initial settings for account
             resource :onboarding, only: [:show, :create]
@@ -66,17 +68,6 @@ module RoutesApp
                         # account files - attached files to account
                         resources :files, only: [:index, :show, :new, :create, :destroy]
 
-                        # account global settings
-                        resources :settings, only: [:index, :show, :create, :destroy, :update] do
-                            collection do
-                                get :options
-                                get :security
-                                get :date_time
-                                get :branding
-                                get :theme
-                            end
-                        end
-
                         # integration tokens
                         resources :integrations, only: [:index, :new, :create, :destroy]
 
@@ -96,6 +87,16 @@ module RoutesApp
                             end
                         end
 
+                        # account global settings
+                        resources :settings, only: [:index, :show, :create, :destroy, :update] do
+                            collection do
+                                get :options
+                                get :security
+                                get :date_time
+                                get :branding
+                                get :theme
+                            end
+                        end
                     end
 
                     # extensions to the users methods
@@ -148,7 +149,6 @@ module RoutesApp
                     end
                 end
 
-
                 # roles & privileges management
                 resources :roles, only: [:index, :show, :edit, :update, :create, :destroy] do
                     scope module: :role do
@@ -156,6 +156,7 @@ module RoutesApp
                         resources :activities, only: [:index]
                         resources :descriptors, only: [:index, :create, :destroy]
                     end
+
                     collection do
                         get :list
                         get :options
@@ -174,7 +175,6 @@ module RoutesApp
                         resources :privileges, only: [:index]
                     end
                 end 
-
             end
         end
     end

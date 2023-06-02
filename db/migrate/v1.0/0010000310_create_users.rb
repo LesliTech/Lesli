@@ -88,13 +88,11 @@ class CreateUsers < ActiveRecord::Migration[5.2]
         end
 
         add_reference(:users, :account, foreign_key: { to_table: :accounts })
+        add_reference(:accounts, :user, foreign_key: { to_table: :users })
 
         add_index(:users, :email,                unique: true)
         add_index(:users, :unlock_token,         unique: true)
         add_index(:users, :confirmation_token,   unique: true)
         add_index(:users, :reset_password_token, unique: true)
-
-        # adding account owner (user)
-        add_reference(:accounts, :user, foreign_key: { to_table: :users })
     end
 end
