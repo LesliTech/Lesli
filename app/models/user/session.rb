@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails Development Platform.
+Lesli · Ruby on Rails SaaS development platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -71,8 +71,8 @@ class User::Session < ApplicationLesliRecord
 
         User::Session.all
         .joins(:user)
-        .where(users_id: user_id)
-        .where("users.accounts_id = ?", current_user.account.id)
+        .where(user_id: user_id)
+        .where("users.account_id = ?", current_user.account.id)
         .where("expiration_at > ? or expiration_at is ?", Time.now.utc, nil)
         .select(
             :id,

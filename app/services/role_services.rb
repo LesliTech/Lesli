@@ -38,15 +38,15 @@ class RoleServices < ApplicationLesliServices
             left join (
                 select
                     count(1) users,
-                    roles_id
+                    role_id
                 from user_roles
                 inner join  users as u
-                    on u.id = user_roles.users_id
+                    on u.id = user_roles.user_id
                     and u.deleted_at is null
                 where user_roles.deleted_at is null
-                group by (roles_id)
+                group by (role_id)
             )
-            users on users.roles_id = roles.id
+            users on users.role_id = roles.id
         ")
         .where("roles.object_level_permission < ?", current_user.max_object_level_permission)
         .select(
@@ -90,16 +90,16 @@ class RoleServices < ApplicationLesliServices
         roles = current_user.account.roles
         .joins(%(
             left join user_roles
-            on user_roles.roles_id = roles.id
-            and user_roles.users_id = #{ user.id }
+            on user_roles.role_id = roles.id
+            and user_roles.user_id = #{ user.id }
         ))
         .where("object_level_permission < ?", current_user.max_object_level_permission)
         .order(object_level_permission: :desc)
         .select(
-            "coalesce(roles.id, user_roles.roles_id) as id", 
+            "coalesce(roles.id, user_roles.role_id) as id", 
             "name", 
             "object_level_permission",
-            "case when user_roles.roles_id is null then false else true end as active"
+            "case when user_roles.role_id is null then false else true end as active"
         )
 
         # only owner can assign any role

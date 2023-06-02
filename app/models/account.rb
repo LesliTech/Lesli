@@ -363,9 +363,9 @@ class Account < ApplicationRecord
     end
 
     def options(current_user, query)
-        countries = Account::Location.list(current_user, {
-            :filters => { :type => "country" }
-        }).map { |country| { id: country.id, name: country.name } }
+        # countries = Account::Location.list(current_user, {
+        #     :filters => { :type => "country" }
+        # }).map { |country| { id: country.id, name: country.name } }
 
         regions = Account.regions.map { |key, value| { key: key, value: value } }
 
@@ -373,7 +373,7 @@ class Account < ApplicationRecord
 
         return {
             regions: regions,
-            countries: countries,
+            #countries: countries,
             time_zones: time_zones.uniq { |time_zone| [time_zone[:value], time_zone[:text]] },
             days_into_week: DateAndTime::Calculations::DAYS_INTO_WEEK.map { |day, value| { value: day, text: I18n.t("core.shared.view_text_day_#{day}") } },
         }

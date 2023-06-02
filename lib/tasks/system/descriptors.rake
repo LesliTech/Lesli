@@ -174,10 +174,9 @@ namespace :system do
         # http://chrisstump.online/2016/02/12/rails-production-eager-loading/
         def require_policies
             require "#{Rails.root}/lib/policies/application_lesli_policy.rb"
-            require "#{Rails.root}/lib/policies/roles_policy.rb"
-            #Dir.glob("#{Rails.root}/lib/policies/**/*.rb").each do |policies| 
-            #    require policies; 
-            #end
+            Dir.glob("#{Rails.root}/lib/policies/**/*.rb").each do |policies| 
+                require policies; 
+            end
         end
 
     end
