@@ -49,7 +49,7 @@ class PrivilegeServices < ApplicationLesliServices
             "system_controllers.route as controller", 
             "system_controller_actions.name as action",
             "case when role_descriptors.deleted_at is null then true else false end as active",
-            "role_descriptors.role_id as role_id"
+            "role_descriptors.role_id"
         ).with_deleted
 
         # get privileges only for the given role, this is needed to sync only modified roles
