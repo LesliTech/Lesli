@@ -31,7 +31,7 @@ class Role::Descriptor < ApplicationLesliRecord
             LEFT OUTER JOIN "role_descriptors" 
             ON "role_descriptors"."deleted_at" IS NULL 
             AND "role_descriptors"."system_descriptors_id" = "system_descriptors"."id"
-            AND "role_descriptors"."roles_id" = #{role.id}
+            AND "role_descriptors"."role_id" = #{role.id}
         ))
         .select(
             "coalesce(role_descriptors.system_descriptors_id, system_descriptors.id) as id", 

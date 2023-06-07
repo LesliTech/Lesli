@@ -20,7 +20,7 @@ class User::Shortcut < ApplicationLesliRecord
     
     validates :name, presence: true
     validates :url, presence: true
-    validates :users_id, presence: true
+    validates :user_id, presence: true
 
     def self.index(current_user, query, params)
         user_id = params[:user_id]

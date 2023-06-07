@@ -23,7 +23,7 @@ class Account::Currency < ApplicationLesliRecord
     validates_presence_of  :name, uniqueness: true
     validates_presence_of  :symbol
 
-    has_many :exchange_rates, inverse_of: :currency, foreign_key: "account_currencies_id", class_name: "Account::Currency::ExchangeRate"
+    has_many :exchange_rates, inverse_of: :currency, foreign_key: "account_currencie_id", class_name: "Account::Currency::ExchangeRate"
 
     def self.index(current_user, query)
         currencies = current_user.account.currencies
@@ -63,17 +63,17 @@ class Account::Currency < ApplicationLesliRecord
             currencies = currencies
             .joins("
                 left join (
-                    select exchange_rate, valid_from, valid_to, account_currency_exchange_rates.account_currencies_id
+                    select exchange_rate, valid_from, valid_to, account_currency_exchange_rates.account_currencie_id
                     from account_currency_exchange_rates inner join(
-                        select account_currencies_id, max(id) as id
+                        select account_currencie_id, max(id) as id
                         from account_currency_exchange_rates 
                         where deleted_at is null and
                         (valid_from <= '#{current_date.to_s(:db)}' or valid_from is null) and
                         valid_to >= '#{current_date.to_s(:db)}'
-                        group by account_currencies_id
+                        group by account_currencie_id
                     ) as latest_exchange_rate on latest_exchange_rate.id = account_currency_exchange_rates.id
                 ) as exchange_rates on
-                    exchange_rates.account_currencies_id = account_currencies.id
+                    exchange_rates.account_currencie_id = account_currencies.id
             ")
             .select(
                 :valid_from,
