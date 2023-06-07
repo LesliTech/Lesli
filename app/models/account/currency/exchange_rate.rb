@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 
 =end
 class Account::Currency::ExchangeRate < ApplicationLesliRecord
-    belongs_to :currency, inverse_of: :exchange_rates, foreign_key: "account_currencies_id"
+    belongs_to :currency, inverse_of: :exchange_rates, foreign_key: "account_currencie_id"
 
     validates_presence_of :exchange_rate
 

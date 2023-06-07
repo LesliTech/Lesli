@@ -33,7 +33,7 @@ class User::Code < ApplicationLesliRecord
 
     before_create :generate_token
 
-    belongs_to :user, foreign_key: "users_id", class_name: "::User"
+    belongs_to :user, foreign_key: "user_id", class_name: "::User"
 
     validates :user, :presence => true
 

@@ -17,6 +17,6 @@ For more information read the license file including with this software.
 =end
 
 class Role::Privilege < ApplicationLesliRecord
-    belongs_to :role, foreign_key: "roles_id"
-    has_many   :descriptors, foreign_key: "roles_id"
+    belongs_to :role, foreign_key: "role_id"
+    has_many   :descriptors, foreign_key: "role_id"
 end

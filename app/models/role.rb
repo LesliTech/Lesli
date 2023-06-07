@@ -23,9 +23,9 @@ class Role < ApplicationLesliRecord
 
 
     # Role resources
-    has_many :activities,  foreign_key: "roles_id"
-    has_many :descriptors, foreign_key: "roles_id", dependent: :delete_all
-    has_many :privileges,  foreign_key: "roles_id", class_name: "Role::Privilege", dependent: :delete_all
+    has_many :activities,  foreign_key: "role_id"
+    has_many :descriptors, foreign_key: "role_id", dependent: :delete_all
+    has_many :privileges,  foreign_key: "role_id", class_name: "Role::Privilege", dependent: :delete_all
     
 
     # initializers for new roles

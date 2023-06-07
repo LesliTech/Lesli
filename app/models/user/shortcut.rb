@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 
 =end
 class User::Shortcut < ApplicationLesliRecord
-    belongs_to :user, foreign_key: "users_id"
+    belongs_to :user, foreign_key: "user_id"
     
     validates :name, presence: true
     validates :url, presence: true

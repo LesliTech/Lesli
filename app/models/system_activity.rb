@@ -1,5 +1,5 @@
 class SystemActivity < ApplicationRecord
-    belongs_to :account, foreign_key: "accounts_id"
+    belongs_to :account, foreign_key: "account_id"
 
 
     def log_activity system_module, system_process, description=nil

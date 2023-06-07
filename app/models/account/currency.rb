@@ -16,9 +16,9 @@ For more information read the license file including with this software.
 
 =end
 class Account::Currency < ApplicationLesliRecord
-    belongs_to :account, foreign_key: "accounts_id", class_name: "Account"
+    belongs_to :account, foreign_key: "account_id", class_name: "Account"
     belongs_to :user_main, foreign_key: "user_main_id", class_name: "User"
-    belongs_to :user, foreign_key: "users_id", class_name: "User"
+    belongs_to :user, foreign_key: "user_id", class_name: "User"
 
     validates_presence_of  :name, uniqueness: true
     validates_presence_of  :symbol

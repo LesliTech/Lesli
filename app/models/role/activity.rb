@@ -17,8 +17,8 @@ For more information read the license file including with this software.
 
 =end
 class Role::Activity < CloudObject::Activity
-    belongs_to :role,           foreign_key: "roles_id"
-    belongs_to :user_creator,   foreign_key: "users_id", class_name: "::User", optional: true
+    belongs_to :role,           foreign_key: "role_id"
+    belongs_to :user_creator,   foreign_key: "user_id", class_name: "::User", optional: true
 
     enum category: {
         action_create:                          "action_create",
