@@ -58,7 +58,7 @@ class CreateAccountLocations < ActiveRecord::Migration[6.0]
         end
 
         add_reference(:account_locations, :parent, foreign_key: { to_table: :account_locations })
-        add_reference(:account_locations, :accounts, foreign_key: { to_table: :accounts })
+        add_reference(:account_locations, :account, foreign_key: { to_table: :accounts })
         add_index(:account_locations, [:account_id, :name, :level, :parent_id], unique: true, name: "location_uniqueness_index")
         add_index(:account_locations, :name)
     end
