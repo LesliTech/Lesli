@@ -30,17 +30,17 @@ class Role::Descriptor < ApplicationLesliRecord
         .joins(%(
             LEFT OUTER JOIN "role_descriptors" 
             ON "role_descriptors"."deleted_at" IS NULL 
-            AND "role_descriptors"."system_descriptors_id" = "system_descriptors"."id"
+            AND "role_descriptors"."system_descriptor_id" = "system_descriptors"."id"
             AND "role_descriptors"."role_id" = #{role.id}
         ))
         .select(
-            "coalesce(role_descriptors.system_descriptors_id, system_descriptors.id) as id", 
+            "coalesce(role_descriptors.system_descriptor_id, system_descriptors.id) as id", 
             "system_descriptors.name as name", 
             "system_controllers.reference as reference", 
             "system_controllers.route as controller", 
             "system_descriptors.category as action", 
             "system_controllers.engine as engine", 
-            "case when role_descriptors.system_descriptors_id is null then false else true end as active"
+            "case when role_descriptors.system_descriptor_id is null then false else true end as active"
         )
     end
 
