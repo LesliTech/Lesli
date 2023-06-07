@@ -22,7 +22,7 @@ class SystemDescriptor < ApplicationLesliRecord
             :id => self.id,
             :name => self.name,
             :description => self.description,
-            :descriptors_id => self.descriptors_id,
+            :descriptor_id => self.descriptor_id,
             :privileges => self.privileges.joins(action: :system_controller).select(
                 "descriptor_privileges.id",
                 "system_controllers.name as controlle_name",
