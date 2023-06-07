@@ -44,16 +44,16 @@ class PrivilegeServices < ApplicationLesliServices
             ON system_controllers.id = system_controller_actions.system_controller_id
         )).joins(%(
             INNER JOIN role_descriptors 
-            ON role_descriptors.system_descriptors_id = system_descriptors.id
+            ON role_descriptors.system_descriptor_id = system_descriptors.id
         )).select(
             "system_controllers.route as controller", 
             "system_controller_actions.name as action",
             "case when role_descriptors.deleted_at is null then true else false end as active",
-            "role_descriptors.roles_id as roles_id"
+            "role_descriptors.role_id as role_id"
         ).with_deleted
 
         # get privileges only for the given role, this is needed to sync only modified roles
-        records = records.where("role_descriptors.roles_id" => roles)
+        records = records.where("role_descriptors.role_id" => roles)
 
         # we use the deleted_at column to know if a privilege is enable or disable, NULL values
         # at the deleted_at column means privilege is active, so if we sort by deleted_at column
@@ -63,7 +63,7 @@ class PrivilegeServices < ApplicationLesliServices
         records = records.order("role_descriptors.deleted_at DESC")
         
         # convert the results to json so it is easy to insert/update
-        records = records.as_json(only: [:controller, :action, :roles_id, :active])
+        records = records.as_json(only: [:controller, :action, :role_id, :active])
 
         # IMPORTANT: We must save only uniq privileges in the role_privilege table
         # this means that it does not matters how many times we defined a privilege dependency
@@ -76,7 +76,7 @@ class PrivilegeServices < ApplicationLesliServices
             # however, if the same privilege is define in another active descriptor, 
             # the role that has both descriptor will be able to access the resources 
             # of that privilege, that is a normal and desire behavior.
-            [privilege["controller"], privilege["action"], privilege["roles_id"]]
+            [privilege["controller"], privilege["action"], privilege["role_id"]]
         end
 
         # small check to ensure I have records to update/insert
@@ -86,7 +86,7 @@ class PrivilegeServices < ApplicationLesliServices
         # IMPORTANT: Due to the importance and how delicate this process is, it is better
         #            to copy the controller name and actions from the system, instead of 
         #            just have a reference to the system_controller_actions table
-        Role::Privilege.with_deleted.upsert_all(records, unique_by: [:controller, :action, :roles_id])
+        Role::Privilege.with_deleted.upsert_all(records, unique_by: [:controller, :action, :role_id])
     end 
 
     private 
