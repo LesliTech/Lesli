@@ -103,3 +103,5 @@ Gemfile.lock
 brakeman.html
 
 /config/credentials/test.key
+
+/config/credentials/development.key
