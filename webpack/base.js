@@ -130,8 +130,7 @@ module.exports = env => {
                 CloudSocial: path.resolve("engines", "cloud_social", "lib", "vue"),
                 CloudShared: path.resolve("engines", "cloud_shared", "lib", "vue"),
                 CloudScraper: path.resolve("engines", "cloud_scraper", "lib", "vue"),
-                CloudAuthority: path.resolve("engines", "cloud_authority", "lib", "vue"),
-                CloudDevelopment: path.resolve("engines", "cloud_development", "app", "vue")
+                CloudAuthority: path.resolve("engines", "cloud_authority", "lib", "vue")
             }
         },
         module: {
