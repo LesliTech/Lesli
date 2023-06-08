@@ -75,7 +75,8 @@ class ApplicationLesliGenerator < Rails::Generators::NamedBase
         @vue = {
             :path_base => path_base,
             :path_apps => path_base.join("apps", @info[:resources_code]),
-            :path_store => path_base.join("stores", "#{ @info[:resources_camel] }.js")
+            :path_store => path_base.join("stores", "#{ @info[:resources_camel] }.js"),
+            :path_components => path_base.join("apps", @info[:resources_code], "components")
         }
     end
 end

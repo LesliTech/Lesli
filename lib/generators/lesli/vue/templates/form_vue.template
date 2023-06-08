@@ -1,0 +1,62 @@
+<script setup>
+/*
+<%= File.read(Pathname.new(LESLI_ROOT).join("lesli.txt")).to_s.force_encoding("ASCII-8BIT") %>*/
+
+
+// · import vue tools
+import { ref, onMounted, watch, computed } from "vue"
+
+
+// · import stores
+import { use<%= @info[:resources] %> } from "Cloud<%= @info[:engine_name].capitalize %>/stores/<%= @info[:resources_camel] %>.js"
+
+
+// · implement stores
+const store<%= @info[:resources] %> = use<%= @info[:resources] %>()
+
+
+// · defining props
+const props = defineProps({
+    editable: {
+        type: Boolean,
+        required: false,
+        default: false,
+    }
+})
+
+
+// · translations
+const translations = {
+    core: {
+        shared: I18n.t("core.shared")
+    }
+}
+
+
+// · 
+const onUpdate = () => {
+    store<%= @info[:resources] %>.put<%= @info[:resources] %>()
+}
+
+
+// · 
+const onCreate = () => {
+    store<%= @info[:resources] %>.post<%= @info[:resources] %>()
+}
+
+</script>
+<template>
+    <lesli-form :disable="props.editable" @submit="props.editable ? onUpdate() : onCreate()">
+
+        <div class="field">
+            <label class="label">{{ translations.core.accounts.column_company_name }}</label>
+            <div class="control">
+                <input 
+                    class="input" 
+                    type="text" 
+                    :placeholder="translations.core.onboardings.view_placeholder_company_name"
+                    v-model="store<%= @info[:resources] %>.<%= @info[:resource_camel] %>.id">
+            </div>
+        </div>
+    </lesli-form>
+</template>
