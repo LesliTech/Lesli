@@ -1,13 +1,11 @@
 ### 00.10. Core
 ```plaintext
-00.01. accounts
-00.02. roles
-00.03. users
+00.00. accounts
+00.01. roles
+00.02. users
 00.06. system_controllers
 00.07. system_controller_actions
-00.08. system_descriptors
-00.09. system_descriptor_privileges
-00.10. system_locations 
+00.08. system_locations 
 
 00.01. accounts (reference only)
 00.10. account_settings
@@ -31,11 +29,15 @@
 00.40. user_agents
 00.41. user_tokens //-> new implementation for account integrations, this shares the session token
 
+00.50. descriptors
+00.51. descriptor_privileges
+00.52. descriptor_activities
 
 00.02. roles (reference only)
-00.55. role_descriptor
-00.56. role_activities
-00.57. role_privileges
+00.55. role_modulos
+00.56. role_descriptor
+00.57. role_activities
+00.58. role_privileges
 
 00.90. feedback
 ```

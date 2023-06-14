@@ -28,7 +28,7 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-=end
+=end    
 class UsersPolicy < ApplicationLesliPolicy
     def show
         [

@@ -72,7 +72,7 @@ namespace :system do
 
                 # this is the list of standard methods every controller has
                 # for custom methods and routes we have to map manually in the policies
-                ["index", "show", "create", "edit", "destroy"].each do |descriptor_action|
+                ["list", "index", "show", "create", "edit", "destroy"].each do |descriptor_action|
 
                     # exit if the policy does not contain specific privileges for the 
                     # standard methods, if the method is not defined in the policy means
