@@ -15,7 +15,7 @@ class <%= controller_class_name %>Controller < ApplicationController
         respond_to do |format|
             format.html {}
             format.json do
-                respond_with_successful(<%= class_name %>Services.new(current_user, query).list)
+                respond_with_successful(<%= class_name %>Services.new(current_user, @query).list)
             end
         end
     end
@@ -25,7 +25,7 @@ class <%= controller_class_name %>Controller < ApplicationController
         respond_to do |format|
             format.html {}
             format.json do
-                respond_with_pagination(<%= class_name %>Services.new(current_user, query).index)
+                respond_with_pagination(<%= class_name %>Services.new(current_user, @query).index)
             end
         end
     end
@@ -50,7 +50,7 @@ class <%= controller_class_name %>Controller < ApplicationController
 
     # POST <%= route_url %>
     def create
-        <%= singular_table_name %> = <%= class_name %>Services.new(current_user, query).create(<%= singular_table_name %>_params)
+        <%= singular_table_name %> = <%= class_name %>Services.new(current_user, @query).create(<%= singular_table_name %>_params)
         if <%= singular_table_name %>.successful?
             respond_with_successful(<%= singular_table_name %>.result)
         else
@@ -84,7 +84,7 @@ class <%= controller_class_name %>Controller < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_<%= singular_table_name %>
-        @<%= singular_table_name %> = <%= class_name %>Services.new(current_user, query).find(params[:id])
+        @<%= singular_table_name %> = <%= class_name %>Services.new(current_user, @query).find(params[:id])
         return respond_with_not_found unless @<%= singular_table_name %>.found?
     end
 

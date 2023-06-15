@@ -78,7 +78,7 @@ module UserGuard
             .where("role_privileges.action = ?", action)
             .first.blank?
         rescue => exception
-            Honeybadger.notify(exception)
+            #Honeybadger.notify(exception)
             return false
         end
     end
@@ -97,10 +97,10 @@ module UserGuard
         # We check all the privileges the user has in the cache table according to his roles
         # and create a key per controller (with the full controller name) that contains an array of all the 
         # methods/actions with permission
-        self.privileges.all.each do |privilege|
-            abilities[privilege.controller] = [] if abilities[privilege.controller].nil?
-            abilities[privilege.controller] << privilege.action
-        end
+        # self.privileges.all.each do |privilege|
+        #     abilities[privilege.controller] = [] if abilities[privilege.controller].nil?
+        #     abilities[privilege.controller] << privilege.action
+        # end
 
         abilities
 
@@ -146,9 +146,6 @@ module UserGuard
     # IMPORTANT: This home path is used only the send the user after login, the user
     #            and the role are not limited by this configuration
     def has_role_with_default_path?()
-
-        L2.msg "roles"
-        pp self.roles.where.not(path_default: [nil, ""])
 
         # get the roles that contains a path
         role = self.roles.where.not(path_default: [nil, ""])

@@ -149,6 +149,14 @@ module RoutesApp
                     end
                 end
 
+                # descriptors management
+                resources :descriptors, only: [:index, :show, :edit, :update, :create, :destroy] do
+                    scope module: :descriptor do
+                        resources :privileges, only: [:index]
+                        resources :activities, only: [:index]
+                    end
+                end
+
                 # roles & privileges management
                 resources :roles, only: [:index, :show, :edit, :update, :create, :destroy] do
                     scope module: :role do

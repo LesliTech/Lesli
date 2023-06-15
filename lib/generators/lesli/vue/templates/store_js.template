@@ -57,7 +57,6 @@ export const use<%= @info[:resources] %> = defineStore("<%= @info[:engine] %>.<%
                 return 
             }
 
-            this.index.loading = true
             this.get<%= @info[:resource] %>()
         },
 
