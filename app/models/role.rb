@@ -23,14 +23,14 @@ class Role < ApplicationLesliRecord
 
 
     # Role resources
-    has_many :activities,  foreign_key: "roles_id"
-    has_many :descriptors, foreign_key: "roles_id", dependent: :delete_all
-    has_many :privileges,  foreign_key: "roles_id", class_name: "Role::Privilege", dependent: :delete_all
+    has_many :activities
+    has_many :descriptors, dependent: :delete_all
+    has_many :privileges, class_name: "Role::Privilege", dependent: :delete_all
     
 
     # initializers for new roles
     before_create :before_create_role
-    after_create :after_create_role, :initialize_role_privileges
+    after_create :after_create_role
 
 
     # validations
@@ -65,17 +65,6 @@ class Role < ApplicationLesliRecord
         self.update_attribute("code", role_code)
     end
 
-    # default roles must have privileges by default
-    def initialize_role_privileges
-        return 
-        if (self.name == "owner" || self.name == "sysadmin" || self.name == "limited")
-            descriptor = self.name
-            descriptor = "profile" if descriptor == "limited"
-            SystemDescriptor.find_or_create_by(
-                descriptor: SystemDescriptor.find_by(name: descriptor)
-            )
-        end
-    end
 
     # @return [Boolean]
     # @description Returns if a role is assigned to users.

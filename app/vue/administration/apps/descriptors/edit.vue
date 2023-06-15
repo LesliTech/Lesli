@@ -29,7 +29,7 @@ import { useDescriptor } from "LesliApp/administration/stores/descriptor"
 
 // · import components
 import descriptorForm from "./components/form.vue"
-import privileges from "./components/privileges.vue"
+import descriptorPrivileges from "./components/privileges.vue"
 
 
 // · initialize/inject plugins
@@ -52,12 +52,6 @@ const translations = {
 
 
 // · 
-onMounted(() => {
-    storeDescriptor.resetDescriptor()
-    storeDescriptor.fetchDescriptor(route.params.id)
-})
-
-
 const columns = [{
     field: 'id',
     label: 'ID'
@@ -72,6 +66,11 @@ const columns = [{
     label: 'Created at'
 }]
 
+
+// · 
+onMounted(() => {
+    storeDescriptor.fetchDescriptor(route.params.id)
+})
 </script>
 <template>
     <section class="application-component">
@@ -82,10 +81,7 @@ const columns = [{
         </lesli-header>
 
         <descriptor-form is-editable></descriptor-form>
-
-        <br><br>
-
-        <privileges></privileges>        
-
+        <br>
+        <descriptor-privileges></descriptor-privileges>
     </section>
 </template>

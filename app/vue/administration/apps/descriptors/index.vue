@@ -1,19 +1,33 @@
 <script setup>
 /*
 
-Copyright (c) 2023, all rights reserved.
+Lesli
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
-pictures and any other information belongs to the owner of this platform.
+Copyright (c) 2023, Lesli Technologies, S. A.
 
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-For more information read the license file including with this software.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Ruby on Rails SaaS development platform.
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
 
@@ -24,7 +38,7 @@ import { useRouter } from 'vue-router'
 
 
 // · import lesli stores
-import { useDescriptor } from "../../stores/descriptor"
+import { useDescriptor } from "LesliApp/administration/stores/descriptor"
 
 
 // · initialize/inject plugins
@@ -34,6 +48,8 @@ const url = inject("url")
 // · 
 const storeDescriptor = useDescriptor()
 
+
+// · 
 const translations = {
     core: {
         roles: I18n.t("core.roles"),
@@ -42,6 +58,7 @@ const translations = {
         shared: I18n.t("core.shared")
     }
 }
+
 
 // · 
 const columns = [{
@@ -65,18 +82,16 @@ const columns = [{
 
 // · 
 onMounted(() => {
-    storeDescriptor.fetch()
+    storeDescriptor.fetchDescriptors()
 })
 
 </script>
 <template>
     <section class="application-component">
         <lesli-header title="Role Descriptors">
-            <lesli-button
-                outlined
-                icon="refresh"
-                :loading="storeDescriptor.loading"
-                @click="storeDescriptor.fetch()">
+            <lesli-button icon="refresh"
+                :loading="storeDescriptor.index.loading"
+                @click="storeDescriptor.getDescriptors()">
                 {{ translations.core.shared.view_text_btn_reload }}
             </lesli-button>
             <lesli-button icon="add" :to="url.admin(`descriptors/new`)">
@@ -87,7 +102,8 @@ onMounted(() => {
         <lesli-table
             :link="(descriptor) => url.admin('descriptors/:id/edit', descriptor.id).s"
             :columns="columns"
-            :records="storeDescriptor.records"
+            :loading="storeDescriptor.index.loading"
+            :records="storeDescriptor.index.records"
             :pagination="storeDescriptor.index.pagination"
             @paginate="storeDescriptor.paginateIndex"
             @sort="storeDescriptor.sortIndex"

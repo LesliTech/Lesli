@@ -15,7 +15,7 @@ For more information read the license file including with this software.
 // ·
 =end
 
-class Account::LocationService
+class System::LocationServices
 
     def initialize(resource)
         @account = resource

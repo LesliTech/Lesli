@@ -1,3 +1,4 @@
+<%
 =begin
 
 Lesli
@@ -29,15 +30,5 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 =end
-
-class CreateSystemDescriptorPrivileges < ActiveRecord::Migration[7.0]
-    def change
-        create_table :system_descriptor_privileges do |t|
-            t.datetime :deleted_at, index: true
-            t.timestamps
-        end
-
-        add_reference(:system_descriptor_privileges, :system_controller_action, foreign_key: { to_table: :system_controller_actions }, index: { name: "system_descriptor_privileges_controller_actions" })
-        add_reference(:system_descriptor_privileges, :system_descriptor, foreign_key: { to_table: :system_descriptors })
-    end
-end
+%>
+<router-view></router-view>

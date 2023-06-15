@@ -30,15 +30,11 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class CreateRoleDescriptors < ActiveRecord::Migration[7.0]
-    def change
-        create_table :role_descriptors do |t|
-            t.datetime :deleted_at, index: true
-            t.timestamps
-        end
 
-        add_reference(:role_descriptors, :user, foreign_key: { to_table: :users })
-        add_reference(:role_descriptors, :role, foreign_key: { to_table: :roles })
-        add_reference(:role_descriptors, :descriptor, foreign_key: { to_table: :descriptors })
-    end
+class Descriptor < ApplicationLesliRecord
+    belongs_to :account
+    has_many :privileges
+    has_many :role_descriptors, class_name: "Role::Descriptor"
+    
+    validates :name, presence: true
 end

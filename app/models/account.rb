@@ -31,8 +31,8 @@ Building a better future, one line of code at a time.
 =end
 
 class Account < ApplicationRecord
+    include AccountEngines
 
-    include AccountReferences
 
     # accounts always belongs to a user
     belongs_to :user, optional: true
@@ -45,6 +45,7 @@ class Account < ApplicationRecord
     has_many :cronos
     has_many :settings
     has_many :locations
+    has_many :descriptors
     has_many :activities, class_name: "Account::Activity"
     has_many :currencies, class_name: "Account::Currency"
     has_many :logs
@@ -103,30 +104,27 @@ class Account < ApplicationRecord
 
     def initialize_account
 
-        [   # create default roles for the new account        
-            "limited",   # access only to user profile
-            "sysadmin",  # platform administrator role
-            "owner"      # super admin role
-        ].each do |role_name|
+        # create initial descriptors
+        descriptor_owner = self.descriptors.find_or_create_by(name: "owner")
+        descriptor_sysadmin = self.descriptors.find_or_create_by(name: "sysadmin")
+        descriptor_profile = self.descriptors.find_or_create_by(name: "profile")
 
-            object_level_permission = 10
-            object_level_permission = 2147483647 if role_name == "owner"
-            object_level_permission = 1000 if role_name == "sysadmin"
 
-            role = Role.create({
-                account: self,
-                name: role_name,
-                active: true,
-                object_level_permission: object_level_permission
-            })
+        # create default roles for the new account
+        owner = self.roles.create({ name: "owner", active: true, object_level_permission: 2147483647 })
 
-        end
+        # platform administrator role
+        sysadmin = self.roles.create({ name: "sysadmin", active: true, object_level_permission: 100000 })
 
-        Account::LocationService.new(self).set_locations
+        # access only to user profile
+        limited = self.roles.create({ name: "limited", active: true, object_level_permission: 10 })
 
+
+        # assign descriptors with appropriate privileges
+        owner.descriptors.create(:descriptor => descriptor_owner)
+        sysadmin.descriptors.create(:descriptor => descriptor_sysadmin)
+        limited.descriptors.create(:descriptor => descriptor_profile)
     end
-
-
 
 
     def initialize_instance
@@ -135,24 +133,20 @@ class Account < ApplicationRecord
         # name of the engine
         instance = Rails.application.config.lesli.dig(:instance, :name)
 
-
         # Build an account class base on instance (engine) name
         # Example: LesliCloud::Account - this is a standard name
         instance_account_klass = "#{instance}::Account".safe_constantize
 
-
         # If instance account class exists
-        if instance_account_klass
-
-            instance_account_klass.find_or_create_by(:id => self.id)
-
-        end
+        instance_account_klass.find_or_create_by(:id => self.id) if instance_account_klass
 
     end
+
 
     def initialize_settings
         Account::Setting.initialize_data(self)
     end
+
 
     def options(current_user, query)
         # countries = Account::Location.list(current_user, {

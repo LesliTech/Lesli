@@ -30,15 +30,18 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class CreateRoleDescriptors < ActiveRecord::Migration[7.0]
+class CreateDescriptorActivities < ActiveRecord::Migration[7.0]
     def change
-        create_table :role_descriptors do |t|
-            t.datetime :deleted_at, index: true
+        table_base_structure = JSON.parse(File.read(Rails.root.join('db','structure','00000004_activities.json')))
+        create_table :descriptor_activities do |t|
+            table_base_structure.each do |column|
+                t.send(
+                    column["type"].parameterize.underscore.to_sym,
+                    column["name"].parameterize.underscore.to_sym
+                )
+            end
             t.timestamps
         end
-
-        add_reference(:role_descriptors, :user, foreign_key: { to_table: :users })
-        add_reference(:role_descriptors, :role, foreign_key: { to_table: :roles })
-        add_reference(:role_descriptors, :descriptor, foreign_key: { to_table: :descriptors })
+        add_reference(:descriptor_activities, :descriptor, foreign_key: { to_table: :descriptors })
     end
 end

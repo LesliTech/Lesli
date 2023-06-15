@@ -30,15 +30,14 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class CreateRoleDescriptors < ActiveRecord::Migration[7.0]
+class CreateDescriptorPrivileges < ActiveRecord::Migration[7.0]
     def change
-        create_table :role_descriptors do |t|
+        create_table :descriptor_privileges do |t|
             t.datetime :deleted_at, index: true
             t.timestamps
         end
 
-        add_reference(:role_descriptors, :user, foreign_key: { to_table: :users })
-        add_reference(:role_descriptors, :role, foreign_key: { to_table: :roles })
-        add_reference(:role_descriptors, :descriptor, foreign_key: { to_table: :descriptors })
+        add_reference(:descriptor_privileges, :descriptor, foreign_key: { to_table: :descriptors })
+        add_reference(:descriptor_privileges, :system_controller_action, foreign_key: { to_table: :system_controller_actions }, index: { name: "descriptor_privileges_controller_actions" })
     end
 end

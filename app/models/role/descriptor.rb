@@ -16,8 +16,8 @@ For more information read the license file including with this software.
 
 =end
 class Role::Descriptor < ApplicationLesliRecord
-    belongs_to :role, foreign_key: "roles_id"
-    belongs_to :system_descriptor, foreign_key: "system_descriptors_id"
+    belongs_to :role
+    belongs_to :descriptor
 
     after_save :synchronize_privileges
     after_destroy :synchronize_privileges
@@ -45,6 +45,6 @@ class Role::Descriptor < ApplicationLesliRecord
     end
 
     def synchronize_privileges
-        PrivilegeServices.new(self.role.id).synchronize
+        #PrivilegeServices.new(self.role.id).synchronize
     end
 end

@@ -39,7 +39,7 @@ class CreateRolePrivileges < ActiveRecord::Migration[7.0]
             t.datetime :deleted_at, index: true
             t.timestamps
         end
-        add_reference(:role_privileges, :roles, foreign_key: true)
-        add_index(:role_privileges, [:controller, :action, :roles_id], unique: true, name: 'role_privileges_index')
+        add_reference(:role_privileges, :role, foreign_key: { to_table: :roles })
+        add_index(:role_privileges, [:controller, :action, :role_id], unique: true, name: 'role_privileges_index')
     end
 end

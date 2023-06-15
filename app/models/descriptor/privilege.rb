@@ -29,16 +29,26 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 =end
+class Descriptor::Privilege < ApplicationLesliRecord
+    belongs_to :descriptor
+    belongs_to :system_controller_action, class_name: "SystemController::Action"
 
-class CreateRoleDescriptors < ActiveRecord::Migration[7.0]
-    def change
-        create_table :role_descriptors do |t|
-            t.datetime :deleted_at, index: true
-            t.timestamps
-        end
+    def self.index current_user, query, params
 
-        add_reference(:role_descriptors, :user, foreign_key: { to_table: :users })
-        add_reference(:role_descriptors, :role, foreign_key: { to_table: :roles })
-        add_reference(:role_descriptors, :descriptor, foreign_key: { to_table: :descriptors })
+        SystemController.joins(:actions)
+        .joins(sanitize_sql_array(["
+            LEFT JOIN descriptor_privileges
+            ON descriptor_privileges.system_controller_action_id = system_controller_actions.id 
+	        AND descriptor_id = ?", params[:descriptor_id]])
+        ).select(
+            "system_controllers.name as controller",
+            "system_controllers.id as controller_id",
+            "system_controller_actions.name as action",
+            "system_controller_actions.id as action_id",
+            "descriptor_privileges.id as descriptor_privilege_id"
+        ).order(
+            "system_controllers.name", 
+            "system_controller_actions.name"
+        )
     end
 end
