@@ -29,7 +29,6 @@ class Role < ApplicationLesliRecord
     
 
     # initializers for new roles
-    before_create :before_create_role
     after_create :after_create_role
 
 
@@ -37,18 +36,6 @@ class Role < ApplicationLesliRecord
     validates :name, presence: :true
     validates :object_level_permission, presence: :true
 
-
-    def before_create_role
-
-        # default path for limited roles
-        if self.name == "limited"
-           self.path_default ||= "/administration/profile" 
-        end
-
-        # enable roles by default
-        self.active = true
-
-    end
 
     def after_create_role
 

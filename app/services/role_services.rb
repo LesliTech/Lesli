@@ -91,6 +91,7 @@ class RoleServices < ApplicationLesliServices
         .joins(%(
             left join user_roles
             on user_roles.role_id = roles.id
+            and user_roles.deleted_at is null
             and user_roles.user_id = #{ user.id }
         ))
         .where("object_level_permission < ?", current_user.max_object_level_permission)

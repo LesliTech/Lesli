@@ -134,7 +134,7 @@ module UserActivities
             role_name = role.name
 
             user.activities.create(
-                owner: current_user,
+                assigned: current_user,
                 category: "action_create_user_role",
                 value_to: role_name
             )
@@ -154,7 +154,7 @@ module UserActivities
             role_name = role.name
 
             user.activities.create(
-                owner: current_user,
+                assigned: current_user,
                 category: "action_destroy_user_role",
                 value_to: role_name
             )

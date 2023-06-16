@@ -117,7 +117,7 @@ class Account < ApplicationRecord
         sysadmin = self.roles.create({ name: "sysadmin", active: true, object_level_permission: 100000 })
 
         # access only to user profile
-        limited = self.roles.create({ name: "limited", active: true, object_level_permission: 10 })
+        limited = self.roles.create({ name: "limited", active: true, object_level_permission: 10, path_default: "/administration/profile" })
 
 
         # assign descriptors with appropriate privileges

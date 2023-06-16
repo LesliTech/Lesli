@@ -1,19 +1,33 @@
 =begin
 
-Copyright (c) 2023, all rights reserved.
+Lesli
 
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
-pictures and any other information belongs to the owner of this platform.
+Copyright (c) 2023, Lesli Technologies, S. A.
 
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-For more information read the license file including with this software.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Ruby on Rails SaaS development platform.
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 =end
 
 class ApplicationLesliController < ApplicationController
@@ -34,9 +48,9 @@ class ApplicationLesliController < ApplicationController
 
     layout "layouts/application-lesli"
 
-    protected
-
     attr_reader :query
+
+    protected
 
 
     # @return [String] The name of this class, starting with 'Cloud'
@@ -71,7 +85,6 @@ class ApplicationLesliController < ApplicationController
         @account[:notifications] = 0 #Courier::Bell::Notification.count(current_user, true)
         @account[:tasks] = 0 #Courier::Focus::Task.count(current_user)
         @account[:tickets] = 0 #Courier::Help::Ticket.count(current_user)
-        # temporary disable shortcuts, not used on mw or lesli
         @account[:shortcuts] = [] # current_user.shortcuts.select(:id, :name, :url)
 
 
