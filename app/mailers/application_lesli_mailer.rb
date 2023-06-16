@@ -177,7 +177,7 @@ class ApplicationLesliMailer < ActionMailer::Base
         end
 
         # TODO: Save template path and view used within the email
-        Account::Activity.log_email(
+        Account::Log.log_email(
             "#{self.class.to_s}/#{self.action_name}", 
             self.action_name, 
             title, 
