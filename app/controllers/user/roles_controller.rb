@@ -32,7 +32,7 @@ Building a better future, one line of code at a time.
 
 class User::RolesController < ApplicationLesliController
     before_action :set_user, only: [:index, :create, :destroy]
-    before_action :set_user_role, only: [:create, :destroy]
+    before_action :set_user_role, only: [:destroy]
 
     # Get the list of assigned roles of the requested user
     # we filter the roles according to the object level permission
@@ -51,7 +51,10 @@ class User::RolesController < ApplicationLesliController
         end
 
         # create new role for user if it does not exist
-        @user.user_roles.find_or_create_by({ role: role })
+        user_role = @user.user_roles.with_deleted.find_or_create_by({ role: role })
+
+        # if role was soft deleted we need to recover it instead of create a new record
+        user_role.recover if user_role.deleted?
 
         respond_with_successful(@user.roles)
 
@@ -98,7 +101,7 @@ class User::RolesController < ApplicationLesliController
     end
 
     def set_user_role
-        @user_role = @user.user_roles.find_by(:roles_id => params[:id])
+        @user_role = @user.user_roles.find_by(:role_id => params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.

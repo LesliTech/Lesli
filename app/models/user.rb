@@ -77,7 +77,7 @@ class User < ApplicationLesliRecord
     after_create :after_create_user
     after_create :after_confirmation_user, if: :confirmed?
     after_create :after_account_assignation
-    after_update :update_associated_record
+    after_update :update_associated_services
 
 
     # allow save duplicated users to execute callbacks
@@ -126,7 +126,7 @@ class User < ApplicationLesliRecord
     end
 
 
-    def update_associated_record
+    def update_associated_services
         if saved_change_to_first_name? || saved_change_to_last_name? || saved_change_to_telephone?
 
             # defined in user extensions
@@ -145,5 +145,4 @@ class User < ApplicationLesliRecord
             end
         end
     end
-
 end
