@@ -63,7 +63,7 @@ class Account < ApplicationRecord
     has_one :time,       class_name: "CloudTime::Account",       foreign_key: "id"
     has_one :work,       class_name: "CloudWork::Account",       foreign_key: "id"
     has_one :word,       class_name: "CloudWord::Account",       foreign_key: "id"
-    has_one :audit,      class_name: "CloudAudit::Account",      foreign_key: "id"
+    has_one :audit,      class_name: "CloudAudit::Account" #,      foreign_key: "id"
     has_one :lesli,      class_name: "CloudLesli::Account",      foreign_key: "id"
     has_one :books,      class_name: "CloudBooks::Account",      foreign_key: "id"
     has_one :house,      class_name: "CloudHouse::Account",      foreign_key: "id"

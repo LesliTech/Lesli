@@ -32,7 +32,8 @@ Building a better future, one line of code at a time.
 =end
 
 class Descriptor::PrivilegesController < ApplicationLesliController
-    before_action :set_descriptor_privilege, only: [:show, :update, :destroy]
+    before_action :set_descriptor, only: [:create, :destroy]
+    before_action :set_descriptor_privilege, only: [:destroy]
 
 
     # GET /descriptor/privileges
@@ -45,49 +46,34 @@ class Descriptor::PrivilegesController < ApplicationLesliController
         end
     end
 
-    # GET /descriptor/privileges/:id
-    def show
-        respond_to do |format|
-            format.html {}
-            format.json do
-                return respond_with_successful(@descriptor_privilege.show)
-            end
-        end
-    end
-
-    # GET /descriptor/privileges/new
-    def new
-    end
-
-    # GET /descriptor/privileges/:id/edit
-    def edit
-    end
-
     # POST /descriptor/privileges
     def create
-        descriptor_privilege = Descriptor::PrivilegeServices.new(current_user, query).create(descriptor_privilege_params)
-        if descriptor_privilege.successful?
-            respond_with_successful(descriptor_privilege.result)
-        else
-            respond_with_error(descriptor_privilege.errors)
+
+        descriptor_privilege_status = false
+
+        descriptor_privilege = @descriptor.privileges.with_deleted.find_by(
+            :system_controller_action_id => descriptor_privilege_params[:action_id]
+        )
+        
+        if not descriptor_privilege
+            descriptor_privilege = @descriptor.privileges.new(
+                :system_controller_action_id => descriptor_privilege_params[:action_id]
+            )
+            descriptor_privilege_status = descriptor_privilege.save
+        elsif descriptor_privilege.deleted?
+            descriptor_privilege_status = descriptor_privilege.recover
         end
-    end
 
-    # PATCH/PUT /descriptor/privileges/:id
-    def update
-        @descriptor_privilege.update(descriptor_privilege_params)
-
-        if @descriptor_privilege.successful?
-            respond_with_successful(@descriptor_privilege.result)
+        if descriptor_privilege_status
+            #Role::Activity.log_create_descriptor(current_user, @role, role_descriptor)
+            respond_with_successful(descriptor_privilege)
         else
-            respond_with_error(@descriptor_privilege.errors)
+            respond_with_error(descriptor_privilege.errors.full_messages.to_sentence)
         end
     end
 
     # DELETE /descriptor/privileges/1
     def destroy
-        return respond_with_not_found unless @descriptor_privilege
-
         if @descriptor_privilege.destroy
             respond_with_successful
         else
@@ -98,13 +84,19 @@ class Descriptor::PrivilegesController < ApplicationLesliController
     private
 
     # Use callbacks to share common setup or constraints between actions.
+    def set_descriptor
+        @descriptor = current_user.account.descriptors.find_by_id(params[:descriptor_id])
+        return respond_with_not_found if @descriptor.blank?
+    end
+
+    # Use callbacks to share common setup or constraints between actions.
     def set_descriptor_privilege
-        @descriptor_privilege = Descriptor::PrivilegeServices.new(current_user, query).find(params[:id])
-        return respond_with_not_found unless @descriptor_privilege.found?
+        @descriptor_privilege = @descriptor.privileges.find_by_id(params[:id])
+        return respond_with_not_found if @descriptor_privilege.blank?
     end
 
     # Only allow a list of trusted parameters through.
     def descriptor_privilege_params
-        params.require(:descriptor_privilege).permit(:id, :name)
+        params.require(:descriptor_privilege).permit(:id, :name, :action_id)
     end
 end

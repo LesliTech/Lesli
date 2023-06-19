@@ -16,7 +16,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails Development Platform.
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -25,7 +28,7 @@ Building a better future, one line of code at a time.
 @website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
 
@@ -102,25 +105,36 @@ export const useDescriptor = defineStore("administration.descriptor", {
             })
         },
 
+        // Add privilege to descriptor
+        postDescriptorPrivilege(action) {
+
+            this.http.post(this.url.admin("descriptors/:id/privileges", this.descriptor.id), {
+                descriptor_privilege: {
+                    //controller_id: action.controller_id,
+                    action_id: action.action_id
+                }
+            }).then(result => {
+                console.log(result)
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+
+        // Add privilege to descriptor
+        deleteDescriptorPrivilege(action) {
+            console.log(action)
+            this.http.delete(this.url.admin("descriptors/:descriptorId/privileges/:descriptorPrivilegeId", {
+                descriptorId: this.descriptor.id,
+                descriptorPrivilegeId: action.descriptor_privilege_id
+            })).then(result => {
+                console.log(result)
+            }).catch(error => {
+                console.log(error)
+            })
+        }
+
         /*
-        fetch(url=this.url.admin("descriptors")) {
-            this.loading = true
-            this.http.get(url).then(result => {
-                this.index = result
-                this.records = result.records
-                this.loading = false
-            })
-        },
-
-        fetchDescriptor(id) {
-            console.log("fetch",id)
-            this.http.get(this.url.admin("descriptors/:id", id)).then(result => {
-                this.descriptor = result
-                this.getDescriptorsOptions()
-                this.fetchDescriptorPrivileges()
-            })
-        },
-
         fetchDescriptorList() {
             this.http.get(this.url.admin("descriptors/list")).then(result => {
                 this.list = result.map(descriptor => {
@@ -203,37 +217,6 @@ export const useDescriptor = defineStore("administration.descriptor", {
                 this.loading = false
             })
         },
-
-
-
-
-        // Add privilege to descriptor
-        postPrivilege(action) {
-            this.http.post(this.url.admin("descriptors/:id/privileges", this.descriptor.id), {
-                descriptor_privilege: {
-                    controller_id: action.controller_id,
-                    action_id: action.action_id
-                }
-            }).then(result => {
-                console.log(result)
-            }).catch(error => {
-                console.log(error)
-            })
-        },
-
-
-        // Add privilege to descriptor
-        deletePrivilege(action) {
-            console.log(action)
-            this.http.delete(this.url.admin("descriptors/:descriptorId/privileges/:descriptorPrivilegeId", {
-                descriptorId: this.descriptor.id,
-                descriptorPrivilegeId: action.descriptor_privilege_id
-            })).then(result => {
-                console.log(result)
-            }).catch(error => {
-                console.log(error)
-            })
-        }
         */
     }
 })

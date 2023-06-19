@@ -41,6 +41,7 @@ class Descriptor::Privilege < ApplicationLesliRecord
         .joins(sanitize_sql_array(["
             LEFT JOIN descriptor_privileges
             ON descriptor_privileges.system_controller_action_id = system_controller_actions.id 
+            AND descriptor_privileges.deleted_at is null
 	        AND descriptor_id = ?", params[:descriptor_id]])
         ).select(
             "system_controllers.name as controller",
