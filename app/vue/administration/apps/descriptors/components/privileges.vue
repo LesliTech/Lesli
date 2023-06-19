@@ -87,9 +87,9 @@ onMounted(() => {
 //
 function addPrivilege(action) {
     if (action.active) {
-        storeDescriptor.postPrivilege(action)
+        storeDescriptor.postDescriptorPrivilege(action)
     } else {
-        storeDescriptor.deletePrivilege(action)
+        storeDescriptor.deleteDescriptorPrivilege(action)
     }
 }
 

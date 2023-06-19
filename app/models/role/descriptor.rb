@@ -39,24 +39,34 @@ class Role::Descriptor < ApplicationLesliRecord
 
     def self.index current_user, query, role
 
+        d = role.descriptors.joins(privileges: :system_controller_action)
+
+        L2.info "start"
+        pp d
+        L2.info "end"
+
+        return d
+
+=begin
         # get the active descriptors assigned to the role
-        SystemDescriptor
+        Role::Descriptor
         .joins(:system_controller)
         .joins(%(
             LEFT OUTER JOIN "role_descriptors" 
             ON "role_descriptors"."deleted_at" IS NULL 
-            AND "role_descriptors"."system_descriptors_id" = "system_descriptors"."id"
+            AND "role_descriptors"."descriptor_id" = "descriptors"."id"
             AND "role_descriptors"."roles_id" = #{role.id}
         ))
         .select(
-            "coalesce(role_descriptors.system_descriptors_id, system_descriptors.id) as id", 
-            "system_descriptors.name as name", 
+            "coalesce(role_descriptors.descriptor_id, descriptors.id) as id", 
+            "descriptors.name as name", 
             "system_controllers.reference as reference", 
             "system_controllers.route as controller", 
-            "system_descriptors.category as action", 
+            "descriptors.category as action", 
             "system_controllers.engine as engine", 
-            "case when role_descriptors.system_descriptors_id is null then false else true end as active"
+            "case when role_descriptors.descriptor_id is null then false else true end as active"
         )
+=end
     end
 
     def synchronize_privileges
