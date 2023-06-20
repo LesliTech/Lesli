@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 
 =end
 
-class System::LocationService
+class System::LocationServices
 
     def initialize(resource)
         @account = resource
