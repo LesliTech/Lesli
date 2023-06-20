@@ -28,6 +28,7 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 =end
 
 class User::Setting < ApplicationRecord
