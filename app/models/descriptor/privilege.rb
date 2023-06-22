@@ -28,7 +28,9 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 =end
+
 class Descriptor::Privilege < ApplicationLesliRecord
     belongs_to :descriptor
     belongs_to :system_controller_action, class_name: "SystemController::Action"
