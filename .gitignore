@@ -99,6 +99,7 @@ Gemfile.lock
 
 # Development tools
 /bin/bearer
+/coverage
 /node_modules
 brakeman.html
 

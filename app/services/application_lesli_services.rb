@@ -88,7 +88,7 @@ class ApplicationLesliServices
 
 
     # Standard method to create new resource into the database
-    def create params
+    def create resource
         # Example:
         # user = current_user.account.users.new(params)
 
@@ -98,6 +98,7 @@ class ApplicationLesliServices
         #     self.error(user.errors.full_messages.to_sentence)
         # end
 
+        self.resource = resource if resource
         self
     end
 

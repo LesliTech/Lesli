@@ -43,18 +43,18 @@ class Role::DescriptorsController < ApplicationLesliController
 
         role_descriptor_status = false
 
-        system_descriptor = SystemDescriptor.find_by(:id => role_descriptor_params[:id])
-        role_descriptor = @role.descriptors.with_deleted.find_by(:system_descriptor => system_descriptor)
+        system_descriptor = Descriptor.find_by(:id => role_descriptor_params[:id])
+        role_descriptor = @role.descriptors.with_deleted.find_by(:descriptor => system_descriptor)
         
         if not role_descriptor
-            role_descriptor = @role.descriptors.new(:system_descriptor => system_descriptor)
+            role_descriptor = @role.descriptors.new(:descriptor => system_descriptor)
             role_descriptor_status = role_descriptor.save
         elsif role_descriptor.deleted?
             role_descriptor_status = role_descriptor.recover
         end
 
         if role_descriptor_status
-            Role::Activity.log_create_descriptor(current_user, @role, role_descriptor)
+            #Role::Activity.log_create_descriptor(current_user, @role, role_descriptor)
             respond_with_successful(role_descriptor)
         else
             respond_with_error(role_descriptor.errors.full_messages.to_sentence)

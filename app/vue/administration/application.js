@@ -41,8 +41,10 @@ import applicationUsersIndex from "LesliApp/administration/apps/users/index.vue"
 import applicationUsersShow from "LesliApp/administration/apps/users/show.vue"
 import applicationUsersNew from "LesliApp/administration/apps/users/new.vue"
 
+import applicationDescriptorsPrivileges from "LesliApp/administration/apps/descriptors/privileges.vue"
 import applicationDescriptorsIndex from "LesliApp/administration/apps/descriptors/index.vue"
 import applicationDescriptorsEdit from "LesliApp/administration/apps/descriptors/edit.vue"
+import applicationDescriptorsShow from "LesliApp/administration/apps/descriptors/show.vue"
 import applicationDescriptorsNew from "LesliApp/administration/apps/descriptors/new.vue"
 
 import applicationRolesIndex from "LesliApp/administration/apps/roles/index.vue"
@@ -84,6 +86,12 @@ application("Administration", [{
 }, {
     path: "/descriptors/:id/edit",
     component: applicationDescriptorsEdit
+}, {
+    path: "/descriptors/:id",
+    component: applicationDescriptorsShow
+}, {
+    path: "/descriptors/:id/privileges",
+    component: applicationDescriptorsPrivileges
 }, {
     path: "/descriptors/new",
     component: applicationDescriptorsNew

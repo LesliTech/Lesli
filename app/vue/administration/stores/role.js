@@ -130,7 +130,7 @@ export const useRole = defineStore("administration.role", {
                 // convert list of descriptors from: controller/action to controller/actions (like a matrix)
                 descriptors.forEach(descriptor => {
 
-                    if (["list", "index", "show", "create", "edit", "destroy"].includes(descriptor.action)) {
+                    if (["list", "index", "show", "create", "update", "destroy"].includes(descriptor.action)) {
 
                         if (!descriptorgrid[descriptor.reference]) {
                             descriptorgrid[descriptor.reference] = {
@@ -239,7 +239,5 @@ export const useRole = defineStore("administration.role", {
                 this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
             })     
         }
-
-
     }
 })

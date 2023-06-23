@@ -86,7 +86,7 @@ onMounted(() => {
     <lesli-form 
         class="information"
         v-if="!storeDescriptor.loading"
-        @submit.prevent="isEditable ? onUpdate() : onCreate()">
+        @submit="isEditable ? onUpdate() : onCreate()">
 
         <div class="field">
             <label class="label">

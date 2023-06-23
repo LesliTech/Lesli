@@ -42,7 +42,7 @@ const translations = {
 }
 
 onMounted(() => {
-    storeDescriptor.getDescriptorsOptions()
+    //storeDescriptor.getDescriptorsOptions()
 })
 
 </script>

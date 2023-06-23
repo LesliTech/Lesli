@@ -47,7 +47,7 @@ if ENV["COVERAGE"]
     ])
 
     # limit the number of missing lines
-    SimpleCov::Formatter::Console.missing_len = 20 
+    SimpleCov::Formatter::Console.missing_len = 10 
 
     # configure the files to track and ignore
     SimpleCov.start do 

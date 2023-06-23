@@ -54,8 +54,8 @@ const columnDescriptors = [{
     label: 'Create',
     align: 'center'
 },{
-    field: 'edit',
-    label: 'Edit',
+    field: 'update',
+    label: 'Update',
     align: 'center'
 },{
     field: 'destroy',
@@ -104,7 +104,7 @@ function updateDescriptor(descriptor) {
                 <span>{{ column.label }}</span>
             </span>
         </template>
-        <template #head(edit)="{ column }">
+        <template #head(update)="{ column }">
             <span class="icon-text">
                 <span class="icon">
                     <span class="material-icons">
@@ -145,8 +145,8 @@ function updateDescriptor(descriptor) {
             <lesli-toggle v-if="value != null" v-model="record.create.active" @change="updateDescriptor(record.create)">
             </lesli-toggle>
         </template>
-        <template #edit="{ record, value }">
-            <lesli-toggle v-if="value != null" v-model="record.edit.active" @change="updateDescriptor(record.edit)">
+        <template #update="{ record, value }">
+            <lesli-toggle v-if="value != null" v-model="record.update.active" @change="updateDescriptor(record.update)">
             </lesli-toggle>
         </template>
         <template #destroy="{ record, value }">

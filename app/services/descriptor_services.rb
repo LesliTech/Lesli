@@ -90,6 +90,10 @@ class DescriptorServices < ApplicationLesliServices
         }
     end
 
+    def create params
+        super(self.current_user.account.descriptors.create(params))
+    end
+
     # @return [void]
     # @param role_descriptor [RoleDescriptor] The role_descriptor on wich we want to add the system actions
     # @description Return the list of privilege actions defined for

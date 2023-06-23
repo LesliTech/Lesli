@@ -38,7 +38,7 @@ import { useRouter } from 'vue-router'
 
 
 // · import lesli stores
-import { useDescriptor } from "LesliApp/administration/stores/descriptor"
+import { useDescriptors } from "LesliApp/administration/stores/descriptors"
 
 
 // · initialize/inject plugins
@@ -46,7 +46,7 @@ const url = inject("url")
 
 
 // · 
-const storeDescriptor = useDescriptor()
+const storeDescriptors = useDescriptors()
 
 
 // · 
@@ -82,7 +82,7 @@ const columns = [{
 
 // · 
 onMounted(() => {
-    storeDescriptor.fetchDescriptors()
+    storeDescriptors.fetchDescriptors()
 })
 
 </script>
@@ -90,23 +90,23 @@ onMounted(() => {
     <section class="application-component">
         <lesli-header title="Role Descriptors">
             <lesli-button icon="refresh"
-                :loading="storeDescriptor.index.loading"
-                @click="storeDescriptor.getDescriptors()">
+                :loading="storeDescriptors.index.loading"
+                @click="storeDescriptors.getDescriptors()">
                 {{ translations.core.shared.view_text_btn_reload }}
             </lesli-button>
             <lesli-button icon="add" :to="url.admin(`descriptors/new`)">
                 {{ translations.core.role_descriptors.view_btn_new_role_descriptor }}
             </lesli-button>
         </lesli-header>
-        <lesli-toolbar @search="storeDescriptor.search"></lesli-toolbar>
+        <lesli-toolbar @search="storeDescriptors.search"></lesli-toolbar>
         <lesli-table
-            :link="(descriptor) => url.admin('descriptors/:id/edit', descriptor.id).s"
+            :link="(descriptor) => url.admin('descriptors/:id', descriptor.id)"
             :columns="columns"
-            :loading="storeDescriptor.index.loading"
-            :records="storeDescriptor.index.records"
-            :pagination="storeDescriptor.index.pagination"
-            @paginate="storeDescriptor.paginateIndex"
-            @sort="storeDescriptor.sortIndex"
+            :loading="storeDescriptors.index.loading"
+            :records="storeDescriptors.index.records"
+            :pagination="storeDescriptors.index.pagination"
+            @paginate="storeDescriptors.paginateIndex"
+            @sort="storeDescriptors.sortIndex"
         ></lesli-table>
     </section>
 </template>
