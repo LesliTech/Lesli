@@ -47,11 +47,13 @@ if ENV["COVERAGE"]
     ])
 
     # limit the number of missing lines
-    SimpleCov::Formatter::Console.missing_len = 10 
+    SimpleCov::Formatter::Console.missing_len = 50 
 
     # configure the files to track and ignore
     SimpleCov.start do 
         #track_files 'lib/**/*.rb'
+
+        # remove to track files in these folders
         add_filter '/lib'
         add_filter '/spec'
         add_filter '/vendor'
@@ -65,7 +67,6 @@ if ENV["COVERAGE"]
     # execute test coverage after test suites
     RSpec.configure do |config|
         config.after(:suite) do
-            RSpec::Puppet::Coverage.report!
         end
     end
 

@@ -28,26 +28,35 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
 
-# ·
-require "support/config/rails_helper"
+FactoryBot.define do
 
-# ·
-RSpec.describe LesliHelper do
-
-    it "must return the lesli_instance_code" do
-        expect(helper.lesli_instance_code).to eql('lesli_cloud') if defined?(LesliCloud)
+    # Valid role creation
+    factory :role, class: "Role" do
+        name { Faker::Lorem.word }
+        active { true }
+        object_level_permission { Faker::Number.number(digits: 2) }
+        account { Account.first }
     end
 
-    it "must return the lesli_engine" do
-        expect(helper.lesli_engine).to eql('lesli')
+    # Invalid role
+    factory :role_not_valid, class: "Role" do
+        name { nil }
+        active { nil }
+        object_level_permission { 0 }
+        account { Account.first }
     end
 
-    it "check if lesli administration" do
-        expect(helper.is_lesli_administration?).to eql(false)
+    # With default path
+    factory :role_with_default_path, class: "Role" do
+        name { Faker::Lorem.word }
+        active { true }
+        default_path { "/administration/account" }
+        limit_to_path { true }
+        object_level_permission { Faker::Number.number(digits: 2) }
+        account { Account.first }
     end
 
 end

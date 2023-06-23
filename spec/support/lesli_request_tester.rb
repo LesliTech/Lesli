@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 require "faker"
-require "rails_helper"
+require "support/config/rails_helper"
 require "support/helpers/response_helper"
 require "support/helpers/lesli_helper"
 
@@ -42,7 +42,7 @@ RSpec.shared_context "request user authentication" do
     # Reset account settings
     before(:each) do
         @current_user = User.first
-        Account::Setting.reset_all(@current_user.account)
+        #Account::Setting.reset_all(@current_user.account)
     end
 
     # Creates a new valid user session
