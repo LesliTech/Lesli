@@ -17,37 +17,42 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Ruby on Rails SaaS development platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
 
 # ·
-require "support/config/rails_helper"
+require "support/lesli_request_tester"
+
 
 # ·
-RSpec.describe LesliHelper do
+RSpec.describe "GET:/administration/descriptors.json", type: :request do
 
-    it "must return the lesli_instance_code" do
-        expect(helper.lesli_instance_code).to eql('lesli_cloud') if defined?(LesliCloud)
+    include_context "request user authentication"
+
+    it "is expected to respond with an index of descriptors" do
+
+        FactoryBot.create(:descriptor)
+
+        descriptors_in_database = @current_user.account.descriptors.count
+
+        get("/administration/descriptors.json")
+
+        # shared examples
+        expect_response_with_pagination
+
+        # custom specs
+        expect(response_body["pagination"]["total"]).to eql(descriptors_in_database)
+
     end
-
-    it "must return the lesli_engine" do
-        expect(helper.lesli_engine).to eql('lesli')
-    end
-
-    it "check if lesli administration" do
-        expect(helper.is_lesli_administration?).to eql(false)
-    end
-
 end

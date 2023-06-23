@@ -30,18 +30,29 @@ Building a better future, one line of code at a time.
 // ·     
 =end
 
-require "support/config/spec_coverage"
-require "support/config/spec_helper"
-require "byebug"
-
+# ·
 ENV['RAILS_ENV'] ||= 'test'
 
+
+# ·
 require File.expand_path('../../../config/environment', __dir__)
+
 
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 
-require 'rspec/rails'
+
+# ·
+require "support/config/spec_coverage"
+require "support/config/spec_helper"
+require "rspec/rails"
+
+
+# ·
+Dir.glob(Rails.root.join("spec/support/factories/*.rb")).sort.each do |factory|
+    require_dependency factory
+end
+
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -110,6 +121,10 @@ if ::User.all.count < 1
     # if no users, create a dummy user, so the test always find a user to log in
     FactoryBot.create(:user)
 end
+
+
+# ·
+L2.br(5)
 
 
 # Notify to user...
