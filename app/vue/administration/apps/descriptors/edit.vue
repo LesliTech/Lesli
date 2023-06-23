@@ -42,7 +42,6 @@ import { useDescriptor } from "LesliApp/administration/stores/descriptor"
 
 // · import components
 import descriptorForm from "./components/form.vue"
-import descriptorPrivileges from "./components/privileges.vue"
 
 
 // · initialize/inject plugins
@@ -65,22 +64,6 @@ const translations = {
 
 
 // · 
-const columns = [{
-    field: 'id',
-    label: 'ID'
-}, {
-    field: 'controller',
-    label: 'Controller'
-}, {
-    field: 'action',
-    label: 'Action'
-}, {
-    field: 'created_at',
-    label: 'Created at'
-}]
-
-
-// · 
 onMounted(() => {
     storeDescriptor.fetchDescriptor(route.params.id)
 })
@@ -91,10 +74,10 @@ onMounted(() => {
             <lesli-button icon="list" :to="url.admin('descriptors')">
                 {{ translations.core.view_btn_list }}
             </lesli-button>
+            <lesli-button icon="settings" :to="url.admin('descriptors/:id/privileges', storeDescriptor.descriptor.id)">
+               {{  translations.core.roles.view_btn_edit_privilege_actions }}
+            </lesli-button>
         </lesli-header>
-
         <descriptor-form is-editable></descriptor-form>
-        <br>
-        <descriptor-privileges></descriptor-privileges>
     </section>
 </template>
