@@ -23,5 +23,6 @@ Example:
             /engines/CloudEngine/app/views/things/_token.html.erb
 
         Rspec tests:
-            /engines/CloudEngine/spec/requests/things_spec.rb
+            /engines/CloudEngine/spec/requests/things/list_spec.rb
+            /engines/CloudEngine/spec/requests/things/index_spec.rb
             /engines/CloudEngine/spec/models/thing_spec.rb

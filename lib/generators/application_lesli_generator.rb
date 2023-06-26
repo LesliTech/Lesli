@@ -29,11 +29,47 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 =end
+
+
+=begin
+
+Information reference:
+
+
+rails generate lesli:test CloudEngine/Things
+
+@info = {
+    :engine=>"CloudEngine",
+    :engine_code=>"cloud_engine",
+    :engine_name=>"engine",
+    :resources=>"Things",
+    :resources_code=>"things",
+    :resources_camel=>"things",
+    :resource=>"Thing",
+    :resource_camel=>"thing"
+}
+
+@vue = {
+    :path_base=> "~/engines/cloud_engine/lib/vue",
+    :path_apps=> "~/engines/cloud_engine/lib/vue/apps/thing",
+    :path_store=> "~/engines/cloud_engine/lib/vue/stores/thing.js",
+    :path_components=> "~/engines/cloud_engine/lib/vue/apps/thing/components"
+}
+
+@services = {
+    :path=> "~/engines/cloud_engine/app/services/thing_services.rb"
+}
+
+@rspec = {
+    :path_request=> "~/engines/cloud_engine/spec/requests/thing"
+}
+=end
 class ApplicationLesliGenerator < Rails::Generators::NamedBase 
 
     @info;
-    @vue;
     @services;
+    @rspec;
+    @vue;
 
     def parse_information 
 
@@ -77,6 +113,15 @@ class ApplicationLesliGenerator < Rails::Generators::NamedBase
             :path_apps => path_base.join("apps", @info[:resources_code]),
             :path_store => path_base.join("stores", "#{ @info[:resources_camel] }.js"),
             :path_components => path_base.join("apps", @info[:resources_code], "components")
+        }
+    end
+
+    def parse_rspec 
+        path_base = Rails.root.join("engines", @info[:engine_code], "spec")
+
+        @rspec = {
+            :path_request => path_base.join("requests", @info[:resources_code]),
+            :url => @info[:engine_name] + "/" + @info[:resources_code]
         }
     end
 end
