@@ -42,7 +42,12 @@ export const useDescriptors = defineStore("administration.descriptors", {
             descriptor: {},
             index: { 
                 loading: false,
-                pagination: {},
+                pagination: { 
+                    "page": 1, 
+                    "pages": 15, 
+                    "total": 225, 
+                    "results": 225 
+                },
                 records: []
             }
         }
@@ -60,7 +65,7 @@ export const useDescriptors = defineStore("administration.descriptors", {
         getDescriptors() {
             this.index.loading = true
             this.http.get(this.url.admin("descriptors")).then(result => {
-                this.index.pagination = result.pagination
+                //this.index.pagination = result.pagination
                 this.index.records = result.records
             }).catch(error => {
                 this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
@@ -83,6 +88,12 @@ export const useDescriptors = defineStore("administration.descriptors", {
         resetDescriptor() {
             this.descriptor = {}
             this.privileges = []
+        },
+
+        paginateIndex(page) {
+            console.log("store page: ", page)
+            this.index.pagination.page = page
+            //this.fetch(this.url.admin("descriptors").paginate(this.pagination.page))
         },
 
         /*

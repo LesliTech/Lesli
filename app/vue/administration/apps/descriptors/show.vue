@@ -88,10 +88,8 @@ const columns = [{
 
 //
 onMounted(() => {
-    //storeSystemController.fetchControllers()
+    storeDescriptor.$reset()
     storeDescriptor.fetchDescriptor(route.params.id)
-    //setTimeout(() => storeDescriptor.getDescriptorPrivileges(), 2000)
-    
 })
 
 

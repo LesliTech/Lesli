@@ -1,5 +1,4 @@
 /*
-
 Lesli
 
 Copyright (c) 2023, Lesli Technologies, S. A.
@@ -32,35 +31,7 @@ Building a better future, one line of code at a time.
 
 
 // · 
-.lesli-toolbar {
-    margin-bottom: 1rem;
-
-    // General styles
-    input,
-    .select select {
-        border-radius: 8px;
-        border: 1px solid lesli-css-color(silver);
-    }
-
-    // search input
-    input {
-        &::placeholder {
-            color: lesli-css-color(silver, 700);
-            opacity: .8;
-        }
-    }
-
-    // autocomplete tag selectors
-    div.taginput-container.is-focusable {
-        border-top: none;
-        border-left: none;
-        border-right: none;
-        background-color: transparent;
-    }
-
-    // toolbar controls separation
-    .button:not(:last-child),
-    .select:not(:last-child) {
-        margin-right: 6px;
-    }
+.lesli-card {
+    border-radius: 8px;
+    box-shadow: $lesli-box-shadow;
 }

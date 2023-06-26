@@ -40,6 +40,7 @@ class DescriptorServices < ApplicationLesliServices
     def index
 
         descriptors = current_user.account.descriptors
+        .where.not(:name => ["owner"])
         .select(
             :id,
             :name,

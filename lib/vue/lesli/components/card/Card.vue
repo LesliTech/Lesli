@@ -1,5 +1,5 @@
+<script setup>
 /*
-
 Lesli
 
 Copyright (c) 2023, Lesli Technologies, S. A.
@@ -31,36 +31,30 @@ Building a better future, one line of code at a time.
 */
 
 
+// · import vue tools
+import { useSlots } from "vue"
+
+
 // · 
-.lesli-toolbar {
-    margin-bottom: 1rem;
+const slots = useSlots()
 
-    // General styles
-    input,
-    .select select {
-        border-radius: 8px;
-        border: 1px solid lesli-css-color(silver);
-    }
 
-    // search input
-    input {
-        &::placeholder {
-            color: lesli-css-color(silver, 700);
-            opacity: .8;
-        }
+// · defining props
+const props = defineProps({
+    title: {
+        type: String,
+        default: null
     }
+})
 
-    // autocomplete tag selectors
-    div.taginput-container.is-focusable {
-        border-top: none;
-        border-left: none;
-        border-right: none;
-        background-color: transparent;
-    }
-
-    // toolbar controls separation
-    .button:not(:last-child),
-    .select:not(:last-child) {
-        margin-right: 6px;
-    }
-}
+</script>
+<template>
+    <div class="card lesli-card">
+        <div v-if="slots['header']" class="card-header">
+            <slot name="header"></slot>
+        </div>
+        <div class="card-content">
+            <slot></slot>
+        </div>
+    </div>
+</template>

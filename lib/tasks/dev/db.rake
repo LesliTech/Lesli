@@ -49,6 +49,7 @@ end
 # Build, migrate & seed database (development only)
 def setup
 
+    L2.br(2)
     L2.info("Setup Lesli database for development")
 
     Rake::Task['db:create'].invoke
@@ -63,6 +64,7 @@ def reset
 
     return if Rails.env.production?
 
+    L2.br(2)
     L2.info("Reset Lesli database for development")
 
     Rake::Task['db:drop'].invoke
