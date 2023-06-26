@@ -1,0 +1,31 @@
+=begin
+
+<%= File.read(Pathname.new(LESLI_ROOT).join("lesli.txt")).to_s.force_encoding("ASCII-8BIT") %>=end
+
+
+# ·
+require "support/lesli_request_tester"
+
+
+# ·
+RSpec.describe "GET:<%= @rspec[:url]%>.json", type: :request do
+
+    include_context "request user authentication"
+
+    it "is expected to respond with a list of <%= @info[:resources] %>" do
+
+        FactoryBot.create(:<%= @info[:engine_name]%>_<%= @info[:resources_camel] %>)
+
+        <%= @info[:resources_camel] %>_in_database = @current_user.account.<%= @info[:engine_name]%>.<%= @info[:resources_code] %>.count
+
+        get("/<%= @rspec[:url]%>.json")
+
+        # shared examples
+        expect_response_with_pagination
+
+        # custom specs
+        expect(response_body["pagination"]["total"]).to eql(<%= @info[:resources_camel] %>_in_database)
+
+    end
+
+end

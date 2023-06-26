@@ -1,0 +1,10 @@
+Description:
+    Creates a Lesli set of unit tests
+
+Example:
+    rails generate lesli:test Core/Things
+    rails generate lesli:test CloudEngine/Things
+
+    This will create:
+        /engines/CloudEngine/spec/requests/things/list_spec.rb
+        /engines/CloudEngine/spec/requests/things/index_spec.rb
