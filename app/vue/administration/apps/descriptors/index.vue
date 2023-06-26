@@ -87,7 +87,7 @@ onMounted(() => {
 
 </script>
 <template>
-    <section class="application-component">
+    <application-component>
         <lesli-header title="Role Descriptors">
             <lesli-button icon="refresh"
                 :loading="storeDescriptors.index.loading"
@@ -98,15 +98,21 @@ onMounted(() => {
                 {{ translations.core.role_descriptors.view_btn_new_role_descriptor }}
             </lesli-button>
         </lesli-header>
-        <lesli-toolbar @search="storeDescriptors.search"></lesli-toolbar>
-        <lesli-table
-            :link="(descriptor) => url.admin('descriptors/:id', descriptor.id)"
-            :columns="columns"
-            :loading="storeDescriptors.index.loading"
-            :records="storeDescriptors.index.records"
-            :pagination="storeDescriptors.index.pagination"
-            @paginate="storeDescriptors.paginateIndex"
-            @sort="storeDescriptors.sortIndex"
-        ></lesli-table>
-    </section>
+
+        {{ storeDescriptors.index.pagination }}
+
+        <lesli-card>
+            <lesli-toolbar @search="storeDescriptors.search"></lesli-toolbar>
+
+            <lesli-table
+                :link="(descriptor) => url.admin('descriptors/:id', descriptor.id)"
+                :columns="columns"
+                :loading="storeDescriptors.index.loading"
+                :records="storeDescriptors.index.records"
+                :pagination="storeDescriptors.index.pagination"
+                @paginate="storeDescriptors.paginateIndex"
+                @sort="storeDescriptors.sortIndex">
+            </lesli-table>
+        </lesli-card>
+    </application-component>
 </template>
