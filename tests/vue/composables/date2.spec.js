@@ -35,14 +35,14 @@ import { expect } from "chai"
 
 
 // · plugins to be tested
-import { useDate2 } from "../../../lib/vue3/composables/date2"
+import { useDate2 } from "../../../lib/vue/composables/date2"
 
 
 const Date2 = useDate2()
 
 
 // · 
-describe("VUE/PLUGINS/DATE2", () => {
+describe("VUE/COMPOSABLES/DATE2", () => {
 
     describe("Build a DATE2 from new Date()", () => {
         var date = new Date2
