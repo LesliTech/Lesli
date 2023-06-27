@@ -99,8 +99,6 @@ onMounted(() => {
             </lesli-button>
         </lesli-header>
 
-        {{ storeDescriptors.index.pagination }}
-
         <lesli-card>
             <lesli-toolbar @search="storeDescriptors.search"></lesli-toolbar>
 
