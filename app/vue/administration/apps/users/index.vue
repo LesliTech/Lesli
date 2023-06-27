@@ -137,10 +137,11 @@ function showUser(user) {
             </lesli-button>
         </lesli-header>
 
-        <lesli-toolbar :search-placeholder="translations.core.users.view_toolbar_filter_placeholder_search" @search="storeUsers.search">
-            
-            <lesli-select :options="[
-                    {
+        <lesli-card>
+            <lesli-toolbar 
+                @search="storeUsers.search"
+                :search-placeholder="translations.core.users.view_toolbar_filter_placeholder_search">
+                <lesli-select :options="[{
                         label: translations.core.users.view_toolbar_filter_placeholder_all_users,
                         value: null
                     }, {
@@ -149,73 +150,53 @@ function showUser(user) {
                     }, {
                         label: translations.core.users.view_toolbar_filter_placeholder_inactive_users,
                         value: 'inactive'
-                    },
-                ]"
-                v-model="storeUsers.filters.status"
-                @change="storeUsers.fetchIndex()">
-            </lesli-select> 
+                    }]"
+                    v-model="storeUsers.filters.status"
+                    @change="storeUsers.fetchIndex()">
+                </lesli-select> 
+                <lesli-select :options="storeUsers.roles_options"
+                    v-model="storeUsers.filters.role"
+                    @change="storeUsers.fetchIndex()">
+                </lesli-select> 
+            </lesli-toolbar>
 
-            <lesli-select :options="storeUsers.roles_options"
-                v-model="storeUsers.filters.role"
-                @change="storeUsers.fetchIndex()">
-            </lesli-select> 
+            <lesli-table
+                :loading="storeUsers.loading"
+                :columns="columns"
+                :records="storeUsers.index.records"
+                :pagination="storeUsers.index.pagination"
+                :link="(user) => url.root(props.appMountPath+`/${user.id}`).s"
+                @paginate="storeUsers.paginateIndex"
+                @sort="storeUsers.sortIndex">
 
-            <lesli-select :options="[
-                    {
-                        label: '10',
-                        value: 10
-                    }, {
-                        label: '15',
-                        value: 15
-                    }, {
-                        label: '30',
-                        value: 30
-                    }, {
-                        label: '50',
-                        value: 50
-                    },
-                ]"
-                v-model="storeUsers.filters.per_page"
-                @change="storeUsers.fetchIndex()">
-            </lesli-select> 
-        </lesli-toolbar>
-
-        <lesli-table
-            :loading="storeUsers.loading"
-            :columns="columns"
-            :records="storeUsers.index.records"
-            :pagination="storeUsers.index.pagination"
-            :link="(user) => url.root(props.appMountPath+`/${user.id}`).s"
-            @paginate="storeUsers.paginateIndex"
-            @sort="storeUsers.sortIndex">
-
-            <template #active="{ value }">
-                <span class="tag is-success" v-if="value">
-                    {{ translations.core.shared.view_text_active }}
-                </span>
-                <span class="tag is-warning" v-if="!value">
-                    {{ translations.core.shared.view_text_inactive }}
-                </span>
-            </template>
-
-            <template #options="{ record, value }">
-                <a class="dropdown-item" @click="storeUsers.doLogout(record.id)">
-                    <span class="material-icons">
-                        logout
+                <template #active="{ value }">
+                    <span class="tag is-success" v-if="value">
+                        {{ translations.core.shared.view_text_active }}
                     </span>
-                    <span>
-                        {{ translations.core.users.view_btn_logout }}
+                    <span class="tag is-warning" v-if="!value">
+                        {{ translations.core.shared.view_text_inactive }}
                     </span>
-                </a>
-                <a class="dropdown-item" @click="storeUsers.doLock(record.id)">
-                    <span class="material-icons">
-                        lock
-                    </span>
-                    <span>
-                        {{ translations.core.users.view_btn_revoke_access }}
-                    </span>
-                </a>
-            </template>
-        </lesli-table>
+                </template>
+
+                <template #options="{ record, value }">
+                    <a class="dropdown-item" @click="storeUsers.doLogout(record.id)">
+                        <span class="material-icons">
+                            logout
+                        </span>
+                        <span>
+                            {{ translations.core.users.view_btn_logout }}
+                        </span>
+                    </a>
+                    <a class="dropdown-item" @click="storeUsers.doLock(record.id)">
+                        <span class="material-icons">
+                            lock
+                        </span>
+                        <span>
+                            {{ translations.core.users.view_btn_revoke_access }}
+                        </span>
+                    </a>
+                </template>
+            </lesli-table>
+        </lesli-card>
     </application-component>
 </template>

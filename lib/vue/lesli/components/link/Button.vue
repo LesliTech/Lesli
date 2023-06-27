@@ -1,0 +1,133 @@
+<script setup>
+/*
+Copyright (c) 2022, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · import vue tools
+import { ref, reactive, onMounted, watch, computed, useSlots } from "vue"
+
+// · 
+const slots = useSlots()
+
+// · defining emits
+const emit = defineEmits(['click']);
+
+
+// · defining props
+const props = defineProps({
+    to: {
+        type: Object,
+        required: false
+    },
+    icon: {
+        type: String,
+        required: false
+    },
+    loading: {
+        type: Boolean,
+        default: false,
+        required: false
+    },
+    primary: {
+        type: Boolean,
+        default: true,
+        required: false
+    },
+    danger: {
+        type: Boolean,
+        default: false,
+        required: false
+    },
+    warning: {
+        type: Boolean,
+        default: false,
+        required: false
+    },
+    info: {
+        type: Boolean,
+        default: false,
+        required: false
+    },
+    solid: {
+        type: Boolean,
+        default: false,
+        required: false
+    },
+    small: {
+        type: Boolean,
+        default: false,
+        required: false
+    },
+    iconOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+    }
+})
+
+
+const buttonColor = computed(() => {
+
+    if (props.warning) return "is-warning"
+
+    if (props.danger) return "is-danger"
+
+    if (props.info) return "is-info"
+
+    return "is-primary"
+
+})
+
+</script>
+<template>
+    <router-link 
+        v-if="props.to" 
+        :to="to.toString()"
+        :class="[
+            'button', 
+            'is-link',
+            'is-light',
+            buttonColor, 
+            { 'is-outlined': !solid }, 
+            { 'is-loading': loading }, 
+            { 'is-small': small }]">
+        <span v-if="icon" :class="['icon', { 'is-small': small }]">
+            <span class="material-icons">{{ icon }}</span>
+        </span>
+        <span v-if="!iconOnly">
+            <slot></slot>
+        </span>
+    </router-link>
+    <button 
+        v-if="!props.to" 
+        @click="emit('click')" 
+        :class="[
+            'button', 
+            'is-link',
+            'is-light',
+            buttonColor, 
+            { 'is-outlined': !solid }, 
+            { 'is-loading': loading }, 
+            { 'is-small': small }]">
+        <span v-if="icon" :class="['icon', { 'is-small': small }]">
+            <span class="material-icons">{{ icon }}</span>
+        </span>
+        <span v-if="!iconOnly">
+            <slot></slot>
+        </span>
+    </button>
+</template>

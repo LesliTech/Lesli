@@ -118,33 +118,31 @@ watch(() => selected.value, newValue => {
 
 </script>
 <template>
-    <div>
-        <div :class="['control', { 'has-icons-left': props.icon }]">
-            <div class="select is-fullwidth">
-                <select
-                    @change="onChange"
-                    v-model="selected"
-                    :required="props.required"
-                    :disabled="props.disabled">
-                    <option value="" disabled>{{ props.placeholder }}</option>
-                    <option
-                        v-if="props.reset"
-                        :value="{ value: 'reset', label: 'reset' }">
-                        {{ props.reset }}
-                    </option>
-                    <option
-                        v-for="(option, index) in props.options"
-                        :value="option.value"
-                        :key="index">
-                        {{ option.label }}
-                    </option>
-                </select>
-            </div>
-            <div v-if="props.icon" class="icon is-small is-left">
-                <span class="material-icons">
-                    {{ props.icon }}
-                </span>
-            </div>
+    <div :class="['control', { 'has-icons-left': props.icon }]">
+        <div class="select is-fullwidth">
+            <select
+                @change="onChange"
+                v-model="selected"
+                :required="props.required"
+                :disabled="props.disabled">
+                <option value="" disabled>{{ props.placeholder }}</option>
+                <option
+                    v-if="props.reset"
+                    :value="{ value: 'reset', label: 'reset' }">
+                    {{ props.reset }}
+                </option>
+                <option
+                    v-for="(option, index) in props.options"
+                    :value="option.value"
+                    :key="index">
+                    {{ option.label }}
+                </option>
+            </select>
+        </div>
+        <div v-if="props.icon" class="icon is-small is-left">
+            <span class="material-icons">
+                {{ props.icon }}
+            </span>
         </div>
     </div>
 </template>

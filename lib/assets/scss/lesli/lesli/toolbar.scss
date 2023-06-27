@@ -60,7 +60,7 @@ Building a better future, one line of code at a time.
 
     // toolbar controls separation
     .button:not(:last-child),
-    .select:not(:last-child) {
+    .control:not(:last-child) {
         margin-right: 6px;
     }
 }
