@@ -92,7 +92,7 @@ header.application-header {
 
         // header icons
         span.material-icons {
-            color: darken(#E2E6F6, 5);
+            color: lesli-css-color(slate);
             &:hover, &.is-active {
                 color: var(--lesli-color-primary);
             }
