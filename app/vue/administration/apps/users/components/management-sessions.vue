@@ -70,14 +70,20 @@ onMounted(() => {
 
 </script>
 <template>
-    <lesli-table
-        :columns="columns"
-        :records="storeUser.sessions.records">
-
-        <template #buttons="{ record, value }">
-            <lesli-button danger icon="delete" @click="storeUser.deleteSession(record.id)">
-                {{ translations.users.view_btn_logout }}
+    <lesli-card>
+        <lesli-toolbar>
+            <lesli-button icon="refresh">
+                Reload
             </lesli-button>
-        </template>
-    </lesli-table>
+        </lesli-toolbar>
+        <lesli-table
+            :columns="columns"
+            :records="storeUser.sessions.records">
+            <template #buttons="{ record, value }">
+                <lesli-button danger icon="delete" @click="storeUser.deleteSession(record.id)">
+                    {{ translations.users.view_btn_logout }}
+                </lesli-button>
+            </template>
+        </lesli-table>
+    </lesli-card>
 </template>
