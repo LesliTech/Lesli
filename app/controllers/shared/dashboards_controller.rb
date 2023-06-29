@@ -143,7 +143,7 @@ module Shared
             full_module_name = dynamic_info[:full_module_name].underscore
 
             dashboard = model.new(dashboard_params)
-            dashboard["#{full_module_name}_accounts_id".to_sym] = current_user.account.id
+            dashboard["#{full_module_name}_account_id".to_sym] = current_user.account.id
             dashboard.user_creator = current_user
 
             if dashboard.save
@@ -266,28 +266,29 @@ private
             if params[:id] == "default"
                 # Main dashboard for user
                 @dashboard = model.find_by(
-                    "#{full_module_name}_accounts_id".to_sym => current_user.account.id,
+                    #"#{full_module_name}_account_id".to_sym => current_user.account.id,
+                    :account_id => current_user.account.id,
                     main: true,
-                    user_main_id: current_user.id
+                    #user_main_id: current_user.id
                 )
                 return if @dashboard
                 
                 # Main dashboard for role
                 @dashboard = model.find_by(
-                    "#{full_module_name}_accounts_id".to_sym => current_user.account.id,
-                    roles_id: current_user.roles.first.id
+                    :account_id => current_user.account.id,
+                    role_id: current_user.roles.first.id
                 )
                 return if @dashboard
 
                 # Default dashboard
                 @dashboard = model.find_by(
-                    "#{full_module_name}_accounts_id".to_sym => current_user.account.id,
+                    :account_id => current_user.account.id,
                     default: true
                 )
             else
                 @dashboard = model.find_by(
                     id: params[:id],
-                    "#{full_module_name}_accounts_id".to_sym => current_user.account.id,
+                    :account_id => current_user.account.id,
                 )
             end
         end

@@ -19,7 +19,9 @@ For more information read the license file including with this software.
 
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed, getCurrentInstance } from "vue"
+import { useRouter } from "vue-router"
 
+const router = useRouter()
 
 // · defining props
 const props = defineProps({
@@ -33,16 +35,20 @@ const props = defineProps({
     }
 })
 
+function goBack() {
+    router.go(-1)
+}
+
 </script>
 <template>
     <nav class="navbar lesli-header">
         <div class="navbar-brand">
             <div class="navbar-item">
-                <router-link v-if="back" :to="to.toString()">
+                <button v-if="false" class="button is-ghost" @click="goBack()">
                     <span class="material-icons">
                         arrow_back
                     </span>
-                </router-link>
+                </button>
                 <h1 class="title is-4" v-if="title">{{ title }}</h1>
             </div>
         </div>

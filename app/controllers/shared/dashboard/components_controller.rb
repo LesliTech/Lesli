@@ -67,7 +67,7 @@ module Shared
 
             @dashboard = dashboard_model.find_by(
                 id: params[:dashboard_id],
-                "#{full_module_name}_accounts_id".to_sym => current_user.account.id
+                account_id: current_user.account.id
             )
         end
 
