@@ -113,7 +113,6 @@ module.exports = env => {
                 // Set aliases as shortcuts to import modules
                 Lesli: path.resolve("lib", "vue"), 
                 LesliApp: path.resolve("app", "vue"),
-                LesliBuilder: path.resolve("engines", "lesli_builder", "lib", "vue"),
     
                 CloudAdmin: path.resolve("app", "vue", "administration"),
                 CloudBell: path.resolve("engines", "cloud_bell", "lib", "vue"),
@@ -130,7 +129,9 @@ module.exports = env => {
                 CloudSocial: path.resolve("engines", "cloud_social", "lib", "vue"),
                 CloudShared: path.resolve("engines", "cloud_shared", "lib", "vue"),
                 CloudScraper: path.resolve("engines", "cloud_scraper", "lib", "vue"),
-                CloudAuthority: path.resolve("engines", "cloud_authority", "lib", "vue")
+                CloudAuthority: path.resolve("engines", "cloud_authority", "lib", "vue"),
+
+                LesliBuilder: path.resolve("engines", "lesli_builder", "lib", "vue")
             }
         },
         module: {
