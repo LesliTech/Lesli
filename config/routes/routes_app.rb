@@ -68,9 +68,6 @@ module RoutesApp
                         # account files - attached files to account
                         resources :files, only: [:index, :show, :new, :create, :destroy]
 
-                        # integration tokens
-                        resources :integrations, only: [:index, :new, :create, :destroy]
-
                         # general geographic locations
                         resources :locations, only: [:index, :show, :create]
 
