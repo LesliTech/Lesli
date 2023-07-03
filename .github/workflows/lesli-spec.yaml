@@ -77,8 +77,8 @@ jobs:
       postgres:
         image: postgres:11.5
         env:
-          POSTGRES_USER: leslicloud_test
           POSTGRES_DB: leslicloud_test
+          POSTGRES_USER: leslicloud_test
           POSTGRES_PASSWORD: "leslicloud_test"
         options: >-
           --health-cmd pg_isready
@@ -92,12 +92,12 @@ jobs:
     steps:
 
       # Set the right owner for work folders
-      - name: Set folder righ permissions
+      - name: Set folder permissions
         run: "sudo chown -R $USER:$USER $GITHUB_WORKSPACE/"
 
 
       # Clone the current repository
-      - name: Checkout code
+      - name: Checkout Lesli core repository
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.ref }}
@@ -115,7 +115,7 @@ jobs:
 
 
       # Build the Lesli database
-      - name: Set up database schema
+      - name: Set up PostgreSQL database 
         run: |
           cp ./config/credentials/testci.yml.enc ./config/credentials/test.yml.enc
           bundle list
@@ -129,7 +129,7 @@ jobs:
 
 
       # Run Rspec tests
-      - name: Run Spec tests
+      - name: Run Rails tests
         run: bundle exec rspec spec
         env:
           RAILS_ENV: test
