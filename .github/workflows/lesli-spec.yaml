@@ -67,7 +67,9 @@ jobs:
 
 
     # Do not execute the test if requests comes from another action
-    if: "!contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):') && !contains(github.event.head_commit.message, 'ci(workflows):')"
+    if: "!contains(github.event.head_commit.message, 'ci(workflows):')"
+    if: "!contains(github.event.head_commit.message, 'release(gem):')"
+    if: "!contains(github.event.head_commit.message, 'assets(js):')"
 
 
     # Start database service necessary to execute the RSpec tests
