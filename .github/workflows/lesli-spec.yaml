@@ -63,7 +63,7 @@ on:
 jobs:
   test:
     name: Test workflow for Lesli Core
-    runs-on: latest
+    runs-on: ubuntu-latest
 
 
     # Do not execute the test if requests comes from another action
