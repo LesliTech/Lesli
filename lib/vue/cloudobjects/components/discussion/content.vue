@@ -17,9 +17,9 @@ For more information read the license file including with this software.
 */
 
 // · import store
-import { useCloudObjectDiscussionStore } from "Lesli/stores/cloud-objects/discussion"
+import { useCloudObjectDiscussionStore } from "Lesli/cloudobjects/stores/discussion"
 
-import DiscussionElement from "Leslicloud-objects/discussion/element.vue"
+import DiscussionElement from "Lesli/cloudobjects/components/discussion/element.vue"
 
 const discussionStore = useCloudObjectDiscussionStore()
 

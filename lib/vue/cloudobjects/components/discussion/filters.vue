@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 import { watch } from "vue"
 
 // · import store
-import { useCloudObjectDiscussionStore } from "Lesli/stores/cloud-objects/discussion"
+import { useCloudObjectDiscussionStore } from "Lesli/cloudobjects/stores/discussion"
 
 // · defining translations
 const translations = {

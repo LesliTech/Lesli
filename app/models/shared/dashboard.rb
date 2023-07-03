@@ -28,8 +28,8 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
-
 =end
+
 module Shared
     class Dashboard < ApplicationLesliRecord
         self.abstract_class = true
@@ -85,7 +85,7 @@ module Shared
             search_string = query[:search].downcase.gsub(" ","%") unless query[:search].blank?
 
             dashboards = self.where(
-                "#{full_module_name}_accounts_id".to_sym => current_user.account.id
+                :account_id => current_user.account.id
             ).order(ActiveRecord::Base.sanitize_sql_for_order("#{query[:order][:by]} #{query[:order][:dir]}"))
 
             # Filter results by search string
