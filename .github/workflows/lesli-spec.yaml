@@ -47,6 +47,11 @@ on:
     branches: [master, production]
 
 
+  # execute this workflow when push to master - temporary, no one should push to master :D
+  push:
+    branches: [master]
+
+
   # run a test daily at 1 am (Guatemala time)
   schedule:
     - cron: '0 1 * * *'

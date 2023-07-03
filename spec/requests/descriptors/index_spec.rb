@@ -44,7 +44,8 @@ RSpec.describe "GET:/administration/descriptors.json", type: :request do
 
         FactoryBot.create(:descriptor)
 
-        descriptors_in_database = @current_user.account.descriptors.count
+        # select all descriptors and remove the owner descriptor
+        descriptors_in_database = (@current_user.account.descriptors.count - 1)
 
         get("/administration/descriptors.json")
 
