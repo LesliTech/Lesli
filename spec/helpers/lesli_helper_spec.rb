@@ -28,12 +28,13 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
 
 # ·
+require "./lesli"
 require "support/config/rails_helper"
+
 
 # ·
 RSpec.describe LesliHelper do
@@ -43,7 +44,7 @@ RSpec.describe LesliHelper do
     end
 
     it "must return the lesli_engine" do
-        expect(helper.lesli_engine).to eql('lesli')
+        expect(helper.lesli_engine).to eql(Lesli::instance())
     end
 
     it "check if lesli administration" do

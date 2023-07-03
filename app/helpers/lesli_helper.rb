@@ -28,7 +28,6 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
 module LesliHelper
@@ -53,8 +52,7 @@ module LesliHelper
         if is_lesli_administration?()
             engine = { 
                 :name => "Administration", 
-                :code => "administration",
-                :core => 3 
+                :code => "administration"
             } 
         end
 
@@ -62,8 +60,7 @@ module LesliHelper
         if is_lesli_onboarding?()
             engine = { 
                 :name => "Onboarding", 
-                :code => "onboardings",
-                :core => 3 
+                :code => "onboardings"
             } 
         end
 
@@ -78,7 +75,7 @@ module LesliHelper
         if engine.nil?
 
             # build a special object for the core
-            engine = { :name => "Lesli", :code => "lesli", :core => 3 } 
+            engine = { :name => "Lesli", :code => "lesli" } 
         end
 
         # return specific property if requested

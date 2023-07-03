@@ -54,14 +54,14 @@ if ENV["COVERAGE"]
         #track_files 'lib/**/*.rb'
 
         # remove to track files in these folders
-        add_filter '/lib'
-        add_filter '/spec'
-        add_filter '/vendor'
-        add_filter '/app/models'
-        add_filter '/app/helpers'
-        add_filter '/app/mailers'
-        add_filter '/engines'
-        add_filter '/config'
+        add_filter "/lib"
+        add_filter "/spec"
+        add_filter "/vendor"
+        add_filter "/app/models"
+        add_filter "/app/helpers"
+        add_filter "/app/mailers"
+        add_filter "/engines"
+        add_filter "/config"
     end
 
     # execute test coverage after test suites
