@@ -28,8 +28,8 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
-
 =end
+
 module Shared
     class Dashboard::Component < ApplicationLesliRecord
         self.abstract_class = true

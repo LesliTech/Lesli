@@ -28,8 +28,8 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
-
 =end
+
 module Shared
     class Dashboard::ComponentsController < ApplicationLesliController
         before_action :set_dashboard, only: [:show, :index, :create]

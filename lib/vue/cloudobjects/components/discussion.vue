@@ -20,12 +20,12 @@ For more information read the license file including with this software.
 import { onMounted } from "vue"
 
 // · import store
-import { useCloudObjectDiscussionStore } from "Lesli/stores/cloud-objects/discussion"
+import { useCloudObjectDiscussionStore } from "Lesli/cloudobjects/stores/discussion"
 
 // · import components
-import DiscussionNew from "Leslicloud-objects/discussion/new.vue"
-import DiscussionContent from "Leslicloud-objects/discussion/content.vue"
-import DiscussionFilters from "Leslicloud-objects/discussion/filters.vue"
+import DiscussionNew from "Lesli/cloudobjects/components/discussion/new.vue"
+import DiscussionContent from "Lesli/cloudobjects/components/discussion/content.vue"
+import DiscussionFilters from "Lesli/cloudobjects/components/discussion/filters.vue"
 
 // · defining translations
 const translations = {

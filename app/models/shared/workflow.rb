@@ -440,7 +440,7 @@ module Shared
                 :workflow
             ).where(
                 "
-                    #{full_module_name}_workflows.#{full_module_name}_accounts_id = #{cloud_object.account.id} and
+                    #{full_module_name}_workflows.account_id = #{cloud_object.account.id} and
                     #{full_module_name}_workflow_associations.global = true and
                     #{full_module_name}_workflow_associations.workflow_for = '#{workflow_for}'
                 "
@@ -478,10 +478,11 @@ module Shared
     # that method will execute this method
 =end
         def self.initialize_data(account)
+
             dynamic_info = self.dynamic_info
             module_name = dynamic_info[:module_name]
 
-            default_workflow = self.create(
+            default_workflow = self.create!(
                 name: "Default Workflow",
                 default: true,
                 account: account,

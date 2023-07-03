@@ -57,7 +57,7 @@ class Account < ApplicationRecord
     has_one :one,        class_name: "CloudOne::Account",        foreign_key: "id"
     has_one :team,       class_name: "CloudTeam::Account",       foreign_key: "id"
     has_one :bell,       class_name: "CloudBell::Account",       foreign_key: "id"
-    has_one :help,       class_name: "CloudHelp::Account",       foreign_key: "id"
+    has_one :help,       class_name: "CloudHelp::Account"
     has_one :text,       class_name: "CloudText::Account",       foreign_key: "id"
     has_one :talk,       class_name: "CloudTalk::Account",       foreign_key: "id"
     has_one :time,       class_name: "CloudTime::Account",       foreign_key: "id"

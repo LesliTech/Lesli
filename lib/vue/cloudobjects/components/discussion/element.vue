@@ -20,10 +20,10 @@ For more information read the license file including with this software.
 import { computed, ref } from "vue"
 
 // · import components
-import NewComment from "Leslicloud-objects/discussion/new.vue" 
+import NewComment from "Lesli/cloudobjects/components/discussion/new.vue" 
 
 // · import store
-import { useCloudObjectDiscussionStore } from "Lesli/stores/cloud-objects/discussion"
+import { useCloudObjectDiscussionStore } from "Lesli/cloudobjects/stores/discussion"
 
 const props = defineProps({
     // · the discussion or activity log that will be displayed.
