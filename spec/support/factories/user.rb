@@ -50,8 +50,7 @@ FactoryBot.define do
         end
 
         # an account is required
-        # account id is not required due users cannot create users for a different accounts
-        #account_id { (Account.first.nil? ? FactoryBot.create(:account) : Account.first).id }
+        account_id { (Account.first.nil? ? FactoryBot.create(:account) : Account.first).id }
         # TODO: we should be able to specify if we want create a new account 
         # trait :with_account do
         #     account { (Account.first.nil? ? FactoryBot.create(:account) : Account.first) }
