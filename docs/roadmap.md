@@ -12,6 +12,7 @@
 - [] Date & time
 - [] Branding
 - [] Theme
+- [] Feedbacks
 
 ##### Tests
 - [] Account
@@ -23,8 +24,17 @@
 - [] Date & time
 - [] Branding
 - [] Theme
+- [] Feedbacks
 
 ##### Generators
 
 
 ##### Emails
+- [] confirmation
+- [] invitation
+- [] password-reset-request
+- [] password-reset-confirmation
+- [] auth-pass-instructions (OTP)
+- [] auth-link-instructions (Magic link)
+- [] auth-mfa-instructions  (Multi-factor authentication)
+- [] feedback-received

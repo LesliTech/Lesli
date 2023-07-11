@@ -28,27 +28,30 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
 
+# ·
 FactoryBot.define do
     factory :user, class: "User" do
         
         email { Faker::Internet.email }
         password { Devise.friendly_token }
+        salutation { ["mr", "mrs", "ms"][rand(2)] }
+        first_name { Faker::Name.first_name }
+        last_name { Faker::Name.last_name }
+        telephone { Faker::PhoneNumber.phone_number }
         active { true }
         detail_attributes do
             {
-                salutation: ["mr", "mrs"][rand(2)],
-                first_name: Faker::Name.first_name,
-                last_name: Faker::Name.last_name,
+                title: Faker::Job.title,
                 address: Faker::Address.full_address
             }
         end
 
         # an account is required
-        account { (Account.first.nil? ? FactoryBot.create(:account) : Account.first) }
+        # account id is not required due users cannot create users for a different accounts
+        #account_id { (Account.first.nil? ? FactoryBot.create(:account) : Account.first).id }
         # TODO: we should be able to specify if we want create a new account 
         # trait :with_account do
         #     account { (Account.first.nil? ? FactoryBot.create(:account) : Account.first) }
