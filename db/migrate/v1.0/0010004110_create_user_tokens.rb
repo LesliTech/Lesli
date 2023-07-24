@@ -33,9 +33,13 @@ class CreateUserTokens < ActiveRecord::Migration[7.0]
     def change
         create_table :user_tokens do |t|
             t.string :name
-            t.string :description
+            t.string :token
+            t.string :source # OTP, Pass, Integration
+            t.datetime :expiration_at,  index: true
+            t.datetime :deleted_at,     index: true
             t.timestamps
         end
         add_reference(:user_tokens, :user, foreign_key: { to_table: :users })
+        add_index(:user_tokens, :token, unique: true)
     end
 end

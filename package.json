@@ -53,7 +53,8 @@
         "sass": "1.62.1",
         "glob": "10.2.2",
         "jest": "29.5.0",
-        "sass-true": "7.0.0"
+        "sass-true": "7.0.0",
+        "axios-mock-adapter": "1.21.5"
     },
     "scripts": {
         "webpack:production": "webpack --progress --env mode=production",
@@ -62,6 +63,7 @@
 
         "test": "npm run test:vue",
         "test:scss": "jest tests/scss/scss.spec.js",
-        "test:vue": "vue-cli-service test:unit --recursive 'tests/vue/**/*.spec.js'"
+        "test:vue": "vue-cli-service test:unit --recursive 'tests/vue/**/*.spec.js'",
+        "test:vue:http": "vue-cli-service test:unit --recursive 'tests/vue/**/http.spec.js'"
     }
 }

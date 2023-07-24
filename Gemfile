@@ -47,7 +47,7 @@ ruby "3.1.2"
 # · RAILS: gem, dependencies and tools
 
 # Rails framework
-gem "rails", "7.0.4.3"
+gem "rails", "7.0.6"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails", "3.4.2"
@@ -211,7 +211,7 @@ group :development do
 
     # Brakeman detects security vulnerabilities in Ruby on Rails applications via static analysis.
     # brakeman -o brakeman.html --faster
-    gem "brakeman", "5.4.1"
+    gem "brakeman", "6.0.0"
 
 end
 
