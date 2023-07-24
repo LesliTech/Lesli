@@ -40,7 +40,7 @@ class CreateAccounts < ActiveRecord::Migration[5.2]
             # company information
             t.string    :company_name
             t.string    :company_name_legal
-            t.string    :company_tag_line
+            t.string    :company_tagline
 
             # location
             t.integer   :country

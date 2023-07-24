@@ -30,16 +30,14 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
+# DEPRECATED: Use user_tokens instead.
+
 class CreateUserCodes < ActiveRecord::Migration[6.1]
-    def change
-        create_table :user_codes do |t|
-            t.string :token
-            t.string :token_type
-            t.datetime :expiration_at,  index: true
-            t.datetime :deleted_at,     index: true
-            t.timestamps
-        end
-        add_reference(:user_codes, :user, foreign_key: { to_table: :users })
-        add_index(:user_codes, :token, unique: true)
-    end
+    # def change
+    #     create_table :user_codes do |t|
+    #         t.datetime :deleted_at,     index: true
+    #         t.timestamps
+    #     end
+    #     add_reference(:user_codes, :user, foreign_key: { to_table: :users })
+    # end
 end
