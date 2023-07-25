@@ -45,6 +45,9 @@ module RoutesApp
             # Initial settings for account
             resource :onboarding, only: [:show, :create]
 
+            # Multi-porpouse feedback
+            resource :feedback
+
             # Administration area for core settings
             scope :administration do
 
