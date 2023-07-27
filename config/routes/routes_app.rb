@@ -46,7 +46,8 @@ module RoutesApp
             resource :onboarding, only: [:show, :create]
 
             # Multi-porpouse feedback
-            resource :feedback
+            resource :feedback, only: [:create]
+            resources :feedbacks, only: [:index]
 
             # Administration area for core settings
             scope :administration do

@@ -36,25 +36,17 @@ require "support/lesli_request_tester"
 
 
 # ·
-RSpec.describe "POST:/feedback.json", type: :request  do
+RSpec.describe "GET:/feedbacks.json", type: :request  do
+
+    include_context "request user authentication"
 
     it "is expected to create a user through the administration area" do
 
-        feedback = FactoryBot.attributes_for(:feedback)
+        FactoryBot.create(:feedback)
 
-        post("/feedback.json", params: {
-            feedback: feedback
-        })
+        get("/feedbacks.json")
 
         # shared examples
-        expect_response_with_successful
-
-        # custom specs
-        expect(response_body["id"]).to be_a(Numeric)
-        expect(response_body["name"]).to eql(feedback[:name])
-        expect(response_body["email"]).to eql(feedback[:email])
-        expect(response_body["message"]).to eql(feedback[:message])
-        expect(response_body["company"]).to eql(feedback[:company])
-        expect(response_body["telephone"]).to eql(feedback[:telephone])
+        expect_response_with_pagination
     end
 end
