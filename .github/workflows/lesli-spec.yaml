@@ -104,11 +104,15 @@ jobs:
 
 
       # Build the Lesli database
-      - name: Set up PostgreSQL database 
+      - name: Copy temporary Rails credentials 
         run: |
           cp ./config/credentials/test-ga.key ./config/credentials/test.key
           cp ./config/credentials/test-ga.yml.enc ./config/credentials/test.yml.enc
-          bundle list
+
+
+      # Build the Lesli database
+      - name: Set up PostgreSQL database 
+        run: |
           bundle exec rake db:drop
           bundle exec rake db:create
           bundle exec rake db:migrate
