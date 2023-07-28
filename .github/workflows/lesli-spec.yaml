@@ -74,9 +74,9 @@ jobs:
       postgres:
         image: postgres:11.5
         env:
-          POSTGRES_DB: leslicloud_test
-          POSTGRES_USER: leslicloud_test
-          POSTGRES_PASSWORD: "leslicloud_test"
+          POSTGRES_DB: lesli_test
+          POSTGRES_USER: lesli_test
+          POSTGRES_PASSWORD: "lesli_test"
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -106,8 +106,8 @@ jobs:
       # Build the Lesli database
       - name: Set up PostgreSQL database 
         run: |
-          cp ./config/credentials/testci.key ./config/credentials/test.key
-          cp ./config/credentials/testci.yml.enc ./config/credentials/test.yml.enc
+          cp ./config/credentials/test-ga.key ./config/credentials/test.key
+          cp ./config/credentials/test-ga.yml.enc ./config/credentials/test.yml.enc
           bundle list
           bundle exec rake db:drop
           bundle exec rake db:create
