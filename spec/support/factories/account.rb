@@ -38,7 +38,7 @@ FactoryBot.define do
         company_name { Faker::Company.name }
         company_name_legal { Faker::Company.name }
         company_tag_line { Faker::Company.bs }
-        country { Faker::Address.country }
+        # country { Faker::Address.country }
         address { Faker::Address.full_address }
         region { Account.regions.values.sample }
         city { Faker::Address.city }
