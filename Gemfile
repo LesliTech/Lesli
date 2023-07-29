@@ -64,6 +64,7 @@ gem "rails-i18n", "7.0.6"
 gem "i18n-js", "3.9.2" # "4.2.3"
 
 # Pg is the Ruby interface to the PostgreSQL RDBMS. It works with PostgreSQL 9.3 and later.
+# This gem requires the package: libpq-dev; sudo apt-get -y install libpq-dev
 gem "pg", "1.5.3"
 
 # Reduces boot times through caching; required in config/boot.rb

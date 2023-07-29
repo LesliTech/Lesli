@@ -46,6 +46,7 @@ class Account < ApplicationRecord
     has_many :cronos
     has_many :settings
     has_many :locations
+    has_many :feedbacks
     has_many :descriptors
     has_many :activities, class_name: "Account::Activity"
     has_many :currencies, class_name: "Account::Currency"

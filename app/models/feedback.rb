@@ -30,26 +30,6 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class CreateFeedbacks < ActiveRecord::Migration[7.0]
-    def change
-        create_table :feedbacks do |t|
-
-            # Contact info
-            t.string    :email
-            t.string    :telephone
-            t.string    :company
-            t.string    :name
-
-            # Relevant data
-            t.text      :message
-            t.string    :category   # contact_us, feedback, report_error, report_abuse, block_object, etc.
-            t.string    :status     # created, reviewed, solved, closed
-            t.string    :source     # where the issue was reported:  web_page, email, call_center, etc.
-            t.string    :reference  # url of the website where the feedback were sent
-
-            t.datetime  :deleted_at, index: true
-            t.timestamps
-        end
-        add_reference(:feedbacks, :account, foreign_key: { to_table: :accounts })
-    end
+class Feedback < ApplicationLesliRecord
+    belongs_to :account, optional: true
 end

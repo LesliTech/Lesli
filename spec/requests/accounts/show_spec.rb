@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 
-# · include helpers, configuration & initializers for request tests
+# · 
 require "support/lesli_request_tester"
 
 

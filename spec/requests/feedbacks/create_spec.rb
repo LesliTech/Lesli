@@ -30,26 +30,31 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class CreateFeedbacks < ActiveRecord::Migration[7.0]
-    def change
-        create_table :feedbacks do |t|
 
-            # Contact info
-            t.string    :email
-            t.string    :telephone
-            t.string    :company
-            t.string    :name
+# · include helpers, configuration & initializers for request tests
+require "support/lesli_request_tester"
 
-            # Relevant data
-            t.text      :message
-            t.string    :category   # contact_us, feedback, report_error, report_abuse, block_object, etc.
-            t.string    :status     # created, reviewed, solved, closed
-            t.string    :source     # where the issue was reported:  web_page, email, call_center, etc.
-            t.string    :reference  # url of the website where the feedback were sent
 
-            t.datetime  :deleted_at, index: true
-            t.timestamps
-        end
-        add_reference(:feedbacks, :account, foreign_key: { to_table: :accounts })
+# ·
+RSpec.describe "POST:/feedback.json", type: :request  do
+
+    it "is expected to create a user through the administration area" do
+
+        feedback = FactoryBot.attributes_for(:feedback)
+
+        post("/feedback.json", params: {
+            feedback: feedback
+        })
+
+        # shared examples
+        expect_response_with_successful
+
+        # custom specs
+        expect(response_body["id"]).to be_a(Numeric)
+        expect(response_body["name"]).to eql(feedback[:name])
+        expect(response_body["email"]).to eql(feedback[:email])
+        expect(response_body["message"]).to eql(feedback[:message])
+        expect(response_body["company"]).to eql(feedback[:company])
+        expect(response_body["telephone"]).to eql(feedback[:telephone])
     end
 end
