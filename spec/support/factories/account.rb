@@ -34,6 +34,22 @@ Building a better future, one line of code at a time.
 
 FactoryBot.define do
     factory :account, class: "Account" do
+        status { Account.statuses.keys.first }
         company_name { Faker::Company.name }
+        company_name_legal { Faker::Company.name }
+        company_tag_line { Faker::Company.bs }
+        country { Faker::Address.country }
+        address { Faker::Address.full_address }
+        region { Account.regions.values.sample }
+        city { Faker::Address.city }
+        postal_code { Faker::Address.zip_code }
+        website { Faker::Internet.url  }
+        phone_number_1 { Faker::PhoneNumber.phone_number }
+        public_email { Faker::Internet.email }
+        github { Faker::Lorem.word }
+        twitter { Faker::Twitter.user[:name] }
+        youtube { Faker::Lorem.word }
+        linkedin { Faker::Lorem.word }
+        facebook { Faker::Lorem.word }
     end
 end
