@@ -45,7 +45,6 @@ namespace :dev do
             L2.cow("Process completed!")
 
         end
-
     end
 end
 
@@ -147,7 +146,7 @@ def actions
 
         end
 
-        #system("cd ./engines/#{engine[:code]} && git add .github && git commit -m \"ci: update github workflows and actions\"")
+        system("cd ./engines/#{engine[:code]} && git add .github && git commit -m \"ci: update github workflows and actions\"")
 
         L2.msg("Updating Github action workflows for Lesli Engine #{ engine[:code] }")
 
