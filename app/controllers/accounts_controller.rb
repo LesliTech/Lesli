@@ -108,6 +108,7 @@ class AccountsController < ApplicationLesliController
     # Never trust parameters from the scary internet, only allow the white list through.
     def account_params
         params.require(:account).permit(
+            :id,
             :company_name,
             :company_name_legal,
             :company_tag_line,
@@ -124,7 +125,6 @@ class AccountsController < ApplicationLesliController
             :youtube,
             :linkedin,
             :facebook,
-            :id,
             :status,
             :users_id
         )
