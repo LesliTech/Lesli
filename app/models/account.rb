@@ -104,6 +104,9 @@ class Account < ApplicationRecord
     }
 
 
+    validates :company_name, :presence => true
+
+
     def initialize_account
 
         # create initial descriptors
