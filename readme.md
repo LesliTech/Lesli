@@ -45,7 +45,7 @@ EDITOR="nano" rails credentials:edit --environment test
 __Load the database and demo data:__
 
 ```bash
-rake rake dev:db:setup
+rake dev:db:setup
 ```
 
 __Run server__
