@@ -28,9 +28,10 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
-
 =end
+
 class AccountMailer < ApplicationLesliMailer
+
     def issue_received_confirmation
         email = params[:email]
         build_data_from_params(params, {

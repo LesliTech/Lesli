@@ -44,7 +44,6 @@ Building a better future, one line of code at a time.
 </main>
 <% end %>
 
-
 <%# core view for passses %>
 <% unless custom_app_page_exists %>
     <%= render("layouts/wrappers/application-auth") do %>
@@ -129,7 +128,7 @@ Building a better future, one line of code at a time.
                         :class="['button', 'is-primary', 'is-fullwidth', 'mb-2', {'is-loading':loading}]">
                         Log in
                     </button>
-                    <% if Rails.application.config.lesli.dig(:security, :allow_registration) && false %>
+                    <% if Rails.application.config.lesli.dig(:security, :allow_registration) %>
                         <p class="account has-text-centered">
                             Still not registered? 
                             <%= link_to new_user_registration_path, :class => "has-text-primary" do %>
@@ -159,7 +158,7 @@ Building a better future, one line of code at a time.
 
 
             <%# Dynamic check if instance allow users to login through magic links (passes) %>
-            <% if Rails.application.config.lesli.dig(:security, :enable_login_link) && false %>
+            <% if Rails.application.config.lesli.dig(:security, :enable_login_link) %>
                 <%= link_to pass_path, :class => "pass-new" do %>
                     <span class="icon mr-2">
                         <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -173,7 +172,7 @@ Building a better future, one line of code at a time.
 
 
             <%# Dynamic check if instance allow users to login through one time passwords %>
-            <% if Rails.application.config.lesli.dig(:security, :enable_login_otp) && false %>
+            <% if Rails.application.config.lesli.dig(:security, :enable_login_otp) %>
                 <%= link_to otp_path, :class => "otp-new" do %>
                     <span class="con mr-2">
                         <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
