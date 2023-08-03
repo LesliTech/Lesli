@@ -43,7 +43,7 @@ class DeviseMailer < Devise::Mailer
     def confirmation_instructions(record, token, opts = {})
 
         # defaults for new accounts/users
-        email_template = "new_account_confirmation_instructions"
+        email_template = "account-new"
         email_subject = I18n.t("core.users/confirmations.mailer_email_verification")
 
         # custom email and subject if user is changin his email address
