@@ -1,0 +1,45 @@
+<%
+=begin
+
+Lesli
+
+Copyright (c) 2023, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Ruby on Rails SaaS development platform.
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+=end
+%>
+
+<%= navigation_item(lesli.account_path, I18n.t("core.shared.sidebar_nav_account"), "ri-building-4-line"); %>
+<%= navigation_item(lesli.users_path, I18n.t("core.shared.sidebar_nav_users"), "ri-user-line"); %>
+
+<%#= navigation_item(main_app.descriptors_path, "Role descriptors", "ri-shield-check-line"); %>
+<%#= navigation_item(main_app.roles_path, I18n.t("core.shared.sidebar_nav_roles_privileges"), "ri-shield-user-line"); %>
+
+<%#= navigation_item(main_app.security_account_settings_path, I18n.t("core.account/settings.view_tab_title_security_settings"), "ri-lock-line"); %>
+<%#= navigation_item(main_app.account_currencies_path, I18n.t("core.shared.sidebar_nav_currencies"), "ri-time-line"); %>
+<%#= navigation_item(main_app.date_time_account_settings_path, I18n.t("core.account/settings.view_tab_title_time_settings"), "ri-time-line"); %>
+<%#= navigation_item(main_app.branding_account_settings_path, I18n.t("core.account/settings.view_tab_title_branding"), "ri-image-line") %>
+<%#= navigation_item(main_app.theme_account_settings_path, I18n.t("core.account/settings.view_tab_title_theme"), "ri-paint-brush-line"); %>

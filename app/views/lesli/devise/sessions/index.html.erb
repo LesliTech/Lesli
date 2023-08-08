@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Sessions</h1>
+
+<div id="devise_sessions">
+  <% @devise_sessions.each do |devise_session| %>
+    <%= render devise_session %>
+    <p>
+      <%= link_to "Show this session", devise_session %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New session", new_devise_session_path %>

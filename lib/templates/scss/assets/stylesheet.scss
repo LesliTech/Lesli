@@ -1,4 +1,0 @@
-/*
-<%= File.read(Pathname.new(LESLI_ROOT).join("lesli.txt")).to_s.force_encoding("ASCII-8BIT") %>
-*/
-@import "lesli/templates/component";

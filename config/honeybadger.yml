@@ -1,2 +1,0 @@
----
-api_key: <%= Rails.application.credentials.dig(:providers, :honey_badger, :api_key) %>

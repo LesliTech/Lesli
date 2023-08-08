@@ -1,0 +1,56 @@
+<%
+=begin
+
+Lesli
+
+Copyright (c) 2023, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Ruby on Rails SaaS development platform.
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+=end
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <%= render partial: "lesli/partials/application-head" %>
+    <%= render partial: "lesli/partials/application-data" %>
+    <%= render partial: "lesli/partials/application-lesli-scss" %>
+</head>
+<body class="<%#= application_body_class() %>">
+    <main id="lesli-application" v-cloak>
+        <%= render partial: "lesli/partials/application-lesli-header" %>
+        <%#= render partial: "lesli/partials/application-lesli-notices" %>
+        <%= render partial: "lesli/partials/application-lesli-sidebar" %>
+        <%= render partial: "lesli/partials/application-lesli-content" %>
+        <%= render partial: "lesli/partials/application-lesli-engines" %>
+        <%#= render partial: "lesli/partials/application-lesli-panels" %>
+        <%#= render partial: "lesli/partials/application-lesli-footer" %>
+    </main>
+    <%= render partial: "lesli/partials/application-lesli-javascript" %>
+    <%= render partial: "lesli/partials/application-lesli-icons" %>
+    <%#= render partial: "lesli/partials/application-analytics" %>
+</body>
+</html>
