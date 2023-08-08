@@ -1,0 +1,17 @@
+<%= form_with(model: devise_session) do |form| %>
+  <% if devise_session.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(devise_session.errors.count, "error") %> prohibited this devise_session from being saved:</h2>
+
+      <ul>
+        <% devise_session.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

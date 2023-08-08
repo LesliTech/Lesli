@@ -62,7 +62,7 @@ import applicationAccountShow from "LesliApp/administration/apps/accounts/show.v
 
 
 // · 
-application("Administration", [{
+application("Lesli", [{
     path: "/",
     component: applicationAccountDashboard
 }, {

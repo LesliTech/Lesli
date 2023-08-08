@@ -32,7 +32,7 @@ Building a better future, one line of code at a time.
 
 */
 
-
+/*
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed } from "vue"
 import { SetupCalendar, Calendar, DatePicker } from 'v-calendar';
@@ -92,7 +92,7 @@ watch(date, () => {
 watch(dateRange, () => {
     emit('update:modelValue', dateRange.value)
 })
-
+*/
 </script>
 <template>
     <DatePicker v-if="!range" v-model="date" :mode="mode" class="lesli-calendar" :min-date="props.minDate" :is-required="props.required" >

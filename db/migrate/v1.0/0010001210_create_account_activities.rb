@@ -31,7 +31,10 @@ Building a better future, one line of code at a time.
 =end
 class CreateAccountActivities < ActiveRecord::Migration[6.0]
     def change
-        table_base_structure = JSON.parse(File.read(Rails.root.join('db','structure','00000004_activities.json')))
+        #gem_path = Gem::Specification.find_by_name('lesli').gem_dir
+        #gem_path = Gem.loaded_specs[engine[:code]].full_gem_path
+        gem_path = Lesli::System.engine("lesli")        
+        table_base_structure = JSON.parse(File.read(File.join(gem_path, 'db','structure','00000004_activities.json')))
         create_table :account_activities do |t|
             table_base_structure.each do |column|
                 t.send(

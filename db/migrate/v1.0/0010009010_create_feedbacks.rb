@@ -30,18 +30,20 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class CreateFeedbacks < ActiveRecord::Migration[7.0]
+class CreateFeedbacks < ActiveRecord::Migration[6.1]
     def change
         create_table :feedbacks do |t|
 
             # Contact info
             t.string    :email
             t.string    :telephone
-            t.string    :company
-            t.string    :name
+            t.string    :company_name
+            t.string    :first_name
+            t.string    :last_name
 
             # Relevant data
             t.text      :message
+            t.boolean   :subscribed
             t.string    :category   # contact_us, feedback, report_error, report_abuse, block_object, etc.
             t.string    :status     # created, reviewed, solved, closed
             t.string    :source     # where the issue was reported:  web_page, email, call_center, etc.

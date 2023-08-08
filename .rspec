@@ -1,7 +1,0 @@
---format documentation 
---pattern spec/*_spec.rb
---pattern spec/config/*_spec.rb
---pattern spec/helpers/*_spec.rb
---pattern spec/requests/**/*_spec.rb
---pattern spec/services/*_spec.rb
---pattern engines/**/spec/**/**/*_spec.rb

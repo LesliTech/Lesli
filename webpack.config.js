@@ -37,9 +37,9 @@ var debug = require("lesli-js/debug/nodejs")
 
 
 // · Including webpack configuration
-const webpackBase = require("./webpack/base")
-const applicationCore = require("./webpack/core")
-const applicationEngines = require("./webpack/engines")
+const webpackBase = require("./lib/vue/webpack/base")
+const applicationCore = require("./lib/vue/webpack/core")
+const applicationEngines = require("./lib/vue/webpack/engines")
 
 
 // get specific modules to work with, example: npm run webpack -- babel bell
@@ -63,7 +63,7 @@ module.exports = env => {
     // core vue applications
     webpackConfig.push(Object.assign({}, webpackBase(env), applicationCore(env, requestedEngines)))
 
-
+    /*
     // engine vue applications
     applicationEngines(env, requestedEngines).forEach(engine => {
         webpackConfig.push(Object.assign({}, webpackBase(env), engine.config))
@@ -76,7 +76,7 @@ module.exports = env => {
             debug.info(path2.replace(path.resolve("engines"), ""))
         }
     })
-
+    */
     debug.hr()
 
     // 

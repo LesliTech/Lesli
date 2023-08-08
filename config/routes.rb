@@ -30,38 +30,7 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-Rails.application.routes.draw do
-
-    extend RoutesBuilder
-    extend RoutesEngines
-    extend RoutesApp
-
-    devise_for :users,
-    :path => "",
-    :path_names => {
-        :sign_in  => "login",
-        :sign_out => "logout",
-        :sign_up  => "register",
-        :password => "password",
-        :confirmation => "confirmation"
-    },
-    :controllers => {
-        :registrations => "users/registrations",
-        :confirmations => "users/confirmations",
-        :passwords => "users/passwords",
-        :sessions => "users/sessions"
-    }
-
-
-    match "/404", :to => "errors#not_found",             :via => :all
-    match "/401", :to => "errors#unauthorized",          :via => :all
-    match "/500", :to => "errors#internal_server_error", :via => :all
-
-    authenticated :user do
-        root to: redirect("/administration"), as: :root_authenticated
-    end
-
-    unauthenticated :user do
-        root to: "websites#show", as: :root_unauthenticated
-    end
+Lesli::Engine.routes.draw do
+    resource :account
+    resources :users
 end
