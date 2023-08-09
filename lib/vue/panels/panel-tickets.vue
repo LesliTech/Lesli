@@ -35,16 +35,16 @@ Building a better future, one line of code at a time.
 
 // · import vue tools
 import { inject, watch } from "vue"
-import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router"
 
 
 // · import store
-import { useLayout } from "Lesli/shared/stores/layout"
-import { useTickets } from "Lesli/shared/stores/panels/tickets"
+import { useLayout } from "Lesli/stores/layout"
+import { useTickets } from "Lesli/stores/panels/tickets"
 
 
 // · 
-import editorRichText from "Lesli/components/editors/richtext.vue"
+import { editorRichText } from "lesli-vue/components"
 
 
 // · initialize/inject plugins
