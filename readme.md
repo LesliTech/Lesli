@@ -2,13 +2,13 @@
     <img width="200" alt="Lesli logo" src="./app/assets/images/lesli/brand/app-logo.svg" />
 </p>
 
-<h3 align="center">Ruby on Rails SaaS Development Framework.</h3>
+<h3 align="center">Ruby on Rails SaaS Development Engine.</h3>
 
 <hr/>
 
 ## Introduction 
 
-Lesli is a SaaS development framework designed to build highly scalable, secure and customizable software products.
+Lesli is a SaaS development engine designed to build highly scalable, secure and customizable software products.
 
 Built-on top of Ruby on Rails, Postgres, Vuejs, Bulma, SASS and many more awesome open-source libraries, packages, gems and tools.
 
@@ -16,7 +16,7 @@ Lesli is completely open source and comes with features and tools that can save 
 
 Lesli is officially released and supported as of version 5
 
-> Lesli goes beyond being just a starter-kit, template or admin panel or dashboard. Lesli is a Ruby on Rails gem that you can use to build modules (a.k.a. engines) leveraging its robust set of built-in features, generators, components, and industry standards. With Lesli, you have the flexibility to extend existing functionalities or develop fully customized software tailored to your specific needs.
+> Lesli goes beyond being just a starter-kit, template, admin panel or dashboard. Lesli is a Ruby on Rails gem that you can use to build modules (a.k.a. engines) leveraging its robust set of built-in features, generators, components, and industry standards. With Lesli, you have the flexibility to extend existing functionalities or develop fully customized software tailored to your specific needs.
 
 
 ## Installation
@@ -56,7 +56,7 @@ RAILS_SERVE_STATIC_FILES=true rails s --environment=production # production mode
 
 ## Development 
 
-__Get the latest version of Lesli__
+__Get the latest version of Lesli source code__
 
 ```shell
     # clone the lesli repo inside your engine folder: RailsApp/engines
@@ -69,27 +69,11 @@ __Install the necessary Gems to run Lesli:__
 bundle install
 ```
 
-__Work with Rails credentials:__
-
-```bash
-# Ubuntu:
-EDITOR="code --wait" rails credentials:edit --environment development
-EDITOR="code --wait" rails credentials:edit --environment production
-EDITOR="code --wait" rails credentials:edit --environment test
-EDITOR="code --wait" rails credentials:edit
-
-# MacOS/Ubuntu server:
-EDITOR="nano" rails credentials:edit --environment development
-EDITOR="nano" rails credentials:edit --environment production
-EDITOR="nano" rails credentials:edit --environment test
-EDITOR="nano" rails credentials:edit
-```
-
 __Work with the database:__
 
 ```bash
 # Hard reset for development:
-rake dev:db:reset 
+rake lesli:db:reset 
 ```
 
 __Run server__
