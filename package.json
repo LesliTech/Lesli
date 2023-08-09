@@ -1,6 +1,6 @@
 {
-    "name": "lesli-vue",
-    "version": "0.5.0",
+    "name": "lesli",
+    "version": "5.0.0",
     "license": "GPLv3",
     "homepage": "https://www.lesli.dev/",
     "description": "Lesli tools and components for VueJS",
