@@ -34,6 +34,10 @@ import application from "Lesli/application"
 
 
 // · 
+application("Lesli", [{}])
+
+/*
+// · 
 import applicationAccountDashboard from "CloudAdmin/apps/accounts/dashboard.vue"
 
 import applicationUsersProfile from "LesliApp/administration/apps/profile/show.vue"
@@ -129,3 +133,4 @@ application("Lesli", [{
     path: "/account/settings/theme",
     component: applicationTheme
 }])
+*/

@@ -35,42 +35,52 @@ Building a better future, one line of code at a time.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed, inject } from "vue"
+import { ref, reactive, onMounted, inject, watch } from "vue"
+
+
+// · loading plugins
+const url = inject('url')
 
 
 // · import stores
-import { useProfile } from "Lesli/stores/profile"
-import { useLayout } from "Lesli/stores/layout"
+import { useSearch } from "Lesli/stores/search"
 
 
 // · implement stores
-const storeLayout = useLayout()
-const storeProfile = useProfile()
+const storeSearch = useSearch()
 
 
-// · initializing
-onMounted(() => {
-    storeProfile.fetch()
+// · initialize container of (dynamic) columns
+const columns = ref([])
+
+
+// · dynamic update the columns with the result of the search
+// · this must be dynamically because every search can return a different set of columns
+watch(() => storeSearch.columns, (newColumns) => {
+    columns.value = newColumns
 })
+
+
+// · go to search result view
+// · TODO: this must be dynamic by engine
+function goToResult(resource) {
+    url.dl("projects/:id", resource.id).go()
+}
+
 </script>
 <template>
-    <lesli-panel class="lesli-panel-profile" v-model:open="storeLayout.showProfile">
-        <template #default>
-            <figure class="image is-128x128 m-auto">
-                <span class="alternative-avatar">
-                        {{ storeProfile.profile.initials }}
-                </span>
-            </figure>
-            <div class="panel-profile-details has-text-centered py-4">
-                <h4 class="is-size-4">{{ storeProfile.profile.full_name }}</h4>
-                <h6 class="is-size-6">{{ storeProfile.profile.email }}</h6>
-            </div>
-            <div class="panel-profile-actions py-4">
-                <div class="buttons is-justify-content-center">
-                    <lesli-button icon-only icon="logout">
-                    </lesli-button>
-                </div>
-            </div>
-        </template>
-    </lesli-panel>
+    <section 
+        v-if="storeSearch.text != ''"
+        class="application-search">
+        <lesli-table
+            @click="goToResult"
+            :pagination="false"
+            :loading="false"
+            :records="storeSearch.records"
+            :columns="columns">
+            <template #[column.field]="{ value }" v-for="(column) in columns">
+                <span v-html="value"></span>
+            </template>
+        </lesli-table>
+    </section>
 </template>

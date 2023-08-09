@@ -6,9 +6,10 @@
     "description": "Lesli tools and components for VueJS",
     "author": "The Lesli Development Team <hello@lesli.tech>",
     "devDependencies": {
-
-        "lesli-js": "0.5.0",
-        "lesli-css": "1.5.0",
+        "lesli-css": "file:../../enginesdev/lesli-css",
+        "lesli-vue": "file:../../enginesdev/lesli-vue",
+        "lesli-js": "file:../../enginesdev/lesli-js",
+        "lesli-js":"0.5.0",
 
         "trix": "2.0.5",
         "bulma": "0.9.4",

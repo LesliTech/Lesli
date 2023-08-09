@@ -35,42 +35,29 @@ Building a better future, one line of code at a time.
 
 
 // · import vue tools
-import { ref, reactive, onMounted, watch, computed, inject } from "vue"
+import { ref, reactive, onMounted, inject } from "vue"
 
 
 // · import stores
-import { useProfile } from "Lesli/stores/profile"
 import { useLayout } from "Lesli/stores/layout"
 
 
-// · implement stores
+// · 
 const storeLayout = useLayout()
-const storeProfile = useProfile()
 
-
-// · initializing
-onMounted(() => {
-    storeProfile.fetch()
-})
 </script>
 <template>
-    <lesli-panel class="lesli-panel-profile" v-model:open="storeLayout.showProfile">
-        <template #default>
-            <figure class="image is-128x128 m-auto">
-                <span class="alternative-avatar">
-                        {{ storeProfile.profile.initials }}
-                </span>
-            </figure>
-            <div class="panel-profile-details has-text-centered py-4">
-                <h4 class="is-size-4">{{ storeProfile.profile.full_name }}</h4>
-                <h6 class="is-size-6">{{ storeProfile.profile.email }}</h6>
+    <Transition>
+        <section v-if="storeLayout.showEngines" class="application-engines" @click="storeLayout.toggleEngines()">
+            <div class="engines">
+                <slot></slot>
+                <button class="button is-hidden-tablet">
+                    <span class="icon">
+                        <i class="ri-close-line"></i>
+                    </span>
+                    <span>close</span>
+                </button>
             </div>
-            <div class="panel-profile-actions py-4">
-                <div class="buttons is-justify-content-center">
-                    <lesli-button icon-only icon="logout">
-                    </lesli-button>
-                </div>
-            </div>
-        </template>
-    </lesli-panel>
+        </section>
+    </Transition>
 </template>

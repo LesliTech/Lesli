@@ -40,8 +40,8 @@ import { useRouter, useRoute } from 'vue-router'
 
 
 // · import store
-import { useLayout } from "Lesli/shared/stores/layout"
-import { useAnnouncements } from "Lesli/shared/stores/panels/announcements"
+import { useLayout } from "Lesli/stores/layout"
+import { useAnnouncements } from "Lesli/stores/panels/announcements"
 
 
 // · initialize/inject plugins
@@ -55,7 +55,7 @@ const storeAnnouncementsPanel = useAnnouncements()
 
 
 // · 
-import editorRichText from "Lesli/components/editors/richtext.vue"
+import { editorRichText } from "lesli-vue/components"
 
 
 // · defining translations
