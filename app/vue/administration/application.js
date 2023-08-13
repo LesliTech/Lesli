@@ -34,7 +34,14 @@ import application from "Lesli/application"
 
 
 // · 
-application("Lesli", [{}])
+import applicationAccountShow from "LesliApp/administration/apps/accounts/show.vue"
+
+
+// · 
+application("Lesli", [{
+    path: "/account",
+    component: applicationAccountShow
+}])
 
 /*
 // · 
