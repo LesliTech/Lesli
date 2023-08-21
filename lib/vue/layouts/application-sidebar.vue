@@ -44,7 +44,7 @@ const slots = useSlots()
 
 </script>
 <template>
-    <aside class="application-sidebar">
+    <aside class="lesli-application-sidebar">
         <a class="brand" href="/">
             <slot name="brand"></slot>
         </a>
