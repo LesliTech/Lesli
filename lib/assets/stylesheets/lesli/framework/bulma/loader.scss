@@ -17,50 +17,49 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.tech
+@website  https://www.lesli.dev
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·  
-
+// · 
 */
 
 
-// · Border radius
+// · Global Bulma variables
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
 $radius: 8px;
 $radius-small: 3px;
 $radius-large: 4px;
-
 $control-radius: $radius;
 $control-radius-small: $radius-small;
-
 $navbar-background-color: transparent;
-
 $table-cell-padding: 1rem;
 
-// · Import Bulma and Buefy styles
+
+
+// · Import Bulma framework
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "bulma/bulma.sass";
 @import "bulma/sass/utilities/functions";
 
 
 
 // · Bulma elements/components overrides
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
-
-// · 
 .dropdown-item {
     display: flex;
     span.icon {
         margin-right: 8px;
     }
 }
-
 
 fieldset.block {
     border: 1px solid #ccc;

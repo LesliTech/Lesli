@@ -17,17 +17,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.tech
+@website  https://www.lesli.dev
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·  
+// · 
 */
 
 
@@ -43,16 +43,20 @@ Building a better future, one line of code at a time.
 @import "lesli/framework/bulma/loader";
 
 
-// · Loading components, settings and helpers
-@import "lesli/framework/helpers/display";
-@import "lesli/framework/helpers/tooltip";
+
+// · Font families and icons
 @import "lesli/framework/fonts/remixicons";
 @import "lesli/framework/fonts/families";
 @import "lesli/framework/fonts/mdicons";
-//@import "flag-icon"; import only where it is needed :)
 
 
-// · Loading app layout 
+
+// · Some home made helpers
+@import "lesli/framework/helpers/display";
+@import "lesli/framework/helpers/tooltip";
+
+
+// · Lesli application layout 
 @import "lesli/framework/layout/application-header";
 @import "lesli/framework/layout/application-announcements";
 @import "lesli/framework/layout/application-engines";
@@ -62,12 +66,12 @@ Building a better future, one line of code at a time.
 @import "lesli/framework/layout/application-search";
 
 
-// · Panels :) 
-@import "lesli/framework/panels//panel-tasks";
-@import "lesli/framework/panels//panel-ticket";
-@import "lesli/framework/panels//panel-profile";
-@import "lesli/framework/panels//panel-notification";
-@import "lesli/framework/panels//panel-announcements";
+// · Lesli core panels 
+@import "lesli/framework/panels/panel-tasks";
+@import "lesli/framework/panels/panel-ticket";
+@import "lesli/framework/panels/panel-profile";
+@import "lesli/framework/panels/panel-notification";
+@import "lesli/framework/panels/panel-announcements";
 
 
 // · Standard components
@@ -114,11 +118,13 @@ html,
 body {
     color: var(--lesli-font-color);
     font-size: var(--lesli-font-size);
+    font-family: $family-primary;
     background-color: var(--lesli-color-background);
     scrollbar-color: var(--lesli-color-primary) transparent;
     scrollbar-width: thin;
     font-weight: normal;
     line-height: 158%;
+    background-color: white;
 }
 
 
@@ -130,3 +136,7 @@ h1, h2, h3, h4, h5, h6 {
 // Vue Animation component
 .v-enter-active, .v-leave-active { transition: opacity 0.5s ease; }
 .v-enter-from, .v-leave-to { opacity: 0; }
+
+
+
+//@import "flag-icon"; import only where it is needed :)
