@@ -16,16 +16,16 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails Development Platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.tech
+@website  https://www.lesli.dev
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
 
@@ -44,8 +44,9 @@ $lesli-sidebar-color-text: findColorInvert($lesli-sidebar-color) !default;
 $lesli-sidebar-hover-text: findColorInvert($lesli-sidebar-hover) !default;
 $lesli-sidebar-hover: darken($lesli-color-background, 8);
 
+
 // · Navigation sidebar
-aside.application-sidebar {
+aside.lesli-application-sidebar {
     position: fixed;
     top: 0;
     left: 0;
@@ -56,7 +57,8 @@ aside.application-sidebar {
     transition: all linear .2s;
     width: var(--lesli-sidebar-width);
     background-color: var(--lesli-sidebar-color);
-    border-right: 1px solid lesli-css-color(silver, 300);
+    background-color: #f9f9f9;
+    //border-right: 1px solid lesli-css-color(silver, 300);
 
     // logo
     .brand {
@@ -74,6 +76,8 @@ aside.application-sidebar {
         // hide scrollbar
         @include lesli-css-scrollbar(hide);
         overflow-y: scroll;
+        //background-color: white;
+        //margin: 0 1rem 1rem;
     }
 
     p.menu-label {
@@ -104,7 +108,7 @@ aside.application-sidebar {
 
             // icons from reixicons
             span.icono {
-                font-size: 30px;
+                font-size: 25px;
                 
             }
 
@@ -155,7 +159,7 @@ aside.application-sidebar {
 @include lesli-css-breakpoint-tablet {
 
     // · Navigation sidebar
-    aside.application-sidebar {
+    aside.lesli-application-sidebar {
 
         // logo
         .brand {
@@ -167,7 +171,7 @@ aside.application-sidebar {
 
 // · 
 @include lesli-css-breakpoint-desktop {
-    aside.application-sidebar {
+    aside.lesli-application-sidebar {
 
         // logo container
         .brand {
@@ -180,13 +184,14 @@ aside.application-sidebar {
             // link
             a {
                 display: flex;
-                padding: 1.6rem 0;
+                padding: 1.1rem 0;
+                padding-left: 1rem;
                 align-items: center;
 
                 // main icon
                 svg.icono,
                 span.icono {
-                    width: 75px;
+                    width: 65px;
                 }
 
                 // link label

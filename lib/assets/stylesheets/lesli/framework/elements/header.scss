@@ -39,6 +39,9 @@ Building a better future, one line of code at a time.
     .navbar-brand{
         max-width: 700px;
         width: auto;
+        .title {
+            font-weight: 400;
+        }
         span {
             font-size: 30px;
             padding-right: 15px;
