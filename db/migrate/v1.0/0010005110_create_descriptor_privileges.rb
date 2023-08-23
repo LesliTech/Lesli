@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 class CreateDescriptorPrivileges < ActiveRecord::Migration[7.0]
@@ -38,6 +38,7 @@ class CreateDescriptorPrivileges < ActiveRecord::Migration[7.0]
         end
 
         add_reference(:descriptor_privileges, :descriptor, foreign_key: { to_table: :descriptors })
-        add_reference(:descriptor_privileges, :system_controller_action, foreign_key: { to_table: :system_controller_actions }, index: { name: "descriptor_privileges_controller_actions" })
+        add_reference(:descriptor_privileges, :system_controller_action,
+                      foreign_key: { to_table: :system_controller_actions }, index: { name: "descriptor_privileges_controller_actions" })
     end
 end

@@ -1,5 +1,5 @@
 =begin
-    
+
 Lesli
 
 Copyright (c) 2023, Lesli Technologies, S. A.
@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Your Smart Business Assistant.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -27,13 +27,12 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
 module Lesli
     module HtmlHelper
-
         # build a url path to change locales
         def language_url(locale)
             "/language?locale=#{locale}"
@@ -52,22 +51,23 @@ module Lesli
 
         # print a custom icon for lesli
         def lesli_svg(name)
-            content_tag("svg", :width => "64px", :height => "64px") do 
+            content_tag("svg", width: "64px", height: "64px") do
                 "<use xlink:href='##{name}'></use>".html_safe
             end
-        end 
+        end
 
         # return a string with a css class to identify the body
         # example: builder engine-controller action
-        def application_body_class()
-            [lesli_instance_code, controller_path.gsub("/","-"), action_name].join(" ")
+        def application_body_class
+            [lesli_instance_code, controller_path.gsub("/", "-"), action_name].join(" ")
         end
 
         # build the text for the html document title
         # this helper works only for rails pages, for vue apps the title must be handled with JS
         def website_title
             return @application_html_title if @application_html_title
-            title = controller_path.gsub("cloud","").gsub("_", "")
+
+            title = controller_path.gsub("cloud", "").gsub("_", "")
             name = @account.dig(:company, :name)
             "#{title} - #{name}"
         end
@@ -79,6 +79,5 @@ module Lesli
             # Gem::Specification.find_by_name(engine_name).summary
             @application_html_description || ""
         end
-
     end
 end

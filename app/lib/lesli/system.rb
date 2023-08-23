@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Your Smart Business Assistant.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -32,10 +32,8 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-
     class System
-
-        def self.engine engine
+        def self.engine(engine)
             Gem::Specification.find_by_name(engine).gem_dir
         end
     end

@@ -1,4 +1,4 @@
 module Lesli
-  class Account < ApplicationRecord
-  end
+    class Account < ApplicationRecord
+    end
 end

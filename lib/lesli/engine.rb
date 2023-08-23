@@ -26,7 +26,7 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 module Lesli
@@ -35,9 +35,8 @@ module Lesli
 
         # register engine migrations path
         initializer :engine do |app|
-
             # register assets manifest
-            config.assets.precompile += %w( lesli_manifest.js )
+            config.assets.precompile += %w[lesli_manifest.js]
 
             # Include lib/assets folder in the asset pipeline
             config.assets.paths << root.join("lib", "assets")

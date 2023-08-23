@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 class CreateRolePrivileges < ActiveRecord::Migration[7.0]
@@ -40,6 +40,6 @@ class CreateRolePrivileges < ActiveRecord::Migration[7.0]
             t.timestamps
         end
         add_reference(:role_privileges, :role, foreign_key: { to_table: :roles })
-        add_index(:role_privileges, [:controller, :action, :role_id], unique: true, name: 'role_privileges_index')
+        add_index(:role_privileges, %i[controller action role_id], unique: true, name: "role_privileges_index")
     end
 end

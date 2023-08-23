@@ -27,13 +27,12 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 class CreateAccountLocations < ActiveRecord::Migration[6.0]
     def change
         create_table :account_locations do |t|
-
             # General information about the location
             t.string :name
             t.string :short_name
@@ -54,12 +53,12 @@ class CreateAccountLocations < ActiveRecord::Migration[6.0]
             t.datetime :deleted_at, index: true
 
             t.timestamps
-
         end
 
         add_reference(:account_locations, :parent, foreign_key: { to_table: :account_locations })
         add_reference(:account_locations, :account, foreign_key: { to_table: :accounts })
-        add_index(:account_locations, [:account_id, :name, :level, :parent_id], unique: true, name: "location_uniqueness_index")
+        add_index(:account_locations, %i[account_id name level parent_id], unique: true,
+                                                                           name: "location_uniqueness_index")
         add_index(:account_locations, :name)
     end
 end

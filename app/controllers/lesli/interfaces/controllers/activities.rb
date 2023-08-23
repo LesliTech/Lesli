@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Your Smart Business Assistant.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -31,9 +31,8 @@ Building a better future, one line of code at a time.
 
 =end
 module Interfaces::Controllers::Activities
-
     # @return [Json] Json that contains a list of all activities related to a *cloud_object*
-    # @description Retrieves and returns all activities associated to a *cloud_object*. The id of the 
+    # @description Retrieves and returns all activities associated to a *cloud_object*. The id of the
     #     *cloud_object* is within the *params* attribute
     # @example
     #     # Executing this controller's activity from javascript's frontend
@@ -43,7 +42,7 @@ module Interfaces::Controllers::Activities
         activity_model = activity_model() # If there is a custom activity model, it must be returned in this method
         cloud_object_model = activity_model.cloud_object_model
         translations_module = activity_model.name.split("::")[0].gsub("Cloud", "").underscore
-        
+
         @activities = activity_model.index(
             current_user,
             params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym],
@@ -58,7 +57,7 @@ module Interfaces::Controllers::Activities
     end
 
     # @return [JSON] The json information about the selected activity
-    # @description Retrieves and returns the information about the activity. The id of the 
+    # @description Retrieves and returns the information about the activity. The id of the
     #     *cloud_object* and the id of the *activity* are within the *params* attribute. If a block
     #     is provided, the execution will be yielded sending the activity as first parameter
     # @example
@@ -70,21 +69,19 @@ module Interfaces::Controllers::Activities
         set_activity
         return respond_with_not_found unless @activity
 
-        if block_given?
-            yield(@activity)
-        else
-            return respond_with_successful(@activity)
-        end
+        return respond_with_successful(@activity) unless block_given?
+
+        yield(@activity)
     end
-    
+
     # @controller_action_param :description [String] The description of the activity
     # @controller_action_param :field [String] The field that was changed (if any)
     # @controller_action_param :value_from [String] The initial field value of the activity (if any)
     # @controller_action_param :value_to [String] The final field value of the activity (if any)
     # @controller_action_param :category [String] An enum value, that indicates the type of activity recorded
-    # @return [Json] Json that contains wheter the creation of the activity was successful or not. 
+    # @return [Json] Json that contains wheter the creation of the activity was successful or not.
     #     If it is not successful, it returs an error message
-    # @description Creates a new activity associated to a *cloud_object*. The id of the 
+    # @description Creates a new activity associated to a *cloud_object*. The id of the
     #     *cloud_object* is within the *params* attribute
     # @example
     #     # Executing this controller's activity from javascript's frontend
@@ -141,7 +138,7 @@ module Interfaces::Controllers::Activities
     end
 
     # @return [void]
-    # @description Sets the variable @activity. The variable contains the activity 
+    # @description Sets the variable @activity. The variable contains the activity
     #     to be updated based on the id of the *cloud_object* and the id of the *activity*
     # @example
     #     #suppose params[:ticket_id] = 1
@@ -204,6 +201,6 @@ module Interfaces::Controllers::Activities
     #     puts activity_model().new
     #     # This will display a new instance of CloudHelp::Ticket::Activity
     def activity_model
-        self.class.name.gsub("Controller","").singularize.constantize
+        self.class.name.gsub("Controller", "").singularize.constantize
     end
 end
