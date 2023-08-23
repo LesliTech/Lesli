@@ -131,7 +131,7 @@ onUnmounted(() => {
 
 </script>
 <template>
-    <header ref="applicationHeader" class="application-header">
+    <header ref="applicationHeader" class="lesli-application-header">
         <div class="header-navigation">
             <div class="header-left">
                 <div class="control is-medium has-icons-left has-text-grey">

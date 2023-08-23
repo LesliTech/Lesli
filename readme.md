@@ -52,7 +52,7 @@ rails s --binding=0.0.0.0 # debug in local network
 RAILS_SERVE_STATIC_FILES=true rails s --environment=production # production mode
 ```
 
-[For more details about the installation check the official documentation.](https://www.lesli.dev/documentation/getting-started/installation/)
+For more details about the installation check the official [documentation.](https://www.lesli.dev/documentation/getting-started/installation/)
 
 
 
