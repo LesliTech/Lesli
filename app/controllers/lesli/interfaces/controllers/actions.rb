@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Your Smart Business Assistant.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -31,9 +31,8 @@ Building a better future, one line of code at a time.
 
 =end
 module Interfaces::Controllers::Actions
-
     # @return [Json] Json that contains a list of all actions related to a *cloud_object*
-    # @description Retrieves and returns all actions associated to a *cloud_object*. The id of the 
+    # @description Retrieves and returns all actions associated to a *cloud_object*. The id of the
     #     *cloud_object* is within the *params* attribute. If the child class provides a block, the function is
     #     yielded sending the actions as parameters. The block given *must* return the HTTP response
     # @example
@@ -41,10 +40,10 @@ module Interfaces::Controllers::Actions
     #     let ticket_id = 1;
     #     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/actions`);
     def index
-        set_cloud_object()
+        set_cloud_object
         action_model = action_model() # If there is a custom action model, it must be returned in this method
         cloud_object_model = action_model.cloud_object_model
-        
+
         @actions = action_model.index(current_user, @cloud_object)
         if block_given?
             yield(@actions)
@@ -54,7 +53,7 @@ module Interfaces::Controllers::Actions
     end
 
     # @return [JSON] The json information about the selected action
-    # @description Retrieves and returns the information about the action. The id of the 
+    # @description Retrieves and returns the information about the action. The id of the
     #     *cloud_object* and the id of the *action* are within the *params* attribute. If a block
     #     is provided, the execution will be yielded sending the action as first parameter
     # @example
@@ -66,18 +65,16 @@ module Interfaces::Controllers::Actions
         set_action
         return respond_with_not_found unless @action
 
-        if block_given?
-            yield(@action)
-        else
-            return respond_with_successful(@action)
-        end
+        return respond_with_successful(@action) unless block_given?
+
+        yield(@action)
     end
 
     # @controller_action_param :content [String] The commented message
     # @controller_action_param :actions_id [Integer] The id of a actions that this message responds to
-    # @return [Json] Json that contains wheter the creation of the action was successful or not. 
+    # @return [Json] Json that contains wheter the creation of the action was successful or not.
     #     If it is not successful, it returs an error message
-    # @description Creates a new action associated to a *cloud_object* and notifies all users subscribed to this event. 
+    # @description Creates a new action associated to a *cloud_object* and notifies all users subscribed to this event.
     #     The id of the *cloud_object* is within the *params* attribute
     # @example
     #     # Executing this controller's action from javascript's frontend
@@ -111,7 +108,7 @@ module Interfaces::Controllers::Actions
 
     # @controller_action_param :content [String] The content of the action
     # @controller_action_param :actions_id [Integer] The id of a actions that this message responds to
-    # @return [Json] Json that contains wheter the update of the action was successful or not. 
+    # @return [Json] Json that contains wheter the update of the action was successful or not.
     #     If it is not successful, it returs an error message
     # @description Updates the action based on the id of the *cloud_object* and its own id.
     # @example
@@ -147,7 +144,7 @@ module Interfaces::Controllers::Actions
     def destroy
         set_action
         return respond_with_not_found unless @action
-        
+
         if @action.destroy
             respond_with_successful
         else
@@ -210,7 +207,7 @@ module Interfaces::Controllers::Actions
     end
 
     # @return [void]
-    # @description Sets the variable @action. The variable contains the action 
+    # @description Sets the variable @action. The variable contains the action
     #     to be updated based on the id of the *cloud_object* and the id of the *action*
     # @example
     #     #suppose params[:ticket_id] = 1
@@ -239,6 +236,6 @@ module Interfaces::Controllers::Actions
     #     puts action_model().new
     #     # This will display a new instance of CloudHelp::Ticket::Action
     def action_model
-        self.class.name.gsub("Controller","").singularize.constantize
+        self.class.name.gsub("Controller", "").singularize.constantize
     end
 end

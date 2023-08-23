@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Your Smart Business Assistant.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -31,8 +31,6 @@ Building a better future, one line of code at a time.
 
 =end
 module Interfaces::Controllers::Files
-
-
     # @return [Json] Json that contains a list of all files related to a *cloud_object*
     # @description Retrieves and returns all files associated to a *cloud_object*. The id of the
     #     *cloud_object* is within the *params* attribute. If the child class provides a block, the function is
@@ -46,13 +44,11 @@ module Interfaces::Controllers::Files
         cloud_object_model = file_model.cloud_object_model
         account_model = cloud_object_model.reflect_on_association(:account).klass
 
-        #Get filters from http request
+        # Get filters from http request
         filters = params[:f]
 
-        #Get start and final date only if the request have filters
-        unless filters.blank?
-            file_type = filters[:file_type]
-        end
+        # Get start and final date only if the request have filters
+        file_type = filters[:file_type] unless filters.blank?
 
         respond_to do |format|
             format.json do
@@ -61,12 +57,10 @@ module Interfaces::Controllers::Files
                 )
 
                 # Filter results
-                unless file_type.blank?
-                    @files = @files.where(file_type: file_type)
-                end
+                @files = @files.where(file_type:) unless file_type.blank?
 
                 @files = @files
-                .order(id: :desc).map do |file|
+                         .order(id: :desc).map do |file|
                     file_attributes = file.attributes
                     file_attributes["user_creator_name"] = file.user_creator&.full_name
                     file_attributes["public_url"] = file.attachment_public.url if file.attachment_public
@@ -86,11 +80,9 @@ module Interfaces::Controllers::Files
             end
 
             format.zip do
-
             end
         end
     end
-
 
     # @controller_action_param :attachment [File] The uploaded attachment
     # @controller_action_param :name [String] The name to be displayed
@@ -234,14 +226,16 @@ module Interfaces::Controllers::Files
                 if @file.size_mb && @file.size_mb > file_model.size_threshold
                     redirect_to(@file.refresh_external_url, allow_other_host: true)
                 else
-                    send_data(@file.attachment_s3.read, filename: @file.attachment_s3_identifier, disposition: disposition, stream: "true")
+                    send_data(@file.attachment_s3.read, filename: @file.attachment_s3_identifier,
+                                                        disposition:, stream: "true")
                 end
             elsif @file.attachment_public.file
                 redirect_to(@file.attachment_public_url, allow_other_host: true)
             else
-                send_data(@file.attachment.read, filename: @file.attachment_identifier, disposition: disposition, stream: "true")
+                send_data(@file.attachment.read, filename: @file.attachment_identifier, disposition:,
+                                                 stream: "true")
             end
-        rescue => exception
+        rescue StandardError => e
             # Logging the failure to retrieve the file
             @file.cloud_object.activities.create(
                 user_creator: current_user,
@@ -304,14 +298,11 @@ module Interfaces::Controllers::Files
     # @example
     #     # Executing this controller's action from javascript's frontend
     #     this.http.get('127.0.0.1/house/projects/1/resources/files-zip-download&ids=1,2,3,4');
-    def zip_download
- 
-    end
+    def zip_download; end
 
     protected
 
     def decode_and_verify_file(file_params)
-
         # Verifying the extension of the file
         extension = ""
 
@@ -321,19 +312,19 @@ module Interfaces::Controllers::Files
             if file_params[:attachment].is_a? String
                 # Base64 images
 
-                if file_params[:name]
-                    file_name = file_params[:name].downcase.gsub(" ","_")
-                elsif @file
-                    file_name = @file.name.downcase.gsub(" ","_")
-                else
-                    file_name = "file_#{DateTime.now.strftime("%Y%m%d%H%M%S")}"
-                end
+                file_name = if file_params[:name]
+                                file_params[:name].downcase.gsub(" ", "_")
+                            elsif @file
+                                @file.name.downcase.gsub(" ", "_")
+                            else
+                                "file_#{DateTime.now.strftime('%Y%m%d%H%M%S')}"
+                            end
 
                 img_from_base64 = Base64.decode64(file_params[:attachment])
 
                 begin
-                    extension = /(png|jpg|jpeg|exif|jfif)/.match(img_from_base64[0,16].downcase)[0]
-                rescue
+                    extension = /(png|jpg|jpeg|exif|jfif)/.match(img_from_base64[0, 16].downcase)[0]
+                rescue StandardError
                     return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed"))
                 end
 
@@ -341,29 +332,33 @@ module Interfaces::Controllers::Files
                 extension = "jpeg" if extension == "jfif"
                 extension = "png"  if extension == "exif"
 
-                return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed")) unless file_model.verify_file_extension(extension)
+                unless file_model.verify_file_extension(extension)
+                    return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed"))
+                end
 
-                file_path = Rails.root.join("public", "uploads", "tmp", file_name << '.' << extension)
-                File.open(file_path, 'wb') do|f|
+                file_path = Rails.root.join("public", "uploads", "tmp", file_name << "." << extension)
+                File.open(file_path, "wb") do |f|
                     f.write(img_from_base64)
                 end
 
                 file_params[:attachment] = File.open(Rails.root.join(file_path), "rb")
-                file_params[:size_mb] = file_params[:attachment].size.to_f / (1024*1024)
+                file_params[:size_mb] = file_params[:attachment].size.to_f / (1024 * 1024)
                 FileUtils.rm_rf(Rails.root.join(file_path))
             else
                 extension = file_params[:attachment].original_filename
-                file_params[:size_mb] = file_params[:attachment].size.to_f / (1024*1024)
+                file_params[:size_mb] = file_params[:attachment].size.to_f / (1024 * 1024)
 
-                return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed")) unless file_model.verify_file_extension(extension)
+                unless file_model.verify_file_extension(extension)
+                    return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed"))
+                end
             end
 
             file_params[:external_url] = nil
         end
 
-        if block_given?
-            yield(file_params)
-        end
+        return unless block_given?
+
+        yield(file_params)
     end
 
     # @return [void]
@@ -373,9 +368,7 @@ module Interfaces::Controllers::Files
     # @example
     #     # Executing this controller's action from javascript's frontend
     #     this.http.get('127.0.0.1/house/options/project/1/files/zip&ids=1,2,3,4');
-    def handle_zip_download(files)
-
-    end
+    def handle_zip_download(files); end
 
     # @return [void]
     # @descriptions Sets the variable @cloud_object based on the paremeters send in the URL. If no,
@@ -455,6 +448,6 @@ module Interfaces::Controllers::Files
     #     puts file_model().new
     #     # This will display a new instance of CloudHelp::Ticket::File
     def file_model
-        self.class.name.gsub("Controller","").singularize.constantize
+        self.class.name.gsub("Controller", "").singularize.constantize
     end
 end

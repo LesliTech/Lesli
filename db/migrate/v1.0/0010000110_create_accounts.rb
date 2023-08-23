@@ -27,13 +27,12 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 class CreateAccounts < ActiveRecord::Migration[5.2]
     def change
         create_table :accounts do |t|
-            
             # account status
             t.integer   :status
 
@@ -65,7 +64,6 @@ class CreateAccounts < ActiveRecord::Migration[5.2]
             t.string    :facebook
 
             t.timestamps
-            
         end
     end
 end

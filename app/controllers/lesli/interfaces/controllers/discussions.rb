@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Your Smart Business Assistant.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -31,9 +31,8 @@ Building a better future, one line of code at a time.
 
 =end
 module Interfaces::Controllers::Discussions
-
     # @return [Json] Json that contains a list of all discussions related to a *cloud_object*
-    # @description Retrieves and returns all discussions associated to a *cloud_object*. The id of the 
+    # @description Retrieves and returns all discussions associated to a *cloud_object*. The id of the
     #     *cloud_object* is within the *params* attribute. If the child class provides a block, the function is
     #     yielded sending the discussions as parameters. The block given *must* return the HTTP response
     # @example
@@ -45,8 +44,8 @@ module Interfaces::Controllers::Discussions
         cloud_object_model = discussion_model.cloud_object_model
 
         @discussions = discussion_model.index(
-            current_user, 
-            params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym], 
+            current_user,
+            params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym],
             @query
         )
         if block_given?
@@ -57,7 +56,7 @@ module Interfaces::Controllers::Discussions
     end
 
     # @return [JSON] The json information about the selected discussion
-    # @description Retrieves and returns the information about the discussion. The id of the 
+    # @description Retrieves and returns the information about the discussion. The id of the
     #     *cloud_object* and the id of the *discussion* are within the *params* attribute. If a block
     #     is provided, the execution will be yielded sending the discussion as first parameter
     # @example
@@ -69,18 +68,16 @@ module Interfaces::Controllers::Discussions
         set_discussion
         return respond_with_not_found unless @discussion
 
-        if block_given?
-            yield(@discussion)
-        else
-            return respond_with_successful(@discussion)
-        end
+        return respond_with_successful(@discussion) unless block_given?
+
+        yield(@discussion)
     end
 
     # @controller_action_param :content [String] The commented message
     # @controller_action_param :discussions_id [Integer] The id of a discussions that this message responds to
-    # @return [Json] Json that contains wheter the creation of the discussion was successful or not. 
+    # @return [Json] Json that contains wheter the creation of the discussion was successful or not.
     #     If it is not successful, it returs an error message
-    # @description Creates a new discussion associated to a *cloud_object* and notifies all users subscribed to this event. 
+    # @description Creates a new discussion associated to a *cloud_object* and notifies all users subscribed to this event.
     #     The id of the *cloud_object* is within the *params* attribute
     # @example
     #     # Executing this controller's action from javascript's frontend
@@ -96,28 +93,28 @@ module Interfaces::Controllers::Discussions
         cloud_object_model = discussion_model.cloud_object_model
 
         set_cloud_object
-        new_discussion_params = { 
+        new_discussion_params = {
             "#{discussion_model.table_name}_id": discussion_params[:discussion_parent_id],
             content: discussion_params[:content],
             user_creator: current_user,
             cloud_object: @cloud_object
         }
-        
 
         discussion = discussion_model.new(new_discussion_params)
         if discussion.save
             translations_path = @cloud_object.class.name.gsub("Cloud", "").underscore.pluralize.gsub("/", ".")
             cloud_object_class_translation = I18n.t("#{translations_path}.view_title_main")
 
-            "#{cloud_object_model}::Subscriber".constantize.notify_subscribers(
-                current_user,
-                discussion.cloud_object,
-                "discussion_created",
-                subject: "#{cloud_object_class_translation} (#{@cloud_object.global_identifier}): #{I18n.t("core.shared.view_title_notification_discussions_created")}",
-                body: "#{discussion.user_creator.full_name} #{I18n.t("core.shared.view_text_notification_discussion_created_body")}: '#{discussion.content}'",
-                url: "/#{@cloud_object.class.name.split("::").last.pluralize.downcase}/#{@cloud_object.url_identifier}?tab=discussions"
-            ) if Object.const_defined?("#{cloud_object_model}::Subscriber")
-            
+            if Object.const_defined?("#{cloud_object_model}::Subscriber")
+                "#{cloud_object_model}::Subscriber".constantize.notify_subscribers(
+                    current_user,
+                    discussion.cloud_object,
+                    "discussion_created",
+                    subject: "#{cloud_object_class_translation} (#{@cloud_object.global_identifier}): #{I18n.t('core.shared.view_title_notification_discussions_created')}",
+                    body: "#{discussion.user_creator.full_name} #{I18n.t('core.shared.view_text_notification_discussion_created_body')}: '#{discussion.content}'",
+                    url: "/#{@cloud_object.class.name.split('::').last.pluralize.downcase}/#{@cloud_object.url_identifier}?tab=discussions"
+                )
+            end
 
             if block_given?
                 yield(cloud_object, discussion)
@@ -132,7 +129,7 @@ module Interfaces::Controllers::Discussions
 
     # @controller_action_param :content [String] The content of the discussion
     # @controller_action_param :discussions_id [Integer] The id of a discussions that this message responds to
-    # @return [Json] Json that contains wheter the update of the discussion was successful or not. 
+    # @return [Json] Json that contains wheter the update of the discussion was successful or not.
     #     If it is not successful, it returs an error message
     # @description Updates the discussion based on the id of the *cloud_object* and its own id.
     # @example
@@ -168,7 +165,7 @@ module Interfaces::Controllers::Discussions
     def destroy
         set_discussion
         return respond_with_not_found unless @discussion
-        
+
         if @discussion.destroy
             respond_with_successful
         else
@@ -229,7 +226,7 @@ module Interfaces::Controllers::Discussions
     end
 
     # @return [void]
-    # @description Sets the variable @discussion. The variable contains the discussion 
+    # @description Sets the variable @discussion. The variable contains the discussion
     #     to be updated based on the id of the *cloud_object* and the id of the *discussion*
     # @example
     #     #suppose params[:ticket_id] = 1
@@ -258,6 +255,6 @@ module Interfaces::Controllers::Discussions
     #     puts discussion_model().new
     #     # This will display a new instance of CloudHelp::Ticket::Discussion
     def discussion_model
-        self.class.name.gsub("Controller","").singularize.constantize
+        self.class.name.gsub("Controller", "").singularize.constantize
     end
 end

@@ -27,13 +27,13 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 module Lesli
     class ApplicationLesliController < ApplicationController
         include Lesli::Interfaces::Application::Responder
         include Interfaces::Application::Requester
-        #include Interfaces::Application::Logger
+        # include Interfaces::Application::Logger
 
         protect_from_forgery with: :exception
 
@@ -44,17 +44,15 @@ module Lesli
         before_action :set_helpers_for_account
         before_action :set_customization
 
-        #after_action  :log_user_requests
+        # after_action  :log_user_requests
 
         layout "lesli/layouts/application-lesli"
 
         attr_reader :query
 
-        protected
-
         # Rescue from "ParameterMissing" when using required params
         # in controllers
-        rescue_from ActionController::ParameterMissing do |e|
+        rescue_from ActionController::ParameterMissing do |_e|
             respond_with_error("Missing params")
         end
 
@@ -63,9 +61,9 @@ module Lesli
         # Set default query params for:
         #   pagination
         def set_helpers_for_account
-    
             # @account is only for html requests
-            return if !request.format.html?
+            return unless request.format.html?
+
             @lesli[:revision] = 0
             @lesli[:company] = {}
 =begin
@@ -74,11 +72,10 @@ module Lesli
             @lesli[:tasks] = 0 #Courier::Focus::Task.count(current_user)
             @lesli[:tickets] = 0 #Courier::Help::Ticket.count(current_user)
             @lesli[:shortcuts] = [] # current_user.shortcuts.select(:id, :name, :url)
-    
-    
+
             # default customization, set on before_action :set_customization hook
             @lesli[:customization] = { :logo => "image.svg", :color_primary => "#1f7ce3" }
-    
+
             return @lesli if current_user.account.blank?
 
             # add company information (account)
@@ -91,13 +88,13 @@ module Lesli
                 address: current_user.account.address,
                 website: current_user.account.website
             }
-    
+
             @lesli[:settings] = {
                 datetime: Rails.application.config.lesli.dig(:configuration, :datetime),
                 currency: (Rails.application.config.lesli.dig(:configuration, :currency) || {})
                     .merge({ locale: Rails.application.config.lesli.dig(:env, :default_locale) }),
             }
-    
+
             # set user information
             @lesli[:current_user] = {
                 id: current_user.id,
@@ -108,7 +105,7 @@ module Lesli
                 max_object_level_permission: current_user.roles.map(&:object_level_permission).max,
                 settings: current_user.settings.map { |s| { name: s.name, value: s.value } }
             }
-    
+
             #
             @lesli[:providers] = {
                 firebase: {
@@ -120,14 +117,12 @@ module Lesli
 =end
         end
 
-
         # set customization only for lesli_cloud instance
         def set_customization
-
             # @account is only for html and pdf requests
-            return unless (request.format.html? || request.format.pdf?)
+            return unless request.format.html? || request.format.pdf?
 
-            #return unless Lesli.instance[:code] == "lesli_cloud"
+            # return unless Lesli.instance[:code] == "lesli_cloud"
 
             @lesli[:customization] = {}
 

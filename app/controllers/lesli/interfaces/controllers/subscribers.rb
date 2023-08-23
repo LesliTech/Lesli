@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Your Smart Business Assistant.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -31,9 +31,8 @@ Building a better future, one line of code at a time.
 
 =end
 module Interfaces::Controllers::Subscribers
-
     # @return [Json] Json that contains a list of all subscribers related to a *cloud_object*
-    # @description Retrieves and returns all subscribers associated to a *cloud_object*. The id of the 
+    # @description Retrieves and returns all subscribers associated to a *cloud_object*. The id of the
     #     *cloud_object* is within the *params* attribute
     # @example
     #     # Executing this controller's action from javascript's frontend
@@ -45,9 +44,8 @@ module Interfaces::Controllers::Subscribers
         @cloud_object = cloud_object_model.find_by(id: params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym])
         return respond_with_not_found unless @cloud_object
 
-
         target_user = current_user.account.users.find_by(id: params[:users_id]) if params[:users_id]
-        target_user = current_user unless target_user       
+        target_user ||= current_user
 
         actions = subscriber_model.subscription_actions(
             @cloud_object,
@@ -59,9 +57,9 @@ module Interfaces::Controllers::Subscribers
     # @controller_action_param :action [String] A string that represent a valid action present in the *Subscriber* model
     # @controller_action_param :notification_type [String] A string that represents a valid notification_type
     #     present in the *Subscriber* model
-    # @return [Json] Json that contains wheter the creation of the subscriber was successful or not. 
+    # @return [Json] Json that contains wheter the creation of the subscriber was successful or not.
     #     If it is not successful, it returs an error message
-    # @description Creates a new subscriber associated to a *cloud_object* using *current_user* as the subscriber. 
+    # @description Creates a new subscriber associated to a *cloud_object* using *current_user* as the subscriber.
     #     The id of the *cloud_object* is within the *params* attribute
     # @example
     #     # Executing this controller's action from javascript's frontend
@@ -78,7 +76,7 @@ module Interfaces::Controllers::Subscribers
         cloud_object_model = subscriber_model.cloud_object_model
 
         target_user = current_user.account.users.find_by(id: params[:users_id]) if params[:users_id]
-        target_user = current_user unless target_user   
+        target_user ||= current_user
 
         set_cloud_object
         new_subscriber_params = subscriber_params.merge(
@@ -96,7 +94,7 @@ module Interfaces::Controllers::Subscribers
 
     # @controller_action_param :action [String] A string that represent a valid action present in the *Subscriber* model
     # @controller_action_param :notification_type [String] A string that represents a valid notification_type
-    # @return [Json] Json that contains wheter the update of the subscriber was successful or not. 
+    # @return [Json] Json that contains wheter the update of the subscriber was successful or not.
     #     If it is not successful, it returs an error message
     # @description Updates the subscriber based on the id of the *cloud_object* and its own id.
     # @example
@@ -131,7 +129,7 @@ module Interfaces::Controllers::Subscribers
     def destroy
         set_subscriber
         return respond_with_not_found unless @subscriber
-        
+
         if @subscriber.destroy
             respond_with_successful
         else
@@ -161,7 +159,7 @@ module Interfaces::Controllers::Subscribers
     end
 
     # @return [void]
-    # @description Sets the variable @subscriber. The variable contains the subscription 
+    # @description Sets the variable @subscriber. The variable contains the subscription
     #     to be updated based on the id of the *cloud_object* and the id of the *subscriber*
     # @example
     #     #suppose params[:ticket_id] = 1
@@ -222,6 +220,6 @@ module Interfaces::Controllers::Subscribers
     #     puts subscriber_model().new
     #     # This will display a new instance of CloudHelp::Ticket::Discussion
     def subscriber_model
-        self.class.name.gsub("Controller","").singularize.constantize
+        self.class.name.gsub("Controller", "").singularize.constantize
     end
 end
