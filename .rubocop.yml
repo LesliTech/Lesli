@@ -1,1 +1,11 @@
-inherit_from: .rubocop_todo.yml
+Layout/IndentationWidth:
+    Width: 4
+Style/StringLiterals:
+    EnforcedStyle: double_quotes
+Style/FrozenStringLiteralComment:
+    Enabled: false
+Style/BlockComments:
+    Enabled: false
+Style/Documentation:
+    Exclude: 
+        - "db/migrate/v1.0/*"

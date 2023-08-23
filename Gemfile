@@ -33,5 +33,5 @@ Building a better future, one line of code at a time.
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-# Specify your gem's dependencies in lesli.gemspec.
+# Specify your gem's dependencies in lesli.gemspec
 gemspec
