@@ -52,7 +52,7 @@ rails s --binding=0.0.0.0 # debug in local network
 RAILS_SERVE_STATIC_FILES=true rails s --environment=production # production mode
 ```
 
-For more details about the installation check the official [documentation.](https://www.lesli.dev/documentation/getting-started/installation/)
+For more details about the installation check the official [documentation.](https://www.lesli.dev/documentation)
 
 
 
@@ -63,6 +63,11 @@ __Get the latest version of Lesli source code__
 ```shell
     # clone the lesli repo inside your engine folder: RailsApp/engines
     git clone https://github.com/LesliTech/Lesli.git
+```
+
+__Load Lesli as a Gem__
+```ruby
+gem "lesli", path: "engines/Lesli"
 ```
 
 __Install the necessary Gems to run Lesli:__

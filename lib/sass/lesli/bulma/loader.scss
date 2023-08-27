@@ -46,8 +46,14 @@ $table-cell-padding: 1rem;
 
 // · Import Bulma framework
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@import "bulma/bulma.sass";
-@import "bulma/sass/utilities/functions";
+@import "bulma/sass/base/all";
+@import "bulma/sass/utilities/all";
+@import "bulma/sass/helpers/all";
+
+@import "bulma/sass/form/all";
+@import "bulma/sass/components/tabs";
+
+
 
 
 

@@ -36,9 +36,7 @@ header.lesli-application-header {
     right: 0;
     z-index: 40;
     position: fixed;
-    padding: 26px 26px 26px 5px;
-    //margin-bottom: 8px;
-    //height: var(--lesli-header-height);
+    height: var(--lesli-header-height);
     background-color: var(--lesli-header-color);
     width: calc(100% - var(--lesli-sidebar-width));
 
@@ -48,12 +46,55 @@ header.lesli-application-header {
         background: #ffffff;
     }
 
-    .header-navigation {
+    .lesli-application-header-container {
+        width: 100%;
+        height: 100%;
         display: flex;
         align-items: center;
         flex-direction: row;
         justify-content: space-between;
+        padding: 0 1.2rem;
     }
+
+    .lesli-application-header-left {
+        flex: 1;
+
+        .control {
+            flex: 1;
+
+            .icon {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .material-icons {
+                font-size: 28px;
+            }
+
+            input {
+                padding-left: 2.7rem;
+                border-radius: 8px;
+                border: 1px solid transparent;
+                transition: all linear .3s;
+                background-color: transparent;
+
+                &::placeholder {
+                    color: lesli-css-color(silver, 700);
+                }
+
+                &:focus {
+                    max-width: 98%;
+                    border-color: lesli-css-color(silver);
+                }
+            }
+        }
+    }
+
+    .lesli-application-header-right {
+    }
+
 
     .header-left,
     .header-right {
@@ -96,99 +137,6 @@ header.lesli-application-header {
                     border-color: lesli-css-color(silver);
                 }
             }
-        }
-    }
-
-    .header-right {
-
-        // header icons
-        span.material-icons {
-            color: lesli-css-color(slate);
-            &:hover, &.is-active {
-                color: var(--lesli-color-primary);
-            }
-        }
-
-        // control container
-        .navbar-item {
-            padding: 0;
-            margin-right: 20px;
-            &:focus, 
-            &:hover, 
-            &.is-active, 
-            &:focus-within {
-                background-color: transparent;
-            }
-        }
-
-        // Notification icon & count
-        .header-notification-indicator {
-            position: relative;
-            font-size: 1.2rem;
-            .count {
-                top: 0px;
-                right: 0px;
-                width: 18px;
-                height: 18px;
-                font-size: 11px;
-                text-align: center;
-                border-radius: 50%;
-                background-color: lesli-css-color(berry, 300);
-                color: lesli-css-color(silver, 100);
-                font-family: sans-serif;
-                position: absolute;
-                padding-top: 1px;
-            }
-        }
-
-        // 
-        .dropdown { 
-            line-height: 1;
-
-            .dropdown-content {
-                padding: 0;
-            }
-
-            .dropdown-divider {
-                margin: 0;
-            }
-
-            .dropdown-item {
-                padding: 1rem 1rem;
-                color: lesli-css-color(black, 500);
-            }
-
-            &.user-options {
-                display: block;
-            }
-
-        }
-
-    }
-
-}
-
-
-// · 
-// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
-@include lesli-css-breakpoint("desktop") {
-    header.application-header {
-        // adjust the header width to the floating navigatino menu
-        .navbar-brand {
-            margin-left: .5rem;
-        }
-    }
-}
-
-
-
-// · 
-// · -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
-@include lesli-css-breakpoint("widescreen") {
-    header.application-header {
-        // adjust the header width to the floating navigatino menu
-        .navbar-brand {
-            margin-left: 1rem;
         }
     }
 }
