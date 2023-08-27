@@ -36,81 +36,82 @@ Building a better future, one line of code at a time.
 
 
 // · Configuration & variables
-@import "lesli/framework/settings/variables";
+@import "lesli/settings/variables";
 
 
 // · Include Bulma 
-@import "lesli/framework/bulma/loader";
+@import "lesli/bulma/loader";
+
 
 
 
 // · Font families and icons
-@import "lesli/framework/fonts/remixicons";
-@import "lesli/framework/fonts/families";
-@import "lesli/framework/fonts/mdicons";
+@import "lesli/fonts/remixicons";
+@import "lesli/fonts/families";
+@import "lesli/fonts/mdicons";
 
 
 
 // · Some home made helpers
-@import "lesli/framework/helpers/display";
-@import "lesli/framework/helpers/tooltip";
+@import "lesli/helpers/display";
+@import "lesli/helpers/tooltip";
 
 
 // · Lesli application layout 
-@import "lesli/framework/layout/application-header";
-@import "lesli/framework/layout/application-announcements";
-@import "lesli/framework/layout/application-engines";
-@import "lesli/framework/layout/application-sidebar";
-@import "lesli/framework/layout/application-component";
-@import "lesli/framework/layout/application-footer";
-@import "lesli/framework/layout/application-search";
+@import "lesli/layouts/application-header";
+@import "lesli/layouts/application-announcements";
+@import "lesli/layouts/application-engines";
+@import "lesli/layouts/application-sidebar";
+@import "lesli/layouts/application-component";
+@import "lesli/layouts/application-footer";
+@import "lesli/layouts/application-search";
 
 
 // · Lesli core panels 
-@import "lesli/framework/panels/panel-tasks";
-@import "lesli/framework/panels/panel-ticket";
-@import "lesli/framework/panels/panel-profile";
-@import "lesli/framework/panels/panel-notification";
-@import "lesli/framework/panels/panel-announcements";
+@import "lesli/panels/panel-tasks";
+@import "lesli/panels/panel-ticket";
+@import "lesli/panels/panel-profile";
+@import "lesli/panels/panel-notification";
+@import "lesli/panels/panel-announcements";
 
 
 // · Standard components
-@import "lesli/framework/components/editor-richtext";
+@import "lesli/components/editor-richtext";
 
 
 // · Shared
-@import "lesli/framework/shared/workflow-status-progress";
+@import "lesli/shared/workflow-status-progress";
 
 
 // · Lesli cloud objects
-@import "lesli/framework/cloud-objects/discussion";
-@import "lesli/framework/cloud-objects/file";
+@import "lesli/cloud-objects/discussion";
+@import "lesli/cloud-objects/file";
 
 
 // · Overrides for vendor libraries
-@import "lesli/framework/overrides/sweetalert";
+@import "lesli/overrides/sweetalert";
 
 
 // · Lesli vue components
-@import "lesli/framework/elements/autocomplete";
-@import "lesli/framework/elements/avatar";
-@import "lesli/framework/elements/empty";
-@import "lesli/framework/elements/file-uploader";
-@import "lesli/framework/elements/gallery";
-@import "lesli/framework/elements/header";
-@import "lesli/framework/elements/input-tag";
-@import "lesli/framework/elements/loading";
-@import "lesli/framework/elements/map";
-@import "lesli/framework/elements/msg";
-@import "lesli/framework/elements/navbar";
-@import "lesli/framework/elements/panel";
-@import "lesli/framework/elements/form";
-@import "lesli/framework/elements/tab";
-@import "lesli/framework/elements/table";
-@import "lesli/framework/elements/toggle";
-@import "lesli/framework/elements/toolbar";
-@import "lesli/framework/elements/calendar";
-@import "lesli/framework/elements/card";
+@import "lesli/elements/autocomplete";
+@import "lesli/elements/avatar";
+@import "lesli/elements/empty";
+@import "lesli/elements/file-uploader";
+@import "lesli/elements/gallery";
+@import "lesli/elements/header";
+@import "lesli/elements/input-tag";
+@import "lesli/elements/loading";
+@import "lesli/elements/map";
+@import "lesli/elements/msg";
+@import "lesli/elements/navbar";
+@import "lesli/elements/panel";
+@import "lesli/elements/form";
+@import "lesli/elements/tab";
+@import "lesli/elements/table";
+@import "lesli/elements/toggle";
+@import "lesli/elements/toolbar";
+@import "lesli/elements/calendar";
+@import "lesli/elements/card";
 
 
 

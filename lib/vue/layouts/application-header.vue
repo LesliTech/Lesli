@@ -131,10 +131,17 @@ onUnmounted(() => {
 
 </script>
 <template>
-    <header ref="applicationHeader" class="lesli-application-header">
-        <div class="header-navigation">
-            <div class="header-left">
+    <header ref="lesliApplicationHeader" class="lesli-application-header">
+        <div class="lesli-application-header-container">
+            <div class="lesli-application-header-left">
                 <div class="control is-medium has-icons-left has-text-grey">
+                    <span class="icon is-left has-text-gray">
+                        <span class="material-icons" v-if="!storeSearch.loading">
+                            search
+                        </span>
+                        <lesli-loading :icon="true" v-if="storeSearch.loading">
+                        </lesli-loading>
+                    </span>
                     <input 
                         type="email" 
                         name="global_search"
@@ -143,16 +150,9 @@ onUnmounted(() => {
                         @input="storeSearch.doSearch"
                         v-model="storeSearch.text" 
                     />
-                    <span class="icon is-left has-text-gray">
-                        <span class="material-icons" v-if="!storeSearch.loading">
-                            search
-                        </span>
-                        <lesli-loading :icon="true" v-if="storeSearch.loading">
-                        </lesli-loading>
-                    </span>
                 </div>
             </div>
-            <div class="header-right">
+            <div class="lesli-application-header-right">
 
                 <!-- engines selector -->
                 <a  v-if="props.showEngines"
@@ -161,91 +161,6 @@ onUnmounted(() => {
                         apps
                     </span>
                 </a>
-
-                <!-- Tickets -->
-                <a 
-                    v-if="props.showTickets"
-                    class="navbar-item header-notification-indicator" 
-                    @click="() => { storeLayout.showTickets = true }">
-                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.tickets > 0 }]">
-                        confirmation_number
-                    </span>
-                    <span class="count" v-if="storeLayout.header.tickets > 0">
-                        {{ storeLayout.header.tickets }}
-                    </span>
-                </a>
-
-                <!-- Tasks -->
-                <a  v-if="props.showFocus"
-                    class="navbar-item header-notification-indicator" 
-                    @click="() => { if (storeLayout.header.tasks > 0 ) { storeLayout.showTasks = true }}">
-                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.tasks > 0 }]">
-                        checklist
-                    </span>
-                    <span class="count" v-if="storeLayout.header.tasks > 0">
-                        {{ storeLayout.header.tasks }}
-                    </span>
-                </a>
-
-                <!-- Announcements -->
-                <a 
-                    v-if="props.showAnnouncements"
-                    class="navbar-item header-notification-indicator" 
-                    @click="() => { { storeLayout.showAnnouncements = true }}">
-                    <span :class="['material-icons md-36']">
-                        campaign
-                    </span>
-                    <span>
-                        {{ storeLayout.header.announcements }}
-                    </span>
-                </a>
-
-                <!-- Notifications -->
-                <a 
-                    v-if="props.showBell"
-                    class="navbar-item header-notification-indicator" 
-                    @click="() => { if (storeLayout.header.notifications > 0 ) { storeLayout.showNotifications = true }}">
-                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.notifications > 0 }]">
-                        notifications
-                    </span>
-                    <span class="count" v-if="storeLayout.header.notifications > 0">
-                        {{ storeLayout.header.notifications }}
-                    </span>
-                </a>
-
-                <!-- Profile options -->
-                <div class="dropdown is-right is-hoverable header-user-options">
-                    <div class="dropdown-trigger">
-                        <span class="material-icons md-36" @click="storeLayout.showProfile = true">
-                            account_box
-                        </span>
-                    </div>
-                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                        <div class="dropdown-content">
-                            <a href="/administration/profile" class="dropdown-item header-user-options-profile ">
-                                <span class="icon-text">
-                                    <span class="icon has-text-grey-light">
-                                        <span class="material-icons">
-                                            person
-                                        </span>
-                                    </span>
-                                    <span>{{ translations.core.shared.view_text_profile }}</span>
-                                </span>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="/logout" class="dropdown-item">
-                                <span class="icon-text">
-                                    <span class="icon">
-                                        <span class="material-icons">
-                                            logout
-                                        </span>
-                                    </span>
-                                    <span>{{ translations.core.shared.view_text_logout }}</span>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </header>
