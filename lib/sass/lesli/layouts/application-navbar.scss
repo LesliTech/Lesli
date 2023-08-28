@@ -31,7 +31,8 @@ Building a better future, one line of code at a time.
 */
 
 nav.lesli-application-navigation {
-    background-color: white;
+    background-color: var(--lesli-navbar-color);
+
     ul {
         display: flex;
         justify-content: center;
