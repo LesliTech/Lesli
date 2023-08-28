@@ -132,8 +132,12 @@ onUnmounted(() => {
 </script>
 <template>
     <header ref="lesliApplicationHeader" class="lesli-application-header">
-        <div class="lesli-application-header-container">
+        <div class="lesli-application-header-container container">
+            <figure class="image lesli-brand">
+                <img alt="App logo" class="is-hidden-touch" src="/assets/lesli/brand/app-logo.svg">
+            </figure>
             <div class="lesli-application-header-left">
+                
                 <div class="control is-medium has-icons-left has-text-grey">
                     <span class="icon is-left has-text-gray">
                         <span class="material-icons" v-if="!storeSearch.loading">
@@ -145,8 +149,8 @@ onUnmounted(() => {
                     <input 
                         type="email" 
                         name="global_search"
-                        class="input is-medium is-shadowless" 
-                        :placeholder="translations.core.shared.search_placeholder || 'Search...'"
+                        class="input is-shadowless" 
+                        :placeholder="translations.core.shared.search_placeholder || 'Ask to Lesli...'"
                         @input="storeSearch.doSearch"
                         v-model="storeSearch.text" 
                     />
@@ -155,12 +159,98 @@ onUnmounted(() => {
             <div class="lesli-application-header-right">
 
                 <!-- engines selector -->
-                <a  v-if="props.showEngines"
-                    class="navbar-item" @click="toggleEngines()">
-                    <span class="material-icons md-36">
+                <a  v-if="props.showEngines || true"
+                    class="" @click="toggleEngines()">
+                    <span class="material-icons">
                         apps
                     </span>
                 </a>
+
+                <!-- Tickets -->
+                <a 
+                    v-if="props.showTickets || true"
+                    class=" header-notification-indicator" 
+                    @click="() => { storeLayout.showTickets = true }">
+                    <span :class="['material-icons', { 'is-active' : storeLayout.header.tickets > 0 }]">
+                        confirmation_number
+                    </span>
+                    <span class="count" v-if="storeLayout.header.tickets > 0">
+                        {{ storeLayout.header.tickets }}
+                    </span>
+                </a>
+
+                <!-- Tasks -->
+                <a  v-if="props.showFocus || true"
+                    class=" header-notification-indicator" 
+                    @click="() => { if (storeLayout.header.tasks > 0 ) { storeLayout.showTasks = true }}">
+                    <span :class="['material-icons', { 'is-active' : storeLayout.header.tasks > 0 }]">
+                        checklist
+                    </span>
+                    <span class="count" v-if="storeLayout.header.tasks > 0">
+                        {{ storeLayout.header.tasks }}
+                    </span>
+                </a>
+
+                <!-- Announcements -->
+                <a 
+                    v-if="props.showAnnouncements || true"
+                    class=" header-notification-indicator" 
+                    @click="() => { { storeLayout.showAnnouncements = true }}">
+                    <span :class="['material-icons']">
+                        campaign
+                    </span>
+                    <span>
+                        {{ storeLayout.header.announcements }}
+                    </span>
+                </a>
+
+                <!-- Notifications -->
+                <a 
+                    v-if="props.showBell || true"
+                    class=" header-notification-indicator" 
+                    @click="() => { if (storeLayout.header.notifications > 0 ) { storeLayout.showNotifications = true }}">
+                    <span :class="['material-icons', { 'is-active' : storeLayout.header.notifications > 0 }]">
+                        notifications
+                    </span>
+                    <span class="count" v-if="storeLayout.header.notifications > 0">
+                        {{ storeLayout.header.notifications }}
+                    </span>
+                </a>
+
+                <!-- Profile options - - >
+                <div class="dropdown is-right is-hoverable header-user-options">
+                    <div class="dropdown-trigger">
+                        <span class="material-icons" @click="storeLayout.showProfile = true">
+                            account_box
+                        </span>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                        <div class="dropdown-content">
+                            <a href="/administration/profile" class="dropdown-item header-user-options-profile ">
+                                <span class="icon-text">
+                                    <span class="icon has-text-grey-light">
+                                        <span class="material-icons">
+                                            person
+                                        </span>
+                                    </span>
+                                    <span>{{ translations.core.shared.view_text_profile }}</span>
+                                </span>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="/logout" class="dropdown-item">
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <span class="material-icons">
+                                            logout
+                                        </span>
+                                    </span>
+                                    <span>{{ translations.core.shared.view_text_logout }}</span>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                -->
             </div>
         </div>
     </header>
