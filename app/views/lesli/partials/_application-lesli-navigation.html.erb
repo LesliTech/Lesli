@@ -1,4 +1,5 @@
-/*
+<%
+=begin
 
 Lesli
 
@@ -28,49 +29,23 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-*/
+=end
+%>
+
+<%# check if custom navigation partial exists, getting the path from application helper %>
+<% custom_sidebar_path = "#{lesli_engine.dig(:code)}/partials/engine-navigation" %>
+
+<%# validate the path to be sure the partial exists when trying to render it %>
+<% custom_sidebar_exists = lookup_context.exists?(custom_sidebar_path, nil, true) %>
 
 
-// · Global Bulma variables
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-
-$radius: 8px;
-$radius-small: 3px;
-$radius-large: 4px;
-$control-radius: $radius;
-$control-radius-small: $radius-small;
-$navbar-background-color: transparent;
-$table-cell-padding: 1rem;
-
-
-
-// · Import Bulma framework
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@import "bulma/sass/base/all";
-@import "bulma/sass/utilities/all";
-@import "bulma/sass/helpers/all";
-
-@import "bulma/sass/form/all";
-@import "bulma/sass/components/tabs";
-
-@import "bulma/sass/elements/container";
-@import "bulma/sass/elements/image";
-
-
-
-
-
-// · Bulma elements/components overrides
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-
-.dropdown-item {
-    display: flex;
-    span.icon {
-        margin-right: 8px;
-    }
-}
-
-fieldset.block {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+<%# render navigation partial %>
+<% if custom_sidebar_exists %>
+    <nav class="lesli-application-navigation">
+        <ul class="container">
+            <%= render partial: custom_sidebar_path %>
+        </ul>
+    </nav>
+<% else %>
+    <h1>no navigation found</h1>
+<% end %>

@@ -30,22 +30,23 @@ Building a better future, one line of code at a time.
 // · 
 */
 
+
 // ·
 header.lesli-application-header {
-    top: 0;
-    right: 0;
-    z-index: 40;
-    position: fixed;
     height: var(--lesli-header-height);
     background-color: var(--lesli-header-color);
-    width: calc(100% - var(--lesli-sidebar-width));
+    border-bottom: 1px solid lesli-css-color(silver, 300);
 
-    // add a separtor line to the header when user scroll down 
-    &.scrolling-header-navigation {
-        box-shadow: 0px 10px 20px -20px rgba(0, 0, 0, 0.45);
-        background: #ffffff;
+
+    // · main logo
+    .lesli-brand {
+        img {
+            height: var(--lesli-header-height);
+        }
     }
 
+
+    // · Navigation and icons contianer
     .lesli-application-header-container {
         width: 100%;
         height: 100%;
@@ -56,6 +57,8 @@ header.lesli-application-header {
         padding: 0 1.2rem;
     }
 
+
+    // · Logo and search container
     .lesli-application-header-left {
         flex: 1;
 
@@ -70,10 +73,11 @@ header.lesli-application-header {
             }
 
             .material-icons {
-                font-size: 28px;
+                font-size: 25px;
             }
 
             input {
+                font-size: 1.15rem;
                 padding-left: 2.7rem;
                 border-radius: 8px;
                 border: 1px solid transparent;
@@ -92,50 +96,14 @@ header.lesli-application-header {
         }
     }
 
+
+    // · Indicator icons container
     .lesli-application-header-right {
-    }
 
-
-    .header-left,
-    .header-right {
-        display: flex;
-        align-items: center;
-        .dropdown-menu {
-            min-width: 15rem;
-            .dropdown-content {
-                width: 100%;
-                .material-icons {
-                    margin-right: .5rem;
-                    color: lesli-css-color(silver);
-                }
-            }
-        }
-    }
-
-    .header-left {
-        flex: 1;
-
-        // command input & search
-        .control {
-            flex: 1;
-            .material-icons {
-                font-size: 28px;
-            }
-            input {
-                max-width: 515px;
-                border-radius: 8px;
-                border: 1px solid transparent;
-                transition: all linear .3s;
-                background-color: transparent;
-
-                &::placeholder {
-                    color: lesli-css-color(silver, 700);
-                }
-
-                &:focus {
-                    max-width: 98%;
-                    border-color: lesli-css-color(silver);
-                }
+        a {
+            margin-left: 20px;
+            span.material-icons {
+                font-size: 30px;
             }
         }
     }

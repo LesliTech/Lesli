@@ -30,47 +30,29 @@ Building a better future, one line of code at a time.
 // · 
 */
 
+nav.lesli-application-navigation {
+    background-color: white;
+    ul {
+        display: flex;
+        justify-content: center;
 
-// · Global Bulma variables
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+        li a {
+            padding: 1rem 1.1rem;
+            display: flex;
+            align-items: center;
 
-$radius: 8px;
-$radius-small: 3px;
-$radius-large: 4px;
-$control-radius: $radius;
-$control-radius-small: $radius-small;
-$navbar-background-color: transparent;
-$table-cell-padding: 1rem;
+            // link label
+            span.text {
+                margin-left: 6px;
+                display: inline-block;
+            }
 
-
-
-// · Import Bulma framework
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@import "bulma/sass/base/all";
-@import "bulma/sass/utilities/all";
-@import "bulma/sass/helpers/all";
-
-@import "bulma/sass/form/all";
-@import "bulma/sass/components/tabs";
-
-@import "bulma/sass/elements/container";
-@import "bulma/sass/elements/image";
-
-
-
-
-
-// · Bulma elements/components overrides
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-
-.dropdown-item {
-    display: flex;
-    span.icon {
-        margin-right: 8px;
+            span.text {
+                font-size: 1rem;
+                display: inline-block;
+                flex-grow: 1;
+                text-align: left;
+            }
+        }
     }
-}
-
-fieldset.block {
-    border: 1px solid #ccc;
-    border-radius: 5px;
 }
