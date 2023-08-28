@@ -53,7 +53,7 @@ Gem::Specification.new do |spec|
         Dir["{app,config,db,lib}/**/*", "license", "Rakefile", "readme.md", "lesli.yml"]
     end
 
-
+    spec.required_ruby_version = ">= 2.7.2"
 
     # · RAILS: gem, dependencies and tools
 
