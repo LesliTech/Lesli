@@ -40,8 +40,6 @@ module Lesli
         end
 
         def language
-            local = I18n.locale
-
             # check if param locale was sent by the user
             unless params[:locale].blank?
 
