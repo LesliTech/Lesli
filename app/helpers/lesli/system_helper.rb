@@ -79,7 +79,7 @@ module Lesli
             end
 
             # return specific property if requested
-            return engine.dig(property) unless property.blank?
+            return engine[property] unless property.blank?
 
             # return the engine info
             engine
@@ -87,7 +87,7 @@ module Lesli
 
         # Prints the name of the engine
         def lesli_engine_name
-            name = lesli_engine.dig(:name)
+            name = lesli_engine[:name]
             name = "Admin" if is_lesli_administration?
             name = name.sub("Cloud", "")
             return nil if name == "Lesli"
