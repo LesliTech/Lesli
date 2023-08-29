@@ -58,7 +58,7 @@ module Lesli
 
             I18n.locale = locale
 
-            return redirect_back(fallback_location: root_authenticated_path)
+            redirect_back(fallback_location: root_authenticated_path)
 
             # This code is not really executed
             # respond_with_successful({
