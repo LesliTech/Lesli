@@ -131,18 +131,14 @@ onUnmounted(() => {
 
 </script>
 <template>
-    <header ref="applicationHeader" class="lesli-application-header">
-        <div class="header-navigation">
-            <div class="header-left">
+    <header ref="lesliApplicationHeader" class="lesli-application-header">
+        <div class="lesli-application-header-container container">
+            <figure class="image lesli-brand">
+                <img alt="App logo" class="is-hidden-touch" src="/assets/lesli/brand/app-logo.svg">
+            </figure>
+            <div class="lesli-application-header-left">
+                
                 <div class="control is-medium has-icons-left has-text-grey">
-                    <input 
-                        type="email" 
-                        name="global_search"
-                        class="input is-medium is-shadowless" 
-                        :placeholder="translations.core.shared.search_placeholder || 'Search...'"
-                        @input="storeSearch.doSearch"
-                        v-model="storeSearch.text" 
-                    />
                     <span class="icon is-left has-text-gray">
                         <span class="material-icons" v-if="!storeSearch.loading">
                             search
@@ -150,24 +146,32 @@ onUnmounted(() => {
                         <lesli-loading :icon="true" v-if="storeSearch.loading">
                         </lesli-loading>
                     </span>
+                    <input 
+                        type="email" 
+                        name="global_search"
+                        class="input is-shadowless" 
+                        :placeholder="translations.core.shared.search_placeholder || 'Ask to Lesli...'"
+                        @input="storeSearch.doSearch"
+                        v-model="storeSearch.text" 
+                    />
                 </div>
             </div>
-            <div class="header-right">
+            <div class="lesli-application-header-right">
 
                 <!-- engines selector -->
-                <a  v-if="props.showEngines"
-                    class="navbar-item" @click="toggleEngines()">
-                    <span class="material-icons md-36">
+                <a  v-if="props.showEngines || true"
+                    class="" @click="toggleEngines()">
+                    <span class="material-icons">
                         apps
                     </span>
                 </a>
 
                 <!-- Tickets -->
                 <a 
-                    v-if="props.showTickets"
-                    class="navbar-item header-notification-indicator" 
+                    v-if="props.showTickets || true"
+                    class=" header-notification-indicator" 
                     @click="() => { storeLayout.showTickets = true }">
-                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.tickets > 0 }]">
+                    <span :class="['material-icons', { 'is-active' : storeLayout.header.tickets > 0 }]">
                         confirmation_number
                     </span>
                     <span class="count" v-if="storeLayout.header.tickets > 0">
@@ -176,10 +180,10 @@ onUnmounted(() => {
                 </a>
 
                 <!-- Tasks -->
-                <a  v-if="props.showFocus"
-                    class="navbar-item header-notification-indicator" 
+                <a  v-if="props.showFocus || true"
+                    class=" header-notification-indicator" 
                     @click="() => { if (storeLayout.header.tasks > 0 ) { storeLayout.showTasks = true }}">
-                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.tasks > 0 }]">
+                    <span :class="['material-icons', { 'is-active' : storeLayout.header.tasks > 0 }]">
                         checklist
                     </span>
                     <span class="count" v-if="storeLayout.header.tasks > 0">
@@ -189,10 +193,10 @@ onUnmounted(() => {
 
                 <!-- Announcements -->
                 <a 
-                    v-if="props.showAnnouncements"
-                    class="navbar-item header-notification-indicator" 
+                    v-if="props.showAnnouncements || true"
+                    class=" header-notification-indicator" 
                     @click="() => { { storeLayout.showAnnouncements = true }}">
-                    <span :class="['material-icons md-36']">
+                    <span :class="['material-icons']">
                         campaign
                     </span>
                     <span>
@@ -202,10 +206,10 @@ onUnmounted(() => {
 
                 <!-- Notifications -->
                 <a 
-                    v-if="props.showBell"
-                    class="navbar-item header-notification-indicator" 
+                    v-if="props.showBell || true"
+                    class=" header-notification-indicator" 
                     @click="() => { if (storeLayout.header.notifications > 0 ) { storeLayout.showNotifications = true }}">
-                    <span :class="['material-icons md-36', { 'is-active' : storeLayout.header.notifications > 0 }]">
+                    <span :class="['material-icons', { 'is-active' : storeLayout.header.notifications > 0 }]">
                         notifications
                     </span>
                     <span class="count" v-if="storeLayout.header.notifications > 0">
@@ -213,10 +217,10 @@ onUnmounted(() => {
                     </span>
                 </a>
 
-                <!-- Profile options -->
+                <!-- Profile options - - >
                 <div class="dropdown is-right is-hoverable header-user-options">
                     <div class="dropdown-trigger">
-                        <span class="material-icons md-36" @click="storeLayout.showProfile = true">
+                        <span class="material-icons" @click="storeLayout.showProfile = true">
                             account_box
                         </span>
                     </div>
@@ -246,6 +250,7 @@ onUnmounted(() => {
                         </div>
                     </div>
                 </div>
+                -->
             </div>
         </div>
     </header>

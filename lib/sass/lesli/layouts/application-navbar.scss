@@ -1,4 +1,5 @@
-=begin
+/*
+
 Lesli
 
 Copyright (c) 2023, Lesli Technologies, S. A.
@@ -26,34 +27,33 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
-=end
+// · 
+*/
 
-module Lesli
-    class Engine < ::Rails::Engine
-        isolate_namespace Lesli
+nav.lesli-application-navigation {
+    background-color: var(--lesli-navbar-color);
 
-        # register engine migrations path
+    ul {
+        display: flex;
+        justify-content: center;
 
-        initializer :lesli do |app|
+        li a {
+            padding: 1rem 1.1rem;
+            display: flex;
+            align-items: center;
 
-            # register assets manifest
-            config.assets.precompile += %w[lesli_manifest.js]
+            // link label
+            span.text {
+                margin-left: 6px;
+                display: inline-block;
+            }
 
-            # Include lib/assets folder in the asset pipeline
-            config.assets.paths << root.join("lib", "assets")
-
-            config.assets.paths << root.join("lib", "sass")
-
-            # Include third-party assets
-            config.assets.paths << root.join("vendor")
-
-            # Automatic load migrations from Lesli
-            unless app.root.to_s.match root.to_s
-                config.paths["db/migrate"].expanded.each do |expanded_path|
-                    app.config.paths["db/migrate"] << expanded_path
-                end
-            end
-        end
-    end
-end
+            span.text {
+                font-size: 1rem;
+                display: inline-block;
+                flex-grow: 1;
+                text-align: left;
+            }
+        }
+    }
+}
