@@ -83,7 +83,7 @@ module Lesli
                     locale = params[:locale] if locale.blank?
 
                     # use the language from the browser/os
-                    locale = get_browser_locale if locale.blank?
+                    locale = browser_locale if locale.blank?
 
                     # use the default locale if no custom locale was found
                     return I18n.locale = I18n.default_locale if locale.blank?
@@ -97,12 +97,12 @@ module Lesli
 
                 private
 
-                def get_browser_locale
+                def browser_locale
                     # get user's preferred language from browser
-                    browser_locale = request.headers["HTTP_ACCEPT_LANGUAGE"] || request.headers["Accept-Language"] || ""
+                    user_browser_locale = request.headers["HTTP_ACCEPT_LANGUAGE"] || request.headers["Accept-Language"] || ""
 
                     # extract locale from accept language header
-                    browser_locale.scan(/^[a-z]{2}/).find do |locale|
+                    user_browser_locale.scan(/^[a-z]{2}/).find do |locale|
                         # validate if browser language is in the list of supported languages
                         I18n.available_locales.include?(locale.to_sym)
                     end
