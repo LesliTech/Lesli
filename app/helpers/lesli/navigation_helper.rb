@@ -324,7 +324,7 @@ module Lesli
         private
 
         # build a html link for an engine path
-        def navigation_engine_item(title, subtitle, icon, path, is_active = false)
+        def navigation_engine_item(title, subtitle, icon, path, is_active: false)
             # get hidden modules if there are modules to hide
             modules_hidden = [] # Rails.application.config.lesli.dig(:modules_hidden) || []
 
