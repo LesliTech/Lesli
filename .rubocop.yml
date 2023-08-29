@@ -4,8 +4,16 @@ Layout/IndentationWidth:
 Layout/LineLength: 
     Max: 150
 
+Naming/VariableNumber:
+    CheckSymbols: false
+
 Style/StringLiterals:
     EnforcedStyle: double_quotes
+
+Style/Documentation:
+    Enabled: false
+    # Exclude: 
+    #     - "db/migrate/v1.0/*"
 
 Style/FrozenStringLiteralComment:
     Enabled: false
@@ -22,7 +30,5 @@ Metrics/AbcSize:
 Metrics/MethodLength:
     Max: 40
 
-Style/Documentation:
-    Enabled: false
-    # Exclude: 
-    #     - "db/migrate/v1.0/*"
+Metrics/BlockLength:
+    Max: 30
