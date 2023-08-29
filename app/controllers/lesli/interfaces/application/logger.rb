@@ -34,7 +34,7 @@ Building a better future, one line of code at a time.
 module Interfaces
     module Application
         module Logger
-            def get_user_agent(as_string = true)
+            def get_user_agent(as_string: true)
                 # How to use this gem?
                 # UserAgent.parse(request.env["HTTP_USER_AGENT"])
 

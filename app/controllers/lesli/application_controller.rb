@@ -60,11 +60,12 @@ module Lesli
 
             return redirect_back(fallback_location: root_authenticated_path)
 
-            respond_with_successful({
-                                        locale: I18n.locale,
-                                        default_locale: I18n.default_locale,
-                                        available_locales: I18n.available_locales
-                                    })
+            # This code is not really executed
+            # respond_with_successful({
+            #                             locale: I18n.locale,
+            #                             default_locale: I18n.default_locale,
+            #                             available_locales: I18n.available_locales
+            #                         })
         end
     end
 end
