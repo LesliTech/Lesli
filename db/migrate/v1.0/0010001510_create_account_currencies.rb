@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 class CreateAccountCurrencies < ActiveRecord::Migration[6.1]
     def change
@@ -35,13 +35,13 @@ class CreateAccountCurrencies < ActiveRecord::Migration[6.1]
             t.string        :name
             t.string        :symbol
             t.string        :country_alpha_3
-            
+
             # Acts as paranoid
             t.datetime :deleted_at, index: true
-            
+
             t.timestamps
         end
-        
+
         add_reference(:account_currencies, :user, foreign_key: { to_table: :users })
         add_reference(:account_currencies, :account, foreign_key: { to_table: :accounts })
     end

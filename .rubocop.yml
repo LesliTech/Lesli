@@ -1,0 +1,43 @@
+Layout/IndentationWidth:
+    Width: 4
+
+Layout/LineLength: 
+    Max: 180
+
+Naming/VariableNumber:
+    CheckSymbols: false
+
+Style/StringLiterals:
+    EnforcedStyle: double_quotes
+
+Style/Documentation:
+    Enabled: false
+    # Exclude: 
+    #     - "db/migrate/v1.0/*"
+
+Style/FrozenStringLiteralComment:
+    Enabled: false
+
+Style/BlockComments:
+    Enabled: false
+
+Metrics/MethodLength:
+    Max: 20
+
+Metrics/AbcSize:
+    Enabled: false
+
+Metrics/MethodLength:
+    Max: 40
+
+Metrics/BlockLength:
+    Max: 30
+
+Metrics/ModuleLength:
+    Max: 225
+
+Metrics/PerceivedComplexity: 
+    Max: 15
+
+Metrics/CyclomaticComplexity:
+    Max: 15

@@ -27,15 +27,15 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 class CreateAccountFiles < ActiveRecord::Migration[6.1]
     def change
-        #table_base_structure = JSON.parse(File.read(Rails.root.join("db","structure","00000006_files.json")))
+        # table_base_structure = JSON.parse(File.read(Rails.root.join("db","structure","00000006_files.json")))
 
-        gem_path = Lesli::System.engine("lesli")        
-        table_base_structure = JSON.parse(File.read(File.join(gem_path, 'db','structure','00000006_files.json')))
+        gem_path = Lesli::System.engine("lesli")
+        table_base_structure = JSON.parse(File.read(File.join(gem_path, "db", "structure", "00000006_files.json")))
         create_table :account_files do |t|
             table_base_structure.each do |column|
                 t.send(

@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 class CreateRoles < ActiveRecord::Migration[6.0]
@@ -41,9 +41,9 @@ class CreateRoles < ActiveRecord::Migration[6.0]
             # redirect users to path after login
             t.string    :path_default
 
-            # allow users to access resources only inside the :path_default 
+            # allow users to access resources only inside the :path_default
             t.boolean   :path_limited
-            
+
             # allow users to work only with data created or assigned to them
             t.boolean   :isolated, default: false
 

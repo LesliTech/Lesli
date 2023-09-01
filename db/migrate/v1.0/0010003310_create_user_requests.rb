@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 class CreateUserRequests < ActiveRecord::Migration[6.0]
@@ -42,6 +42,6 @@ class CreateUserRequests < ActiveRecord::Migration[6.0]
 
         add_reference(:user_requests, :user, foreign_key: { to_table: :users })
         add_reference(:user_requests, :user_session, foreign_key: { to_table: :user_sessions })
-        add_index(:user_requests, [:request_controller, :request_action, :user_id, :user_session_id], unique: true, name: "user_requests_index")
+        add_index(:user_requests, %i[request_controller request_action user_id user_session_id], unique: true, name: "user_requests_index")
     end
 end

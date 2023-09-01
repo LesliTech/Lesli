@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 class CreateUserSettings < ActiveRecord::Migration[6.0]
@@ -39,6 +39,6 @@ class CreateUserSettings < ActiveRecord::Migration[6.0]
         end
 
         add_reference(:user_settings, :user, foreign_key: { to_table: :users })
-        add_index(:user_settings, [:user_id, :name], unique: true)
+        add_index(:user_settings, %i[user_id name], unique: true)
     end
 end
