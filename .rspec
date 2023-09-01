@@ -1,0 +1,2 @@
+--format documentation 
+--pattern spec/requests/**/*_spec.rb
