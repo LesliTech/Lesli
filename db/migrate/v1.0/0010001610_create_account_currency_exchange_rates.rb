@@ -27,28 +27,28 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 class CreateAccountCurrencyExchangeRates < ActiveRecord::Migration[6.1]
-    def change  
+    def change
         create_table :account_currency_exchange_rates do |t|
             t.decimal   :exchange_rate
 
             t.timestamp :valid_from
             t.timestamp :valid_to
-            
+
             # Acts as paranoid
             t.datetime  :deleted_at, index: true
-            
+
             t.timestamps
         end
 
         add_reference(
-            :account_currency_exchange_rates, 
-            :account_currencie, 
-            foreign_key: { to_table: :account_currencies }, 
-            index: {name: "account_currency_exchange_rates_account_currencies"}
+            :account_currency_exchange_rates,
+            :account_currencie,
+            foreign_key: { to_table: :account_currencies },
+            index: { name: "account_currency_exchange_rates_account_currencies" }
         )
     end
 end

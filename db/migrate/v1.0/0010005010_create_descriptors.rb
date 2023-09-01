@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 class CreateDescriptors < ActiveRecord::Migration[7.0]
@@ -39,7 +39,7 @@ class CreateDescriptors < ActiveRecord::Migration[7.0]
             t.timestamps
         end
 
-        #add_reference(:descriptors, :system_controller, foreign_key: { to_table: :system_controllers })
+        # add_reference(:descriptors, :system_controller, foreign_key: { to_table: :system_controllers })
         add_reference(:descriptors, :account, foreign_key: { to_table: :accounts })
     end
 end

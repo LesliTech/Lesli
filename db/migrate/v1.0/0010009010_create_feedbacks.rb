@@ -27,13 +27,12 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 class CreateFeedbacks < ActiveRecord::Migration[6.1]
     def change
         create_table :feedbacks do |t|
-
             # Contact info
             t.string    :email
             t.string    :telephone

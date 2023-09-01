@@ -27,13 +27,12 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 class CreateUserDetails < ActiveRecord::Migration[6.0]
     def change
         create_table :user_details do |t|
-
             t.string :title
             t.string :address
 
@@ -41,9 +40,8 @@ class CreateUserDetails < ActiveRecord::Migration[6.0]
             t.bigint :work_region
             t.bigint :work_address
 
-            t.datetime :deleted_at, index: true            
+            t.datetime :deleted_at, index: true
             t.timestamps
-            
         end
         add_reference(:user_details, :user, foreign_key: { to_table: :users })
         add_reference(:user_details, :account_location, foreign_key: { to_table: :account_locations })

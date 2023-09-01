@@ -27,13 +27,12 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 class CreateUsers < ActiveRecord::Migration[5.2]
     def change
         create_table :users do |t|
-
             # Hard-lock strategy
             t.boolean   :active, default: true, null: false
 

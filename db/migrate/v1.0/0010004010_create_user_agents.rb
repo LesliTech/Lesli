@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
 class CreateUserAgents < ActiveRecord::Migration[7.0]
@@ -41,6 +41,6 @@ class CreateUserAgents < ActiveRecord::Migration[7.0]
             t.timestamps
         end
         add_reference(:user_agents, :user, foreign_key: { to_table: :users })
-        add_index(:user_agents, [:platform, :os, :browser, :version, :user_id], unique: true, name: 'user_agents_index')
+        add_index(:user_agents, %i[platform os browser version user_id], unique: true, name: "user_agents_index")
     end
 end

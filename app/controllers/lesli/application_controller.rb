@@ -27,12 +27,11 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
-module Lesli 
+module Lesli
     class ApplicationController < ActionController::Base
-
         layout "lesli/layouts/application-public"
 
         def initialize
@@ -41,9 +40,6 @@ module Lesli
         end
 
         def language
-
-            local = I18n.locale
-
             # check if param locale was sent by the user
             unless params[:locale].blank?
 
@@ -62,14 +58,14 @@ module Lesli
 
             I18n.locale = locale
 
-            return redirect_back(fallback_location: root_authenticated_path)
+            redirect_back(fallback_location: root_authenticated_path)
 
-            respond_with_successful({
-                locale: I18n.locale,
-                default_locale: I18n.default_locale,
-                available_locales: I18n.available_locales
-            })
-
+            # This code is not really executed
+            # respond_with_successful({
+            #                             locale: I18n.locale,
+            #                             default_locale: I18n.default_locale,
+            #                             available_locales: I18n.available_locales
+            #                         })
         end
     end
 end

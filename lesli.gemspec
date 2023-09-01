@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·  
+// ·
 =end
 
 require_relative "lib/lesli/version"
@@ -52,9 +52,9 @@ Gem::Specification.new do |spec|
     spec.files = Dir.chdir(File.expand_path(__dir__)) do
         Dir["{app,config,db,lib}/**/*", "license", "Rakefile", "readme.md", "lesli.yml"]
     end
-
+  
     spec.required_ruby_version = ">= 2.7.2"
-
+  
     # · RAILS: gem, dependencies and tools
 
     # Rails framework
@@ -75,13 +75,10 @@ Gem::Specification.new do |spec|
     # the locale files creation for the frontend
     spec.add_dependency "i18n-js", "3.9.2" # "4.2.3"
 
-
     # · RAILS: gem, dependencies and tools
 
     # Pg is the Ruby interface to the PostgreSQL RDBMS. It works with PostgreSQL 9.3 and later.
     spec.add_dependency "pg", "1.5.3"
-
-
 
     # · Tools used to build the LESLI Platform
 
@@ -91,4 +88,6 @@ Gem::Specification.new do |spec|
     # Flexible authentication solution for Rails with Warden
     spec.add_dependency "devise", "4.9.2"
 
+    # Code analyzer & formatter for Ruby apps
+    spec.add_development_dependency "rubocop"
 end
