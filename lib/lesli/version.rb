@@ -29,5 +29,5 @@ Building a better future, one line of code at a time.
 // ·
 =end
 module Lesli
-    VERSION = "0.1.0"
+    VERSION = "5.0.0"
 end
