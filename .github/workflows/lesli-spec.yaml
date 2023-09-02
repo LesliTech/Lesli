@@ -1,0 +1,127 @@
+# Lesli
+#
+# Copyright (c) 2023, Lesli Technologies, S. A.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see http://www.gnu.org/licenses/.
+#
+# Lesli · Ruby on Rails SaaS Development Framework.
+#
+# Made with ♥ by https://www.lesli.tech
+# Building a better future, one line of code at a time.
+#
+# @contact  hello@lesli.tech
+# @website  https://www.lesli.dev
+# @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+# // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+# // · 
+
+
+
+# -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
+# PLEASE DO NOT MODIFY THIS FILE ON THE CORE,
+# THIS FILE SHOULD BE MODIFIED ON THE LesliTech/LesliActions REPOSITORY
+# -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
+
+
+
+# Specs for Lesli Core
+# -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
+  name: "Lesli specs workflow"
+  on:
+  
+  
+    # execute this workflow only when trying to merge from dev branch to master
+    pull_request:
+      branches: [master, production]
+  
+  
+    # execute this workflow when push to master - temporary, no one should push to master :D
+    push:
+      branches: [master]
+  
+  
+    # run a test daily at 1 am (Guatemala time)
+    #schedule:
+    #  - cron: "0 1 * * *"
+  
+  
+    # Allow to execute this test manually from the Github web app
+    workflow_dispatch:
+  
+  jobs:
+    test:
+      name: Test workflow for Lesli Core
+      runs-on: ubuntu-latest
+  
+  
+      # Do not execute the test if requests comes from another action
+      if: ${{ !contains(github.event.head_commit.message, 'ci(workflows):') && !contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):') }}
+  
+      # Start database service necessary to execute the RSpec tests
+      services:
+        postgres:
+          image: postgres:11.5
+          env:
+            POSTGRES_DB: lesli_test
+            POSTGRES_USER: lesli_test
+            POSTGRES_PASSWORD: "lesli_test"
+          options: >-
+            --health-cmd pg_isready
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+          ports:
+            - 5432:5432
+  
+  
+      steps:
+  
+        # Clone the current repository
+        - name: Checkout Lesli core repository
+          uses: actions/checkout@v3
+          with:
+            ref: ${{ github.event.pull_request.head.ref }}
+  
+  
+        # Use the official receipt to install ruby in ubuntu
+        - name: Install Ruby and gems
+          uses: ruby/setup-ruby@v1
+          with:
+            ruby-version: 3.1.2
+            bundler-cache: true
+  
+  
+        # Build the Lesli database
+        - name: Copy temporary Rails credentials 
+          run: |
+            cp ./config/credentials/test-ga.key ./config/credentials/test.key
+            cp ./config/credentials/test-ga.yml.enc ./config/credentials/test.yml.enc
+  
+  
+        # Build the Lesli database
+        - name: Set up PostgreSQL database 
+          run: |
+            bundle exec rake db:drop
+            bundle exec rake db:create
+            bundle exec rake db:migrate
+            bundle exec rake db:seed
+          env:
+            RAILS_ENV: test
+  
+  
+        # Run Rspec tests
+        - name: Run Rails tests
+          run: bundle exec rspec spec
+  
+  
