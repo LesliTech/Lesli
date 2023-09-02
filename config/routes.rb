@@ -31,6 +31,13 @@ Building a better future, one line of code at a time.
 =end
 
 Lesli::Engine.routes.draw do
+  resources :profiles
     resource :account
-    resources :users
+    resources :users, only: [:index, :show, :update, :create, :destroy] do
+
+        # extensions to the users methods
+        collection do
+            get :list
+        end
+    end
 end
