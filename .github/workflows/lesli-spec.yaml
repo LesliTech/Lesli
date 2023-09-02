@@ -119,11 +119,7 @@
   
         # Build the Lesli database
         - name: Set up PostgreSQL database 
-          run: |
-            bundle exec rake db:drop
-            bundle exec rake db:create
-            bundle exec rake db:migrate
-            bundle exec rake db:seed
+          run: bundle exec rake lesli:db:reset
           env:
             RAILS_ENV: test
   
