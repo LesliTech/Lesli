@@ -34,13 +34,17 @@ import application from "Lesli/application"
 
 
 // · 
-import applicationAccountShow from "LesliApp/administration/apps/accounts/show.vue"
+import applicationAccountShow from "LesliAdmin/apps/accounts/show.vue"
 
+import applicationUsersIndex from "LesliAdmin/apps/users/index.vue"
 
 // · 
-application("Lesli", [{
+application("LesliAdmin", [{
     path: "/account",
     component: applicationAccountShow
+}, {
+    path: "/users",
+    component: applicationUsersIndex
 }])
 
 /*
@@ -79,9 +83,6 @@ application("Lesli", [{
 }, {
     path: "/account",
     component: applicationAccountShow
-}, {
-    path: "/users",
-    component: applicationUsersIndex
 }, {
     path: "/users/:id",
     component: applicationUsersShow

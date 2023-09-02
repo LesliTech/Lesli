@@ -30,7 +30,7 @@ Building a better future, one line of code at a time.
 // · 
 */
 
-
+/*
 // · import vue tools
 import { ref, reactive, onMounted, watch, computed, inject } from "vue"
 import { useRouter, useRoute } from "vue-router"
@@ -122,8 +122,6 @@ function showUser(user) {
     router.push(url.root(props.appMountPath+`/${user.id}`).s)
 }
 
-</script>
-<template>
     <application-component>
         <lesli-header :title="translations.core.users.view_text_title_users + ' (' +storeUsers.index.pagination.total+ ')' ">
             <lesli-button icon="add" :to="url.root(props.appMountPath+`/new`)">
@@ -199,4 +197,18 @@ function showUser(user) {
             </lesli-table>
         </lesli-card>
     </application-component>
+</template>
+*/
+</script>
+<template>
+    <lesli-content>
+        <lesli-header title="Users (25)">
+            <lesli-button icon="add" :to="''">
+                Add user
+            </lesli-button>
+            <lesli-button icon="refresh">
+                Reload
+            </lesli-button>
+        </lesli-header>
+    </lesli-content>
 </template>

@@ -89,5 +89,5 @@ Gem::Specification.new do |spec|
     spec.add_dependency "devise", "4.9.2"
 
     # Code analyzer & formatter for Ruby apps
-    spec.add_development_dependency "rubocop"
+    spec.add_development_dependency "rubocop", "1.56.2"
 end
