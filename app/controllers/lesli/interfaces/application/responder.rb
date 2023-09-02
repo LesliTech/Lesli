@@ -102,10 +102,7 @@ module Lesli
                 # JSON failure response due users has to perform an action
                 # example: respond_with_action({ :redirect => "telephone_confirmation" })
                 def respond_with_action(action, message = "Action Required")
-                    respond_with_http(490, {
-                                          message:,
-                                          action:
-                                      })
+                    respond_with_http(490, { :message => message, :action => action })
                 end
 
                 # JSON failure response
@@ -118,20 +115,16 @@ module Lesli
                     #       message = error message to sentence
                     #       details = error array of messages
                     #   check another types of errors and parse respond according
-                    respond_with_http(400, {
-                                          message:,
-                                          details:
-                                      })
+                    respond_with_http(400, { :message => message, :details => details })
                 end
 
                 # Respond with an standard http message
                 def respond_with_http(status, payload)
                     unless payload.nil?
-                        return render(status:, content_type: "application/json",
-                                      json: payload.to_json)
+                        return render(:status => status, content_type: "application/json", json: payload.to_json)
                     end
 
-                    render(status:, content_type: "application/json", json: "")
+                    render(:status => status, content_type: "application/json", json: "")
                 end
             end
         end

@@ -39,12 +39,12 @@ import { computed, onMounted } from "vue"
 
 
 // · import lesli stores
-import { useAccount } from "CloudAdmin/stores/account"
+import { useAccount } from "LesliAdmin/stores/account"
 
 // · import account components
-import formInformation from "./components/info-form.vue"
-import addressForm from "./components/address-form.vue"
-import contactForm from "./components/contact-form.vue"
+import formInformation from "./components/form-information.vue"
+// import addressForm from "./components/address-form.vue"
+// import contactForm from "./components/contact-form.vue"
 
 // · implement stores
 const storeAccount = useAccount()
@@ -62,26 +62,24 @@ const translations = {
 const companyInfo = computed(()=> storeOnboarding.companyInfo)
 
 onMounted(() => {
-    storeAccount.fetch()
+    //storeAccount.fetch()
 })
 
 </script>
 <template>
-    <section class="application-component">
-        <lesli-header 
-            title="Account information">
+    <lesli-content>
+        <lesli-header title="Account information">
         </lesli-header>
         <lesli-tabs v-model="tab">
             <lesli-tab-item title="General Information" icon="business">
                 <form-information></form-information>
             </lesli-tab-item>
             <lesli-tab-item title="Address" icon="location_on">
-                <address-form></address-form>
+                <!-- <address-form></address-form> -->
             </lesli-tab-item>
             <lesli-tab-item title="Contact" icon="contact_page">
-                <contact-form></contact-form>
+                <!-- <contact-form></contact-form> -->
             </lesli-tab-item>
         </lesli-tabs>
-    </section>
-
+    </lesli-content>
 </template>
