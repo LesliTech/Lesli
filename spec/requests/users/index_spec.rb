@@ -30,9 +30,12 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
+require "rails_helper"
+
+require Lesli::Engine.root.join("spec/support/lesli_request_tester")
 
 # ·
-require "support/lesli_request_tester"
+#require "support/lesli_request_tester"
 
 
 RSpec.describe "GET:/administration/users.json", type: :request do
