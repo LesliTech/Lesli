@@ -69,12 +69,6 @@ onMounted(() => {
 <template>
     <lesli-content>
         <lesli-header title="Account information">
-            <lesli-button icon="add" :to="''">
-                Add user
-            </lesli-button>
-            <lesli-button icon="refresh">
-                Reload
-            </lesli-button>
         </lesli-header>
         <lesli-tabs v-model="tab">
             <lesli-tab-item title="General Information" icon="business">
