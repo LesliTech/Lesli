@@ -48,7 +48,7 @@ const storeLayout = useLayout()
 </script>
 <template>
     <Transition>
-        <section v-if="storeLayout.showEngines" class="application-engines" @click="storeLayout.toggleEngines()">
+        <section v-if="storeLayout.showEngines" class="lesli-application-engines" @click="storeLayout.toggleEngines()">
             <div class="engines">
                 <slot></slot>
                 <button class="button is-hidden-tablet">

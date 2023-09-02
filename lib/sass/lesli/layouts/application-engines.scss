@@ -31,9 +31,59 @@ Building a better future, one line of code at a time.
 
 */
 
+.lesli-application-engines {
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 98;
+
+    .engines {
+        height: 100%;
+        padding: 1.3rem;
+        max-width: 100%;
+        overflow-y: scroll;
+        margin-left: var(--lesli-sidebar-width);
+        background-color: var(--lesli-color-background);
+        @include lesli-css-scrollbar(hide);
+
+        .test {
+            display: flex;
+            & > a {
+                display: flex;
+                text-align: left;
+                align-items: center;
+                padding: 1rem .4rem;
+                margin-bottom: 1rem;
+                border-radius: .8rem;
+                background-color: lesli-css-color(silver, 100);
+                border: 2px solid transparent;
+                box-shadow: $lesli-box-shadow;
+                width: 320px;
+                height: 263px;
+                flex-direction: column;
+                justify-content: center;
+                margin-bottom: 2rem;
+            }
+
+            ul {
+
+                li {
+                    display: block;
+                    padding: 1rem;
+                }
+                a {
+                    padding: 1rem;
+                }
+            }
+        }
+    }
+
+}
 
 // · 
-.application-engines {
+/*
+.lesli-application-engines {
     position: fixed;
     z-index: 98;
     top: 0;
@@ -44,13 +94,21 @@ Building a better future, one line of code at a time.
         height: 100%;
         padding: 1.3rem;
         max-width: 100%;
+        overflow-y: scroll;
         margin-left: var(--lesli-sidebar-width);
         background-color: var(--lesli-color-background);
         @include lesli-css-scrollbar(hide);
-        overflow-y: scroll;
 
+        .test {
+            display: flex;
+            ul {
+                background-color: yellow;
+                a {
+                    padding: 1rem;
+                }
+            }
         // engine
-        a {
+        & > a {
             width: 100%;
             height: 105px;
             display: flex;
@@ -64,6 +122,14 @@ Building a better future, one line of code at a time.
             box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
             transition: all ease-in-out .4s;
             box-shadow: $lesli-box-shadow;
+            width: 320px;
+            height: 263px;
+            flex-direction: column;
+            justify-content: center;
+            margin-bottom: 2rem;
+            div {
+                text-align: center;
+            }
             &:hover {
                 background-color: #F0F4FF;
             }
@@ -72,6 +138,7 @@ Building a better future, one line of code at a time.
                 border-color: var(--lesli-color-primary);
                 box-shadow: none;
             }
+        }
         }
 
         // engine icon
@@ -103,7 +170,7 @@ Building a better future, one line of code at a time.
 }
 
 @include lesli-css-breakpoint-tablet() {
-    .application-engines {
+    .lesli-application-engines {
         .engines {
             display: flex;
             flex-wrap: wrap;
@@ -113,28 +180,31 @@ Building a better future, one line of code at a time.
             max-width: calc(100% - var(--lesli-sidebar-width));
 
             // engine
-            a {
-                width: 320px;
-                height: 263px;
-                flex-direction: column;
-                justify-content: center;
-                margin-bottom: 2rem;
-                div {
-                    text-align: center;
+            .test {
+                width: 100%;
+                & > a {
+                    width: 320px;
+                    height: 263px;
+                    flex-direction: column;
+                    justify-content: center;
+                    margin-bottom: 2rem;
+                    div {
+                        text-align: center;
+                    }
                 }
-            }
 
-            // engine icon
-            svg {
-                margin-right: 0;
-                margin-bottom: 1rem;
+                // engine icon
+                svg {
+                    margin-right: 0;
+                    margin-bottom: 1rem;
+                }
             }
         }
     }
 }
 
 @include lesli-css-breakpoint-desktop() {
-    .application-engines {
+    .lesli-application-engines {
         .engines {
             justify-content: flex-start;
 
@@ -146,3 +216,4 @@ Building a better future, one line of code at a time.
         }
     }
 }
+*/

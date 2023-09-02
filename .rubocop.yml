@@ -4,6 +4,12 @@ Layout/IndentationWidth:
 Layout/LineLength: 
     Max: 180
 
+Layout/EmptyLinesAroundMethodBody:
+  Enabled: false
+
+Layout/TrailingWhitespace:
+ Enabled: false
+
 Naming/VariableNumber:
     CheckSymbols: false
 

@@ -66,11 +66,11 @@ module Lesli
         end
 
         def customization_instance_logo_tag(logo: "app-logo", variant: "light", mode: "web", options: { alt: "Logo" })
-            customization_instance_logo(tag: true, logo:, variant:, mode:, options:)
+            customization_instance_logo(tag: true, logo: logo, variant: variant, mode: mode, options: options)
         end
 
         def customization_instance_logo_url(logo: "app-logo", variant: "light", mode: "web", options: { alt: "Logo" })
-            customization_instance_logo(tag: false, logo:, variant:, mode:, options:)
+            customization_instance_logo(tag: false, logo: logo, variant: variant, mode: mode, options: options)
         end
 
         def default_logos
