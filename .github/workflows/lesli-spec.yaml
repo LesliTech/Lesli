@@ -87,11 +87,19 @@
   
       steps:
   
-        # Clone the current repository
-        - name: Checkout Lesli core repository
+        # Clone LesliBuilder repository
+        - name: Checkout LesliBuilder repository
           uses: actions/checkout@v3
           with:
-            ref: ${{ github.event.pull_request.head.ref }}
+            repository: LesliTech/LesliBuilder
+
+
+        # Clone Lesli repository
+        - name: Checkout Lesli repository
+          uses: actions/checkout@v3
+          with:
+            path: ./engines/Lesli
+            repository: LesliTech/Lesli
   
   
         # Use the official receipt to install ruby in ubuntu
