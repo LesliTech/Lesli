@@ -37,7 +37,6 @@ require Lesli::Engine.root.join("spec/support/helpers/lesli_helper")
 require Lesli::Engine.root.join("spec/support/helpers/response_request_helper")
 
 
-
 # · Authentication context
 RSpec.shared_context "request user authentication" do
 
@@ -75,7 +74,7 @@ RSpec.configure do |config|
     #config.include Devise::Test::IntegrationHelpers
 
     # Include helper methods
-    #config.include ResponseHelpers
+    config.include ResponseRequestHelper
     #config.include LesliHelper
 
 end

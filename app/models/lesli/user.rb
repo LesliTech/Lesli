@@ -1,4 +1,7 @@
 module Lesli
-    class User < ApplicationRecord
+    class User < ApplicationLesliRecord
+
+        # users belongs to an account only... and must have a role
+        belongs_to :account, optional: true
     end
 end

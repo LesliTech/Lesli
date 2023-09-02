@@ -17,27 +17,37 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS Development Framework.
+Lesli · Your Smart Business Assistant. 
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.dev
+@website  https://lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
 =end
 
-Lesli::Engine.routes.draw do
-  resources :profiles
-    resource :account
-    resources :users, only: [:index, :show, :update, :create, :destroy] do
 
-        # extensions to the users methods
-        collection do
-            get :list
-        end
-    end
+# get settings
+#company = Rails.application.config.lesli.dig(:account)
+company = {
+    :name => "Lesli",
+    :email => "hello@lesli.tech"
+}
+
+
+# create account
+Lesli::Account.find_or_create_by(company_name: company[:name]) do |account|
+    account.company_name = company[:name]
+    account.public_email = company[:email]
+    account.company_tagline = company[:tag_line] || ""
+    #account.registered!
+    account.save!
 end
+
+
+L2.msg("Accounts successfully created!")
