@@ -17,27 +17,31 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS Development Framework.
+Lesli · Your Smart Business Assistant. 
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.dev
+@website  https://lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
 =end
 
-Lesli::Engine.routes.draw do
-  resources :profiles
-    resource :account
-    resources :users, only: [:index, :show, :update, :create, :destroy] do
 
-        # extensions to the users methods
-        collection do
-            get :list
-        end
-    end
-end
+# Company development user
+#account = Rails.application.config.lesli.dig(:account)
+#user = create_development_user(account[:email], "owner", account[:name], "")
+#user.account.user = user
+#user.account.save!
+
+
+# core development users
+create_development_user("hello@lesli.tech", "owner", "Lesli", "Tech")
+create_development_user("ldonis@lesli.tech", "owner", "Luis", "Donis")
+create_development_user("admin@lesli.tech", "sysadmin", "Admin", "Lesli")
+create_development_user("guest@lesli.tech", "limited", "Guest", "Lesli")
+create_development_user("test@lesli.tech", "sysadmin", "Test", "Lesli")

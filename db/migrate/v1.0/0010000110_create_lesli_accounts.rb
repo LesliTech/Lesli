@@ -30,9 +30,9 @@ Building a better future, one line of code at a time.
 // ·
 =end
 
-class CreateAccounts < ActiveRecord::Migration[5.2]
+class CreateLesliAccounts < ActiveRecord::Migration[5.2]
     def change
-        create_table :accounts do |t|
+        create_table :lesli_accounts do |t|
             # account status
             t.integer   :status
 

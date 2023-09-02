@@ -27,17 +27,50 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
-Lesli::Engine.routes.draw do
-  resources :profiles
-    resource :account
-    resources :users, only: [:index, :show, :update, :create, :destroy] do
+# Build, migrate & seed database (development only)
+def setup
 
-        # extensions to the users methods
-        collection do
-            get :list
-        end
-    end
+    L2.br(2)
+    L2.info("Setup Lesli database for development")
+
+    Rake::Task['db:create'].invoke
+    Rake::Task['db:migrate'].invoke
+    Rake::Task['db:seed'].invoke
+
+    Lesli::Engine.load_seed
+    
+end
+
+
+# Drop, build, migrate & seed database (development only)
+def reset
+
+    return if Rails.env.production?
+
+    L2.br(2)
+    L2.info("Reset Lesli database for development")
+
+    Rake::Task['db:drop'].invoke
+    Rake::Task['db:create'].invoke
+    Rake::Task['db:migrate'].invoke
+    Rake::Task['db:seed'].invoke
+
+    Lesli::Engine.load_seed
+
+end
+
+
+# Drop, build, migrate & seed database (development only)
+def seed
+
+    return if Rails.env.production?
+
+    L2.br(2)
+    L2.info("Seed Lesli database for development")
+
+    Lesli::Engine.load_seed
+
 end

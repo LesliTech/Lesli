@@ -30,7 +30,9 @@ Building a better future, one line of code at a time.
 // ·     
 =end
 
-module ResponseHelpers
+L2.info "lesli_request_helper"
+
+module ResponseRequestHelper
 
     # container for the response body parsed as JSON
     @@response_json = nil
@@ -181,6 +183,7 @@ module ResponseHelpers
     end
 
     # shortcut for response_json
+    # DEPRECATED
     def response_body
         response_json
     end

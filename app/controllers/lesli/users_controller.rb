@@ -30,8 +30,14 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    class UsersController < ApplicationController
+    class UsersController < ApplicationLesliController
         before_action :set_user, only: %i[show edit update destroy]
+
+        def list
+            respond_to do |format|
+                format.json { respond_with_successful(Lesli::UserServices.new("current_user").list(query, params)) }
+            end
+        end
 
         # GET /users
         def index

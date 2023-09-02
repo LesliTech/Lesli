@@ -30,9 +30,9 @@ Building a better future, one line of code at a time.
 // ·
 =end
 
-class CreateUsers < ActiveRecord::Migration[5.2]
+class CreateLesliUsers < ActiveRecord::Migration[5.2]
     def change
-        create_table :users do |t|
+        create_table :lesli_users do |t|
             # Hard-lock strategy
             t.boolean   :active, default: true, null: false
 
@@ -86,12 +86,12 @@ class CreateUsers < ActiveRecord::Migration[5.2]
             t.timestamps
         end
 
-        add_reference(:users, :account, foreign_key: { to_table: :accounts })
-        add_reference(:accounts, :user, foreign_key: { to_table: :users })
+        add_reference(:lesli_users, :account, foreign_key: { to_table: :lesli_accounts })
+        add_reference(:lesli_accounts, :user, foreign_key: { to_table: :lesli_users })
 
-        add_index(:users, :email,                unique: true)
-        add_index(:users, :unlock_token,         unique: true)
-        add_index(:users, :confirmation_token,   unique: true)
-        add_index(:users, :reset_password_token, unique: true)
+        add_index(:lesli_users, :email,                unique: true)
+        add_index(:lesli_users, :unlock_token,         unique: true)
+        add_index(:lesli_users, :confirmation_token,   unique: true)
+        add_index(:lesli_users, :reset_password_token, unique: true)
     end
 end
