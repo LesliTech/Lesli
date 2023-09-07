@@ -158,7 +158,12 @@ onUnmounted(() => {
             </div>
             <div class="lesli-application-header-right">
 
-                <!-- engines selector -->
+                <a><span class="ri-apps-2-line"></span></a>
+                <a><span class="ri-ticket-2-line"></span></a>
+                <a><span class="ri-list-check-3"></span></a>
+                <a><span class="ri-notification-3-line"></span></a>
+
+                <!-- engines selector - - >
                 <a  v-if="props.showEngines || true"
                     class="" @click="toggleEngines()">
                     <span class="material-icons">
@@ -166,7 +171,7 @@ onUnmounted(() => {
                     </span>
                 </a>
 
-                <!-- Tickets -->
+                < ! - - Tickets - - >
                 <a 
                     v-if="props.showTickets || true"
                     class=" header-notification-indicator" 
@@ -179,7 +184,7 @@ onUnmounted(() => {
                     </span>
                 </a>
 
-                <!-- Tasks -->
+                < ! - - Tasks - - >
                 <a  v-if="props.showFocus || true"
                     class=" header-notification-indicator" 
                     @click="() => { if (storeLayout.header.tasks > 0 ) { storeLayout.showTasks = true }}">
@@ -191,7 +196,7 @@ onUnmounted(() => {
                     </span>
                 </a>
 
-                <!-- Announcements -->
+                < ! - - Announcements - - >
                 <a 
                     v-if="props.showAnnouncements || true"
                     class=" header-notification-indicator" 
@@ -204,7 +209,7 @@ onUnmounted(() => {
                     </span>
                 </a>
 
-                <!-- Notifications -->
+                < ! - - Notifications - - >
                 <a 
                     v-if="props.showBell || true"
                     class=" header-notification-indicator" 
@@ -217,7 +222,7 @@ onUnmounted(() => {
                     </span>
                 </a>
 
-                <!-- Profile options - - >
+                < ! - - Profile options - - >
                 <div class="dropdown is-right is-hoverable header-user-options">
                     <div class="dropdown-trigger">
                         <span class="material-icons" @click="storeLayout.showProfile = true">
