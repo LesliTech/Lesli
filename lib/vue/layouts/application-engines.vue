@@ -1,6 +1,5 @@
 <script setup>
 /*
-
 Lesli
 
 Copyright (c) 2023, Lesli Technologies, S. A.
@@ -18,18 +17,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.dev
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
 
 
@@ -50,13 +48,15 @@ const storeLayout = useLayout()
     <Transition>
         <section v-if="storeLayout.showEngines" class="lesli-application-engines" @click="storeLayout.toggleEngines()">
             <div class="engines">
-                <slot></slot>
-                <button class="button is-hidden-tablet">
-                    <span class="icon">
-                        <i class="ri-close-line"></i>
-                    </span>
-                    <span>close</span>
-                </button>
+                <div class="container">
+                    <slot></slot>
+                    <button class="button is-hidden-tablet">
+                        <span class="icon">
+                            <i class="ri-close-line"></i>
+                        </span>
+                        <span>close</span>
+                    </button>
+                </div>
             </div>
         </section>
     </Transition>
