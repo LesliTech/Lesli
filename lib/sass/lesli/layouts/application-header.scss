@@ -112,5 +112,23 @@ header.lesli-application-header {
                 font-size: 30px;
             }
         }
+
+        // Notification icon & count
+        .header-notification-indicator {
+            position: relative;
+            .count {
+                top: -8px;
+                right: -4px;
+                width: 8px;
+                height: 8px;
+                font-size: 0px;
+                text-align: center;
+                border-radius: 50%;
+                background-color: lesli-css-color(berry, 300);
+                color: lesli-css-color(silver, 100);
+                font-family: sans-serif;
+                position: absolute;
+            }
+        }
     }
 }
