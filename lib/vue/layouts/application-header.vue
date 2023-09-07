@@ -137,7 +137,6 @@ onUnmounted(() => {
                 <img alt="App logo" class="is-hidden-touch" src="/assets/lesli/brand/app-logo.svg">
             </figure>
             <div class="lesli-application-header-left">
-                
                 <div class="control is-medium has-icons-left has-text-grey">
                     <span class="icon is-left has-text-gray">
                         <span class="material-icons" v-if="!storeSearch.loading">
@@ -158,45 +157,36 @@ onUnmounted(() => {
             </div>
             <div class="lesli-application-header-right">
 
-                <a><span class="ri-apps-2-line"></span></a>
-                <a><span class="ri-ticket-2-line"></span></a>
-                <a><span class="ri-list-check-3"></span></a>
-                <a><span class="ri-notification-3-line"></span></a>
-
-                <!-- engines selector - - >
+                <!-- engines selector -->
                 <a  v-if="props.showEngines || true"
                     class="" @click="toggleEngines()">
-                    <span class="material-icons">
-                        apps
-                    </span>
+                    <span class="ri-apps-2-line"></span>
                 </a>
 
-                < ! - - Tickets - - >
+                <!-- Tickets -->
                 <a 
                     v-if="props.showTickets || true"
                     class=" header-notification-indicator" 
                     @click="() => { storeLayout.showTickets = true }">
-                    <span :class="['material-icons', { 'is-active' : storeLayout.header.tickets > 0 }]">
-                        confirmation_number
+                    <span :class="['ri-ticket-2-line', { 'is-active' : storeLayout.header.tickets > 0 }]">
                     </span>
                     <span class="count" v-if="storeLayout.header.tickets > 0">
                         {{ storeLayout.header.tickets }}
                     </span>
                 </a>
 
-                < ! - - Tasks - - >
+                <!-- Tasks -->
                 <a  v-if="props.showFocus || true"
                     class=" header-notification-indicator" 
                     @click="() => { if (storeLayout.header.tasks > 0 ) { storeLayout.showTasks = true }}">
-                    <span :class="['material-icons', { 'is-active' : storeLayout.header.tasks > 0 }]">
-                        checklist
+                    <span :class="['ri-list-check-3', { 'is-active' : storeLayout.header.tasks > 0 }]">
                     </span>
                     <span class="count" v-if="storeLayout.header.tasks > 0">
                         {{ storeLayout.header.tasks }}
                     </span>
                 </a>
 
-                < ! - - Announcements - - >
+                <!-- Announcements - - >
                 <a 
                     v-if="props.showAnnouncements || true"
                     class=" header-notification-indicator" 
@@ -208,21 +198,22 @@ onUnmounted(() => {
                         {{ storeLayout.header.announcements }}
                     </span>
                 </a>
+                -->
 
-                < ! - - Notifications - - >
+                <!-- Notifications -->
                 <a 
                     v-if="props.showBell || true"
                     class=" header-notification-indicator" 
                     @click="() => { if (storeLayout.header.notifications > 0 ) { storeLayout.showNotifications = true }}">
-                    <span :class="['material-icons', { 'is-active' : storeLayout.header.notifications > 0 }]">
-                        notifications
+                    <span :class="['ri-notification-3-line', { 'is-active' : storeLayout.header.notifications > 0 }]">
                     </span>
                     <span class="count" v-if="storeLayout.header.notifications > 0">
                         {{ storeLayout.header.notifications }}
                     </span>
                 </a>
 
-                < ! - - Profile options - - >
+                <!-- Profile options -->
+                <!--
                 <div class="dropdown is-right is-hoverable header-user-options">
                     <div class="dropdown-trigger">
                         <span class="material-icons" @click="storeLayout.showProfile = true">

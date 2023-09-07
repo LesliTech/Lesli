@@ -68,8 +68,8 @@ module Lesli
 
         # 00.00 System administration
         def navigation_engine_lesli(title: "Administration", subtitle: "Users, privileges, access roles.")
-            navigation_engine_item(title, subtitle, "admin", lesli.account_path,
-                                   %w[accounts users].include?(controller_path))
+            navigation_engine_item(title, subtitle, "admin", lesli.root_path,
+                                   controller_path.include?("lesli"))
         end
 
         # ADMINISTRATION
@@ -160,10 +160,10 @@ module Lesli
 
         # 03.08 Bell engine
         def navigation_engine_bell(title: "Notifications", subtitle: "Announcements and notifications")
-            return unless defined? CloudBell
+            return unless defined? LesliBell
 
-            navigation_engine_item(title, subtitle, "bell", cloud_bell.root_path,
-                                   controller_path.include?("cloud_bell"))
+            navigation_engine_item(title, subtitle, "bell", lesli_bell.root_path,
+                                   controller_path.include?("lesli_bell"))
         end
 
         # 03.09 Time engine
@@ -283,10 +283,10 @@ module Lesli
 
         # 09.01 Babel engine
         def navigation_engine_babel(title: "Babel", subtitle: "Translations")
-            return unless defined? CloudBabel
+            return unless defined? LesliBabel
 
-            navigation_engine_item(title, subtitle, "babel", cloud_babel.root_path,
-                                   controller_path.include?("cloud_babel"))
+            navigation_engine_item(title, subtitle, "babel", lesli_babel.root_path,
+                                   controller_path.include?("lesli_babel"))
         end
 
         # 09.02 Dispatcher engine
@@ -324,7 +324,7 @@ module Lesli
         private
 
         # build a html link for an engine path
-        def navigation_engine_item(title, subtitle, icon, path, is_active: false)
+        def navigation_engine_item(title, subtitle, icon, path, is_active)
             # get hidden modules if there are modules to hide
             modules_hidden = [] # Rails.application.config.lesli.dig(:modules_hidden) || []
 
