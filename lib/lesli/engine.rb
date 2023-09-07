@@ -1,4 +1,5 @@
 =begin
+
 Lesli
 
 Copyright (c) 2023, Lesli Technologies, S. A.
@@ -26,14 +27,12 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
 module Lesli
     class Engine < ::Rails::Engine
         isolate_namespace Lesli
-
-        # register engine migrations path
 
         initializer :lesli do |app|
 
@@ -48,7 +47,11 @@ module Lesli
             # Include third-party assets
             config.assets.paths << root.join("vendor")
 
-            # Automatic load migrations from Lesli
+            # Default languages
+            config.i18n.default_locale = :en
+            config.i18n.available_locales = [:en]
+
+            # register engine migrations path
             unless app.root.to_s.match root.to_s
                 config.paths["db/migrate"].expanded.each do |expanded_path|
                     app.config.paths["db/migrate"] << expanded_path

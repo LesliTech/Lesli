@@ -46,37 +46,9 @@ module Lesli
 
         # return the information about the current engine
         def lesli_engine(property = nil)
-            engine = nil
 
-            # build a special object for the administration section
-            if is_lesli_administration?
-                engine = {
-                    name: "Administration",
-                    code: "administration"
-                }
-            end
-
-            # build a special object for the onboarding section
-            if is_lesli_onboarding?
-                engine = {
-                    name: "Onboarding",
-                    code: "onboardings"
-                }
-            end
-
-            if engine.nil?
-
-                # search for the info of the current engine
-                # engine = Lesli::Engine.config.lesli.dig(:engines).select { |engine|
-                #     engine[:code] == lesli_controller()
-                # }.first
-            end
-
-            if engine.nil?
-
-                # build a special object for the core
-                engine = { name: "Lesli", code: "lesli" }
-            end
+            # build a special object for the core
+            engine = { code: lesli_controller, name: lesli_controller.titleize, engine: lesli_controller.camelcase }
 
             # return specific property if requested
             return engine[property] unless property.blank?

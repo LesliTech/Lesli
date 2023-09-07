@@ -35,7 +35,8 @@ Building a better future, one line of code at a time.
 header.lesli-application-header {
     height: var(--lesli-header-height);
     background-color: var(--lesli-header-color);
-    border-bottom: 1px solid lesli-css-color(silver, 300);
+    border-bottom: 1px solid rgba(172,179,194,.2);
+    width: 100%;
 
 
     // · main logo
@@ -102,6 +103,11 @@ header.lesli-application-header {
 
         a {
             margin-left: 20px;
+
+            [class^="ri-"] {
+                font-size: 25px;
+            }
+
             span.material-icons {
                 font-size: 30px;
             }

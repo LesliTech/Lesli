@@ -34,38 +34,17 @@ Building a better future, one line of code at a time.
 // · 
 @font-face {
     font-family: "remixicon";
-    src: font-url("lesli/Remix/icons.ttf") format("truetype"); /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    src: font-url("lesli/Remix/remixicon.ttf") format("truetype"); /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
     font-display: swap;
 }
 
-
-[class^="ri-"] {
-    font-style: normal;
+[class^="ri-"], [class*=" ri-"] {
     font-family: 'remixicon' !important;
+    font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-.ri-rss-fill:before { content: "\f09e"; }
-.ri-flow-chart:before { content: "\ed46"; }
-.ri-history-line:before { content: "\ee17"; }
-.ri-discuss-line:before { content: "\ec3a"; }
-.ri-database-2-line:before { content: "\ec16"; }
-.ri-send-plane-line:before { content: "\f0da"; }
-.ri-file-cloud-line:before { content: "\eccf"; }
-.ri-search-line:before { content: "\f0d1"; }
-.ri-dashboard-3-line:before { content: "\ec12"; }
-.ri-terminal-box-line:before { content: "\f1f6"; }
-.ri-palette-line:before { content: "\efc5"; }
-.ri-shield-user-line:before { content: "\f10c"; }
-.ri-shield-keyhole-line:before { content: "\f107"; }
-.ri-passport-line:before { content: "\efd2"; }
-.ri-file-paper-line:before { content: "\ecfb"; }
-.ri-link:before { content: "\eeb2"; }
-.ri-file-shield-2-line:before { content: "\ed09"; }
-.ri-window-line:before { content: "\f2c6"; }
-.ri-server-line:before { content: "\f0e0"; }
-.ri-database-line:before { content: "\ec18"; }
 .ri-lg { font-size: 1.3333em; line-height: 0.75em; vertical-align: -.0667em; }
 .ri-xl { font-size: 1.5em; line-height: 0.6666em; vertical-align: -.075em; }
 .ri-xxs { font-size: .5em; }
@@ -612,13 +591,13 @@ Building a better future, one line of code at a time.
 .ri-dashboard-2-fill:before { content: "\ec0f"; }
 .ri-dashboard-2-line:before { content: "\ec10"; }
 .ri-dashboard-3-fill:before { content: "\ec11"; }
-
+.ri-dashboard-3-line:before { content: "\ec12"; }
 .ri-dashboard-fill:before { content: "\ec13"; }
 .ri-dashboard-line:before { content: "\ec14"; }
 .ri-database-2-fill:before { content: "\ec15"; }
-
+.ri-database-2-line:before { content: "\ec16"; }
 .ri-database-fill:before { content: "\ec17"; }
-
+.ri-database-line:before { content: "\ec18"; }
 .ri-delete-back-2-fill:before { content: "\ec19"; }
 .ri-delete-back-2-line:before { content: "\ec1a"; }
 .ri-delete-back-fill:before { content: "\ec1b"; }
@@ -652,7 +631,7 @@ Building a better future, one line of code at a time.
 .ri-discord-fill:before { content: "\ec37"; }
 .ri-discord-line:before { content: "\ec38"; }
 .ri-discuss-fill:before { content: "\ec39"; }
-
+.ri-discuss-line:before { content: "\ec3a"; }
 .ri-dislike-fill:before { content: "\ec3b"; }
 .ri-dislike-line:before { content: "\ec3c"; }
 .ri-disqus-fill:before { content: "\ec3d"; }
@@ -801,7 +780,7 @@ Building a better future, one line of code at a time.
 .ri-file-chart-fill:before { content: "\eccc"; }
 .ri-file-chart-line:before { content: "\eccd"; }
 .ri-file-cloud-fill:before { content: "\ecce"; }
-
+.ri-file-cloud-line:before { content: "\eccf"; }
 .ri-file-code-fill:before { content: "\ecd0"; }
 .ri-file-code-line:before { content: "\ecd1"; }
 .ri-file-copy-2-fill:before { content: "\ecd2"; }
@@ -845,7 +824,7 @@ Building a better future, one line of code at a time.
 .ri-file-paper-2-fill:before { content: "\ecf8"; }
 .ri-file-paper-2-line:before { content: "\ecf9"; }
 .ri-file-paper-fill:before { content: "\ecfa"; }
-
+.ri-file-paper-line:before { content: "\ecfb"; }
 .ri-file-pdf-fill:before { content: "\ecfc"; }
 .ri-file-pdf-line:before { content: "\ecfd"; }
 .ri-file-ppt-2-fill:before { content: "\ecfe"; }
@@ -855,11 +834,11 @@ Building a better future, one line of code at a time.
 .ri-file-reduce-fill:before { content: "\ed02"; }
 .ri-file-reduce-line:before { content: "\ed03"; }
 .ri-file-search-fill:before { content: "\ed04"; }
-
+.ri-file-search-line:before { content: "\ed05"; }
 .ri-file-settings-fill:before { content: "\ed06"; }
 .ri-file-settings-line:before { content: "\ed07"; }
 .ri-file-shield-2-fill:before { content: "\ed08"; }
-
+.ri-file-shield-2-line:before { content: "\ed09"; }
 .ri-file-shield-fill:before { content: "\ed0a"; }
 .ri-file-shield-line:before { content: "\ed0b"; }
 .ri-file-shred-fill:before { content: "\ed0c"; }
@@ -920,7 +899,7 @@ Building a better future, one line of code at a time.
 .ri-flight-takeoff-line:before { content: "\ed43"; }
 .ri-flood-fill:before { content: "\ed44"; }
 .ri-flood-line:before { content: "\ed45"; }
-
+.ri-flow-chart:before { content: "\ed46"; }
 .ri-flutter-fill:before { content: "\ed47"; }
 .ri-flutter-line:before { content: "\ed48"; }
 .ri-focus-2-fill:before { content: "\ed49"; }
@@ -1129,7 +1108,7 @@ Building a better future, one line of code at a time.
 .ri-heavy-showers-fill:before { content: "\ee14"; }
 .ri-heavy-showers-line:before { content: "\ee15"; }
 .ri-history-fill:before { content: "\ee16"; }
-
+.ri-history-line:before { content: "\ee17"; }
 .ri-home-2-fill:before { content: "\ee18"; }
 .ri-home-2-line:before { content: "\ee19"; }
 .ri-home-3-fill:before { content: "\ee1a"; }
@@ -1284,7 +1263,7 @@ Building a better future, one line of code at a time.
 .ri-link-m:before { content: "\eeaf"; }
 .ri-link-unlink-m:before { content: "\eeb0"; }
 .ri-link-unlink:before { content: "\eeb1"; }
-
+.ri-link:before { content: "\eeb2"; }
 .ri-linkedin-box-fill:before { content: "\eeb3"; }
 .ri-linkedin-box-line:before { content: "\eeb4"; }
 .ri-linkedin-fill:before { content: "\eeb5"; }
@@ -1559,7 +1538,7 @@ Building a better future, one line of code at a time.
 .ri-paint-fill:before { content: "\efc2"; }
 .ri-paint-line:before { content: "\efc3"; }
 .ri-palette-fill:before { content: "\efc4"; }
-
+.ri-palette-line:before { content: "\efc5"; }
 .ri-pantone-fill:before { content: "\efc6"; }
 .ri-pantone-line:before { content: "\efc7"; }
 .ri-paragraph:before { content: "\efc8"; }
@@ -1572,7 +1551,7 @@ Building a better future, one line of code at a time.
 .ri-parking-fill:before { content: "\efcf"; }
 .ri-parking-line:before { content: "\efd0"; }
 .ri-passport-fill:before { content: "\efd1"; }
-
+.ri-passport-line:before { content: "\efd2"; }
 .ri-patreon-fill:before { content: "\efd3"; }
 .ri-patreon-line:before { content: "\efd4"; }
 .ri-pause-circle-fill:before { content: "\efd5"; }
@@ -1776,7 +1755,7 @@ Building a better future, one line of code at a time.
 .ri-route-line:before { content: "\f09b"; }
 .ri-router-fill:before { content: "\f09c"; }
 .ri-router-line:before { content: "\f09d"; }
-
+.ri-rss-fill:before { content: "\f09e"; }
 .ri-rss-line:before { content: "\f09f"; }
 .ri-ruler-2-fill:before { content: "\f0a0"; }
 .ri-ruler-2-line:before { content: "\f0a1"; }
@@ -1836,13 +1815,13 @@ Building a better future, one line of code at a time.
 .ri-send-plane-2-fill:before { content: "\f0d7"; }
 .ri-send-plane-2-line:before { content: "\f0d8"; }
 .ri-send-plane-fill:before { content: "\f0d9"; }
-
+.ri-send-plane-line:before { content: "\f0da"; }
 .ri-send-to-back:before { content: "\f0db"; }
 .ri-sensor-fill:before { content: "\f0dc"; }
 .ri-sensor-line:before { content: "\f0dd"; }
 .ri-separator:before { content: "\f0de"; }
 .ri-server-fill:before { content: "\f0df"; }
-
+.ri-server-line:before { content: "\f0e0"; }
 .ri-service-fill:before { content: "\f0e1"; }
 .ri-service-line:before { content: "\f0e2"; }
 .ri-settings-2-fill:before { content: "\f0e3"; }
@@ -1881,12 +1860,12 @@ Building a better future, one line of code at a time.
 .ri-shield-flash-fill:before { content: "\f104"; }
 .ri-shield-flash-line:before { content: "\f105"; }
 .ri-shield-keyhole-fill:before { content: "\f106"; }
-
+.ri-shield-keyhole-line:before { content: "\f107"; }
 .ri-shield-line:before { content: "\f108"; }
 .ri-shield-star-fill:before { content: "\f109"; }
 .ri-shield-star-line:before { content: "\f10a"; }
 .ri-shield-user-fill:before { content: "\f10b"; }
-
+.ri-shield-user-line:before { content: "\f10c"; }
 .ri-ship-2-fill:before { content: "\f10d"; }
 .ri-ship-2-line:before { content: "\f10e"; }
 .ri-ship-fill:before { content: "\f10f"; }
@@ -2328,7 +2307,7 @@ Building a better future, one line of code at a time.
 .ri-window-2-fill:before { content: "\f2c3"; }
 .ri-window-2-line:before { content: "\f2c4"; }
 .ri-window-fill:before { content: "\f2c5"; }
-
+.ri-window-line:before { content: "\f2c6"; }
 .ri-windows-fill:before { content: "\f2c7"; }
 .ri-windows-line:before { content: "\f2c8"; }
 .ri-windy-fill:before { content: "\f2c9"; }
@@ -2354,3 +2333,270 @@ Building a better future, one line of code at a time.
 .ri-zoom-out-line:before { content: "\f2dd"; }
 .ri-zzz-fill:before { content: "\f2de"; }
 .ri-zzz-line:before { content: "\f2df"; }
+.ri-arrow-down-double-fill:before { content: "\f2e0"; }
+.ri-arrow-down-double-line:before { content: "\f2e1"; }
+.ri-arrow-left-double-fill:before { content: "\f2e2"; }
+.ri-arrow-left-double-line:before { content: "\f2e3"; }
+.ri-arrow-right-double-fill:before { content: "\f2e4"; }
+.ri-arrow-right-double-line:before { content: "\f2e5"; }
+.ri-arrow-turn-back-fill:before { content: "\f2e6"; }
+.ri-arrow-turn-back-line:before { content: "\f2e7"; }
+.ri-arrow-turn-forward-fill:before { content: "\f2e8"; }
+.ri-arrow-turn-forward-line:before { content: "\f2e9"; }
+.ri-arrow-up-double-fill:before { content: "\f2ea"; }
+.ri-arrow-up-double-line:before { content: "\f2eb"; }
+.ri-bard-fill:before { content: "\f2ec"; }
+.ri-bard-line:before { content: "\f2ed"; }
+.ri-bootstrap-fill:before { content: "\f2ee"; }
+.ri-bootstrap-line:before { content: "\f2ef"; }
+.ri-box-1-fill:before { content: "\f2f0"; }
+.ri-box-1-line:before { content: "\f2f1"; }
+.ri-box-2-fill:before { content: "\f2f2"; }
+.ri-box-2-line:before { content: "\f2f3"; }
+.ri-box-3-fill:before { content: "\f2f4"; }
+.ri-box-3-line:before { content: "\f2f5"; }
+.ri-brain-fill:before { content: "\f2f6"; }
+.ri-brain-line:before { content: "\f2f7"; }
+.ri-candle-fill:before { content: "\f2f8"; }
+.ri-candle-line:before { content: "\f2f9"; }
+.ri-cash-fill:before { content: "\f2fa"; }
+.ri-cash-line:before { content: "\f2fb"; }
+.ri-contract-left-fill:before { content: "\f2fc"; }
+.ri-contract-left-line:before { content: "\f2fd"; }
+.ri-contract-left-right-fill:before { content: "\f2fe"; }
+.ri-contract-left-right-line:before { content: "\f2ff"; }
+.ri-contract-right-fill:before { content: "\f300"; }
+.ri-contract-right-line:before { content: "\f301"; }
+.ri-contract-up-down-fill:before { content: "\f302"; }
+.ri-contract-up-down-line:before { content: "\f303"; }
+.ri-copilot-fill:before { content: "\f304"; }
+.ri-copilot-line:before { content: "\f305"; }
+.ri-corner-down-left-fill:before { content: "\f306"; }
+.ri-corner-down-left-line:before { content: "\f307"; }
+.ri-corner-down-right-fill:before { content: "\f308"; }
+.ri-corner-down-right-line:before { content: "\f309"; }
+.ri-corner-left-down-fill:before { content: "\f30a"; }
+.ri-corner-left-down-line:before { content: "\f30b"; }
+.ri-corner-left-up-fill:before { content: "\f30c"; }
+.ri-corner-left-up-line:before { content: "\f30d"; }
+.ri-corner-right-down-fill:before { content: "\f30e"; }
+.ri-corner-right-down-line:before { content: "\f30f"; }
+.ri-corner-right-up-fill:before { content: "\f310"; }
+.ri-corner-right-up-line:before { content: "\f311"; }
+.ri-corner-up-left-double-fill:before { content: "\f312"; }
+.ri-corner-up-left-double-line:before { content: "\f313"; }
+.ri-corner-up-left-fill:before { content: "\f314"; }
+.ri-corner-up-left-line:before { content: "\f315"; }
+.ri-corner-up-right-double-fill:before { content: "\f316"; }
+.ri-corner-up-right-double-line:before { content: "\f317"; }
+.ri-corner-up-right-fill:before { content: "\f318"; }
+.ri-corner-up-right-line:before { content: "\f319"; }
+.ri-cross-fill:before { content: "\f31a"; }
+.ri-cross-line:before { content: "\f31b"; }
+.ri-edge-new-fill:before { content: "\f31c"; }
+.ri-edge-new-line:before { content: "\f31d"; }
+.ri-equal-fill:before { content: "\f31e"; }
+.ri-equal-line:before { content: "\f31f"; }
+.ri-expand-left-fill:before { content: "\f320"; }
+.ri-expand-left-line:before { content: "\f321"; }
+.ri-expand-left-right-fill:before { content: "\f322"; }
+.ri-expand-left-right-line:before { content: "\f323"; }
+.ri-expand-right-fill:before { content: "\f324"; }
+.ri-expand-right-line:before { content: "\f325"; }
+.ri-expand-up-down-fill:before { content: "\f326"; }
+.ri-expand-up-down-line:before { content: "\f327"; }
+.ri-flickr-fill:before { content: "\f328"; }
+.ri-flickr-line:before { content: "\f329"; }
+.ri-forward-10-fill:before { content: "\f32a"; }
+.ri-forward-10-line:before { content: "\f32b"; }
+.ri-forward-15-fill:before { content: "\f32c"; }
+.ri-forward-15-line:before { content: "\f32d"; }
+.ri-forward-30-fill:before { content: "\f32e"; }
+.ri-forward-30-line:before { content: "\f32f"; }
+.ri-forward-5-fill:before { content: "\f330"; }
+.ri-forward-5-line:before { content: "\f331"; }
+.ri-graduation-cap-fill:before { content: "\f332"; }
+.ri-graduation-cap-line:before { content: "\f333"; }
+.ri-home-office-fill:before { content: "\f334"; }
+.ri-home-office-line:before { content: "\f335"; }
+.ri-hourglass-2-fill:before { content: "\f336"; }
+.ri-hourglass-2-line:before { content: "\f337"; }
+.ri-hourglass-fill:before { content: "\f338"; }
+.ri-hourglass-line:before { content: "\f339"; }
+.ri-javascript-fill:before { content: "\f33a"; }
+.ri-javascript-line:before { content: "\f33b"; }
+.ri-loop-left-fill:before { content: "\f33c"; }
+.ri-loop-left-line:before { content: "\f33d"; }
+.ri-loop-right-fill:before { content: "\f33e"; }
+.ri-loop-right-line:before { content: "\f33f"; }
+.ri-memories-fill:before { content: "\f340"; }
+.ri-memories-line:before { content: "\f341"; }
+.ri-meta-fill:before { content: "\f342"; }
+.ri-meta-line:before { content: "\f343"; }
+.ri-microsoft-loop-fill:before { content: "\f344"; }
+.ri-microsoft-loop-line:before { content: "\f345"; }
+.ri-nft-fill:before { content: "\f346"; }
+.ri-nft-line:before { content: "\f347"; }
+.ri-notion-fill:before { content: "\f348"; }
+.ri-notion-line:before { content: "\f349"; }
+.ri-openai-fill:before { content: "\f34a"; }
+.ri-openai-line:before { content: "\f34b"; }
+.ri-overline:before { content: "\f34c"; }
+.ri-p2p-fill:before { content: "\f34d"; }
+.ri-p2p-line:before { content: "\f34e"; }
+.ri-presentation-fill:before { content: "\f34f"; }
+.ri-presentation-line:before { content: "\f350"; }
+.ri-replay-10-fill:before { content: "\f351"; }
+.ri-replay-10-line:before { content: "\f352"; }
+.ri-replay-15-fill:before { content: "\f353"; }
+.ri-replay-15-line:before { content: "\f354"; }
+.ri-replay-30-fill:before { content: "\f355"; }
+.ri-replay-30-line:before { content: "\f356"; }
+.ri-replay-5-fill:before { content: "\f357"; }
+.ri-replay-5-line:before { content: "\f358"; }
+.ri-school-fill:before { content: "\f359"; }
+.ri-school-line:before { content: "\f35a"; }
+.ri-shining-2-fill:before { content: "\f35b"; }
+.ri-shining-2-line:before { content: "\f35c"; }
+.ri-shining-fill:before { content: "\f35d"; }
+.ri-shining-line:before { content: "\f35e"; }
+.ri-sketching:before { content: "\f35f"; }
+.ri-skip-down-fill:before { content: "\f360"; }
+.ri-skip-down-line:before { content: "\f361"; }
+.ri-skip-left-fill:before { content: "\f362"; }
+.ri-skip-left-line:before { content: "\f363"; }
+.ri-skip-right-fill:before { content: "\f364"; }
+.ri-skip-right-line:before { content: "\f365"; }
+.ri-skip-up-fill:before { content: "\f366"; }
+.ri-skip-up-line:before { content: "\f367"; }
+.ri-slow-down-fill:before { content: "\f368"; }
+.ri-slow-down-line:before { content: "\f369"; }
+.ri-sparkling-2-fill:before { content: "\f36a"; }
+.ri-sparkling-2-line:before { content: "\f36b"; }
+.ri-sparkling-fill:before { content: "\f36c"; }
+.ri-sparkling-line:before { content: "\f36d"; }
+.ri-speak-fill:before { content: "\f36e"; }
+.ri-speak-line:before { content: "\f36f"; }
+.ri-speed-up-fill:before { content: "\f370"; }
+.ri-speed-up-line:before { content: "\f371"; }
+.ri-tiktok-fill:before { content: "\f372"; }
+.ri-tiktok-line:before { content: "\f373"; }
+.ri-token-swap-fill:before { content: "\f374"; }
+.ri-token-swap-line:before { content: "\f375"; }
+.ri-unpin-fill:before { content: "\f376"; }
+.ri-unpin-line:before { content: "\f377"; }
+.ri-wechat-channels-fill:before { content: "\f378"; }
+.ri-wechat-channels-line:before { content: "\f379"; }
+.ri-wordpress-fill:before { content: "\f37a"; }
+.ri-wordpress-line:before { content: "\f37b"; }
+.ri-blender-fill:before { content: "\f37c"; }
+.ri-blender-line:before { content: "\f37d"; }
+.ri-emoji-sticker-fill:before { content: "\f37e"; }
+.ri-emoji-sticker-line:before { content: "\f37f"; }
+.ri-git-close-pull-request-fill:before { content: "\f380"; }
+.ri-git-close-pull-request-line:before { content: "\f381"; }
+.ri-instance-fill:before { content: "\f382"; }
+.ri-instance-line:before { content: "\f383"; }
+.ri-megaphone-fill:before { content: "\f384"; }
+.ri-megaphone-line:before { content: "\f385"; }
+.ri-pass-expired-fill:before { content: "\f386"; }
+.ri-pass-expired-line:before { content: "\f387"; }
+.ri-pass-pending-fill:before { content: "\f388"; }
+.ri-pass-pending-line:before { content: "\f389"; }
+.ri-pass-valid-fill:before { content: "\f38a"; }
+.ri-pass-valid-line:before { content: "\f38b"; }
+.ri-ai-generate:before { content: "\f38c"; }
+.ri-calendar-close-fill:before { content: "\f38d"; }
+.ri-calendar-close-line:before { content: "\f38e"; }
+.ri-draggable:before { content: "\f38f"; }
+.ri-font-family:before { content: "\f390"; }
+.ri-font-mono:before { content: "\f391"; }
+.ri-font-sans-serif:before { content: "\f392"; }
+.ri-font-sans:before { content: "\f393"; }
+.ri-hard-drive-3-fill:before { content: "\f394"; }
+.ri-hard-drive-3-line:before { content: "\f395"; }
+.ri-kick-fill:before { content: "\f396"; }
+.ri-kick-line:before { content: "\f397"; }
+.ri-list-check-3:before { content: "\f398"; }
+.ri-list-indefinite:before { content: "\f399"; }
+.ri-list-ordered-2:before { content: "\f39a"; }
+.ri-list-radio:before { content: "\f39b"; }
+.ri-openbase-fill:before { content: "\f39c"; }
+.ri-openbase-line:before { content: "\f39d"; }
+.ri-planet-fill:before { content: "\f39e"; }
+.ri-planet-line:before { content: "\f39f"; }
+.ri-prohibited-fill:before { content: "\f3a0"; }
+.ri-prohibited-line:before { content: "\f3a1"; }
+.ri-quote-text:before { content: "\f3a2"; }
+.ri-seo-fill:before { content: "\f3a3"; }
+.ri-seo-line:before { content: "\f3a4"; }
+.ri-slash-commands:before { content: "\f3a5"; }
+.ri-archive-2-fill:before { content: "\f3a6"; }
+.ri-archive-2-line:before { content: "\f3a7"; }
+.ri-inbox-2-fill:before { content: "\f3a8"; }
+.ri-inbox-2-line:before { content: "\f3a9"; }
+.ri-shake-hands-fill:before { content: "\f3aa"; }
+.ri-shake-hands-line:before { content: "\f3ab"; }
+.ri-supabase-fill:before { content: "\f3ac"; }
+.ri-supabase-line:before { content: "\f3ad"; }
+.ri-water-percent-fill:before { content: "\f3ae"; }
+.ri-water-percent-line:before { content: "\f3af"; }
+.ri-yuque-fill:before { content: "\f3b0"; }
+.ri-yuque-line:before { content: "\f3b1"; }
+.ri-crosshair-2-fill:before { content: "\f3b2"; }
+.ri-crosshair-2-line:before { content: "\f3b3"; }
+.ri-crosshair-fill:before { content: "\f3b4"; }
+.ri-crosshair-line:before { content: "\f3b5"; }
+.ri-file-close-fill:before { content: "\f3b6"; }
+.ri-file-close-line:before { content: "\f3b7"; }
+.ri-infinity-fill:before { content: "\f3b8"; }
+.ri-infinity-line:before { content: "\f3b9"; }
+.ri-rfid-fill:before { content: "\f3ba"; }
+.ri-rfid-line:before { content: "\f3bb"; }
+.ri-slash-commands-2:before { content: "\f3bc"; }
+.ri-user-forbid-fill:before { content: "\f3bd"; }
+.ri-user-forbid-line:before { content: "\f3be"; }
+.ri-beer-fill:before { content: "\f3bf"; }
+.ri-beer-line:before { content: "\f3c0"; }
+.ri-circle-fill:before { content: "\f3c1"; }
+.ri-circle-line:before { content: "\f3c2"; }
+.ri-dropdown-list:before { content: "\f3c3"; }
+.ri-file-image-fill:before { content: "\f3c4"; }
+.ri-file-image-line:before { content: "\f3c5"; }
+.ri-file-pdf-2-fill:before { content: "\f3c6"; }
+.ri-file-pdf-2-line:before { content: "\f3c7"; }
+.ri-file-video-fill:before { content: "\f3c8"; }
+.ri-file-video-line:before { content: "\f3c9"; }
+.ri-folder-image-fill:before { content: "\f3ca"; }
+.ri-folder-image-line:before { content: "\f3cb"; }
+.ri-folder-video-fill:before { content: "\f3cc"; }
+.ri-folder-video-line:before { content: "\f3cd"; }
+.ri-hexagon-fill:before { content: "\f3ce"; }
+.ri-hexagon-line:before { content: "\f3cf"; }
+.ri-menu-search-fill:before { content: "\f3d0"; }
+.ri-menu-search-line:before { content: "\f3d1"; }
+.ri-octagon-fill:before { content: "\f3d2"; }
+.ri-octagon-line:before { content: "\f3d3"; }
+.ri-pentagon-fill:before { content: "\f3d4"; }
+.ri-pentagon-line:before { content: "\f3d5"; }
+.ri-rectangle-fill:before { content: "\f3d6"; }
+.ri-rectangle-line:before { content: "\f3d7"; }
+.ri-robot-2-fill:before { content: "\f3d8"; }
+.ri-robot-2-line:before { content: "\f3d9"; }
+.ri-shapes-fill:before { content: "\f3da"; }
+.ri-shapes-line:before { content: "\f3db"; }
+.ri-square-fill:before { content: "\f3dc"; }
+.ri-square-line:before { content: "\f3dd"; }
+.ri-tent-fill:before { content: "\f3de"; }
+.ri-tent-line:before { content: "\f3df"; }
+.ri-threads-fill:before { content: "\f3e0"; }
+.ri-threads-line:before { content: "\f3e1"; }
+.ri-tree-fill:before { content: "\f3e2"; }
+.ri-tree-line:before { content: "\f3e3"; }
+.ri-triangle-fill:before { content: "\f3e4"; }
+.ri-triangle-line:before { content: "\f3e5"; }
+.ri-twitter-x-fill:before { content: "\f3e6"; }
+.ri-twitter-x-line:before { content: "\f3e7"; }
+.ri-verified-badge-fill:before { content: "\f3e8"; }
+.ri-verified-badge-line:before { content: "\f3e9"; }
+

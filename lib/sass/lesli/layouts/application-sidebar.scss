@@ -47,36 +47,22 @@ $lesli-sidebar-hover: darken($lesli-color-background, 8);
 
 // · Navigation sidebar
 aside.lesli-application-sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 20;
-    height: 100vh;
     display: flex;
     flex-direction: column;
     transition: all linear .2s;
     width: var(--lesli-sidebar-width);
-    background-color: var(--lesli-sidebar-color);
-    background-color: #f9f9f9;
-    //border-right: 1px solid lesli-css-color(silver, 300);
-
-    // logo
-    .brand {
-        padding: 4px;
-        display: flex;
-        height: var(--lesli-header-height);
-        max-height: var(--lesli-header-height);
-        background-color: var(--lesli-logo-color);
-        background-color: transparent;
-        justify-content: center;
-    }
+    // background-color: var(--lesli-sidebar-color);
+    // background-color: #f9f9f9;
+    // background-color: bisque;
+    padding: 48px 1rem;
 
     // allow the container to scroll over the navigation items
-    nav.menu {
+    nav {
         // hide scrollbar
         @include lesli-css-scrollbar(hide);
         overflow-y: scroll;
-        //background-color: white;
+        background-color: white;
+        border-radius: 8px;
         //margin: 0 1rem 1rem;
     }
 

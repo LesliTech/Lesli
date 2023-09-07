@@ -50,7 +50,7 @@ Gem::Specification.new do |spec|
     spec.metadata["changelog_uri"] = "https://github.com/LesliTech/Lesli"
 
     spec.files = Dir.chdir(File.expand_path(__dir__)) do
-        Dir["{app,config,db,lib}/**/*", "license", "Rakefile", "readme.md", "lesli.yml"]
+        Dir["{app,config,db,lib}/**/*", "license", "Rakefile", "readme.md"]
     end
   
     spec.required_ruby_version = ">= 2.7.2"

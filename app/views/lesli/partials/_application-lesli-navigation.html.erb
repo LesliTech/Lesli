@@ -35,6 +35,7 @@ Building a better future, one line of code at a time.
 <%# check if custom navigation partial exists, getting the path from application helper %>
 <% custom_sidebar_path = "#{lesli_engine.dig(:code)}/partials/engine-navigation" %>
 
+
 <%# validate the path to be sure the partial exists when trying to render it %>
 <% custom_sidebar_exists = lookup_context.exists?(custom_sidebar_path, nil, true) %>
 
@@ -47,5 +48,5 @@ Building a better future, one line of code at a time.
         </ul>
     </nav>
 <% else %>
-    <h1>no navigation found</h1>
+    <!-- no navigation found -->
 <% end %>
