@@ -34,14 +34,14 @@ Building a better future, one line of code at a time.
 // · Global Bulma variables
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
-$radius: 8px;
-$radius-small: 3px;
-$radius-large: 4px;
-$control-radius: $radius;
-$control-radius-small: $radius-small;
 $navbar-background-color: transparent;
-$table-cell-padding: 1rem;
-
+// $radius: 8px;
+// $radius-small: 3px;
+// $radius-large: 4px;
+// $control-radius: $radius;
+// $control-radius-small: $radius-small;
+// $table-cell-padding: 1rem;
+// $input-radius: 4px;
 
 
 // · Import Bulma framework
@@ -57,9 +57,6 @@ $table-cell-padding: 1rem;
 @import "bulma/sass/elements/button";
 @import "bulma/sass/elements/image";
 @import "bulma/sass/elements/title";
-
-
-
 
 
 

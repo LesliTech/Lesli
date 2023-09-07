@@ -1,4 +1,5 @@
 =begin
+
 Lesli
 
 Copyright (c) 2023, Lesli Technologies, S. A.
@@ -28,6 +29,7 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
 =end
+
 module Lesli
     def self.configure(&block)
         @config ||= Lesli::Engine::Configuration.new

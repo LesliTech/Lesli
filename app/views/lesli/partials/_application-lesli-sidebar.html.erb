@@ -38,27 +38,13 @@ Building a better future, one line of code at a time.
 <%# validate the path to be sure the partial exists when trying to render it %>
 <% custom_sidebar_exists = lookup_context.exists?(custom_sidebar_path, nil, true) %>
 
-<application-component-sidebar>
-
-    <template v-slot:brand>
-        <%#= customization_instance_logo_tag(logo: "app-icon", options: { alt: "App logo", class: "is-hidden-desktop" }) %>
-        <%= customization_instance_logo_tag(logo: "app-logo", options: { alt: "App logo", class: "is-hidden-touch" }) %>
-    </template>
-
-    <%# render navigation partial %>
-    <% if custom_sidebar_exists %>
-        <%= render partial: custom_sidebar_path %>
-    <% end %>
-
-
-    <%# Context message, set this message at the root of the lesli.yml or lesli.server.yml file Ej: context: "Hallo"%>
-    <%# unless Rails.application.config.lesli.dig(:context).blank? %>
-    <% if false %>
-        <template v-slot:context>
-            <p v-cloak class="has-background-warning has-text-centered py-2">
-                <%#= Rails.application.config.lesli.dig(:context) %>
-            </p>
-        </template>
-    <% end %>
-
-</application-component-sidebar>
+<%# render navigation partial %>
+<% if custom_sidebar_exists %>
+    <aside class="lesli-application-sidebar">
+        <nav>
+            <ul>            
+                <%= render partial: custom_sidebar_path %>
+            </ul>
+        </nav>
+    </aside>
+<% end %>

@@ -10,20 +10,20 @@ Lesli.configure do |config|
         color_sidebar_hover: "#dee7ec"
     ]
 
-    config.locales = [
-        en: "English"      # English
-        # :de => "Deutsch",      # Deutsch/German
-        # :pl => "Polski",       # Polski/Polish/Poland
-        # :nl => "Dutch",        # Dutch/Nederlands/Netherlands
-        # :es => "Español",      # Español/Spanish
-        # :uk => "украї́нська",   # украї́нська/Ukrainian
-        # :sr => "Српски",       # Српски/Srpski/Serbian
-        # :it => "Italiano",     # Italiano/Italian
-        # :hr => "Hrvatski",     # Hrvatski/Croatian
-        # :fr => "Français",     # French
-        # :pt => "Português",    # Portuguese
-        # :tr => "Türkçe",       # Turkish
-        # :ro => "Română",       # Romanian
-        # :bg => "български"     # Bulgarian
-    ]
+    config.locales = {
+        en: "English",          # English
+        # :de => "Deutsch",     # Deutsch/German
+        # :pl => "Polski",      # Polski/Polish/Poland
+        # :nl => "Dutch",       # Dutch/Nederlands/Netherlands
+        :es => "Español",       # Español/Spanish
+        # :uk => "украї́нська",  # украї́нська/Ukrainian
+        # :sr => "Српски",      # Српски/Srpski/Serbian
+        # :it => "Italiano",    # Italiano/Italian
+        # :hr => "Hrvatski",    # Hrvatski/Croatian
+        # :fr => "Français",    # French
+        # :pt => "Português",   # Portuguese
+        # :tr => "Türkçe",      # Turkish
+        # :ro => "Română",      # Romanian
+        # :bg => "български"    # Bulgarian
+    }
 end
