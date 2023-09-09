@@ -69,6 +69,7 @@ module.exports = env => {
         webpackConfig.push(Object.assign({}, webpackBase(env), engine.config))
     })
 
+    debug.hr()
 
     // show a nice debug message for every installed engine :) 
     webpackConfig.forEach(config => {
