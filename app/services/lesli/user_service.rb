@@ -32,7 +32,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    class UserServices < ApplicationLesliServices
+    class UserService < ApplicationLesliService
 
 
         # Return a list of users that belongs to the account of the current_user
