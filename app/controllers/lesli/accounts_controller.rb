@@ -1,4 +1,5 @@
 =begin
+
 Lesli
 
 Copyright (c) 2023, Lesli Technologies, S. A.
@@ -22,22 +23,26 @@ Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.dev
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
 module Lesli
     class AccountsController < ApplicationLesliController
         before_action :set_account, only: %i[show edit update destroy]
 
-        # GET /accounts
-        def index; end
-
-        # GET /accounts/1
-        def show; end
+        # GET /account
+        def show
+            respond_to do |format|
+                format.html {}
+                format.json do
+                    respond_with_successful(@account)
+                end
+            end
+        end
 
         # GET /accounts/new
         def new
@@ -61,9 +66,9 @@ module Lesli
         # PATCH/PUT /accounts/1
         def update
             if @account.update(account_params)
-                redirect_to @account, notice: "Account was successfully updated."
+                respond_with_successful(@account)
             else
-                render :edit, status: :unprocessable_entity
+                respond_with_error(@account)
             end
         end
 
@@ -77,12 +82,34 @@ module Lesli
 
         # Use callbacks to share common setup or constraints between actions.
         def set_account
-            # @account = Account.find(params[:id])
+            #@account = current_user.account
+            @account = Account.first
+            return respond_with_not_found unless @account
         end
 
         # Only allow a list of trusted parameters through.
         def account_params
-            params.fetch(:account, {})
+            params.require(:account).permit(
+                :id,
+                :company_name,
+                :company_name_legal,
+                :company_tagline,
+                :country,
+                :city,
+                :postal_code,
+                :address,
+                :region,
+                :website,
+                :phone_number_1,
+                :public_email,
+                :github,
+                :twitter,
+                :youtube,
+                :linkedin,
+                :facebook,
+                :status,
+                :users_id
+            )
         end
     end
 end

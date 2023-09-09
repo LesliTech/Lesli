@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails Development Platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -25,12 +25,14 @@ Building a better future, one line of code at a time.
 @website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
 
+
 // ·
 import { defineStore } from "pinia";
+
 
 // ·
 export const useAccount = defineStore("account", {
@@ -45,12 +47,10 @@ export const useAccount = defineStore("account", {
         }
     },
     actions: {
-        /**
-         * @description This action is used to fetch the list of options for time zone.
-         */
+
         fetch (){
             this.loading = true
-            this.http.get(this.url.admin("account")).then(result => {
+            this.http.get(this.url.lesli("account")).then(result => {
                 this.accountInfo = result
                 delete this.accountInfo.created_at
                 delete this.accountInfo.updated_at
@@ -64,10 +64,7 @@ export const useAccount = defineStore("account", {
             })
         },
 
-        /**
-         * @description This action is used to post the selected settings
-         */
-        updateInfo() {
+        update() {
             this.submitting_form = true
             this.http.patch(this.url.admin("account"), {
                 account: this.accountInfo

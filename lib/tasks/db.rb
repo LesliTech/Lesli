@@ -67,7 +67,7 @@ def seed
     return if Rails.env.production?
 
     L2.br(2)
-    L2.info("Seed Lesli database for development")
+    L2.info("Seed Lesli database for #{ Rails.env.downcase } environment")
 
     Lesli::Engine.load_seed
     LesliBell::Engine.load_seed if defined?(LesliBell)
