@@ -1,4 +1,4 @@
-/*
+=begin
 
 Lesli
 
@@ -27,13 +27,33 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·  
-
-*/
-
 // · 
-@import "lesli-css";
+=end
 
+class CreateLesliRoles < ActiveRecord::Migration[7.0]
+    def change
+        create_table :lesli_roles do |t|
+            t.string    :name
+            t.string    :code
+            t.string    :description
+            t.boolean   :active
 
-// · Configuration & variables
-@import "lesli/settings/variables";
+            # redirect users to path after login
+            t.string    :path_default
+
+            # allow users to access resources only inside the :path_default 
+            t.boolean   :path_limited
+            
+            # allow users to work only with data created or assigned to them
+            t.boolean   :isolated, default: false
+
+            # role hierarchy
+            t.integer   :object_level_permission, default: 10
+
+            t.datetime  :deleted_at, index: true
+            t.timestamps
+        end
+
+        add_reference(:lesli_roles, :account, foreign_key: { to_table: :lesli_accounts })
+    end
+end

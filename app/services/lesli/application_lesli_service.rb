@@ -33,7 +33,7 @@ Building a better future, one line of code at a time.
 
 # · 
 module Lesli 
-    class ApplicationLesliServices
+    class ApplicationLesliService
 
 
         # Set container attributes to manage the life-cycle of the service

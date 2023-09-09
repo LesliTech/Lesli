@@ -17,13 +17,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS Development Engine.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.tech
+@website  https://www.lesli.dev
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
@@ -37,9 +37,9 @@ var debug = require("lesli-js/debug/nodejs")
 
 
 // · Including webpack configuration
-const webpackBase = require("./lib/vue/webpack/base")
-const applicationCore = require("./lib/vue/webpack/core")
-const applicationEngines = require("./lib/vue/webpack/engines")
+const webpackBase = require("./lib/webpack/base")
+const applicationCore = require("./lib/webpack/core")
+const applicationEngines = require("./lib/webpack/engines")
 
 
 // get specific modules to work with, example: npm run webpack -- babel bell
@@ -53,7 +53,7 @@ module.exports = env => {
     // set mode
     env.mode = env.mode ? env.mode : "development"
     env.watch = env.watch ? env.watch : false
-    env.production = ( env.mode == "production" ? true : false)
+    env.production = (env.mode == "production" ? true : false)
     
 
     // webpack "threads"
@@ -63,7 +63,7 @@ module.exports = env => {
     // core vue applications
     webpackConfig.push(Object.assign({}, webpackBase(env), applicationCore(env, requestedEngines)))
 
-    /*
+    
     // engine vue applications
     applicationEngines(env, requestedEngines).forEach(engine => {
         webpackConfig.push(Object.assign({}, webpackBase(env), engine.config))
@@ -76,10 +76,9 @@ module.exports = env => {
             debug.info(path2.replace(path.resolve("engines"), ""))
         }
     })
-    */
+
     debug.hr()
 
-    // 
     return webpackConfig
 
 }

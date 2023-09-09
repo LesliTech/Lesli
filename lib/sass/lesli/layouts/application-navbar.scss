@@ -32,6 +32,8 @@ Building a better future, one line of code at a time.
 
 nav.lesli-application-navigation {
     background-color: var(--lesli-navbar-color);
+    border-bottom: 1px solid rgba(172,179,194,.2);
+    width: 100%;
 
     ul {
         display: flex;
@@ -45,14 +47,14 @@ nav.lesli-application-navigation {
             // link label
             span.text {
                 margin-left: 6px;
-                display: inline-block;
-            }
-
-            span.text {
                 font-size: 1rem;
                 display: inline-block;
                 flex-grow: 1;
                 text-align: left;
+            }
+
+            [class^="ri-"] {
+                font-size: 18px;
             }
         }
     }
