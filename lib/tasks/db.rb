@@ -39,8 +39,7 @@ def setup
     Rake::Task['db:create'].invoke
     Rake::Task['db:migrate'].invoke
     Rake::Task['db:seed'].invoke
-
-    Lesli::Engine.load_seed
+    seed()
     
 end
 
@@ -57,8 +56,7 @@ def reset
     Rake::Task['db:create'].invoke
     Rake::Task['db:migrate'].invoke
     Rake::Task['db:seed'].invoke
-
-    Lesli::Engine.load_seed
+    seed()
 
 end
 
@@ -72,5 +70,6 @@ def seed
     L2.info("Seed Lesli database for development")
 
     Lesli::Engine.load_seed
+    LesliBell::Engine.load_seed if defined?(LesliBell)
 
 end

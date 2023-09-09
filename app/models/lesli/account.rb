@@ -38,5 +38,7 @@ module Lesli
 
         # account resources
         has_many :users
+
+        has_one :bell, class_name: "LesliBell::Account"
     end
 end
