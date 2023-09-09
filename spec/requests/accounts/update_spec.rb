@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -32,16 +32,20 @@ Building a better future, one line of code at a time.
 
 
 # · 
-require "support/lesli_request_tester"
+require "rails_helper"
+require Lesli::Engine.root.join("spec/support/lesli_request_tester")
+
+ENGINE_MOUNTED_PATH = Lesli::Engine.routes.find_script_name({})
 
 
-RSpec.describe "PUT:/administration.json", type: :request do
+# · 
+RSpec.describe "PUT:/lesli/account.json", type: :request do
     include_context "request user authentication"
 
     it "is expected to update the account information as a whole" do
         new_account_info = FactoryBot.attributes_for(:account)
 
-        put "/administration/account.json", params: { account: new_account_info }
+        put("#{ENGINE_MOUNTED_PATH}/account.json", params: { account: new_account_info })
 
         # shared examples
         expect_response_with_successful
@@ -68,7 +72,7 @@ RSpec.describe "PUT:/administration.json", type: :request do
     end
 
     it "is expected not to allow empty/null company name" do
-        put "/administration/account.json", params: { account: { company_name: "" } }
+        put "#{ENGINE_MOUNTED_PATH}/account.json", params: { account: { company_name: "" } }
 
         # shared examples
         expect_response_with_error

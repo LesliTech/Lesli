@@ -34,36 +34,40 @@ module Lesli
     class AccountsController < ApplicationLesliController
         before_action :set_account, only: %i[show edit update destroy]
 
-        # GET /account
+        # GET /accounts/1
+        # GET /accounts/1.json
         def show
             respond_to do |format|
                 format.html {}
                 format.json do
+                    set_account
                     respond_with_successful(@account)
                 end
             end
         end
-
+    
         # GET /accounts/new
         def new
-            @account = Account.new
         end
-
+    
         # GET /accounts/1/edit
-        def edit; end
-
-        # POST /accounts
-        def create
-            @account = Account.new(account_params)
-
-            if @account.save
-                redirect_to @account, notice: "Account was successfully created."
-            else
-                render :new, status: :unprocessable_entity
-            end
+        def edit
         end
-
+    
+        # POST /accounts
+        # POST /accounts.json
+        def create
+            current_user.account.company_name = account_params[:company_name]
+            current_user.account.status = 'active'
+            current_user.account.save
+            if current_user.account.errors.any?
+                return respond_with_error(current_user.errors.full_messages.to_sentence)
+            end
+            respond_with_successful
+        end
+    
         # PATCH/PUT /accounts/1
+        # PATCH/PUT /accounts/1.json
         def update
             if @account.update(account_params)
                 respond_with_successful(@account)
@@ -71,11 +75,17 @@ module Lesli
                 respond_with_error(@account)
             end
         end
-
+    
         # DELETE /accounts/1
+        # DELETE /accounts/1.json
         def destroy
+            return respond_with_not_found unless @account
+    
             @account.destroy
-            redirect_to accounts_url, notice: "Account was successfully destroyed.", status: :see_other
+            respond_to do |format|
+                format.html { redirect_to accounts_url, notice: 'Account was successfully destroyed.' }
+                format.json { head :no_content }
+            end
         end
 
         private

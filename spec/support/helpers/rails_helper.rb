@@ -48,8 +48,8 @@ require Lesli::Engine.root.join("spec/support/config/spec_helper")
 
 
 # ·
-Dir.glob(Rails.root.join("spec/support/factories/*.rb")).sort.each do |factory|
-    #require_dependency factory
+Dir.glob(Lesli::Engine.root.join("spec/support/factories/*.rb")).sort.each do |factory|
+    require_dependency factory
 end
 
 

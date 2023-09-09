@@ -35,7 +35,6 @@ Building a better future, one line of code at a time.
 require "rails_helper"
 require Lesli::Engine.root.join("spec/support/lesli_request_tester")
 
-
 ENGINE_MOUNTED_PATH = Lesli::Engine.routes.find_script_name({})
 
 
