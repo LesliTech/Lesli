@@ -88,6 +88,4 @@ Gem::Specification.new do |spec|
     # Flexible authentication solution for Rails with Warden
     spec.add_dependency "devise", "4.9.2"
 
-    # Code analyzer & formatter for Ruby apps
-    spec.add_development_dependency "rubocop", "1.56.2"
 end
