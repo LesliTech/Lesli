@@ -92,18 +92,6 @@ const applicationHeader = ref(null)
 const search = {}
 
 
-// · capture user scroll to add special styles for the header
-function handleScroll($event) {
-
-    let scrollTop = window.pageYOffset || document.body.scrollTop;
-    if (scrollTop > applicationHeader.value.offsetHeight - 100) {
-        applicationHeader.value.classList.add("scrolling-header-navigation")
-    } else {
-        applicationHeader.value.classList.remove("scrolling-header-navigation")
-    }
-}
-
-
 // · 
 function onEscape(event) {
     if (event.keyCode === 27) {
@@ -118,16 +106,6 @@ function toggleEngines() {
     storeLayout.toggleEngines()
     document.addEventListener('keydown', onEscape)
 }
-
-
-// · listen for all the scroll event
-window.addEventListener('scroll', handleScroll);
-
-
-// · stop listeners
-onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll);
-})
 
 </script>
 <template>

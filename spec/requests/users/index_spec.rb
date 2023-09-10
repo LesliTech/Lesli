@@ -31,23 +31,41 @@ Building a better future, one line of code at a time.
 =end
 
 
-# get settings
-company = Lesli.config.company
+# ·
+require "rails_helper"
+require Lesli::Engine.root.join("spec/support/lesli_request_tester")
+
+ENGINE_MOUNTED_PATH = Lesli::Engine.routes.find_script_name({})
 
 
-# Create company user
-user = create_development_user(company[:email], "owner", company[:name], "")
-user.account.user = user
-user.account.save!
+# ·
+RSpec.describe "GET:#{ENGINE_MOUNTED_PATH}/users.json", type: :request do
 
+    include_context "request user authentication"
 
-# core development users
-[
-    ["ldonis@lesli.tech", "owner", "Luis", "Donis"],
-    ["admin@lesli.tech", "sysadmin", "Admin", "Lesli"],
-    ["guest@lesli.tech", "limited", "Guest", "Lesli"],
-    ["test@lesli.tech", "sysadmin", "Test", "Lesli"],
-].each do |user|
-    create_development_user(user[0], user[1], user[2], user[3])
-    L2.m("User #{ user[2] } <#{ user[0] }> successfully created!")
-end 
+    it "is expected to respond with users index" do
+
+        get("#{ENGINE_MOUNTED_PATH}/users.json", params: {
+            :perPage => 1000
+        })
+
+        expect_response_with_pagination
+
+        expect_count = @current_user.account.users.count
+
+        expect(response_body["pagination"]["total"]).to eql(expect_count)
+
+    end
+
+    it "is expected that the index includes users with a valid role" do
+        get("#{ENGINE_MOUNTED_PATH}/users.json")
+
+        # shared examples
+        expect_response_with_pagination
+
+        # custom specs
+        #expect(response_body["records"].first).to have_key("rolenames")
+        #expect(response_body["records"].first["rolenames"]).to be_an(String)
+
+    end
+end

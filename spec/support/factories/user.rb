@@ -34,6 +34,7 @@ Building a better future, one line of code at a time.
 # ·
 FactoryBot.define do
     factory :user, class: "Lesli::User" do
+        
         active      { true }
         email       { Faker::Internet.email }
         salutation  { ["mr", "mrs", "ms"][rand(2)] }

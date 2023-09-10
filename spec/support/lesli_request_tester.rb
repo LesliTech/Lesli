@@ -42,7 +42,8 @@ RSpec.shared_context "request user authentication" do
 
     # Reset account settings
     before(:each) do
-        @current_user = Lesli::User.first
+        #@current_user = Lesli::User.first
+        @current_user = FactoryBot.create(:user)
         #Account::Setting.reset_all(@current_user.account)
     end
 
@@ -60,7 +61,6 @@ RSpec.shared_context "request user authentication" do
             }
         }
 
-        @current_user = Lesli::User.first
         #sign_in(@current_user)
     end
 

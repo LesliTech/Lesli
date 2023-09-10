@@ -35,7 +35,7 @@ import { defineStore } from "pinia"
 
 
 // · 
-export const useUser = defineStore("administration.user", {
+export const useUser = defineStore("lesli.user", {
     state: () => {
         return {
             options: {
@@ -78,7 +78,7 @@ export const useUser = defineStore("administration.user", {
     actions: {
 
         getOptions() {
-            this.http.get(this.url.admin("users/options")).then(result => {
+            this.http.get(this.url.lesli("users/options")).then(result => {
                 this.options = result
             })
         },
@@ -86,10 +86,10 @@ export const useUser = defineStore("administration.user", {
         getUser(id=null) {
 
             // get the profile by default
-            let url = this.url.admin("profile")
+            let url = this.url.lesli("profile")
 
             // get an specifick user if id is provided
-            if (id) { url = this.url.admin("users/:id", id) }
+            if (id) { url = this.url.lesli("users/:id", id) }
 
             this.http.get(url).then(result => {
                 this.user = result
@@ -109,7 +109,7 @@ export const useUser = defineStore("administration.user", {
         },
 
         putUser() {
-            this.http.put(this.url.admin("users/:id", this.user.id), {
+            this.http.put(this.url.lesli("users/:id", this.user.id), {
                 user: this.user
             }).then(result => {
                 this.msg.success(I18n.t("core.users.messages_success_operation"))
@@ -127,7 +127,7 @@ export const useUser = defineStore("administration.user", {
             })
             .then(({ isConfirmed }) => {
                 if (isConfirmed) {
-                    this.http.delete(this.url.admin("/users/:id", this.user.id)).then(result => {
+                    this.http.delete(this.url.lesli("/users/:id", this.user.id)).then(result => {
                         this.msg.success(I18n.t("core.users.messages_success_operation"))
                         //this.url.go("/administration/users")
                     }).catch(error => {
@@ -138,7 +138,7 @@ export const useUser = defineStore("administration.user", {
         },
 
         getRoles() {
-            this.http.get(this.url.admin("users/:id/roles", this.user.id)).then(result => {
+            this.http.get(this.url.lesli("users/:id/roles", this.user.id)).then(result => {
                 this.roles = result
             }).catch(error => {
                 console.log(error)
@@ -146,7 +146,7 @@ export const useUser = defineStore("administration.user", {
         },
 
         postRole(role) {
-            this.http.post(this.url.admin('users/:id/roles', this.user.id), {
+            this.http.post(this.url.lesli('users/:id/roles', this.user.id), {
                 user_role: {
                     id: role.id
                 }
@@ -158,7 +158,7 @@ export const useUser = defineStore("administration.user", {
         },
 
         deleteRole(role) {
-            this.http.delete(this.url.admin('users/:user_id/roles/:role_id', {
+            this.http.delete(this.url.lesli('users/:user_id/roles/:role_id', {
                 user_id: this.user.id, 
                 role_id: role.id
             })).then(result => {
@@ -169,7 +169,7 @@ export const useUser = defineStore("administration.user", {
         },
 
         doRequestPassword() {
-            this.http.post(this.url.admin("users/:id/requestpassword", this.user.id)).then(result => {
+            this.http.post(this.url.lesli("users/:id/requestpassword", this.user.id)).then(result => {
                 this.msg.success(I18n.t("core.users.messages_success_operation"))
             }).catch(error => {
                 this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
@@ -177,7 +177,7 @@ export const useUser = defineStore("administration.user", {
         },
 
         doPasswordReset() {
-            this.http.post(this.url.admin("users/:id/passwordreset", this.user.id)).then(result => {
+            this.http.post(this.url.lesli("users/:id/passwordreset", this.user.id)).then(result => {
                 this.msg.success(I18n.t("core.users.messages_success_operation"))
             }).catch(error => {
                 this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
@@ -185,7 +185,7 @@ export const useUser = defineStore("administration.user", {
         },
 
         doLogout() {
-            this.http.post(this.url.admin("users/:id/logout", this.user.id)).then(result => {
+            this.http.post(this.url.lesli("users/:id/logout", this.user.id)).then(result => {
                 this.msg.success(I18n.t("core.users.messages_success_operation"))
             }).catch(error => {
                 this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
@@ -193,7 +193,7 @@ export const useUser = defineStore("administration.user", {
         },
 
         doRevokeAccess() {
-            this.http.post(this.url.admin("users/:id/revokeaccess", this.user.id)).then(result => {
+            this.http.post(this.url.lesli("users/:id/revokeaccess", this.user.id)).then(result => {
                 this.msg.success(I18n.t("core.users.messages_success_operation"))
             }).catch(error => {
                 this.msg.danger(I18n.t("core.shared.messages_danger_internal_error"))
@@ -207,7 +207,7 @@ export const useUser = defineStore("administration.user", {
         },
         
         getSessions() {
-            this.http.get(this.url.admin("users/:id/sessions", this.user.id )).then(result => {                
+            this.http.get(this.url.lesli("users/:id/sessions", this.user.id )).then(result => {                
                 this.sessions.pagination = result.pagination
                 this.sessions.records = result.records
             }).catch(error => {
@@ -226,7 +226,7 @@ export const useUser = defineStore("administration.user", {
             })
             .then(({ isConfirmed }) => {
                 if (isConfirmed) {
-                    this.http.delete(this.url.admin("users/:id/sessions/:session_id", { 
+                    this.http.delete(this.url.lesli("users/:id/sessions/:session_id", { 
                         id: this.user.id, 
                         session_id: user_session_id
                     })).then(result => {
@@ -240,7 +240,7 @@ export const useUser = defineStore("administration.user", {
         },
 
         postLanguage() {
-            this.http.post(this.url.admin('users/:id/settings', this.user.id), {
+            this.http.post(this.url.lesli('users/:id/settings', this.user.id), {
                 user_setting: {
                     name: 'locale', 
                     value: this.user.locale.value
@@ -256,7 +256,7 @@ export const useUser = defineStore("administration.user", {
         },
 
         getOptions() {
-            this.http.get(this.url.admin("users/options")).then(result => {
+            this.http.get(this.url.lesli("users/options")).then(result => {
                 this.options.salutations = result.salutations
         
                 this.options.locales = Object.keys(result.locales).map(key => {
@@ -301,7 +301,7 @@ putUserStatus(){
     })
     .then(({ isConfirmed }) => {
         if (isConfirmed) {
-            this.http.patch(this.url.admin('users/:id', this.user.id), {
+            this.http.patch(this.url.lesli('users/:id', this.user.id), {
                 user: {
                     active: this.user.active
                 }
