@@ -36,7 +36,7 @@ company = Lesli.config.company
 
 
 # Create company user
-user = create_development_user(company[:name], "owner", company[:name], "")
+user = create_development_user(company[:email], "owner", company[:name], "")
 user.account.user = user
 user.account.save!
 
