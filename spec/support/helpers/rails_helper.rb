@@ -43,7 +43,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require "L2"
 require "faker"
 require "rspec/rails"
-require Lesli::Engine.root.join("spec/support/config/spec_helper")
+require Lesli::Engine.root.join("spec/support/helpers/spec_helper")
 #require Lesli::Engine.root.join("spec/support/config/spec_coverage")
 
 
@@ -113,13 +113,6 @@ RSpec.configure do |config|
     # config.filter_gems_from_backtrace("gem name")
 
 end
-
-
-# Validate that at least there are one user in the database
-# if ::User.all.count < 1
-#     # if no users, create a dummy user, so the test always find a user to log in
-#     FactoryBot.create(:user)
-# end
 
 
 # ·
