@@ -36,7 +36,7 @@ import { ref, reactive, onMounted, watch, computed } from "vue"
 
 
 // · import lesli stores
-import { useAccount } from "CloudAdmin/stores/account"
+import { useAccount } from "LesliAdmin/stores/account"
 
 
 // · implement stores
