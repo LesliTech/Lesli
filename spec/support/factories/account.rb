@@ -17,31 +17,30 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
 
 FactoryBot.define do
-    factory :account, class: "Account" do
-        status { Account.statuses.keys.first }
+    factory :account, class: "Lesli::Account" do
+        #status { Account.statuses.keys.first }
         company_name { Faker::Company.name }
         company_name_legal { Faker::Company.name }
-        company_tag_line { Faker::Company.bs }
+        company_tagline { Faker::Company.bs }
         # country { Faker::Address.country }
         address { Faker::Address.full_address }
-        region { Account.regions.values.sample }
-        city { Faker::Address.city }
+        #region { Account.regions.values.sample }
+        #city { Faker::Address.city }
         postal_code { Faker::Address.zip_code }
         website { Faker::Internet.url  }
         phone_number_1 { Faker::PhoneNumber.phone_number }
@@ -51,5 +50,10 @@ FactoryBot.define do
         youtube { Faker::Lorem.word }
         linkedin { Faker::Lorem.word }
         facebook { Faker::Lorem.word }
+
+        after(:create) do |account, evaluator|
+            account.user = FactoryBot.create(:user, account_id: account.id)
+            account.save
+        end
     end
 end

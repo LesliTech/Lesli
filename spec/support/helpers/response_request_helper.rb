@@ -30,8 +30,6 @@ Building a better future, one line of code at a time.
 // ·     
 =end
 
-L2.info "lesli_request_helper"
-
 module ResponseRequestHelper
 
     # container for the response body parsed as JSON

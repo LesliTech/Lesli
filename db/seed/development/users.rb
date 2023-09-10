@@ -17,31 +17,37 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
 
-# Company development user
-#account = Rails.application.config.lesli.dig(:account)
-#user = create_development_user(account[:email], "owner", account[:name], "")
-#user.account.user = user
-#user.account.save!
+# get settings
+company = Lesli.config.company
+
+
+# Create company user
+user = create_development_user(company[:name], "owner", company[:name], "")
+user.account.user = user
+user.account.save!
 
 
 # core development users
-create_development_user("hello@lesli.tech", "owner", "Lesli", "Tech")
-create_development_user("ldonis@lesli.tech", "owner", "Luis", "Donis")
-create_development_user("admin@lesli.tech", "sysadmin", "Admin", "Lesli")
-create_development_user("guest@lesli.tech", "limited", "Guest", "Lesli")
-create_development_user("test@lesli.tech", "sysadmin", "Test", "Lesli")
+[
+    ["ldonis@lesli.tech", "owner", "Luis", "Donis"],
+    ["admin@lesli.tech", "sysadmin", "Admin", "Lesli"],
+    ["guest@lesli.tech", "limited", "Guest", "Lesli"],
+    ["test@lesli.tech", "sysadmin", "Test", "Lesli"],
+].each do |user|
+    create_development_user(user[0], user[1], user[2], user[3])
+    L2.m("User #{ user[2] } <#{ user[0] }> successfully created!")
+end 

@@ -35,7 +35,7 @@ Lesli::Engine.routes.draw do
     root to: "accounts#show"
 
     resource :profile, only: []
-    resource :account, only: [:show]
+    resource :account, only: [:show, :update]
     resources :users, only: [:index, :show, :update, :create, :destroy] do
 
         # extensions to the users methods

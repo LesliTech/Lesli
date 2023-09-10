@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 =end
 module Lesli
     class ApplicationLesliController < ApplicationController
-        include Lesli::Interfaces::Application::Responder
+        include Interfaces::Application::Responder
         include Interfaces::Application::Requester
         # include Interfaces::Application::Logger
 
