@@ -33,11 +33,6 @@ Building a better future, one line of code at a time.
 L2.br(4)
 
 
-L2.info("Loading seeds for #{Rails.env.downcase} environment")
-
-
-L2.br
-
 # including tools for seeders
 load Lesli::Engine.root.join("db", "seed", "tools.rb")
 
@@ -66,4 +61,4 @@ load Lesli::Engine.root.join("db", "seed", "#{Rails.env.downcase}.rb")
 #Rake.application.invoke_task("app:maintenance")
 
 
-L2.cow("Seed process completed!")
+#L2.cow("Seed process completed!")

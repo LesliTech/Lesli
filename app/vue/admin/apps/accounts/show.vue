@@ -1,6 +1,5 @@
 <script setup>
 /*
-
 Lesli
 
 Copyright (c) 2023, Lesli Technologies, S. A.
@@ -18,20 +17,18 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
-
 
 
 // · import vue tools
@@ -41,10 +38,12 @@ import { computed, onMounted } from "vue"
 // · import lesli stores
 import { useAccount } from "LesliAdmin/stores/account"
 
+
 // · import account components
 import formInformation from "./components/form-information.vue"
 // import addressForm from "./components/address-form.vue"
 // import contactForm from "./components/contact-form.vue"
+
 
 // · implement stores
 const storeAccount = useAccount()
@@ -58,11 +57,14 @@ const translations = {
     }
 }
 
+
 // . get reactive info from onboarding store
 const companyInfo = computed(()=> storeOnboarding.companyInfo)
 
+
+// . 
 onMounted(() => {
-    //storeAccount.fetch()
+    storeAccount.fetch()
 })
 
 </script>
@@ -74,12 +76,14 @@ onMounted(() => {
             <lesli-tab-item title="General Information" icon="business">
                 <form-information></form-information>
             </lesli-tab-item>
-            <lesli-tab-item title="Address" icon="location_on">
-                <!-- <address-form></address-form> -->
-            </lesli-tab-item>
-            <lesli-tab-item title="Contact" icon="contact_page">
-                <!-- <contact-form></contact-form> -->
-            </lesli-tab-item>
         </lesli-tabs>
     </lesli-content>
+    <!-- 
+    <lesli-tab-item title="Address" icon="location_on">
+        <address-form></address-form>
+    </lesli-tab-item>
+    <lesli-tab-item title="Contact" icon="contact_page">
+        <contact-form></contact-form>
+    </lesli-tab-item>
+    -->
 </template>

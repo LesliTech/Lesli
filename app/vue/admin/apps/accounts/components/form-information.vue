@@ -1,6 +1,5 @@
 <script setup>
 /*
-
 Lesli
 
 Copyright (c) 2023, Lesli Technologies, S. A.
@@ -18,20 +17,18 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
-
 
 
 // · import vue tools
@@ -40,6 +37,7 @@ import { ref, reactive, onMounted, watch, computed } from "vue"
 
 // · import lesli stores
 import { useAccount } from "CloudAdmin/stores/account"
+
 
 // · implement stores
 const storeAccount = useAccount()
@@ -57,7 +55,7 @@ const translations = {
 
 </script>
 <template>
-    <form @submit.prevent="storeAccount.updateInfo">
+    <form @submit.prevent="storeAccount.update">
         <div class="field">
             <label class="label">{{ translations.core.accounts.column_company_name }}</label>
             <div class="control">
@@ -89,7 +87,7 @@ const translations = {
                     class="input" 
                     type="text" 
                     :placeholder="translations.core.onboardings.view_placeholder_company_slogan"
-                    v-model="storeAccount.accountInfo.company_tag_line"
+                    v-model="storeAccount.accountInfo.company_tagline"
                     >
             </div>
         </div>
