@@ -35,7 +35,7 @@ import application from "Lesli/application"
 
 
 // · 
-import applicationAccountShow from "LesliAdmin/apps/accounts/show.vue"
+import applicationAccountShow from "LesliAdmin/apps/account/show.vue"
 import applicationUsersIndex from "LesliAdmin/apps/users/index.vue"
 
 
