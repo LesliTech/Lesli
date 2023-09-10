@@ -35,12 +35,35 @@ Building a better future, one line of code at a time.
 require "rails_helper"
 require Lesli::Engine.root.join("spec/support/lesli_request_tester")
 
+ENGINE_MOUNTED_PATH = Lesli::Engine.routes.find_script_name({})
+
 
 # ·
-RSpec.describe "GET:/lesli/users/list.json", type: :request do
-    #include_context "request user authentication"
+RSpec.describe "GET:#{ENGINE_MOUNTED_PATH}/users/list.json", type: :request do
+    include_context "request user authentication"
 
     it "is expected to list users" do
-        expect(true).to eql(true)
+
+        get("#{ENGINE_MOUNTED_PATH}/users/list.json")
+
+        # shared examples
+        expect_response_with_successful
+
+        # custom specs
+        expect(response_body).to be_an(Array)
+        expect(response_body.length).to be >= 1
+
+        expect(response_body.first).to have_key("id")
+        expect(response_body.first["id"]).to be_a(Numeric)
+        expect(response_body.first["id"]).to be >= 1
+
+        expect(response_body.first).to have_key("email")
+        expect(response_body.first["email"]).to be_a(String)
+
+        expect(response_body.first).to have_key("name")
+        expect(response_body.first["name"]).to be_a(String)
+
+        expect(response_body.first).to have_key("alias")
+        expect(response_body.first["alias"]).to be_a(String)
     end
 end
