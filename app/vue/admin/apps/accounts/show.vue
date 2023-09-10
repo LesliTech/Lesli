@@ -76,12 +76,14 @@ onMounted(() => {
             <lesli-tab-item title="General Information" icon="business">
                 <form-information></form-information>
             </lesli-tab-item>
-            <lesli-tab-item title="Address" icon="location_on">
-                <!-- <address-form></address-form> -->
-            </lesli-tab-item>
-            <lesli-tab-item title="Contact" icon="contact_page">
-                <!-- <contact-form></contact-form> -->
-            </lesli-tab-item>
         </lesli-tabs>
     </lesli-content>
+    <!-- 
+    <lesli-tab-item title="Address" icon="location_on">
+        <address-form></address-form>
+    </lesli-tab-item>
+    <lesli-tab-item title="Contact" icon="contact_page">
+        <contact-form></contact-form>
+    </lesli-tab-item>
+    -->
 </template>
