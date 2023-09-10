@@ -33,44 +33,14 @@ Building a better future, one line of code at a time.
 
 # ·
 FactoryBot.define do
-    factory :user, class: "User" do
-        
-        email { Faker::Internet.email }
-        password { Devise.friendly_token }
-        salutation { ["mr", "mrs", "ms"][rand(2)] }
-        first_name { Faker::Name.first_name }
-        last_name { Faker::Name.last_name }
-        telephone { Faker::PhoneNumber.phone_number }
-        active { true }
-        detail_attributes do
-            {
-                title: Faker::Job.title,
-                address: Faker::Address.full_address
-            }
-        end
+    factory :user, class: "Lesli::User" do
+        active      { true }
+        email       { Faker::Internet.email }
+        salutation  { ["mr", "mrs", "ms"][rand(2)] }
+        first_name  { Faker::Name.first_name }
+        last_name   { Faker::Name.last_name }
+        telephone   { Faker::PhoneNumber.phone_number }
 
-        # an account is required
-        account_id { (Account.first.nil? ? FactoryBot.create(:account) : Account.first).id }
-        # TODO: we should be able to specify if we want create a new account 
-        # trait :with_account do
-        #     account { (Account.first.nil? ? FactoryBot.create(:account) : Account.first) }
-        # end
-
-        # these transient will be available in callbacks as evaluator.<YOUR_TRANSIENT_ATTR>
-        transient do
-            confirm { true }
-        end
-
-        transient do
-            role_name { "sysadmin" }
-        end
-
-        # callbacks
-        before(:create) { |user, evaluator| user.confirm if evaluator.confirm }
-        after(:create) do |user, evaluator|
-            user.account.user = user
-            user.account.save
-            user.user_roles.create({ role: Role.find_by(:name => evaluator.role_name) })
-        end
+        account_id { (Lesli::Account.first.nil? ? FactoryBot.create(:account) : Lesli::Account.first).id }
     end
 end

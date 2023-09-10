@@ -50,5 +50,10 @@ FactoryBot.define do
         youtube { Faker::Lorem.word }
         linkedin { Faker::Lorem.word }
         facebook { Faker::Lorem.word }
+
+        after(:create) do |account, evaluator|
+            account.user = FactoryBot.create(:user, account_id: account.id)
+            account.save
+        end
     end
 end
