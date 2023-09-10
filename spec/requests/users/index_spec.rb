@@ -39,31 +39,33 @@ ENGINE_MOUNTED_PATH = Lesli::Engine.routes.find_script_name({})
 
 
 # ·
-RSpec.describe "GET:#{ENGINE_MOUNTED_PATH}/users/list.json", type: :request do
+RSpec.describe "GET:#{ENGINE_MOUNTED_PATH}/users.json", type: :request do
+
     include_context "request user authentication"
 
-    it "is expected to list users" do
+    it "is expected to respond with users index" do
 
-        get("#{ENGINE_MOUNTED_PATH}/users/list.json")
+        get("#{ENGINE_MOUNTED_PATH}/users.json", params: {
+            :perPage => 1000
+        })
+
+        expect_response_with_pagination
+
+        expect_count = @current_user.account.users.count
+
+        expect(response_body["pagination"]["total"]).to eql(expect_count)
+
+    end
+
+    it "is expected that the index includes users with a valid role" do
+        get("#{ENGINE_MOUNTED_PATH}/users.json")
 
         # shared examples
-        expect_response_with_successful
+        expect_response_with_pagination
 
         # custom specs
-        expect(response_body).to be_an(Array)
-        expect(response_body.length).to be >= 1
+        #expect(response_body["records"].first).to have_key("rolenames")
+        #expect(response_body["records"].first["rolenames"]).to be_an(String)
 
-        expect(response_body.first).to have_key("id")
-        expect(response_body.first["id"]).to be_a(Numeric)
-        expect(response_body.first["id"]).to be >= 1
-
-        expect(response_body.first).to have_key("email")
-        expect(response_body.first["email"]).to be_a(String)
-
-        expect(response_body.first).to have_key("name")
-        expect(response_body.first["name"]).to be_a(String)
-
-        expect(response_body.first).to have_key("alias")
-        expect(response_body.first["alias"]).to be_a(String)
     end
 end

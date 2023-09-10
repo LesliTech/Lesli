@@ -40,7 +40,7 @@ module Lesli
         before_action :set_locale
         # before_action :authorize_request
         # before_action :authorize_privileges
-        # before_action :set_helpers_for_request
+        before_action :set_helpers_for_request
         before_action :set_helpers_for_account
         before_action :set_customization
 
