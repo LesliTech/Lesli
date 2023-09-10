@@ -37,7 +37,7 @@ module Lesli
         # Return a list of users that belongs to the account of the current_user
         # this list is meant to be used in selectors, autocomplets, etc
         def list query=nil, params=nil
-            #users = current_user.account.users        
+            #users = current_user.account.users
             users = Lesli::Account.first.users
 
             if params[:role].present?
@@ -92,10 +92,11 @@ module Lesli
                 group by(us.user_id)
             ) sessions on sessions.user_id = users.id"
 
-            users = current_user.account.users
-            .joins(sql_string_for_user_roles)
-            .joins(sql_string_for_user_sessions)
-            .page(query[:pagination][:page])
+            #users = current_user.account.users
+            users = Lesli::Account.first.users
+            #.joins(sql_string_for_user_roles)
+            #.joins(sql_string_for_user_sessions)
+            users = users.page(query[:pagination][:page])
             .per(query[:pagination][:perPage])
             .order("#{query[:order][:by]} #{query[:order][:dir]} NULLS LAST")
 
@@ -104,9 +105,9 @@ module Lesli
                 "CONCAT(COALESCE(first_name, ''), ' ', COALESCE(last_name, '')) as name",
                 :email,
                 :active,
-                :rolenames,
-                Date2.new.date_time.db_column("current_sign_in_at"),
-                Date2.new.date_time.db_column("last_action_performed_at")
+                #:rolenames,
+                #Date2.new.date_time.db_column("current_sign_in_at"),
+                #Date2.new.date_time.db_column("last_action_performed_at")
             )
 
         end

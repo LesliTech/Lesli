@@ -1,4 +1,5 @@
 =begin
+
 Lesli
 
 Copyright (c) 2023, Lesli Technologies, S. A.
@@ -22,11 +23,11 @@ Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.dev
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
 module Lesli
@@ -35,13 +36,18 @@ module Lesli
 
         def list
             respond_to do |format|
-                format.json { respond_with_successful(Lesli::UserServices.new("current_user").list(query, params)) }
+                format.json { respond_with_successful(Lesli::UserService.new("current_user").list(query, params)) }
             end
         end
 
         # GET /users
         def index
-            @users = User.all
+            respond_to do |format|
+                format.html { }
+                format.json {
+                    return respond_with_pagination(UserService.new("current_user").index(query, params))
+                }
+            end
         end
 
         # GET /users/1
