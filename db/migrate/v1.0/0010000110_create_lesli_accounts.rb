@@ -35,6 +35,7 @@ class CreateLesliAccounts < ActiveRecord::Migration[5.2]
         create_table :lesli_accounts do |t|
             # account status
             t.integer   :status
+            t.string    :email
 
             # company information
             t.string    :company_name
