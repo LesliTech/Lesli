@@ -33,14 +33,12 @@ Building a better future, one line of code at a time.
 
 
 # Company development user
-#account = Rails.application.config.lesli.dig(:account)
-#user = create_development_user(account[:email], "owner", account[:name], "")
-#user.account.user = user
-#user.account.save!
+user = create_development_user("hello@lesli.tech", "owner", "Lesli", "Tech")
+user.account.user = user
+user.account.save!
 
 
 # core development users
-create_development_user("hello@lesli.tech", "owner", "Lesli", "Tech")
 create_development_user("ldonis@lesli.tech", "owner", "Luis", "Donis")
 create_development_user("admin@lesli.tech", "sysadmin", "Admin", "Lesli")
 create_development_user("guest@lesli.tech", "limited", "Guest", "Lesli")
