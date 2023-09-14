@@ -36,7 +36,11 @@ import application from "Lesli/application"
 
 // · 
 import applicationAccountShow from "LesliAdmin/apps/account/show.vue"
+
+//import applicationUsersProfile from "LesliApp/administration/apps/profile/show.vue"
 import applicationUsersIndex from "LesliAdmin/apps/users/index.vue"
+///import applicationUsersShow from "LesliApp/administration/apps/users/show.vue"
+import applicationUsersNew from "LesliAdmin/apps/users/new.vue"
 
 
 // · 
@@ -46,16 +50,16 @@ application("LesliAdmin", [{
 }, {
     path: "/users",
     component: applicationUsersIndex
+}, {
+    path: "/users/new",
+    component: applicationUsersNew
 }])
 
 /*
 // · 
 import applicationAccountDashboard from "CloudAdmin/apps/accounts/dashboard.vue"
 
-import applicationUsersProfile from "LesliApp/administration/apps/profile/show.vue"
-import applicationUsersIndex from "LesliApp/administration/apps/users/index.vue"
-import applicationUsersShow from "LesliApp/administration/apps/users/show.vue"
-import applicationUsersNew from "LesliApp/administration/apps/users/new.vue"
+
 
 import applicationDescriptorsPrivileges from "LesliApp/administration/apps/descriptors/privileges.vue"
 import applicationDescriptorsIndex from "LesliApp/administration/apps/descriptors/index.vue"

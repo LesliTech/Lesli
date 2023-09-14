@@ -165,66 +165,64 @@ module Lesli
                 :first_name => user_params[:first_name] || "",
                 :last_name => user_params[:last_name] || "",
                 :telephone => user_params[:telephone] || "",
-                :detail_attributes => user_params[:detail_attributes] || {}
+                #:detail_attributes => user_params[:detail_attributes] || {}
             })
 
+
+
             # assign a random password
-            user.password = Devise.friendly_token
+            #user.password = Devise.friendly_token
 
             # enrol user to my own account
-            user.account = current_user.account
-
+            user.account = Account.first # current_user.account
 
             # users created through the administration area does not need to confirm their accounts
             # instead we send a password reset link, so they can have access to the platform
-            user.confirm
+            #user.confirm
 
             if user.save
 
                 # if a role is provided to assign to the new user
-                unless user_params[:roles_id].blank?
-                    # check if current user can work with the sent role
-                    if current_user.can_work_with_role?(user_params[:roles_id])
-                        # Search the role assigned
-                        role = current_user.account.roles.find_by(id: user_params[:roles_id])
-                        # assign role to the new user
-                        user.user_roles.create({ role: role })
-                    end
-
-                end
+                # unless user_params[:roles_id].blank?
+                #     # check if current user can work with the sent role
+                #     if current_user.can_work_with_role?(user_params[:roles_id])
+                #         # Search the role assigned
+                #         role = current_user.account.roles.find_by(id: user_params[:roles_id])
+                #         # assign role to the new user
+                #         user.user_roles.create({ role: role })
+                #     end
+                # end
 
                 # role validation - if new user does not have any role assigned
-                if user.roles.blank?
+                # if user.roles.blank?
 
-                    default_role_id = current_user.account.settings.find_by(:name => "default_role_id")&.value
-                    owner_role_id =  current_user.account.roles.find_by(:name => "owner").id
-                    if default_role_id.present? && default_role_id != owner_role_id
-                        # assign default role
-                        user.user_roles.create({ role:  current_user.account.roles.find_by(:id => default_role_id)})
+                #     default_role_id = current_user.account.settings.find_by(:name => "default_role_id")&.value
+                #     owner_role_id =  current_user.account.roles.find_by(:name => "owner").id
+                #     if default_role_id.present? && default_role_id != owner_role_id
+                #         # assign default role
+                #         user.user_roles.create({ role:  current_user.account.roles.find_by(:id => default_role_id)})
 
-                    else
-                        # assign limited role
-                        user.user_roles.create({ role: current_user.account.roles.find_by(:name => "limited") })
-                    end 
-                    
-                end
+                #     else
+                #         # assign limited role
+                #         user.user_roles.create({ role: current_user.account.roles.find_by(:name => "limited") })
+                #     end 
+                # end
 
                 # saving logs with information about the creation of the user
-                user.logs.create({ title: "user_created_at", description: Date2.new.date_time.to_s })
-                user.logs.create({ title: "user_created_by", description: current_user.email })
-                user.logs.create({ title: "user_created_with_role", description: user.user_roles.first.role.name + " " + user.user_roles.first.role.id.to_s})
-
-                User.log_activity_create(current_user, user)
+                # user.logs.create({ title: "user_created_at", description: Date2.new.date_time.to_s })
+                # user.logs.create({ title: "user_created_by", description: current_user.email })
+                # user.logs.create({ title: "user_created_with_role", description: user.user_roles.first.role.name + " " + user.user_roles.first.role.id.to_s})
+                # User.log_activity_create(current_user, user)
 
                 self.resource = user
 
                 begin
                     # users created through the administration area does not need to confirm their accounts
                     # instead we send a password reset link, so they can have access to the platform
-                    UserMailer.with(user: user).invitation_instructions.deliver_now
+                    #UserMailer.with(user: user).invitation_instructions.deliver_now
                 rescue => exception
                     #Honeybadger.notify(exception)
-                    user.logs.create({ title: "user_creation_email_failed ", description: exception.message })
+                    #user.logs.create({ title: "user_creation_email_failed ", description: exception.message })
                 end
 
             else
@@ -295,7 +293,8 @@ module Lesli
         end
 
         def find id
-            super(current_user.account.users.joins(:detail).find_by(id: id))
+            #super(current_user.account.users.joins(:detail).find_by(id: id))
+            super(current_user.account.users.find_by(id: id))
         end
     end
 end
