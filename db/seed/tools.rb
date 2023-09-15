@@ -45,8 +45,8 @@ def create_development_user email, rolename, firstname, lastname, password:nil
     # create development users if email is not registered yet
     Lesli::User.find_or_create_by(email: email) do |user|
         user.account = account
-        #user.password = password
-        #user.password_confirmation = password
+        user.password = password
+        user.password_confirmation = password
 
         # confirm user through device
         #user.confirm unless user.confirmed?

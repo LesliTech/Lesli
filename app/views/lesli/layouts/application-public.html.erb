@@ -35,9 +35,9 @@ Building a better future, one line of code at a time.
 <!DOCTYPE html>
 <html>
 <head>
-    <%#= render partial: "lesli/partials/application-head" %>
+    <%= render partial: "lesli/partials/application-head" %>
     <%#= render partial: "lesli/partials/application-data" %>
-    <%#= render partial: "lesli/partials/application-public-scss" %>
+    <%= render partial: "lesli/partials/application-public-scss" %>
     <%= yield :application_custom_assets %>
     <%# Disable back button in browser after Logout using JavaScript %>
     <% if flash[:logout] == true %>
@@ -53,7 +53,7 @@ Building a better future, one line of code at a time.
     <%#= yield :application_public_custom_header %>
     <h1>public layout</h1>
     <%= yield %>
-    <%#= render partial: "lesli/partials/application-public-javascript" %>
+    <%= render partial: "lesli/partials/application-public-javascript" %>
     <%#= render partial: "lesli/partials/application-analytics" %>
 </body>
 </html>

@@ -1,4 +1,3 @@
-<%
 =begin
 
 Lesli
@@ -18,19 +17,38 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Your Smart Business Assistant. 
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.tech
+@website  https://lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-=end
-%>
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·
 
-<%#= stylesheet_link_tag(controller_path, media: "all") %>
-<%= stylesheet_link_tag("lesli/users/sessions", media: "all") %>
+=end
+
+module Lesli
+    class ApplicationDeviseController < ActionController::Base
+        include Interfaces::Application::Responder
+        include Interfaces::Application::Requester
+        #include Interfaces::Application::Logger
+        
+        layout "lesli/layouts/application-public"
+
+        #before_action :set_locale_public
+
+        # def initialize
+        #     @account = { 
+        #         company: {
+        #             name: Rails.application.config.lesli.dig(:account, :name)
+        #         }
+        #     }
+        #     super
+        # end
+
+    end
+end
