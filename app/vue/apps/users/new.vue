@@ -37,8 +37,8 @@ import { useRouter, useRoute } from 'vue-router'
 
 
 // · import lesli stores
-import { useUsers } from "LesliApp/administration/stores/users"
-import { useRoles } from "LesliApp/administration/stores/roles"
+import { useUsers } from "LesliAdmin/stores/users"
+import { useRoles } from "LesliAdmin/stores/roles"
 
 
 // · implement stores
@@ -74,11 +74,12 @@ const onCreate = () => {
 
 // · 
 onMounted(() => {
+    console.log("works")
     storeRoles.fetchList()
 })
 </script>
 <template>
-    <application-component>
+    <lesli-application>
         <lesli-header title="Create User">
             <lesli-button icon="list" :to="url.admin('users')">
                 All users
@@ -176,5 +177,5 @@ onMounted(() => {
                 </div>
             </div>
         </lesli-form>
-    </application-component>
+    </lesli-application>
 </template>

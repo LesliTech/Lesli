@@ -37,6 +37,7 @@ module Lesli
 
         protect_from_forgery with: :exception
 
+        before_action :set_current_user
         before_action :set_locale
         # before_action :authorize_request
         # before_action :authorize_privileges
@@ -49,6 +50,7 @@ module Lesli
         layout "lesli/layouts/application-lesli"
 
         attr_reader :query
+        attr_reader :current_user
 
         # Rescue from "ParameterMissing" when using required params
         # in controllers
@@ -57,6 +59,10 @@ module Lesli
         end
 
         private
+
+        def set_current_user
+            @@current_user = User.first
+        end
 
         # Set default query params for:
         #   pagination
