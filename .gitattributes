@@ -1,6 +1,7 @@
 # See https://git-scm.com/docs/gitattributes for more about git attribute files.
 
 *.js linguist-vendored
+*.vue linguist-vendored
 *.css linguist-vendored
 *.less linguist-vendored
 *.json linguist-vendored
