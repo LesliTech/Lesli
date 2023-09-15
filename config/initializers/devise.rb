@@ -302,8 +302,8 @@ Devise.setup do |config|
   # apps is `200 OK` and `302 Found respectively`, but new apps are generated with
   # these new defaults that match Hotwire/Turbo behavior.
   # Note: These might become the new default in future versions of Devise.
-  config.responder.error_status = :unprocessable_entity
-  config.responder.redirect_status = :see_other
+  # config.responder.error_status = :unprocessable_entity
+  # config.responder.redirect_status = :see_other
 
   # ==> Configuration for :registerable
 
@@ -321,5 +321,14 @@ Devise.setup do |config|
     # ==> Controller configuration
     # Configure the parent class to the devise controllers.
     config.parent_controller = "Lesli::ApplicationDeviseController"
+
+    # The default HTTP method used to sign out a resource. Default is :delete.
+    config.sign_out_via = :get
+
+    # If 401 status code should be returned for AJAX requests. True by default.
+    config.http_authenticatable_on_xhr = false
+
+    # The "*/*" below is required to match Internet Explorer requests.
+    config.navigational_formats = ["*/*", :html, :json]
 end
     

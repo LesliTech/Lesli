@@ -34,13 +34,11 @@ def create_development_user email, rolename, firstname, lastname, password:nil
 
     # get password
     if password.blank?
-        password = "12345" #Rails.application.config.lesli.dig(:security, :password)
-        password = password + Time.now.year.to_s + "$"
+        password = Lesli.config.security.dig(:password)
+        password = password  + Time.now.year.to_s + "$"
     end
 
-    #account = Lesli::Account.find_by(company_name: Rails.application.config.lesli.dig(:account, :name))
-    account = Lesli::Account.first
-
+    account = Lesli::Account.find_by(email: Lesli.config.company.dig(:email))
 
     # create development users if email is not registered yet
     Lesli::User.find_or_create_by(email: email) do |user|
@@ -49,7 +47,7 @@ def create_development_user email, rolename, firstname, lastname, password:nil
         user.password_confirmation = password
 
         # confirm user through device
-        #user.confirm unless user.confirmed?
+        user.confirm unless user.confirmed?
 
         user.first_name = firstname
         user.last_name = lastname
