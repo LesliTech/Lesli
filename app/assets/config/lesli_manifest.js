@@ -45,7 +45,9 @@ Building a better future, one line of code at a time.
 //= link lesli/templates/public.css
 //= link lesli/templates/application.css
 
-//= link lesli/users/sessions.css
 
 //= link lesli/i18n.js
-//= link lesli/sessions.js
+
+
+//= link lesli/users/sessions.js
+//= link lesli/users/sessions.css

@@ -37,7 +37,7 @@ module Lesli
         include Interfaces::Application::Requester
         #include Interfaces::Application::Logger
         
-        layout "lesli/layouts/application-public"
+        layout "lesli/layouts/application-devise"
 
         #before_action :set_locale_public
 

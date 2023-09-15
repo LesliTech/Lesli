@@ -33,7 +33,7 @@ Building a better future, one line of code at a time.
 
 
 // ·
-@import "templates/public";
+@import "lesli/templates/public";
 
 
 // ·
@@ -95,6 +95,10 @@ body {
             }
             input[type="submit"] {
                 font-weight: 600;
+            }
+            input[type="password"] {
+                font-family: Verdana;
+                letter-spacing: 0.125em;
             }
             p.help {
                 font-weight: 600;
@@ -174,9 +178,8 @@ body {
         background: linear-gradient(0deg, 
             rgba(49, 106, 255, 0.4), 
             rgba(49, 106, 255, 0.4)), 
-            image_url("lesli_builder/login/login-background.jpg");
+            url("lesli/brand/login-background.jpg");
         background-position: center;
         background-size: cover;
-    
     }
 }
