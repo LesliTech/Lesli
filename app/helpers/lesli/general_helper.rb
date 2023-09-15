@@ -32,7 +32,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    module HtmlHelper
+    module GeneralHelper
         # build a url path to change locales
         def language_url(locale)
             "/language?locale=#{locale}"
