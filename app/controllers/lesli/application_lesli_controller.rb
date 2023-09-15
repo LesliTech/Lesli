@@ -38,7 +38,6 @@ module Lesli
         protect_from_forgery with: :exception
 
         before_action :set_path
-        before_action :set_current_user
         before_action :set_locale
         before_action :authorize_request
         # before_action :authorize_privileges
@@ -51,7 +50,6 @@ module Lesli
         layout "lesli/layouts/application-lesli"
 
         attr_reader :query
-        attr_reader :current_user
         attr_reader :engine_path
 
         # Rescue from "ParameterMissing" when using required params
@@ -64,10 +62,6 @@ module Lesli
 
         def set_path
             @@engine_path = Lesli::Engine.routes.find_script_name({})
-        end
-
-        def set_current_user
-            @@current_user = User.first
         end
 
         # Set default query params for:
@@ -196,30 +190,30 @@ module Lesli
             # run aditinal validations only for html requests
             return true unless request.format.html?
 
-            # get the current user session
-            current_session = current_user.sessions.find_by(id: session[:user_session_id])
+            # # get the current user session
+            # current_session = current_user.sessions.find_by(id: session[:user_session_id])
 
-            # check if user has an active session
-            if current_session.equal? nil or !current_session.active?
-                current_user.logs.create({ title: "system_session_logout", description: "session finished by the system"})
-                sign_out current_user
-                redirect_to "#{engine_path}/logout" and return
-            end
+            # # check if user has an active session
+            # if current_session.equal? nil or !current_session.active?
+            #     current_user.logs.create({ title: "system_session_logout", description: "session finished by the system"})
+            #     sign_out current_user
+            #     redirect_to "#{engine_path}/logout" and return
+            # end
 
-            if !current_session.expiration_at.blank? && current_session.expiration_at < Time.current
-                current_user.logs.create({ title: "system_session_logout", description: "session expired by the system"})
-                sign_out current_user
-                redirect_to "#{engine_path}/logout" and return
-            end
+            # if !current_session.expiration_at.blank? && current_session.expiration_at < Time.current
+            #     current_user.logs.create({ title: "system_session_logout", description: "session expired by the system"})
+            #     sign_out current_user
+            #     redirect_to "#{engine_path}/logout" and return
+            # end
 
-            # check password expiration date
-            if current_user.has_expired_password?
-                unless controller_name == "profiles"
-                    current_user.logs.create({ description: "redirect_due_to_expired_password" })
-                    redirect_to "/administration/profile#force-password-reset", notice: I18n.t("core.users/sessions.messages_danger_password_expired")
-                    return
-                end
-            end
+            # # check password expiration date
+            # if current_user.has_expired_password?
+            #     unless controller_name == "profiles"
+            #         current_user.logs.create({ description: "redirect_due_to_expired_password" })
+            #         redirect_to "/administration/profile#force-password-reset", notice: I18n.t("core.users/sessions.messages_danger_password_expired")
+            #         return
+            #     end
+            # end
 
         end
     end
