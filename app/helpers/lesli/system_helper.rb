@@ -68,14 +68,6 @@ module Lesli
         end
 
         # return true if the controller requested belongs to the administration area
-        def is_lesli_administration?
-            %w[
-                accounts account roles profiles users abouts
-                settings cronos role_descriptors descriptors
-            ].include?(lesli_controller)
-        end
-
-        # return true if the controller requested belongs to the administration area
         def is_lesli_onboarding?
             lesli_controller == "onboardings"
         end

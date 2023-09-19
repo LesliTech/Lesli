@@ -60,7 +60,6 @@ module Lesli
             path_segments = controller_path.split("/")
             cloud_module = path_segments.shift
 
-            return "administration/application" if is_lesli_administration?
             return "onboardings/application" if is_lesli_onboarding?
 
             "#{cloud_module}/application"

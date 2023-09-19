@@ -271,6 +271,14 @@ module Lesli
 
         # SECURITY & PRIVACY
 
+        # 08.01 Vault engine
+        def navigation_engine_vault(title: "Vault", subtitle: "")
+            return unless defined? LesliVault
+
+            navigation_engine_item(title, subtitle, "vault", lesli_vault.root_path,
+                                    controller_path.include?("lesli_vault"))
+        end
+
         # 08.03 Audit engine
         def navigation_engine_audit(title: "Audit", subtitle: "Activity, logs, security and more")
             return unless defined? CloudAudit
