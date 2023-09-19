@@ -62,7 +62,11 @@ $navbar-background-color: transparent;
 @import "bulma/sass/elements/title";
 @import "bulma/sass/elements/table";
 
+@import "bulma/sass/grid/columns";
 
+@import "bulma/sass/helpers/flexbox";
+
+@import "bulma/sass/layout/hero";
 
 // · Bulma elements/components overrides
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~

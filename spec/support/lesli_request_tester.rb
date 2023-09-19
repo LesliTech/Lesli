@@ -40,13 +40,6 @@ require Lesli::Engine.root.join("spec/support/helpers/response_request_helper")
 # · Authentication context
 RSpec.shared_context "request user authentication" do
 
-    # Reset account settings
-    before(:each) do
-        #@current_user = Lesli::User.first
-        @current_user = FactoryBot.create(:user)
-        #Account::Setting.reset_all(@current_user.account)
-    end
-
     # Creates a new valid user session
     before(:each) do
         @query = {
@@ -61,9 +54,9 @@ RSpec.shared_context "request user authentication" do
             }
         }
 
-        #sign_in(@current_user)
+        @current_user = FactoryBot.create(:user)
+        sign_in(@current_user)
     end
-
 end
 
 
@@ -71,10 +64,15 @@ end
 RSpec.configure do |config|
 
     # Include devise helpers to be able to login on test runtime
-    #config.include Devise::Test::IntegrationHelpers
+    config.include Devise::Test::IntegrationHelpers
 
     # Include helper methods
     config.include ResponseRequestHelper
     #config.include LesliHelper
+
+    config.before(:each, type: :request) do
+        #host! 'localhost:3000'
+        #default_url_options[:host] = 'https://localhost:3000'
+    end
 
 end

@@ -74,11 +74,10 @@ module Lesli
         def create
     
             user = UserService.new(current_user).create(user_params)
-    
             if user.successful?
                 respond_with_successful(user.result)
             else 
-                respond_with_error(user.errors)
+                respond_with_error("Error creating user", user.errors)
             end
     
         end
