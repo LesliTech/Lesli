@@ -35,6 +35,11 @@ module ResponseRequestHelper
     # container for the response body parsed as JSON
     @@response_json = nil
 
+    # shortcut for response_json
+    def response_body
+        response_json
+    end
+
     # return the body of a request response parsed as JSON
     def response_json
         # support empty responses from lesli 3 responder
@@ -180,12 +185,6 @@ module ResponseRequestHelper
         end
     end
 
-    # shortcut for response_json
-    # DEPRECATED
-    def response_body
-        response_json
-    end
-
     # test a response that contains a xlsx file
     def expect_response_with_xlsx
         @@response_json = nil
@@ -210,59 +209,6 @@ module ResponseRequestHelper
     def expect_to_be_redirected
         @@response_json = nil
         expect(response).to have_http_status(:redirect)
-    end
-
-
-
-    # Compatibility with Lesli 2
-    # -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-     -·-
-
-
-    def response_data
-        response_json["data"] || response_json["payload"]
-    end
-
-    def response_error
-        response_json["error"]
-    end
-
-    def expect_json_response_successful
-        @@response_json = nil
-        expect(response).to have_http_status(:success)
-        expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(response_json).to have_key('successful')
-        expect(response_json["successful"]).to eql(true)
-        expect(response_json).to have_key("data").or have_key("payload")
-    end
-
-    def expect_json_response_error
-        @@response_json = nil
-        expect(response).to have_http_status(:success)
-        expect(response.content_type).to eq('application/json; charset=utf-8')
-        expect(response_json).to have_key('successful')
-        expect(response_json['successful']).to eql(false)
-        expect(response_json).to have_key('error')
-        expect(response_json["error"]).to have_key('message')
-    end
-
-    def expect_json_response_not_found
-        @@response_json = nil
-        expect(response).to have_http_status(:not_found)
-        expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(response_json).to have_key('successful')
-        expect(response_json['successful']).to eql(false)
-        expect(response_json).to have_key('error')
-        expect(response_json["error"]).to have_key('message')
-    end
-
-    def expect_json_response_unauthorized
-        @@response_json = nil
-        expect(response).to have_http_status(:unauthorized)
-        expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(response_json).to have_key('successful')
-        expect(response_json['successful']).to eql(false)
-        expect(response_json).to have_key('error')
-        expect(response_json["error"]).to have_key('message')
     end
 
 end

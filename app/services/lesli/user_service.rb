@@ -171,10 +171,10 @@ module Lesli
 
 
             # assign a random password
-            #user.password = Devise.friendly_token
+            user.password = Devise.friendly_token
 
             # enrol user to my own account
-            user.account = Account.first # current_user.account
+            user.account = current_user.account
 
             # users created through the administration area does not need to confirm their accounts
             # instead we send a password reset link, so they can have access to the platform

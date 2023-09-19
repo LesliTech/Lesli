@@ -72,9 +72,11 @@ RSpec.describe "PUT:/lesli/account.json", type: :request do
     end
 
     it "is expected not to allow empty/null company name" do
-        put "#{ENGINE_MOUNTED_PATH}/account.json", params: { account: { company_name: "" } }
+
+        put("#{ENGINE_MOUNTED_PATH}/account.json", params: { account: { company_name: "" }})
 
         # shared examples
         expect_response_with_error
     end
+
 end
