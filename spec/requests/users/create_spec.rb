@@ -46,9 +46,10 @@ RSpec.describe "POST:#{ENGINE_MOUNTED_PATH}/users.json", type: :request do
     it "is expected to create a user" do
         user = FactoryBot.attributes_for(:user)
 
+        user[:password] = nil # random password will be assigned
         user[:account_id] = nil # by default the method creates an account for the user, so we do not need it
 
-        post("/#{ENGINE_MOUNTED_PATH}/users.json", params: {
+        post("#{ENGINE_MOUNTED_PATH}/users.json", params: {
             user: user
         })
 

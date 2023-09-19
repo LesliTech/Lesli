@@ -42,6 +42,14 @@ FactoryBot.define do
         last_name   { Faker::Name.last_name }
         telephone   { Faker::PhoneNumber.phone_number }
 
+        password { Devise.friendly_token }
+
         account_id { (Lesli::Account.first.nil? ? FactoryBot.create(:account) : Lesli::Account.first).id }
+
+
+        after(:create) do |user, evaluator|
+            user.confirm { true }
+        end
+        
     end
 end
