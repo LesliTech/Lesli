@@ -32,7 +32,7 @@ Building a better future, one line of code at a time.
 
 Lesli::Engine.routes.draw do
 
-    root to: "accounts#show"
+    #root to: "accounts#show"
 
     devise_for :users, class_name: "Lesli::User", module: :devise,
     :path => "",
@@ -50,13 +50,5 @@ Lesli::Engine.routes.draw do
         :sessions => "users/sessions"
     }
 
-    resource :profile, only: []
-    resource :account, only: [:show, :update]
-    resources :users, only: [:index, :show, :new, :update, :create, :destroy] do
-
-        # extensions to the users methods
-        collection do
-            get :list
-        end
-    end
+    # resource :profile, only: []
 end
