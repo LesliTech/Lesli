@@ -68,7 +68,7 @@ module Lesli
 
         # 00.00 System administration
         def navigation_engine_lesli(title: "Administration", subtitle: "Users, privileges, access roles.")
-            navigation_engine_item(title, subtitle, "admin", lesli.root_path,
+            navigation_engine_item(title, subtitle, "admin", "lesli.root_path",
                                    controller_path.include?("lesli"))
         end
 

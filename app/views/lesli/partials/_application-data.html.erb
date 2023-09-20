@@ -34,12 +34,73 @@ Building a better future, one line of code at a time.
 
 <%
 # Include defaults to account
-@lesli[:implementation] = Rails.application.credentials.dig(:implementation) #|| lesli_instance_code
-@lesli[:instance] = "lesli" #lesli_instance_code
-@lesli[:engine] = "lesli" #lesli_engine.dig(:code)                            # use into url plugin to for dynamic search 
-@lesli[:url] = { root: request.base_url.to_s,  path: request.path }   # use as base for url plugin
-@lesli[:app] = params[:controller]                                    # (deprecated for vue3)
+@lesli[:instance] = Rails.application.credentials.dig(:instance) || lesli_instance_code
+@lesli[:engine] = lesli_engine.dig(:code)                               # use into url plugin to for dynamic search 
+@lesli[:url] = request.base_url.to_s  # use as base for url plugin
+
 %>
+
+<pre><code>
+<%= @lesli %>
+
+<%= lesli_engine %>
+</code></pre>
 
 <% # define @account data for the lesli plugin %>
 <script>const lesli = <%= @lesli.to_json.html_safe %></script>
+
+
+
+
+<%#
+@lesli[:revision] = 0
+@lesli[:company] = {}
+
+@lesli[:revision] = 0 #Lesli::System.revision()
+@lesli[:notifications] = 0 #Courier::Bell::Notification.count(current_user, true)
+@lesli[:tasks] = 0 #Courier::Focus::Task.count(current_user)
+@lesli[:tickets] = 0 #Courier::Help::Ticket.count(current_user)
+@lesli[:shortcuts] = [] # current_user.shortcuts.select(:id, :name, :url)
+
+# default customization, set on before_action :set_customization hook
+@lesli[:customization] = { :logo => "image.svg", :color_primary => "#1f7ce3" }
+
+return @lesli if current_user.account.blank?
+
+# add company information (account)
+@lesli[:company] = {
+    id: current_user.account.id,
+    name: current_user.account.company_name,
+    tag_line: current_user.account.company_tag_line,
+    phone_number_1: current_user.account.phone_number_1,
+    public_email: current_user.account.public_email,
+    address: current_user.account.address,
+    website: current_user.account.website
+}
+
+@lesli[:settings] = {
+    datetime: Rails.application.config.lesli.dig(:configuration, :datetime),
+    currency: (Rails.application.config.lesli.dig(:configuration, :currency) || {})
+        .merge({ locale: Rails.application.config.lesli.dig(:env, :default_locale) }),
+}
+
+# set user information
+@lesli[:current_user] = {
+    id: current_user.id,
+    email: current_user.email,
+    full_name: current_user.full_name,
+    roles: current_user.roles.map(&:name),
+    abilities: current_user.abilities_by_controller,
+    max_object_level_permission: current_user.roles.map(&:object_level_permission).max,
+    settings: current_user.settings.map { |s| { name: s.name, value: s.value } }
+}
+
+#
+@lesli[:providers] = {
+    firebase: {
+        config: Rails.application.credentials.dig(:providers, :firebase, :web),
+        user: Rails.application.credentials.dig(:providers, :firebase, :user)
+    },
+    google_translate: Rails.application.credentials.dig(:providers, :google_translate)
+}
+%>
