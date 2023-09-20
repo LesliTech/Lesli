@@ -34,6 +34,9 @@ module Lesli
     class ApplicationController < ActionController::Base
         layout "lesli/layouts/application-public"
 
+        attr_reader :query
+        attr_reader :engine_path
+
         def initialize
             super
             @lesli = {}
@@ -66,6 +69,40 @@ module Lesli
             #                             default_locale: I18n.default_locale,
             #                             available_locales: I18n.available_locales
             #                         })
+        end
+
+        # Set the user language based on url configuration or browser/os default language (ready for public pages)
+        def set_locale
+            # language defined in the http header request
+            locale = request.headers["Require-Language"] unless request.headers["Require-Language"].blank?
+
+            # use locale defined in the url
+            locale = params[:locale] if locale.blank?
+
+            # use the language from the browser/os
+            locale = browser_locale if locale.blank?
+
+            # use the default locale if no custom locale was found
+            return I18n.locale = I18n.default_locale if locale.blank?
+
+            # use default locale if requested language is not supported
+            return I18n.locale = I18n.default_locale unless I18n.available_locales.include?(locale.to_sym)
+
+            # set the new locale
+            I18n.locale = locale
+        end
+
+        protected
+
+        def browser_locale
+            # get user's preferred language from browser
+            user_browser_locale = request.headers["HTTP_ACCEPT_LANGUAGE"] || request.headers["Accept-Language"] || ""
+
+            # extract locale from accept language header
+            user_browser_locale.scan(/^[a-z]{2}/).find do |locale|
+                # validate if browser language is in the list of supported languages
+                I18n.available_locales.include?(locale.to_sym)
+            end
         end
     end
 end

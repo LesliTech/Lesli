@@ -36,8 +36,8 @@ Building a better future, one line of code at a time.
 //= link_tree ../images/lesli .jpg
 //= link_tree ../images/lesli .svg
 
-//= link lesli/application.js
-//= link lesli/application.css
+// link lesli/application.js
+// link lesli/application.css
 
 
 // · Framework asssets

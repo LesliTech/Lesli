@@ -34,19 +34,9 @@ module Lesli
     module Interfaces
         module Application
             module Requester
-                # Set default query params for:
-                def set_helpers_for_request
-                    @query = {
-                        search: params[:search] || nil,
-                        pagination: {
-                            perPage: (params[:perPage] ? params[:perPage].to_i : 15),
-                            page: (params[:page] ? params[:page].to_i : 1)
-                        },
-                        order: {
-                            by: (params[:orderBy] || "id"),
-                            dir: (params[:order] || "desc")
-                        }
-                    }
+
+                def set_path
+                    @@engine_path = Lesli::Engine.routes.find_script_name({})
                 end
 
                 # Set the user language based on user_settings, session configuration or instance default locale
@@ -74,38 +64,19 @@ module Lesli
                     I18n.locale = locale
                 end
 
-                # Set the user language based on url configuration or browser/os default language
-                def set_locale_public
-                    # language defined in the http header request
-                    locale = request.headers["Require-Language"] unless request.headers["Require-Language"].blank?
-
-                    # use locale defined in the url
-                    locale = params[:locale] if locale.blank?
-
-                    # use the language from the browser/os
-                    locale = browser_locale if locale.blank?
-
-                    # use the default locale if no custom locale was found
-                    return I18n.locale = I18n.default_locale if locale.blank?
-
-                    # use default locale if requested language is not supported
-                    return I18n.locale = I18n.default_locale unless I18n.available_locales.include?(locale.to_sym)
-
-                    # set the new locale
-                    I18n.locale = locale
-                end
-
-                private
-
-                def browser_locale
-                    # get user's preferred language from browser
-                    user_browser_locale = request.headers["HTTP_ACCEPT_LANGUAGE"] || request.headers["Accept-Language"] || ""
-
-                    # extract locale from accept language header
-                    user_browser_locale.scan(/^[a-z]{2}/).find do |locale|
-                        # validate if browser language is in the list of supported languages
-                        I18n.available_locales.include?(locale.to_sym)
-                    end
+                # Set default query params for:
+                def set_helpers_for_request
+                    @query = {
+                        search: params[:search] || nil,
+                        pagination: {
+                            perPage: (params[:perPage] ? params[:perPage].to_i : 15),
+                            page: (params[:page] ? params[:page].to_i : 1)
+                        },
+                        order: {
+                            by: (params[:orderBy] || "id"),
+                            dir: (params[:order] || "desc")
+                        }
+                    }
                 end
             end
         end
