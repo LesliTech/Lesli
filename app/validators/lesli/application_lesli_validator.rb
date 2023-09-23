@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -27,23 +27,41 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
-class CreateAccountActivities < ActiveRecord::Migration[6.0]
-    def change
-        # gem_path = Gem::Specification.find_by_name('lesli').gem_dir
-        # gem_path = Gem.loaded_specs[engine[:code]].full_gem_path
-        gem_path = Lesli::System.engine("lesli")
-        table_base_structure = JSON.parse(File.read(File.join(gem_path, "db", "structure", "00000004_activities.json")))
-        create_table :account_activities do |t|
-            table_base_structure.each do |column|
-                t.send(
-                    column["type"].parameterize.underscore.to_sym,
-                    column["name"].parameterize.underscore.to_sym
-                )
-            end
-            t.timestamps
+
+module Lesli
+    class ApplicationLesliValidator
+
+        # Set container attributes to manage the life-cycle of the service
+        @resource;
+        @failures;
+
+        def initialize(resource)
+
+            # stores the resources from the database as result of the active record queries
+            @resource = resource
+
+            # stores any error found during the life-cycle of the service object
+            @failures = []
+
         end
-        add_reference(:account_activities, :account, foreign_key: { to_table: :accounts })
+
+        def valid?
+            yield(failures.empty?, failures) if block_given?
+            failures.empty?
+        end
+
+        private
+
+        attr_reader :resource
+        attr_writer :resource
+
+        attr_reader :failures
+        attr_writer :failures
+
+        attr_reader :result
+        attr_writer :result
+
     end
 end

@@ -33,13 +33,23 @@ Building a better future, one line of code at a time.
 module Lesli
     class Account < ApplicationLesliRecord
 
+
         # accounts always belongs to a user
         belongs_to :user, optional: true
 
+
         # account resources
         has_many :users
-
-        has_one :bell, class_name: "LesliBell::Account"
+        has_many :roles
+        has_many :files
+        has_many :cronos
+        has_many :settings
+        has_many :locations
+        has_many :feedbacks
+        has_many :descriptors
+        has_many :activities, class_name: "Account::Activity"
+        has_many :currencies, class_name: "Account::Currency"
+        has_many :logs
 
 
 

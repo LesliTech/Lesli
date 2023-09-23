@@ -17,38 +17,34 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
-
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 =end
 
-module Lesli
-    class ApplicationDeviseController < ActionController::Base
-        include Interfaces::Application::Responder
-        include Interfaces::Application::Requester
-        include Interfaces::Application::Logger
-        
-        layout "lesli/layouts/application-devise"
+class CreateLesliAccountActivities < ActiveRecord::Migration[6.0]
+    def change
 
-        #before_action :set_locale_public
+        gem_path = Lesli::System.engine("lesli")
+        table_base_structure = JSON.parse(File.read(File.join(gem_path, "db", "structure", "00000004_activities.json")))
 
-        # def initialize
-        #     @account = { 
-        #         company: {
-        #             name: Rails.application.config.lesli.dig(:account, :name)
-        #         }
-        #     }
-        #     super
-        # end
-
+        create_table :lesli_account_activities do |t|
+            table_base_structure.each do |column|
+                t.send(
+                    column["type"].parameterize.underscore.to_sym,
+                    column["name"].parameterize.underscore.to_sym
+                )
+            end
+            t.timestamps
+        end
+        add_reference(:lesli_account_activities, :account, foreign_key: { to_table: :lesli_accounts })
     end
 end
