@@ -17,38 +17,30 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
-
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 =end
 
-module Lesli
-    class ApplicationDeviseController < ActionController::Base
-        include Interfaces::Application::Responder
-        include Interfaces::Application::Requester
-        include Interfaces::Application::Logger
-        
-        layout "lesli/layouts/application-devise"
-
-        #before_action :set_locale_public
-
-        # def initialize
-        #     @account = { 
-        #         company: {
-        #             name: Rails.application.config.lesli.dig(:account, :name)
-        #         }
-        #     }
-        #     super
-        # end
-
+class CreateLesliUserAgents < ActiveRecord::Migration[7.0]
+    def change
+        create_table :lesli_user_agents do |t|
+            t.string  :platform
+            t.string  :os
+            t.string  :browser
+            t.string  :version
+            t.integer :count
+            t.timestamps
+        end
+        add_reference(:lesli_user_agents, :user, foreign_key: { to_table: :lesli_users })
+        add_index(:lesli_user_agents, %i[platform os browser version user_id], unique: true, name: "lesli_user_agents_index")
     end
 end

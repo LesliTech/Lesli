@@ -1,3 +1,35 @@
+=begin
+
+Lesli
+
+Copyright (c) 2023, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Ruby on Rails SaaS Development Framework.
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+=end
+
 module Lesli
     class User < ApplicationLesliRecord
 
@@ -5,6 +37,29 @@ module Lesli
         include UserExtensions
         #include UserActivities
         #include UserPolyfill
+
+        # users belongs to an account only... and must have a role
+        belongs_to :account, optional: true
+
+        # user details are saved on separate table
+        has_one :detail, inverse_of: :user, autosave: true, dependent: :destroy
+        accepts_nested_attributes_for :detail, update_only: true
+
+        # users data extensions
+        has_many :logs
+        has_many :codes
+        has_many :agents
+        has_many :tokens
+        has_many :settings
+        has_many :sessions
+        has_many :requests,     class_name: "Lesli::Request"
+        has_many :shortcuts
+        has_many :activities,   class_name: "User::Activity"
+
+        # users can have many roles and too many privileges through the roles
+        has_many :user_roles,       class_name: "User::Role" 
+        has_many :roles,            through: :user_roles, source: :role
+        has_many :privileges,       through: :roles
 
         # devise implementation
         devise :database_authenticatable,

@@ -27,35 +27,31 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
 module Lesli
-    class ApplicationLesliController < ApplicationController
-        include Interfaces::Application::Authorization
-        include Interfaces::Application::Customization
-        include Interfaces::Application::Responder
-        include Interfaces::Application::Requester
-        include Interfaces::Application::Logger
+    class Account::Log < ApplicationRecord
+        belongs_to :account
 
-        protect_from_forgery with: :exception
-
-        before_action :set_path
-        before_action :set_locale
-        before_action :authorize_request
-        before_action :authorize_privileges
-        before_action :set_helpers_for_request
-        before_action :set_customization
-
-        after_action  :log_user_requests
-
-        layout "lesli/layouts/application-lesli"
-
-        # Rescue from "ParameterMissing" when using required params
-        # in controllers
-        rescue_from ActionController::ParameterMissing do |_e|
-            respond_with_error("Missing params")
+        def self.log(system_module_action, system_process, title=nil, description=nil, payload=nil)
+            Account.first.activities.create(
+                system_module: system_module_action,
+                system_process: system_process,
+                description: description,
+                title: title,
+                payload: payload
+            )
         end
-
+        
+        def self.log_email(system_module_action, title="email_sent", description="email", payload=nil)
+            Account&.first&.logs&.create(
+                system_module: system_module_action,
+                system_process: "mailer",
+                description: description,
+                payload: payload,
+                title: title
+            )
+        end
     end
 end

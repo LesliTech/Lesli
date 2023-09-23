@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails Development Platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -30,32 +30,22 @@ Building a better future, one line of code at a time.
 // ·
 =end
 
-module Lesli
-    class ApplicationLesliController < ApplicationController
-        include Interfaces::Application::Authorization
-        include Interfaces::Application::Customization
-        include Interfaces::Application::Responder
-        include Interfaces::Application::Requester
-        include Interfaces::Application::Logger
+class CreateLesliUserSessions < ActiveRecord::Migration[6.0]
+    def change
+        create_table :lesli_user_sessions do |t|
+            t.inet   :user_remote                   # IPv4 and IPv6 hosts and networks
+            t.string :user_agent
 
-        protect_from_forgery with: :exception
+            t.string :session_token                 # authentication token
+            t.string :session_source                # session created for/with
 
-        before_action :set_path
-        before_action :set_locale
-        before_action :authorize_request
-        before_action :authorize_privileges
-        before_action :set_helpers_for_request
-        before_action :set_customization
+            t.integer  :usage_count                 # total number of interactions
+            t.datetime :last_used_at                # last datetime token was used
+            t.datetime :expiration_at, index: true  # auto-expire session at
+            t.datetime :deleted_at, index: true
 
-        after_action  :log_user_requests
-
-        layout "lesli/layouts/application-lesli"
-
-        # Rescue from "ParameterMissing" when using required params
-        # in controllers
-        rescue_from ActionController::ParameterMissing do |_e|
-            respond_with_error("Missing params")
+            t.timestamps
         end
-
+        add_reference(:lesli_user_sessions, :user, foreign_key: { to_table: :lesli_users })
     end
 end

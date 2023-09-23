@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails Development Platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -26,18 +26,15 @@ Building a better future, one line of code at a time.
 @website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
-
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 =end
 
 module Lesli
     module Interfaces
         module Application
             module Logger
-                def get_user_agent(as_string: true)
-                    # How to use this gem?
-                    # UserAgent.parse(request.env["HTTP_USER_AGENT"])
+                def get_user_agent(as_string=true)
 
                     http_user_agent = request.env["HTTP_USER_AGENT"]
 
@@ -63,23 +60,26 @@ module Lesli
                 # Track all user activity
                 # this is disabled by default in the settings file
                 def log_user_requests
-                    return unless Rails.application.config.lesli.dig(:security, :enable_analytics)
+                    return unless Lesli.config.security.dig(:enable_analytics)
                     return unless current_user
-                    return unless session[:user_session_id]
+                    #return unless session[:user_session_id]
 
                     # Try to save a unique record for this request configuration
-                    current_user.requests.upsert({
-                                                    request_controller: controller_path,
-                                                    request_method: request.method,
-                                                    request_action: action_name,
-                                                    user_session_id: session[:user_session_id],
-                                                    request_count: 1
-                                                },
-                                                # group of columns to consider a request as unique
-                                                unique_by: %i[request_controller request_action user_id user_session_id],
+                    current_user.requests.upsert(
+                        {
+                            request_controller: controller_path,
+                            request_method: request.method,
+                            request_action: action_name,
+                            user_session_id: session[:user_session_id],
+                            request_count: 1
+                        },
+                        
+                        # group of columns to consider a request as unique
+                        unique_by: %i[request_controller request_action user_id user_session_id],
 
-                                                # if request id is not unique, increase the counter for this configuration
-                                                on_duplicate: Arel.sql("request_count = user_requests.request_count + 1"))
+                        # if request id is not unique, increase the counter for this configuration
+                        on_duplicate: Arel.sql("request_count = user_requests.request_count + 1")
+                    )
 
                     # update the last used date for the current session
                     current_user.sessions.where(id: session[:user_session_id]).first&.touch(:last_used_at)
@@ -88,25 +88,27 @@ module Lesli
                 # Track user agents
                 # this is disabled by default in the settings file
                 def log_user_agent
-                    return unless Rails.application.config.lesli.dig(:security, :enable_analytics)
+                    return unless Lesli.config.security.dig(:enable_analytics)
                     return unless current_user
                     return unless session[:user_session_id]
 
                     user_agent = get_user_agent(false)
 
                     # Try to save a unique record for this agent configuration
-                    current_user.agents.upsert({
-                                                os: user_agent[:os] || "unknown",
-                                                platform: user_agent[:platform] || "unknown",
-                                                browser: user_agent[:browser] || "unknown",
-                                                version: user_agent[:version] || "unknown",
-                                                count: 1
-                                            },
-                                            # group of columns to consider a agent as unique
-                                            unique_by: %i[platform os browser version user_id],
+                    current_user.agents.upsert(
+                        {
+                            os: user_agent[:os] || "unknown",
+                            platform: user_agent[:platform] || "unknown",
+                            browser: user_agent[:browser] || "unknown",
+                            version: user_agent[:version] || "unknown",
+                            count: 1
+                        },
+                        # group of columns to consider a agent as unique
+                        unique_by: %i[platform os browser version user_id],
 
-                                            # if request id is not unique, increase the counter for this configuration
-                                            on_duplicate: Arel.sql("count = user_agents.count + 1"))
+                        # if request id is not unique, increase the counter for this configuration
+                        on_duplicate: Arel.sql("count = lesli_user_agents.count + 1")
+                    )
                 end
 
                 # Track specific account activity

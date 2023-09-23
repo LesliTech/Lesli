@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails Development Platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -29,16 +29,20 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
 =end
-class CreateAccountLogs < ActiveRecord::Migration[6.0]
+
+class CreateLesliUserRequests < ActiveRecord::Migration[6.0]
     def change
-        create_table :account_logs do |t|
-            t.string :system_module
-            t.string :system_process
-            t.string :description
-            t.string :title
-            t.json   :payload
+        create_table :lesli_user_requests do |t|
+            t.string    :request_controller
+            t.string    :request_action
+            t.string    :request_method
+            t.integer   :request_count
             t.timestamps
         end
-        add_reference(:account_logs, :account, foreign_key: { to_table: :accounts })
+
+        add_reference(:lesli_user_requests, :lesli_user, foreign_key: { to_table: :lesli_users })
+        #add_reference(:lesli_user_requests, :user_session, foreign_key: { to_table: :user_sessions })
+        add_index(:lesli_user_requests, %i[request_controller request_action lesli_user_id], unique: true, name: "lesli_user_requests_index")
+        #add_index(:lesli_user_requests, %i[request_controller request_action lesli_user_id user_session_id], unique: true, name: "lesli_user_requests_index")
     end
 end
