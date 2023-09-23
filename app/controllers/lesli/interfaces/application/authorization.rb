@@ -7,7 +7,9 @@ module Lesli
                 # Validate user authentication and session status
                 def authorize_request
 
-                    engine_path = Lesli::Engine.routes.find_script_name({})
+                    # this version Lesli requires to be mounted as root "/"
+                    # engine_path = Lesli::Engine.routes.find_script_name({})
+                    engine_path = nil
 
                     # check if the users is logged into the system
                     unless user_signed_in?

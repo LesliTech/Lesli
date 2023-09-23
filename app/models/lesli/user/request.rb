@@ -23,7 +23,7 @@ Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.dev
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
@@ -31,46 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    class Account < ApplicationLesliRecord
-
-
-        # accounts always belongs to a user
-        belongs_to :user, optional: true
-
-
-        # account resources
-        has_many :users
-        has_many :roles
-        has_many :files
-        has_many :cronos
-        has_many :settings
-        has_many :locations
-        has_many :feedbacks
-        has_many :descriptors
-        has_many :activities, class_name: "Account::Activity"
-        has_many :currencies, class_name: "Account::Currency"
-        has_many :logs
-
-
-
-        # account statuses
-        enum status: [
-            :registered,
-            :onboarding,
-            :active,
-            :suspended
-        ]
-
-
-        # company region (GDPR)
-        enum region: {
-            latin_america: "latin_america",
-            united_states: "united_states",
-            european_union: "european_union"
-        }
-
-
-        # required a name for the lesli account
-        validates :company_name, :presence => true
+    class User::Request < ApplicationRecord
+        belongs_to :user
     end
 end

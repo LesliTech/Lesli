@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails Development Platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -27,21 +27,41 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
-class CreateUserRequests < ActiveRecord::Migration[6.0]
-    def change
-        create_table :user_requests do |t|
-            t.string    :request_controller
-            t.string    :request_action
-            t.string    :request_method
-            t.integer   :request_count
-            t.timestamps
+module Lesli
+    class ApplicationLesliValidator
+
+        # Set container attributes to manage the life-cycle of the service
+        @resource;
+        @failures;
+
+        def initialize(resource)
+
+            # stores the resources from the database as result of the active record queries
+            @resource = resource
+
+            # stores any error found during the life-cycle of the service object
+            @failures = []
+
         end
 
-        add_reference(:user_requests, :user, foreign_key: { to_table: :users })
-        add_reference(:user_requests, :user_session, foreign_key: { to_table: :user_sessions })
-        add_index(:user_requests, %i[request_controller request_action user_id user_session_id], unique: true, name: "user_requests_index")
+        def valid?
+            yield(failures.empty?, failures) if block_given?
+            failures.empty?
+        end
+
+        private
+
+        attr_reader :resource
+        attr_writer :resource
+
+        attr_reader :failures
+        attr_writer :failures
+
+        attr_reader :result
+        attr_writer :result
+
     end
 end

@@ -5,6 +5,7 @@ module Lesli
 
                 # set customization only for lesli_cloud instance
                 def set_customization
+=begin
                     # @account is only for html and pdf requests
                     return unless request.format.html? || request.format.pdf?
 
@@ -37,8 +38,8 @@ module Lesli
                     #     colors[color_identifier.to_sym] = custom_color.value
                     # end
                     @lesli[:customization][:colors] = colors
+=end
                 end
-
             end
         end
     end
