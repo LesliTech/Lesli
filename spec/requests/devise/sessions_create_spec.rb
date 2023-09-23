@@ -37,7 +37,7 @@ require Lesli::Engine.root.join("spec/support/testers/request")
 
 
 # ·
-RSpec.describe "POST:#{ENGINE_MOUNTED_PATH}/users.json", type: :request do
+RSpec.describe "POST:/users.json", type: :request do
 
     # creates a new user for every test
     before :each do
