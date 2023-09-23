@@ -35,8 +35,6 @@ Building a better future, one line of code at a time.
 require "rails_helper"
 require Lesli::Engine.root.join("spec/support/testers/request")
 
-ENGINE_MOUNTED_PATH ||= LesliAdmin::Engine.routes.find_script_name({})
-
 
 # ·
 RSpec.describe "POST:#{ENGINE_MOUNTED_PATH}/users.json", type: :request do
