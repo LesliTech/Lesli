@@ -42,9 +42,9 @@ class Users::SessionsController < Devise::SessionsController
 
         # respond with a no valid credentials generic error if not valid user found
         unless user
-            Account::Activity.log("core", "/session/create", "session_creation_failed", "no_valid_email", {
-                email: (sign_in_params[:email] || "")
-            }) 
+            # Lesli::Account::Activity.log("core", "/session/create", "session_creation_failed", "no_valid_email", {
+            #     email: (sign_in_params[:email] || "")
+            # }) 
             return respond_with_error(I18n.t("core.users/sessions.invalid_credentials"))
         end
 

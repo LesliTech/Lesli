@@ -23,30 +23,28 @@ Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.dev
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
-Lesli::Engine.routes.draw do
+class CreateLesliAccountActivities < ActiveRecord::Migration[6.0]
+    def change
 
-    devise_for :users, class_name: "Lesli::User", module: :devise,
-    :path => "",
-    :path_names => {
-        :sign_in  => "login",
-        :sign_out => "logout",
-        :sign_up  => "register",
-        :password => "password",
-        :confirmation => "confirmation"
-    },
-    :controllers => {
-        :registrations => "users/registrations",
-        :confirmations => "users/confirmations",
-        :passwords => "users/passwords",
-        :sessions => "users/sessions"
-    }
+        gem_path = Lesli::System.engine("lesli")
+        table_base_structure = JSON.parse(File.read(File.join(gem_path, "db", "structure", "00000004_activities.json")))
 
-    # resource :profile, only: []
+        create_table :lesli_account_activities do |t|
+            table_base_structure.each do |column|
+                t.send(
+                    column["type"].parameterize.underscore.to_sym,
+                    column["name"].parameterize.underscore.to_sym
+                )
+            end
+            t.timestamps
+        end
+        add_reference(:lesli_account_activities, :account, foreign_key: { to_table: :lesli_accounts })
+    end
 end
