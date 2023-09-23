@@ -31,9 +31,9 @@ Building a better future, one line of code at a time.
 =end
 
 
-require "faker"
-require "rails_helper"
-require "support/helpers/response_helper"
+require Lesli::Engine.root.join("spec/support/helpers/rails_helper")
+require Lesli::Engine.root.join("spec/support/helpers/lesli_helper")
+require Lesli::Engine.root.join("spec/support/helpers/response_request_helper")
 
 
 # · Authentication context
@@ -58,6 +58,6 @@ RSpec.configure do |config|
     config.include Devise::Test::ControllerHelpers, type: :controller
 
     # Include helper methods 
-    config.include ResponseHelpers
+    config.include ResponseRequestHelper
 
 end
