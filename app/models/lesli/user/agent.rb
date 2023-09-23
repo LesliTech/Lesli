@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -27,19 +27,11 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
-class CreateUserLogs < ActiveRecord::Migration[6.0]
-    def change
-        create_table :user_logs do |t|
-            t.string :title
-            t.string :description
-
-            t.timestamps
-        end
-
-        add_reference(:user_logs, :user, foreign_key: { to_table: :users })
-        add_reference(:user_logs, :session, foreign_key: { to_table: :user_sessions })
+module Lesli
+    class User::Agent < ApplicationRecord
+        belongs_to :user
     end
 end

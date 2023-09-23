@@ -32,8 +32,6 @@ Building a better future, one line of code at a time.
 
 Lesli::Engine.routes.draw do
 
-    #root to: "accounts#show"
-
     devise_for :users, class_name: "Lesli::User", module: :devise,
     :path => "",
     :path_names => {

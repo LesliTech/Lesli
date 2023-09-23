@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails Development Platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -29,16 +29,23 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
 =end
-class CreateAccountLogs < ActiveRecord::Migration[6.0]
+
+class CreateLesliUserSessions < ActiveRecord::Migration[6.0]
     def change
-        create_table :account_logs do |t|
-            t.string :system_module
-            t.string :system_process
-            t.string :description
-            t.string :title
-            t.json   :payload
+        create_table :lesli_user_sessions do |t|
+            t.inet   :user_remote                   # IPv4 and IPv6 hosts and networks
+            t.string :user_agent
+
+            t.string :session_token                 # authentication token
+            t.string :session_source                # session created for/with
+
+            t.integer  :usage_count                 # total number of interactions
+            t.datetime :last_used_at                # last datetime token was used
+            t.datetime :expiration_at, index: true  # auto-expire session at
+            t.datetime :deleted_at, index: true
+
             t.timestamps
         end
-        add_reference(:account_logs, :account, foreign_key: { to_table: :accounts })
+        add_reference(:lesli_user_sessions, :user, foreign_key: { to_table: :lesli_users })
     end
 end

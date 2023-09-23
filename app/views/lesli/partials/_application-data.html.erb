@@ -37,19 +37,10 @@ Building a better future, one line of code at a time.
 @lesli[:instance] = Rails.application.credentials.dig(:instance) || lesli_instance_code
 @lesli[:engine] = lesli_engine.dig(:code)                               # use into url plugin to for dynamic search 
 @lesli[:url] = request.base_url.to_s  # use as base for url plugin
-
 %>
-
-<pre><code>
-<%= @lesli %>
-
-<%= lesli_engine %>
-</code></pre>
 
 <% # define @account data for the lesli plugin %>
 <script>const lesli = <%= @lesli.to_json.html_safe %></script>
-
-
 
 
 <%#
