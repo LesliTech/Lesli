@@ -40,9 +40,9 @@ class CreateLesliUserRequests < ActiveRecord::Migration[6.0]
             t.timestamps
         end
 
-        add_reference(:lesli_user_requests, :lesli_user, foreign_key: { to_table: :lesli_users })
-        #add_reference(:lesli_user_requests, :user_session, foreign_key: { to_table: :user_sessions })
-        add_index(:lesli_user_requests, %i[request_controller request_action lesli_user_id], unique: true, name: "lesli_user_requests_index")
-        #add_index(:lesli_user_requests, %i[request_controller request_action lesli_user_id user_session_id], unique: true, name: "lesli_user_requests_index")
+        add_reference(:lesli_user_requests, :user, foreign_key: { to_table: :lesli_users })
+        add_reference(:lesli_user_requests, :session, foreign_key: { to_table: :lesli_user_sessions })
+        #add_index(:lesli_user_requests, %i[request_controller request_action user_id], unique: true, name: "lesli_user_requests_index")
+        add_index(:lesli_user_requests, %i[request_controller request_action user_id session_id], unique: true, name: "lesli_user_requests_index")
     end
 end

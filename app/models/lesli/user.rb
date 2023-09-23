@@ -52,7 +52,7 @@ module Lesli
         has_many :tokens
         has_many :settings
         has_many :sessions
-        has_many :requests,     class_name: "Lesli::Request"
+        has_many :requests
         has_many :shortcuts
         has_many :activities,   class_name: "User::Activity"
 
