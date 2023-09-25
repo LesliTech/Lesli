@@ -137,14 +137,15 @@ function toggleEngines() {
 
                 <!-- engines selector -->
                 <a  v-if="props.showEngines || true"
-                    class="" @click="toggleEngines()">
+                    class="header-indicator" 
+                    @click="toggleEngines()">
                     <span class="ri-apps-2-line"></span>
                 </a>
 
                 <!-- Tickets -->
                 <a 
                     v-if="props.showTickets || true"
-                    class=" header-notification-indicator" 
+                    class="header-indicator" 
                     @click="() => { storeLayout.showTickets = true }">
                     <span :class="['ri-ticket-2-line', { 'is-active' : storeLayout.header.tickets > 0 }]">
                     </span>
@@ -155,7 +156,7 @@ function toggleEngines() {
 
                 <!-- Tasks -->
                 <a  v-if="props.showFocus || true"
-                    class=" header-notification-indicator" 
+                    class="header-indicator" 
                     @click="() => { if (storeLayout.header.tasks > 0 ) { storeLayout.showTasks = true }}">
                     <span :class="['ri-list-check-3', { 'is-active' : storeLayout.header.tasks > 0 }]">
                     </span>
@@ -167,7 +168,7 @@ function toggleEngines() {
                 <!-- Notifications -->
                 <a 
                     v-if="props.showBell || true"
-                    class=" header-notification-indicator" 
+                    class="header-indicator" 
                     @click="() => { if (storeLayout.header.notifications > 0 ) { storeLayout.showNotifications = true }}">
                     <span :class="['ri-notification-3-line', { 'is-active' : storeLayout.header.notifications > 0 }]">
                     </span>
@@ -177,21 +178,19 @@ function toggleEngines() {
                 </a>
 
                 <!-- Profile options -->
-                <!--
                 <div class="dropdown is-right is-hoverable header-user-options">
                     <div class="dropdown-trigger">
-                        <span class="material-icons" @click="storeLayout.showProfile = true">
-                            account_box
+                        <span class="icon has-text-link">
+                            <span class="ri-user-smile-line" @click="storeLayout.showProfile = true">
+                            </span>
                         </span>
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
                         <div class="dropdown-content">
-                            <a href="/administration/profile" class="dropdown-item header-user-options-profile ">
+                            <a href="/administration/profile" class="dropdown-item">
                                 <span class="icon-text">
-                                    <span class="icon has-text-grey-light">
-                                        <span class="material-icons">
-                                            person
-                                        </span>
+                                    <span class="icon has-text-grey-dark">
+                                        <span class="ri-user-line"></span>
                                     </span>
                                     <span>{{ translations.core.shared.view_text_profile }}</span>
                                 </span>
@@ -199,10 +198,8 @@ function toggleEngines() {
                             <hr class="dropdown-divider">
                             <a href="/logout" class="dropdown-item">
                                 <span class="icon-text">
-                                    <span class="icon">
-                                        <span class="material-icons">
-                                            logout
-                                        </span>
+                                    <span class="icon has-text-grey-dark">
+                                        <span class="ri-logout-box-r-line"></span>
                                     </span>
                                     <span>{{ translations.core.shared.view_text_logout }}</span>
                                 </span>
@@ -210,7 +207,6 @@ function toggleEngines() {
                         </div>
                     </div>
                 </div>
-                -->
             </div>
         </div>
     </header>
