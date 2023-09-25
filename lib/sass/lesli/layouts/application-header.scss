@@ -101,21 +101,16 @@ header.lesli-application-header {
     // · Indicator icons container
     .lesli-application-header-right {
 
-        a {
+        // Notification icon & count
+        .header-indicator {
             margin-left: 20px;
+            position: relative;
 
+            // icons
             [class^="ri-"] {
                 font-size: 25px;
             }
 
-            span.material-icons {
-                font-size: 30px;
-            }
-        }
-
-        // Notification icon & count
-        .header-notification-indicator {
-            position: relative;
             .count {
                 top: -8px;
                 right: -4px;
@@ -128,6 +123,29 @@ header.lesli-application-header {
                 color: lesli-css-color(silver, 100);
                 font-family: sans-serif;
                 position: absolute;
+            }
+        }
+
+        // 
+        .header-user-options {
+            margin-left: 20px;
+
+            .dropdown-trigger .ri-user-smile-line {
+                font-size: 26px;
+            }
+
+            .dropdown-menu {
+                min-width: 15rem;
+
+                .dropdown-content {
+                    width: 100%;
+                }
+            }
+
+            .dropdown-item {
+                [class^="ri-"] {
+                    font-size: 22px;
+                }
             }
         }
     }
