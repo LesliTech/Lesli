@@ -33,11 +33,31 @@ Building a better future, one line of code at a time.
 %>
 
 <%
+
+# add company information (account)
+@lesli[:company] = {
+    name: current_user.account.company_name,
+}
+
+
 # Include defaults to account
 @lesli[:instance] = Rails.application.credentials.dig(:instance) || lesli_instance_code
-@lesli[:engine] = lesli_engine.dig(:code)                               # use into url plugin to for dynamic search 
-@lesli[:url] = request.base_url.to_s  # use as base for url plugin
+@lesli[:engine] = lesli_engine.dig(:code)   # use into url plugin to for dynamic search 
+@lesli[:url] = request.base_url.to_s        # use as base for url plugin
+@lesli[:engine_paths] = {}
 %>
+
+
+<% 
+# due we do not know the engine mounted path we have to look up for it every
+# time we load the html view so we can use the dynamic route from the main rails app
+# we use this in the url plugin 
+["Lesli", "LesliAdmin", "LesliBabel"].each do |engine|
+    next unless Object.const_defined?(engine)
+    @lesli[:engine_paths][engine] = "#{engine}::Engine".constantize.routes.find_script_name({}) 
+end 
+%>
+
 
 <% # define @account data for the lesli plugin %>
 <script>const lesli = <%= @lesli.to_json.html_safe %></script>
@@ -57,17 +77,6 @@ Building a better future, one line of code at a time.
 @lesli[:customization] = { :logo => "image.svg", :color_primary => "#1f7ce3" }
 
 return @lesli if current_user.account.blank?
-
-# add company information (account)
-@lesli[:company] = {
-    id: current_user.account.id,
-    name: current_user.account.company_name,
-    tag_line: current_user.account.company_tag_line,
-    phone_number_1: current_user.account.phone_number_1,
-    public_email: current_user.account.public_email,
-    address: current_user.account.address,
-    website: current_user.account.website
-}
 
 @lesli[:settings] = {
     datetime: Rails.application.config.lesli.dig(:configuration, :datetime),

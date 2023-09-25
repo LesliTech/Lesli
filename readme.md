@@ -14,17 +14,33 @@ Built-on top of Ruby on Rails, Postgres, Vuejs, Bulma, SASS and many more awesom
 
 Lesli is completely open source and comes with features and tools that can save you years of development effort, additionally, our pre-built modules can seamlessly extend Lesli's functionality, allowing you to build your own SaaS in a matter of minutes.
 
+<br />
+<hr />
+<p align="center">
+Lesli is currently in alpha, but we're excited about the promising improvements coming soon!
+</p>
+<hr />
+<br />
+<br />
+
 Lesli is officially released and supported as of version 5
 
 > Lesli goes beyond being just a starter-kit, template, admin panel or dashboard. Lesli is a Ruby on Rails gem that you can use to build modules (a.k.a. engines) and standard Rails applications leveraging its robust set of built-in features, generators, components, and industry standards. With Lesli, you have the flexibility to extend existing functionalities or develop fully customized software tailored to your specific needs.
+
+
+## Documentation
+* [Roadmap](./docs/roadmap.md)
+* [Core database](./docs/database.md)
+* [Main documentation](https://www.lesli.dev/documentation/)
 
 
 ## Installation
 
 __Get the latest stable version of Lesli__
 
-```shell
-    gem "lesli", "~> 1.0"
+```ruby
+# Gemfile
+gem "lesli"
 ```
 
 __Run bundle install:__
@@ -36,7 +52,7 @@ bundle install
 __Generate the init files:__
 
 ```shell
-rails generate lesli:install
+rails g lesli:install
 ```
 
 __Load the database and demo data:__
@@ -61,8 +77,8 @@ For more details about the installation check the official [documentation.](http
 __Get the latest version of Lesli source code__
 
 ```shell
-    # clone the lesli repo inside your engine folder: RailsApp/engines
-    git clone https://github.com/LesliTech/Lesli.git
+# clone the lesli repo inside your engine folder: RailsApp/engines
+git clone https://github.com/LesliTech/Lesli.git
 ```
 
 __Load Lesli as a Gem__
@@ -91,12 +107,6 @@ rails s --environment=test
 rails s --environment=development
 RAILS_SERVE_STATIC_FILES=true rails s --environment=production 
 ```
-
-
-## Documentation
-* [Roadmap](./docs/roadmap.md)
-* [Core database](./docs/database.md)
-* [Main documentation](https://www.lesli.dev/documentation/)
 
 
 ## License  
