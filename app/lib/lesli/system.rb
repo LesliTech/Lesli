@@ -33,8 +33,48 @@ Building a better future, one line of code at a time.
 
 module Lesli
     class System
-        def self.engine(engine)
-            Gem::Specification.find_by_name(engine).gem_dir
+        ENGINES = {}
+
+        # engine("LesliAdmin")
+        # engine("LesliAdmin", "name")
+        def self.engine(engine, property=nil)
+
+            engines() if ENGINES.empty?
+
+            # return specific property if requested
+            return ENGINES[engine][property] unless property.blank?
+
+            # return the engine info
+            return ENGINES[engine]
+        end
+
+        def self.engines 
+
+            return ENGINES unless ENGINES.empty?
+
+            # due we do not know the engine mounted path we have to look up for it every
+            # time we load the html view so we can use the dynamic route from the main rails app
+            # we use this in the url plugin 
+            ["Lesli", "LesliAdmin", "LesliBabel"].each do |engine|
+                next unless Object.const_defined?(engine)
+                ENGINES[engine]= {
+                    :code => engine.underscore, 
+                    :name => lesli_engine_name(engine), 
+                    :path => "#{engine}::Engine".constantize.routes.find_script_name({}),
+                    :dir => Gem::Specification.find_by_name(engine.underscore).gem_dir
+                }
+            end 
+
+            ENGINES
+        end
+
+        private 
+
+        # Prints the name of the engine
+        def self.lesli_engine_name engine
+            name = engine.camelcase
+            return "Lesli" if name == "Lesli"
+            name.sub("Lesli", "")
         end
     end
 end

@@ -35,11 +35,17 @@ require_relative "lib/lesli/version"
 Gem::Specification.new do |spec|
     spec.name        = "lesli"
     spec.version     = Lesli::VERSION
+    spec.platform    = Gem::Platform::RUBY
+    spec.license     = "GPL-3.0"
     spec.authors     = ["The Lesli Development Team"]
     spec.email       = ["hello@lesli.tech"]
     spec.homepage    = "https://www.lesli.dev/"
-    spec.summary     = "Ruby on Rails SaaS development platform."
-    spec.description = "Lesli provides all the necessary tools to build your SaaS, empowering you and your team to focus on business and what makes your software special. "
+    spec.summary     = "Ruby on Rails SaaS Development Framework."
+    spec.description = "Ruby on Rails SaaS Development Framework."
+
+    # rubygems.org use description to show the info about the gem, so it is better to use a brief
+    # one line description for better understanding of the Lesli gem
+    # spec.description = "Lesli is a SaaS development framework designed to build highly scalable, secure and customizable software products."
 
     # Prevent pushing this gem to RubyGems.org. To allow pushes either set the "allowed_push_host"
     # to allow pushing to a single host or delete this section to allow pushing to any host.
@@ -87,5 +93,4 @@ Gem::Specification.new do |spec|
 
     # Flexible authentication solution for Rails with Warden
     spec.add_dependency "devise", "4.9.2"
-
 end

@@ -23,35 +23,15 @@ Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.dev
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
 module Lesli
-    module SystemHelper
-        # return the engine code of the controller that is handling the http request
-        def lesli_controller
-            controller_path.split("/")[0]
-        end
-
-        # retun the code of the instance builder engine
-        # example: lesli_cloud, deutsche_leibrenten, mitwerken_cloud
-        def lesli_instance_code
-            return "lesli"
-            Lesli::System.instance[:code]
-        end
-
-        # return the information about the current engine
-        def lesli_engine(property = nil)
-            Lesli::System.engine(lesli_controller.camelize, property)
-        end
-
-        # return true if the controller requested belongs to the administration area
-        def is_lesli_onboarding?
-            lesli_controller == "onboardings"
-        end
+    class SystemController::Action < ApplicationLesliRecord
+        belongs_to :system_controller
     end
 end
