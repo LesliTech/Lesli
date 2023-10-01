@@ -30,21 +30,15 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class CreateLesliAccountActivities < ActiveRecord::Migration[6.0]
+class CreateLesliSystemControllers < ActiveRecord::Migration[6.1]
     def change
-
-        gem_path = Lesli::System.engine("Lesli", "dir")
-        table_base_structure = JSON.parse(File.read(File.join(gem_path, "db", "structure", "00000004_activities.json")))
-
-        create_table :lesli_account_activities do |t|
-            table_base_structure.each do |column|
-                t.send(
-                    column["type"].parameterize.underscore.to_sym,
-                    column["name"].parameterize.underscore.to_sym
-                )
-            end
+        create_table :lesli_system_controllers do |t|
+            t.string :name
+            t.string :route
+            t.string :engine
+            t.string :reference
+            t.datetime :deleted_at, index: true
             t.timestamps
         end
-        add_reference(:lesli_account_activities, :account, foreign_key: { to_table: :lesli_accounts })
     end
 end

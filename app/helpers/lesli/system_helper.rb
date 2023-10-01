@@ -46,34 +46,12 @@ module Lesli
 
         # return the information about the current engine
         def lesli_engine(property = nil)
-
-            engine = { 
-                code: lesli_controller, 
-                name: lesli_controller.titleize, 
-                engine: lesli_engine_name,
-            }
-
-            # return specific property if requested
-            return engine[property] unless property.blank?
-
-            # return the engine info
-            engine
+            Lesli::System.engine(lesli_controller.camelize, property)
         end
 
         # return true if the controller requested belongs to the administration area
         def is_lesli_onboarding?
             lesli_controller == "onboardings"
-        end
-
-        private 
-
-        # Prints the name of the engine
-        def lesli_engine_name
-            name = lesli_controller.camelcase
-            
-            return "Lesli" if name == "Lesli"
-
-            name.sub("Lesli", "")
         end
     end
 end
