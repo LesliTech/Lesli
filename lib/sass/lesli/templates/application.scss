@@ -93,7 +93,6 @@ Building a better future, one line of code at a time.
 // · Lesli vue components
 @import "lesli/elements/autocomplete";
 @import "lesli/elements/avatar";
-@import "lesli/elements/content";
 @import "lesli/elements/empty";
 @import "lesli/elements/file-uploader";
 @import "lesli/elements/gallery";
@@ -113,7 +112,6 @@ Building a better future, one line of code at a time.
 @import "lesli/elements/card";
 
 
-
 html,
 body {
     color: var(--lesli-font-color);
@@ -127,15 +125,25 @@ body {
 }
 
 
+// · 
+#lesli-application {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+// · titles
 h1, h2, h3, h4, h5, h6 {
     font-family: "Montserrat", $family-primary;
 }
 
 
-// Vue Animation component
+// · Vue Animation component
 .v-enter-active, .v-leave-active { transition: opacity 0.5s ease; }
 .v-enter-from, .v-leave-to { opacity: 0; }
 
 
-
-//@import "flag-icon"; import only where it is needed :)
+// · Hide vue until vue finishes compilation
+[v-cloak] {
+    display: none !important;
+}

@@ -280,10 +280,10 @@ module Lesli
 
         # 08.03 Audit engine
         def navigation_engine_audit(title: "Audit", subtitle: "Activity, logs, security and more")
-            return unless defined? CloudAudit
+            return unless defined? LesliAudit
 
-            navigation_engine_item(title, subtitle, "audit", cloud_audit.root_path,
-                                   controller_path.include?("cloud_audit"))
+            navigation_engine_item(title, subtitle, "audit", lesli_audit.root_path,
+                                   controller_path.include?("lesli_audit"))
         end
 
         # INTEGRATIONS

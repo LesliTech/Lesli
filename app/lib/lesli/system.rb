@@ -42,7 +42,7 @@ module Lesli
             engines() if ENGINES.empty?
 
             # return specific property if requested
-            return ENGINES[engine][property] unless property.blank?
+            return ENGINES[engine][property.to_sym] unless property.blank?
 
             # return the engine info
             return ENGINES[engine]
@@ -55,7 +55,7 @@ module Lesli
             # due we do not know the engine mounted path we have to look up for it every
             # time we load the html view so we can use the dynamic route from the main rails app
             # we use this in the url plugin 
-            ["Lesli", "LesliAdmin", "LesliBabel"].each do |engine|
+            ["Lesli", "LesliAdmin", "LesliBabel", "LesliAudit"].each do |engine|
                 next unless Object.const_defined?(engine)
                 ENGINES[engine]= {
                     :code => engine.underscore, 
