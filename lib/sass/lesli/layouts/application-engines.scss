@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -27,8 +27,7 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·  
-
+// · 
 */
 
 .lesli-application-engines {
@@ -38,68 +37,73 @@ Building a better future, one line of code at a time.
     position: fixed;
     z-index: 98;
 
-    .engines {
+    .engines-container {
         width: 100%;
         height: 100%;
-        padding: 1.3rem;
+        padding: 1.6rem;
         
         overflow-y: scroll;
         margin-top: var(--lesli-header-height);
         background-color: var(--lesli-color-background);
         @include lesli-css-scrollbar(hide);
 
-        // engine
-        a {
+        .engines {
             width: 100%;
-            height: 105px;
+            margin: 0 auto;
+            max-width: 1408px;
+
             display: flex;
-            text-align: left;
+            flex-wrap: wrap;
             align-items: center;
-            padding: 1rem .4rem;
-            margin-bottom: 1rem;
-            border-radius: .8rem;
-            border: 2px solid transparent;
-            background-color: lesli-css-color(silver, 100);
-            box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
-            transition: all ease-in-out .4s;
-            box-shadow: $lesli-box-shadow;
-            width: 320px;
-            height: 263px;
             flex-direction: column;
             justify-content: center;
-            margin-bottom: 2rem;
-            div {
+
+            // engine link
+            a {
+                width: 100%;
+                height: 200px;
+                display: block;
+
                 text-align: center;
+                padding: 1rem .4rem;
+                margin-bottom: 2rem;
+                border-radius: .5rem;
+                border: transparent 1px solid;
+                box-shadow: $lesli-box-shadow;
+                background-color: lesli-css-color(silver, 100);
+                background-color: #FFFFFF;
+                transition: all ease-in-out .4s;
+
+                &:hover {
+                    border-color: var(--lesli-color-primary);
+                }
+
+                &.is-active {
+                    background-color: #F0F4FF;
+                    border-color: var(--lesli-color-primary);
+                }
+
+                // engine logo
+                svg {
+                    margin-right: .4rem;
+                    fill: var(--lesli-color-primary);
+                }
+
+                // engine description
+                p {
+                    font-size: 14;
+                }
+
+                // engine name
+                span {
+                    font-weight: 600;
+                    font-size: 20px;
+                }
+
+                span, p {
+                    color: var(--lesli-color-primary);
+                }
             }
-            &:hover {
-                background-color: #F0F4FF;
-            }
-            &.is-active {
-                background-color: #F0F4FF;
-                border-color: var(--lesli-color-primary);
-                box-shadow: none;
-            }
-        }
-
-        // engine icon
-        svg {
-            margin-right: .4rem;
-            fill: $primary;
-        }
-
-        // title
-        span {
-            font-weight: 600;
-            font-size: 20px;
-        }
-
-        // subtitle
-        p {
-            font-size: 14;
-        }
-
-        span, p {
-            color: var(--lesli-color-primary);
         }
 
         // close button 
@@ -109,47 +113,13 @@ Building a better future, one line of code at a time.
     }
 }
 
+
 @include lesli-css-breakpoint-tablet() {
-    .lesli-application-engines {
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            align-content: flex-start;
-            justify-content: space-between;
-            margin-left: var(--lesli-sidebar-width);
-            max-width: calc(100% - var(--lesli-sidebar-width));
-
-            // engine
-            a {
-                width: 320px;
-                height: 263px;
-                flex-direction: column;
-                justify-content: center;
-                margin-bottom: 2rem;
-                div {
-                    text-align: center;
-                }
-            }
-
-            // engine icon
-            svg {
-                margin-right: 0;
-                margin-bottom: 1rem;
-            }
-        }
-    }
-}
-
-@include lesli-css-breakpoint-desktop() {
-    .lesli-application-engines {
-        .container {
-            justify-content: flex-start;
-
-            // engine
-            a {
-                margin-right: 1.4rem;
-                margin-bottom: 1.4rem;
-            }
+    .lesli-application-engines .engines-container .engines {
+        flex-direction: row;
+        a {
+            width: 320px;
+            margin: 1rem;
         }
     }
 }

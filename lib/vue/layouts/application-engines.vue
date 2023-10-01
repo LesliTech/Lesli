@@ -50,16 +50,16 @@ const storeLayout = useLayout()
             v-if="storeLayout.showEngines" 
             class="lesli-application-engines" 
             @click="storeLayout.toggleEngines()">
-            <div class="engines">
-                <div class="container">
+            <div class="engines-container">
+                <div class="engines">
                     <slot></slot>
-                    <button class="button is-hidden-tablet">
-                        <span class="icon">
-                            <i class="ri-close-line"></i>
-                        </span>
-                        <span>close</span>
-                    </button>
                 </div>
+                <button class="button is-hidden-tablet">
+                    <span class="icon">
+                        <i class="ri-close-line"></i>
+                    </span>
+                    <span>close</span>
+                </button>
             </div>
         </section>
     </Transition>
