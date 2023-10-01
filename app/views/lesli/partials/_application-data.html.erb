@@ -49,19 +49,15 @@ Building a better future, one line of code at a time.
 
 
 <% 
-# due we do not know the engine mounted path we have to look up for it every
-# time we load the html view so we can use the dynamic route from the main rails app
-# we use this in the url plugin 
-["Lesli", "LesliAdmin", "LesliBabel"].each do |engine|
-    next unless Object.const_defined?(engine)
-    @lesli[:engine_paths][engine] = "#{engine}::Engine".constantize.routes.find_script_name({}) 
+# Dynamic build the engines mouted path
+Lesli::System.engines.each do |engine, engine_info|
+    @lesli[:engine_paths][engine] = engine_info[:path]
 end 
 %>
 
 
 <% # define @account data for the lesli plugin %>
 <script>const lesli = <%= @lesli.to_json.html_safe %></script>
-
 
 <%#
 @lesli[:revision] = 0

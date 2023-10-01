@@ -1,4 +1,5 @@
-=begin
+<script setup>
+/*
 
 Lesli
 
@@ -17,7 +18,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -27,17 +28,11 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
-=end
-
-class CreateSystemControllerActions < ActiveRecord::Migration[6.1]
-    def change
-        create_table :system_controller_actions do |t|
-            t.string :name
-            t.datetime :deleted_at, index: true
-            t.timestamps
-        end
-
-        add_reference(:system_controller_actions, :system_controller, foreign_key: { to_table: :system_controllers })
-    end
-end
+// · 
+*/
+</script>
+<template>
+    <div class="lesli-application-component">
+        <slot></slot>
+    </div>
+</template>

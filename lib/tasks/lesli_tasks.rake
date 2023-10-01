@@ -20,4 +20,10 @@ namespace :lesli do
             seed()
         end
     end
+    namespace :babel do 
+        desc "Scan and register labels"
+        task :scan => :environment do |task, args|
+            Rake::Task['lesli_babel:scan'].invoke
+        end 
+    end
 end
