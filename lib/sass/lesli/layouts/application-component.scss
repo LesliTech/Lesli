@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -27,24 +27,13 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·  
-
+// · 
 */
 
 
 // · 
-#lesli-application {
-    //padding-top: var(--lesli-header-height);
-    display: flex;
-    flex-wrap: wrap;
-}
-
-
-// · 
-section.lesli-element-content {
-    // margin-left: var(--lesli-sidebar-width);
-    // max-width: calc(100% - var(--lesli-sidebar-width));
-    // min-height: calc(100vh - var(--lesli-header-height) - var(--lesli-footer-height));
-    // min-height: calc(100vh - var(--lesli-header-height)); // footer is not enable
-    // background-color: aquamarine;
+.lesli-application-component {
+    border-radius: .6rem;
+    box-shadow: $lesli-box-shadow;
+    background-color: lesli-css-color(solid, white);
 }

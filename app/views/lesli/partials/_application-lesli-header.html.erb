@@ -43,7 +43,7 @@ Building a better future, one line of code at a time.
 
 <%# if custom header does not exists, use the main from core %>
 <% unless custom_header_exists %>
-    <application-component-header 
+    <lesli-application-header 
         <%= "show-bell" if defined?(CloudBell) %>
         <%= "show-announcements" if defined?(CloudBell) %>
         <%= "show-focus" if defined?(CloudFocus) %>
@@ -75,5 +75,5 @@ Building a better future, one line of code at a time.
                 </div>
             </div>
         <% end %>
-    </application-component-header>
+    </lesli-application-header >
 <% end %>
