@@ -22,7 +22,7 @@ namespace :lesli do
     end
     namespace :babel do 
         desc "Scan and register labels"
-        task :scan => :environment do |task, args|
+        task :build => :environment do |task, args|
             Rake::Task['lesli_babel:scan'].invoke
         end 
     end
