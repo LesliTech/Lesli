@@ -71,5 +71,6 @@ def seed
 
     Lesli::Engine.load_seed
     LesliBell::Engine.load_seed if defined?(LesliBell)
+    LesliAudit::Engine.load_seed if defined?(LesliAudit)
 
 end

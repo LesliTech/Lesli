@@ -47,7 +47,7 @@ module Lesli
         before_action :set_helpers_for_request
         before_action :set_customization
 
-        after_action  :log_user_requests
+        after_action  :log_requests
 
         layout "lesli/layouts/application-lesli"
 

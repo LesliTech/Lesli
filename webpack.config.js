@@ -32,8 +32,9 @@ Building a better future, one line of code at a time.
 
 
 // · Including plugins and dependencies
-var path = require("path")
-var debug = require("lesli-js/debug/nodejs")
+const path = require("path")
+const debug = require("lesli-js/debug/nodejs")
+const version = require("./lib/webpack/version")
 
 
 // · Including webpack configuration
@@ -62,11 +63,12 @@ module.exports = env => {
 
     // core vue applications
     webpackConfig.push(Object.assign({}, webpackBase(env), applicationCore(env, requestedEngines)))
-
+    version(env, { code: "lesli", dir: "Lesli" })
     
     // engine vue applications
     applicationEngines(env, requestedEngines).forEach(engine => {
         webpackConfig.push(Object.assign({}, webpackBase(env), engine.config))
+        version(env, engine)
     })
 
     debug.hr()
