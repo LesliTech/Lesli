@@ -33,5 +33,6 @@ Building a better future, one line of code at a time.
 module Lesli
     class User::Request < ApplicationRecord
         belongs_to :user
+        belongs_to :session
     end
 end
