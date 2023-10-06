@@ -30,19 +30,16 @@ Building a better future, one line of code at a time.
 // ·
 =end
 
-class CreateLesliUserRequests < ActiveRecord::Migration[6.0]
+class CreateLesliAccountRequests < ActiveRecord::Migration[6.0]
     def change
-        create_table :lesli_user_requests do |t|
+        create_table :lesli_account_requests do |t|
             t.string    :request_controller
             t.string    :request_action
             t.string    :request_method
             t.integer   :request_count
-            t.timestamps
+            t.date      :created_at
         end
-
-        add_reference(:lesli_user_requests, :user, foreign_key: { to_table: :lesli_users })
-        add_reference(:lesli_user_requests, :session, foreign_key: { to_table: :lesli_user_sessions })
-        #add_index(:lesli_user_requests, %i[request_controller request_action user_id], unique: true, name: "lesli_user_requests_index")
-        add_index(:lesli_user_requests, %i[request_controller request_action user_id session_id], unique: true, name: "lesli_user_requests_index")
+        add_reference(:lesli_account_requests, :account, foreign_key: { to_table: :lesli_accounts })
+        add_index(:lesli_account_requests, %i[request_controller request_action created_at account_id], unique: true, name: "lesli_account_requests_index")
     end
 end

@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -27,35 +27,11 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
 module Lesli
-    class ApplicationLesliController < ApplicationController
-        include Interfaces::Application::Authorization
-        include Interfaces::Application::Customization
-        include Interfaces::Application::Responder
-        include Interfaces::Application::Requester
-        include Interfaces::Application::Logger
-
-        protect_from_forgery with: :exception
-
-        before_action :set_path
-        before_action :set_locale
-        before_action :authorize_request
-        before_action :authorize_privileges
-        before_action :set_helpers_for_request
-        before_action :set_customization
-
-        after_action  :log_requests
-
-        layout "lesli/layouts/application-lesli"
-
-        # Rescue from "ParameterMissing" when using required params
-        # in controllers
-        rescue_from ActionController::ParameterMissing do |_e|
-            respond_with_error("Missing params")
-        end
-
+    class Account::Request < ApplicationRecord
+        belongs_to :account        
     end
 end

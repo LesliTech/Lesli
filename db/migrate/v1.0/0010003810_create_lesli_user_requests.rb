@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails Development Platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -30,32 +30,15 @@ Building a better future, one line of code at a time.
 // ·
 =end
 
-module Lesli
-    class ApplicationLesliController < ApplicationController
-        include Interfaces::Application::Authorization
-        include Interfaces::Application::Customization
-        include Interfaces::Application::Responder
-        include Interfaces::Application::Requester
-        include Interfaces::Application::Logger
-
-        protect_from_forgery with: :exception
-
-        before_action :set_path
-        before_action :set_locale
-        before_action :authorize_request
-        before_action :authorize_privileges
-        before_action :set_helpers_for_request
-        before_action :set_customization
-
-        after_action  :log_requests
-
-        layout "lesli/layouts/application-lesli"
-
-        # Rescue from "ParameterMissing" when using required params
-        # in controllers
-        rescue_from ActionController::ParameterMissing do |_e|
-            respond_with_error("Missing params")
+class CreateLesliUserRequests < ActiveRecord::Migration[6.0]
+    def change
+        create_table :lesli_user_requests do |t|
+            t.integer   :request_count
+            t.date      :created_at
+            t.datetime  :updated_at
         end
-
+        add_reference(:lesli_user_requests, :user, foreign_key: { to_table: :lesli_users })
+        add_reference(:lesli_user_requests, :session, foreign_key: { to_table: :lesli_user_sessions })
+        add_index(:lesli_user_requests, %i[created_at user_id session_id], unique: true, name: "lesli_user_requests_index")
     end
 end
