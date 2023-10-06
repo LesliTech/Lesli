@@ -57,6 +57,33 @@ module Lesli
                     "#{user_agent.platform} #{user_agent.os} - #{user_agent.browser} #{user_agent_version}"
                 end
 
+                def log_requests
+                    log_account_requests
+                    log_user_requests
+                end 
+
+                def log_account_requests
+                    return unless Lesli.config.security.dig(:enable_analytics)
+                    return unless current_user
+                    return unless session[:user_session_id]
+
+                    # Try to save a unique record for this request configuration
+                    current_user.account.requests.upsert(
+                        {
+                            request_controller: controller_path,
+                            request_action: action_name,
+                            request_method: request.method,
+                            request_count: 1
+                        },
+                        
+                        # group of columns to consider a request as unique
+                        unique_by: %i[request_controller request_action created_at account_id],
+
+                        # if request id is not unique, increase the counter for this configuration
+                        on_duplicate: Arel.sql("request_count = lesli_account_requests.request_count + 1")
+                    )
+                end
+
                 # Track all user activity
                 # this is disabled by default in the settings file
                 def log_user_requests
@@ -64,26 +91,24 @@ module Lesli
                     return unless current_user
                     return unless session[:user_session_id]
 
-
                     # Try to save a unique record for this request configuration
                     current_user.requests.upsert(
                         {
-                            request_controller: controller_path,
-                            request_action: action_name,
-                            request_method: request.method,
                             request_count: 1,
                             session_id: session[:user_session_id]
                         },
                         
                         # group of columns to consider a request as unique
-                        unique_by: %i[request_controller request_action user_id session_id],
+                        unique_by: %i[created_at user_id session_id],
 
-                        # if request id is not unique, increase the counter for this configuration
-                        on_duplicate: Arel.sql("request_count = lesli_user_requests.request_count + 1")
+                        # if request id is not unique
+                        #   - increase the counter for this configuration
+                        #   - update the datetime of the last request
+                        on_duplicate: Arel.sql(
+                            'request_count = lesli_user_requests.request_count + 1,'\
+                            'updated_at = current_timestamp'
+                        )
                     )
-
-                    # update the last used date for the current session
-                    #current_user.sessions.where(id: session[:user_session_id]).first&.touch(:last_used_at)
                 end
 
                 # Track user agents

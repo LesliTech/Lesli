@@ -43,6 +43,7 @@ module Lesli
         has_many :roles
         has_many :files
         has_many :cronos
+        has_many :requests
         has_many :settings
         has_many :locations
         has_many :feedbacks

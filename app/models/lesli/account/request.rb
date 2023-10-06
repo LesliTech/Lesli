@@ -31,8 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    class User::Request < ApplicationRecord
-        belongs_to :user
-        belongs_to :session
+    class Account::Request < ApplicationRecord
+        belongs_to :account        
     end
 end

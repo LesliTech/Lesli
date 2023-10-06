@@ -55,7 +55,7 @@ module Lesli
             # due we do not know the engine mounted path we have to look up for it every
             # time we load the html view so we can use the dynamic route from the main rails app
             # we use this in the url plugin 
-            ["Lesli", "LesliAdmin", "LesliBabel", "LesliAudit"].each do |engine|
+            LESLI_ENGINES.each do |engine|
                 next unless Object.const_defined?(engine)
                 ENGINES[engine]= {
                     :code => engine.underscore, 
@@ -76,5 +76,7 @@ module Lesli
             return "Lesli" if name == "Lesli"
             name.sub("Lesli", "")
         end
+
+        LESLI_ENGINES = ["Lesli", "LesliAdmin", "LesliBabel", "LesliAudit", "LesliBell"]
     end
 end
