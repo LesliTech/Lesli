@@ -62,9 +62,7 @@ Building a better future, one line of code at a time.
                     placeholder="hello@lesli.tech"
                     v-model="sign_in.email"
                     @input="typing">
-                <span 
-                    class="icon is-small is-left" 
-                    :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
+                <span :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
                     <i class="ri-user-line"></i>
                 </span>
             </div>
@@ -82,8 +80,7 @@ Building a better future, one line of code at a time.
                     placeholder="* * * * * * *"
                     v-model="sign_in.password"
                     @input="typing">
-                <span 
-                    :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
+                <span :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
                     <i class="ri-key-fill"></i>
                 </span>
                 <span 
