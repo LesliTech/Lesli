@@ -56,6 +56,5 @@ module Lesli
         rescue_from ActionController::ParameterMissing do |_e|
             respond_with_error("Missing params")
         end
-
     end
 end

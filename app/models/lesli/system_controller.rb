@@ -39,6 +39,7 @@ module Lesli
             # get a matrix of controllers and actions
             c = SystemController.joins(:actions).select(
                 "lesli_system_controllers.engine as engine",
+                "lesli_system_controllers.route as route",
                 "lesli_system_controllers.reference as controller",
                 "lesli_system_controllers.name as controller_name",
                 "lesli_system_controllers.id as controller_id",

@@ -29,7 +29,6 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
 
 
@@ -187,7 +186,7 @@ function toggleEngines() {
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
                         <div class="dropdown-content">
-                            <a href="/administration/profile" class="dropdown-item">
+                            <a href="/administration/profile" class="dropdown-item py-3">
                                 <span class="icon-text">
                                     <span class="icon has-text-grey-dark">
                                         <span class="ri-user-line"></span>
@@ -196,7 +195,7 @@ function toggleEngines() {
                                 </span>
                             </a>
                             <hr class="dropdown-divider">
-                            <a href="/logout" class="dropdown-item">
+                            <a href="/logout" class="dropdown-item py-3">
                                 <span class="icon-text">
                                     <span class="icon has-text-grey-dark">
                                         <span class="ri-logout-box-r-line"></span>
