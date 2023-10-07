@@ -34,6 +34,9 @@
 # Development dependencies, packages, gems and tools
 .DS_store
 .ruby-version
+brakeman.html
 
+
+# Lesli specific 
 /node_modules
 package-lock.json
