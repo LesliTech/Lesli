@@ -55,12 +55,13 @@ Building a better future, one line of code at a time.
 
 
 // · Lesli application layout 
-@import "lesli/layouts/application-header";
-@import "lesli/layouts/application-navbar";
 @import "lesli/layouts/application-announcements";
+@import "lesli/layouts/application-component";
+@import "lesli/layouts/application-container";
 @import "lesli/layouts/application-engines";
 @import "lesli/layouts/application-sidebar";
-@import "lesli/layouts/application-component";
+@import "lesli/layouts/application-header";
+@import "lesli/layouts/application-navbar";
 @import "lesli/layouts/application-footer";
 @import "lesli/layouts/application-search";
 

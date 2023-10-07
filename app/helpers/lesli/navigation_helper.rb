@@ -17,18 +17,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
-
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 =end
 
 module Lesli
@@ -118,11 +117,9 @@ module Lesli
         # PRODUCTIVITY & TEAMWORK
 
         # 03.01 Driver engine
-        def navigation_engine_driver(title: "Driver", subtitle: "Calendar")
-            return unless defined? CloudDriver
-
-            navigation_engine_item(title, subtitle, "driver", cloud_driver.root_path,
-                                   controller_path.include?("cloud_driver"))
+        def navigation_engine_driver(title: "Driver", subtitle: "Unified calendar app")
+            return unless defined? LesliDriver
+            navigation_engine_item(title, subtitle, "driver", lesli_driver.root_path, controller_path.include?("lesli_driver"))
         end
 
         # 03.02 Work engine

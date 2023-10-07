@@ -29,12 +29,20 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
+
+// · defining props
+const props = defineProps({
+    dashboard: {
+        type: Boolean,
+        default: false,
+        required: false
+    }
+})
 
 </script>
 <template>
-    <section class="lesli-application-container container">
+    <section class="lesli-application-container container" :class="{ 'is-fluid':dashboard }">
         <slot></slot>
     </section>
 </template>

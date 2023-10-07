@@ -76,6 +76,6 @@ module Lesli
             name.sub("Lesli", "")
         end
 
-        LESLI_ENGINES = ["Lesli", "LesliAdmin", "LesliBabel", "LesliAudit", "LesliBell"]
+        LESLI_ENGINES = ["Lesli", "LesliAdmin", "LesliBabel", "LesliAudit", "LesliBell", "LesliDriver"]
     end
 end
