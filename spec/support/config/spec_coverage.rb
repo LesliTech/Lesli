@@ -76,6 +76,5 @@ end
 
 SimpleCov.start
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-    #SimpleCov::Formatter::CoberturaFormatter
-    SimpleCov::Formatter::Codecov
+    SimpleCov::Formatter::CoberturaFormatter
 ])
