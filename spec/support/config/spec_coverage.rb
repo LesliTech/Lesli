@@ -35,6 +35,7 @@ Building a better future, one line of code at a time.
 require "simplecov"
 require "simplecov-console"
 require "simplecov-cobertura"
+require "codecov"
 
 
 # COVERAGE=true rspec spec
@@ -75,6 +76,6 @@ end
 
 SimpleCov.start
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-    SimpleCov::Formatter::CoberturaFormatter,
-    SimpleCov::Formatter::HTMLFormatter
+    #SimpleCov::Formatter::CoberturaFormatter
+    SimpleCov::Formatter::Codecov
 ])
