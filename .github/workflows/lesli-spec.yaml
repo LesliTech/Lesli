@@ -129,6 +129,8 @@ jobs:
         run: bundle exec rspec spec
 
       # Minimum configuration
-      - uses: joshmfrankel/simplecov-check-action@main
+      - name: Add code coverage comment
+        uses: romeovs/lcov-reporter-action@v0.2.16
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          lcov-file: ./coverage/lcov/ruby-simplecov.lcov
+          github-token: ${{ secrets.GITHUB_TOKEN }}
