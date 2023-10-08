@@ -44,7 +44,7 @@ require "L2"
 require "faker"
 require "rspec/rails"
 require Lesli::Engine.root.join("spec/support/helpers/spec_helper")
-#require Lesli::Engine.root.join("spec/support/config/spec_coverage")
+require Lesli::Engine.root.join("spec/support/config/spec_coverage")
 
 
 # ·

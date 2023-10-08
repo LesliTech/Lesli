@@ -34,6 +34,7 @@ Building a better future, one line of code at a time.
 # Test coverage
 require "simplecov"
 require "simplecov-console"
+require "simplecov-cobertura"
 
 
 # COVERAGE=true rspec spec
@@ -71,3 +72,6 @@ if ENV["COVERAGE"]
     end
 
 end
+
+SimpleCov.start
+SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
