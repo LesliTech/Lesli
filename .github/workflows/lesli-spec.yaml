@@ -128,6 +128,11 @@ jobs:
       - name: Run Rails tests
         run: bundle exec rspec spec
 
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
       # Minimum configuration
       - name: Add code coverage comment
         uses: romeovs/lcov-reporter-action@v0.2.16
