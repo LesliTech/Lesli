@@ -44,6 +44,7 @@ if ENV["COVERAGE"]
 
     # add console stats and html generator
     SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+        SimpleCov::Formatter::CoberturaFormatter,
         SimpleCov::Formatter::HTMLFormatter,
         SimpleCov::Formatter::Console,
     ])
@@ -74,8 +75,9 @@ if ENV["COVERAGE"]
 
 end
 
-SimpleCov.start
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-    #SimpleCov::Formatter::CoberturaFormatter
-    SimpleCov::Formatter::Codecov
-])
+if ENV["CODECOV"]
+    SimpleCov.start
+    SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+        SimpleCov::Formatter::Codecov
+    ])
+end

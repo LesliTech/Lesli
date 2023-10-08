@@ -127,3 +127,5 @@ jobs:
       # Run Rspec tests
       - name: Run Rails tests
         run: bundle exec rspec spec
+        env:
+          CODECOV: true
