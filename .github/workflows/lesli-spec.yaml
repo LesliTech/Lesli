@@ -127,3 +127,8 @@ jobs:
       # Run Rspec tests
       - name: Run Rails tests
         run: bundle exec rspec spec
+
+      # Minimum configuration
+      - uses: joshmfrankel/simplecov-check-action@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
