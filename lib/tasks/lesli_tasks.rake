@@ -42,7 +42,7 @@ namespace :lesli do
         end 
 
         desc "Deploy translations"
-        task :build => :environment do |task, args|
+        task :deploy => :environment do |task, args|
             Rake::Task['lesli_babel:deploy'].invoke
         end 
     end
