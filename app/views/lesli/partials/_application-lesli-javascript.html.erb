@@ -32,17 +32,21 @@ Building a better future, one line of code at a time.
 =end
 %>
 
-<%# translation_timestamp = File.mtime(Rails.root.join("public", "javascripts", "translations.js")).to_i %>
+<%# Temporary to avoid reference errors %>
 <%= javascript_include_tag "lesli/i18n" %>
-<%#= javascript_include_tag "pdf", skip_pipeline: true %>
-<%#= javascript_include_tag "translations?#{translation_timestamp}", skip_pipeline: true %>
 
+
+<%# Including main Lesli application %>
+<%= javascript_include_tag(lesli_application_javascript_path()) %>
+
+
+<%# Set language for JavaScript apps %>
 <script>
-    // Set language for JavaScript apps
-    // I18n.locale = '<%= I18n.locale %>'
+    if (typeof i18n !== "undefined") {
+        i18n.locale = "<%= I18n.locale %>"
+    }
 </script>
 
-<%= javascript_include_tag(lesli_application_javascript_path()) %>
 
 <%#
 <script src="https://js.honeybadger.io/v3.2/honeybadger.min.js" type="text/javascript"></script>
