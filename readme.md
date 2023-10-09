@@ -7,7 +7,7 @@
 <hr/>
     <p align="center">
         <a target="blank" href="https://rubygems.org/gems/lesli">
-            <img src="https://badge.fury.io/rb/lesli.svg" alt="Gem Version" height="18">
+            <img src="https://badge.fury.io/rb/lesli.svg" alt="Gem Version" height="20">
         </a>
         <a href="https://codecov.io/github/LesliTech/Lesli"> 
             <img src="https://codecov.io/github/LesliTech/Lesli/graph/badge.svg?token=2O12NENK5Y"/> 
@@ -18,7 +18,7 @@
 
 <br />
 
-<img style="width:100%; border-radius: 6px;" alt="Lesli logo" src="./app/assets/images/lesli/brand/screenshot.png" />
+<img style="width:100%; border-radius: 6px;" alt="Lesli logo" src="./docs/screenshot.png" />
 
 ### Introduction 
 
