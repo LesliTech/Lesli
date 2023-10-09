@@ -23,39 +23,33 @@ Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.dev
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
-Lesli::Engine.routes.draw do
+module Lesli
+    class User::Detail < ApplicationLesliRecord
+        belongs_to :user
 
-    devise_for :users, class_name: "Lesli::User", module: :devise,
-    :path => "",
-    :path_names => {
-        :sign_in  => "login",
-        :sign_out => "logout",
-        :sign_up  => "register",
-        :password => "password",
-        :confirmation => "confirmation"
-    },
-    :controllers => {
-        :registrations => "users/registrations",
-        :confirmations => "users/confirmations",
-        :passwords => "users/passwords",
-        :sessions => "users/sessions"
-    }
+        #before_save :validate_work_region
 
-    # resource :profile, only: []
+        enum salutation: {
+            mr: "mr",
+            ms: "ms",
+            mrs: "mrs"
+        }
 
-    resource :account, only: [:show, :update]
-    resources :users, only: [:index, :show, :new, :update, :create, :destroy] do
+        protected
 
-        # extensions to the users methods
-        collection do
-            get :list
+        def validate_work_region
+            return true unless work_region
+            return true if Account::Location.find_by_id(work_region)
+
+            errors.add(:base, :work_region_invalid)
+            throw :abort
         end
     end
 end
