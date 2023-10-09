@@ -47,6 +47,10 @@ const storeLayout = useLayout()
 const storeSearch = useSearch()
 
 
+// · 
+const url = inject("url")
+
+
 // · defining props
 const props = defineProps({
     showEngines: {
@@ -186,7 +190,7 @@ function toggleEngines() {
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
                         <div class="dropdown-content">
-                            <a href="/administration/profile" class="dropdown-item py-3">
+                            <a :href="url.admin('profile')" class="dropdown-item py-3">
                                 <span class="icon-text">
                                     <span class="icon has-text-grey-dark">
                                         <span class="ri-user-line"></span>

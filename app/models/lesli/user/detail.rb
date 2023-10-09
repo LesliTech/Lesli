@@ -30,20 +30,26 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-require "i18n-js"
+module Lesli
+    class User::Detail < ApplicationLesliRecord
+        belongs_to :user
 
-# · 
-namespace :lesli do 
-    namespace :babel do 
+        #before_save :validate_work_region
 
-        desc "Scan and register labels"
-        task :build => :environment do |task, args|
-            Rake::Task['lesli_babel:build'].invoke
-        end 
+        enum salutation: {
+            mr: "mr",
+            ms: "ms",
+            mrs: "mrs"
+        }
 
-        desc "Deploy translations"
-        task :deploy => :environment do |task, args|
-            Rake::Task['lesli_babel:deploy'].invoke
-        end 
+        protected
+
+        def validate_work_region
+            return true unless work_region
+            return true if Account::Location.find_by_id(work_region)
+
+            errors.add(:base, :work_region_invalid)
+            throw :abort
+        end
     end
 end

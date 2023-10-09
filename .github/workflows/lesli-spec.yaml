@@ -48,7 +48,7 @@ on:
 
   # execute this workflow when push to master - temporary, no one should push to master :D
   push:
-    branches: [master]
+    branches: []
 
 
   # run a test daily at 1 am (Guatemala time)
