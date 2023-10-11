@@ -30,8 +30,7 @@ Building a better future, one line of code at a time.
 // ·
 =end
 
-Lesli::Engine.routes.draw do
-
+Rails.application.routes.draw do
     devise_for :users, class_name: "Lesli::User", module: :devise,
     :path => "",
     :path_names => {
@@ -47,13 +46,20 @@ Lesli::Engine.routes.draw do
         :passwords => "users/passwords",
         :sessions => "users/sessions"
     }
+end
+
+Lesli::Engine.routes.draw do
 
     # resource :profile, only: []
 
     resource :account, only: [:show, :update]
-    resources :users, only: [:index, :show, :new, :update, :create, :destroy] do
+    resources :users, only: [] do
+        collection do
+            get :list
+        end
+    end
 
-        # extensions to the users methods
+    resources :roles, only: [] do 
         collection do
             get :list
         end
