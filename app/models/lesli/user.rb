@@ -57,9 +57,10 @@ module Lesli
         has_many :activities,   class_name: "User::Activity"
 
         # users can have many roles and too many privileges through the roles
-        has_many :user_roles,       class_name: "User::Role" 
-        has_many :roles,            through: :user_roles, source: :role
-        has_many :privileges,       through: :roles
+        has_many :user_roles, class_name: "Lesli::User::Role" 
+        has_many :roles, class_name: "Lesli::Role", through: :user_roles, source: :role
+        #has_many :privileges,       through: :roles
+
 
         # devise implementation
         devise :database_authenticatable,

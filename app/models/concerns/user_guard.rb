@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails Development Platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -28,7 +28,6 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
 
 
@@ -41,12 +40,12 @@ module UserGuard
     def max_object_level_permission
 
         # get the max object level permission from roles assigned to the user
-        level = self.roles.map(&:object_level_permission).max()
+        level = self.roles.maximum(:object_level_permission)
 
         # if user has no roles assigned, we return the lowest role available 
         # NOTE: This should not be possible due the user needs a role to login
         unless level 
-            return (self.account.roles.map(&:object_level_permission).min() + 1)
+            return (self.account.roles.minimum(:object_level_permission))
         end
 
         # return the level found
