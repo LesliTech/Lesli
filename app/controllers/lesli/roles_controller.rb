@@ -31,14 +31,12 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    class UsersController < ApplicationLesliController
+    class RolesController < ApplicationLesliController
+        before_action :set_role, only: [:show, :update, :destroy]
 
-        # GET /users/list
         def list
             respond_to do |format|
-                format.json { 
-                    respond_with_successful(UserService.new(current_user, query).list(params)) 
-                }
+                format.json { respond_with_successful(RoleService.new(current_user, query).list(params)) }
             end
         end
     end

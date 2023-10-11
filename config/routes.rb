@@ -51,9 +51,13 @@ Lesli::Engine.routes.draw do
     # resource :profile, only: []
 
     resource :account, only: [:show, :update]
-    resources :users, only: [:index, :show, :new, :update, :create, :destroy] do
+    resources :users, only: [] do
+        collection do
+            get :list
+        end
+    end
 
-        # extensions to the users methods
+    resources :roles, only: [] do 
         collection do
             get :list
         end

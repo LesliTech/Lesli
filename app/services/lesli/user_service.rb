@@ -36,7 +36,7 @@ module Lesli
 
         # Return a list of users that belongs to the account of the current_user
         # this list is meant to be used in selectors, autocomplets, etc
-        def list query=nil, params=nil
+        def list params=nil
             #users = current_user.account.users
             users = Lesli::Account.first.users
 

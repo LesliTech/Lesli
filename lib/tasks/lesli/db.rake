@@ -67,7 +67,7 @@ namespace :lesli do
 
         Rake::Task['db:create'].invoke
         Rake::Task['db:migrate'].invoke
-        Rake::Task['db:seed'].invoke
+        
         seed()
     end
 
@@ -75,6 +75,8 @@ namespace :lesli do
     def seed
         return if Rails.env.production?
         L2.msg("Seed Lesli database for development")
+
+        Rake::Task['db:seed'].invoke
 
         Lesli::Engine.load_seed
         LesliBell::Engine.load_seed if defined?(LesliBell)
