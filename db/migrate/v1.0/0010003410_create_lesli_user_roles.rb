@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS Development Framework.
+Lesli · Ruby on Rails Development Platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -27,19 +27,17 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 =end
 
-module Lesli
-    class UsersController < ApplicationLesliController
-
-        # GET /users/list
-        def list
-            respond_to do |format|
-                format.json { 
-                    respond_with_successful(UserService.new(current_user, query).list(params)) 
-                }
-            end
+class CreateLesliUserRoles < ActiveRecord::Migration[6.0]
+    def change
+        create_table :lesli_user_roles do |t|
+            t.datetime :deleted_at, index: true
+            t.timestamps
         end
+
+        add_reference(:lesli_user_roles, :user, foreign_key: { to_table: :lesli_users })
+        add_reference(:lesli_user_roles, :role, foreign_key: { to_table: :lesli_roles })
     end
 end

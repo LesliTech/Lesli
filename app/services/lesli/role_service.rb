@@ -31,15 +31,15 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    class UsersController < ApplicationLesliController
+    class RoleService < ApplicationLesliService
 
-        # GET /users/list
-        def list
-            respond_to do |format|
-                format.json { 
-                    respond_with_successful(UserService.new(current_user, query).list(params)) 
-                }
-            end
+        # Return a list of roles that the user is able to work with
+        # according to object level permission
+        def list params
+            current_user.account.roles
+            .where("object_level_permission <= ?", current_user.max_object_level_permission)
+            .order(object_level_permission: :desc, name: :asc)
+            .select(:id, :name, :object_level_permission)
         end
     end
 end
