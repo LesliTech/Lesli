@@ -1,0 +1,86 @@
+{
+  "en": {
+    "lesli": {
+      "shared": {
+        "title_lesli": ":lesli.shared.title_lesli:"
+      },
+      "users": {
+        "title_users": "Users"
+      }
+    },
+    "lesli_admin": {
+      "shared": {
+        "title_lesli": ":lesli.shared.title_lesli:"
+      },
+      "users": {
+        "title_users": "Users"
+      }
+    },
+    "lesli_audit": {
+      "shared": {
+        "title_lesli": ":lesli.shared.title_lesli:"
+      },
+      "users": {
+        "title_users": "Users"
+      }
+    },
+    "lesli_babel": {
+      "shared": {
+        "title_lesli": ":lesli.shared.title_lesli:"
+      },
+      "users": {
+        "title_users": "Users"
+      }
+    },
+    "lesli_driver": {
+      "shared": {
+        "title_lesli": ":lesli.shared.title_lesli:"
+      },
+      "users": {
+        "title_users": "Users"
+      }
+    }
+  },
+  "es": {
+    "lesli": {
+      "shared": {
+        "title_lesli": "Lesli en español "
+      },
+      "users": {
+        "title_users": "Usuarios"
+      }
+    },
+    "lesli_admin": {
+      "shared": {
+        "title_lesli": "Lesli en español "
+      },
+      "users": {
+        "title_users": "Usuarios"
+      }
+    },
+    "lesli_audit": {
+      "shared": {
+        "title_lesli": "Lesli en español "
+      },
+      "users": {
+        "title_users": "Usuarios"
+      }
+    },
+    "lesli_babel": {
+      "shared": {
+        "title_lesli": "Lesli en español "
+      },
+      "users": {
+        "title_users": "Usuarios"
+      }
+    },
+    "lesli_driver": {
+      "shared": {
+        "title_lesli": "Lesli en español "
+      },
+      "users": {
+        "title_users": "Usuarios"
+      }
+    }
+  }
+}

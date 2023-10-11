@@ -30,29 +30,19 @@ Building a better future, one line of code at a time.
 // ·
 =end
 
-Rails.application.routes.draw do
-    devise_for :users, class_name: "Lesli::User", module: :devise,
-    :path => "",
-    :path_names => {
-        :sign_in  => "login",
-        :sign_out => "logout",
-        :sign_up  => "register",
-        :password => "password",
-        :confirmation => "confirmation"
-    },
-    :controllers => {
-        :registrations => "users/registrations",
-        :confirmations => "users/confirmations",
-        :passwords => "users/passwords",
-        :sessions => "users/sessions"
-    }
-end
 
+# Mount the devise at the deefault path
+# TODO:
+#   The user can define the mount path for the auth framework
+#   using: "Lesli::Routing.mount_login_at('auth')" so, later
+#   we will must to check if devise is already mounted before
+#   to call this method.
+Lesli::Routing.mount_login
+
+
+# Mount the necessary resources Lesli needs to work properly
 Lesli::Engine.routes.draw do
 
-    # resource :profile, only: []
-
-    resource :account, only: [:show, :update]
     resources :users, only: [] do
         collection do
             get :list
