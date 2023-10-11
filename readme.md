@@ -67,9 +67,9 @@ rake lesli:db:setup
 ```
 
 ```ruby
-# Load LesliDriver
+# Load Lesli
 Rails.application.routes.draw do
-    mount Lesli::Engine => "/"
+    mount Lesli::Engine => "/lesli"
 end
 ```
 

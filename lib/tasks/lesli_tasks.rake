@@ -41,9 +41,9 @@ namespace :lesli do
             Rake::Task['lesli_babel:build'].invoke
         end 
 
-        desc "Deploy translations"
-        task :deploy => :environment do |task, args|
-            Rake::Task['lesli_babel:deploy'].invoke
+        desc "Export translations to json files"
+        task :export => :environment do |task, args|
+            Rake::Task['lesli_babel:export'].invoke
         end 
     end
 end
