@@ -45,8 +45,8 @@ if ENV["COVERAGE"]
     # add console stats and html generator
     SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
         SimpleCov::Formatter::CoberturaFormatter,
-        SimpleCov::Formatter::HTMLFormatter,
-        SimpleCov::Formatter::Console,
+        #SimpleCov::Formatter::HTMLFormatter,
+        #SimpleCov::Formatter::Console,
     ])
 
     # limit the number of missing lines
@@ -76,9 +76,9 @@ if ENV["COVERAGE"]
 end
 
 if ENV["CODECOV"]
-    SimpleCov.start
     SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
         SimpleCov::Formatter::CoberturaFormatter,
         SimpleCov::Formatter::Codecov
     ])
+    SimpleCov.start
 end
