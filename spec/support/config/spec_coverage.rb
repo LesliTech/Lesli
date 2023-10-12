@@ -44,35 +44,21 @@ if ENV["COVERAGE"]
 
     # add console stats and html generator
     SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-        SimpleCov::Formatter::CoberturaFormatter,
         SimpleCov::Formatter::HTMLFormatter,
         SimpleCov::Formatter::Console,
     ])
 
     # limit the number of missing lines
-    SimpleCov::Formatter::Console.missing_len = 50 
+    SimpleCov::Formatter::Console.missing_len = 40 
 
     # configure the files to track and ignore
     SimpleCov.start do 
         #track_files 'lib/**/*.rb'
-
         # remove to track files in these folders
-        add_filter "/lib"
-        add_filter "/spec"
-        add_filter "/vendor"
-        add_filter "/app/models"
-        add_filter "/app/helpers"
-        add_filter "/app/mailers"
+        #add_filter "/spec"
+        #add_filter "/vendor"
         add_filter "/engines"
-        add_filter "/config"
     end
-
-    # execute test coverage after test suites
-    RSpec.configure do |config|
-        config.after(:suite) do
-        end
-    end
-
 end
 
 if ENV["CODECOV"]
