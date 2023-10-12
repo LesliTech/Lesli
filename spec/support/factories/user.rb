@@ -46,6 +46,9 @@ FactoryBot.define do
 
         account_id { (Lesli::Account.first.nil? ? FactoryBot.create(:account) : Lesli::Account.first).id }
 
+        before(:create) do |user, evaluator|
+            user.skip_confirmation!
+        end
 
         after(:create) do |user, evaluator|
             user.confirm { true }
