@@ -30,8 +30,6 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-L2.br(4)
-
 
 # including tools for seeders
 load Lesli::Engine.root.join("db", "seed", "tools.rb")

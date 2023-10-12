@@ -82,9 +82,9 @@ module Lesli
         def initialize_account
 
             # create initial descriptors
-            #descriptor_owner = self.descriptors.find_or_create_by(name: "owner")
-            #descriptor_sysadmin = self.descriptors.find_or_create_by(name: "sysadmin")
-            #descriptor_profile = self.descriptors.find_or_create_by(name: "profile")
+            descriptor_owner = self.descriptors.find_or_create_by(name: "owner")
+            descriptor_sysadmin = self.descriptors.find_or_create_by(name: "sysadmin")
+            descriptor_profile = self.descriptors.find_or_create_by(name: "profile")
     
     
             # create default roles for the new account
