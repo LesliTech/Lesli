@@ -31,4 +31,8 @@ Building a better future, one line of code at a time.
 
 */
 
-@import "pages/users/registrations.scss.erb";
+
+
+// · First look for custom stylesheet from builder engine, 
+// · if not found use the auth template from lesli pages
+@import "lesli/devise/sessions";
