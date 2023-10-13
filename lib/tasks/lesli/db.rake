@@ -82,5 +82,7 @@ namespace :lesli do
         LesliAudit::Engine.load_seed if defined?(LesliAudit)
         Rake::Task['lesli:controllers:build'].invoke
         Rake::Task['lesli:babel:build'].invoke if defined?(LesliBabel)
+
+        Rake::Task['lesli:status'].invoke 
     end
 end
