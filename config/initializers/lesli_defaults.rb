@@ -30,7 +30,6 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-# · 
 Lesli.configure do |config|
 
 
@@ -44,7 +43,7 @@ Lesli.configure do |config|
 
     # Available languages globally (Requires LesliBabel)
     config.locales = {
-        en: "English",          # English
+        :en => "English",       # English
         # :de => "Deutsch",     # Deutsch/German
         # :pl => "Polski",      # Polski/Polish/Poland
         # :nl => "Dutch",       # Dutch/Nederlands/Netherlands

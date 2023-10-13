@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -27,45 +27,39 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·  
-
+// · 
 */
 
-
-// ·
-@import "templates/public";
-@import "lesli/fonts/mdicons.scss";
+@import "lesli/templates/public";
+@import "lesli/fonts/remixicons.scss";
 
 
-// · 
-body.users-passwords.new,
-body.users-passwords.edit {
+main {
+    background: white;
 
-    main {
-        background: white;
+    // logo container
+    .hero-head {
+        padding: 8rem 0 4rem;
 
-        .hero-head {
-            padding: 8rem 0 4rem;
-
-            .app-logo {
-                max-width: 130px;
-            }
+        .app-logo {
+            max-width: 130px;
         }
+    }
 
-        .hero-body {
-            flex-direction: column;
-            border-top: 1px solid #ebebeb;
-            background-color: whitesmoke;
+    // form container
+    .hero-body {
+        flex-direction: column;
+        background-color: whitesmoke;
+        border-top: 1px solid #ebebeb;
 
-            form {
-                padding: 4rem;
-                margin: 2rem auto;
-                width: 100%;
-                max-width: 750px;
-                border-radius: 6px;
-                border: 1px solid #ececec;
-                background-color: white;
-            }
+        form {
+            width: 100%;
+            padding: 4rem;
+            max-width: 750px;
+            margin: 2rem auto;
+            border-radius: 6px;
+            border: 1px solid #ececec;
+            background-color: white;
 
             .label {
                 font-size: 1.1rem;
@@ -73,14 +67,20 @@ body.users-passwords.edit {
                 margin-bottom: 0;
                 color: lesli-css-color(slate, 500);
             }
-
-            .app-logo {
-                margin-top: 4rem;
-                max-width: 100px;
-            }
-
         }
 
-    }
+        .links {
+            display: flex;
 
+            a {
+                display: flex;
+                align-items: center;
+                font-family: "OpenSans";
+                // add margin only to the middle links
+                &:not(:first-child):not(:last-child) {
+                    margin: 0 1rem;
+                }
+            }
+        }
+    }
 }

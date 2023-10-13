@@ -49,7 +49,7 @@ Building a better future, one line of code at a time.
         </script>
     <% end %>
 </head>
-<body class="<%#= application_body_class() %>">
+<body class="<%= application_body_class() %>">
     <%#= yield :application_public_custom_header %>
     <%= yield %>
     <%= render partial: "lesli/partials/application-public-javascript" %>

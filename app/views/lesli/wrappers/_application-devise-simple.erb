@@ -1,4 +1,5 @@
-/*
+<%
+=begin
 
 Lesli
 
@@ -27,24 +28,32 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·  
+// · 
+=end
+%>
 
-*/
+<% title = defined?(title) ? title : "" %>
 
+<main id="lesli-application">
+    <section class="hero is-fullheight">
+        <div class="hero-head has-text-centered">
+            <%# Logo container %>
+            <div class="logo mb-4">
+                <%= image_tag(
+                    "#{lesli_instance_code}/brand/app-auth.svg",    # dynamic path to the instance main logo
+                    :class => "#{lesli_instance_code}-logo",        # dynamic class according to the instance
+                    :alt => "Main logo") 
+                %>
+                <h1 class="title has-text-primary">
+                    <%#= I18n.t("core.users/sessions.view_text_welcome") %>
+                    <%= title %>
+                </h1>
+            </div>
+        </div>
+        <div class="hero-body">
+            
+            <%= yield %>
 
-// ·
-@import "../base.scss";
-
-body.users-registrations.new {
-
-    form {
-        .password-requirements {
-            font-size: 12px;
-            .has-text-danger,
-            .has-text-success {
-                font-family: "Exo";   
-                font-weight: 700;
-            }
-        }
-    }
-}
+        </div>
+    </section>
+</main>

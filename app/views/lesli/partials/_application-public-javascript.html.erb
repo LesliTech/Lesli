@@ -32,20 +32,24 @@ Building a better future, one line of code at a time.
 =end
 %>
 
-<%# translation_timestamp = File.mtime(Rails.root.join("public", "javascripts", "translations.js")).to_i %>
-<%#= javascript_include_tag "i18n", skip_pipeline: true %>
-<%#= javascript_include_tag "translations?#{translation_timestamp}", skip_pipeline: true %>
+<%# Temporary to avoid reference errors %>
+<%= javascript_include_tag "lesli/i18n" %>
 
-
-<%# Set language for JavaScripts apps %>
-<script>
-    <%# I18n.locale = "<%= I18n.locale % >";  %>
-</script>
 
 <% is_devise = controller_path.split('/')[0] == "users" %>
+
 
 <%# Load specific javascript files for devise actions (login,register,etc) %>
 <%= javascript_include_tag("lesli/#{controller_path}") if is_devise %>
 
+
 <%# Load standard files %>
 <%#= javascript_include_tag(application_javascript_path()) unless is_devise %> 
+
+
+<%# Set language for JavaScript apps %>
+<script>
+    if (typeof i18n !== "undefined") {
+        i18n.locale = "<%= I18n.locale %>"
+    }
+</script>
