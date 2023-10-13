@@ -56,10 +56,13 @@ module Lesli
             # we use this in the url plugin 
             LESLI_ENGINES.each do |engine|
                 next unless Object.const_defined?(engine)
+                engine_instance = "#{engine}".constantize
                 ENGINES[engine]= {
                     :code => engine.underscore, 
                     :name => lesli_engine_name(engine), 
-                    :path => "#{engine}::Engine".constantize.routes.find_script_name({}),
+                    :path => engine_instance::Engine.routes.find_script_name({}),
+                    :version => engine_instance::VERSION,
+                    :build => engine_instance::BUILD,
                     :dir => Gem::Specification.find_by_name(engine.underscore).gem_dir
                 }
             end 

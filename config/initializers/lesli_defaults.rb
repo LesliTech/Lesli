@@ -32,6 +32,9 @@ Building a better future, one line of code at a time.
 
 Lesli.configure do |config|
 
+    # Installation identifier
+    config.instance = "Lesli"
+
 
     # Information about the main account in the platform
     config.company = {
