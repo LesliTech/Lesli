@@ -57,7 +57,6 @@ namespace :lesli do
 
         Rake::Task['db:drop'].invoke
         setup()
-        seed()
     end
 
     # Build, migrate & seed database (development only)
