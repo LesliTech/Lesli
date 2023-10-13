@@ -45,11 +45,12 @@ Building a better future, one line of code at a time.
 //= link lesli/templates/public.css
 //= link lesli/templates/application.css
 
-
-//= link lesli/i18n.js
-
-
 //= link lesli/users/sessions.js
 //= link lesli/users/sessions.css
+//= link lesli/users/passwords.js
+//= link lesli/users/passwords.css
 //= link lesli/users/registrations.js
 //= link lesli/users/registrations.css
+
+
+//= link lesli/i18n.js

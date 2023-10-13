@@ -32,6 +32,7 @@ Building a better future, one line of code at a time.
 =end
 %>
 
+<% title = defined?(title) ? title : "" %>
 <% back_to_login = defined?(back_to_login) ? back_to_login : false %>
 <% custom_app_page_clas = "#{ lesli_instance_code }-session".downcase %>
 
@@ -52,6 +53,20 @@ Building a better future, one line of code at a time.
                     </div>
                 <% end %>
                 <div class="hero-body is-flex-direction-column is-justify-content-center">
+
+
+                    <%# Logo container %>
+                    <div class="logo has-text-centered mb-4">
+                        <%= image_tag(
+                            "#{lesli_instance_code}/brand/app-auth.svg",    # dynamic path to the instance main logo
+                            :class => "#{lesli_instance_code}-logo",        # dynamic class according to the instance
+                            :alt => "Main logo") 
+                        %>
+                        <h1 class="has-text-primary">
+                            <%#= I18n.t("core.users/sessions.view_text_welcome") %>
+                            <%= title %>
+                        </h1>
+                    </div>
 
                     <%= yield %>
 

@@ -1,25 +1,96 @@
-<%- if controller_name != 'sessions' %>
-  <%= link_to "Log in", new_session_path(resource_name) %><br />
-<% end %>
+<%
+=begin
 
-<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <%= link_to "Sign up", new_registration_path(resource_name) %><br />
-<% end %>
+Lesli
 
-<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-  <%= link_to "Forgot your password?", new_password_path(resource_name) %><br />
-<% end %>
+Copyright (c) 2023, Lesli Technologies, S. A.
 
-<%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-  <%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name) %><br />
-<% end %>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-<%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
-  <%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %><br />
-<% end %>
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
-<%- if devise_mapping.omniauthable? %>
-  <%- resource_class.omniauth_providers.each do |provider| %>
-    <%= button_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), data: { turbo: false } %><br />
-  <% end %>
-<% end %>
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Ruby on Rails SaaS Development Framework.
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+=end
+%>
+
+<% login = defined?(login) ? login : false %>
+<% password_reset = defined?(password_reset) ? password_reset : false %>
+<% magic_link = defined?(magic_link) ? magic_link : false %>
+<% otp = defined?(otp) ? otp : false %>
+
+<div class="links">
+
+    <% if login %>
+        <%= link_to(new_user_session_path) do %>
+            <span class="icon mr-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="17" fill="none" viewBox="0 0 23.441 17.473">
+                    <path fill="#112a62" d="M6.253 2.41A6.253 6.253 0 0 0 .035 7.997a6.251 6.251 0 0 0 9.323 6.086 6.252 6.252 0 0 0 2.829-3.47h1.097v-.781h-.894a6.104 6.104 0 0 0 0-2.344h9.293l.879 1.172-.88 1.172h-.425l-1.055-1.059a.389.389 0 0 0-.554 0l-1.055 1.059h-.41l-.668-.997a.39.39 0 0 0-.649 0l-.668.997h-.57v.78h.781c.131 0 .252-.066.324-.175l.457-.684.457.684c.073.11.194.175.325.176h.78a.389.389 0 0 0 .278-.113l.895-.899.894.899a.388.388 0 0 0 .278.113h.78a.39.39 0 0 0 .313-.156l1.172-1.563a.39.39 0 0 0 0-.469L22.19 6.863a.39.39 0 0 0-.312-.156h-9.692A6.254 6.254 0 0 0 6.253 2.41Zm0 11.718c-.133 0-.261 0-.39-.02v-.76h.78v.76c-.128.02-.257.02-.39.02zM2.738 6.706h-.782v-.78h.782zm7.031-.78h.781v.78H9.77Zm-1.563 6.25h.782v.78h-.782zm-3.906.78H3.52v-.78H4.3zm6.25-1.562H9.77v-.781h.781ZM6.644 9.761v2.024h-.781V9.76a1.17 1.17 0 0 1-.711-.71H3.128v-.782h2.024a1.172 1.172 0 1 1 1.492 1.492zm-3.906 1.633h-.782v-.781h.782zm5.468-6.25v-.781h.782v.781zm-3.906 0H3.52v-.781H4.3zM1.566 8.269v.781H.804V8.27zm9.375.781V8.27h.781c0 .129.02.258.02.39 0 .133 0 .262-.02.391zM6.644 3.972h-.782v-.781h.781z"/>
+                    <path fill="#112a62" d="m.134 2.09.492.61a8.595 8.595 0 0 1 10.973.125l.508-.594a9.372 9.372 0 0 0-11.973-.14ZM.69 14.774l-.492.609a9.38 9.38 0 0 0 11.973-.14l-.508-.594a8.596 8.596 0 0 1-10.972.125zM9.767 11.786v-.781h.782v.781z"/>
+                </svg>
+            </span>
+            <span>Login</span>
+        <% end %>
+    <% end %>
+
+    <% if password_reset %>
+        <%= link_to(new_user_password_path) do %>
+            <span class="icon mr-2">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 4.75C8.55296 4.75 7.375 5.92796 7.375 7.375V8.25C6.89155 8.25 6.5 8.64155 6.5 9.125V13.5C6.5 13.9834 6.89155 14.375 7.375 14.375H12.625C13.1084 14.375 13.5 13.9834 13.5 13.5V9.125C13.5 8.64155 13.1084 8.25 12.625 8.25V7.375C12.625 5.92796 11.447 4.75 10 4.75ZM11.75 12.625H8.25V10H11.75V12.625ZM9.125 8.25V7.375C9.125 6.89264 9.51764 6.5 10 6.5C10.4824 6.5 10.875 6.89264 10.875 7.375V8.25H9.125Z" fill="#112A62"/>
+                    <path d="M16.7549 3.14324C13.4431 -0.120437 8.34511 -0.489197 4.62839 2.0123L4.61745 0.577295C4.61526 0.336669 4.41839 0.141979 4.17667 0.143071L3.30167 0.149633C3.05996 0.151821 2.86527 0.348697 2.86745 0.590409L2.89151 3.86501C2.89479 4.21938 3.11026 4.53656 3.43729 4.67001C3.76542 4.80345 4.14056 4.72579 4.38993 4.47314C7.43941 1.3811 12.4343 1.34386 15.5264 4.39001C17.8867 6.71533 18.5308 10.2132 17.19 13.2111C17.0948 13.4244 17.1725 13.6738 17.3814 13.7799L18.1623 14.1791C18.3833 14.2917 18.6633 14.201 18.7661 13.9746C20.434 10.2996 19.6531 5.99904 16.7546 3.14304L16.7549 3.14324Z" fill="#112A62"/>
+                    <path d="M16.5625 15.3296C16.2333 15.1962 15.8593 15.2739 15.6099 15.5265C12.5615 18.6197 7.56633 18.6569 4.47345 15.6096C2.11314 13.2843 1.46905 9.78647 2.80986 6.78851C2.90502 6.57523 2.82736 6.32587 2.61846 6.21978L1.83751 5.82055C1.61657 5.7079 1.33656 5.79868 1.23377 6.02509C-0.43528 9.70121 0.346732 14.0017 3.24518 16.8566C6.55702 20.1203 11.655 20.489 15.3717 17.9876L15.3826 19.4215C15.3848 19.6632 15.5817 19.8579 15.8234 19.8557L16.6984 19.8491C16.9401 19.8469 17.1348 19.6501 17.1326 19.4083L17.1086 16.1337C17.1053 15.7805 16.8898 15.4633 16.5628 15.3298L16.5625 15.3296Z" fill="#112A62"/>
+                </svg>
+            </span>
+            <span>Reset password</span>
+        <% end %>
+    <% end %>
+
+
+    <%# Dynamic check if instance allow users to login through magic links (passes) %>
+    <%# if Rails.application.config.lesli.dig(:security, :enable_login_link) %>
+    <% if magic_link %>
+        <%= link_to("pass_path") do %>
+            <span class="icon mr-1">
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.5 7.25005H15.25C14.6748 7.25005 14.0996 7.34967 13.5498 7.52545C14.1748 8.00005 14.7002 8.57525 15.0996 9.25005H15.25H17.5C19.2998 9.25005 20.75 10.7003 20.75 12.5001C20.75 14.2999 19.2998 15.7501 17.5 15.7501H15.25C15.0996 15.7501 14.9248 15.7247 14.7754 15.7003H14.75C13.2002 15.4503 12 14.125 12 12.5C12 11.5 11.3496 10.6504 10.4502 10.375C10.1504 11.0254 10 11.75 10 12.5C10 15.4005 12.3496 17.75 15.25 17.75H17.5C20.4005 17.75 22.75 15.4004 22.75 12.5C22.75 9.5996 20.4004 7.25 17.5 7.25V7.25005Z" fill="#112A62"/>
+                    <path d="M9.9248 15.7502H7.5C5.7002 15.7502 4.25 14.3 4.25 12.5002C4.25 10.7004 5.7002 9.25024 7.5 9.25024H9.75C11.5498 9.25024 13 10.7004 13 12.5002C13 13.5002 13.6504 14.3498 14.5498 14.6252C14.8496 13.9748 15 13.2502 15 12.5002C15 9.59974 12.6504 7.25024 9.75 7.25024H7.5C4.5995 7.25024 2.25 9.59984 2.25 12.5002C2.25 15.4006 4.5996 17.7502 7.5 17.7502H9.75C10.3252 17.7502 10.9004 17.6506 11.4502 17.4504C10.8496 17.0002 10.3252 16.4006 9.9248 15.7502Z" fill="#112A62"/>
+                </svg>
+            </span>
+            <span>Magic link</span>
+        <% end %>
+    <% end %>
+
+
+    <%# Dynamic check if instance allow users to login through one time passwords %>
+    <%# if Rails.application.config.lesli.dig(:security, :enable_login_otp) %>
+    <% if otp %>
+        <%= link_to("otp_path") do %>
+            <span class="icon mr-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="17" fill="none" viewBox="0 0 23.441 17.473">
+                    <path fill="#112a62" d="M6.253 2.41A6.253 6.253 0 0 0 .035 7.997a6.251 6.251 0 0 0 9.323 6.086 6.252 6.252 0 0 0 2.829-3.47h1.097v-.781h-.894a6.104 6.104 0 0 0 0-2.344h9.293l.879 1.172-.88 1.172h-.425l-1.055-1.059a.389.389 0 0 0-.554 0l-1.055 1.059h-.41l-.668-.997a.39.39 0 0 0-.649 0l-.668.997h-.57v.78h.781c.131 0 .252-.066.324-.175l.457-.684.457.684c.073.11.194.175.325.176h.78a.389.389 0 0 0 .278-.113l.895-.899.894.899a.388.388 0 0 0 .278.113h.78a.39.39 0 0 0 .313-.156l1.172-1.563a.39.39 0 0 0 0-.469L22.19 6.863a.39.39 0 0 0-.312-.156h-9.692A6.254 6.254 0 0 0 6.253 2.41Zm0 11.718c-.133 0-.261 0-.39-.02v-.76h.78v.76c-.128.02-.257.02-.39.02zM2.738 6.706h-.782v-.78h.782zm7.031-.78h.781v.78H9.77Zm-1.563 6.25h.782v.78h-.782zm-3.906.78H3.52v-.78H4.3zm6.25-1.562H9.77v-.781h.781ZM6.644 9.761v2.024h-.781V9.76a1.17 1.17 0 0 1-.711-.71H3.128v-.782h2.024a1.172 1.172 0 1 1 1.492 1.492zm-3.906 1.633h-.782v-.781h.782zm5.468-6.25v-.781h.782v.781zm-3.906 0H3.52v-.781H4.3zM1.566 8.269v.781H.804V8.27zm9.375.781V8.27h.781c0 .129.02.258.02.39 0 .133 0 .262-.02.391zM6.644 3.972h-.782v-.781h.781z"/>
+                    <path fill="#112a62" d="m.134 2.09.492.61a8.595 8.595 0 0 1 10.973.125l.508-.594a9.372 9.372 0 0 0-11.973-.14ZM.69 14.774l-.492.609a9.38 9.38 0 0 0 11.973-.14l-.508-.594a8.596 8.596 0 0 1-10.972.125zM9.767 11.786v-.781h.782v.781z"/>
+                </svg>
+            </span>
+            <span>One time password</span>
+        <% end %>
+    <% end %>
+</div>
