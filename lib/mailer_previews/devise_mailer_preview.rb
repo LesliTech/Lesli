@@ -1,4 +1,5 @@
-/*
+=begin
+
 Lesli
 
 Copyright (c) 2023, Lesli Technologies, S. A.
@@ -22,34 +23,20 @@ Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.dev
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-*/
+=end
 
+class DeviseMailerPreview < ActionMailer::Preview
 
-// · Engine asssets
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-//= link_tree ../images/lesli .png
-//= link_tree ../images/lesli .jpg
-//= link_tree ../images/lesli .svg
+    def confirmation_instructions
+        record = Lesli::User.first
+        token = "abcdef12345"
+        opts = {}
+        Lesli::DeviseMailer.confirmation_instructions(record, token, opts)
+    end
 
-// link lesli/application.js
-// link lesli/application.css
-
-
-// · Framework asssets
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-//= link lesli/templates/public.css
-//= link lesli/templates/application.css
-
-
-//= link lesli/i18n.js
-
-
-//= link lesli/users/sessions.js
-//= link lesli/users/sessions.css
-//= link lesli/users/registrations.js
-//= link lesli/users/registrations.css
+end

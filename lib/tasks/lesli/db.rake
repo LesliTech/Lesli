@@ -75,9 +75,7 @@ namespace :lesli do
         return if Rails.env.production?
         L2.msg("Seed Lesli database for development")
 
-        pp "antes del invoke"
         Rake::Task['db:seed'].invoke
-        pp "despues del invoke"
 
         Lesli::Engine.load_seed
         LesliBell::Engine.load_seed if defined?(LesliBell)

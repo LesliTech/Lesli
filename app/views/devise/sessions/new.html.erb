@@ -115,7 +115,7 @@ Building a better future, one line of code at a time.
                 <%# if Rails.application.config.dig(:lesli, :security, :allow_registration) %>
                     <p class="account has-text-centered">
                         Still not registered? 
-                        <%= link_to "new_registration_path", :class => "has-text-primary" do %>
+                        <%= link_to new_user_registration_path, :class => "has-text-primary" do %>
                             <u><b>Create account</b></u>
                         <% end %>
                     </p> 
