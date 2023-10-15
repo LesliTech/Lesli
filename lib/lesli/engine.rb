@@ -38,7 +38,7 @@ require "kaminari"
 require "L2"
 require "devise"
 require "useragent"
-
+require "flag-icons-rails"
 
 module Lesli
     class Engine < ::Rails::Engine
