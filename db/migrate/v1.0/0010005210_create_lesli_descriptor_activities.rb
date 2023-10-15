@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -27,17 +27,15 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
-class CreateDescriptorActivities < ActiveRecord::Migration[7.0]
+class CreateLesliDescriptorActivities < ActiveRecord::Migration[7.0]
     def change
-        # table_base_structure = JSON.parse(File.read(Rails.root.join('db','structure','00000004_activities.json')))
-
-        gem_path = Lesli::System.engine("lesli")
+        gem_path = Lesli::System.engine("lesli", "dir")
         table_base_structure = JSON.parse(File.read(File.join(gem_path, "db", "structure", "00000004_activities.json")))
 
-        create_table :descriptor_activities do |t|
+        create_table :lesli_descriptor_activities do |t|
             table_base_structure.each do |column|
                 t.send(
                     column["type"].parameterize.underscore.to_sym,
@@ -46,6 +44,6 @@ class CreateDescriptorActivities < ActiveRecord::Migration[7.0]
             end
             t.timestamps
         end
-        add_reference(:descriptor_activities, :descriptor, foreign_key: { to_table: :descriptors })
+        add_reference(:lesli_descriptor_activities, :descriptor, foreign_key: { to_table: :lesli_descriptors })
     end
 end

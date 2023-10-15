@@ -30,14 +30,24 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
+# · Tools used to extend Rails functionality
+require "kaminari"
+
+
+# · Tools used to build the Lesli Framework
+require "L2"
+require "devise"
+require "useragent"
+require "flag-icons-rails"
+
 module Lesli
     class Engine < ::Rails::Engine
         isolate_namespace Lesli
 
         initializer :lesli do |app|
 
-            # register assets manifest
-            config.assets.precompile += %w[lesli_manifest.js]
+            # Lesli Framework configuration
+
 
             # Include lib/assets folder in the asset pipeline
             config.assets.paths << root.join("lib", "assets")
@@ -50,6 +60,19 @@ module Lesli
             # Default languages
             config.i18n.default_locale = :en
             config.i18n.available_locales = [:en]
+
+            # Force to not use digest, 
+            # if this is not false Rails will fingerprint the assets by default and precompile is needed
+            config.assets.digest = false
+
+            config.action_mailer.preview_path = root.join("lib", "mailer_previews")
+
+
+            # Lesli standard engine configuration
+
+            
+            # register assets manifest
+            config.assets.precompile += %w[lesli_manifest.js]
 
             # register engine migrations path
             unless app.root.to_s.match root.to_s

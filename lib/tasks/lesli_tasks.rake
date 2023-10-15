@@ -46,4 +46,34 @@ namespace :lesli do
             Rake::Task['lesli_babel:export'].invoke
         end 
     end
+
+    desc "Lesli module status"
+    task :status => :environment do |task, args|
+
+        # instance name from builder
+        instance = Lesli.config.instance
+
+        # get installed engines
+        engines = Lesli::System.engines.map { |engine, engine_info|
+            {
+                :name => engine_info[:name],
+                :code => engine_info[:code],
+                :path => engine_info[:path],
+                :version => engine_info[:version],
+                :build => engine_info[:build]
+            }
+        }
+
+        # print pretty instance information 
+        L2.br(2)
+
+        # core information
+        L2.msg(instance)
+        L2.br()
+
+        # print list of engines
+        L2.table(engines)
+        L2.br(2)
+
+    end
 end
