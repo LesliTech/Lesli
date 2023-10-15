@@ -36,4 +36,5 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 # Specify your gem's dependencies in lesli.gemspec
 gemspec
 
-# rails new LesliDemo -T --database=postgresql --skip-action-mailbox --skip-action-cable --asset-pipeline=sprockets --skip-hotwire --skip-jbuilder   
+# rails new LesliDemo --force -T --database=postgresql --skip-action-mailbox --skip-action-cable --asset-pipeline=sprockets --skip-hotwire --skip-jbuilder   
+# rails _7.0.8_ new . --force -T --database=postgresql --skip-action-mailbox --skip-action-cable --asset-pipeline=sprockets --skip-hotwire --skip-jbuilder   
