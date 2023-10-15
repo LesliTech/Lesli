@@ -96,6 +96,11 @@ jobs:
           path: ./engines/Lesli
           repository: LesliTech/Lesli
 
+      # Build the Lesli database
+      - name: Copy configuration files
+        run: |
+          cp ./engines/Lesli/.github/rails/database.yml ./config/database.yml
+
       # Use the official receipt to install ruby in ubuntu
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
