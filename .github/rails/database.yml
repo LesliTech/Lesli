@@ -1,9 +1,11 @@
 
 default: &default
+  pool: 30
+  port: 5432
+  host: 127.0.0.1
   adapter: postgresql
   encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  port: 5432
+  reconnect: false
 
 development:
   <<: *default
