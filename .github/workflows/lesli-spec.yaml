@@ -111,7 +111,7 @@ jobs:
 
       # Build the Lesli database
       - name: Set up PostgreSQL database 
-        run: bundle exec rake lesli:db:reset
+        run: RAILS_ENV=test bundle exec rake lesli:db:reset
         env:
           RAILS_ENV: test
 
