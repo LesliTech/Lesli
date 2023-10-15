@@ -14,8 +14,8 @@ development:
 test:
   <<: *default
   database: "lesli-test"
-  username: "ldonis"
-  password: ""
+  username: "lesli-test"
+  password: "lesli-test"
 
 production:
   <<: *default
