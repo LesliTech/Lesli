@@ -140,17 +140,17 @@ module Lesli
                 # Track specific account activity
                 # this is disabled by default in the settings file
                 def log_account_activity(system_module, system_process, title = nil, payload = nil, description = nil)
-                    return unless Rails.application.config.lesli.dig(:security, :enable_analytics)
+                    # return unless Rails.application.config.lesli.dig(:security, :enable_analytics)
 
-                    account = Account.first
+                    # account = Account.first
 
-                    account.activities.create({
-                                                system_module:,
-                                                system_process:,
-                                                description:,
-                                                payload:,
-                                                title:
-                                            })
+                    # account.activities.create({
+                    #     system_module:,
+                    #     system_process:,
+                    #     description:,
+                    #     payload:,
+                    #     title:
+                    # })
                 end
             end
         end

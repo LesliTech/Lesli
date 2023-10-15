@@ -62,7 +62,55 @@ Gem::Specification.new do |spec|
     # Ruby version
     spec.required_ruby_version = ">= 2.7"
 
+    
+
+    # · RAILS: gem, dependencies and tools
+
     # Rails framework
-    spec.add_dependency "rails", "~> 7"
+    spec.add_dependency("rails", "~> 7.0", "< 7.1")
+
+    # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
+    spec.add_dependency("sprockets-rails", "~> 3.4.2")
+
+    # Integrate SassC-Ruby into Rails.
+    spec.add_dependency("sassc-rails", "~> 2.1.2")
+
+    # It's a small library to provide the Rails I18n translations on the Javascript.
+    spec.add_dependency("i18n-js", "~> 4.2.3") 
+
+    # Pg is the Ruby interface to the PostgreSQL RDBMS. It works with PostgreSQL 9.3 and later.
+    # This gem requires the package: libpq-dev; sudo apt-get -y install libpq-dev
+    spec.add_dependency("pg", "~> 1.5.3")
+
+
+
+    # · Tools used to extend Rails functionality
+
+    # ActiveRecord plugin allowing you to hide and restore records without actually deleting them. 
+    spec.add_dependency("acts_as_paranoid", "~> 0.8.1")
+
+    # Clean, powerful, agnostic, customizable and sophisticated paginator for Rails
+    spec.add_dependency("kaminari", "~> 1.2.2")
+
+
+
+    # · Tools used to build the Lesli Framework
+
+    # Message utilities for the Ruby console.
+    spec.add_dependency("L2", "~> 0.5.2")
+
+    # Flexible authentication solution for Rails with Warden
+    spec.add_dependency("devise", "~> 4.9.2")
+
+    # HTTP User Agent parser
+    spec.add_dependency("useragent", "~> 0.16.10")
+    
+    # collection of all country flags in SVG
+    spec.add_dependency("flag-icons-rails", "3.4.6.1")
+
+
+
+    # Simple greetings message
+    spec.post_install_message = "Greetings from LesliTech  ❤️  Docs are available at https://www.lesli.dev/"
 
 end

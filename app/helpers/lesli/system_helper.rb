@@ -46,7 +46,7 @@ module Lesli
 
         # return the information about the current engine
         def lesli_engine(property = nil)
-            Lesli::System.engine(lesli_controller.camelize, property)
+            Lesli::System.engine(lesli_controller, property)
         end
 
         # return true if the controller requested belongs to the administration area

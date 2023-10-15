@@ -68,9 +68,9 @@ jobs:
       postgres:
         image: postgres:11.5
         env:
-          POSTGRES_DB: lesli_test
-          POSTGRES_USER: lesli_test
-          POSTGRES_PASSWORD: "lesli_test"
+          POSTGRES_DB: "lesli-test"
+          POSTGRES_USER: "lesli-test"
+          POSTGRES_PASSWORD: "lesli-test"
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -96,6 +96,10 @@ jobs:
           path: ./engines/Lesli
           repository: LesliTech/Lesli
 
+      # Build the Lesli database
+      - name: Copy configuration files
+        run: |
+          cp ./engines/Lesli/.github/rails/database.yml ./config/database.yml
 
       # Use the official receipt to install ruby in ubuntu
       - name: Install Ruby and gems
@@ -106,15 +110,8 @@ jobs:
 
 
       # Build the Lesli database
-      - name: Copy temporary Rails credentials 
-        run: |
-          cp ./config/credentials/test-ga.key ./config/credentials/test.key
-          cp ./config/credentials/test-ga.yml.enc ./config/credentials/test.yml.enc
-
-
-      # Build the Lesli database
       - name: Set up PostgreSQL database 
-        run: bundle exec rake lesli:db:reset
+        run: RAILS_ENV=test bundle exec rake lesli:db:reset
         env:
           RAILS_ENV: test
 

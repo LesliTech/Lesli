@@ -36,6 +36,9 @@ require Lesli::Engine.root.join("spec/support/helpers/rails_helper")
 require Lesli::Engine.root.join("spec/support/helpers/lesli_helper")
 require Lesli::Engine.root.join("spec/support/helpers/response_request_helper")
 
+# · 
+LESLI_ENGINE_MOUNTED_PATH = Lesli::Engine.routes.find_script_name({}) if defined?(Lesli)
+LESLI_ADMIN_ENGINE_MOUNTED_PATH = LesliAdmin::Engine.routes.find_script_name({}) if defined?(LesliAdmin)
 
 # · Authentication context
 RSpec.shared_context "request user authentication" do

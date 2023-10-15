@@ -138,6 +138,10 @@ function toggleEngines() {
             </div>
             <div class="lesli-application-header-right">
 
+                <!-- funciona -->
+                <slot></slot>
+
+
                 <!-- engines selector -->
                 <a  v-if="props.showEngines || true"
                     class="header-indicator" 
