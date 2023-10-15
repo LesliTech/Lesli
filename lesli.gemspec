@@ -110,5 +110,4 @@ Gem::Specification.new do |spec|
     # Simple greetings message
     spec.post_install_message = "Greetings from LesliTech  ❤️  Docs are available at https://www.lesli.dev/"
 
-    # rails new LesliDemo -T --database=postgresql --skip-action-mailbox --skip-action-cable --asset-pipeline=sprockets --skip-hotwire --skip-jbuilder   
 end

@@ -36,38 +36,4 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 # Specify your gem's dependencies in lesli.gemspec
 gemspec
 
-
-# · Gems for development & test environment
-group :development, :test do
-
-    # Fake data generator
-    # https://github.com/faker-ruby/faker
-    gem "faker"
-
-    # rspec-rails is a testing framework for Rails 5+.
-    # https://github.com/rspec/rspec-rails
-    # Using beta version of rspect-rails due: https://github.com/rails/rails/issues/35417
-    gem "rspec-rails", "6.0.2"
-
-end
-
-
-# · Gems for development environment
-group :development do
-end
-
-
-# · Gems for test environment
-group :test do
-
-    gem "rails-controller-testing"
-    gem "rails-ujs"
-
-    # Sprockets needs jquery to render views on test environment
-    gem "jquery-rails"
-
-    # FactoryBot
-    # https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#configure-your-test-suite
-    gem "factory_bot_rails"
-
-end
+# rails new LesliDemo -T --database=postgresql --skip-action-mailbox --skip-action-cable --asset-pipeline=sprockets --skip-hotwire --skip-jbuilder   
