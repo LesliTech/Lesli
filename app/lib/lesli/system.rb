@@ -38,6 +38,8 @@ module Lesli
         # engine("LesliAdmin", "name")
         def self.engine(engine, property=nil)
 
+            engine = engine.camelize
+
             engines() if ENGINES.empty?
 
             # return specific property if requested
