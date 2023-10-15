@@ -35,18 +35,13 @@ Building a better future, one line of code at a time.
 require "rails_helper"
 require Lesli::Engine.root.join("spec/support/testers/request")
 
-ENGINE_MOUNTED_PATH ||= Lesli::Engine.routes.find_script_name({})
-
-ENGINE_MOUNTED_PATH = "" if ENGINE_MOUNTED_PATH == "/"
-
-
 # ·
-RSpec.describe "GET:#{ENGINE_MOUNTED_PATH}/users/list.json", type: :request do
+RSpec.describe "GET:#{LESLI_ENGINE_MOUNTED_PATH}/users/list.json", type: :request do
     include_context "request user authentication"
 
     it "is expected to list users" do
 
-        get("#{ENGINE_MOUNTED_PATH}/users/list.json")
+        get("#{LESLI_ENGINE_MOUNTED_PATH}/users/list.json")
 
         # shared examples
         expect_response_with_successful

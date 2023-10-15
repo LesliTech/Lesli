@@ -1,0 +1,24 @@
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  port: 5432
+
+development:
+  <<: *default
+  database: "lesli-development"
+  username: "ldonis"
+  password: ""
+
+test:
+  <<: *default
+  database: "lesli-test"
+  username: "ldonis"
+  password: ""
+
+production:
+  <<: *default
+  database: LesliBuilder_production
+  username: LesliBuilder
+  password: <%= ENV["LESLIBUILDER_DATABASE_PASSWORD"] %>
