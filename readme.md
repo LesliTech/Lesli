@@ -10,7 +10,10 @@
             <img src="https://badge.fury.io/rb/lesli.svg" alt="Gem Version" height="20">
         </a>
         <a href="https://codecov.io/github/LesliTech/Lesli"> 
-            <img src="https://codecov.io/github/LesliTech/Lesli/graph/badge.svg?token=2O12NENK5Y"/> 
+            <img src="https://codecov.io/github/LesliTech/Lesli/graph/badge.svg?token=2O12NENK5Y" height="20"/> 
+        </a>
+        <a href="https://codecov.io/github/LesliTech/Lesli"> 
+            <img src="https://sonarcloud.io/api/project_badges/measure?project=LesliTech_Lesli&metric=sqale_rating" height="20"/> 
         </a>
     </p>
 <hr/>
