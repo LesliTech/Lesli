@@ -39,10 +39,17 @@ module Lesli
 
             # register a new unique session
             current_session = current_user.sessions.create({
-                :user_agent => user_agent,
-                :user_remote => remote_ip,
+                :remote => remote_ip,
+
+                :agent_os => user_agent[:os] || "unknown",
+                :agent_platform => user_agent[:platform] || "unknown",
+                :agent_browser => user_agent[:browser] || "unknown",
+                :agent_version => user_agent[:version] || "unknown",
+                
                 :session_source => session_source,
-                :last_used_at => Date2.new.get
+                :last_used_at => Date2.new.get,
+
+                :usage_count => 1
             })
 
             # register a successful sign-in log for the current user
