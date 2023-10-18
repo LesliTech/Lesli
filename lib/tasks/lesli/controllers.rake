@@ -80,11 +80,8 @@ namespace :lesli do
 
             # Global container
             controller_list = {
-                "core" => {}
+                "app" => {}
             }
-
-            # Get the name of the instance (builder engine)
-            instance = "lesli" #Rails.configuration.lesli.dig(:instance, :name)
             
             # Get the list of controllers and actions of the core
             Rails.application.routes.routes.each do |route| 
@@ -97,10 +94,10 @@ namespace :lesli do
                 next if route[:controller].include? "active_storage"
                 
                 # create a container for the actions related to a controller
-                controller_list["core"][route[:controller]] = [] unless controller_list["core"][route[:controller]]
+                controller_list["app"][route[:controller]] = [] unless controller_list["app"][route[:controller]]
 
                 # assign and group all the actions related to the controller
-                controller_list["core"][route[:controller]].push(route[:action])
+                controller_list["app"][route[:controller]].push(route[:action])
 
             end
 

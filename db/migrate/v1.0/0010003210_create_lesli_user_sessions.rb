@@ -33,8 +33,12 @@ Building a better future, one line of code at a time.
 class CreateLesliUserSessions < ActiveRecord::Migration[6.0]
     def change
         create_table :lesli_user_sessions do |t|
-            t.inet   :user_remote                   # IPv4 and IPv6 hosts and networks
-            t.string :user_agent
+            t.inet   :remote                   # IPv4 and IPv6 hosts and networks
+
+            t.string  :agent_platform
+            t.string  :agent_os
+            t.string  :agent_browser
+            t.string  :agent_version
 
             t.string :session_token                 # authentication token
             t.string :session_source                # session created for/with

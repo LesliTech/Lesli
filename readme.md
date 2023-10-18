@@ -39,7 +39,7 @@ Lesli is completely open source and comes with features and tools that can save 
 
 <br />
 
-Lesli is officially released and supported as of version 5
+Lesli is officially released and will be supported as of version 5.1
 
 > Lesli goes beyond being just a starter-kit, template, admin panel or dashboard. Lesli is a Ruby on Rails gem that you can use to build modules (a.k.a. engines) and standard Rails applications leveraging its robust set of built-in features, generators, components, and industry standards. With Lesli, you have the flexibility to extend existing functionalities or develop fully customized software tailored to your specific needs.
 
@@ -48,8 +48,8 @@ Lesli is officially released and supported as of version 5
 
 ### Documentation
 * [Roadmap](./docs/roadmap.md)
-* [Core database](./docs/database.md)
-* [Main documentation](https://www.lesli.dev/documentation/)
+* [Database](./docs/database.md)
+* [Documentation](https://www.lesli.dev/documentation/)
 
 
 <br />
