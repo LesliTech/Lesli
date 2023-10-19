@@ -50,11 +50,14 @@ module Lesli
         has_many :locations
         has_many :feedbacks
         has_many :descriptors
-        has_many :activities, class_name: "Account::Activity"
-        has_many :currencies, class_name: "Account::Currency"
+        has_many :activities
+        has_many :currencies
         has_many :logs
 
         has_one :audit, class_name: "LesliAudit::Account"
+        has_one :admin, class_name: "LesliAdmin::Account"
+        has_one :driver, class_name: "LesliDriver::Account"
+
 
         # account statuses
         enum status: [
