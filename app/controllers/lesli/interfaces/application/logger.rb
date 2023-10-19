@@ -64,15 +64,14 @@ module Lesli
 
                 def log_account_requests
                     return unless Lesli.config.security.dig(:enable_analytics)
+                    return unless defined?(LesliAudit)
                     return unless current_user
-                    return unless session[:user_session_id]
 
                     # Try to save a unique record for this request configuration
-                    current_user.account.requests.upsert(
+                    current_user.account.audit.account_requests.upsert(
                         {
                             request_controller: controller_path,
                             request_action: action_name,
-                            request_method: request.method,
                             request_count: 1
                         },
                         
@@ -80,7 +79,7 @@ module Lesli
                         unique_by: %i[request_controller request_action created_at account_id],
 
                         # if request id is not unique, increase the counter for this configuration
-                        on_duplicate: Arel.sql("request_count = lesli_account_requests.request_count + 1")
+                        on_duplicate: Arel.sql("request_count = lesli_audit_account_requests.request_count + 1")
                     )
                 end
 
@@ -88,52 +87,29 @@ module Lesli
                 # this is disabled by default in the settings file
                 def log_user_requests
                     return unless Lesli.config.security.dig(:enable_analytics)
+                    return unless defined?(LesliAudit)
                     return unless current_user
                     return unless session[:user_session_id]
-
+                    
                     # Try to save a unique record for this request configuration
-                    current_user.requests.upsert(
+                    current_user.account.audit.user_requests.upsert(
                         {
-                            request_count: 1,
-                            session_id: session[:user_session_id]
+                            request_controller: controller_path,
+                            request_action: action_name,
+                            session_id: session[:user_session_id],
+                            user_id: current_user.id,
+                            request_count: 1
                         },
-                        
+                                
                         # group of columns to consider a request as unique
-                        unique_by: %i[created_at user_id session_id],
+                        unique_by: %i[request_controller request_action created_at user_id session_id],
 
                         # if request id is not unique
                         #   - increase the counter for this configuration
                         #   - update the datetime of the last request
                         on_duplicate: Arel.sql(
-                            'request_count = lesli_user_requests.request_count + 1,'\
-                            'updated_at = current_timestamp'
+                            'request_count = lesli_audit_user_requests.request_count + 1'
                         )
-                    )
-                end
-
-                # Track user agents
-                # this is disabled by default in the settings file
-                def log_user_agent
-                    return unless Lesli.config.security.dig(:enable_analytics)
-                    return unless current_user
-                    return unless session[:user_session_id]
-
-                    user_agent = get_user_agent(false)
-
-                    # Try to save a unique record for this agent configuration
-                    current_user.agents.upsert(
-                        {
-                            os: user_agent[:os] || "unknown",
-                            platform: user_agent[:platform] || "unknown",
-                            browser: user_agent[:browser] || "unknown",
-                            version: user_agent[:version] || "unknown",
-                            count: 1
-                        },
-                        # group of columns to consider a agent as unique
-                        unique_by: %i[platform os browser version user_id],
-
-                        # if request id is not unique, increase the counter for this configuration
-                        on_duplicate: Arel.sql("count = lesli_user_agents.count + 1")
                     )
                 end
 

@@ -18,7 +18,7 @@
 00.12. account_activities
 00.13. account_files
 00.14. account_logs
-00.15. account_requests
+
 00.16. account_currencies
 00.17. account_exchange_rates
 00.18. account_crontabs
@@ -35,8 +35,8 @@
 00.35. user_shortcuts
 00.36. user_access_codes
 00.37. user_auth_provider
-00.38. user_requests
-00.39. user_agents
+
+
 00.40. user_logs
 
 00.50. descriptors

@@ -89,7 +89,8 @@ class Users::SessionsController < Devise::SessionsController
 
 
         # create a new session for the user
-        current_session = Lesli::User::SessionService.new(user).create(get_user_agent, request.remote_ip)
+        current_session = Lesli::User::SessionService.new(user)
+        .create(get_user_agent(false), request.remote_ip)
 
         # make session id globally available
         session[:user_session_id] = current_session[:id]
@@ -109,9 +110,6 @@ class Users::SessionsController < Devise::SessionsController
         # respond successful and send the path user should go
         #respond_with_successful({ default_path: user.has_role_with_default_path?() })
         respond_with_successful({ default_path: "/" })
-
-        log_user_agent()
-
     end
 
     private 

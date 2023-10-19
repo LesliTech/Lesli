@@ -30,37 +30,36 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-module AccountEngines
-    extend ActiveSupport::Concern
+module Lesli
+    class AboutsController < ApplicationLesliController
 
+        # GET /status
+        def show
+            # instance name from builder
+            instance = Lesli.config.instance
 
-    # initialize engines for new accounts
-    def initialize_engines
+            # get installed engines
+            @lesli_engines = Lesli::System.engines.map { |engine, engine_info|
+                {
+                    :name => engine_info[:name],
+                    :code => engine_info[:code],
+                    :path => engine_info[:path],
+                    :version => engine_info[:version],
+                    :build => engine_info[:build]
+                }
+            }
+    
+            respond_to do |format|
+                format.html {}
+                format.json { 
+                    if Rails.env.production?
+                        respond_with_successful({ :Lesli => "Ruby on Rails SaaS Development Framework."}) 
+                    end
 
-        # 01.01 LesliAdmin - Lesli administration area
-        if defined? LesliAdmin
-            if self.admin.blank?
-                self.admin = LesliAdmin::Account.new
-                self.admin.account = self
-                self.admin.save!
-            end
-        end
-
-        # 03.01 LesliDriver - Unified calendar app
-        if defined? LesliDriver
-            if self.driver.blank?
-                self.driver = LesliDriver::Account.new
-                self.driver.account = self
-                self.driver.save!
-            end
-        end
-
-        # 08.03 LesliAudit - System analytics
-        if defined? LesliAudit
-            if self.audit.blank?
-                self.audit = LesliAudit::Account.new
-                self.audit.account = self
-                self.audit.save!
+                    if !Rails.env.production?
+                        respond_with_successful(@lesli_engines) 
+                    end
+                }
             end
         end
     end

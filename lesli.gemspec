@@ -56,7 +56,7 @@ Gem::Specification.new do |spec|
     spec.metadata["source_code_uri"] = "https://github.com/LesliTech/Lesli"
 
     spec.files = Dir.chdir(File.expand_path(__dir__)) do
-        Dir["{app,config,db,lib}/**/*", "license", "Rakefile", "readme.md"]
+        Dir["{app,config,db,lib,vendor}/**/*", "license", "Rakefile", "readme.md"]
     end
   
     # Ruby version

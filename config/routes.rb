@@ -43,6 +43,8 @@ Lesli::Routing.mount_login
 # Mount the necessary resources Lesli needs to work properly
 Lesli::Engine.routes.draw do
 
+    resource :about, only: [:show]
+
     resources :users, only: [] do
         collection do
             get :list
