@@ -33,6 +33,8 @@ Building a better future, one line of code at a time.
 module Lesli
     class Account < ApplicationLesliRecord
 
+        include AccountEngines
+
 
         # accounts always belongs to a user
         belongs_to :user, optional: true
@@ -48,10 +50,13 @@ module Lesli
         has_many :locations
         has_many :feedbacks
         has_many :descriptors
-        has_many :activities, class_name: "Account::Activity"
-        has_many :currencies, class_name: "Account::Currency"
+        has_many :activities
+        has_many :currencies
         has_many :logs
 
+        has_one :audit, class_name: "LesliAudit::Account"
+        has_one :admin, class_name: "LesliAdmin::Account"
+        has_one :driver, class_name: "LesliDriver::Account"
 
 
         # account statuses
@@ -77,6 +82,7 @@ module Lesli
 
         # initializers for new accounts
         after_create :initialize_account
+        after_create :initialize_engines
 
 
         def initialize_account
