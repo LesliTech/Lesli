@@ -37,6 +37,24 @@ module AccountEngines
     # initialize engines for new accounts
     def initialize_engines
 
+        # 01.01 LesliAdmin - Lesli administration area
+        if defined? LesliAdmin
+            if self.admin.blank?
+                self.admin = LesliAdmin::Account.new
+                self.admin.account = self
+                self.admin.save!
+            end
+        end
+
+        # 03.01 LesliDriver - Unified calendar app
+        if defined? LesliDriver
+            if self.driver.blank?
+                self.driver = LesliDriver::Account.new
+                self.driver.account = self
+                self.driver.save!
+            end
+        end
+
         # 08.03 LesliAudit - System analytics
         if defined? LesliAudit
             if self.audit.blank?
