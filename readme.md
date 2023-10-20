@@ -21,7 +21,11 @@
 
 <br />
 
-<img style="width:100%; border-radius: 6px;" alt="Lesli logo" src="./docs/screenshot.png" />
+<div align="center">
+    <img 
+        style="width:100%;max-width:800px;border-radius:6px;" 
+        alt="Lesli logo" src="./docs/screenshot.png" />
+</div>
 
 ### Introduction 
 
