@@ -31,7 +31,7 @@
 00.31. user_settings
 00.32. user_sessions
 00.33. user_activities
-00.34. user_roles
+00.34. user_powers
 00.35. user_shortcuts
 00.36. user_access_codes
 00.37. user_auth_provider

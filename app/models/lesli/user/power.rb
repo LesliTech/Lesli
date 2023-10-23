@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    class User::Role < ApplicationLesliRecord
+    class User::Power < ApplicationLesliRecord
         belongs_to :user
         belongs_to :role
         has_many :roles

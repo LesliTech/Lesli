@@ -30,15 +30,15 @@ Building a better future, one line of code at a time.
 // ·
 =end
 
-class CreateUserSettings < ActiveRecord::Migration[6.0]
+class CreateLesliUserSettings < ActiveRecord::Migration[6.0]
     def change
-        create_table :user_settings do |t|
+        create_table :lesli_user_settings do |t|
             t.string :name
             t.string :value
             t.timestamps
         end
 
-        add_reference(:user_settings, :user, foreign_key: { to_table: :users })
-        add_index(:user_settings, %i[user_id name], unique: true)
+        add_reference(:lesli_user_settings, :user, foreign_key: { to_table: :lesli_users })
+        add_index(:lesli_user_settings, %i[user_id name], unique: true)
     end
 end
