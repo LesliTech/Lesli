@@ -75,26 +75,27 @@ module Lesli
 =end
         #after_action :log_mail_requests
 
-        default(template_path: "lesli/emails/devise_mailer")
+        #default(template_path: "lesli/emails/devise_mailer")
 
         def initialize
 
             super
 
             # some @email data is defined on: LesliMails/src/partials/data.html
-            @custom = {}
+            
             @email = {}
-            @data = {}
-            @app = {}
+            @custom = {}
+            @params = {
+                :host => default_url_options[:host] || ""
+            }
 
         end
 
         protected
 
-        def email(data={}, to:, subject:, template_name:) 
+        def email(params={}, user:nil, to:, subject:, template_name:) 
 
-            @app[:host] = default_url_options[:host]
-            @data = @data.merge(data)
+            @params = @params.merge(params)
 
             mail(
                 to: to, 
@@ -105,18 +106,6 @@ module Lesli
 
 
         private
-
-
-        def build_data_from_params(params, data={})
-
-            # make custom data available in mailer method and mailer template
-            @data = @data.merge(data)
-
-            build_app_from_params(params)
-
-            build_customization_from_params(params)
-
-        end
 
         def build_app_from_params(params)
 

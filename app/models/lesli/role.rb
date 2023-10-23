@@ -32,14 +32,13 @@ Building a better future, one line of code at a time.
 
 module Lesli
     class Role < ApplicationLesliRecord
-
         belongs_to :account
 
 
         # Role resources
         has_many :activities
         has_many :descriptors, dependent: :delete_all
-        has_many :privileges, class_name: "Role::Privilege", dependent: :delete_all
+        has_many :privileges,  dependent: :delete_all
         
 
         # initializers for new roles

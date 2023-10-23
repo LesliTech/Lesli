@@ -1,6 +1,9 @@
 module Lesli
     class DeviseMailer < ApplicationLesliMailer
-        def confirmation_instructions(record, token, opts = {})
+
+        default(template_path: "lesli/emails/devise_mailer")
+
+        def confirmation_instructions(user, token, opts = {})
 
             # defaults for new accounts/users
             email_template = "confirmation_instructions"
@@ -14,9 +17,9 @@ module Lesli
 
             # Depending on wheter there is a new user or they are changing their email, 
             # one or another field will be used
-            email_recipient = record.unconfirmed_email || record.email
+            email_recipient = user.unconfirmed_email || user.email
 
-            # email custom data
+            # email parameters
             params = {
                 url: "/confirmation?confirmation_token=#{token}"
             }
