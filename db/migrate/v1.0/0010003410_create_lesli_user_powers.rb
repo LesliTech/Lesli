@@ -1,4 +1,5 @@
-/*
+=begin
+
 Lesli
 
 Copyright (c) 2023, Lesli Technologies, S. A.
@@ -16,42 +17,27 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS Development Framework.
+Lesli · Ruby on Rails Development Platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.dev
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
+// ·
+=end
 
+class CreateLesliUserPowers < ActiveRecord::Migration[6.0]
+    def change
+        create_table :lesli_user_powers do |t|
+            t.datetime :deleted_at, index: true
+            t.timestamps
+        end
 
-// · Engine asssets
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-//= link_tree ../images/lesli .png
-//= link_tree ../images/lesli .jpg
-//= link_tree ../images/lesli .svg
-
-// link lesli/application.js
-// link lesli/application.css
-
-
-// · Framework asssets
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-//= link lesli/templates/public.css
-//= link lesli/templates/application.css
-
-//= link lesli/users/sessions.js
-//= link lesli/users/sessions.css
-//= link lesli/users/passwords.js
-//= link lesli/users/passwords.css
-//= link lesli/users/registrations.js
-//= link lesli/users/registrations.css
-//= link lesli/users/confirmations.js
-//= link lesli/users/confirmations.css
-
-//= link lesli/i18n.js
+        add_reference(:lesli_user_powers, :user, foreign_key: { to_table: :lesli_users })
+        add_reference(:lesli_user_powers, :role, foreign_key: { to_table: :lesli_roles })
+    end
+end

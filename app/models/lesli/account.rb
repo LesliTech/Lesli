@@ -92,17 +92,16 @@ module Lesli
             descriptor_sysadmin = self.descriptors.find_or_create_by(name: "sysadmin")
             descriptor_profile = self.descriptors.find_or_create_by(name: "profile")
     
-    
             # create default roles for the new account
             owner = self.roles.create({ name: "owner", active: true, object_level_permission: 2147483647 })
-    
+
             # platform administrator role
             sysadmin = self.roles.create({ name: "sysadmin", active: true, object_level_permission: 100000 })
     
             # access only to user profile
             limited = self.roles.create({ name: "limited", active: true, object_level_permission: 10, path_default: "/administration/profile" })
     
-    
+
             # assign descriptors with appropriate privileges
             #owner.descriptors.create(:descriptor => descriptor_owner)
             #sysadmin.descriptors.create(:descriptor => descriptor_sysadmin)

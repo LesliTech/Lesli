@@ -46,6 +46,21 @@ module Lesli
 
         initializer :lesli do |app|
 
+
+            # Lesli standard engine configuration
+
+            
+            # register assets manifest
+            config.assets.precompile += %w[lesli_manifest.js]
+
+            # register engine migrations path
+            unless app.root.to_s.match root.to_s
+                config.paths["db/migrate"].expanded.each do |expanded_path|
+                    app.config.paths["db/migrate"] << expanded_path
+                end
+            end
+
+
             # Lesli Framework configuration
 
 
@@ -65,21 +80,28 @@ module Lesli
             # if this is not false Rails will fingerprint the assets by default and precompile is needed
             config.assets.digest = false
 
+
+            # Lesli Framework Mailer configuration
+
+
+            # Development mailer by default
+            config.action_mailer.delivery_method ||= :letter_opener
+
+            # Add the Lesli root folder for email development tempaltes
             config.action_mailer.preview_path = root.join("lib", "mailer_previews")
 
+            config.action_mailer.default_options ||= {
 
-            # Lesli standard engine configuration
+                # Use the main email in the lesli settings as email sender
+                from: config.company.dig(:email)
+            }
 
-            
-            # register assets manifest
-            config.assets.precompile += %w[lesli_manifest.js]
 
-            # register engine migrations path
-            unless app.root.to_s.match root.to_s
-                config.paths["db/migrate"].expanded.each do |expanded_path|
-                    app.config.paths["db/migrate"] << expanded_path
-                end
-            end
+
+            # Mailer url options for development 
+            config.action_mailer.default_url_options ||= { 
+                host: "http://0.0.0.0:3000"
+            }
         end
     end
 end

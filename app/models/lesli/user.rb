@@ -57,8 +57,8 @@ module Lesli
         has_many :activities,   class_name: "User::Activity"
 
         # users can have many roles and too many privileges through the roles
-        has_many :user_roles, class_name: "Lesli::User::Role" 
-        has_many :roles, class_name: "Lesli::Role", through: :user_roles, source: :role
+        has_many :powers
+        has_many :roles, class_name: "Lesli::Role", through: :powers, source: :role
         #has_many :privileges,       through: :roles
 
 
@@ -88,7 +88,6 @@ module Lesli
 
         # callbacks
         before_create :before_create_user
-        after_create :after_create_user
         #after_create :after_confirmation_user, if: :confirmed?
         #after_create :after_account_assignation
         #after_update :update_associated_services
@@ -108,26 +107,18 @@ module Lesli
         end
 
 
-        # @return [void]
-        # @description After creating a user, creates the necessary resources for them to access the different engines.
-        #     At the current time, it only creates a default calendar. This is an *after_create* method, and is not
-        #     designed to be invoked directly
-        def after_create_user
-
-            # create user details
-            #User::Detail.find_or_create_by({ user: self })
+        # Initialize user settings and dependencies needed
+        def after_confirmation_user
+            return unless self.confirmed?
 
             # create an alias based on user name
             # defined in user extensions
             self.set_alias
 
-        end
+            # create user details
+            #User::Detail.find_or_create_by({ user: self })
 
-
-        # Initialize user settings and dependencies needed
-        def after_confirmation_user
-            return unless self.confirmed?
-
+            # Minimum security settings required
             self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
             self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
         end
