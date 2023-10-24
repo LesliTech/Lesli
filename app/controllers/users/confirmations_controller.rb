@@ -19,7 +19,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
 
         # validate that user were found
         if user.blank?
-            return flash[:danger] = "Not valid token"
+            return flash[:danger] = I18n.t("core.users/confirmations.messages_warning_invalid_token")
         end
 
         # register a log with a validation atempt for the user

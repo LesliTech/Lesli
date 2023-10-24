@@ -36,7 +36,8 @@ class Users::PasswordsController < Devise::PasswordsController
 
         # begin
         #     #UserMailer.with(user: user, token: token).reset_password_instructions.deliver_now
-             super()
+             #super()
+        Lesli::DeviseMailer.reset_password_instructions(user, token)
         respond_with_successful
         # rescue => exception
         #     #Honeybadger.notify(exception)
