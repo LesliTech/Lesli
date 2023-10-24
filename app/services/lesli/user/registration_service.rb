@@ -75,8 +75,6 @@ module Lesli
             # check if instance is for multi-account
             allow_multiaccount = Lesli.config.security.dig(:allow_multiaccount)
 
-            pp allow_multiaccount
-
             # create new account for the new user only if multi-account is allowed
             if allow_multiaccount === true
                 account = Account.create!({
