@@ -37,8 +37,7 @@ module Lesli
         # Return a list of users that belongs to the account of the current_user
         # this list is meant to be used in selectors, autocomplets, etc
         def list params=nil
-            #users = current_user.account.users
-            users = Lesli::Account.first.users
+            users = current_user.account.users
 
             if params[:role].present?
                 # add simple quotes to the roles so the sql can manage the query
@@ -61,9 +60,8 @@ module Lesli
                 :id,
                 :email,
                 "CONCAT_WS(' ', first_name, last_name) as name",
-                :alias
+                "COALESCE(alias, email) as alias"
             ).as_json
         end
-
     end
 end

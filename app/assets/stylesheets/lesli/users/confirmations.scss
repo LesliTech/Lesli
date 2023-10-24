@@ -17,18 +17,40 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
-
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 */
 
-@import "pages/users/confirmations.scss.erb";
+@import "lesli/pages/devise-simple";
+
+
+// · 
+div.confirmation-message {
+    //box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    padding: 4rem 0 5rem;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 90%;
+
+    svg {
+        max-width: 90px;
+        margin-bottom: 1rem;
+        fill: lesli-css-color(lime, 300);
+    }
+
+    p {
+        font-weight: 100;
+        font-size: 2rem;
+    }
+
+}

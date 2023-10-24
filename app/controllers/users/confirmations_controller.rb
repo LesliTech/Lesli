@@ -1,30 +1,66 @@
 # frozen_string_literal: true
-
 class Users::ConfirmationsController < Devise::ConfirmationsController
-  # GET /resource/confirmation/new
-  # def new
-  #   super
-  # end
 
-  # POST /resource/confirmation
-  # def create
-  #   super
-  # end
+    def show
 
-  # GET /resource/confirmation?confirmation_token=abcdef
-  # def show
-  #   super
-  # end
+        # delete all previus messages
+        flash.clear
 
-  # protected
+        # get the confirmation token sent through get params
+        token = params[:confirmation_token]
 
-  # The path used after resending confirmation instructions.
-  # def after_resending_confirmation_instructions_path_for(resource_name)
-  #   super(resource_name)
-  # end
+        # validate that token were sent
+        if token.blank?
+            return flash[:danger] = I18n.t("core.users/confirmations.messages_warning_invalid_token")
+        end
 
-  # The path used after confirmation.
-  # def after_confirmation_path_for(resource_name, resource)
-  #   super(resource_name, resource)
-  # end
+        # check if token belongs to a unconfirmed user
+        user = Lesli::User.find_by(:confirmation_token => token, :confirmed_at => nil)
+
+        # validate that user were found
+        if user.blank?
+            return flash[:danger] = I18n.t("core.users/confirmations.messages_warning_invalid_token")
+        end
+
+        # register a log with a validation atempt for the user
+        log = user.logs.create({ description: "confirmation_atempt_successful" })
+
+        registration_service = Lesli::User::RegistrationService.new(user)
+
+        # confirm the user
+        registration_service.confirm
+
+        # let the user knows that the confirmation is done
+        flash[:success] = I18n.t("core.users/confirmations.messages_success_email_updated")
+        
+        # if new account, launch account onboarding in another thread, 
+        # so the user can continue with the registration process
+        registration_service.create_account if user.account.blank?
+        #Thread.new { registration_service.create_account } if user.account.blank?
+
+    end
+
+    
+    # @controller_action_param :email [String] The registered user email
+    # @return [Json] Json that contains wheter the email confirmation was sent or not. 
+    #     If it is not successful, it returs an error message
+    # @description Resends a email confirmation an already registered user
+    # @example
+    #     # Executing this controller's action from javascript's frontend
+    #     let email = 'john.doe@email.com';
+    #     let data = {
+    #         user: {
+    #             email: email
+    #         }
+    #     };
+    #     this.http.post('127.0.0.1/conformation', data);
+    def create
+        super do |resource|
+            if successfully_sent?(resource)
+                return respond_with_successful
+            else
+                return respond_with_error(resource.errors.full_messages.to_sentence)
+            end
+        end
+    end
 end

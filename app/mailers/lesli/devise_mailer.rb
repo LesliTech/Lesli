@@ -1,6 +1,32 @@
 module Lesli
     class DeviseMailer < ApplicationLesliMailer
-        def confirmation_instructions(record, token, opts = {})
+
+        default(template_path: "lesli/emails/devise_mailer")
+
+        # Sends an email with instructions to allow the user reset the password
+        def reset_password_instructions(user, token, opts = {})
+
+            # defaults for new accounts/users
+            email_template = "reset_password_instructions"
+            email_subject = I18n.t("core.users/confirmations.mailer_email_verification")
+
+            # email parameters
+            params = {
+                url: "/password/edit?reset_password_token=#{token}",
+                user_name: user.full_name
+            }
+
+            # send email
+            email(
+                params,
+                to: user.email, 
+                subject: email_subject,
+                template_name: email_template
+            )
+        end 
+
+        # Sends an email to allow the user confirm the email address
+        def confirmation_instructions(user, token, opts = {})
 
             # defaults for new accounts/users
             email_template = "confirmation_instructions"
@@ -14,9 +40,9 @@ module Lesli
 
             # Depending on wheter there is a new user or they are changing their email, 
             # one or another field will be used
-            email_recipient = record.unconfirmed_email || record.email
+            email_recipient = user.unconfirmed_email || user.email
 
-            # email custom data
+            # email parameters
             params = {
                 url: "/confirmation?confirmation_token=#{token}"
             }
