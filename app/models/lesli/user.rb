@@ -57,6 +57,7 @@ module Lesli
         has_many :activities,   class_name: "User::Activity"
 
         # users can have many roles and too many privileges through the roles
+        # every role adds a power to the user, power is just a role id
         has_many :powers
         has_many :roles, class_name: "Lesli::Role", through: :powers, source: :role
         #has_many :privileges,       through: :roles
