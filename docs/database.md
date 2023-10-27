@@ -44,7 +44,7 @@
 00.52. descriptor_activities
 
 00.02. roles (reference only)
-00.55. role_descriptor
+00.55. role_powers
 00.56. role_activities
 00.57. role_privileges
 

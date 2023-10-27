@@ -33,7 +33,7 @@ Building a better future, one line of code at a time.
 module Lesli
     class Descriptor < ApplicationLesliRecord
         belongs_to :account
-        #has_many :privileges
+        has_many :privileges
         #has_many :role_descriptors
         
         validates :name, presence: true
