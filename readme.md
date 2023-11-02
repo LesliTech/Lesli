@@ -7,13 +7,13 @@
 <hr/>
     <p align="center">
         <a target="blank" href="https://rubygems.org/gems/lesli">
-            <img src="https://badge.fury.io/rb/lesli.svg" alt="Gem Version" height="24">
+            <img height="22" alt="Gem Version" src="https://badge.fury.io/rb/lesli.svg"/>
         </a>
         <a href="https://codecov.io/github/LesliTech/Lesli"> 
-            <img src="https://codecov.io/github/LesliTech/Lesli/graph/badge.svg?token=2O12NENK5Y" height="24"/> 
+            <img height="22" src="https://codecov.io/github/LesliTech/Lesli/graph/badge.svg?token=2O12NENK5Y"/> 
         </a>
         <a href="https://codecov.io/github/LesliTech/Lesli"> 
-            <img src="https://sonarcloud.io/api/project_badges/measure?project=LesliTech_Lesli&metric=sqale_rating" height="24"/> 
+            <img height="22" src="https://sonarcloud.io/api/project_badges/measure?project=LesliTech_Lesli&metric=sqale_rating"/> 
         </a>
     </p>
 <hr/>
@@ -53,7 +53,16 @@ Lesli is officially released and will be supported as of version 5.1
 
 <br />
 
+### Demo
+
+* online demo (soon)
+* [docker demo](https://github.com/ldonis/lesli-docker-demo)
+
+
+<br />
+
 ### Documentation
+* [Website](https://www.lesli.dev/lesli/)
 * [Roadmap](./docs/roadmap.md)
 * [Database](./docs/database.md)
 * [Documentation](https://www.lesli.dev/documentation/)
@@ -117,7 +126,7 @@ RAILS_SERVE_STATIC_FILES=true rails s --environment=production
 
 <br />
 
-### Get in touch
+### Get in touch with Lesli
 
 * [Website: https://www.lesli.tech](https://www.lesli.tech)
 * [Email: hello@lesli.tech](hello@lesli.tech)

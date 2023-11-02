@@ -17,16 +17,16 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 =end
 
@@ -53,7 +53,7 @@ def create_development_user email, rolename, firstname, lastname, password:nil
         user.last_name = lastname
         user.save!
 
-        #user.user_roles.create!({ role: Role.find_by("name" => rolename) })
+        user.powers.create!({ role: Lesli::Role.find_by(:name => rolename) })
 
         user
     end

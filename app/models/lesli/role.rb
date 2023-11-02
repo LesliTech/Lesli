@@ -34,21 +34,34 @@ module Lesli
     class Role < ApplicationLesliRecord
         belongs_to :account
 
-
         # Role resources
         has_many :activities
-        has_many :descriptors, dependent: :delete_all
+        has_many :powers, dependent: :delete_all
         has_many :privileges,  dependent: :delete_all
-        
-
-        # initializers for new roles
-        after_create :after_create_role
-
 
         # validations
         validates :name, presence: :true
         validates :object_level_permission, presence: :true
 
+        # initializers for new roles
+        after_create :after_create_role
+
+        # Return a list of roles that the user is able to work with
+        # according to object level permission
+        def self.list(current_user, query, params)
+            current_user.account.roles
+            .where("object_level_permission <= ?", current_user.max_object_level_permission)
+            .order(object_level_permission: :desc, name: :asc)
+            .select(:id, :name, :object_level_permission)
+        end
+
+        # @return [Boolean]
+        # @description Returns if a role is assigned to users.
+        def has_users?
+            User::Role.where(role: self).count > 0
+        end
+
+        private
 
         def after_create_role
 
@@ -63,13 +76,6 @@ module Lesli
             role_code = I18n.transliterate(role_code) + id.to_s 
 
             self.update_attribute("code", role_code)
-        end
-
-
-        # @return [Boolean]
-        # @description Returns if a role is assigned to users.
-        def has_users?
-            User::Role.where(role: self).count > 0
         end
 
         # @return [void]

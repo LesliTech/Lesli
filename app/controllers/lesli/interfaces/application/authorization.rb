@@ -69,10 +69,10 @@ module Lesli
                 # allowed core methods:
                 #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
                 def authorize_privileges
-                    return true
+
                     # check if user has access to the requested controller
                     # this search is over all the privileges for all the roles of the user
-                    granted = current_user.has_privileges?(params[:controller], params[:action])
+                    granted = current_user.has_privileges_for?(params[:controller], params[:action])
 
                     # get the path to which the user is limited to
                     limited_path = current_user.has_role_limited_to_path?

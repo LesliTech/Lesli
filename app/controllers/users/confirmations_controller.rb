@@ -25,18 +25,18 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
         # register a log with a validation atempt for the user
         log = user.logs.create({ description: "confirmation_atempt_successful" })
 
-        registration_service = Lesli::User::RegistrationService.new(user)
+        registration_operator = Lesli::UserRegistrationOperator.new(user)
 
         # confirm the user
-        registration_service.confirm
+        registration_operator.confirm
 
         # let the user knows that the confirmation is done
         flash[:success] = I18n.t("core.users/confirmations.messages_success_email_updated")
         
         # if new account, launch account onboarding in another thread, 
         # so the user can continue with the registration process
-        registration_service.create_account if user.account.blank?
-        #Thread.new { registration_service.create_account } if user.account.blank?
+        registration_operator.create_account if user.account.blank?
+        #Thread.new { registration_operator.create_account } if user.account.blank?
 
     end
 

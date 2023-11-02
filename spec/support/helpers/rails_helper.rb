@@ -125,3 +125,9 @@ L2.info(
     "For a better result run test over a clean database", 
     "You can use rake dev:db:reset test before rspec."
 )
+
+# Check if index of controllers exists (needed for authorization)
+if Lesli::SystemController.count <= 0
+    L2.msg "Building controllers index..."
+    Lesli::ControllerOperator.new.build 
+end

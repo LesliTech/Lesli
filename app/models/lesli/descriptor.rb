@@ -33,9 +33,26 @@ Building a better future, one line of code at a time.
 module Lesli
     class Descriptor < ApplicationLesliRecord
         belongs_to :account
-        #has_many :privileges
+        has_many :privileges
         #has_many :role_descriptors
+
+        # this scope is needed to allow to join with deleted descriptors
+        # join with deleted descriptors is needed to know which privileges we have to remove from the
+        # role_privileges table when a descriptor is removed from role_describers
+        has_many :role_descriptors_all, -> { with_deleted }, foreign_key: "descriptors_id", class_name: "Role::Descriptor"
         
         validates :name, presence: true
+
+        after_create :initialize_descriptor_privileges
+
+        def initialize_descriptor_privileges
+
+            descriptor_operator = DescriptorPrivilegeOperator.new(self)
+    
+            descriptor_operator.add_profile_privileges(self) if self.name == "profile"
+    
+            descriptor_operator.add_owner_privileges(self) if ["owner", "sysadmin"].include?(self.name)
+    
+        end
     end
 end

@@ -39,6 +39,7 @@ require "L2"
 require "devise"
 require "useragent"
 require "flag-icons-rails"
+require "acts_as_paranoid"
 
 module Lesli
     class Engine < ::Rails::Engine
