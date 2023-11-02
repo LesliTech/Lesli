@@ -89,7 +89,7 @@ class Users::SessionsController < Devise::SessionsController
 
 
         # create a new session for the user
-        current_session = Lesli::User::SessionService.new(user)
+        current_session = Lesli::UserSessionService.new(user)
         .create(get_user_agent(false), request.remote_ip)
 
         # make session id globally available

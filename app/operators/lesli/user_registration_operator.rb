@@ -32,7 +32,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    class User::RegistrationService < Lesli::ApplicationLesliService
+    class UserRegistrationOperator < Lesli::ApplicationLesliService
 
         def initialize(current_user)
             @resource = current_user

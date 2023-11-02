@@ -32,7 +32,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    class User::SessionService < ApplicationLesliService
+    class UserSessionService < ApplicationLesliService
 
         # create a new session
         def create(user_agent, remote_ip, session_source="devise_standard_session")

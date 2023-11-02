@@ -30,38 +30,25 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-module AccountEngines
-    extend ActiveSupport::Concern
+# · 
+namespace :lesli do 
+    namespace :role do
 
+        desc "Drop, build, migrate & seed Lesli database (development only)"
+        task :privileges => :environment do |task, args|
+            role_sync_privileges()
+        end
+    end
 
-    # initialize engines for new accounts
-    def initialize_engines
+    # Drop, build, migrate & seed database (development only)
+    def role_sync_privileges
 
-        # 01.01 LesliAdmin - Lesli administration area
-        if defined? LesliAdmin
-            if self.admin.blank?
-                self.admin = LesliAdmin::Account.new
-                self.admin.account = self
-                self.admin.save!
-            end
+        L2.msg("Syncing privileges for all the available roles")
+
+        Lesli::Descriptor.where(:name => "owner").each do |descriptor|
+            descriptor.initialize_descriptor_privileges
         end
 
-        # 03.01 LesliDriver - Unified calendar app
-        if defined? LesliDriver
-            if self.driver.blank?
-                self.driver = LesliDriver::Account.new
-                self.driver.account = self
-                self.driver.save!
-            end
-        end
-
-        # 08.03 LesliAudit - System analytics
-        if defined? LesliAudit
-            if self.audit.blank?
-                self.audit = LesliAudit::Account.new
-                self.audit.account = self
-                self.audit.save!
-            end
-        end
+        Lesli::RolePowerOperator.new(Lesli::Role.all.pluck(:id)).synchronize
     end
 end
