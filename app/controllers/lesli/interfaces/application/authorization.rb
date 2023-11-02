@@ -69,7 +69,7 @@ module Lesli
                 # allowed core methods:
                 #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
                 def authorize_privileges
-                    L2.info "authorize_privileges start"
+
                     # check if user has access to the requested controller
                     # this search is over all the privileges for all the roles of the user
                     granted = current_user.has_privileges_for?(params[:controller], params[:action])

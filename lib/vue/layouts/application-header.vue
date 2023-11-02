@@ -115,11 +115,16 @@ function toggleEngines() {
     document.addEventListener('keydown', onEscape)
 }
 
+// · 
+function safeEngineUrl() {
+    return encodeURI(props.enginePath);
+}
+
 </script>
 <template>
     <header ref="lesliApplicationHeader" class="lesli-application-header">
         <div class="lesli-application-header-container container">
-            <a :href="props.enginePath">
+            <a :href="safeEngineUrl()">
                 <figure class="image lesli-brand">
                     <img alt="App logo" class="is-hidden-touch" src="/assets/lesli/brand/app-logo.svg">
                 </figure>
