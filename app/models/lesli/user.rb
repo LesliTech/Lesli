@@ -33,10 +33,9 @@ Building a better future, one line of code at a time.
 module Lesli
     class User < ApplicationLesliRecord
 
-        include UserGuard
+        include UserSecurity
         include UserExtensions
         #include UserActivities
-        #include UserPolyfill
 
         # users belongs to an account only... and must have a role
         belongs_to :account, optional: true
@@ -59,8 +58,8 @@ module Lesli
         # users can have many roles and too many privileges through the roles
         # every role adds a power to the user, power is just a role id
         has_many :powers
-        has_many :roles, class_name: "Lesli::Role", through: :powers, source: :role
-        #has_many :privileges,       through: :roles
+        has_many :roles, through: :powers, source: :role, class_name: "Lesli::Role"
+        has_many :privileges, through: :roles, class_name: "Lesli::Role::Privilege"
 
 
         # devise implementation

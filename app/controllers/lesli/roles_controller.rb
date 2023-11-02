@@ -36,7 +36,9 @@ module Lesli
 
         def list
             respond_to do |format|
-                format.json { respond_with_successful(RoleService.new(current_user, query).list(params)) }
+                format.json { 
+                    respond_with_successful(Role.list(current_user, query, params)) 
+                }
             end
         end
     end

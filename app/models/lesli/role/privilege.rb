@@ -30,24 +30,9 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-
-# get settings
-company = Lesli.config.company
-
-
-# Create company user
-user = create_development_user(company[:email], "owner", company[:name], "")
-user.account.user = user
-user.account.save!
-
-
-# core development users
-[
-    ["ldonis@lesli.tech", "owner",  "Luis", "Donis"],
-    ["admin@lesli.tech", "sysadmin","Admin","Lesli"],
-    ["guest@lesli.tech", "limited", "Guest","Lesli"],
-    ["test@lesli.tech", "sysadmin", "Test", "Lesli"],
-].each do |user|
-    create_development_user(user[0], user[1], user[2], user[3])
-    L2.m("User #{ user[2] } <#{ user[0] }> successfully created as #{ user[1] }.")
-end 
+module Lesli
+    class Role::Privilege < Lesli::ApplicationLesliRecord
+        belongs_to :role
+        has_many   :descriptors
+    end
+end

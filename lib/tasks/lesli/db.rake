@@ -72,17 +72,27 @@ namespace :lesli do
 
     # Seed database (development only)
     def seed
+
+        # do not execute this task if we are at production level
         return if Rails.env.production?
+
         L2.msg("Seed Lesli database for development")
 
+        # scan rails routes to build the controllers index
+        Rake::Task['lesli:controllers:build'].invoke
+
+        # load main app seeders
         Rake::Task['db:seed'].invoke
 
+        # load Lesli* gems seeders
         Lesli::Engine.load_seed
         LesliBell::Engine.load_seed if defined?(LesliBell)
         LesliAudit::Engine.load_seed if defined?(LesliAudit)
-        Rake::Task['lesli:controllers:build'].invoke
+
+        # scan rails routes to build the base of translations
         Rake::Task['lesli:babel:build'].invoke if defined?(LesliBabel)
 
+        # print the lesli gems
         Rake::Task['lesli:status'].invoke 
     end
 end

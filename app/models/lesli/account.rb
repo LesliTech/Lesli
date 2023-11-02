@@ -33,7 +33,7 @@ Building a better future, one line of code at a time.
 module Lesli
     class Account < ApplicationLesliRecord
 
-        include AccountEngines
+        include AccountInitializer
 
 
         # accounts always belongs to a user
@@ -84,27 +84,5 @@ module Lesli
         after_create :initialize_account
         after_create :initialize_engines
 
-
-        def initialize_account
-
-            # create initial descriptors
-            descriptor_owner = self.descriptors.find_or_create_by(name: "owner")
-            descriptor_sysadmin = self.descriptors.find_or_create_by(name: "sysadmin")
-            descriptor_profile = self.descriptors.find_or_create_by(name: "profile")
-    
-            # create default roles for the new account
-            owner = self.roles.create({ name: "owner", active: true, object_level_permission: 2147483647 })
-
-            # platform administrator role
-            sysadmin = self.roles.create({ name: "sysadmin", active: true, object_level_permission: 100000 })
-    
-            # access only to user profile
-            limited = self.roles.create({ name: "limited", active: true, object_level_permission: 10, path_default: "/administration/profile" })
-    
-            # assign descriptors with appropriate privileges
-            owner.powers.create(:descriptor => descriptor_owner)
-            sysadmin.powers.create(:descriptor => descriptor_sysadmin)
-            limited.powers.create(:descriptor => descriptor_profile)
-        end
     end
 end

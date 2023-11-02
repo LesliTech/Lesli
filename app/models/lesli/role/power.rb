@@ -35,8 +35,12 @@ module Lesli
         belongs_to :role
         belongs_to :descriptor
 
-        #after_save :synchronize_privileges
-        #after_destroy :synchronize_privileges
+        after_save :synchronize_privileges
+        after_destroy :synchronize_privileges
+
+        def synchronize_privileges
+            RolePowerOperator.new(self.role.id).synchronize
+        end
 
         def self.index current_user, query, role
 
@@ -61,10 +65,6 @@ module Lesli
                 "system_controllers.engine as engine", 
                 "case when role_descriptors.descriptor_id is null then false else true end as active"
             )
-        end
-
-        def synchronize_privileges
-            #PrivilegeServices.new(self.role.id).synchronize
         end
     end
 end

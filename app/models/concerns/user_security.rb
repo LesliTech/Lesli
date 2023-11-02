@@ -33,7 +33,7 @@ Building a better future, one line of code at a time.
 
 # User extension methods
 # Custom methods that belongs to a instance user
-module UserGuard
+module UserSecurity
     extend ActiveSupport::Concern
 
 
@@ -71,14 +71,13 @@ module UserGuard
     #     actions = ["index", "update"]
     #
     #     current_user.has_privileges?(controllers, actions)
-    def has_privileges?(controller, action)
+    def has_privileges_for?(controller, action)
         begin
-            !self.privileges
-            .where("role_privileges.controller = ?", controller)
-            .where("role_privileges.action = ?", action)
-            .first.blank?
+            return !self.privileges
+            .where("lesli_role_privileges.controller = ?", controller)
+            .where("lesli_role_privileges.action = ?", action)
+            .first.blank?            
         rescue => exception
-            #Honeybadger.notify(exception)
             return false
         end
     end
@@ -191,7 +190,7 @@ module UserGuard
         role = role.first
 
         # return the path of the role if is limited to a that specific path
-        return role.path_default_ if role.path_limited == true 
+        return role.path_default if role.path_limited == true 
 
         # return nil if role has no limits
         return nil
