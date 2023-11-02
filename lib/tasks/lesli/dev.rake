@@ -30,38 +30,37 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-module AccountEngines
-    extend ActiveSupport::Concern
+# · 
+namespace :lesli do 
+    namespace :dev do
 
-
-    # initialize engines for new accounts
-    def initialize_engines
-
-        # 01.01 LesliAdmin - Lesli administration area
-        if defined? LesliAdmin
-            if self.admin.blank?
-                self.admin = LesliAdmin::Account.new
-                self.admin.account = self
-                self.admin.save!
-            end
+        desc "Print a welcome message with some basic instructions"
+        task :welcome => :environment do |task, args|
+            welcome()
         end
+    end
 
-        # 03.01 LesliDriver - Unified calendar app
-        if defined? LesliDriver
-            if self.driver.blank?
-                self.driver = LesliDriver::Account.new
-                self.driver.account = self
-                self.driver.save!
-            end
-        end
+    # Seed database (development only)
+    def welcome
 
-        # 08.03 LesliAudit - System analytics
-        if defined? LesliAudit
-            if self.audit.blank?
-                self.audit = LesliAudit::Account.new
-                self.audit.account = self
-                self.audit.save!
-            end
-        end
+        # do not execute this task if we are at production level
+        return if Rails.env.production?
+
+        L2.br(4)
+
+        # print the lesli gems
+        Rake::Task['lesli:status'].invoke 
+
+        password = Lesli.config.security.dig(:password)
+        password = password  + Time.now.year.to_s + "$"
+        user = Lesli::User.first
+
+        L2.line
+        L2.m(" Owner user credentials (demo):")
+        L2.m(" username: #{ user.email }")
+        L2.m(" password: #{ password }")
+        L2.line
+
+        L2.cow "Enjoy your Lesli demo"
     end
 end

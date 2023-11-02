@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -27,19 +27,12 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
-class CreateRolePrivileges < ActiveRecord::Migration[7.0]
-    def change
-        create_table :role_privileges do |t|
-            t.string   :controller
-            t.string   :action
-            t.boolean  :active
-            t.datetime :deleted_at, index: true
-            t.timestamps
-        end
-        add_reference(:role_privileges, :role, foreign_key: { to_table: :roles })
-        add_index(:role_privileges, %i[controller action role_id], unique: true, name: "role_privileges_index")
+module Lesli
+    class Descriptor::Privilege < ApplicationLesliRecord
+        belongs_to :descriptor
+        belongs_to :action, class_name: "SystemController::Action"
     end
 end

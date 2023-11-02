@@ -77,6 +77,11 @@ const props = defineProps({
         type: Boolean,
         default: false,
         required: false
+    },
+    enginePath: {
+        type: String,
+        default: "/",
+        required: false
     }
 })
 
@@ -110,13 +115,20 @@ function toggleEngines() {
     document.addEventListener('keydown', onEscape)
 }
 
+// · 
+function safeEngineUrl() {
+    return encodeURI(props.enginePath);
+}
+
 </script>
 <template>
     <header ref="lesliApplicationHeader" class="lesli-application-header">
         <div class="lesli-application-header-container container">
-            <figure class="image lesli-brand">
-                <img alt="App logo" class="is-hidden-touch" src="/assets/lesli/brand/app-logo.svg">
-            </figure>
+            <a :href="safeEngineUrl()">
+                <figure class="image lesli-brand">
+                    <img alt="App logo" class="is-hidden-touch" src="/assets/lesli/brand/app-logo.svg">
+                </figure>
+            </a>
             <div class="lesli-application-header-left">
                 <div class="control is-medium has-icons-left has-text-grey">
                     <span class="icon is-left has-text-gray">

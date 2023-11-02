@@ -30,16 +30,25 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-module Lesli
-    class RoleService < ApplicationLesliService
+# · 
+namespace :lesli do 
+    namespace :role do
 
-        # Return a list of roles that the user is able to work with
-        # according to object level permission
-        def list params
-            current_user.account.roles
-            .where("object_level_permission <= ?", current_user.max_object_level_permission)
-            .order(object_level_permission: :desc, name: :asc)
-            .select(:id, :name, :object_level_permission)
+        desc "Drop, build, migrate & seed Lesli database (development only)"
+        task :privileges => :environment do |task, args|
+            role_sync_privileges()
         end
+    end
+
+    # Drop, build, migrate & seed database (development only)
+    def role_sync_privileges
+
+        L2.msg("Syncing privileges for all the available roles")
+
+        Lesli::Descriptor.where(:name => "owner").each do |descriptor|
+            descriptor.initialize_descriptor_privileges
+        end
+
+        Lesli::RolePowerOperator.new(Lesli::Role.all.pluck(:id)).synchronize
     end
 end

@@ -64,6 +64,8 @@ class CreateLesliAccounts < ActiveRecord::Migration[5.2]
             t.string    :linkedin
             t.string    :facebook
 
+            # Acts as paranoid
+            t.datetime  :deleted_at, index: true
             t.timestamps
         end
     end

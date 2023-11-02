@@ -33,5 +33,6 @@ Building a better future, one line of code at a time.
 module Lesli 
     class ApplicationLesliRecord < ApplicationRecord
         self.abstract_class = true
+        acts_as_paranoid
     end
 end
