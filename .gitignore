@@ -32,7 +32,7 @@
 
 
 # Development dependencies, packages, gems and tools
-.DS_store
+.DS_Store
 .ruby-version
 brakeman.html
 

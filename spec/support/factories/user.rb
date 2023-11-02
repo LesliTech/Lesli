@@ -46,12 +46,18 @@ FactoryBot.define do
 
         account_id { (Lesli::Account.first.nil? ? FactoryBot.create(:account) : Lesli::Account.first).id }
 
+
+        transient do
+            role_name { "owner" } 
+        end
+
         before(:create) do |user, evaluator|
             user.skip_confirmation!
         end
 
         after(:create) do |user, evaluator|
             user.confirm { true }
+            user.powers.create(role: Lesli::Role.find_by(:name => evaluator.role_name))
         end
         
     end
