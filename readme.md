@@ -56,7 +56,7 @@ Lesli is officially released and will be supported as of version 5.1
 ### Demo
 
 * online demo (soon)
-* [docker demo](https://github.com/ldonis/lesli-docker-demo)
+* [docker demo](https://github.com/LesliTech/lesli-docker-demo)
 
 
 <br />

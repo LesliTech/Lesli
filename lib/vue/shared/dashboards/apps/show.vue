@@ -58,19 +58,25 @@ const props = defineProps({
 
 // · 
 onMounted(() => {
-    storeDashboard.engine = props.engine
-    storeDashboard.getDashboard(props.engine)
+    //storeDashboard.engine = props.engine
+    //storeDashboard.getDashboard(props.engine)
+    console.log("dashboard mounted")
 })
 
 </script>
 <template>
-    <application-component>
-        <div class="columns is-multiline is-variable is-4 dashboard-components">
-            <div 
-                v-for="(component, index) in storeDashboard.dashboard.components" :key="index"
-                :class="['column', 'is-' + component?.layout]">
-                <component :component.sync="component" :is="components[component.component_id]"></component>
-            </div>
+
+    <div v-if="storeDashboard.components" 
+        class="columns is-multiline is-variable is-4 dashboard-components">
+        <div 
+            v-for="(component, index) in storeDashboard.dashboard.components" :key="index"
+            :class="['column', 'is-' + component?.layout]">
+            <component :component.sync="component" :is="components[component.component_id]"></component>
         </div>
-    </application-component>
+    </div>
+
+    <lesli-empty 
+        v-if="!storeDashboard.components" 
+        text="Empty dashboard">
+    </lesli-empty>
 </template>
