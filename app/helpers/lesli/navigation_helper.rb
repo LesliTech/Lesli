@@ -32,6 +32,14 @@ Building a better future, one line of code at a time.
 
 module Lesli
     module NavigationHelper
+
+        # Prints a separator line
+        def navigation_separator
+            content_tag(:li) do
+                content_tag(:hr)
+            end
+        end
+
         # Prints a html link inside a list item
         def navigation_item(path, label, icon = nil, reload: false)
             # default vue router links for single page applications
@@ -58,15 +66,9 @@ module Lesli
             end
         end
 
-        # Prints a separator line
-        def navigation_separator
-            content_tag(:li) do
-                content_tag(:hr)
-            end
-        end
-
         # 00.00 System administration
         def navigation_engine_admin(title: "Administration", subtitle: "Users, privileges, access roles.")
+            return unless defined? LesliAdmin
             navigation_engine_item(title, subtitle, "admin", lesli_admin.root_path, controller_path.include?("lesli_admin"))
         end
 

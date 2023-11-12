@@ -85,6 +85,7 @@ module Lesli
                     cc[engine][controller] = { 
                         id: c[:controller_id], 
                         name: c[:controller_name], 
+                        route: c[:route], 
                         actions: []
                     } 
                 end
