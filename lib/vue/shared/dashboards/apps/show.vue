@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -45,38 +45,37 @@ const storeDashboard = useDashboard()
 
 // · 
 const props = defineProps({
-    engine: {
-        type: String, 
-        require: true
-    },
     components: {
         type: Object,
-        require: true
+        require: false,
+        default: {}
     }
 })
 
 
 // · 
 onMounted(() => {
-    //storeDashboard.engine = props.engine
-    //storeDashboard.getDashboard(props.engine)
-    console.log("dashboard mounted")
+    storeDashboard.setEngine(lesli.engine)
+    storeDashboard.getDashboard()
 })
 
 </script>
 <template>
+    <lesli-application-container>
+        <lesli-header :title="storeDashboard.dashboard.name"></lesli-header>
 
-    <div v-if="storeDashboard.components" 
-        class="columns is-multiline is-variable is-4 dashboard-components">
-        <div 
-            v-for="(component, index) in storeDashboard.dashboard.components" :key="index"
-            :class="['column', 'is-' + component?.layout]">
-            <component :component.sync="component" :is="components[component.component_id]"></component>
+        <div v-if="storeDashboard.dashboard.components" 
+            class="columns is-multiline is-variable is-4 dashboard-components">
+            <div 
+                v-for="(component, index) in storeDashboard.dashboard.components" :key="index"
+                :class="['column', 'is-' + component?.layout]">
+                <component :component.sync="component" :is="props.components[component.component_id]"></component>
+            </div>
         </div>
-    </div>
 
-    <lesli-empty 
-        v-if="!storeDashboard.components" 
-        text="Empty dashboard">
-    </lesli-empty>
+        <lesli-empty 
+            v-if="!storeDashboard.dashboard.components" 
+            text="Empty dashboard">
+        </lesli-empty>
+    </lesli-application-container>
 </template>

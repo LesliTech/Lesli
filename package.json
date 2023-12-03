@@ -10,17 +10,12 @@
         "lesli-vue": "file:../../enginesdev/lesli-vue",
         "lesli-js": "file:../../enginesdev/lesli-js",
 
-        "trix": "2.0.5",
-        "bulma": "0.9.4",
         "mermaid": "10.3.0",
         "remixicon": "3.5.0",
         "v-calendar": "3.0.3",
         "sortablejs": "1.15.0",
-        "apexcharts": "3.41.1",
 
-        "axios": "1.4.0",
         "pinia": "2.1.6",
-        "dayjs": "1.11.9",
         "js-yaml": "4.1.0", 
         "i18n-js": "4.3.2",
 

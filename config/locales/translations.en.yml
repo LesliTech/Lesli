@@ -1,0 +1,8 @@
+---
+:en:
+  lesli:
+    shared:
+      button_add_new: Add new
+      button_reload: Reload
+    users/sessions:
+      view_username: Username

@@ -56,17 +56,12 @@ const msg = inject("msg")
 const route = useRoute()
 
 
-// · defining props
+// · 
 const props = defineProps({
     isEditable: {
         type: Boolean,
-        required: false,
-        default: false,
-    },
-    engine: {
-        type: String,
-        required: true,
-    },
+        require: false
+    }
 })
 
 
@@ -81,6 +76,7 @@ const translations = {
 }
 
 
+// · 
 const default_options = {
     yes: { 
         label: translations.core.view_text_yes, 
@@ -93,6 +89,7 @@ const default_options = {
 }
 
 
+// · 
 const layout_options = [{
     label: '25%',
     value: 3
@@ -114,27 +111,21 @@ const layout_options = [{
 }]
 
 
-/**
- * @description This function is used to update the workflow information
- */
+// · 
 const onUpdate = () => {
     storeDashboard.updateDashboard()
 }
 
 
-/**
- * @description This function is used to create a new workflow
- */
+// · 
 const onCreate = () => {
     storeDashboard.postDashboard().then(()=> {
-        router.push(url[props.engine]('dashboards').s)
+        router.push(url[storeDashboard.engine]('dashboards').s)
     })
 }
 
 
-/**
-* @description This function is used to add a new component to dashboard
-*/
+// · 
 function addComponent(){
     msg.warning(translations.dashboards.messages_warning_save_changes_reminder)
     let new_component = {
@@ -155,9 +146,7 @@ function addComponent(){
 }
 
 
-/**
-* @description This function is used to select a component
-*/
+// · 
 function selectDashboardComponent(selected_component){
     if(storeDashboard.dashboard.components.find( component => component.id == selected_component.id)){
         storeDashboard.selected_dashboard_component = selected_component
@@ -165,9 +154,7 @@ function selectDashboardComponent(selected_component){
 }
 
 
-/**
-* @description This function is used to remove a component from the dashboard
-*/
+// · 
 function removeComponent(deleted_component){
     msg.warning(translations.dashboards.messages_warning_save_changes_reminder)
     storeDashboard.dashboard.components = storeDashboard.dashboard.components.filter((component)=> {
@@ -182,32 +169,30 @@ function removeComponent(deleted_component){
 }
 
 
-onMounted(() => {
-    storeDashboard.engine = props.engine
-    if (!props.isEditable){
-        storeDashboard.resetDashboard()
-    } else {
-        storeDashboard.fetchDashboard(route.params?.id)
-    }
-})
-
-// This function is used to delete a dashboard
+// · 
 function onDeleteDashboard() {
     storeDashboard.deleteDashboard().then(()=> {
         router.push(url[props.engine]('dashboards').s)
     })
 }
 
+
+// · 
+onMounted(() => {
+    if (!props.isEditable){
+        storeDashboard.resetDashboard()
+    }
+})
 </script>
 <template>
     <lesli-form class="mb-6" @submit="isEditable ? onUpdate() : onCreate()">
         <div class="columns">
+
+            <!-- Name -->
             <div class="column is-4">
-                <!-- Name -->
                 <div class="field">
                     <label class="label">
-                        {{translations.dashboards.column_name}}
-                        <sup class="has-text-danger">*</sup>
+                        {{ "translations.dashboards.column_name" }}
                     </label>
                     <div class="control">
                         <input class="input" type="text" v-model="storeDashboard.dashboard.name" required>
@@ -215,10 +200,10 @@ function onDeleteDashboard() {
                 </div>
             </div>
 
+            <!-- Role -->
             <div class="column is-4">
-                <!-- Role -->
                 <div class="field">
-                    <label class="label">{{ translations.dashboards.column_roles_id }}</label>
+                    <label class="label">{{ "translations.dashboards.column_roles_id" }}</label>
                     <div class="control">
                         <lesli-select
                             v-model="storeDashboard.dashboard.roles_id"
@@ -228,10 +213,10 @@ function onDeleteDashboard() {
                 </div>
             </div>
 
+            <!-- Default -->
             <div class="column is-4">
-                <!-- Default -->
                 <div class="field">
-                    <label class="label">{{ translations.dashboards.column_default }}</label>
+                    <label class="label">{{ "translations.dashboards.column_default" }}</label>
                     <lesli-select
                         v-model="storeDashboard.dashboard.default"
                         :options="default_options">
@@ -240,11 +225,12 @@ function onDeleteDashboard() {
             </div>
         </div>
 
-        <!-- Save button -->
         <div class="is-flex is-justify-content-space-between">
+
+            <!-- Components -->
             <div class="field">
                 <label class="label">
-                    {{ translations.dashboards.view_title_add_component }}
+                    {{ "translations.dashboards.view_title_add_component" }}
                 </label>
                 <div class="control">
                     <lesli-select
@@ -254,6 +240,8 @@ function onDeleteDashboard() {
                     </lesli-select>
                 </div>
             </div>
+
+            <!-- Save button -->
             <div class="buttons">
                 <lesli-button icon="save" :loading="storeDashboard.loading">
                     {{ translations.dashboards.view_btn_save_dashboard }}
