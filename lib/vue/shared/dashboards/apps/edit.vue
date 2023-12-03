@@ -49,25 +49,23 @@ import dashboardPreview from "../components/preview.vue"
 
 
 // ·
+const route = useRoute()
 const router = useRouter()
 const url = inject("url")
 
 
-// · defining props
-const props = defineProps({
-    engine: {
-        type: String,
-        required: true,
-    },
-    components: {
-        type: Object,
-        required: true,
-    }
-})
-
-
 // · implement stores
 const storeDashboard = useDashboard()
+
+
+// · defining props
+const props = defineProps({
+    components: {
+        type: Object,
+        require: false,
+        default: {}
+    }
+})
 
 
 // · translations
@@ -78,6 +76,7 @@ const translations = {
 }
 
 
+// · 
 const onDeleteDashboard = () => {
     storeDashboard.deleteDashboard().then(()=> {
         router.push(url[props.engine]('dashboards').s)
@@ -85,21 +84,24 @@ const onDeleteDashboard = () => {
 }
 
 
+// · 
 onMounted(() => {
-    storeDashboard.engine = props.engine
+    storeDashboard.setEngine(lesli.engine)
+    storeDashboard.getDashboard(route.params.id)
     storeDashboard.getDashboardOptions()
 })
 
 </script>
 <template>
-    <section class="application-component">
+    <lesli-application-container>
         <lesli-header :title="storeDashboard.dashboard.name">
-            <lesli-button icon="list" :to="url[props.engine]('dashboards')">
+            <lesli-button icon="list">
                 {{ translations.core.view_btn_list }}
             </lesli-button>
         </lesli-header>
 
-        <dashboard-form :engine="props.engine" is-editable></dashboard-form>
-        <dashboard-preview :engine="props.engine" :components="props.components"></dashboard-preview>
-    </section>
+        <dashboard-form is-editable></dashboard-form>
+        <dashboard-preview :components="props.components"></dashboard-preview>
+
+    </lesli-application-container>
 </template>
