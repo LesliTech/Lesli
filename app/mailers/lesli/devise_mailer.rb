@@ -17,7 +17,7 @@ module Lesli
             }
 
             # send email
-            email(
+            pp email(
                 params,
                 to: user.email, 
                 subject: email_subject,

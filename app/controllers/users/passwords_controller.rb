@@ -34,16 +34,13 @@ class Users::PasswordsController < Devise::PasswordsController
 
         #user.logs.create({ title: "password_creation_successful" })
 
-        # begin
-        #     #UserMailer.with(user: user, token: token).reset_password_instructions.deliver_now
-             #super()
-        Lesli::DeviseMailer.reset_password_instructions(user, token)
-        respond_with_successful
-        # rescue => exception
-        #     #Honeybadger.notify(exception)
-        #     respond_with_error(exception.message)
-        # end
-
+        begin
+            Lesli::DeviseMailer.reset_password_instructions(user, token).deliver_now
+            respond_with_successful
+        rescue => exception
+            #Honeybadger.notify(exception)
+            respond_with_error(exception.message)
+        end
     end
 
     def update

@@ -42,7 +42,7 @@ Building a better future, one line of code at a time.
                 Enter your email address you use in Lesli. 
                 We'll send instructions for setting a new password to your email.
             </p>
-            <p v-if="notification.show" :class="[notification.type, 'is-size-5', 'mt-2']">
+            <p v-if="notification.show" :class="['help', notification.type, 'is-size-5', 'mt-2']">
                 {{ notification.message }}
             </p>
             <div class="control has-icons-left has-icons-right">

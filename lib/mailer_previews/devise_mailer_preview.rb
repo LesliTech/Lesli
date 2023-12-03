@@ -32,6 +32,13 @@ Building a better future, one line of code at a time.
 
 class DeviseMailerPreview < ActionMailer::Preview
 
+    def reset_password_instructions
+        record = Lesli::User.first
+        token = "abcdef12345"
+        opts = {}
+        Lesli::DeviseMailer.reset_password_instructions(record, token, opts)
+    end
+
     def confirmation_instructions
         record = Lesli::User.first
         token = "abcdef12345"
