@@ -48,10 +48,6 @@ const storeDashboard = useDashboard()
 
 // · 
 const props = defineProps({
-    engine: {
-        type: String, 
-        require: true
-    },
     components: {
         type: Object,
         require: true
@@ -78,8 +74,7 @@ function sizeDecrease(component) {
 
 
 // · 
-function remove(component) {
-    
+function remove(component) {    
     component._destroy = true
 }
 
