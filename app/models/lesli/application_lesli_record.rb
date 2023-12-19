@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli 
-    class ApplicationLesliRecord < ApplicationRecord
+    class ApplicationLesliRecord < ActiveRecord::Base
         self.abstract_class = true
         acts_as_paranoid
     end
