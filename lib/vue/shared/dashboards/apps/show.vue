@@ -62,19 +62,24 @@ onMounted(() => {
 </script>
 <template>
     <lesli-application-container>
+
         <lesli-header :title="storeDashboard.dashboard.name"></lesli-header>
 
-        <div v-if="storeDashboard.dashboard.components" 
-            class="columns is-multiline is-variable is-4 dashboard-components">
-            <div 
-                v-for="(component, index) in storeDashboard.dashboard.components" :key="index"
-                :class="['column', 'is-' + component?.layout]">
-                <component :component.sync="component" :is="props.components[component.component_id]"></component>
+        <template v-if="storeDashboard.dashboard.components">
+            <div class="columns is-multiline is-variable is-4 dashboard-components">
+                <template v-for="(component, index) in storeDashboard.dashboard.components" :key="index">
+                    <div :class="['column', 'is-' + component?.layout]">
+                        <component 
+                            :component.sync="component" 
+                            :is="props.components[component.component_id]">
+                        </component>
+                    </div>
+                </template>
             </div>
-        </div>
+        </template>
 
         <lesli-empty 
-            v-if="!storeDashboard.dashboard.components" 
+            v-if="!storeDashboard.dashboard.components || storeDashboard.dashboard.components.length <= 0" 
             text="Empty dashboard">
         </lesli-empty>
     </lesli-application-container>
