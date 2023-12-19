@@ -33,6 +33,13 @@ Building a better future, one line of code at a time.
 module Lesli
     class ControllerOperator < Lesli::ApplicationLesliService
 
+        DEVISE_CONTROLLERS = [
+            "users/registrations",
+            "users/sessions",
+            "users/passwords",
+            "users/confirmations"
+        ]
+
         def initialize 
         end
 
@@ -70,7 +77,7 @@ module Lesli
                     }).find_or_create_by!(route: controller_route)
                     
                     controller_actions.each do |action_name|
-                        controller.actions.find_or_create_by!(name: action_name)
+                        controller.actions.find_or_create_by!(name: action_name) 
                     end
                 end
             end
@@ -82,24 +89,31 @@ module Lesli
 
             # Global container
             controller_list = {
-                "app" => {}
+                "app" => {},
+                "lesli" => {}
             }
             
-            # Get the list of controllers and actions of the core
+            # Get the list of controllers and actions of the main rails app
             Rails.application.routes.routes.each do |route| 
-                route = route.defaults 
+
+                list = "app"
+                route = route.defaults                 
                 
-                # filter the non-used core routes
+                # filter the non-used main app routes
                 next if route[:controller].blank?
                 next if route[:controller].include? "rails"
                 next if route[:controller].include? "action_mailbox"
                 next if route[:controller].include? "active_storage"
+
+                if DEVISE_CONTROLLERS.include?(route[:controller])
+                    list = "lesli"
+                end
                 
                 # create a container for the actions related to a controller
-                controller_list["app"][route[:controller]] = [] unless controller_list["app"][route[:controller]]
+                controller_list[list][route[:controller]] = [] unless controller_list[list][route[:controller]]
 
                 # assign and group all the actions related to the controller
-                controller_list["app"][route[:controller]].push(route[:action])
+                controller_list[list][route[:controller]].push(route[:action])
 
             end
 
@@ -125,7 +139,6 @@ module Lesli
                     
                     # assign and group all the actions related to the controller
                     controller_list[engine_code][route[:controller]].push(route[:action])
-
                 end
             end
 
