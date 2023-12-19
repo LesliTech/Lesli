@@ -52,7 +52,11 @@ namespace :lesli do
 
     # Drop, build, migrate & seed database (development only)
     def reset
+
+        # do not execute this task if we are at production level
         return if Rails.env.production?
+
+        # print a message to let the users show the action running
         L2.msg("Reset Lesli database for development")
 
         Rake::Task['db:drop'].invoke
@@ -61,7 +65,11 @@ namespace :lesli do
 
     # Build, migrate & seed database (development only)
     def setup
+
+        # do not execute this task if we are at production level
         return if Rails.env.production?
+
+        # print a message to let the users show the action running
         L2.msg("Setup Lesli database for development")
 
         Rake::Task['db:create'].invoke
@@ -76,6 +84,7 @@ namespace :lesli do
         # do not execute this task if we are at production level
         return if Rails.env.production?
 
+        # print a message to let the users show the action running
         L2.msg("Seed Lesli database for development")
 
         # scan rails routes to build the controllers index
@@ -87,6 +96,7 @@ namespace :lesli do
         # load Lesli* gems seeders
         Lesli::Engine.load_seed
         LesliBell::Engine.load_seed if defined?(LesliBell)
+        LesliHelp::Engine.load_seed if defined?(LesliHelp)
         LesliAudit::Engine.load_seed if defined?(LesliAudit)
 
         # scan rails routes to build the base of translations

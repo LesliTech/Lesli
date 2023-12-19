@@ -45,7 +45,6 @@ import { useDashboard } from "Lesli/shared/stores/dashboard"
 
 // · import components
 import dashboardForm from "../components/form.vue"
-import dashboardPreview from "../components/preview.vue"
 
 
 // ·
@@ -84,6 +83,29 @@ const onDeleteDashboard = () => {
 }
 
 
+function sizeIncrease(component) {
+    if (component.layout >= 12) {
+        return 
+    }
+    component.layout++
+}
+
+
+// · 
+function sizeDecrease(component) {
+    if (component.layout <= 3) {
+        return 
+    }
+    component.layout--
+}
+
+
+// · 
+function remove(component) {    
+    component._destroy = true
+}
+
+
 // · 
 onMounted(() => {
     storeDashboard.setEngine(lesli.engine)
@@ -101,7 +123,94 @@ onMounted(() => {
         </lesli-header>
 
         <dashboard-form is-editable></dashboard-form>
-        <dashboard-preview :components="props.components"></dashboard-preview>
+        <!--dashboard-preview :components="props.components"></dashboard-preview-->
+
+        <template v-if="storeDashboard.dashboard.components">
+            <div class="columns is-multiline is-variable is-4 dashboard-components">
+                <template v-for="(component, index) in storeDashboard.dashboard.components" :key="index">
+                    <div :class="['column', 'is-' + component?.layout]">
+
+                        <!-- Dashboard widget component when in edition mode -->
+                        <div class="edit">
+
+                            <!-- Dashboard widget preview -->
+                            <component 
+                                :component.sync="component" 
+                                :is="props.components[component.component_id]">
+                            </component>
+
+                            <!-- Edition controls -->
+                            <div class="mt-4 mb-2">
+                                <div class="field has-addons is-justify-content-center">
+                                    <p class="control">
+                                        <button class="button is-small" @click="sizeDecrease(component)">
+                                            <span class="icon is-small">
+                                                <span class="material-icons">
+                                                    remove
+                                                </span>
+                                            </span>
+                                        </button>
+                                    </p>
+                                    <p class="control control-label has-text-centered">
+                                        size    
+                                    </p>
+                                    <p class="control">
+                                        <button class="button is-small" @click="sizeIncrease(component)">
+                                            <span class="icon is-small">
+                                                <span class="material-icons">
+                                                    add
+                                                </span>
+                                            </span>
+                                        </button>
+                                    </p>
+                                </div>
+
+                                <div class="field has-addons is-justify-content-center">
+                                    <p class="control">
+                                        <button class="button is-small" @click="sizeDecrease(component)">
+                                            <span class="icon is-small">
+                                                <span class="material-icons">
+                                                    chevron_left
+                                                </span>
+                                            </span>
+                                        </button>
+                                    </p>
+                                    <p class="control control-label has-text-centered px-4">
+                                        position
+                                    </p>
+                                    <p class="control">
+                                        <button class="button is-small" @click="sizeIncrease(component)">
+                                            <span class="icon is-small">
+                                                <span class="material-icons">
+                                                    chevron_right
+                                                </span>
+                                            </span>
+                                        </button>
+                                    </p>
+                                </div>
+
+                                <div class="has-text-centered">
+                                    <lesli-button small danger icon="delete" @click="remove(component)">
+                                        remove
+                                    </lesli-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </template>
 
     </lesli-application-container>
 </template>
+<style>
+.dashboard-components .edit {
+    border-radius: 6px;
+    padding: 1.2rem 1.4rem;
+    border: 1px solid #CCC;
+    background-color: #FFF8F8;
+}
+.dashboard-components .edit .control-label {
+    width: 100px;
+}
+</style>
