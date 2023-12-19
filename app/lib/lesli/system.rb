@@ -88,7 +88,8 @@ module Lesli
             "LesliAudit", 
             "LesliBell", 
             "LesliDriver",
-            "LesliVault"
+            "LesliGuard",
+            "LesliHelp"
         ]
     end
 end
