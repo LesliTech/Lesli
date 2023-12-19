@@ -245,10 +245,10 @@ module Lesli
 
         # 07.02 Help engine
         def navigation_engine_help(title: "Help", subtitle: "Support Ticket System")
-            return unless defined? CloudHelp
+            return unless defined? LesliHelp
 
-            navigation_engine_item(title, subtitle, "help", cloud_help.root_path,
-                                   controller_path.include?("cloud_help"))
+            navigation_engine_item(title, subtitle, "help", lesli_help.root_path,
+                                   controller_path.include?("lesli_help"))
         end
 
         # 07.03 Portal engine
@@ -269,12 +269,11 @@ module Lesli
 
         # SECURITY & PRIVACY
 
-        # 08.01 Vault engine
-        def navigation_engine_vault(title: "Vault", subtitle: "")
-            return unless defined? LesliVault
-
-            navigation_engine_item(title, subtitle, "vault", lesli_vault.root_path,
-                                    controller_path.include?("lesli_vault"))
+        # 08.01 Guard engine
+        def navigation_engine_guard(title: "Guard", subtitle: "Security management module")
+            return unless defined? LesliGuard
+            navigation_engine_item(title, subtitle, "guard", lesli_guard.root_path,
+                                    controller_path.include?("lesli_guard"))
         end
 
         # 08.03 Audit engine
