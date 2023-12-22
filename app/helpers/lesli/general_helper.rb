@@ -35,7 +35,7 @@ module Lesli
     module GeneralHelper
         # build a url path to change locales
         def language_url(locale)
-            "/language?locale=#{locale}"
+            "/lesli/language?locale=#{locale}"
         end
 
         # return flag code according to locale code
