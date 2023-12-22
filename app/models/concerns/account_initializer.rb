@@ -79,6 +79,15 @@ module AccountInitializer
             end
         end
 
+        # 07.02 LesliHelp - Support Ticket System
+        if defined? LesliHelp
+            if self.help.blank?
+                self.help = LesliHelp::Account.new
+                self.help.account = self
+                self.help.save!
+            end
+        end
+
         # 08.03 LesliAudit - System analytics
         if defined? LesliAudit
             if self.audit.blank?

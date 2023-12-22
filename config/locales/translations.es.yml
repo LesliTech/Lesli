@@ -2,7 +2,14 @@
 :es:
   lesli:
     shared:
+      view_discussions: Discusiones
       button_add_new: Agregar nuevo
       button_reload: Recargar
+      view_files: Archivos
+      view_quick_actions: Acciones rapidas
+      button_list: Lista
+      button_save: Guardar
+      button_delete: Eliminar
+      button_edit: Editar
     users/sessions:
       view_username: Usuario

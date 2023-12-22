@@ -48,6 +48,11 @@ namespace :lesli do
         task :seed => :environment do |task, args|
             seed()
         end
+
+        desc "Build, migrate & seed Lesli database"
+        task :start => :environment do |task, args|
+            start()
+        end
     end
 
     # Drop, build, migrate & seed database (development only)
@@ -57,9 +62,10 @@ namespace :lesli do
         return if Rails.env.production?
 
         # print a message to let the users show the action running
-        L2.msg("Reset Lesli database for development")
+        L2.m("Reset Lesli database for development")
 
         Rake::Task['db:drop'].invoke
+
         setup()
     end
 
@@ -70,7 +76,7 @@ namespace :lesli do
         return if Rails.env.production?
 
         # print a message to let the users show the action running
-        L2.msg("Setup Lesli database for development")
+        L2.m("Setup Lesli database for development")
 
         Rake::Task['db:create'].invoke
         Rake::Task['db:migrate'].invoke
@@ -87,9 +93,6 @@ namespace :lesli do
         # print a message to let the users show the action running
         L2.msg("Seed Lesli database for development")
 
-        # scan rails routes to build the controllers index
-        Rake::Task['lesli:controllers:build'].invoke
-
         # load main app seeders
         Rake::Task['db:seed'].invoke
 
@@ -99,10 +102,27 @@ namespace :lesli do
         LesliHelp::Engine.load_seed if defined?(LesliHelp)
         LesliAudit::Engine.load_seed if defined?(LesliAudit)
 
+        start()
+    end
+
+    def start 
+
+        # do not execute this task if we are at production level
+        return if Rails.env.production?
+
+        # print a message to let the users show the action running
+        L2.msg("Start Lesli database for development")
+
+        # scan rails routes to build the controllers index
+        Rake::Task['lesli:controllers:build'].invoke
+
+        # scan rails routes to build the controllers index
+        Rake::Task['lesli:privileges:build'].invoke
+
         # scan rails routes to build the base of translations
         Rake::Task['lesli:babel:build'].invoke if defined?(LesliBabel)
 
         # print the lesli gems
         Rake::Task['lesli:status'].invoke 
-    end
+    end 
 end

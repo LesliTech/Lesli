@@ -32,10 +32,10 @@ Building a better future, one line of code at a time.
 
 # · 
 namespace :lesli do 
-    namespace :role do
+    namespace :privileges do
 
-        desc "Drop, build, migrate & seed Lesli database (development only)"
-        task :privileges => :environment do |task, args|
+        desc "Syncing privileges for all the available roles"
+        task :build => :environment do |task, args|
             role_sync_privileges()
         end
     end

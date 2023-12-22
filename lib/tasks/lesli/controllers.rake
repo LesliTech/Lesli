@@ -36,7 +36,6 @@ namespace :lesli do
 
         desc "Scan new routes added and create role privileges"
         task build: :environment do
-
             L2.msg("Registering engines, controllers and actions")
             Lesli::ControllerOperator.new.build
         end
