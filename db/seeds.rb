@@ -31,32 +31,19 @@ Building a better future, one line of code at a time.
 =end
 
 
-# including tools for seeders
-load Lesli::Engine.root.join("db", "seed", "tools.rb")
+# IMPORTANT: 
+#   Seed files are only for development, if you need to create default resources 
+#   for production you must use the initializer method in the Engine account model
+if Rails.env.development? 
+    L2.msg(
+        "Lesli", 
+        "Version: #{Lesli::VERSION}", 
+        "Build: #{Lesli::BUILD}")
+
+    # including tools for seeders
+    load Lesli::Engine.root.join("db", "seed", "tools.rb")
 
 
-# loading core seeders
-load Lesli::Engine.root.join("db", "seed", "#{Rails.env.downcase}.rb")
-
-
-# loading engine seeders
-# Rails.application.config.lesli.dig(:engines).each do |engine|
-
-#     # every instance (builder module) is loaded into the platform using the same name of the engine
-#     instance_klass = engine[:name].safe_constantize
-
-#     L2.msg(
-#         "Loading seeds for #{instance_klass} environment", 
-#         "Version: #{instance_klass::VERSION} - Build: #{instance_klass::BUILD}"
-#     )
-
-#     # dynamic load seeds from installed engines
-#     instance_klass::Engine.load_seed
-# end
-
-
-# # exec maintenance tasks
-#Rake.application.invoke_task("app:maintenance")
-
-
-#L2.cow("Seed process completed!")
+    # loading core seeders
+    load Lesli::Engine.root.join("db", "seed", "#{Rails.env.downcase}.rb")
+end

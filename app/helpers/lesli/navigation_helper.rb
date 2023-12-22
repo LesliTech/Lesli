@@ -270,7 +270,7 @@ module Lesli
         # SECURITY & PRIVACY
 
         # 08.01 Guard engine
-        def navigation_engine_guard(title: "Guard", subtitle: "Security management module")
+        def navigation_engine_guard(title: "Guard", subtitle: "Users, privileges and access roles.")
             return unless defined? LesliGuard
             navigation_engine_item(title, subtitle, "guard", lesli_guard.root_path,
                                     controller_path.include?("lesli_guard"))

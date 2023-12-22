@@ -3,7 +3,14 @@
     "lesli": {
       "shared": {
         "button_add_new": "Add new",
-        "button_reload": "Reload"
+        "button_delete": "Delete",
+        "button_edit": "Edit",
+        "button_list": "List",
+        "button_reload": "Reload",
+        "button_save": "Save",
+        "view_discussions": "Discussions",
+        "view_files": "Files",
+        "view_quick_actions": "Quick actions"
       },
       "users/sessions": {
         "view_username": "Username"
@@ -14,7 +21,14 @@
     "lesli": {
       "shared": {
         "button_add_new": "Agregar nuevo",
-        "button_reload": "Recargar"
+        "button_delete": "Eliminar",
+        "button_edit": "Editar",
+        "button_list": "Lista",
+        "button_reload": "Recargar",
+        "button_save": "Guardar",
+        "view_discussions": "Discusiones",
+        "view_files": "Archivos",
+        "view_quick_actions": "Acciones rapidas"
       },
       "users/sessions": {
         "view_username": "Usuario"

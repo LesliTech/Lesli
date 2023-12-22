@@ -49,5 +49,4 @@ user.account.save!
     ["test@lesli.tech", "sysadmin", "Test", "Lesli"],
 ].each do |user|
     create_development_user(user[0], user[1], user[2], user[3])
-    L2.m("User #{ user[2] } <#{ user[0] }> successfully created as #{ user[1] }.")
 end 
