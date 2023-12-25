@@ -1,6 +1,5 @@
 <script setup>
 /*
-
 Lesli
 
 Copyright (c) 2023, Lesli Technologies, S. A.
@@ -18,20 +17,18 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
-
 
 
 // · import vue tools
@@ -83,6 +80,7 @@ const onDeleteDashboard = () => {
 }
 
 
+// · 
 function sizeIncrease(component) {
     if (component.layout >= 12) {
         return 
@@ -122,9 +120,10 @@ onMounted(() => {
             </lesli-button>
         </lesli-header>
 
+        <!-- Dashboard general configuration -->
         <dashboard-form is-editable></dashboard-form>
-        <!--dashboard-preview :components="props.components"></dashboard-preview-->
 
+        <!-- Dashboard components -->
         <template v-if="storeDashboard.dashboard.components">
             <div class="columns is-multiline is-variable is-4 dashboard-components">
                 <template v-for="(component, index) in storeDashboard.dashboard.components" :key="index">
