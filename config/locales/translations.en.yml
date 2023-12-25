@@ -1,8 +1,6 @@
 ---
 :en:
   lesli:
-    dashboards:
-      title: Dashboards
     shared:
       view_discussions: Discussions
       button_add_new: Add new
@@ -15,3 +13,5 @@
       button_edit: Edit
     users/sessions:
       view_username: Username
+    dashboards:
+      title: Dashboards

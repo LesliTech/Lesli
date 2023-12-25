@@ -1,6 +1,9 @@
 {
   "en": {
     "lesli": {
+      "dashboards": {
+        "title": "Dashboards"
+      },
       "shared": {
         "button_add_new": "Add new",
         "button_delete": "Delete",
@@ -19,6 +22,9 @@
   },
   "es": {
     "lesli": {
+      "dashboards": {
+        "title": "Dashboards"
+      },
       "shared": {
         "button_add_new": "Agregar nuevo",
         "button_delete": "Eliminar",
