@@ -1,6 +1,8 @@
 ---
 :es:
   lesli:
+    dashboards:
+      title: Dashboards
     shared:
       view_discussions: Discusiones
       button_add_new: Agregar nuevo
