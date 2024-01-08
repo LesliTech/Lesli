@@ -33,12 +33,12 @@ Building a better future, one line of code at a time.
 class CreateLesliRolePowers < ActiveRecord::Migration[7.0]
     def change
         create_table :lesli_role_powers do |t|
-            t.boolean :power_list    # enables all the index privileges in the descriptor
-            t.boolean :power_index   # enables all the index privileges in the descriptor
-            t.boolean :power_show    # enables all the show privileges in the descriptor
-            t.boolean :power_create  # enables all the create privileges in the descriptor
-            t.boolean :power_update  # enables all the update privileges in the descriptor
-            t.boolean :power_destroy # enables all the destroy privileges in the descriptor
+            t.boolean :plist    # enables all the index privileges in the descriptor
+            t.boolean :pindex   # enables all the index privileges in the descriptor
+            t.boolean :pshow    # enables all the show privileges in the descriptor
+            t.boolean :pcreate  # enables all the create privileges in the descriptor
+            t.boolean :pupdate  # enables all the update privileges in the descriptor
+            t.boolean :pdestroy # enables all the destroy privileges in the descriptor
 
             t.datetime :deleted_at, index: true
             t.timestamps

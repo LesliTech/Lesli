@@ -48,6 +48,12 @@ module Lesli
             # is get the controllers and actions assigned to a descriptor through the 
             # system_descriptor_privileges table and create an array of hashes with
             # all the raw privileges (this includes duplicated privileges)
+            # IMPORTANT: A descriptor privilege is evaluated as active if:
+            #   - the role has assigned the descriptor through the power association
+            #   - the descriptor has assigned the privilege through the controller actions table
+            #   - the power has active that group of actions, this means that, if the power has
+            #     not marked as active the pshow, pindex, etc column the power is not active
+            #     even if it is assigned and active to a descriptor
             records = Descriptor.joins(%(
                 INNER JOIN lesli_descriptor_privileges
                 ON lesli_descriptor_privileges.descriptor_id = lesli_descriptors.id
@@ -60,12 +66,21 @@ module Lesli
             )).joins(%(
                 INNER JOIN lesli_role_powers 
                 ON lesli_role_powers.descriptor_id = lesli_descriptors.id
-            )).select(
-                "lesli_system_controllers.route as controller", 
-                "lesli_system_controller_actions.name as action",
-                "case when lesli_role_powers.deleted_at is null then true else false end as active",
-                "lesli_role_powers.role_id as role_id"
-            ).with_deleted
+            )).select(%(
+                lesli_system_controllers.route as controller, 
+                lesli_system_controller_actions.name as action,
+                case 
+                when lesli_role_powers.deleted_at is not null then false
+                when NULLIF(lesli_system_controller_actions.name = 'list' and lesli_role_powers.plist = true, false) then true
+                when NULLIF(lesli_system_controller_actions.name = 'index' and lesli_role_powers.pindex = true, false) then true
+                when NULLIF(lesli_system_controller_actions.name = 'show' and lesli_role_powers.pshow = true, false) then true
+                when NULLIF(lesli_system_controller_actions.name = 'create' and lesli_role_powers.pcreate = true, false) then true
+                when NULLIF(lesli_system_controller_actions.name = 'update' and lesli_role_powers.pupdate = true, false) then true
+                when NULLIF(lesli_system_controller_actions.name = 'destroy' and lesli_role_powers.pdestroy = true, false) then true
+                else false 
+                end as active,
+                lesli_role_powers.role_id as role_id
+            )).with_deleted
 
 
             # get privileges only for the given role, this is needed to sync only modified roles

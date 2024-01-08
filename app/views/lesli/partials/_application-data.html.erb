@@ -41,6 +41,11 @@ Building a better future, one line of code at a time.
     name: current_user.account.company_name,
 }
 
+# set user information
+@lesli[:current_user] = {
+    id: current_user.id
+}
+
 
 # Include defaults to account
 @lesli[:instance] = Rails.application.credentials.dig(:instance) || lesli_instance_code
