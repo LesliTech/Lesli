@@ -18,3 +18,6 @@
       view_username: Usuario
     dashboards:
       title: Dashboards
+    application:
+      navigation_logout: Cerrar sesión
+      navigation_my_profile: Mi perfil

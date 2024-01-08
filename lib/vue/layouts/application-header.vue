@@ -88,9 +88,8 @@ const props = defineProps({
 
 // · translations
 const translations = {
-    core: {
-        shared: I18n.t("core.shared"),
-        users: I18n.t('deutscheleibrenten.users'),
+    lesli: {
+        application: i18n.t("lesli.application"),
     }
 }
 
@@ -142,7 +141,7 @@ function safeEngineUrl() {
                         type="email" 
                         name="global_search"
                         class="input is-shadowless" 
-                        :placeholder="translations.core.shared.search_placeholder || 'Ask to Lesli...'"
+                        :placeholder="translations.lesli.application.navigation_chat_with_lesli || ''"
                         @input="storeSearch.doSearch"
                         v-model="storeSearch.text" 
                     />
@@ -150,7 +149,7 @@ function safeEngineUrl() {
             </div>
             <div class="lesli-application-header-right">
 
-                <!-- funciona -->
+                <!-- -->
                 <slot></slot>
 
 
@@ -211,7 +210,7 @@ function safeEngineUrl() {
                                     <span class="icon has-text-grey-dark">
                                         <span class="ri-user-line"></span>
                                     </span>
-                                    <span>{{ translations.core.shared.view_text_profile }}</span>
+                                    <span>{{ translations.lesli.application.navigation_my_profile }}</span>
                                 </span>
                             </a>
                             <hr class="dropdown-divider">
@@ -220,7 +219,7 @@ function safeEngineUrl() {
                                     <span class="icon has-text-grey-dark">
                                         <span class="ri-logout-box-r-line"></span>
                                     </span>
-                                    <span>{{ translations.core.shared.view_text_logout }}</span>
+                                    <span>{{ translations.lesli.application.navigation_logout }}</span>
                                 </span>
                             </a>
                         </div>

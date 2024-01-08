@@ -1,6 +1,10 @@
 {
   "en": {
     "lesli": {
+      "application": {
+        "navigation_logout": "Logout",
+        "navigation_my_profile": "My profile"
+      },
       "dashboards": {
         "title": "Dashboards"
       },
@@ -25,6 +29,10 @@
   },
   "es": {
     "lesli": {
+      "application": {
+        "navigation_logout": "Cerrar sesión",
+        "navigation_my_profile": "Mi perfil"
+      },
       "dashboards": {
         "title": "Dashboards"
       },
