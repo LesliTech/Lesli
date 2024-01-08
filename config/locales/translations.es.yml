@@ -11,6 +11,9 @@
       button_save: Guardar
       button_delete: Eliminar
       button_edit: Editar
+      view_status_active: Activo
+      view_status_inactive: Inactivo
+      button_settings: Configuración
     users/sessions:
       view_username: Usuario
     dashboards:

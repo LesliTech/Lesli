@@ -109,7 +109,8 @@ class Users::SessionsController < Devise::SessionsController
 
         # respond successful and send the path user should go
         #respond_with_successful({ default_path: user.has_role_with_default_path?() })
-        respond_with_successful({ default_path: "/" })
+        respond_with_successful({ default_path: Lesli.config.path_after_login || "/" })
+
     end
 
     private 

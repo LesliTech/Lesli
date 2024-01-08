@@ -58,6 +58,7 @@ module Lesli
         has_one :audit, class_name: "LesliAudit::Account"
         has_one :admin, class_name: "LesliAdmin::Account"
         has_one :driver, class_name: "LesliDriver::Account"
+        has_one :guard, class_name: "LesliGuard::Account"
 
 
         # account statuses

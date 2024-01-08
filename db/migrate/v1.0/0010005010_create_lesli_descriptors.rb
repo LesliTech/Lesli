@@ -34,7 +34,7 @@ class CreateLesliDescriptors < ActiveRecord::Migration[7.0]
     def change
         create_table :lesli_descriptors do |t|
             t.string :name
-            t.string :method
+            #t.string :method
             t.datetime :deleted_at, index: true
             t.timestamps
         end

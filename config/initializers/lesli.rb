@@ -99,4 +99,6 @@ Lesli.configure do |config|
         color_background: "#eef2f6",
         color_sidebar_hover: "#dee7ec"
     }
+
+    config.path_after_login = "/admin"
 end

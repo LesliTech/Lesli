@@ -101,14 +101,16 @@ module UserExtensions
     #      locale = User.last.locle
     #      will print something like: :es
     def locale
-        user_locale = settings.find_by(name: "locale")
+        user_locale = self.settings.find_by(name: "locale")
 
-        if user_locale
-            return user_locale.value.to_sym
-        end
+        # return the desire locale by the user
+        return user_locale.value.to_sym if user_locale
 
-        # return current locale
-        I18n.locale 
+        # create a desire locale if the record does not exist 
+        self.settings.create_with(:value => I18n.locale).find_or_create_by(:name => "locale")
+
+        # reevaluate
+        self.locale()
     end
 
 

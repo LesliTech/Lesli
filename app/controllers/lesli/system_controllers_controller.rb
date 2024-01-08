@@ -30,22 +30,34 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class CreateLesliRolePowers < ActiveRecord::Migration[7.0]
-    def change
-        create_table :lesli_role_powers do |t|
-            t.boolean :power_list    # enables all the index privileges in the descriptor
-            t.boolean :power_index   # enables all the index privileges in the descriptor
-            t.boolean :power_show    # enables all the show privileges in the descriptor
-            t.boolean :power_create  # enables all the create privileges in the descriptor
-            t.boolean :power_update  # enables all the update privileges in the descriptor
-            t.boolean :power_destroy # enables all the destroy privileges in the descriptor
+module Lesli 
+    class SystemControllersController < ApplicationLesliController
+        before_action :set_system_controller, only: [:show, :update, :destroy]
 
-            t.datetime :deleted_at, index: true
-            t.timestamps
+        # GET /system_controllers
+        def index
+            respond_to do |format|
+                format.html {}
+                format.json do
+                    respond_with_successful(Lesli::SystemController.index())
+                end
+            end
         end
 
-        add_reference(:lesli_role_powers, :user, foreign_key: { to_table: :lesli_users })
-        add_reference(:lesli_role_powers, :role, foreign_key: { to_table: :lesli_roles })
-        add_reference(:lesli_role_powers, :descriptor, foreign_key: { to_table: :lesli_descriptors })
+        def options 
+            respond_to do |format|
+                format.html {}
+                format.json do
+                    respond_with_successful(SystemController.options(current_user, @query))
+                end
+            end
+        end 
+
+        private
+
+        # Only allow a list of trusted parameters through.
+        def system_controller_params
+            []
+        end
     end
 end
