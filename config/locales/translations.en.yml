@@ -18,3 +18,6 @@
       view_username: Username
     dashboards:
       title: Dashboards
+    application:
+      navigation_logout: Logout
+      navigation_my_profile: My profile
