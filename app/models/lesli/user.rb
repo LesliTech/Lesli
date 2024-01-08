@@ -88,7 +88,7 @@ module Lesli
 
         # callbacks
         before_create :before_create_user
-        #after_create :after_confirmation_user, if: :confirmed?
+        after_create :after_confirmation_user, if: :confirmed?
         #after_create :after_account_assignation
         #after_update :update_associated_services
 
@@ -116,7 +116,7 @@ module Lesli
             self.set_alias
 
             # create user details
-            #User::Detail.find_or_create_by({ user: self })
+            User::Detail.find_or_create_by({ user: self })
 
             # Minimum security settings required
             self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")

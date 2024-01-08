@@ -34,5 +34,6 @@ module Lesli
     class Descriptor::Privilege < ApplicationLesliRecord
         belongs_to :descriptor
         belongs_to :action, class_name: "SystemController::Action"
+        belongs_to :system_controller_action, class_name: "SystemController::Action", foreign_key: "action_id"
     end
 end

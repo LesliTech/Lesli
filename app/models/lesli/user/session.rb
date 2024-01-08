@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails Development Platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
 require "bcrypt"
@@ -40,13 +40,13 @@ module Lesli
 
         enum session_sources: {
             dispatcher_standar_session: "dispatcher_standar_session",
-            devise_standar_session: "devise_standar_session",
+            devise_standard_session: "devise_standar_session",
             cloud_shared_public: "cloud_shared_public",
         }
 
         def set_session_token
 
-            return if self.session_source == "devise_standar_session"
+            return if self.session_source == "devise_standard_session"
 
             return unless self.session_token.blank?
 
@@ -64,29 +64,6 @@ module Lesli
                 end
 
             end
-
-        end
-
-        def self.index(current_user, query, params, current_session_id)
-            user_id = params[:user_id]
-
-            User::Session.all
-            .joins(:user)
-            .where(user_id: user_id)
-            .where("users.account_id = ?", current_user.account.id)
-            .where("expiration_at > ? or expiration_at is ?", Time.now.utc, nil)
-            .select(
-                :id,
-                :user_agent,
-                :session_source,
-                Date2.new.date_time.db_timestamps("user_sessions"),
-                Date2.new.date_time.db_column("expiration_at"),
-                Date2.new.date_time.db_column("last_used_at"),
-                "case when #{current_session_id} = user_sessions.id then true else false end as current_session"
-            )
-            .page(query[:pagination][:page])
-            .per(query[:pagination][:perPage])
-            .order(updated_at: :desc)
 
         end
 

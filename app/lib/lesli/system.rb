@@ -89,6 +89,7 @@ module Lesli
             "LesliBell", 
             "LesliDriver",
             "LesliGuard",
+            "LesliNotes",
             "LesliHelp"
         ]
     end
