@@ -65,7 +65,7 @@ module Lesli
         def add_owner_privileges(descriptor)
 
             # Adding default system actions for profile descriptor
-            actions = SystemController::Action.where.not(:name => ["new", "edit"])
+            actions = SystemController::Action.all 
 
             actions.each do |action|
                 descriptor.privileges.find_or_create_by(action: action)

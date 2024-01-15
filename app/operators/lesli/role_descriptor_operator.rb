@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    class RolePowerOperator < Lesli::ApplicationLesliService
+    class RoleDescriptorOperator < Lesli::ApplicationLesliService
 
         @roles;
 
@@ -74,7 +74,9 @@ module Lesli
                 when NULLIF(lesli_system_controller_actions.name = 'list' and lesli_role_powers.plist = true, false) then true
                 when NULLIF(lesli_system_controller_actions.name = 'index' and lesli_role_powers.pindex = true, false) then true
                 when NULLIF(lesli_system_controller_actions.name = 'show' and lesli_role_powers.pshow = true, false) then true
+                when NULLIF(lesli_system_controller_actions.name = 'new' and lesli_role_powers.pcreate = true, false) then true
                 when NULLIF(lesli_system_controller_actions.name = 'create' and lesli_role_powers.pcreate = true, false) then true
+                when NULLIF(lesli_system_controller_actions.name = 'edit' and lesli_role_powers.pupdate = true, false) then true
                 when NULLIF(lesli_system_controller_actions.name = 'update' and lesli_role_powers.pupdate = true, false) then true
                 when NULLIF(lesli_system_controller_actions.name = 'destroy' and lesli_role_powers.pdestroy = true, false) then true
                 else false 
