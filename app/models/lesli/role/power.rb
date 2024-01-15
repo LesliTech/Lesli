@@ -35,11 +35,11 @@ module Lesli
         belongs_to :role
         belongs_to :descriptor
 
-        after_save :synchronize_privileges
-        after_destroy :synchronize_privileges
+        after_commit :synchronize_privileges
+        #after_destroy :synchronize_privileges
 
         def synchronize_privileges
-            RolePowerOperator.new(self.role.id).synchronize
+            RoleDescriptorOperator.new(self.role.id).synchronize
         end
 
         def self.index current_user, query, role

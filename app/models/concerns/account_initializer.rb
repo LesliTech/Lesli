@@ -52,9 +52,9 @@ module AccountInitializer
         limited = self.roles.create({ name: "limited", active: true, object_level_permission: 10, path_default: "/administration/profile" })
 
         # assign descriptors with appropriate privileges
-        owner.powers.create(:descriptor => descriptor_owner)
-        sysadmin.powers.create(:descriptor => descriptor_sysadmin)
-        limited.powers.create(:descriptor => descriptor_profile)
+        owner.powers.create(:descriptor => descriptor_owner, :plist => true, :pindex => true, :pshow => true, :pcreate => true, :pcreate => true, :pupdate => true, :pdestroy => true)
+        sysadmin.powers.create(:descriptor => descriptor_sysadmin, :plist => true, :pindex => true, :pshow => true, :pcreate => true, :pcreate => true, :pupdate => true, :pdestroy => true)
+        limited.powers.create(:descriptor => descriptor_profile, :plist => true, :pindex => true, :pshow => true, :pcreate => true, :pcreate => true, :pupdate => true, :pdestroy => true)
     end
 
 
