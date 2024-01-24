@@ -75,4 +75,14 @@ Building a better future, one line of code at a time.
     .attachment--png {
         display: none !important;
     }
+
+    // custom buttons
+    .trix-lesli-button {
+        background-color: transparent;
+        color: lesli-css-color(silver, 900);
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
 }

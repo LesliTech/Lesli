@@ -32,7 +32,6 @@ Building a better future, one line of code at a time.
 
 module Lesli
     class User < ApplicationLesliRecord
-
         include UserSecurity
         include UserExtensions
         #include UserActivities

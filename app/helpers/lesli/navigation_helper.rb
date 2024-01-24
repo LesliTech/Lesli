@@ -140,12 +140,12 @@ module Lesli
                                    controller_path.include?("cloud_focus"))
         end
 
-        # 03.05 Text engine
-        def navigation_engine_text(title: "Text", subtitle: "cloud_text/text-logo.svg")
-            return unless defined? CloudText
+        # 03.05 Letter engine
+        def navigation_engine_letter(title: "Letter", subtitle: "Notes & Notebooks")
+            return unless defined? LesliLetter
 
-            navigation_engine_item(title, subtitle, "text", cloud_text.root_path,
-                                   controller_path.include?("cloud_text"))
+            navigation_engine_item(title, subtitle, "letter", lesli_letter.root_path,
+                                   controller_path.include?("lesli_letter"))
         end
 
         # 03.07 Social engine
@@ -244,11 +244,11 @@ module Lesli
         end
 
         # 07.02 Help engine
-        def navigation_engine_help(title: "Help", subtitle: "Support Ticket System")
-            return unless defined? LesliHelp
+        def navigation_engine_support(title: "Support", subtitle: "Support Ticket System")
+            return unless defined? LesliSupport
 
-            navigation_engine_item(title, subtitle, "help", lesli_help.root_path,
-                                   controller_path.include?("lesli_help"))
+            navigation_engine_item(title, subtitle, "support", lesli_support.root_path,
+                                   controller_path.include?("lesli_support"))
         end
 
         # 07.03 Portal engine

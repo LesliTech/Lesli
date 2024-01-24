@@ -79,6 +79,15 @@ module AccountInitializer
             end
         end
 
+        # 03.05 LesliNotes - Notes & Notebooks
+        if defined? LesliLetter
+            if self.letter.blank?
+                self.letter = LesliLetter::Account.new
+                self.letter.account = self
+                self.letter.save!
+            end
+        end
+
         # 05.02 LesliAudit - System analytics
         if defined? LesliAudit
             if self.audit.blank?
