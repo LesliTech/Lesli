@@ -32,7 +32,6 @@ Building a better future, one line of code at a time.
 
 module Lesli
     class Account < ApplicationLesliRecord
-
         include AccountInitializer
 
 
@@ -54,10 +53,12 @@ module Lesli
         has_many :currencies
         has_many :logs
 
+
         has_one :help, class_name: "LesliHelp::Account"
         has_one :audit, class_name: "LesliAudit::Account"
         has_one :admin, class_name: "LesliAdmin::Account"
         has_one :driver, class_name: "LesliDriver::Account"
+        has_one :letter, class_name: "LesliLetter::Account"
         has_one :guard, class_name: "LesliGuard::Account"
 
 

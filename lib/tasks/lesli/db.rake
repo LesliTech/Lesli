@@ -101,6 +101,7 @@ namespace :lesli do
         LesliBell::Engine.load_seed if defined?(LesliBell)
         LesliHelp::Engine.load_seed if defined?(LesliHelp)
         LesliAudit::Engine.load_seed if defined?(LesliAudit)
+        LesliLetter::Engine.load_seed if defined?(LesliLetter)
 
         start()
     end
