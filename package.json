@@ -6,9 +6,8 @@
     "description": "Lesli tools and components for VueJS",
     "author": "The Lesli Development Team <hello@lesli.tech>",
     "devDependencies": {
-        "lesli-css": "file:../../enginesdev/lesli-css",
-        "lesli-vue": "file:../../enginesdev/lesli-vue",
-        "lesli-js": "file:../../enginesdev/lesli-js",
+        "lesli-css": "/Users/ldonis/code/Lesli/LesliBuilder/enginesdev/lesli-css/lesli-css-1.6.2.tgz",
+        "lesli-vue": "/Users/ldonis/code/Lesli/LesliBuilder/enginesdev/lesli-vue/lesli-vue-1.0.0.tgz",
 
         "mermaid": "10.3.0",
         "remixicon": "3.5.0",
