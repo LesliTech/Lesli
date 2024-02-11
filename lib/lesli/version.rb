@@ -1,4 +1,4 @@
 module Lesli
-  VERSION = "5.0.5"
+  VERSION = "5.0.6"
   BUILD = "1697000148"
 end
