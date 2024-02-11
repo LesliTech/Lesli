@@ -37,21 +37,27 @@ namespace :lesli do
         desc "Drop, build, migrate & seed Lesli database (development only)"
         task :reset => :environment do |task, args|
             reset()
+            start()
+            seed()
+            setup()
         end
 
         desc "Build, migrate & seed Lesli database"
-        task :setup => :environment do |task, args|
+        task :start => :environment do |task, args|
+            start()
+            seed()
             setup()
         end
 
         desc "Build, migrate & seed Lesli database"
         task :seed => :environment do |task, args|
             seed()
+            setup()
         end
 
         desc "Build, migrate & seed Lesli database"
-        task :start => :environment do |task, args|
-            start()
+        task :setup => :environment do |task, args|
+            setup()
         end
     end
 
@@ -65,23 +71,19 @@ namespace :lesli do
         L2.m("Reset Lesli database for development")
 
         Rake::Task['db:drop'].invoke
-
-        setup()
     end
 
     # Build, migrate & seed database (development only)
-    def setup
+    def start
 
         # do not execute this task if we are at production level
         return if Rails.env.production?
 
         # print a message to let the users show the action running
-        L2.m("Setup Lesli database for development")
+        L2.m("Start Lesli database for development")
 
         Rake::Task['db:create'].invoke
         Rake::Task['db:migrate'].invoke
-        
-        seed()
     end
 
     # Seed database (development only)
@@ -102,11 +104,9 @@ namespace :lesli do
         LesliHelp::Engine.load_seed if defined?(LesliHelp)
         LesliAudit::Engine.load_seed if defined?(LesliAudit)
         LesliLetter::Engine.load_seed if defined?(LesliLetter)
-
-        start()
     end
 
-    def start 
+    def setup 
 
         # do not execute this task if we are at production level
         return if Rails.env.production?
