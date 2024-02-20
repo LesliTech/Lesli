@@ -30,4 +30,41 @@ Building a better future, one line of code at a time.
 // · 
 */
 
-@import "lesli/pages/devise";
+
+// · 
+@import "lesli-css";
+
+
+// · Configuration & variables
+@import "LesliStyle/settings/variables";
+
+
+// · Include Bulma 
+@import "LesliStyle/bulma/loader";
+
+
+// · Font families and icons
+@import "LesliStyle/fonts/remixicons";
+@import "LesliStyle/fonts/families";
+
+
+// · 
+html,
+body {
+    scrollbar-color: var(--lesli-color-primary) transparent;
+    scrollbar-width: thin;
+    font-weight: normal;
+    line-height: 158%;
+}
+
+
+// · headings and links
+h1, h2, h3, h4, h5, h6, a {
+    font-family: "Domine", $family-primary;
+}
+
+
+// · Hide vue until vue finishes compilation
+[v-cloak] {
+    display: none !important;
+}

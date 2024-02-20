@@ -65,23 +65,40 @@ module.exports = env => {
     webpackConfig.push(Object.assign({}, webpackBase(env), applicationCore(env, requestedEngines)))
     version(env, { code: "lesli", dir: "Lesli" })
     
+
     // engine vue applications
     applicationEngines(env, requestedEngines).forEach(engine => {
         webpackConfig.push(Object.assign({}, webpackBase(env), engine.config))
         version(env, engine)
     })
 
+
     debug.hr()
+
 
     // show a nice debug message for every installed engine :) 
     webpackConfig.forEach(config => {
-        for (let [name, path2] of Object.entries(config.entry)) {
-            debug.info(path2.replace(path.resolve("engines"), ""))
+        for (let [name, assets] of Object.entries(config.entry)) {
+
+            // "assets" contain the list of individual assets in the queue
+            // to be compiled, if strings is found we most convert this to 
+            // an array so we can forEach to print a nice console message
+            if (typeof assets == "string") {
+                assets = [assets]
+            }
+
+            // print a nice console message for every asset in the queue
+            assets.forEach(assetPath => {
+                debug.info(assetPath)
+                debug.info(assetPath.replace(path.resolve("engines"), ""))
+            })
         }
     })
 
+
     debug.hr()
 
+    
     return webpackConfig
 
 }

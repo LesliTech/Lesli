@@ -73,7 +73,7 @@ Gem::Specification.new do |spec|
     spec.add_dependency("sprockets-rails", "~> 3.4.2")
 
     # Integrate SassC-Ruby into Rails.
-    spec.add_dependency("sassc-rails", "~> 2.1.2")
+    #spec.add_dependency("sassc-rails", "~> 2.1.2")
 
     # It's a small library to provide the Rails I18n translations on the Javascript.
     spec.add_dependency("i18n-js", "~> 4.2.3") 
@@ -106,7 +106,7 @@ Gem::Specification.new do |spec|
     spec.add_dependency("useragent", "~> 0.16.10")
     
     # collection of all country flags in SVG
-    spec.add_dependency("flag-icons-rails", "3.4.6.1")
+    #spec.add_dependency("flag-icons-rails", "3.4.6.1")
 
 
 

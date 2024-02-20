@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -27,44 +27,9 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·  
+// · 
 */
 
 
 // · 
-@import "lesli-css";
-
-
-// · Configuration & variables
-@import "lesli/settings/variables";
-
-
-// · Include Bulma 
-@import "lesli/bulma/loader";
-
-
-// · Font families and icons
-@import "lesli/fonts/remixicons";
-@import "lesli/fonts/families";
-
-
-// · 
-html,
-body {
-    scrollbar-color: var(--lesli-color-primary) transparent;
-    scrollbar-width: thin;
-    font-weight: normal;
-    line-height: 158%;
-}
-
-
-// · headings and links
-h1, h2, h3, h4, h5, h6, a {
-    font-family: "Domine", $family-primary;
-}
-
-
-// · Hide vue until vue finishes compilation
-[v-cloak] {
-    display: none !important;
-}
+@import "LesliStyle/pages/devise";

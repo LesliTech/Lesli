@@ -34,66 +34,71 @@ Building a better future, one line of code at a time.
 namespace :lesli do 
     namespace :db do
 
-        desc "Drop, build, migrate & seed Lesli database (development only)"
+        desc "Drop, create, migrate, seed & prepare the Lesli database (development only)"
         task :reset => :environment do |task, args|
-            reset()
-            start()
+            drop()
+            create()
+            migrate()
             seed()
-            setup()
+            prepare()
         end
 
-        desc "Build, migrate & seed Lesli database"
-        task :start => :environment do |task, args|
-            start()
-            seed()
-            setup()
-        end
-
-        desc "Build, migrate & seed Lesli database"
+        desc "Seed & prepare Lesli database (development only)"
         task :seed => :environment do |task, args|
             seed()
-            setup()
         end
 
-        desc "Build, migrate & seed Lesli database"
+        desc "Migrate, seed & prepare the Lesli database (development only)"
+        task :dev => :environment do |task, args|
+            migrate()
+            seed()
+            prepare()
+        end
+
+        desc "Migrate & prepare the Lesli database"
         task :setup => :environment do |task, args|
-            setup()
+            migrate()
+            prepare()
+        end
+
+        desc "Prepare the Lesli database"
+        task :prepare => :environment do |task, args|
+            prepare()
         end
     end
 
-    # Drop, build, migrate & seed database (development only)
-    def reset
+    # Drop the Lesli database (development only)
+    def drop
 
         # do not execute this task if we are at production level
         return if Rails.env.production?
 
         # print a message to let the users show the action running
-        L2.m("Reset Lesli database for development")
+        L2.m("Drop the Lesli database (development only)")
 
         Rake::Task['db:drop'].invoke
     end
 
-    # Build, migrate & seed database (development only)
-    def start
+    # Create the Lesli database (development only)
+    def create
 
         # do not execute this task if we are at production level
         return if Rails.env.production?
 
         # print a message to let the users show the action running
-        L2.m("Start Lesli database for development")
+        L2.m("Create the Lesli database (development only)")
 
         Rake::Task['db:create'].invoke
-        Rake::Task['db:migrate'].invoke
     end
 
-    # Seed database (development only)
+    desc "Seed the Lesli database (development only)"
     def seed
 
         # do not execute this task if we are at production level
         return if Rails.env.production?
 
         # print a message to let the users show the action running
-        L2.msg("Seed Lesli database for development")
+        L2.msg("Seed the Lesli database (development only)")
 
         # load main app seeders
         Rake::Task['db:seed'].invoke
@@ -106,13 +111,26 @@ namespace :lesli do
         LesliLetter::Engine.load_seed if defined?(LesliLetter)
     end
 
-    def setup 
+    # Migrate the Lesli database 
+    def migrate
 
         # do not execute this task if we are at production level
         return if Rails.env.production?
 
         # print a message to let the users show the action running
-        L2.msg("Start Lesli database for development")
+        L2.m("Migrate the Lesli database")
+
+        Rake::Task['db:migrate'].invoke
+    end
+
+    desc "Prepare the Lesli database"
+    def prepare 
+
+        # do not execute this task if we are at production level
+        return if Rails.env.production?
+
+        # print a message to let the users show the action running
+        L2.msg("Prepare the Lesli database")
 
         # scan rails routes to build the controllers index
         Rake::Task['lesli:controllers:build'].invoke
