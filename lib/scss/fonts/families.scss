@@ -23,7 +23,7 @@ Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.dev
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
@@ -34,7 +34,7 @@ Building a better future, one line of code at a time.
 // · Font family for titles
 @font-face {
     font-family: "Domine";
-    src: font-url("lesli/Domine/Domine-VariableFont_wght.ttf") format("truetype");
+    src: url("lesli/Domine/Domine-Variable.ttf") format("truetype");
     font-display: swap;
 }
 
@@ -42,6 +42,6 @@ Building a better future, one line of code at a time.
 // · Font family for the body
 @font-face {
     font-family: "OpenSans";
-    src: font-url("lesli/OpenSans/OpenSans-Variable.ttf") format("truetype");
+    src: url("lesli/OpenSans/OpenSans-Variable.ttf") format("truetype");
     font-display: swap;
 }

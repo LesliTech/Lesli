@@ -63,7 +63,9 @@ onMounted(() => {
 <template>
     <lesli-application-container>
 
-        <lesli-header :title="storeDashboard.dashboard.name"></lesli-header>
+        <lesli-header :title="storeDashboard.dashboard.name">
+            <lesli-button icon="edit"></lesli-button>
+        </lesli-header>
 
         <template v-if="storeDashboard.dashboard.components">
             <div class="columns is-multiline is-variable is-4 dashboard-components">

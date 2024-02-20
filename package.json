@@ -6,6 +6,7 @@
     "description": "Lesli tools and components for VueJS",
     "author": "The Lesli Development Team <hello@lesli.tech>",
     "devDependencies": {
+        "bulma":"0.9.4",
         "lesli-css": "/Users/ldonis/code/Lesli/LesliBuilder/enginesdev/lesli-css/lesli-css-1.6.2.tgz",
         "lesli-vue": "/Users/ldonis/code/Lesli/LesliBuilder/enginesdev/lesli-vue/lesli-vue-1.0.1.tgz",
 
@@ -42,6 +43,15 @@
         "webpack": "5.88.2",
         "webpack-cli": "5.1.4",
         "terser-webpack-plugin": "5.3.9",
+
+        "sass-loader": "14.1.0",
+        "node-sass":"9.0.0",
+        "mini-css-extract-plugin":"2.8.0",
+        "webpack-remove-empty-scripts": "1.0.4",
+
+
+        "rollup": "4.9.6",
+        "rollup-plugin-sass": "1.12.21",
 
         "chai": "4.3.7",
         "glob": "10.3.3",

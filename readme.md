@@ -56,16 +56,15 @@ Lesli is officially released and will be supported as of version 5.1
 ### Demo
 
 * online demo (soon)
-* docker run leslitech/lesli-demo:5.0
+* [docker demo](https://github.com/LesliTech/lesli-docker-demo)
 
 
 <br />
 
 ### Documentation
-* [Website](https://www.lesli.dev/lesli/)
-* [Roadmap](./docs/roadmap.md)
+* [Website](https://www.lesli.dev/)
 * [Database](./docs/database.md)
-* [Documentation](https://www.lesli.dev/documentation/)
+* [Documentation](https://www.lesli.dev/docs.html)
 
 
 <br />
@@ -78,8 +77,11 @@ bundle add lesli
 ```
 
 ```shell
-# Setup database
+# Setup database for production
 rake lesli:db:setup
+
+# Setup database for development
+rake lesli:db:dev
 ```
 
 ```ruby

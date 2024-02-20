@@ -1,4 +1,3 @@
-<%
 =begin
 
 Lesli
@@ -30,30 +29,19 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 =end
-%>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <%= render partial: "lesli/partials/application-head" %>
-    <%#= render partial: "lesli/partials/application-data" %>
-    <%= render partial: "lesli/partials/application-public-scss" %>
-    <%= yield :application_custom_assets %>
-    <%# Disable back button in browser after Logout using JavaScript %>
-    <% if flash[:logout] == true %>
-        <script>
-            history.pushState(null, null, null);
-            window.addEventListener('popstate', function () {
-                history.pushState(null, null, null);
-            });
-        </script>
-    <% end %>
-</head>
-<body class="<%= application_body_class() %>">
-    <%#= yield :application_public_custom_header %>
-    <h1>public layout</h1>
-    <%#= yield %>
-    <%= render partial: "lesli/partials/application-public-javascript" %>
-    <%#= render partial: "lesli/partials/application-analytics" %>
-</body>
-</html>
+# · 
+namespace :lesli do 
+    namespace :docs do
+
+        desc "Drop, create, migrate, seed & prepare the Lesli database (development only)"
+        task :build => :environment do |task, args|
+            build()
+        end
+    end
+
+    # Drop the Lesli database (development only)
+    def build
+
+    end
+end

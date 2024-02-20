@@ -38,7 +38,7 @@ require "kaminari"
 require "L2"
 require "devise"
 require "useragent"
-require "flag-icons-rails"
+#require "flag-icons-rails"
 require "acts_as_paranoid"
 
 module Lesli
@@ -66,20 +66,21 @@ module Lesli
 
 
             # Include lib/assets folder in the asset pipeline
-            config.assets.paths << root.join("lib", "assets")
+            #config.assets.paths << root.join("lib", "assets")
 
-            config.assets.paths << root.join("lib", "sass")
+            #config.assets.paths << root.join("lib", "sass")
 
             # Include third-party assets
-            config.assets.paths << root.join("vendor")
+            #config.assets.paths << root.join("vendor")
 
             # Default languages
             config.i18n.default_locale = :en
             config.i18n.available_locales = [:en]
 
             # Force to not use digest, 
-            # if this is not false Rails will fingerprint the assets by default and precompile is needed
-            config.assets.digest = false
+            # if this is not false Rails will fingerprint the assets by default 
+            # and precompile will be needed, so, donot digest if not production
+            config.assets.digest = false unless Rails.env.production?
 
 
             # Lesli Framework Mailer configuration
