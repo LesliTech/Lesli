@@ -40,7 +40,7 @@ import {onMounted} from 'vue'
 
 
 // · import stores
-import { useAnnouncements } from "Lesli/stores/announcements"
+import { useAnnouncements } from "Lesli/vue/stores/announcements"
 import { editorRichTextViewer } from "lesli-vue/components"
 
 

@@ -46,7 +46,7 @@ Building a better future, one line of code at a time.
         <div class="dropdown is-hoverable header-language-selector">
             <div class="dropdown-trigger">
                 <span class="icon has-text-link">
-                    <%= flag_icon(language_flag(locale)) %>
+                    <%= lesli_svg("locale-#{locale}") %>
                 </span>
             </div>
             <div class="dropdown-menu" id="dropdown-menu-locale" role="menu">
@@ -55,7 +55,7 @@ Building a better future, one line of code at a time.
                         <% next if locale == I18n.locale %>
                         <%= link_to language_url(locale), { :class => "dropdown-item" } do %>
                             <span class="icon has-text-grey-light">
-                                <%= flag_icon(language_flag(locale)) %>
+                                <%= lesli_svg("locale-#{locale}") %>
                             </span>
                             <span><%= language_name(locale) %></span>
                         <% end %>

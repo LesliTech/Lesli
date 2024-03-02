@@ -33,7 +33,7 @@ Building a better future, one line of code at a time.
 
 // · Including plugins and dependencies
 const path = require("path")
-const debug = require("lesli-js/debug/nodejs")
+const { useLesliDebug } = require("lesli-vue/composables")
 const version = require("./lib/webpack/version")
 
 
@@ -46,6 +46,7 @@ const applicationEngines = require("./lib/webpack/engines")
 // get specific modules to work with, example: npm run webpack -- babel bell
 const requestedEngines = process.argv.slice(5)
 
+const debug = useLesliDebug()
 
 // · 
 module.exports = env => {
@@ -73,7 +74,7 @@ module.exports = env => {
     })
 
 
-    debug.hr()
+    //debug.hr()
 
 
     // show a nice debug message for every installed engine :) 
@@ -87,10 +88,12 @@ module.exports = env => {
                 assets = [assets]
             }
 
+            //debug.info(name)
+
             // print a nice console message for every asset in the queue
             assets.forEach(assetPath => {
                 debug.info(assetPath)
-                debug.info(assetPath.replace(path.resolve("engines"), ""))
+                //debug.info(assetPath.replace(path.resolve("engines"), ""))
             })
         }
     })

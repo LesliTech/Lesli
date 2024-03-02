@@ -43,8 +43,8 @@ const date = inject("date")
 
 
 // · import stores
-import { useTask } from "Lesli/stores/panels/task"
-import { useLayout } from "Lesli/stores/layout"
+import { useTask } from "Lesli/vue/stores/panels/task"
+import { useLayout } from "Lesli/vue/stores/layout"
 
 
 // · implement stores

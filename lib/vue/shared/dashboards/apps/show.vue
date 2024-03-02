@@ -36,7 +36,7 @@ import { onMounted } from "vue"
 
 
 // · import lesli stores
-import { useDashboard } from "Lesli/shared/stores/dashboard"
+import { useDashboard } from "Lesli/vue/shared/stores/dashboard"
 
 
 // · implement stores

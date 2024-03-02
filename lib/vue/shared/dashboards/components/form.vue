@@ -38,7 +38,7 @@ import { inject, onMounted, watch } from "vue"
 
 
 // · import stores
-import { useDashboard } from "Lesli/shared/stores/dashboard"
+import { useDashboard } from "Lesli/vue/shared/stores/dashboard"
 
 
 // · import vue router composable

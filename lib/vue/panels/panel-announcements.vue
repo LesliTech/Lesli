@@ -40,8 +40,8 @@ import { useRouter, useRoute } from 'vue-router'
 
 
 // · import store
-import { useLayout } from "Lesli/stores/layout"
-import { useAnnouncements } from "Lesli/stores/panels/announcements"
+import { useLayout } from "Lesli/vue/stores/layout"
+import { useAnnouncements } from "Lesli/vue/stores/panels/announcements"
 
 
 // · initialize/inject plugins
