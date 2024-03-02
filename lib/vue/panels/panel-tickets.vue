@@ -39,8 +39,8 @@ import { useRouter } from "vue-router"
 
 
 // · import store
-import { useLayout } from "Lesli/stores/layout"
-import { useTickets } from "Lesli/stores/panels/tickets"
+import { useLayout } from "Lesli/vue/stores/layout"
+import { useTickets } from "Lesli/vue/stores/panels/tickets"
 
 
 // · 

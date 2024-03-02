@@ -39,8 +39,8 @@ import { ref, reactive, onMounted, watch, computed, inject } from "vue"
 
 
 // · import stores
-import { useProfile } from "Lesli/stores/profile"
-import { useLayout } from "Lesli/stores/layout"
+import { useProfile } from "Lesli/vue/stores/profile"
+import { useLayout } from "Lesli/vue/stores/layout"
 
 
 // · implement stores

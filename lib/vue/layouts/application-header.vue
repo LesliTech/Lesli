@@ -38,8 +38,8 @@ import { ref, reactive, onUnmounted, inject } from "vue"
 
 
 // · import stores
-import { useLayout } from "Lesli/stores/layout"
-import { useSearch } from "Lesli/stores/search"
+import { useLayout } from "Lesli/vue/shared/stores/layout"
+import { useSearch } from "Lesli/vue/shared/stores/command"
 
 
 // · implement stores

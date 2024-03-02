@@ -33,7 +33,7 @@ Building a better future, one line of code at a time.
 %>
 
 <%# Temporary to avoid reference errors %>
-<%= javascript_include_tag "lesli/i18n" %>
+<%#= javascript_include_tag "lesli/i18n" %>
 
 
 <%# Including main Lesli application %>
@@ -43,7 +43,7 @@ Building a better future, one line of code at a time.
 <%# Set language for JavaScript apps %>
 <script>
     if (typeof i18n !== "undefined") {
-        i18n.locale = "<%= I18n.locale %>"
+        i18n.locale = "<%#= I18n.locale %>"
     }
 </script>
 

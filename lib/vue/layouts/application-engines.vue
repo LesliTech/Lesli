@@ -37,7 +37,7 @@ import { ref, reactive, onMounted, inject } from "vue"
 
 
 // · import stores
-import { useLayout } from "Lesli/stores/layout"
+import { useLayout } from "Lesli/vue/shared/stores/layout"
 
 
 // · 

@@ -43,7 +43,7 @@ const url = inject('url')
 
 
 // · import stores
-import { useSearch } from "Lesli/stores/search"
+import { useSearch } from "Lesli/vue/stores/search"
 
 
 // · implement stores

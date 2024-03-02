@@ -37,8 +37,8 @@ Building a better future, one line of code at a time.
 import { ref, inject, watch } from "vue"
 
 // · import store
-import { useCloudObjectFileStore } from "Lesli/stores/cloudobjects/file.js"
-import { useLayout } from "Lesli/stores/layout"
+import { useCloudObjectFileStore } from "Lesli/vue/stores/cloudobjects/file.js"
+import { useLayout } from "Lesli/vue/stores/layout"
 
 // · implement stores
 const storeFiles = useCloudObjectFileStore()

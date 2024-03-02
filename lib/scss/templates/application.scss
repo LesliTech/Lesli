@@ -34,86 +34,84 @@ Building a better future, one line of code at a time.
 // · 
 @import "lesli-css";
 
-/*
+
 // · Configuration & variables
-@import "lesli/settings/variables";
+@import "Lesli/scss/settings/variables";
 
 
 // · Include Bulma 
-@import "lesli/bulma/loader";
+//@import "Lesli/scss/bulma/loader";
+@import "lesli-css/scss/bulma";
 
 
 // · Font families and icons
-@import "lesli/fonts/mdicons";
-@import "lesli/fonts/families";
-@import "lesli/fonts/remixicons";
+@import "Lesli/scss/fonts/mdicons";
+@import "Lesli/scss/fonts/families";
+@import "Lesli/scss/fonts/remixicons";
 
 
 // · Some home made helpers
-@import "lesli/helpers/display";
-@import "lesli/helpers/tooltip";
+@import "Lesli/scss/helpers/display";
+@import "Lesli/scss/helpers/tooltip";
 
 
 // · Lesli application layout 
-@import "lesli/layouts/application-announcements";
-@import "lesli/layouts/application-component";
-@import "lesli/layouts/application-container";
-@import "lesli/layouts/application-engines";
-@import "lesli/layouts/application-sidebar";
-@import "lesli/layouts/application-header";
-@import "lesli/layouts/application-navbar";
-@import "lesli/layouts/application-footer";
-@import "lesli/layouts/application-search";
+@import "Lesli/scss/layouts/application-announcements";
+@import "Lesli/scss/layouts/application-component";
+@import "Lesli/scss/layouts/application-container";
+@import "Lesli/scss/layouts/application-engines";
+//@import "Lesli/scss/layouts/application-sidebar";
+@import "Lesli/scss/layouts/application-header";
+@import "Lesli/scss/layouts/application-navbar";
+@import "Lesli/scss/layouts/application-footer";
+@import "Lesli/scss/layouts/application-search";
 
 
 // · Lesli core panels 
-@import "lesli/panels/panel-tasks";
-@import "lesli/panels/panel-ticket";
-@import "lesli/panels/panel-profile";
-@import "lesli/panels/panel-notification";
-@import "lesli/panels/panel-announcements";
+// @import "lesli/panels/panel-tasks";
+// @import "lesli/panels/panel-ticket";
+// @import "lesli/panels/panel-profile";
+// @import "lesli/panels/panel-notification";
+// @import "lesli/panels/panel-announcements";
 
 
 // · Standard components
-@import "lesli/components/editor-richtext";
+// @import "lesli/components/editor-richtext";
 
 
 // · Shared
-@import "lesli/shared/workflow-status-progress";
+// @import "lesli/shared/workflow-status-progress";
 
 
 // · Lesli cloud objects
-@import "lesli/cloud-objects/discussion";
-@import "lesli/cloud-objects/file";
+// @import "lesli/cloud-objects/discussion";
+// @import "lesli/cloud-objects/file";
 
 
 // · Overrides for vendor libraries
-@import "lesli/overrides/sweetalert";
+// @import "lesli/overrides/sweetalert";
 
 
 // · Lesli vue components
-@import "lesli/elements/autocomplete";
-@import "lesli/elements/avatar";
-@import "lesli/elements/empty";
-@import "lesli/elements/file-uploader";
-@import "lesli/elements/gallery";
-@import "lesli/elements/header";
-@import "lesli/elements/input-tag";
-@import "lesli/elements/loading";
-@import "lesli/elements/map";
-@import "lesli/elements/msg";
-@import "lesli/elements/navbar";
-@import "lesli/elements/panel";
-@import "lesli/elements/form";
-@import "lesli/elements/tab";
-@import "lesli/elements/table";
-@import "lesli/elements/toggle";
-@import "lesli/elements/toolbar";
-@import "lesli/elements/calendar";
-@import "lesli/elements/card";
-
-
-@import "flag-icon";
+// @import "lesli/elements/autocomplete";
+// @import "lesli/elements/avatar";
+// @import "lesli/elements/empty";
+// @import "lesli/elements/file-uploader";
+// @import "lesli/elements/gallery";
+@import "Lesli/scss/elements/header";
+// @import "lesli/elements/input-tag";
+// @import "lesli/elements/loading";
+// @import "lesli/elements/map";
+// @import "lesli/elements/msg";
+// @import "lesli/elements/navbar";
+// @import "lesli/elements/panel";
+@import "Lesli/scss/elements/form";
+@import "Lesli/scss/elements/tab";
+// @import "lesli/elements/table";
+// @import "lesli/elements/toggle";
+// @import "lesli/elements/toolbar";
+// @import "lesli/elements/calendar";
+// @import "lesli/elements/card";
 
 
 html,
@@ -155,4 +153,3 @@ h1, h2, h3, h4, h5, h6 {
 .is-hidden {
     display: none !important;
 }
-*/

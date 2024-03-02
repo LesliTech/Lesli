@@ -39,7 +39,7 @@ import { ref, reactive, onMounted, watch, computed, inject } from "vue"
 
 // · import stores
 import { useUser } from "LesliApp/administration/stores/user"
-import { useLayout } from "Lesli/stores/layout"
+import { useLayout } from "Lesli/vue/stores/layout"
 
 
 // · implement stores
