@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 
 
 // use the default background color so we can use bulma functions to find the rest of colors
-@if $lesli-sidebar-color = "transparent" {
+@if $lesli-sidebar-color == "transparent" {
     $lesli-sidebar-color: $lesli-color-background;
 }
 

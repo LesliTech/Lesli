@@ -33,15 +33,14 @@ Building a better future, one line of code at a time.
 
 // · 
 @import "lesli-css";
-
+@import "lesli-vue/dist/elements.css";
 
 // · Configuration & variables
 @import "Lesli/scss/settings/variables";
 
 
 // · Include Bulma 
-//@import "Lesli/scss/bulma/loader";
-@import "lesli-css/scss/bulma";
+@import "lesli-css/bulma";
 
 
 // · Font families and icons
@@ -60,7 +59,7 @@ Building a better future, one line of code at a time.
 @import "Lesli/scss/layouts/application-component";
 @import "Lesli/scss/layouts/application-container";
 @import "Lesli/scss/layouts/application-engines";
-//@import "Lesli/scss/layouts/application-sidebar";
+@import "Lesli/scss/layouts/application-sidebar";
 @import "Lesli/scss/layouts/application-header";
 @import "Lesli/scss/layouts/application-navbar";
 @import "Lesli/scss/layouts/application-footer";
@@ -76,7 +75,7 @@ Building a better future, one line of code at a time.
 
 
 // · Standard components
-// @import "lesli/components/editor-richtext";
+//@import "lesli/components/editor-richtext";
 
 
 // · Shared
@@ -98,15 +97,15 @@ Building a better future, one line of code at a time.
 // @import "lesli/elements/empty";
 // @import "lesli/elements/file-uploader";
 // @import "lesli/elements/gallery";
-@import "Lesli/scss/elements/header";
+//@import "Lesli/scss/elements/header";
 // @import "lesli/elements/input-tag";
 // @import "lesli/elements/loading";
 // @import "lesli/elements/map";
 // @import "lesli/elements/msg";
 // @import "lesli/elements/navbar";
 // @import "lesli/elements/panel";
-@import "Lesli/scss/elements/form";
-@import "Lesli/scss/elements/tab";
+//@import "Lesli/scss/elements/form";
+//@import "Lesli/scss/elements/tab";
 // @import "lesli/elements/table";
 // @import "lesli/elements/toggle";
 // @import "lesli/elements/toolbar";
