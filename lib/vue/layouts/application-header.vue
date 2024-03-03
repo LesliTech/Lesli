@@ -18,16 +18,16 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
 
@@ -154,7 +154,7 @@ function safeEngineUrl() {
 
 
                 <!-- engines selector -->
-                <a  v-if="props.showEngines || true"
+                <a  v-if="props.showEngines"
                     class="header-indicator" 
                     @click="toggleEngines()">
                     <span class="ri-apps-2-line"></span>
@@ -162,7 +162,7 @@ function safeEngineUrl() {
 
                 <!-- Tickets -->
                 <a 
-                    v-if="props.showTickets || true"
+                    v-if="props.showTickets"
                     class="header-indicator" 
                     @click="() => { storeLayout.showTickets = true }">
                     <span :class="['ri-ticket-2-line', { 'is-active' : storeLayout.header.tickets > 0 }]">
@@ -173,7 +173,7 @@ function safeEngineUrl() {
                 </a>
 
                 <!-- Tasks -->
-                <a  v-if="props.showFocus || true"
+                <a  v-if="props.showFocus"
                     class="header-indicator" 
                     @click="() => { if (storeLayout.header.tasks > 0 ) { storeLayout.showTasks = true }}">
                     <span :class="['ri-list-check-3', { 'is-active' : storeLayout.header.tasks > 0 }]">
@@ -185,7 +185,7 @@ function safeEngineUrl() {
 
                 <!-- Notifications -->
                 <a 
-                    v-if="props.showBell || true"
+                    v-if="props.showBell"
                     class="header-indicator" 
                     @click="() => { if (storeLayout.header.notifications > 0 ) { storeLayout.showNotifications = true }}">
                     <span :class="['ri-notification-3-line', { 'is-active' : storeLayout.header.notifications > 0 }]">

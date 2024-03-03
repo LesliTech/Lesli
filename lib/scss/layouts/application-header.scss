@@ -101,6 +101,10 @@ header.lesli-application-header {
     // · Indicator icons container
     .lesli-application-header-right {
 
+        .header-language-selector {
+            height: 24px;
+        }
+
         // Notification icon & count
         .header-indicator {
             margin-left: 20px;

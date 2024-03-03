@@ -148,6 +148,14 @@ module Lesli
                                    controller_path.include?("lesli_letter"))
         end
 
+        # 03.06 Dashboard engine
+        def navigation_engine_dashboard(title: "Dashboard", subtitle: "Smart business assistant")
+            return unless defined? LesliDashboard
+
+            navigation_engine_item(title, subtitle, "dashboard", lesli_dashboard.root_path,
+                                   controller_path.include?("lesli_dashboard"))
+        end
+
         # 03.07 Social engine
         def navigation_engine_social(title: "Social", subtitle: "Team social network")
             return unless defined? CloudSocial

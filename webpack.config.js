@@ -74,7 +74,7 @@ module.exports = env => {
     })
 
 
-    //debug.hr()
+    debug.hr()
 
 
     // show a nice debug message for every installed engine :) 
