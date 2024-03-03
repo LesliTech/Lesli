@@ -1,0 +1,60 @@
+{
+  "en": {
+    "lesli": {
+      "application": {
+        "navigation_logout": "Logout",
+        "navigation_my_profile": "My profile"
+      },
+      "dashboards": {
+        "title": "Dashboards"
+      },
+      "shared": {
+        "button_add_new": "Add new",
+        "button_delete": "Delete",
+        "button_edit": "Edit",
+        "button_list": "List",
+        "button_reload": "Reload",
+        "button_save": "Save",
+        "button_settings": "Settings",
+        "button_show": "Show",
+        "view_discussions": "Discussions",
+        "view_files": "Files",
+        "view_quick_actions": "Quick actions",
+        "view_status_active": "Active",
+        "view_status_inactive": "Inactive"
+      },
+      "users/sessions": {
+        "view_username": "Username"
+      }
+    }
+  },
+  "es": {
+    "lesli": {
+      "application": {
+        "navigation_logout": "Cerrar sesión",
+        "navigation_my_profile": "Mi perfil"
+      },
+      "dashboards": {
+        "title": "Dashboards"
+      },
+      "shared": {
+        "button_add_new": "Agregar nuevo",
+        "button_delete": "Eliminar",
+        "button_edit": "Editar",
+        "button_list": "Lista",
+        "button_reload": "Recargar",
+        "button_save": "Guardar",
+        "button_settings": "Configuración",
+        "button_show": "Ver",
+        "view_discussions": "Discusiones",
+        "view_files": "Archivos",
+        "view_quick_actions": "Acciones rapidas",
+        "view_status_active": "Activo",
+        "view_status_inactive": "Inactivo"
+      },
+      "users/sessions": {
+        "view_username": "Usuario"
+      }
+    }
+  }
+}

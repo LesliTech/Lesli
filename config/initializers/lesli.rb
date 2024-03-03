@@ -100,5 +100,5 @@ Lesli.configure do |config|
         color_sidebar_hover: "#dee7ec"
     }
 
-    config.path_after_login = "/admin"
+    config.path_after_login = "/dashboard"
 end
