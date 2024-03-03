@@ -90,7 +90,8 @@ module Lesli
             "LesliDriver",
             "LesliGuard",
             "LesliLetter",
-            "LesliSupport"
+            "LesliSupport",
+            "LesliDashboard"
         ]
     end
 end

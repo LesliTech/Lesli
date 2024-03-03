@@ -33,12 +33,11 @@ Building a better future, one line of code at a time.
 %>
 
 <lesli-application-header 
-    <%= "show-bell" if defined?(CloudBell) %>
-    <%= "show-focus" if defined?(CloudFocus) %>
-    <%= "show-tickets" if defined?(CloudHelp) %>
-    <%= "show-announcements" if defined?(CloudBell) %>
-    engine-path="<%= lesli_engine(:path) %>"
-    :show-engines="true">
+    :show-engines="true"
+    <%= "show-bell" if defined?(LesliBell) %>
+    <%= "show-focus" if defined?(LesliFocus) %>
+    <%= "show-tickets" if defined?(LesliHelp) %>
+    engine-path="<%= defined?(LesliDashboard) ? lesli_dashboard.root_path : lesli_engine(:path)%>">
     
 
     <%# language selector %>
