@@ -32,40 +32,26 @@ Building a better future, one line of code at a time.
 =end
 %>
 
-<%#  %>
-<% protected_controllers = ['confirmations2'] %>
+
+<% protected_controllers = ["confirmations"] %>
 
 <% # Get an specific site tracking id or use the development default %>
-<% tracking_id = Rails.application.credentials.dig(:providers, :analytics) || '1' %>
+<% tracking_id = Rails.application.credentials.dig(:providers, :analytics) || "" %>
 
 <% # check if analytics is enabled in the settings file %>
-<% enable_analytics = Rails.application.config.lesli.dig(:security, :enable_analytics) %>
+<% enable_analytics = Lesli.config.security[:enable_analytics] %>
 
-<% if Rails.env.production? && enable_analytics %>
+<%# if Rails.env.production? && enable_analytics %>
 
     <% if !protected_controllers.include?(controller_name) %>
 
-        <script type="text/javascript">
-
-            function loadMatomoAnalytics() {
-                var _paq = window._paq = window._paq || [];
-                _paq.push(['trackPageView']);
-                _paq.push(['enableLinkTracking']);
-                (function() {
-                    var u="https://analytics.lesli.tech/";
-                    _paq.push(['setTrackerUrl', u+'matomo.php']);
-                    _paq.push(['setSiteId', <%= tracking_id %>]);
-                    var d=document, 
-                        g=d.createElement('script'), 
-                        s=d.getElementsByTagName('script')[0];
-                        g.async=true; 
-                        g.src=u+'matomo.js'; 
-                        s.parentNode.insertBefore(g,s);
-                })();
-            }
-
-            setTimeout(() => { loadMatomoAnalytics() }, 2000);
-            
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=<%= tracking_id %>"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '<%= tracking_id %>');
         </script>
     <% end %>
-<% end %>
+<%# end %>

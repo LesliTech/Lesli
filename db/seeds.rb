@@ -31,17 +31,12 @@ Building a better future, one line of code at a time.
 =end
 
 
-# IMPORTANT: 
-#   Seed files are only for development, if you need to create default resources 
-#   for production you must use the initializer method in the Engine account model
-if Rails.env.development? 
-
-    L2.msg("Lesli", "Version: #{Lesli::VERSION}", "Build: #{Lesli::BUILD}")
-
-    # including tools for seeders
-    load Lesli::Engine.root.join("db", "seed", "tools.rb")
+L2.msg("Lesli", "Version: #{Lesli::VERSION}", "Build: #{Lesli::BUILD}")
 
 
-    # loading core seeders
-    load Lesli::Engine.root.join("db", "seed", "#{Rails.env.downcase}.rb")
-end
+# including tools for seeders
+load Lesli::Engine.root.join("db", "seed", "tools.rb")
+
+
+# loading Lesli seeders
+load Lesli::Engine.root.join("db", "seed", "#{Rails.env.downcase}.rb")

@@ -41,14 +41,14 @@ module Lesli
 
         #before_action :set_locale_public
 
-        # def initialize
-        #     @account = { 
-        #         company: {
-        #             name: Rails.application.config.lesli.dig(:account, :name)
-        #         }
-        #     }
-        #     super
-        # end
+        def initialize
+            @lesli = { 
+                company: {
+                    name: Lesli.config.company[:name]
+                }
+            }
+            super
+        end
 
     end
 end

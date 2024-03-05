@@ -39,21 +39,21 @@ module AccountInitializer
 
         # create initial descriptors
         descriptor_owner = self.descriptors.find_or_create_by(name: "owner")
-        descriptor_sysadmin = self.descriptors.find_or_create_by(name: "sysadmin")
+        descriptor_admin = self.descriptors.find_or_create_by(name: "admin")
         descriptor_profile = self.descriptors.find_or_create_by(name: "profile")
 
         # create default roles for the new account
         owner = self.roles.create({ name: "owner", active: true, object_level_permission: 2147483647 })
 
         # platform administrator role
-        sysadmin = self.roles.create({ name: "sysadmin", active: true, object_level_permission: 100000 })
+        admin = self.roles.create({ name: "admin", active: true, object_level_permission: 100000 })
 
         # access only to user profile
         limited = self.roles.create({ name: "limited", active: true, object_level_permission: 10, path_default: "/administration/profile" })
 
         # assign descriptors with appropriate privileges
         owner.powers.create(:descriptor => descriptor_owner, :plist => true, :pindex => true, :pshow => true, :pcreate => true, :pupdate => true, :pdestroy => true)
-        sysadmin.powers.create(:descriptor => descriptor_sysadmin, :plist => true, :pindex => true, :pshow => true, :pcreate => true, :pupdate => true, :pdestroy => true)
+        admin.powers.create(:descriptor => descriptor_admin, :plist => true, :pindex => true, :pshow => true, :pcreate => true, :pupdate => true, :pdestroy => true)
         limited.powers.create(:descriptor => descriptor_profile, :plist => true, :pindex => true, :pshow => true, :pcreate => true, :pupdate => true, :pdestroy => true)
     end
 
