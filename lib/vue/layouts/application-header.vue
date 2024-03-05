@@ -125,7 +125,7 @@ function safeEngineUrl() {
         <div class="lesli-application-header-container container">
             <a :href="safeEngineUrl()">
                 <figure class="image lesli-brand">
-                    <img alt="App logo" class="is-hidden-touch" src="/assets/lesli/brand/app-logo.svg">
+                    <slot name="brand"></slot>
                 </figure>
             </a>
             <div class="lesli-application-header-left">

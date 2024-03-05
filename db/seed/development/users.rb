@@ -44,9 +44,9 @@ user.account.save!
 # core development users
 [
     ["ldonis@lesli.tech", "owner",  "Luis", "Donis"],
-    ["admin@lesli.tech", "sysadmin","Admin","Lesli"],
+    ["admin@lesli.tech", "admin","Admin","Lesli"],
     ["guest@lesli.tech", "limited", "Guest","Lesli"],
-    ["test@lesli.tech", "sysadmin", "Test", "Lesli"],
+    ["test@lesli.tech", "admin", "Test", "Lesli"],
 ].each do |user|
     create_development_user(user[0], user[1], user[2], user[3])
 end 

@@ -39,8 +39,8 @@ namespace :lesli do
             drop()
             create()
             migrate()
-            seed()
             prepare()
+            seed()
         end
 
         desc "Seed & prepare Lesli database (development only)"
@@ -51,8 +51,8 @@ namespace :lesli do
         desc "Migrate, seed & prepare the Lesli database (development only)"
         task :dev => :environment do |task, args|
             migrate()
-            seed()
             prepare()
+            seed()
         end
 
         desc "Migrate & prepare the Lesli database"
@@ -64,6 +64,13 @@ namespace :lesli do
         desc "Prepare the Lesli database"
         task :prepare => :environment do |task, args|
             prepare()
+        end
+
+        desc "Migrate, prepare && user the Lesli database"
+        task :deploy => :environment do |task, args|
+            migrate()
+            prepare()
+            Lesli::Engine.load_seed
         end
     end
 
@@ -114,9 +121,6 @@ namespace :lesli do
     # Migrate the Lesli database 
     def migrate
 
-        # do not execute this task if we are at production level
-        return if Rails.env.production?
-
         # print a message to let the users show the action running
         L2.m("Migrate the Lesli database")
 
@@ -125,9 +129,6 @@ namespace :lesli do
 
     desc "Prepare the Lesli database"
     def prepare 
-
-        # do not execute this task if we are at production level
-        return if Rails.env.production?
 
         # print a message to let the users show the action running
         L2.msg("Prepare the Lesli database")
