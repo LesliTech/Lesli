@@ -41,7 +41,7 @@ Building a better future, one line of code at a time.
 <% # check if analytics is enabled in the settings file %>
 <% enable_analytics = Lesli.config.security[:enable_analytics] %>
 
-<%# if Rails.env.production? && enable_analytics %>
+<% if Rails.env.production? && enable_analytics %>
 
     <% if !protected_controllers.include?(controller_name) %>
 
@@ -54,4 +54,4 @@ Building a better future, one line of code at a time.
             gtag('config', '<%= tracking_id %>');
         </script>
     <% end %>
-<%# end %>
+<% end %>

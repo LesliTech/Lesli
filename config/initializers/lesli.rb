@@ -53,10 +53,10 @@ Lesli.configure do |config|
         :es => "Español",       # Español/Spanish
         # :uk => "украї́нська",  # украї́нська/Ukrainian
         # :sr => "Српски",      # Српски/Srpski/Serbian
-        # :it => "Italiano",    # Italiano/Italian
+        :it => "Italiano",    # Italiano/Italian
         # :hr => "Hrvatski",    # Hrvatski/Croatian
-        # :fr => "Français",    # French
-        # :pt => "Português",   # Portuguese
+        :fr => "Français",    # French
+        :pt => "Português",   # Portuguese
         # :tr => "Türkçe",      # Turkish
         # :ro => "Română",      # Romanian
         # :bg => "български"    # Bulgarian
