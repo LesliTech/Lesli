@@ -85,6 +85,14 @@ body {
 
         form {
 
+            .demo {
+                fieldset {
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    border: 1px solid silver;
+                }
+            }
+
             label {
                 font-weight: 400;
                 font-size: 15px;

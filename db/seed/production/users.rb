@@ -54,6 +54,13 @@ passadmin = Devise.friendly_token(40)
 passguest = Devise.friendly_token(40)
 
 
+if Lesli.config.demo 
+    passowner = Lesli.config.security.dig(:password)
+    passadmin = passowner
+    passguest = passowner
+end 
+
+
 # create the owner user for the account, 
 userowner = create_development_user(emailowner, "owner", "Owner", account[:company_name], password:passowner)
 useradmin = create_development_user(emailadmin, "admin", "Admin", account[:company_name], password:passadmin)
