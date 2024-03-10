@@ -61,13 +61,9 @@ namespace :lesli do
             prepare()
         end
 
-        desc "Prepare the Lesli database"
-        task :prepare => :environment do |task, args|
-            prepare()
-        end
-
         desc "Migrate, prepare && user the Lesli database"
         task :deploy => :environment do |task, args|
+            create()
             migrate()
             prepare()
             Lesli::Engine.load_seed
@@ -89,20 +85,23 @@ namespace :lesli do
     # Create the Lesli database (development only)
     def create
 
-        # do not execute this task if we are at production level
-        return if Rails.env.production?
-
         # print a message to let the users show the action running
         L2.m("Create the Lesli database (development only)")
 
         Rake::Task['db:create'].invoke
     end
 
-    desc "Seed the Lesli database (development only)"
-    def seed
+    # Migrate the Lesli database 
+    def migrate
 
-        # do not execute this task if we are at production level
-        return if Rails.env.production?
+        # print a message to let the users show the action running
+        L2.m("Migrate the Lesli database")
+
+        Rake::Task['db:migrate'].invoke
+    end
+
+    desc "Seed the Lesli database"
+    def seed
 
         # print a message to let the users show the action running
         L2.msg("Seed the Lesli database (development only)")
@@ -116,15 +115,6 @@ namespace :lesli do
         LesliHelp::Engine.load_seed if defined?(LesliHelp)
         LesliAudit::Engine.load_seed if defined?(LesliAudit)
         LesliLetter::Engine.load_seed if defined?(LesliLetter)
-    end
-
-    # Migrate the Lesli database 
-    def migrate
-
-        # print a message to let the users show the action running
-        L2.m("Migrate the Lesli database")
-
-        Rake::Task['db:migrate'].invoke
     end
 
     desc "Prepare the Lesli database"

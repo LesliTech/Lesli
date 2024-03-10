@@ -36,6 +36,9 @@ Building a better future, one line of code at a time.
 
     <%# Log in form %>
     <form @submit="postLogin" method="post">
+        <% if Lesli.config.demo %>
+            <%= render("devise/shared/demo") %>
+        <% end %>
         <div class="field mb-4">
             <label for="user_email" class="label">E-mail address</label>
             <div class="control has-icons-left has-icons-right">

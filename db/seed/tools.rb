@@ -35,7 +35,6 @@ def create_development_user email, rolename, firstname, lastname, password:nil
     # get password
     if password.blank?
         password = Lesli.config.security.dig(:password)
-        password = password  + Time.now.year.to_s + "$"
     end
 
     account = Lesli::Account.find_by(email: Lesli.config.company.dig(:email))

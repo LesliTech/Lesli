@@ -32,6 +32,11 @@ Building a better future, one line of code at a time.
 
 Lesli.configure do |config|
 
+
+    # Start Lesli as demo
+    config.demo = false
+
+    
     # Installation identifier
     config.instance = "Lesli"
 
@@ -79,7 +84,7 @@ Lesli.configure do |config|
 
     # Instance security settings
     config.security = {
-        password: "tardis",
+        password: "Tardis2024$",
         enable_debug: false,
         enable_becoming: false,
         enable_analytics: true,
