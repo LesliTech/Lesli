@@ -37,13 +37,13 @@ namespace :lesli do
     namespace :babel do 
 
         desc "Scan and register labels"
-        task :load => :environment do |task, args|
-            Rake::Task['lesli_babel:load'].invoke
+        task :scan => :environment do |task, args|
+            Rake::Task['lesli_babel:scan'].invoke
         end 
 
         desc "Scan and register labels"
-        task :build => :environment do |task, args|
-            Rake::Task['lesli_babel:build'].invoke
+        task :load => :environment do |task, args|
+            Rake::Task['lesli_babel:load'].invoke
         end 
 
         desc "Export translations to json files"

@@ -60,6 +60,7 @@ module Lesli
         has_one :driver, class_name: "LesliDriver::Account"
         has_one :letter, class_name: "LesliLetter::Account"
         has_one :guard, class_name: "LesliGuard::Account"
+        has_one :support, class_name: "LesliSupport::Account"
 
 
         # account statuses
