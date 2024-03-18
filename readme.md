@@ -1,30 +1,31 @@
 <p align="center">
-    <img width="200" alt="Lesli logo" src="./app/assets/images/lesli/brand/app-logo.svg" />
-    <h3 align="center">Ruby on Rails SaaS Development Framework.</h3>
+    <img width="200" alt="Lesli logo" src="./app/assets/images/lesli/lesli-logo.svg" />
+    <h1 align="center">Ruby on Rails SaaS Development Framework.</h1>
 </p>
 
 
 <hr/>
-    <p align="center">
-        <a target="blank" href="https://rubygems.org/gems/lesli">
-            <img height="22" alt="Gem Version" src="https://badge.fury.io/rb/lesli.svg"/>
-        </a>
-        <a href="https://codecov.io/github/LesliTech/Lesli"> 
-            <img height="22" src="https://codecov.io/github/LesliTech/Lesli/graph/badge.svg?token=2O12NENK5Y"/> 
-        </a>
-        <a href="https://codecov.io/github/LesliTech/Lesli"> 
-            <img height="22" src="https://sonarcloud.io/api/project_badges/measure?project=LesliTech_Lesli&metric=sqale_rating"/> 
-        </a>
-    </p>
-<hr/>
 
+<p align="center" class="is-flex is-justify-content-center">
+    <a target="blank" href="https://rubygems.org/gems/lesli">
+        <img height="22" alt="Gem Version" src="https://badge.fury.io/rb/lesli.svg"/>
+    </a>
+    <a class="mx-2" href="https://codecov.io/github/LesliTech/Lesli"> 
+        <img height="22" src="https://codecov.io/github/LesliTech/Lesli/graph/badge.svg?token=2O12NENK5Y"/> 
+    </a>
+    <a href="https://codecov.io/github/LesliTech/LesliBabel"> 
+        <img height="22" src="https://sonarcloud.io/api/project_badges/measure?project=LesliTech_LesliBabel&metric=sqale_rating"/> 
+    </a>
+</p>
+
+<hr/>
 
 <br />
 
 <div align="center">
     <img 
         style="width:100%;max-width:800px;border-radius:6px;" 
-        alt="Lesli logo" src="./docs/screenshot.png" />
+        alt="Lesli screenshot" src="./docs/images/screenshot.png" />
 </div>
 
 ### Introduction 

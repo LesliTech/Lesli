@@ -36,12 +36,12 @@ Building a better future, one line of code at a time.
     :show-engines="true"
     <%= "show-bell" if defined?(LesliBell) %>
     <%= "show-focus" if defined?(LesliFocus) %>
-    <%= "show-tickets" if defined?(LesliHelp) %>
+    <%= "show-tickets" if defined?(LesliSupport) %>
     engine-path="<%= defined?(LesliDashboard) ? lesli_dashboard.root_path : lesli_engine(:path)%>">
     
     <template v-slot:brand>
-        <%= customization_instance_logo_tag(logo: "app-icon", options: { alt: "App logo", class: "is-hidden-desktop" }) %>
-        <%= customization_instance_logo_tag(logo: "app-logo", options: { alt: "App logo", class: "is-hidden-touch" }) %>
+        <%= customization_instance_logo_tag(logo: "app-icon", options: { alt: "Lesli app logo", class: "is-hidden-desktop" }) %>
+        <%= customization_instance_logo_tag(logo: "app-logo", options: { alt: "Lesli app logo", class: "is-hidden-touch" }) %>
     </template>
 
     <template>

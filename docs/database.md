@@ -1,9 +1,7 @@
 
 <p align="center">
-    <img width="200" alt="Lesli logo" src="../app/assets/images/lesli/brand/app-logo.svg" />
+    <h1 align="center">Lesli core database.</h1>
 </p>
-
-<h3 align="center">Lesli core database</h3>
 
 ### 00.10. Core
 ```plaintext

@@ -115,6 +115,7 @@ namespace :lesli do
         LesliHelp::Engine.load_seed if defined?(LesliHelp)
         LesliAudit::Engine.load_seed if defined?(LesliAudit)
         LesliLetter::Engine.load_seed if defined?(LesliLetter)
+        LesliSupport::Engine.load_seed if defined?(LesliSupport)
     end
 
     desc "Prepare the Lesli database"
@@ -130,7 +131,7 @@ namespace :lesli do
         Rake::Task['lesli:guard:privileges'].invoke
 
         # scan rails routes to build the base of translations
-        Rake::Task['lesli:babel:build'].invoke if defined?(LesliBabel)
+        Rake::Task['lesli:babel:scan'].invoke if defined?(LesliBabel)
 
         # print the lesli gems
         Rake::Task['lesli:status'].invoke 

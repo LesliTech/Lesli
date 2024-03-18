@@ -114,5 +114,14 @@ module AccountInitializer
                 self.guard.save!
             end
         end
+
+        # 
+        if defined? LesliSupport
+            if self.support.blank?
+                self.support = LesliSupport::Account.new
+                self.support.account = self
+                self.support.save!
+            end
+        end
     end
 end
