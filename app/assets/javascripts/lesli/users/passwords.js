@@ -75,14 +75,14 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "./lib/vue/devise/sessions.js":
-/*!************************************!*\
-  !*** ./lib/vue/devise/sessions.js ***!
-  \************************************/
+/***/ "./lib/vue/devise/passwords.js":
+/*!*************************************!*\
+  !*** ./lib/vue/devise/passwords.js ***!
+  \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var Lesli_vue_public__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! Lesli/vue/public */ \"./lib/vue/public.js\");\n/*\nLesli\n\nCopyright (c) 2023, Lesli Technologies, S. A.\n\nThis program is free software: you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by\nthe Free Software Foundation, either version 3 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program. If not, see http://www.gnu.org/licenses/.\n\nLesli · Ruby on Rails SaaS Development Framework.\n\nMade with ♥ by https://www.lesli.tech\nBuilding a better future, one line of code at a time.\n\n@contact  hello@lesli.tech\n@website  https://www.lesli.tech\n@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html\n\n// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~\n// · \n*/\n\n// · \n\n\n// · \n(0,Lesli_vue_public__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\n  data() {\n    return {\n      loading: false,\n      sign_in: {\n        email: \"\",\n        password: \"\"\n      },\n      notification: {\n        message: \"\",\n        show: false,\n        type: \"default\"\n      },\n      errors: []\n    };\n  },\n  mounted() {\n    this.$refs?.email?.focus();\n    if (true) {\n      this.sign_in.email = \"hello@lesli.tech\";\n      this.sign_in.password = \"Tardis2024$\";\n    }\n  },\n  methods: {\n    togglePasswordInput() {\n      if (this.$refs.password.type === \"password\") {\n        this.$refs.password.type = \"text\";\n      } else {\n        this.$refs.password.type = \"password\";\n      }\n    },\n    validateEmail() {\n      if (/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/.test(this.sign_in.email)) {\n        console.log(\"error\");\n      }\n    },\n    build_redirect_url() {\n      let default_path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;\n      // redirect to the root of the domain by default\n      let redirect_url = \"/\";\n      try {\n        // search for a redirection route in the url params\n        redirect_url = Object.fromEntries(new URLSearchParams(window.location.search)).r;\n      } catch (error) {}\n\n      // redirect to the default path if: \n      //      - there is no query params with redirection\n      if (!redirect_url && default_path) {\n        redirect_url = default_path;\n      }\n\n      // redirect to the root if: \n      //      - error parsing redirection route\n      //      - there is no query params with redirection\n      if (!redirect_url) {\n        redirect_url = \"/\";\n      }\n      return redirect_url;\n    },\n    postLogin(event) {\n      this.loading = true;\n      event.preventDefault();\n      this.notification.show = false;\n      let data = {\n        user: {\n          email: this.sign_in.email.toLowerCase(),\n          password: this.sign_in.password\n        }\n      };\n      this.http.post(\"/login\", data).then(response => {\n        this.url.go(this.build_redirect_url(response.default_path));\n      }).catch(error => {\n        this.showNotification(error.message);\n      }).finally(() => {\n        this.loading = false;\n      });\n    },\n    typing() {\n      this.notification.message = \"\";\n      this.notification.show = false;\n      this.notification.type = \"default\";\n    },\n    showNotification(message) {\n      let type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \"danger\";\n      this.notification.message = message;\n      this.notification.type = type;\n      this.notification.show = true;\n    }\n  }\n});\n\n//# sourceURL=webpack://lesli/./lib/vue/devise/sessions.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var Lesli_vue_public__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! Lesli/vue/public */ \"./lib/vue/public.js\");\n/*\nLesli\n\nCopyright (c) 2023, Lesli Technologies, S. A.\n\nThis program is free software: you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by\nthe Free Software Foundation, either version 3 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program. If not, see http://www.gnu.org/licenses/.\n\nLesli · Ruby on Rails SaaS Development Framework.\n\nMade with ♥ by https://www.lesli.tech\nBuilding a better future, one line of code at a time.\n\n@contact  hello@lesli.tech\n@website  https://www.lesli.tech\n@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html\n\n// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~\n// · \n*/\n\n// · \n\n// · \n\n\n// · \n(0,Lesli_vue_public__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\n  data() {\n    return {\n      loading: false,\n      translations: {\n        main: {}\n      },\n      sign_in: {\n        email: \"\",\n        password: \"\"\n      },\n      password_edit: {\n        new_password: \"\",\n        new_password_confirmation: \"\"\n      },\n      notification: {\n        message: \"\",\n        show: false,\n        type: \"\"\n      }\n    };\n  },\n  methods: {\n    postPasswordNew(event) {\n      this.notification.show = false;\n      this.loading = true;\n      event.preventDefault();\n      let data = {\n        user: {\n          email: this.sign_in.email.toLowerCase(),\n          password: this.sign_in.password\n        }\n      };\n      this.http.post(\"/password\", data).then(response => {\n        this.showNotification(\"this.translations.main.notification_reset_password_instructions_sent\", \"success\");\n      }).catch(error => {\n        this.showNotification(error.message);\n      }).finally(() => {\n        this.loading = false;\n      });\n    },\n    putPasswordEdit(event) {\n      this.notification.show = false;\n      this.loading = true;\n      event.preventDefault();\n\n      // check if passwords match\n      if (this.password_edit.new_password != this.password_edit.new_password_confirmation) {\n        this.showNotification(\"this.translations.main.error_passwords_do_not_match\", \"danger\");\n        return;\n      }\n      var token = null;\n      try {\n        token = Object.fromEntries(new URLSearchParams(window.location.search)).reset_password_token;\n      } catch (error) {\n        token = null;\n      }\n      this.http.put(\"/password\", {\n        user: {\n          password: this.password_edit.new_password,\n          password_confirmation: this.password_edit.new_password_confirmation,\n          reset_password_token: token\n        }\n      }).then(response => {\n        this.showNotification(\"this.translations.main.notification_password_updated\", \"success\");\n        //setTimeout(() => { this.url.go(\"/login\") }, 2000)\n      }).catch(error => {\n        this.showNotification(error.message, \"danger\");\n      }).finally(() => {\n        this.loading = false;\n      });\n    },\n    showNotification(message) {\n      let type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \"danger\";\n      this.notification.message = message;\n      this.notification.type = \"is-\" + type;\n      this.notification.show = true;\n    }\n  }\n});\n\n//# sourceURL=webpack://lesli/./lib/vue/devise/passwords.js?");
 
 /***/ }),
 
@@ -127,14 +127,14 @@ eval("!function(t,i){ true?module.exports=i():0}(this,(function(){\"use strict\"
 
 /***/ }),
 
-/***/ "./lib/scss/devise/sessions.scss":
-/*!***************************************!*\
-  !*** ./lib/scss/devise/sessions.scss ***!
-  \***************************************/
+/***/ "./lib/scss/devise/passwords.scss":
+/*!****************************************!*\
+  !*** ./lib/scss/devise/passwords.scss ***!
+  \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://lesli/./lib/scss/devise/sessions.scss?");
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://lesli/./lib/scss/devise/passwords.scss?");
 
 /***/ }),
 
@@ -705,8 +705,8 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	__webpack_require__("./lib/vue/devise/sessions.js");
-/******/ 	var __webpack_exports__ = __webpack_require__("./lib/scss/devise/sessions.scss");
+/******/ 	__webpack_require__("./lib/vue/devise/passwords.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./lib/scss/devise/passwords.scss");
 /******/ 	
 /******/ })()
 ;

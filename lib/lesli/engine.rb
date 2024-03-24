@@ -37,8 +37,8 @@ require "kaminari"
 # · Tools used to build the Lesli Framework
 require "L2"
 require "devise"
+require "ancestry"
 require "useragent"
-#require "flag-icons-rails"
 require "acts_as_paranoid"
 
 module Lesli

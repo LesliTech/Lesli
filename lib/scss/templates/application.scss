@@ -33,7 +33,8 @@ Building a better future, one line of code at a time.
 
 // · 
 @import "lesli-css";
-@import "lesli-vue/dist/elements.css";
+@import "lesli-vue/elements.css";
+@import "lesli-vue/components.css";
 
 // · Configuration & variables
 @import "Lesli/scss/settings/variables";

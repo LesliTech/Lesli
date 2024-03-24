@@ -92,6 +92,9 @@ Gem::Specification.new do |spec|
     # Clean, powerful, agnostic, customizable and sophisticated paginator for Rails
     spec.add_dependency("kaminari", "~> 1.2.2")
 
+    # Allows management of subcategories for the catalogs
+    spec.add_dependency("ancestry", "~> 4.1.0")
+
 
 
     # · Tools used to build the Lesli Framework
@@ -104,9 +107,6 @@ Gem::Specification.new do |spec|
 
     # HTTP User Agent parser
     spec.add_dependency("useragent", "~> 0.16.10")
-    
-    # collection of all country flags in SVG
-    #spec.add_dependency("flag-icons-rails", "3.4.6.1")
 
 
 
