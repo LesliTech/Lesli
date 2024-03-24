@@ -52,14 +52,14 @@ module Lesli
                 #            to make this work properly
                 def respond_with_pagination(records, payload = nil)
                     respond_with_http(200, {
-                                          pagination: {
-                                              page: records.current_page,
-                                              pages: records.total_pages,
-                                              total: records.total_count,
-                                              results: records.length
-                                          },
-                                          records: payload || records
-                                      })
+                        pagination: {
+                            page: records.current_page,
+                            pages: records.total_pages,
+                            total: records.total_count,
+                            results: records.length
+                        },
+                        records: payload || records
+                    })
                 end
 
                 # JSON not found response

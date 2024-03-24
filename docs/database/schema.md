@@ -71,6 +71,11 @@ Here is an example of a database.md file for the CloudHelp engine (code **07.02*
     01.02. help/catalog/ticket_categories 
     01.03. help/catalog/ticket_priorities
 
+    01.01. help/catalog_workspaces                    
+    01.02. help/catalog_categories 
+    01.03. help/catalog_priorities
+
+
     02.01. help/workflows                   # Required table
     02.02. help/workflow/statuses           # Required table
     02.03. help/workflow/associations       # Required table
