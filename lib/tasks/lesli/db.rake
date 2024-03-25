@@ -116,6 +116,7 @@ namespace :lesli do
         LesliAudit::Engine.load_seed if defined?(LesliAudit)
         LesliLetter::Engine.load_seed if defined?(LesliLetter)
         LesliSupport::Engine.load_seed if defined?(LesliSupport)
+        LesliCalendar::Engine.load_seed if defined?(LesliCalendar)
     end
 
     desc "Prepare the Lesli database"

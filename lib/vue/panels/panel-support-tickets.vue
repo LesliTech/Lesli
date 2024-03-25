@@ -18,18 +18,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
 
 
@@ -39,12 +38,12 @@ import { useRouter } from "vue-router"
 
 
 // · import store
-import { useLayout } from "Lesli/vue/stores/layout"
-import { useTickets } from "Lesli/vue/stores/panels/tickets"
+import { useLayout } from "Lesli/vue/shared/stores/layout"
+import { useTickets } from "Lesli/vue/panels/stores/support-tickets"
 
 
 // · 
-import { editorRichText } from "lesli-vue/components"
+import { LesliTextEditor } from "lesli-vue/components"
 
 
 // · initialize/inject plugins
@@ -87,8 +86,8 @@ const props = defineProps({
 storeTicketsPanel.resetForm()
 
 
-watch(() => storeLayout.showTickets, () => {
-    if(storeLayout.showTickets){
+watch(() => storeLayout.showSupportTickets, () => {
+    if(storeLayout.showSupportTickets){
         storeTicketsPanel.fetchTickets()
 
         if(!storeTicketsPanel.loaded){
@@ -100,7 +99,7 @@ watch(() => storeLayout.showTickets, () => {
 </script>
 
 <template>
-    <lesli-panel class="lesli-panel-tickets" v-model:open="storeLayout.showTickets">
+    <lesli-panel class="lesli-panel-tickets" v-model:open="storeLayout.showSupportTickets">
         <template #header>
             {{ translations.main.view_text_support_tickets }}
         </template>
@@ -160,7 +159,7 @@ watch(() => storeLayout.showTickets, () => {
                     <div class="columns">
                         <div class="column is-1"></div>
                         <div class="column is-10">
-                            <editorRichText mode="small" v-model="storeTicketsPanel.ticket.description"></editorRichText>
+                            
                         </div>
                     </div>
 

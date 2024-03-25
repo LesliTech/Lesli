@@ -70,12 +70,12 @@ module AccountInitializer
             end
         end
 
-        # 03.01 LesliDriver - Unified calendar app
-        if defined? LesliDriver
-            if self.driver.blank?
-                self.driver = LesliDriver::Account.new
-                self.driver.account = self
-                self.driver.save!
+        # 03.01 LesliCalendar - Unified calendar app
+        if defined? LesliCalendar
+            if self.calendar.blank?
+                self.calendar = LesliCalendar::Account.new
+                self.calendar.account = self
+                self.calendar.save!
             end
         end
 

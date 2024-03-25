@@ -18,7 +18,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -36,7 +36,7 @@ Building a better future, one line of code at a time.
     :show-engines="true"
     <%= "show-bell" if defined?(LesliBell) %>
     <%= "show-focus" if defined?(LesliFocus) %>
-    <%= "show-tickets" if defined?(LesliSupport) %>
+    <%= "show-support-tickets" if defined?(LesliSupport) %>
     engine-path="<%= defined?(LesliDashboard) ? lesli_dashboard.root_path : lesli_engine(:path)%>">
     
     <template v-slot:brand>
