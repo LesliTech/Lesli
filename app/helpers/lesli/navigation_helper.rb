@@ -118,10 +118,10 @@ module Lesli
 
         # PRODUCTIVITY & TEAMWORK
 
-        # 03.01 Driver engine
-        def navigation_engine_driver(title: "Driver", subtitle: "Unified calendar app")
-            return unless defined? LesliDriver
-            navigation_engine_item(title, subtitle, "driver", lesli_driver.root_path, controller_path.include?("lesli_driver"))
+        # 03.01 Calendar engine
+        def navigation_engine_calendar(title: "Calendar", subtitle: "Unified calendar app")
+            return unless defined? LesliCalendar
+            navigation_engine_item(title, subtitle, "calendar", lesli_calendar.root_path, controller_path.include?("lesli_calendar"))
         end
 
         # 03.02 Work engine

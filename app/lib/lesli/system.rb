@@ -87,10 +87,10 @@ module Lesli
             "LesliBabel", 
             "LesliAudit", 
             "LesliBell", 
-            "LesliDriver",
             "LesliGuard",
             "LesliLetter",
             "LesliSupport",
+            "LesliCalendar",
             "LesliDashboard"
         ]
     end

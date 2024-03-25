@@ -68,7 +68,7 @@ const props = defineProps({
         default: false,
         required: false
     },
-    showTickets:{
+    showSupportTickets: {
         type: Boolean,
         default: false,
         required: false
@@ -162,9 +162,9 @@ function safeEngineUrl() {
 
                 <!-- Tickets -->
                 <a 
-                    v-if="props.showTickets"
+                    v-if="props.showSupportTickets"
                     class="header-indicator" 
-                    @click="() => { storeLayout.showTickets = true }">
+                    @click="() => { storeLayout.showSupportTickets = true }">
                     <span :class="['ri-ticket-2-line', { 'is-active' : storeLayout.header.tickets > 0 }]">
                     </span>
                     <span class="count" v-if="storeLayout.header.tickets > 0">
