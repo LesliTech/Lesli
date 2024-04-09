@@ -42,12 +42,11 @@ module Lesli
 
         before_action :set_path
         before_action :set_locale
-        before_action :authorize_request
-        before_action :authorize_privileges
-        before_action :set_helpers_for_request
-        before_action :set_customization
-
-        after_action  :log_requests
+        before_action :authorize_request if defined?(LesliShield)
+        before_action :authorize_privilege if defined?(LesliSecurity)
+        before_action :set_customizer
+        before_action :set_requester
+        after_action  :log_requests if defined?(LesliAudit)
 
         layout "lesli/layouts/application-lesli"
 

@@ -30,16 +30,41 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class CreateLesliUserLogs < ActiveRecord::Migration[6.0]
+class CreateLesliAccountDetails < ActiveRecord::Migration[6.0]
     def change
-        create_table :lesli_user_logs do |t|
-            t.string :title
-            t.string :description
+        create_table :lesli_account_details do |t|
 
+            # company information
+            t.string    :company_name
+            t.string    :company_name_legal
+            t.string    :company_tagline
+
+            # location
+            t.integer   :country
+            t.string    :address
+            t.string    :region
+            t.string    :city
+            t.string    :postal_code
+
+            # contact details
+            t.string    :website
+            t.string    :phone_number_1
+            t.string    :phone_number_2
+            t.string    :phone_number_3
+            t.string    :phone_number_4
+            t.string    :public_email
+
+            # social media
+            t.string    :github
+            t.string    :twitter
+            t.string    :youtube
+            t.string    :linkedin
+            t.string    :facebook
+
+            # Acts as paranoid
+            t.datetime  :deleted_at, index: true
             t.timestamps
         end
-
-        add_reference(:lesli_user_logs, :user, foreign_key: { to_table: :lesli_users })
-        add_reference(:lesli_user_logs, :session, foreign_key: { to_table: :lesli_user_sessions })
+        add_reference(:lesli_account_details, :account, foreign_key: { to_table: :lesli_accounts })
     end
 end

@@ -38,8 +38,7 @@ Building a better future, one line of code at a time.
     <script>const Lesli = <%= @lesli.to_json.html_safe %></script>
     <%= render partial: "lesli/partials/application-head" %>
     <%# render partial: "lesli/partials/application-data" %>
-    <%= render partial: "lesli/partials/application-public-scss" %>
-    <%= yield :application_custom_assets %>
+    <%= stylesheet_link_tag("lesli_shield/sessions", media: "all") %>
     <%# Disable back button in browser after Logout using JavaScript %>
     <% if flash[:logout] == true %>
         <script>
@@ -51,9 +50,8 @@ Building a better future, one line of code at a time.
     <% end %>
 </head>
 <body class="<%= application_body_class() %>">
-    <%#= yield :application_public_custom_header %>
     <%= yield %>
-    <%= render partial: "lesli/partials/application-public-javascript" %>
+    <%= javascript_include_tag("lesli_shield/sessions") %>
     <%= render partial: "lesli/partials/application-analytics" %>
 </body>
 </html>

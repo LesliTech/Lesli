@@ -36,7 +36,6 @@ require "kaminari"
 
 # · Tools used to build the Lesli Framework
 require "L2"
-require "devise"
 require "ancestry"
 require "useragent"
 require "acts_as_paranoid"
@@ -65,14 +64,6 @@ module Lesli
             # Lesli Framework configuration
 
 
-            # Include lib/assets folder in the asset pipeline
-            #config.assets.paths << root.join("lib", "assets")
-
-            #config.assets.paths << root.join("lib", "sass")
-
-            # Include third-party assets
-            #config.assets.paths << root.join("vendor")
-
             # Default languages
             config.i18n.default_locale = :en
             config.i18n.available_locales = [:en]
@@ -97,8 +88,6 @@ module Lesli
                 # Use the main email in the lesli settings as email sender
                 from: config.company.dig(:email)
             }
-
-
 
             # Mailer url options for development 
             config.action_mailer.default_url_options ||= { 

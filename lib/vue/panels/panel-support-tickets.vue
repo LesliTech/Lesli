@@ -58,10 +58,8 @@ const storeTicketsPanel = useTickets()
 
 // · defining translations
 const translations = {
-    core: {
-        shared: I18n.t("core.shared"),
-    },
-    main: I18n.t('help.tickets')
+    tickets: i18n.t("lesli_support.tickets"),
+    lesli: i18n.t("lesli")
 }
 
 
@@ -74,24 +72,18 @@ const columns = [{
     label: "Status"
 }]
 
-// · defining props
-const props = defineProps({
-    instanceEndpoint: {
-        type: String,
-        default: 'help'
-    }
-})
 
 // . Reset form on create
 storeTicketsPanel.resetForm()
 
 
+// . 
 watch(() => storeLayout.showSupportTickets, () => {
-    if(storeLayout.showSupportTickets){
+    if (storeLayout.showSupportTickets) {
         storeTicketsPanel.fetchTickets()
 
-        if(!storeTicketsPanel.loaded){
-            storeTicketsPanel.getTicketOptions()
+        if (!storeTicketsPanel.loaded) {
+            //storeTicketsPanel.getTicketOptions()
         }
     }    
 })
@@ -101,80 +93,66 @@ watch(() => storeLayout.showSupportTickets, () => {
 <template>
     <lesli-panel class="lesli-panel-tickets" v-model:open="storeLayout.showSupportTickets">
         <template #header>
-            {{ translations.main.view_text_support_tickets }}
+            Support tickets
         </template>
         <template #default>
             <div class="lastest-tickets" v-if="storeTicketsPanel.tickets.length > 0">
-                <h4>{{ translations.main.view_title_latest_tickets }}</h4>
+                <h4>Latest tickets</h4>
                 <lesli-table
                     class="is-narrow"
                     :columns="columns"
                     :records="storeTicketsPanel.tickets"
                     :loading="storeTicketsPanel.loading"
-                    :href="(ticket) => url.to(`${props.instanceEndpoint}/tickets/${ticket.id}`)">
+                    :href="(ticket) => url.support('tickets/:id', ticket.id)">
                 </lesli-table>
             </div>
             <hr>
             <div class="form">
-                <h4>{{translations.main.view_title_quick_creation}}</h4>
-                <form @submit.prevent="storeTicketsPanel.postTicket">
-                    <div class="columns">
-                        <div class="column is-1"></div>
-                        <div class="column is-3">
-                            <label class="label">
-                                {{translations.main.column_subject}} <sup class="has-text-danger">*</sup>
-                            </label>
-                        </div>
-                        <div class="column is-7">
+                <lesli-form flat @submit="storeTicketsPanel.postTicket">
+                    <div class="field">
+                        <label class="label">
+                            {{ translations.tickets.column_subject }}
+                            Subject
+                            <sup class="has-text-danger">*</sup>
+                        </label>
+                        <div class="control">
                             <input type="text" class="input" required v-model="storeTicketsPanel.ticket.subject">
                         </div>
                     </div>
 
-                    <div class="columns">
-                        <div class="column is-1"></div>
-                        <div class="column is-3">
-                            <label class="label">
-                                {{translations.main.column_cloud_help_catalog_ticket_types_id}}<sup class="has-text-danger">*</sup>
-                            </label>
-                        </div>
-                        <div class="column is-7">
-
-                                <lesli-select
-                                    :options="storeTicketsPanel.typesSelect"
-                                    v-model="storeTicketsPanel.ticket.cloud_help_catalog_ticket_types_id"
-                                >
-                                </lesli-select>
+                    <div class="field">
+                        <label class="label">
+                            {{ translations.tickets.column_type }}
+                            <sup class="has-text-danger">*</sup>
+                        </label>
+                        <div class="control">
+                            <lesli-select
+                                :options="storeTicketsPanel.typesSelect"
+                                v-model="storeTicketsPanel.ticket.cloud_help_catalog_ticket_types_id">
+                            </lesli-select>
                         </div>
                     </div>
 
-                    <div class="columns">
-                        <div class="column is-1"></div>
-                        <div class="column is-3">
-                            <label class="label">
-                                {{translations.main.column_description}} <sup class="has-text-danger">*</sup>
-                            </label>
+                    <div class="field">
+                        <label class="label">
+                            {{ translations.tickets.column_description }}
+                            <sup class="has-text-danger">*</sup>
+                        </label>
+                        <div class="control">
+                            <lesli-text-editor mode="small" v-model="storeTicketsPanel.ticket.description">
+                            </lesli-text-editor>
                         </div>
                     </div>
 
-                    <div class="columns">
-                        <div class="column is-1"></div>
-                        <div class="column is-10">
-                            
-                        </div>
-                    </div>
-
-                    <div class="columns">
-                        <div class="column is-1"></div>
-                        <div class="column">
+                    <div class="field">
+                        <div class="control">
                             <lesli-button icon="save">
-                                {{ translations.core.shared.view_btn_save }}
+                                {{ translations.lesli.shared.button_save }}
                             </lesli-button>   
                         </div>
                     </div>
-            
-                </form>
+                </lesli-form>
             </div>
         </template>
-
     </lesli-panel>
 </template>

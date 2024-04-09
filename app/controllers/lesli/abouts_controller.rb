@@ -35,8 +35,6 @@ module Lesli
 
         # GET /status
         def show
-            # instance name from builder
-            instance = Lesli.config.instance
 
             # get installed engines
             @lesli_engines = Lesli::System.engines.map { |engine, engine_info|
@@ -54,9 +52,7 @@ module Lesli
                 format.json { 
                     if Rails.env.production?
                         respond_with_successful({ :Lesli => "Ruby on Rails SaaS Development Framework."}) 
-                    end
-
-                    if !Rails.env.production?
+                    else
                         respond_with_successful(@lesli_engines) 
                     end
                 }

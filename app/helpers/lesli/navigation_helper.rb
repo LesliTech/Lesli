@@ -19,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -224,14 +224,13 @@ module Lesli
 
         # ANALYTICS
 
-        # 05.04 Insights engine
-        def navigation_engine_insights(title: "Insights", subtitle: "cloud_insights/insights-logo.svg")
-            return unless defined? CloudInsights
-
-            navigation_engine_item(title, subtitle, "insights", cloud_insights.root_path,
-                                   controller_path.include?("cloud_insights"))
+        # 05.02 Audit engine 
+        def navigation_engine_audit(title: "Audit", subtitle: "Activity, logs, security and more")
+            return unless defined? LesliAudit
+            navigation_engine_item(title, subtitle, "audit", lesli_audit.root_path, controller_path.include?("lesli_audit"))
         end
 
+        
         # INTELLIGENCE
 
         # 06.06 Scraper engine
@@ -277,20 +276,18 @@ module Lesli
 
         # SECURITY & PRIVACY
 
-        # 08.01 Guard engine
-        def navigation_engine_guard(title: "Guard", subtitle: "Users, privileges and access roles.")
-            return unless defined? LesliGuard
-            navigation_engine_item(title, subtitle, "guard", lesli_guard.root_path,
-                                    controller_path.include?("lesli_guard"))
+        # 08.01 Shield engine
+        def navigation_engine_shield(title: "Shield", subtitle: "Authentication & Authorization.")
+            return unless defined? LesliShield
+            navigation_engine_item(title, subtitle, "shield", lesli_shield.root_path, controller_path.include?("lesli_shield"))
         end
 
-        # 08.03 Audit engine
-        def navigation_engine_audit(title: "Audit", subtitle: "Activity, logs, security and more")
-            return unless defined? LesliAudit
-
-            navigation_engine_item(title, subtitle, "audit", lesli_audit.root_path,
-                                   controller_path.include?("lesli_audit"))
+        # 08.02 Security engine
+        def navigation_engine_security(title: "Security", subtitle: "Privileges & Access Management.")
+            return unless defined? LesliSecurity
+            navigation_engine_item(title, subtitle, "security", lesli_security.root_path, controller_path.include?("lesli_security"))
         end
+
 
         # INTEGRATIONS
 

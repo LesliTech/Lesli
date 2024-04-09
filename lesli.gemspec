@@ -72,9 +72,6 @@ Gem::Specification.new do |spec|
     # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
     spec.add_dependency("sprockets-rails", "~> 3.4.2")
 
-    # Integrate SassC-Ruby into Rails.
-    #spec.add_dependency("sassc-rails", "~> 2.1.2")
-
     # It's a small library to provide the Rails I18n translations on the Javascript.
     spec.add_dependency("i18n-js", "~> 4.2.3") 
 
@@ -101,9 +98,6 @@ Gem::Specification.new do |spec|
 
     # Message utilities for the Ruby console.
     spec.add_dependency("L2", "~> 0.5.3")
-
-    # Flexible authentication solution for Rails with Warden
-    spec.add_dependency("devise", "~> 4.9.2")
 
     # HTTP User Agent parser
     spec.add_dependency("useragent", "~> 0.16.10")

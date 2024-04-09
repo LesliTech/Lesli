@@ -68,7 +68,7 @@ module Lesli
                 # Check if current_user has privileges to complete this request
                 # allowed core methods:
                 #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
-                def authorize_privileges
+                def authorize_privilege
 
                     # check if user has access to the requested controller
                     # this search is over all the privileges for all the roles of the user
