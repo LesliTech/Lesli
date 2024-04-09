@@ -74,11 +74,6 @@ module Lesli
         # users belongs to an account only... and must have a role
         belongs_to :account, optional: true
 
-        # user details are saved on separate table
-        has_one :detail, inverse_of: :user, autosave: true, dependent: :destroy
-        accepts_nested_attributes_for :detail, update_only: true
-
-
         # users belongs to an account only... and must have a role
         belongs_to :account, optional: true
 

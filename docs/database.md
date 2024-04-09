@@ -11,12 +11,13 @@
 00.06. system_controllers
 00.07. system_controller_actions
 
-00.10. account_settings
-00.11. account_locations
+00.10. account_details
+00.11. account_settings
 00.12. account_activities
-00.13. account_files
 00.14. account_logs
 
+00.11. account_locations
+00.13. account_files
 00.16. account_currencies
 00.17. account_exchange_rates
 00.18. account_crontabs
@@ -33,8 +34,6 @@
 00.35. user_shortcuts
 00.36. user_access_codes
 00.37. user_auth_provider
-
-
 00.40. user_logs
 
 00.50. descriptors

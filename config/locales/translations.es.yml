@@ -15,6 +15,7 @@
       view_status_inactive: Inactivo
       button_settings: Configuración
       button_show: Ver
+      toolbar_search: Buscar...
     users/sessions:
       view_username: Usuario
     dashboards:

@@ -65,11 +65,11 @@ module Lesli
                 end
 
                 # Set default query params for:
-                def set_helpers_for_request
+                def set_requester
                     @query = {
                         search: params[:search] || nil,
                         pagination: {
-                            perPage: (params[:perPage] ? params[:perPage].to_i : 10),
+                            perPage: (params[:perPage] ? params[:perPage].to_i : 12),
                             page: (params[:page] ? params[:page].to_i : 1)
                         },
                         order: {

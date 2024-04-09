@@ -46,11 +46,11 @@ module Lesli
 
         # Return a string path to load the main engine stylesheet
         def application_stylesheet_engine_path
-            cloud_module = lesli_engine(:code)
+            lesli_engine = lesli_engine(:code)
             return "administration/application" if is_lesli_administration?
             return "onboardings/application" if is_lesli_onboarding?
 
-            "#{cloud_module}/application"
+            "#{lesli_engine}/application"
         end
 
         # Return a string path to load the main javascript app of the engine
@@ -58,11 +58,11 @@ module Lesli
             # get the namespace to load specific javascript file
             # for engine or specific javascript file for core controller
             path_segments = controller_path.split("/")
-            cloud_module = path_segments.shift
+            lesli_engine = path_segments.shift
 
             return "onboardings/application" if is_lesli_onboarding?
 
-            "#{cloud_module}/application"
+            "#{lesli_engine}/application"
         end
 
         def javascript_googlemaps_sdk

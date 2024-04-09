@@ -19,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -41,11 +41,13 @@ namespace :lesli do
             migrate()
             prepare()
             seed()
+            status()
         end
 
         desc "Seed & prepare Lesli database (development only)"
         task :seed => :environment do |task, args|
             seed()
+            status()
         end
 
         desc "Migrate, seed & prepare the Lesli database (development only)"
@@ -53,12 +55,7 @@ namespace :lesli do
             migrate()
             prepare()
             seed()
-        end
-
-        desc "Migrate & prepare the Lesli database"
-        task :setup => :environment do |task, args|
-            migrate()
-            prepare()
+            status()
         end
 
         desc "Migrate, prepare && user the Lesli database"
@@ -66,7 +63,14 @@ namespace :lesli do
             create()
             migrate()
             prepare()
-            Lesli::Engine.load_seed
+            status()
+        end
+
+        desc "Migrate & prepare the Lesli database"
+        task :setup => :environment do |task, args|
+            migrate()
+            prepare()
+            status()
         end
     end
 
@@ -100,7 +104,6 @@ namespace :lesli do
         Rake::Task['db:migrate'].invoke
     end
 
-    desc "Seed the Lesli database"
     def seed
 
         # print a message to let the users show the action running
@@ -113,28 +116,35 @@ namespace :lesli do
         Lesli::Engine.load_seed
         LesliBell::Engine.load_seed if defined?(LesliBell)
         LesliHelp::Engine.load_seed if defined?(LesliHelp)
+        LesliAdmin::Engine.load_seed if defined?(LesliAdmin)
         LesliAudit::Engine.load_seed if defined?(LesliAudit)
         LesliLetter::Engine.load_seed if defined?(LesliLetter)
         LesliSupport::Engine.load_seed if defined?(LesliSupport)
         LesliCalendar::Engine.load_seed if defined?(LesliCalendar)
     end
 
-    desc "Prepare the Lesli database"
     def prepare 
 
         # print a message to let the users show the action running
         L2.msg("Prepare the Lesli database")
 
+        Lesli::Account.all.each do |account|
+            account.initialize_account
+            account.initialize_engines
+        end
+
         # scan rails routes to build the controllers index
         Rake::Task['lesli:controllers:build'].invoke
 
         # scan rails routes to build the controllers index
-        Rake::Task['lesli:guard:privileges'].invoke
+        Rake::Task['lesli:guard:privileges'].invoke if defined?(LesliGuard)
 
         # scan rails routes to build the base of translations
         Rake::Task['lesli:babel:scan'].invoke if defined?(LesliBabel)
+    end 
 
+    def status 
         # print the lesli gems
         Rake::Task['lesli:status'].invoke 
-    end 
+    end
 end

@@ -4,7 +4,7 @@ module Lesli
             module Customization
 
                 # set customization only for lesli_cloud instance
-                def set_customization
+                def set_customizer
 =begin
                     # @account is only for html and pdf requests
                     return unless request.format.html? || request.format.pdf?

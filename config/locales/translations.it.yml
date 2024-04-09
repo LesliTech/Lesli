@@ -1,0 +1,25 @@
+---
+:it:
+  lesli:
+    shared:
+      view_discussions: ":lesli.shared.view_discussions:"
+      button_add_new: ":lesli.shared.button_add_new:"
+      button_reload: ":lesli.shared.button_reload:"
+      view_files: ":lesli.shared.view_files:"
+      view_quick_actions: ":lesli.shared.view_quick_actions:"
+      button_list: ":lesli.shared.button_list:"
+      button_save: ":lesli.shared.button_save:"
+      button_delete: ":lesli.shared.button_delete:"
+      button_edit: ":lesli.shared.button_edit:"
+      view_status_active: ":lesli.shared.view_status_active:"
+      view_status_inactive: ":lesli.shared.view_status_inactive:"
+      button_settings: ":lesli.shared.button_settings:"
+      button_show: ":lesli.shared.button_show:"
+      toolbar_search: ":lesli.shared.toolbar_search:"
+    users/sessions:
+      view_username: ":lesli.users/sessions.view_username:"
+    dashboards:
+      title: ":lesli.dashboards.title:"
+    application:
+      navigation_logout: ":lesli.application.navigation_logout:"
+      navigation_my_profile: ":lesli.application.navigation_my_profile:"

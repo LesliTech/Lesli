@@ -17,9 +17,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -27,46 +27,29 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
 class CreateLesliAccounts < ActiveRecord::Migration[5.2]
     def change
         create_table :lesli_accounts do |t|
             # account status
-            t.integer   :status
+            #   1. -> :registered
+            #   2. -> :onboarding
+            #   3. -> :active
+            #   4. -> :suspended
+            t.integer   :status, default: 1, null: false
+
+            # unique email to identify the account
             t.string    :email
 
-            # company information
-            t.string    :company_name
-            t.string    :company_name_legal
-            t.string    :company_tagline
-
-            # location
-            t.integer   :country
-            t.string    :address
-            t.string    :region
-            t.string    :city
-            t.string    :postal_code
-
-            # contact details
-            t.string    :website
-            t.string    :phone_number_1
-            t.string    :phone_number_2
-            t.string    :phone_number_3
-            t.string    :phone_number_4
-            t.string    :public_email
-
-            # social media
-            t.string    :github
-            t.string    :twitter
-            t.string    :youtube
-            t.string    :linkedin
-            t.string    :facebook
+            # name of the account
+            t.string    :name
 
             # Acts as paranoid
             t.datetime  :deleted_at, index: true
             t.timestamps
         end
+        add_index(:lesli_accounts, :email, unique: true)
     end
 end

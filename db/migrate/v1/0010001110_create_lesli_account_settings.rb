@@ -19,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -30,22 +30,13 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class CreateLesliRolePowers < ActiveRecord::Migration[7.0]
+class CreateLesliAccountSettings < ActiveRecord::Migration[5.2]
     def change
-        create_table :lesli_role_powers do |t|
-            t.boolean :plist    # enables all the index privileges in the descriptor
-            t.boolean :pindex   # enables all the index privileges in the descriptor
-            t.boolean :pshow    # enables all the show privileges in the descriptor
-            t.boolean :pcreate  # enables all the create privileges in the descriptor
-            t.boolean :pupdate  # enables all the update privileges in the descriptor
-            t.boolean :pdestroy # enables all the destroy privileges in the descriptor
-
-            t.datetime :deleted_at, index: true
+        create_table :lesli_account_settings do |t|
+            t.string :name
+            t.string :value
             t.timestamps
         end
-
-        add_reference(:lesli_role_powers, :user, foreign_key: { to_table: :lesli_users })
-        add_reference(:lesli_role_powers, :role, foreign_key: { to_table: :lesli_roles })
-        add_reference(:lesli_role_powers, :descriptor, foreign_key: { to_table: :lesli_descriptors })
+        add_reference(:lesli_account_settings, :account, foreign_key: { to_table: :lesli_accounts })
     end
 end

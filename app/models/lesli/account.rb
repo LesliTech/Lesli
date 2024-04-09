@@ -38,6 +38,10 @@ module Lesli
         # accounts always belongs to a user
         belongs_to :user, optional: true
 
+        #class_name: "Lesli::Account"
+        has_one :detail, inverse_of: :account, autosave: true, dependent: :destroy
+        accepts_nested_attributes_for :detail, update_only: true
+
 
         # account resources
         has_many :users
@@ -81,7 +85,7 @@ module Lesli
 
 
         # required a name for the lesli account
-        validates :company_name, :presence => true
+        validates :name, :presence => true
 
 
         # initializers for new accounts

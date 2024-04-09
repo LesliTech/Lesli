@@ -17,9 +17,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS development platform.
+Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·  
+// · 
 */
 
 
@@ -39,6 +39,17 @@ Building a better future, one line of code at a time.
 @import "Lesli/scss/templates/public";
 
 
+// · reusable background styles
+@mixin lesli-login-background() {
+    background: linear-gradient(0deg, 
+        rgba(49, 106, 255, 0.4), 
+        rgba(49, 106, 255, 0.4)), 
+        url("lesli/brand/login-background.jpg");
+    background-position: center;
+    background-size: cover;
+}
+
+
 // ·
 h1 {
     line-height: 33px;
@@ -47,129 +58,115 @@ h1 {
 }
 
 
-// ·
-body {
-    background-color: #FAFAFA;
+// column container
+.column.login-form {
+    max-width: 550px;
+    margin: 0 auto;
 
-    .columns {
-        width: 100%;
+    // logo container
+    .logo {
+        img {
+            width: initial;
+            height: initial;
+        }
+        p {
+            font-weight: 600;
+            text-align: left;
+        }
     }
 
-    .column:first-child {
-        max-width: 550px;
-        margin: 0 auto;
-    }
+    form {
 
-    .column .hero {
-        min-height: 100vh;
-
-        form,
-        .logo,
-        .links {
-            width: 100%;
-            margin: 0 auto;
-            max-width: 320px;
-        }
-
-        // logo container
-        .logo {
-            img {
-                width: initial;
-                height: initial;
-            }
-            p {
-                font-weight: 600;
-                text-align: left;
+        .demo {
+            fieldset {
+                padding: 4px 8px;
+                border-radius: 4px;
+                border: 1px solid silver;
             }
         }
 
-        form {
-
-            .demo {
-                fieldset {
-                    padding: 4px 8px;
-                    border-radius: 4px;
-                    border: 1px solid silver;
-                }
-            }
-
-            label {
-                font-weight: 400;
-                font-size: 15px;
-                line-height: 150%;
-            }
-            input {
-                border-radius: 6px;
-                box-shadow: none;
-            }
-            input[type="submit"] {
-                font-weight: 600;
-            }
-            input[type="password"] {
-                font-family: Verdana;
-                letter-spacing: 0.125em;
-            }
-            p.help {
-                font-weight: 600;
-            }
-            p.account {
-                font-size: 15px;
-                font-weight: 400;
-            }
-        }
-
-        .message {
-            font-weight: 500;
-            line-height: 24px;
-            font-family: "Exo";
-        }
-
-        .links {
-            a {
-                width: 100%;
-                display: flex;
-                flex-grow: 1;
-                padding: .8rem 0;
-                &:not(:last-child) {
-                    border-bottom: 1px solid lesli-css-color(silver, 300);
-                }
-            }
-            span {
-                font-family: "Domine";
-                font-weight: 500;
-                font-size: 14px;
-                //color: lesli-css-color(lesli, navy);
-            }
-        }
-
-        .terms {
-            font-family: "Domine";
+        label {
             font-weight: 400;
-            font-size: 12px;
-            line-height: 19px;
-            letter-spacing: -44%;
+            font-size: 15px;
+            line-height: 150%;
         }
 
-        .hero-foot {
-            ul {
-                height: 100px;
-                align-items: center;
-            }
-            a {
-                font-family: "Exo";
-                font-weight: 600;
-                font-size: 12px;
-                line-height: 18px;
-            }
+        input {
+            border-radius: 6px;
+            box-shadow: none;
+        }
+        
+        input[type="password"] {
+            font-family: Verdana;
+            letter-spacing: 0.1rem;
+        }
+
+        p.help {
+            font-weight: 600;
+        }
+
+        p.account {
+            font-size: 15px;
+            font-weight: 400;
         }
     }
 
-    .column.is-hidden-touch {
-        background: linear-gradient(0deg, 
-            rgba(49, 106, 255, 0.4), 
-            rgba(49, 106, 255, 0.4)), 
-            url("lesli/brand/login-background.jpg");
-        background-position: center;
-        background-size: cover;
+    .links {
+        width: 100%;
+        max-width: 320px;
+
+        a {
+            width: 100%;
+            display: flex;
+            flex-grow: 1;
+            padding: .8rem 0;
+            &:not(:last-child) {
+                border-bottom: 1px solid lesli-css-color(silver, 300);
+            }
+        }
+
+        span {
+            font-family: "Domine";
+            font-weight: 500;
+            font-size: 14px;
+        }
+    }
+
+    .terms {
+        font-family: "Domine";
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 19px;
+        letter-spacing: -44%;
+    }
+}
+
+
+// column with image background right side
+.column.background {
+    @include lesli-login-background;
+}
+
+
+@include lesli-css-breakpoint-until-tablet() {
+
+    // login column must be full width on mobile
+    .column.login-form {
+        width: 100%;
+        max-width: 100%;
+        @include lesli-login-background;
+
+        .hero {
+            padding: 2rem 0;
+        }
+
+        // center the form 
+        .hero-body {
+            margin: 0 auto;
+            max-width: 500px;
+            background-color: white;
+            border-radius: 6px;
+            padding: 1rem 3rem;
+        }
     }
 }
