@@ -130,7 +130,7 @@ function safeEngineUrl() {
             </a>
             <div class="lesli-application-header-left">
                 <div class="control is-medium has-icons-left has-text-grey">
-                    <span class="icon is-left has-text-gray">
+                    <span class="icon is-left has-text-grey-dark">
                         <span class="material-icons" v-if="!storeSearch.loading">
                             search
                         </span>

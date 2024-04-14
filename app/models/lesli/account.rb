@@ -58,6 +58,7 @@ module Lesli
         has_many :logs
 
 
+        has_one :bell, class_name: "LesliBell::Account"
         has_one :help, class_name: "LesliHelp::Account"
         has_one :audit, class_name: "LesliAudit::Account"
         has_one :admin, class_name: "LesliAdmin::Account"

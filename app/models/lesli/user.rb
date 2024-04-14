@@ -52,6 +52,7 @@ module Lesli
         has_many :sessions
         has_many :requests
         has_many :shortcuts
+        has_many :notifications, class_name: "LesliBell::Notification"
         has_many :activities,   class_name: "User::Activity"
 
         # users can have many roles and too many privileges through the roles
