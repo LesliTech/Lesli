@@ -63,65 +63,37 @@ module AccountInitializer
 
         # 01.01 LesliAdmin - Lesli administration area
         if defined? LesliAdmin
-            if self.admin.blank?
-                self.admin = LesliAdmin::Account.new
-                self.admin.account = self
-                self.admin.save!
-            end
+            LesliAdmin::Account.create!(:account => self) if self.admin.blank?
         end
 
         # 03.01 LesliCalendar - Unified calendar app
         if defined? LesliCalendar
-            if self.calendar.blank?
-                self.calendar = LesliCalendar::Account.new
-                self.calendar.account = self
-                self.calendar.save!
-            end
+            LesliCalendar::Account.create!(:account => self) if self.calendar.blank?
         end
 
         # 03.05 LesliNotes - Notes & Notebooks
         if defined? LesliLetter
-            if self.letter.blank?
-                self.letter = LesliLetter::Account.new
-                self.letter.account = self
-                self.letter.save!
-            end
+            LesliLetter::Account.create!(:account => self) if self.letter.blank?
         end
 
         # 05.02 LesliAudit - System analytics
         if defined? LesliAudit
-            if self.audit.blank?
-                self.audit = LesliAudit::Account.new
-                self.audit.account = self
-                self.audit.save!
-            end
+            LesliAudit::Account.create!(:account => self) if self.audit.blank?
         end
 
         # 07.02 LesliHelp - Support Ticket System
         if defined? LesliHelp
-            if self.help.blank?
-                self.help = LesliHelp::Account.new
-                self.help.account = self
-                self.help.save!
-            end
+            LesliHelp::Account.create!(:account => self) if self.help.blank?
         end
 
         # 08.01 LesliGuard - Security Management Module
         if defined? LesliGuard
-            if self.guard.blank?
-                self.guard = LesliGuard::Account.new
-                self.guard.account = self
-                self.guard.save!
-            end
+            LesliGuard::Account.create!(:account => self) if self.guard.blank?
         end
 
         # 
         if defined? LesliSupport
-            if self.support.blank?
-                self.support = LesliSupport::Account.new
-                self.support.account = self
-                self.support.save!
-            end
+            LesliSupport::Account.create!(:account => self) if self.support.blank?
         end
     end
 end
