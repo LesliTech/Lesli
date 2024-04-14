@@ -71,7 +71,12 @@ module AccountInitializer
             LesliCalendar::Account.create!(:account => self) if self.calendar.blank?
         end
 
-        # 03.05 LesliNotes - Notes & Notebooks
+        # 03.08 LesliBell - Notification system
+        if defined? LesliBell
+            LesliBell::Account.create!(:account => self) if self.bell.blank?
+        end
+
+        # 03.05 LesliLetter - Notes & Notebooks
         if defined? LesliLetter
             LesliLetter::Account.create!(:account => self) if self.letter.blank?
         end
@@ -81,19 +86,15 @@ module AccountInitializer
             LesliAudit::Account.create!(:account => self) if self.audit.blank?
         end
 
-        # 07.02 LesliHelp - Support Ticket System
-        if defined? LesliHelp
-            LesliHelp::Account.create!(:account => self) if self.help.blank?
+        # 07.02 LesliSupport - Support Ticket System
+        if defined? LesliSupport
+            LesliSupport::Account.create!(:account => self) if self.support.blank?
         end
 
-        # 08.01 LesliGuard - Security Management Module
+        # 08.02 LesliSecurity - Users, Privileges & Access Management
         if defined? LesliGuard
             LesliGuard::Account.create!(:account => self) if self.guard.blank?
         end
 
-        # 
-        if defined? LesliSupport
-            LesliSupport::Account.create!(:account => self) if self.support.blank?
-        end
     end
 end

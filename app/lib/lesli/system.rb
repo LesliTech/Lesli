@@ -83,14 +83,14 @@ module Lesli
 
         LESLI_ENGINES = [
             "Lesli", 
+            "LesliBell", 
             "LesliAdmin", 
             "LesliBabel", 
             "LesliAudit", 
-            "LesliBell", 
             "LesliShield", 
-            "LesliSecurity",
             "LesliLetter",
             "LesliSupport",
+            "LesliSecurity",
             "LesliCalendar",
             "LesliDashboard"
         ]

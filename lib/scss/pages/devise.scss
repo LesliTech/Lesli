@@ -51,6 +51,15 @@ Building a better future, one line of code at a time.
 
 
 // ·
+h1,
+.links,
+.terms {
+    width: 100%;
+    max-width: 320px;
+}
+
+
+// ·
 h1 {
     line-height: 33px;
     font-weight: 900;
@@ -112,8 +121,6 @@ h1 {
     }
 
     .links {
-        width: 100%;
-        max-width: 320px;
 
         a {
             width: 100%;

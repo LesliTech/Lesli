@@ -78,9 +78,9 @@ module Lesli
             # create new account for the new user only if multi-account is allowed
             if allow_multiaccount === true
                 account = Account.create!({
-                    user: resource,            # set user as owner of his just created account
-                    company_name: "Lesli",     # temporary company name
-                    status: :active            # account is active due user already confirmed his email
+                    user: resource,     # set user as owner of his just created account
+                    name: "Lesli",      # temporary company name
+                    status: :active     # account is active due user already confirmed his email
                 })
             end
 

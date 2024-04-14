@@ -66,54 +66,38 @@ module Lesli
             end
         end
 
-        # 00.00 System administration
-        def navigation_engine_admin(title: "Administration", subtitle: "Users, privileges, access roles.")
-            return unless defined? LesliAdmin
-            navigation_engine_item(title, subtitle, "admin", lesli_admin.root_path, controller_path.include?("lesli_admin"))
-        end
-
         # ADMINISTRATION
 
-        # 01.01 Team engine
+        # 01.01 Admin engine
+        def navigation_engine_admin(title: "Administration", subtitle: "Administration area.")
+            return unless defined? LesliAdmin
+            navigation_engine_item(title,subtitle,"admin",lesli_admin.root_path,controller_path.include?("lesli_admin"))
+        end
+
+        # 01.02 Team engine
         def navigation_engine_team(title: "Team", subtitle: "Human Resources Management")
             return unless defined? CloudTeam
-
-            navigation_engine_item(title, subtitle, "team", cloud_team.root_path,
-                                   controller_path.include?("cloud_team"))
+            navigation_engine_item(title,subtitle,"team",cloud_team.root_path,controller_path.include?("cloud_team"))
         end
 
         # SALES & MARKETING
 
-        # 02.03 Drop engine
-        def navigation_engine_word(title: "Word", subtitle: "Content Management System")
-            return unless defined? CloudWord
-
-            navigation_engine_item(title, subtitle, "word", cloud_word.root_path,
-                                   controller_path.include?("cloud_word"))
-        end
-
         # 02.04 House engine
         def navigation_engine_house(title: "House", subtitle: "cloud_house/house-logo.svg")
             return unless defined? CloudHouse
-
-            navigation_engine_item(title, subtitle, "house", cloud_house.root_path,
-                                   controller_path.include?("cloud_house"))
+            navigation_engine_item(title,subtitle,"house",cloud_house.root_path,controller_path.include?("cloud_house"))
         end
 
         # 02.05 Mailer engine
         def navigation_engine_mailer(title: "Mailer", subtitle: "Email automation system")
             return unless defined? CloudMailer
-
-            navigation_engine_item(title, subtitle, "mailer", cloud_mailer.root_path,
-                                   controller_path.include?("cloud_mailer"))
+            navigation_engine_item(title,subtitle,"mailer",cloud_mailer.root_path,controller_path.include?("cloud_mailer"))
         end
 
         # 02.08 Proposal engine
         def navigation_engine_proposal(title: "Proposal", subtitle: "cloud_proposal/proposal-logo.svg")
             return unless defined? CloudProposal
-
-            navigation_engine_item(title, subtitle, "proposal", cloud_proposal.root_path,
-                                   controller_path.include?("cloud_proposal"))
+            navigation_engine_item(title,subtitle,"proposal",cloud_proposal.root_path,controller_path.include?("cloud_proposal"))
         end
 
         # PRODUCTIVITY & TEAMWORK
@@ -124,76 +108,52 @@ module Lesli
             navigation_engine_item(title, subtitle, "calendar", lesli_calendar.root_path, controller_path.include?("lesli_calendar"))
         end
 
-        # 03.02 Work engine
-        def navigation_engine_work(title: "Work", subtitle: "Dynamic Project Management")
-            return unless defined? CloudWork
-
-            navigation_engine_item(title, subtitle, "work", cloud_work.root_path,
-                                   controller_path.include?("cloud_work"))
-        end
-
         # 03.03 Focus engine
         def navigation_engine_focus(title: "Tasks", subtitle: "Task Management")
             return unless defined? CloudFocus
-
-            navigation_engine_item(title, subtitle, "focus", cloud_focus.root_path,
-                                   controller_path.include?("cloud_focus"))
+            navigation_engine_item(title,subtitle,"focus",cloud_focus.root_path,controller_path.include?("cloud_focus"))
         end
 
         # 03.05 Letter engine
         def navigation_engine_letter(title: "Letter", subtitle: "Notes & Notebooks")
             return unless defined? LesliLetter
-
-            navigation_engine_item(title, subtitle, "letter", lesli_letter.root_path,
-                                   controller_path.include?("lesli_letter"))
+            navigation_engine_item(title,subtitle,"letter",lesli_letter.root_path,controller_path.include?("lesli_letter"))
         end
 
         # 03.06 Dashboard engine
         def navigation_engine_dashboard(title: "Dashboard", subtitle: "Smart business assistant")
             return unless defined? LesliDashboard
-
-            navigation_engine_item(title, subtitle, "dashboard", lesli_dashboard.root_path,
-                                   controller_path.include?("lesli_dashboard"))
+            navigation_engine_item(title,subtitle,"dashboard",lesli_dashboard.root_path,controller_path.include?("lesli_dashboard"))
         end
 
         # 03.07 Social engine
         def navigation_engine_social(title: "Social", subtitle: "Team social network")
             return unless defined? CloudSocial
-
-            navigation_engine_item(title, subtitle, "social", cloud_social.root_path,
-                                   controller_path.include?("cloud_social"))
+            navigation_engine_item(title,subtitle,"social",cloud_social.root_path,controller_path.include?("cloud_social"))
         end
 
         # 03.08 Bell engine
-        def navigation_engine_bell(title: "Notifications", subtitle: "Announcements and notifications")
+        def navigation_engine_bell(title: "Notifications", subtitle: "Notifications & Announcements")
             return unless defined? LesliBell
-
-            navigation_engine_item(title, subtitle, "bell", lesli_bell.root_path,
-                                   controller_path.include?("lesli_bell"))
+            navigation_engine_item(title, subtitle, "bell", lesli_bell.root_path, controller_path.include?("lesli_bell"))
         end
 
         # 03.09 Time engine
         def navigation_engine_time(title: "Time managment", subtitle: "Track your time")
             return unless defined? CloudTime
-
-            navigation_engine_item(title, subtitle, "time", cloud_time.root_path,
-                                   controller_path.include?("cloud_time"))
+            navigation_engine_item(title,subtitle,"time",cloud_time.root_path,controller_path.include?("cloud_time"))
         end
 
         # 03.10 Talk engine
         def navigation_engine_talk(title: "Talk", subtitle: "Real-time communication")
             return unless defined? CloudTalk
-
-            navigation_engine_item(title, subtitle, "talk", cloud_talk.root_path,
-                                   controller_path.include?("cloud_talk"))
+            navigation_engine_item(title,subtitle,"talk",cloud_talk.root_path,controller_path.include?("cloud_talk"))
         end
 
         # 03.11 Storage engine
         def navigation_engine_storage(title: "Storage", subtitle: "Cloud files management")
             return unless defined? CloudStorage
-
-            navigation_engine_item(title, subtitle, "storage", cloud_storage.root_path,
-                                   controller_path.include?("cloud_storage"))
+            navigation_engine_item(title,subtitle,"storage",cloud_storage.root_path,controller_path.include?("cloud_storage"))
         end
 
         # FINANCE
@@ -283,7 +243,7 @@ module Lesli
         end
 
         # 08.02 Security engine
-        def navigation_engine_security(title: "Security", subtitle: "Privileges & Access Management.")
+        def navigation_engine_security(title: "Security", subtitle: "Users, Privileges & Access Management.")
             return unless defined? LesliSecurity
             navigation_engine_item(title, subtitle, "security", lesli_security.root_path, controller_path.include?("lesli_security"))
         end

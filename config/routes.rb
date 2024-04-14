@@ -19,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -29,15 +29,6 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 =end
-
-
-# Mount the devise at the deefault path
-# TODO:
-#   The user can define the mount path for the auth framework
-#   using: "Lesli::Routing.mount_login_at('auth')" so, later
-#   we will must to check if devise is already mounted before
-#   to call this method.
-#Lesli::Routing.mount_login
 
 
 # Mount the necessary resources Lesli needs to work properly

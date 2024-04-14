@@ -32,6 +32,9 @@ Building a better future, one line of code at a time.
 */
 
 
+// TODO: Move this to own engine
+
+
 // · import vue tools
 import { inject, watch } from "vue"
 import { useRouter } from "vue-router"
@@ -112,7 +115,7 @@ watch(() => storeLayout.showSupportTickets, () => {
                     <div class="field">
                         <label class="label">
                             {{ translations.tickets.column_subject }}
-                            Subject
+                            {{ translations.tickets.column_subject }}
                             <sup class="has-text-danger">*</sup>
                         </label>
                         <div class="control">
