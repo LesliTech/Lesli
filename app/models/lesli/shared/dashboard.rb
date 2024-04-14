@@ -52,12 +52,23 @@ module Lesli
             #     # To execute this function, you must only do
             #     my_account = Account.first
             #     my_account.proposal = CloudProposal::Account.new
-            def self.initialize_data(account)
-                self.create!(
-                    account: account,
-                    name: "Default Dashboard",
+            def self.initialize_dashboard(modelo, account, components)
+
+                components.unshift({
+                    name: "Engine version",
+                    component_id: "engine-version",
+                    layout: 2,
+                    query_configuration: {},
+                    custom_configuration: {}
+                })
+
+                modelo.create_with(
                     default: true,
-                    main: false
+                    main: false,
+                    components_attributes: components
+                ).find_or_create_by!(
+                    account: account,
+                    name: "Default Dashboard"
                 )
             end
 
