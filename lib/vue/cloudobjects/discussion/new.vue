@@ -37,7 +37,7 @@ Building a better future, one line of code at a time.
 import { ref, computed } from "vue"
 
 // · import store
-import { useCloudObjectDiscussionStore } from "Lesli/vue/cloudobjects/stores/discussion"
+import { useCloudObjectDiscussionStore } from "../stores/discussion.js"
 
 // · defining props
 const props = defineProps({
@@ -109,22 +109,26 @@ const onAddComment = () => {
 </script>
 
 <template>
-    <div class="discussion-comment mb-2 mt-2">
-        <div class="discussion-comment-input">
-            <p class="is-size-5 mb-4">{{ title }}</p>
-            <textarea
-                name="comment"
-                rows="2"
-                maxlength="1000"
-                class="textarea"
-                :placeholder="translations.core.shared.view_placeholder_enter_comment"
-                v-model="comment"
-            />
+    <div>
+        <div class="field">
+            <label class="label">{{ title }} Add new comment</label>
+            <div class="control">
+                <textarea
+                    name="comment"
+                    rows="2"
+                    maxlength="1000"
+                    class="textarea has-fixed-size"
+                    :placeholder="translations.core.shared.view_placeholder_enter_comment + 'Type your comments :)'"
+                    v-model="comment">
+                </textarea>
+            </div>
         </div>
-        <div class="is-flex is-justify-content-flex-end pb-2">
-            <button @click="onAddComment" class="discussion-comment-button mt-4 button is-primary has-text-weight-bold">
-                {{ buttonText }}
-            </button>
+        <div class="field is-grouped is-grouped-right">
+            <div class="control">
+                <lesli-button solid icon="save" @click="onAddComment">
+                    {{ buttonText }} Add comment
+                </lesli-button>
+            </div>
         </div>
     </div>
 </template>

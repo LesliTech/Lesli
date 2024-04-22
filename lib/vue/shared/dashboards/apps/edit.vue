@@ -126,23 +126,23 @@ onMounted(() => {
         <!-- Dashboard components -->
         <template v-if="storeDashboard.dashboard.components">
             <div class="columns is-multiline is-variable is-4 dashboard-components">
-                <template v-for="(component, index) in storeDashboard.dashboard.components" :key="index">
-                    <div :class="['column', 'is-' + component?.layout]">
+                <template v-for="(_component, index) in storeDashboard.dashboard.components" :key="index">
+                    <div :class="['column', 'is-' + _component?.layout]">
 
                         <!-- Dashboard widget component when in edition mode -->
                         <div class="edit">
 
                             <!-- Dashboard widget preview -->
                             <component 
-                                :component.sync="component" 
-                                :is="props.components[component.component_id]">
+                                :component.sync="_component" 
+                                :is="props.components[_component.component_id]">
                             </component>
 
                             <!-- Edition controls -->
                             <div class="mt-4 mb-2">
                                 <div class="field has-addons is-justify-content-center">
                                     <p class="control">
-                                        <button class="button is-small" @click="sizeDecrease(component)">
+                                        <button class="button is-small" @click="sizeDecrease(_component)">
                                             <span class="icon is-small">
                                                 <span class="material-icons">
                                                     remove
@@ -154,7 +154,7 @@ onMounted(() => {
                                         size    
                                     </p>
                                     <p class="control">
-                                        <button class="button is-small" @click="sizeIncrease(component)">
+                                        <button class="button is-small" @click="sizeIncrease(_component)">
                                             <span class="icon is-small">
                                                 <span class="material-icons">
                                                     add
@@ -166,7 +166,7 @@ onMounted(() => {
 
                                 <div class="field has-addons is-justify-content-center">
                                     <p class="control">
-                                        <button class="button is-small" @click="sizeDecrease(component)">
+                                        <button class="button is-small" @click="sizeDecrease(_component)">
                                             <span class="icon is-small">
                                                 <span class="material-icons">
                                                     chevron_left
@@ -178,7 +178,7 @@ onMounted(() => {
                                         position
                                     </p>
                                     <p class="control">
-                                        <button class="button is-small" @click="sizeIncrease(component)">
+                                        <button class="button is-small" @click="sizeIncrease(_component)">
                                             <span class="icon is-small">
                                                 <span class="material-icons">
                                                     chevron_right
@@ -189,7 +189,7 @@ onMounted(() => {
                                 </div>
 
                                 <div class="has-text-centered">
-                                    <lesli-button small danger icon="delete" @click="remove(component)">
+                                    <lesli-button small danger icon="delete" @click="remove(_component)">
                                         remove
                                     </lesli-button>
                                 </div>
