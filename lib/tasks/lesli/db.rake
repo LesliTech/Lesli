@@ -137,7 +137,7 @@ namespace :lesli do
         Rake::Task['lesli:controllers:build'].invoke
 
         # scan rails routes to build the controllers index
-        Rake::Task['lesli:guard:privileges'].invoke if defined?(LesliGuard)
+        Rake::Task['lesli:security:privileges'].invoke if defined?(LesliSecurity)
 
         # scan rails routes to build the base of translations
         Rake::Task['lesli:babel:scan'].invoke if defined?(LesliBabel)

@@ -52,11 +52,11 @@ namespace :lesli do
         end 
     end
 
-    namespace :guard do 
+    namespace :security do 
 
         desc "Syncing privileges for all the available roles"
         task :privileges => :environment do |task, args|
-            Rake::Task['lesli_guard:privileges'].invoke
+            Rake::Task['lesli_security:privileges'].invoke
         end 
     end
 
