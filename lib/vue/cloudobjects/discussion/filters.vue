@@ -37,7 +37,7 @@ Building a better future, one line of code at a time.
 import { watch } from "vue"
 
 // · import store
-import { useCloudObjectDiscussionStore } from "Lesli/vue/cloudobjects/stores/discussion"
+import { useCloudObjectDiscussionStore } from "../stores/discussion.js"
 
 // · defining translations
 const translations = {

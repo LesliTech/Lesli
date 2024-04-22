@@ -128,8 +128,9 @@ const onCreate = () => {
 // · 
 function addComponent(){
     msg.warning(translations.dashboards.messages_warning_save_changes_reminder)
+
     let new_component = {
-        id: `${storeDashboard.new_component_id}-${storeDashboard.default_component_configuration.index}`,
+        //id: `${storeDashboard.new_component_id}-${storeDashboard.default_component_configuration.index}`,
         name: '',
         component_id: storeDashboard.new_component_id.replaceAll("_", "-"),
         layout: storeDashboard.default_component_configuration.layout,
@@ -233,6 +234,7 @@ onMounted(() => {
                     {{ "translations.dashboards.view_title_add_component" }}
                 </label>
                 <div class="control">
+                {{storeDashboard.new_component_id}}
                     <lesli-select
                         v-model="storeDashboard.new_component_id"
                         :options="storeDashboard.options.component_ids"
