@@ -94,7 +94,7 @@ watch(() => storeLayout.showSupportTickets, () => {
 </script>
 
 <template>
-    <lesli-panel class="lesli-panel-tickets" v-model:open="storeLayout.showSupportTickets">
+    <lesli-panel class="lesli-panel-support-tickets" v-model:open="storeLayout.showSupportTickets">
         <template #header>
             Support tickets
         </template>

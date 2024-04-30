@@ -30,6 +30,8 @@ Building a better future, one line of code at a time.
 // ·
 
 =end
+
+module Lesli
 class CloudObject::Subscriber < ApplicationLesliRecord
     self.abstract_class = true
     belongs_to :user_creator, class_name: "::User", foreign_key: "users_id"
@@ -180,4 +182,5 @@ class CloudObject::Subscriber < ApplicationLesliRecord
     def self.cloud_object_model
         self.reflect_on_association(:cloud_object).klass
     end
+end
 end

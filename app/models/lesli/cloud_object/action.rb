@@ -30,6 +30,7 @@ Building a better future, one line of code at a time.
 // ·
 
 =end
+module Lesli
 class CloudObject::Action < ApplicationLesliRecord
     self.abstract_class = true
 
@@ -65,4 +66,5 @@ class CloudObject::Action < ApplicationLesliRecord
             "created_at_text" => LC::Date.to_string(created_at)
         })
     end
+end
 end

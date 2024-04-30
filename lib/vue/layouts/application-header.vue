@@ -187,7 +187,7 @@ function safeEngineUrl() {
                 <a 
                     v-if="props.showBell"
                     class="header-indicator" 
-                    @click="() => { if (storeLayout.header.notifications > 0 ) { storeLayout.showNotifications = true }}">
+                    @click="() => { if (!storeLayout.header.notifications ) { storeLayout.showNotifications = true; }}">
                     <span :class="['ri-notification-3-line', { 'is-active' : storeLayout.header.notifications > 0 }]">
                     </span>
                     <span class="count" v-if="storeLayout.header.notifications > 0">

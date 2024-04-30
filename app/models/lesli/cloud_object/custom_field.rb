@@ -30,7 +30,7 @@ Building a better future, one line of code at a time.
 // ·
 
 =end
-
+module Lesli
 class CloudObject::CustomField < ApplicationLesliRecord
     self.abstract_class = true
     belongs_to :user_creator, class_name: "::User", foreign_key: "users_id"
@@ -154,4 +154,5 @@ class CloudObject::CustomField < ApplicationLesliRecord
     end
 =end
 
+end
 end

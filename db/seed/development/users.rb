@@ -30,23 +30,23 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
+if defined? LesliSecurity
 
-# get settings
-company = Lesli.config.company
+    # get settings
+    company = Lesli.config.company
 
+    # Create company user
+    user = create_development_user(company[:email], "owner", company[:name], "")
+    user.account.user = user
+    user.account.save!
 
-# Create company user
-user = create_development_user(company[:email], "owner", company[:name], "")
-user.account.user = user
-user.account.save!
-
-
-# core development users
-[
-    ["ldonis@lesli.tech", "owner",  "Luis", "Donis"],
-    ["admin@lesli.tech", "admin","Admin","Lesli"],
-    ["guest@lesli.tech", "limited", "Guest","Lesli"],
-    ["test@lesli.tech", "admin", "Test", "Lesli"],
-].each do |user|
-    create_development_user(user[0], user[1], user[2], user[3])
-end 
+    # core development users
+    [
+        ["ldonis@lesli.tech", "owner",  "Luis", "Donis"],
+        ["admin@lesli.tech", "admin","Admin","Lesli"],
+        ["guest@lesli.tech", "limited", "Guest","Lesli"],
+        ["test@lesli.tech", "admin", "Test", "Lesli"],
+    ].each do |user|
+        create_development_user(user[0], user[1], user[2], user[3])
+    end 
+end
