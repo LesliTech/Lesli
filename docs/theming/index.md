@@ -1,5 +1,5 @@
 <script setup>
-    import IndexContent from "./colors.md"
+    import IndexContent from "./brand.md"
 </script>
 
 <IndexContent />

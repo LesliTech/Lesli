@@ -66,6 +66,7 @@ module Lesli
         has_one :letter, class_name: "LesliLetter::Account"
         has_one :support, class_name: "LesliSupport::Account"
         has_one :calendar, class_name: "LesliCalendar::Account"
+        has_one :dashboard, class_name: "LesliDashboard::Account"
 
 
         # account statuses

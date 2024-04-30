@@ -30,8 +30,6 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-require "bcrypt"
-
 module Lesli
     class User::Session < ApplicationLesliRecord
         belongs_to :user

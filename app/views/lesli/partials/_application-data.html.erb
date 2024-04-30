@@ -38,7 +38,6 @@ Building a better future, one line of code at a time.
 
 # add company information (account)
 @lesli[:company] = {
-    #name: current_user.account.company_name,
     name: current_user.account.name,
 }
 
@@ -54,6 +53,7 @@ Building a better future, one line of code at a time.
 @lesli[:engine] = lesli_engine.dig(:code)   # use into url plugin to for dynamic search 
 @lesli[:url] = request.base_url.to_s        # use as base for url plugin
 @lesli[:engine_paths] = {}
+
 %>
 
 

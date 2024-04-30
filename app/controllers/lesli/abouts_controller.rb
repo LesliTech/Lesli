@@ -35,24 +35,22 @@ module Lesli
 
         # GET /status
         def show
-
-            # get installed engines
-            @lesli_engines = Lesli::System.engines.map { |engine, engine_info|
-                {
-                    :name => engine_info[:name],
-                    :code => engine_info[:code],
-                    :path => engine_info[:path],
-                    :version => engine_info[:version],
-                    :build => engine_info[:build]
-                }
-            }
-    
             respond_to do |format|
                 format.html {}
                 format.json { 
                     if Rails.env.production?
-                        respond_with_successful({ :Lesli => "Ruby on Rails SaaS Development Framework."}) 
+                        respond_with_successful({ :Lesli => "Ruby on Rails SaaS Development Framework." }) 
                     else
+                        # get installed engines
+                        @lesli_engines = Lesli::System.engines.map { |engine, engine_info|
+                            {
+                                :name => engine_info[:name],
+                                :code => engine_info[:code],
+                                :path => engine_info[:path],
+                                :build => engine_info[:build],
+                                :version => engine_info[:version]
+                            }
+                        }
                         respond_with_successful(@lesli_engines) 
                     end
                 }

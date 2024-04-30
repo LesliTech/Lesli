@@ -18,18 +18,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant. 
+Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
 
 
@@ -38,13 +37,14 @@ import { ref, reactive, onMounted, watch, computed, inject } from "vue"
 
 
 // · import stores
-import { useUser } from "LesliApp/administration/stores/user"
-import { useLayout } from "Lesli/vue/stores/layout"
+import { useLayout } from "Lesli/vue/shared/stores/layout"
+import { useNotifications } from "Lesli/vue/panels/stores/bell-notifications"
+
 
 
 // · implement stores
-const storeUser = useUser()
 const storeLayout = useLayout()
+const storeNotifications = useNotifications()
 
 
 // · initialize/inject plugins
@@ -52,28 +52,22 @@ const url = inject("url")
 const date = inject("date")
 
 
-// · emit the page selected received from the pagination component
-function paginate(page) {
-    storeUser.paginateNotifications(page)
-}
-
-
 // · 
 watch(() => storeLayout.showNotifications, () => {
-    storeUser.fetchNotifications()
+    storeNotifications.get()
 })
 
 </script>
 <template>
-    <lesli-panel class="lesli-panel-notifications" v-model:open="storeLayout.showNotifications">
+    <lesli-panel class="lesli-panel-bell-notifications" v-model:open="storeLayout.showNotifications">
         <template #header>
-            Notifications ({{ storeUser.notifications.pagination.total }})
+            Notifications ({{ storeNotifications.notifications.pagination.total }})
         </template>
         <template #default>
             <div class="block">
                 <ul class="">
                     <li class="lesli-notification pt-3 pb-2 px-4"
-                        v-for="notification in storeUser.notifications.records">
+                        v-for="notification in storeNotifications.notifications.records">
                         <a  :href="notification.url"
                             :class="['mb-2 is-block', `notification-${ notification.category }`]">
                             <h4 :class="['notification-title', `has-text-${ notification.category }-dark`]">
@@ -99,7 +93,9 @@ watch(() => storeLayout.showNotifications, () => {
                 </ul>
             </div>
             <div class="block px-5">
-                <lesli-pagination :pagination="storeUser.notifications.pagination" @paginate="paginate" mode="simple"></lesli-pagination>
+                <!-- 
+                <lesli-pagination :pagination="storeNotifications.notifications.pagination" @paginate="paginate" mode="simple"></lesli-pagination>
+                -->
             </div>
         </template>
     </lesli-panel>

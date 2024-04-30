@@ -30,7 +30,7 @@ Building a better future, one line of code at a time.
 // · 
 
 =end
-
+module Lesli
 class CloudObject::Activity < ApplicationRecord
     self.abstract_class = true
 
@@ -307,4 +307,5 @@ class CloudObject::Activity < ApplicationRecord
             value_to: new_field
         )
     end
+end
 end

@@ -99,6 +99,9 @@ Gem::Specification.new do |spec|
     # Message utilities for the Ruby console.
     spec.add_dependency("L2", "~> 0.5.3")
 
+    # Flexible authentication solution for Rails with Warden
+    #spec.add_dependency("devise", "~> 4.9.2")
+
     # HTTP User Agent parser
     spec.add_dependency("useragent", "~> 0.16.10")
 

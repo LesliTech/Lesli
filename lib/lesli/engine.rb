@@ -36,6 +36,7 @@ require "kaminari"
 
 # · Tools used to build the Lesli Framework
 require "L2"
+#require "devise"
 require "ancestry"
 require "useragent"
 require "acts_as_paranoid"

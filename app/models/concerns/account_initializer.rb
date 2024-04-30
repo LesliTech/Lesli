@@ -37,6 +37,8 @@ module AccountInitializer
     # initialize minimum resources needed for the account
     def initialize_account
 
+        return unless defined?(LesliSecurity)
+
         # create initial descriptors
         descriptor_owner = self.descriptors.find_or_create_by(name: "owner")
         descriptor_admin = self.descriptors.find_or_create_by(name: "admin")
@@ -86,14 +88,19 @@ module AccountInitializer
             LesliCalendar::Account.create!(:account => self) if self.calendar.blank?
         end
 
-        # 03.08 LesliBell - Notification system
-        if defined? LesliBell
-            LesliBell::Account.create!(:account => self) if self.bell.blank?
-        end
-
         # 03.05 LesliLetter - Notes & Notebooks
         if defined? LesliLetter
             LesliLetter::Account.create!(:account => self) if self.letter.blank?
+        end
+
+        # 03.06 LesliDashboard - 
+        if defined? LesliDashboard
+            LesliDashboard::Account.create!(:account => self) if self.dashboard.blank?
+        end
+
+        # 03.08 LesliBell - Notification system
+        if defined? LesliBell
+            LesliBell::Account.create!(:account => self) if self.bell.blank?
         end
 
         # 05.02 LesliAudit - System analytics
