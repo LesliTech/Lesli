@@ -41,7 +41,7 @@ module Lesli
             after_update :verify_default_dashboard
             after_create :verify_default_dashboard
 
-            enum component_ids: ["version"]
+            enum component_ids: {}
 
             # @return [void]
             # @param account [LesliEngine::Account]
@@ -102,14 +102,20 @@ module Lesli
             # @example
             #         CloudHouse::Dashboard.options(User.find(2), nil)
             def self.options(current_user, query)
+                dynamic_info = self.dynamic_info
+                component_model = dynamic_info[:module_model_component]
+
+                component_ids = component_model.component_ids.map do |comp|
+                    {
+                        value: comp,
+                        text: comp
+                    }
+                end
+
                 options = {
-                    descriptions: {},
-                    component_ids: component_ids.map do |comp|
-                        {
-                            value: comp,
-                            text: comp
-                        }
-                    end
+                    component_ids: component_ids,
+                    #components_configuration_options: component_model.configuration_options,
+                    descriptions: {}
                 }
 
                 if block_given?

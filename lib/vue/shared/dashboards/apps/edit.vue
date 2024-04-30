@@ -66,8 +66,8 @@ const props = defineProps({
 
 // · translations
 const translations = {
+    dashboards: i18n.t("lesli.dashboards"),
     main: I18n.t(`${props.engine}.dashboards`),
-    dashboards: I18n.t('core.dashboards'),
     core: I18n.t('core.shared')
 }
 
