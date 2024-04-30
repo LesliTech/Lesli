@@ -20,6 +20,9 @@
       view_username: Usuario
     dashboards:
       title: Dashboards
+      column_name: Nombre
+      column_default: Default
+      view_add_component: Agregar componente
     application:
       navigation_logout: Cerrar sesión
       navigation_my_profile: Mi perfil

@@ -67,7 +67,9 @@ const props = defineProps({
 
 // · translations
 const translations = {
-    dashboards: I18n.t('core.dashboards'),
+    shared: i18n.t("lesli.shared"),
+    dashboards: i18n.t("lesli.dashboards"),
+
     components: I18n.t('core.dashboard/components'),
     core: I18n.t('core.shared'),
     roles: I18n.t('core.roles'),
@@ -193,7 +195,7 @@ onMounted(() => {
             <div class="column is-4">
                 <div class="field">
                     <label class="label">
-                        {{ "translations.dashboards.column_name" }}
+                        {{ translations.dashboards.column_name }}
                     </label>
                     <div class="control">
                         <input class="input" type="text" v-model="storeDashboard.dashboard.name" required>
@@ -201,57 +203,44 @@ onMounted(() => {
                 </div>
             </div>
 
-            <!-- Role -->
-            <div class="column is-4">
-                <div class="field">
-                    <label class="label">{{ "translations.dashboards.column_roles_id" }}</label>
-                    <div class="control">
-                        <lesli-select
-                            v-model="storeDashboard.dashboard.roles_id"
-                            :options="storeDashboard.options.roles"
-                        ></lesli-select>
-                    </div>
-                </div>
-            </div>
-
             <!-- Default -->
             <div class="column is-4">
                 <div class="field">
-                    <label class="label">{{ "translations.dashboards.column_default" }}</label>
+                    <label class="label">{{ translations.dashboards.column_default }}</label>
                     <lesli-select
                         v-model="storeDashboard.dashboard.default"
                         :options="default_options">
                     </lesli-select>
                 </div>
             </div>
-        </div>
-
-        <div class="is-flex is-justify-content-space-between">
 
             <!-- Components -->
-            <div class="field">
-                <label class="label">
-                    {{ "translations.dashboards.view_title_add_component" }}
-                </label>
-                <div class="control">
-                {{storeDashboard.new_component_id}}
-                    <lesli-select
-                        v-model="storeDashboard.new_component_id"
-                        :options="storeDashboard.options.component_ids"
-                        @change="addComponent">
-                    </lesli-select>
+            <div class="column is-4"> 
+                <div class="field">
+                    <label class="label">
+                        {{ translations.dashboards.view_add_component }}
+                    </label>
+                    <div class="control">
+                        <lesli-select
+                            v-model="storeDashboard.new_component_id"
+                            :options="storeDashboard.options.component_ids"
+                            @change="addComponent">
+                        </lesli-select>
+                    </div>
                 </div>
-            </div>
+            </div>    
+        </div>
 
-            <!-- Save button -->
-            <div class="buttons">
-                <lesli-button icon="save" :loading="storeDashboard.loading">
-                    {{ translations.dashboards.view_btn_save_dashboard }}
-                </lesli-button> 
-                <lesli-button danger icon="delete" @click="onDeleteDashboard">
-                    {{ translations.dashboards.view_btn_delete_dashboard }}
-                </lesli-button>
-            </div>
+        <!-- Save button -->
+        <div class="buttons">
+            <lesli-button icon="save" :loading="storeDashboard.loading">
+                {{ translations.shared.button_save }}
+            </lesli-button> 
+            <!--
+            <lesli-button danger icon="delete" @click="onDeleteDashboard">
+                {{ translations.dashboards.view_btn_delete_dashboard }}
+            </lesli-button>
+            -->
         </div>
     </lesli-form>
 </template>

@@ -20,6 +20,9 @@
       view_username: Username
     dashboards:
       title: Dashboards
+      column_name: Name
+      column_default: Default
+      view_add_component: Add component
     application:
       navigation_logout: Logout
       navigation_my_profile: My profile
