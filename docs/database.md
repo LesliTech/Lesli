@@ -4,7 +4,7 @@
 </p>
 
 ### 00.10. Core
-```plaintext
+```
 00.01. accounts
 00.02. roles
 00.03. users

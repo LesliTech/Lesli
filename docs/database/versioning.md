@@ -39,7 +39,7 @@ Example:
 
 Assuming we have the following migrations defined and we want to create new table **(user_shortcuts)**.
 
-```textplain
+```
 v1.0/
     01000000310_create_users.rb
     01000003110_create_user_details.rb
@@ -69,7 +69,7 @@ Explanation:
 
 **3.** Rename the migration with a standard name.
 
-```textplain
+```
   20211029165345_create_user_shortcuts.rb ——> /v1.1/01000003911_create_user_shortcuts.rb
 ```
 
@@ -109,7 +109,7 @@ end
 
 **2.** Rename the migration with a standard name.
 
-```textplain
+```
   20211029165321_alter_tests.rb ——> /v1.1/0100000111_alter_tests.rb
 ```
 
@@ -136,7 +136,7 @@ Example:
 
 **2.** Rename the migration with a standard name
 
-```textplain
+```
   20211029165321_drop_tests.rb ——> /v1.2/0100000112_drop_tests.rb
 ```
 

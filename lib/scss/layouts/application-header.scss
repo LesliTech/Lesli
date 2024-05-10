@@ -113,7 +113,8 @@ header.lesli-application-header {
             // icons
             [class^="ri-"] {
                 font-size: 25px;
-            }
+                color: lesli-css-color(black, 700);
+            }   
 
             .count {
                 top: -8px;
@@ -136,6 +137,7 @@ header.lesli-application-header {
 
             .dropdown-trigger .ri-user-smile-line {
                 font-size: 26px;
+                color: lesli-css-color(black, 700);
             }
 
             .dropdown-menu {

@@ -40,9 +40,10 @@ nav.lesli-application-navigation {
         justify-content: center;
 
         li a {
-            padding: 1rem 1.1rem;
             display: flex;
+            padding: 1rem 1.1rem;
             align-items: center;
+            color: lesli-css-color(black, 700);
 
             // link label
             span.text {

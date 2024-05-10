@@ -64,7 +64,7 @@ After this you can create any number of tables depending on the amount of resour
 
 Here is an example of a database.md file for the CloudHelp engine (code **07.02**) (this is just an example, for the real database documentation you should review the **DATABASE STRUCTURE** section):
 
-```textplain
+```
     00.01. help/account                     # Required table
 
     01.01. help/catalogs                    # Required table
