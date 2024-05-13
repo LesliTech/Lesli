@@ -1,34 +1,28 @@
-# Database Schemas
+# Database structure
 
-The database structure of Lesli and all the engines must be documented and maintained within the respective engine in the following path: *engine\_root/docs/database.md*. If you make any changes that add, remove or renumber any table, you **must** document it within this file, or your pull request will be rejected. At the current time, only changes to tables are being documented, so new columns or column name changes don't require you to modify *database.md*.
+## How to document engine's database
+The database structure of Lesli and all the engines must be documented and maintained within the respective engine in the following path: *engine\_root/docs/database.md*. If you make any changes that add, remove or renumber any table, you **must** document it within this file, or your pull request will be rejected. 
 
-These changes must also meet all standards written below.
+This documentation file must include a ER diagram with a detailed description of the engine database tables and columns, we recommend to use (mermaid)[https://mermaid.js.org/] to work with this kind of diagrams.
+
+**Example:**
+
+```mermaid
+erDiagram
+    accounts {
+        integer status
+    }
+
+    users {
+        boolean   active
+        string    email
+        string    name
+    }
+
+    users }|--|| accounts : ""
+```
 
 
-## Collection and Engine Numbering Standard
-A rails migration must containt a number as a prefix that helps rails identify which migrations must be run and in which order. We take advantage of this behavior by replacing the default rails numeration for our custom one. The prefix number of each table must be a 8 digit decimal number that meets the format **CC.EE.NN.TT.VV** where:
-
-<br />
-
-**— CC** is a 2-digit number that represents a the collection of the table. Engines that work within the same area have the same collection number. For Example **CloudFocus** (the task management system) and **CloudNotes** (the notes management system) are both under the **03** collection. There is a detailed list of all collections in the [Ecosystem section.](/about/ecosystem). 
-
-<br />
-
-**— EE** is a 2-digit number that identifies a specific engine within a collection. In our previous example, CloudFocus is **03.03** and CloudNotes is **03.05** There is a detailed list of all engines (implemented or not) in the [Ecosystem section.](/about/ecosystem).  
-
-<br />
-
-**— NN** is a 2-digit number that identifies a namespace within the engine. Namespaces must e unique within the engine, but 2 different engines can (and will in some cases) have the same namespace. For example, the table **cloud\_focus\_task** and all its child tables are all within the **03.05.10** namespace.
-
-<br />
-
-**— TT** is a 2-digit number that identifies a specific table within the namespace. For example, the table **cloud\_focus\_task** has the code **03.05.10.01** while the table **cloud\_focus\_task\_activities** has the code **03.05.10.04**.
-
-<br />
-
-**— VV** is a 2-digit number that identifies the version of the migration, this number correspond to the folder version inside the migration folder.
-
-<br />
 
 ## Namespace and Table Number Standard and Required Tables 
 To calculate engines and tables numerations, you should meet the following requirements:

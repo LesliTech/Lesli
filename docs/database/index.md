@@ -1,5 +1,8 @@
+---
+title: Database
+---
 <script setup>
-    import IndexContent from "./schema.md"
+    import IndexContent from "./structure.md"
 </script>
 
 <IndexContent />
