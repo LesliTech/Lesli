@@ -67,8 +67,8 @@ const props = defineProps({
 
 // · translations
 const translations = {
-    shared: i18n.t("lesli.shared"),
-    dashboards: i18n.t("lesli.dashboards"),
+    shared: {}, //i 18n.t("lesli.shared"),
+    dashboards: {}, //i 18n.t("lesli.dashboards"),
 
     components: I18n.t('core.dashboard/components'),
     core: I18n.t('core.shared'),

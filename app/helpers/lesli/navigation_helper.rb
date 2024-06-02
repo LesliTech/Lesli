@@ -42,9 +42,15 @@ module Lesli
 
         # Prints a html link inside a list item
         def navigation_item(path, label, icon = nil, reload: false)
+            content_tag(:li) do
+                navigation_link(path, label, icon, reload:reload)
+            end
+        end
+
+        def navigation_link(path, label, icon = nil, reload: false)
             # default vue router links for single page applications
             html_element = "router-link"
-            html_options = { to: path }
+            html_options = { to: path, class: "navbar-item" }
 
             # if reload is nedeed, we use a standard "a" tag
             if reload
@@ -52,16 +58,14 @@ module Lesli
                 html_options = { href: path }
             end
 
-            content_tag(:li) do
-                content_tag(html_element, html_options) do
-                    # print a simple menu item (without icon)
-                    concat content_tag(:span, label, class: "text iconless") unless icon
+            content_tag(html_element, html_options) do
+                # print a simple menu item (without icon)
+                concat content_tag(:span, label, class: "text iconless") unless icon
 
-                    # print a full menu item if icon was requested
-                    if icon
-                        concat content_tag("span", nil, class: [icon, "icono"])
-                        concat content_tag(:span, label, class: "text")
-                    end
+                # print a full menu item if icon was requested
+                if icon
+                    concat content_tag(:span, nil, class: icon)
+                    concat content_tag(:span, label, class: "text")
                 end
             end
         end

@@ -32,6 +32,19 @@ Building a better future, one line of code at a time.
 =end
 %>
 
+<%# check if custom navigation partial exists, getting the path from application helper %>
+<% custom_navigation_path = "partials/application-lesli-header" %>
+
+<%# validate the path to be sure the partial exists when trying to render it %>
+<% custom_navigation_exists = lookup_context.exists?(custom_navigation_path, nil, true) %>
+
+<%# render navigation partial %>
+<% if custom_navigation_exists %>
+
+    <%= render partial: custom_navigation_path %>
+
+<% else %>
+
 <lesli-application-header 
     :show-engines="true"
     <%= "show-bell" if defined?(LesliBell) %>
@@ -44,7 +57,8 @@ Building a better future, one line of code at a time.
         <%= customization_instance_logo_tag(logo: "app-logo", options: { alt: "Lesli app logo", class: "is-hidden-touch" }) %>
     </template>
 
-    <template>
+    <template v-slot:end>
+        
         <%# language selector %>
         <% if I18n.available_locales.length > 1 %>
             <div class="dropdown is-hoverable header-language-selector">
@@ -70,3 +84,5 @@ Building a better future, one line of code at a time.
         <% end %>
     </template>
 </lesli-application-header>
+
+<% end %>

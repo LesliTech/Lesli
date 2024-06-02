@@ -19,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -39,9 +39,18 @@ module Lesli
         # lesli_application_stylesheet_path(:engine) (TODO) -> stylesheet from engine current
         # lesli_application_stylesheet_path(:cloud_driver)  -> stylesheet from engine specific
         def lesli_application_stylesheet_path(engine = nil)
+
+            # Stylesheets from specific engine
             return "#{engine}/templates/application" if engine
 
-            "#{lesli_engine(:code)}/application"
+            # Get current engine information
+            lesli_engine_code = lesli_engine(:code)
+
+            # Rails main host app stylesheets
+            return "application" if lesli_engine_code == "root"
+
+            # Rails engines stylesheets
+            "#{lesli_engine_code}/application"
         end
 
         # Return a string path to load the main engine stylesheet
@@ -57,12 +66,21 @@ module Lesli
         def lesli_application_javascript_path
             # get the namespace to load specific javascript file
             # for engine or specific javascript file for core controller
-            path_segments = controller_path.split("/")
-            lesli_engine = path_segments.shift
+            # path_segments = controller_path.split("/")
+            # lesli_engine = path_segments.shift
 
-            return "onboardings/application" if is_lesli_onboarding?
+            # return "onboardings/application" if is_lesli_onboarding?
 
-            "#{lesli_engine}/application"
+
+
+            # Get current engine information
+            lesli_engine_code = lesli_engine(:code)
+
+            # Rails main host app stylesheets
+            return "application" if lesli_engine_code == "root"
+
+            # Rails engines stylesheets
+            "#{lesli_engine_code}/application"
         end
 
         def javascript_googlemaps_sdk

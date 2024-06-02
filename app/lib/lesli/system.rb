@@ -42,6 +42,9 @@ module Lesli
 
             engines() if ENGINES.empty?
 
+            # the Root engine represents the host Rails app
+            engine = "Root" unless LESLI_ENGINES.include?(engine)
+
             # return specific property if requested
             return ENGINES[engine][property.to_sym] unless property.blank?
 
@@ -59,7 +62,7 @@ module Lesli
             LESLI_ENGINES.each do |engine|
                 next unless Object.const_defined?(engine)
                 engine_instance = "#{engine}".constantize
-                ENGINES[engine]= {
+                ENGINES[engine] = {
                     :code => engine.underscore, 
                     :name => lesli_engine_name(engine), 
                     :path => engine_instance::Engine.routes.find_script_name({}),
@@ -68,6 +71,15 @@ module Lesli
                     :dir => Gem::Specification.find_by_name(engine.underscore).gem_dir
                 }
             end 
+
+            ENGINES["Root"] = {
+                :code => "root", 
+                :name => "Root", 
+                :path => "/",
+                :version => "1.0.0",
+                :build => "0000000",
+                :dir => Rails.root.to_s
+            }
 
             ENGINES
         end

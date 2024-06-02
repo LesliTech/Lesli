@@ -7,7 +7,7 @@
     "author": "The Lesli Development Team <hello@lesli.tech>",
     "devDependencies": {
 
-        "lesli-css": "/Users/ldonis/code/Lesli/LesliBuilder/enginesdev/lesli-css/lesli-css-1.6.2.tgz",
+        "lesli-css": "/Users/ldonis/code/Lesli/lesli-css/lesli-css-1.6.2.tgz",
         "lesli-vue": "/Users/ldonis/code/Lesli/lesli-vue/lesli-vue-1.0.2.tgz",
 
         "v-calendar": "3.0.3",

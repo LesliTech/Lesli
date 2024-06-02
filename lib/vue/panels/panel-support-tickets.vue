@@ -61,8 +61,8 @@ const storeTicketsPanel = useTickets()
 
 // · defining translations
 const translations = {
-    tickets: i18n.t("lesli_support.tickets"),
-    lesli: i18n.t("lesli")
+    tickets: {},
+    lesli: {}
 }
 
 

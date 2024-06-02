@@ -33,7 +33,14 @@ Building a better future, one line of code at a time.
 %>
 
 <%# check if custom navigation partial exists, getting the path from application helper %>
-<% custom_sidebar_path = "#{lesli_engine.dig(:code)}/partials/engine-navigation" %>
+<% 
+    engine = lesli_engine.dig(:code) 
+    custom_sidebar_path = if engine == "root"
+        "partials/engine-navigation"
+        else
+        "#{engine}/partials/engine-navigation" 
+    end
+%>
 
 
 <%# validate the path to be sure the partial exists when trying to render it %>
