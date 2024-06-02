@@ -42,6 +42,7 @@ Building a better future, one line of code at a time.
 
 // · Include Bulma 
 @import "lesli-css/bulma";
+@import "bulma/sass/components/navbar";
 
 
 // · Font families and icons
@@ -130,8 +131,8 @@ body {
 
 // · 
 #lesli-application {
-    display: flex;
-    flex-wrap: wrap;
+    // display: flex;
+    // flex-wrap: wrap;
 }
 
 

@@ -19,11 +19,11 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.dev
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
@@ -33,19 +33,39 @@ Building a better future, one line of code at a time.
 
 // ·
 header.lesli-application-header {
-    height: var(--lesli-header-height);
     background-color: var(--lesli-header-color);
     border-bottom: 1px solid rgba(172,179,194,.2);
-    width: 100%;
+    height: var(--lesli-header-height);
 
+    nav.lesli-navbar {
 
-    // · main logo
-    .lesli-brand {
-        img {
-            height: var(--lesli-header-height);
+        .navbar-brand {
+            img {
+                height: var(--lesli-header-height);
+            }
+        }
+
+        .navbar-item {
+            display: flex;
+
+            [class^="ri-"] {
+                font-size: 25px;
+                color: lesli-css-color(black, 700);
+            }
+
+            span {
+                line-height: 1;
+            }
+        }
+
+        .dropdown {
+            .icon-text {
+                align-items: center;
+            }
         }
     }
 
+    /*
 
     // · Navigation and icons contianer
     .lesli-application-header-container {
@@ -160,4 +180,5 @@ header.lesli-application-header {
             }
         }
     }
+    */
 }

@@ -89,7 +89,7 @@ const props = defineProps({
 // · translations
 const translations = {
     lesli: {
-        application: i18n.t("lesli.application"),
+        application: {},
     }
 }
 
@@ -122,80 +122,77 @@ function safeEngineUrl() {
 </script>
 <template>
     <header ref="lesliApplicationHeader" class="lesli-application-header">
-        <div class="lesli-application-header-container container">
-            <a :href="safeEngineUrl()">
-                <figure class="image lesli-brand">
+        <lesli-navbar>
+            <template v-slot:brand>
+                <a :href="safeEngineUrl()">
                     <slot name="brand"></slot>
-                </figure>
-            </a>
-            <div class="lesli-application-header-left">
-                <div class="control is-medium has-icons-left has-text-grey">
-                    <span class="icon is-left has-text-grey-dark">
-                        <span class="material-icons" v-if="!storeSearch.loading">
-                            search
-                        </span>
-                        <lesli-loading :icon="true" v-if="storeSearch.loading">
-                        </lesli-loading>
-                    </span>
-                    <input 
-                        type="email" 
-                        name="global_search"
-                        class="input is-shadowless" 
-                        :placeholder="translations.lesli.application.navigation_chat_with_lesli || ''"
-                        @input="storeSearch.doSearch"
-                        v-model="storeSearch.text" 
-                    />
+                </a>
+            </template>
+            <template v-slot:end>
+
+                <slot name="end"></slot>
+
+                <!-- engines selector  -->
+                <div class="navbar-item">
+                    <a  v-if="props.showEngines"
+                        @click="toggleEngines()">
+                        <span class="ri-apps-2-line"></span>
+                    </a>
                 </div>
-            </div>
-            <div class="lesli-application-header-right">
 
-                <!-- -->
-                <slot></slot>
+                <div class="navbar-item">
+                    <div class="dropdown is-hoverable">
+                        <div class="dropdown-trigger">
+                            <button 
+                                class="button is-ghost" 
+                                aria-haspopup="true" 
+                                aria-controls="dropdown-menu"
+                                @click="storeLayout.showProfile = true">
+                                <span class="ri-user-smile-line">
+                                </span>
+                            </button>
+                        </div>
+                        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                            <div class="dropdown-content">
+                                <a :href="url.admin('profile')" class="dropdown-item py-3">
+                                    <span class="icon-text">
+                                        <span class="icon has-text-grey-dark">
+                                            <span class="ri-questionnaire-line"></span>
+                                        </span>
+                                        <span>Help</span>
+                                    </span>
+                                </a>
+                                <a :href="url.admin('profile')" class="dropdown-item py-3">
+                                    <span class="icon-text">
+                                        <span class="icon has-text-grey-dark">
+                                            <span class="ri-equalizer-line"></span>
+                                        </span>
+                                        <span>Settings</span>
+                                    </span>
+                                </a>
+                                <a :href="url.admin('profile')" class="dropdown-item py-3">
+                                    <span class="icon-text">
+                                        <span class="icon has-text-grey-dark">
+                                            <span class="ri-user-line"></span>
+                                        </span>
+                                        <span>Profile</span>
+                                    </span>
+                                </a>
+                                <hr class="dropdown-divider" />
+                                <a href="/logout" class="dropdown-item py-3">
+                                    <span class="icon-text">
+                                        <span class="icon has-text-grey-dark">
+                                            <span class="ri-logout-box-r-line"></span>
+                                        </span>
+                                        <span>Logout</span>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-
-                <!-- engines selector -->
-                <a  v-if="props.showEngines"
-                    class="header-indicator" 
-                    @click="toggleEngines()">
-                    <span class="ri-apps-2-line"></span>
-                </a>
-
-                <!-- Tickets -->
-                <a 
-                    v-if="props.showSupportTickets"
-                    class="header-indicator" 
-                    @click="() => { storeLayout.showSupportTickets = true }">
-                    <span :class="['ri-ticket-2-line', { 'is-active' : storeLayout.header.tickets > 0 }]">
-                    </span>
-                    <span class="count" v-if="storeLayout.header.tickets > 0">
-                        {{ storeLayout.header.tickets }}
-                    </span>
-                </a>
-
-                <!-- Tasks -->
-                <a  v-if="props.showFocus"
-                    class="header-indicator" 
-                    @click="() => { if (storeLayout.header.tasks > 0 ) { storeLayout.showTasks = true }}">
-                    <span :class="['ri-list-check-3', { 'is-active' : storeLayout.header.tasks > 0 }]">
-                    </span>
-                    <span class="count" v-if="storeLayout.header.tasks > 0">
-                        {{ storeLayout.header.tasks }}
-                    </span>
-                </a>
-
-                <!-- Notifications -->
-                <a 
-                    v-if="props.showBell"
-                    class="header-indicator" 
-                    @click="() => { if (!storeLayout.header.notifications ) { storeLayout.showNotifications = true; }}">
-                    <span :class="['ri-notification-3-line', { 'is-active' : storeLayout.header.notifications > 0 }]">
-                    </span>
-                    <span class="count" v-if="storeLayout.header.notifications > 0">
-                        {{ storeLayout.header.notifications }}
-                    </span>
-                </a>
-
-                <!-- Profile options -->
+                <!-- Profile options
                 <div class="dropdown is-right is-hoverable header-user-options">
                     <div class="dropdown-trigger">
                         <span class="icon has-text-link">
@@ -225,7 +222,69 @@ function safeEngineUrl() {
                         </div>
                     </div>
                 </div>
+                 -->
+            </template>
+        </lesli-navbar>
+        <!--
+        <div class="lesli-application-header-container container">
+            <div class="lesli-application-header-left">
+                <div class="control is-medium has-icons-left has-text-grey">
+                    <span class="icon is-left has-text-grey-dark">
+                        <span class="material-icons" v-if="!storeSearch.loading">
+                            search
+                        </span>
+                        <lesli-loading :icon="true" v-if="storeSearch.loading">
+                        </lesli-loading>
+                    </span>
+                    <input 
+                        type="email" 
+                        name="global_search"
+                        class="input is-shadowless" 
+                        :placeholder="translations.lesli.application.navigation_chat_with_lesli || ''"
+                        @input="storeSearch.doSearch"
+                        v-model="storeSearch.text" 
+                    />
+                </div>
+            </div>
+            <div class="lesli-application-header-right">
+                
+
+                < ! - - Tickets - - >
+                <a 
+                    v-if="props.showSupportTickets"
+                    class="header-indicator" 
+                    @click="() => { storeLayout.showSupportTickets = true }">
+                    <span :class="['ri-ticket-2-line', { 'is-active' : storeLayout.header.tickets > 0 }]">
+                    </span>
+                    <span class="count" v-if="storeLayout.header.tickets > 0">
+                        {{ storeLayout.header.tickets }}
+                    </span>
+                </a>
+
+                <  ! - - Tasks - - >
+                <a  v-if="props.showFocus"
+                    class="header-indicator" 
+                    @click="() => { if (storeLayout.header.tasks > 0 ) { storeLayout.showTasks = true }}">
+                    <span :class="['ri-list-check-3', { 'is-active' : storeLayout.header.tasks > 0 }]">
+                    </span>
+                    <span class="count" v-if="storeLayout.header.tasks > 0">
+                        {{ storeLayout.header.tasks }}
+                    </span>
+                </a>
+
+                < ! - -  Notifications - - >
+                <a 
+                    v-if="props.showBell"
+                    class="header-indicator" 
+                    @click="() => { if (!storeLayout.header.notifications ) { storeLayout.showNotifications = true; }}">
+                    <span :class="['ri-notification-3-line', { 'is-active' : storeLayout.header.notifications > 0 }]">
+                    </span>
+                    <span class="count" v-if="storeLayout.header.notifications > 0">
+                        {{ storeLayout.header.notifications }}
+                    </span>
+                </a>     
             </div>
         </div>
+        -->
     </header>
 </template>
