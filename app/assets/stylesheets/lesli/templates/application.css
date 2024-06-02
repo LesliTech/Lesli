@@ -3313,36 +3313,6 @@ Building a better future, one line of code at a time.
 /*
 Lesli
 
-Copyright (c) 2022, Lesli Technologies, S. A.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-LesliCSS - SCSS Utilities for websites, apps and web applications
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-/*
-Lesli
-
 Copyright (c) 2020, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
@@ -24617,7 +24587,7 @@ Building a better future, one line of code at a time.
 .lesli-application-component {
   border-radius: 0.6rem;
   box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
-  background-color: rgb(255, 255, 255);
+  background-color: white;
 }
 
 /*
@@ -25063,7 +25033,7 @@ header.lesli-application-header nav.lesli-navbar .navbar-brand img {
   height: var(--lesli-header-height);
 }
 header.lesli-application-header nav.lesli-navbar .navbar-item {
-  display: flex;
+  padding: 0;
 }
 header.lesli-application-header nav.lesli-navbar .navbar-item [class^=ri-] {
   font-size: 25px;
@@ -25256,7 +25226,7 @@ Building a better future, one line of code at a time.
   padding: 0 28px;
   max-width: calc(100% - var(--lesli-sidebar-width));
   margin-left: var(--lesli-sidebar-width);
-  background-color: rgb(255, 255, 255);
+  background-color: white;
 }
 .application-search .content {
   padding: 0;

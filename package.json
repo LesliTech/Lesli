@@ -7,8 +7,8 @@
     "author": "The Lesli Development Team <hello@lesli.tech>",
     "devDependencies": {
 
-        "lesli-css": "/Users/ldonis/code/Lesli/lesli-css/lesli-css-1.6.2.tgz",
-        "lesli-vue": "/Users/ldonis/code/Lesli/lesli-vue/lesli-vue-1.0.2.tgz",
+        "lesli-css": "../../../lesli-css/lesli-css-2.0.0.tgz",
+        "lesli-vue": "../../../lesli-vue/lesli-vue-1.0.2.tgz",
 
         "v-calendar": "3.0.3",
         "sortablejs": "1.15.0",
