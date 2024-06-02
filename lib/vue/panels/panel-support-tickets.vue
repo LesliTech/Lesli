@@ -62,7 +62,9 @@ const storeTicketsPanel = useTickets()
 // · defining translations
 const translations = {
     tickets: {},
-    lesli: {}
+    lesli: {
+        shared:{}
+    }
 }
 
 

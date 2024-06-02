@@ -89,6 +89,7 @@ const props = defineProps({
 // · translations
 const translations = {
     lesli: {
+        shared: {},
         application: {},
     }
 }
@@ -144,7 +145,7 @@ function safeEngineUrl() {
                     <div class="dropdown is-hoverable">
                         <div class="dropdown-trigger">
                             <button 
-                                class="button is-ghost" 
+                                class="button is-ghost px-1" 
                                 aria-haspopup="true" 
                                 aria-controls="dropdown-menu"
                                 @click="storeLayout.showProfile = true">
