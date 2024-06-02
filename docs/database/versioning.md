@@ -53,7 +53,7 @@ system is completely different from Rails migration versioning.
 
 Every database change (version) should reside in its own folder, named after the current working version of the system, and the migration file within should be suffixed with the same version we are currently working on.
 
-You can check the [Lesli Ecosystem](/engines/lesli/about/ecosystem.) for reference about the engine codes.
+You can check the [Lesli Ecosystem](/engines/lesli/about/ecosystem) for reference about the engine codes.
 
 
 ### Database versioning example
@@ -68,19 +68,28 @@ You can check the [Lesli Ecosystem](/engines/lesli/about/ecosystem.) for referen
 The correct migration name to create a table is **create\_table\_name**.
 
 Example:
-Assuming we've following migrations defined and we want to create new table **(ticket_sources)**.
+Assuming we've following migrations defined and we want to create new table **(tickets)**.
 
 **1.** Create migration using the scaffold generator
 
 ```shell
-  rails generate scaffold ticket_sources
+  rails generate scaffold tickets
 ```
 
 **3.** Rename the migration with a standard name.
 
 ```
-  from 20211029165345_create_lesli_support_ticket_sources.rb 
-  to /v1.1/0702110510_create_lesli_support_ticket_sources.rb
+  from 20211029165345_create_lesli_support_tickets.rb 
+  to /v1.1/0702110510_create_lesli_support_tickets.rb
+```
+
+This is how our migration structure should look like for our new table:
+```
+rails_engine/
+    db/
+        migrate/
+            v1.0/
+                0702110110_create_lesli_support_tickets.rb
 ```
 
 
@@ -129,7 +138,7 @@ end
 ```ruby
 class AlterTickets < ActiveRecord::Migration[6.0]
     def change
-        add_column :source, :importance, :string
+        add_column :tickets, :importance, :string
     end
 end
 ```
@@ -145,5 +154,5 @@ rails_engine/
             v1.0/
                 0702110110_create_lesli_support_tickets.rb
             v1.1/
-                0702110111_create_lesli_support_tickets.rb
+                0702110111_alter_lesli_support_tickets.rb
 ```
