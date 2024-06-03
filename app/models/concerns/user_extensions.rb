@@ -57,6 +57,12 @@ module UserExtensions
     end
 
 
+    # @return [String] The first name of this user.
+    def name
+        self.first_name
+    end
+
+
     # @return [String] The name of this user.
     # @description Retrieves and returns the name of the user depending on the available information.
     #     The name can be a full name (first and last names), just the first name, or, in case the information
