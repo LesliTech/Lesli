@@ -2,9 +2,21 @@
 
 The Lesli gem offers a seamless customization experience through an initialization file. By editing this file, you can tailor colors to create a unique and personalized theme for your Rails application.
 
+## Logo customization 
+Customizing the logo with Lesli is straightforward. In your main Rails app, create a folder at `ROR/assets/images/lesli/brand`. Lesli will look for this folder and replace the default Lesli logos with your custom branding logos.
+
+You can override all the logo branding within your app by adding the following files:
+
+```text
+app-auth.svg -> Replaces the image at the top of the authentication forms.
+app-icon.svg -> Default logo for mobile devices.
+app-logo.svg -> Main image used for the header, emails, etc.
+login-background.jpg -> Replaces to background image on the login page.
+```
+
 
 ## Color customization 
-Inside our initialization file, you'll discover a dedicated section for customizing the color scheme. Simply edit the color values associated with different elements like primary color, sidebar, header, footer, background, and even hover effects.
+Inside our initialization file, you'll find a dedicated section for customizing the color scheme. Simply edit the color values for various elements such as the primary color, sidebar, header, footer, background, and hover effects.
 
 See the example below
 

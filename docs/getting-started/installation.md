@@ -3,7 +3,7 @@ import Browser from "../../../.vitepress/components/lesli-browser.vue"
 </script>
 
 # Install Lesli core
-Lesli is a Ruby on Rails gem designed to seamlessly integrate with your application. It ensures complete isolation of code, database, and assets, preventing any interference with your main RoR application.
+Lesli is a Ruby on Rails gem designed to seamlessly integrate with your application. It ensures complete isolation of code, database, and assets, preventing any interference with your main Ruby on Rails application.
 
 ### Rails application 
 
@@ -51,6 +51,29 @@ test:
   password: "db_pass"
 ```
 
+My recommendation is to use Rails Credentials or AWS Secret Manager
+
+```yml
+development:
+  <<: *default
+  database: <%= Rails.application.credentials.dig(:db, :database) %>
+  username: <%= Rails.application.credentials.dig(:db, :username) %>
+  password: <%= Rails.application.credentials.dig(:db, :password) %>
+
+test:
+  <<: *default
+  database: <%= Rails.application.credentials.dig(:db, :database) %>
+  username: <%= Rails.application.credentials.dig(:db, :username) %>
+  password: <%= Rails.application.credentials.dig(:db, :password) %>
+
+production:
+  <<: *default
+  port: <%= Rails.application.credentials.dig(:db, :port) %>
+  host: <%= Rails.application.credentials.dig(:db, :host) %>
+  database: <%= Rails.application.credentials.dig(:db, :database) %>
+  username: <%= Rails.application.credentials.dig(:db, :username) %>
+  password: <%= Rails.application.credentials.dig(:db, :password) %>
+```
 
 Create the database for Lesli
 
@@ -58,10 +81,10 @@ Create the database for Lesli
 rails db:create
 ```
 
-Lesli include a Rake task to start the database, this task is going to create, migrate, seed and initialize our database.
+Lesli include a Rake task to initialize the database for demo and development purposes, this task is going migrate, build privileges (if LesliSecurity is installed), translations (if LesliBabel is installed), seed the database with demo users and demo data for every installed engine and at the end print a pretty message with the status of the application.
 
 ```shell
-rake lesli:db:setup
+rake lesli:db:dev
 ```
 
 
