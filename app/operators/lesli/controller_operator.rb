@@ -19,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -119,6 +119,9 @@ module Lesli
 
             # Get the list of controllers and actions from engines
             Lesli::System.engines.each do |engine, engine_info|
+
+                # Do not process main Rails app
+                next if engine == "Root"
 
                 # load and retrieve the list of controllers and actions from an engine
                 routes = "#{engine}::Engine".constantize.routes.routes.each do |route| 
