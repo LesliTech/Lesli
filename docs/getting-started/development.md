@@ -3,14 +3,30 @@ The Lesli source code also is going to include the development tools to work wit
 
 ### Install the Lesli core 
 
-Clone the Lesli source code into your main Rails application
+Clone the Lesli source code into your main Rails application, the Lesli engines needs to be installed inside the "engines" folder inside the main Rails application.
+
+```text
+Main Rails app/  
+ ├── app/  
+ ├── bin/  
+ ├── config/  
+ ├── db/  
+ ├── engines/  
+ ├── lib/  
+ ├── log/  
+ ├── public/  
+ ├── spec/  
+ ├── storage/  
+ ├── tmp/  
+ └── vendor/  
+```
 
 ```shell
 # Inside your Rails root folder
 git clone git@github.com:LesliTech/Lesli.git engines/Lesli
 ```
 
-Include Lesli into your Gemfile
+Include Lesli into your Gemfile, be sure to load the engine from the source code using the "path" parameter.
 
 ```shell
 gem "lesli", path: "engines/Lesli"
@@ -26,8 +42,8 @@ bundle install
 Lesli include a Rake task to start the database:
 
 ```shell
-# This task is going to migrate, seed and initialize our database.
-rake lesli:db:setup
+# Lesli include a Rake task to initialize the database for demo and development purposes, this task is going migrate, build privileges (if LesliSecurity is installed), translations (if LesliBabel is installed), seed the database with demo users and demo data for every installed engine and at the end print a pretty message with the status of the application.
+rake lesli:db:dev
 
 # or
 
