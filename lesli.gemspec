@@ -77,7 +77,7 @@ Gem::Specification.new do |spec|
 
     # Pg is the Ruby interface to the PostgreSQL RDBMS. It works with PostgreSQL 9.3 and later.
     # This gem requires the package: libpq-dev; sudo apt-get -y install libpq-dev
-    spec.add_dependency("pg", "~> 1.5.3")
+    # spec.add_dependency("pg", "~> 1.5.3")
 
 
 
@@ -97,10 +97,7 @@ Gem::Specification.new do |spec|
     # · Tools used to build the Lesli Framework
 
     # Message utilities for the Ruby console.
-    spec.add_dependency("L2", "~> 0.5.3")
-
-    # Flexible authentication solution for Rails with Warden
-    #spec.add_dependency("devise", "~> 4.9.2")
+    spec.add_dependency("L2", "~> 0.6")
 
     # HTTP User Agent parser
     spec.add_dependency("useragent", "~> 0.16.10")
