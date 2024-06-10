@@ -16,6 +16,11 @@
       button_settings: ":lesli.shared.button_settings:"
       button_show: ":lesli.shared.button_show:"
       toolbar_search: ":lesli.shared.toolbar_search:"
+      message_operation_success: ":lesli.shared.message_operation_success:"
+      message_operation_error: ":lesli.shared.message_operation_error:"
+    application:
+      navigation_logout: ":lesli.application.navigation_logout:"
+      navigation_my_profile: ":lesli.application.navigation_my_profile:"
     users/sessions:
       view_username: ":lesli.users/sessions.view_username:"
     dashboards:
@@ -23,6 +28,3 @@
       column_name: ":lesli.dashboards.column_name:"
       column_default: ":lesli.dashboards.column_default:"
       view_add_component: ":lesli.dashboards.view_add_component:"
-    application:
-      navigation_logout: ":lesli.application.navigation_logout:"
-      navigation_my_profile: ":lesli.application.navigation_my_profile:"
