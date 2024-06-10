@@ -16,6 +16,11 @@
       button_settings: Configuración
       button_show: Ver
       toolbar_search: Buscar...
+      message_operation_success: Operacion realizada satisfactoriamente
+      message_operation_error: Operación fallida. Por favor, inténtelo de nuevo.
+    application:
+      navigation_logout: Cerrar sesión
+      navigation_my_profile: Mi perfil
     users/sessions:
       view_username: Usuario
     dashboards:
@@ -23,6 +28,3 @@
       column_name: Nombre
       column_default: Default
       view_add_component: Agregar componente
-    application:
-      navigation_logout: Cerrar sesión
-      navigation_my_profile: Mi perfil

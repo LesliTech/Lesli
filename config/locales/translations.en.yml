@@ -16,6 +16,11 @@
       button_settings: Settings
       button_show: Show
       toolbar_search: Search...
+      message_operation_success: Operation completed successfully
+      message_operation_error: Operation failed. Please try again.
+    application:
+      navigation_logout: Logout
+      navigation_my_profile: My profile
     users/sessions:
       view_username: Username
     dashboards:
@@ -23,6 +28,3 @@
       column_name: Name
       column_default: Default
       view_add_component: Add component
-    application:
-      navigation_logout: Logout
-      navigation_my_profile: My profile

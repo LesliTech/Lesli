@@ -8,15 +8,15 @@ There are several engines created and ready for production developed by the Lesl
 ### Collections 
 A collection is a group of modules that belongs to a category or a business industry.
 
-1. Administration 
-2. Sales & Marketing 
-3. Productivity & Teamwork 
-4. Finance 
-5. Analytics 
-6. Intelligence 
-7. IT & Help Desk 
-8. Security & Privacy 
-9. Integrations 
+<p style="background:#0d52bf;" class="has-text-white has-text-centered">1. Administration </p>
+<p style="background:#0d52bf;">2. Sales & Marketing </p>
+<p style="background:#0d52bf;">3. Productivity & Teamwork </p>
+<p style="background:#0d52bf;">4. Finance </p>
+<p style="background:#0d52bf;">5. Analytics </p>
+<p style="background:#0d52bf;">6. Intelligence </p>
+<p style="background:#0d52bf;">7. IT & Help Desk </p>
+<p style="background:#0d52bf;">8. Security & Privacy </p>
+<p style="background:#0d52bf;">9. Integrations </p>
 
 ### Module ecosystem 
 Currently we have planned the development of 45 modules, 24 modules are already developed and ready for production.

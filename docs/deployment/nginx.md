@@ -2,7 +2,7 @@
 
 ```nginx
 upstream puma {
-    server 0.0.0.0:9838; # port number in which your puma server starts
+    server 0.0.0.0:3000; # port number in which your puma server starts
 }
 
 server {
@@ -22,7 +22,7 @@ server {
     more_clear_headers Server;
     more_clear_headers 'X-Powered-By';
 
-    # Block invalid requests (mostly from scanning tools)
+    # Block not valid requests (mostly from scanning tools)
     location ~ (\.jsp$|\.asp$|\.py$|\.perl$|\.php$|\.env$) {
         return 404;
     }
@@ -52,7 +52,7 @@ server {
 
     location / {
 
-	try_files $uri/index.html $uri @app;
+	    try_files $uri/index.html $uri @app;
 
         # Always upgrade to HTTP/1.1
         proxy_http_version 1.1;
@@ -70,28 +70,8 @@ server {
 
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Proto https;
         proxy_set_header Host $http_host;
         proxy_redirect off;
     }
-
-
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/demo.lesli.dev/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/demo.lesli.dev/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-
-}
-
-server {
-    if ($host = demo.lesli.dev) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
-    server_name demo.lesli.dev;
-    listen 80;
-    return 404; # managed by Certbot
-
 }
 ```
