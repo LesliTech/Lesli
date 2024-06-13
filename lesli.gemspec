@@ -58,7 +58,8 @@ Gem::Specification.new do |spec|
     spec.files = Dir.chdir(File.expand_path(__dir__)) do
         Dir["{app,config,db,lib,vendor}/**/*", "license", "Rakefile", "readme.md"]
     end
-  
+
+
     # Ruby version
     spec.required_ruby_version = ">= 2.7"
 
@@ -74,10 +75,6 @@ Gem::Specification.new do |spec|
 
     # It's a small library to provide the Rails I18n translations on the Javascript.
     spec.add_dependency("i18n-js", "~> 4.2.3") 
-
-    # Pg is the Ruby interface to the PostgreSQL RDBMS. It works with PostgreSQL 9.3 and later.
-    # This gem requires the package: libpq-dev; sudo apt-get -y install libpq-dev
-    # spec.add_dependency("pg", "~> 1.5.3")
 
 
 
