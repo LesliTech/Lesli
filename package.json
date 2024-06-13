@@ -25,9 +25,9 @@
         "@fullcalendar/timegrid": "6.1.9",
         "@fullcalendar/interaction": "6.1.9",
 
-        "vue": "3.3.4",
+        "vue": "3.4.27",
         "vue-demi": "0.14.5",
-        "vue-router": "4.2.4",
+        "vue-router": "4.3.3",
         "vue-loader": "17.2.2",
         "style-loader": "3.3.3",
 
