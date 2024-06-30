@@ -68,11 +68,12 @@ module Lesli
     class ApplicationLesliGenerator < Rails::Generators::NamedBase 
 
         @info;
+        @model;
         @services;
         @rspec;
         @vue;
 
-        def parse_information 
+        def parse_info 
 
             engine, resource = name.split("/")
 
@@ -82,7 +83,20 @@ module Lesli
             # resource information 
             resource_code = resource.underscore
 
-            tabla = "#{engine}::#{resource}".constantize.columns.map do |column| 
+            @info = {
+                :engine => engine,
+                :engine_code => engine_code,
+                :engine_resource => "#{engine}::#{resource}",
+
+                :resource => resource,
+                :resource_code => resource_code,
+            }
+        end
+
+        def parse_model 
+
+            tabla = "#{@info[:engine_resource]}".constantize
+            .columns.map do |column| 
                 value = '""' if column.type == :string
                 value = 1 if column.type == :integer
                 value = "'#{Time.now}'" if column.type == :datetime
@@ -93,14 +107,8 @@ module Lesli
                 }
             end
 
-            @info = {
-                :engine => engine,
-                :engine_code => engine_code,
-
-                :resource => resource,
-                :resource_code => resource_code,
-
-                :model => "#{engine}::#{resource}",
+            @model = {
+                :name => @info[:engine_resource],
                 :columns => tabla
             }
         end
