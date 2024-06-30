@@ -105,6 +105,12 @@ Lesli.configure do |config|
         color_sidebar_hover: "#dee7ec"
     }
 
+
+    #
+    config.layout = {
+        locale: false
+    }
+
     config.path_after_login = "/"
     config.path_after_login = "/dashboard" if defined?(LesliDashboard)
 end

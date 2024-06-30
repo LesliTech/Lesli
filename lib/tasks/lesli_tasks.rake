@@ -41,9 +41,9 @@ namespace :lesli do
             Rake::Task['lesli_babel:scan'].invoke
         end 
 
-        desc "Scan and register labels"
-        task :load => :environment do |task, args|
-            Rake::Task['lesli_babel:load'].invoke
+        desc "Import local translations into LesliBabel"
+        task :import => :environment do |task, args|
+            Rake::Task['lesli_babel:import'].invoke
         end 
 
         desc "Export translations to json files"
