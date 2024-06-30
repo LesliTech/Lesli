@@ -60,7 +60,7 @@ Building a better future, one line of code at a time.
     <template v-slot:end>
         
         <%# language selector %>
-        <% if I18n.available_locales.length > 1 %>
+        <% if Lesli.config.layout.dig(:locale) && I18n.available_locales.length > 1 %>
             <div class="navbar-item">
                 <div class="dropdown is-hoverable">
                     <div class="dropdown-trigger">
