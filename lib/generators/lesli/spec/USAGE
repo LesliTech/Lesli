@@ -2,7 +2,7 @@ Description:
     Explain the generator
 
 Example:
-    bin/rails generate test Thing
+    bin/rails generate lesli:spec Lesli/Account
 
     This will create:
         what/will/it/create

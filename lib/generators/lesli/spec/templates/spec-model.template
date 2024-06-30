@@ -1,6 +1,6 @@
 =begin
-DESCRIPTION GOES HERE
-=end
+<%# TODO: Use the license file if no lesli.txt file found %>
+<%= File.read(Lesli::Engine.root.join("lesli.txt")).to_s.force_encoding("ASCII-8BIT") %>=end
 
 require "rails_helper"
 require Lesli::Engine.root.join("spec/support/testers/model")
@@ -8,7 +8,7 @@ require Lesli::Engine.root.join("spec/support/testers/model")
 RSpec.describe <%= @info[:model]%>, type: :model do
     # Setup runs before each test
     let(:account) { 
-        Account.new(<% @info[:columns].each do |column| %>
+        Account.new(<% @model[:columns].each do |column| %>
             <%= column[:name] %>: <%= column[:value] %>,<% end %>
         ) 
     }
