@@ -37,90 +37,92 @@
 
 # Specs for Lesli Core
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
-name: "Lesli specs workflow"
-on:
-
-
-  # execute this workflow only when trying to merge from dev branch to master
-  pull_request:
-    branches: [master, production]
-
-  # execute this workflow when push to master
-  push:
-    branches: [master]
-
-  # run a test daily at 1 am (Guatemala time)
-  #schedule:
-  #  - cron: "0 1 * * *"
-
-
-  # Allow to execute this test manually from the Github web app
-  workflow_dispatch:
-
-jobs:
-  test:
-    name: Test workflow for Lesli Core
-    runs-on: ubuntu-latest
-
-
-    # Do not execute the test if requests comes from another action
-    if: ${{ !contains(github.event.head_commit.message, 'ci(workflows):') && !contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):') }}
-
-    # Start database service necessary to execute the RSpec tests
-    services:
-      postgres:
-        image: postgres:11.5
-        env:
-          POSTGRES_DB: "lesli-test"
-          POSTGRES_USER: "lesli-test"
-          POSTGRES_PASSWORD: "lesli-test"
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-
-
-    steps:
-
-      # Clone LesliBuilder repository
-      - name: Checkout LesliBuilder repository
-        uses: actions/checkout@v3
-        with:
-          repository: LesliTech/LesliBuilder
-
-
-      # Clone Lesli repository
-      - name: Checkout Lesli repository
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/Lesli
-          repository: LesliTech/Lesli
-
-      # Build the Lesli database
-      - name: Copy configuration files
-        run: |
-          cp ./engines/Lesli/.github/rails/database.yml ./config/database.yml
-
-      # Use the official receipt to install ruby in ubuntu
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.1.2
-          bundler-cache: true
-
-
-      # Build the Lesli database
-      - name: Set up PostgreSQL database 
-        run: RAILS_ENV=test bundle exec rake lesli:db:reset
-        env:
-          RAILS_ENV: test
-
-
-      # Run Rspec tests
-      - name: Run Rails tests
-        run: bundle exec rspec spec
-        env:
-          CODECOV: true
+  name: "Lesli specs workflow"
+  on:
+  
+  
+    # execute this workflow only when trying to merge from dev branch to master
+    pull_request:
+      branches: [master, production]
+  
+    # execute this workflow when push to master
+    push:
+      branches: [master]
+  
+    # run a test daily at 1 am (Guatemala time)
+    #schedule:
+    #  - cron: "0 1 * * *"
+  
+  
+    # Allow to execute this test manually from the Github web app
+    workflow_dispatch:
+  
+  jobs:
+    test:
+      name: Test workflow for Lesli Core
+      runs-on: ubuntu-latest
+  
+  
+      # Do not execute the test if requests comes from another action
+      if: ${{ !contains(github.event.head_commit.message, 'ci(workflows):') && !contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):') }}
+  
+      # Start database service necessary to execute the RSpec tests
+      services:
+        postgres:
+          image: postgres:11.5
+          env:
+            POSTGRES_DB: "lesli-test"
+            POSTGRES_USER: "lesli-test"
+            POSTGRES_PASSWORD: "lesli-test"
+          options: >-
+            --health-cmd pg_isready
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+          ports:
+            - 5432:5432
+  
+  
+      steps:
+  
+        # Clone LesliBuilder repository
+        - name: Checkout LesliBuilder repository
+          uses: actions/checkout@v3
+          with:
+            repository: LesliTech/LesliBuilder
+  
+  
+        # Clone Lesli repository
+        - name: Checkout Lesli repository
+          uses: actions/checkout@v3
+          with:
+            path: ./engines/Lesli
+            repository: LesliTech/Lesli
+  
+        # Build the Lesli database
+        - name: Copy configuration files
+          run: |
+            cp ./engines/Lesli/.github/rails/database.yml ./config/database.yml
+            rm ./Gemfile.lock
+  
+        # Use the official receipt to install ruby in ubuntu
+        - name: Install Ruby and gems
+          uses: ruby/setup-ruby@v1
+          with:
+            ruby-version: 3.1.2
+            bundler-cache: true
+  
+  
+        # Build the Lesli database
+        - name: Set up PostgreSQL database 
+          run: RAILS_ENV=test bundle exec rake lesli:db:reset
+          env:
+            RAILS_ENV: test
+  
+  
+        # Run Rspec tests
+        - name: Run Rails tests
+          run: bundle exec rspec spec
+          env:
+            CODECOV: true
+  
