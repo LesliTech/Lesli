@@ -48,7 +48,7 @@ require Lesli::Engine.root.join("spec/support/config/spec_coverage")
 
 
 # ·
-Dir.glob(Lesli::Engine.root.join("spec/support/factories/*.rb")).sort.each do |factory|
+Dir.glob(Lesli::Engine.root.join("spec/factories/*.rb")).sort.each do |factory|
     require_dependency factory
 end
 
@@ -116,7 +116,7 @@ end
 
 
 # ·
-L2.br(5)
+L2.br(2)
 
 
 # Notify to user...

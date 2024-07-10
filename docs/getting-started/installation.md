@@ -31,7 +31,7 @@ bundle add lesli
 Open the database configuration file
 `LesliApp/config/database.yml`
 
-Add PostgreSQL as the main database (Currently Lesli is compatible only with Postgres)
+Add PostgreSQL as the main database (Currently Lesli is compatible only with PostgreSQL and SQLite)
 ```yml
 default: &default
   adapter: postgresql

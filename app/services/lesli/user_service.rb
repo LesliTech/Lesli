@@ -60,7 +60,7 @@ module Lesli
                 :id,
                 :email,
                 "CONCAT_WS(' ', first_name, last_name) as name",
-                "COALESCE(alias, email) as alias"
+                "COALESCE(NULLIF(alias,''), email) as alias"
             ).as_json
         end
     end

@@ -52,13 +52,13 @@ Building a better future, one line of code at a time.
 @lesli[:instance] = Rails.application.credentials.dig(:instance) || lesli_instance_code
 @lesli[:engine] = lesli_engine.dig(:code)   # use into url plugin to for dynamic search 
 @lesli[:url] = request.base_url.to_s        # use as base for url plugin
-@lesli[:engine_paths] = {}
 
 %>
 
 
 <% 
 # Dynamic build the engines mouted path
+@lesli[:engine_paths] = {}
 Lesli::System.engines.each do |engine, engine_info|
     @lesli[:engine_paths][engine] = engine_info[:path]
 end 

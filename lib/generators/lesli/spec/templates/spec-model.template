@@ -5,17 +5,27 @@
 require "rails_helper"
 require Lesli::Engine.root.join("spec/support/testers/model")
 
-RSpec.describe <%= @info[:model]%>, type: :model do
+RSpec.describe <%= @model[:name]%>, type: :model do
+
     # Setup runs before each test
-    let(:account) { 
-        Account.new(<% @model[:columns].each do |column| %>
-            <%= column[:name] %>: <%= column[:value] %>,<% end %>
-        ) 
-    }
+    let(:<%= @info[:engine_resource_code] %>) { FactoryBot.create(:<%= @info[:engine_resource_code] %>) }
 
     it "is valid with valid attributes" do
-        expect(account).to be_valid
+        expect(<%= @info[:engine_resource_code] %>).to be_valid
     end
+
+    <% @model[:columns].each do |column| %>
+        <% next if ["id", "created_at", "updated_at"].include?(column[:name]) %>
+        <% if !column[:null] %>
+            it "is valid with valid attributes" do
+                <%= @info[:engine_resource_code] %>.<%= column[:name]%> = nil
+                expect(<%= @info[:engine_resource_code] %>).not_to be_valid
+            end
+        <% end %>
+    <% end %>
+
+=begin
+
 
     it "is invalid without a name" do
         account.name = nil
@@ -56,4 +66,5 @@ RSpec.describe <%= @info[:model]%>, type: :model do
             expect(account.reload.balance).to eq(150.0)
         end
     end
+=end
 end

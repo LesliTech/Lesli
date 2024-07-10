@@ -65,12 +65,12 @@ module.exports = env => {
     
     // Root vue applications
     webpackConfig.push(Object.assign({}, webpackBase(env), webpackRoot(env, requestedEngines)))
-    version(env, { code: "root", dir: "Root" })
+    //version(env, { code: "root", dir: "Root" })
 
 
     // Core vue applications
-    //webpackConfig.push(Object.assign({}, webpackBase(env), webpackCore(env, requestedEngines)))
-    //version(env, { code: "lesli", dir: "Lesli" })
+    webpackConfig.push(Object.assign({}, webpackBase(env), webpackCore(env, requestedEngines)))
+    version(env, { code: "lesli", dir: "Lesli" })
     
 
     // Engines vue applications

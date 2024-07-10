@@ -41,7 +41,7 @@ RSpec.describe "POST:/password", type: :request do
 
     it "is expected to request a password recovery email" do
 
-        @user = FactoryBot.create(:user)
+        @user = FactoryBot.create(:lesli_user)
 
         post("/password", params: {
             user: { 
@@ -59,7 +59,7 @@ RSpec.describe "POST:/password", type: :request do
 
     it "is expected to fail when request a password recovery for not active user" do
 
-        @user = FactoryBot.create(:user)
+        @user = FactoryBot.create(:lesli_user)
 
         @user.update(:active => false)
 

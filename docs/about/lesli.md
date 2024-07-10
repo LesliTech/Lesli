@@ -12,16 +12,14 @@ Lesli is completely open source and comes with features and tools that can save 
 
 Leslie is published under the General Public License version 3, which means you are free to use, copy, redistribute it and/or modify Lesli (under the terms of the GNU General Public License).
 
+## How it works?
+<img alt="Lesli architecture" src="../images/lesli.excalidraw.svg" />
+
 
 ## Ruby on Rails 
-The text "Ruby on Rails SaaS Development Framework." describes a software development platform that utilizes the Ruby on Rails framework to build Software as a Service (SaaS) applications.
-
 Ruby on Rails, often referred to as Rails, is a popular open-source web application framework written in the Ruby programming language. It follows the Model-View-Controller (MVC) architectural pattern, providing developers with a structured and efficient way to build web applications.
 
+By utilizing Ruby on Rails as the underlying framework, the SaaS development framework benefits from its extensive libraries, conventions, and built-in features. Rails simplifies common web development tasks, such as routing, database management, and handling user authentication, enabling developers to focus on building the core functionalities of their SaaS applications efficiently.
 
 ## SaaS Framework
 In the context of SaaS development, the framework leverages Ruby on Rails to create scalable and customizable software solutions that can be accessed by users over the internet. SaaS refers to a software delivery model where applications are centrally hosted and provided as a service to customers. This eliminates the need for users to install and maintain software locally, as they can access the application through a web browser.
-
-
-## Ruby on Rails SaaS Development Framework.
-By utilizing Ruby on Rails as the underlying framework, the SaaS development framework benefits from its extensive libraries, conventions, and built-in features. Rails simplifies common web development tasks, such as routing, database management, and handling user authentication, enabling developers to focus on building the core functionalities of their SaaS applications efficiently.

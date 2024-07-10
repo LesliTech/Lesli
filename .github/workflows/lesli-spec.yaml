@@ -45,6 +45,9 @@ on:
   pull_request:
     branches: [master, production]
 
+  # execute this workflow when push to master
+  push:
+    branches: [master]
 
   # run a test daily at 1 am (Guatemala time)
   #schedule:

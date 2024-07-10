@@ -1,5 +1,5 @@
 <script setup>
-    import Docs from "../ruby-on-rails/configuration.md"
+    import Docs from "../ruby-on-rails/initializer.md"
 </script>
 
 <Docs />

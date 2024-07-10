@@ -49,15 +49,38 @@ if ENV["COVERAGE"]
     ])
 
     # limit the number of missing lines
-    SimpleCov::Formatter::Console.missing_len = 40 
+    SimpleCov::Formatter::Console.missing_len = 50 
 
     # configure the files to track and ignore
     SimpleCov.start do 
         #track_files 'lib/**/*.rb'
+        
         # remove to track files in these folders
-        #add_filter "/spec"
-        #add_filter "/vendor"
-        add_filter "/engines"
+        add_filter "/spec"
+        add_filter "/vendor"
+
+        # temporary exceptions
+        add_filter "/engines/Lesli/app/lib"
+        add_filter "/engines/Lesli/app/models"
+        add_filter "/engines/Lesli/app/helpers"
+        add_filter "/engines/Lesli/app/mailers"
+        add_filter "/engines/Lesli/app/services"
+        add_filter "/engines/Lesli/app/operators"
+        add_filter "/engines/Lesli/app/validators"
+        add_filter "/engines/Lesli/app/controllers/lesli/interfaces"
+        add_filter "/engines/Lesli/app/controllers/lesli/application_controller.rb"
+        add_filter "/engines/Lesli/app/controllers/lesli/application_lesli_controller.rb"
+
+        add_filter "/engines/LesliShield"
+        add_filter "/engines/LesliSupport"
+        add_filter "/engines/LesliDashboard"
+        add_filter "/engines/LesliAudit"
+    end
+
+    # execute test coverage after test suites
+    RSpec.configure do |config|
+        config.after(:suite) do
+        end
     end
 end
 

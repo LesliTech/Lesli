@@ -1,0 +1,17 @@
+=begin
+<%# TODO: Use the license file if no lesli.txt file found %>
+<%= File.read(Lesli::Engine.root.join("lesli.txt")).to_s.force_encoding("ASCII-8BIT") %>=end
+
+FactoryBot.define do
+    factory :<%= @info[:engine_resource_code] %>, class: <%= @info[:engine_resource] %> do
+        name { Faker::Company.name }
+
+        <% @model[:columns].each do |column| %>
+        <%= column[:name] %> { <%= column[:faker] %> }<% end %>
+
+        after(:create) do |account, evaluator|
+            account.user = FactoryBot.create(:user, account_id: account.id)
+            account.save
+        end
+    end
+end
