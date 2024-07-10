@@ -69,6 +69,7 @@ module Lesli
 
         @info;
         @model;
+        @factory;
         @services;
         @rspec;
         @vue;
@@ -86,10 +87,12 @@ module Lesli
             @info = {
                 :engine => engine,
                 :engine_code => engine_code,
-                :engine_resource => "#{engine}::#{resource}",
-
+                
                 :resource => resource,
                 :resource_code => resource_code,
+
+                :engine_resource => "#{engine}::#{resource}",
+                :engine_resource_code => "#{engine_code}_#{resource_code}"
             }
         end
 
@@ -97,13 +100,28 @@ module Lesli
 
             tabla = "#{@info[:engine_resource]}".constantize
             .columns.map do |column| 
-                value = '""' if column.type == :string
-                value = 1 if column.type == :integer
-                value = "'#{Time.now}'" if column.type == :datetime
+
+                if column.type == :string
+                    value = '""' 
+                    faker = "Faker::String.random"
+                end
+
+                if column.type == :integer
+                    value = 1 
+                    faker = "Faker::Number.digit"
+                end
+
+                if column.type == :datetime
+                    value = "'#{Time.now}'" 
+                    faker = 'Faker::Date.between(from: 2.days.ago, to: Date.today)'
+                end
+
                 { 
                     :name => column.name, 
                     :type => column.type,
-                    :value => value
+                    :null => column.null,
+                    :value => value,
+                    :faker => faker
                 }
             end
 

@@ -6,7 +6,7 @@ Clone the LesliDemo repository from Github
 
 ```shell
 # Inside your Rails root folder
-git clone git@github.com:LesliTech/LesliDemo.git 
+git clone https://github.com/LesliTech/lesli-docker-demo.git 
 ```
 
 Run the Lesli image

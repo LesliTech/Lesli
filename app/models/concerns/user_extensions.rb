@@ -58,7 +58,7 @@ module UserExtensions
 
 
     # @return [String] The first name of this user.
-    def name
+    def name2
         self.first_name
     end
 

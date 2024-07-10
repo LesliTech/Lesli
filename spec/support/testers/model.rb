@@ -31,51 +31,6 @@ Building a better future, one line of code at a time.
 =end
 
 
-# · 
 require Lesli::Engine.root.join("spec/support/helpers/rails_helper")
 require Lesli::Engine.root.join("spec/support/helpers/lesli_helper")
 require Lesli::Engine.root.join("spec/support/helpers/response_request_helper")
-
-# · 
-LESLI_ENGINE_MOUNTED_PATH = Lesli::Engine.routes.find_script_name({}) if defined?(Lesli)
-LESLI_ADMIN_ENGINE_MOUNTED_PATH = LesliAdmin::Engine.routes.find_script_name({}) if defined?(LesliAdmin)
-
-# · Authentication context
-RSpec.shared_context "request user authentication" do
-
-    # Creates a new valid user session
-    before(:each) do
-        @query = {
-            search: "",
-            filters: {},
-            pagination: {
-                perPage: 15,
-                page: 1,
-                order: "desc",
-                orderBy: "id",
-                orderColumn: "id"
-            }
-        }
-
-        @current_user = FactoryBot.create(:lesli_user)
-        sign_in(@current_user)
-    end
-end
-
-
-# · Configuration
-RSpec.configure do |config|
-
-    # Include devise helpers to be able to login on test runtime
-    config.include Devise::Test::IntegrationHelpers
-
-    # Include helper methods
-    config.include ResponseRequestHelper
-    #config.include LesliHelper
-
-    config.before(:each, type: :request) do
-        #host! 'localhost:3000'
-        #default_url_options[:host] = 'https://localhost:3000'
-    end
-
-end

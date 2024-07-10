@@ -41,7 +41,7 @@ RSpec.describe "POST:/login.json", type: :request do
 
     # creates a new user for every test
     before :each do
-        @user = FactoryBot.create(:user)
+        @user = FactoryBot.create(:lesli_user)
     end
 
 

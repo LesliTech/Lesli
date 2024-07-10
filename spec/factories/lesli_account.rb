@@ -19,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -30,29 +30,13 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-
 FactoryBot.define do
-    factory :account, class: "Lesli::Account" do
+    factory :lesli_account, class: Lesli::Account do
         #status { Account.statuses.keys.first }
-        company_name { Faker::Company.name }
-        company_name_legal { Faker::Company.name }
-        company_tagline { Faker::Company.bs }
-        # country { Faker::Address.country }
-        address { Faker::Address.full_address }
-        #region { Account.regions.values.sample }
-        #city { Faker::Address.city }
-        postal_code { Faker::Address.zip_code }
-        website { Faker::Internet.url  }
-        phone_number_1 { Faker::PhoneNumber.phone_number }
-        public_email { Faker::Internet.email }
-        github { Faker::Lorem.word }
-        twitter { Faker::Twitter.user[:name] }
-        youtube { Faker::Lorem.word }
-        linkedin { Faker::Lorem.word }
-        facebook { Faker::Lorem.word }
+        name { Faker::Company.name }
 
         after(:create) do |account, evaluator|
-            account.user = FactoryBot.create(:user, account_id: account.id)
+            account.user = FactoryBot.create(:lesli_user, account_id: account.id)
             account.save
         end
     end
