@@ -53,9 +53,14 @@ const url = inject("url")
 
 // · defining props
 const props = defineProps({
+    showProfile: {
+        type: Boolean,
+        default: false,
+        required: false
+    },
     showEngines: {
         type: Boolean,
-        default: true,
+        default: false,
         required: false
     },
     showBell: {
@@ -68,7 +73,7 @@ const props = defineProps({
         default: false,
         required: false
     },
-    showSupportTickets: {
+    showSupport: {
         type: Boolean,
         default: false,
         required: false
@@ -133,25 +138,51 @@ function safeEngineUrl() {
 
                 <slot name="end"></slot>
 
+                <!-- tickets -->
+                <div class="navbar-item" v-if="props.showSupport">
+                    <a  class="header-indicator"
+                        @click="() => { storeLayout.showSupport = true }">
+                        <span class="count" v-if="storeLayout.header.support > 0"></span>
+                        <span class="ri-ticket-2-line"></span>
+                    </a>
+                </div>
+
+                <!-- tasks -->
+                <div class="navbar-item" v-if="props.showFocus">
+                    <a  class="header-indicator"
+                        @click="() => { storeLayout.showSuppor = true }">
+                        <span class="ri-list-check-3">
+                        </span>
+                        <span class="count" v-if="storeLayout.header.support > 0">
+                        </span>
+                    </a>
+                </div>
+
+                <!-- notifications -->
+                <div class="navbar-item" v-if="props.showBell">
+                    <a class="header-indicator">
+                        <span :class="['ri-notification-3-line', { 'is-active' : storeLayout.header.notifications > 0 }]">
+                        </span>
+                        <span class="count">
+                        </span>
+                    </a>
+                </div>
+
                 <!-- engines selector  -->
-                <div class="navbar-item">
-                    <a  v-if="props.showEngines"
-                        @click="toggleEngines()">
+                <div class="navbar-item" v-if="props.showEngines">
+                    <a @click="toggleEngines()">
                         <span class="ri-apps-2-line"></span>
                     </a>
                 </div>
 
-                <div class="navbar-item">
+                <!-- profile options -->
+                <div class="navbar-item" v-if="props.showProfile">
                     <div class="dropdown is-hoverable">
                         <div class="dropdown-trigger">
-                            <button 
-                                class="button is-ghost px-1" 
-                                aria-haspopup="true" 
-                                aria-controls="dropdown-menu"
-                                @click="storeLayout.showProfile = true">
+                            <a @click="storeLayout.showProfile = true">
                                 <span class="ri-user-smile-line">
                                 </span>
-                            </button>
+                            </a>
                         </div>
                         <div class="dropdown-menu" id="dropdown-menu" role="menu">
                             <div class="dropdown-content">
@@ -192,38 +223,6 @@ function safeEngineUrl() {
                         </div>
                     </div>
                 </div>
-
-                <!-- Profile options
-                <div class="dropdown is-right is-hoverable header-user-options">
-                    <div class="dropdown-trigger">
-                        <span class="icon has-text-link">
-                            <span class="ri-user-smile-line" @click="storeLayout.showProfile = true">
-                            </span>
-                        </span>
-                    </div>
-                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                        <div class="dropdown-content">
-                            <a :href="url.admin('profile')" class="dropdown-item py-3">
-                                <span class="icon-text">
-                                    <span class="icon has-text-grey-dark">
-                                        <span class="ri-user-line"></span>
-                                    </span>
-                                    <span>{{ translations.lesli.application.navigation_my_profile }}</span>
-                                </span>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="/logout" class="dropdown-item py-3">
-                                <span class="icon-text">
-                                    <span class="icon has-text-grey-dark">
-                                        <span class="ri-logout-box-r-line"></span>
-                                    </span>
-                                    <span>{{ translations.lesli.application.navigation_logout }}</span>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                 -->
             </template>
         </lesli-navbar>
         <!--
@@ -246,44 +245,6 @@ function safeEngineUrl() {
                         v-model="storeSearch.text" 
                     />
                 </div>
-            </div>
-            <div class="lesli-application-header-right">
-                
-
-                < ! - - Tickets - - >
-                <a 
-                    v-if="props.showSupportTickets"
-                    class="header-indicator" 
-                    @click="() => { storeLayout.showSupportTickets = true }">
-                    <span :class="['ri-ticket-2-line', { 'is-active' : storeLayout.header.tickets > 0 }]">
-                    </span>
-                    <span class="count" v-if="storeLayout.header.tickets > 0">
-                        {{ storeLayout.header.tickets }}
-                    </span>
-                </a>
-
-                <  ! - - Tasks - - >
-                <a  v-if="props.showFocus"
-                    class="header-indicator" 
-                    @click="() => { if (storeLayout.header.tasks > 0 ) { storeLayout.showTasks = true }}">
-                    <span :class="['ri-list-check-3', { 'is-active' : storeLayout.header.tasks > 0 }]">
-                    </span>
-                    <span class="count" v-if="storeLayout.header.tasks > 0">
-                        {{ storeLayout.header.tasks }}
-                    </span>
-                </a>
-
-                < ! - -  Notifications - - >
-                <a 
-                    v-if="props.showBell"
-                    class="header-indicator" 
-                    @click="() => { if (!storeLayout.header.notifications ) { storeLayout.showNotifications = true; }}">
-                    <span :class="['ri-notification-3-line', { 'is-active' : storeLayout.header.notifications > 0 }]">
-                    </span>
-                    <span class="count" v-if="storeLayout.header.notifications > 0">
-                        {{ storeLayout.header.notifications }}
-                    </span>
-                </a>     
             </div>
         </div>
         -->

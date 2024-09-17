@@ -1,9 +1,10 @@
 # Install Lesli for development
-The Lesli source code also is going to include the development tools to work with the Vue and SaaS applications.
+Lesli provides a pre-configured environment for working with Vue and SASS applications. It also includes a build process that compiles Vue and SASS into standard JavaScript and CSS code.
+
 
 ### Install the Lesli core 
 
-Clone the Lesli source code into your main Rails application, the Lesli engines needs to be installed inside the "engines" folder inside the main Rails application.
+Clone the Lesli source code repository into your main Rails application, Lesli and the Lesli engines needs to be installed inside an "engines" folder inside the main Rails application.
 
 ```text
 Main Rails app/  
@@ -11,7 +12,7 @@ Main Rails app/
  ├── bin/  
  ├── config/  
  ├── db/  
- ├── engines/  
+ ├── engines/ -> Lesli goes here!   
  ├── lib/  
  ├── log/  
  ├── public/  
@@ -73,7 +74,7 @@ RAILS_SERVE_STATIC_FILES=true rails s --environment=production
 ### Logging into your new Lesli application
 The seeders comes with default users with different roles and privileges, to see Lesli in action use the owner user:
 
-__username:__ hello@lesli.tech 
-__password:__ tardis2023$
+__username:__ hello@lesli.tech <br/>
+__password:__ Tardis2024$
 
 > It is possible to add development users, roles, privileges and more; we will explore this options later in the documentation.

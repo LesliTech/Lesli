@@ -24,6 +24,14 @@ Add Lesli gem to your Rails app
 bundle add lesli
 ```
 
+Add some Lesli modules to your Rails app
+
+```shell
+bundle add lesli_shield     # Authentication & Authorization
+bundle add lesli_security   # Role & Privilege management
+bundle add lesli_calendar   # Nice calendar to play with
+```
+
 <br/>
 
 ### Database 
@@ -120,7 +128,7 @@ Using your favorite web browser navigate to <a href="http://127.0.0.1:3000" targ
 The seeders comes with default users with different roles and privileges, to see Lesli in action use the owner user:
 
 __username:__ hello@lesli.tech <br/>
-__password:__ tardis2023$ 
+__password:__ Tardis2023$ 
 
 ::: info
 It is possible to add development users, roles, privileges and more; we will explore this options later in the documentation.

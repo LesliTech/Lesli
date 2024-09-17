@@ -46,11 +46,11 @@ Building a better future, one line of code at a time.
 <% else %>
 
 <lesli-application-header 
-    :show-engines="true"
-    <%= "show-bell" if defined?(LesliBell) %>
     <%= "show-focus" if defined?(LesliFocus) %>
-    <%= "show-support-tickets" if defined?(LesliSupport) %>
-    engine-path="<%= defined?(LesliDashboard) ? lesli_dashboard.root_path : lesli_engine(:path)%>">
+    show-profile
+    show-engines
+    show-bell
+    show-support>
     
     <template v-slot:brand>
         <%= customization_instance_logo_tag(logo: "app-icon", options: { alt: "Lesli app logo", class: "is-hidden-desktop" }) %>

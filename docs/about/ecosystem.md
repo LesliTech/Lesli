@@ -58,7 +58,7 @@ A collection is a group of modules that belongs to a category or a business indu
 
 
 ### Module ecosystem 
-Currently we have planned the development of 45 modules, 24 modules are already developed and ready for production.
+Currently we have planned the development of 45 modules, 11 modules are already developed and ready for production.
 
 <table class="table is-fullwidth is-striped" style="display: table;">
     <tr>
@@ -77,17 +77,17 @@ Currently we have planned the development of 45 modules, 24 modules are already 
         <td>Unified Calendar App</td>
     </tr>
     <tr>
-        <td>0305</td>
+        <td>0305.</td>
         <td>LesliLetter</td>
         <td>Notes & Notebooks</td>
     </tr>
     <tr>
-        <td>0306</td>
+        <td>0306.</td>
         <td>LesliDashoard</td>
         <td>Smart business assistant</td>
     </tr>
     <tr>
-        <td>0308</td>
+        <td>0308.</td>
         <td>LesliBell</td>
         <td>Notification system</td>
     </tr>
