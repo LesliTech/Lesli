@@ -36,16 +36,18 @@ Building a better future, one line of code at a time.
 
 
 // · Configuration & variables
-@import "LesliStyle/settings/variables";
+@import "Lesli/scss/settings/variables";
 
 
 // · Include Bulma 
-@import "LesliStyle/bulma/loader";
+@import "lesli-css/bulma";
 
 
 // · Font families and icons
-@import "LesliStyle/fonts/remixicons";
-@import "LesliStyle/fonts/families";
+@import "Lesli/scss/fonts/mdicons";
+@import "Lesli/scss/fonts/families";
+@import "Lesli/scss/fonts/remixicons";
+
 
 
 // · 

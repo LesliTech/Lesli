@@ -34,7 +34,7 @@ Building a better future, one line of code at a time.
 // ·
 header.lesli-application-header {
     background-color: var(--lesli-header-color);
-    border-bottom: 1px solid rgba(172,179,194,.2);
+    border-bottom: 1px solid rgba(172,179,194,.3);
     height: var(--lesli-header-height);
 
     nav.lesli-navbar {
@@ -48,13 +48,37 @@ header.lesli-application-header {
         .navbar-item {
             padding: 0;
 
+            // navigation icon containers
+            span {
+                line-height: 1;
+            }
+
+            // navigation icons
             [class^="ri-"] {
                 font-size: 25px;
+                padding: 0 0.6rem;
                 color: lesli-css-color(black, 700);
             }
 
-            span {
-                line-height: 1;
+            // Notification icon & count
+            .header-indicator {
+                position: relative;
+
+                // icons
+                [class^="ri-"] {
+                    font-size: 25px;
+                    color: lesli-css-color(black, 700);
+                }   
+
+                .count {
+                    top: -4px;
+                    right: 6px;
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    background-color: lesli-css-color(berry, 300);
+                    position: absolute;
+                }
             }
         }
 
@@ -64,121 +88,4 @@ header.lesli-application-header {
             }
         }
     }
-
-    /*
-
-    // · Navigation and icons contianer
-    .lesli-application-header-container {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 0 1.2rem;
-    }
-
-
-    // · Logo and search container
-    .lesli-application-header-left {
-        flex: 1;
-
-        .control {
-            flex: 1;
-
-            .icon {
-                height: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .material-icons {
-                font-size: 25px;
-            }
-
-            input {
-                font-size: 1.15rem;
-                padding-left: 2.7rem;
-                border-radius: 8px;
-                border: 1px solid transparent;
-                transition: all linear .3s;
-                background-color: transparent;
-
-                &::placeholder {
-                    color: lesli-css-color(silver, 700);
-                }
-
-                &:focus {
-                    max-width: 98%;
-                    border-color: lesli-css-color(silver);
-                }
-            }
-        }
-    }
-
-
-    // · Indicator icons container
-    .lesli-application-header-right {
-
-        .header-language-selector {
-            height: 24px;
-        }
-
-        // Notification icon & count
-        .header-indicator {
-            margin-left: 20px;
-            position: relative;
-
-            // icons
-            [class^="ri-"] {
-                font-size: 25px;
-                color: lesli-css-color(black, 700);
-            }   
-
-            .count {
-                top: -8px;
-                right: -4px;
-                width: 8px;
-                height: 8px;
-                font-size: 0px;
-                text-align: center;
-                border-radius: 50%;
-                background-color: lesli-css-color(berry, 300);
-                color: lesli-css-color(silver, 100);
-                font-family: sans-serif;
-                position: absolute;
-            }
-        }
-
-        // 
-        .header-user-options {
-            margin-left: 20px;
-
-            .dropdown-trigger .ri-user-smile-line {
-                font-size: 26px;
-                color: lesli-css-color(black, 700);
-            }
-
-            .dropdown-menu {
-                min-width: 15rem;
-
-                .dropdown-content {
-                    width: 100%;
-                    padding: 0;
-
-                    hr.dropdown-divider {
-                        margin: 0;
-                    }
-                }
-            }
-
-            .dropdown-item {
-                [class^="ri-"] {
-                    font-size: 22px;
-                }
-            }
-        }
-    }
-    */
 }

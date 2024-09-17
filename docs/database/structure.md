@@ -1,6 +1,5 @@
-# Database structure
+# Lesli Database structure
 
-## How to document engine's database
 The database structure of Lesli and all the engines must be documented and maintained within the respective engine in the following path: *engine\_root/docs/database.md*. If you make any changes that add, remove or renumber any table, you **must** document it within this file, or your pull request will be rejected. 
 
 This documentation file must include a ER diagram with a detailed description of the engine database tables and columns, we recommend to use (mermaid)[https://mermaid.js.org/] to work with this kind of diagrams.
