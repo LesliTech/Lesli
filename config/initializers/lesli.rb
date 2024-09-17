@@ -45,7 +45,7 @@ Lesli.configure do |config|
     config.company = {
         name: "Lesli",
         email: "hello@lesli.tech",
-        tagline: "Ruby on Rails SaaS Development Platform."
+        tagline: "The Open SaaS Development Platform."
     }
 
 
