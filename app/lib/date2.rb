@@ -138,6 +138,11 @@ class Date2
         # get right format for dates
         format = self.db_format
 
+        # compatibility for SQLite
+        if ActiveRecord::Base.connection.adapter_name == "SQLite"
+            return "strftime('#{format}', #{table}#{column}) as #{column}_string"
+        end
+
         "TO_CHAR(#{table}#{column} at time zone 'utc' at time zone '#{@settings[:time_zone]}', '#{format}') as #{column}_string"
 
     end
@@ -174,6 +179,9 @@ class Date2
 
     def db_format
         format = @format
+
+        # SQLite format dates are the same of ruby format 
+        return format if ActiveRecord::Base.connection.adapter_name == "SQLite"
 
         # Convert Ruby to postgresql date format
         format = format.gsub("%Y", "YYYY")

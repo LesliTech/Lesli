@@ -40,11 +40,18 @@ nav.lesli-application-navigation {
         justify-content: center;
 
         li a {
+            gap: 6px;
             display: flex;
             padding: 1rem 1.1rem;
             align-items: center;
+            border-bottom: 2px solid transparent;
             color: lesli-css-color(black, 700);
 
+            // highlight active link
+            &.navigation-link-active {
+                border-bottom-color: lesli-css-color(lesli, primary);
+            }
+            
             // link label
             span.text {
                 flex-grow: 1;

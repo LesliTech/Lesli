@@ -44,7 +44,7 @@ FactoryBot.define do
 
         password { Devise.friendly_token }
 
-        account_id { (Lesli::Account.first.nil? ? FactoryBot.create(:account) : Lesli::Account.first).id }
+        account_id { (Lesli::Account.first.nil? ? FactoryBot.create(:lesli_account) : Lesli::Account.first).id }
 
 
         transient do

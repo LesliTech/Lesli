@@ -32,7 +32,7 @@ Building a better future, one line of code at a time.
 */
 </script>
 <template>
-    <div class="lesli-application-component">
+    <article class="box">
         <slot></slot>
-    </div>
+    </article>
 </template>

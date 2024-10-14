@@ -63,7 +63,7 @@ module Lesli
 
 
         # devise implementation
-        if defined? LesliSecurity
+        #if !defined?(LesliSecurity)
             devise( 
                 :database_authenticatable,
                 :registerable,
@@ -73,7 +73,7 @@ module Lesli
                 :confirmable,
                 :trackable);
                 #:omniauthable, omniauth_providers: [:google_oauth2, :facebook]
-        end
+        #end
 
 
         # users belongs to an account only... and must have a role
