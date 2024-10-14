@@ -12,7 +12,7 @@ module Lesli
                     engine_path = nil
 
                     # check if the users is logged into the system
-                    unless user_signed_in?
+                    unless user_signed_in?()
 
                         message = "Please Login to view that page!"
 

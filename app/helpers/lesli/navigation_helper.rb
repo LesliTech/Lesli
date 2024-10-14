@@ -50,7 +50,7 @@ module Lesli
         def navigation_link(path, label, icon = nil, reload: false)
             # default vue router links for single page applications
             html_element = "router-link"
-            html_options = { to: path, class: "navbar-item" }
+            html_options = { to: path, class: "navbar-item", 'active-class': "navigation-link-active" }
 
             # if reload is nedeed, we use a standard "a" tag
             if reload

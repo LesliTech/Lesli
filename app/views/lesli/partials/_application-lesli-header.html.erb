@@ -46,6 +46,7 @@ Building a better future, one line of code at a time.
 <% else %>
 
 <lesli-application-header 
+    engine-path="<%= "/dashboard" if defined?(LesliDashboard) %>"
     <%= "show-focus" if defined?(LesliFocus) %>
     show-profile
     show-engines

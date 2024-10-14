@@ -1,6 +1,8 @@
+=begin
+
 Lesli
 
-Copyright (c) 2024, Lesli Technologies, S. A.
+Copyright (c) 2023, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,3 +28,13 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+=end
+
+# ·
+module Lesli 
+    module RSpec 
+        def self.testers_request 
+            Lesli::Engine.root.join("spec/support/testers/request")
+        end
+    end 
+end
