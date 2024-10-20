@@ -36,11 +36,11 @@ module Lesli
 
         after_create :set_session_token
 
-        enum session_sources: {
-            dispatcher_standar_session: "dispatcher_standar_session",
-            devise_standard_session: "devise_standar_session",
-            cloud_shared_public: "cloud_shared_public",
-        }
+        # enum session_sources: {
+        #     dispatcher_standar_session: "dispatcher_standar_session",
+        #     devise_standard_session: "devise_standar_session",
+        #     cloud_shared_public: "cloud_shared_public",
+        # }
 
         def set_session_token
 

@@ -70,20 +70,20 @@ module Lesli
 
 
         # account statuses
-        enum status: [
-            :registered,
-            :onboarding,
-            :active,
-            :suspended
-        ]
+        # enum status: [
+        #     :registered,
+        #     :onboarding,
+        #     :active,
+        #     :suspended
+        # ]
 
 
         # company region (GDPR)
-        enum region: {
-            latin_america: "latin_america",
-            united_states: "united_states",
-            european_union: "european_union"
-        }
+        # enum region: {
+        #     latin_america: "latin_america",
+        #     united_states: "united_states",
+        #     european_union: "european_union"
+        # }
 
 
         # required a name for the lesli account

@@ -61,17 +61,17 @@ Gem::Specification.new do |spec|
 
 
     # Ruby version
-    spec.required_ruby_version = ">= 2.7"
+    spec.required_ruby_version = ">= 3.2"
 
     
 
     # · RAILS: gem, dependencies and tools
 
     # Rails framework
-    spec.add_dependency("rails", "~> 7.0", "< 7.1")
+    spec.add_dependency("rails", "~> 8.0.0.rc1")
 
     # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-    spec.add_dependency("sprockets-rails", "~> 3.4.2")
+    #spec.add_dependency("sprockets-rails", "~> 3.5.2")
 
     # It's a small library to provide the Rails I18n translations on the Javascript.
     spec.add_dependency("i18n-js", "~> 4.2.3") 
@@ -81,13 +81,13 @@ Gem::Specification.new do |spec|
     # · Tools used to extend Rails functionality
 
     # ActiveRecord plugin allowing you to hide and restore records without actually deleting them. 
-    spec.add_dependency("acts_as_paranoid", "~> 0.8.1")
+    spec.add_dependency("acts_as_paranoid", "~> 0.10.2")
 
     # Clean, powerful, agnostic, customizable and sophisticated paginator for Rails
     spec.add_dependency("kaminari", "~> 1.2.2")
 
     # Allows management of subcategories for the catalogs
-    spec.add_dependency("ancestry", "~> 4.1.0")
+    spec.add_dependency("ancestry", "~> 4.3.3")
 
 
 
