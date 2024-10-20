@@ -72,7 +72,8 @@ module Lesli
                         {
                             request_controller: controller_path,
                             request_action: action_name,
-                            request_count: 1
+                            request_count: 1,
+                            created_at: Date2.new.date.to_s
                         },
                         
                         # group of columns to consider a request as unique
@@ -98,7 +99,8 @@ module Lesli
                             request_action: action_name,
                             session_id: session[:user_session_id],
                             user_id: current_user.id,
-                            request_count: 1
+                            request_count: 1,
+                            created_at: Date2.new.date.to_s
                         },
                                 
                         # group of columns to consider a request as unique

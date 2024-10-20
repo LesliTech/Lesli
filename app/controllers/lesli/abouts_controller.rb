@@ -33,26 +33,27 @@ Building a better future, one line of code at a time.
 module Lesli
     class AboutsController < ApplicationLesliController
 
+        def status 
+            respond_with_successful({ :Lesli => "Ruby on Rails SaaS Development Framework." }) 
+        end
+
         # GET /status
         def show
             respond_to do |format|
                 format.html {}
                 format.json { 
-                    if Rails.env.production?
-                        respond_with_successful({ :Lesli => "Ruby on Rails SaaS Development Framework." }) 
-                    else
-                        # get installed engines
-                        @lesli_engines = Lesli::System.engines.map { |engine, engine_info|
-                            {
-                                :name => engine_info[:name],
-                                :code => engine_info[:code],
-                                :path => engine_info[:path],
-                                :build => engine_info[:build],
-                                :version => engine_info[:version]
-                            }
+
+                    # get installed engines
+                    @lesli_engines = Lesli::System.engines.map { |engine, engine_info|
+                        {
+                            :name => engine_info[:name],
+                            :code => engine_info[:code],
+                            :path => engine_info[:path],
+                            :build => engine_info[:build],
+                            :version => engine_info[:version]
                         }
-                        respond_with_successful(@lesli_engines) 
-                    end
+                    }
+                    respond_with_successful(@lesli_engines) 
                 }
             end
         end
