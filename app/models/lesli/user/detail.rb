@@ -36,11 +36,11 @@ module Lesli
 
         #before_save :validate_work_region
 
-        enum salutation: {
-            mr: "mr",
-            ms: "ms",
-            mrs: "mrs"
-        }
+        # enum salutation: {
+        #     mr: "mr",
+        #     ms: "ms",
+        #     mrs: "mrs"
+        # }
 
         protected
 

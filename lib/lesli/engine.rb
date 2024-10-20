@@ -93,6 +93,14 @@ module Lesli
             config.action_mailer.default_url_options ||= { 
                 host: "http://0.0.0.0:3000"
             }
+
+            # Does not work too well
+            # if Lesli.config.security.dig(:enable_debug)
+            #     config.cache_classes = false
+            #     config.eager_load = false
+            #     config.consider_all_requests_local = true
+            #     config.action_controller.perform_caching = false
+            # end
         end
     end
 end

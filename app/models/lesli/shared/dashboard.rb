@@ -41,7 +41,7 @@ module Lesli
             after_update :verify_default_dashboard
             after_create :verify_default_dashboard
 
-            enum component_ids: {}
+            #enum component_ids: {}
 
             # @return [void]
             # @param account [LesliEngine::Account]
