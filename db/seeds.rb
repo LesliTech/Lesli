@@ -35,8 +35,9 @@ L2.msg("Lesli", "Version: #{Lesli::VERSION}", "Build: #{Lesli::BUILD}")
 
 
 # including tools for seeders
-load Lesli::Engine.root.join("db", "seed", "tools.rb")
+load Lesli::Engine.root.join("db", "seed", "xyz.rb")
 
 
 # loading Lesli seeders
-load Lesli::Engine.root.join("db", "seed", "#{Rails.env.downcase}.rb")
+load Lesli::Engine.root.join("db", "seed", "accounts.rb")
+load Lesli::Engine.root.join("db", "seed", "users.rb")

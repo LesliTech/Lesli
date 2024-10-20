@@ -31,8 +31,6 @@ Building a better future, one line of code at a time.
 =end
 
 
-L2.msg "Loading production users:"
-
 
 # get the account information
 account = Lesli::Account.first
@@ -54,7 +52,7 @@ passadmin = Devise.friendly_token(40)
 passguest = Devise.friendly_token(40)
 
 
-if Lesli.config.demo 
+if Rails.env.development? || Rails.env.test? || Lesli.config.demo 
     passowner = Lesli.config.security.dig(:password)
     passadmin = passowner
     passguest = passowner
@@ -62,13 +60,9 @@ end
 
 
 # create the owner user for the account, 
-userowner = create_development_user(emailowner, "owner", "Owner", account[:company_name], password:passowner)
-useradmin = create_development_user(emailadmin, "admin", "Admin", account[:company_name], password:passadmin)
-userguest = create_development_user(emailguest, "limited", "Guest", account[:company_name], password:passguest)
-
-
-# print some separators so will be easy to find these messages later
-L2.br(5); L2.br; L2.line; L2.line; L2.line; L2.line; 
+userowner = create_account_user(emailowner, "owner", "Owner", account[:company_name], passowner)
+useradmin = create_account_user(emailadmin, "admin", "Admin", account[:company_name], passadmin)
+userguest = create_account_user(emailguest, "limited", "Guest", account[:company_name], passguest)
 
 
 # print the owner user credentials, so we can save those credentials
