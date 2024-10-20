@@ -42,7 +42,7 @@ module Lesli
 
         # Prints a html link inside a list item
         def navigation_item(path, label, icon = nil, reload: false)
-            content_tag(:li) do
+            content_tag(:li, { class: "navbar-item"}) do
                 navigation_link(path, label, icon, reload:reload)
             end
         end
@@ -50,7 +50,7 @@ module Lesli
         def navigation_link(path, label, icon = nil, reload: false)
             # default vue router links for single page applications
             html_element = "router-link"
-            html_options = { to: path, class: "navbar-item", 'active-class': "navigation-link-active" }
+            html_options = { to: path, 'active-class': "navigation-link-active" }
 
             # if reload is nedeed, we use a standard "a" tag
             if reload
@@ -241,13 +241,13 @@ module Lesli
         # SECURITY & PRIVACY
 
         # 08.01 Shield engine
-        def navigation_engine_shield(title: "Shield", subtitle: "Authentication & Authorization.")
+        def navigation_engine_shield(title: "Shield", subtitle: "Users Authentication Management.")
             return unless defined? LesliShield
             navigation_engine_item(title, subtitle, "shield", lesli_shield.root_path, controller_path.include?("lesli_shield"))
         end
 
         # 08.02 Security engine
-        def navigation_engine_security(title: "Security", subtitle: "Users, Privileges & Access Management.")
+        def navigation_engine_security(title: "Security", subtitle: "Users Authorization Management.")
             return unless defined? LesliSecurity
             navigation_engine_item(title, subtitle, "security", lesli_security.root_path, controller_path.include?("lesli_security"))
         end

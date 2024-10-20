@@ -34,7 +34,6 @@ Building a better future, one line of code at a time.
 // ·
 header.lesli-application-header {
     background-color: var(--lesli-header-color);
-    border-bottom: 1px solid rgba(172,179,194,.3);
     height: var(--lesli-header-height);
 
     nav.lesli-navbar {
@@ -46,11 +45,22 @@ header.lesli-application-header {
         }
 
         .navbar-item {
-            padding: 0;
 
-            // navigation icon containers
-            span {
-                line-height: 1;
+            .icon {
+                padding: 0;
+            }
+
+            // navigation icons
+            [class^="ri-"] {
+                font-size: 20px;
+                color: lesli-css-color(black, 700);
+            }
+        }
+
+        .header-icons {
+
+            a {
+                position: relative;
             }
 
             // navigation icons
@@ -62,19 +72,11 @@ header.lesli-application-header {
 
             // Notification icon & count
             .header-indicator {
-                position: relative;
-
-                // icons
-                [class^="ri-"] {
-                    font-size: 25px;
-                    color: lesli-css-color(black, 700);
-                }   
-
                 .count {
                     top: -4px;
-                    right: 6px;
-                    width: 8px;
-                    height: 8px;
+                    right: 10px;
+                    width: 10px;
+                    height: 10px;
                     border-radius: 50%;
                     background-color: lesli-css-color(berry, 300);
                     position: absolute;

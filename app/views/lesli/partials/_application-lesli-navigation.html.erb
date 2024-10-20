@@ -49,11 +49,11 @@ Building a better future, one line of code at a time.
 
 <%# render navigation partial %>
 <% if custom_sidebar_exists %>
-    <nav class="lesli-application-navigation">
-        <ul>
+    <lesli-navbar class="lesli-application-navigation">
+        <template v-slot:end>
             <%= render partial: custom_sidebar_path %>
-        </ul>
-    </nav>
+        </template>
+    </lesli-navbar>
 <% else %>
     <!-- no navigation found -->
 <% end %>

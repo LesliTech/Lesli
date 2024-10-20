@@ -107,7 +107,7 @@ namespace :lesli do
     def seed
 
         # print a message to let the users show the action running
-        L2.msg("Seed the Lesli database (development only)")
+        L2.msg("Seed the Lesli database")
 
         # load main app seeders
         Rake::Task['db:seed'].invoke
@@ -115,7 +115,6 @@ namespace :lesli do
         # load Lesli* gems seeders
         Lesli::Engine.load_seed
         LesliBell::Engine.load_seed if defined?(LesliBell)
-        LesliHelp::Engine.load_seed if defined?(LesliHelp)
         LesliAdmin::Engine.load_seed if defined?(LesliAdmin)
         LesliAudit::Engine.load_seed if defined?(LesliAudit)
         LesliLetter::Engine.load_seed if defined?(LesliLetter)
