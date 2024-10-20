@@ -36,7 +36,7 @@ company = Lesli.config.company
 
 
 # create account
-Lesli::Account.find_or_create_by(email: company[:email]) do |account|
+account = Lesli::Account.find_or_create_by(email: company[:email]) do |account|
     account.name = company[:name]
     account.save!
 
@@ -46,5 +46,8 @@ Lesli::Account.find_or_create_by(email: company[:email]) do |account|
     # #account.registered!
     # account.detail.save!
 
-    L2.msg("Account #{ account.name } <#{ account.email }> successfully created!")
 end
+
+# print some separators so will be easy to find these messages later
+L2.br(5); L2.br; L2.line; L2.line; L2.line; L2.line; 
+L2.success("Account #{ account.name } <#{ account.email }> successfully created!")

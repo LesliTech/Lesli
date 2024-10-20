@@ -30,21 +30,25 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
+def create_account_user email, rolename, firstname, lastname, password
 
-# get settings
-company = Lesli.config.company
+    account = Lesli::Account.find_by(email: Lesli.config.company.dig(:email))
 
+    # create development users if email is not registered yet
+    Lesli::User.find_or_create_by(email: email) do |user|
+        user.account = account
+        user.password = password
+        user.password_confirmation = password
 
-# create account
-Lesli::Account.find_or_create_by(email: company[:email]) do |account|
-    account.name = company[:name]
-    account.save!
+        # confirm user through device
+        user.confirm unless user.confirmed?
 
-    # account.detail.company_name = company[:name]
-    # account.detail.public_email = company[:email]
-    # account.detail.company_tagline = company[:tag_line] || ""
-    # #account.registered!
-    # account.detail.save!
+        user.first_name = firstname
+        user.last_name = lastname
+        user.save!
 
-    L2.msg("Account #{ account.name } <#{ account.email }> successfully created!")
+        user.powers.create!({ role: Lesli::Role.find_by(:name => rolename) })
+
+        user
+    end
 end

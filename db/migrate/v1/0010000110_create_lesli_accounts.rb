@@ -40,6 +40,8 @@ class CreateLesliAccounts < ActiveRecord::Migration[5.2]
             #   4. -> :suspended
             t.integer   :status, default: 1, null: false
 
+            t.string   :region, default: "latin_america"
+
             # unique email to identify the account
             t.string    :email
 
