@@ -32,17 +32,30 @@ Building a better future, one line of code at a time.
 
 nav.lesli-application-navigation {
     background-color: var(--lesli-navbar-color);
+    border-top: 1px solid rgba(172,179,194,.5);
     border-bottom: 1px solid rgba(172,179,194,.5);
     width: 100%;
 
-    ul {
-        display: flex;
+    .navbar-menu {
         justify-content: center;
+    }
 
-        li a {
+    .navbar-start {
+        display: none;
+    }
+
+    .navbar-end {
+        margin-inline-start: unset;
+    }
+
+    li {
+        padding-top: 0;
+        padding-bottom: 0;
+
+        a {
             gap: 6px;
             display: flex;
-            padding: 1rem 1.1rem;
+            padding: 1.2rem 1.1rem 0.8rem;
             align-items: center;
             border-bottom: 2px solid transparent;
             color: lesli-css-color(black, 700);
@@ -63,17 +76,6 @@ nav.lesli-application-navigation {
             [class^="ri-"] {
                 font-size: 20px;
             }
-        }
-    }
-}
-
-
-@include lesli-css-breakpoint-small {
-
-    nav.lesli-application-navigation {    
-        ul {
-            display: block;
-            justify-content: center;
         }
     }
 }

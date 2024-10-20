@@ -51,15 +51,40 @@ const storeNotifications = useNotifications()
 const url = inject("url")
 const date = inject("date")
 
+function onEscape(callback, activate) {
+
+    function onEscaping(event) {
+        if (event.keyCode === 27) {
+            callback()
+            console.log("escaping")
+            document.removeEventListener('keydown', onEscaping)
+        }
+    }
+
+    if (activate === true) {
+        console.log("activate")
+        document.addEventListener('keydown', onEscaping)
+    }
+    
+    if (activate === false) {
+        console.log("deactivate")
+        document.removeEventListener('keydown', onEscaping)
+    }
+}
 
 // · 
-watch(() => storeLayout.showNotifications, () => {
-    storeNotifications.get()
+watch(() => storeLayout.showBellNotifications, (newVal, oldVal) => {
+
+    // request notifications only if showing the panel
+    if (newVal) { storeNotifications.get() };
+
+    // activate/deactivate escape listener
+    onEscape(() => storeLayout.toggleBellNotifications(), newVal)
 })
 
 </script>
 <template>
-    <lesli-panel class="lesli-panel-bell-notifications" v-model:open="storeLayout.showNotifications">
+    <lesli-panel class="lesli-panel-bell-notifications" v-model:open="storeLayout.showBellNotifications">
         <template #header>
             Notifications ({{ storeNotifications.notifications.pagination.total }})
         </template>
@@ -70,10 +95,10 @@ watch(() => storeLayout.showNotifications, () => {
                         v-for="notification in storeNotifications.notifications.records">
                         <a  :href="notification.url"
                             :class="['mb-2 is-block', `notification-${ notification.category }`]">
-                            <h4 :class="['notification-title', `has-text-${ notification.category }-dark`]">
+                            <h4 :class="['notification-title', `has-text-${ notification.category }-30`]">
                                 <span class="icon-text is-flex">
                                     <span class="is-flex-grow-1">{{ notification.subject }}</span>
-                                    <span class="icon">
+                                    <span :class="['icon', `has-text-${notification.category}`]">
                                         <span v-if="notification.category == 'warning'" class="material-icons">warning</span>
                                         <span v-if="notification.category == 'success'" class="material-icons">done</span>
                                         <span v-if="notification.category == 'danger'" class="material-icons">dangerous</span>

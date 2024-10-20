@@ -106,18 +106,14 @@ const search = {}
 
 
 // · 
-function onEscape(event) {
-    if (event.keyCode === 27) {
-        storeLayout.toggleEngines()
-        document.removeEventListener('keydown', onEscape)
-    }
+function toggleBellNotifications() {
+    storeLayout.toggleBellNotifications()
 }
 
 
 // · 
 function toggleEngines() {
     storeLayout.toggleEngines()
-    document.addEventListener('keydown', onEscape)
 }
 
 // · 
@@ -128,7 +124,7 @@ function safeEngineUrl() {
 </script>
 <template>
     <header ref="lesliApplicationHeader" class="lesli-application-header">
-        <lesli-navbar>
+        <lesli-navbar unresponsive>
             <template v-slot:brand>
                 <a :href="safeEngineUrl()">
                     <slot name="brand"></slot>
@@ -138,87 +134,84 @@ function safeEngineUrl() {
 
                 <slot name="end"></slot>
 
-                <!-- tickets -->
-                <div class="navbar-item" v-if="props.showSupport">
-                    <a  class="header-indicator"
-                        @click="() => { storeLayout.showSupport = true }">
-                        <span class="count" v-if="storeLayout.header.support > 0"></span>
-                        <span class="ri-ticket-2-line"></span>
-                    </a>
-                </div>
+                <div class="navbar-item">
+                    <div class="header-icons field is-grouped is-justify-content-center">
+                        <div class="control">
 
-                <!-- tasks -->
-                <div class="navbar-item" v-if="props.showFocus">
-                    <a  class="header-indicator"
-                        @click="() => { storeLayout.showSuppor = true }">
-                        <span class="ri-list-check-3">
-                        </span>
-                        <span class="count" v-if="storeLayout.header.support > 0">
-                        </span>
-                    </a>
-                </div>
+                            <!-- tickets -->
+                            <a v-if="props.showSupport" class="header-indicator"
+                                @click="() => { storeLayout.showSupport = true }">
+                                <span class="count" v-if="storeLayout.header.support > 0"></span>
+                                <span class="ri-ticket-2-line"></span>
+                            </a>
 
-                <!-- notifications -->
-                <div class="navbar-item" v-if="props.showBell">
-                    <a class="header-indicator">
-                        <span :class="['ri-notification-3-line', { 'is-active' : storeLayout.header.notifications > 0 }]">
-                        </span>
-                        <span class="count">
-                        </span>
-                    </a>
-                </div>
-
-                <!-- engines selector  -->
-                <div class="navbar-item" v-if="props.showEngines">
-                    <a @click="toggleEngines()">
-                        <span class="ri-apps-2-line"></span>
-                    </a>
-                </div>
-
-                <!-- profile options -->
-                <div class="navbar-item" v-if="props.showProfile">
-                    <div class="dropdown is-hoverable">
-                        <div class="dropdown-trigger">
-                            <a @click="storeLayout.showProfile = true">
-                                <span class="ri-user-smile-line">
+                            <!-- tasks -->
+                            <a v-if="props.showFocus" class="header-indicator"
+                                @click="() => { storeLayout.showSuppor = true }">
+                                <span class="ri-list-check-3">
+                                </span>
+                                <span class="count" v-if="storeLayout.header.support > 0">
                                 </span>
                             </a>
-                        </div>
-                        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                            <div class="dropdown-content">
-                                <a :href="url.admin('profile')" class="dropdown-item py-3">
-                                    <span class="icon-text">
-                                        <span class="icon has-text-grey-dark">
-                                            <span class="ri-questionnaire-line"></span>
+
+                            <!-- notifications -->
+                            <a v-if="props.showBell" class="header-indicator" @click="toggleBellNotifications()">
+                                <span :class="['ri-notification-3-line', { 'is-active' : storeLayout.header.notifications > 0 }]">
+                                </span>
+                                <span class="count">
+                                </span>
+                            </a>
+
+                            <!-- engines selector  -->
+                            <a v-if="props.showEngines" @click="toggleEngines()">
+                                <span class="ri-apps-2-line"></span>
+                            </a>
+
+                            <!-- profile options -->
+                            <div class="dropdown is-hoverable" v-if="props.showProfile">
+                                <div class="dropdown-trigger">
+                                    <a @click="storeLayout.showProfile = true">
+                                        <span class="ri-user-smile-line">
                                         </span>
-                                        <span>Help</span>
-                                    </span>
-                                </a>
-                                <a :href="url.admin('profile')" class="dropdown-item py-3">
-                                    <span class="icon-text">
-                                        <span class="icon has-text-grey-dark">
-                                            <span class="ri-equalizer-line"></span>
-                                        </span>
-                                        <span>Settings</span>
-                                    </span>
-                                </a>
-                                <a :href="url.admin('profile')" class="dropdown-item py-3">
-                                    <span class="icon-text">
-                                        <span class="icon has-text-grey-dark">
-                                            <span class="ri-user-line"></span>
-                                        </span>
-                                        <span>Profile</span>
-                                    </span>
-                                </a>
-                                <hr class="dropdown-divider" />
-                                <a href="/logout" class="dropdown-item py-3">
-                                    <span class="icon-text">
-                                        <span class="icon has-text-grey-dark">
-                                            <span class="ri-logout-box-r-line"></span>
-                                        </span>
-                                        <span>Logout</span>
-                                    </span>
-                                </a>
+                                    </a>
+                                </div>
+                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        <a :href="url.admin('profile')" class="dropdown-item py-3">
+                                            <span class="icon-text">
+                                                <span class="icon has-text-grey-dark">
+                                                    <span class="ri-questionnaire-line"></span>
+                                                </span>
+                                                <span>Help</span>
+                                            </span>
+                                        </a>
+                                        <a :href="url.admin('profile')" class="dropdown-item py-3">
+                                            <span class="icon-text">
+                                                <span class="icon has-text-grey-dark">
+                                                    <span class="ri-equalizer-line"></span>
+                                                </span>
+                                                <span>Settings</span>
+                                            </span>
+                                        </a>
+                                        <a :href="url.admin('profile')" class="dropdown-item py-3">
+                                            <span class="icon-text">
+                                                <span class="icon has-text-grey-dark">
+                                                    <span class="ri-user-line"></span>
+                                                </span>
+                                                <span>Profile</span>
+                                            </span>
+                                        </a>
+                                        <hr class="dropdown-divider" />
+                                        <a href="/logout" class="dropdown-item py-3">
+                                            <span class="icon-text">
+                                                <span class="icon has-text-grey-dark">
+                                                    <span class="ri-logout-box-r-line"></span>
+                                                </span>
+                                                <span>Logout</span>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
