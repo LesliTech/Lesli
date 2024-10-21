@@ -40,12 +40,14 @@ require "codecov"
 
 # COVERAGE=true rspec spec
 # run test coverage on demand only
-if ENV["COVERAGE"]
+if ENV["COVERAGE"] || ENV["CODECOV"]
 
     # add console stats and html generator
     SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-        SimpleCov::Formatter::HTMLFormatter,
-        SimpleCov::Formatter::Console,
+        SimpleCov::Formatter::Codecov if ENV["CODECOV"],
+        SimpleCov::Formatter::Console if ENV["COVERAGE"],
+        SimpleCov::Formatter::HTMLFormatter if ENV["COVERAGE"],
+        SimpleCov::Formatter::CoberturaFormatter if ENV["CODECOV"]
     ])
 
     # limit the number of missing lines
@@ -78,18 +80,6 @@ if ENV["COVERAGE"]
     end
 
     # execute test coverage after test suites
-    RSpec.configure do |config|
-        config.after(:suite) do
-        end
-    end
-end
-
-if ENV["CODECOV"]
-    SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-        SimpleCov::Formatter::CoberturaFormatter,
-        SimpleCov::Formatter::Codecov
-    ])
-    SimpleCov.start
     RSpec.configure do |config|
         config.after(:suite) do
         end
