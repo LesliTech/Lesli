@@ -48,13 +48,13 @@ on:
 jobs:
   sqlite-tests:
     name: Run SQLite tests
-    uses: ./github/workflows/lesli-spec-sqlite.yaml
+    uses: ./.github/workflows/lesli-spec-sqlite.yaml
     with:
       branch: ${{ github.ref_name }}
 
   postgres-tests:
     name: Run PostgreSQL tests
     needs: sqlite-tests  # Runs only after the PostgreSQL tests finish
-    uses: ./github/workflows/lesli-spec-postgresql.yaml
+    uses: ./.github/workflows/lesli-spec-postgresql.yaml
     with:
       branch: ${{ github.ref_name }}
