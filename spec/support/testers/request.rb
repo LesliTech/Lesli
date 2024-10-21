@@ -57,7 +57,8 @@ RSpec.shared_context "request user authentication" do
             }
         }
 
-        @current_user = User.first
+        @current_user = FactoryBot.create(:lesli_user)
+        pp @current_user
         sign_in(@current_user)
     end
 end
