@@ -90,5 +90,20 @@ if ENV["CODECOV"]
         SimpleCov::Formatter::Codecov
     ])
     SimpleCov.start do 
+        # remove to track files in these folders
+        add_filter "/spec"
+        add_filter "/vendor"
+
+        # temporary exceptions
+        add_filter "/engines/Lesli/app/lib"
+        add_filter "/engines/Lesli/app/models"
+        add_filter "/engines/Lesli/app/helpers"
+        add_filter "/engines/Lesli/app/mailers"
+        add_filter "/engines/Lesli/app/services"
+        add_filter "/engines/Lesli/app/operators"
+        add_filter "/engines/Lesli/app/validators"
+        add_filter "/engines/Lesli/app/controllers/lesli/interfaces"
+        add_filter "/engines/Lesli/app/controllers/lesli/application_controller.rb"
+        add_filter "/engines/Lesli/app/controllers/lesli/application_lesli_controller.rb"
     end
 end
