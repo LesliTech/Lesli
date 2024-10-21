@@ -1,5 +1,4 @@
 --format documentation 
---pattern ./engines/Lesli/spec/app/lib/*_spec.rb
 --pattern ./engines/Lesli/spec/requests/abouts/*_spec.rb
 --pattern ./engines/Lesli/spec/requests/users/*_spec.rb
 --pattern ./engines/Lesli/spec/requests/roles/*_spec.rb
