@@ -1,0 +1,24 @@
+name: "Lesli specs workflow"
+
+on:
+  pull_request:
+    branches: [master, production]
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  sqlite-tests:
+    name: Run SQLite tests
+    uses: ./github/workflows/sqlite-test.yml
+    with:
+      branch: ${{ github.ref_name }}
+
+  postgres-tests:
+    name: Run PostgreSQL tests
+    needs: sqlite-tests  # Runs only after the PostgreSQL tests finish
+    uses: ./github/workflows/postgres-test.yml
+    with:
+      branch: ${{ github.ref_name }}
+
+
