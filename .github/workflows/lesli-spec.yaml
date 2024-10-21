@@ -113,18 +113,13 @@ jobs:
         env:
           RAILS_ENV: test
 
-      # Run Rspec tests
+      # Run Rspec tests & collect coverage
       - name: Run Rails tests
         run: bundle exec rspec spec
         env:
           CODECOV: true
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-      # Upload coverage report to codecov
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
 
   sqlite-test:
     name: Test workflow for Lesli Core (SQLite)
@@ -166,7 +161,9 @@ jobs:
         env:
           CODECOV: true
           
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+      # Run Rspec tests & collect coverage
+      - name: Run Rails tests
+        run: bundle exec rspec spec
+        env:
+          CODECOV: true
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

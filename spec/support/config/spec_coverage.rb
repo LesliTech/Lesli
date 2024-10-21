@@ -90,4 +90,8 @@ if ENV["CODECOV"]
         SimpleCov::Formatter::Codecov
     ])
     SimpleCov.start
+    RSpec.configure do |config|
+        config.after(:suite) do
+        end
+    end
 end
