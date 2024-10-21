@@ -118,6 +118,7 @@ jobs:
         run: bundle exec rspec spec
         env:
           CODECOV: true
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       # Upload coverage report to codecov
       - name: Upload coverage to Codecov
