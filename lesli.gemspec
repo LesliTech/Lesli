@@ -63,15 +63,13 @@ Gem::Specification.new do |spec|
     # Ruby version
     spec.required_ruby_version = ">= 3.2"
 
-    
+
 
     # · RAILS: gem, dependencies and tools
 
     # Rails framework
-    spec.add_dependency("rails", "~> 8.0.0.rc1")
-
-    # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-    #spec.add_dependency("sprockets-rails", "~> 3.5.2")
+    #spec.add_dependency("rails", "~> 8.0.0.rc1")
+    spec.add_dependency("rails", "~> 7.2")
 
     # It's a small library to provide the Rails I18n translations on the Javascript.
     spec.add_dependency("i18n-js", "~> 4.2.3") 

@@ -81,7 +81,7 @@ module Lesli
             config.action_mailer.delivery_method ||= :letter_opener
 
             # Add the Lesli root folder for email development tempaltes
-            config.action_mailer.preview_path = root.join("lib", "mailer_previews")
+            config.action_mailer.preview_paths << root.join("lib", "mailer_previews")
 
             config.action_mailer.default_options ||= {
 

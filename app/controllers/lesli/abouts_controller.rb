@@ -33,9 +33,9 @@ Building a better future, one line of code at a time.
 module Lesli
     class AboutsController < ApplicationLesliController
 
-        def status 
-            respond_with_successful({ :Lesli => "Ruby on Rails SaaS Development Framework." }) 
-        end
+        # def status 
+        #     respond_with_successful({ :Lesli => "Ruby on Rails SaaS Development Framework." }) 
+        # end
 
         # GET /status
         def show
