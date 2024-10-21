@@ -40,24 +40,16 @@ require "codecov"
 
 # COVERAGE=true rspec spec
 # run test coverage on demand only
-if ENV["COVERAGE"] || ENV["CODECOV"]
+if ENV["COVERAGE"]
 
-    # customer report formatters containers
-    FORMATTERS = []
-
-    # add formatters for codecov through github actions
-    FORMATTERS.push(SimpleCov::Formatter::Codecov) if ENV["CODECOV"]
-    FORMATTERS.push(SimpleCov::Formatter::CoberturaFormatter) if ENV["CODECOV"]
-
-    # add formatters for local visualization
-    FORMATTERS.push(SimpleCov::Formatter::Console) if ENV["COVERAGE"]
-    FORMATTERS.push(SimpleCov::Formatter::HTMLFormatter) if ENV["COVERAGE"]
-
-    SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(FORMATTERS)
-
+    # add console stats and html generator
+    SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+        SimpleCov::Formatter::HTMLFormatter,
+        SimpleCov::Formatter::Console,
+    ])
 
     # limit the number of missing lines
-    #SimpleCov::Formatter::Console.missing_len = 50 
+    SimpleCov::Formatter::Console.missing_len = 50 
 
     # configure the files to track and ignore
     SimpleCov.start do 
@@ -68,7 +60,7 @@ if ENV["COVERAGE"] || ENV["CODECOV"]
         add_filter "/vendor"
 
         # temporary exceptions
-        #add_filter "/engines/Lesli/app/lib"
+        add_filter "/engines/Lesli/app/lib"
         add_filter "/engines/Lesli/app/models"
         add_filter "/engines/Lesli/app/helpers"
         add_filter "/engines/Lesli/app/mailers"
@@ -86,8 +78,16 @@ if ENV["COVERAGE"] || ENV["CODECOV"]
     end
 
     # execute test coverage after test suites
-    # RSpec.configure do |config|
-    #     config.after(:suite) do
-    #     end
-    # end
+    RSpec.configure do |config|
+        config.after(:suite) do
+        end
+    end
+end
+
+if ENV["CODECOV"]
+    SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+        SimpleCov::Formatter::CoberturaFormatter,
+        SimpleCov::Formatter::Codecov
+    ])
+    SimpleCov.start
 end
