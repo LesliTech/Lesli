@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 require "rails_helper"
-require Lesli::Engine.root.join("spec/support/testers/model")
+require Lesli::Engine.root.join("lib/rspec/testers/model")
 
 RSpec.describe Lesli::Account, type: :model do
 

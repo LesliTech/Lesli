@@ -43,12 +43,12 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require "L2"
 require "faker"
 require "rspec/rails"
-require Lesli::Engine.root.join("spec/support/helpers/spec_helper")
-require Lesli::Engine.root.join("spec/support/config/spec_coverage")
+require Lesli::Engine.root.join("lib/rspec/helpers/spec_helper")
+require Lesli::Engine.root.join("lib/rspec/config/spec_coverage")
 
 
 # ·
-Dir.glob(Lesli::Engine.root.join("spec/factories/*.rb")).sort.each do |factory|
+Dir.glob(Lesli::Engine.root.join("lib/rspec/factories/*.rb")).sort.each do |factory|
     require_dependency factory
 end
 
@@ -56,8 +56,8 @@ end
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
-# spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
-# run as spec files by default. This means that files in spec/support that end
+# lib/rspec/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
+# run as spec files by default. This means that files in lib/rspec that end
 # in _spec.rb will both be required and run as specs, causing the specs to be
 # run twice. It is recommended that you do not name files matching this glob to
 # end with _spec.rb. You can configure this pattern with the --pattern

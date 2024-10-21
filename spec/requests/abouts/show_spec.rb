@@ -33,7 +33,7 @@ Building a better future, one line of code at a time.
 
 # ·
 require "rails_helper"
-require Lesli::Engine.root.join("spec/support/testers/request")
+require Lesli::Engine.root.join("lib/rspec/testers/request")
 
 # ·
 RSpec.describe Lesli::AboutsController, type: :request do
