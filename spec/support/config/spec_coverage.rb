@@ -45,7 +45,7 @@ if ENV["COVERAGE"]
     # add console stats and html generator
     SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
         SimpleCov::Formatter::HTMLFormatter,
-        SimpleCov::Formatter::Console,
+        SimpleCov::Formatter::Console
     ])
 
     # limit the number of missing lines
@@ -87,14 +87,11 @@ end
 if ENV["CODECOV"]
     SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
         SimpleCov::Formatter::CoberturaFormatter,
-        SimpleCov::Formatter::Codecov
+        #SimpleCov::Formatter::Codecov
     ])
     SimpleCov.start do 
-        # remove to track files in these folders
         add_filter "/spec"
         add_filter "/vendor"
-
-        # temporary exceptions
         add_filter "/engines/Lesli/app/lib"
         add_filter "/engines/Lesli/app/models"
         add_filter "/engines/Lesli/app/helpers"
@@ -102,8 +99,9 @@ if ENV["CODECOV"]
         add_filter "/engines/Lesli/app/services"
         add_filter "/engines/Lesli/app/operators"
         add_filter "/engines/Lesli/app/validators"
-        add_filter "/engines/Lesli/app/controllers/lesli/interfaces"
-        add_filter "/engines/Lesli/app/controllers/lesli/application_controller.rb"
-        add_filter "/engines/Lesli/app/controllers/lesli/application_lesli_controller.rb"
+    end
+    RSpec.configure do |config|
+        config.after(:suite) do
+        end
     end
 end
