@@ -126,7 +126,6 @@ jobs:
           directory: ./coverage/
           files: ./coverage.xml
           token: ${{ secrets.CODECOV_TOKEN }}
-          verbose: true
 
   sqlite-test:
     name: Test workflow for Lesli Core (SQLite)
@@ -174,4 +173,3 @@ jobs:
           directory: ./coverage/
           files: ./coverage.xml
           token: ${{ secrets.CODECOV_TOKEN }}
-          verbose: true
