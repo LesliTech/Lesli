@@ -87,7 +87,7 @@ end
 if ENV["CODECOV"]
     SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
         SimpleCov::Formatter::CoberturaFormatter,
-        #SimpleCov::Formatter::Codecov
+        SimpleCov::Formatter::Codecov
     ])
     SimpleCov.start
 end
