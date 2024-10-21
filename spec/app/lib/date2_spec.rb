@@ -1,6 +1,6 @@
 
 require "rails_helper"
-require Lesli::Engine.root.join("spec/support/testers/request")
+require Lesli::Engine.root.join("lib/rspec/testers/request")
 
 RSpec.describe Date2, type: :model do
 

@@ -1,6 +1,6 @@
 
 require "rails_helper"
-require Lesli::Engine.root.join("spec/support/testers/model")
+require Lesli::Engine.root.join("lib/rspec/testers/model")
 
 RSpec.describe Lesli::UsersValidator, type: :model do
 
