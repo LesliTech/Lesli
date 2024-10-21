@@ -142,6 +142,7 @@ jobs:
 
       - name: Copy SQLite configuration files
         run: |
+          cp ./engines/Lesli/.github/tools/.rspec ./.rspec
           cp ./engines/Lesli/.github/rails/database_sqlite.yml ./config/database.yml
           rm ./Gemfile.lock
 
