@@ -37,6 +37,7 @@ require Lesli::Engine.root.join("spec/support/testers/request")
 
 # ·
 RSpec.describe Lesli::AboutsController, type: :request do
+
     include_context "request user authentication"
 
     it "is expected to list installed engines" do
@@ -67,6 +68,5 @@ RSpec.describe Lesli::AboutsController, type: :request do
         expect(response_body.first["path"]).to eql(Lesli::Engine.routes.find_script_name({}))
         expect(response_body.first["build"]).to eql(Lesli::BUILD)
         expect(response_body.first["version"]).to eql(Lesli::VERSION)
-
     end
 end

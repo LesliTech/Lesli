@@ -32,7 +32,7 @@ Building a better future, one line of code at a time.
 
 module Lesli
     class RolesController < ApplicationLesliController
-        before_action :set_role, only: [:show, :update, :destroy]
+        before_action :set_role, only: []
 
         def list
             respond_to do |format|

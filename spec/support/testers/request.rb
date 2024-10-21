@@ -57,7 +57,7 @@ RSpec.shared_context "request user authentication" do
             }
         }
 
-        @current_user = FactoryBot.create(:lesli_user)
+        @current_user = User.first
         sign_in(@current_user)
     end
 end
@@ -71,7 +71,6 @@ RSpec.configure do |config|
 
     # Include helper methods
     config.include ResponseRequestHelper
-    #config.include LesliHelper
 
     config.before(:each, type: :request) do
         #host! 'localhost:3000'
