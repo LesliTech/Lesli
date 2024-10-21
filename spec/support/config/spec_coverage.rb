@@ -86,8 +86,8 @@ if ENV["COVERAGE"] || ENV["CODECOV"]
     end
 
     # execute test coverage after test suites
-    RSpec.configure do |config|
-        config.after(:suite) do
-        end
-    end
+    # RSpec.configure do |config|
+    #     config.after(:suite) do
+    #     end
+    # end
 end
