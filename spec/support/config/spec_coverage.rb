@@ -89,5 +89,6 @@ if ENV["CODECOV"]
         SimpleCov::Formatter::CoberturaFormatter,
         SimpleCov::Formatter::Codecov
     ])
-    SimpleCov.start
+    SimpleCov.start do 
+    end
 end
