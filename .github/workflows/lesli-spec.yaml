@@ -114,7 +114,7 @@ jobs:
           RAILS_ENV: test
 
       # Run Rspec tests & collect coverage
-      - name: Run Rails tests
+      - name: Run Rails tests & collect coverage
         run: bundle exec rspec spec
         env:
           CODECOV: true
@@ -162,7 +162,7 @@ jobs:
           CODECOV: true
           
       # Run Rspec tests & collect coverage
-      - name: Run Rails tests
+      - name: Run Rails tests & collect coverage
         run: bundle exec rspec spec
         env:
           CODECOV: true
