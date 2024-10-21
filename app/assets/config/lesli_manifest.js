@@ -42,4 +42,4 @@ Building a better future, one line of code at a time.
 //= link lesli/templates/public.css
 //= link lesli/templates/application.css
 
-//= link lesli/i18n.js
+// = l i n k  lesli/i18n.js
