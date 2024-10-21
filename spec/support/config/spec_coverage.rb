@@ -42,13 +42,19 @@ require "codecov"
 # run test coverage on demand only
 if ENV["COVERAGE"] || ENV["CODECOV"]
 
+    # customer report formatters containers
+    FORMATTERS = []
+
+    # add formatters for codecov through github actions
+    FORMATTERS.push(SimpleCov::Formatter::Codecov) if ENV["CODECOV"]
+    FORMATTERS.push(SimpleCov::Formatter::CoberturaFormatter) if ENV["CODECOV"]
+
+    # add formatters for local visualization
+    FORMATTERS.push(SimpleCov::Formatter::Console) if ENV["COVERAGE"]
+    FORMATTERS.push(SimpleCov::Formatter::HTMLFormatter) if ENV["COVERAGE"]
+
     # add console stats and html generator
-    SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-        SimpleCov::Formatter::Codecov if ENV["CODECOV"],
-        SimpleCov::Formatter::Console if ENV["COVERAGE"],
-        SimpleCov::Formatter::HTMLFormatter if ENV["COVERAGE"],
-        SimpleCov::Formatter::CoberturaFormatter if ENV["CODECOV"]
-    ])
+    SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(FORMATTERS)
 
     # limit the number of missing lines
     SimpleCov::Formatter::Console.missing_len = 50 
