@@ -89,19 +89,5 @@ if ENV["CODECOV"]
         SimpleCov::Formatter::CoberturaFormatter,
         SimpleCov::Formatter::Codecov
     ])
-    SimpleCov.start do 
-        add_filter "/spec"
-        add_filter "/vendor"
-        add_filter "/engines/Lesli/app/lib"
-        add_filter "/engines/Lesli/app/models"
-        add_filter "/engines/Lesli/app/helpers"
-        add_filter "/engines/Lesli/app/mailers"
-        add_filter "/engines/Lesli/app/services"
-        add_filter "/engines/Lesli/app/operators"
-        add_filter "/engines/Lesli/app/validators"
-    end
-    RSpec.configure do |config|
-        config.after(:suite) do
-        end
-    end
+    SimpleCov.start
 end
