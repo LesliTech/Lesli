@@ -62,33 +62,23 @@ Building a better future, one line of code at a time.
     <template v-slot:end>
         
         <%# language selector %>
-        <% if Lesli.config.layout.dig(:locale) && I18n.available_locales.length > 1 %>
-            <div class="navbar-item">
-                <div class="dropdown is-hoverable">
-                    <div class="dropdown-trigger">
-                        <button 
-                            class="button is-ghost" 
-                            aria-haspopup="true" 
-                            aria-controls="dropdown-menu"
-                            @click="storeLayout.showProfile = true">
-                            <span class="icon is-size-5">
+        <% if (Lesli.config.layout.dig(:locale) && I18n.available_locales.length > 1) || Lesli.config.demo %>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link is-arrowless">
+                    <span class="icon">
+                        <%= lesli_svg("locale-#{locale}") %>
+                    </span>
+                </a>
+                <div class="navbar-dropdown">
+                    <% I18n.available_locales.each do |locale| %>
+                        <% next if locale == I18n.locale %>
+                        <%= link_to language_url(locale), { :class => "navbar-item" } do %>
+                            <span class="icon">
                                 <%= lesli_svg("locale-#{locale}") %>
                             </span>
-                        </button>
-                    </div>
-                    <div class="dropdown-menu" id="dropdown-menu-locale" role="menu">
-                        <div class="dropdown-content">
-                            <% I18n.available_locales.each do |locale| %>
-                                <% next if locale == I18n.locale %>
-                                <%= link_to language_url(locale), { :class => "dropdown-item" } do %>
-                                    <span class="icon has-text-grey-light">
-                                        <%= lesli_svg("locale-#{locale}") %>
-                                    </span>
-                                    <span><%= language_name(locale) %></span>
-                                <% end %>
-                            <% end %>
-                        </div>
-                    </div>
+                            <span><%= language_name(locale) %></span>
+                        <% end %>
+                    <% end %>
                 </div>
             </div>
         <% end %>
