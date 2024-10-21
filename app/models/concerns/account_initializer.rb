@@ -37,8 +37,6 @@ module AccountInitializer
     # initialize minimum resources needed for the account
     def initialize_account
 
-        return unless defined?(LesliSecurity)
-
         # create initial descriptors
         descriptor_owner = self.descriptors.find_or_create_by(name: "owner")
         descriptor_admin = self.descriptors.find_or_create_by(name: "admin")
