@@ -84,6 +84,8 @@ if ENV["COVERAGE"]
     end
 end
 
+
+# Sentry codecov integration
 if ENV["CODECOV"]
     SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
         SimpleCov::Formatter::CoberturaFormatter,
