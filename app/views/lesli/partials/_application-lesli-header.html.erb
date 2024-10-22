@@ -62,7 +62,8 @@ Building a better future, one line of code at a time.
     <template v-slot:end>
         
         <%# language selector %>
-        <% if (Lesli.config.layout.dig(:locale) && I18n.available_locales.length > 1) || Lesli.config.demo %>
+        <%# if (Lesli.config.layout.dig(:locale) && I18n.available_locales.length > 1) || Lesli.config.demo %>
+        <% if (Lesli.config.layout.dig(:locale) && I18n.available_locales.length > 1) %>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link is-arrowless">
                     <span class="icon">
