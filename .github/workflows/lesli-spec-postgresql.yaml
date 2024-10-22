@@ -94,7 +94,7 @@ jobs:
       # Build the Lesli database
       - name: Copy configuration files
         run: |
-          cp ./engines/${{ github.event.repository.name }}/.github/tools/.rspec ./.rspec
+          cp ./engines/Lesli/.github/tools/.rspec ./.rspec
           cp ./engines/Lesli/.github/rails/database_postgresql.yml ./config/database.yml
           rm ./Gemfile.lock
 
