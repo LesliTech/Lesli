@@ -37,7 +37,7 @@
 
 # Specs for Lesli Core
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
-name: "Lesli specs workflow (core)"
+name: "Lesli specs workflow"
 on:
   pull_request:
     branches: [master, production]

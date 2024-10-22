@@ -65,10 +65,17 @@ jobs:
           path: ./engines/Lesli
           repository: LesliTech/Lesli
 
+      # Clone engine repository
+      - name: Checkout code
+        if: github.event.repository.name != 'Lesli'
+        uses: actions/checkout@v3
+        with:
+          path: ./engines/${{ github.event.repository.name }}
+
       # Prepare configuration files
-      - name: Copy SQLite configuration files
+      - name: Copy configuration files
         run: |
-          cp ./engines/Lesli/.github/tools/.rspec ./.rspec
+          cp ./engines/${{ github.event.repository.name }}/.github/tools/.rspec ./.rspec
           cp ./engines/Lesli/.github/rails/database_sqlite.yml ./config/database.yml
           rm ./Gemfile.lock
 
