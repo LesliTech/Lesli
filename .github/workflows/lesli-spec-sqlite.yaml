@@ -1,0 +1,104 @@
+# Lesli
+#
+# Copyright (c) 2023, Lesli Technologies, S. A.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see http://www.gnu.org/licenses/.
+#
+# Lesli · Ruby on Rails SaaS Development Framework.
+#
+# Made with ♥ by https://www.lesli.tech
+# Building a better future, one line of code at a time.
+#
+# @contact  hello@lesli.tech
+# @website  https://www.lesli.dev
+# @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+# // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+# // · 
+
+
+
+# -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
+# PLEASE DO NOT MODIFY THIS FILE ON THE CORE,
+# THIS FILE SHOULD BE MODIFIED ON THE LesliTech/LesliActions REPOSITORY
+# -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
+
+
+
+# Specs for Lesli Core
+# -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
+name: "Lesli specs workflow SQLite"
+on:
+  workflow_call: # This allows the workflow to be reusable
+    inputs:
+      branch:
+        required: true
+        type: string
+
+jobs:
+  sqlite-test:
+    name: Test workflow for Lesli Core (SQLite)
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # Clone LesliBuilder repository
+      - name: Checkout LesliBuilder repository
+        uses: actions/checkout@v3
+        with:
+          repository: LesliTech/LesliBuilder
+
+      # Clone Lesli repository
+      - name: Checkout Lesli repository
+        uses: actions/checkout@v3
+        with:
+          path: ./engines/Lesli
+          repository: LesliTech/Lesli
+
+      # Clone engine repository
+      - name: Checkout code
+        if: github.event.repository.name != 'Lesli'
+        uses: actions/checkout@v3
+        with:
+          path: ./engines/${{ github.event.repository.name }}
+
+      # Prepare configuration files
+      - name: Copy configuration files
+        run: |
+          cp ./engines/Lesli/.github/tools/.rspec ./.rspec
+          cp ./engines/Lesli/.github/rails/database_sqlite.yml ./config/database.yml
+          rm ./Gemfile.lock
+
+      # Use the official receipt to install ruby in ubuntu
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.5
+          bundler-cache: true
+
+      # Install core gems
+      - name: Install Ruby and gems
+        run: |
+          bundle add lesli_shield
+
+      # Build the Lesli database
+      - name: Set up SQLite database
+        run: RAILS_ENV=test bundle exec rake lesli:db:reset
+        env:
+          RAILS_ENV: test
+
+      # Run Rspec tests & collect coverage
+      - name: Run Rails tests with SQLite
+        run: bundle exec rspec spec
+        env:
+          COVERAGE: true

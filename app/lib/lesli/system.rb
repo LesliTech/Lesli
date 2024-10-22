@@ -88,9 +88,10 @@ module Lesli
 
         # Prints the name of the engine
         def self.lesli_engine_name engine
-            name = engine.camelcase
-            return "Lesli" if name == "Lesli"
-            name.sub("Lesli", "")
+            engine.camelcase
+            #name = engine.camelcase
+            #return "Lesli" if name == "Lesli"
+            #name.sub("Lesli", "")
         end
 
         LESLI_ENGINES = [

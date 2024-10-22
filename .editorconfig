@@ -14,4 +14,7 @@ indent_style = space
 indent_size = 4
 charset = utf-8
 
+[.github/*.{yml}]
+indent_size = 2
+
 # EditorConfig is awesome: https://EditorConfig.org

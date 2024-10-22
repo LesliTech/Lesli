@@ -37,23 +37,13 @@
 
 # Specs for Lesli Core
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
-name: "Lesli specs workflow"
+name: "Lesli specs workflow PostgreSQL"
 on:
-
-  # Execute this workflow when trying to merge from dev branch to master
-  pull_request:
-    branches: [master, production]
-
-  # Execute this workflow when push to master
-  push:
-    branches: [master]
-
-  # run a test daily at 1 am (Guatemala time)
-  #schedule:
-  #  - cron: "0 1 * * *"
-
-  # Allow to execute this test manually from the GitHub web app
-  workflow_dispatch:
+  workflow_call: # This allows the workflow to be reusable
+    inputs:
+      branch:
+        required: true
+        type: string
 
 jobs:
   postgres-test:
@@ -94,9 +84,17 @@ jobs:
           path: ./engines/Lesli
           repository: LesliTech/Lesli
 
+      # Clone engine repository
+      - name: Checkout code
+        if: github.event.repository.name != 'Lesli'
+        uses: actions/checkout@v3
+        with:
+          path: ./engines/${{ github.event.repository.name }}
+
       # Build the Lesli database
       - name: Copy configuration files
         run: |
+          cp ./engines/Lesli/.github/tools/.rspec ./.rspec
           cp ./engines/Lesli/.github/rails/database_postgresql.yml ./config/database.yml
           rm ./Gemfile.lock
 
@@ -107,61 +105,17 @@ jobs:
           ruby-version: 3.2.5
           bundler-cache: true
 
+      # Install core gems
+      - name: Install Ruby and gems
+        run: |
+          bundle add lesli_shield
+
       # Build the Lesli database
       - name: Set up PostgreSQL database 
         run: RAILS_ENV=test bundle exec rake lesli:db:reset
         env:
           RAILS_ENV: test
 
-      # Run Rspec tests & collect coverage
-      - name: Run Rails tests & collect coverage
-        run: bundle exec rspec spec
-        env:
-          CODECOV: true
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
-
-  sqlite-test:
-    name: Test workflow for Lesli Core (SQLite)
-    runs-on: ubuntu-latest
-
-    # This job depends on the postgres-test job
-    needs: postgres-test
-
-    steps:
-      - name: Checkout LesliBuilder repository
-        uses: actions/checkout@v3
-        with:
-          repository: LesliTech/LesliBuilder
-
-      - name: Checkout Lesli repository
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/Lesli
-          repository: LesliTech/Lesli
-
-      - name: Copy SQLite configuration files
-        run: |
-          cp ./engines/Lesli/.github/tools/.rspec ./.rspec
-          cp ./engines/Lesli/.github/rails/database_sqlite.yml ./config/database.yml
-          rm ./Gemfile.lock
-
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.2.5
-          bundler-cache: true
-
-      - name: Set up SQLite database
-        run: RAILS_ENV=test bundle exec rake lesli:db:reset
-        env:
-          RAILS_ENV: test
-
-      - name: Run Rails tests with SQLite
-        run: bundle exec rspec spec
-        env:
-          CODECOV: true
-          
       # Run Rspec tests & collect coverage
       - name: Run Rails tests & collect coverage
         run: bundle exec rspec spec

@@ -38,6 +38,11 @@ namespace :lesli do
         task :welcome => :environment do |task, args|
             welcome()
         end
+
+        desc "Distribute github workflows and actions to all the installed enginess"
+        task :actions => :environment do |task, args|
+            actions()
+        end
     end
 
     # Seed database (development only)
@@ -62,5 +67,50 @@ namespace :lesli do
         L2.line
 
         L2.cow "Enjoy your Lesli demo"
+    end
+
+    # Distribute github workflows and actions to all the installed engines
+    def actions
+        L2.info "start"
+
+        # get all the available workflows
+        workflows = Dir.glob(Rails.root.join("engines", "Lesli", ".github", "workflows", "*"))
+
+        Lesli::System.engines.each do |engine|
+            engine = engine[1]
+
+            next if engine[:name] == "Lesli"
+
+            engine_path = Rails.root.join("engines", engine[:name])
+
+            next unless File.exist?(engine_path)
+
+            pp "working with #{engine[:name]}"
+            
+            # remove github workflows folder if it exists
+            FileUtils.rm_rf engine_path.join(".github", "workflows")
+
+            # create github workflows folder if it does not exist
+            FileUtils.mkdir_p engine_path.join(".github", "workflows")
+
+            pp workflows
+
+            # work with every workflow file found on github actions repository
+            workflows.each do |file_path|
+
+                pp file_path
+
+                # get the name of the workflow file
+                filename = File.basename(file_path)
+
+                # get the content of the workflow file
+                workflow = File.read(file_path)
+
+                # write workflow file into engine
+                File.write(engine_path.join(".github", "workflows", filename), workflow)
+
+            end
+        end
+        L2.info "end"
     end
 end
