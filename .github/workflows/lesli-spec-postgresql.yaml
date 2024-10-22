@@ -84,6 +84,14 @@ jobs:
           path: ./engines/Lesli
           repository: LesliTech/Lesli
 
+        
+      # Clone engine repository
+      - name: Checkout code
+        if: github.event.repository.name != 'Lesli'
+        uses: actions/checkout@v3
+        with:
+          path: ./engines/${{ github.event.repository.name }}
+
       # Build the Lesli database
       - name: Copy configuration files
         run: |
