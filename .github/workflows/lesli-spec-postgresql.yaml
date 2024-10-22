@@ -105,6 +105,11 @@ jobs:
           ruby-version: 3.2.5
           bundler-cache: true
 
+      # Install core gems
+      - name: Install Ruby and gems
+        run: |
+          bundle add lesli_shield
+
       # Build the Lesli database
       - name: Set up PostgreSQL database 
         run: RAILS_ENV=test bundle exec rake lesli:db:reset

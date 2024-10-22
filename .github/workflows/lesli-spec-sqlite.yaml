@@ -100,3 +100,5 @@ jobs:
       # Run Rspec tests & collect coverage
       - name: Run Rails tests with SQLite
         run: bundle exec rspec spec
+        env:
+          COVERAGE: true
