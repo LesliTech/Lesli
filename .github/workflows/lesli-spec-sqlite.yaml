@@ -89,7 +89,7 @@ jobs:
       # Install core gems
       - name: Install Ruby and gems
         run: |
-          bundle add Lesli_shield
+          bundle add lesli_shield
 
       # Build the Lesli database
       - name: Set up SQLite database
