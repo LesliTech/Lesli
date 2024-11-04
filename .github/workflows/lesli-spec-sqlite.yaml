@@ -89,6 +89,6 @@ jobs:
 
       # Run Rspec tests & collect coverage
       - name: Run Rails tests with SQLite
-        run: bundle exec rspec spec
+        run: bundle exec rspec spec --pattern ./engines/${{ github.event.repository.name }}/spec/**/**/*_spec.rb
         env:
           COVERAGE: true
