@@ -10,47 +10,47 @@ A collection is a group of modules that belongs to a category or a business indu
 
 <div class="columns is-multiline lesli-css-color-collections">
     <div class="column"> 
-        <div class="has-text-centered px-4 py-6 has-text-white bg-lesli-css-color-collection-administration">
+        <div class="has-text-centered px-4 py-6 br-2 br-2 has-text-white lesli-background-collection-administration">
             1.&nbsp;Administration
         </div>
     </div>
     <div class="column">
-        <div class="has-text-centered px-4 py-6 has-text-white bg-lesli-css-color-collection-sales">
+        <div class="has-text-centered px-4 py-6 br-2 has-text-white lesli-background-collection-sales">
             2.&nbsp;Sales&nbsp;&&nbsp;Marketing
         </div>
     </div>
     <div class="column">
-        <div class="has-text-centered px-4 py-6 has-text-white bg-lesli-css-color-collection-productivity">
+        <div class="has-text-centered px-4 py-6 br-2 has-text-white lesli-background-collection-productivity">
             3.&nbsp;Productivity&nbsp;&&nbsp;Teamwork
         </div>
     </div>
     <div class="column">
-        <div class="has-text-centered px-4 py-6 has-text-white bg-lesli-css-color-collection-finance">
+        <div class="has-text-centered px-4 py-6 br-2 has-text-white lesli-background-collection-finance">
             4.&nbsp;Finance
         </div>
     </div>
     <div class="column">
-        <div class="has-text-centered px-4 py-6 has-text-black bg-lesli-css-color-collection-analytics">
+        <div class="has-text-centered px-4 py-6 br-2 has-text-black lesli-background-collection-analytics">
             5.&nbsp;Analytics
         </div>
     </div>
     <div class="column"> 
-        <div class="has-text-centered px-4 py-6 has-text-white bg-lesli-css-color-collection-intelligence">
+        <div class="has-text-centered px-4 py-6 br-2 has-text-white lesli-background-collection-intelligence">
             6.&nbsp;Intelligence
         </div>
     </div>
     <div class="column">
-        <div class="has-text-centered px-4 py-6 has-text-black bg-lesli-css-color-collection-it">
+        <div class="has-text-centered px-4 py-6 br-2 has-text-black lesli-background-collection-it">
             7.&nbsp;IT&nbsp;&&nbsp;Help&nbsp;Desk
         </div>
     </div>
     <div class="column">
-        <div class="has-text-centered px-4 py-6 has-text-black bg-lesli-css-color-collection-security">
+        <div class="has-text-centered px-4 py-6 br-2 has-text-black lesli-background-collection-security">
             8.&nbsp;Security&nbsp;&&nbsp;Privacy
         </div>
     </div>
     <div class="column">
-        <div class="has-text-centered px-4 py-6 has-text-black bg-lesli-css-color-collection-integration">
+        <div class="has-text-centered px-4 py-6 br-2 has-text-black lesli-background-collection-integration">
             9.&nbsp;Integrations
         </div>
     </div>
@@ -216,13 +216,5 @@ Currently we have planned the development of 45 modules, 11 modules are already 
 
 <br><br>
 
-::: info
-You can create your own modules, we'll cover that part later in this documentation.
-:::
 
-
-
-<style lang="scss">
-    @import "lesli-css";
-    @include lesli-css-color-print(background, bg-lesli-css-color);
-</style>
+> You can create your own modules, we'll cover that part later in this documentation.

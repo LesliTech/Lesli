@@ -26,6 +26,6 @@ __password:__ Tardis2023$
 
 <br />
 
-::: info
-The Lesli demo Docker image includes all the Lesli modules pre-installed and a collection of sample data.
-:::
+
+> The Lesli demo Docker image includes all the Lesli modules pre-installed and a collection of sample data.
+
