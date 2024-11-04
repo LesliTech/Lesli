@@ -30,7 +30,7 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-LESLI_ENGINES = ["Lesli", "LesliAdmin"]
+LESLI_ENGINES = Dir.glob("engines/**").map { |ngn| ngn.sub("engines/", "") }
 
 LESLI_ENGINES.each do |engine_name|
 
