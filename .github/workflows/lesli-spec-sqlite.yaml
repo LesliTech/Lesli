@@ -68,10 +68,11 @@ jobs:
       # Prepare configuration files
       - name: Copy configuration files
         run: |
-          cp ./engines/Lesli/.github/tools/.rspec ./.rspec
-          cp ./engines/Lesli/.github/rails/database_sqlite.yml ./config/database.yml
           rm ./Gemfile.lesli
           rm ./Gemfile.lock
+          cp ./engines/Lesli/.github/tools/.rspec ./.rspec
+          cp ./engines/Lesli/.github/rails/Gemfile.lesli ./Gemfile.lesli
+          cp ./engines/Lesli/.github/rails/database_sqlite.yml ./config/database.yml
 
       # Use the official receipt to install ruby in ubuntu
       - name: Install Ruby and gems
