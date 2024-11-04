@@ -99,6 +99,10 @@ Gem::Specification.new do |spec|
 
 
 
+    spec.add_dependency("lesli_shield")
+
+
+
     # Simple greetings message
     spec.post_install_message = "Greetings from LesliTech  ❤️  Docs are available at https://www.lesli.dev/"
 
