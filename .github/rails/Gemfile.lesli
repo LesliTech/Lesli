@@ -48,3 +48,5 @@ LESLI_ENGINES.each do |engine_name|
         gem "#{engine_code}"
     end
 end
+
+gem "lesli_shield"
