@@ -36,5 +36,8 @@ module Lesli
         def self.testers_request 
             Lesli::Engine.root.join("lib/rspec/testers/request")
         end
+        def self.testers_model 
+            Lesli::Engine.root.join("lib/rspec/testers/model")
+        end
     end 
 end

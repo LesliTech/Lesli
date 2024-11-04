@@ -80,7 +80,7 @@ module Lesli
                 account = Account.create!({
                     user: resource,     # set user as owner of his just created account
                     name: "Lesli",      # temporary company name
-                    status: :active     # account is active due user already confirmed his email
+                    #status: :active     # account is active due user already confirmed his email
                 })
             end
 

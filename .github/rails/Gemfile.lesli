@@ -30,64 +30,21 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-#LESLI_ENGINES = ["Lesli", "LesliAdmin", "LesliBabel", "LesliAudit", "LesliBell", "LesliDriver"]
 LESLI_ENGINES = ["Lesli", "LesliAdmin"]
 
 LESLI_ENGINES.each do |engine_name|
+
+    # get the engine folder name (development only)
     engine_code = engine_name.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase
+
+    # if the engine is installed locally 
     if Dir.exist?("#{File.dirname(__FILE__)}/engines/#{engine_name}")
+
+        # load engine from source code
         gem "#{engine_code}", path: "engines/#{engine_name}"
+    else
+
+        # install engine from rubygems
+        gem "#{engine_code}"
     end
-end
-
-# · Gems for development & test environment
-group :development, :test do
-
-# Fake data generator
-
-    # https://github.com/faker-ruby/faker
-    gem "faker"
-
-    # Preview email in the default browser instead of sending it
-    # https://github.com/ryanb/letter_opener
-    gem "letter_opener", "1.8.1"
-
-    # rspec-rails is a testing framework for Rails 5+.
-    # https://github.com/rspec/rspec-rails
-    # Using beta version of rspect-rails due: https://github.com/rails/rails/issues/35417
-    gem "rspec-rails", "6.0.2"
-
-    # Code coverage
-    # https://github.com/simplecov-ruby/simplecov
-    gem "simplecov", "0.22.0", require: false
-
-    # Code coverage stats in the console
-    # https://github.com/chetan/simplecov-console
-    gem "simplecov-console", "0.9.1", require: false
-
-    gem 'simplecov-cobertura'
-
-    gem 'codecov'
-
-end
-
-
-# · Gems for development environment
-group :development do
-end
-
-
-# · Gems for test environment
-group :test do
-
-    gem "rails-controller-testing"
-    gem "rails-ujs"
-
-    # Sprockets needs jquery to render views on test environment
-    gem "jquery-rails"
-
-    # FactoryBot
-    # https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#configure-your-test-suite
-    gem "factory_bot_rails"
-
 end
