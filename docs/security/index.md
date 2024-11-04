@@ -1,0 +1,1 @@
+New content to replace the entire file
