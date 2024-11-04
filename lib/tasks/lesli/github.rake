@@ -39,17 +39,6 @@ namespace :lesli do
             actions()
         end
 
-        desc "Commit pending changes from all engines"
-        task commit: :environment do
-
-            # default params
-            git_message = "add updates from development"
-
-
-            # execute command
-            commit git_message
-
-        end
     end
 
     # Distribute github workflows and actions to all the installed engines
@@ -59,7 +48,8 @@ namespace :lesli do
         # get all the available workflows
         workflows = Dir.glob(Rails.root.join("engines", "Lesli", ".github", "workflows", "*"))
 
-        Lesli::System.engines.each do |engine|
+        Lesli::System.engines(local:true).each do |name, engine|
+
             engine = engine[1]
 
             next if engine[:name] == "Lesli"
@@ -95,23 +85,5 @@ namespace :lesli do
             end
         end
         L2.info "end"
-    end
-
-    # Commit pending changes from all engines
-    def commit git_message
-
-        # for every installed engine
-        Lesli::System.engines.each do |engine|
-
-            engine = engine[1]
-
-            engine_path = Rails.root.join("engines", engine[:name])
-
-            next unless File.exist?(engine_path)
-
-            L2.m("Working with: #{engine[:name]}")
-            system("cd ./engines/#{engine[:name]} && git add --all && git commit -m \"#{ git_message }\"")
-
-        end
     end
 end

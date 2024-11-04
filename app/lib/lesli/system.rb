@@ -52,7 +52,10 @@ module Lesli
             return ENGINES[engine]
         end
 
-        def self.engines 
+
+        # Lesli::System.engines()
+        # Lesli::System.engines(:local => true)
+        def self.engines local: false
 
             return ENGINES unless ENGINES.empty?
 
@@ -60,11 +63,27 @@ module Lesli
             # time we load the html view so we can use the dynamic route from the main rails app
             # we use this in the url plugin 
             LESLI_ENGINES.each do |engine|
+
+                # skip if engine is not installed
                 next unless Object.const_defined?(engine)
+
+                # convert engine name to Ruby object
                 engine_instance = "#{engine}".constantize
+
+                # check if engines installed locally are required
+                if local 
+
+                    # build the path were engines should be installed
+                    engine_local_path = Rails.root.join("engines", engine)
+
+                    # do not include engines if not is locally installed
+                    next unless File.exist?(engine_local_path)
+                end
+                
+                # engine completelly information
                 ENGINES[engine] = {
                     :code => engine.underscore, 
-                    :name => lesli_engine_name(engine), 
+                    :name => engine, 
                     :path => engine_instance::Engine.routes.find_script_name({}),
                     :version => engine_instance::VERSION,
                     :build => engine_instance::BUILD,
@@ -72,6 +91,7 @@ module Lesli
                 }
             end 
 
+            # also include the rails main_app
             ENGINES["Root"] = {
                 :code => "root", 
                 :name => "Root", 
@@ -85,14 +105,6 @@ module Lesli
         end
 
         private 
-
-        # Prints the name of the engine
-        def self.lesli_engine_name engine
-            engine.camelcase
-            #name = engine.camelcase
-            #return "Lesli" if name == "Lesli"
-            #name.sub("Lesli", "")
-        end
 
         LESLI_ENGINES = [
             "Lesli", 
