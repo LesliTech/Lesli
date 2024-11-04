@@ -58,19 +58,12 @@ jobs:
         with:
           repository: LesliTech/LesliBuilder
 
-      # Clone Lesli repository
-      - name: Checkout Lesli repository
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/Lesli
-          repository: LesliTech/Lesli
-
       # Clone engine repository
-      - name: Checkout code
-        if: github.event.repository.name != 'Lesli'
+      - name: Checkout engine scode
         uses: actions/checkout@v3
         with:
           path: ./engines/${{ github.event.repository.name }}
+          repository: LesliTech/${{ github.event.repository.name }}
 
       # Prepare configuration files
       - name: Copy configuration files
@@ -86,11 +79,6 @@ jobs:
         with:
           ruby-version: 3.2.5
           bundler-cache: true
-
-      # Install core gems
-      - name: Install Ruby and gems
-        run: |
-          bundle add lesli_shield
 
       # Build the Lesli database
       - name: Set up SQLite database
