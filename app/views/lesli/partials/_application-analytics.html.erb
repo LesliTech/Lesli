@@ -36,12 +36,12 @@ Building a better future, one line of code at a time.
 <% protected_controllers = ["confirmations"] %>
 
 <% # Get an specific site tracking id or use the development default %>
-<% tracking_id = Rails.application.credentials.dig(:providers, :analytics) || "" %>
+<% tracking_id = Rails.application.credentials.dig(:providers, :analytics) %>
 
 <% # check if analytics is enabled in the settings file %>
 <% enable_analytics = Lesli.config.security[:enable_analytics] %>
 
-<% if Rails.env.production? && enable_analytics %>
+<% if Rails.env.production? && enable_analytics && tracking_id %>
 
     <% if !protected_controllers.include?(controller_name) %>
 

@@ -34,41 +34,37 @@ Building a better future, one line of code at a time.
 namespace :lesli do 
     namespace :git do
 
-        desc "Update vendor from node_modules"
-        task :vendor => :environment do |task, args|
-            vendor()
+        desc "Commit pending changes from all engines"
+        task commit: :environment do
+
+            # default params
+            git_message = "add updates from development"
+
+
+            # execute command
+            commit git_message
+
         end
     end
 
-    def vendor
+    # Commit pending changes from all engines
+    def commit git_message
 
-        # copy vendor dependencies (only css files are required)
-        FileUtils.rm_rf("engines/Lesli/vendor")
-        FileUtils.mkdir("engines/Lesli/vendor")
-    
-        # updated version of libraries
-        [
-            "bulma",
-            "lesli-css",
-            "remixicon"
-        ].each do |package|
-            FileUtils.cp_r "engines/Lesli/node_modules/#{package}/", "engines/Lesli/vendor/#{package}", :verbose => true
-            FileUtils.rm_rf("engines/Lesli/vendor/#{package}/.git")
-        end
-    
-        Dir.glob("engines/Lesli/vendor/**/*").each do |file|
-            next if file.end_with?(".css")
-            next if file.end_with?(".scss")
-            next if file.end_with?(".sass")
-            next if file.end_with?("LICENSE")
-            next if file.end_with?("License")
-            next if file.end_with?("license")
-            next if File.directory?(file)
-            FileUtils.rm(file, :verbose => true) 
-        end
+        # for every installed engine
+        pp Lesli::System.engines(:local => true)
+        # Lesli::System.engines_local.each do |name, engine|
 
-        # commit any change in vendor
-        # command("git add vendor && git commit -m \"vendor: update npm dependencies (vendors)\" vendor")
-    
+        #     engine_path = Rails.root.join("engines", name)
+
+        #     pp name
+
+        #     next
+
+        #     next unless File.exist?(engine_path)
+
+        #     L2.m("Working with: #{name}")
+        #     system("cd ./engines/#{name} && git add --all && git commit -m \"#{ git_message }\"")
+
+        # end
     end
 end
