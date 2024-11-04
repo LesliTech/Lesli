@@ -57,13 +57,13 @@ jobs:
 
       # Clone LesliBuilder repository
       - name: Checkout LesliBuilder repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: LesliTech/LesliBuilder
 
       # Clone engine repository
       - name: Checkout engine scode
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ./engines/${{ github.event.repository.name }}
           repository: LesliTech/${{ github.event.repository.name }}
