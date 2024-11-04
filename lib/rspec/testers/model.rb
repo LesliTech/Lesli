@@ -31,6 +31,6 @@ Building a better future, one line of code at a time.
 =end
 
 
-require Lesli::Engine.root.join("spec/support/helpers/rails_helper")
-require Lesli::Engine.root.join("spec/support/helpers/lesli_helper")
-require Lesli::Engine.root.join("spec/support/helpers/response_request_helper")
+require Lesli::Engine.root.join("lib/rspec/helpers/rails_helper")
+require Lesli::Engine.root.join("lib/rspec/helpers/lesli_helper")
+require Lesli::Engine.root.join("lib/rspec/helpers/response_request_helper")

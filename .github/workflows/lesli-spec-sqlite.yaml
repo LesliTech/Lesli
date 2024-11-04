@@ -50,34 +50,32 @@ jobs:
     name: Test workflow for Lesli Core (SQLite)
     runs-on: ubuntu-latest
 
+    # Do not execute the test if requests comes from another action
+    if: ${{ !contains(github.event.head_commit.message, 'ci(workflows):') && !contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):') }}
+
     steps:
 
       # Clone LesliBuilder repository
       - name: Checkout LesliBuilder repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: LesliTech/LesliBuilder
 
-      # Clone Lesli repository
-      - name: Checkout Lesli repository
-        uses: actions/checkout@v3
-        with:
-          path: ./engines/Lesli
-          repository: LesliTech/Lesli
-
       # Clone engine repository
-      - name: Checkout code
-        if: github.event.repository.name != 'Lesli'
-        uses: actions/checkout@v3
+      - name: Checkout engine scode
+        uses: actions/checkout@v4
         with:
           path: ./engines/${{ github.event.repository.name }}
+          repository: LesliTech/${{ github.event.repository.name }}
 
       # Prepare configuration files
       - name: Copy configuration files
         run: |
-          cp ./engines/Lesli/.github/tools/.rspec ./.rspec
-          cp ./engines/Lesli/.github/rails/database_sqlite.yml ./config/database.yml
+          rm ./Gemfile.lesli
           rm ./Gemfile.lock
+          cp ./engines/Lesli/.github/rails/.rspec ./.rspec
+          cp ./engines/Lesli/.github/rails/Gemfile.lesli ./Gemfile.lesli
+          cp ./engines/Lesli/.github/rails/database_sqlite.yml ./config/database.yml
 
       # Use the official receipt to install ruby in ubuntu
       - name: Install Ruby and gems
@@ -85,11 +83,6 @@ jobs:
         with:
           ruby-version: 3.2.5
           bundler-cache: true
-
-      # Install core gems
-      - name: Install Ruby and gems
-        run: |
-          bundle add lesli_shield
 
       # Build the Lesli database
       - name: Set up SQLite database
@@ -99,6 +92,6 @@ jobs:
 
       # Run Rspec tests & collect coverage
       - name: Run Rails tests with SQLite
-        run: bundle exec rspec spec
+        run: bundle exec rspec spec 
         env:
           COVERAGE: true
