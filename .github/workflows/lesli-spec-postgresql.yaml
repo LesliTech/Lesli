@@ -90,7 +90,7 @@ jobs:
           rm ./Gemfile.lock
           cp ./engines/Lesli/.github/rails/.rspec ./.rspec
           cp ./engines/Lesli/.github/rails/Gemfile.lesli ./Gemfile.lesli
-          cp ./engines/Lesli/.github/rails/database_sqlite.yml ./config/database.yml
+          cp ./engines/Lesli/.github/rails/database_postgresql.yml ./config/database.yml
 
       # Use the official receipt to install ruby in ubuntu
       - name: Install Ruby and gems
