@@ -32,10 +32,10 @@ Building a better future, one line of code at a time.
 
 
 # Test coverage
+require "codecov"
 require "simplecov"
 require "simplecov-console"
 require "simplecov-cobertura"
-require "codecov"
 
 
 # COVERAGE=true rspec spec
@@ -49,12 +49,11 @@ if ENV["COVERAGE"]
     ])
 
     # limit the number of missing lines
-    SimpleCov::Formatter::Console.missing_len = 50 
+    SimpleCov::Formatter::Console.missing_len = 100 
 
     # configure the files to track and ignore
     SimpleCov.start do 
-        #track_files 'lib/**/*.rb'
-        
+
         # remove to track files in these folders
         add_filter "/spec"
         add_filter "/vendor"
@@ -70,8 +69,7 @@ if ENV["COVERAGE"]
         add_filter "/engines/Lesli/app/controllers/lesli/interfaces"
         add_filter "/engines/Lesli/app/controllers/lesli/application_controller.rb"
         add_filter "/engines/Lesli/app/controllers/lesli/application_lesli_controller.rb"
-        add_filter "/engines/Lesli/lib/rspec/helpers/response_request_helper.rb"
-        add_filter "/engines/Lesli/lib/rspec/helpers/lesli_helper.rb"
+        add_filter "/engines/Lesli/lib/rspec"
 
         add_filter "/engines/LesliShield"
         add_filter "/engines/LesliSupport"

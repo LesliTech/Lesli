@@ -1,6 +1,3 @@
-<script setup>
-import Browser from "../../../.vitepress/components/lesli-browser.vue"
-</script>
 
 # Install Lesli core
 Lesli is a Ruby on Rails gem designed to seamlessly integrate with your application. It ensures complete isolation of code, database, and assets, preventing any interference with your main Ruby on Rails application.
@@ -121,15 +118,17 @@ rails server
 
 Using your favorite web browser navigate to <a href="http://127.0.0.1:3000" targer="_blank">http://127.0.0.1:3000/login</a>, Lesli mounted devise at root level, so you already have an authentication engine working.
 
-<browser url="login">
+< browser url="login">
     <img src="/images/engines/security/screenshot-login.png">
-</browser>
+</ browser>
 
 The seeders comes with default users with different roles and privileges, to see Lesli in action use the owner user:
 
 __username:__ hello@lesli.tech <br/>
 __password:__ Tardis2023$ 
 
-::: info
-It is possible to add development users, roles, privileges and more; we will explore this options later in the documentation.
-:::
+
+> It is possible to add development users, roles, privileges and more; we will explore this options later in the documentation.
+
+
+
