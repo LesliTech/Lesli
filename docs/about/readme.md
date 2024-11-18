@@ -1,6 +1,0 @@
----
-title: About
----
-
-<%= partial("lesli") %>
-

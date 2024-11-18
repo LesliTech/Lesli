@@ -1,6 +1,0 @@
----
-title: Contributing
----
-
-<%= partial("environment") %>
-
