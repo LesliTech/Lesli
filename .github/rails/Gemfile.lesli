@@ -30,13 +30,17 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-gem "lesli"
 
-gem "lesli_shield"
+# Search for local engines
+lesli_engines = Dir.glob("engines/**").map { |ngn| ngn.sub("engines/", "") }
 
-LESLI_ENGINES = Dir.glob("engines/**").map { |ngn| ngn.sub("engines/", "") }
 
-LESLI_ENGINES.each do |engine_name|
+# Include required engines (if not included localy)
+lesli_engines << "Lesli" unless lesli_engines.include?("Lesli")
+lesli_engines << "LesliShield" unless lesli_engines.include?("LesliShield")
+
+
+lesli_engines.each do |engine_name|
 
     # get the engine folder name (development only)
     engine_code = engine_name.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase
