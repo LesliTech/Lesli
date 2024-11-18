@@ -76,6 +76,14 @@ jobs:
         with:
           repository: LesliTech/LesliBuilder
 
+      # Clone core repository
+      - name: Checkout Lesli code
+        uses: actions/checkout@v4
+        if: "${{github.event.repository.name}} != 'Lesli'"
+        with:
+          path: ./engines/Lesli
+          repository: LesliTech/Lesli
+
       # Clone engine repository
       - name: Checkout engine scode
         uses: actions/checkout@v4
