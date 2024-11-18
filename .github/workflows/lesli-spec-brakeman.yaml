@@ -66,7 +66,14 @@
             with:
               path: ./engines/${{ github.event.repository.name }}
               repository: LesliTech/${{ github.event.repository.name }}
-    
+
+          # Prepare configuration files
+          - name: Copy configuration files
+            run: |
+              rm ./Gemfile.lock
+              rm ./Gemfile.lesli
+              cp ./engines/Lesli/.github/rails/Gemfile.lesli ./Gemfile.lesli
+
           # Use the official receipt to install ruby in ubuntu
           - name: Install Ruby and gems
             uses: ruby/setup-ruby@v1
