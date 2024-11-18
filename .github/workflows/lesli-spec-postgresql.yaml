@@ -86,9 +86,8 @@ jobs:
       # Prepare configuration files
       - name: Copy configuration files
         run: |
-          rm ./Gemfile.lesli
           rm ./Gemfile.lock
-          cp ./engines/Lesli/.github/rails/.rspec ./.rspec
+          rm ./Gemfile.lesli
           cp ./engines/Lesli/.github/rails/Gemfile.lesli ./Gemfile.lesli
           cp ./engines/Lesli/.github/rails/database_postgresql.yml ./config/database.yml
 
@@ -107,7 +106,7 @@ jobs:
 
       # Run Rspec tests & collect coverage
       - name: Run Rails tests & collect coverage
-        run: bundle exec rspec spec
+        run: bundle exec rspec spec --pattern ./engines/${{ github.event.repository.name }}/spec/**/**/*_spec.rb --format documentation 
         env:
           CODECOV: true
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
