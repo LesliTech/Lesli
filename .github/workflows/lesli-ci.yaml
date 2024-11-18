@@ -54,7 +54,14 @@ jobs:
 
   postgres-tests:
     name: Run PostgreSQL tests
-    needs: sqlite-tests  # Runs only after the PostgreSQL tests finish
+    needs: sqlite-tests  # Runs only after the SQLite tests finish
     uses: ./.github/workflows/lesli-spec-postgresql.yaml
+    with:
+      branch: ${{ github.ref_name }}
+
+  brakeman-scan:
+    name: Static Analysis Security Tool
+    needs: postgres-tests  # Runs only after the PostgreSQL tests finish
+    uses: ./.github/workflows/lesli-spec-brakeman.yaml
     with:
       branch: ${{ github.ref_name }}

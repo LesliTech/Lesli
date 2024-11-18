@@ -71,9 +71,8 @@ jobs:
       # Prepare configuration files
       - name: Copy configuration files
         run: |
-          rm ./Gemfile.lesli
           rm ./Gemfile.lock
-          cp ./engines/Lesli/.github/rails/.rspec ./.rspec
+          rm ./Gemfile.lesli
           cp ./engines/Lesli/.github/rails/Gemfile.lesli ./Gemfile.lesli
           cp ./engines/Lesli/.github/rails/database_sqlite.yml ./config/database.yml
 
@@ -92,6 +91,6 @@ jobs:
 
       # Run Rspec tests & collect coverage
       - name: Run Rails tests with SQLite
-        run: bundle exec rspec spec 
+        run: bundle exec rspec spec --pattern ./engines/${{ github.event.repository.name }}/spec/**/**/*_spec.rb --format documentation  
         env:
           COVERAGE: true
