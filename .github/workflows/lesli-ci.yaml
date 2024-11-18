@@ -44,6 +44,7 @@ on:
   push:
     branches: [master]
   workflow_dispatch:
+  workflow_call: # This makes it reusable
 
 jobs:
   sqlite-tests:
