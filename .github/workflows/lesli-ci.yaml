@@ -60,7 +60,6 @@ jobs:
       branch: ${{ github.ref_name }}
 
   brakeman-scan:
-    if: false
     name: Static Analysis Security Tool
     needs: postgres-tests  # Runs only after the PostgreSQL tests finish
     uses: ./.github/workflows/lesli-spec-brakeman.yaml
