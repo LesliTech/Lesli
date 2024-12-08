@@ -33,6 +33,26 @@ Building a better future, one line of code at a time.
 # ·
 module Lesli 
     module Routing 
+
+        def self.login path=""
+            LesliShield::Routing.mount_login_at(path) if defined?(LesliShield)
+        end
+
+        def self.standard_engines
+            Rails.application.routes.draw do
+                mount Lesli::Engine => "/lesli" if defined?(Lesli)
+                mount LesliBell::Engine => "/bell" if defined?(LesliBell)
+                mount LesliAdmin::Engine => "/admin" if defined?(LesliAdmin)
+                mount LesliAudit::Engine => "/audit" if defined?(LesliAudit)
+                mount LesliBabel::Engine => "/babel" if defined?(LesliBabel)
+                mount LesliShield::Engine => "/shield" if defined?(LesliShield)
+                mount LesliSupport::Engine => "/support" if defined?(LesliSupport)
+                mount LesliSecurity::Engine => "/security" if defined?(LesliSecurity)
+                mount LesliCalendar::Engine => "/calendar" if defined?(LesliCalendar)
+                mount LesliDashboard::Engine => "/dashboard" if defined?(LesliDashboard)
+            end
+        end
+
         def self.mount_dashboard_for lesli_engine
 
             lesli_engine::Engine.routes.draw do
