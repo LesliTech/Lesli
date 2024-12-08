@@ -42,6 +42,19 @@ module Lesli
             if params[:role].present?
                 # add simple quotes to the roles so the sql can manage the query
                 roles = params[:role].split(",").map { |role| "'#{role}'" }.join(", ")
+                # users = users.joins("
+                #     inner join (
+                #         select
+                #             ur.users_id, string_agg(r.\"name\", ', ') role_names
+                #         from user_roles ur
+                #         join roles r
+                #             on r.id = ur.role_id 
+                #             and r.name in ( #{ roles } )
+                #         where ur.deleted_at is null
+                #         group by ur.users_id
+                #     ) roles on roles.users_id = users.id
+                # ")
+
                 users = users.joins("
                     inner join (
                         select
@@ -49,11 +62,13 @@ module Lesli
                         from user_roles ur
                         join roles r
                             on r.id = ur.role_id 
-                            and r.name in ( #{ roles } )
+                            and r.name in (:roles)
                         where ur.deleted_at is null
                         group by ur.users_id
                     ) roles on roles.users_id = users.id
                 ")
+                .where('r.name IN (:roles)', roles: roles)
+
             end
 
             users.order(name: :asc).select(
