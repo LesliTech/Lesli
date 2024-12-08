@@ -217,9 +217,7 @@ module Lesli
         # 07.02 Help engine
         def navigation_engine_support(title: "Support", subtitle: "Support Ticket System")
             return unless defined? LesliSupport
-
-            navigation_engine_item(title, subtitle, "support", lesli_support.root_path,
-                                   controller_path.include?("lesli_support"))
+            navigation_engine_item(title, subtitle, "support", lesli_support.root_path, controller_path.include?("lesli_support"))
         end
 
         # 07.03 Portal engine
