@@ -64,7 +64,7 @@ puts LesliCourier.new(:lesli_test, "error").from(:ticket_service).call(:index_wi
 class LesliCourier
 
     # Store the module_name (e.g., :lesli_support as LesliSupport)
-    def initialize(module_name, on_error)
+    def initialize(module_name, on_error=nil)
         @module_name = module_name.to_s.camelize
         @on_error=on_error
     end
