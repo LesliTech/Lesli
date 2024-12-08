@@ -94,4 +94,3 @@ jobs:
       - name: Run Brakeman Security Scanner
         run: |
           bundle exec brakeman 
-          continue-on-error: true
