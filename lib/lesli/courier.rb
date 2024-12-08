@@ -30,36 +30,14 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-=begin
 
-Usage:
-
-# Example of service class
-module LesliTest
-    class TicketService
-        def initialize(params = nil)
-            @params = params
-        end
-
-        def index_with_deadline
-            if @params
-                "Processing ticket with params: #{@params}"
-            else
-                "Processing ticket without params"
-            end
-        end
-    end
-end
-
-puts LesliCourier.new(:lesli_support2, "error").from(:ticket_service).with("my params").call(:index_with_deadline)
-puts LesliCourier.new(:lesli_support2, "error").from(:ticket_service).call(:index_with_deadline)
-
-puts LesliCourier.new(:lesli_test, "error").from(:ticket_service).with("my params").call(:index_with_deadline)
-puts LesliCourier.new(:lesli_test, "error").from(:ticket_service).call(:index_with_deadline)
-
-=end
-
-
+# · Usage
+# · 
+# · LesliCourier.new(:lesli_test).from(:ticket_service).call(:index_with_deadline)
+# · LesliCourier.new(:lesli_test).from(:ticket_service).with(curent_user, query).call(:index)
+# · 
+# · LesliCourier.new(:lesli_test, []).from(:ticket_service).call(:index_with_deadline)
+# · LesliCourier.new(:lesli_test, []).from(:ticket_service).with(curent_user, query).call(:index)
 # · 
 class LesliCourier
 
@@ -94,11 +72,11 @@ class LesliCourier
         module_name = "#{@module_name}"
 
         # Look up the module and class dynamically
-        return @on_error if !Object.const_defined?(module_name)
+        return @on_error unless Object.const_defined?(module_name)
 
         module_service_name = "#{@module_name}::#{@service_name}"
 
-        return @on_error if !Object.const_defined?(module_service_name)
+        return @on_error unless Object.const_defined?(module_service_name)
 
         module_service_class = module_service_name.constantize
         
