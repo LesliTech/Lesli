@@ -93,4 +93,4 @@ jobs:
       # Run Brakeman
       - name: Run Brakeman Security Scanner
         run: |
-          bundle exec brakeman 
+          bundle exec brakeman --color -o /dev/stdout
