@@ -29,22 +29,21 @@
 
 
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
-# PLEASE DO NOT MODIFY THIS FILE ON THE CORE,
-# THIS FILE SHOULD BE MODIFIED ON THE LesliTech/LesliActions REPOSITORY
+# REUSABLE GITHUB ACTIONS WORKFLOWS DESIGNED TO BE USED ACROSS 
+# THE LESLI FRAMEWORK REPOSITORIES
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
 
 
 
-# Specs for Lesli Core
+# Specs for The Lesli Framework
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
 name: "Lesli specs workflow"
 on:
-  pull_request:
-    branches: [master, production]
   push:
-    branches: [master]
-  workflow_dispatch:
-  workflow_call: # This makes it reusable
+    branches: [master]  # Execute when push only for the master branch
+  workflow_dispatch:    # This allows the action to be executed on demand
+  workflow_call:        # This makes it reusable across all the lesli repos
+  pull_request:         # Execute this workflow automatic on any new PR
 
 jobs:
   sqlite-tests:

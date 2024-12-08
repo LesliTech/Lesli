@@ -28,13 +28,13 @@
 
 
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
-# PLEASE DO NOT MODIFY THIS FILE ON THE CORE,
-# THIS FILE SHOULD BE MODIFIED ON THE LesliTech/LesliActions REPOSITORY
+# REUSABLE GITHUB ACTIONS WORKFLOWS DESIGNED TO BE USED ACROSS 
+# THE LESLI FRAMEWORK REPOSITORIES
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
 
 
 
-# Specs for Lesli Core
+# Specs for The Lesli Framework
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
 name: "Lesli specs workflow PostgreSQL"
 on:
