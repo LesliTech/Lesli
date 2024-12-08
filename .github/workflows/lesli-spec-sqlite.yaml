@@ -103,3 +103,8 @@ jobs:
         run: bundle exec rspec $(find engines/${{ github.event.repository.name }}/spec -name '*_spec.rb') --format documentation
         env:
           COVERAGE: true
+
+      - name: Upload test results to Codecov
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
