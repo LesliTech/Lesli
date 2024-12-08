@@ -38,7 +38,8 @@
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
 name: "Lesli specs workflow Brakeman"
 on:
-  workflow_call: # This allows the workflow to be reusable
+  workflow_dispatch:    # This allows the action to be executed on demand
+  workflow_call:        # This allows the workflow to be reusable
     inputs:
       branch:
         required: true
