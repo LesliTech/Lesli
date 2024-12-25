@@ -44,9 +44,9 @@ Building a better future, one line of code at a time.
     <%# Disable back button in browser after Logout using JavaScript %>
     <% if flash[:logout] == true %>
         <script>
-            history.pushState(null, null, null);
+            history.pushState(null, null, null, null, null);
             window.addEventListener('popstate', function () {
-                history.pushState(null, null, null);
+                history.pushState(null, null, null, null, null);
             });
         </script>
     <% end %>
