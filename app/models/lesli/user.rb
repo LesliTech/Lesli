@@ -63,17 +63,15 @@ module Lesli
 
 
         # devise implementation
-        #if !defined?(LesliSecurity)
-            devise( 
-                :database_authenticatable,
-                :registerable,
-                :rememberable,
-                :recoverable,
-                :validatable,
-                :confirmable,
-                :trackable);
-                #:omniauthable, omniauth_providers: [:google_oauth2, :facebook]
-        #end
+        devise( 
+            :database_authenticatable,
+            :registerable,
+            :rememberable,
+            :recoverable,
+            :validatable,
+            :confirmable,
+            :trackable);
+            #:omniauthable, omniauth_providers: [:google_oauth2, :facebook]
 
 
         # users belongs to an account only... and must have a role
