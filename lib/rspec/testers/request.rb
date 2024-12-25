@@ -40,6 +40,7 @@ require Lesli::Engine.root.join("lib/rspec/helpers/response_request_helper")
 LESLI_ENGINE_MOUNTED_PATH = Lesli::Engine.routes.find_script_name({}) if defined?(Lesli)
 LESLI_ADMIN_ENGINE_MOUNTED_PATH = LesliAdmin::Engine.routes.find_script_name({}) if defined?(LesliAdmin)
 LESLI_CALENDAR_ENGINE_MOUNTED_PATH = LesliCalendar::Engine.routes.find_script_name({}) if defined?(LesliCalendar)
+LESLI_DASHBOARD_ENGINE_MOUNTED_PATH = LesliDashboard::Engine.routes.find_script_name({}) if defined?(LesliDashboard)
 
 # · Authentication context
 RSpec.shared_context "request user authentication" do
