@@ -30,10 +30,15 @@ Building a better future, one line of code at a time.
 // · 
 */
 
+
+.navbar {
+    position: static;
+}
+
 nav.lesli-application-navigation {
     background-color: var(--lesli-navbar-color);
-    border-top: 1px solid rgba(172,179,194,.5);
     border-bottom: 1px solid rgba(172,179,194,.5);
+    border-top: 1px solid rgba(172,179,194,.5);
     width: 100%;
 
     .navbar-menu {
