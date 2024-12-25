@@ -32,8 +32,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    module Interfaces
-        module Controllers
+    module Items
             module Files
 
 
@@ -463,5 +462,4 @@ module Lesli
                 end
             end
         end
-    end
 end
