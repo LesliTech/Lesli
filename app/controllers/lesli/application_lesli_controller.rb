@@ -32,11 +32,11 @@ Building a better future, one line of code at a time.
 
 module Lesli
     class ApplicationLesliController < ApplicationController
-        include Interfaces::Application::Authorization
-        include Interfaces::Application::Customization
-        include Interfaces::Application::Responder
-        include Interfaces::Application::Requester
-        include Interfaces::Application::Logger
+        include Lesli::AuthorizationInterface
+        include Lesli::CustomizationInterface
+        include Lesli::ResponderInterface
+        include Lesli::RequesterInterface
+        include Lesli::LoggerInterface
 
         protect_from_forgery with: :exception
 
