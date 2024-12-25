@@ -33,9 +33,9 @@ Building a better future, one line of code at a time.
 
 module Lesli
     class ApplicationDeviseController < ActionController::Base
-        include Interfaces::Application::Responder
-        include Interfaces::Application::Requester
-        include Interfaces::Application::Logger
+        include Lesli::ResponderInterface
+        include Lesli::RequesterInterface
+        include Lesli::LoggerInterface
         
         layout "lesli/layouts/application-devise"
 
