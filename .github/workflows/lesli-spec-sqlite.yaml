@@ -100,7 +100,7 @@ jobs:
 
       # Run Rspec tests & collect coverage
       - name: Run Rails tests with SQLite
-        run: bundle exec rspec engines/Lesli/spec --format documentation --format RspecJunitFormatter --out junit.xml
+        run: bundle exec rspec engines/${{ github.event.repository.name }}/spec --format documentation --format RspecJunitFormatter --out junit.xml
         env:
           COVERAGE: true
 
