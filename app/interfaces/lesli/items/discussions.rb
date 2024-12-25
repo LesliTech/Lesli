@@ -31,8 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    module Interfaces
-        module Controllers
+    module Items
             module Discussions
 
                 # @return [Json] Json that contains a list of all discussions related to a *cloud_object*
@@ -266,5 +265,4 @@ module Lesli
                 end
             end
         end
-    end
 end
