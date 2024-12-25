@@ -48,20 +48,20 @@ on:
 jobs:
   sqlite-tests:
     name: Run SQLite tests
-    uses: LesliTech/LesliActions/.github/workflows/lesli-spec-sqlite.yaml@master
+    uses: LesliTech/LesliActions/source/workflows/lesli-spec-sqlite.yaml@master
     with:
       branch: ${{ github.ref_name }}
 
   postgres-tests:
     name: Run PostgreSQL tests
     needs: sqlite-tests  # Runs only after the SQLite tests finish
-    uses: LesliTech/LesliActions/.github/workflows/lesli-spec-postgresql.yaml@master
+    uses: LesliTech/LesliActions/source/workflows/lesli-spec-postgresql.yaml@master
     with:
       branch: ${{ github.ref_name }}
 
   brakeman-scan:
     name: Static Analysis Security Tool
     needs: postgres-tests  # Runs only after the PostgreSQL tests finish
-    uses: LesliTech/LesliActions/.github/workflows/lesli-spec-brakeman.yaml@master
+    uses: LesliTech/LesliActions/source/workflows/lesli-spec-brakeman.yaml@master
     with:
       branch: ${{ github.ref_name }}
