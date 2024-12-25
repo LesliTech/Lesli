@@ -35,10 +35,20 @@ module Lesli
     module Routing 
 
         def self.login path=""
-            LesliShield::Routing.mount_login_at(path) if defined?(LesliShield)
+
+            # Load dedicated mounting routes for devise from the LesliShield engine
+            LesliShield::Routing.mount_login_at(path) if defined?(LesliShield);
+
+            # Load generic yet standard routes if LesliShield is not installed
+            unless defined?(LesliShield);
+                Rails.application.routes.draw do
+                    devise_for(:users, class_name: "Lesli::User", module: :devise) 
+                end
+            end
         end
 
-        def self.standard_engines
+        def self.mount
+            self.login
             Rails.application.routes.draw do
                 mount Lesli::Engine => "/lesli" if defined?(Lesli)
                 mount LesliBell::Engine => "/bell" if defined?(LesliBell)
