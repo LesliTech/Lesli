@@ -33,11 +33,11 @@ Building a better future, one line of code at a time.
 
 # · Usage
 # · 
-# · LesliCourier.new(:lesli_test).from(:ticket_service).call(:index_with_deadline)
-# · LesliCourier.new(:lesli_test).from(:ticket_service).with(curent_user, query).call(:index)
+# · Lesli::Courier.new(:lesli_test).from(:ticket_service).call(:index_with_deadline)
+# · Lesli::Courier.new(:lesli_test).from(:ticket_service).with(curent_user, query).call(:index)
 # · 
-# · LesliCourier.new(:lesli_test, []).from(:ticket_service).call(:index_with_deadline)
-# · LesliCourier.new(:lesli_test, []).from(:ticket_service).with(curent_user, query).call(:index)
+# · Lesli::Courier.new(:lesli_test, []).from(:ticket_service).call(:index_with_deadline)
+# · Lesli::Courier.new(:lesli_test, []).from(:ticket_service).with(curent_user, query).call(:index)
 # · 
 module Lesli
     class Courier
@@ -66,6 +66,8 @@ module Lesli
             @method_name = method_name
             self.execute
         end
+
+        private 
 
         # Execute the final call to the service, either with or without params
         def execute

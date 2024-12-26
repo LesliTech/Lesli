@@ -147,6 +147,7 @@ end
 > Note that the migration code is the same as the original migration that creates the table, with the small difference that this new migration increase the version number.
 
 So now of migration structure should look like:
+
 ```
 rails_engine/
     db/
