@@ -7,50 +7,32 @@ There are several engines created and ready for production developed by the Lesl
 A collection is a group of modules that belongs to a category or a business industry.
 
 <div class="columns is-multiline lesli-css-color-collections">
-    <div class="column"> 
-        <div class="has-text-centered px-4 py-6 br-2 br-2 has-text-white lesli-background-collection-administration">
-            1.&nbsp;Administration
-        </div>
+    <div class="has-text-centered px-4 py-6 br-2 br-2 has-text-white lesli-background-collection-administration">
+        1.&nbsp;Administration
     </div>
-    <div class="column">
-        <div class="has-text-centered px-4 py-6 br-2 has-text-white lesli-background-collection-sales">
-            2.&nbsp;Sales&nbsp;&&nbsp;Marketing
-        </div>
+    <div class="has-text-centered px-4 py-6 br-2 has-text-white lesli-background-collection-sales">
+        2.&nbsp;Sales&nbsp;&&nbsp;Marketing
     </div>
-    <div class="column">
-        <div class="has-text-centered px-4 py-6 br-2 has-text-white lesli-background-collection-productivity">
-            3.&nbsp;Productivity&nbsp;&&nbsp;Teamwork
-        </div>
+    <div class="has-text-centered px-4 py-6 br-2 has-text-white lesli-background-collection-productivity">
+        3.&nbsp;Productivity&nbsp;&&nbsp;Teamwork
     </div>
-    <div class="column">
-        <div class="has-text-centered px-4 py-6 br-2 has-text-white lesli-background-collection-finance">
-            4.&nbsp;Finance
-        </div>
+    <div class="has-text-centered px-4 py-6 br-2 has-text-white lesli-background-collection-finance">
+        4.&nbsp;Finance
     </div>
-    <div class="column">
-        <div class="has-text-centered px-4 py-6 br-2 has-text-black lesli-background-collection-analytics">
-            5.&nbsp;Analytics
-        </div>
+    <div class="has-text-centered px-4 py-6 br-2 has-text-black lesli-background-collection-analytics">
+        5.&nbsp;Analytics
     </div>
-    <div class="column"> 
-        <div class="has-text-centered px-4 py-6 br-2 has-text-white lesli-background-collection-intelligence">
-            6.&nbsp;Intelligence
-        </div>
+    <div class="has-text-centered px-4 py-6 br-2 has-text-white lesli-background-collection-intelligence">
+        6.&nbsp;Intelligence
     </div>
-    <div class="column">
-        <div class="has-text-centered px-4 py-6 br-2 has-text-black lesli-background-collection-it">
-            7.&nbsp;IT&nbsp;&&nbsp;Help&nbsp;Desk
-        </div>
+    <div class="has-text-centered px-4 py-6 br-2 has-text-black lesli-background-collection-it">
+        7.&nbsp;IT&nbsp;&&nbsp;Help&nbsp;Desk
     </div>
-    <div class="column">
-        <div class="has-text-centered px-4 py-6 br-2 has-text-black lesli-background-collection-security">
-            8.&nbsp;Security&nbsp;&&nbsp;Privacy
-        </div>
+    <div class="has-text-centered px-4 py-6 br-2 has-text-black lesli-background-collection-security">
+        8.&nbsp;Security&nbsp;&&nbsp;Privacy
     </div>
-    <div class="column">
-        <div class="has-text-centered px-4 py-6 br-2 has-text-black lesli-background-collection-integration">
-            9.&nbsp;Integrations
-        </div>
+    <div class="has-text-centered px-4 py-6 br-2 has-text-black lesli-background-collection-integration">
+        9.&nbsp;Integrations
     </div>
 </div>
 
