@@ -86,6 +86,7 @@ module Lesli
                     :name => engine, 
                     :path => engine_instance::Engine.routes.find_script_name({}),
                     :version => engine_instance::VERSION,
+                    :description => Gem::Specification.find_by_name(engine.underscore).description,
                     :build => engine_instance::BUILD,
                     :dir => Gem::Specification.find_by_name(engine.underscore).gem_dir
                 }
