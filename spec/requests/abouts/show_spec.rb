@@ -56,12 +56,14 @@ RSpec.describe Lesli::AboutsController, type: :request do
         expect(response_body.first).to have_key("path")
         expect(response_body.first).to have_key("build")
         expect(response_body.first).to have_key("version")
+        expect(response_body.first).to have_key("description")
 
         expect(response_body.first["name"]).to be_a(String)
         expect(response_body.first["code"]).to be_a(String)
         expect(response_body.first["path"]).to be_a(String)
         expect(response_body.first["build"]).to be_a(String)
         expect(response_body.first["version"]).to be_a(String)
+        expect(response_body.first["description"]).to be_a(String)
 
         expect(response_body.first["name"]).to eql(Lesli.to_s)
         expect(response_body.first["code"]).to eql(Lesli.to_s.underscore)
