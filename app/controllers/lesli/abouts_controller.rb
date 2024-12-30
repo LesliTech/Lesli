@@ -50,7 +50,8 @@ module Lesli
                             :code => engine_info[:code],
                             :path => engine_info[:path],
                             :build => engine_info[:build],
-                            :version => engine_info[:version]
+                            :version => engine_info[:version],
+                            :description => engine_info[:description]
                         }
                     }
                     respond_with_successful(@lesli_engines) 
