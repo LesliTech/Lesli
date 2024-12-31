@@ -25,7 +25,7 @@ RSpec.describe Lesli::Courier, type: :model do
     end
 
     # Define courier instances with the new module and service name
-    let(:courier_with_params) { Lesli::Courier.new(:lesli_courier_test_module, "Error occurred").from(:courier_test_service).with("my params") }
+    let(:courier_with_params) { Lesli::Courier.new(:lesli_courier_test_module, "Error occurred").from(:courier_test_service, "my params") }
     let(:courier_without_params) { Lesli::Courier.new(:lesli_courier_test_module, "Error occurred").from(:courier_test_service) }
     let(:courier_with_invalid_module) { Lesli::Courier.new(:invalid_module, "Module not found").from(:courier_test_service) }
     let(:courier_with_invalid_service) { Lesli::Courier.new(:lesli_courier_test_module, "Service not found").from(:invalid_service) }

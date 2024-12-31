@@ -86,7 +86,7 @@ module Lesli
         # callbacks
         before_create :before_create_user
         after_create :after_confirmation_user, if: :confirmed?
-        #after_create :after_account_assignation
+        after_create :after_account_assignation
         #after_update :update_associated_services
 
 
@@ -124,7 +124,10 @@ module Lesli
             return unless self.account
 
             #Courier::One::Firebase::User.sync_user(self)
-            #Courier::Driver::Calendar.create_user_calendar(self, name: "Personal Calendar", default: true)
+            # Lesli::Courier.new(:lesli_calendar).from(:calendar_service, self).create({
+            #     name: "Personal Calendar", 
+            #     default: true
+            # })
         end
 
 

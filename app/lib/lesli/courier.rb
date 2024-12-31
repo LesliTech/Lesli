@@ -35,9 +35,11 @@ Building a better future, one line of code at a time.
 # · 
 # · Lesli::Courier.new(:lesli_test).from(:ticket_service).call(:index_with_deadline)
 # · Lesli::Courier.new(:lesli_test).from(:ticket_service).with(curent_user, query).call(:index)
+# · Lesli::Courier.new(:lesli_test).from(:ticket_service).with(curent_user, query).call(:create, params)
 # · 
 # · Lesli::Courier.new(:lesli_test, []).from(:ticket_service).call(:index_with_deadline)
 # · Lesli::Courier.new(:lesli_test, []).from(:ticket_service).with(curent_user, query).call(:index)
+# · Lesli::Courier.new(:lesli_test, false).from(:ticket_service).with(curent_user, query).call(:create, params)
 # · 
 module Lesli
     class Courier
@@ -49,20 +51,15 @@ module Lesli
         end
 
         # Dynamically determine the class to call (e.g., :ticket_service as TicketService)
-        def from(service_name)
+        def from(service_name, *args)
+            @service_params = args
             @service_name = service_name.to_s.camelize
             self
         end
 
-        # Call the dynamically constructed service method with optional arguments (via `with`)
-        def with(*args)
-            # Store the args for later use in the final call
-            @args = args
-            self
-        end
-
         # Store the method name to call on the service (e.g., :index_with_deadline)
-        def call(method_name)
+        def call(method_name, *args)
+            @method_params = args 
             @method_name = method_name
             self.execute
         end
@@ -81,10 +78,11 @@ module Lesli
 
             return @on_error unless Object.const_defined?(module_service_name)
 
+            # Create a reference of the module service object
             module_service_class = module_service_name.constantize
             
             # Instantiate the service class with or without arguments
-            module_service_instance = module_service_class.new(*@args.to_a) 
+            module_service_instance = module_service_class.new(*@service_params.to_a) 
 
             # Check if the method is defined on the service instance
             return @on_error unless module_service_instance.respond_to?(@method_name)

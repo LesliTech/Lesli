@@ -112,6 +112,148 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·  
 */
+.lesli-element-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: lesli-css-color(silver, 100);
+}
+.lesli-element-avatar > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.lesli-element-avatar > span {
+  color: lesli-css-color(silver, 700);
+}
+
+/*
+
+Lesli
+
+Copyright (c) 2023, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Ruby on Rails SaaS Development Framework.
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+.lesli-field .field-label .label {
+  text-align: left;
+}
+.lesli-field .field.is-horizontal {
+  margin-bottom: 0.8rem;
+}
+.lesli-field .field.is-horizontal .field-label .label {
+  text-align: right;
+}
+
+/*
+
+Lesli
+
+Copyright (c) 2023, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Ruby on Rails SaaS Development Framework.
+
+Made with ♥ by LesliTech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+.lesli-form {
+  /*
+  & > fieldset {
+      padding: 2.5rem 2rem;
+      border-radius: 5px;
+      //border: 1px solid #ccc;
+      background-color: #fff;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+      fieldset {
+          padding: 1.2rem;
+          border-radius: 5px;
+          border: 1px solid #ccc;
+          margin-bottom: 1rem;
+      }
+  }
+  */
+}
+.lesli-form .button {
+  margin-top: 1rem;
+}
+
+/*
+
+Lesli
+
+Copyright (c) 2023, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Ruby on Rails SaaS development platform.
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·  
+*/
 /*
 Lesli
 
@@ -436,138 +578,6 @@ Building a better future, one line of code at a time.
     justify-content: center !important;
   }
 }
-/*
-
-Lesli
-
-Copyright (c) 2023, Lesli Technologies, S. A.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see http://www.gnu.org/licenses/.
-
-Lesli · Ruby on Rails SaaS Development Framework.
-
-Made with ♥ by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  hello@lesli.tech
-@website  https://www.lesli.tech
-@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-/*
-
-Lesli
-
-Copyright (c) 2023, Lesli Technologies, S. A.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see http://www.gnu.org/licenses/.
-
-Lesli · Ruby on Rails SaaS development platform.
-
-Made with ♥ by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  hello@lesli.tech
-@website  https://www.lesli.tech
-@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·  
-*/
-.lesli-element-avatar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background-color: #fafafa;
-}
-.lesli-element-avatar > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
-.lesli-element-avatar > span {
-  color: #7e8087;
-}
-
-/*
-
-Lesli
-
-Copyright (c) 2023, Lesli Technologies, S. A.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see http://www.gnu.org/licenses/.
-
-Lesli · Ruby on Rails SaaS Development Framework.
-
-Made with ♥ by LesliTech
-Building a better future, one line of code at a time.
-
-@contact  hello@lesli.tech
-@website  https://www.lesli.tech
-@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-.lesli-form {
-  /*
-  & > fieldset {
-      padding: 2.5rem 2rem;
-      border-radius: 5px;
-      //border: 1px solid #ccc;
-      background-color: #fff;
-      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-
-      fieldset {
-          padding: 1.2rem;
-          border-radius: 5px;
-          border: 1px solid #ccc;
-          margin-bottom: 1rem;
-      }
-  }
-  */
-}
-.lesli-form .button {
-  margin-top: 1rem;
-}
-
 .lesli-navbar.unresponsive {
   display: flex;
 }
@@ -951,345 +961,14 @@ section.lesli-panel div.lesli-panel-content .lesli-panel-header {
   border-bottom: 1px solid #485a6c;
 }
 
-/*
-
-Lesli
-
-Copyright (c) 2023, Lesli Technologies, S. A.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see http://www.gnu.org/licenses/.
-
-Lesli · Ruby on Rails SaaS development platform.
-
-Made with ♥ by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  hello@lesli.tech
-@website  https://www.lesli.tech
-@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·  
-*/
-/*
-Lesli
-
-Copyright (c) 2022, Lesli Technologies, S. A.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-LesliCSS - SCSS Utilities for websites, apps and web applications
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-/**
-Lesli
-
-Copyright (c) 2022, Lesli Technologies, S. A.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-LesliCSS - SCSS Utilities for websites, apps and web applications
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-/**
-Lesli
-
-Copyright (c) 2022, Lesli Technologies, S. A.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-LesliCSS - SCSS Utilities for websites, apps and web applications
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-/*
-Lesli
-
-Copyright (c) 2024, Lesli Technologies, S. A.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see http://www.gnu.org/licenses/.
-
-LesliCSS - SCSS Utilities for websites, apps and web applications
-
-Made with ♥ by LesliTech
-Building a better future, one line of code at a time.
-
-@contact  hello@lesli.tech
-@website  https://www.lesli.tech
-@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-/*
-Lesli
-
-Copyright (c) 2022, Lesli Technologies, S. A.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-LesliCSS - SCSS Utilities for websites, apps and web applications
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-/*
-Lesli
-
-Copyright (c) 2020, Lesli Technologies, S. A.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-LesliCSS - SCSS Utilities for websites, apps and web applications
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-/*
-Lesli
-
-Copyright (c) 2020, Lesli Technologies, S. A.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-LesliCSS - SCSS Utilities for websites, apps and web applications
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-/*
-Lesli
-
-Copyright (c) 2024, Lesli Technologies, S. A.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see http://www.gnu.org/licenses/.
-
-LesliCSS - SCSS Utilities for websites, apps and web applications
-
-Made with ♥ by LesliTech
-Building a better future, one line of code at a time.
-
-@contact  hello@lesli.tech
-@website  https://www.lesli.tech
-@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-/*
-Lesli
-
-Copyright (c) 2020, Lesli Technologies, S. A.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-LesliCSS - SCSS Utilities for websites, apps and web applications
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-/**
-Lesli
-
-Copyright (c) 2020, Lesli Technologies, S. A.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-LesliCSS - SCSS Utilities for websites, apps and web applications
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-.lesli-toolbar input,
-.lesli-toolbar .select select {
-  border-radius: 6px;
-  border: 1px solid #abacae;
+.lesli-input .field-label .label {
+  text-align: left;
 }
-.lesli-toolbar input::placeholder {
-  color: #abacae;
-  opacity: 1;
+.lesli-input .field.is-horizontal {
+  margin-bottom: 0.8rem;
+}
+.lesli-input .field.is-horizontal .field-label .label {
+  text-align: right;
 }
 
 /*
@@ -1683,18 +1362,9 @@ table.lesli-table td.options .dropdown .dropdown-item .material-icons {
     overflow-y: auto;
     overflow-y: hidden;
     max-width: 100%;
+    margin-bottom: 0.8rem;
   }
 }
-.lesli-input .field-label .label {
-  text-align: left;
-}
-.lesli-input .field.is-horizontal {
-  margin-bottom: 0.8rem;
-}
-.lesli-input .field.is-horizontal .field-label .label {
-  text-align: right;
-}
-
 /*
 
 Lesli
@@ -2437,6 +2107,347 @@ Building a better future, one line of code at a time.
   top: 10%;
   color: white;
   font-weight: bold;
+}
+
+/*
+
+Lesli
+
+Copyright (c) 2023, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Ruby on Rails SaaS development platform.
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·  
+*/
+/*
+Lesli
+
+Copyright (c) 2022, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+LesliCSS - SCSS Utilities for websites, apps and web applications
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/**
+Lesli
+
+Copyright (c) 2022, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+LesliCSS - SCSS Utilities for websites, apps and web applications
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/**
+Lesli
+
+Copyright (c) 2022, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+LesliCSS - SCSS Utilities for websites, apps and web applications
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/*
+Lesli
+
+Copyright (c) 2024, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+LesliCSS - SCSS Utilities for websites, apps and web applications
+
+Made with ♥ by LesliTech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/*
+Lesli
+
+Copyright (c) 2022, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+LesliCSS - SCSS Utilities for websites, apps and web applications
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/*
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+LesliCSS - SCSS Utilities for websites, apps and web applications
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/*
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+LesliCSS - SCSS Utilities for websites, apps and web applications
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/*
+Lesli
+
+Copyright (c) 2024, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+LesliCSS - SCSS Utilities for websites, apps and web applications
+
+Made with ♥ by LesliTech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/*
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+LesliCSS - SCSS Utilities for websites, apps and web applications
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/**
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+LesliCSS - SCSS Utilities for websites, apps and web applications
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+.lesli-toolbar input,
+.lesli-toolbar .select select {
+  border-radius: 6px;
+  border: 1px solid #abacae;
+}
+.lesli-toolbar input::placeholder {
+  color: #abacae;
+  opacity: 1;
 }
 /*!***********************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-7.use[1]!./node_modules/trix/dist/trix.css ***!
@@ -3261,6 +3272,78 @@ Building a better future, one line of code at a time.
 .lesli-component-text-editor .trix-lesli-button:hover {
   cursor: pointer;
 }
+/*!***********************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-7.use[1]!./node_modules/lesli-vue/dist/composables.css ***!
+  \***********************************************************************************************************************/
+@charset "UTF-8";
+/*
+
+Lesli
+
+Copyright (c) 2023, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli · Ruby on Rails SaaS Development Framework.
+
+Made with ♥ by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+.lesli-msg {
+  position: fixed;
+  z-index: 99999;
+  width: 100%;
+  top: 40px;
+}
+.lesli-msg .lesli-msg-content {
+  text-align: center;
+  margin-bottom: 2px;
+}
+.lesli-msg .lesli-msg-content.hide {
+  animation: lesli-msg-fade-out cubic-bezier(0.22, 0.58, 0.12, 0.98) 0.2s forwards;
+}
+.lesli-msg .lesli-msg-content .notification {
+  display: inline-block;
+  padding: 1.25rem 2.5rem;
+  font-weight: 400;
+}
+
+@keyframes lesli-msg-move-in-top {
+  from {
+    opacity: 0;
+    transform: translate(0, 5em);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+@keyframes lesli-msg-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
 /*!******************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-7.use[1]!./node_modules/sass-loader/dist/cjs.js!./lib/scss/templates/application.scss ***!
   \******************************************************************************************************************************************************/
@@ -3299,6 +3382,36 @@ Building a better future, one line of code at a time.
 /*
 Lesli
 
+Copyright (c) 2024, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli - SCSS Utilities for websites, apps and web applications
+
+Made with ♥ by LesliTech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/*
+Lesli
+
 Copyright (c) 2022, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
@@ -3330,6 +3443,36 @@ Building a better future, one line of code at a time.
 Lesli
 
 Copyright (c) 2022, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+LesliCSS - SCSS Utilities for websites, apps and web applications
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/*
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -3404,7 +3547,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-LesliCSS - SCSS Utilities for websites, apps and web applications
+Lesli - SCSS Utilities for websites, apps and web applications
 
 Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
@@ -3416,37 +3559,7 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
-/*
-Lesli
-
-Copyright (c) 2022, Lesli Technologies, S. A.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-LesliCSS - SCSS Utilities for websites, apps and web applications
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-/*
+/**
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -3536,7 +3649,7 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
-/*
+/**
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -3566,10 +3679,10 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
-/**
+/*
 Lesli
 
-Copyright (c) 2020, Lesli Technologies, S. A.
+Copyright (c) 2024, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -3582,18 +3695,168 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli - SCSS Utilities for websites, apps and web applications
+
+Made with ♥ by LesliTech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/*
+Lesli
+
+Copyright (c) 2024, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli - SCSS Utilities for websites, apps and web applications
+
+Made with ♥ by LesliTech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/*
+Lesli
+
+Copyright (c) 2024, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli - SCSS Utilities for websites, apps and web applications
+
+Made with ♥ by LesliTech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/*
+Lesli
+
+Copyright (c) 2024, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
 
 LesliCSS - SCSS Utilities for websites, apps and web applications
 
-Powered by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/*
+Lesli
+
+Copyright (c) 2024, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli - SCSS Utilities for websites, apps and web applications
+
+Made with ♥ by LesliTech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/*
+Lesli
+
+Copyright (c) 2024, Lesli Technologies, S. A.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+
+Lesli - SCSS Utilities for websites, apps and web applications
+
+Made with ♥ by LesliTech
+Building a better future, one line of code at a time.
+
+@contact  hello@lesli.tech
+@website  https://www.lesli.tech
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
 /* Bulma Utilities */
@@ -4044,6 +4307,9 @@ table th {
   --bulma-hero-body-padding-small: 1.5rem;
   --bulma-hero-body-padding-medium: 9rem 4.5rem;
   --bulma-hero-body-padding-large: 18rem 6rem;
+  --bulma-hero-gradient-h-offset: 5deg;
+  --bulma-hero-gradient-s-offset: 10%;
+  --bulma-hero-gradient-l-offset: 5%;
 }
 
 .hero {
@@ -5570,6 +5836,11 @@ div.icon-text {
   --bulma-button-outer-shadow-alpha: 1;
 }
 
+.button.is-outlined[disabled], fieldset[disabled] .button.is-outlined {
+  background-color: transparent;
+  box-shadow: none;
+}
+
 .button.is-inverted {
   background-color: hsl(var(--bulma-button-h), var(--bulma-button-s), calc(var(--bulma-button-color-l) + var(--bulma-button-background-l-delta)));
   color: hsl(var(--bulma-button-h), var(--bulma-button-s), var(--bulma-button-background-l));
@@ -5755,6 +6026,241 @@ div.icon-text {
     font-size: var(--bulma-size-medium);
   }
 }
+.notification {
+  --bulma-notification-h: var(--bulma-scheme-h);
+  --bulma-notification-s: var(--bulma-scheme-s);
+  --bulma-notification-background-l: var(--bulma-background-l);
+  --bulma-notification-color-l: var(--bulma-text-strong-l);
+  --bulma-notification-code-background-color: var(--bulma-scheme-main);
+  --bulma-notification-radius: var(--bulma-radius);
+  --bulma-notification-padding: 1.375em 1.5em;
+}
+
+.notification {
+  background-color: hsl(var(--bulma-notification-h), var(--bulma-notification-s), var(--bulma-notification-background-l));
+  border-radius: var(--bulma-notification-radius);
+  color: hsl(var(--bulma-notification-h), var(--bulma-notification-s), var(--bulma-notification-color-l));
+  padding: var(--bulma-notification-padding);
+  position: relative;
+}
+
+.notification a:not(.button):not(.dropdown-item) {
+  color: currentColor;
+  text-decoration: underline;
+}
+
+.notification strong {
+  color: currentColor;
+}
+
+.notification code,
+.notification pre {
+  background: var(--bulma-notification-code-background-color);
+}
+
+.notification pre code {
+  background: transparent;
+}
+
+.notification > .delete {
+  position: absolute;
+  inset-inline-end: 1rem;
+  top: 1rem;
+}
+
+.notification .title,
+.notification .subtitle,
+.notification .content {
+  color: currentColor;
+}
+
+.notification.is-white {
+  --bulma-notification-h: var(--bulma-white-h);
+  --bulma-notification-s: var(--bulma-white-s);
+  --bulma-notification-background-l: var(--bulma-white-l);
+  --bulma-notification-color-l: var(--bulma-white-invert-l);
+}
+
+.notification.is-white.is-light {
+  --bulma-notification-background-l: 90%;
+  --bulma-notification-color-l: var(--bulma-white-light-invert-l);
+}
+
+.notification.is-white.is-dark {
+  --bulma-notification-background-l: 20%;
+  --bulma-notification-color-l: var(--bulma-white-dark-invert-l);
+}
+
+.notification.is-black {
+  --bulma-notification-h: var(--bulma-black-h);
+  --bulma-notification-s: var(--bulma-black-s);
+  --bulma-notification-background-l: var(--bulma-black-l);
+  --bulma-notification-color-l: var(--bulma-black-invert-l);
+}
+
+.notification.is-black.is-light {
+  --bulma-notification-background-l: 90%;
+  --bulma-notification-color-l: var(--bulma-black-light-invert-l);
+}
+
+.notification.is-black.is-dark {
+  --bulma-notification-background-l: 20%;
+  --bulma-notification-color-l: var(--bulma-black-dark-invert-l);
+}
+
+.notification.is-light {
+  --bulma-notification-h: var(--bulma-light-h);
+  --bulma-notification-s: var(--bulma-light-s);
+  --bulma-notification-background-l: var(--bulma-light-l);
+  --bulma-notification-color-l: var(--bulma-light-invert-l);
+}
+
+.notification.is-light.is-light {
+  --bulma-notification-background-l: 90%;
+  --bulma-notification-color-l: var(--bulma-light-light-invert-l);
+}
+
+.notification.is-light.is-dark {
+  --bulma-notification-background-l: 20%;
+  --bulma-notification-color-l: var(--bulma-light-dark-invert-l);
+}
+
+.notification.is-dark {
+  --bulma-notification-h: var(--bulma-dark-h);
+  --bulma-notification-s: var(--bulma-dark-s);
+  --bulma-notification-background-l: var(--bulma-dark-l);
+  --bulma-notification-color-l: var(--bulma-dark-invert-l);
+}
+
+.notification.is-dark.is-light {
+  --bulma-notification-background-l: 90%;
+  --bulma-notification-color-l: var(--bulma-dark-light-invert-l);
+}
+
+.notification.is-dark.is-dark {
+  --bulma-notification-background-l: 20%;
+  --bulma-notification-color-l: var(--bulma-dark-dark-invert-l);
+}
+
+.notification.is-text {
+  --bulma-notification-h: var(--bulma-text-h);
+  --bulma-notification-s: var(--bulma-text-s);
+  --bulma-notification-background-l: var(--bulma-text-l);
+  --bulma-notification-color-l: var(--bulma-text-invert-l);
+}
+
+.notification.is-text.is-light {
+  --bulma-notification-background-l: 90%;
+  --bulma-notification-color-l: var(--bulma-text-light-invert-l);
+}
+
+.notification.is-text.is-dark {
+  --bulma-notification-background-l: 20%;
+  --bulma-notification-color-l: var(--bulma-text-dark-invert-l);
+}
+
+.notification.is-primary {
+  --bulma-notification-h: var(--bulma-primary-h);
+  --bulma-notification-s: var(--bulma-primary-s);
+  --bulma-notification-background-l: var(--bulma-primary-l);
+  --bulma-notification-color-l: var(--bulma-primary-invert-l);
+}
+
+.notification.is-primary.is-light {
+  --bulma-notification-background-l: 90%;
+  --bulma-notification-color-l: var(--bulma-primary-light-invert-l);
+}
+
+.notification.is-primary.is-dark {
+  --bulma-notification-background-l: 20%;
+  --bulma-notification-color-l: var(--bulma-primary-dark-invert-l);
+}
+
+.notification.is-link {
+  --bulma-notification-h: var(--bulma-link-h);
+  --bulma-notification-s: var(--bulma-link-s);
+  --bulma-notification-background-l: var(--bulma-link-l);
+  --bulma-notification-color-l: var(--bulma-link-invert-l);
+}
+
+.notification.is-link.is-light {
+  --bulma-notification-background-l: 90%;
+  --bulma-notification-color-l: var(--bulma-link-light-invert-l);
+}
+
+.notification.is-link.is-dark {
+  --bulma-notification-background-l: 20%;
+  --bulma-notification-color-l: var(--bulma-link-dark-invert-l);
+}
+
+.notification.is-info {
+  --bulma-notification-h: var(--bulma-info-h);
+  --bulma-notification-s: var(--bulma-info-s);
+  --bulma-notification-background-l: var(--bulma-info-l);
+  --bulma-notification-color-l: var(--bulma-info-invert-l);
+}
+
+.notification.is-info.is-light {
+  --bulma-notification-background-l: 90%;
+  --bulma-notification-color-l: var(--bulma-info-light-invert-l);
+}
+
+.notification.is-info.is-dark {
+  --bulma-notification-background-l: 20%;
+  --bulma-notification-color-l: var(--bulma-info-dark-invert-l);
+}
+
+.notification.is-success {
+  --bulma-notification-h: var(--bulma-success-h);
+  --bulma-notification-s: var(--bulma-success-s);
+  --bulma-notification-background-l: var(--bulma-success-l);
+  --bulma-notification-color-l: var(--bulma-success-invert-l);
+}
+
+.notification.is-success.is-light {
+  --bulma-notification-background-l: 90%;
+  --bulma-notification-color-l: var(--bulma-success-light-invert-l);
+}
+
+.notification.is-success.is-dark {
+  --bulma-notification-background-l: 20%;
+  --bulma-notification-color-l: var(--bulma-success-dark-invert-l);
+}
+
+.notification.is-warning {
+  --bulma-notification-h: var(--bulma-warning-h);
+  --bulma-notification-s: var(--bulma-warning-s);
+  --bulma-notification-background-l: var(--bulma-warning-l);
+  --bulma-notification-color-l: var(--bulma-warning-invert-l);
+}
+
+.notification.is-warning.is-light {
+  --bulma-notification-background-l: 90%;
+  --bulma-notification-color-l: var(--bulma-warning-light-invert-l);
+}
+
+.notification.is-warning.is-dark {
+  --bulma-notification-background-l: 20%;
+  --bulma-notification-color-l: var(--bulma-warning-dark-invert-l);
+}
+
+.notification.is-danger {
+  --bulma-notification-h: var(--bulma-danger-h);
+  --bulma-notification-s: var(--bulma-danger-s);
+  --bulma-notification-background-l: var(--bulma-danger-l);
+  --bulma-notification-color-l: var(--bulma-danger-invert-l);
+}
+
+.notification.is-danger.is-light {
+  --bulma-notification-background-l: 90%;
+  --bulma-notification-color-l: var(--bulma-danger-light-invert-l);
+}
+
+.notification.is-danger.is-dark {
+  --bulma-notification-background-l: 20%;
+  --bulma-notification-color-l: var(--bulma-danger-dark-invert-l);
+}
+
 .tabs {
   --bulma-tabs-border-bottom-color: var(--bulma-border);
   --bulma-tabs-border-bottom-style: solid;
@@ -7067,6 +7573,7 @@ button.dropdown-item.is-selected {
   --bulma-input-border-width: var(--bulma-control-border-width);
   --bulma-input-border-l: var(--bulma-border-l);
   --bulma-input-border-l-delta: 0%;
+  --bulma-input-border-color: hsl(var(--bulma-input-h), var(--bulma-input-s), calc(var(--bulma-input-border-l) + var(--bulma-input-border-l-delta)));
   --bulma-input-hover-border-l-delta: var(--bulma-hover-border-l-delta);
   --bulma-input-active-border-l-delta: var(--bulma-active-border-l-delta);
   --bulma-input-focus-h: var(--bulma-focus-h);
@@ -7093,7 +7600,7 @@ button.dropdown-item.is-selected {
 
 .select select, .input, .textarea {
   background-color: hsl(var(--bulma-input-h), var(--bulma-input-s), calc(var(--bulma-input-background-l) + var(--bulma-input-background-l-delta)));
-  border-color: hsl(var(--bulma-input-h), var(--bulma-input-s), calc(var(--bulma-input-border-l) + var(--bulma-input-border-l-delta)));
+  border-color: var(--bulma-input-border-color);
   border-radius: var(--bulma-input-radius);
   color: hsl(var(--bulma-input-h), var(--bulma-input-s), var(--bulma-input-color-l));
 }
@@ -17661,7 +18168,7 @@ has-background-danger.is-hoverable:active {
   --bulma-white-on-scheme: hsla(var(--bulma-white-h), var(--bulma-white-s), var(--bulma-white-on-scheme-l), 1);
   --bulma-black: hsla(var(--bulma-black-h), var(--bulma-black-s), var(--bulma-black-l), 1);
   --bulma-black-base: hsla(var(--bulma-black-h), var(--bulma-black-s), var(--bulma-black-l), 1);
-  --bulma-black-rgb: 9, 10, 12;
+  --bulma-black-rgb: 8.772, 9.6764, 11.628;
   --bulma-black-h: 221deg;
   --bulma-black-s: 14%;
   --bulma-black-l: 4%;
@@ -17671,7 +18178,7 @@ has-background-danger.is-hoverable:active {
   --bulma-black-on-scheme: hsla(var(--bulma-black-h), var(--bulma-black-s), var(--bulma-black-on-scheme-l), 1);
   --bulma-light: hsla(var(--bulma-light-h), var(--bulma-light-s), var(--bulma-light-l), 1);
   --bulma-light-base: hsla(var(--bulma-light-h), var(--bulma-light-s), var(--bulma-light-l), 1);
-  --bulma-light-rgb: 243, 244, 246;
+  --bulma-light-rgb: 243.372, 244.2764, 246.228;
   --bulma-light-h: 221deg;
   --bulma-light-s: 14%;
   --bulma-light-l: 96%;
@@ -17681,7 +18188,7 @@ has-background-danger.is-hoverable:active {
   --bulma-light-on-scheme: hsla(var(--bulma-light-h), var(--bulma-light-s), var(--bulma-light-on-scheme-l), 1);
   --bulma-dark: hsla(var(--bulma-dark-h), var(--bulma-dark-s), var(--bulma-dark-l), 1);
   --bulma-dark-base: hsla(var(--bulma-dark-h), var(--bulma-dark-s), var(--bulma-dark-l), 1);
-  --bulma-dark-rgb: 46, 51, 61;
+  --bulma-dark-rgb: 46.053, 50.8011, 61.047;
   --bulma-dark-h: 221deg;
   --bulma-dark-s: 14%;
   --bulma-dark-l: 21%;
@@ -17691,7 +18198,7 @@ has-background-danger.is-hoverable:active {
   --bulma-dark-on-scheme: hsla(var(--bulma-dark-h), var(--bulma-dark-s), var(--bulma-dark-on-scheme-l), 1);
   --bulma-text: hsla(var(--bulma-text-h), var(--bulma-text-s), var(--bulma-text-l), 1);
   --bulma-text-base: hsla(var(--bulma-text-h), var(--bulma-text-s), var(--bulma-text-l), 1);
-  --bulma-text-rgb: 64, 70, 84;
+  --bulma-text-rgb: 63.597, 70.1539, 84.303;
   --bulma-text-h: 221deg;
   --bulma-text-s: 14%;
   --bulma-text-l: 29%;
@@ -18115,7 +18622,7 @@ has-background-danger.is-hoverable:active {
   --bulma-info-on-scheme: hsla(var(--bulma-info-h), var(--bulma-info-s), var(--bulma-info-on-scheme-l), 1);
   --bulma-success: hsla(var(--bulma-success-h), var(--bulma-success-s), var(--bulma-success-l), 1);
   --bulma-success-base: hsla(var(--bulma-success-h), var(--bulma-success-s), var(--bulma-success-l), 1);
-  --bulma-success-rgb: 72, 199, 142;
+  --bulma-success-rgb: 71.6295, 198.6705, 141.50205;
   --bulma-success-h: 153deg;
   --bulma-success-s: 53%;
   --bulma-success-l: 53%;
@@ -18153,7 +18660,7 @@ has-background-danger.is-hoverable:active {
   --bulma-success-15-invert-l: var(--bulma-success-75-l);
   --bulma-success-15-invert: hsla(var(--bulma-success-h), var(--bulma-success-s), var(--bulma-success-15-invert-l), 1);
   --bulma-success-20: hsla(var(--bulma-success-h), var(--bulma-success-s), var(--bulma-success-20-l), 1);
-  --bulma-success-20-invert-l: var(--bulma-success-90-l);
+  --bulma-success-20-invert-l: var(--bulma-success-95-l);
   --bulma-success-20-invert: hsla(var(--bulma-success-h), var(--bulma-success-s), var(--bulma-success-20-invert-l), 1);
   --bulma-success-25: hsla(var(--bulma-success-h), var(--bulma-success-s), var(--bulma-success-25-l), 1);
   --bulma-success-25-invert-l: var(--bulma-success-100-l);
@@ -18195,7 +18702,7 @@ has-background-danger.is-hoverable:active {
   --bulma-success-85-invert-l: var(--bulma-success-15-l);
   --bulma-success-85-invert: hsla(var(--bulma-success-h), var(--bulma-success-s), var(--bulma-success-85-invert-l), 1);
   --bulma-success-90: hsla(var(--bulma-success-h), var(--bulma-success-s), var(--bulma-success-90-l), 1);
-  --bulma-success-90-invert-l: var(--bulma-success-20-l);
+  --bulma-success-90-invert-l: var(--bulma-success-15-l);
   --bulma-success-90-invert: hsla(var(--bulma-success-h), var(--bulma-success-s), var(--bulma-success-90-invert-l), 1);
   --bulma-success-95: hsla(var(--bulma-success-h), var(--bulma-success-s), var(--bulma-success-95-l), 1);
   --bulma-success-95-invert-l: var(--bulma-success-20-l);
@@ -18207,7 +18714,7 @@ has-background-danger.is-hoverable:active {
   --bulma-success-invert: hsla(var(--bulma-success-h), var(--bulma-success-s), var(--bulma-success-invert-l), 1);
   --bulma-success-light-l: var(--bulma-success-90-l);
   --bulma-success-light: hsla(var(--bulma-success-h), var(--bulma-success-s), var(--bulma-success-light-l), 1);
-  --bulma-success-light-invert-l: var(--bulma-success-20-l);
+  --bulma-success-light-invert-l: var(--bulma-success-15-l);
   --bulma-success-light-invert: hsla(var(--bulma-success-h), var(--bulma-success-s), var(--bulma-success-light-invert-l), 1);
   --bulma-success-dark-l: var(--bulma-success-10-l);
   --bulma-success-dark: hsla(var(--bulma-success-h), var(--bulma-success-s), var(--bulma-success-dark-l), 1);
@@ -18221,7 +18728,7 @@ has-background-danger.is-hoverable:active {
   --bulma-success-on-scheme: hsla(var(--bulma-success-h), var(--bulma-success-s), var(--bulma-success-on-scheme-l), 1);
   --bulma-warning: hsla(var(--bulma-warning-h), var(--bulma-warning-s), var(--bulma-warning-l), 1);
   --bulma-warning-base: hsla(var(--bulma-warning-h), var(--bulma-warning-s), var(--bulma-warning-l), 1);
-  --bulma-warning-rgb: 255, 183, 15;
+  --bulma-warning-rgb: 255, 183.09, 15.3;
   --bulma-warning-h: 42deg;
   --bulma-warning-s: 100%;
   --bulma-warning-l: 53%;
@@ -18327,7 +18834,7 @@ has-background-danger.is-hoverable:active {
   --bulma-warning-on-scheme: hsla(var(--bulma-warning-h), var(--bulma-warning-s), var(--bulma-warning-on-scheme-l), 1);
   --bulma-danger: hsla(var(--bulma-danger-h), var(--bulma-danger-s), var(--bulma-danger-l), 1);
   --bulma-danger-base: hsla(var(--bulma-danger-h), var(--bulma-danger-s), var(--bulma-danger-l), 1);
-  --bulma-danger-rgb: 255, 102, 133;
+  --bulma-danger-rgb: 255, 102, 132.6;
   --bulma-danger-h: 348deg;
   --bulma-danger-s: 100%;
   --bulma-danger-l: 70%;
@@ -29346,7 +29853,7 @@ aside.lesli-application-sidebar li a {
 }
 aside.lesli-application-sidebar li a:hover, aside.lesli-application-sidebar li a.is-active, aside.lesli-application-sidebar li a.route-is-active {
   color: findColorInvert(white);
-  background-color: #e8dbdb;
+  background-color: rgb(232.1333333333, 219.0666666667, 219.0666666667);
 }
 aside.lesli-application-sidebar li a span.icono {
   font-size: 25px;
@@ -29356,7 +29863,7 @@ aside.lesli-application-sidebar li a span.chevron {
   display: none;
 }
 aside.lesli-application-sidebar li.lesli-navigation-list.active {
-  background-color: #e8dbdb;
+  background-color: rgb(232.1333333333, 219.0666666667, 219.0666666667);
 }
 aside.lesli-application-sidebar li.lesli-navigation-list.active ul {
   height: auto;
