@@ -41,7 +41,6 @@ import { useLayout } from "Lesli/vue/shared/stores/layout"
 import { useNotifications } from "Lesli/vue/panels/stores/bell-notifications"
 
 
-
 // · implement stores
 const storeLayout = useLayout()
 const storeNotifications = useNotifications()
@@ -51,35 +50,12 @@ const storeNotifications = useNotifications()
 const url = inject("url")
 const date = inject("date")
 
-function onEscape(callback, activate) {
-
-    function onEscaping(event) {
-        if (event.keyCode === 27) {
-            callback()
-            console.log("escaping")
-            document.removeEventListener('keydown', onEscaping)
-        }
-    }
-
-    if (activate === true) {
-        console.log("activate")
-        document.addEventListener('keydown', onEscaping)
-    }
-    
-    if (activate === false) {
-        console.log("deactivate")
-        document.removeEventListener('keydown', onEscaping)
-    }
-}
 
 // · 
 watch(() => storeLayout.showBellNotifications, (newVal, oldVal) => {
 
     // request notifications only if showing the panel
     if (newVal) { storeNotifications.get() };
-
-    // activate/deactivate escape listener
-    onEscape(() => storeLayout.toggleBellNotifications(), newVal)
 })
 
 </script>
@@ -110,7 +86,7 @@ watch(() => storeLayout.showBellNotifications, (newVal, oldVal) => {
                         </a>
                         <p class="notification-date is-flex is-justify-content-space-between">
                             <span>{{ date.dateTime(notification.created_at) }}</span>
-                            <button class="button is-text p-0" @click="storeUser.putNotification(notification)">
+                            <button class="button is-text p-0" @click="storeNotifications.read(notification.id)">
                                 Mark as read
                             </button>
                         </p>
