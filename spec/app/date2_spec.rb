@@ -2,10 +2,10 @@
 require "rails_helper"
 require Lesli::Engine.root.join("lib/rspec/testers/request")
 
-RSpec.describe Lesli::Date2, type: :model do
+RSpec.describe Date2, type: :model do
 
     before(:all) do
-        @settings = Lesli::Date2.new.instance_variable_get(:@settings)
+        @settings = Date2.new.instance_variable_get(:@settings)
     end
 
     describe "from Time.current object" do 
