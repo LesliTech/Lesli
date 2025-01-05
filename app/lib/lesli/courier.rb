@@ -34,12 +34,12 @@ Building a better future, one line of code at a time.
 # · Usage
 # · 
 # · Lesli::Courier.new(:lesli_test).from(:ticket_service).call(:index_with_deadline)
-# · Lesli::Courier.new(:lesli_test).from(:ticket_service).with(curent_user, query).call(:index)
-# · Lesli::Courier.new(:lesli_test).from(:ticket_service).with(curent_user, query).call(:create, params)
+# · Lesli::Courier.new(:lesli_test).from(:ticket_service, curent_user, query).call(:index)
+# · Lesli::Courier.new(:lesli_test).from(:ticket_service, curent_user, query).call(:create, params)
 # · 
 # · Lesli::Courier.new(:lesli_test, []).from(:ticket_service).call(:index_with_deadline)
-# · Lesli::Courier.new(:lesli_test, []).from(:ticket_service).with(curent_user, query).call(:index)
-# · Lesli::Courier.new(:lesli_test, false).from(:ticket_service).with(curent_user, query).call(:create, params)
+# · Lesli::Courier.new(:lesli_test, []).from(:ticket_service, curent_user, query).call(:index)
+# · Lesli::Courier.new(:lesli_test, false).from(:ticket_service, curent_user, query).call(:create, params)
 # · 
 module Lesli
     class Courier
