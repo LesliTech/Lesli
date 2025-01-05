@@ -70,14 +70,15 @@ Lesli.configure do |config|
 
     # Time localization
     config.datetime = {
-        time_zone: "America/Guatemala",
-        start_week_on: "monday",
-        formats: {
-            date: "%d/%m/%Y",
-            time: "%H:%M",
-            date_time: "%d/%m/%Y %H:%M",
-            date_words: "%A, %B %d, %Y",
-            date_time_words: "%A, %B %d, %Y, %H:%M"
+        :time_zone => "America/Guatemala",
+        :start_week_on => "monday",
+        :formats => {
+            :date => "%d/%m/%Y",
+            :time => "%H:%M",
+            :date_time => "%d/%m/%Y %H:%M",
+            :date_words => "%A, %B %d, %Y",
+            :date_time_words => "%A, %B %d, %Y, %H:%M",         # 24 hours datetime in words format (default)
+            :date_time_words_pm => "%A, %B %d, %Y, %I:%M %p"    # 12 hours datetime in words format
         }
     }
 
