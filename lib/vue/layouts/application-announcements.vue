@@ -40,8 +40,7 @@ import {onMounted} from 'vue'
 
 
 // · import stores
-import { useAnnouncements } from "Lesli/vue/stores/announcements"
-import { editorRichTextViewer } from "lesli-vue/components"
+import { useAnnouncements } from "Lesli/vue/stores/bell-announcements"
 
 
 // · 
@@ -50,28 +49,26 @@ const storeAnnouncements = useAnnouncements()
 
 // · initializing
 onMounted(() => {
-
-    // IMPORTANT: here we have to watch for Router changes, due vue router
-    // does not reload the entire window, so ouMounted is executed only once
-    // due rightnow we have to manage two different vue applications (vue2 & vue3)
-    // we reload the window everytime, this works... but the best way is to use
-    // only the vue3 router
-    setTimeout(() => storeAnnouncements.getAnnouncements(), 2000)
+    setTimeout(() => storeAnnouncements.index(), 0)
 })
 
 
 </script>
 <template>
-    <section class="application-announcements" v-if="storeAnnouncements.announcements.length > 0">
-        <div v-for="announcement in storeAnnouncements.announcements" :key="announcement.id" class="block">
+    <section class="lesli-application-bell-announcements" v-if="storeAnnouncements.announcements.pagination.results > 0">
+        <div 
+            class="container px-4"
+            :key="announcement.id"
+            v-for="announcement in storeAnnouncements.announcements.records">
             <div 
                 :class="['notification', `is-${announcement.category}`]" 
                 v-if="announcement.status!='closed'">
                 <button class="delete" aria-label="delete" 
                     v-if="announcement.can_be_closed" 
-                    @click="storeAnnouncements.closeAnnouncement(announcement)">
+                    @click="storeAnnouncements.close(announcement)">
+                    <span>x</span>
                 </button>
-                <richtext-viewer v-model="announcement.message"></richtext-viewer>
+                <div v-html="announcement.message"></div>
             </div>
         </div>
     </section>

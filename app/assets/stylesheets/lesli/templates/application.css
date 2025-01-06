@@ -29493,10 +29493,9 @@ Building a better future, one line of code at a time.
 // ·  
 
 */
-section.application-announcements {
-  margin-left: var(--lesli-sidebar-width);
-  width: calc(100% - var(--lesli-sidebar-width));
-  padding: 2rem 2rem 0;
+section.lesli-application-bell-announcements .container {
+  margin-top: 15px;
+  margin-bottom: -15px;
 }
 
 /*
