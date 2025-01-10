@@ -61,7 +61,7 @@ Gem::Specification.new do |spec|
 
 
     # Ruby version
-    spec.required_ruby_version = ">= 3.2"
+    spec.required_ruby_version = ">= 2.7"
 
 
 
@@ -93,10 +93,6 @@ Gem::Specification.new do |spec|
 
     # Message utilities for the Ruby console.
     spec.add_dependency("L2", "~> 0.6.5")
-
-    # HTTP User Agent parser
-    spec.add_dependency("useragent", "~> 0.16.10")
-
 
     # Simple greetings message
     spec.post_install_message = "Greetings from LesliTech  ❤️  Docs are available at https://www.lesli.dev/"

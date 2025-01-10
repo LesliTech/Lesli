@@ -13,8 +13,4 @@
 }, {
     "name": "category",
     "type": "string"
-},{
-    "name": "deleted_at",
-    "type": "datetime",
-    "index": true
 }]

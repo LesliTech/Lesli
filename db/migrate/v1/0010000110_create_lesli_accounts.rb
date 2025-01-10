@@ -33,23 +33,21 @@ Building a better future, one line of code at a time.
 class CreateLesliAccounts < ActiveRecord::Migration[5.2]
     def change
         create_table :lesli_accounts do |t|
-            # account status
-            #   1. -> :registered
-            #   2. -> :onboarding
-            #   3. -> :active
-            #   4. -> :suspended
-            t.integer   :status, default: 1, null: false
 
-            t.string   :region, default: "latin_america"
-
+            # account status 
+            t.string :status, null: false
+            
             # unique email to identify the account
-            t.string    :email
+            t.string :email
 
             # name of the account
-            t.string    :name
+            t.string :name
+
+            # main region of the company
+            t.string :region, default: "latin_america"
 
             # Acts as paranoid
-            t.datetime  :deleted_at, index: true
+            t.datetime :deleted_at, index: true
             t.timestamps
         end
         add_index(:lesli_accounts, :email, unique: true)

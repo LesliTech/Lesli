@@ -34,7 +34,6 @@ module Lesli
     class Account < ApplicationLesliRecord
         include AccountInitializer
 
-
         # accounts always belongs to a user
         belongs_to :user, optional: true
 
@@ -70,12 +69,12 @@ module Lesli
 
 
         # account statuses
-        # enum status: [
-        #     :registered,
-        #     :onboarding,
-        #     :active,
-        #     :suspended
-        # ]
+        enum status: {
+            :active => 'active',
+            :suspended => 'suspended',
+            :registered => 'registered',
+            :onboarding => 'onboarding'
+        }
 
 
         # company region (GDPR)
@@ -91,7 +90,7 @@ module Lesli
 
 
         # initializers for new accounts
-        after_create :initialize_account
+        #after_create :initialize_account
         after_create :initialize_engines
 
     end

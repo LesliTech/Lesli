@@ -32,6 +32,13 @@ Building a better future, one line of code at a time.
 
 module Lesli
     class ApplicationLesliController < ApplicationController
+        # this should work
+        # if defined?(Lesli::AuthorizationInterface) # Or check for the gem explicitly
+        #     include Lesli::AuthorizationInterface
+        # end
+        # this should work as well
+        # include Lesli::AuthorizationInterface if defined?(LesliShield)
+
         include Lesli::AuthorizationInterface
         include Lesli::CustomizationInterface
         include Lesli::ResponderInterface
