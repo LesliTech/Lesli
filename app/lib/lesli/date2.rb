@@ -30,6 +30,8 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
+
+move this to a gem "LDate"
 module Lesli
     class Date2
         def initialize(datetime = Time.current, format = "%Y-%m-%d %H:%M:%S")

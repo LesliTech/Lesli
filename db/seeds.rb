@@ -40,4 +40,4 @@ load Lesli::Engine.root.join("db", "seed", "xyz.rb")
 
 # loading Lesli seeders
 load Lesli::Engine.root.join("db", "seed", "accounts.rb")
-load Lesli::Engine.root.join("db", "seed", "users.rb")
+#load Lesli::Engine.root.join("db", "seed", "users.rb")

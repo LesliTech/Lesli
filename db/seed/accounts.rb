@@ -38,6 +38,7 @@ company = Lesli.config.company
 # create account
 account = Lesli::Account.find_or_create_by(email: company[:email]) do |account|
     account.name = company[:name]
+    account.status = 'active'
     account.save!
 
     # account.detail.company_name = company[:name]
