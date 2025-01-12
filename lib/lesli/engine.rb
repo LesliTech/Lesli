@@ -40,6 +40,9 @@ require "ancestry"
 require "useragent"
 require "acts_as_paranoid"
 
+require "turbo-rails"
+require "importmap-rails"
+
 module Lesli
     class Engine < ::Rails::Engine
         isolate_namespace Lesli
@@ -59,6 +62,9 @@ module Lesli
                     app.config.paths["db/migrate"] << expanded_path
                 end
             end
+
+            
+            #config.view_component.view_component_path = root.join("app","components")
 
 
             # Lesli Framework configuration

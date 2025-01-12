@@ -48,6 +48,21 @@ module Lesli
         end
 
         def navigation_link(path, label, icon = nil, reload: false)
+
+            #content_tag(html_element, html_options) do
+            link_to path, data: { turbo_frame: '_top' } do
+                # print a simple menu item (without icon)
+                concat content_tag(:span, label, class: "text iconless") unless icon
+
+                # print a full menu item if icon was requested
+                if icon
+                    concat content_tag(:span, nil, class: icon)
+                    concat content_tag(:span, label, class: "text")
+                end
+            end
+        end
+
+        def navigation_link_vue(path, label, icon = nil, reload: false)
             # default vue router links for single page applications
             html_element = "router-link"
             html_options = { to: path, 'active-class': "navigation-link-active" }

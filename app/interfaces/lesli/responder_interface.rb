@@ -32,6 +32,19 @@ Building a better future, one line of code at a time.
 
 module Lesli
     module ResponderInterface
+
+        def respond_with_pagination2(records, payload = nil)
+            {
+                pagination: {
+                    page: records.current_page,
+                    pages: records.total_pages,
+                    total: records.total_count,
+                    results: records.length
+                },
+                records: payload || records
+            }
+        end
+
         # Return an standard http 200 respond
         def respond_with_successful(payload = nil)
             # Response for modern Lesli 3 apps

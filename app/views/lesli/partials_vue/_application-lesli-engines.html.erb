@@ -20,11 +20,11 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.dev
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
@@ -32,31 +32,27 @@ Building a better future, one line of code at a time.
 =end
 %>
 
-<%# check if custom navigation partial exists, getting the path from application helper %>
-<% 
-    engine = lesli_engine.dig(:code) 
-    custom_sidebar_path = if engine == "root"
-        "partials/engine-navigation"
-        else
-        "#{engine}/engine-navigation" 
-    end
-%>
+<%# Standard module selector %>
+<lesli-application-engines>
 
+    <%# 01. Administration %>
+    <%= navigation_engine_admin %>
 
-<%# validate the path to be sure the partial exists when trying to render it %>
-<% custom_sidebar_exists = lookup_context.exists?(custom_sidebar_path, nil, true) %>
+    <%# 03. Productivity & Teamwork%>
+    <%= navigation_engine_calendar %>
+    <%= navigation_engine_bell %>
 
-<%# render navigation partial %>
-<% if custom_sidebar_exists %>
-<nav class="lesli-navbar navbar lesli-application-navigation" role="navigation" aria-label="main navigation">
-    <div class="container">
-        <div class="navbar-menu">
-            <div class="navbar-end">
-                <%= render partial: custom_sidebar_path %>
-            </div>
-        </div>
-    </div>
-</nav>
-<% else %>
-    <!-- no navigation found -->
-<% end %>
+    <%# 05. Analytics %>
+    <%= navigation_engine_audit %>
+
+    <%# 07. IT & Help Desk %>
+    <%= navigation_engine_support %>
+
+    <%# 08. Security & Privacy %>
+    <%= navigation_engine_shield %>
+    <%= navigation_engine_security %>
+
+    <%# 09. Integrations %>
+    <%= navigation_engine_babel %>
+
+</lesli-application-engines>

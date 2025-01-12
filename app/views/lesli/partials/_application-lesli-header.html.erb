@@ -44,46 +44,109 @@ Building a better future, one line of code at a time.
     <%= render partial: custom_navigation_path %>
 
 <% else %>
-
-<lesli-application-header 
-    engine-path="<%= "/dashboard" if defined?(LesliDashboard) %>"
-    <%= "show-focus" if defined?(LesliFocus) %>
-    <%= "show-bell" if defined?(LesliBell) %>
-    <%= "show-support" if defined?(LesliSupport) %>
-    show-profile
-    show-engines>
-    
-    <template v-slot:brand>
-        <%#= customization_instance_logo_tag(logo: "app-icon", options: { alt: "Lesli app logo", class: "is-hidden-desktop" }) %>
-        <%#= customization_instance_logo_tag(logo: "app-logo", options: { alt: "Lesli app logo", class: "is-hidden-touch" }) %>
-        <%= customization_instance_logo_tag(logo: "app-logo", options: { alt: "Lesli app logo" }) %>
-    </template>
-
-    <template v-slot:end>
-        
-        <%# language selector %>
-        <%# if (Lesli.config.layout.dig(:locale) && I18n.available_locales.length > 1) || Lesli.config.demo %>
-        <% if (Lesli.config.layout.dig(:locale) && I18n.available_locales.length > 1) %>
-            <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link is-arrowless">
-                    <span class="icon">
-                        <%= lesli_svg("locale-#{locale}") %>
-                    </span>
+<header class="lesli-application-header">
+    <nav class="lesli-navbar navbar unresponsive" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="brand.url" class="application-navbar-brand">
+                    <%= customization_instance_logo_tag(logo: "app-logo", options: { alt: "Lesli app logo" }) %>
                 </a>
-                <div class="navbar-dropdown">
-                    <% I18n.available_locales.each do |locale| %>
-                        <% next if locale == I18n.locale %>
-                        <%= link_to language_url(locale), { :class => "navbar-item" } do %>
-                            <span class="icon">
-                                <%= lesli_svg("locale-#{locale}") %>
-                            </span>
-                            <span><%= language_name(locale) %></span>
-                        <% end %>
-                    <% end %>
+                <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                </div>
+                <div class="navbar-end">
+
+                    <div class="navbar-item">
+                        <div class="header-icons field is-grouped is-justify-content-center">
+                            <div class="control">
+
+                                <!-- tickets -->
+                                <a v-if="props.showSupport" class="header-indicator"
+                                    @click="() => { storeLayout.showSupport = true }">
+                                    <span class="count" v-if="storeLayout.header.support > 0"></span>
+                                    <span class="ri-ticket-2-line"></span>
+                                </a>
+
+                                <!-- tasks -->
+                                <a v-if="props.showFocus" class="header-indicator"
+                                    @click="() => { storeLayout.showSuppor = true }">
+                                    <span class="ri-list-check-3">
+                                    </span>
+                                    <span class="count" v-if="storeLayout.header.support > 0">
+                                    </span>
+                                </a>
+
+                                <!-- notifications -->
+                                <a v-if="props.showBell" class="header-indicator" @click="toggleBellNotifications()">
+                                    <span :class="['ri-notification-3-line', { 'is-active' : storeLayout.header.notifications > 0 }]">
+                                    </span>
+                                    <span class="count">
+                                    </span>
+                                </a>
+
+                                <!-- engines selector  -->
+                                <a v-if="props.showEngines" @click="toggleEngines()">
+                                    <span class="ri-apps-2-line"></span>
+                                </a>
+
+                                <!-- profile options -->
+                                <div class="dropdown is-hoverable" v-if="props.showProfile">
+                                    <div class="dropdown-trigger">
+                                        <a @click="storeLayout.showProfile = true">
+                                            <span class="ri-user-smile-line">
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                        <div class="dropdown-content">
+                                            <a :href="url.admin('profile')" class="dropdown-item py-3">
+                                                <span class="icon-text">
+                                                    <span class="icon has-text-grey-dark">
+                                                        <span class="ri-questionnaire-line"></span>
+                                                    </span>
+                                                    <span>Help</span>
+                                                </span>
+                                            </a>
+                                            <a :href="url.admin('profile')" class="dropdown-item py-3">
+                                                <span class="icon-text">
+                                                    <span class="icon has-text-grey-dark">
+                                                        <span class="ri-equalizer-line"></span>
+                                                    </span>
+                                                    <span>Settings</span>
+                                                </span>
+                                            </a>
+                                            <a :href="url.admin('profile')" class="dropdown-item py-3">
+                                                <span class="icon-text">
+                                                    <span class="icon has-text-grey-dark">
+                                                        <span class="ri-user-line"></span>
+                                                    </span>
+                                                    <span>Profile</span>
+                                                </span>
+                                            </a>
+                                            <hr class="dropdown-divider" />
+                                            <a href="/logout" class="dropdown-item py-3">
+                                                <span class="icon-text">
+                                                    <span class="icon has-text-grey-dark">
+                                                        <span class="ri-logout-box-r-line"></span>
+                                                    </span>
+                                                    <span>Logout</span>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        <% end %>
-    </template>
-</lesli-application-header>
-
+        </div>
+    </nav>
+</header>
 <% end %>

@@ -38,22 +38,23 @@ Building a better future, one line of code at a time.
     <%= render partial: "lesli/partials/application-head" %>
     <%= render partial: "lesli/partials/application-data" %>
     <%= render partial: "lesli/partials/application-lesli-scss" %>
+    <meta name="turbo-prefetch" content="false">
 </head>
-<body class="<%#= application_body_class() %>">
-    <main id="lesli-application" v-cloak>
+<body data-turbo="true">
+    <main id="lesli-application">
         <%= render partial: "lesli/partials/application-lesli-header" %>
         <%= render partial: "lesli/partials/application-lesli-navigation" %>
-        <%= render partial: "lesli/partials/application-lesli-notifications" %>
+        <%#= render partial: "lesli/partials/application-lesli-notifications" %>
         <section class="lesli-application-content">
-        <%= render partial: "lesli/partials/application-lesli-sidebar" %>
+        <%#= render partial: "lesli/partials/application-lesli-sidebar" %>
         <%= render partial: "lesli/partials/application-lesli-content" %>
         </section>
-        <%= render partial: "lesli/partials/application-lesli-engines" %>
-        <%= render partial: "lesli/partials/application-lesli-panels" %>
+        <%#= render partial: "lesli/partials/application-lesli-engines" %>
+        <%#= render partial: "lesli/partials/application-lesli-panels" %>
         <%#= render partial: "lesli/partials/application-lesli-footer" %>
     </main>
     <%= render partial: "lesli/partials/application-lesli-javascript" %>
-    <%= render partial: "lesli/partials/application-lesli-icons" %>
-    <%= render partial: "lesli/partials/application-analytics" %>
+    <%#= render partial: "lesli/partials/application-lesli-icons" %>
+    <%#= render partial: "lesli/partials/application-analytics" %>
 </body>
 </html>
