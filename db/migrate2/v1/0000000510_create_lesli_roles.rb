@@ -30,27 +30,34 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-def create_account_user email, rolename, firstname, lastname, password
+class CreateLesliRoles < ActiveRecord::Migration[7.0]
+    def change
 
-    account = Lesli::Account.find_by(email: Lesli.config.company.dig(:email))
+        create_table :lesli_roles do |t|
+            t.string    :name
+            t.string    :code
+            t.string    :description
 
-    # create development users if email is not registered yet
-    Lesli::User.find_or_create_by(email: email) do |user|
-        user.account = account
-        user.password = password
-        user.password_confirmation = password
+            # disable role
+            t.boolean   :active
 
-        # confirm user through device
-        user.confirm unless user.confirmed?
+            # redirect users to path after login
+            t.string    :path_default
 
-        user.first_name = firstname
-        user.last_name = lastname
-        user.save!
+            # allow users to access resources only inside the :path_default 
+            t.boolean   :path_limited
+            
+            # allow users to work only with data created or assigned to them
+            t.boolean   :isolated, default: false
 
-        if defined?(LesliSecurity)
-            user.powers.create!({ role: Lesli::Role.find_by(:name => rolename) })
+            # role hierarchy
+            t.integer   :permission_level, default: 10
+
+            # soft-delete & timestamps
+            t.datetime  :deleted_at, index: true
+            t.timestamps
         end
 
-        user
+        add_reference(:lesli_roles, :account, foreign_key: { to_table: :lesli_accounts })
     end
 end

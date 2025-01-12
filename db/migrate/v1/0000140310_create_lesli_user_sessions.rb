@@ -30,31 +30,27 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-module Lesli
-    class ApplicationLesliController < ApplicationController        
+class CreateLesliUserSessions < ActiveRecord::Migration[6.0]
+    def change
+        create_table :lesli_user_sessions do |t|
 
-        include Lesli::LoggerInterface
-        include Lesli::ResponderInterface
-        include Lesli::RequesterInterface
-        include Lesli::CustomizationInterface
-        include LesliShield::AuthenticationInterface if defined?(LesliShield)
+            t.string  :remote                       # IPv4 and IPv6 hosts and networks
 
-        protect_from_forgery with: :exception
+            t.string  :agent_platform
+            t.string  :agent_os
+            t.string  :agent_browser
+            t.string  :agent_version
 
-        before_action :set_path
-        before_action :set_locale
-        before_action :authenticate_request if defined?(LesliShield)
-        before_action :authorize_privilege if defined?(LesliSecurity)
-        before_action :set_customizer
-        before_action :set_requester
-        after_action  :log_requests if defined?(LesliAudit)
+            t.string :session_token                 # authentication token
+            t.string :session_source                # session created for/with
 
-        layout "lesli/layouts/application-lesli"
+            t.integer  :usage_count                 # total number of interactions
+            t.datetime :last_used_at                # last datetime token was used
+            t.datetime :expiration_at, index: true  # auto-expire session at
+            t.datetime :deleted_at, index: true
 
-        # Rescue from "ParameterMissing" when using required params
-        # in controllers
-        rescue_from ActionController::ParameterMissing do |_e|
-            respond_with_error("Missing params")
+            t.timestamps
         end
+        add_reference(:lesli_user_sessions, :user, foreign_key: { to_table: :lesli_users })
     end
 end

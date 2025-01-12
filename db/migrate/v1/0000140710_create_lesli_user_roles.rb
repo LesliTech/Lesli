@@ -30,31 +30,14 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-module Lesli
-    class ApplicationLesliController < ApplicationController        
-
-        include Lesli::LoggerInterface
-        include Lesli::ResponderInterface
-        include Lesli::RequesterInterface
-        include Lesli::CustomizationInterface
-        include LesliShield::AuthenticationInterface if defined?(LesliShield)
-
-        protect_from_forgery with: :exception
-
-        before_action :set_path
-        before_action :set_locale
-        before_action :authenticate_request if defined?(LesliShield)
-        before_action :authorize_privilege if defined?(LesliSecurity)
-        before_action :set_customizer
-        before_action :set_requester
-        after_action  :log_requests if defined?(LesliAudit)
-
-        layout "lesli/layouts/application-lesli"
-
-        # Rescue from "ParameterMissing" when using required params
-        # in controllers
-        rescue_from ActionController::ParameterMissing do |_e|
-            respond_with_error("Missing params")
+class CreateLesliUserRoles < ActiveRecord::Migration[6.0]
+    def change
+        create_table :lesli_user_roles do |t|
+            t.datetime :deleted_at, index: true
+            t.timestamps
         end
+
+        add_reference(:lesli_user_roles, :user, foreign_key: { to_table: :lesli_users })
+        add_reference(:lesli_user_roles, :role, foreign_key: { to_table: :lesli_roles })
     end
 end

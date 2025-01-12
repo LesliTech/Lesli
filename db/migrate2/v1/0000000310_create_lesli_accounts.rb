@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -30,8 +30,27 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-module Lesli
-    class User::Agent < ApplicationRecord
-        belongs_to :user
+class CreateLesliAccounts < ActiveRecord::Migration[7.2]
+    def change
+        create_table :lesli_accounts do |t|
+
+            # account status 
+            t.string :status, null: false
+            
+            # account name
+            t.string :name
+
+            # unique email to identify the account
+            t.string :email, null: false
+
+            # main region of the company
+            t.string :region, default: "america"
+
+            # Acts as paranoid
+            t.datetime :deleted_at, index: true
+            t.timestamps
+        end
+
+        add_index(:lesli_accounts, :email, unique: true)
     end
 end

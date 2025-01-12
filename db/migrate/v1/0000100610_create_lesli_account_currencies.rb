@@ -27,38 +27,22 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-
+// ·
 =end
+class CreateLesliAccountCurrencies < ActiveRecord::Migration[6.1]
+    def change
+        create_table :lesli_account_currencies do |t|
+            t.string        :name
+            t.string        :symbol
+            t.string        :country_alpha_3
 
-module Lesli
-    class UserSessionService < ApplicationLesliService
+            # Acts as paranoid
+            t.datetime :deleted_at, index: true
 
-        # create a new session
-        def create(user_agent, remote_ip, session_source="devise_standard_session")
-
-            # register a new unique session
-            current_session = current_user.sessions.create({
-                :remote => remote_ip,
-
-                :agent_os => user_agent[:os] || "unknown",
-                :agent_platform => user_agent[:platform] || "unknown",
-                :agent_browser => user_agent[:browser] || "unknown",
-                :agent_version => user_agent[:version] || "unknown",
-                
-                :session_source => session_source,
-                :last_used_at => Date2.new.get,
-
-                :usage_count => 1
-            })
-
-            # register or sync the current_user with the user representation on Firebase
-            #Courier::One::Firebase::User.sync_user(@resource) if defined? CloudOne
-
-            self.resource = current_session
-
-            self
-
+            t.timestamps
         end
+
+        add_reference(:lesli_account_currencies, :user, foreign_key: { to_table: :lesli_users })
+        add_reference(:lesli_account_currencies, :account, foreign_key: { to_table: :lesli_accounts })
     end
 end

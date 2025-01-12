@@ -30,27 +30,15 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-def create_account_user email, rolename, firstname, lastname, password
-
-    account = Lesli::Account.find_by(email: Lesli.config.company.dig(:email))
-
-    # create development users if email is not registered yet
-    Lesli::User.find_or_create_by(email: email) do |user|
-        user.account = account
-        user.password = password
-        user.password_confirmation = password
-
-        # confirm user through device
-        user.confirm unless user.confirmed?
-
-        user.first_name = firstname
-        user.last_name = lastname
-        user.save!
-
-        if defined?(LesliSecurity)
-            user.powers.create!({ role: Lesli::Role.find_by(:name => rolename) })
+class CreateLesliDescriptors < ActiveRecord::Migration[7.0]
+    def change
+        create_table :lesli_descriptors do |t|
+            t.string :name
+            t.string :description
+            t.datetime :deleted_at, index: true
+            t.timestamps
         end
 
-        user
+        add_reference(:lesli_descriptors, :account, foreign_key: { to_table: :lesli_accounts })
     end
 end
