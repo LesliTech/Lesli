@@ -3,162 +3,54 @@
     <h1 align="center">Lesli core database.</h1>
 </p>
 
-### 00.10. Core
-```
-00.01. accounts
-00.02. roles
-00.03. users
-00.06. system_controllers
-00.07. system_controller_actions
+# 00.10. Lesli Database
 
-00.10. account_details
-00.11. account_settings
-00.12. account_activities
-00.14. account_logs
+```plaintext
+    00.00.00.01. lesli/system_controllers 
+    00.00.00.02. lesli/system_controller_actions 
 
-00.11. account_locations
-00.13. account_files
-00.16. account_currencies
-00.17. account_exchange_rates
-00.18. account_crontabs
-00.19. account_crontab_logs
-00.20. account_crontab_suscriptions
-00.21. account_issues
-
-00.03. user (reference only)
-00.30. user_details
-00.31. user_settings
-00.32. user_sessions
-00.33. user_activities
-00.34. user_powers
-00.35. user_shortcuts
-00.36. user_access_codes
-00.37. user_auth_provider
-00.40. user_logs
-
-00.50. descriptors
-00.51. descriptor_privileges
-00.52. descriptor_activities
-
-00.02. roles (reference only)
-00.55. role_powers
-00.56. role_activities
-00.57. role_privileges
-
-00.90. issues
+    00.00.00.03. lesli/accounts 
+    00.00.00.04. lesli/users
+    00.00.00.05. lesli/roles
 ```
 
 
-<fieldset>
 
-```mermaid
-erDiagram
-    accounts {
-        integer status
-        string email
 
-        string company_name
-        string company_name_legal
-        string company_tagline
+    00.00.00.01. lesli/accounts 
+    00.00.00.02. lesli/roles
+    00.00.00.03. lesli/users
 
-        int    country
-        string address
-        string region
-        string city
-        string postal_code
+    00.00.00.10. lesli/actions 
+    00.00.00.11. lesli/activities 
+    00.00.00.12. lesli/discussions 
+    00.00.00.13. lesli/subscribers 
+    00.00.00.14. lesli/attachments 
 
-        string website
-        string phone_number_1
-        string phone_number_2
-        string phone_number_3
-        string phone_number_4
-        string public_email
+    00.00.00.20. lesli/catalogs 
+    00.00.00.30. lesli/dashboards 
 
-        string github
-        string twitter
-        string youtube
-        string linkedin
-        string facebook
-    }
+    00.00.10.01. lesli/accounts  (reference only)
+    00.00.10.02. lesli/account_details
+    00.00.10.03. lesli/account_settings
+    00.00.13.05. lesli/account_journals
+    00.00.10.04. lesli/account_locations
+    00.00.10.05. lesli/account_currencies
 
-    roles {
-        string name
-        string code
-        string description
-        boolean active
-        string path_default
-        boolean path_limited
-        boolean isolated
-        integer object_level_permission
-    }
+    00.00.11.01. lesli/descriptors
+    00.00.11.02. lesli/descriptor_privileges
 
-    users {
-        boolean   active
-        string    email
-        string    encrypted_password
-        string    alias
-        string    salutation
-        string    first_name
-        string    last_name
-        string    reset_password_token
-        datetime  reset_password_sent_at
-        datetime  password_expiration_at
-        datetime  locked_until
-        datetime  remember_created_at
-        integer   sign_in_count
-        datetime  current_sign_in_at
-        datetime  last_sign_in_at
-        inet      current_sign_in_ip
-        inet      last_sign_in_ip
-        string    unconfirmed_email
-        string    confirmation_token
-        datetime  confirmation_sent_at
-        datetime  confirmed_at
-        string    telephone
-        string    telephone_confirmation_token
-        datetime  telephone_confirmation_sent_at
-        datetime  telephone_confirmed_at
-        integer   failed_attempts
-        string    unlock_token
-        datetime  locked_at
-        datetime  deleted_at
-    }
+    00.00.12.01. roles (reference only)
+    00.00.12.02. role_privileges
+    00.00.12.03. role_descriptors
 
-    account_logs {
+    00.00.13.01. lesli/user  (reference only)
+    00.00.13.02. lesli/user/settings
+    00.00.13.03. lesli/user/sessions
+    00.00.13.04. lesli/user/shortcuts
+    00.00.13.05. lesli/user/journals
+    00.00.13.06. lesli/user/tokens
+    00.00.13.07. lesli/user/roles
 
-    }
-
-    user_sessions {
-        inet   user_remote
-        string user_agent
-        string session_token
-        string session_source
-        integer  usage_count
-        datetime last_used_at
-        datetime expiration_at
-    }
-
-    user_requests {
-
-    }
-
-    user_logs {
-
-    }
-
-    user_agents {
-        
-    }
-
-    accounts ||--|| users : ""
-    roles }|--|| accounts : ""
-    users }|--|| accounts : ""
-    account_logs ||--|| accounts : ""
-    user_sessions }|--|| users : ""
-    user_requests }|--|| users : ""
-    user_logs }|--|| users : ""
-    user_agents }|--|| users : ""
-    
-
-```
-</fieldset>
+    00.00.99.01. lesli/system_controllers 
+    00.00.99.02. lesli/system_controller_actions

@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -36,31 +36,11 @@ module Lesli
         include UserExtensions
         #include UserActivities
 
-        # users belongs to an account only... and must have a role
-        belongs_to :account, optional: true
-
-        # user details are saved on separate table
-        has_one :detail, inverse_of: :user, autosave: true, dependent: :destroy
-        accepts_nested_attributes_for :detail, update_only: true
-
-        # users data extensions
-        has_many :logs
-        has_many :codes
-        has_many :agents
-        has_many :tokens
-        has_many :settings
-        has_many :sessions
-        has_many :requests
-        has_many :shortcuts
-        has_many :notifications, class_name: "LesliBell::Notification"
-        has_many :activities,   class_name: "User::Activity"
-
-        # users can have many roles and too many privileges through the roles
-        # every role adds a power to the user, power is just a role id
-        has_many :powers
-        has_many :roles, through: :powers, source: :role, class_name: "Lesli::Role"
-        has_many :privileges, through: :roles, class_name: "Lesli::Role::Privilege"
-
+        validates(:email, 
+            format: { with: URI::MailTo::EMAIL_REGEXP },
+            presence: true, 
+            uniqueness: true
+        );
 
         # devise implementation
         devise( 
@@ -70,22 +50,43 @@ module Lesli
             :recoverable,
             :validatable,
             :confirmable,
-            :trackable);
-            #:omniauthable, omniauth_providers: [:google_oauth2, :facebook]
+            :trackable
+        );
+        #:omniauthable, omniauth_providers: [:google_oauth2, :facebook]
 
 
-        # users belongs to an account only... and must have a role
+        # users belongs to an account only... 
         belongs_to :account, optional: true
 
-        # users belongs to an account only... and must have a role
-        belongs_to :account, optional: true
 
-        validates :email, :presence => true
+        # user details are saved on separate table
+        has_one :detail, inverse_of: :user, autosave: true, dependent: :destroy
+        accepts_nested_attributes_for :detail, update_only: true
+
+
+        # users data extensions
+        has_many :tokens
+        has_many :settings
+        has_many :sessions
+        has_many :journals
+        has_many :shortcuts
+
+
+        # users can have many roles and too many privileges through the roles
+        # every role adds a power to the user, power is just a role id
+        has_many :powers
+        has_many :roles, through: :powers, source: :role, class_name: "Lesli::Role"
+        has_many :privileges, through: :roles, class_name: "Lesli::Role::Privilege"
+
+
+        # users data third-party engines
+        has_many :activities,   class_name: "User::Activity"
+        has_many :notifications, class_name: "LesliBell::Notification"
 
 
         # callbacks
-        before_create :before_create_user
-        after_create :after_confirmation_user, if: :confirmed?
+        #before_create :before_create_user
+        after_create :after_confirmation_user
         after_create :after_account_assignation
         #after_update :update_associated_services
 
@@ -108,12 +109,8 @@ module Lesli
         def after_confirmation_user
             return unless self.confirmed?
 
-            # create an alias based on user name
-            # defined in user extensions
+            # create an alias based on user name defined in user extensions
             self.set_alias
-
-            # create user details
-            User::Detail.find_or_create_by({ user: self })
 
             # Minimum security settings required
             self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")

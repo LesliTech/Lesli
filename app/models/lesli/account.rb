@@ -37,7 +37,7 @@ module Lesli
         # accounts always belongs to a user
         belongs_to :user, optional: true
 
-        #class_name: "Lesli::Account"
+
         has_one :detail, inverse_of: :account, autosave: true, dependent: :destroy
         accepts_nested_attributes_for :detail, update_only: true
 
@@ -45,18 +45,14 @@ module Lesli
         # account resources
         has_many :users
         has_many :roles
-        has_many :files
-        has_many :cronos
-        has_many :requests
+        has_many :journals
         has_many :settings
         has_many :locations
-        has_many :feedbacks
-        has_many :descriptors
-        has_many :activities
         has_many :currencies
-        has_many :logs
+        has_many :descriptors
 
 
+        # third-party engines associations
         has_one :bell, class_name: "LesliBell::Account"
         has_one :help, class_name: "LesliHelp::Account"
         has_one :audit, class_name: "LesliAudit::Account"
@@ -78,11 +74,9 @@ module Lesli
 
 
         # company region (GDPR)
-        # enum region: {
-        #     latin_america: "latin_america",
-        #     united_states: "united_states",
-        #     european_union: "european_union"
-        # }
+        enum region: {
+            america: "america"
+        }
 
 
         # required a name for the lesli account
@@ -90,7 +84,7 @@ module Lesli
 
 
         # initializers for new accounts
-        #after_create :initialize_account
+        after_create :initialize_account
         after_create :initialize_engines
 
     end

@@ -30,6 +30,8 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
+# maybe move this to a "LDate" gem?
+
 class Date2
 
     def initialize(datetime = Time.current, format = "%Y-%m-%d %H:%M:%S")
