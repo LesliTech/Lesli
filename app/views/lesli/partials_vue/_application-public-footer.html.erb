@@ -18,13 +18,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS Development Framework.
+Lesli · Ruby on Rails SaaS development platform.
 
 Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.dev
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
@@ -32,31 +32,20 @@ Building a better future, one line of code at a time.
 =end
 %>
 
-<%# check if custom navigation partial exists, getting the path from application helper %>
-<% 
-    engine = lesli_engine.dig(:code) 
-    custom_sidebar_path = if engine == "root"
-        "partials/engine-navigation"
-        else
-        "#{engine}/engine-navigation" 
-    end
-%>
-
-
-<%# validate the path to be sure the partial exists when trying to render it %>
-<% custom_sidebar_exists = lookup_context.exists?(custom_sidebar_path, nil, true) %>
-
-<%# render navigation partial %>
-<% if custom_sidebar_exists %>
-<nav class="lesli-navbar navbar lesli-application-navigation" role="navigation" aria-label="main navigation">
-    <div class="container">
+<footer>
+    <nav aria-label="main navigation" class="navbar" role="navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="https://lesli.cloud">
+                LesliCloud
+            </a>
+        </div>
         <div class="navbar-menu">
+            <div class="navbar-start"></div>
             <div class="navbar-end">
-                <%= render partial: custom_sidebar_path %>
+                <a class="navbar-item">
+                    Privacy
+                </a>
             </div>
         </div>
-    </div>
-</nav>
-<% else %>
-    <!-- no navigation found -->
-<% end %>
+    </nav>
+</footer>

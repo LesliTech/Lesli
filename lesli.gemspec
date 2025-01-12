@@ -74,6 +74,15 @@ Gem::Specification.new do |spec|
     # It's a small library to provide the Rails I18n translations on the Javascript.
     spec.add_dependency("i18n-js", "~> 4.2.3") 
 
+    # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
+    spec.add_dependency("importmap-rails")
+
+    # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
+    spec.add_dependency("turbo-rails")
+
+    # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
+    spec.add_dependency("stimulus-rails")
+
 
 
     # · Tools used to extend Rails functionality
@@ -91,8 +100,13 @@ Gem::Specification.new do |spec|
 
     # · Tools used to build the Lesli Framework
 
+    # Reusable View Components for The Lesli Framework 
+    spec.add_dependency("lesli_view")
+
     # Message utilities for the Ruby console.
     spec.add_dependency("L2", "~> 0.6.5")
+
+
 
     # Simple greetings message
     spec.post_install_message = "Greetings from LesliTech  ❤️  Docs are available at https://www.lesli.dev/"
