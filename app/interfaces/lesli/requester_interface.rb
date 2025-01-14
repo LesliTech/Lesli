@@ -65,14 +65,14 @@ module Lesli
         # Set default query params for:
         def set_requester
             @query = {
-                search: params[:search] || nil,
-                pagination: {
-                    perPage: (params[:perPage] ? params[:perPage].to_i : 12),
-                    page: (params[:page] ? params[:page].to_i : 1)
+                :search => params[:search] || nil,
+                :pagination => {
+                    :perPage => (params[:perPage] ? params[:perPage].to_i : 12),
+                    :page => (params[:page] ? params[:page].to_i : 1)
                 },
-                order: {
-                    by: (params[:orderBy] || "id"),
-                    dir: (params[:order] || "desc")
+                :order => {
+                    :by => (params[:orderBy] || "id"),
+                    :dir => (params[:order] || "desc")
                 }
             }
         end
