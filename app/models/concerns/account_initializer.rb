@@ -35,43 +35,45 @@ module AccountInitializer
 
     # initialize minimum resources needed for the account
     def initialize_account
-        
+
+        # create initial descriptors
+        descriptor_owner = self.descriptors.find_or_create_by(name: "owner")
+        descriptor_admin = self.descriptors.find_or_create_by(name: "admin")
+        descriptor_profile = self.descriptors.find_or_create_by(name: "profile")
+
+
         # create default roles for the new account
         owner = self.roles
-            .create_with({ permission_level: 2147483647 })
-            .find_or_create_by(:name => "owner")
+        .create_with({ permission_level: 2147483647 })
+        .find_or_create_by(:name => "owner")
 
 
         # platform administrator role
         admin = self.roles
-            .create_with({ permission_level: 100000})
-            .find_or_create_by({ name: "admin" })
+        .create_with({ permission_level: 100000})
+        .find_or_create_by(name: "admin")
 
 
         # access only to user profile
         limited = self.roles
-            .create_with({ permission_level: 10, path_default: "/administration/profile" })
-            .find_or_create_by({ name: "limited" })
+        .create_with({ permission_level: 10, path_default: "/administration/profile" })
+        .find_or_create_by(name: "limited")
 
 
+        # assign descriptors with appropriate privileges
+        owner.powers.create_with({
+            plist: true, pindex: true, pshow: true, pcreate: true, pupdate: true, pdestroy: true
+        }).find_or_create_by(:descriptor => descriptor_owner)
 
-        # # create initial descriptors
-        # descriptor_owner = self.descriptors.find_or_create_by(name: "owner")
-        # descriptor_admin = self.descriptors.find_or_create_by(name: "admin")
-        # descriptor_profile = self.descriptors.find_or_create_by(name: "profile")
 
-        # # assign descriptors with appropriate privileges
-        # owner.powers.create_with({
-        #     plist: true, pindex: true, pshow: true, pcreate: true, pupdate: true, pdestroy: true
-        # }).find_or_create_by(:descriptor => descriptor_owner)
+        admin.powers.create_with({
+            plist: true, pindex: true, pshow: true, pcreate: true, pupdate: true, pdestroy: true
+        }).find_or_create_by(:descriptor => descriptor_admin)
 
-        # admin.powers.create_with({
-        #     plist: true, pindex: true, pshow: true, pcreate: true, pupdate: true, pdestroy: true
-        # }).find_or_create_by(:descriptor => descriptor_admin)
 
-        # limited.powers.create_with({
-        #     plist: true, pindex: true, pshow: true, pcreate: true, pupdate: true, pdestroy: true
-        # }).find_or_create_by(:descriptor => descriptor_profile)
+        limited.powers.create_with({
+            plist: true, pindex: true, pshow: true, pcreate: true, pupdate: true, pdestroy: true
+        }).find_or_create_by(:descriptor => descriptor_profile)
     end
 
 
@@ -88,8 +90,6 @@ module AccountInitializer
             LesliSupport: :support,
             LesliGuard: :guard
         }
-
-        pp Lesli::System.engines
 
         engines.each do |engine, attribute|
 
