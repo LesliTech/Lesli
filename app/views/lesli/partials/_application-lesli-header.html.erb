@@ -48,7 +48,7 @@ Building a better future, one line of code at a time.
     <nav class="lesli-navbar navbar unresponsive" role="navigation" aria-label="main navigation">
         <div class="container">
             <div class="navbar-brand">
-                <a href="brand.url" class="application-navbar-brand">
+                <a href="<%= defined?(LesliDashboard) ? '/dashboard' : '/' %>" class="application-navbar-brand">
                     <%= customization_instance_logo_tag(logo: "app-logo", options: { alt: "Lesli app logo" }) %>
                 </a>
                 <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false">
