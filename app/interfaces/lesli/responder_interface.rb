@@ -33,22 +33,9 @@ Building a better future, one line of code at a time.
 module Lesli
     module ResponderInterface
 
-        def respond_with_pagination2(records, payload = nil)
-            {
-                pagination: {
-                    page: records.current_page,
-                    pages: records.total_pages,
-                    total: records.total_count,
-                    results: records.length
-                },
-                records: payload || records
-            }
-        end
-
         # Return an standard http 200 respond
-        def respond_with_successful(payload = nil)
-            # Response for modern Lesli 3 apps
-            respond_with_http(200, payload)
+        def respond_as_successful(payload = nil)
+            payload
         end
 
         # Usage example
@@ -57,39 +44,38 @@ module Lesli
         # .page(query[:pagination][:page])
         # .per(query[:pagination][:perPage])
         #
-        # respond_with_successful_pagination(tasks)
+        # respond_with_pagination(tasks)
         #
         # IMPORTANT: It is strictly necessary to use the pagination methods
         #            to make this work properly
-        def respond_with_pagination(records, payload = nil)
-            respond_with_http(200, {
+        def respond_as_pagination(payload)
+            {
                 pagination: {
-                    page: records.current_page,
-                    pages: records.total_pages,
-                    total: records.total_count,
-                    results: records.length
+                    page: payload.current_page,
+                    pages: payload.total_pages,
+                    total: payload.total_count,
+                    results: payload.length
                 },
-                records: payload || records
-            })
+                records: payload
+            }
+        end
+
+
+
+
+        def respond_with_successful(payload = nil)
+            respond_with_http(200, respond_as_successful(payload))
+        end
+
+        def respond_with_pagination(payload)
+            respond_with_http(200, respond_as_pagination(payload))
         end
 
         # JSON not found response
         def respond_with_not_found
-            # Keep compatibility with Deutsche Leibrenten
-            if defined? DeutscheLeibrenten
-                response_body = {
-                    successful: false,
-                    error: {
-                        message: I18n.t("core.shared.messages_danger_not_found"),
-                        details: []
-                    }
-                }
-                return render(status: 404, json: response_body.to_json)
-            end
-
             respond_with_http(404, {
-                                    message: I18n.t("core.shared.messages_danger_not_found")
-                                })
+                message: I18n.t("core.shared.messages_danger_not_found")
+            })
         end
 
         # JSON not found response
