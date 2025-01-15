@@ -152,6 +152,11 @@ module Lesli
 
         private
 
+        def response resource = nil
+            self.resource = resource
+            self
+        end
+
         attr_reader :current_user
 
         attr_reader :resource
