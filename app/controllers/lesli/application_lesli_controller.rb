@@ -38,6 +38,7 @@ module Lesli
         include Lesli::CustomizationInterface
         include LesliAudit::LoggerInterface if defined?(LesliAudit)
         include LesliShield::AuthenticationInterface if defined?(LesliShield)
+        include LesliSecurity::AuthorizationInterface if defined?(LesliSecurity)
 
         protect_from_forgery with: :exception
 
@@ -51,8 +52,7 @@ module Lesli
 
         layout "lesli/layouts/application-lesli"
 
-        # Rescue from "ParameterMissing" when using required params
-        # in controllers
+        # Rescue from "ParameterMissing" when using required params in controllers
         rescue_from ActionController::ParameterMissing do |_e|
             respond_with_error("Missing params")
         end
