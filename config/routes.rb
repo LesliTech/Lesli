@@ -33,6 +33,8 @@ Building a better future, one line of code at a time.
 
 # Mount the necessary resources Lesli needs to work properly
 Lesli::Engine.routes.draw do
+  
+    resource :apps, only: [:show]
 
     resource :about, only: [:show]
 

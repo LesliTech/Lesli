@@ -1,0 +1,34 @@
+<%= render(LesliView::Layout::Container.new("lesli-apps", dashboard: true)) do %>
+    <section 
+        class="lesli-application-engines">
+        <div class="engines-container">
+            <div class="engines">
+                <%# 01. Administration %>
+                <%= navigation_engine_admin %>
+
+                <%# 03. Productivity & Teamwork%>
+                <%= navigation_engine_calendar %>
+                <%= navigation_engine_bell %>
+
+                <%# 05. Analytics %>
+                <%= navigation_engine_audit %>
+
+                <%# 07. IT & Help Desk %>
+                <%= navigation_engine_support %>
+
+                <%# 08. Security & Privacy %>
+                <%= navigation_engine_shield %>
+                <%= navigation_engine_security %>
+
+                <%# 09. Integrations %>
+                <%= navigation_engine_babel %>
+            </div>
+            <button class="button is-hidden-tablet">
+                <span class="icon">
+                    <i class="ri-close-line"></i>
+                </span>
+                <span>close</span>
+            </button>
+        </div>
+    </section>
+<% end %>

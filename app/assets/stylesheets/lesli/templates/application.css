@@ -29641,7 +29641,8 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
-.lesli-application-container {
+section.lesli-application-container,
+turbo-frame.lesli-application-container {
   padding: 1rem;
 }
 
@@ -29710,35 +29711,9 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
-.lesli-application-engines {
-  top: 0;
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  z-index: 98;
-}
-.lesli-application-engines .engines-container {
-  width: 100%;
-  height: 100%;
-  padding: 1.6rem;
-  overflow-y: scroll;
-  margin-top: var(--lesli-header-height);
-  background-color: var(--lesli-color-background);
-  scrollbar-width: thin;
-  scrollbar-color: #ffffff #ffffff;
-  scrollbar-width: none;
-}
-.lesli-application-engines .engines-container::-webkit-scrollbar {
-  width: 0px;
-  background-color: #ffffff;
-}
 .lesli-application-engines .engines-container .engines {
-  width: 100%;
-  margin: 0 auto;
-  max-width: 1408px;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   flex-direction: column;
   justify-content: center;
 }
