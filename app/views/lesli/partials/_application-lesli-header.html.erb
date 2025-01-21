@@ -90,10 +90,7 @@ Building a better future, one line of code at a time.
                                     </span>
                                 </a>
 
-                                <!-- engines selector  -->
-                                <a v-if="props.showEngines" @click="toggleEngines()">
-                                    <span class="ri-apps-2-line"></span>
-                                </a>
+                                <%= navigation_link(lesli.apps_path, nil, "ri-apps-2-line") %>
 
                                 <!-- profile options -->
                                 <div class="dropdown is-hoverable" v-if="props.showProfile">

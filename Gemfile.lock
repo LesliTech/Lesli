@@ -8,10 +8,10 @@ PATH
       i18n-js (~> 4.2.3)
       importmap-rails
       kaminari (~> 1.2.2)
+      lesli_view
       rails (~> 7.2)
       stimulus-rails
       turbo-rails
-      view_component (~> 3.21)
 
 GEM
   remote: https://rubygems.org/
@@ -131,6 +131,8 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
+    lesli_view (0.1.0)
+      view_component
     logger (1.6.5)
     loofah (2.24.0)
       crass (~> 1.0.2)
@@ -229,7 +231,6 @@ PLATFORMS
 
 DEPENDENCIES
   lesli!
-  view_component (~> 3.0)
 
 BUNDLED WITH
    2.4.19
