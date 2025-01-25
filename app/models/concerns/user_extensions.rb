@@ -37,6 +37,19 @@ module UserExtensions
     extend ActiveSupport::Concern
 
 
+    # @return [nil]
+    # @description Set the user alias based on the full_name.
+    # @example
+    #     puts current_user.full_name # John Doe
+    #     puts current_user.set_alias # John D.
+    def set_alias
+        if self.alias.blank?
+            self.alias = full_name_initials() 
+            self.save
+        end
+    end
+
+
     # @return [void]
     # @description Register a new notification for the current user
     # @param subject String Short notification description
@@ -54,12 +67,6 @@ module UserExtensions
     def calendar source_code: :lesli
         return Courier::Driver::Calendar.get_user_calendar(self, source_code: source_code, default: true) if source_code == :lesli
         Courier::Driver::Calendar.get_user_calendar(self, source_code: source_code)
-    end
-
-
-    # @return [String] The first name of this user.
-    def name2
-        self.first_name
     end
 
 
@@ -87,19 +94,6 @@ module UserExtensions
     end
 
 
-    # @return [nil]
-    # @description Set the user alias based on the full_name.
-    # @example
-    #     puts current_user.full_name # John Doe
-    #     puts current_user.set_alias # John D.
-    def set_alias
-        if self.alias.blank?
-            self.alias = full_name_initials() 
-            self.save
-        end
-    end
-
-
     # @return [String]
     # @description Returns the local configuration for the user if there is no locale the default local
     # of the platform will be returned
@@ -117,6 +111,11 @@ module UserExtensions
 
         # reevaluate
         self.locale()
+    end
+
+
+    def role_names 
+        user_roles = self.roles.map(&:name).join(",")
     end
 
 

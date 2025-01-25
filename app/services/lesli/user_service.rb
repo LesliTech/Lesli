@@ -33,6 +33,11 @@ Building a better future, one line of code at a time.
 module Lesli
     class UserService < Lesli::ApplicationLesliService
 
+        def find id
+            #super(current_user.account.users.joins(:detail).find_by(id: id))
+            super(current_user.account.users.find_by(id: id))
+        end
+
 
         # Return a list of users that belongs to the account of the current_user
         # this list is meant to be used in selectors, autocomplets, etc
@@ -118,6 +123,71 @@ module Lesli
                 :rolenames,
                 Date2.new.date_time.db_column("current_sign_in_at")
             )
+        end
+
+        # Creates a query that selects all user information from several tables if CloudLock is present
+        def show
+
+            user = resource
+
+            return user
+
+            user_roles = user.roles.map { |r| { id: r[:id], name: r[:name], permission_level: r[:object_level_permission]} }
+
+            return {
+                id: user[:id],
+                email: user[:email],
+                alias: user[:alias],
+                active: user[:active],
+                full_name: user.full_name,
+                salutation: user[:salutation],
+                first_name: user[:first_name],
+                last_name: user[:last_name],
+                telephone: user[:telephone],
+                locale: user.locale, #settings.select(:value).find_by(:name => "locale"),
+                roles: user_roles,
+                role_names: user_roles.map { |role| role[:name]}.join(","),
+
+                initials: "LD",
+
+                # initials() {
+                #     let initials = ""
+                #     if (this.user?.first_name) initials += this.user?.first_name[0];
+                #     if (this.user?.last_name) initials += this.user?.last_name[0];
+                #     return initials.toUpperCase()
+                # }
+
+                #mfa_enabled: user.mfa_settings[:enabled],
+                #mfa_method:  user.mfa_settings[:method],
+
+                created_at: user[:created_at],
+                updated_at: user[:updated_at],
+                detail_attributes: {
+                    title: "Software Developer" #user.detail[:title] || "",
+                    # address: user.detail[:address],
+                #     work_city: user.detail[:work_city],
+                #     work_region: user.detail[:work_region],
+                #     work_address: user.detail[:work_address]
+                }
+            }
+        end
+
+        def update params
+
+            # old_attributes = resource.detail.attributes.merge({
+            #     active: resource.active
+            # })
+
+            if resource.update(params)
+                # new_attributes = resource.detail.attributes.merge({
+                #     active: resource.active
+                # })
+                #resource.log_activity_update(current_user, resource, old_attributes, new_attributes)
+            else
+                self.error(resource.errors.full_messages.to_sentence)
+            end
+            
+            self
         end
     end
 end
