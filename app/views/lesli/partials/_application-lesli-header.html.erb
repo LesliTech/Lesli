@@ -94,9 +94,21 @@ Building a better future, one line of code at a time.
                                         <div class="dropdown-menu" id="dropdown-menu" role="menu" style="width: 350px;">
                                             <div class="dropdown-content">
                                                 <% current_user.notifications.each do |notification| %>
-                                                    <div class="notification is-<%= notification.category %> is-light mb-2">
-                                                        <%= notification.subject %>
-                                                    </div>  
+                                                    <%= link_to lesli_bell.notifications_path, data: { turbo_frame: '_top' } do %>
+                                                        <div class="notification is-<%= notification.category %> is-light mb-2">
+                                                            <!-- Close button -->
+                                                            <%= button_to(
+                                                                lesli_bell.notification_path(notification[:id]), 
+                                                                method: :put, 
+                                                                class: "button is-small is-light is-#{notification[:category]}",
+                                                                form: { class: "delete" }) do %>
+                                                                <span class="icon">
+                                                                    <span class="material-icons">close</span>
+                                                                </span>
+                                                            <% end %>
+                                                            <%= notification.subject %>
+                                                        </div>  
+                                                    <% end %>
                                                 <% end %>
                                             </div>
                                         </div>
