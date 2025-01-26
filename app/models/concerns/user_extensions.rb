@@ -60,6 +60,22 @@ module UserExtensions
         Courier::Bell::Notification.new(self, subject, body:body, url:url, category:category)
     end
 
+    # @return [void]
+    # @description Register a new notification for the current user
+    # @param subject String Short notification description
+    # @param body String Long notification description
+    # @param url String Link to notified object
+    # @param category String Kind of notification: info, warning, danger, success.
+    def notifications quantity=5, category:"info"
+        query = {
+            :pagination => {
+                :perPage => quantity,
+                :page => 1
+            }
+        }
+        Lesli::Courier.new(:lesli_bell, []).from(:notification_service, self, query).call(:index)
+    end
+
 
     # @return [CloudDriver::Calendar]
     # @description Return the default calendar of the user if source_code is not provided.

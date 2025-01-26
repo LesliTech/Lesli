@@ -79,11 +79,6 @@ module Lesli
         has_many :privileges, through: :roles, class_name: "Lesli::Role::Privilege"
 
 
-        # users data third-party engines
-        has_many :activities,   class_name: "User::Activity"
-        has_many :notifications, class_name: "LesliBell::Notification"
-
-
         # callbacks
         #before_create :before_create_user
         after_create :after_confirmation_user
