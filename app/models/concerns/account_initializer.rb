@@ -96,10 +96,10 @@ module AccountInitializer
             # Skip if the engine is not defined
             next unless Object.const_defined?(engine)
 
-            # next if self.public_send(attribute).blank?
+            #next if self.public_send(attribute).blank?
 
-            # # Create an associated account if the attribute is blank
-            # engine::Account.create!(account: self) 
+            # Create an associated account if the attribute is blank
+            engine.to_s.constantize::Account.create!(account: self) 
         end
     end      
 end
