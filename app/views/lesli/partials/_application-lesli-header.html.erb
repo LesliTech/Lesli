@@ -83,13 +83,27 @@ Building a better future, one line of code at a time.
                                 </a>
 
                                 <!-- notifications -->
-                                <a v-if="props.showBell" class="header-indicator" @click="toggleBellNotifications()">
-                                    <span :class="['ri-notification-3-line', { 'is-active' : storeLayout.header.notifications > 0 }]">
-                                    </span>
-                                    <span class="count">
-                                    </span>
-                                </a>
+                                <% if defined?(LesliBell) %>
+                                    <div class="dropdown is-hoverable">
+                                        <div class="dropdown-trigger">
+                                            <a>
+                                                <span class="ri-notification-3-line">
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="dropdown-menu" id="dropdown-menu" role="menu" style="width: 350px;">
+                                            <div class="dropdown-content">
+                                                <% current_user.notifications.each do |notification| %>
+                                                    <div class="notification is-<%= notification.category %> is-light mb-2">
+                                                        <%= notification.subject %>
+                                                    </div>  
+                                                <% end %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% end %>
 
+                                <!-- module selector -->
                                 <%= navigation_link(lesli.apps_path, nil, "ri-apps-2-line") %>
 
                                 <!-- profile options -->
