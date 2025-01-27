@@ -36,9 +36,9 @@ Building a better future, one line of code at a time.
 <% 
     engine = lesli_engine.dig(:code) 
     custom_sidebar_path = if engine == "root"
-        "partials/engine-navigation"
-        else
-        "#{engine}/partials/engine-navigation" 
+        "partials/navigation"
+    else
+        "#{engine}/partials/navigation" 
     end
 %>
 
