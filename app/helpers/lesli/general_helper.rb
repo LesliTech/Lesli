@@ -59,7 +59,7 @@ module Lesli
         # return a string with a css class to identify the body
         # example: builder engine-controller action
         def application_body_class
-            [lesli_instance_code, controller_path.gsub("/", "-"), action_name].join(" ")
+            [lesli_instance_code, controller_path.sub("_","-").split("/"), action_name].join(" ")
         end
 
         # build the text for the html document title
