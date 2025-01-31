@@ -37,13 +37,14 @@ class CreateLesliUsers < ActiveRecord::Migration[7.2]
             # Hard-lock strategy
             t.boolean   :active, default: true, null: false
 
-            # Customizable
+            # User information
             t.string    :alias
+            t.string    :title
             t.string    :salutation
             t.string    :first_name
             t.string    :last_name
 
-            # authenticable
+            # Authenticable
             t.string    :email,              null: false, default: ""
             t.string    :encrypted_password, null: false, default: ""
 

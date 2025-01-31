@@ -47,6 +47,10 @@ module Lesli
     class Engine < ::Rails::Engine
         isolate_namespace Lesli
 
+        initializer "lesli.importmap", before: "importmap" do |app|
+            app.config.importmap.paths << Engine.root.join("config/importmap.rb")
+        end
+
         initializer :lesli do |app|
 
 

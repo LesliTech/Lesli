@@ -1,9 +1,8 @@
-<%
-=begin
+<%#
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,7 +28,6 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-=end
 %>
 
 <% devise_controller = controller_path.split('/')[1] %>
@@ -54,6 +52,6 @@ Building a better future, one line of code at a time.
 <body class="<%= application_body_class() %>">
     <%= yield %>
     <%= javascript_include_tag("lesli_shield/#{devise_controller}") %>
-    <%= render partial: "lesli/partials/application-analytics" %>
+    <%= render(partial: "lesli/partials/application-analytics") %>
 </body>
 </html>
