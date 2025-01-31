@@ -67,9 +67,7 @@ module Lesli
         def website_title
             return @application_html_title if @application_html_title
 
-            title = controller_path.gsub("cloud", "").gsub("_", "")
-            name = @account.dig(:company, :name)
-            "#{title} - #{name}"
+            [controller_path.sub("_","/").split("/"), action_name].join("/")
         end
 
         # build description using custom data from controller or engine gem description
