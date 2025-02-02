@@ -77,5 +77,13 @@ module Lesli
             # Gem::Specification.find_by_name(engine_name).summary
             @application_html_description || ""
         end
+
+        def dd object
+            content_tag(:pre) do 
+                content_tag(:code) do
+                    JSON.pretty_generate(object.as_json)
+                end 
+            end 
+        end
     end
 end
