@@ -65,7 +65,7 @@ module Lesli
 
 
         # account statuses
-        enum status: {
+        enum :status, {
             :active => 'active',
             :suspended => 'suspended',
             :registered => 'registered',
@@ -74,7 +74,7 @@ module Lesli
 
 
         # company region (GDPR)
-        enum region: {
+        enum :region, {
             america: "america"
         }
 
