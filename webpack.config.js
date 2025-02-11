@@ -2,7 +2,7 @@
 /*
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,7 +34,6 @@ Building a better future, one line of code at a time.
 // · Including plugins and dependencies
 const path = require("path")
 const version = require("./lib/webpack/version")
-const { useLesliDebug } = require("lesli-vue/composables")
 
 
 // · Including webpack configuration
@@ -47,7 +46,6 @@ const webpackEngines = require("./lib/webpack/engines")
 // get specific modules to work with, example: npm run webpack -- babel bell
 const requestedEngines = process.argv.slice(5)
 
-const debug = useLesliDebug()
 
 // · 
 module.exports = env => {
@@ -80,9 +78,6 @@ module.exports = env => {
     })
 
 
-    debug.hr()
-
-
     // show a nice debug message for every installed engine and root vue applications :) 
     webpackConfig.forEach(config => {
         for (let [name, assets] of Object.entries(config.entry)) {
@@ -97,15 +92,10 @@ module.exports = env => {
             // print a nice console message for every asset in the queue
             // the replace part is to keep compatibility for root apps
             assets.forEach(assetPath => {
-                debug.info(assetPath.replace(path.resolve("..", "..", ".."), ""))
+                console.log(assetPath.replace(path.resolve("..", "..", ".."), ""))
             })
         }
     })
-
-
-    debug.hr()
-    //debug.br()
-    console.log('')
 
     
     return webpackConfig

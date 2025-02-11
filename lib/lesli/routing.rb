@@ -72,15 +72,15 @@ module Lesli
 
                 # Dashboard management
                 resource :dashboard, only: [:show]
-                resources :dashboards do
-                    collection do
-                        post "list" => :index
-                        get :options
-                    end
-                    scope module: :dashboard do
-                        resources :components
-                    end
-                end
+                # resources :dashboards do
+                #     collection do
+                #         post "list" => :index
+                #         get :options
+                #     end
+                #     scope module: :dashboard do
+                #         resources :components
+                #     end
+                # end
             end
         end
     end 

@@ -34,59 +34,34 @@ Building a better future, one line of code at a time.
 // · 
 @import "lesli-css";
 @import "lesli-css/bulma";
-@import "lesli-vue/elements.css";
-@import "lesli-vue/components.css";
-@import "lesli-vue/composables.css";
 
 
 // · Configuration & variables
 @import "Lesli/scss/settings/variables";
 
 
+// · LesliView components & elements 
+@import "LesliView/components/toolbar";
+@import "LesliView/components/header";
+@import "LesliView/elements/avatar";
+@import "LesliView/elements/table";
+@import "LesliView/forms/form";
+
+
 // · Font families and icons
-@import "Lesli/scss/fonts/mdicons";
-@import "Lesli/scss/fonts/families";
 @import "Lesli/scss/fonts/remixicons";
+@import "Lesli/scss/fonts/families";
+@import "Lesli/scss/fonts/mdicons";
 
 
 // · Lesli application layout 
-@import "Lesli/scss/layouts/application-announcements";
+@import "Lesli/scss/layouts/application-notification";
 @import "Lesli/scss/layouts/application-navigation";
 @import "Lesli/scss/layouts/application-component";
 @import "Lesli/scss/layouts/application-container";
 @import "Lesli/scss/layouts/application-content";
 @import "Lesli/scss/layouts/application-engines";
-@import "Lesli/scss/layouts/application-sidebar";
 @import "Lesli/scss/layouts/application-header";
-
-@import "Lesli/scss/layouts/application-footer";
-@import "Lesli/scss/layouts/application-search";
-
-
-// · Lesli core panels 
-// @import "lesli/panels/panel-tasks";
-@import "Lesli/scss/panels/panel-support-ticket";
-// @import "lesli/panels/panel-profile";
-@import "Lesli/scss/panels/panel-notification";
-// @import "lesli/panels/panel-announcements";
-
-
-// · Standard components
-//@import "lesli/components/editor-richtext";
-
-
-// · Shared
-// @import "lesli/shared/workflow-status-progress";
-
-
-// · Lesli cloud objects
-@import "Lesli/scss/cloud-objects/discussion";
-// @import "lesli/cloud-objects/file";
-
-
-// · Overrides for vendor libraries
-// @import "lesli/overrides/sweetalert";
-@import "Lesli/scss/overrides/notification";
 
 
 // · Some home made helpers
@@ -94,6 +69,7 @@ Building a better future, one line of code at a time.
 @import "Lesli/scss/helpers/tooltip";
 
 
+// · 
 html,
 body {
     color: var(--lesli-font-color);

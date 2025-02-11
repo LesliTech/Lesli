@@ -39,6 +39,14 @@ Building a better future, one line of code at a time.
 @import "Lesli/scss/templates/public";
 
 
+// ·
+.shield-form-demo {
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid silver;
+}
+
+
 // · reusable background styles
 @mixin lesli-login-background() {
     background: linear-gradient(0deg, 
@@ -50,24 +58,13 @@ Building a better future, one line of code at a time.
 }
 
 
-// ·
-h1,
-.links,
-.terms {
-    width: 100%;
-    max-width: 320px;
+// column with image background right side
+.column.background {
+    @include lesli-login-background;
 }
 
 
-// ·
-h1 {
-    line-height: 33px;
-    font-weight: 900;
-    font-size: 24px;
-}
-
-
-// column container
+// login form container
 .column.login-form {
     max-width: 550px;
     margin: 0 auto;
@@ -85,14 +82,6 @@ h1 {
     }
 
     form {
-
-        .demo {
-            fieldset {
-                padding: 4px 8px;
-                border-radius: 4px;
-                border: 1px solid silver;
-            }
-        }
 
         label {
             font-weight: 400;
@@ -147,13 +136,6 @@ h1 {
         letter-spacing: -44%;
     }
 }
-
-
-// column with image background right side
-.column.background {
-    @include lesli-login-background;
-}
-
 
 @include lesli-css-breakpoint-until-tablet() {
 
