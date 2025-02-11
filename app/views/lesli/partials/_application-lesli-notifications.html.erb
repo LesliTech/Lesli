@@ -37,7 +37,7 @@ Building a better future, one line of code at a time.
     <% if flash.any? %>
         <div class="flash-container">
             <% flash.each do |type, message| %>
-                <div class="notification is-<%= type %> is-light my-1">
+                <div class="notification is-<%= type %> is-light my-1 has-text-centered">
                     <%= message %>
                 </div>
             <% end %>
