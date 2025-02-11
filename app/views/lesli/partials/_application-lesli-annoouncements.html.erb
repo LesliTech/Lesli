@@ -1,0 +1,49 @@
+
+
+<%# Show announcements container only if cloud bell is installed %>
+<% if defined?(LesliBell)%>
+    <application-component-announcements></application-component-announcements>
+<% end %>
+
+
+<%# Search results container 
+<application-component-search></application-component-search>
+%>
+
+
+<%= render partial: "lesli/partials/flash" %>
+
+
+
+<style>
+.flash {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  opacity: 1;
+  transition: opacity 1s ease-out;
+}
+
+.flash.notice {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.flash.alert {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.fade-out {
+  animation: fadeOut 5s forwards;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  80% { opacity: 1; } /* Keep visible for most of the time */
+  100% { opacity: 0; display: none; }
+}
+
+</style>
+
+
