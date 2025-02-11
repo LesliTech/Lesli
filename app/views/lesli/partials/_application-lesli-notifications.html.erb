@@ -33,12 +33,15 @@ Building a better future, one line of code at a time.
 %>
 
 
-<%# Show announcements container only if cloud bell is installed %>
-<% if defined?(LesliBell)%>
-    <application-component-announcements></application-component-announcements>
-<% end %>
-
-
-<%# Search results container 
-<application-component-search></application-component-search>
-%>
+<section id="application-lesli-notifications" class="application-lesli-notifications">
+    <% if flash.any? %>
+        <div class="flash-container">
+            <% flash.each do |type, message| %>
+                <div class="notification is-<%= type %> is-light my-1">
+                    <%= message %>
+                </div>
+            <% end %>
+            <% flash.discard %> 
+        </div>
+    <% end %>
+</section>

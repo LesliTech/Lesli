@@ -34,12 +34,25 @@ module Lesli
     class ApplicationController < ActionController::Base
         layout "lesli/layouts/application-public"
 
+        add_flash_types( :info, :danger, :success, :warning)
+
         attr_reader :query
         attr_reader :engine_path
 
         def initialize
             super
             @lesli = {}
+        end
+
+        # Meta-programming to define flash setter methods dynamically
+        # success("Everything worked!")
+        # danger("Oops, there was an error.")
+        # info("Just an informational message.")
+        # warning("This is a warning.")
+        [:success, :danger, :warning, :info].each do |flash_type|
+            define_method(flash_type) do |message|
+                flash[flash_type] = message
+            end
         end
 
         def language
