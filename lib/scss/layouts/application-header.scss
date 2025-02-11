@@ -82,6 +82,13 @@ header.lesli-application-header {
                     position: absolute;
                 }
             }
+
+            .lesli-header-notifications {
+                .dropdown-content {
+                    box-shadow: none;
+                    background-color: transparent;
+                }
+            }
         }
     }
 }
