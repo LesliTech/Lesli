@@ -65,9 +65,16 @@ module Lesli
         # build the text for the html document title
         # this helper works only for rails pages, for vue apps the title must be handled with JS
         def website_title
-            return @application_html_title if @application_html_title
+            # Use instance variable if set, otherwise construct a dynamic title
+            title = @application_html_title || controller_path.delete_prefix("lesli_")
 
-            [controller_path.sub("_","/").split("/"), action_name].join("/")
+            # Append action name unless it's "index"
+            title += "/#{action_name}" unless action_name == "index"
+
+            # Append company name if present
+            title += " · #{Lesli.config.company.dig(:name)}"
+
+            title
         end
 
         # build description using custom data from controller or engine gem description
