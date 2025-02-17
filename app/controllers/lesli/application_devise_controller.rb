@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    class ApplicationDeviseController < ActionController::Base
+    class ApplicationDeviseController < ApplicationController
         include Lesli::ResponderInterface
         include Lesli::RequesterInterface
         include LesliAudit::LoggerInterface if defined?(LesliAudit)

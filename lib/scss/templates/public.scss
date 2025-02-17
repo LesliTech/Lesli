@@ -33,23 +33,26 @@ Building a better future, one line of code at a time.
 
 // · 
 @import "lesli-css";
+@import "lesli-css/bulma";
 
 
 // · Configuration & variables
 @import "Lesli/scss/settings/variables";
 
 
-// · Include Bulma 
-@import "lesli-css/bulma";
-
+// · LesliView components & elements 
 @import "LesliView/forms/form";
 
 
 // · Font families and icons
-@import "Lesli/scss/fonts/mdicons";
 @import "Lesli/scss/fonts/families";
-@import "Lesli/scss/fonts/remixicons";
+@import "Lesli/scss/fonts/mdicons";
 
+
+// · Lesli application layout 
+
+
+// · Some home made helpers
 @import "Lesli/scss/helpers/display";
 
 

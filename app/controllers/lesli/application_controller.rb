@@ -34,7 +34,7 @@ module Lesli
     class ApplicationController < ActionController::Base
         layout "lesli/layouts/application-public"
 
-        add_flash_types( :info, :danger, :success, :warning)
+        add_flash_types(:info, :danger, :success, :warning)
 
         attr_reader :query
         attr_reader :engine_path

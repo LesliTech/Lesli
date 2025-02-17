@@ -1,30 +1,5 @@
 ---
 :es:
   lesli:
-    shared:
-      view_discussions: Discusiones
-      button_add_new: Agregar nuevo
-      button_reload: Recargar
-      view_files: Archivos
-      view_quick_actions: Acciones rapidas
-      button_list: Lista
-      button_save: Guardar
-      button_delete: Eliminar
-      button_edit: Editar
-      view_status_active: Activo
-      view_status_inactive: Inactivo
-      button_settings: Configuración
-      button_show: Ver
-      toolbar_search: Buscar...
-      message_operation_success: Operacion realizada satisfactoriamente
-      message_operation_error: Operación fallida. Por favor, inténtelo de nuevo.
-    application:
-      navigation_logout: Cerrar sesión
-      navigation_my_profile: Mi perfil
     users/sessions:
-      view_username: Usuario
-    dashboards:
-      title: Dashboards
-      column_name: Nombre
-      column_default: Default
-      view_add_component: Agregar componente
+      message_invalid_credentials: Credenciales no validas
