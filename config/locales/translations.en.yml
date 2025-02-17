@@ -1,30 +1,5 @@
 ---
 :en:
   lesli:
-    shared:
-      view_discussions: Discussions
-      button_add_new: Add new
-      button_reload: Reload
-      view_files: Files
-      view_quick_actions: Quick actions
-      button_list: List
-      button_save: Save
-      button_delete: Delete
-      button_edit: Edit
-      view_status_active: Active
-      view_status_inactive: Inactive
-      button_settings: Settings
-      button_show: Show
-      toolbar_search: Search...
-      message_operation_success: Operation completed successfully
-      message_operation_error: Operation failed. Please try again.
-    application:
-      navigation_logout: Logout
-      navigation_my_profile: My profile
     users/sessions:
-      view_username: Username
-    dashboards:
-      title: Dashboards
-      column_name: Name
-      column_default: Default
-      view_add_component: Add component
+      message_invalid_credentials: Invalid credentials
