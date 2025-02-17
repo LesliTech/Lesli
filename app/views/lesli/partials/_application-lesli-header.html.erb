@@ -82,8 +82,19 @@ Building a better future, one line of code at a time.
                                     </span>
                                 </a>
 
-                                <!-- notifications -->
                                 <% if defined?(LesliBell) %>
+                                    <%= link_to(
+                                        lesli_bell.notifications_path, 
+                                        :class => "header-indicator",
+                                        :data => { turbo_frame: '_top' }) do %>
+                                        <span class="ri-notification-3-line"></span>
+                                        <span class="count" v-if="storeLayout.header.support > 0">
+                                        </span>
+                                    <% end %>
+                                <% end %>
+
+                                <!-- notifications (dropdown) -->
+                                <% if defined?(LesliBell2) %>
                                     <div class="dropdown is-hoverable lesli-header-notifications">
                                         <div class="dropdown-trigger">
                                             <a>
