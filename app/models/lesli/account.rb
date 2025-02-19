@@ -59,6 +59,7 @@ module Lesli
         has_one :admin, class_name: "LesliAdmin::Account"
         has_one :guard, class_name: "LesliGuard::Account"
         has_one :letter, class_name: "LesliLetter::Account"
+        has_one :papers, class_name: "LesliPapers::Account"
         has_one :support, class_name: "LesliSupport::Account"
         has_one :calendar, class_name: "LesliCalendar::Account"
         has_one :dashboard, class_name: "LesliDashboard::Account"

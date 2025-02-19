@@ -80,18 +80,9 @@ module AccountInitializer
     # initialize engines for new accounts
     def initialize_engines
 
-        engines = {
-            LesliAdmin: :admin,
-            LesliCalendar: :calendar,
-            LesliLetter: :letter,
-            LesliDashboard: :dashboard,
-            LesliBell: :bell,
-            LesliAudit: :audit,
-            LesliSupport: :support,
-            LesliGuard: :guard
-        }
+        Lesli::System.engines.each do |engine, data|
 
-        engines.each do |engine, attribute|
+            next if ["Lesli", "LesliBabel", "LesliShield", "Root"].include?(engine)
 
             # Skip if the engine is not defined
             next unless Object.const_defined?(engine)
@@ -99,7 +90,7 @@ module AccountInitializer
             #next if self.public_send(attribute).blank?
 
             # Create an associated account if the attribute is blank
-            engine.to_s.constantize::Account.create!(account: self) 
+            engine.constantize::Account.create!(account: self)
         end
     end      
 end
