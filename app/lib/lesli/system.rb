@@ -115,6 +115,7 @@ module Lesli
             "LesliAudit", 
             "LesliShield", 
             "LesliLetter",
+            "LesliPapers",
             "LesliSupport",
             "LesliSecurity",
             "LesliCalendar",

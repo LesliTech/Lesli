@@ -175,6 +175,12 @@ module Lesli
             navigation_engine_item(title,subtitle,"storage",cloud_storage.root_path,controller_path.include?("cloud_storage"))
         end
 
+        # 03.12 Papers engine
+        def navigation_engine_papers(title: "Papers", subtitle: "Smart Document Management")
+            return unless defined? LesliPapers
+            navigation_engine_item(title,subtitle,"papers",lesli_papers.root_path,controller_path.include?("lesli_papers"))
+        end
+
         # FINANCE
 
         # 04.01 Books engine
