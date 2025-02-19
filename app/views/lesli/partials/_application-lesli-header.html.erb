@@ -88,8 +88,9 @@ Building a better future, one line of code at a time.
                                         :class => "header-indicator",
                                         :data => { turbo_frame: '_top' }) do %>
                                         <span class="ri-notification-3-line"></span>
-                                        <span class="count" v-if="storeLayout.header.support > 0">
-                                        </span>
+                                        <% if @lesli[:notifications] > 0 %>
+                                            <span class="count"></span>
+                                        <% end %>
                                     <% end %>
                                 <% end %>
 

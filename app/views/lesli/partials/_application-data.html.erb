@@ -1,5 +1,4 @@
-<%
-=begin
+<%#
 
 Lesli
 
@@ -29,21 +28,10 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-=end
 %>
 
 <%
 
-# Should I move this to a base controller?
-
-# add company information (account)
-@lesli[:company] = {
-    name: current_user.account.name,
-}
-
-# Include defaults to account
-@lesli[:instance] = Rails.application.credentials.dig(:instance) || lesli_instance_code
-@lesli[:engine] = lesli_engine.dig(:code)   # use into url plugin to for dynamic search 
-@lesli[:url] = request.base_url.to_s        # use as base for url plugin
+@lesli[:notifications] = Lesli::Courier.new(:lesli_bell, 0).from(:notification_service, current_user).call(:count)
 
 %>

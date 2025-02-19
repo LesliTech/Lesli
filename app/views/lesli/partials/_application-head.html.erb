@@ -1,5 +1,4 @@
-<%
-=begin
+<%#
 
 Lesli
 
@@ -29,7 +28,6 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-=end
 %>
 
 <%# the charset attribute specifies the character encoding for the HTML document. %>
@@ -54,3 +52,8 @@ Building a better future, one line of code at a time.
 <% if appstore_app_id %>
     <meta name="apple-itunes-app" content="app-id=<%= appstore_app_id %>">
 <% end %>
+
+
+<%# enable turbo %>
+<meta name="turbo-prefetch" content="false">
+<meta name="view-transition" content="same-origin" />
