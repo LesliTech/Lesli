@@ -29321,7 +29321,7 @@ aside.lesli-application-sidebar {
   flex-direction: column;
   transition: all linear 0.2s;
   width: var(--lesli-sidebar-width);
-  padding: 48px 1rem;
+  padding: 48px 0 0 3rem;
 }
 aside.lesli-application-sidebar nav {
   scrollbar-width: thin;
@@ -29330,103 +29330,26 @@ aside.lesli-application-sidebar nav {
   overflow-y: scroll;
   background-color: white;
   border-radius: 8px;
+  padding: 0.8rem 0 1rem 1rem;
 }
 aside.lesli-application-sidebar nav::-webkit-scrollbar {
   width: 0px;
   background-color: #ffffff;
 }
 aside.lesli-application-sidebar p.menu-label {
-  padding-left: 26px;
-  font-size: 0.85rem;
-  margin: 0.4rem 0;
+  font-family: "Domine";
   color: findColorInvert(white);
 }
 aside.lesli-application-sidebar li a {
   color: findColorInvert(white);
-  text-align: center;
-  padding: 1rem 0;
 }
-aside.lesli-application-sidebar li a:hover, aside.lesli-application-sidebar li a.is-active, aside.lesli-application-sidebar li a.route-is-active {
+aside.lesli-application-sidebar li a:hover, aside.lesli-application-sidebar li a.is-active {
   color: findColorInvert(white);
-  background-color: rgb(232.1333333333, 219.0666666667, 219.0666666667);
 }
-aside.lesli-application-sidebar li a span.icono {
-  font-size: 25px;
-}
-aside.lesli-application-sidebar li a span.text,
-aside.lesli-application-sidebar li a span.chevron {
-  display: none;
-}
-aside.lesli-application-sidebar li.lesli-navigation-list.active {
-  background-color: rgb(232.1333333333, 219.0666666667, 219.0666666667);
-}
-aside.lesli-application-sidebar li.lesli-navigation-list.active ul {
-  height: auto;
-}
-aside.lesli-application-sidebar li.lesli-navigation-list .lesli-navigation-list-label {
-  padding: 1rem;
-  border-radius: 6px;
-  border: 1px solid #d4d4d4;
-  max-width: 75px;
-  margin: 0 auto 1rem;
-}
-aside.lesli-application-sidebar li.lesli-navigation-list ul {
-  height: 0;
-  border-left: none;
-  overflow: hidden;
-  display: block;
-  padding: 0;
-  margin: 0;
-}
-aside.lesli-application-sidebar li.lesli-navigation-list ul > a span {
-  display: none;
+aside.lesli-application-sidebar li a span.text {
+  margin-left: 0.2rem;
 }
 
-@media only screen and (min-width: 769px) {
-  aside.lesli-application-sidebar .brand {
-    padding: 0.2rem;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  aside.lesli-application-sidebar .brand {
-    padding: 1rem 0rem;
-  }
-  aside.lesli-application-sidebar li a {
-    display: flex;
-    padding: 1.1rem 0;
-    padding-left: 1rem;
-    align-items: center;
-  }
-  aside.lesli-application-sidebar li a svg.icono,
-  aside.lesli-application-sidebar li a span.icono {
-    width: 65px;
-  }
-  aside.lesli-application-sidebar li a span.text {
-    display: inline-block;
-  }
-  aside.lesli-application-sidebar li a span.text {
-    font-size: 1rem;
-    display: inline-block;
-    flex-grow: 1;
-    text-align: left;
-  }
-  aside.lesli-application-sidebar li a span.text.iconless {
-    margin-left: 74px;
-  }
-  aside.lesli-application-sidebar li a span.chevron {
-    display: inline-flex;
-    margin-right: 16px;
-  }
-  aside.lesli-application-sidebar li.lesli-navigation-list .lesli-navigation-list-label {
-    padding: 0;
-    border: none;
-    display: flex;
-    padding: 1.6rem 0;
-    max-width: 100%;
-    align-items: center;
-    margin-bottom: 0;
-  }
-}
 /*
 
 Lesli

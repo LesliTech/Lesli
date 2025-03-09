@@ -46,7 +46,7 @@ module Lesli
         # Service constructor
         # current_user is always required to initialize a service object
         # current user is used to get the data only from the account context
-        def initialize current_user, query={}
+        def initialize current_user=nil, query={}
 
             # make the current user globaly available in the service object
             @current_user = current_user
@@ -89,7 +89,7 @@ module Lesli
 
 
         # Standard method to create new resource into the database
-        def create resource
+        def create params
             # Example:
             # user = current_user.account.users.new(params)
 
@@ -99,7 +99,6 @@ module Lesli
             #     self.error(user.errors.full_messages.to_sentence)
             # end
 
-            self.resource = resource if resource
             self
         end
 
