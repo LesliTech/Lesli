@@ -45,31 +45,27 @@ $lesli-sidebar-hover-text: findColorInvert($lesli-sidebar-hover) !default;
 $lesli-sidebar-hover: darken($lesli-color-background, 8);
 
 
+
 // · Navigation sidebar
 aside.lesli-application-sidebar {
     display: flex;
     flex-direction: column;
     transition: all linear .2s;
     width: var(--lesli-sidebar-width);
-    // background-color: var(--lesli-sidebar-color);
-    // background-color: #f9f9f9;
-    // background-color: bisque;
-    padding: 48px 1rem;
+    padding: 48px 0 0 3rem;
 
     // allow the container to scroll over the navigation items
     nav {
-        // hide scrollbar
         @include lesli-css-scrollbar(hide);
         overflow-y: scroll;
         background-color: white;
         border-radius: 8px;
-        //margin: 0 1rem 1rem;
+        padding: .8rem 0 1rem 1rem;
     }
 
+    // sidebar title
     p.menu-label {
-        padding-left: 26px;
-        font-size: .85rem;
-        margin: .4rem 0;
+        font-family: "Domine";
         color: $lesli-sidebar-color-text;
     }
 
@@ -79,140 +75,18 @@ aside.lesli-application-sidebar {
         // link
         a {
             color: $lesli-sidebar-color-text;
-            text-align: center;
-            padding: 1rem 0;
 
             // highlight sidebar navigation item when selected
             // highlight sidebar navigation item on hover
             &:hover,
-            &.is-active,        // rails routes
-            &.route-is-active   // vue routes
+            &.is-active // rails routes
             {
                 color: $lesli-sidebar-hover-text;
-                background-color: $lesli-sidebar-hover;
             }
 
             // icons from reixicons
-            span.icono {
-                font-size: 25px;
-                
-            }
-
-            // link text
-            span.text,
-            span.chevron {
-                display: none;
-            }
-
-        }
-
-        &.lesli-navigation-list {
-
-            &.active {
-                background-color: $lesli-sidebar-hover;
-                ul {
-                    height: auto;
-                }
-            }
-
-            .lesli-navigation-list-label {
-                padding: 1rem;
-                border-radius: 6px;
-                border: 1px solid lesli-css-color(silver, 300);
-                max-width: 75px;
-                margin: 0 auto 1rem;
-            }
-
-            // submenus
-            ul {
-                height: 0;
-                border-left: none;
-                overflow: hidden;
-                display: block;
-                padding: 0;
-                margin: 0;
-                & > a span {
-                    display: none;
-                }
-                
-            }
-        }
-    }
-}
-
-
-// · 
-@include lesli-css-breakpoint-tablet {
-
-    // · Navigation sidebar
-    aside.lesli-application-sidebar {
-
-        // logo
-        .brand {
-            padding: .2rem;
-        }
-    }
-}
-
-
-// · 
-@include lesli-css-breakpoint-desktop {
-    aside.lesli-application-sidebar {
-
-        // logo container
-        .brand {
-            padding: 1rem 0rem;
-        }
-
-        // link container
-        li {
-
-            // link
-            a {
-                display: flex;
-                padding: 1.1rem 0;
-                padding-left: 1rem;
-                align-items: center;
-
-                // main icon
-                svg.icono,
-                span.icono {
-                    width: 65px;
-                }
-
-                // link label
-                span.text {
-                    display: inline-block;
-                }
-    
-                span.text {
-                    font-size: 1rem;
-                    display: inline-block;
-                    flex-grow: 1;
-                    text-align: left;
-                    &.iconless {
-                        margin-left: 74px;
-                    }
-                }
-    
-                span.chevron {
-                    display: inline-flex;
-                    margin-right: 16px;
-                    
-                }
-
-            }
-
-            &.lesli-navigation-list {
-                .lesli-navigation-list-label {
-                    padding: 0;
-                    border: none;
-                    display: flex;
-                    padding: 1.6rem 0;
-                    max-width: 100%;
-                    align-items: center;
-                    margin-bottom: 0;
-                }
+            span.text {
+                margin-left: .2rem;
             }
         }
     }

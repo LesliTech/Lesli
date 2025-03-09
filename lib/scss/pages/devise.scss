@@ -81,7 +81,13 @@ Building a better future, one line of code at a time.
         }
     }
 
+    .is-title {
+        line-height: 1.2;
+        max-width: 400px;
+    }
+
     form {
+        max-width: 310px;
 
         label {
             font-weight: 400;
@@ -129,11 +135,8 @@ Building a better future, one line of code at a time.
     }
 
     .terms {
-        font-family: "Domine";
-        font-weight: 400;
-        font-size: 12px;
+        font-size: 13px;
         line-height: 19px;
-        letter-spacing: -44%;
     }
 }
 
