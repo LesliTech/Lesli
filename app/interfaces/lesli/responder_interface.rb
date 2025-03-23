@@ -85,7 +85,7 @@ module Lesli
             error_object[:message] = I18n.t("core.shared.view_text_unauthorized_request")
             error_object[:detail] = detail if Rails.env == "development"
 
-            error_object[:role] = "( #{current_user.roles.map(&:name).join(', ')} )" if (Rails.env == "development") && !current_user.blank?
+            error_object[:role] = "( #{current_user.lesliroles.map(&:name).join(', ')} )" if (Rails.env == "development") && !current_user.blank?
 
             respond_to do |format|
                 format.json { render status: 401, json: error_object.to_json }

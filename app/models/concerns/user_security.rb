@@ -40,12 +40,12 @@ module UserSecurity
     def max_object_level_permission
 
         # get the max object level permission from roles assigned to the user
-        level = self.roles.maximum(:object_level_permission)
+        level = self.lesliroles.maximum(:permission_level)
 
         # if user has no roles assigned, we return the lowest role available 
         # NOTE: This should not be possible due the user needs a role to login
         unless level 
-            return (self.account.roles.minimum(:object_level_permission))
+            return (self.account.roles.minimum(:permission_level))
         end
 
         # return the level found
