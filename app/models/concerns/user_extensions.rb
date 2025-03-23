@@ -131,7 +131,7 @@ module UserExtensions
 
 
     def role_names 
-        user_roles = self.roles.map(&:name).join(",")
+        user_roles = self.lesliroles.map(&:name).join(", ")
     end
 
 

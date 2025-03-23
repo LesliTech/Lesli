@@ -93,7 +93,7 @@ module Lesli
             sql_string_for_user_roles = "left join (
                 select
                     ur.user_id, string_agg(r.\"name\", ', ') rolenames
-                from lesli_user_powers ur
+                from lesli_user_roles ur
                 join lesli_roles r
                     on r.id = ur.role_id
                 where ur.deleted_at is null
@@ -127,49 +127,7 @@ module Lesli
 
         # Creates a query that selects all user information from several tables if CloudLock is present
         def show
-
-            user = resource
-
-            return user
-
-            user_roles = user.roles.map { |r| { id: r[:id], name: r[:name], permission_level: r[:object_level_permission]} }
-
-            return {
-                id: user[:id],
-                email: user[:email],
-                alias: user[:alias],
-                active: user[:active],
-                full_name: user.full_name,
-                salutation: user[:salutation],
-                first_name: user[:first_name],
-                last_name: user[:last_name],
-                telephone: user[:telephone],
-                locale: user.locale, #settings.select(:value).find_by(:name => "locale"),
-                roles: user_roles,
-                role_names: user_roles.map { |role| role[:name]}.join(","),
-
-                initials: "LD",
-
-                # initials() {
-                #     let initials = ""
-                #     if (this.user?.first_name) initials += this.user?.first_name[0];
-                #     if (this.user?.last_name) initials += this.user?.last_name[0];
-                #     return initials.toUpperCase()
-                # }
-
-                #mfa_enabled: user.mfa_settings[:enabled],
-                #mfa_method:  user.mfa_settings[:method],
-
-                created_at: user[:created_at],
-                updated_at: user[:updated_at],
-                detail_attributes: {
-                    title: "Software Developer" #user.detail[:title] || "",
-                    # address: user.detail[:address],
-                #     work_city: user.detail[:work_city],
-                #     work_region: user.detail[:work_region],
-                #     work_address: user.detail[:work_address]
-                }
-            }
+            resource
         end
 
         def update params
