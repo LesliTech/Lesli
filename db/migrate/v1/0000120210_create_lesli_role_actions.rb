@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2025, Lesli Technologies, S. A.
+Copyright (c) 2023, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by LesliTech
+Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -30,15 +30,16 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class CreateLesliUserJournals < ActiveRecord::Migration[6.0]
+class CreateLesliRoleActions < ActiveRecord::Migration[7.0]
     def change
-        create_table :lesli_user_journals do |t|
-            t.string :title
-            t.string :description
+        create_table :lesli_role_actions do |t|
+            t.datetime :deleted_at, index: true
             t.timestamps
         end
 
-        add_reference(:lesli_user_journals, :user, foreign_key: { to_table: :lesli_users })
-        add_reference(:lesli_user_journals, :session, foreign_key: { to_table: :lesli_user_sessions })
+        add_reference(:lesli_role_actions, :role, foreign_key: { to_table: :lesli_roles })
+        add_reference(:lesli_role_actions, :action,
+                      foreign_key: { to_table: :lesli_system_controller_actions }, 
+                      index: { name: "descriptor_privileges_system_controller_actions" })
     end
 end

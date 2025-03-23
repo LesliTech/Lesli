@@ -76,7 +76,7 @@ module UserSecurity
             return !self.privileges
             .where("lesli_role_privileges.controller = ?", controller)
             .where("lesli_role_privileges.action = ?", action)
-            .first.blank?            
+            .first.blank?
         rescue => exception
             return false
         end
@@ -182,7 +182,7 @@ module UserSecurity
         # Example: we should use the path of the admin role if user has
         # admin & employee roles, also order by default_path, so we get first 
         # the roles with path in case the user has roles with the same object level permission
-        role = self.roles.order(object_level_permission: :desc).order(:path_default)
+        role = self.lesliroles.order(object_level_permission: :desc).order(:path_default)
 
         # get the first role found, due previously we sort in a descendant order
         # the first role is going to be the one with highest object level permission

@@ -38,7 +38,7 @@ class CreateLesliRoles < ActiveRecord::Migration[7.0]
             t.string    :code
             t.string    :description
 
-            # disable role
+            # disable/enalbe role
             t.boolean   :active
 
             # redirect users to path after login
@@ -53,8 +53,10 @@ class CreateLesliRoles < ActiveRecord::Migration[7.0]
             # role hierarchy
             t.integer   :permission_level, default: 10
 
-            # soft-delete & timestamps
+            # soft-delete 
             t.datetime  :deleted_at, index: true
+
+            # timestamps
             t.timestamps
         end
 

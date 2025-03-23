@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -49,7 +49,6 @@ module Lesli
         has_many :settings
         has_many :locations
         has_many :currencies
-        has_many :descriptors
 
 
         # third-party engines associations
