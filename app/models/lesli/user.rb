@@ -68,19 +68,19 @@ module Lesli
         has_many :tokens
         has_many :settings
         has_many :sessions
-        has_many :journals
-        has_many :shortcuts
+        has_many :journals, class_name: "LesliShield::UserJournal"
+        has_many :shortcuts, class_name: "LesliShield::UserShortcuts"
 
 
         # users can have many roles and too many privileges through the roles
-        # every role adds a power to the user, power is just a role id
-        has_many :powers
-        has_many :roles, through: :powers, source: :role, class_name: "Lesli::Role"
-        has_many :privileges, through: :roles, class_name: "Lesli::Role::Privilege"
+        # lesliroles is a shortcut to Lesli::Roles
+        has_many :roles 
+        has_many :lesliroles, through: :roles, source: :role, class_name: "Lesli::Role"
+        has_many :privileges, through: :lesliroles, class_name: "Lesli::Role::Privilege"
 
 
         # callbacks
-        #before_create :before_create_user
+        before_create :before_create_user
         after_create :after_confirmation_user
         after_create :after_account_assignation
         #after_update :update_associated_services
@@ -96,7 +96,7 @@ module Lesli
         # @return [void]
         # @description Before creating a user we make sure there is no capitalized email
         def before_create_user
-            self.email = (self.email||"").downcase
+            self.email = self.email.downcase
         end
 
 
@@ -108,8 +108,8 @@ module Lesli
             self.set_alias
 
             # Minimum security settings required
-            self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
-            self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
+            #self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
+            #self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
         end
 
         def after_account_assignation

@@ -31,15 +31,17 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli 
-    class Role::Power < ApplicationLesliRecord
+    class Role::Action < ApplicationLesliRecord
         belongs_to :role
-        belongs_to :descriptor
 
         after_commit :synchronize_privileges
-        #after_destroy :synchronize_privileges
+        after_destroy :synchronize_privileges
+
+        belongs_to :action, class_name: "SystemController::Action"
+        belongs_to :system_controller_action, class_name: "SystemController::Action", foreign_key: "action_id"
 
         def synchronize_privileges
-            RoleDescriptorOperator.new(self.role.id).synchronize
+            Lesli::RoleOperator.new(self).synchronize
         end
 
         def self.index current_user, query, role

@@ -38,14 +38,14 @@ module Lesli
         include Lesli::CustomizationInterface
         include LesliAudit::LoggerInterface if defined?(LesliAudit)
         include LesliShield::AuthenticationInterface if defined?(LesliShield)
-        include LesliSecurity::AuthorizationInterface if defined?(LesliSecurity)
+        include LesliShield::AuthorizationInterface if defined?(LesliShield)
 
         protect_from_forgery with: :exception
 
         before_action :set_path
         before_action :set_locale
         before_action :authenticate_request if defined?(LesliShield)
-        before_action :authorize_request if defined?(LesliSecurity)
+        before_action :authorize_request if defined?(LesliShield)
         before_action :set_customizer
         before_action :set_requester
         after_action  :log_requests if defined?(LesliAudit)

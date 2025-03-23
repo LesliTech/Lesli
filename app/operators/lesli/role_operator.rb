@@ -31,12 +31,45 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    class RoleDescriptorOperator < Lesli::ApplicationLesliService
+    class RoleOperator < Lesli::ApplicationLesliService
 
-        @roles;
+        @role = nil
 
-        def initialize *roles
-            @roles = roles
+        def initialize role
+            @role = role
+        end
+
+        def add_profile_privileges
+
+            # Adding default system actions for profile descriptor
+            [
+                { controller: "lesli_admin/profiles", actions: ["show"] },      # enable profile view
+                { controller: "lesli/users", actions: ["options", "update"] },  # enable user edition
+                { controller: "lesli/abouts", actions: ["show"] },              # system status
+                { controller: "lesli/user/sessions", actions: ["index"] }       # session management
+            ].each do |controller_action|
+
+                controller_action[:actions].each do |action_name|
+
+                    system_controller_action = SystemController::Action.joins(:system_controller)
+                    .where("lesli_system_controllers.route = ?", controller_action[:controller])
+                    .where("lesli_system_controller_actions.name = ?", action_name)
+
+                    @role.actions.find_or_create_by(
+                        action: system_controller_action.first
+                    )
+                end
+            end
+        end
+
+        def add_owner_actions
+
+            # Adding default system actions for profile descriptor
+            actions = SystemController::Action.all 
+
+            actions.each do |action|
+                @role.actions.find_or_create_by(action: action)
+            end
         end
 
         # Syncronize the descriptor privileges with the role privilege cache table 
@@ -54,50 +87,39 @@ module Lesli
             #   - the power has active that group of actions, this means that, if the power has
             #     not marked as active the pshow, pindex, etc column the power is not active
             #     even if it is assigned and active to a descriptor
-            records = Descriptor.joins(%(
-                INNER JOIN lesli_descriptor_privileges
-                ON lesli_descriptor_privileges.descriptor_id = lesli_descriptors.id
+            records = Lesli::Role.joins(%(
+                INNER JOIN "lesli_role_actions" 
+                ON "lesli_role_actions"."role_id" = "lesli_roles"."id"
             )).joins(%(
                 INNER JOIN lesli_system_controller_actions 
-                ON lesli_system_controller_actions.id = lesli_descriptor_privileges.action_id
+                ON lesli_system_controller_actions.id = lesli_role_actions.action_id
             )).joins(%(
                 INNER JOIN lesli_system_controllers 
                 ON lesli_system_controllers.id = lesli_system_controller_actions.system_controller_id
-            )).joins(%(
-                INNER JOIN lesli_role_powers 
-                ON lesli_role_powers.descriptor_id = lesli_descriptors.id
             )).select(%(
+                lesli_role_actions.role_id as role_id,
                 lesli_system_controllers.route as controller, 
                 lesli_system_controller_actions.name as action,
-                case 
-                when lesli_role_powers.deleted_at is not null then false
-                when NULLIF(lesli_system_controller_actions.name = 'list' and lesli_role_powers.plist = true, false) then true
-                when NULLIF(lesli_system_controller_actions.name = 'index' and lesli_role_powers.pindex = true, false) then true
-                when NULLIF(lesli_system_controller_actions.name = 'show' and lesli_role_powers.pshow = true, false) then true
-                when NULLIF(lesli_system_controller_actions.name = 'new' and lesli_role_powers.pcreate = true, false) then true
-                when NULLIF(lesli_system_controller_actions.name = 'create' and lesli_role_powers.pcreate = true, false) then true
-                when NULLIF(lesli_system_controller_actions.name = 'edit' and lesli_role_powers.pupdate = true, false) then true
-                when NULLIF(lesli_system_controller_actions.name = 'update' and lesli_role_powers.pupdate = true, false) then true
-                when NULLIF(lesli_system_controller_actions.name = 'destroy' and lesli_role_powers.pdestroy = true, false) then true
-                else false 
-                end as active,
-                lesli_role_powers.role_id as role_id
+                true as active
             )).with_deleted
 
 
             # get privileges only for the given role, this is needed to sync only modified roles
-            records = records.where("lesli_role_powers.role_id" => @roles)
+            records = records.where("lesli_role_actions.role_id" => @role)
+
 
             # we use the deleted_at column to know if a privilege is enable or disable, NULL values
             # at the deleted_at column means privilege is active, so if we sort by deleted_at column
             # all the active privileges will be at the top, then the uniq method is going to take
             # always the active values, to completely disable a privilege for a specific controller/action
-            # we have to disable in all the descriptors
-            records = records.order("lesli_role_powers.deleted_at DESC")
-            
+            # we have to disable in all the roles
+            records = records.order("lesli_role_actions.deleted_at DESC")
+
+
             # convert the results to json so it is easy to insert/update
             records = records.as_json(only: [:controller, :action, :role_id, :active])
 
+            
             # IMPORTANT: We must save only uniq privileges in the role_privilege table
             # this means that it does not matters how many times we defined a privilege dependency
             # we insert the privilege only once.
@@ -111,6 +133,7 @@ module Lesli
                 # of that privilege, that is a normal and desire behavior.
                 [privilege["controller"], privilege["action"], privilege["role_id"]]
             end
+
 
             # small check to ensure I have records to update/insert
             return if records.blank?

@@ -36,11 +36,6 @@ module AccountInitializer
     # initialize minimum resources needed for the account
     def initialize_account
 
-        # create initial descriptors
-        descriptor_owner = self.descriptors.find_or_create_by(name: "owner")
-        descriptor_admin = self.descriptors.find_or_create_by(name: "admin")
-        descriptor_profile = self.descriptors.find_or_create_by(name: "profile")
-
 
         # create default roles for the new account
         owner = self.roles
@@ -60,20 +55,10 @@ module AccountInitializer
         .find_or_create_by(name: "limited")
 
 
-        # assign descriptors with appropriate privileges
-        owner.powers.create_with({
-            plist: true, pindex: true, pshow: true, pcreate: true, pupdate: true, pdestroy: true
-        }).find_or_create_by(:descriptor => descriptor_owner)
-
-
-        admin.powers.create_with({
-            plist: true, pindex: true, pshow: true, pcreate: true, pupdate: true, pdestroy: true
-        }).find_or_create_by(:descriptor => descriptor_admin)
-
-
-        limited.powers.create_with({
-            plist: true, pindex: true, pshow: true, pcreate: true, pupdate: true, pdestroy: true
-        }).find_or_create_by(:descriptor => descriptor_profile)
+        # Add base privileges to roles
+        Lesli::RoleOperator.new(owner).add_owner_actions
+        Lesli::RoleOperator.new(admin).add_owner_actions
+        Lesli::RoleOperator.new(limited).add_profile_privileges
     end
 
 

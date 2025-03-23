@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2025, Lesli Technologies, S. A.
+Copyright (c) 2023, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by LesliTech
+Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -30,18 +30,10 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class CreateLesliUserTokens < ActiveRecord::Migration[7.0]
-    def change
-        create_table :lesli_user_tokens do |t|
-            t.string :name
-            t.string :token
-            t.string :source # OTP, Pass, Integration
-            t.datetime :expiration_at
-            t.datetime :deleted_at,     index: true
-            t.timestamps
-        end
-        add_reference(:lesli_user_tokens, :user, foreign_key: { to_table: :lesli_users })
-        add_index(:lesli_user_tokens, :token, unique: true)
-        add_index(:lesli_user_tokens, :expiration_at)
+module Lesli
+    class User::Role < ApplicationLesliRecord
+        belongs_to :user
+        belongs_to :role, class_name: "Lesli::Role"
+        has_many :roles
     end
 end
