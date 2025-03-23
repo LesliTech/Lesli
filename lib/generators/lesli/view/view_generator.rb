@@ -4,7 +4,7 @@
 require "#{Lesli::Engine.root}/lib/generators/application_lesli_generator_base.rb"
 
 module Lesli
-    class SpecGenerator < ApplicationLesliGeneratorBase
+    class ViewGenerator < ApplicationLesliGeneratorBase
         source_root File.expand_path("templates", __dir__)
 
         def generator
