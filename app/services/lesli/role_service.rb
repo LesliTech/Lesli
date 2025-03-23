@@ -39,6 +39,15 @@ module Lesli
             self
         end 
 
+        # Return a list of roles that the user is able to work with
+        # according to object level permission
+        def list(params)
+            current_user.account.roles
+            .where("permission_level <= ?", current_user.max_object_level_permission)
+            .order(permission_level: :desc, name: :asc)
+            .select(:id, :name, :permission_level)
+        end
+
 
         # @return [Array] Paginated index of users.
         # @description Return a paginated array of users, used mostly in frontend views

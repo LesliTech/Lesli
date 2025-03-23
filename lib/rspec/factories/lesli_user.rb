@@ -57,7 +57,7 @@ FactoryBot.define do
 
         after(:create) do |user, evaluator|
             user.confirm { true }
-            user.powers.create(role: Lesli::Role.find_by(:name => evaluator.role_name))
+            user.roles.create(role: Lesli::Role.find_by(:name => evaluator.role_name))
         end
         
     end

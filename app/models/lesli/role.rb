@@ -47,15 +47,6 @@ module Lesli
         # initializers for new roles
         after_create :after_create_role
 
-        # Return a list of roles that the user is able to work with
-        # according to object level permission
-        def self.list(current_user, query, params)
-            current_user.account.roles
-            .where("object_level_permission <= ?", current_user.max_object_level_permission)
-            .order(object_level_permission: :desc, name: :asc)
-            .select(:id, :name, :object_level_permission)
-        end
-
         # @return [Boolean]
         # @description Returns if a role is assigned to users.
         def has_users?
