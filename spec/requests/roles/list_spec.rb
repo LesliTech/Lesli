@@ -57,8 +57,8 @@ RSpec.describe "GET:#{LESLI_ENGINE_MOUNTED_PATH}/roles/list.json", type: :reques
         expect(response_body.first).to have_key("name")
         expect(response_body.first["name"]).to be_a(String)
 
-        expect(response_body.first).to have_key("object_level_permission")
-        expect(response_body.first["object_level_permission"]).to be_a(Numeric)
-        expect(response_body.first["object_level_permission"]).to be >= 1
+        expect(response_body.first).to have_key("permission_level")
+        expect(response_body.first["permission_level"]).to be_a(Numeric)
+        expect(response_body.first["permission_level"]).to be >= 1
     end
 end

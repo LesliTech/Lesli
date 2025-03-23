@@ -98,7 +98,7 @@ module Lesli
             # else
             #     self.error(user.errors.full_messages.to_sentence)
             # end
-
+            self.resource = params
             self
         end
 

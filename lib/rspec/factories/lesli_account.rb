@@ -32,8 +32,10 @@ Building a better future, one line of code at a time.
 
 FactoryBot.define do
     factory :lesli_account, class: Lesli::Account do
-        #status { Account.statuses.keys.first }
+
         name { Faker::Company.name }
+        email { Faker::Internet.email }
+        status { Lesli::Account.statuses[:active] }
 
         after(:create) do |account, evaluator|
             account.user = FactoryBot.create(:lesli_user, account_id: account.id)
