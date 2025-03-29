@@ -88,7 +88,7 @@ module Lesli
         def dd object
             content_tag(:pre) do 
                 content_tag(:code) do
-                    JSON.pretty_generate(object.as_json)
+                    h JSON.pretty_generate(object.as_json)
                 end 
             end 
         end

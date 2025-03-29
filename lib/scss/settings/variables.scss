@@ -33,6 +33,7 @@ Building a better future, one line of code at a time.
 // · Layout
 $lesli-font-size: 16px !default;
 $lesli-header-height: 70px !default;
+$lesli-navbar-height: 66px !default;
 $lesli-footer-height: 84px !default;
 $lesli-sidebar-width: 50px !default;
 
@@ -84,7 +85,8 @@ $family-primary: "OpenSans", "Ubuntu", "Helvetica Neue", "Helvetica", "Arial", s
     --lesli-header-color: var(--lesli-theme-header-color, #{$lesli-header-color});
     --lesli-header-height: var(--lesli-theme-header-height, #{$lesli-header-height});
 
-    --lesli-navbar-color: var(--lesli-theme-header-color, #{$lesli-navbar-color});
+    --lesli-navbar-color: var(--lesli-theme-navbar-color, #{$lesli-navbar-color});
+    --lesli-navbar-height: var(--lesli-theme-navbar-height, #{$lesli-navbar-height});
     
     --lesli-footer-color: var(--lesli-theme-footer-color, #{$lesli-footer-color});
     --lesli-footer-height: var(--lesli-theme-footer-height, #{$lesli-footer-height});

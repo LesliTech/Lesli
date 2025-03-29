@@ -36,11 +36,11 @@ welcome_options = ["Good morning", "Good afternoon", "Good evening"]
 welcome_text = ""
 
 if hour < 12
-  welcome_text = welcome_options.first
+    welcome_text = welcome_options.first
 elsif hour < 18
-  welcome_text = welcome_options.second
+    welcome_text = welcome_options.second
 else
-  welcome_text = welcome_options.third
+    welcome_text = welcome_options.third
 end
 %>
 
@@ -54,42 +54,4 @@ end
     </section>
 
     <%= render(LesliView::Elements::Empty.new(text:"Empty dashboard")) %>
-
-
-
-<% data = [5,15,25,20,35,10,40,30,20,10,10,20,30,15,25,20,35,10,40,30,20,10,10,20,30,15,25,20,35,10,40,30,20,10,10,20,30,15,25,20,35,10,40,30,20,10,10,20,30] %> <!-- Dynamic data set -->
-<% max_y = data.max.to_f %> <!-- Find max Y value for scaling -->
-<% chart_width = 100 %>
-<% chart_height = 50 %>
-<% padding = 10 %> <!-- Padding for axes -->
-<% num_points = data.size %>
-<% x_step = (chart_width - (2 * padding)) / (num_points - 1).to_f %>
-
-<svg viewBox="0 0 <%= chart_width %> <%= chart_height %>" preserveAspectRatio="none" 
-     xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto;">
-  
-  <!-- Axes -->
-  <line x1="<%= padding %>" y1="<%= chart_height - padding %>" x2="<%= chart_width - padding %>" 
-        y2="<%= chart_height - padding %>" stroke="black" stroke-width="0.5"/>
-  <line x1="<%= padding %>" y1="<%= chart_height - padding %>" x2="<%= padding %>" 
-        y2="<%= padding %>" stroke="black" stroke-width="0.5"/>
-
-  <!-- Data points and lines -->
-  <% data.each_with_index do |y, i| %>
-    <% x = padding + (i * x_step) %>
-    <% y_pos = (chart_height - padding) - ((y / max_y) * (chart_height - (2 * padding))) %>
-
-    <% if i > 0 %>
-      <% prev_x = padding + ((i - 1) * x_step) %>
-      <% prev_y_pos = (chart_height - padding) - ((data[i - 1] / max_y) * (chart_height - (2 * padding))) %>
-      <line x1="<%= prev_x %>" y1="<%= prev_y_pos %>" x2="<%= x %>" y2="<%= y_pos %>" 
-            stroke="blue" stroke-width="0.5"/>
-    <% end %>
-
-    <circle cx="<%= x %>" cy="<%= y_pos %>" r="1" fill="blue"/>
-  <% end %>
-</svg>
-
-
-
 <% end %>

@@ -11,19 +11,6 @@
     00.00.00.02. lesli_roles
     00.00.00.03. lesli_users
 
-    00.00.11.01. lesli_system_controllers 
-    00.00.11.02. lesli_system_controller_actions
-```
-
-
-
-
-```plaintext
-
-    00.00.00.01. lesli_accounts 
-    00.00.00.02. lesli_roles
-    00.00.00.03. lesli_users
-
     00.00.10.01. lesli_system_controllers 
     00.00.10.02. lesli_system_controller_actions
 

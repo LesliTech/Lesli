@@ -1,9 +1,8 @@
-<%
-=begin
+<%#
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -29,7 +28,6 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-=end
 %>
 
 <%# check if custom navigation partial exists, getting the path from application helper %>
@@ -67,21 +65,26 @@ Building a better future, one line of code at a time.
                             <div class="control">
 
                                 <!-- tickets -->
-                                <a v-if="props.showSupport" class="header-indicator"
-                                    @click="() => { storeLayout.showSupport = true }">
-                                    <span class="count" v-if="storeLayout.header.support > 0"></span>
-                                    <span class="ri-ticket-2-line"></span>
-                                </a>
+                                <% if defined?(LesliSupport) %>
+                                    <a v-if="props.showSupport" class="header-indicator"
+                                        @click="() => { storeLayout.showSupport = true }">
+                                        <span class="count" v-if="storeLayout.header.support > 0"></span>
+                                        <span class="ri-ticket-2-line"></span>
+                                    </a>
+                                <% end %>
 
                                 <!-- tasks -->
-                                <a v-if="props.showFocus" class="header-indicator"
-                                    @click="() => { storeLayout.showSuppor = true }">
-                                    <span class="ri-list-check-3">
-                                    </span>
-                                    <span class="count" v-if="storeLayout.header.support > 0">
-                                    </span>
-                                </a>
+                                <% if defined?(LesliFocus) %>
+                                    <a v-if="props.showFocus" class="header-indicator"
+                                        @click="() => { storeLayout.showSuppor = true }">
+                                        <span class="ri-list-check-3">
+                                        </span>
+                                        <span class="count" v-if="storeLayout.header.support > 0">
+                                        </span>
+                                    </a>
+                                <% end %>
 
+                                <!-- notifications -->
                                 <% if defined?(LesliBell) %>
                                     <%= link_to(
                                         lesli_bell.notifications_path, 

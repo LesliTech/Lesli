@@ -30,11 +30,11 @@ const palettes = [
 <div class="columns lesli-css-color-logos">
     <div class="br-2 pl-6 pb-5  has-background-grey-lighter">
         <h4>Standard</h4>
-        <img width="180" class="m-auto" alt="Lesli Framework logo blue" src="/images/brand/lesli-icon.svg" />
+        <img width="180" class="m-auto display-block" alt="Lesli Framework logo blue" src="/images/brand/lesli-icon.svg" />
     </div>
     <div class="br-2 pl-6 pb-5  has-background-grey-darker">
         <h4 class="has-text-white">Negative</h4>
-        <img width="180" class="m-auto" alt="Lesli Framework logo white" src="/images/brand/lesli-icon-white.svg" />
+        <img width="180" class="m-auto display-block" alt="Lesli Framework logo white" src="/images/brand/lesli-icon-white.svg" />
     </div>
 </div>
 

@@ -2,26 +2,6 @@
 
 The database structure of Lesli and all the engines must be documented and maintained within the respective engine in the following path: *engine\_root/docs/database.md*. If you make any changes that add, remove or renumber any table, you **must** document it within this file, or your pull request will be rejected. 
 
-This documentation file must include a ER diagram with a detailed description of the engine database tables and columns, we recommend to use (mermaid)[https://mermaid.js.org/] to work with this kind of diagrams.
-
-**Example:**
-
-```mermaid
-erDiagram
-    accounts {
-        integer status
-    }
-
-    users {
-        boolean   active
-        string    email
-        string    name
-    }
-
-    users }|--|| accounts : ""
-```
-
-
 
 ## Namespace and Table Number Standard and Required Tables 
 To calculate engines and tables numerations, you should meet the following requirements:
@@ -42,6 +22,7 @@ The codes **CC.EE.06.TT** to **CC.EE.09.TT** are reserved for future usage.
 
 After this you can create any number of tables depending on the amount of resources you will have in your engine. Starting with the namespace **CC.EE.10**, these tables have the following format:
 
+```
 - **CC.EE.10.00** Main table
 - **CC.EE.10.01** Main table actions
 - **CC.EE.10.02** Main table activities
@@ -51,6 +32,7 @@ After this you can create any number of tables depending on the amount of resour
 - **CC.EE.10.06** Main table custom\_field\_values
 - **CC.EE.10.07** to **10.09** are reserved
 - **CC.EE.10.10** and higher are for your custom tables
+```
 
 
 ## Example of database.md file
