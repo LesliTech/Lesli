@@ -4,7 +4,9 @@
 # 	./lib/scss/templates/dashboard.scss ./app/assets/stylesheets/lesli/templates/dashboard.css \
 # 	./lib/scss/templates/home.scss ./app/assets/stylesheets/lesli/templates/home.css
 
-SASS_FILES = lib/scss/templates/application.scss ./app/assets/stylesheets/lesli/templates/application.css
+SASS_FILES = \
+	./lib/scss/templates/application.scss:./app/assets/stylesheets/lesli/templates/application.css \
+	./lib/scss/templates/public.scss:./app/assets/stylesheets/lesli/templates/public.css
 
 # Define common SASS options
 SASS_OPTS = --load-path=node_modules --load-path=../
