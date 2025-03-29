@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,11 +19,11 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.dev
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
@@ -33,41 +33,41 @@ Building a better future, one line of code at a time.
 
 // · 
 @import "lesli-css";
-@import "lesli-css/bulma";
+@import "lesli-css/source/vendor/bulma";
 
 
 // · Configuration & variables
-@import "Lesli/scss/settings/variables";
+@import "../settings/variables";
 
 
 // · LesliView components & elements 
-@import "LesliView/components/toolbar";
-@import "LesliView/components/header";
-@import "LesliView/elements/avatar";
-@import "LesliView/elements/table";
-@import "LesliView/forms/form";
+@import "LesliView/lib/lesli_view/components/toolbar";
+@import "LesliView/lib/lesli_view/components/header";
+@import "LesliView/lib/lesli_view/elements/avatar";
+@import "LesliView/lib/lesli_view/elements/table";
+@import "LesliView/lib/lesli_view/forms/form";
 
 
 // · Font families and icons
-@import "Lesli/scss/fonts/remixicons";
-@import "Lesli/scss/fonts/families";
-@import "Lesli/scss/fonts/mdicons";
+@import "../fonts/remixicons";
+@import "../fonts/families";
+@import "../fonts/mdicons";
 
 
 // · Lesli application layout 
-@import "Lesli/scss/layouts/application-notification";
-@import "Lesli/scss/layouts/application-navigation";
-@import "Lesli/scss/layouts/application-component";
-@import "Lesli/scss/layouts/application-container";
-@import "Lesli/scss/layouts/application-engines";
-@import "Lesli/scss/layouts/application-sidebar";
-@import "Lesli/scss/layouts/application-header";
-@import "Lesli/scss/layouts/application-app";
+@import "../layouts/application-notification";
+@import "../layouts/application-navigation";
+@import "../layouts/application-component";
+@import "../layouts/application-container";
+@import "../layouts/application-engines";
+@import "../layouts/application-sidebar";
+@import "../layouts/application-header";
+@import "../layouts/application-app";
 
 
 // · Some home made helpers
-@import "Lesli/scss/helpers/display";
-@import "Lesli/scss/helpers/tooltip";
+@import "../helpers/display";
+@import "../helpers/tooltip";
 
 
 // · 
@@ -87,17 +87,6 @@ body {
 // · titles
 h1, h2, h3, h4, h5, h6 {
     font-family: "Domine", $family-primary;
-}
-
-
-// · Vue Animation component
-.v-enter-active, .v-leave-active { transition: opacity 0.5s ease; }
-.v-enter-from, .v-leave-to { opacity: 0; }
-
-
-// · Hide vue until vue finishes compilation
-[v-cloak] {
-    display: none !important;
 }
 
 .is-hidden {

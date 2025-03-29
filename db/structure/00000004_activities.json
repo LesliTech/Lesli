@@ -1,8 +1,5 @@
 [{
-    "name": "description",
-    "type": "string"
-}, {
-    "name": "field_name",
+    "name": "column_name",
     "type": "string"
 }, {
     "name": "value_from",
@@ -11,6 +8,9 @@
     "name": "value_to",
     "type": "string"
 }, {
-    "name": "category",
+    "name": "action",
+    "type": "string"
+}, {
+    "name": "description",
     "type": "string"
 }]

@@ -32,7 +32,7 @@
 
 Lesli is a SaaS development framework designed to build highly scalable, secure and customizable software products.
 
-Built-on top of Ruby on Rails, Postgres, Vuejs, Bulma, SASS and many more awesome open-source libraries, packages, gems and tools.
+Built-on top of Ruby on Rails, Postgres, Hotwire, Bulma, SASS and many more awesome open-source libraries, packages, gems and tools.
 
 Lesli is completely open source and comes with features and tools that can save you years of development effort, additionally, our pre-built modules can seamlessly extend Lesli's functionality, allowing you to build your own SaaS in a matter of minutes.
 

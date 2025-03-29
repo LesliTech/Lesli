@@ -32,4 +32,5 @@ Building a better future, one line of code at a time.
 // · 
 main.lesli-application-app {
     display: flex;
+    //height: calc(100vh - var(--lesli-header-height) - var(--lesli-navbar-height));
 }

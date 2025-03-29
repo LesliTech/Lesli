@@ -22,6 +22,9 @@
     "scripts": {
         "webpack": "webpack --progress --env mode=development",
         "webpack:watch": "webpack --progress --env watch=true",
-        "webpack:production": "webpack --progress --env mode=production"
+        "webpack:production": "webpack --progress --env mode=production",
+        "sass": "sass ./lib/scss/templates:./app/assets/stylesheets/lesli/templates/ --load-path=node_modules --load-path=../",
+        "sass:watch": "sass ./lib/scss/templates/application.scss ./app/assets/stylesheets/lesli/templates/application.css --watch --load-path=node_modules --load-path=../",
+        "sass:production": "sass ./lib/scss/templates/application.scss styles.css --style=compressed --load-path=node_modules --load-path=../"
     }
 }
