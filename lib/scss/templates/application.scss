@@ -34,6 +34,8 @@ Building a better future, one line of code at a time.
 // · 
 @import "lesli-css";
 @import "lesli-css/source/vendor/bulma";
+//@import "charts.css";
+
 
 
 // · Configuration & variables
@@ -73,6 +75,7 @@ Building a better future, one line of code at a time.
 // · 
 html,
 body {
+    background-color: var(--lesli-color-background);
     scrollbar-color: var(--lesli-color-primary) transparent;
     scrollbar-width: thin;
     font-weight: normal;
