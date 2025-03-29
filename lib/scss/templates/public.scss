@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -33,46 +33,43 @@ Building a better future, one line of code at a time.
 
 // · 
 @import "lesli-css";
-@import "lesli-css/bulma";
+@import "lesli-css/source/vendor/bulma";
 
 
 // · Configuration & variables
-@import "Lesli/scss/settings/variables";
+@import "../settings/variables";
 
 
 // · LesliView components & elements 
-@import "LesliView/forms/form";
+@import "LesliView/lib/lesli_view/forms/form";
 
 
 // · Font families and icons
-@import "Lesli/scss/fonts/families";
-@import "Lesli/scss/fonts/mdicons";
-
-
-// · Lesli application layout 
+@import "../fonts/families";
+@import "../fonts/mdicons";
 
 
 // · Some home made helpers
-@import "Lesli/scss/helpers/display";
+@import "../helpers/display";
 
 
-// · 
-html,
-body {
-    scrollbar-color: var(--lesli-color-primary) transparent;
-    scrollbar-width: thin;
-    font-weight: normal;
-    line-height: 158%;
-}
+// // · 
+// html,
+// body {
+//     scrollbar-color: var(--lesli-color-primary) transparent;
+//     scrollbar-width: thin;
+//     font-weight: normal;
+//     line-height: 158%;
+// }
 
 
-// · headings and links
-h1, h2, h3, h4, h5, h6, a {
-    font-family: "Domine", $family-primary;
-}
+// // · headings and links
+// h1, h2, h3, h4, h5, h6, a {
+//     font-family: "Domine", $family-primary;
+// }
 
 
-// · Hide vue until vue finishes compilation
-[v-cloak] {
-    display: none !important;
-}
+// // · Hide vue until vue finishes compilation
+// [v-cloak] {
+//     display: none !important;
+// }

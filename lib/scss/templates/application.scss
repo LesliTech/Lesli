@@ -73,10 +73,6 @@ Building a better future, one line of code at a time.
 // · 
 html,
 body {
-    color: var(--lesli-font-color);
-    font-size: var(--lesli-font-size);
-    font-family: $family-primary;
-    background-color: var(--lesli-color-background);
     scrollbar-color: var(--lesli-color-primary) transparent;
     scrollbar-width: thin;
     font-weight: normal;
@@ -84,11 +80,7 @@ body {
 }
 
 
-// · titles
-h1, h2, h3, h4, h5, h6 {
+// · headings and links
+h1, h2, h3, h4, h5, h6, a {
     font-family: "Domine", $family-primary;
-}
-
-.is-hidden {
-    display: none !important;
 }
