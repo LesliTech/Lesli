@@ -275,7 +275,7 @@ module Lesli
         # INTEGRATIONS
 
         # 09.01 Babel engine
-        def navigation_engine_babel(title: "Babel", subtitle: "Translations")
+        def navigation_engine_babel(title: "Babel", subtitle: "Translation Management System")
             return unless defined? LesliBabel
 
             navigation_engine_item(title, subtitle, "babel", lesli_babel.root_path,
