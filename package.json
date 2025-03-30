@@ -8,6 +8,7 @@
     "devDependencies": {
 
         "lesli-css": "../../../lesli-css/lesli-css-2.2.0.tgz",
+        "charts.css": "1.1.0",
 
         "dayjs": "1.11.10",
 
