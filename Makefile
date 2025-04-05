@@ -1,9 +1,4 @@
 # Define source SCSS files and their corresponding CSS output paths
-# SASS_FILES = \
-# 	./lib/scss/templates/application.scss ./app/assets/stylesheets/lesli/templates/application.css \
-# 	./lib/scss/templates/dashboard.scss ./app/assets/stylesheets/lesli/templates/dashboard.css \
-# 	./lib/scss/templates/home.scss ./app/assets/stylesheets/lesli/templates/home.css
-
 SASS_FILES = \
 	./lib/scss/templates/application.scss:./app/assets/stylesheets/lesli/templates/application.css \
 	./lib/scss/templates/public.scss:./app/assets/stylesheets/lesli/templates/public.css
@@ -21,7 +16,7 @@ build:
 
 # Watch mode for development
 watch:
-	sass $(SASS_FILES) --watch $(SASS_OPTS)
+	npx sass $(SASS_FILES) --watch $(SASS_OPTS)
 
 # Clean generated CSS files
 clean:
