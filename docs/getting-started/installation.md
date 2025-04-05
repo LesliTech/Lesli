@@ -1,5 +1,5 @@
 
-# Install Lesli core
+# Install Lesli 
 Lesli is a Ruby on Rails gem designed to seamlessly integrate with your application. It ensures complete isolation of code, database, and assets, preventing any interference with your main Ruby on Rails application.
 
 ### Rails application 
@@ -91,7 +91,7 @@ Create the database for Lesli
 rails db:create
 ```
 
-Lesli include a Rake task to initialize the database for demo and development purposes, this task is going migrate, build privileges (if LesliSecurity is installed), translations (if LesliBabel is installed), seed the database with demo users and demo data for every installed engine and at the end print a pretty message with the status of the application.
+Lesli include a Rake task to initialize the database for demo and development purposes, this task is going migrate, build privileges (if LesliShield is installed), translations (if LesliBabel is installed), seed the database with demo users and demo data for every installed engine and at the end print a pretty message with the status of the application.
 
 ```shell
 rake lesli:db:dev
@@ -125,13 +125,13 @@ rails server
 Using your favorite web browser navigate to <a href="http://127.0.0.1:3000" targer="_blank">http://127.0.0.1:3000/login</a>, Lesli mounted devise at root level, so you already have an authentication engine working.
 
 <lesli-browser url="login">
-    <img src="/images/engines/security/screenshot-login.png">
+    <img src="/images/engines/shield/screenshot-login.png">
 </browser>
 
 The seeders comes with default users with different roles and privileges, to see Lesli in action use the owner user:
 
 __username:__ hello@lesli.tech <br/>
-__password:__ Tardis2023$ 
+__password:__ Lesli123$
 
 
 > It is possible to add development users, roles, privileges and more; we will explore this options later in the documentation.

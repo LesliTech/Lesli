@@ -24,14 +24,14 @@ Run the Lesli image
 docker compose up --build
 ```
 
-Navigate to the Lesli demo website using your favorite web browser: [http://127.0.0.1:300](http://127.0.0.1:300)
+Navigate to the Lesli demo website using your favorite web browser: <u>[http://127.0.0.1:3000](http://127.0.0.1:3000)</u>
 
 
 ### Logging into your new Lesli application
 The seeders comes with default users with different roles and privileges, to see Lesli in action use the owner user:
 
 __username:__ hello@lesli.tech <br>
-__password:__ Tardis2023$
+__password:__ Tardis2025$
 
 <br />
 

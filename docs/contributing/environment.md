@@ -44,7 +44,7 @@ gem install rails bundler
 
 
 ### Node.js
-Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine. It is used for running JavaScript in the server side. Lesli uses node to run webpack, vue and other javascript libraries for the frontend. **To work with Lesli you can use the LTS version of Node.**
+Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine. It is used for running JavaScript in the server side. Lesli uses node to transform SASS stylesheets to standard CSS. **To work with Lesli you can use the LTS version of Node.**
 
 __Installation:__
 Node.js is available for all platforms. If you need more details for the installation of specific version you can following the instructions [here](https://nodejs.org/en/).
@@ -78,5 +78,20 @@ Github is a web-based Git repository hosting service that is used to store the c
 
 
 ### Install engines
-To install engines you need to clone the repository inside the engines folder. 
+To install an engine, simply clone its repository into the engines/ folder within your project.
 
+#### Steps to Install:
+
+1. Navigate to your project’s engines/ directory:
+
+```bash
+cd path/to/your/project/engines/
+```
+
+2. Clone the engine’s repository:
+
+```bash
+git clone https://github.com/example/your-engine.git
+```
+
+3. Done! Your engine is now installed and ready to be integrated.

@@ -43,7 +43,11 @@ bundle install
 Lesli include a Rake task to start the database:
 
 ```shell
-# Lesli include a Rake task to initialize the database for demo and development purposes, this task is going migrate, build privileges (if LesliSecurity is installed), translations (if LesliBabel is installed), seed the database with demo users and demo data for every installed engine and at the end print a pretty message with the status of the application.
+# Lesli include a Rake task to initialize the database for demo and development purposes, 
+# this task is going migrate, build privileges (if LesliSecurity is installed), 
+# translations (if LesliBabel is installed), seed the database with demo users 
+# and demo data for every installed engine and at the end print a pretty message 
+# with the status of the application.
 rake lesli:db:dev
 
 # or
