@@ -1,8 +1,0 @@
-[{
-    "name": "content",
-    "type": "text"
-},{
-    "name": "deleted_at",
-    "type": "datetime",
-    "index": true
-}]
