@@ -97,88 +97,14 @@ Building a better future, one line of code at a time.
                                     <% end %>
                                 <% end %>
 
-                                <!-- notifications (dropdown) -->
-                                <% if defined?(LesliBell2) %>
-                                    <div class="dropdown is-hoverable lesli-header-notifications">
-                                        <div class="dropdown-trigger">
-                                            <a>
-                                                <span class="ri-notification-3-line">
-                                                </span>
-                                            </a>
-                                        </div>
-                                        <div class="dropdown-menu" id="dropdown-menu" role="menu" style="width: 350px;">
-                                            <div class="dropdown-content">
-                                                <% current_user.notifications.each do |notification| %>
-                                                    <%= link_to lesli_bell.notifications_path, data: { turbo_frame: '_top' } do %>
-                                                        <div class="notification is-<%= notification.category %> is-light mb-2">
-                                                            <!-- Close button -->
-                                                            <%= button_to(
-                                                                lesli_bell.notification_path(notification[:id]), 
-                                                                method: :put, 
-                                                                class: "button is-small is-light is-#{notification[:category]}",
-                                                                form: { class: "delete" }) do %>
-                                                                <span class="icon">
-                                                                    <span class="material-icons">close</span>
-                                                                </span>
-                                                            <% end %>
-                                                            <%= notification.subject %>
-                                                        </div>  
-                                                    <% end %>
-                                                <% end %>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <% end %>
-
                                 <!-- module selector -->
                                 <%= navigation_link(lesli.apps_path, nil, "ri-apps-2-line") %>
 
-                                <!-- profile options -->
-                                <div class="dropdown is-hoverable" v-if="props.showProfile">
-                                    <div class="dropdown-trigger">
-                                        <a @click="storeLayout.showProfile = true">
-                                            <span class="ri-user-smile-line">
-                                            </span>
-                                        </a>
-                                    </div>
-                                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                                        <div class="dropdown-content">
-                                            <a :href="url.admin('profile')" class="dropdown-item py-3">
-                                                <span class="icon-text">
-                                                    <span class="icon has-text-grey-dark">
-                                                        <span class="ri-questionnaire-line"></span>
-                                                    </span>
-                                                    <span>Help</span>
-                                                </span>
-                                            </a>
-                                            <a :href="url.admin('profile')" class="dropdown-item py-3">
-                                                <span class="icon-text">
-                                                    <span class="icon has-text-grey-dark">
-                                                        <span class="ri-equalizer-line"></span>
-                                                    </span>
-                                                    <span>Settings</span>
-                                                </span>
-                                            </a>
-                                            <a :href="url.admin('profile')" class="dropdown-item py-3">
-                                                <span class="icon-text">
-                                                    <span class="icon has-text-grey-dark">
-                                                        <span class="ri-user-line"></span>
-                                                    </span>
-                                                    <span>Profile</span>
-                                                </span>
-                                            </a>
-                                            <hr class="dropdown-divider" />
-                                            <a href="/logout" class="dropdown-item py-3">
-                                                <span class="icon-text">
-                                                    <span class="icon has-text-grey-dark">
-                                                        <span class="ri-logout-box-r-line"></span>
-                                                    </span>
-                                                    <span>Logout</span>
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+                                <!-- user profile -->
+                                <%= navigation_link(lesli.apps_path, nil, "ri-user-smile-line") %>
+
+                                <!-- logout from session -->
+                                <%= navigation_link(main_app.destroy_user_session_path, nil, "ri-logout-circle-r-line") if defined?(LesliShield) %>
                             </div>
                         </div>
                     </div>

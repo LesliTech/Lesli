@@ -39,50 +39,35 @@ After this you can create any number of tables depending on the amount of resour
 
 Here is an example of a database.md file for the CloudHelp engine (code **07.02**) (this is just an example, for the real database documentation you should review the **DATABASE STRUCTURE** section):
 
+```plaintext
+    07.02.00.01. support/account  
+
+    07.02.00.11. support/actions 
+    07.02.00.12. support/activities 
+    07.02.00.13. support/discussions 
+    07.02.00.14. support/subscribers 
+    07.02.00.15. support/attachments 
+    07.02.00.16. support/versions
+
+    07.02.00.20. support/settings 
+    07.02.00.30. support/catalogs 
+    07.02.00.40. support/dashboards 
+
+    07.02.11.01. support/tickets
 ```
-    00.01. help/account                     # Required table
 
-    01.01. help/catalogs                    # Required table
-    01.02. help/catalog/ticket_categories 
-    01.03. help/catalog/ticket_priorities
+```plaintext
+    07.02.00.01. support/account  
 
-    01.01. help/catalog_workspaces                    
-    01.02. help/catalog_categories 
-    01.03. help/catalog_priorities
+    07.02.00.10. support/settings 
+    07.02.00.20. support/catalogs 
+    07.02.00.30. support/dashboards 
 
-
-    02.01. help/workflows                   # Required table
-    02.02. help/workflow/statuses           # Required table
-    02.03. help/workflow/associations       # Required table
-    02.04. help/workflow/actions            # Required table
-
-    03.01. help/custom_fields               # Required table
-
-    04.01. help/custom_validations          # Required table
-    04.02. help/custom_validation/rules     # Required table
-    04.03. help/custom_validation/fields    # Required table
-
-    05.01. help/dashboards                  # Required table
-    05.02. help/dasboard/components         # Required table
-
-    # Note that here 06.XX to 09.XX are unused and reserved
-
-    10.00. help/tickets
-    10.01. help/ticket/actions              # Required child table for tickets
-    10.02. help/ticket/activities           # Required child table for tickets
-    10.03. help/ticket/discussions          # Required child table for tickets
-    10.04. help/ticket/subscribers          # Required child table for tickets
-    10.05. help/ticket/files                # Required child table for tickets
-    10.06. help/ticket/custom_field_values  # Required child table for tickets
-    10.10. help/ticket/timelines
-    10.11. help/ticket/assignments
-
-    11.00. help/slas
-    11.01. help/sla/actions                 # Required child table for tickets
-    11.02. help/sla/activities              # Required child table for tickets
-    11.03. help/sla/discussions             # Required child table for tickets
-    11.04. help/sla/subscribers             # Required child table for tickets
-    11.05. help/sla/files                   # Required child table for tickets
-    11.06. help/sla/custom_field_values     # Required child table for tickets
-    11.10. help/sla/associations
+    07.02.11.01. support/tickets
+    07.02.11.02. support/ticket/actions 
+    07.02.11.03. support/ticket/activities 
+    07.02.11.04. support/ticket/discussions 
+    07.02.11.05. support/ticket/subscribers 
+    07.02.11.06. support/ticket/attachments 
+    07.02.11.07. support/ticket/versions
 ```

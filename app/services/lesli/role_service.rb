@@ -143,7 +143,7 @@ module Lesli
             if self.successful?
                 new_attributes = self.resource.attributes
 
-                LesliSecurity::Role::Activity.log_update(current_user, role, old_attributes, new_attributes)
+                #LesliSecurity::Role::Activity.log_update(current_user, role, old_attributes, new_attributes)
             end
 
             self
