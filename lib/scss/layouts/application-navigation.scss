@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,17 +19,16 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.dev
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
-
 
 .navbar {
     position: static;
@@ -64,6 +63,14 @@ nav.lesli-application-navigation {
             align-items: center;
             border-bottom: 2px solid transparent;
             color: lesli-css-color(black, 700);
+            transition: all linear .2s;
+
+            &:hover {
+                // color: lesli-css-color(slate, 100);
+                // text-shadow: 0 0px 10px rgba(lesli-css-color(slate, 900), 0.8);
+                color: lesli-css-color(slate, 700);
+                text-shadow: 0 2px 6px rgba(lesli-css-color(slate, 700), 0.25);
+            }
 
             // highlight active link
             &.navigation-link-active {

@@ -68,8 +68,8 @@ module Lesli
         has_many :tokens
         has_many :settings
         has_many :sessions
-        has_many :journals, class_name: "LesliShield::UserJournal"
-        has_many :shortcuts, class_name: "LesliShield::UserShortcuts"
+        #has_many :activities, class_name: "Lesli::Item::Activity"
+        has_many :shortcuts, class_name: "LesliShield::User::Shortcuts"
 
 
         # users can have many roles and too many privileges through the roles

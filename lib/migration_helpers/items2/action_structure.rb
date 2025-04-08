@@ -31,16 +31,21 @@ Building a better future, one line of code at a time.
 =end
 
 module MigrationHelpers
-    module Shared
-        module SettingStructure
-            def create_table_for(table_name)
+    module Items
+        module ActionStructure
+            def create_actions_table_for_engine(engine)
+
+                table_name = "#{engine}_actions".to_sym
+                table_name_account = "#{engine}_accounts".to_sym
+
                 create_table table_name do |t|
-                    t.string :name
-                    t.string :value
+                    t.string :title
+                    t.datetime :deleted_at, index: true
                     t.timestamps
                 end
-                # add user
-                add_reference(:lesli_account_settings, :account, foreign_key: { to_table: :lesli_accounts })
+
+                add_reference(table_name, :user, foreign_key: { to_table: :lesli_users })
+                add_reference(table_name, :account, foreign_key: { to_table: table_name_account })
             end
         end
     end

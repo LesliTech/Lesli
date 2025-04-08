@@ -85,7 +85,7 @@ Lesli.configure do |config|
 
     # Instance security settings
     config.security = {
-        password: "Tardis2025$",
+        password: "Hola123$",
         enable_debug: false,
         enable_becoming: false,
         enable_analytics: true,
