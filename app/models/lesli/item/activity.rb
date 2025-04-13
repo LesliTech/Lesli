@@ -18,22 +18,20 @@ module Lesli
 
                     # Try matching standard gem folder path (e.g., gems/lesli_shield-0.1.0)
                     if path =~ %r{/gems/(lesli_[^/-]+)}
-                      return $1
+                        return $1
                     end
-                
+
                     # Try matching from engines folder in dev
                     if path =~ %r{/engines/(lesli_[^/]+)}
-                      return $1
+                        return $1
                     end
 
                     # Local installed engines
                     if path =~ %r{/engines/(Lesli[^/]+)}
-                      return $1.underscore
+                        return $1.underscore
                     end
-                
-                  end
-                
-                  nil
+                end
+                nil
             end
         end
     end

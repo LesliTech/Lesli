@@ -35,8 +35,8 @@ module Lesli
         belongs_to :account
 
         # Role resources
-        has_many :activities
-        has_many :privileges,  dependent: :delete_all
+        #has_many :activities
+        has_many :privileges, dependent: :delete_all
         has_many :actions, dependent: :delete_all
         
 
