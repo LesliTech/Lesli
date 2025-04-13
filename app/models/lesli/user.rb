@@ -68,7 +68,7 @@ module Lesli
         has_many :tokens
         has_many :settings
         has_many :sessions
-        #has_many :activities, class_name: "Lesli::Item::Activity"
+        has_many :activities, class_name: "Lesli::Item::Activity"
         has_many :shortcuts, class_name: "LesliShield::User::Shortcuts"
 
 

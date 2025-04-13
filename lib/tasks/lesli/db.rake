@@ -140,6 +140,9 @@ namespace :lesli do
 
         # scan rails routes to build the base of translations
         Rake::Task['lesli:babel:scan'].invoke if defined?(LesliBabel)
+
+        # import local translations into LesliBabel
+        Rake::Task['lesli:babel:import'].invoke if defined?(LesliBabel)
     end 
 
     def status 
