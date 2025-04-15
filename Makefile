@@ -4,19 +4,19 @@ SASS_FILES = \
 	./lib/scss/templates/public.scss:./app/assets/stylesheets/lesli/templates/public.css
 
 # Define common SASS options
-SASS_OPTS = --load-path=node_modules --load-path=../
+SASS_OPTS = --no-source-map --load-path=node_modules --load-path=../
 
-# Production build (compressed output)
-test:
-	npx sass $(SASS_FILES) $(SASS_OPTS)
-
-# Production build (compressed output)
+# Development
 build:
-	npx sass $(SASS_FILES) --style=compressed $(SASS_OPTS)
+	npx sass $(SASS_FILES) $(SASS_OPTS)
 
 # Watch mode for development
 watch:
 	npx sass $(SASS_FILES) --watch $(SASS_OPTS)
+
+# Production build (compressed output)
+production:
+	npx sass $(SASS_FILES) --style=compressed $(SASS_OPTS)
 
 # Clean generated CSS files
 clean:
@@ -24,4 +24,4 @@ clean:
 	rm -f ./app/assets/stylesheets/lesli/templates/*.css.map
 
 # Default target
-.PHONY: build watch clean test
+.PHONY: build watch production clean 
