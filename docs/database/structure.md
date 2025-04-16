@@ -42,23 +42,6 @@ Here is an example of a database.md file for the CloudHelp engine (code **07.02*
 ```plaintext
     07.02.00.01. support/account  
 
-    07.02.00.11. support/actions 
-    07.02.00.12. support/activities 
-    07.02.00.13. support/discussions 
-    07.02.00.14. support/subscribers 
-    07.02.00.15. support/attachments 
-    07.02.00.16. support/versions
-
-    07.02.00.20. support/settings 
-    07.02.00.30. support/catalogs 
-    07.02.00.40. support/dashboards 
-
-    07.02.11.01. support/tickets
-```
-
-```plaintext
-    07.02.00.01. support/account  
-
     07.02.00.10. support/settings 
     07.02.00.20. support/catalogs 
     07.02.00.30. support/dashboards 

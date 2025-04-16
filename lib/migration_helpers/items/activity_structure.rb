@@ -32,20 +32,20 @@ Building a better future, one line of code at a time.
 
 module MigrationHelpers
     module Items
-        module ActionStructure
-            def create_actions_table_for_engine(engine)
+        module ActivityStructure
+            def create_table_for_lesli_item_activities(resources)
 
-                table_name = "#{engine}_actions".to_sym
-                table_name_account = "#{engine}_accounts".to_sym
-
+                table_name, foreign_key = table_names_for_item(resources, :activities)
+    
                 create_table table_name do |t|
                     t.string :title
-                    t.datetime :deleted_at, index: true
+                    t.string :description
+                    t.string :session_id
                     t.timestamps
                 end
 
                 add_reference(table_name, :user, foreign_key: { to_table: :lesli_users })
-                add_reference(table_name, :account, foreign_key: { to_table: table_name_account })
+                add_reference(table_name, foreign_key, foreign_key: { to_table: resources })
             end
         end
     end

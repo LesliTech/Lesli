@@ -32,18 +32,31 @@ Building a better future, one line of code at a time.
 
 module MigrationHelpers
     module Items
-        def create_lesli_activities_table_for(resource)
+        module AttachmentStructure
+            def create_table_for_lesli_item_attachments(resources)
 
-            resource_singular = resource.to_s.singularize
-            table_name = "#{resource_singular}_activities".to_sym
+                table_name, foreign_key = table_names_for_item(resources, :attachments)
 
-            create_table table_name do |t|
-                t.string :title
-                t.string :description
-                t.string :session_id
-                t.timestamps
+                create_table table_name do |t|
+                    t.string :name
+                    t.string :category
+                    t.decimal :size_mb
+
+                    t.string :attachment
+                    t.string :attachment_remote # like S3
+                    t.string :attachment_public
+                    
+                    t.boolean  :public
+                    t.string   :public_url
+                    t.datetime :public_url_expiration_at
+
+                    t.datetime :deleted_at, index: true
+                    t.timestamps
+                end
+
+                add_reference(table_name, :user, foreign_key: { to_table: :lesli_users })
+                add_reference(table_name, foreign_key, foreign_key: { to_table: resources })
             end
-            add_reference(table_name, :user, foreign_key: { to_table: :lesli_users })
         end
     end
 end
