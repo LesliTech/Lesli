@@ -33,7 +33,7 @@ Building a better future, one line of code at a time.
 module MigrationHelpers
     module Shared
         def create_lesli_accounts_table_for_engine(engine)
-            table_name, table_name_account = table_names_for_engine(engine, "accounts")
+            table_name, table_name_account = table_names_for_shared(engine, "accounts")
 
             create_table table_name do |t|
                 t.string   :name 
@@ -48,7 +48,7 @@ module MigrationHelpers
 
         def create_lesli_settings_table_for_engine(engine)
 
-            table_name, table_name_account = table_names_for_engine(engine, "settings")
+            table_name, table_name_account = table_names_for_shared(engine, "settings")
 
             create_table table_name do |t|
                 t.string :name
@@ -62,7 +62,7 @@ module MigrationHelpers
 
         def create_lesli_dashboards_table_for_engine(engine)
 
-            table_name, table_name_account = table_names_for_engine(engine, "dashboards")
+            table_name, table_name_account = table_names_for_shared(engine, "dashboards")
 
             create_table table_name do |t|
                 t.string    :name
@@ -75,15 +75,6 @@ module MigrationHelpers
             add_reference(table_name, :user, foreign_key: { to_table: :lesli_users })
             add_reference(table_name, :role, foreign_key: { to_table: :lesli_roles })
             add_reference(table_name, :account, foreign_key: { to_table: table_name_account })
-        end
-
-        private 
-
-        def table_names_for_engine(engine, table_name)
-            table_name = "#{engine}_#{table_name}".to_sym
-            table_name_account = "#{engine}_accounts".to_sym
-
-            return [table_name, table_name_account]
         end
     end
 end

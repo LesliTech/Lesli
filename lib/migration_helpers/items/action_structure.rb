@@ -32,13 +32,19 @@ Building a better future, one line of code at a time.
 
 module MigrationHelpers
     module Items
-        module DiscussionStructure
-            def create_document_table(table_name)
+        module ActionStructure
+            def create_table_for_lesli_item_actions(resources)
+
+                table_name, foreign_key = table_names_for_item(resources, :actions)
+
                 create_table table_name do |t|
-                    t.string :message
+                    t.string :title
+                    t.datetime :deleted_at, index: true
                     t.timestamps
                 end
-                # add parent_id
+
+                add_reference(table_name, :user, foreign_key: { to_table: :lesli_users })
+                add_reference(table_name, foreign_key, foreign_key: { to_table: resources })
             end
         end
     end
