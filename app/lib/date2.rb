@@ -68,9 +68,11 @@ class Date2
                 :date => "%d.%m.%Y",
                 :time => "%H:%M",
                 :date_time => config[:formats][:date_time],
-                :date_words => "%A, %B %d, %Y",
-                :date_time_words => "%A, %B %d, %Y, %H:%M",         # 24 hours datetime in words format (default)
-                :date_time_words_pm => "%A, %B %d, %Y, %I:%M %p"    # 12 hours datetime in words format
+                :date_words => "%B %d, %Y",             # date in words including day's name
+                :date_words_day => "%A, %B %d, %Y",     # date in words including day's name
+                :date_time_words => "%B %d, %Y, %H:%M", # 24 hours datetime in words format (default)
+                :date_time_words_pm => "%B %d, %Y, %I:%M %p",   # 12 hours datetime in words format
+                :date_time_words_day => "%A, %B %d, %Y, %H:%M", # 24 hours datetime in words format (default)
             }
         }
 
@@ -88,34 +90,21 @@ class Date2
 
     end
 
-    # set date format and return Date2 instance
-    def date
-        set_format(:date)
-        self
-    end
-
-    # set time format and return Date2 instance
-    def time
-        set_format(:time)
-        self
-    end
-
-    # set date_time format and return Date2 instance
-    def date_time
-        set_format(:date_time)
-        self
-    end
-
-    # set date_words format and return Date2 instance
-    def date_words
-        set_format(:date_words)
-        self
-    end
-
-    # set date_time_words format and return Date2 instance
-    def date_time_words
-        set_format(:date_time_words)
-        self
+    # Dynamically define formatting methods like `date`, `time`, etc.
+    [
+        :date, 
+        :time, 
+        :date_time, 
+        :date_words,
+        :date_words_day, 
+        :date_time_words,
+        :date_time_words_pm, 
+        :date_time_words_day
+    ].each do |key|
+        define_method(key) do
+            set_format(key)
+            self
+        end
     end
 
     # return query string to get timestamps columns from database
