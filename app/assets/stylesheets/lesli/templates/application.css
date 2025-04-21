@@ -18247,6 +18247,215 @@ form fieldset.is-danger h5 {
   font-weight: 600;
 }
 
+.lesli-timelines {
+  /*----- TIMELINE ITEM -----*/
+  /*----- TIMELINE INFO -----*/
+  /*----- TIMELINE MARKER -----*/
+  /*----- TIMELINE CONTENT -----*/
+  /*----- TIMELINE PERIOD -----*/
+  /*----------------------------------------------
+  MOD: TIMELINE SPLIT
+  ----------------------------------------------*/
+  /*----------------------------------------------
+  MOD: TIMELINE CENTERED
+  ----------------------------------------------*/
+}
+.lesli-timelines .lesli-timeline {
+  line-height: 1.4em;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.lesli-timelines .lesli-timeline h1,
+.lesli-timelines .lesli-timeline h2,
+.lesli-timelines .lesli-timeline h3,
+.lesli-timelines .lesli-timeline h4,
+.lesli-timelines .lesli-timeline h5,
+.lesli-timelines .lesli-timeline h6 {
+  line-height: inherit;
+}
+.lesli-timelines .lesli-timeline-item {
+  padding-left: 40px;
+  position: relative;
+}
+.lesli-timelines .lesli-timeline-item:last-child {
+  padding-bottom: 0;
+}
+.lesli-timelines .lesli-timeline-info {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  margin: 0 0 0.5em 0;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.lesli-timelines .lesli-timeline-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 15px;
+}
+.lesli-timelines .lesli-timeline-marker:before {
+  background: #ff6b6b;
+  border: 3px solid transparent;
+  border-radius: 100%;
+  content: "";
+  display: block;
+  height: 15px;
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 15px;
+  transition: background 0.3s ease-in-out, border 0.3s ease-in-out;
+}
+.lesli-timelines .lesli-timeline-marker:after {
+  content: "";
+  width: 3px;
+  background: #ccd5db;
+  display: block;
+  position: absolute;
+  top: 24px;
+  bottom: 0;
+  left: 6px;
+}
+.lesli-timelines .lesli-timeline-item:last-child .lesli-timeline-marker:after {
+  content: none;
+}
+.lesli-timelines .lesli-timeline-item:not(.period):hover .lesli-timeline-marker:before {
+  background: transparent;
+  border: 3px solid #ff6b6b;
+}
+.lesli-timelines .lesli-timeline-content {
+  padding-bottom: 40px;
+}
+.lesli-timelines .lesli-timeline-content p:last-child {
+  margin-bottom: 0;
+}
+.lesli-timelines .period {
+  padding: 0;
+}
+.lesli-timelines .period .lesli-timeline-info {
+  display: none;
+}
+.lesli-timelines .period .lesli-timeline-marker:before {
+  background: transparent;
+  content: "";
+  width: 15px;
+  height: auto;
+  border: none;
+  border-radius: 0;
+  top: 0;
+  bottom: 30px;
+  position: absolute;
+  border-top: 3px solid #ccd5db;
+  border-bottom: 3px solid #ccd5db;
+}
+.lesli-timelines .period .lesli-timeline-marker:after {
+  content: "";
+  height: 32px;
+  top: auto;
+}
+.lesli-timelines .period .lesli-timeline-content {
+  padding: 40px 0 70px;
+}
+.lesli-timelines .period .timeline-title {
+  margin: 0;
+}
+@media (min-width: 768px) {
+  .lesli-timelines .lesli-timeline-split .timeline, .lesli-timelines .timeline-centered .lesli-timeline {
+    display: table;
+  }
+  .lesli-timelines .lesli-timeline-split .lesli-timeline-item, .lesli-timelines .timeline-centered .lesli-timeline-item {
+    display: table-row;
+    padding: 0;
+  }
+  .lesli-timelines .lesli-timeline-split .lesli-timeline-info, .lesli-timelines .timeline-centered .lesli-timeline-info,
+  .lesli-timelines .lesli-timeline-split .lesli-timeline-marker,
+  .lesli-timelines .timeline-centered .lesli-timeline-marker,
+  .lesli-timelines .lesli-timeline-split .lesli-timeline-content,
+  .lesli-timelines .timeline-centered .lesli-timeline-content,
+  .lesli-timelines .lesli-timeline-split .period .lesli-timeline-info {
+    display: table-cell;
+    vertical-align: top;
+  }
+  .lesli-timelines .lesli-timeline-split .lesli-timeline-marker, .lesli-timelines .timeline-centered .lesli-timeline-marker {
+    position: relative;
+  }
+  .lesli-timelines .lesli-timeline-split .lesli-timeline-content, .lesli-timelines .timeline-centered .lesli-timeline-content {
+    padding-left: 30px;
+  }
+  .lesli-timelines .lesli-timeline-split .lesli-timeline-info, .lesli-timelines .timeline-centered .lesli-timeline-info {
+    padding-right: 30px;
+  }
+  .lesli-timelines .lesli-timeline-split .period .timeline-title, .lesli-timelines .timeline-centered .period .timeline-title {
+    position: relative;
+    left: -45px;
+  }
+}
+@media (min-width: 992px) {
+  .lesli-timelines .timeline-centered,
+  .lesli-timelines .timeline-centered .lesli-timeline-item,
+  .lesli-timelines .timeline-centered .lesli-timeline-info,
+  .lesli-timelines .timeline-centered .lesli-timeline-marker,
+  .lesli-timelines .timeline-centered .lesli-timeline-content {
+    display: block;
+    margin: 0;
+    padding: 0;
+  }
+  .lesli-timelines .timeline-centered .lesli-timeline-item {
+    padding-bottom: 40px;
+    overflow: hidden;
+  }
+  .lesli-timelines .timeline-centered .lesli-timeline-marker {
+    position: absolute;
+    left: 50%;
+    margin-left: -7.5px;
+  }
+  .lesli-timelines .timeline-centered .lesli-timeline-info,
+  .lesli-timelines .timeline-centered .lesli-timeline-content {
+    width: 50%;
+  }
+  .lesli-timelines .timeline-centered > .lesli-timeline-item:nth-child(odd) .lesli-timeline-info {
+    float: left;
+    text-align: right;
+    padding-right: 30px;
+  }
+  .lesli-timelines .timeline-centered > .lesli-timeline-item:nth-child(odd) .lesli-timeline-content {
+    float: right;
+    text-align: left;
+    padding-left: 30px;
+  }
+  .lesli-timelines .timeline-centered > .lesli-timeline-item:nth-child(even) .lesli-timeline-info {
+    float: right;
+    text-align: left;
+    padding-left: 30px;
+  }
+  .lesli-timelines .timeline-centered > .lesli-timeline-item:nth-child(even) .lesli-timeline-content {
+    float: left;
+    text-align: right;
+    padding-right: 30px;
+  }
+  .lesli-timelines .timeline-centered > .lesli-timeline-item.period .lesli-timeline-content {
+    float: none;
+    padding: 0;
+    width: 100%;
+    text-align: center;
+  }
+  .lesli-timelines .timeline-centered .lesli-timeline-item.period {
+    padding: 50px 0 90px;
+  }
+  .lesli-timelines .timeline-centered .period .lesli-timeline-marker:after {
+    height: 30px;
+    bottom: 0;
+    top: auto;
+  }
+  .lesli-timelines .timeline-centered .period .timeline-title {
+    left: auto;
+  }
+}
+
 /*
 * Remix Icon v4.6.0
 * https://remixicon.com
