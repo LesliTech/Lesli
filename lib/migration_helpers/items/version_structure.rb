@@ -33,9 +33,9 @@ Building a better future, one line of code at a time.
 module MigrationHelpers
     module Items
         module VersionStructure
-            def create_table_for_lesli_item_versions(resources)
+            def create_table_lesli_item_versions_10(resources)
 
-                table_name, foreign_key = table_names_for_item(resources, :versions)
+                table_name, foreign_key = table_name_for_item(resources, :versions)
 
                 create_table table_name do |t|
                     t.string :column_name
@@ -45,7 +45,7 @@ module MigrationHelpers
                     t.timestamps
                 end
 
-                add_reference(table_name, :user, foreign_key: { to_table: :lesli_users })
+                add_reference(table_name, :user, foreign_key: { to_table: :lesli_users }) unless resources == :lesli_users
                 add_reference(table_name, foreign_key, foreign_key: { to_table: resources })
             end
         end

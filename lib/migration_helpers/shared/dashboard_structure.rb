@@ -31,20 +31,23 @@ Building a better future, one line of code at a time.
 =end
 
 module MigrationHelpers
-    module Items
-        module ActionStructure
-            def create_table_lesli_item_actions_10(resources)
+    module Shared
+        module DashboardStructure
+            def create_table_lesli_shared_dashboards_10(engine)
 
-                table_name, foreign_key = table_name_for_item(resources, :actions)
+                table_name, table_name_account = table_name_for_shared(engine, :dashboards)
 
                 create_table table_name do |t|
-                    t.string :title
-                    t.datetime :deleted_at, index: true
+                    t.string    :name
+                    t.boolean   :default
+                    t.json      :components
+                    t.datetime  :deleted_at, index: true
                     t.timestamps
                 end
 
-                add_reference(table_name, :user, foreign_key: { to_table: :lesli_users })
-                add_reference(table_name, foreign_key, foreign_key: { to_table: resources })
+                add_reference(table_name, :user, foreign_key: { to_table: :lesli_users }, index: true)
+                add_reference(table_name, :role, foreign_key: { to_table: :lesli_roles }, index: true)
+                add_reference(table_name, :account, foreign_key: { to_table: table_name_account }, null: false)
             end
         end
     end

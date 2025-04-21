@@ -33,9 +33,9 @@ Building a better future, one line of code at a time.
 module MigrationHelpers
     module Items
         module DiscussionStructure
-            def create_table_for_lesli_item_discussions(resources)
+            def create_table_lesli_item_discussions_10(resources)
 
-                table_name, foreign_key = table_names_for_item(resources, :discussions)
+                table_name, foreign_key = table_name_for_item(resources, :discussions)
     
                 create_table table_name do |t|
                     t.string :message

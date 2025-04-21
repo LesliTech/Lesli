@@ -30,22 +30,8 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-module MigrationHelpers
-    module Items
-        module ActionStructure
-            def create_table_lesli_item_actions_10(resources)
-
-                table_name, foreign_key = table_name_for_item(resources, :actions)
-
-                create_table table_name do |t|
-                    t.string :title
-                    t.datetime :deleted_at, index: true
-                    t.timestamps
-                end
-
-                add_reference(table_name, :user, foreign_key: { to_table: :lesli_users })
-                add_reference(table_name, foreign_key, foreign_key: { to_table: resources })
-            end
-        end
+class CreateLesliUserActivities < ActiveRecord::Migration[6.0]
+    def change
+        create_table_lesli_item_activities_10(:lesli_users)
     end
 end
