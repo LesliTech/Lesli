@@ -40,17 +40,20 @@ After this you can create any number of tables depending on the amount of resour
 Here is an example of a database.md file for the CloudHelp engine (code **07.02**) (this is just an example, for the real database documentation you should review the **DATABASE STRUCTURE** section):
 
 ```plaintext
-    07.02.00.01. support/account  
+07.02.00.01. support/account  
 
-    07.02.00.10. support/settings 
-    07.02.00.20. support/catalogs 
-    07.02.00.30. support/dashboards 
+07.02.00.10. support/settings 
+07.02.00.20. support/catalogs 
+07.02.00.30. support/dashboards 
 
-    07.02.11.01. support/tickets
-    07.02.11.02. support/ticket/actions 
-    07.02.11.03. support/ticket/activities 
-    07.02.11.04. support/ticket/discussions 
-    07.02.11.05. support/ticket/subscribers 
-    07.02.11.06. support/ticket/attachments 
-    07.02.11.07. support/ticket/versions
+07.02.00.40. support/workflows 
+07.02.00.50. support/custom_fields
+
+07.02.11.01. support/tickets
+07.02.11.02. support/ticket/actions 
+07.02.11.03. support/ticket/activities 
+07.02.11.04. support/ticket/discussions 
+07.02.11.05. support/ticket/subscribers 
+07.02.11.06. support/ticket/attachments 
+07.02.11.07. support/ticket/versions
 ```

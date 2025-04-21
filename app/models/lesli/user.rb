@@ -68,7 +68,10 @@ module Lesli
         has_many :tokens
         has_many :settings
         has_many :sessions
-        has_many :activities, class_name: "Lesli::Item::Activity"
+        has_many :activities #, class_name: "Lesli::Item::Activity"
+
+        
+
         has_many :shortcuts, class_name: "LesliShield::User::Shortcuts"
 
 
@@ -81,8 +84,7 @@ module Lesli
 
         # callbacks
         before_create :before_create_user
-        after_create :after_confirmation_user
-        after_create :after_account_assignation
+        after_create :after_create_user
         #after_update :update_associated_services
 
 
@@ -100,9 +102,18 @@ module Lesli
         end
 
 
+        def after_create_user
+            self.activities.create(title: "create_user", description:"User created")
+            after_confirmation_user
+            after_account_assignation
+        end
+
+
         # Initialize user settings and dependencies needed
         def after_confirmation_user
             return unless self.confirmed?
+
+            self.activities.create(title: "create_user", description:"User confirmed")
 
             # create an alias based on user name defined in user extensions
             self.set_alias

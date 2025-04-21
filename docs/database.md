@@ -28,4 +28,5 @@
     00.00.13.01. lesli_user (reference only)
     00.00.13.02. lesli_user_roles
     00.00.13.03. lesli_user_sessions
+    00.00.13.03. lesli_user_activities
 ```
