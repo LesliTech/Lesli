@@ -17,7 +17,7 @@
     00.00.11.01. lesli_accounts (reference only)
     00.00.11.02. lesli_account_details
     00.00.11.03. lesli_account_settings
-    00.00.11.04. lesli_account_journals
+    00.00.11.04. lesli_account_activities
     00.00.11.05. lesli_account_locations
     00.00.11.06. lesli_account_currencies
 

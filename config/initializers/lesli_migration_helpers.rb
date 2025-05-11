@@ -41,7 +41,9 @@ require(Lesli::Engine.root.join("lib/migration_helpers/items/version_structure")
 
 require(Lesli::Engine.root.join("lib/migration_helpers/shared/account_structure"))
 require(Lesli::Engine.root.join("lib/migration_helpers/shared/setting_structure"))
+require(Lesli::Engine.root.join("lib/migration_helpers/shared/catalog_structure"))
 require(Lesli::Engine.root.join("lib/migration_helpers/shared/dashboard_structure"))
+
 
 
 ActiveRecord::Migration.include(MigrationHelpers::Common)
@@ -55,4 +57,5 @@ ActiveRecord::Migration.include(MigrationHelpers::Items::VersionStructure)
 
 ActiveRecord::Migration.include(MigrationHelpers::Shared::AccountStructure)
 ActiveRecord::Migration.include(MigrationHelpers::Shared::SettingStructure)
+ActiveRecord::Migration.include(MigrationHelpers::Shared::CatalogStructure)
 ActiveRecord::Migration.include(MigrationHelpers::Shared::DashboardStructure)

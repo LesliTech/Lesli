@@ -19,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -30,16 +30,8 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class CreateLesliAccountJournals < ActiveRecord::Migration[6.0]
+class CreateLesliAccountSettings < ActiveRecord::Migration[5.2]
     def change
-        create_table :lesli_account_journals do |t|
-            t.string :system_module
-            t.string :system_process
-            t.string :description
-            t.string :title
-            t.json   :payload
-            t.timestamps
-        end
-        add_reference(:lesli_account_journals, :lesli_account, foreign_key: { to_table: :lesli_accounts })
+        create_table_lesli_shared_settings_10(:lesli)
     end
 end

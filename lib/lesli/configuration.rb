@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -31,15 +31,12 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    def self.configure(&block)
-        @config ||= Lesli::Engine::Configuration.new
+    class Configuration
+        attr_accessor :demo, :company, :instance, :locales, :datetime, :security, :theme, :layout, :path_after_login
 
-        yield @config if block
-
-        @config
-    end
-
-    def self.config
-        Rails.application.config
+        def initialize
+            @demo = false
+            @company = {}
+        end
     end
 end

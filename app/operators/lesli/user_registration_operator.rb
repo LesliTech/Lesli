@@ -80,7 +80,8 @@ module Lesli
                 account = Account.create!({
                     user: resource,     # set user as owner of his just created account
                     name: "Lesli",      # temporary company name
-                    #status: :active     # account is active due user already confirmed his email
+                    email: resource.email,
+                    status: :active     # account is active due user already confirmed his email
                 })
             end
 
@@ -94,14 +95,14 @@ module Lesli
 
             # add owner role to user only if multi-account is allowed
             if allow_multiaccount == true
-                resource.powers.create({ role: account.roles.find_by(name: "owner") })
+                #resource.powers.create({ role: account.roles.find_by(name: "owner") })
             end
 
             # add profile role to user only if multi-account is allowed
             if allow_multiaccount == false
                 # Assigning default role if defined in account settings
                 # Otherwise, the default role is "limited"
-                default_role_id = account.settings.find_by(:name => "default_role_id")&.value
+                #default_role_id = account.settings.find_by(:name => "default_role_id")&.value
                     
                 if default_role_id.present?
                     resource.user_roles.create({ role: account.roles.find_by(:id => default_role_id)})

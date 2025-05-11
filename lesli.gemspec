@@ -69,7 +69,7 @@ Gem::Specification.new do |spec|
 
     # Rails framework
     #spec.add_dependency("rails", "~> 8.0.0.rc1")
-    spec.add_dependency("rails", "~> 7.2")
+    #spec.add_dependency("rails", "~> 7.2")
 
     # It's a small library to provide the Rails I18n translations on the Javascript.
     spec.add_dependency("i18n-js", "~> 4.2.3") 

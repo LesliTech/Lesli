@@ -64,15 +64,6 @@ Building a better future, one line of code at a time.
                         <div class="header-icons field is-grouped is-justify-content-center">
                             <div class="control">
 
-                                <!-- tickets -->
-                                <% if defined?(LesliSupport) %>
-                                    <a v-if="props.showSupport" class="header-indicator"
-                                        @click="() => { storeLayout.showSupport = true }">
-                                        <span class="count" v-if="storeLayout.header.support > 0"></span>
-                                        <span class="ri-ticket-2-line"></span>
-                                    </a>
-                                <% end %>
-
                                 <!-- tasks -->
                                 <% if defined?(LesliFocus) %>
                                     <a v-if="props.showFocus" class="header-indicator"
@@ -84,15 +75,29 @@ Building a better future, one line of code at a time.
                                     </a>
                                 <% end %>
 
+                                <!-- tickets -->
+                                <% if defined?(LesliSupport) %>
+                                    <%= link_to(
+                                        lesli_support.tickets_path, 
+                                        :class => "header-indicator",
+                                        :data => { turbo_frame: '_top' }) do %>
+                                        <span class="ri-ticket-2-line"></span>
+                                        <% if @lesli[:tickets] > 0 %>
+                                            <span class="count"></span>
+                                        <% end %>
+                                    <% end %>
+                                <% end %>
+
                                 <!-- notifications -->
                                 <% if defined?(LesliBell) %>
                                     <%= link_to(
                                         lesli_bell.notifications_path, 
                                         :class => "header-indicator",
                                         :data => { turbo_frame: '_top' }) do %>
-                                        <span class="ri-notification-3-line"></span>
                                         <% if @lesli[:notifications] > 0 %>
-                                            <span class="count"></span>
+                                            <span class="ri-notification-3-fill has-text-primary"></span>
+                                        <% else %>
+                                            <span class="ri-notification-3-line"></span>
                                         <% end %>
                                     <% end %>
                                 <% end %>
