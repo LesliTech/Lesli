@@ -93,10 +93,11 @@ module Lesli
             # Add the Lesli root folder for email development tempaltes
             config.action_mailer.preview_paths << root.join("lib", "mailer_previews")
 
+            # 
             config.action_mailer.default_options ||= {
 
                 # Use the main email in the lesli settings as email sender
-                from: config.company.dig(:email)
+                from: Lesli.config.company.dig(:email)
             }
 
             # Mailer url options for development 

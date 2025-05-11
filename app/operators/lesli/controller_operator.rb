@@ -104,6 +104,8 @@ module Lesli
                 next if route[:controller].include? "rails"
                 next if route[:controller].include? "action_mailbox"
                 next if route[:controller].include? "active_storage"
+                next if route[:controller].include? "view_components"
+                next if route[:controller].include? "turbo/native/navigation"
 
                 if DEVISE_CONTROLLERS.include?(route[:controller])
                     list = "lesli"

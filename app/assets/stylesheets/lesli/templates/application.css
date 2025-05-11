@@ -31077,6 +31077,7 @@ Building a better future, one line of code at a time.
 }
 .lesli-application-engines .engines-container .engines a:hover {
   border-color: var(--lesli-color-primary);
+  transform: translateY(-1px);
 }
 .lesli-application-engines .engines-container .engines a.is-active {
   background-color: #F0F4FF;

@@ -58,6 +58,7 @@ Building a better future, one line of code at a time.
 
                 &:hover {
                     border-color: var(--lesli-color-primary);
+                    transform: translateY(-1px);
                 }
 
                 &.is-active {
