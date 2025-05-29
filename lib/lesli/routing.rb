@@ -55,12 +55,14 @@ module Lesli
                 mount LesliAdmin::Engine => "/admin" if defined?(LesliAdmin)
                 mount LesliAudit::Engine => "/audit" if defined?(LesliAudit)
                 mount LesliBabel::Engine => "/babel" if defined?(LesliBabel)
+                mount LesliMailer::Engine => "/mailer" if defined?(LesliMailer)
                 mount LesliShield::Engine => "/shield" if defined?(LesliShield)
                 mount LesliPapers::Engine => "/papers" if defined?(LesliPapers)
                 mount LesliSupport::Engine => "/support" if defined?(LesliSupport)
                 mount LesliSecurity::Engine => "/security" if defined?(LesliSecurity)
                 mount LesliCalendar::Engine => "/calendar" if defined?(LesliCalendar)
                 mount LesliDashboard::Engine => "/dashboard" if defined?(LesliDashboard)
+                
             end
         end
 
