@@ -34,61 +34,17 @@ module Lesli
     class ApplicationLesliMailer < ActionMailer::Base
 
         # Set a dynamic template according to the engine that is sending the email
-        # this is equivalent to: default template_path: -> { "engine_name/emails" }
-=begin
-        default(
+        default(template_path: Lesli.config.mailer.dig(:templates))
 
-            from: -> {
-
-                instance = Rails.application.config.lesli.dig(:instance)
-
-                # add custom email name for emails sent from www.lesli.cloud
-                if instance[:code] == 'lesli_cloud'
-                    return email_address_with_name(
-                        Rails.configuration.lesli.dig(:env, :action_mailer, :default_options_from), 
-                        "Lesli"
-                    )
-                end
-
-                Rails.configuration.lesli.dig(:env, :action_mailer, :default_options_from)
-
-            },
-
-            template_path: -> {
-
-                instance = Rails.application.config.lesli.dig(:instance)
-
-                # get class that is executing the mailer
-                module_info = self.class.name.split("::")
-
-                # mailers from engines
-                if module_info.length > 1
-                    return "#{ instance[:code] }/emails/#{(module_info[0].underscore)}/#{ module_info[1].underscore }"
-                end
-
-                # mailers from core
-                return "#{ instance[:code] }/emails/#{ module_info[0].underscore }"
-
-            }
-
-        )
-=end
         #after_action :log_mail_requests
-
-        #default(template_path: "lesli/emails/devise_mailer")
 
         def initialize
 
             super
 
-            # some @email data is defined on: LesliMails/src/partials/data.html
-            
-            @email = {}
+            @app = {}
             @custom = {}
-            @params = {
-                :host => default_url_options[:host] || ""
-            }
-
+            @params = {}
         end
 
         protected
@@ -96,6 +52,8 @@ module Lesli
         def email(params={}, user:nil, to:, subject:, template_name:) 
 
             @params = @params.merge(params)
+
+            build_app_from_params(params)
 
             mail(
                 to: to, 
@@ -110,20 +68,19 @@ module Lesli
         def build_app_from_params(params)
 
             @app[:host] = default_url_options[:host]
-            # @app[:company] = {
-            #     id: 0,
-            #     name: "",
-            #     tag_line: "",
-            # }
+            @app[:company] = {
+                id: 0,
+                name: "",
+                tag_line: "",
+            }
 
-            # return if params[:user].blank? || params[:user].class.name != "User"
+            return if params[:user].blank? || params[:user].class.name != "Lesli::User"
 
-            # @app[:company] = {
-            #     id: params[:user].account.id,
-            #     name: params[:user].account.company_name,
-            #     tag_line: params[:user].account.company_tag_line,
-            # }
-
+            @app[:company] = {
+                id: params[:user].account.id,
+                name: params[:user].account.name,
+                #tag_line: params[:user].account.company_tag_line,
+            }
         end
 
         def build_customization_from_params(params)
@@ -174,6 +131,8 @@ module Lesli
                 }
             end
 
+            if defined? LesliMailer
+            end
             # TODO: Save template path and view used within the email
             Account::Log.log_email(
                 "#{self.class.to_s}/#{self.action_name}", 

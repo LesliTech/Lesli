@@ -112,6 +112,12 @@ Lesli.configure do |config|
         locale: false
     }
 
+
+    #
+    config.mailer = {
+        templates: "lesli_mailer/emails/lesli"
+    }
+
     config.path_after_login = "/"
     config.path_after_login = "/dashboard" if defined?(LesliDashboard)
 end

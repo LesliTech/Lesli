@@ -46,4 +46,8 @@ class DeviseMailerPreview < ActionMailer::Preview
         Lesli::DeviseMailer.confirmation_instructions(record, token, opts)
     end
 
+    def welcome
+        record = Lesli::User.first
+        Lesli::DeviseMailer.welcome(record)
+    end
 end

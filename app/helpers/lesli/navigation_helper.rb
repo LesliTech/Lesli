@@ -109,8 +109,8 @@ module Lesli
 
         # 02.05 Mailer engine
         def navigation_engine_mailer(title: "Mailer", subtitle: "Email automation system")
-            return unless defined? CloudMailer
-            navigation_engine_item(title,subtitle,"mailer",cloud_mailer.root_path,controller_path.include?("cloud_mailer"))
+            return unless defined? LesliMailer
+            navigation_engine_item(title,subtitle,"mailer", lesli_mailer.root_path,controller_path.include?("lesli_mailer"))
         end
 
         # 02.08 Proposal engine
@@ -260,7 +260,7 @@ module Lesli
         # SECURITY & PRIVACY
 
         # 08.01 Shield engine
-        def navigation_engine_shield(title: "Shield", subtitle: "Authentication & Authorization Management.")
+        def navigation_engine_shield(title: "Shield", subtitle: "Authentication & Authorization")
             return unless defined? LesliShield
             navigation_engine_item(title, subtitle, "shield", lesli_shield.root_path, controller_path.include?("lesli_shield"))
         end
