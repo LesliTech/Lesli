@@ -1,8 +1,7 @@
-=begin
-
+/*
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +18,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -28,26 +27,18 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-=end
+*/
+@import "lesli-css";
 
-class DeviseMailerPreview < ActionMailer::Preview
-
-    def reset_password_instructions
-        record = Lesli::User.first
-        token = "abcdef12345"
-        opts = {}
-        Lesli::DeviseMailer.reset_password_instructions(record, token, opts)
-    end
-
-    def confirmation_instructions
-        record = Lesli::User.first
-        token = "abcdef12345"
-        opts = {}
-        Lesli::DeviseMailer.confirmation_instructions(record, token, opts)
-    end
-
-    def welcome
-        record = Lesli::User.first
-        Lesli::DeviseMailer.welcome(record)
-    end
-end
+.charts-css {
+    --color-1: #64baff;
+    --color-2: yellow;
+    --color-3: rgba(yellow, 0.5);
+    --color-4: rgba(yellow, 0.6);
+    --color-5: rgba(yellow, 1.0);
+    --color-6: rgba(yellow, 1.0);
+    --color-7: rgba(yellow, 0.8);
+    --color-8: rgba(yellow, 0.6);
+    --color-9: rgba(yellow, 0.4);
+    --color-10: rgba(yellow, 0.2);
+}

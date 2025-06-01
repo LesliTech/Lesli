@@ -47,6 +47,20 @@ module Lesli
             @params = {}
         end
 
+        def build_url(path, params = {})
+            default_url = Rails.application.config.action_mailer.default_url_options
+            host = default_url[:host].to_s.sub(/\Ahttps?:\/\//, "")
+            scheme = default_url[:protocol]&.delete(":") || "http"
+
+            URI::Generic.build(
+                scheme: scheme,
+                host: host,
+                port: default_url[:port],
+                path: path,
+                query: params.to_query.presence
+            ).to_s
+        end
+
         protected
 
         def email(params={}, user:nil, to:, subject:, template_name:) 
@@ -67,7 +81,7 @@ module Lesli
 
         def build_app_from_params(params)
 
-            @app[:host] = default_url_options[:host]
+            @app[:host] = build_url("/")
             @app[:company] = {
                 id: 0,
                 name: "",
