@@ -1,84 +1,55 @@
----
-title: Lesli Core Documentation
-layout: website
----
+<p align="center">
+    <img width="200" alt="Lesli logo" src="../app/assets/images/lesli/lesli-logo.svg" />
+    <h1 align="center">Ruby on Rails SaaS Development Framework.</h1>
+</p>
 
-<%
-links = [{
-    href: "/engines/lesli/about/",
-    icon: "ri-heart-line",
-    text: "About"
-}, {
-    href: "/engines/lesli/getting-started/",
-    icon: "ri-send-plane-line",
-    text: "Getting started"
-}, {
-    href: "/engines/lesli/contributing/",
-    icon: "ri-git-pull-request-line",
-    text: "Contributing"
-}, {
-    href: "/engines/lesli/database/",
-    icon: "ri-database-line",
-    text: "Database"
-}, {
-    href: "/engines/lesli/ruby-on-rails/",
-    icon: "ri-server-line",
-    text: "Ruby on Rails"
-}, {
-    href: "/engines/lesli/theming/",
-    icon: "ri-window-line",
-    text: "Frontend"
-}, {
-    href: "/engines/lesli/theming/",
-    icon: "ri-palette-line",
-    text: "Theming"
-#}, {
-#href: "/engines/lesli/security/",
-#icon: "ri-shield-line",
-#text: "Security"
-}, {
-    href: "/engines/lesli/generators/",
-    icon: "ri-code-line",
-    text: "Generators"
-}, {
-    href: "/engines/lesli/testing/",
-    icon: "ri-bug-line",
-    text: "Testing"
-#}, {
-#href: "/engines/lesli/engines/",
-#icon: "ri-shapes-line",
-#text: "Engines"
-}, {
-    href: "/engines/lesli/deployment/",
-    icon: "ri-flashlight-line",
-    text: "Deployment"
-}]
-%>
 
-<div class="documentation-header">
-    <img alt="Lesli Admin logo" src="../app/assets/images/lesli_admin/admin-logo.svg" />
-    <h1>
-        Administration area
-    </h1>
+<hr/>
+
+<p align="center" class="is-flex is-justify-content-center">
+    <a target="blank" href="https://rubygems.org/gems/lesli">
+        <img height="22" alt="Gem Version" src="https://badge.fury.io/rb/lesli.svg"/>
+    </a>
+    <a class="mx-2" href="https://codecov.io/github/LesliTech/Lesli"> 
+        <img height="22" src="https://codecov.io/github/LesliTech/Lesli/graph/badge.svg?token=2O12NENK5Y"/> 
+    </a>
+    <a href="https://codecov.io/github/LesliTech/LesliBabel"> 
+        <img height="22" src="https://sonarcloud.io/api/project_badges/measure?project=LesliTech_LesliBabel&metric=sqale_rating"/> 
+    </a>
+</p>
+
+<hr/>
+<br />
+
+<div align="center">
+    <img 
+        style="width:100%;max-width:800px;border-radius:6px;" 
+        alt="Lesli screenshot" src="./images/screenshot.png" />
 </div>
 
-<header>
-    <%#= partial("partials/lesli-navigation", :locals => { :logo => true }) %>
-    <div class="container">
-        <%= image_tag "brand/lesli.svg", alt: "Lesli logo", class: "lesli-logo" %>
-        <h1>Core <span class="lesli-title-colored">Documentation</span></h1>
-        <p>Lesli is a SaaS development framework designed to build highly scalable, secure and customizable software products.</p>
-    </div>
-    <div class="container lesli-component-boxes">
-        <div class="columns">
-            <% links.each do |link| %>
-                <div class="column">
-                    <a href="<%= link[:href] %>">
-                        <i class="<%= link[:icon] %>"></i>
-                        <%= link[:text] %>
-                    </a>
-                </div>
-            <% end %>
-        </div>
-    </div>
-</header>
+
+### Introduction 
+
+Lesli is a SaaS development framework designed to build highly scalable, secure and customizable software products.
+
+Built-on top of Ruby on Rails, Postgres, Vuejs, Bulma, SASS and many more awesome open-source libraries, packages, gems and tools.
+
+Lesli is completely open source and comes with features and tools that can save you years of development effort, additionally, our pre-built modules can seamlessly extend Lesli's functionality, allowing you to build your own SaaS in a matter of minutes.
+
+<br />
+<hr />
+
+<p align="center">
+    Lesli is currently in alpha, but we're excited about the promising improvements coming soon!
+</p>
+
+<hr />
+<br />
+
+
+<br />
+
+Lesli is officially released and will be supported as of version 5.1
+
+> Lesli goes beyond being just a starter-kit, template, admin panel or dashboard. Lesli is a Ruby on Rails gem that you can use to build modules (a.k.a. engines) and standard Rails applications leveraging its robust set of built-in features, generators, components, and industry standards. With Lesli, you have the flexibility to extend existing functionalities or develop fully customized software tailored to your specific needs.
+
