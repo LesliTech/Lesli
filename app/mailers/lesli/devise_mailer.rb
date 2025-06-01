@@ -10,7 +10,7 @@ module Lesli
 
             # email parameters
             params = {
-                url: "/password/edit?reset_password_token=#{token}",
+                url: build_url("/password/edit", { reset_password_token: token}),
                 full_name: user.full_name
             }
 
@@ -42,7 +42,7 @@ module Lesli
 
             # email parameters
             params = {
-                url: "/confirmation?confirmation_token=#{token}"
+                url: build_url("/confirmation", { confirmation_token: token})
             }
 
             # send email
