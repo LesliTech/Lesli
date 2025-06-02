@@ -5,6 +5,11 @@
 Experience the full capabilities of the Lesli Platform with our live demo:  
 <u>[https://demo.lesli.dev](https://demo.lesli.dev)</u>
 
+
+<p class="has-text-weight-extrabold">
+The demo server is currently under maintenance and may not be working. Please check back in a few days to see if it's available again.
+</p>
+
 > **Note:** This is a public demo instance. Please keep in mind:  
 > - LesliTech is not responsible for any data stored in this demo.  
 > - The demo environment is reset every 24 hours to maintain performance and integrity.  
