@@ -18456,15 +18456,15 @@ Building a better future, one line of code at a time.
 */
 .charts-css {
   --color-1: #64baff;
-  --color-2: yellow;
-  --color-3: rgba(yellow, 0.5);
-  --color-4: rgba(yellow, 0.6);
-  --color-5: rgba(yellow, 1.0);
-  --color-6: rgba(yellow, 1.0);
-  --color-7: rgba(yellow, 0.8);
-  --color-8: rgba(yellow, 0.6);
-  --color-9: rgba(yellow, 0.4);
-  --color-10: rgba(yellow, 0.2);
+  --color-2: #43d6b5;
+  --color-3: #cd9ef7;
+  --color-4: #9bdb4d;
+  --color-5: #f4679d;
+  --color-6: #ffa154;
+  --color-7: #ffe16b;
+  --color-8: #667885;
+  --color-9: #8a715e;
+  --color-10: #ed5353;
 }
 
 /*
