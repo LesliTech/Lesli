@@ -98,6 +98,26 @@
 <hr />
 <br />
 
+## Notification colors
+<div class="columns">
+    <div class="br-2 has-text-centered py-4 has-text-white has-background-info">
+        Information
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-white has-background-success">
+        Success
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-black has-background-warning">
+        Warning
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-white has-background-danger">
+        Warning
+    </div>
+</div>
+
+
+<hr />
+<br />
+
 ## General colors
 <div class="columns">
     <div class="br-2 has-text-centered py-4 has-text-white lesli-background-blue-500">
@@ -117,48 +137,6 @@
     </div>
     <div class="br-2 has-text-centered py-4 has-text-white lesli-background-blue-900">
         Blue 900
-    </div>
-</div>
-
-<div class="columns">
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-bubble-500">
-        Bubble
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-bubble-100">
-        Bubble 100
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-bubble-300">
-        Bubble 300
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-bubble-500">
-        Bubble 500
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-bubble-700">
-        Bubble 700
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-bubble-900">
-        Bubble 900
-    </div>
-</div>
-
-<div class="columns">
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-grape-500">
-        Grape
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-grape-100">
-        Grape 100
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-grape-300">
-        Grape 300
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-grape-500">
-        Grape 500
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-grape-700">
-        Grape 700
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-grape-900">
-        Grape 900
     </div>
 </div>
 
@@ -184,6 +162,48 @@
 </div>
 
 <div class="columns">
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-mint-500">
+        Mint
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-mint-100">
+        Mint 100
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-mint-300">
+        Mint 300
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-mint-500">
+        Mint 500
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-mint-700">
+        Mint 700
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-mint-900">
+        Mint 900
+    </div>
+</div>
+
+<div class="columns">
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-grape-500">
+        Grape
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-grape-100">
+        Grape 100
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-grape-300">
+        Grape 300
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-grape-500">
+        Grape 500
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-grape-700">
+        Grape 700
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-grape-900">
+        Grape 900
+    </div>
+</div>
+
+<div class="columns">
     <div class="br-2 has-text-centered py-4 has-text-white lesli-background-orange-500">
         Orange
     </div>
@@ -201,6 +221,48 @@
     </div>
     <div class="br-2 has-text-centered py-4 has-text-white lesli-background-orange-900">
         Orange 900
+    </div>
+</div>
+
+<div class="columns">
+    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-banana-500">
+        Banana
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-banana-100">
+        Banana 100
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-banana-300">
+        Banana 300
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-banana-500">
+        Banana 500
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-banana-700">
+        Banana 700
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-banana-900">
+        Banana 900
+    </div>
+</div>
+
+<div class="columns">
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-bubble-500">
+        Bubble
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-bubble-100">
+        Bubble 100
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-bubble-300">
+        Bubble 300
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-bubble-500">
+        Bubble 500
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-bubble-700">
+        Bubble 700
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-bubble-900">
+        Bubble 900
     </div>
 </div>
 
@@ -247,27 +309,6 @@
 </div>
 
 <div class="columns">
-    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-banana-500">
-        Banana
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-banana-100">
-        Banana 100
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-banana-300">
-        Banana 300
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-banana-500">
-        Banana 500
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-banana-700">
-        Banana 700
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-banana-900">
-        Banana 900
-    </div>
-</div>
-
-<div class="columns">
     <div class="br-2 has-text-centered py-4 has-text-white lesli-background-slate-500">
         Slate
     </div>
@@ -285,27 +326,6 @@
     </div>
     <div class="br-2 has-text-centered py-4 has-text-white lesli-background-slate-900">
         Slate 900
-    </div>
-</div>
-
-<div class="columns">
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-mint-500">
-        Mint
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-mint-100">
-        Mint 100
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-mint-300">
-        Mint 300
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-mint-500">
-        Mint 500
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-mint-700">
-        Mint 700
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-mint-900">
-        Mint 900
     </div>
 </div>
 
@@ -357,9 +377,9 @@
 
 ## Fonts
 
-We use Domine for titles and Roboto for body
+We use Domine for headings and Roboto for body text.
 
 <br />
 
 <h3 style="font-weight:100;font-size:4rem;" class="has-text-centered">Lesli Title Font</h3>
-<p style="font-weight:100;font-size:3rem;" class="has-text-centered">Lesli Body Font</p>
+<p style="font-weight:100;font-size:3rem;" class="has-text-centered">Lesli body font</p>
