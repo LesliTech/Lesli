@@ -41,12 +41,12 @@ module Lesli
         # example: lesli_cloud, deutsche_leibrenten, mitwerken_cloud
         def lesli_instance_code
             return "lesli"
-            Lesli::System.instance[:code]
+            #Lesli::System.instance[:code]
         end
 
         # return the information about the current engine
         def lesli_engine(property = nil)
-            Lesli::System.engine(lesli_controller, property)
+            LesliSystem.engine(lesli_controller, property)
         end
 
         # return true if the controller requested belongs to the administration area
