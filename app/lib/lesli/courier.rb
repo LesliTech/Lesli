@@ -1,46 +1,3 @@
-=begin
-
-Lesli
-
-Copyright (c) 2023, Lesli Technologies, S. A.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see http://www.gnu.org/licenses/.
-
-Lesli · Ruby on Rails SaaS Development Framework.
-
-Made with ♥ by LesliTech
-Building a better future, one line of code at a time.
-
-@contact  hello@lesli.tech
-@website  https://www.lesli.tech
-@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-=end
-
-
-# · Usage
-# · 
-# · Lesli::Courier.new(:lesli_test).from(:ticket_service).call(:index_with_deadline)
-# · Lesli::Courier.new(:lesli_test).from(:ticket_service, curent_user, query).call(:index)
-# · Lesli::Courier.new(:lesli_test).from(:ticket_service, curent_user, query).call(:create, params)
-# · 
-# · Lesli::Courier.new(:lesli_test, []).from(:ticket_service).call(:index_with_deadline)
-# · Lesli::Courier.new(:lesli_test, []).from(:ticket_service, curent_user, query).call(:index)
-# · Lesli::Courier.new(:lesli_test, false).from(:ticket_service, curent_user, query).call(:create, params)
-# · 
 module Lesli
     class Courier
 
@@ -89,6 +46,9 @@ module Lesli
 
             # Dynamically call the method on the service instance
             module_service_instance.send(@method_name)
+
+        rescue 
+            return @on_error
         end
     end
 end
