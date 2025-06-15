@@ -103,14 +103,14 @@
     <div class="br-2 has-text-centered py-4 has-text-white has-background-info">
         Information
     </div>
-    <div class="br-2 has-text-centered py-4 has-text-white has-background-success">
+    <div class="br-2 has-text-centered py-4 has-text-black has-background-success">
         Success
     </div>
     <div class="br-2 has-text-centered py-4 has-text-black has-background-warning">
         Warning
     </div>
     <div class="br-2 has-text-centered py-4 has-text-white has-background-danger">
-        Warning
+        Danger
     </div>
 </div>
 
