@@ -36,16 +36,6 @@ Building a better future, one line of code at a time.
 //= link_tree ../images/lesli .jpg
 //= link_tree ../images/lesli .svg
 
-
-
-// · Framework asssets
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-//= link lesli/templates/start.css
-//= link lesli/templates/public.css
-//= link lesli/templates/application.css
-
-
-
 // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 //= link lesli/application.css
