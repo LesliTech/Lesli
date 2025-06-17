@@ -325,7 +325,7 @@ module Lesli
             return nil if modules_hidden.include?(path)
 
             # render module navigation item :)
-            content_tag(:a, href: path, class: is_active ? "is-active" : nil, data: { turbo: false }) do
+            content_tag(:a, id: path.gsub("/",""), href: path, class: is_active ? "is-active" : nil, data: { turbo: false }) do
                 lesli_svg("engine-#{icon}") << content_tag(:div) do
                     content_tag(:span, title) << content_tag(:p, subtitle)
                 end

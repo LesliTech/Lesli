@@ -1,3 +1,17 @@
+<script>
+document.addEventListener('turbo:load', () => {
+    const stored = localStorage.getItem('engineData')
+    const data = stored ? JSON.parse(stored) : { engines: [] }
+
+    data.engines.forEach(id => {
+        const el = document.getElementById(id.replace("lesli"))
+        console.log(id.replace("lesli",""))
+        console.log(el)
+        if (el) el.style.display = 'none'
+    })
+})
+</script>
+
 <%= render(LesliView::Layout::Container.new("lesli-apps", dashboard: true)) do %>
     <section 
         class="lesli-application-engines">
