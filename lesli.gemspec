@@ -81,7 +81,7 @@ Gem::Specification.new do |spec|
     spec.add_dependency("turbo-rails")
 
     # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
-    spec.add_dependency("stimulus-rails")
+    #spec.add_dependency("stimulus-rails")
 
 
 
@@ -101,10 +101,13 @@ Gem::Specification.new do |spec|
     # · Tools used to build the Lesli Framework
 
     # Reusable View Components for The Lesli Framework 
-    spec.add_dependency("lesli_view")
+    spec.add_dependency("lesli_view", "~> 0.5")
+
+    # Reusable View Components for The Lesli Framework 
+    spec.add_dependency("lesli_assets", "~> 0.5")
 
     # Message utilities for the Ruby console.
-    spec.add_dependency("L2", "~> 0.6.5")
+    spec.add_dependency("L2", "~> 0.6")
 
 
 

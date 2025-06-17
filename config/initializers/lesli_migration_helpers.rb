@@ -30,19 +30,19 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-require(Lesli::Engine.root.join("lib/migration_helpers/common"))
+require(Lesli::Engine.root.join("lib/migrate/common"))
 
-require(Lesli::Engine.root.join("lib/migration_helpers/items/action_structure"))
-require(Lesli::Engine.root.join("lib/migration_helpers/items/activity_structure"))
-require(Lesli::Engine.root.join("lib/migration_helpers/items/attachment_structure"))
-require(Lesli::Engine.root.join("lib/migration_helpers/items/discussion_structure"))
-require(Lesli::Engine.root.join("lib/migration_helpers/items/subscriber_structure"))
-require(Lesli::Engine.root.join("lib/migration_helpers/items/version_structure"))
+require(Lesli::Engine.root.join("lib/migrate/items/action_structure"))
+require(Lesli::Engine.root.join("lib/migrate/items/activity_structure"))
+require(Lesli::Engine.root.join("lib/migrate/items/attachment_structure"))
+require(Lesli::Engine.root.join("lib/migrate/items/discussion_structure"))
+require(Lesli::Engine.root.join("lib/migrate/items/subscriber_structure"))
+require(Lesli::Engine.root.join("lib/migrate/items/version_structure"))
 
-require(Lesli::Engine.root.join("lib/migration_helpers/shared/account_structure"))
-require(Lesli::Engine.root.join("lib/migration_helpers/shared/setting_structure"))
-require(Lesli::Engine.root.join("lib/migration_helpers/shared/catalog_structure"))
-require(Lesli::Engine.root.join("lib/migration_helpers/shared/dashboard_structure"))
+require(Lesli::Engine.root.join("lib/migrate/shared/account_structure"))
+require(Lesli::Engine.root.join("lib/migrate/shared/setting_structure"))
+require(Lesli::Engine.root.join("lib/migrate/shared/catalog_structure"))
+require(Lesli::Engine.root.join("lib/migrate/shared/dashboard_structure"))
 
 
 
