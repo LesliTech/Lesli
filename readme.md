@@ -3,7 +3,6 @@
     <h1 align="center">Ruby on Rails SaaS Development Framework.</h1>
 </p>
 
-
 <hr/>
 
 <p align="center" class="is-flex is-justify-content-center">
@@ -19,7 +18,6 @@
 </p>
 
 <hr/>
-
 <br />
 
 <div align="center">
@@ -27,6 +25,7 @@
         style="width:100%;max-width:800px;border-radius:6px;" 
         alt="Lesli screenshot" src="./docs/images/screenshot.png" />
 </div>
+
 
 ### Introduction 
 
@@ -37,38 +36,41 @@ Built-on top of Ruby on Rails, Postgres, Hotwire, Bulma, SASS and many more awes
 Lesli is completely open source and comes with features and tools that can save you years of development effort, additionally, our pre-built modules can seamlessly extend Lesli's functionality, allowing you to build your own SaaS in a matter of minutes.
 
 <br />
-    <hr />
-        <p align="center">
-            Lesli is currently in alpha, but we're excited about the promising improvements coming soon!
-        </p>
-    <hr />
+<hr />
+<p align="center">
+    Lesli is currently in alpha, but we're excited about the promising improvements coming soon!
+</p>
+<hr />
 <br />
-
-
 <br />
 
 Lesli is officially released and will be supported as of version 5.1
 
+<br />
+
 > Lesli goes beyond being just a starter-kit, template, admin panel or dashboard. Lesli is a Ruby on Rails gem that you can use to build modules (a.k.a. engines) and standard Rails applications leveraging its robust set of built-in features, generators, components, and industry standards. With Lesli, you have the flexibility to extend existing functionalities or develop fully customized software tailored to your specific needs.
 
-
 <br />
+
+
 
 ### Demo
 
 * online demo (soon)
 * [docker demo](https://github.com/LesliTech/lesli-docker-demo)
 
-
 <br />
+
+
 
 ### Documentation
 * [Website](https://www.lesli.dev/)
 * [Database](./docs/database.md)
 * [Documentation](https://www.lesli.dev/docs.html)
 
-
 <br />
+
+
 
 ### Quick start
 
@@ -92,8 +94,9 @@ Rails.application.routes.draw do
 end
 ```
 
-
 <br />
+
+
 
 ### Development 
 
@@ -126,8 +129,9 @@ rails s --environment=development
 RAILS_SERVE_STATIC_FILES=true rails s --environment=production 
 ```
 
-
 <br />
+
+
 
 ### Get in touch with Lesli
 
@@ -135,12 +139,13 @@ RAILS_SERVE_STATIC_FILES=true rails s --environment=production
 * [Email: hello@lesli.tech](hello@lesli.tech)
 * [Twitter: @LesliTech](https://twitter.com/LesliTech)
 
-
 <br />
+
+
 
 ### License
 -------
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -156,3 +161,9 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
 <hr />
+<br />
+
+<p align="center">
+    <img width="200" alt="Lesli logo" src="https://cdn.lesli.tech/lesli/brand/app-logo.svg" />
+    <h4 align="center">Ruby on Rails SaaS Development Framework.</h4>
+</p>

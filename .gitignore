@@ -37,10 +37,5 @@
 brakeman.html
 
 
-# Lesli specific 
-/node_modules
-package-lock.json
-
-
 # Ignore Lesli gems
 lesli*.gem
