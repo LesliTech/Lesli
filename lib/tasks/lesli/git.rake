@@ -51,8 +51,8 @@ namespace :lesli do
     def commit git_message
 
         # for every installed engine
-        pp Lesli::System.engines(:local => true)
-        # Lesli::System.engines_local.each do |name, engine|
+        pp LesliSystem.engines(:local => true)
+        # LesliSystem.engines_local.each do |name, engine|
 
         #     engine_path = Rails.root.join("engines", name)
 

@@ -67,7 +67,7 @@ namespace :lesli do
         instance = Lesli.config.instance
 
         # get installed engines
-        engines = Lesli::System.engines.map { |engine, engine_info|
+        engines = LesliSystem.engines.map { |engine, engine_info|
             {
                 :name => engine_info[:name],
                 :code => engine_info[:code],

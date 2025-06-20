@@ -44,7 +44,7 @@ module Lesli
                 format.json { 
 
                     # get installed engines
-                    @lesli_engines = Lesli::System.engines.map { |engine, engine_info|
+                    @lesli_engines = LesliSystem.engines.map { |engine, engine_info|
                         {
                             :name => engine_info[:name],
                             :code => engine_info[:code],

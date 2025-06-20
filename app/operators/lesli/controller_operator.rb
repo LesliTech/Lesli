@@ -120,7 +120,7 @@ module Lesli
             end
 
             # Get the list of controllers and actions from engines
-            Lesli::System.engines.each do |engine, engine_info|
+            LesliSystem.engines.each do |engine, engine_info|
 
                 # Do not process main Rails app
                 next if engine == "Root"
