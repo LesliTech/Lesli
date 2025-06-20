@@ -48,7 +48,7 @@ namespace :lesli do
         # get all the available workflows
         workflows = Dir.glob(Rails.root.join("engines", "Lesli", ".github", "workflows", "*"))
 
-        Lesli::System.engines(local:true).each do |name, engine|
+        LesliSystem.engines(local:true).each do |name, engine|
 
             engine = engine[1]
 

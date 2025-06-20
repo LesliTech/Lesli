@@ -41,7 +41,7 @@ module Lesli
         # example: lesli_cloud, deutsche_leibrenten, mitwerken_cloud
         def lesli_instance_code
             return "lesli"
-            #Lesli::System.instance[:code]
+            #LesliSystem.instance[:code]
         end
 
         # return the information about the current engine

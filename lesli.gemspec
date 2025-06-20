@@ -101,10 +101,10 @@ Gem::Specification.new do |spec|
     # · Tools used to build the Lesli Framework
 
     # Reusable View Components for The Lesli Framework 
-    spec.add_dependency("lesli_view", "~> 0.5")
+    #spec.add_dependency("lesli_view", "~> 0.5")
 
     # Reusable View Components for The Lesli Framework 
-    spec.add_dependency("lesli_assets", "~> 0.5")
+    #spec.add_dependency("lesli_assets", "~> 0.1")
 
     # Message utilities for the Ruby console.
     spec.add_dependency("L2", "~> 0.6")

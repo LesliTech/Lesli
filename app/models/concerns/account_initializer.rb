@@ -65,7 +65,7 @@ module AccountInitializer
     # initialize engines for new accounts
     def initialize_engines
 
-        Lesli::System.engines.each do |engine, data|
+        LesliSystem.engines.each do |engine, data|
 
             next if ["Lesli", "LesliBabel", "LesliShield", "Root"].include?(engine)
 
