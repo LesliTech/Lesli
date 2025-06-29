@@ -100,11 +100,14 @@ Gem::Specification.new do |spec|
 
     # · Tools used to build the Lesli Framework
 
-    # Reusable View Components for The Lesli Framework 
-    #spec.add_dependency("lesli_view", "~> 0.5")
+    # Datetime formatter and SQL-safe utilities for Rails, part of the LesliSystem
+    spec.add_dependency("lesli_date", "~> 0.1")
 
     # Reusable View Components for The Lesli Framework 
-    #spec.add_dependency("lesli_assets", "~> 0.1")
+    spec.add_dependency("lesli_view", "~> 1.0")
+
+    # Reusable View Components for The Lesli Framework 
+    spec.add_dependency("lesli_assets", "~> 1.0")
 
     # Message utilities for the Ruby console.
     spec.add_dependency("L2", "~> 0.6")
