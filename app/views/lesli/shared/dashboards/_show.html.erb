@@ -53,11 +53,13 @@ end
         </div>
     </section>
 
-    <%= render(LesliView::Elements::Empty.new(text: "Empty dashboard")) if @dashboard[:components].blank? %>
+    <%#= render(LesliView::Elements::Empty.new(text: "Empty dashboard")) if @dashboard[:components].blank? %>
+
+    <%= dd @dashboard %>
 
     <div class="columns is-multiline is-variable is-4 dashboard-components">
-        <% @dashboard[:components].each do |component| %>
-            <%= render("#{controller.controller_path}/component-#{component}", { :component => component }) %>
-        <% end %>
+        <%# @dashboard[:components].each do |component| %>
+            <%#= render("#{controller.controller_path}/component-#{component}", { :component => component }) %>
+        <%# end %>
     </div>
 <% end %>
