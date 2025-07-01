@@ -43,24 +43,9 @@ namespace :lesli do
     # Seed database (development only)
     def welcome
 
-        # do not execute this task if we are at production level
-        return if Rails.env.production?
-
         L2.br(4)
 
         # print the lesli gems
         Rake::Task['lesli:status'].invoke 
-
-        password = Lesli.config.security.dig(:password)
-        password = password  + Time.now.year.to_s + "$"
-        user = Lesli::User.first
-
-        L2.line
-        L2.m(" Owner user credentials (demo):")
-        L2.m(" username: #{ user.email }")
-        L2.m(" password: #{ password }")
-        L2.line
-
-        L2.cow "Enjoy your Lesli demo"
     end
 end
