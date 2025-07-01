@@ -40,7 +40,7 @@ module Lesli
             LesliShield::Routing.mount_login_at(path) if defined?(LesliShield);
 
             # Load generic yet standard routes if LesliShield is not installed
-            unless defined?(LesliShield);
+            if !defined?(LesliShield) && defined?(Devise)
                 Rails.application.routes.draw do
                     devise_for(:users, class_name: "Lesli::User", module: :devise) 
                 end
@@ -50,6 +50,7 @@ module Lesli
         def self.mount
             self.login
             Rails.application.routes.draw do
+                root to: "lesli/abouts#welcome", as: :welcome
                 mount Lesli::Engine => "/lesli" if defined?(Lesli)
                 mount LesliBell::Engine => "/bell" if defined?(LesliBell)
                 mount LesliAdmin::Engine => "/admin" if defined?(LesliAdmin)
@@ -62,7 +63,6 @@ module Lesli
                 mount LesliSecurity::Engine => "/security" if defined?(LesliSecurity)
                 mount LesliCalendar::Engine => "/calendar" if defined?(LesliCalendar)
                 mount LesliDashboard::Engine => "/dashboard" if defined?(LesliDashboard)
-                
             end
         end
 

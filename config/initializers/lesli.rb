@@ -78,7 +78,8 @@ Lesli.configure do |config|
             :date_time => "%d/%m/%Y %H:%M",
             :date_words => "%A, %B %d, %Y",
             :date_time_words => "%A, %B %d, %Y, %H:%M",         # 24 hours datetime in words format (default)
-            :date_time_words_pm => "%A, %B %d, %Y, %I:%M %p"    # 12 hours datetime in words format
+            :date_time_words_pm => "%A, %B %d, %Y, %I:%M %p",   # 12 hours datetime in words format
+            :date_time_words_day => "%A, %B %d, %Y, %H:%M",     # 24 hours datetime in words format (default)
         }
     }
 

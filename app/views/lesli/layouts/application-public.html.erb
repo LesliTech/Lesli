@@ -51,8 +51,7 @@ Building a better future, one line of code at a time.
 </head>
 <body class="<%= application_body_class() %>">
     <%#= yield :application_public_custom_header %>
-    <h1>public layout</h1>
-    <%#= yield %>
+    <%= yield %>
     <%= render partial: "lesli/partials/application-public-javascript" %>
     <%= render partial: "lesli/partials/application-analytics" %>
 </body>
