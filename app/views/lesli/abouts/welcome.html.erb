@@ -125,20 +125,10 @@ html, body, * {
             Getting started
         </a>
     </div>
+    <%= link_to("Apps", "/lesli/apps") unless defined?(LesliDashboard) %>
     <% if defined?(LesliShield) %>
         <%= link_to("Dashboard", "/dashboard") if user_signed_in? && defined?(LesliDashboard) %>
         <%= link_to("Logout", "/logout") if user_signed_in? %>
         <%= link_to("Login", "/login") unless user_signed_in? %>
     <% end %>
 </section>
-
-<% if Rails.env.production? %>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LJRTGWVRCC"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-LJRTGWVRCC');
-    </script>
-<% end %>
