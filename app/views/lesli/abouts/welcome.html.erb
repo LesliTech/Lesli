@@ -1,0 +1,144 @@
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+html, body, * {
+    box-sizing: border-box;
+}
+
+.page-welcome {
+    display: flex;   
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    height: 100vh;
+    padding-bottom: 4rem;
+    background-size: 115px 115px;
+    background-color: #ffffff;
+    background-position: 0 0,55px 55px;
+    background-image:  
+        radial-gradient(#0d52bf 2px, transparent 2px), 
+        radial-gradient(#0d52bf 2px, #ffffff 2px);
+        animation: rotateBackground 12s linear infinite;
+}
+
+.page-welcome svg {
+    width: 320px;
+    background-color: white;
+}
+
+.page-welcome h1 {
+    font-size: 4rem;
+    max-width: 960px;
+    font-weight: 900;
+    text-align: center;
+    line-height: 1.1;
+    margin: 0px auto 2rem;
+    letter-spacing: -.5px;
+    background-color: white;
+    color: #4d4d4d;
+}
+
+.page-welcome h1 span {
+    background: -webkit-linear-gradient(315deg,#0D52Bf 25%,#001F66);
+    background-clip: border-box;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.page-welcome a {
+    font-size: 1.4rem;
+    font-family: "OpenSans", "Ubuntu", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    background-color: white;
+    color: #001F66;
+    display: flex;
+    align-items: center;
+}
+
+.buttons {
+    margin-bottom: 2rem;
+}
+
+.buttons a {
+    border: none;
+    display: inline-block;
+    text-decoration: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px -1px rgba(10, 22, 50, .24);
+
+    margin: 0;
+    color: #ffffff;
+    padding: 14px 40px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 28px;
+}
+
+.buttons a.doc {
+    background: #184fee;
+}
+
+.buttons a.start {
+    background: #444444;
+}
+
+@media only screen and (max-width: 600px) { 
+    .page-welcome svg {
+        width: 250px;
+    }
+
+    .page-welcome h1 {
+        padding: 0 1rem;
+        font-size: 2.7rem;
+    }
+
+    .buttons a {
+        padding: 14px 20px;
+    }
+}
+
+@keyframes rotateBackground {
+    to {
+        background-position: 115px 115px, 170px 170px;
+    }
+}
+</style>
+
+<section class="page-welcome">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="#0d52bf" data-name="Layer 1" viewBox="0 0 716.56 292.44">
+        <path d="M214.181 204.066v40.883H105.328V59.095h42.48v144.97zM294.859 213.088c10.885 0 20.18-4.242 25.49-10.09l31.86 18.324c-13.014 18.051-32.656 27.346-57.916 27.346-45.404 0-73.546-30.535-73.546-70.092s28.756-70.099 70.685-70.099c38.762 0 67.44 30.005 67.44 70.099a77.279 77.279 0 0 1-1.59 15.93h-94.256c5.045 13.802 17.256 18.582 31.833 18.582zm24.422-48.321c-4.243-15.4-16.196-20.975-28.142-20.975-15.134 0-25.224 7.438-28.936 20.975zM476.476 205.126c0 30.528-26.515 43.542-55.222 43.542-26.515 0-46.751-10.09-57.085-31.596l34.519-19.649c3.447 10.09 10.885 15.665 22.566 15.665 9.56 0 14.332-2.917 14.332-8.227 0-14.604-65.312-6.908-65.312-52.836 0-28.943 24.423-43.548 52.04-43.548 21.506 0 40.625 9.56 51.776 28.414L440.1 155.207c-3.72-6.9-9.022-11.68-17.786-11.68-6.901 0-11.165 2.658-11.165 7.43.014 15.136 65.326 5.046 65.326 54.17zM493.725 51.134h39.823v193.815h-39.823zM560.091 112.196h39.83V244.95h-39.83z" class="cls-1"/>
+        <circle cx="580.006" cy="69.932" r="25.322" class="cls-1"/>
+    </svg>
+    <h1>
+        The Open Source Ruby on Rails <span>SaaS Development Framework</span>
+    </h1>
+    <div class="buttons">
+        <a class="doc" target="blank" href="https://www.lesli.dev/">
+            Documentation
+        </a>
+        <a class="start" target="blank" href="https://www.lesli.dev/start/">
+            Getting started
+        </a>
+    </div>
+    <% if defined?(LesliShield) %>
+        <%= link_to("Dashboard", "/dashboard") if user_signed_in? && defined?(LesliDashboard) %>
+        <%= link_to("Logout", "/logout") if user_signed_in? %>
+        <%= link_to("Login", "/login") unless user_signed_in? %>
+    <% end %>
+</section>
+
+<% if Rails.env.production? %>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LJRTGWVRCC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-LJRTGWVRCC');
+    </script>
+<% end %>

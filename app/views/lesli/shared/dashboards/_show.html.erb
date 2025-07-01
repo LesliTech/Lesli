@@ -44,14 +44,20 @@ else
 end
 %>
 
-<%= render(LesliView::Layout::Container.new("dashboards-show")) do %>
+<%= render(LesliView::Layout::Container.new("dashboards-show", :dashboard => true)) do %>
 
-    <section class="lesli-element-header is-flex mt-6">
+    <section class="lesli-element-header is-flex mt-6 mb-6 pb-6 container">
         <div class="lesli-element-header-title">
             <h1 class="subtitle is-size-3 mb-0"><%= welcome_text %>, <%= current_user.full_name %>.</h1>
             <p class=""><%= Date2.new.date_words_day %>.</p>
         </div>
     </section>
 
-    <%= render(LesliView::Elements::Empty.new(text:"Empty dashboard")) %>
+    <%= render(LesliView::Elements::Empty.new(text: "Empty dashboard")) if @dashboard[:components].blank? %>
+
+    <div class="columns is-multiline is-variable is-4 dashboard-components">
+        <% @dashboard[:components].each do |component| %>
+            <%= render("#{controller.controller_path}/component-#{component}", { :component => component }) %>
+        <% end %>
+    </div>
 <% end %>

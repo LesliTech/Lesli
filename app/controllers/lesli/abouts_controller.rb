@@ -32,10 +32,14 @@ Building a better future, one line of code at a time.
 
 module Lesli
     class AboutsController < ApplicationLesliController
+        layout "lesli/layouts/application-public", only: [:welcome]
 
         # def status 
         #     respond_with_successful({ :Lesli => "Ruby on Rails SaaS Development Framework." }) 
         # end
+
+        def welcome 
+        end 
 
         # GET /status
         def show
