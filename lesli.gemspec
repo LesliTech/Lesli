@@ -109,6 +109,9 @@ Gem::Specification.new do |spec|
     # Reusable View Components for The Lesli Framework 
     spec.add_dependency("lesli_assets", "~> 1.0")
 
+    # Core System Utilities for The Lesli Framework.
+    spec.add_dependency("lesli_system", "~> 1.0")
+
     # Message utilities for the Ruby console.
     spec.add_dependency("L2", "~> 0.6")
 

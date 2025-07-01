@@ -40,8 +40,13 @@ require "ancestry"
 require "useragent"
 require "acts_as_paranoid"
 
-require "turbo-rails"
+require "lesli_date"
+require "lesli_view"
+require "lesli_assets"
+require "lesli_system"
+
 require "importmap-rails"
+require "turbo-rails"
 
 module Lesli
     class Engine < ::Rails::Engine
