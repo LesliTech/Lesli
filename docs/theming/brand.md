@@ -119,6 +119,28 @@
 <br />
 
 ## General colors
+
+<div class="columns">
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-silver-500">
+        Silver
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-silver-100">
+        Silver 100
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-silver-300">
+        Silver 300
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-silver-500">
+        Silver 500
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-silver-700">
+        Silver 700
+    </div>
+    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-silver-900">
+        Silver 900
+    </div>
+</div>
+
 <div class="columns">
     <div class="br-2 has-text-centered py-4 has-text-white lesli-background-blue-500">
         Blue
@@ -326,27 +348,6 @@
     </div>
     <div class="br-2 has-text-centered py-4 has-text-white lesli-background-slate-900">
         Slate 900
-    </div>
-</div>
-
-<div class="columns">
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-silver-500">
-        Silver
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-silver-100">
-        Silver 100
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-black lesli-background-silver-300">
-        Silver 300
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-silver-500">
-        Silver 500
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-silver-700">
-        Silver 700
-    </div>
-    <div class="br-2 has-text-centered py-4 has-text-white lesli-background-silver-900">
-        Silver 900
     </div>
 </div>
 

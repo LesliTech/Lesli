@@ -1,0 +1,10 @@
+<%= navigation_for("engines", "lesli", "about", order:["lesli"]) %>
+<%= navigation_for("engines", "lesli", "getting-started", order:["installation", "development"]) %>
+<%= navigation_for("engines", "lesli", "database", order:["structure", "versioning"]) %>
+<%= navigation_for("engines", "lesli", "backend", order:[]) %>
+<%#= navigation_for("engines", "lesli", "frontend", order:[]) %>
+<%= navigation_for("engines", "lesli", "theming", order:[]) %>
+<%#= navigation_for("engines", "lesli", "testing", order:[]) %>
+<%#= navigation_for("engines", "lesli", "security", order:[]) %>
+<%#= navigation_for("engines", "lesli", "deployment", order:[]) %>
+<%= navigation_for("engines", "lesli", "contributing", order:["environment"]) %>
