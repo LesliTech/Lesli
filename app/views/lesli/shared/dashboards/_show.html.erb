@@ -44,7 +44,9 @@ else
 end
 %>
 
-<%= render(LesliView::Layout::Container.new("dashboards-show", :dashboard => true)) do %>
+<% @dashboard ||= { :id=>1, :name=>"", :components=>[] } %>
+
+<%= render(LesliView::Layout::Container.new("dashboards-show", :dashboard => false)) do %>
 
     <section class="lesli-element-header is-flex mt-6 mb-6 pb-6 container">
         <div class="lesli-element-header-title">
@@ -53,13 +55,11 @@ end
         </div>
     </section>
 
-    <%#= render(LesliView::Elements::Empty.new(text: "Empty dashboard")) if @dashboard[:components].blank? %>
-
-    <%= dd @dashboard %>
+    <%= render(LesliView::Elements::Empty.new(text: "Empty dashboard")) if @dashboard[:components].empty? %>
 
     <div class="columns is-multiline is-variable is-4 dashboard-components">
-        <%# @dashboard[:components].each do |component| %>
-            <%#= render("#{controller.controller_path}/component-#{component}", { :component => component }) %>
-        <%# end %>
+        <% @dashboard[:components].each do |component| %>
+            <%= render("#{controller.controller_path}/component-#{component}", { :component => component }) %>
+        <% end %>
     </div>
 <% end %>
