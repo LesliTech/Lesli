@@ -33,6 +33,7 @@ Building a better future, one line of code at a time.
 module Lesli
     module Shared
         class DashboardFallback < ::Lesli::ApplicationLesliRecord
+            self.abstract_class = true
             def self.initialize_dashboard(account)
             end
         end
