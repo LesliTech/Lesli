@@ -140,7 +140,7 @@ module Lesli
         end
 
         # 03.06 Dashboard engine
-        def navigation_engine_dashboard(title: "Dashboard", subtitle: "Smart business assistant")
+        def navigation_engine_dashboard(title: "Dashboard", subtitle: "Dashboard Manager")
             return unless defined? LesliDashboard
             navigation_engine_item(title,subtitle,"dashboard",lesli_dashboard.root_path,controller_path.include?("lesli_dashboard"))
         end
