@@ -59,6 +59,8 @@ module AccountInitializer
         Lesli::RoleOperator.new(owner).add_owner_actions
         Lesli::RoleOperator.new(admin).add_owner_actions
         Lesli::RoleOperator.new(limited).add_profile_privileges
+
+
     end
 
 
