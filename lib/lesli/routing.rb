@@ -74,7 +74,10 @@ module Lesli
                 root to: "dashboards#show"
 
                 # Dashboard management
-                resource :dashboard, only: [:show]
+                resource :dashboard, only: [:show, :edit]
+
+                # uncomment this to enable multiple dashboards
+                #resources :dashboards, only: [:show, :edit]
                 # resources :dashboards do
                 #     collection do
                 #         post "list" => :index
