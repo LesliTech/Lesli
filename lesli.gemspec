@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -92,9 +92,6 @@ Gem::Specification.new do |spec|
 
     # Clean, powerful, agnostic, customizable and sophisticated paginator for Rails
     spec.add_dependency("kaminari", "~> 1.2.2")
-
-    # Allows management of subcategories for the catalogs
-    spec.add_dependency("ancestry", "~> 4.3.3")
 
 
 
