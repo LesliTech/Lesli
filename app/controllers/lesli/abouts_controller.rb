@@ -34,6 +34,9 @@ module Lesli
     class AboutsController < ApplicationLesliController
         layout "lesli/layouts/application-public", only: [:welcome]
 
+        skip_before_action :authenticate_request, only: [:welcome]
+        skip_before_action :authorize_request, only: [:welcome]
+
         # def status 
         #     respond_with_successful({ :Lesli => "Ruby on Rails SaaS Development Framework." }) 
         # end
