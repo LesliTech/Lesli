@@ -43,19 +43,27 @@ Building a better future, one line of code at a time.
 
 <% else %>
 <header class="lesli-application-header">
-    <nav class="lesli-navbar navbar unresponsive" role="navigation" aria-label="main navigation">
-        <div class="container">
+    <nav class="lesli-navbar navbar" role="navigation" aria-label="main navigation">
+        <div class="container" x-data="{ navActive: false }">
             <div class="navbar-brand">
                 <a href="<%= defined?(LesliDashboard) ? '/dashboard' : '/' %>" class="application-navbar-brand">
                     <%= customization_instance_logo_tag(logo: "app-logo", options: { alt: "Lesli app logo" }) %>
                 </a>
-                <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false">
+                <a  
+                    class="navbar-burger" 
+                    role="button" 
+                    aria-label="menu" 
+                    aria-expanded="false" 
+                    @click="navActive = !navActive"
+                    :class="{ 'is-active': navActive }">
+                    <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                 </a>
             </div>
-            <div class="navbar-menu">
+            <div class="navbar-menu" 
+                :class="{ 'is-active': navActive }">
                 <div class="navbar-start">
                 </div>
                 <div class="navbar-end">
