@@ -46,16 +46,18 @@ emailadmin = "admin@#{email_domain}"
 emailguest = "guest@#{email_domain}"
 
 
+# Use the default password for development
+passowner = Lesli.config.security.dig(:password)
+passadmin = passowner
+passguest = passowner
+
+
 # build a random password for the owner, admin and guest users
-passowner = Devise.friendly_token(40)
-passadmin = Devise.friendly_token(40)
-passguest = Devise.friendly_token(40)
-
-
-if Rails.env.development? || Rails.env.test? || Lesli.config.demo 
-    passowner = Lesli.config.security.dig(:password)
-    passadmin = passowner
-    passguest = passowner
+# only for production and only when LesliShield is installed
+if Rails.env.production? && defined?(LesliShield) 
+    passowner = LesliShield::Tokens.friendly_token
+    passadmin = LesliShield::Tokens.friendly_token
+    passguest = LesliShield::Tokens.friendly_token
 end 
 
 

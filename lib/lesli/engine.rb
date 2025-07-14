@@ -39,6 +39,8 @@ require "L2"
 require "useragent"
 require "acts_as_paranoid"
 
+require "devise"
+
 require "lesli_date"
 require "lesli_view"
 require "lesli_assets"
