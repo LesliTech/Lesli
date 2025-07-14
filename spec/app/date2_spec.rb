@@ -148,8 +148,8 @@ RSpec.describe Date2, type: :model do
 
         it "should parse a new date for database timestamps" do 
             datetime = Date2.new.date.db_timestamps
-            querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', 'DD.MM.YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', 'DD.MM.YYYY') as updated_at_date"
-            querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%d.%m.%Y') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%d.%m.%Y') as updated_at_date" if ActiveRecord::Base.connection.adapter_name == "SQLite"
+            querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', 'DD/MM/YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', 'DD/MM/YYYY') as updated_at_date"
+            querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%d/%m/%Y') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%d/%m/%Y') as updated_at_date" if ActiveRecord::Base.connection.adapter_name == "SQLite"
             expect(datetime).to eql(querystring)
         end
 
@@ -169,15 +169,15 @@ RSpec.describe Date2, type: :model do
 
         it "should parse a new date_words for database timestamps" do 
             datetime = Date2.new.date_words.db_timestamps
-            querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%A, %B DD, YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%A, %B DD, YYYY') as updated_at_date"
-            querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%A, %B %d, %Y') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%A, %B %d, %Y') as updated_at_date" if ActiveRecord::Base.connection.adapter_name == "SQLite"
+            querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%B DD, YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%A, %B DD') as updated_at_date"
+            querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%B %d, %Y') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%B %d, %Y') as updated_at_date" if ActiveRecord::Base.connection.adapter_name == "SQLite"
             expect(datetime).to eql(querystring)
         end
 
         it "should parse a new date_time_words for database timestamps" do 
             datetime = Date2.new.date_time_words.db_timestamps
-            querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%A, %B DD, YYYY, HH24:MI') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%A, %B DD, YYYY, HH24:MI') as updated_at_date"
-            querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%A, %B %d, %Y, %H:%M') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%A, %B %d, %Y, %H:%M') as updated_at_date" if ActiveRecord::Base.connection.adapter_name == "SQLite"
+            querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%B DD, YYYY, HH24:MI') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%B DD, YYYY, HH24:MI') as updated_at_date"
+            querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%B %d, %Y, %H:%M') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%B %d, %Y, %H:%M') as updated_at_date" if ActiveRecord::Base.connection.adapter_name == "SQLite"
             expect(datetime).to eql(querystring)
         end
 
@@ -187,8 +187,8 @@ RSpec.describe Date2, type: :model do
 
         it "should parse a new date for database column" do 
             datetime = Date2.new.date.db_column("deleted_at")
-            querystring = "TO_CHAR(deleted_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', 'DD.MM.YYYY') as deleted_at_string"
-            querystring = "strftime('%d.%m.%Y', deleted_at) as deleted_at_string" if ActiveRecord::Base.connection.adapter_name == "SQLite"
+            querystring = "TO_CHAR(deleted_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', 'DD/MM/YYYY') as deleted_at_string"
+            querystring = "strftime('%d/%m/%Y', deleted_at) as deleted_at_string" if ActiveRecord::Base.connection.adapter_name == "SQLite"
             expect(datetime).to eql(querystring)
         end
 
@@ -208,18 +208,16 @@ RSpec.describe Date2, type: :model do
 
         it "should parse a new date_words for database column" do 
             datetime = Date2.new.date_words.db_column("deleted_at")
-            querystring = "TO_CHAR(deleted_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%A, %B DD, YYYY') as deleted_at_string"
-            querystring = "strftime('%A, %B %d, %Y', deleted_at) as deleted_at_string" if ActiveRecord::Base.connection.adapter_name == "SQLite"
+            querystring = "TO_CHAR(deleted_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%B DD, YYYY') as deleted_at_string"
+            querystring = "strftime('%B %d, %Y', deleted_at) as deleted_at_string" if ActiveRecord::Base.connection.adapter_name == "SQLite"
             expect(datetime).to eql(querystring)
         end
 
         it "should parse a new date_time_words for database column" do 
             datetime = Date2.new.date_time_words.db_column("deleted_at")
-            querystring = "TO_CHAR(deleted_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%A, %B DD, YYYY, HH24:MI') as deleted_at_string"
-            querystring = "strftime('%A, %B %d, %Y, %H:%M', deleted_at) as deleted_at_string" if ActiveRecord::Base.connection.adapter_name == "SQLite"
+            querystring = "TO_CHAR(deleted_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%B DD, YYYY, HH24:MI') as deleted_at_string"
+            querystring = "strftime('%B %d, %Y, %H:%M', deleted_at) as deleted_at_string" if ActiveRecord::Base.connection.adapter_name == "SQLite"
             expect(datetime).to eql(querystring)
         end
-
     end
-
 end
