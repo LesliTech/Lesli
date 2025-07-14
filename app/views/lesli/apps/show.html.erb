@@ -5,14 +5,15 @@ document.addEventListener('turbo:load', () => {
 
     data.engines.forEach(id => {
         const el = document.getElementById(id.replace("lesli"))
-        console.log(id.replace("lesli",""))
-        console.log(el)
         if (el) el.style.display = 'none'
     })
 })
 </script>
 
 <%= render(LesliView::Layout::Container.new("lesli-apps", dashboard: true)) do %>
+
+    <%= render("lesli_dashboard/dashboards/shared/header") if defined?(LesliDashboard) %>
+
     <section 
         class="lesli-application-engines">
         <div class="engines-container">
