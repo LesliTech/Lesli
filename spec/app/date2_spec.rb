@@ -169,7 +169,7 @@ RSpec.describe Date2, type: :model do
 
         it "should parse a new date_words for database timestamps" do 
             datetime = Date2.new.date_words.db_timestamps
-            querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%B DD, YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%A, %B DD') as updated_at_date"
+            querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%B DD, YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%B DD, YYYY') as updated_at_date"
             querystring = "TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%B %d, %Y') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '%B %d, %Y') as updated_at_date" if ActiveRecord::Base.connection.adapter_name == "SQLite"
             expect(datetime).to eql(querystring)
         end
