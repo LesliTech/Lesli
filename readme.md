@@ -1,5 +1,5 @@
 <div align="center" class="documentation-header">
-    <img width="100" alt="Lesli logo" src="./app/assets/images/lesli/lesli-logo.svg" />
+    <img width="150" alt="Lesli logo" src="./app/assets/images/lesli/lesli-logo.svg" />
     <h3 align="center">Ruby on Rails SaaS Development Framework.</h3>
 </div>
 
@@ -58,17 +58,8 @@ Lesli is officially released and will be supported as of version 5.1
 
 ### Demo
 
-* online demo (soon)
+* [online demo](https://demo.lesli.dev/)
 * [docker demo](https://github.com/LesliTech/lesli-docker-demo)
-
-<br />
-
-
-
-### Documentation
-* [Website](https://www.lesli.dev/)
-* [Database](./docs/database.md)
-* [Documentation](https://www.lesli.dev/docs.html)
 
 <br />
 
@@ -90,9 +81,9 @@ rake lesli:db:dev
 ```
 
 ```ruby
-# Load Lesli
+# mount lesli platform
 Rails.application.routes.draw do
-    mount Lesli::Engine => "/lesli"
+    Lesli::Routing.mount 
 end
 ```
 
