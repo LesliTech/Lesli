@@ -8,7 +8,7 @@ Lesli provides a set of powerful features and can be extended through modules an
 > Lesli goes beyond being just a starter-kit or template. Lesli is a Ruby on Rails-based core gem that you can use to build modules (a.k.a. engines) leveraging its robust set of modules, built-in features, generators, components, and industry standards. With Lesli, you have the flexibility to extend existing functionalities or develop fully customized software tailored to your specific needs.
 
 ## Why Lesli? 
-Lesli is completely open source and comes with features and tools that can save you years of development effort, additionally, our pre-built modules can seamlessly extend Lesli's functionality, allowing you to build your own SaaS in a matter of minutes.
+Lesli is completely open source and comes with features and tools that can save you months of development effort, additionally, our pre-built modules can seamlessly extend Lesli's functionality, allowing you to build your own SaaS in a matter of minutes.
 
 Leslie is published under the General Public License version 3, which means you are free to use, copy, redistribute it and/or modify Lesli (under the terms of the GNU General Public License).
 

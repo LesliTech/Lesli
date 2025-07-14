@@ -1,7 +1,7 @@
 # Lesli Ecosystem
-Lesli is meant to work with modules (Standard RoR engines) to extend the Lesli features and create custom software as required.
+Lesli is designed to be modular. It uses standard Ruby on Rails engines to add features and customize functionality, allowing developers to build powerful, tailored applications on top of the Lesli framework.
 
-There are several engines created and ready for production developed by the Lesli team, most of them are open source.
+The Lesli team maintains several production-ready engines—many of which are open source. These modules cover a wide range of common use cases and can be easily integrated into your application to accelerate development.
 
 ## Collections 
 A collection is a group of modules that belongs to a category or a business industry.
@@ -38,7 +38,7 @@ A collection is a group of modules that belongs to a category or a business indu
 
 
 ## Modules 
-Currently we have planned the development of 45 modules, 11 modules are already developed and ready for production.
+Currently we have planned the development of 45 modules, 9 modules are already developed and ready for production.
 
 <table class="table is-fullwidth is-striped" style="display: table;">
     <tr>
@@ -46,11 +46,13 @@ Currently we have planned the development of 45 modules, 11 modules are already 
         <td>LesliAdmin</td>
         <td>Lesli administration area</td>
     </tr>
+    <!--
     <tr>
         <td>0202.</td>
         <td>LesliHouse</td>
         <td>Real Estate Management</td>
     </tr>
+    -->
     <tr>
         <td>0301.</td>
         <td>LesliCalendar</td>
@@ -85,11 +87,6 @@ Currently we have planned the development of 45 modules, 11 modules are already 
         <td>0801.</td>
         <td>LesliShield</td>
         <td>Authentication & Authorization module for the Lesli Framework.</td>
-    </tr>
-    <tr>
-        <td>0802.</td>
-        <td>LesliSecurity</td>
-        <td>Users, Privileges & Access Management for the Lesli Framework.</td>
     </tr>
     <tr>
         <td>0901.</td>

@@ -4,6 +4,7 @@
 <%= navigation_for("engines", "lesli", "backend", order:[]) %>
 <%#= navigation_for("engines", "lesli", "frontend", order:[]) %>
 <%= navigation_for("engines", "lesli", "theming", order:[]) %>
+<%#= navigation_for("engines", "lesli", "engines", order:[]) %>
 <%#= navigation_for("engines", "lesli", "testing", order:[]) %>
 <%#= navigation_for("engines", "lesli", "security", order:[]) %>
 <%#= navigation_for("engines", "lesli", "deployment", order:[]) %>
