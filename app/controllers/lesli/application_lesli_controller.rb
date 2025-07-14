@@ -33,8 +33,8 @@ Building a better future, one line of code at a time.
 module Lesli
     class ApplicationLesliController < ApplicationController        
 
-        include Lesli::ResponderInterface
         include Lesli::RequesterInterface
+        include Lesli::ResponderInterface
         include Lesli::CustomizationInterface
         include LesliAudit::LoggerInterface if defined?(LesliAudit)
         include LesliShield::AuthenticationInterface if defined?(LesliShield)
