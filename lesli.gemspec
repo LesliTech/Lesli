@@ -95,6 +95,13 @@ Gem::Specification.new do |spec|
 
 
 
+    # · Tools used to add Rails functionality
+
+    # Flexible authentication solution for Rails with Warden
+    spec.add_dependency("devise", "~> 4.9")
+
+
+
     # · Tools used to build the Lesli Framework
 
     # Datetime formatter and SQL-safe utilities for Rails, part of the LesliSystem
