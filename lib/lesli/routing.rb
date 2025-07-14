@@ -66,8 +66,7 @@ module Lesli
             end
         end
 
-        def self.mount_dashboard_for lesli_engine
-
+        def self.mount_routes_for lesli_engine
             lesli_engine::Engine.routes.draw do
 
                 # Dashboard alias
@@ -76,18 +75,13 @@ module Lesli
                 # Dashboard management
                 resource :dashboard, only: [:show, :edit]
 
-                # uncomment this to enable multiple dashboards
-                #resources :dashboards, only: [:show, :edit]
-                # resources :dashboards do
-                #     collection do
-                #         post "list" => :index
-                #         get :options
-                #     end
-                #     scope module: :dashboard do
-                #         resources :components
-                #     end
-                # end
+                # 
+                get "up" => "/rails/health#show"
             end
+        end
+
+        def self.mount_dashboard_for lesli_engine
+            self.mount_routes_for(lesli_engine)
         end
     end 
 end
