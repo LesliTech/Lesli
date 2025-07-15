@@ -1,43 +1,51 @@
 # Explore Lesli in Action
 
-## Online Demo
+## 🌐 Online Demo
 
-Experience the full capabilities of the Lesli Platform with our live demo:  
-<u>[https://demo.lesli.dev](https://demo.lesli.dev)</u>
+Experience the full capabilities of the **Lesli Platform** through our live demo:
+
+🔗 [https://demo.lesli.dev](https://demo.lesli.dev)
+
+> **Please note:**  
+> - This is a public demo instance provided for evaluation purposes.  
+> - LesliTech is **not responsible** for any data stored in this environment.  
+> - The demo environment is **reset every 24 hours** to ensure performance and integrity.
 
 
-> **Note:** This is a public demo instance. Please keep in mind:  
-> - LesliTech is not responsible for any data stored in this demo.  
-> - The demo environment is reset every 24 hours to maintain performance and integrity.  
+<br/>
 
+## 🐳 Running Lesli with Docker
 
-## Using Docker to run Lesli
+You can also explore Lesli locally by running the **Lesli Docker Demo**.
 
-Clone the LesliDemo repository from Github
+### 1️⃣ Clone the Repository
 
 ```shell
-git clone https://github.com/LesliTech/lesli-docker-demo.git 
+git clone https://github.com/LesliTech/lesli-docker-demo.git
+cd lesli-docker-demo
 ```
 
-Run the Lesli image
-
+### 2️⃣ Start the Demo Environment
 ```shell
 docker compose up --build
 ```
 
-Navigate to the Lesli demo website using your favorite web browser: <u>[http://127.0.0.1:3000](http://127.0.0.1:3000)</u>
+### 3️⃣ Access Lesli in Your Browser
+
+Navigate to the Lesli demo website using your favorite web browser: [http://127.0.0.1:3000](http://127.0.0.1:3000)
 
 
-### Logging into your new Lesli application
-The seeders comes with default users with different roles and privileges, to see Lesli in action use the owner user:
+<br/>
 
-__username:__ hello@lesli.tech <br>
-__password:__ Tardis2025$
+## 🔑 Logging into Your Lesli Instance
+
+The demo environment comes preloaded with default users, each with different roles and privileges. To explore the platform fully, use the Owner account:
+
+**Username:** hello@lesli.tech <br>
+**Password:** Test123!
 
 <lesli-browser host="http://localhost:3000/" url="login">
     <img src="/images/engines/shield/screenshot-login.png">
 </lesli-browser>
 
-
-> The Lesli demo Docker image includes all the Lesli modules pre-installed and a collection of sample data.
-
+> The Lesli Docker demo includes all official Lesli modules pre-installed, along with a set of sample data for testing and exploration.
