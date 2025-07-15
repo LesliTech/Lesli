@@ -1,6 +1,6 @@
 # Explore Lesli in Action
 
-## 🌐 Online Demo
+## Online Demo
 
 Experience the full capabilities of the **Lesli Platform** through our live demo:
 
@@ -14,7 +14,7 @@ Experience the full capabilities of the **Lesli Platform** through our live demo
 
 <br/>
 
-## 🐳 Running Lesli with Docker
+## Running Lesli with Docker
 
 You can also explore Lesli locally by running the **Lesli Docker Demo**.
 
@@ -37,7 +37,7 @@ Navigate to the Lesli demo website using your favorite web browser: [http://127.
 
 <br/>
 
-## 🔑 Logging into Your Lesli Instance
+## Logging into Your Lesli Instance
 
 The demo environment comes preloaded with default users, each with different roles and privileges. To explore the platform fully, use the Owner account:
 
