@@ -49,13 +49,11 @@ Building a better future, one line of code at a time.
 <%# render navigation partial %>
 <% if custom_sidebar_exists %>
 <nav class="lesli-navbar navbar lesli-application-navigation" role="navigation" aria-label="main navigation">
-    <div class="container">
         <div class="navbar-menu">
             <div class="navbar-end">
                 <%= render partial: custom_sidebar_path %>
             </div>
         </div>
-    </div>
 </nav>
 <% else %>
     <!-- no navigation found -->
