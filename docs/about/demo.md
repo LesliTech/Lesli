@@ -6,10 +6,6 @@ Experience the full capabilities of the Lesli Platform with our live demo:
 <u>[https://demo.lesli.dev](https://demo.lesli.dev)</u>
 
 
-<p class="has-text-weight-extrabold">
-The demo server is currently under maintenance and may not be working. Please check back in a few days to see if it's available again.
-</p>
-
 > **Note:** This is a public demo instance. Please keep in mind:  
 > - LesliTech is not responsible for any data stored in this demo.  
 > - The demo environment is reset every 24 hours to maintain performance and integrity.  
@@ -38,7 +34,9 @@ The seeders comes with default users with different roles and privileges, to see
 __username:__ hello@lesli.tech <br>
 __password:__ Tardis2025$
 
-<br />
+<lesli-browser host="http://localhost:3000/" url="login">
+    <img src="/images/engines/shield/screenshot-login.png">
+</lesli-browser>
 
 
 > The Lesli demo Docker image includes all the Lesli modules pre-installed and a collection of sample data.

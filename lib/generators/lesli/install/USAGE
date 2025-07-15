@@ -1,0 +1,5 @@
+Description:
+    Adds Lesli route to routes.rb and creates a default initializer.
+
+Example:
+    rails generate lesli:install
