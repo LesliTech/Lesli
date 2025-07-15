@@ -9,7 +9,7 @@ At its core, Lesli provides a **modular structure** where new features and compo
 
 ## Core Concepts
 
-### 🔹 Core Gem (Lesli)
+### Core Gem (Lesli)
 The **Lesli core gem** is responsible for providing shared infrastructure, conventions, and utilities across your entire application. It offers:
 
 - Configuration management
@@ -18,7 +18,7 @@ The **Lesli core gem** is responsible for providing shared infrastructure, conve
 - Standardized generator tools
 - Support for multi-tenancy (optional)
 
-### 🔹 Engines (Modules)
+### Engines (Modules)
 Modules in Lesli are **Rails engines** that can be developed and maintained independently. Each engine is isolated and encapsulates a specific domain or feature set. Examples of official engines include:
 
 - **LesliShield** for roles, privileges, and user management

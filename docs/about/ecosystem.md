@@ -7,7 +7,7 @@ The Lesli team maintains several **production-ready engines**, most of which are
 
 <br/>
 
-## 📂 Collections
+## Collections
 
 A **Collection** is a group of modules organized by category or business industry. Collections help you quickly identify modules relevant to specific areas of your SaaS application.
 
@@ -26,7 +26,7 @@ A **Collection** is a group of modules organized by category or business industr
 
 <br/>
 
-## 🧩 Modules
+## Modules
 
 Currently, we have **45 modules planned** for development. Out of these, **9 modules are fully developed and production-ready.**
 
@@ -44,7 +44,7 @@ Currently, we have **45 modules planned** for development. Out of these, **9 mod
 
 > You can also create your own custom modules. We will cover this process later in the documentation.
 
-## 📊 Lesli Ecosystem Diagram (Overview)
+## Lesli Ecosystem Diagram (Overview)
 
 ```
 +--------------------------------------------------+
