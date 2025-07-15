@@ -73,19 +73,18 @@ bundle add lesli
 ```
 
 ```shell
-# Setup database for production
-rake lesli:db:setup
-
+# Add Lesli to your app
+rails generate lesli:install
+```
+```shell
 # Setup database for development
 rake lesli:db:dev
 ```
-
-```ruby
-# mount lesli platform
-Rails.application.routes.draw do
-    Lesli::Routing.mount 
-end
+```shell
+# Start your app
+rails server
 ```
+
 
 <br />
 
@@ -107,7 +106,7 @@ bundle install
 ```
 ```shell
 # Generate Lesli initializer
-rails g lesli:install
+rails generate lesli:install
 ```
 ```shell
 # Hard reset Database for development:
