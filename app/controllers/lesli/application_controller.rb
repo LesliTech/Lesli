@@ -41,7 +41,9 @@ module Lesli
 
         def initialize
             super
-            @lesli = {}
+            @lesli = {
+                engine_name: self.class.module_parent.name
+            }
         end
 
         # Meta-programming to define flash setter methods dynamically
