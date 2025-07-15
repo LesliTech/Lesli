@@ -8,7 +8,6 @@ Lesli provides a robust set of built-in features and a standard process for exte
 
 > Lesli goes beyond being just a starter kit or boilerplate. It’s a Ruby on Rails-based core gem that enables you to build modular applications (a.k.a. engines) by leveraging its built-in features, generators, components, and industry best practices. With Lesli, you can easily extend existing functionality or develop fully customized solutions tailored to your specific needs.
 
----
 
 <br/>
 
@@ -18,7 +17,6 @@ Lesli is **fully open source** and comes packed with tools and features that can
 
 Lesli is published under the **GNU General Public License version 3 (GPLv3)**. This means you’re free to use, copy, redistribute, and/or modify Lesli, as long as you comply with the terms of the GPL.
 
----
 
 <br/>
 
@@ -26,7 +24,6 @@ Lesli is published under the **GNU General Public License version 3 (GPLv3)**. T
 
 <img alt="Lesli architecture" src="../images/lesli.excalidraw.svg" />
 
----
 
 <br/>
 
@@ -35,8 +32,7 @@ Lesli is published under the **GNU General Public License version 3 (GPLv3)**. T
 **Ruby on Rails** (commonly referred to as **Rails**) is a popular open-source web application framework written in the Ruby programming language. Rails follows the **Model-View-Controller (MVC)** architectural pattern, providing developers with a structured, efficient approach to building web applications.
 
 By using Rails as its foundation, Lesli benefits from Rails’ mature ecosystem, conventions, and built-in features. Rails simplifies common tasks such as routing, database management, and user authentication, allowing developers to focus on building the core functionalities of their SaaS applications more efficiently.
-
----
+    
 
 <br/>
 
