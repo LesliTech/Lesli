@@ -1,4 +1,4 @@
-<%= navigation_for("engines", "lesli", "about", order:["lesli"]) %>
+<%= navigation_for("engines", "lesli", "about", order:["lesli", "demo", "architecture"]) %>
 <%= navigation_for("engines", "lesli", "getting-started", order:["installation", "development"]) %>
 <%= navigation_for("engines", "lesli", "database", order:["structure", "versioning"]) %>
 <%= navigation_for("engines", "lesli", "backend", order:[]) %>
