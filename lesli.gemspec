@@ -51,9 +51,11 @@ Gem::Specification.new do |spec|
     # to allow pushing to a single host or delete this section to allow pushing to any host.
     # spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
-    spec.metadata["homepage_uri"] = spec.homepage
-    spec.metadata["changelog_uri"] = "https://github.com/LesliTech/Lesli"
-    spec.metadata["source_code_uri"] = "https://github.com/LesliTech/Lesli"
+    spec.metadata["homepage_uri"]       = spec.homepage
+    spec.metadata["changelog_uri"]      = "https://github.com/LesliTech/Lesli"
+    spec.metadata["source_code_uri"]    = "https://github.com/LesliTech/Lesli"
+    spec.metadata["bug_tracker_uri"]    = "https://github.com/LesliTech/Lesli/issues"
+    spec.metadata["documentation_uri"]  = "https://www.lesli.dev/lesli/"
 
     spec.files = Dir.chdir(File.expand_path(__dir__)) do
         Dir["{app,config,db,lib,vendor}/**/*", "license", "Rakefile", "readme.md"]
