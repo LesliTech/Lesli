@@ -34,14 +34,15 @@ module Lesli
     class Role::Action < ApplicationLesliRecord
         belongs_to :role
 
-        after_save :synchronize_privileges
+        after_create :synchronize_privileges
+        after_update :synchronize_privileges
         after_destroy :synchronize_privileges
 
         belongs_to :action, class_name: "SystemController::Action"
         belongs_to :system_controller_action, class_name: "SystemController::Action", foreign_key: "action_id"
 
         def synchronize_privileges
-            Lesli::RoleOperator.new(self).synchronize
+            Lesli::RoleOperator.new(self.role, self).synchronize
         end
 
         def self.index current_user, query, role

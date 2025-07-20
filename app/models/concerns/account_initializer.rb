@@ -58,7 +58,7 @@ module AccountInitializer
         # Add base privileges to roles
         Lesli::RoleOperator.new(owner).add_owner_actions
         Lesli::RoleOperator.new(admin).add_owner_actions
-        Lesli::RoleOperator.new(limited).add_profile_privileges
+        Lesli::RoleOperator.new(limited).add_profile_actions
 
 
     end
