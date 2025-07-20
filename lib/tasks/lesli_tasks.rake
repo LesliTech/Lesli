@@ -88,5 +88,8 @@ namespace :lesli do
         L2.table(engines)
         L2.br(2)
 
+        L2.m Rails.env
+        L2.br(2)
+
     end
 end
