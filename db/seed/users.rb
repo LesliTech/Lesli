@@ -53,12 +53,14 @@ passguest = passowner
 
 
 # build a random password for the owner, admin and guest users
-# only for production and only when LesliShield is installed
-if Rails.env.production? && defined?(LesliShield) 
+# only for production and only when LesliShield is installed and
+# only if the "demo mode" is not active in the 
+# config/initializers/lesli.rb file
+if Rails.env.production? && defined?(LesliShield) && !Lesli.config.demo
     passowner = LesliShield::Tokens.friendly_token
     passadmin = LesliShield::Tokens.friendly_token
     passguest = LesliShield::Tokens.friendly_token
-end 
+end
 
 
 # create the owner user for the account, 
