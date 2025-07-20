@@ -68,7 +68,7 @@ providers:
         client_id: ""
         client_secret: ""
         maps_sdk_token: ""
-        analytics: track_id
+        tag_manager: ""
 
     # Firebase, backend and frontend credentials
     firebase:
