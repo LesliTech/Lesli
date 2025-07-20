@@ -73,10 +73,11 @@ module UserSecurity
     #     current_user.has_privileges?(controllers, actions)
     def has_privileges_for?(controller, action)
         begin
-            return !self.privileges
-            .where("lesli_role_privileges.controller = ?", controller)
-            .where("lesli_role_privileges.action = ?", action)
-            .first.blank?
+            return self.privileges.where(
+                controller: controller,
+                action: action,
+                active: true
+            ).exists?
         rescue => exception
             return false
         end

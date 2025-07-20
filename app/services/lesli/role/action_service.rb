@@ -6,7 +6,7 @@ module Lesli
             super(Lesli::Role::Action.with_deleted.find(id))
         end
 
-        def index params
+        def index role_id
 
             def clean action 
                 {
@@ -21,6 +21,7 @@ module Lesli
             role_actions = {}
 
             Lesli::Role::Action.with_deleted.joins(system_controller_action: :system_controller)
+            .where(:role_id => role_id)
             .select(
                 :id,
                 :role_id,
@@ -67,8 +68,6 @@ module Lesli
                     role_actions[action[:controller_name]][:destroy] = clean(action)
                 end
             end
-
-
 
             role_actions
         end

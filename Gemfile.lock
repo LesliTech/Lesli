@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    lesli (5.0.18)
+    lesli (5.0.19)
       L2 (~> 0.6)
       acts_as_paranoid (~> 0.10.2)
       devise (~> 4.9)

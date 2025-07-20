@@ -34,12 +34,14 @@ module Lesli
     class RoleOperator < Lesli::ApplicationLesliService
 
         @role = nil
+        @action = nil
 
-        def initialize role
+        def initialize role, action=nil
             @role = role
+            @action = action
         end
 
-        def add_profile_privileges
+        def add_profile_actions
 
             # Adding default system actions for profile descriptor
             [
@@ -100,12 +102,15 @@ module Lesli
                 lesli_role_actions.role_id as role_id,
                 lesli_system_controllers.route as controller, 
                 lesli_system_controller_actions.name as action,
-                true as active
+                lesli_role_actions.deleted_at IS NULL as active
             )).with_deleted
 
 
             # get privileges only for the given role, this is needed to sync only modified roles
-            records = records.where("lesli_role_actions.role_id" => @role)
+            records = records.where("lesli_role_actions.role_id" => @role.id)
+
+            # get privileges only for the given role action, this is needed to sync only modified actions
+            records = records.where("lesli_role_actions.id" => @action.id) if @action
 
 
             # we use the deleted_at column to know if a privilege is enable or disable, NULL values
