@@ -9,39 +9,32 @@ document.addEventListener('turbo:load', () => {
     })
 })
 </script>
+<%
+@navigation_engines = [
+    :dashboard, 
+    :admin, 
+    :mailer,
+    :bell, 
+    :calendar, 
+    :papers,
+    :support,
+    :shield, 
+    :security,
+    :audit,
+    :babel
+]
+%>
 
 <%= render(LesliView::Layout::Container.new("lesli-apps", dashboard: true)) do %>
 
     <%= render("lesli_dashboard/dashboards/shared/header") if defined?(LesliDashboard) %>
 
-    <section 
-        class="lesli-application-engines">
+    <section class="lesli-application-engines">
         <div class="engines-container">
             <div class="engines">
-                <%# 01. Administration %>
-                <%= navigation_engine_admin %>
-
-                <%# 02. Sales & Marketing %>
-                <%= navigation_engine_mailer %>
-
-                <%# 03. Productivity & Teamwork%>
-                <%= navigation_engine_calendar %>
-                <%= navigation_engine_dashboard %>
-                <%= navigation_engine_bell %>
-                <%= navigation_engine_papers %>
-
-                <%# 05. Analytics %>
-                <%= navigation_engine_audit %>
-
-                <%# 07. IT & Help Desk %>
-                <%= navigation_engine_support %>
-
-                <%# 08. Security & Privacy %>
-                <%= navigation_engine_shield %>
-                <%= navigation_engine_security %>
-
-                <%# 09. Integrations %>
-                <%= navigation_engine_babel %>
+                <% @navigation_engines.each do |engine| %>
+                    <%= public_send("navigation_engine_#{engine}") %>
+                <% end %>
             </div>
         </div>
     </section>
