@@ -48,12 +48,30 @@ Building a better future, one line of code at a time.
 
 <%# render navigation partial %>
 <% if custom_sidebar_exists %>
-<nav class="lesli-navbar navbar lesli-application-navigation" role="navigation" aria-label="main navigation">
-        <div class="navbar-menu">
-            <div class="navbar-end">
-                <%= render partial: custom_sidebar_path %>
-            </div>
+<nav 
+    class="navbar lesli-application-navigation" 
+    role="navigation" 
+    aria-label="main navigation"
+    x-data="{ navActive: false }">
+    <div class="navbar-brand">
+        <a  
+            class="navbar-burger" 
+            role="button" 
+            aria-label="menu" 
+            aria-expanded="false" 
+            @click="navActive = !navActive"
+            :class="{ 'is-active': navActive }">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+    <div class="navbar-menu" :class="{ 'is-active': navActive }">
+        <div class="navbar-start is-flex-grow-1 is-justify-content-center">
+            <%= render partial: custom_sidebar_path %>
         </div>
+    </div>
 </nav>
 <% else %>
     <!-- no navigation found -->
