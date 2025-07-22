@@ -30,23 +30,13 @@ Building a better future, one line of code at a time.
 // · 
 %>
 
-<%# check if custom navigation partial exists, getting the path from application helper %>
-<% custom_navigation_path = "partials/application-lesli-header" %>
-
-<%# validate the path to be sure the partial exists when trying to render it %>
-<% custom_navigation_exists = lookup_context.exists?(custom_navigation_path, nil, true) %>
-
-<%# render navigation partial %>
-<% if custom_navigation_exists %>
-
-    <%= render partial: custom_navigation_path %>
-
-<% else %>
 <header class="lesli-application-header">
-    <nav class="lesli-navbar navbar" role="navigation" aria-label="main navigation">
-        <div class="container" x-data="{ navActive: false }">
+    <div class="container" x-data="{ navActive: false }">
+        <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a href="<%= defined?(LesliDashboard) ? '/dashboard' : '/' %>" class="application-navbar-brand">
+                <a 
+                    class="navbar-item p-0"
+                    href="<%= defined?(LesliDashboard) ? '/dashboard' : '/' %>">
                     <%= customization_instance_logo_tag(logo: "app-logo", options: { alt: "Lesli app logo" }) %>
                 </a>
                 <a  
@@ -62,68 +52,57 @@ Building a better future, one line of code at a time.
                     <span aria-hidden="true"></span>
                 </a>
             </div>
-            <div class="navbar-menu" 
-                :class="{ 'is-active': navActive }">
-                <div class="navbar-start">
-                </div>
-                <div class="navbar-end">
+            <div class="navbar-menu" :class="{ 'is-active': navActive }">
+                <div class="navbar-start"></div>
+                <div class="navbar-end is-flex is-justify-content-center">
 
+                    <!-- tickets -->
                     <div class="navbar-item">
-                        <div class="header-icons field is-grouped is-justify-content-center">
-                            <div class="control">
-
-                                <!-- tasks -->
-                                <% if defined?(LesliFocus) %>
-                                    <a v-if="props.showFocus" class="header-indicator"
-                                        @click="() => { storeLayout.showSuppor = true }">
-                                        <span class="ri-list-check-3">
-                                        </span>
-                                        <span class="count" v-if="storeLayout.header.support > 0">
-                                        </span>
-                                    </a>
+                        <% if defined?(LesliSupport) %>
+                            <%= link_to(
+                                lesli_support.tickets_path, 
+                                :class => "header-indicator",
+                                :data => { turbo_frame: '_top' }) do %>
+                                <span class="ri-ticket-2-line"></span>
+                                <% if @lesli[:tickets] > 0 %>
+                                    <span class="count"></span>
                                 <% end %>
+                            <% end %>
+                        <% end %>
+                    </div>
 
-                                <!-- tickets -->
-                                <% if defined?(LesliSupport) %>
-                                    <%= link_to(
-                                        lesli_support.tickets_path, 
-                                        :class => "header-indicator",
-                                        :data => { turbo_frame: '_top' }) do %>
-                                        <span class="ri-ticket-2-line"></span>
-                                        <% if @lesli[:tickets] > 0 %>
-                                            <span class="count"></span>
-                                        <% end %>
-                                    <% end %>
+                    <!-- notifications -->
+                    <div class="navbar-item">
+                        <% if defined?(LesliBell) %>
+                            <%= link_to(
+                                lesli_bell.notifications_path, 
+                                :class => "header-indicator",
+                                :data => { turbo_frame: '_top' }) do %>
+                                <% if @lesli[:notifications] > 0 %>
+                                    <span class="ri-notification-3-fill has-text-primary"></span>
+                                <% else %>
+                                    <span class="ri-notification-3-line"></span>
                                 <% end %>
+                            <% end %>
+                        <% end %>
+                    </div>
 
-                                <!-- notifications -->
-                                <% if defined?(LesliBell) %>
-                                    <%= link_to(
-                                        lesli_bell.notifications_path, 
-                                        :class => "header-indicator",
-                                        :data => { turbo_frame: '_top' }) do %>
-                                        <% if @lesli[:notifications] > 0 %>
-                                            <span class="ri-notification-3-fill has-text-primary"></span>
-                                        <% else %>
-                                            <span class="ri-notification-3-line"></span>
-                                        <% end %>
-                                    <% end %>
-                                <% end %>
+                    <!-- app selector -->
+                    <div class="navbar-item">
+                        <%= navigation_link(lesli.apps_path, nil, "ri-apps-2-line") %>
+                    </div>
 
-                                <!-- module selector -->
-                                <%= navigation_link(lesli.apps_path, nil, "ri-apps-2-line") %>
+                    <!-- user profile -->
+                    <div class="navbar-item">
+                        <%= navigation_link(lesli.apps_path, nil, "ri-user-smile-line") %>
+                    </div>
 
-                                <!-- user profile -->
-                                <%= navigation_link(lesli.apps_path, nil, "ri-user-smile-line") %>
-
-                                <!-- logout from session -->
-                                <%= navigation_link(main_app.destroy_user_session_path, nil, "ri-logout-circle-r-line") if defined?(LesliShield) %>
-                            </div>
-                        </div>
+                    <!-- logout from session -->
+                    <div class="navbar-item">
+                        <%= navigation_link(main_app.destroy_user_session_path, nil, "ri-logout-circle-r-line") if defined?(LesliShield) %>
                     </div>
                 </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </div>
 </header>
-<% end %>
