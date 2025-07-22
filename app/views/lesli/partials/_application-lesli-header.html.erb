@@ -30,6 +30,9 @@ Building a better future, one line of code at a time.
 // · 
 %>
 
+<%# Get the navigation partial for every engine %>
+<% engine_navigation_partial = navigation_partial %>
+
 <header class="lesli-application-header">
     <div class="container" x-data="{ navActive: false }">
         <nav class="navbar" role="navigation" aria-label="main navigation">
@@ -53,7 +56,6 @@ Building a better future, one line of code at a time.
                 </a>
             </div>
             <div class="navbar-menu" :class="{ 'is-active': navActive }">
-                <div class="navbar-start"></div>
                 <div class="navbar-end is-flex is-justify-content-center">
 
                     <!-- tickets -->
@@ -102,7 +104,21 @@ Building a better future, one line of code at a time.
                         <%= navigation_link(main_app.destroy_user_session_path, nil, "ri-logout-circle-r-line") if defined?(LesliShield) %>
                     </div>
                 </div>
+                <div class="navbar-end is-hidden-desktop">
+                    <%= render(engine_navigation_partial) %>
+                </div>
             </div>
         </nav>
     </div>
 </header>
+
+<%# Build the engine navigation %>
+<% if engine_navigation_partial %>
+    <nav class="navbar lesli-application-navigation is-hidden-touch">
+        <div class="navbar-menu">
+            <div class="navbar-start is-flex-grow-1 is-justify-content-center">
+                <%= render(engine_navigation_partial) %>
+            </div>
+        </div>
+    </nav>
+<% end %>

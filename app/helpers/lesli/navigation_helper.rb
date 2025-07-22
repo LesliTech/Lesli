@@ -33,6 +33,12 @@ Building a better future, one line of code at a time.
 module Lesli
     module NavigationHelper
 
+        def navigation_partial
+            engine = lesli_engine[:code]
+            path = engine == "root" ? "partials/navigation" : "#{engine}/partials/navigation"
+            lookup_context.exists?(path, [], true) ? path : nil
+        end
+
         # Prints a separator line
         def navigation_separator
             content_tag(:li) do
