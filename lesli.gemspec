@@ -41,7 +41,7 @@ Gem::Specification.new do |spec|
     spec.email       = ["hello@lesli.tech"]
     spec.homepage    = "https://www.lesli.dev/"
     spec.summary     = "Ruby on Rails SaaS Development Framework."
-    spec.description = "Ruby on Rails SaaS Development Framework."
+    spec.description = "Lesli is a SaaS development framework designed to build highly scalable, secure and customizable software products."
 
     # rubygems.org use description to show the info about the gem, so it is better to use a brief
     # one line description for better understanding of the Lesli gem
@@ -63,15 +63,14 @@ Gem::Specification.new do |spec|
 
 
     # Ruby version
-    spec.required_ruby_version = ">= 2.7"
+    spec.required_ruby_version = ">= 3.2"
 
 
 
     # · RAILS: gem, dependencies and tools
 
     # Rails framework
-    #spec.add_dependency("rails", "~> 8.0.0.rc1")
-    #spec.add_dependency("rails", "~> 7.2")
+    spec.add_dependency("rails", "~> 8.0")
 
     # It's a small library to provide the Rails I18n translations on the Javascript.
     spec.add_dependency("i18n-js", "~> 4.2.3") 
@@ -81,9 +80,6 @@ Gem::Specification.new do |spec|
 
     # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
     spec.add_dependency("turbo-rails")
-
-    # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
-    #spec.add_dependency("stimulus-rails")
 
 
 
