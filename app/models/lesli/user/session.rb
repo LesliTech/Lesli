@@ -36,7 +36,7 @@ module Lesli
 
         after_create :set_session_token
 
-        enum session_source: {
+        enum :session_source, {
             :dispatcher_standard_session => "dispatcher_standard_session",
             :devise_standard_session => "devise_standard_session"
         }
