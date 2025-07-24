@@ -1,73 +1,115 @@
-# Install Lesli for development
-Lesli provides a pre-configured environment for working with Vue and SASS applications. It also includes a build process that compiles Vue and SASS into standard JavaScript and CSS code.
+# Installing Lesli for Development
+
+Lesli provides a fully pre-configured environment optimized for working with modern Vue.js and SASS applications. It also includes a streamlined build process that compiles Vue components and SASS stylesheets into standard JavaScript and CSS assets.
+
+> **Before You Start:**  
+> Make sure you have **Ruby 3.2.x** and **Rails 8.0.x** installed on your system.
 
 
-### Install the Lesli core 
+## Create a New Rails Application
 
-Clone the Lesli source code repository into your main Rails application, Lesli and the Lesli engines needs to be installed inside an "engines" folder inside the main Rails application.
+To get started, generate a fresh Ruby on Rails app. This will serve as the base for integrating Lesli.
 
-```text
-Main Rails app/  
- ├── app/  
- ├── bin/  
- ├── config/  
- ├── db/  
- ├── engines/ -> Lesli goes here!   
- │   ├── Lesli
- │   ├── LesliEngines
- │   └── LesliEngines
- ├── lib/  
- ├── log/  
- ├── public/  
- ├── spec/  
- ├── storage/  
- ├── tmp/  
- └── vendor/  
+```bash
+rails new LesliApp
 ```
 
-```shell
-# Inside your Rails root folder
+
+### Install the Lesli Core
+
+To get started with Lesli, clone the source code into your main Rails application.  
+Lesli and its engines must be placed inside an `engines/` directory at the root of your Rails app.
+
+> **Important:** This structure is required for Lesli to detect and load its components correctly during development and runtime.
+
+#### Recommended Directory Structure
+
+```text
+Main Rails App/  
+├── app/  
+├── bin/  
+├── config/  
+├── db/  
+├── engines/               ← Lesli and its engines live here!
+│   ├── lesli/             ← The core Lesli gem
+│   ├── lesli_shield/      ← Example engine: LesliShield
+│   ├── lesli_dashboard/   ← Example engine: LesliDashboard
+│   └── ...                ← Add more engines as needed
+├── lib/  
+├── log/  
+├── public/  
+├── spec/  
+├── storage/  
+├── tmp/  
+└── vendor/
+```
+
+Clone the Lesli core repository into the `engines/` folder of your Rails application:
+
+```bash
+# Inside the root of your Rails app
 git clone git@github.com:LesliTech/Lesli.git engines/Lesli
 ```
 
-Include Lesli into your Gemfile, be sure to load the engine from the source code using the "path" parameter.
+Tell Bundler to load Lesli directly from the local source code:
 
 ```shell
 gem "lesli", path: "engines/Lesli"
 ```
 
 
-Install the gems needed by Lesli to work
+Then install all required dependencies:
 
 ```bash
 bundle install
 ```
 
-Lesli include a Rake task to initialize the database for demo and development purposes, 
-this task is going migrate, build privileges (if LesliSecurity is installed), 
-translations (if LesliBabel is installed), seed the database with demo users 
-and demo data for every installed engine and at the end print a pretty message 
-with the status of the application.
+
+Check that Lesli is correctly installed and accessible by running:
+
+```bash
+rake lesli:status
+```
+
+>This will output the current status of the Lesli framework and confirm that it's properly wired into your application.
+
+
+Lesli provides a convenient Rake task to set up a fully functional database for development and demo purposes.
+
+Run the following command:
 
 ```bash
 rake lesli:db:dev
 ```
 
-You can restart your database to start with a new fresh database
+This task will:
+
+- Run all database migrations 
+- Build privileges (if LesliSecurity is installed) 
+- Import translation files (if LesliBabel is installed) 
+- Seed demo users and sample data for every installed engine 
+- Output a summary with the current application status 
+- You can restart your database to start with a new fresh database 
+
+<br>
+
+To reset your environment and start from a clean state, run:
 
 ```bash
 rake lesli:db:restart
 ```
+>This command will drop, create, migrate, and re-seed the database using the same logic as lesli:db:dev, Useful when testing or debugging your development setup.
 
-Mount Lesli in your main Rails application
+
+To enable all Lesli engine routes, include the Lesli route builder inside your `config/routes.rb` file:
 
 ```ruby
 Rails.application.routes.draw do
-    mount Lesli::Engine => "/lesli"
+  Lesli::Routing.mount
 end
 ```
 
-Run the default Rails development server
+Start the default Rails development server:
 
 ```shell
 rails s 
@@ -77,11 +119,38 @@ rails s --environment=development
 RAILS_SERVE_STATIC_FILES=true rails s --environment=production 
 ```
 
+Using your favorite web browser, navigate to: <a href="http://127.0.0.1:3000/login" target="_blank">http://127.0.0.1:3000/login</a>
 
-### Logging into your new Lesli application
-The seeders comes with default users with different roles and privileges, to see Lesli in action use the owner user:
+<lesli-browser host="http://localhost:3000/" url="">
+  <img src="/images/engines/lesli/screenshot-welcome.png">
+</lesli-browser>
 
-__username:__ hello@lesli.tech <br/>
-__password:__ Tardis2024$
+You should now see the Lesli welcome page 🎉
 
-> It is possible to add development users, roles, privileges and more; we will explore this options later in the documentation.
+---
+
+### Recommendations
+
+To improve your local development experience with Lesli, consider the following:
+
+- **Use `letter_opener` for Local Email Preview**
+
+<br>
+
+Install the `letter_opener` gem in your `Gemfile` under the development group:
+
+```ruby
+group :development do
+    gem 'letter_opener'
+end
+```
+
+Then configure your config/environments/development.rb:
+
+```ruby
+config.action_mailer.delivery_method = :letter_opener
+config.action_mailer.perform_deliveries = true
+config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+```
+
+This allows you to preview emails in your browser instead of sending them during development.
