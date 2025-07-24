@@ -129,7 +129,7 @@ html, body, * {
         <%= link_to("Apps", "/lesli/apps") unless defined?(LesliDashboard) %>
     <% end %>
     <% if defined?(LesliShield) %>
-        <%= link_to("Apps", "/lesli/apps") if user_signed_in? && defined?(LesliDashboard) %>
+        <%= link_to("Apps", "/lesli/apps") if user_signed_in? && !defined?(LesliDashboard) %>
         <%= link_to("Dashboard", "/dashboard") if user_signed_in? && defined?(LesliDashboard) %>
         <%= link_to("Logout", "/logout") if user_signed_in? %>
         <%= link_to("Login", "/login") unless user_signed_in? %>
