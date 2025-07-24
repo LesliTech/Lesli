@@ -36,12 +36,21 @@ require Lesli::Engine.root.join("lib/rspec/helpers/rails_helper")
 require Lesli::Engine.root.join("lib/rspec/helpers/lesli_helper")
 require Lesli::Engine.root.join("lib/rspec/helpers/response_request_helper")
 
-# · 
-LESLI_ENGINE_MOUNTED_PATH = Lesli::Engine.routes.find_script_name({}) if defined?(Lesli)
-LESLI_ADMIN_ENGINE_MOUNTED_PATH = LesliAdmin::Engine.routes.find_script_name({}) if defined?(LesliAdmin)
-LESLI_BABEL_ENGINE_MOUNTED_PATH = LesliBabel::Engine.routes.find_script_name({}) if defined?(LesliBabel)
-LESLI_CALENDAR_ENGINE_MOUNTED_PATH = LesliCalendar::Engine.routes.find_script_name({}) if defined?(LesliCalendar)
-LESLI_DASHBOARD_ENGINE_MOUNTED_PATH = LesliDashboard::Engine.routes.find_script_name({}) if defined?(LesliDashboard)
+
+# · Dynamically build a path where the engine is mounted
+def build_engine_path(engine_name, path)
+
+    # get the engine information
+    engine = LesliSystem.engine(engine_name)
+
+    # return the path if no engine found
+    return path unless engine
+
+    engine_constant = engine[:name].constantize
+
+    # build the path inside the engine mounted path
+    "#{engine_constant::Engine.routes.find_script_name({})}/#{path}"
+end
 
 
 # · Authentication context

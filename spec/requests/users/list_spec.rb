@@ -36,12 +36,12 @@ require "rails_helper"
 require Lesli::Engine.root.join("lib/rspec/testers/request")
 
 # ·
-RSpec.describe "GET:#{LESLI_ENGINE_MOUNTED_PATH}/users/list.json", type: :request do
+RSpec.describe Lesli::UsersController, type: :request do
     include_context "request user authentication"
 
     it "is expected to list users" do
 
-        get("#{LESLI_ENGINE_MOUNTED_PATH}/users/list.json")
+        get(build_engine_path(:lesli, "/users/list.json"))
 
         # shared examples
         expect_response_with_successful
