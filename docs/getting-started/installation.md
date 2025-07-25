@@ -4,136 +4,128 @@
 Lesli is a Ruby on Rails gem designed to integrate seamlessly into your application. It keeps its code, database, and assets fully isolated, ensuring it won’t interfere with your main app. This isolation allows you to extend functionality without adding complexity or risking conflicts within your core codebase.
 
 
-### Install Lesli 
+> **Before You Start:**  
+> Make sure you have **Ruby 3.2.x** and **Rails 8.0.x** installed on your system.
 
-Create a New Rails Application
 
-```shell
+## Create a New Rails Application
+
+To get started, generate a fresh Ruby on Rails app. This will serve as the base for integrating Lesli.
+
+```bash
 rails new LesliApp
 ```
 
-Navigate to the app directory:
 
-```shell
-cd LesliApp
-```
+### Install the Lesli Core
 
-Add Lesli to Your Gemfile
-
-```shell
+```bash
 bundle add lesli
 ```
 
-<br/>
+> Or clone the repository for [development](https://www.lesli.dev/engines/lesli/getting-started/development/)
+
+
+Check that Lesli is correctly installed and accessible by running:
+
+```bash
+rake lesli:status
+```
+
+>This will output the current status of the Lesli framework and confirm that it's properly wired into your application.
+
 
 ### Set Up Lesli
 
-After installing the gem, run the installation generator to configure the necessary files and routes:
+After installing the gem, run the Lesli installation generator to configure the required files and routes:
 
-```shell
+```bash
 rails generate lesli:install
 ```
 
-This command will: 
+This command will:
 
-- Create the initializer file for Lesli.
-- Add the required route to your routes.rb.
+- Generate a new initializer file at config/initializers/lesli.rb where you can customize core Lesli settings and behaviors.
+- Mount all Lesli engine routes by injecting the following into your config/routes.rb file:
 
-<br/>
+```ruby
+Rails.application.routes.draw do
+    Lesli::Routing.mount
+end
+```
 
-### Database Setup
+Also is going to create a lesli.rb initializer file to customize the Lesli options
 
-Lesli includes a Rake task to prepare the database for demo and development purposes. This task will: 
 
-- Run migrations.
-- Set up privileges (if LesliShield is installed).
-- Load translations (if LesliBabel is installed).
-- Seed the database with demo users and demo data for each installed engine.
-- Display a summary message with the application status.
+Lesli provides a convenient Rake task to set up a fully functional database for development and demo purposes.
 
-```shell
+Run the following command:
+
+```bash
 rake lesli:db:dev
 ```
 
-<br/>
+This task will:
 
-### Running Lesli
+- Run all database migrations 
+- Build privileges (if LesliSecurity is installed) 
+- Import translation files (if LesliBabel is installed) 
+- Seed demo users and sample data for every installed engine 
+- Output a summary with the current application status 
+- You can restart your database to start with a new fresh database 
 
-Start the Rails server:
+<br>
+
+To reset your environment and start from a clean state, run:
+
+```bash
+rake lesli:db:restart
+```
+>This command will drop, create, migrate, and re-seed the database using the same logic as lesli:db:dev, Useful when testing or debugging your development setup.
+
+
+Start the default Rails development server:
 
 ```shell
-rails server
+rails s 
+rails s --binding=0.0.0.0
+rails s --environment=test
+rails s --environment=development
+RAILS_SERVE_STATIC_FILES=true rails s --environment=production 
 ```
 
-Using your favorite web browser navigate to <a href="http://127.0.0.1:3000" targer="_blank">http://127.0.0.1:3000/login</a>
+Using your favorite web browser, navigate to: <a href="http://127.0.0.1:3000/login" target="_blank">http://127.0.0.1:3000/login</a>
 
 <lesli-browser host="http://localhost:3000/" url="">
-    <img src="/images/engines/lesli/screenshot-installation.png">
+    <img src="../images/screenshot-welcome.png">
 </lesli-browser>
 
-You must be able to see the Lesli welcome page
+You should now see the Lesli welcome page 🎉
 
+---
 
-<br/>
+### Recommendations
 
-### Adding More Engines to Lesli
+To improve your local development experience with Lesli, consider the following:
 
-Lesli is designed to be extended through additional engines. These engines work as modular components to add features without affecting your core application.
+- **Use `letter_opener` for Local Email Preview**
 
-Below is an example of how to install some of the official Lesli engines.
+<br>
 
-
-<br/>
-
-### Install the Engines
-
-Add the desired engines to your Gemfile:
+Install the `letter_opener` gem in your `Gemfile` under the development group:
 
 ```ruby
-gem 'lesli_shield'
-gem 'lesli_dashboard'
+group :development do
+    gem 'letter_opener'
+end
 ```
 
-Then run:
+Then configure your config/environments/development.rb:
 
-```shell
-bundle install
+```ruby
+config.action_mailer.delivery_method = :letter_opener
+config.action_mailer.perform_deliveries = true
+config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 ```
 
-
-<br/>
-
-### Update the Database
-
-Lesli includes a Rake task to load new engines: 
-
-```shell
-rake lesli:db:setup
-```
-
-This will: 
-
-- Apply migrations for each installed engine.
-- Seed demo data, including privileges (for LesliShield) and dashboard components (for LesliDashboard).
-
-> You can easily add development users, roles, privileges, and more. We'll cover these options later in the documentation.
-
-
-<br/>
-
-### Accessing the Engines
-
-#### LesliShield
-
-LesliShield provides user roles, privileges, and authentication tools. After installation, it integrates into your app’s authentication and permission layers automatically.
-LesliDashboard
-
-#### LesliDashboard 
-
-LesliDashboard provides a customizable dashboard for users to visualize key data, metrics, or tools from other engines.
-
-<lesli-browser host="http://localhost:3000/" url="login">
-    <img src="/images/engines/shield/screenshot-login.png">
-</lesli-browser>
-
-> Lesli mounts Devise at the root level, so you’ll have an authentication system working out of the box.
+This allows you to preview emails in your browser instead of sending them during development.

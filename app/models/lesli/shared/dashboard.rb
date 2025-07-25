@@ -40,7 +40,7 @@ module Lesli
 
         base_class = "::LesliDashboard::Shared::Dashboard".safe_constantize || DashboardFallback
 
-        class Dashboard < DashboardFallback
+        class Dashboard < base_class
             self.abstract_class = true
         end
     end
