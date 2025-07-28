@@ -33,7 +33,7 @@ Building a better future, one line of code at a time.
 Lesli.configure do |config|
 
 
-    # Start Lesli as demo
+    # Enable or disable demo mode.
     config.demo = false
 
     
@@ -41,7 +41,7 @@ Lesli.configure do |config|
     config.instance = "Lesli"
 
 
-    # Information about the main account in the platform
+    # Provides organization details displayed throughout the system.
     config.company = {
         name: "Lesli",
         email: "hello@lesli.tech",
@@ -49,26 +49,26 @@ Lesli.configure do |config|
     }
 
 
-    # Available languages globally (Requires LesliBabel)
+    # List of supported languages (requires `LesliBabel`).
     config.locales = {
         :en => "English",       # English
-        :de => "Deutsch",     # Deutsch/German
-        # :pl => "Polski",      # Polski/Polish/Poland
-        # :nl => "Dutch",       # Dutch/Nederlands/Netherlands
+        :de => "Deutsch",       # Deutsch/German
+        :pl => "Polski",        # Polski/Polish/Poland
+        :nl => "Dutch",         # Dutch/Nederlands/Netherlands
         :es => "Español",       # Español/Spanish
-        # :uk => "украї́нська",  # украї́нська/Ukrainian
-        # :sr => "Српски",      # Српски/Srpski/Serbian
-        :it => "Italiano",    # Italiano/Italian
-        # :hr => "Hrvatski",    # Hrvatski/Croatian
-        #:fr => "Français",    # French
-        #:pt => "Português",   # Portuguese
-        # :tr => "Türkçe",      # Turkish
-        # :ro => "Română",      # Romanian
-        # :bg => "български"    # Bulgarian
+        :uk => "украї́нська",    # украї́нська/Ukrainian
+        :sr => "Српски",        # Српски/Srpski/Serbian
+        :it => "Italiano",      # Italiano/Italian
+        :hr => "Hrvatski",      # Hrvatski/Croatian
+        :fr => "Français",      # French
+        :pt => "Português",     # Portuguese
+        :tr => "Türkçe",        # Turkish
+        :ro => "Română",        # Romanian
+        :bg => "български"      # Bulgarian
     }
 
 
-    # Time localization
+    # Define time zone, week start day, and custom date/time formats.
     config.datetime = {
         :time_zone => "America/Guatemala",
         :start_week_on => "monday",
@@ -84,9 +84,9 @@ Lesli.configure do |config|
     }
 
 
-    # Instance security settings
+    # Customize system-wide security behavior.
     config.security = {
-        password: "Test123!",
+        password: "Test123!",       # Default password for development, test & demo environments
         enable_debug: false,
         enable_becoming: false,
         enable_analytics: true,
@@ -97,7 +97,7 @@ Lesli.configure do |config|
     }
 
 
-    # Main color palette for Lesli
+    # Customize the color palette and layout.
     config.theme = {
         color_primary: "#193d8d",
         color_sidebar: "#ffffff",
@@ -110,15 +110,19 @@ Lesli.configure do |config|
 
     #
     config.layout = {
-        locale: false
+        tasks: true,
+        babel: false,
+        profile: true,
+        notifications: true
     }
 
 
-    #
+    # Specify default paths for email templates.
     config.mailer = {
         templates: "lesli_mailer/emails/lesli"
     }
 
+    # Control redirection paths after login.
     config.path_after_login = "/"
     config.path_after_login = "/dashboard" if defined?(LesliDashboard)
 end
