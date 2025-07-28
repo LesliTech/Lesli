@@ -34,7 +34,7 @@ module Lesli
     module Shared
         class DashboardFallback < ::Lesli::ApplicationLesliRecord
             self.abstract_class = true
-            def self.initialize_dashboard(account)
+            def self.initialize_account(account)
             end
         end
 

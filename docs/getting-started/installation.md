@@ -4,8 +4,7 @@
 Lesli is a Ruby on Rails gem designed to integrate seamlessly into your application. It keeps its code, database, and assets fully isolated, ensuring it won’t interfere with your main app. This isolation allows you to extend functionality without adding complexity or risking conflicts within your core codebase.
 
 
-> **Before You Start:**  
-> Make sure you have **Ruby 3.2.x** and **Rails 8.0.x** installed on your system.
+> **Before You Start:** Make sure you have **Ruby 3.2.x**, **Rails 8.0.x** and NodeJS 20.x (to work with LesliAssets) installed on your system.
 
 
 ## Create a New Rails Application
@@ -79,7 +78,7 @@ This task will:
 To reset your environment and start from a clean state, run:
 
 ```bash
-rake lesli:db:restart
+rake lesli:db:reset 
 ```
 >This command will drop, create, migrate, and re-seed the database using the same logic as lesli:db:dev, Useful when testing or debugging your development setup.
 
