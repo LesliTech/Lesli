@@ -2,6 +2,15 @@
 
 This guide explains the configuration options available in the `config/initializers/lesli.rb` file. Customize the core behavior, UI, security, and internationalization of your Lesli-based application.
 
+
+### Generate Lesli initializer
+
+```shell
+rails g lesli:install
+```
+
+Lesli includes the base lesli configuration, so you can only edit the parts required for your specific needs.
+
 ```ruby
 Lesli.configure do |config|
 
