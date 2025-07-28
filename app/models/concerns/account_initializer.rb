@@ -60,7 +60,6 @@ module AccountInitializer
         Lesli::RoleOperator.new(admin).add_owner_actions
         Lesli::RoleOperator.new(limited).add_profile_actions
 
-
     end
 
 
@@ -69,7 +68,7 @@ module AccountInitializer
 
         LesliSystem.engines.each do |engine, data|
 
-            next if ["Lesli", "LesliBabel", "LesliShield", "Root"].include?(engine)
+            next if ["Lesli", "LesliBabel", "Root"].include?(engine)
 
             # Skip if the engine is not defined
             next unless Object.const_defined?(engine)
