@@ -1,0 +1,48 @@
+<style>
+.error-401 .material-symbols {
+    font-size: 8rem;
+    color: rgb(190,190,190);
+}
+.error-401 h2 {
+    font-size: 2rem;
+    color: #7a0000;
+}
+
+.error-401 p {
+    font-size: 1.4rem;
+    font-weight: 300;
+}
+</style>
+<%= render(LesliView::Layout::Container.new("accounts")) do %>
+    <section class="hero is-medium error-401">
+        <div class="hero-body has-text-centered">
+
+            <div class="mb-6">
+                <span class="icon">
+                    <span class="material-symbols">
+                        shield_lock
+                    </span>
+                </span>
+            </div>
+
+            <h2 class="mb-4">401 Unauthorized</h2>
+
+            <p>
+                We could not validate your credentials. 
+                Please ask the administrator to send you an invite to see this content.
+            </p>
+
+            <div class="box mt-6">
+                <ul>
+                    <!--li><%= @error_object[:error_message] %></li-->
+                    <li>
+                        <%= @error_object.dig(:error_detail, :controller) %>
+                        (<%= @error_object.dig(:error_detail, :action) %>)
+                    </li>
+                    <li><%= @error_object[:error_role] %></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+<% end %>
+
