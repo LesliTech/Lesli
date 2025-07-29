@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,17 +17,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Your Smart Business Assistant.
+Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://lesli.tech
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 =end
 
 module Lesli
@@ -72,27 +72,43 @@ module Lesli
         end
 
         # JSON not found response
-        def respond_with_not_found
-            respond_with_http(404, {
-                message: I18n.t("core.shared.messages_danger_not_found")
-            })
+        def respond_with_not_found message=nil
+
+            @message = message || I18n.t("core.shared.messages_danger_not_found")
+            respond_to do |format|
+                format.json{ respond_with_http(404, { message: @message }) }
+                format.html{ render('lesli/errors/not_found', status: :not_found) }
+            end
         end
 
         # JSON not found response
         def respond_with_unauthorized(detail = {})
-            error_object = {}
 
-            error_object[:message] = I18n.t("core.shared.view_text_unauthorized_request")
-            error_object[:detail] = detail if Rails.env == "development"
+            @error_object = {
+                error_role: nil,
+                error_detail: nil,
+                error_message: I18n.t("core.shared.view_text_unauthorized_request")
+            }
 
-            error_object[:role] = "( #{current_user.lesliroles.map(&:name).join(', ')} )" if (Rails.env == "development") && !current_user.blank?
+            unless Rails.env.production?
+                @error_object[:error_detail] = detail unless detail.empty?
+                if current_user.present?
+                    @error_object[:error_role] = "( #{current_user.lesliroles.map(&:name).join(', ')} )"
+                end
+            end
 
             respond_to do |format|
-                format.json { render status: 401, json: error_object.to_json }
-                format.html { redirect_to "/401" } if Rails.env == "production"
-                format.html { render status: 401, json: error_object.to_json }
-                # format.xlsx { redirect_to "/401" } if Rails.env == "production"
-                # format.xlsx { render status: 401, json: error_object.to_json }
+                format.json{ render(status: :unauthorized, json: @error_object) }
+                format.html{ render('lesli/errors/unauthorized', status: :unauthorized) }
+
+                # format.xlsx do
+                #   if Rails.env.production?
+                #     redirect_to "/401" # Or a specific Excel error download if applicable
+                #   else
+                #     # For development, you might still want a JSON response for debugging
+                #     render status: :unauthorized, json: error_object.to_json
+                #   end
+                # end
             end
         end
 

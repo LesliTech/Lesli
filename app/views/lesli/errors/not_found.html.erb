@@ -1,0 +1,32 @@
+<style>
+.error-404 .material-symbols {
+    font-size: 8rem;
+    color: rgb(190,190,190);
+}
+.error-404 h2 {
+    font-size: 2rem;
+    color: #3d211b;
+}
+
+.error-404 p {
+    font-size: 1.4rem;
+    font-weight: 300;
+}
+</style>
+<%= render(LesliView::Layout::Container.new("accounts")) do %>
+    <section class="hero is-medium error-404">
+        <div class="hero-body has-text-centered">
+
+            <div class="mb-6">
+                <%= render(LesliView::Elements::Empty.new(text:nil)) %>
+            </div>
+
+            <h2 class="mb-4">404 Not found</h2>
+
+            <p>
+                <%= @message %>
+            </p>
+        </div>
+    </section>
+<% end %>
+
