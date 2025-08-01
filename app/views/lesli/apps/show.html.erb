@@ -25,17 +25,12 @@ document.addEventListener('turbo:load', () => {
 ]
 %>
 
-<%= render(LesliView::Layout::Container.new("lesli-apps", dashboard: true)) do %>
-
+<%= render(LesliView::Layout::Container.new("lesli-apps", dashboard: false)) do %>
     <%= render("lesli_dashboard/dashboards/shared/header") if defined?(LesliDashboard) %>
 
-    <section class="lesli-application-engines">
-        <div class="engines-container">
-            <div class="engines">
-                <% @navigation_engines.each do |engine| %>
-                    <%= public_send("navigation_engine_#{engine}") %>
-                <% end %>
-            </div>
-        </div>
+    <section class="columns is-multiline is-mobile is-centered engines">
+        <% @navigation_engines.each do |engine| %>
+            <%= public_send("navigation_engine_#{engine}") %>
+        <% end %>
     </section>
 <% end %>
