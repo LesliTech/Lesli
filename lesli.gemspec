@@ -76,7 +76,7 @@ Gem::Specification.new do |spec|
     spec.add_dependency("i18n-js", "~> 4.2.3") 
 
     # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-    spec.add_dependency("importmap-rails")
+    spec.add_dependency("importmap-rails", "~> 2.2.0")
 
     # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
     spec.add_dependency("turbo-rails")
