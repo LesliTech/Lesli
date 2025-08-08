@@ -32,8 +32,8 @@ Building a better future, one line of code at a time.
 
 module Lesli
     class User < ApplicationLesliRecord
-        include UserSecurity
-        include UserExtensions
+        include Lesli::UserSecurity
+        include Lesli::UserExtensions
         #include UserActivities
 
         validates(:email, 
@@ -109,8 +109,19 @@ module Lesli
         end
 
 
+        def after_account_assignation
+            return unless self.account
+
+            #Courier::One::Firebase::User.sync_user(self)
+            # Lesli::Courier.new(:lesli_calendar).from(:calendar_service, self).create({
+            #     name: "Personal Calendar", 
+            #     default: true
+            # })
+        end
+
+
         # Initialize user settings and dependencies needed
-        def after_confirmation_user
+        def after_confirmation
             return unless self.confirmed?
 
             self.activities.create(title: "create_user", description:"User confirmed")
@@ -121,16 +132,6 @@ module Lesli
             # Minimum security settings required
             #self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
             #self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
-        end
-
-        def after_account_assignation
-            return unless self.account
-
-            #Courier::One::Firebase::User.sync_user(self)
-            # Lesli::Courier.new(:lesli_calendar).from(:calendar_service, self).create({
-            #     name: "Personal Calendar", 
-            #     default: true
-            # })
         end
 
 
