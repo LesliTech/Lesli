@@ -70,7 +70,6 @@ module Lesli
         has_many :sessions
         has_many :activities #, class_name: "Lesli::Item::Activity"
 
-        
 
         has_many :shortcuts, class_name: "LesliShield::User::Shortcuts"
 
@@ -104,7 +103,7 @@ module Lesli
 
         def after_create_user
             self.activities.create(title: "create_user", description:"User created")
-            after_confirmation_user
+            after_confirmation
             after_account_assignation
         end
 
