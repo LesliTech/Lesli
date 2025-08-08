@@ -78,4 +78,4 @@ L2.success(
 
 
 # print some separators so will be easy to find these messages later
-L2.line; L2.line; L2.line; L2.line; L2.br(5);L2.br(5);
+L2.br(2);
