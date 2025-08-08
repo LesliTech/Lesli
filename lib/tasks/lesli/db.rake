@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -39,16 +39,8 @@ namespace :lesli do
             drop()
             create()
             migrate()
-            prepare()
             seed()
-            status()
-        end
-
-        desc "Migrate, seed & prepare the Lesli database (development only)"
-        task :dev => :environment do |task, args|
-            migrate()
             prepare()
-            seed()
             status()
         end
 
@@ -84,13 +76,20 @@ namespace :lesli do
         L2.m("Drop the Lesli database (development only)")
 
         Rake::Task['db:drop'].invoke
+        L2.info("Databases deleted")
+
+        schema_file = Rails.root.join('db', 'schema.rb')
+        if File.exist?(schema_file)
+            File.delete(schema_file)
+            L2.info("Schema.rb file deleted")
+        end
     end
 
     # Create the Lesli database (development only)
     def create
 
         # print a message to let the users show the action running
-        L2.m("Create the Lesli database (development only)")
+        L2.m("Create the Lesli database")
 
         Rake::Task['db:create'].invoke
     end
@@ -99,7 +98,7 @@ namespace :lesli do
     def migrate
 
         # print a message to let the users show the action running
-        L2.m("Migrate the Lesli database")
+        L2.msg("Migrate the Lesli database")
 
         Rake::Task['db:migrate'].invoke
     end
@@ -111,6 +110,7 @@ namespace :lesli do
 
         # load main app seeders
         Rake::Task['db:seed'].invoke
+        L2.info("Root: Seeds executed")
 
         # load Lesli* gems seeders
         Lesli::Engine.load_seed
@@ -127,26 +127,29 @@ namespace :lesli do
         # print a message to let the users show the action running
         L2.msg("Prepare the Lesli database")
 
+        # scan rails routes to build the controllers index
+        Rake::Task['lesli:controllers:build'].invoke
+
         Lesli::Account.all.each do |account|
             account.initialize_account
             account.initialize_engines
         end
 
         # scan rails routes to build the controllers index
-        Rake::Task['lesli:controllers:build'].invoke
-
-        # scan rails routes to build the controllers index
         Rake::Task['lesli:shield:privileges'].invoke if defined?(LesliShield)
 
-        # scan rails routes to build the base of translations
-        Rake::Task['lesli:babel:scan'].invoke if defined?(LesliBabel)
+        if defined?(LesliBabel)
 
-        # import local translations into LesliBabel
-        Rake::Task['lesli:babel:import'].invoke if defined?(LesliBabel)
+            # scan rails routes to build the base of translations
+            Rake::Task['lesli:babel:scan'].invoke 
+
+            # import local translations into LesliBabel
+            Rake::Task['lesli:babel:import'].invoke 
+        end
     end 
 
     def status 
-        # print the lesli gems
+        # print the lesli status
         Rake::Task['lesli:status'].invoke 
     end
 end
