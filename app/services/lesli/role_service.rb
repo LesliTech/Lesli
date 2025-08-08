@@ -82,13 +82,13 @@ module Lesli
                 :isolated, 
                 :description,
                 :path_default, 
-                :object_level_permission, 
+                :permission_level, 
                 "users.users",
                 "actions.actions"
             )
             .page(query[:pagination][:page])
             .per(query[:pagination][:perPage])
-            .order(object_level_permission: :desc, name: :asc)
+            .order(permission_level: :desc, name: :asc)
         end
 
         # @overwrite
