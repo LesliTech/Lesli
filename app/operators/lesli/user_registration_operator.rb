@@ -56,7 +56,7 @@ module Lesli
             #UserMailer.with(user: resource).welcome.deliver_later
 
             # initialize user dependencies
-            current_user.after_confirmation_user
+            current_user.after_confirmation
 
         end
 
@@ -95,7 +95,7 @@ module Lesli
 
             # add owner role to user only if multi-account is allowed
             if allow_multiaccount == true
-                #resource.powers.create({ role: account.roles.find_by(name: "owner") })
+                resource.roles.create({ role: account.roles.find_by(name: "owner") })
             end
 
             # add profile role to user only if multi-account is allowed
@@ -103,11 +103,12 @@ module Lesli
                 # Assigning default role if defined in account settings
                 # Otherwise, the default role is "limited"
                 #default_role_id = account.settings.find_by(:name => "default_role_id")&.value
+                default_role_id = nil
                     
                 if default_role_id.present?
-                    resource.user_roles.create({ role: account.roles.find_by(:id => default_role_id)})
+                    resource.roles.create({ role: account.roles.find_by(:id => default_role_id)})
                 else
-                    resource.user_roles.create({ role: account.roles.find_by(name: "limited") })
+                    resource.roles.create({ role: account.roles.find_by(name: "limited") })
                 end
             end
 
