@@ -58,21 +58,6 @@ Building a better future, one line of code at a time.
             <div class="navbar-menu" :class="{ 'is-active': navActive }">
                 <div class="navbar-end is-flex is-justify-content-center">
 
-                    <!-- tickets -->
-                    <div class="navbar-item">
-                        <% if defined?(LesliSupport) %>
-                            <%= link_to(
-                                lesli_support.tickets_path, 
-                                :class => "header-indicator",
-                                :data => { turbo_frame: '_top' }) do %>
-                                <span class="ri-ticket-2-line"></span>
-                                <% if @lesli[:tickets] > 0 %>
-                                    <span class="count"></span>
-                                <% end %>
-                            <% end %>
-                        <% end %>
-                    </div>
-
                     <!-- notifications -->
                     <div class="navbar-item">
                         <% if defined?(LesliBell) %>
