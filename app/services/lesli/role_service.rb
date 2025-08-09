@@ -74,7 +74,7 @@ module Lesli
                     from lesli_role_actions
                     group by role_id
                 ) actions on actions.role_id = lesli_roles.id
-            )).where("lesli_roles.permission_level <= ?", current_user.max_object_level_permission)
+            )).where("lesli_roles.permission_level <= ?", current_user.max_level_permission)
             .select(
                 :id, 
                 :name, 

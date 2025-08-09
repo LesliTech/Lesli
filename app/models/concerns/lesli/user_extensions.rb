@@ -80,7 +80,7 @@ module Lesli
 
         # Return a string with the names of all the roles assigned to the user
         def role_names 
-            user_roles = self.roles.map(&:name).join(", ")
+            self.lesliroles.pluck(:name).join(', ')
         end
 
 
