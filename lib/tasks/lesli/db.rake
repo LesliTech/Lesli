@@ -113,13 +113,10 @@ namespace :lesli do
         L2.info("Root: Seeds executed")
 
         # load Lesli* gems seeders
-        Lesli::Engine.load_seed
-        LesliBell::Engine.load_seed if defined?(LesliBell)
-        LesliAdmin::Engine.load_seed if defined?(LesliAdmin)
-        LesliAudit::Engine.load_seed if defined?(LesliAudit)
-        LesliLetter::Engine.load_seed if defined?(LesliLetter)
-        LesliSupport::Engine.load_seed if defined?(LesliSupport)
-        LesliCalendar::Engine.load_seed if defined?(LesliCalendar)
+        LesliSystem.engines.each do |engine, data|
+            next if engine == "Root"
+            engine.constantize::Engine.load_seed
+        end
     end
 
     def prepare 
