@@ -48,21 +48,10 @@ Building a better future, one line of code at a time.
             });
         </script>
     <% end %>
-    <style>
-    .column.background {
-        background: linear-gradient(0deg, 
-            rgba(49, 106, 255, 0.4), 
-            rgba(49, 106, 255, 0.4)), 
-            url('<%= asset_path("lesli/brand/login-background.jpg") %>');
-        background-position: center;
-        background-size: cover;
-    }
-    </style>
 </head>
 <body class="<%= application_body_class() %>">
     <%= yield %>
     <%= javascript_include_tag("lesli_shield/#{devise_controller}") %>
-    <%= render(partial: "lesli_assets/partials/application-lesli-fonts") %>
     <%= render(partial: "lesli/partials/application-analytics") %>
 </body>
 </html>
