@@ -32,6 +32,10 @@ Building a better future, one line of code at a time.
 
 <%
 
+# Defining color customization 
+# colors will be override with the ones defined in the database if custom colors exists
+# if there is no custom colors defined, the var() function will return the lesli colors
+#@lesli.dig(:customization, :colors) || {}
 @lesli[:notifications] = Lesli::Courier.new(:lesli_bell, 0).from(:notification_service, current_user).call(:count)
 
 %>
