@@ -34,77 +34,41 @@ module Lesli
     module AssetsHelper
         # Return a string path to load the template stylesheet
         # by default we always return the latest version of the template
-        # lesli_application_stylesheet_path()               -> stylesheet from main app
-        # lesli_application_stylesheet_path(:lesli)         -> stylesheet from Lesli
-        # lesli_application_stylesheet_path(:engine) (TODO) -> stylesheet from engine current
-        # lesli_application_stylesheet_path(:cloud_driver)  -> stylesheet from engine specific
-        def lesli_application_stylesheet_path(engine = nil)
+        #
+        # stylesheet from main App
+        # lesli_asset_path()               
+        # /assets/lesli_dashboard/application.css
+        #
+        # Specific stylesheet from Engine
+        # lesli_asset_path(:lesli, 'application') 
+        # /assets/lesli_assets/templates/application.css
+        #
+        # Specific stylesheet from gem
+        # lesli_asset_path(:lesli_assets, 'templates/application')
+        # /assets/lesli_assets/templates/application.css
+        def lesli_asset_path(engine = nil, stylesheet = 'application')
 
             # Stylesheets from specific engine
-            return "#{engine}/templates/application" if engine
+            return "#{engine}/#{stylesheet}" if engine.present?
 
             # Get current engine information
-            lesli_engine_code = lesli_engine(:code)
+            engine_code = lesli_engine(:code)
 
             # Rails main host app stylesheets
-            return "application" if lesli_engine_code == "root"
+            return 'application' if engine_code == 'root'
 
             # Rails engines stylesheets
-            "#{lesli_engine_code}/application"
-        end
-
-        # Return a string path to load the main engine stylesheet
-        def application_stylesheet_engine_path
-            lesli_engine = lesli_engine(:code)
-            return "administration/application" if is_lesli_administration?
-            return "onboardings/application" if is_lesli_onboarding?
-
-            "#{lesli_engine}/application"
-        end
-
-        # Return a string path to load the main javascript app of the engine
-        def lesli_application_javascript_path
-            # get the namespace to load specific javascript file
-            # for engine or specific javascript file for core controller
-            # path_segments = controller_path.split("/")
-            # lesli_engine = path_segments.shift
-
-            # return "onboardings/application" if is_lesli_onboarding?
-
-
-
-            # Get current engine information
-            lesli_engine_code = lesli_engine(:code)
-
-            # Rails main host app stylesheets
-            return "application" if lesli_engine_code == "root"
-
-            # Rails engines stylesheets
-            "#{lesli_engine_code}/application"
-        end
-
-        def javascript_googlemaps_sdk
-            "<script type=\"application/javascript\" src=\"https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.dig(
-                :providers, :google, :maps_sdk_token
-            )}\"></script>".html_safe
-        end
-
-        def javascript_apple_mapkit_js
-            token = Rails.application.credentials.dig(:providers, :apple, :mapkit_token)
-
-            "<script type=\"application/javascript\" src=\"https://cdn.apple-mapkit.com/mk/5.45.0/mapkit.js\"></script>
-            <script type=\"application/javascript\">
-                const ampkt = \"#{token}\"
-            </script>".html_safe
+            "#{engine_code}/#{stylesheet}"
         end
 
         def favicon
             icon_path = customization_instance_logo_url(logo: "favicon")
-            "
-            <link href=\"#{icon_path}\" rel=\"alternate icon\">
-            <link href=\"#{icon_path}\" rel=\"icon\" type=\"image/svg+xml\">
-            <link href=\"#{icon_path}\" rel=\"mask-icon\" color=\"#ff8a01\">
-            ".html_safe
+
+            safe_join([
+                tag.link(href: icon_path, rel: "alternate icon"),
+                tag.link(href: icon_path, rel: "icon", type: "image/svg+xml"),
+                tag.link(href: icon_path, rel: "mask-icon", color: "#ff8a01")
+            ])
         end
     end
 end

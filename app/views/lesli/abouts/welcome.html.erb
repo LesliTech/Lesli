@@ -1,11 +1,11 @@
 <style>
+html, body, * {
+    box-sizing: border-box;
+}
+
 html, body {
     margin: 0;
     padding: 0;
-}
-
-html, body, * {
-    box-sizing: border-box;
 }
 
 .page-welcome {
@@ -59,11 +59,11 @@ html, body, * {
     align-items: center;
 }
 
-.buttons {
+.page-welcome .buttons {
     margin-bottom: 2rem;
 }
 
-.buttons a {
+.page-welcome .buttons a {
     border: none;
     display: inline-block;
     text-decoration: none;
@@ -79,25 +79,25 @@ html, body, * {
     line-height: 28px;
 }
 
-.buttons a.doc {
+.page-welcome .buttons a.doc {
     background: #184fee;
 }
 
-.buttons a.start {
+.page-welcome .buttons a.start {
     background: #444444;
 }
 
 @media only screen and (max-width: 600px) { 
-    .page-welcome svg {
+    .page-welcome .page-welcome svg {
         width: 250px;
     }
 
-    .page-welcome h1 {
+    .page-welcome .page-welcome h1 {
         padding: 0 1rem;
         font-size: 2.7rem;
     }
 
-    .buttons a {
+    .page-welcome .buttons a {
         padding: 14px 20px;
     }
 }

@@ -3,7 +3,7 @@
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,9 +32,6 @@ Building a better future, one line of code at a time.
 =end
 %>
 
-<%# Hide vue until vue finishes compilation %>
-<%# <style>[v-cloak] { display: none !important; }</style> %>
-
 
 <%
 # Defining color customization 
@@ -55,6 +52,5 @@ Building a better future, one line of code at a time.
 
 
 <%# Loading stylesheets %> 
-<%= stylesheet_link_tag lesli_application_stylesheet_path(:lesli_assets), media: "all" %>
-<%= stylesheet_link_tag lesli_application_stylesheet_path(), media: "all" %>
-
+<%= stylesheet_link_tag(lesli_asset_path(:lesli_assets, 'templates/application'), media: "all") %>
+<%= stylesheet_link_tag(lesli_asset_path(), media: "all") %>
