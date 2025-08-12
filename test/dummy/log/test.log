@@ -1,0 +1,517 @@
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (0)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2025-08-12 02:30:18.414575', '2025-08-12 02:30:18.414577') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '304fe853693c8703e374a9e1a59433c7d63e9ef6', '2025-08-12 02:30:18.415568', '2025-08-12 02:30:18.415569') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[35mDROP TABLE IF EXISTS "lesli_account_activities"[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "lesli_account_activities" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "description" varchar, "session_id" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer, "account_id" integer)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_lesli_account_activities_on_account_id" ON "lesli_account_activities" ("account_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_account_activities_on_user_id" ON "lesli_account_activities" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "lesli_account_details"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "lesli_account_details" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "company_name" varchar, "company_name_legal" varchar, "company_tagline" varchar, "country" integer, "address" varchar, "region" varchar, "city" varchar, "postal_code" varchar, "website" varchar, "phone_number_1" varchar, "phone_number_2" varchar, "phone_number_3" varchar, "phone_number_4" varchar, "public_email" varchar, "github" varchar, "twitter" varchar, "youtube" varchar, "linkedin" varchar, "facebook" varchar, "deleted_at" datetime, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "account_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_account_details_on_account_id" ON "lesli_account_details" ("account_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_account_details_on_deleted_at" ON "lesli_account_details" ("deleted_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "lesli_accounts"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "lesli_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "status" varchar NOT NULL, "name" varchar, "email" varchar NOT NULL, "region" varchar DEFAULT 'america', "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_accounts_on_deleted_at" ON "lesli_accounts" ("deleted_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_lesli_accounts_on_email" ON "lesli_accounts" ("email")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_accounts_on_user_id" ON "lesli_accounts" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "lesli_role_actions"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "lesli_role_actions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "role_id" integer, "action_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "descriptor_privileges_system_controller_actions" ON "lesli_role_actions" ("action_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_lesli_role_actions_on_deleted_at" ON "lesli_role_actions" ("deleted_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_role_actions_on_role_id" ON "lesli_role_actions" ("role_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "lesli_role_privileges"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "lesli_role_privileges" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "controller" varchar, "action" varchar, "active" boolean, "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "role_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "role_privileges_index" ON "lesli_role_privileges" ("controller", "action", "role_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_lesli_role_privileges_on_deleted_at" ON "lesli_role_privileges" ("deleted_at")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_lesli_role_privileges_on_role_id" ON "lesli_role_privileges" ("role_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "lesli_roles"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "lesli_roles" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "code" varchar, "description" varchar, "active" boolean, "path_default" varchar, "path_limited" boolean, "isolated" boolean DEFAULT 0, "permission_level" integer DEFAULT 10, "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "account_id" integer)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_lesli_roles_on_account_id" ON "lesli_roles" ("account_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_lesli_roles_on_deleted_at" ON "lesli_roles" ("deleted_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "lesli_settings"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "lesli_settings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer, "account_id" integer NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_lesli_settings_on_account_id" ON "lesli_settings" ("account_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_settings_on_user_id" ON "lesli_settings" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "lesli_system_controller_actions"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "lesli_system_controller_actions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "system_controller_id" integer)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_lesli_system_controller_actions_on_deleted_at" ON "lesli_system_controller_actions" ("deleted_at")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_lesli_system_controller_actions_on_system_controller_id" ON "lesli_system_controller_actions" ("system_controller_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "lesli_system_controllers"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "lesli_system_controllers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "route" varchar, "engine" varchar, "reference" varchar, "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_lesli_system_controllers_on_deleted_at" ON "lesli_system_controllers" ("deleted_at")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "lesli_user_activities"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "lesli_user_activities" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "description" varchar, "session_id" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_lesli_user_activities_on_user_id" ON "lesli_user_activities" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "lesli_user_roles"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "lesli_user_roles" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "deleted_at" datetime, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer, "role_id" integer)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_lesli_user_roles_on_deleted_at" ON "lesli_user_roles" ("deleted_at")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_lesli_user_roles_on_role_id" ON "lesli_user_roles" ("role_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_lesli_user_roles_on_user_id" ON "lesli_user_roles" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "lesli_user_sessions"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "lesli_user_sessions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "remote" varchar, "agent_platform" varchar, "agent_os" varchar, "agent_browser" varchar, "agent_version" varchar, "session_token" varchar, "session_source" varchar, "usage_count" integer, "last_used_at" datetime, "expiration_at" datetime, "deleted_at" datetime, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_lesli_user_sessions_on_deleted_at" ON "lesli_user_sessions" ("deleted_at")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_lesli_user_sessions_on_expiration_at" ON "lesli_user_sessions" ("expiration_at")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_lesli_user_sessions_on_user_id" ON "lesli_user_sessions" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "lesli_users"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "lesli_users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "active" boolean DEFAULT 1 NOT NULL, "alias" varchar, "title" varchar, "salutation" varchar, "first_name" varchar, "last_name" varchar, "email" varchar DEFAULT '' NOT NULL, "encrypted_password" varchar DEFAULT '' NOT NULL, "reset_password_token" varchar, "reset_password_sent_at" datetime(6), "password_expiration_at" datetime(6), "locked_until" datetime(6), "remember_created_at" datetime(6), "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" datetime(6), "last_sign_in_at" datetime(6), "current_sign_in_ip" varchar, "last_sign_in_ip" varchar, "unconfirmed_email" varchar, "confirmation_token" varchar, "confirmation_sent_at" datetime(6), "confirmed_at" datetime(6), "telephone" varchar, "telephone_confirmation_token" varchar, "telephone_confirmation_sent_at" datetime(6), "telephone_confirmed_at" datetime(6), "failed_attempts" integer DEFAULT 0 NOT NULL, "unlock_token" varchar, "locked_at" datetime(6), "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "account_id" integer)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_lesli_users_on_account_id" ON "lesli_users" ("account_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_lesli_users_on_confirmation_token" ON "lesli_users" ("confirmation_token")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_users_on_deleted_at" ON "lesli_users" ("deleted_at")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_lesli_users_on_email" ON "lesli_users" ("email")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_lesli_users_on_reset_password_token" ON "lesli_users" ("reset_password_token")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_lesli_users_on_unlock_token" ON "lesli_users" ("unlock_token")[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alesli_account_activities" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "description" varchar, "session_id" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer, "account_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_account_activities_on_user_id" ON "alesli_account_activities" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_account_activities_on_account_id" ON "alesli_account_activities" ("account_id")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "alesli_account_activities" ("id","title","description","session_id","created_at","updated_at","user_id","account_id")
+                     SELECT "id","title","description","session_id","created_at","updated_at","user_id","account_id" FROM "lesli_account_activities"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "lesli_account_activities"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "lesli_account_activities" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "description" varchar, "session_id" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer, "account_id" integer, CONSTRAINT "fk_rails_c4ad42170e"
+FOREIGN KEY ("account_id")
+  REFERENCES "lesli_accounts" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_account_activities_on_account_id" ON "lesli_account_activities" ("account_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_account_activities_on_user_id" ON "lesli_account_activities" ("user_id")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "lesli_account_activities" ("id","title","description","session_id","created_at","updated_at","user_id","account_id")
+                     SELECT "id","title","description","session_id","created_at","updated_at","user_id","account_id" FROM "alesli_account_activities"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "alesli_account_activities"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alesli_account_activities" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "description" varchar, "session_id" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer, "account_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_account_activities_on_user_id" ON "alesli_account_activities" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_account_activities_on_account_id" ON "alesli_account_activities" ("account_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "alesli_account_activities" ("id","title","description","session_id","created_at","updated_at","user_id","account_id")
+                     SELECT "id","title","description","session_id","created_at","updated_at","user_id","account_id" FROM "lesli_account_activities"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "lesli_account_activities"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "lesli_account_activities" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "description" varchar, "session_id" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer, "account_id" integer, CONSTRAINT "fk_rails_c4ad42170e"
+FOREIGN KEY ("account_id")
+  REFERENCES "lesli_accounts" ("id")
+, CONSTRAINT "fk_rails_49ec9cab4c"
+FOREIGN KEY ("user_id")
+  REFERENCES "lesli_users" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_account_activities_on_account_id" ON "lesli_account_activities" ("account_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_account_activities_on_user_id" ON "lesli_account_activities" ("user_id")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "lesli_account_activities" ("id","title","description","session_id","created_at","updated_at","user_id","account_id")
+                     SELECT "id","title","description","session_id","created_at","updated_at","user_id","account_id" FROM "alesli_account_activities"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "alesli_account_activities"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alesli_account_details" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "company_name" varchar, "company_name_legal" varchar, "company_tagline" varchar, "country" integer, "address" varchar, "region" varchar, "city" varchar, "postal_code" varchar, "website" varchar, "phone_number_1" varchar, "phone_number_2" varchar, "phone_number_3" varchar, "phone_number_4" varchar, "public_email" varchar, "github" varchar, "twitter" varchar, "youtube" varchar, "linkedin" varchar, "facebook" varchar, "deleted_at" datetime, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "account_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_account_details_on_deleted_at" ON "alesli_account_details" ("deleted_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_account_details_on_account_id" ON "alesli_account_details" ("account_id")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "alesli_account_details" ("id","company_name","company_name_legal","company_tagline","country","address","region","city","postal_code","website","phone_number_1","phone_number_2","phone_number_3","phone_number_4","public_email","github","twitter","youtube","linkedin","facebook","deleted_at","created_at","updated_at","account_id")
+                     SELECT "id","company_name","company_name_legal","company_tagline","country","address","region","city","postal_code","website","phone_number_1","phone_number_2","phone_number_3","phone_number_4","public_email","github","twitter","youtube","linkedin","facebook","deleted_at","created_at","updated_at","account_id" FROM "lesli_account_details"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "lesli_account_details"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "lesli_account_details" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "company_name" varchar, "company_name_legal" varchar, "company_tagline" varchar, "country" integer, "address" varchar, "region" varchar, "city" varchar, "postal_code" varchar, "website" varchar, "phone_number_1" varchar, "phone_number_2" varchar, "phone_number_3" varchar, "phone_number_4" varchar, "public_email" varchar, "github" varchar, "twitter" varchar, "youtube" varchar, "linkedin" varchar, "facebook" varchar, "deleted_at" datetime, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "account_id" integer, CONSTRAINT "fk_rails_1080c75857"
+FOREIGN KEY ("account_id")
+  REFERENCES "lesli_accounts" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_account_details_on_account_id" ON "lesli_account_details" ("account_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_account_details_on_deleted_at" ON "lesli_account_details" ("deleted_at")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "lesli_account_details" ("id","company_name","company_name_legal","company_tagline","country","address","region","city","postal_code","website","phone_number_1","phone_number_2","phone_number_3","phone_number_4","public_email","github","twitter","youtube","linkedin","facebook","deleted_at","created_at","updated_at","account_id")
+                     SELECT "id","company_name","company_name_legal","company_tagline","country","address","region","city","postal_code","website","phone_number_1","phone_number_2","phone_number_3","phone_number_4","public_email","github","twitter","youtube","linkedin","facebook","deleted_at","created_at","updated_at","account_id" FROM "alesli_account_details"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "alesli_account_details"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alesli_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "status" varchar NOT NULL, "name" varchar, "email" varchar NOT NULL, "region" varchar DEFAULT 'america', "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_accounts_on_user_id" ON "alesli_accounts" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_alesli_accounts_on_email" ON "alesli_accounts" ("email")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_accounts_on_deleted_at" ON "alesli_accounts" ("deleted_at")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "alesli_accounts" ("id","status","name","email","region","deleted_at","created_at","updated_at","user_id")
+                     SELECT "id","status","name","email","region","deleted_at","created_at","updated_at","user_id" FROM "lesli_accounts"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "lesli_accounts"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "lesli_accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "status" varchar NOT NULL, "name" varchar, "email" varchar NOT NULL, "region" varchar DEFAULT 'america', "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer, CONSTRAINT "fk_rails_250ed333b6"
+FOREIGN KEY ("user_id")
+  REFERENCES "lesli_users" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_accounts_on_deleted_at" ON "lesli_accounts" ("deleted_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_lesli_accounts_on_email" ON "lesli_accounts" ("email")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_accounts_on_user_id" ON "lesli_accounts" ("user_id")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "lesli_accounts" ("id","status","name","email","region","deleted_at","created_at","updated_at","user_id")
+                     SELECT "id","status","name","email","region","deleted_at","created_at","updated_at","user_id" FROM "alesli_accounts"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "alesli_accounts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alesli_role_actions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "role_id" integer, "action_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_role_actions_on_role_id" ON "alesli_role_actions" ("role_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_role_actions_on_deleted_at" ON "alesli_role_actions" ("deleted_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tdescriptor_privileges_system_controller_actions" ON "alesli_role_actions" ("action_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "alesli_role_actions" ("id","deleted_at","created_at","updated_at","role_id","action_id")
+                     SELECT "id","deleted_at","created_at","updated_at","role_id","action_id" FROM "lesli_role_actions"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "lesli_role_actions"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "lesli_role_actions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "role_id" integer, "action_id" integer, CONSTRAINT "fk_rails_dc5f87f6a1"
+FOREIGN KEY ("role_id")
+  REFERENCES "lesli_roles" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "descriptor_privileges_system_controller_actions" ON "lesli_role_actions" ("action_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_role_actions_on_deleted_at" ON "lesli_role_actions" ("deleted_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_role_actions_on_role_id" ON "lesli_role_actions" ("role_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "lesli_role_actions" ("id","deleted_at","created_at","updated_at","role_id","action_id")
+                     SELECT "id","deleted_at","created_at","updated_at","role_id","action_id" FROM "alesli_role_actions"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "alesli_role_actions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alesli_role_actions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "role_id" integer, "action_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_role_actions_on_role_id" ON "alesli_role_actions" ("role_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_role_actions_on_deleted_at" ON "alesli_role_actions" ("deleted_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tdescriptor_privileges_system_controller_actions" ON "alesli_role_actions" ("action_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "alesli_role_actions" ("id","deleted_at","created_at","updated_at","role_id","action_id")
+                     SELECT "id","deleted_at","created_at","updated_at","role_id","action_id" FROM "lesli_role_actions"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "lesli_role_actions"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "lesli_role_actions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "role_id" integer, "action_id" integer, CONSTRAINT "fk_rails_dc5f87f6a1"
+FOREIGN KEY ("role_id")
+  REFERENCES "lesli_roles" ("id")
+, CONSTRAINT "fk_rails_7fccd42735"
+FOREIGN KEY ("action_id")
+  REFERENCES "lesli_system_controller_actions" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "descriptor_privileges_system_controller_actions" ON "lesli_role_actions" ("action_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_role_actions_on_deleted_at" ON "lesli_role_actions" ("deleted_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_role_actions_on_role_id" ON "lesli_role_actions" ("role_id")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "lesli_role_actions" ("id","deleted_at","created_at","updated_at","role_id","action_id")
+                     SELECT "id","deleted_at","created_at","updated_at","role_id","action_id" FROM "alesli_role_actions"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "alesli_role_actions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alesli_role_privileges" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "controller" varchar, "action" varchar, "active" boolean, "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "role_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_role_privileges_on_role_id" ON "alesli_role_privileges" ("role_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_role_privileges_on_deleted_at" ON "alesli_role_privileges" ("deleted_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "trole_privileges_index" ON "alesli_role_privileges" ("controller", "action", "role_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "alesli_role_privileges" ("id","controller","action","active","deleted_at","created_at","updated_at","role_id")
+                     SELECT "id","controller","action","active","deleted_at","created_at","updated_at","role_id" FROM "lesli_role_privileges"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "lesli_role_privileges"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "lesli_role_privileges" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "controller" varchar, "action" varchar, "active" boolean, "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "role_id" integer, CONSTRAINT "fk_rails_85094fb445"
+FOREIGN KEY ("role_id")
+  REFERENCES "lesli_roles" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "role_privileges_index" ON "lesli_role_privileges" ("controller", "action", "role_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_role_privileges_on_deleted_at" ON "lesli_role_privileges" ("deleted_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_role_privileges_on_role_id" ON "lesli_role_privileges" ("role_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "lesli_role_privileges" ("id","controller","action","active","deleted_at","created_at","updated_at","role_id")
+                     SELECT "id","controller","action","active","deleted_at","created_at","updated_at","role_id" FROM "alesli_role_privileges"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "alesli_role_privileges"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alesli_roles" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "code" varchar, "description" varchar, "active" boolean, "path_default" varchar, "path_limited" boolean, "isolated" boolean DEFAULT 0, "permission_level" integer DEFAULT 10, "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "account_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_roles_on_deleted_at" ON "alesli_roles" ("deleted_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_roles_on_account_id" ON "alesli_roles" ("account_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "alesli_roles" ("id","name","code","description","active","path_default","path_limited","isolated","permission_level","deleted_at","created_at","updated_at","account_id")
+                     SELECT "id","name","code","description","active","path_default","path_limited","isolated","permission_level","deleted_at","created_at","updated_at","account_id" FROM "lesli_roles"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "lesli_roles"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "lesli_roles" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "code" varchar, "description" varchar, "active" boolean, "path_default" varchar, "path_limited" boolean, "isolated" boolean DEFAULT 0, "permission_level" integer DEFAULT 10, "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "account_id" integer, CONSTRAINT "fk_rails_3c3c2b0819"
+FOREIGN KEY ("account_id")
+  REFERENCES "lesli_accounts" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_roles_on_account_id" ON "lesli_roles" ("account_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_roles_on_deleted_at" ON "lesli_roles" ("deleted_at")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "lesli_roles" ("id","name","code","description","active","path_default","path_limited","isolated","permission_level","deleted_at","created_at","updated_at","account_id")
+                     SELECT "id","name","code","description","active","path_default","path_limited","isolated","permission_level","deleted_at","created_at","updated_at","account_id" FROM "alesli_roles"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "alesli_roles"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alesli_settings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer, "account_id" integer NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_settings_on_user_id" ON "alesli_settings" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_settings_on_account_id" ON "alesli_settings" ("account_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "alesli_settings" ("id","name","value","created_at","updated_at","user_id","account_id")
+                     SELECT "id","name","value","created_at","updated_at","user_id","account_id" FROM "lesli_settings"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "lesli_settings"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "lesli_settings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer, "account_id" integer NOT NULL, CONSTRAINT "fk_rails_8980cae446"
+FOREIGN KEY ("account_id")
+  REFERENCES "lesli_accounts" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_settings_on_account_id" ON "lesli_settings" ("account_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_settings_on_user_id" ON "lesli_settings" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "lesli_settings" ("id","name","value","created_at","updated_at","user_id","account_id")
+                     SELECT "id","name","value","created_at","updated_at","user_id","account_id" FROM "alesli_settings"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "alesli_settings"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alesli_settings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer, "account_id" integer NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_settings_on_user_id" ON "alesli_settings" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_settings_on_account_id" ON "alesli_settings" ("account_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "alesli_settings" ("id","name","value","created_at","updated_at","user_id","account_id")
+                     SELECT "id","name","value","created_at","updated_at","user_id","account_id" FROM "lesli_settings"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "lesli_settings"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "lesli_settings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer, "account_id" integer NOT NULL, CONSTRAINT "fk_rails_8980cae446"
+FOREIGN KEY ("account_id")
+  REFERENCES "lesli_accounts" ("id")
+, CONSTRAINT "fk_rails_3b2a9fa321"
+FOREIGN KEY ("user_id")
+  REFERENCES "lesli_users" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_settings_on_account_id" ON "lesli_settings" ("account_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_settings_on_user_id" ON "lesli_settings" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "lesli_settings" ("id","name","value","created_at","updated_at","user_id","account_id")
+                     SELECT "id","name","value","created_at","updated_at","user_id","account_id" FROM "alesli_settings"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "alesli_settings"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alesli_system_controller_actions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "system_controller_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_system_controller_actions_on_system_controller_id" ON "alesli_system_controller_actions" ("system_controller_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_system_controller_actions_on_deleted_at" ON "alesli_system_controller_actions" ("deleted_at")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "alesli_system_controller_actions" ("id","name","deleted_at","created_at","updated_at","system_controller_id")
+                     SELECT "id","name","deleted_at","created_at","updated_at","system_controller_id" FROM "lesli_system_controller_actions"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "lesli_system_controller_actions"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "lesli_system_controller_actions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "system_controller_id" integer, CONSTRAINT "fk_rails_ea48925b34"
+FOREIGN KEY ("system_controller_id")
+  REFERENCES "lesli_system_controllers" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_system_controller_actions_on_deleted_at" ON "lesli_system_controller_actions" ("deleted_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_system_controller_actions_on_system_controller_id" ON "lesli_system_controller_actions" ("system_controller_id")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "lesli_system_controller_actions" ("id","name","deleted_at","created_at","updated_at","system_controller_id")
+                     SELECT "id","name","deleted_at","created_at","updated_at","system_controller_id" FROM "alesli_system_controller_actions"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "alesli_system_controller_actions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alesli_user_activities" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "description" varchar, "session_id" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_user_activities_on_user_id" ON "alesli_user_activities" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "alesli_user_activities" ("id","title","description","session_id","created_at","updated_at","user_id")
+                     SELECT "id","title","description","session_id","created_at","updated_at","user_id" FROM "lesli_user_activities"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "lesli_user_activities"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "lesli_user_activities" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "description" varchar, "session_id" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer, CONSTRAINT "fk_rails_88ad6992c3"
+FOREIGN KEY ("user_id")
+  REFERENCES "lesli_users" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_user_activities_on_user_id" ON "lesli_user_activities" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "lesli_user_activities" ("id","title","description","session_id","created_at","updated_at","user_id")
+                     SELECT "id","title","description","session_id","created_at","updated_at","user_id" FROM "alesli_user_activities"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "alesli_user_activities"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alesli_user_roles" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "deleted_at" datetime, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer, "role_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_user_roles_on_user_id" ON "alesli_user_roles" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_user_roles_on_role_id" ON "alesli_user_roles" ("role_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_user_roles_on_deleted_at" ON "alesli_user_roles" ("deleted_at")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "alesli_user_roles" ("id","deleted_at","created_at","updated_at","user_id","role_id")
+                     SELECT "id","deleted_at","created_at","updated_at","user_id","role_id" FROM "lesli_user_roles"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "lesli_user_roles"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "lesli_user_roles" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "deleted_at" datetime, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer, "role_id" integer, CONSTRAINT "fk_rails_22fe07b1bb"
+FOREIGN KEY ("role_id")
+  REFERENCES "lesli_roles" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_user_roles_on_deleted_at" ON "lesli_user_roles" ("deleted_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_user_roles_on_role_id" ON "lesli_user_roles" ("role_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_user_roles_on_user_id" ON "lesli_user_roles" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "lesli_user_roles" ("id","deleted_at","created_at","updated_at","user_id","role_id")
+                     SELECT "id","deleted_at","created_at","updated_at","user_id","role_id" FROM "alesli_user_roles"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "alesli_user_roles"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alesli_user_roles" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "deleted_at" datetime, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer, "role_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_user_roles_on_user_id" ON "alesli_user_roles" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_user_roles_on_role_id" ON "alesli_user_roles" ("role_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_user_roles_on_deleted_at" ON "alesli_user_roles" ("deleted_at")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "alesli_user_roles" ("id","deleted_at","created_at","updated_at","user_id","role_id")
+                     SELECT "id","deleted_at","created_at","updated_at","user_id","role_id" FROM "lesli_user_roles"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "lesli_user_roles"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "lesli_user_roles" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "deleted_at" datetime, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer, "role_id" integer, CONSTRAINT "fk_rails_22fe07b1bb"
+FOREIGN KEY ("role_id")
+  REFERENCES "lesli_roles" ("id")
+, CONSTRAINT "fk_rails_0a022a95ea"
+FOREIGN KEY ("user_id")
+  REFERENCES "lesli_users" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_user_roles_on_deleted_at" ON "lesli_user_roles" ("deleted_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_user_roles_on_role_id" ON "lesli_user_roles" ("role_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_user_roles_on_user_id" ON "lesli_user_roles" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "lesli_user_roles" ("id","deleted_at","created_at","updated_at","user_id","role_id")
+                     SELECT "id","deleted_at","created_at","updated_at","user_id","role_id" FROM "alesli_user_roles"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "alesli_user_roles"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alesli_user_sessions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "remote" varchar, "agent_platform" varchar, "agent_os" varchar, "agent_browser" varchar, "agent_version" varchar, "session_token" varchar, "session_source" varchar, "usage_count" integer, "last_used_at" datetime, "expiration_at" datetime, "deleted_at" datetime, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_user_sessions_on_user_id" ON "alesli_user_sessions" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_user_sessions_on_expiration_at" ON "alesli_user_sessions" ("expiration_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_user_sessions_on_deleted_at" ON "alesli_user_sessions" ("deleted_at")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "alesli_user_sessions" ("id","remote","agent_platform","agent_os","agent_browser","agent_version","session_token","session_source","usage_count","last_used_at","expiration_at","deleted_at","created_at","updated_at","user_id")
+                     SELECT "id","remote","agent_platform","agent_os","agent_browser","agent_version","session_token","session_source","usage_count","last_used_at","expiration_at","deleted_at","created_at","updated_at","user_id" FROM "lesli_user_sessions"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "lesli_user_sessions"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "lesli_user_sessions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "remote" varchar, "agent_platform" varchar, "agent_os" varchar, "agent_browser" varchar, "agent_version" varchar, "session_token" varchar, "session_source" varchar, "usage_count" integer, "last_used_at" datetime, "expiration_at" datetime, "deleted_at" datetime, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "user_id" integer, CONSTRAINT "fk_rails_f5ffc88be8"
+FOREIGN KEY ("user_id")
+  REFERENCES "lesli_users" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_user_sessions_on_deleted_at" ON "lesli_user_sessions" ("deleted_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_user_sessions_on_expiration_at" ON "lesli_user_sessions" ("expiration_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_user_sessions_on_user_id" ON "lesli_user_sessions" ("user_id")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "lesli_user_sessions" ("id","remote","agent_platform","agent_os","agent_browser","agent_version","session_token","session_source","usage_count","last_used_at","expiration_at","deleted_at","created_at","updated_at","user_id")
+                     SELECT "id","remote","agent_platform","agent_os","agent_browser","agent_version","session_token","session_source","usage_count","last_used_at","expiration_at","deleted_at","created_at","updated_at","user_id" FROM "alesli_user_sessions"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "alesli_user_sessions"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alesli_users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "active" boolean DEFAULT 1 NOT NULL, "alias" varchar, "title" varchar, "salutation" varchar, "first_name" varchar, "last_name" varchar, "email" varchar DEFAULT '' NOT NULL, "encrypted_password" varchar DEFAULT '' NOT NULL, "reset_password_token" varchar, "reset_password_sent_at" datetime(6), "password_expiration_at" datetime(6), "locked_until" datetime(6), "remember_created_at" datetime(6), "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" datetime(6), "last_sign_in_at" datetime(6), "current_sign_in_ip" varchar, "last_sign_in_ip" varchar, "unconfirmed_email" varchar, "confirmation_token" varchar, "confirmation_sent_at" datetime(6), "confirmed_at" datetime(6), "telephone" varchar, "telephone_confirmation_token" varchar, "telephone_confirmation_sent_at" datetime(6), "telephone_confirmed_at" datetime(6), "failed_attempts" integer DEFAULT 0 NOT NULL, "unlock_token" varchar, "locked_at" datetime(6), "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "account_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_alesli_users_on_unlock_token" ON "alesli_users" ("unlock_token")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_alesli_users_on_reset_password_token" ON "alesli_users" ("reset_password_token")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_alesli_users_on_email" ON "alesli_users" ("email")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_users_on_deleted_at" ON "alesli_users" ("deleted_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_alesli_users_on_confirmation_token" ON "alesli_users" ("confirmation_token")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_alesli_users_on_account_id" ON "alesli_users" ("account_id")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "alesli_users" ("id","active","alias","title","salutation","first_name","last_name","email","encrypted_password","reset_password_token","reset_password_sent_at","password_expiration_at","locked_until","remember_created_at","sign_in_count","current_sign_in_at","last_sign_in_at","current_sign_in_ip","last_sign_in_ip","unconfirmed_email","confirmation_token","confirmation_sent_at","confirmed_at","telephone","telephone_confirmation_token","telephone_confirmation_sent_at","telephone_confirmed_at","failed_attempts","unlock_token","locked_at","deleted_at","created_at","updated_at","account_id")
+                     SELECT "id","active","alias","title","salutation","first_name","last_name","email","encrypted_password","reset_password_token","reset_password_sent_at","password_expiration_at","locked_until","remember_created_at","sign_in_count","current_sign_in_at","last_sign_in_at","current_sign_in_ip","last_sign_in_ip","unconfirmed_email","confirmation_token","confirmation_sent_at","confirmed_at","telephone","telephone_confirmation_token","telephone_confirmation_sent_at","telephone_confirmed_at","failed_attempts","unlock_token","locked_at","deleted_at","created_at","updated_at","account_id" FROM "lesli_users"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "lesli_users"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "lesli_users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "active" boolean DEFAULT 1 NOT NULL, "alias" varchar, "title" varchar, "salutation" varchar, "first_name" varchar, "last_name" varchar, "email" varchar DEFAULT '' NOT NULL, "encrypted_password" varchar DEFAULT '' NOT NULL, "reset_password_token" varchar, "reset_password_sent_at" datetime(6), "password_expiration_at" datetime(6), "locked_until" datetime(6), "remember_created_at" datetime(6), "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" datetime(6), "last_sign_in_at" datetime(6), "current_sign_in_ip" varchar, "last_sign_in_ip" varchar, "unconfirmed_email" varchar, "confirmation_token" varchar, "confirmation_sent_at" datetime(6), "confirmed_at" datetime(6), "telephone" varchar, "telephone_confirmation_token" varchar, "telephone_confirmation_sent_at" datetime(6), "telephone_confirmed_at" datetime(6), "failed_attempts" integer DEFAULT 0 NOT NULL, "unlock_token" varchar, "locked_at" datetime(6), "deleted_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "account_id" integer, CONSTRAINT "fk_rails_fa2844d760"
+FOREIGN KEY ("account_id")
+  REFERENCES "lesli_accounts" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_users_on_account_id" ON "lesli_users" ("account_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_lesli_users_on_confirmation_token" ON "lesli_users" ("confirmation_token")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lesli_users_on_deleted_at" ON "lesli_users" ("deleted_at")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_lesli_users_on_email" ON "lesli_users" ("email")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_lesli_users_on_reset_password_token" ON "lesli_users" ("reset_password_token")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_lesli_users_on_unlock_token" ON "lesli_users" ("unlock_token")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "lesli_users" ("id","active","alias","title","salutation","first_name","last_name","email","encrypted_password","reset_password_token","reset_password_sent_at","password_expiration_at","locked_until","remember_created_at","sign_in_count","current_sign_in_at","last_sign_in_at","current_sign_in_ip","last_sign_in_ip","unconfirmed_email","confirmation_token","confirmation_sent_at","confirmed_at","telephone","telephone_confirmation_token","telephone_confirmation_sent_at","telephone_confirmed_at","failed_attempts","unlock_token","locked_at","deleted_at","created_at","updated_at","account_id")
+                     SELECT "id","active","alias","title","salutation","first_name","last_name","email","encrypted_password","reset_password_token","reset_password_sent_at","password_expiration_at","locked_until","remember_created_at","sign_in_count","current_sign_in_at","last_sign_in_at","current_sign_in_ip","last_sign_in_ip","unconfirmed_email","confirmation_token","confirmation_sent_at","confirmed_at","telephone","telephone_confirmation_token","telephone_confirmation_sent_at","telephone_confirmed_at","failed_attempts","unlock_token","locked_at","deleted_at","created_at","updated_at","account_id" FROM "alesli_users"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "alesli_users"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (130410)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(130310),
+(130210),
+(120310),
+(120210),
+(110410),
+(110310),
+(110210),
+(100210),
+(100110),
+(310),
+(210),
+(110);[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2025-08-12 02:34:03.702483', '2025-08-12 02:34:03.702485') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '33267c4fe81a300c0263f32db9df2463d45956b0', '2025-08-12 02:34:03.703308', '2025-08-12 02:34:03.703309') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+---------------------------------------
+LesliTest: test_it_has_a_version_number
+---------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m

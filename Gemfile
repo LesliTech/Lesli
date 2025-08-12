@@ -31,19 +31,18 @@ Building a better future, one line of code at a time.
 =end
 
 source "https://rubygems.org"
-git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-# Specify your gem's dependencies in lesli.gemspec.
+# Specify your gem's dependencies in my_engine.gemspec.
 gemspec
 
 gem "puma"
 
 gem "sqlite3"
 
+gem "propshaft"
+
+# Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
+gem "rubocop-rails-omakase", require: false
+
 # Start debugger with binding.b [https://github.com/ruby/debug]
 # gem "debug", ">= 1.0.0"
-
-gem "rails", ">= 7.2"
-
-# rails new LesliDemo --force -T --database=postgresql --skip-action-mailbox --skip-action-cable --asset-pipeline=sprockets --skip-hotwire --skip-jbuilder   
-# rails _7.0.8_ new . --force -T --database=postgresql --skip-action-mailbox --skip-action-cable --asset-pipeline=sprockets --skip-hotwire --skip-jbuilder   
