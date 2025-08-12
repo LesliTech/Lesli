@@ -37,11 +37,11 @@ module Lesli
         #
         # stylesheet from main App
         # lesli_asset_path()               
-        # /assets/lesli_dashboard/application.css
+        # /assets/application.css
         #
         # Specific stylesheet from Engine
         # lesli_asset_path(:lesli, 'application') 
-        # /assets/lesli_assets/templates/application.css
+        # /assets/lesli/application.css
         #
         # Specific stylesheet from gem
         # lesli_asset_path(:lesli_assets, 'templates/application')
