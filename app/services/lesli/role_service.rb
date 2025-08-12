@@ -42,7 +42,7 @@ module Lesli
         # according to object level permission
         def list(params)
             current_user.account.roles
-            .where("permission_level <= ?", current_user.max_object_level_permission)
+            .where("permission_level <= ?", current_user.max_level_permission)
             .order(permission_level: :desc, name: :asc)
             .select(:id, :name, :permission_level)
         end
