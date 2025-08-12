@@ -52,3 +52,14 @@ module LesliHelper
         Rack::Test::UploadedFile.new(Rails.root.join(path))
     end
 end
+
+# Devise Rails 8 patch
+
+require 'devise'
+
+module Devise
+    def self.mappings
+        Rails.application.try(:reload_routes_unless_loaded)
+        @@mappings
+    end
+end

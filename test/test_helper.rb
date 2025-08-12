@@ -16,7 +16,8 @@ end
 
 
 module ResponseRequestHelper
-    def expect_response_with_successful response
-        assert_equal "application/json; charset=utf-8", response.content_type
+    def expect_response_with_successful 
+        assert_response :success
+        assert_equal "application/json; charset=utf-8", @response.content_type
     end
 end

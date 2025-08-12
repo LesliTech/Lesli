@@ -30,8 +30,6 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-require "i18n-js"
-
 # · 
 namespace :lesli do 
     namespace :babel do 
