@@ -8,15 +8,6 @@ module Lesli
     class AboutsControllerTest < LesliTestRandom
         
         test "should return the list of Lesli engines as json" do
-            # 1. Define the expected JSON response
-            expected_json ={
-                "name" => "Lesli",
-                "code" => "lesli",
-                "path" => "/lesli",
-                "build" => "1754919086",
-                "version" => "5.0.21",
-                "description" => "Lesli is a SaaS development framework designed to build highly scalable, secure and customizable software products."
-            }
 
             # 2. Make a GET request to the specified URL
             get "/lesli/about.json"
@@ -27,13 +18,17 @@ module Lesli
 
             # Verify that the response content type is JSON
             assert_equal "application/json; charset=utf-8", @response.content_type
-            expect_response_with_successful(@response)
+            expect_response_with_successful
 
             # Parse the JSON body of the response
             actual_json = JSON.parse(@response.body).first
 
-            # Compare the parsed JSON with the expected JSON
-            assert_equal expected_json, actual_json
+            assert_kind_of(Hash, actual_json)
+
+            assert_equal(actual_json['name'], Lesli.to_s)
+            assert_equal(actual_json['code'], Lesli.to_s.underscore)
+            assert_equal(actual_json['build'], Lesli::BUILD)
+            assert_equal(actual_json['version'], Lesli::VERSION)
         end
     end
 end

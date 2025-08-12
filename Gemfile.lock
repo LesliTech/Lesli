@@ -1,19 +1,18 @@
 PATH
   remote: .
   specs:
-    lesli (5.0.21)
+    lesli (5.0.22)
       L2 (~> 0.6)
       acts_as_paranoid (~> 0.10.2)
       devise (~> 4.9)
-      i18n-js (~> 4.2.3)
-      importmap-rails (~> 2.2.0)
+      importmap-rails (~> 2.2)
       kaminari (~> 1.2.2)
       lesli_assets (~> 1.0)
       lesli_date (~> 0.1)
       lesli_system (~> 1.0)
       lesli_view (~> 1.0)
       rails (~> 8.0)
-      turbo-rails
+      turbo-rails (~> 2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -112,14 +111,10 @@ GEM
     drb (2.2.3)
     erb (5.0.2)
     erubi (1.13.1)
-    glob (0.4.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
-    i18n-js (4.2.3)
-      glob (>= 0.4.0)
-      i18n
     importmap-rails (2.2.2)
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)

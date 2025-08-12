@@ -36,9 +36,11 @@ require "kaminari"
 
 # · Tools used to build the Lesli Framework
 require "L2"
-require "useragent"
+#require "useragent"
 require "acts_as_paranoid"
 
+# The hole Lesli ecosystem depends on current_user, so we
+# include the dependency in the core
 require "devise"
 
 require "lesli_date"
@@ -72,9 +74,6 @@ module Lesli
                     app.config.paths["db/migrate"] << expanded_path
                 end
             end
-
-            
-            #config.view_component.view_component_path = root.join("app","components")
 
 
             # Lesli Framework configuration
