@@ -1,9 +1,8 @@
-<%
-=begin
+<%#
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,11 +28,10 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-=end
 %>
 
 <%= javascript_importmap_tags %>
-<%= javascript_include_tag("lesli_assets/application.js", :defer => "defer") %>
+<%= javascript_include_tag(lesli_asset_path(:lesli_assets, 'application'), :defer => "defer") %>
 <%= yield(:application_lesli_javascript) %>
 <%#
 <script src="https://js.honeybadger.io/v3.2/honeybadger.min.js" type="text/javascript"></script>
