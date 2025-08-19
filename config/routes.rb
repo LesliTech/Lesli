@@ -52,5 +52,5 @@ Lesli::Engine.routes.draw do
 
     resources :system_controllers, only: [:index]
 
-    get :language, to: "application#language"
+    get :language, to: "apps#language"
 end
