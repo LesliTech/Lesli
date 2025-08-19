@@ -46,47 +46,6 @@ module Lesli
             }
         end
 
-        # Meta-programming to define flash setter methods dynamically
-        # success("Everything worked!")
-        # danger("Oops, there was an error.")
-        # info("Just an informational message.")
-        # warning("This is a warning.")
-        [:success, :danger, :warning, :info].each do |flash_type|
-            define_method(flash_type) do |message|
-                flash[flash_type] = message
-            end
-        end
-
-        def language
-
-            # check if param locale was sent by the user
-            unless params[:locale].blank?
-
-                locale = params[:locale].to_sym
-
-                # check if locale requested is valid
-                if I18n.available_locales.include?(locale)
-
-                    # save requested locale in session
-                    # this will be used in application_controller#switch_locale
-                    session[:locale] = locale
-
-                end
-
-            end
-
-            I18n.locale = locale
-
-            redirect_back(fallback_location: request.referer)
-
-            # This code is not really executed
-            # respond_with_successful({
-            #                             locale: I18n.locale,
-            #                             default_locale: I18n.default_locale,
-            #                             available_locales: I18n.available_locales
-            #                         })
-        end
-
         # # Set the user language based on url configuration or browser/os default language (ready for public pages)
         # def set_locale
         #     # language defined in the http header request
