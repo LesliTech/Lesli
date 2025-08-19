@@ -33,10 +33,32 @@ Building a better future, one line of code at a time.
 module Lesli
     module ResponderInterface
 
-        # Return an standard http 200 respond
-        def respond_as_successful(payload = nil)
-            payload
+        # Meta-programming to define flash setter methods dynamically
+        # success("Everything worked!")
+        # danger("Oops, there was an error.")
+        # info("Just an informational message.")
+        # warning("This is a warning.")
+        [:info, :success, :warning, :danger].each do |flash_type|
+            define_method(flash_type) do |message|
+                flash[flash_type] = message
+            end
         end
+
+        # Success message response for turbo
+        def respond_with_successful_turbo(message)
+            success(message)
+            render(turbo_stream: turbo_stream.replace(
+                "application-lesli-notifications",
+                partial: "lesli/partials/application-lesli-notifications"
+            ))
+        end 
+
+        # Success message response for http
+        def respond_with_successful_json(payload = nil)
+            respond_with_http(200, payload)
+        end
+
+
 
         # Usage example
         # tasks = Task
@@ -58,13 +80,6 @@ module Lesli
                 },
                 records: payload
             }
-        end
-
-
-
-
-        def respond_with_successful(payload = nil)
-            respond_with_http(200, respond_as_successful(payload))
         end
 
         def respond_with_pagination(payload)
