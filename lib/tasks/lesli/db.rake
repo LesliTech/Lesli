@@ -108,15 +108,15 @@ namespace :lesli do
         # print a message to let the users show the action running
         L2.msg("Seed the Lesli database")
 
-        # load main app seeders
-        Rake::Task['db:seed'].invoke
-        L2.info("Root: Seeds executed")
-
         # load Lesli* gems seeders
         LesliSystem.engines.each do |engine, data|
             next if engine == "Root"
             engine.constantize::Engine.load_seed
         end
+
+        # load main app seeders
+        Rake::Task['db:seed'].invoke
+        L2.info("Root: Seeds executed")
     end
 
     def prepare 
