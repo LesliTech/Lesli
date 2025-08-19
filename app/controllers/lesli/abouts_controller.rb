@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -37,10 +37,6 @@ module Lesli
         skip_before_action :authenticate_request, only: [:welcome] if defined?(LesliShield)
         skip_before_action :authorize_request, only: [:welcome] if defined?(LesliShield)
 
-        # def status 
-        #     respond_with_successful({ :Lesli => "Ruby on Rails SaaS Development Framework." }) 
-        # end
-
         def welcome 
         end 
 
@@ -48,10 +44,8 @@ module Lesli
         def show
             respond_to do |format|
                 format.html {}
-                format.json { 
-
-                    # get installed engines
-                    @lesli_engines = LesliSystem.engines.map { |engine, engine_info|
+                format.json do
+                    lesli_engines = LesliSystem.engines.map do |engine, engine_info|
                         {
                             :name => engine_info[:name],
                             :code => engine_info[:code],
@@ -60,9 +54,9 @@ module Lesli
                             :version => engine_info[:version],
                             :description => engine_info[:description]
                         }
-                    }
-                    respond_with_successful(@lesli_engines) 
-                }
+                    end
+                    respond_with_successful_json(lesli_engines) 
+                end
             end
         end
     end
