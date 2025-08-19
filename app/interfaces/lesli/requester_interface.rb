@@ -76,28 +76,5 @@ module Lesli
                 }
             }
         end
-
-        def get_user_agent(as_string=true)
-
-            http_user_agent = request.env["HTTP_USER_AGENT"]
-
-            # parse user agent
-            user_agent = UserAgent.parse(http_user_agent)
-
-            user_agent_version = user_agent.version.to_a.first(2).join(".")
-
-            # return user agent as object
-            if as_string == false
-                return {
-                    platform: user_agent.platform,
-                    os: user_agent.os,
-                    browser: user_agent.browser,
-                    version: user_agent_version
-                }
-            end
-
-            # return user agent info as string
-            "#{user_agent.platform} #{user_agent.os} - #{user_agent.browser} #{user_agent_version}"
-        end
     end
 end
