@@ -35,6 +35,7 @@ module Lesli
         class DashboardFallback < ::Lesli::ApplicationLesliRecord
             self.abstract_class = true
             def self.initialize_account(account)
+                # all the engines must have a initialize_account by default
             end
         end
 

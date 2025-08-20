@@ -1,6 +1,8 @@
 module Lesli
     class AppsController < ApplicationLesliController
+
         def show
+            # renders the engine selector view
         end
 
         def language

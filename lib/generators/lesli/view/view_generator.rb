@@ -11,11 +11,8 @@ module Lesli
             L2.msg "Generating Lesli Model spec"
 
             pp @info;
-            pp "---     ---     ---     ---     ---     ---"
             pp @model;
-            pp "---     ---     ---     ---     ---     ---"
             pp @services;
-            pp "---     ---     ---     ---     ---     ---"
             pp @rspec;
 
             #template("spec-factory.template", "#{(@info[:engine].constantize)::Engine.root.join('spec', 'factories', @info[:engine_resource_code])}.rb")
