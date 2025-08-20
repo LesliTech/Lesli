@@ -3,19 +3,21 @@
     <h3 align="center">Ruby on Rails SaaS Development Framework.</h3>
 </div>
 
-
 <br />
 <hr/>
 
 <div align="center" class="documentation-statics">
+    <a target="blank" href="https://github.com/LesliTech/Lesli/actions">
+        <img alt="Tests passing" src="https://img.shields.io/badge/Tests-passing-green?style=for-the-badge&logo=github">
+    </a>
     <a target="blank" href="https://rubygems.org/gems/lesli">
-        <img height="22" alt="Gem Version" src="https://badge.fury.io/rb/lesli.svg"/>
+        <img alt="Gem Version" src="https://img.shields.io/gem/v/lesli?style=for-the-badge&logo=ruby">
     </a>
-    <a class="mx-2" href="https://codecov.io/github/LesliTech/Lesli"> 
-        <img height="22" src="https://codecov.io/github/LesliTech/Lesli/graph/badge.svg?token=2O12NENK5Y"/> 
+    <a target="blank" href="https://codecov.io/github/LesliTech/Lesli"> 
+        <img alt="Codecov" src="https://img.shields.io/codecov/c/github/LesliTech/Lesli?style=for-the-badge&logo=codecov">
     </a>
-    <a href="https://codecov.io/github/LesliTech/LesliBabel"> 
-        <img height="22" src="https://sonarcloud.io/api/project_badges/measure?project=LesliTech_LesliBabel&metric=sqale_rating"/> 
+    <a target="blank" href="https://sonarcloud.io/project/overview?id=LesliTech_Lesli"> 
+        <img alt="Sonar Quality Gate" src="https://img.shields.io/sonar/quality_gate/LesliTech_Lesli?server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge&logo=sonarqubecloud&label=Quality">
     </a>
 </div>
 
@@ -52,17 +54,8 @@ Lesli is officially released and will be supported as of version 5.1
 
 > Lesli goes beyond being just a starter-kit, template, admin panel or dashboard. Lesli is a Ruby on Rails gem that you can use to build modules (a.k.a. engines) and standard Rails applications leveraging its robust set of built-in features, generators, components, and industry standards. With Lesli, you have the flexibility to extend existing functionalities or develop fully customized software tailored to your specific needs.
 
-<br />
-
-
-
-### Demo
-
-* [online demo](https://demo.lesli.dev/)
-* [docker demo](https://github.com/LesliTech/lesli-docker-demo)
 
 <br />
-
 
 
 ### Quick start
@@ -122,6 +115,12 @@ RAILS_SERVE_STATIC_FILES=true rails s --environment=production
 ```
 
 <br />
+
+
+### Demo
+
+* [online demo](https://demo.lesli.dev/)
+* [docker demo](https://github.com/LesliTech/lesli-docker-demo)
 
 
 ### Lesli Documentation
