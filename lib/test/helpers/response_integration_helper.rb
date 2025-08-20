@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,43 +17,30 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS Development Engine.
+Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
-@website  https://www.lesli.dev
+@website  https://www.lesli.tech
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
 =end
 
-source "https://rubygems.org"
+module ResponseIntegrationHelper
 
-# Specify your gem's dependencies in my_engine.gemspec.
-gemspec
+    # return the body of a request response parsed as JSON
+    def response_json
+        JSON.parse(@response.body.blank? ? "{}" : @response.body) 
+    end
 
-gem "puma"
 
-gem "sqlite3"
-
-gem "propshaft"
-
-# Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
-gem "rubocop-rails-omakase", require: false
-
-gem "minitest-reporters"
-gem "color_pound_spec_reporter"
-
-# Code coverage
-# https://github.com/simplecov-ruby/simplecov
-gem "simplecov", "0.21.2", require: false
-
-# Code coverage stats in the console
-# https://github.com/chetan/simplecov-console
-gem "simplecov-console", "0.9.2", require: false
-
-# Start debugger with binding.b [https://github.com/ruby/debug]
-# gem "debug", ">= 1.0.0"
+    # test a standard successful response for lesli 3
+    def expect_response_with_successful 
+        assert_response(:success)
+        assert_equal("application/json; charset=utf-8", @response.content_type)
+    end
+end

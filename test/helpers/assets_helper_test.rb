@@ -1,8 +1,7 @@
 # test/helpers/lesli/assets_helper_test.rb
-require "test_helper"
+require Lesli::Engine.root.join("lib/test/lesli")
 
-class Lesli::AssetsHelperTest < ActionView::TestCase
-    include Lesli::AssetsHelper
+class Lesli::AssetsHelperTest < LesliViewTester
 
     test "returns application stylesheet by default" do
         def lesli_engine(key)
