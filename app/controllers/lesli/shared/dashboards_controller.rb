@@ -35,6 +35,7 @@ module Lesli
             #before_action :set_dashboard, only: [:show, :update, :destroy, :options]
 
             def edit 
+                # renders the edit view for dashboard
             end
 
             def show 
