@@ -5,5 +5,8 @@ module Lesli
         test "it has a version number" do
             assert(Lesli::VERSION)
         end
+        test "it has a build number" do
+            assert(Lesli::BUILD)
+        end
     end
 end
