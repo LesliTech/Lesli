@@ -98,6 +98,8 @@ GEM
     bcrypt (3.1.20)
     benchmark (0.4.1)
     bigdecimal (3.2.2)
+    brakeman (7.1.0)
+      racc
     builder (3.3.0)
     color_pound_spec_reporter (0.0.9)
       bundler
@@ -346,6 +348,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  brakeman
   color_pound_spec_reporter
   lesli!
   minitest-reporters
