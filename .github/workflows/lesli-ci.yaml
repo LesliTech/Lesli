@@ -48,7 +48,7 @@ on:
 jobs:
   engine-tests:
     name: Run Engine tests
-    uses: LesliTech/LesliActions/.github/workflows/lesli-test-engine.yaml@32b8947cb133a7cea94064fe64f331fc229afcad
+    uses: LesliTech/LesliActions/.github/workflows/lesli-test-engine.yaml@3a952144bf6f88da7f0a6ed51f50d7f781ffe149
     with:
       branch: ${{ github.ref_name }}
   sqlite-tests:
