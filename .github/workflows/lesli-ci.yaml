@@ -46,8 +46,14 @@ on:
   pull_request:         # Execute this workflow automatic on any new PR
 
 jobs:
+  engine-tests:
+    name: Run Engine tests
+    uses: LesliTech/LesliActions/.github/workflows/lesli-test-engine.yaml@32b8947cb133a7cea94064fe64f331fc229afcad
+    with:
+      branch: ${{ github.ref_name }}
   sqlite-tests:
     name: Run SQLite tests
+    needs: engine-tests  # Runs only after the SQLite tests finish
     uses: LesliTech/LesliActions/.github/workflows/lesli-spec-sqlite.yaml@910e1fa7caf1dc51132986bb1f0a3029dc26ade1
     with:
       branch: ${{ github.ref_name }}
