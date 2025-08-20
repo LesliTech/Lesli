@@ -55,5 +55,7 @@ gem "simplecov", "0.21.2", require: false
 # https://github.com/chetan/simplecov-console
 gem "simplecov-console", "0.9.2", require: false
 
+gem "brakeman"
+
 # Start debugger with binding.b [https://github.com/ruby/debug]
 # gem "debug", ">= 1.0.0"

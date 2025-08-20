@@ -1,0 +1,55 @@
+
+# Brakeman Configuration File
+# Documentation: https://brakemanscanner.org/docs/options/
+
+# Files and Directories to Skip
+skip_files:
+  - "tmp/**/*"          # Skip temporary files
+  - "vendor/**/*"       # Skip vendor folder
+  - "node_modules/**/*" # Skip global node_modules
+  - "engines/Lesli/node_modules/"
+  - "engines/Lesli/app/items/*"
+  - "engines/Lesli/app/models/lesli/cloud_object/"
+  - "enginesdev/"
+
+# Warnings to Ignore (List Warning Codes)
+ignore_warnings:
+  - "SQLi"              # Example: Ignore false-positive SQL injection warnings
+  - "WeakHash"          # Ignore warnings about weak hashing if you're using MD5 intentionally
+
+# Additional Checks
+checks_to_run:
+  - "DefaultRoutes"
+  - "MassAssignment"
+  - "CrossSiteScripting"
+  - "SQLInjection"
+  - "FileAccess"
+  - "UnmaintainedDependency"
+
+# Additional Paths to Search for Code
+additional_libs_path:
+  - "engines/Lesli/app/lib"
+
+# Confidence Levels to Report
+min_confidence: 2       # 0 (all warnings), 1 (medium), 2 (high)
+
+# Output Format
+output_formats:
+  - "html"
+  - "json"
+  - "plain"
+
+# Output Files
+output_files:
+  - "brakeman/brakeman_report.html"
+  - "brakeman/brakeman_report.json"
+
+# Optional Settings
+run_all_checks: true    # Run all checks even if specific ones are set
+report_routes: true     # Include unused routes in the report
+exit_on_warn: true      # Exit with a non-zero code if warnings are found
+
+# Skipping Specific Models or Files (Advanced)
+skip_files_containing:
+  - "DO NOT SCAN"       # Add comment markers in files you want skipped
+  - "IGNORE ME"

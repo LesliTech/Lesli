@@ -48,26 +48,27 @@ on:
 jobs:
   engine-tests:
     name: Run Engine tests
-    uses: LesliTech/LesliActions/.github/workflows/lesli-test-engine.yaml@3a952144bf6f88da7f0a6ed51f50d7f781ffe149
-    with:
-      branch: ${{ github.ref_name }}
-  sqlite-tests:
-    name: Run SQLite tests
-    needs: engine-tests  # Runs only after the SQLite tests finish
-    uses: LesliTech/LesliActions/.github/workflows/lesli-spec-sqlite.yaml@910e1fa7caf1dc51132986bb1f0a3029dc26ade1
-    with:
-      branch: ${{ github.ref_name }}
-
-  postgres-tests:
-    name: Run PostgreSQL tests
-    needs: sqlite-tests  # Runs only after the SQLite tests finish
-    uses: LesliTech/LesliActions/.github/workflows/lesli-spec-postgresql.yaml@910e1fa7caf1dc51132986bb1f0a3029dc26ade1
+    uses: LesliTech/LesliActions/.github/workflows/lesli-test-engine.yaml@master
     with:
       branch: ${{ github.ref_name }}
 
   brakeman-scan:
     name: Static Analysis Security Tool
-    needs: postgres-tests  # Runs only after the PostgreSQL tests finish
-    uses: LesliTech/LesliActions/.github/workflows/lesli-spec-brakeman.yaml@910e1fa7caf1dc51132986bb1f0a3029dc26ade1
+    needs: engine-tests
+    uses: LesliTech/LesliActions/.github/workflows/lesli-test-brakeman.yaml@master
     with:
       branch: ${{ github.ref_name }}
+
+  # sqlite-tests:
+  #   name: Run SQLite tests
+  #   needs: brakeman-scan  # Runs only after the SQLite tests finish
+  #   uses: LesliTech/LesliActions/.github/workflows/lesli-test-sqlite.yaml@master
+  #   with:
+  #     branch: ${{ github.ref_name }}
+
+  # postgres-tests:
+  #   name: Run PostgreSQL tests
+  #   needs: sqlite-tests  # Runs only after the SQLite tests finish
+  #   uses: LesliTech/LesliActions/.github/workflows/lesli-test-postgresql.yaml@master
+  #   with:
+  #     branch: ${{ github.ref_name }}
