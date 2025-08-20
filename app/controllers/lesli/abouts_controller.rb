@@ -38,6 +38,7 @@ module Lesli
         skip_before_action :authorize_request, only: [:welcome] if defined?(LesliShield)
 
         def welcome 
+            # renders the welcome page 
         end 
 
         # GET /status
