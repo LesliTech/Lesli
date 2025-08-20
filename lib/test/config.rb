@@ -107,5 +107,8 @@ L2.br(2)
 
 
 # Execue tests
-Minitest::Reporters.use!(ColorPoundSpecReporter.new)
+Minitest::Reporters.use!([
+    Minitest::Reporters::DefaultReporter.new(color: true),
+    ColorPoundSpecReporter.new
+])
 #Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
