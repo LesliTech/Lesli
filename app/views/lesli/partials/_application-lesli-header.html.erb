@@ -42,18 +42,18 @@ Building a better future, one line of code at a time.
                     href="<%= defined?(LesliDashboard) ? '/dashboard' : '/' %>">
                     <%= customization_instance_logo_tag(logo: "app-logo", options: { alt: "Lesli app logo" }) %>
                 </a>
-                <a  
-                    class="navbar-burger" 
-                    role="button" 
-                    aria-label="menu" 
-                    aria-expanded="false" 
+                <button
+                    class="navbar-burger"
+                    type="button"
+                    aria-label="menu"
+                    aria-expanded="false"
                     @click="navActive = !navActive"
                     :class="{ 'is-active': navActive }">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
-                </a>
+                </button>
             </div>
             <div class="navbar-menu" :class="{ 'is-active': navActive }">
                 <div class="navbar-end is-flex is-justify-content-center">
