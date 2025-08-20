@@ -34,6 +34,8 @@ module Lesli
     class ApplicationController < ActionController::Base
         layout "lesli/layouts/application-public"
 
+        protect_from_forgery with: :exception
+
         add_flash_types(:info, :danger, :success, :warning)
 
         attr_reader :query
