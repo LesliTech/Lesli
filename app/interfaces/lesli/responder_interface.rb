@@ -44,10 +44,17 @@ module Lesli
             end
         end
 
+        [
+            :respond_with_success_notification,
+            :respond_with_warning_notification,
+            :respond_with_error_notification,
+            :respond_with_info_notification
+        ]
+
         # Success message response for turbo
-        def respond_with_successful_turbo(message)
+        def respond_with_success_notification(message)
             success(message)
-            render(turbo_stream: turbo_stream.replace(
+            render(turbo_stream: turbo_stream.update(
                 "application-lesli-notifications",
                 partial: "lesli/partials/application-lesli-notifications"
             ))
@@ -59,6 +66,10 @@ module Lesli
         end
 
 
+
+        def respond_as_successful(payload)
+            payload
+        end
 
         # Usage example
         # tasks = Task
