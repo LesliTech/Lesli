@@ -56,7 +56,7 @@ module Lesli
                             :description => engine_info[:description]
                         }
                     end
-                    respond_with_successful_json(lesli_engines) 
+                    respond_with_success_json(lesli_engines) 
                 end
             end
         end

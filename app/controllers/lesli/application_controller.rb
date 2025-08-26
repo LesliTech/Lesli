@@ -36,8 +36,6 @@ module Lesli
 
         protect_from_forgery with: :exception
 
-        add_flash_types(:info, :danger, :success, :warning)
-
         attr_reader :query
         attr_reader :engine_path
 
