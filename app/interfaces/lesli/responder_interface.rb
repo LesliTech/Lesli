@@ -33,37 +33,48 @@ Building a better future, one line of code at a time.
 module Lesli
     module ResponderInterface
 
-        # Meta-programming to define flash setter methods dynamically
-        # success("Everything worked!")
-        # danger("Oops, there was an error.")
-        # info("Just an informational message.")
-        # warning("This is a warning.")
-        [:info, :success, :warning, :danger].each do |flash_type|
-            define_method(flash_type) do |message|
-                flash[flash_type] = message
-            end
-        end
-
-        [
-            :respond_with_success_notification,
-            :respond_with_warning_notification,
-            :respond_with_error_notification,
-            :respond_with_info_notification
-        ]
 
         # Success message response for turbo
-        def respond_with_success_notification(message)
-            success(message)
-            render(turbo_stream: turbo_stream.update(
-                "application-lesli-notifications",
-                partial: "lesli/partials/application-lesli-notifications"
-            ))
+        def respond_with_success_stream(message_text=nil,stream=nil)
+            respond_with_stream(
+                message_text: message_text,
+                message_type: :success,
+                stream: stream
+            )
         end 
 
+        # responde with standard turbo stream
+        def respond_with_stream(message_text:nil, message_type:nil,  stream:nil)
+
+            if message_text 
+                flash[message_type] = message_text
+                render(turbo_stream: [
+                    turbo_stream.update(
+                        "application-lesli-notifications",
+                        partial: "lesli/partials/application-lesli-notifications"
+                    ),
+                    stream
+                ])
+            end
+        end 
+
+
         # Success message response for http
-        def respond_with_successful_json(payload = nil)
+        def respond_with_success_json(payload = nil)
             respond_with_http(200, payload)
         end
+
+        # Respond with an standard http message
+        def respond_with_http(status, payload)
+            unless payload.nil?
+                return render(:status => status, content_type: "application/json", json: payload.to_json)
+            end
+            render(:status => status, content_type: "application/json", json: "")
+        end
+
+
+
+
 
 
 
@@ -155,15 +166,6 @@ module Lesli
             #       details = error array of messages
             #   check another types of errors and parse respond according
             respond_with_http(400, { :message => message, :details => details })
-        end
-
-        # Respond with an standard http message
-        def respond_with_http(status, payload)
-            unless payload.nil?
-                return render(:status => status, content_type: "application/json", json: payload.to_json)
-            end
-
-            render(:status => status, content_type: "application/json", json: "")
         end
     end
 end

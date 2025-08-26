@@ -111,4 +111,3 @@ Minitest::Reporters.use!([
     Minitest::Reporters::DefaultReporter.new(color: true),
     ColorPoundSpecReporter.new
 ])
-#Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
