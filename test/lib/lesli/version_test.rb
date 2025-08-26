@@ -1,4 +1,5 @@
-require Lesli::Engine.root.join("lib/test/lesli")
+
+require Lesli::Engine.root.join("lib/test/lesli") 
 
 module Lesli
     class VersionTest < ActiveSupport::TestCase

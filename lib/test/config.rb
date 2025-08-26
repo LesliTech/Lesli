@@ -68,10 +68,12 @@ SimpleCov.start do
     add_filter "/vendor"
 
     add_group "Controllers", "app/controllers"
-    add_group "Models", "app/models"
     add_group "Helpers", "app/helpers"
+    add_group "Models", "app/models"
     add_group "Jobs", "app/jobs"
     add_group "Services", "app/services"
+    add_group "Operators", "app/operators"
+    add_group "Validators", "app/validators"
 end
 
 
@@ -80,10 +82,12 @@ SimpleCov.minimum_coverage 10
 
 
 # Load dummy app
-require_relative "../../test/dummy/config/environment"
-ActiveRecord::Migrator.migrations_paths = [ File.expand_path("../test/dummy/db/migrate", __dir__) ]
-ActiveRecord::Migrator.migrations_paths << File.expand_path("../db/migrate", __dir__)
-require "rails/test_help"
+unless ENV["INTEGRATION"]
+    require_relative "../../test/dummy/config/environment"
+    ActiveRecord::Migrator.migrations_paths = [ File.expand_path("../test/dummy/db/migrate", __dir__) ]
+    ActiveRecord::Migrator.migrations_paths << File.expand_path("../db/migrate", __dir__)
+    require "rails/test_help"
+end
 
 
 # Load fixtures from the engine
@@ -99,7 +103,7 @@ L2.br(2)
 
 # Notify to user...
 L2.info(
-    "Running RSpec tests...", 
+    "Running Lesli tests...", 
     "For a better result run test over a clean database", 
     "You can use rake dev:db:reset test before rspec."
 )

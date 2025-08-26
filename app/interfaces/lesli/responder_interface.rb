@@ -53,7 +53,7 @@ module Lesli
                         "application-lesli-notifications",
                         partial: "lesli/partials/application-lesli-notifications"
                     ),
-                    stream
+                    #stream
                 ])
             end
         end 
