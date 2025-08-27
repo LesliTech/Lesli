@@ -61,9 +61,8 @@ module Lesli
             "#{engine_code}/#{stylesheet}"
         end
 
-        def favicon
-            icon_path = customization_instance_logo_url(logo: "favicon")
-
+        def lesli_favicon
+            icon_path = image_url("lesli/brand/favicon.svg")
             safe_join([
                 tag.link(href: icon_path, rel: "alternate icon"),
                 tag.link(href: icon_path, rel: "icon", type: "image/svg+xml"),
