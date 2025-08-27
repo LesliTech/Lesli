@@ -30,37 +30,70 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
+# info
+# success
+# warning
+# danger
+
+# respond_with_notification_info
+# respond_with_notification_success
+# respond_with_notification_warning
+# respond_with_notification_danger
+# respond_with_redirection
+# respond_with_stream
+
+# respond_with_json_info
+# respond_with_json_success
+# respond_with_json_warning
+# respond_with_json_danger
+# respond_with_http
+
 module Lesli
     module ResponderInterface
 
+        # Meta-programming to define flash setter methods dynamically
+        # success("Everything worked!")
+        # danger("Oops, there was an error.")
+        # info("Just an informational message.")
+        # warning("This is a warning.")
+        [:info, :success, :warning, :danger].each do |flash_type|
+            define_method(flash_type) do |message|
+                flash[flash_type] = message
+            end
+        end
 
         # Success message response for turbo
-        def respond_with_success_stream(message_text=nil,stream=nil)
+        def respond_with_notification_success(message)
+            success(message)
             respond_with_stream(
-                message_text: message_text,
-                message_type: :success,
-                stream: stream
+                "application-lesli-notifications",
+                "lesli/partials/application-lesli-notifications"
+            )
+        end 
+
+        # Redirect to another resource using Turbo.visit
+        def respond_with_redirection(path)
+            respond_with_stream(
+                "application-lesli-notifications",
+                "lesli/partials/turbo/redirection",
+                { redirect_path: path }
             )
         end 
 
         # responde with standard turbo stream
-        def respond_with_stream(message_text:nil, message_type:nil,  stream:nil)
-
-            if message_text 
-                flash[message_type] = message_text
-                render(turbo_stream: [
-                    turbo_stream.update(
-                        "application-lesli-notifications",
-                        partial: "lesli/partials/application-lesli-notifications"
-                    ),
-                    #stream
-                ])
-            end
+        def respond_with_stream(id, partial, locals={})
+            render(turbo_stream: turbo_stream.update(
+                id, partial: partial, locals: locals
+            ))
         end 
 
+        # Success message response for http
+        def respond_with_json(payload = nil)
+            respond_with_json_success(payload)
+        end
 
         # Success message response for http
-        def respond_with_success_json(payload = nil)
+        def respond_with_json_success(payload = nil)
             respond_with_http(200, payload)
         end
 

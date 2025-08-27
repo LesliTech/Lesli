@@ -43,9 +43,9 @@ module Lesli
 
         test "#respond_with_success_stream sets flash and renders turbo stream" do
             message = "Success!"
-            stream = {"update_call"=>{:target=>"application-lesli-notifications", :content=>{:partial=>"lesli/partials/application-lesli-notifications"}}}
+            stream =["update_call", {:target=>"application-lesli-notifications", :content=>{:partial=>"lesli/partials/application-lesli-notifications", :locals=>{}}}]
 
-            @controller.respond_with_success_stream(message, stream)
+            @controller.respond_with_notification_success(message)
 
             # Assert that the flash was set correctly
             assert_equal({ success: message }, @controller.flash)
@@ -57,9 +57,9 @@ module Lesli
             assert_equal 1, render_options[:turbo_stream].size
 
             # The first element should be the update call with the correct partial
-            update_call = render_options[:turbo_stream].first
+            update_call = render_options[:turbo_stream]
             assert_equal "application-lesli-notifications", update_call["update_call"][:target]
-            assert_equal ({ partial: "lesli/partials/application-lesli-notifications" }), update_call["update_call"][:content]
+            assert_equal ({:partial=>"lesli/partials/application-lesli-notifications", :locals=>{}}), update_call["update_call"][:content]
 
             # The second element should be the provided stream
             assert_equal stream, render_options[:turbo_stream].first
@@ -68,7 +68,7 @@ module Lesli
         test "#respond_with_success_json renders with status 200" do
             payload = { some: "data" }
 
-            @controller.respond_with_success_json(payload)
+            @controller.respond_with_json_success(payload)
 
             render_options = @controller.render_args.first
             assert_equal 200, render_options[:status]
