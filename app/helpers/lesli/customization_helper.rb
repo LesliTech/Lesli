@@ -48,13 +48,13 @@ module Lesli
             logo_path = "#{lesli_instance_code}/brand/#{logo}.svg"
 
             # load favicon as PNG for better compatibility between web browsers
-            logo_path = "#{lesli_instance_code}/brand/#{logo}.png" if logo == "favicon"
+            #logo_path = "#{lesli_instance_code}/brand/#{logo}.png" if logo == "favicon"
 
             # loading logo from core, only if builder engine was not installed
-            logo_path = "lesli/brand/#{logo}.svg" if lesli_instance_code == "lesli"
+            #logo_path = "lesli/brand/#{logo}.svg" if lesli_instance_code == "lesli"
 
             # custom logo from settings
-            logo_path = @lesli[:customization][:logos][logo.to_sym] if @lesli.dig(:customization, :logos, logo.to_sym)
+            #logo_path = @lesli[:customization][:logos][logo.to_sym] if @lesli.dig(:customization, :logos, logo.to_sym)
 
             if mode == "pdf"
                 wicked_pdf_image_tag(logo_path, options)
