@@ -81,8 +81,10 @@ end
 SimpleCov.minimum_coverage 10
 
 
-# Load dummy app
-unless ENV["INTEGRATION"]
+# Load dummy app for unit testing
+# Run tests across all the engines: LESLI_INTEGRATION_TEST=true rails test
+# Run tests for the current engine: rails test
+unless ENV["LESLI_INTEGRATION_TEST"]
     require_relative "../../test/dummy/config/environment"
     ActiveRecord::Migrator.migrations_paths = [ File.expand_path("../test/dummy/db/migrate", __dir__) ]
     ActiveRecord::Migrator.migrations_paths << File.expand_path("../db/migrate", __dir__)
