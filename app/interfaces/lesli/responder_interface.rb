@@ -71,6 +71,15 @@ module Lesli
             )
         end 
 
+        # Error message response for turbo
+        def respond_with_notification_danger(message)
+            danger(message)
+            respond_with_stream(
+                "application-lesli-notifications",
+                "lesli/partials/application-lesli-notifications"
+            )
+        end 
+
         # Redirect to another resource using Turbo.visit
         def respond_with_redirection(path)
             respond_with_stream(
