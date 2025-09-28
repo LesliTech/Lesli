@@ -22,24 +22,22 @@ Lesli is published under the **GNU General Public License version 3 (GPLv3)**. T
 
 ## How Does It Work?
 
-<img alt="Lesli architecture" src="../images/lesli.excalidraw.svg" />
+**Lesli was built with modularity and extensibility at its core.** 
+Need task management? Just install the Tasks module. 
+Want an event calendar? There’s a module for that too. 
+Looking to add a comment system to your blog? Simply inherit from the base controller. 
 
+There are several ways to take advantage of Lesli’s features:
+
+- **Install official modules** directly through gems.
+- **Extend existing functionality** by inheriting from Lesli controllers and models.
+- **Integrate specific features** into your app via service objects.
+- **Leverage Lesli as an API-first backend** for your web or mobile applications.
+
+<img alt="Lesli architecture" src="../images/lesli.excalidraw.svg" />
 
 <br/>
 
 ## Ruby on Rails
 
-**Ruby on Rails** (commonly referred to as **Rails**) is a popular open-source web application framework written in the Ruby programming language. Rails follows the **Model-View-Controller (MVC)** architectural pattern, providing developers with a structured, efficient approach to building web applications.
-
 By using Rails as its foundation, Lesli benefits from Rails’ mature ecosystem, conventions, and built-in features. Rails simplifies common tasks such as routing, database management, and user authentication, allowing developers to focus on building the core functionalities of their SaaS applications more efficiently.
-    
-
-<br/>
-
-## SaaS Framework
-
-In the context of SaaS development, Lesli leverages Ruby on Rails to deliver **scalable** and **customizable** software solutions accessible through the web.
-
-**SaaS (Software as a Service)** is a delivery model where applications are centrally hosted and offered to customers as a service. This model eliminates the need for users to install or maintain software locally — everything runs in the cloud and is accessed through a web browser.
-
-Lesli’s architecture and tools are purpose-built to support this model, enabling developers to build robust SaaS applications faster and more efficiently.
