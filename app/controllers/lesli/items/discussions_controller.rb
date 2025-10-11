@@ -43,11 +43,19 @@ module Lesli
 
                 discussion_saved = discussion.save
                 respond_to do |format|
-                    format.html do 
-                    end
-                    format.turbo_stream do
-                        respond_with_notification_success("Message created") if discussion_saved
-                        respond_with_notification_danger(discussion.errors.full_messages) unless discussion_saved
+                    format.html 
+                    #format.turbo_stream
+                    format.turbo_stream do 
+                        if discussion_saved
+                            respond_with_stream(
+                                stream_notification_success("Comment created"),
+                                turbo_stream.update("#{@discussion_parent_object}-discussions") do 
+                                    LesliView::Items::Discussions.new(@parent_resource, public_send(@discussion_path_string, @parent_resource)).render_in(view_context)
+                                end
+                            )
+                        else 
+                            respond_with_stream(stream_notification_danger(discussion.errors.full_messages))
+                        end
                     end
                 end
             end
@@ -62,8 +70,14 @@ module Lesli
                 # Get the parent model class, example: LesliSupport::Ticket
                 @discussion_model_parent = @discussion_model.reflect_on_association(:item).klass
 
+                # Get the row owner name, example: from LesliSupport::Ticket gets ticket
+                @discussion_parent_object = "#{@discussion_model_parent.name.demodulize.underscore}"
+
                 # Get the parent associations id, example: ticket_id
-                @discussion_model_parent_id = "#{@discussion_model_parent.name.demodulize.underscore}_id"
+                @discussion_model_parent_id = "#{@discussion_parent_object}_id"
+
+                # Get the local path method, example: ticket_discussions_path
+                @discussion_path_string = "#{@discussion_parent_object}_discussions_path"
 
                 # Get the parent resource
                 @parent_resource = @discussion_model_parent.find_by_id(

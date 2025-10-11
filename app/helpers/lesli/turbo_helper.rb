@@ -32,7 +32,20 @@ Building a better future, one line of code at a time.
 
 module Lesli
     module TurboHelper
-        def render_notifications_stream
+
+        # Meta-programming to define flash setter methods dynamically
+        # success("Everything worked!")
+        # danger("Oops, there was an error.")
+        # info("Just an informational message.")
+        # warning("This is a warning.")
+        [:info, :success, :warning, :danger].each do |flash_type|
+            define_method(flash_type) do |message|
+                flash[flash_type] = message
+            end
+        end
+
+        def stream_notification_success(message)
+            success(message)
             turbo_stream.replace("application-lesli-notifications") do
                 render("lesli/partials/application-lesli-notifications")
             end

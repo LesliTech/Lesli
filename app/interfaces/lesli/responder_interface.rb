@@ -63,6 +63,37 @@ module Lesli
         end
 
         # Success message response for turbo
+        def stream_notification_success(message)
+            success(message)
+            turbo_stream.update(
+                "application-lesli-notifications",
+                partial: "lesli/partials/application-lesli-notifications"
+            )
+        end 
+
+        def stream_redirection(path)
+            turbo_stream.update(
+                "application-lesli-notifications",
+                partial: "lesli/partials/turbo/redirection",
+                locals: { redirect_path: path }
+            )
+        end 
+
+        # responde with standard turbo stream
+        def respond_with_stream(*streams)
+            render(turbo_stream: streams)
+        end 
+
+
+
+
+
+
+
+
+
+
+        # Success message response for turbo
         def respond_with_notification_success(message)
             success(message)
             respond_with_stream(
@@ -80,21 +111,12 @@ module Lesli
             )
         end 
 
-        # Redirect to another resource using Turbo.visit
-        def respond_with_redirection(path)
-            respond_with_stream(
-                "application-lesli-notifications",
-                "lesli/partials/turbo/redirection",
-                { redirect_path: path }
-            )
-        end 
-
         # responde with standard turbo stream
-        def respond_with_stream(id, partial, locals={})
-            render(turbo_stream: turbo_stream.update(
-                id, partial: partial, locals: locals
-            ))
-        end 
+        # def respond_with_stream(id, partial, locals={})
+        #     # render(turbo_stream: turbo_stream.update(
+        #     #     id, partial: partial, locals: locals
+        #     # ))
+        # end 
 
         # Success message response for http
         def respond_with_json(payload = nil)
