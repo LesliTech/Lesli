@@ -30,9 +30,12 @@ Building a better future, one line of code at a time.
 // · 
 %>
 
+<div id="application-lesli-turbo-scripts"></div>
+
 <%= javascript_importmap_tags %>
 <%= javascript_include_tag(lesli_asset_path(:lesli_assets, 'application'), :defer => "defer") %>
 <%= yield(:application_lesli_javascript) %>
+
 <%#
 <script src="https://js.honeybadger.io/v3.2/honeybadger.min.js" type="text/javascript"></script>
 <script type="text/javascript">
