@@ -89,15 +89,15 @@ module Lesli
 
             # Global container
             controller_list = {
-                "app" => {},
+                "rails_app" => {},
                 "lesli" => {}
             }
             
             # Get the list of controllers and actions of the main rails app
             Rails.application.routes.routes.each do |route| 
 
-                list = "app"
-                route = route.defaults                 
+                list = "rails_app"
+                route = route.defaults
                 
                 # filter the non-used main app routes
                 next if route[:controller].blank?
@@ -106,6 +106,7 @@ module Lesli
                 next if route[:controller].include? "active_storage"
                 next if route[:controller].include? "view_components"
                 next if route[:controller].include? "turbo/native/navigation"
+                next if route[:controller].include? "lesli/abouts" #default welcome page
 
                 if DEVISE_CONTROLLERS.include?(route[:controller])
                     list = "lesli"
@@ -132,6 +133,7 @@ module Lesli
                     # validate if route has information, some special routes like redirects
                     # can generate an empty entry in the route hash
                     next if route.empty?
+                    next if route[:controller].include? "rails/health"
 
                     # get the engine code
                     engine_code = engine_info[:code]
