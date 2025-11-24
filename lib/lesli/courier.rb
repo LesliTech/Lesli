@@ -61,11 +61,11 @@ module Lesli
             module_name = "#{@module_name}"
 
             # Look up the module and class dynamically
-            return @on_error unless Object.const_defined?(module_name)
+            raise unless Object.const_defined?(module_name)
 
             module_service_name = "#{@module_name}::#{@service_name}"
 
-            return @on_error unless Object.const_defined?(module_service_name)
+            raise unless Object.const_defined?(module_service_name)
 
             # Create a reference of the module service object
             module_service_class = module_service_name.constantize
@@ -74,7 +74,7 @@ module Lesli
             module_service_instance = module_service_class.new(*@service_params.to_a) 
 
             # Check if the method is defined on the service instance
-            return @on_error unless module_service_instance.respond_to?(@method_name)
+            raise unless module_service_instance.respond_to?(@method_name)
 
             # Dynamically call the method on the service instance
             module_service_instance.send(@method_name)
