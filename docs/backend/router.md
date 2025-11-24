@@ -1,149 +1,121 @@
----
-aside: false
----
-
 # Rails router
-The Rails router is defined in the ´config/routes.rb´ file of your Rails application. This file contains a set of routing rules that determine how URLs should be processed by the application. Each route specifies an HTTP verb (e.g., GET, POST, PUT, DELETE) and a URL pattern (or path) along with the controller and action that should handle the request.
+The Rails router is defined in the ´config/routes.rb´ file of your Rails application. This file contains a set of routing rules that determine how URLs should be processed by the application. 
 
-The Rails router takes care of parsing the incoming URLs, matching them against the defined routes in the config/routes.rb file, and dispatching the request to the appropriate controller and action, based on the HTTP verb and URL pattern.
+Each route specifies an HTTP verb (e.g., GET, POST, PUT, DELETE) and a URL pattern (or path) along with the controller and action that should handle the request. 
+
+The Rails router takes care of parsing the incoming URLs, matching them against the defined routes in the config/routes.rb file, and dispatching the request to the appropriate controller and action, based on the HTTP verb and URL pattern. 
 
 By configuring routes in the config/routes.rb file, you can define how different parts of your application respond to user requests and create the structure of your web application.
 
+Lesli uses a standard and well structure pattern to load routes to make engines functionality available
 
 
-## Router for standard engines
-Standard routes for CRUD operations
+## Mounting Lesli engines
+
+You can mount Lesli engines just as any other Rails engine, just have in mind that the Lesli core gem is always required.
 
 ```ruby
-resources :notebooks, only: [:index, :show, :edit, :update, :new, :create, :destroy] do
-# GET       /notebooks(.:format)                              cloud_text/notebooks#index
-# POST      /notebooks(.:format)                              cloud_text/notebooks#create
-# GET       /notebooks/new(.:format)                          cloud_text/notebooks#new
-# GET       /notebooks/:id/edit(.:format)                     cloud_text/notebooks#edit
-# GET       /notebooks/:id(.:format)                          cloud_text/notebooks#show
-# PUT       /notebooks/:id(.:format)                          cloud_text/notebooks#update
-# DELETE    /notebooks/:id(.:format)                          cloud_text/notebooks#destroy
 
+# Your Rails_App/config/routes.rb
 
-    # resources for cloud objects implementation
-    scope module: :notebook do
+Rails.application.routes.draw do
 
-        resources :files,       only: [:index, :get, :create, :update, :destroy]
-        # GET    /notebooks/:notebook_id/files(.:format)           cloud_text/notebook/files#index
-        # POST   /notebooks/:notebook_id/files(.:format)           cloud_text/notebook/files#create
-        # PATCH  /notebooks/:notebook_id/files/:id(.:format)       cloud_text/notebook/files#update
-        # PUT    /notebooks/:notebook_id/files/:id(.:format)       cloud_text/notebook/files#update
-        # DELETE /notebooks/:notebook_id/files/:id(.:format)       cloud_text/notebook/files#destroy
+    # loading a welcome page from the core :)
+    root to: "lesli/abouts#welcome", as: :welcome
 
+    # Lesli core gem is required
+    mount Lesli::Engine => "/lesli"
 
-        resources :actions,     only: [:index, :get, :create, :update, :destroy]
-        # GET    /notebooks/:notebook_id/actions(.:format)         cloud_text/notebook/actions#index
-        # POST   /notebooks/:notebook_id/actions(.:format)         cloud_text/notebook/actions#create
-        # PATCH  /notebooks/:notebook_id/actions/:id(.:format)     cloud_text/notebook/actions#update
-        # PUT    /notebooks/:notebook_id/actions/:id(.:format)     cloud_text/notebook/actions#update
-        # DELETE /notebooks/:notebook_id/actions/:id(.:format)     cloud_text/notebook/actions#destroy
-
-
-        resources :activities,  only: [:index, :get, :create, :update, :destroy]
-        # GET    /notebooks/:notebook_id/activities(.:format)      cloud_text/notebook/activities#index
-        # POST   /notebooks/:notebook_id/activities(.:format)      cloud_text/notebook/activities#create
-        # PATCH  /notebooks/:notebook_id/activities/:id(.:format)  cloud_text/notebook/activities#update
-        # PUT    /notebooks/:notebook_id/activities/:id(.:format)  cloud_text/notebook/activities#update
-        # DELETE /notebooks/:notebook_id/activities/:id(.:format)  cloud_text/notebook/activities#destroy
-
-
-        resources :discussions, only: [:index, :get, :create, :update, :destroy]
-        # GET    /notebooks/:notebook_id/discussions(.:format)     cloud_text/notebook/discussions#index
-        # POST   /notebooks/:notebook_id/discussions(.:format)     cloud_text/notebook/discussions#create
-        # PATCH  /notebooks/:notebook_id/discussions/:id(.:format) cloud_text/notebook/discussions#update
-        # PUT    /notebooks/:notebook_id/discussions/:id(.:format) cloud_text/notebook/discussions#update
-        # DELETE /notebooks/:notebook_id/discussions/:id(.:format) cloud_text/notebook/discussions#destroy
-
-
-        resources :subscribers, only: [:index, :get, :create, :update, :destroy]
-        # GET    /notebooks/:notebook_id/subscribers(.:format)      cloud_text/notebook/subscribers#index
-        # POST   /notebooks/:notebook_id/subscribers(.:format)      cloud_text/notebook/subscribers#create
-        # PATCH  /notebooks/:notebook_id/subscribers/:id(.:format)  cloud_text/notebook/subscribers#update
-        # PUT    /notebooks/:notebook_id/subscribers/:id(.:format)  cloud_text/notebook/subscribers#update
-        # DELETE /notebooks/:notebook_id/subscribers/:id(.:format)  cloud_text/notebook/subscribers#destroy
-
-        # ANY OTHER RESOURCE THAT BELONGS TO NOTEBOOKS
-
-    end
-
-    # Adicional methods that belongs to an specific resource
-    member do
-
-        get  :aditional_action_get
-        # GET    /notebooks/:id/aditional_action_get(.:format)   cloud_text/notebooks#aditional_action_get
-
-        post :aditional_action_post
-        # POST   /notebooks/:id/aditional_action_post(.:format)  cloud_text/notebooks#aditional_action_post
-
-    end
-
-    # Aditional mehtods to extended resource controller scope
-    collection do
-
-        get  :list
-        # GET    /notebooks/list(.:format)       cloud_text/notebooks#list
-
-        get  :options
-        # GET    /notebooks/options(.:format)    cloud_text/notebooks#options
-
-        post :search
-        # POST   /notebooks/search(.:format)     cloud_text/notebooks#search
-
-    end
+    # Mount Rails engines
+    mount LesliBell::Engine => "/bell"
+    mount LesliAdmin::Engine => "/admin"
+    mount LesliAudit::Engine => "/audit"
+    mount LesliBabel::Engine => "/babel"
+    mount LesliMailer::Engine => "/mailer"
+    mount LesliShield::Engine => "/shield"
+    mount LesliPapers::Engine => "/papers"
+    mount LesliSupport::Engine => "/support"
+    mount LesliSecurity::Engine => "/security"
+    mount LesliCalendar::Engine => "/calendar"
+    mount LesliDashboard::Engine => "/dashboard"
 end
 ```
 
+Lesli comes with a helper router class so you dont need to load Lesli engines manually, this helper is going to search for installed Lesli engines and is going to mount them automatically. 
 
-
-## Router for builder engines
-Builder engines are capable of modifying core routes through a special `routes.rb` file located at the root of the builder engine folder. This unique routes file is loaded at the very beginning of the Rails app, giving each defined route priority in the Rails routes definition.
+> IMPORTANT: By default this helper is going to used pre-defined route paths to mount the Lesli engines, if you want/need to use different path you must mount every engine manually. 
 
 ```ruby
-module RoutesEngine
-    def self.extended(router)
-        router.instance_exec do
-
-            # Builder engines require manual mounting, which offers the advantage of being able to mount the 
-            # builder just like any other standard engine or at the root of the app. This flexibility allows 
-            # us to create custom software using the builder engine and present it to users as the main module 
-            # of the app.
-
-            # Remember to be cautious with route aliases, as Rails does not allow overriding aliases that 
-            # already exist in the entire routes collection.
-
-            # self-mount builder engine at root path
-            mount LesliCloud::Engine => "/"
-
-            # self-mount builder engine with a path
-            mount LesliCloud::Engine => "/crm"
-
-
-            # Builder engines are able to customize the behavior of the routes for authenticated and anonymous users
-
-            # after login routes
-            authenticated :user do
-                
-                # override default root path
-                get "dashboard", to: "lesli_cloud/dashboards#show"
-                
-            end
-
-            # public routes
-            unauthenticated :user do 
-
-                # override public root path with a redirection
-                root to: redirect("/login"), as: :root_lesli_unauthenticated
-
-                # override public root path with a custom page
-                root to: "lesli_cloud/websites#landing", as: :root_lesli_unauthenticated
-
-            end
-        end
-    end
+Rails.application.routes.draw do
+    Lesli::Router.mount
 end
 ```
+
+## Mounting Devise 
+
+Lesli comes with its own implementation of devise through the `LesliShield` engine, the recommended way to mount this engine and devise is using the short cut `Lesli::Router.mount`, however you can customize the engine loading it manually
+
+
+**Mount engine manually**
+
+```ruby
+Rails.application.routes.draw do
+
+    # Load dedicated mounting routes for devise from the LesliShield engine
+    LesliShield::Router.mount_login_at()
+end
+```
+
+By default this short cut is going to mount the login paths at root level, example:
+
+```
+https://demo.lesli.dev/login
+https://demo.lesli.dev/logout
+https://demo.lesli.dev/register
+https://demo.lesli.dev/password
+https://demo.lesli.dev/confirmation
+```
+
+You can customize the path using the helper:
+
+```ruby
+Rails.application.routes.draw do
+    LesliShield::Router.mount_login_at("my-users")
+end
+```
+
+Result:
+
+```
+https://demo.lesli.dev/my-users/login
+https://demo.lesli.dev/my-users/logout
+https://demo.lesli.dev/my-users/register
+https://demo.lesli.dev/my-users/password
+https://demo.lesli.dev/my-users/confirmation
+```
+
+**Mounting Devise manually**
+
+It is possible to mount Devise manually if you need full control over the implementation, at low level Lesli works as standard Rails engines, so you can override all the defaults or you can just avoid using the wrapper helpers to have full access to all Rails/Ruby gems and tools used to build Lesli.
+
+```ruby
+# mount devise manually
+Rails.application.routes.draw do
+    devise_for :users, class_name: "Lesli::User", module: :devise,
+    :path => "",
+    :path_names => {
+        :sign_in  => "login",
+        :sign_out => "logout",
+        :sign_up  => "register",
+        :password => "password",
+        :confirmation => "confirmation"
+    },
+    :controllers => {
+        :registrations => "users/registrations",
+        :confirmations => "users/confirmations",
+        :passwords => "users/passwords",
+        :sessions => "users/sessions"
+    }
+end
+```
+

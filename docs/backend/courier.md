@@ -23,7 +23,7 @@ The `Lesli::Courier` module dynamically:
 
 ## Key Methods
 
-### `initialize(module_name, on_error = nil)`
+### initialize(module_name, on\_error = nil)
 - **Purpose:** Sets the module name to resolve and an optional error handler.
 - **Parameters:**
   - `module_name` (Symbol/String): The module to resolve.
@@ -44,26 +44,16 @@ The `Lesli::Courier` module dynamically:
     Lesli::Courier.new(:lesli_test).from(:ticket_service)
 ```
 
-### with(*args)
-
-- **Purpose:** Passes arguments to the service class initializer or the method to be called.
-- **Parameters:** 
-    - **args:** Arguments to be passed.
-- **Example:** 
-
-```ruby
-    Lesli::Courier.new(:lesli_test).from(:ticket_service).with(current_user, query)
-```
-
-### call(method_name)
+### call(method_name, *args)
 
 - **Purpose:** Specifies the method to be called on the service class and triggers the call.
 - **Parameters:** 
     - **method_name:** (Symbol/String): The method to call.
+    - **args:** List of arguments to be sent to the specific method
 - **Example:** 
 
 ```ruby
-    Lesli::Courier.new(:lesli_test).from(:ticket_service).call(:index)
+    Lesli::Courier.new(:lesli_test).from(:ticket_service).call(:index, params)
 ```
 
 ### Error Handling
@@ -88,8 +78,7 @@ Lesli::Courier.new(:lesli_test)
 # Call the `index` method on the `TicketService` class, passing arguments
 Lesli::Courier.new(:lesli_test)
               .from(:ticket_service)
-              .with(current_user, query)
-              .call(:index)
+              .call(:index, current_user, query)
 ```
 
 ### Custom Error Handling
