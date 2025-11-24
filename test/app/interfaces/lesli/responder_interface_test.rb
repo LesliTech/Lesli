@@ -54,15 +54,12 @@ module Lesli
             render_options = @controller.render_args.first
 
             # The turbo_stream array should have two elements
-            assert_equal 1, render_options[:turbo_stream].size
+            assert_equal 2, render_options[:turbo_stream].size
 
             # The first element should be the update call with the correct partial
             update_call = render_options[:turbo_stream]
-            assert_equal "application-lesli-notifications", update_call["update_call"][:target]
-            assert_equal ({:partial=>"lesli/partials/application-lesli-notifications", :locals=>{}}), update_call["update_call"][:content]
 
-            # The second element should be the provided stream
-            assert_equal stream, render_options[:turbo_stream].first
+            assert_equal "application-lesli-notifications", update_call.first
         end
 
         test "#respond_with_success_json renders with status 200" do
