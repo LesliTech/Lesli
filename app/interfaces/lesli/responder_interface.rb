@@ -30,32 +30,14 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-# info
-# success
-# warning
-# danger
-
-# respond_with_notification_info
-# respond_with_notification_success
-# respond_with_notification_warning
-# respond_with_notification_danger
-# respond_with_redirection
-# respond_with_stream
-
-# respond_with_json_info
-# respond_with_json_success
-# respond_with_json_warning
-# respond_with_json_danger
-# respond_with_http
-
 module Lesli
     module ResponderInterface
 
         # Meta-programming to define flash setter methods dynamically
         # success("Everything worked!")
+        # warning("This is a warning.")
         # danger("Oops, there was an error.")
         # info("Just an informational message.")
-        # warning("This is a warning.")
         [:info, :success, :warning, :danger].each do |flash_type|
             define_method(flash_type) do |message|
                 flash[flash_type] = message
