@@ -33,6 +33,10 @@ Building a better future, one line of code at a time.
 module Lesli
     module TurboHelper
 
+        def turbo_link_to body, url, html_options = {}
+            link_to(body, url, class: "link", data: { turbo_frame: '_top' })
+        end
+
         # Meta-programming to define flash setter methods dynamically
         # success("Everything worked!")
         # danger("Oops, there was an error.")

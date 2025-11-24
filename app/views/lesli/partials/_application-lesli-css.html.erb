@@ -50,5 +50,5 @@ Building a better future, one line of code at a time.
 
 
 <%# Loading stylesheets %> 
-<%= stylesheet_link_tag(lesli_asset_path(:lesli_assets, 'templates/application'), media: "all") %>
-<%= stylesheet_link_tag(lesli_asset_path(), media: "all") %>
+<%= stylesheet_link_tag(lesli_stylesheet_path(:lesli_assets, 'templates/application'), media: "all") %>
+<%= stylesheet_link_tag(lesli_stylesheet_path(), media: "all") %>
