@@ -36,17 +36,17 @@ module Lesli
         # by default we always return the latest version of the template
         #
         # stylesheet from main App
-        # lesli_asset_path()               
+        # lesli_stylesheet_path()               
         # /assets/application.css
         #
         # Specific stylesheet from Engine
-        # lesli_asset_path(:lesli, 'application') 
+        # lesli_stylesheet_path(:lesli, 'application') 
         # /assets/lesli/application.css
         #
         # Specific stylesheet from gem
-        # lesli_asset_path(:lesli_assets, 'templates/application')
+        # lesli_stylesheet_path(:lesli_assets, 'templates/application')
         # /assets/lesli_assets/templates/application.css
-        def lesli_asset_path(engine = nil, stylesheet = 'application')
+        def lesli_stylesheet_path(engine = nil, stylesheet = 'application')
 
             # Stylesheets from specific engine
             return "#{engine}/#{stylesheet}" if engine.present?
