@@ -47,36 +47,21 @@ on:
   pull_request:         # Execute this workflow automatic on any new PR
 
 jobs:
-  engine-tests:
-    name: Run Engine tests
-    uses: LesliTech/LesliActions/.github/workflows/lesli-test-engine.yaml@master
-    with:
-      branch: ${{ github.ref_name }}
-
-  brakeman-scan:
-    name: Static Analysis Security Tool
-    needs: engine-tests
+  lesli-test-brakeman:
+    name: Run lesli-test-brakeman
     uses: LesliTech/LesliActions/.github/workflows/lesli-test-brakeman.yaml@master
     with:
       branch: ${{ github.ref_name }}
-
-  integration-builder:
-    name: Run Integration tests
-    needs: brakeman-scan  # Runs only after the SQLite tests finish
-    uses: LesliTech/LesliActions/.github/workflows/lesli-test-integration-builder.yaml@master
+  lesli-test-engine-postgresql:
+    name: Run lesli-test-engine-postgresql
+    needs: lesli-test-brakeman
+    uses: LesliTech/LesliActions/.github/workflows/lesli-test-engine-postgresql.yaml@master
     with:
       branch: ${{ github.ref_name }}
 
-  # sqlite-tests:
-  #   name: Run SQLite tests
-  #   needs: brakeman-scan  # Runs only after the SQLite tests finish
-  #   uses: LesliTech/LesliActions/.github/workflows/lesli-test-sqlite.yaml@master
-  #   with:
-  #     branch: ${{ github.ref_name }}
-
-  # postgres-tests:
-  #   name: Run PostgreSQL tests
-  #   needs: sqlite-tests  # Runs only after the SQLite tests finish
-  #   uses: LesliTech/LesliActions/.github/workflows/lesli-test-postgresql.yaml@master
-  #   with:
-  #     branch: ${{ github.ref_name }}
+  lesli-test-engine-sqlite:
+    name: Run lesli-test-engine-sqlite
+    needs: lesli-test-engine-postgresql
+    uses: LesliTech/LesliActions/.github/workflows/lesli-test-engine-sqlite.yaml@master
+    with:
+      branch: ${{ github.ref_name }}
