@@ -32,12 +32,12 @@ Building a better future, one line of code at a time.
 
 # ·
 module Lesli 
-    module Routing 
+    module Router 
 
         def self.login path=""
 
             # Load dedicated mounting routes for devise from the LesliShield engine
-            LesliShield::Routing.mount_login_at(path) if defined?(LesliShield);
+            LesliShield::Router.mount_login_at(path) if defined?(LesliShield);
 
             # Load generic yet standard routes if LesliShield is not installed
             if !defined?(LesliShield) && defined?(Devise)

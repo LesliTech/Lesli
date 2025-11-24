@@ -1,8 +1,8 @@
 require "lesli/configuration"
-require "lesli/routing"
 require "lesli/version"
 require "lesli/courier"
 require "lesli/engine"
+require "lesli/router"
 
 
 module Lesli
