@@ -69,7 +69,7 @@ module Lesli
                 return false
             end
 
-            if self.expiration_at != nil and self.expiration_at < Time.now.utc
+            if self.expiration_at != nil && self.expiration_at < Time.now.utc
                 return false
             end
 
