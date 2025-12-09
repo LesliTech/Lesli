@@ -53,6 +53,7 @@ module Lesli
             )
         end 
 
+        # render a template with js code to redirect to a new page
         def stream_redirection(path)
             turbo_stream.update(
                 "application-lesli-notifications",
@@ -67,14 +68,26 @@ module Lesli
         end 
 
 
+        # Success message response for http
+        def respond_with_json(payload = nil)
+            respond_with_json_success(payload)
+        end
+
+        # Success message response for http
+        def respond_with_json_success(payload = nil)
+            respond_with_http(200, payload)
+        end
+
+        # Respond with an standard http message
+        def respond_with_http(status, payload)
+            unless payload.nil?
+                return render(:status => status, content_type: "application/json", json: payload.to_json)
+            end
+            render(:status => status, content_type: "application/json", json: "")
+        end
 
 
-
-
-
-
-
-
+=begin
         # Success message response for turbo
         def respond_with_notification_success(message)
             success(message)
@@ -99,29 +112,6 @@ module Lesli
         #     #     id, partial: partial, locals: locals
         #     # ))
         # end 
-
-        # Success message response for http
-        def respond_with_json(payload = nil)
-            respond_with_json_success(payload)
-        end
-
-        # Success message response for http
-        def respond_with_json_success(payload = nil)
-            respond_with_http(200, payload)
-        end
-
-        # Respond with an standard http message
-        def respond_with_http(status, payload)
-            unless payload.nil?
-                return render(:status => status, content_type: "application/json", json: payload.to_json)
-            end
-            render(:status => status, content_type: "application/json", json: "")
-        end
-
-
-
-
-
 
 
         def respond_as_successful(payload)
@@ -213,5 +203,6 @@ module Lesli
             #   check another types of errors and parse respond according
             respond_with_http(400, { :message => message, :details => details })
         end
+=end
     end
 end
