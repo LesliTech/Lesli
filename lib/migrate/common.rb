@@ -51,6 +51,8 @@ module MigrationHelpers
             return [table_name, foreign_key]
         end
 
+        private 
+
         def infer_engine_from_namespace
 
             caller_locations(3, 10).each do |loc|
