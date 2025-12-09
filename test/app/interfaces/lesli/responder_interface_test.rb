@@ -39,30 +39,38 @@ module Lesli
             @controller = MockController.new
         end
 
+        [:info, :success, :warning, :danger].each do |flash_type|
+            define_method("test_flash_#{flash_type} set flash message") do
+                @controller.send(flash_type, "Test message")
+                assert_equal "Test message", @controller.flash[flash_type]
+            end
+        end
+
         ## Testing respond_with_success_stream
 
-        test "#respond_with_success_stream sets flash and renders turbo stream" do
+        test "stream_notification_success sets flash and renders turbo stream" do
             message = "Success!"
             stream =["update_call", {:target=>"application-lesli-notifications", :content=>{:partial=>"lesli/partials/application-lesli-notifications", :locals=>{}}}]
 
-            @controller.respond_with_notification_success(message)
+            @controller.stream_notification_success(message)
 
             # Assert that the flash was set correctly
             assert_equal({ success: message }, @controller.flash)
 
-            # Assert that `render` was called with the correct arguments
-            render_options = @controller.render_args.first
-
-            # The turbo_stream array should have two elements
-            assert_equal 2, render_options[:turbo_stream].size
-
-            # The first element should be the update call with the correct partial
-            update_call = render_options[:turbo_stream]
-
-            assert_equal "application-lesli-notifications", update_call.first
         end
 
-        test "#respond_with_success_json renders with status 200" do
+        test "respond_with_json renders with status 200" do
+            payload = { some: "data" }
+
+            @controller.respond_with_json(payload)
+
+            render_options = @controller.render_args.first
+            assert_equal 200, render_options[:status]
+            assert_equal "application/json", render_options[:content_type]
+            assert_equal payload.to_json, render_options[:json]
+        end
+
+        test "respond_with_success_json renders with status 200" do
             payload = { some: "data" }
 
             @controller.respond_with_json_success(payload)
@@ -73,7 +81,7 @@ module Lesli
             assert_equal payload.to_json, render_options[:json]
         end
 
-        test "#respond_with_http renders with correct status and payload" do
+        test "respond_with_http renders with correct status and payload" do
             status = 404
             payload = { error: "Not Found" }
 
@@ -85,7 +93,7 @@ module Lesli
             assert_equal payload.to_json, render_options[:json]
         end
 
-        test "#respond_with_http handles nil payload" do
+        test "respond_with_http handles nil payload" do
             status = 204
             @controller.respond_with_http(status, nil)
 

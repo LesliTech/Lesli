@@ -69,5 +69,12 @@ module Lesli
                 tag.link(href: icon_path, rel: "mask-icon", color: "#ff8a01")
             ])
         end
+
+        # print a custom icon for lesli
+        def lesli_svg(name)
+            content_tag("svg", width: "64px", height: "64px") do
+                "<use xlink:href='##{name}'></use>".html_safe
+            end
+        end
     end
 end

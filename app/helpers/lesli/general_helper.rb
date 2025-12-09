@@ -49,13 +49,6 @@ module Lesli
             Lesli.config.locales.dig(locale) || "undefined"
         end
 
-        # print a custom icon for lesli
-        def lesli_svg(name)
-            content_tag("svg", width: "64px", height: "64px") do
-                "<use xlink:href='##{name}'></use>".html_safe
-            end
-        end
-
         # return a string with a css class to identify the body
         # example: builder engine-controller action
         def application_body_class
