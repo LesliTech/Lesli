@@ -78,7 +78,7 @@ end
 
 
 # Minimum expected coverage percentage
-SimpleCov.minimum_coverage 10
+SimpleCov.minimum_coverage 60
 
 
 # Load dummy app for unit testing
@@ -99,21 +99,3 @@ if ActiveSupport::TestCase.respond_to?(:fixture_paths=)
     ActiveSupport::TestCase.file_fixture_path = File.expand_path("fixtures", __dir__) + "/files"
     ActiveSupport::TestCase.fixtures :all
 end
-
-
-L2.br(2)
-
-# Notify to user...
-L2.info(
-    "Running Lesli tests...", 
-    "For a better result run test over a clean database", 
-    "You can use rake dev:db:reset test before rspec."
-)
-L2.br(2)
-
-
-# Execue tests
-Minitest::Reporters.use!([
-    Minitest::Reporters::DefaultReporter.new(color: true),
-    ColorPoundSpecReporter.new
-])

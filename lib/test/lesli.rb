@@ -46,3 +46,22 @@ end
 class LesliViewTester < ActionView::TestCase
     include Lesli::AssetsHelper
 end
+
+
+L2.br(2)
+
+# Notify to user...
+L2.info(
+    "Running Lesli tests...", 
+    "For a better result run test over a clean database", 
+    "You can use rake dev:db:reset test before rspec."
+)
+
+L2.br(2)
+
+
+# Execute tests
+Minitest::Reporters.use!([
+    Minitest::Reporters::DefaultReporter.new(color: true),
+    ColorPoundSpecReporter.new
+])
