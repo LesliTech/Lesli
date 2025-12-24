@@ -84,7 +84,7 @@ module Lesli
             password_settings.each do |settings|
 
                 # exit validations if password complexity is not enabled
-                if settings[:name] == 'password_enforce_complexity' and settings[:value] != "1"
+                if settings[:name] == 'password_enforce_complexity' && settings[:value] != "1"
                     failures = []
                     break
                 end
