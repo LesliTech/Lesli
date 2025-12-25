@@ -106,6 +106,6 @@ end
 # Execute tests
 Minitest::Reporters.use!([
     Minitest::Reporters::DefaultReporter.new(color: true),
-    Minitest::Reporters::JUnitReporter.new("test/reports"),
+    Minitest::Reporters::JUnitReporter.new("coverage/reports"),
     ColorPoundSpecReporter.new
 ])
