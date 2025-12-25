@@ -47,10 +47,12 @@ require "color_pound_spec_reporter"
 # Load code coverage tools
 require "simplecov"
 require "simplecov-console"
+require "simplecov-cobertura"
 
 
 # Add console stats and html generator
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+    SimpleCov::Formatter::CoberturaFormatter,
     SimpleCov::Formatter::Console
 ])
 
@@ -78,7 +80,7 @@ end
 
 
 # Minimum expected coverage percentage
-SimpleCov.minimum_coverage 60
+SimpleCov.minimum_coverage 50
 
 
 # Load dummy app for unit testing

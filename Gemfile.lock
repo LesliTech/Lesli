@@ -268,6 +268,7 @@ GEM
     responders (3.2.0)
       actionpack (>= 7.0)
       railties (>= 7.0)
+    rexml (3.4.4)
     rubocop (1.82.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
@@ -302,6 +303,9 @@ GEM
       docile (~> 1.1)
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
+    simplecov-cobertura (3.1.0)
+      rexml
+      simplecov (~> 0.19)
     simplecov-console (0.9.4)
       ansi
       simplecov
@@ -364,6 +368,7 @@ DEPENDENCIES
   puma
   rubocop-rails-omakase
   simplecov (= 0.22.0)
+  simplecov-cobertura
   simplecov-console (= 0.9.4)
   sqlite3
 
