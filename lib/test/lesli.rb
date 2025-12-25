@@ -58,10 +58,3 @@ L2.info(
 )
 
 L2.br(2)
-
-
-# Execute tests
-Minitest::Reporters.use!([
-    Minitest::Reporters::DefaultReporter.new(color: true),
-    ColorPoundSpecReporter.new
-])
