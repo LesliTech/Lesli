@@ -68,7 +68,7 @@ Gem::Specification.new do |spec|
     # · RAILS: gem, dependencies and tools
 
     # Rails framework
-    spec.add_dependency("rails", "~> 8.0")
+    spec.add_dependency("rails", "~> 8.1")
 
     # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
     spec.add_dependency("turbo-rails", "~> 2.0")
@@ -80,7 +80,7 @@ Gem::Specification.new do |spec|
     # · Tools used to extend Rails functionality
 
     # ActiveRecord plugin allowing you to hide and restore records without actually deleting them. 
-    spec.add_dependency("acts_as_paranoid", "~> 0.10.2")
+    spec.add_dependency("acts_as_paranoid", "~> 0.11.0")
 
     # Clean, powerful, agnostic, customizable and sophisticated paginator for Rails
     spec.add_dependency("kaminari", "~> 1.2.2")

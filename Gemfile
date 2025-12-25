@@ -45,6 +45,7 @@ gem "propshaft"
 gem "rubocop-rails-omakase", require: false
 
 gem "minitest-reporters"
+
 gem "color_pound_spec_reporter"
 
 # Code coverage
@@ -59,3 +60,8 @@ gem "brakeman"
 
 # Start debugger with binding.b [https://github.com/ruby/debug]
 # gem "debug", ">= 1.0.0"
+
+# Until a patch for Rails 8.1.2 (or higher) is released specifically addressing the Minitest 6 boot sequence, the most stable way to run your tests is:
+#     Keep Minitest at ~> 5.0 in your Gemfile.
+#     Use the standard command: bin/rails test.
+gem "minitest", "~> 5.0"
