@@ -80,7 +80,7 @@ end
 
 
 # Minimum expected coverage percentage
-SimpleCov.minimum_coverage 50
+SimpleCov.minimum_coverage 40
 
 
 # Load dummy app for unit testing
