@@ -10,7 +10,7 @@ PATH
       lesli_assets (~> 1.0)
       lesli_date (~> 0.1)
       lesli_system (~> 1.0)
-      lesli_view (~> 1.0)
+      lesli_view (~> 1.0.0)
       rails (~> 8.1)
       turbo-rails (~> 2.0)
 
@@ -298,11 +298,11 @@ GEM
       rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
     securerandom (0.4.1)
-    simplecov (0.21.2)
+    simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
-    simplecov-console (0.9.2)
+    simplecov-console (0.9.4)
       ansi
       simplecov
       terminal-table
@@ -363,8 +363,8 @@ DEPENDENCIES
   propshaft
   puma
   rubocop-rails-omakase
-  simplecov (= 0.21.2)
-  simplecov-console (= 0.9.2)
+  simplecov (= 0.22.0)
+  simplecov-console (= 0.9.4)
   sqlite3
 
 BUNDLED WITH

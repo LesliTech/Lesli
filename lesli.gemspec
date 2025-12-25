@@ -98,7 +98,7 @@ Gem::Specification.new do |spec|
     spec.add_dependency("lesli_date", "~> 0.1")
 
     # Reusable View Components for The Lesli Framework 
-    spec.add_dependency("lesli_view", "~> 1.0")
+    spec.add_dependency("lesli_view", "~> 1.0.0")
 
     # Reusable View Components for The Lesli Framework 
     spec.add_dependency("lesli_assets", "~> 1.0")

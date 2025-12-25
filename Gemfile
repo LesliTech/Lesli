@@ -50,11 +50,11 @@ gem "color_pound_spec_reporter"
 
 # Code coverage
 # https://github.com/simplecov-ruby/simplecov
-gem "simplecov", "0.21.2", require: false
+gem "simplecov", "0.22.0", require: false
 
 # Code coverage stats in the console
 # https://github.com/chetan/simplecov-console
-gem "simplecov-console", "0.9.2", require: false
+gem "simplecov-console", "0.9.4", require: false
 
 gem "brakeman"
 
