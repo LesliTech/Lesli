@@ -54,18 +54,15 @@ Building a better future, one line of code at a time.
     aria-label="main navigation"
     x-data="{ navActive: false }">
     <div class="navbar-brand">
-        <a  
+        <button
             class="navbar-burger" 
-            role="button" 
             aria-label="menu" 
-            aria-expanded="false" 
-            @click="navActive = !navActive"
-            :class="{ 'is-active': navActive }">
+            aria-expanded="false">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
-        </a>
+        </button>
     </div>
     <div class="navbar-menu" :class="{ 'is-active': navActive }">
         <div class="navbar-start is-flex-grow-1 is-justify-content-center">
