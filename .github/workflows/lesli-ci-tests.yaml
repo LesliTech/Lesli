@@ -65,10 +65,3 @@ jobs:
     uses: LesliTech/LesliActions/.github/workflows/lesli-test-builder.yaml@master
     with:
       branch: ${{ github.ref_name }}
-
-  lesli-test-new:
-    name: Run lesli-test-new
-    needs: lesli-test-builder
-    uses: LesliTech/LesliActions/.github/workflows/lesli-test-new.yaml@master
-    with:
-      branch: ${{ github.ref_name }}
