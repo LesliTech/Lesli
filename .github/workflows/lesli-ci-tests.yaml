@@ -38,7 +38,7 @@
 
 # Specs for The Lesli Framework
 # -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-   -·-
-name: "Lesli tests workflow"
+name: "Lesli Tests Workflow"
 on:
   push:
     branches: [master]  # Execute when push only for the master branch
@@ -56,5 +56,12 @@ jobs:
     name: Run lesli-test-engine-minitest
     needs: lesli-test-engine-brakeman
     uses: LesliTech/LesliActions/.github/workflows/lesli-test-engine-minitest.yaml@master
+    with:
+      branch: ${{ github.ref_name }}
+
+  lesli-test-builder-postgresql:
+    name: Run lesli-test-builder-postgresql
+    needs: lesli-test-engine-minitest
+    uses: LesliTech/LesliActions/.github/workflows/lesli-test-builder-postgresql.yaml@master
     with:
       branch: ${{ github.ref_name }}
