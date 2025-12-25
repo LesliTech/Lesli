@@ -38,5 +38,10 @@ module Lesli
             tag = '<link href="http://test.host/images/lesli/brand/favicon.svg" rel="alternate icon"><link href="http://test.host/images/lesli/brand/favicon.svg" rel="icon" type="image/svg+xml"><link href="http://test.host/images/lesli/brand/favicon.svg" rel="mask-icon" color="#ff8a01">'
             assert_equal(tag, lesli_favicon())
         end
+
+        test "returns svg reference" do
+            tag = "<svg width=\"64px\" height=\"64px\"><use xlink:href='#cloud_calendar'></use></svg>"
+            assert_equal(tag, lesli_svg('cloud_calendar'))
+        end
     end
 end
