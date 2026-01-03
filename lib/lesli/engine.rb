@@ -86,7 +86,7 @@ module Lesli
             # Force to not use digest, 
             # if this is not false Rails will fingerprint the assets by default 
             # and precompile will be needed, so, donot digest if not production
-            config.assets.digest = false unless Rails.env.production?
+            #config.assets.digest = false unless Rails.env.production?
 
 
             # Lesli Framework Mailer configuration

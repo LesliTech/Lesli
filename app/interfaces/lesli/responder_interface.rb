@@ -68,6 +68,29 @@ module Lesli
         end 
 
 
+        # Usage example
+        # tasks = Task
+        # .joins(:detail)
+        # .page(query[:pagination][:page])
+        # .per(query[:pagination][:perPage])
+        #
+        # respond_with_pagination(tasks)
+        #
+        # IMPORTANT: It is strictly necessary to use the pagination methods
+        #            to make this work properly
+        def respond_as_pagination(payload)
+            {
+                pagination: {
+                    page: payload.current_page,
+                    pages: payload.total_pages,
+                    total: payload.total_count,
+                    results: payload.length
+                },
+                records: payload
+            }
+        end
+
+
         # Success message response for http
         def respond_with_json(payload = nil)
             respond_with_json_success(payload)
@@ -116,28 +139,6 @@ module Lesli
 
         def respond_as_successful(payload)
             payload
-        end
-
-        # Usage example
-        # tasks = Task
-        # .joins(:detail)
-        # .page(query[:pagination][:page])
-        # .per(query[:pagination][:perPage])
-        #
-        # respond_with_pagination(tasks)
-        #
-        # IMPORTANT: It is strictly necessary to use the pagination methods
-        #            to make this work properly
-        def respond_as_pagination(payload)
-            {
-                pagination: {
-                    page: payload.current_page,
-                    pages: payload.total_pages,
-                    total: payload.total_count,
-                    results: payload.length
-                },
-                records: payload
-            }
         end
 
         def respond_with_pagination(payload)
