@@ -75,6 +75,18 @@ namespace :lesli do
             }
         }
 
+        engines.push({:name=>'---',:code=>'',:path=>'',:version=>'',:build=>''})
+
+        LesliSystem.gems.each do |engine, engine_info|
+            engines.push({
+                :name => engine_info[:name],
+                :code => engine_info[:code],
+                :path => engine_info[:path],
+                :version => engine_info[:version],
+                :build => engine_info[:build]
+            })
+        end
+
         # print pretty instance information 
         L2.br(2)
 
@@ -86,7 +98,7 @@ namespace :lesli do
         L2.table(engines)
         L2.br(2)
 
-        L2.m Rails.env
+        L2.m "Environment: " + Rails.env
         L2.br(2)
 
     end
