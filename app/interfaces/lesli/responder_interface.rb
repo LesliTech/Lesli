@@ -38,20 +38,22 @@ module Lesli
         # warning("This is a warning.")
         # danger("Oops, there was an error.")
         # info("Just an informational message.")
-        [:info, :success, :warning, :danger].each do |flash_type|
-            define_method(flash_type) do |message|
-                flash[flash_type] = message
+        [:info, :success, :warning, :danger].each do |type|
+            define_method(type) do |message|
+                flash[type] = message
+            end
+
+            define_method("stream_notification_#{type}") do |message|
+                send(type, message)
+
+                # Return the stream object so you can call: 
+                # render turbo_stream: stream_notification_success("Done!")
+                turbo_stream.update(
+                    "application-lesli-notifications",
+                    partial: "lesli/partials/application-lesli-notifications"
+                )
             end
         end
-
-        # Success message response for turbo
-        def stream_notification_success(message)
-            success(message)
-            turbo_stream.update(
-                "application-lesli-notifications",
-                partial: "lesli/partials/application-lesli-notifications"
-            )
-        end 
 
         # render a template with js code to redirect to a new page
         def stream_redirection(path)
@@ -110,6 +112,38 @@ module Lesli
         end
 
 
+        # Global response 
+        def respond_with_unauthorized(detail = {})
+
+            @error_object = {
+                error_role: nil,
+                error_detail: nil,
+                error_message: I18n.t("core.shared.view_text_unauthorized_request")
+            }
+
+            # If dev or test, show a clear description about the auth error
+            unless Rails.env.production?
+                @error_object[:error_detail] = detail unless detail.empty?
+                if current_user.present?
+                    @error_object[:error_role] = "(#{current_user.lesliroles.map(&:name).join(', ')})"
+                end
+            end
+
+            respond_to do |format|
+                format.json{ render(status: :unauthorized, json: @error_object) }
+                format.html{ render('lesli/errors/unauthorized', status: :unauthorized) }
+
+                # format.xlsx do
+                #   if Rails.env.production?
+                #     redirect_to "/401" # Or a specific Excel error download if applicable
+                #   else
+                #     # For development, you might still want a JSON response for debugging
+                #     render status: :unauthorized, json: error_object.to_json
+                #   end
+                # end
+            end
+        end
+
 =begin
         # Success message response for turbo
         def respond_with_notification_success(message)
@@ -152,37 +186,6 @@ module Lesli
             respond_to do |format|
                 format.json{ respond_with_http(404, { message: @message }) }
                 format.html{ render('lesli/errors/not_found', status: :not_found) }
-            end
-        end
-
-        # JSON not found response
-        def respond_with_unauthorized(detail = {})
-
-            @error_object = {
-                error_role: nil,
-                error_detail: nil,
-                error_message: I18n.t("core.shared.view_text_unauthorized_request")
-            }
-
-            unless Rails.env.production?
-                @error_object[:error_detail] = detail unless detail.empty?
-                if current_user.present?
-                    @error_object[:error_role] = "( #{current_user.lesliroles.map(&:name).join(', ')} )"
-                end
-            end
-
-            respond_to do |format|
-                format.json{ render(status: :unauthorized, json: @error_object) }
-                format.html{ render('lesli/errors/unauthorized', status: :unauthorized) }
-
-                # format.xlsx do
-                #   if Rails.env.production?
-                #     redirect_to "/401" # Or a specific Excel error download if applicable
-                #   else
-                #     # For development, you might still want a JSON response for debugging
-                #     render status: :unauthorized, json: error_object.to_json
-                #   end
-                # end
             end
         end
 
