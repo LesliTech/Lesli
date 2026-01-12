@@ -23,6 +23,12 @@ Here is an example of a database.md file for the LesliSupport engine (code **07.
 07.02.00.52. support/workflow/associations
 07.02.00.53. support/workflow/actions
 
+07.02.11.03. support/activities 
+07.02.11.04. support/discussions 
+07.02.11.05. support/subscribers 
+07.02.11.06. support/attachments 
+07.02.11.07. support/versions
+
 // Tablas de funcionalidad especifica
 07.02.10.01. support/slas
 
@@ -34,4 +40,10 @@ Here is an example of a database.md file for the LesliSupport engine (code **07.
 07.02.11.05. support/ticket/subscribers 
 07.02.11.06. support/ticket/attachments 
 07.02.11.07. support/ticket/versions
+
+07.02.11.01. support/tickets
+07.02.11.04. support/ticket/discussions 
+07.02.11.06. support/ticket/attachments 
+07.02.11.05. support/ticket/subscribers 
+07.02.11.02. support/ticket/actions 
 ```

@@ -56,5 +56,14 @@ module Lesli
         rescue_from ActionController::ParameterMissing do |_e|
             respond_with_error("Missing params")
         end
+
+        def audit payload
+            current_user.audit(
+                action: "update",
+                subject: @invite,
+                description: "Invitation updated successfully",
+                session_id: session[:user_session_id]
+            )
+        end
     end
 end

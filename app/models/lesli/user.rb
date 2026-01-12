@@ -34,7 +34,7 @@ module Lesli
     class User < ApplicationLesliRecord
         include Lesli::UserSecurity
         include Lesli::UserExtensions
-        #include UserActivities
+        include Lesli::UserActivities
 
         validates(:email, 
             format: { with: URI::MailTo::EMAIL_REGEXP },
@@ -66,20 +66,16 @@ module Lesli
 
         # users data extensions
         has_many :tokens
-        has_many :settings
         has_many :sessions
-        has_many :activities #, class_name: "Lesli::Item::Activity"
+        has_many :settings
+        has_many :activities
 
-
-        has_many :shortcuts, class_name: "LesliShield::User::Shortcuts"
-
-
+        
         # users can have many roles and too many privileges through the roles
         # lesliroles is a shortcut to Lesli::Roles
         has_many :roles 
         has_many :lesliroles, through: :roles, source: :role, class_name: "Lesli::Role"
         has_many :privileges, through: :lesliroles, class_name: "Lesli::Role::Privilege"
-
 
         # callbacks
         before_create :before_create_user
