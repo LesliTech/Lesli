@@ -77,10 +77,11 @@ module Lesli
             raise unless module_service_instance.respond_to?(@method_name)
 
             # Dynamically call the method on the service instance
-            module_service_instance.send(@method_name)
+            module_service_instance.send(@method_name, *@method_params)
 
-        rescue 
-            return @on_error
+        rescue => e
+           ## pp e add a debug message
+           return @on_error
         end
     end
 end
