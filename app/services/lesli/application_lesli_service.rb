@@ -149,12 +149,30 @@ module Lesli
             self.resource
         end
 
+        def cache_key_for_account(method=nil)
+            cache_key_builder('account',current_user.account.id,method)
+        end
+
+        def cache_key_for_user(method=nil)
+            cache_key_builder('user',current_user.id,method)
+        end
+
         private
 
         def response resource = nil
             self.resource = resource
             self
         end
+
+        def cache_key_builder(namespace,namespace_id,method)
+            [
+                namespace,
+                namespace_id,
+                self.class.name.underscore,
+                method,
+                query[:cacheKey]
+            ].compact.join(":").tr("/_", "-")
+        end 
 
         attr_reader :current_user
 

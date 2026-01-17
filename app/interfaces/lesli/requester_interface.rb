@@ -34,7 +34,7 @@ module Lesli
     module RequesterInterface
 
         def set_path
-            @@engine_path = Lesli::Engine.routes.find_script_name({})
+            # @@engine_path = Lesli::Engine.routes.find_script_name({})
         end
 
         # Set the user language based on user_settings, session configuration or instance default locale
