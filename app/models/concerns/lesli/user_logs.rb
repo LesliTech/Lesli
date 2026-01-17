@@ -17,9 +17,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Lesli · Ruby on Rails SaaS Development Framework.
+Lesli · Ruby on Rails SaaS development platform.
 
-Made with ♥ by LesliTech
+Made with ♥ by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -30,8 +30,21 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class CreateLesliAccountSettings < ActiveRecord::Migration[5.2]
-    def change
-        create_table_lesli_shared_settings_10(:lesli)
+module Lesli
+    module UserLogs
+        extend ActiveSupport::Concern
+
+        def log payload
+            return unless defined?(LesliAudit)
+            self.logs.create!({
+                engine: payload[:engine],
+                action: payload[:action],
+                operation: :user_creation,
+                #subject: payload[:subject],
+                description: payload[:description],
+                session_id: payload[:session_id],
+                account: self.account.audit
+            })
+        end
     end
 end

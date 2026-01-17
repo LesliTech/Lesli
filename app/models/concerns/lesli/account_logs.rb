@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Lesli · Ruby on Rails SaaS Development Framework.
 
-Made with ♥ by https://www.lesli.tech
+Made with ♥ by LesliTech
 Building a better future, one line of code at a time.
 
 @contact  hello@lesli.tech
@@ -30,8 +30,30 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class CreateLesliAccountActivities < ActiveRecord::Migration[6.0]
-    def change
-        create_table_lesli_item_activities_10(:lesli_accounts)
+module Lesli
+    module AccountLogs
+        extend ActiveSupport::Concern
+
+        def log operation, description=nil, user:nil
+            return unless defined?(LesliAudit)
+            log_anonimous(operation, description) unless self.audit
+            log_account(operation, description) if self.audit
+        end
+
+        private 
+
+        def log_anonimous operation, description
+            LesliAudit::AccountLog.create({
+                operation: operation,
+                description: description
+            })
+        end
+
+        def log_account operation, description
+            self.logs.create!({
+                operation: operation,
+                description: description
+            })
+        end
     end
 end

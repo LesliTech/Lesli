@@ -37,14 +37,13 @@ module Lesli
     module UserSecurity
         extend ActiveSupport::Concern
 
+        # get the max level permission from roles assigned to the user
         def max_level_permission
-
-            # get the max level permission from roles assigned to the user
             self.lesliroles.maximum(:permission_level) || 0
         end
 
         # check if user has roles with specific names
-        def has_roles? *roles
+        def has_roles?(*roles)
             !roles.intersection(self.roles.map{ |r| r[:name] }).empty?
         end
 
@@ -161,6 +160,8 @@ module Lesli
         def has_telephone_confirmed?
             !!self.telephone_confirmed_at
         end
+
+        private 
 
         # Change user password forcing user to reset the password
         def generate_password_reset_token

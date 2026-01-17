@@ -32,9 +32,9 @@ Building a better future, one line of code at a time.
 
 module Lesli
     class User < ApplicationLesliRecord
+        include Lesli::UserLogs
         include Lesli::UserSecurity
         include Lesli::UserExtensions
-        include Lesli::UserActivities
 
         validates(:email, 
             format: { with: URI::MailTo::EMAIL_REGEXP },
@@ -68,7 +68,8 @@ module Lesli
         has_many :tokens
         has_many :sessions
         has_many :settings
-        has_many :activities
+        has_many :requests, class_name: "LesliAudit::UserRequest"
+        has_many :logs, class_name: "LesliAudit::UserLog"
 
         
         # users can have many roles and too many privileges through the roles
@@ -76,6 +77,7 @@ module Lesli
         has_many :roles 
         has_many :lesliroles, through: :roles, source: :role, class_name: "Lesli::Role"
         has_many :privileges, through: :lesliroles, class_name: "Lesli::Role::Privilege"
+
 
         # callbacks
         before_create :before_create_user
@@ -89,6 +91,7 @@ module Lesli
             rescue ActiveRecord::RecordNotUnique => error
         end
 
+        private 
 
         # @return [void]
         # @description Before creating a user we make sure there is no capitalized email
@@ -98,7 +101,7 @@ module Lesli
 
 
         def after_create_user
-            self.activities.create(title: "create_user", description:"User created")
+            self.log(operation: :user_creation, description: 'User created')
             after_confirmation
             after_account_assignation
         end
@@ -119,7 +122,7 @@ module Lesli
         def after_confirmation
             return unless self.confirmed?
 
-            self.activities.create(title: "create_user", description:"User confirmed")
+            self.log(operation: :user_creation, description:'User confirmed')
 
             # create an alias based on user name defined in user extensions
             self.set_alias
@@ -127,27 +130,6 @@ module Lesli
             # Minimum security settings required
             #self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
             #self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
-        end
-
-
-        def update_associated_services
-            if saved_change_to_first_name? || saved_change_to_last_name? || saved_change_to_telephone?
-
-                # defined in user extensions
-                self.set_alias
-
-                return 
-                if defined? CloudOne
-
-                    data = {
-                        full_name: self.user.full_name,
-                        telephone: self.telephone,
-                    }
-
-                    CloudOne::Firebase::User.update_data(self.user, data)
-
-                end
-            end
         end
     end
 end

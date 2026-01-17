@@ -37,6 +37,7 @@ module Lesli
         # initialize minimum resources needed for the account
         def initialize_account
 
+            
 
             # create default roles for the new account
             owner = self.roles
@@ -73,6 +74,8 @@ module Lesli
 
                 # Create an associated account if the attribute is blank
                 engine.constantize::Account.create!(account: self)
+
+                self.log(:account_initialization, "Engine: #{engine} initialized successfully")
             end
         end      
     end

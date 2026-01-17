@@ -57,13 +57,11 @@ module Lesli
             respond_with_error("Missing params")
         end
 
-        def audit payload
-            current_user.audit(
-                action: "update",
-                subject: @invite,
-                description: "Invitation updated successfully",
-                session_id: session[:user_session_id]
-            )
+        def log payload
+            payload[:engine] = controller_path
+            payload[:action] = action_name
+            payload[:session_id] = session[:user_session_id]
+            current_user.log(payload)
         end
     end
 end

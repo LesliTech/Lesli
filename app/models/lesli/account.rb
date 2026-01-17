@@ -33,6 +33,7 @@ Building a better future, one line of code at a time.
 module Lesli
     class Account < ApplicationLesliRecord
         include AccountInitializer
+        include AccountLogs
 
         # accounts always belongs to a user
         belongs_to :user, optional: true
@@ -45,10 +46,11 @@ module Lesli
         # account resources
         has_many :users
         has_many :roles
-        has_many :journals
         has_many :settings
         has_many :locations
         has_many :currencies
+        has_many :requests, class_name: "LesliAudit::AccountRequest"
+        has_many :logs, class_name: "LesliAudit::AccountLog"
 
 
         # third-party engines associations

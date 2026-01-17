@@ -129,5 +129,25 @@ module Lesli
             return Courier::Driver::Calendar.get_user_calendar(self, source_code: source_code, default: true) if source_code == :lesli
             Courier::Driver::Calendar.get_user_calendar(self, source_code: source_code)
         end
+
+        def update_associated_services
+            if saved_change_to_first_name? || saved_change_to_last_name? || saved_change_to_telephone?
+
+                # defined in user extensions
+                self.set_alias
+
+                return 
+                if defined? CloudOne
+
+                    data = {
+                        full_name: self.user.full_name,
+                        telephone: self.telephone,
+                    }
+
+                    CloudOne::Firebase::User.update_data(self.user, data)
+
+                end
+            end
+        end
     end
 end
