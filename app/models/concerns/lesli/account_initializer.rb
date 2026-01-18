@@ -70,7 +70,7 @@ module Lesli
                 next if ["Lesli", "LesliBabel", "Root"].include?(engine)
 
                 # Create an associated account if the attribute is blank
-                engine.constantize::Account.create!(account: self)
+                engine.constantize::Account.find_or_create_by!(account: self)
 
                 self.log(:account_initialization, "Engine: #{engine} initialized successfully")
             end
