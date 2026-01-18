@@ -30,13 +30,13 @@ Building a better future, one line of code at a time.
 */
 
 
-// · Engine asssets
+// · Engine images
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 //= link_tree ../images/lesli .png
 //= link_tree ../images/lesli .jpg
 //= link_tree ../images/lesli .svg
 
-// · 
+// · Engine styles and scripts
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 //= link lesli/application.css
 //= link lesli/application.js

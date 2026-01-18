@@ -42,7 +42,6 @@ module Lesli
 
         protect_from_forgery with: :exception
 
-        before_action :set_path
         before_action :set_locale
         before_action :authenticate_request if defined?(LesliShield)
         before_action :authorize_request if defined?(LesliShield)

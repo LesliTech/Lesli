@@ -84,19 +84,6 @@ Lesli.configure do |config|
     }
 
 
-    # Customize system-wide security behavior.
-    config.security = {
-        password: "Test123!",       # Default password for development, test & demo environments
-        enable_debug: false,
-        enable_becoming: false,
-        enable_analytics: true,
-        enable_login_otp: true,
-        enable_login_link: true,
-        allow_multiaccount: true,
-        allow_registration: true
-    }
-
-
     # Customize the color palette and layout.
     config.theme = {
         color_primary: "#193d8d",
@@ -117,10 +104,32 @@ Lesli.configure do |config|
     }
 
 
+    # Customize system-wide security behavior.
+    config.security = {
+        # Default password for non-production environments
+        password: "Test123!", 
+        enable_debug: false,
+        enable_becoming: false,
+        enable_login_otp: true,
+        enable_login_link: true,
+        allow_multiaccount: true,
+        allow_registration: true
+    }
+
+
+    # Audit configuration
+    config.audit = {
+        enable_logs: true,
+        enable_journals: true,
+        enable_analytics: true
+    }
+
+
     # Specify default paths for email templates.
     config.mailer = {
         templates: "lesli_mailer/emails/lesli"
     }
+
 
     # Control redirection paths after login.
     config.path_after_login = "/"

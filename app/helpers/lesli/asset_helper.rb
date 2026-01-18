@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    module AssetsHelper
+    module AssetHelper
         # Return a string path to load the template stylesheet
         # by default we always return the latest version of the template
         #

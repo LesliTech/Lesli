@@ -66,7 +66,7 @@ end
 # create the owner user for the account, 
 userowner = create_account_user(emailowner, "owner", "Owner", account[:company_name], passowner)
 useradmin = create_account_user(emailadmin, "admin", "Admin", account[:company_name], passadmin)
-userguest = create_account_user(emailguest, "limited", "Guest", account[:company_name], passguest)
+userguest = create_account_user(emailguest, "guest", "Guest", account[:company_name], passguest)
 
 
 # print the owner user credentials, so we can save those credentials

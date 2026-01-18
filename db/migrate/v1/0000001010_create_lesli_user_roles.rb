@@ -30,9 +30,14 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-module Lesli
-    class User::Journal < ApplicationRecord
-        belongs_to :user
-        belongs_to :user_session, optional: true
+class CreateLesliUserRoles < ActiveRecord::Migration[6.0]
+    def change
+        create_table :lesli_user_roles do |t|
+            t.datetime :deleted_at, index: true
+            t.timestamps
+        end
+
+        add_reference(:lesli_user_roles, :user, foreign_key: { to_table: :lesli_users })
+        add_reference(:lesli_user_roles, :role, foreign_key: { to_table: :lesli_roles })
     end
 end

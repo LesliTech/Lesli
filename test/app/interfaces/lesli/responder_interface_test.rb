@@ -70,17 +70,6 @@ module Lesli
             assert_equal payload.to_json, render_options[:json]
         end
 
-        test "respond_with_success_json renders with status 200" do
-            payload = { some: "data" }
-
-            @controller.respond_with_json_success(payload)
-
-            render_options = @controller.render_args.first
-            assert_equal 200, render_options[:status]
-            assert_equal "application/json", render_options[:content_type]
-            assert_equal payload.to_json, render_options[:json]
-        end
-
         test "respond_with_http renders with correct status and payload" do
             status = 404
             payload = { error: "Not Found" }

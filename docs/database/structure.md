@@ -5,10 +5,26 @@ The database structure of Lesli and all the engines must be documented and maint
 
 ## Example of database.md file
 
-Here is an example of a database.md file for the LesliSupport engine (code **07.02**) (this is just an example, for more details about database standards you should check the **DATABASE VERSIONING** section):
+Here is an example of a database.md file for Lesli core and LesliSupport engine (code **07.02**) (this is just an example, for more details about database standards you should check the **DATABASE VERSIONING** section):
+
+Lesli core database 
 
 ```plaintext
-// Se utiliza para asociar la data del engine a su propia cuenta
+00.00.00.01 lesli/account
+00.00.00.02 lesli/users
+00.00.00.03 lesli/roles
+00.00.00.05 lesli/system_controllers
+00.00.00.06 lesli/system_controller/actions
+
+00.00.00.10 lesli/user/roles
+00.00.00.11 lesli/user/sessions
+00.00.00.12 lesli/role/actions
+00.00.00.13 lesli/role/privileges
+```
+
+LesliSupport database
+
+```plaintext
 07.02.00.01. support/account  
 
 // Tablas de servicio
@@ -16,18 +32,13 @@ Here is an example of a database.md file for the LesliSupport engine (code **07.
 07.02.00.20. support/catalogs 
 07.02.00.21. support/catalog/items
 07.02.00.30. support/dashboards 
+07.02.00.31. support/dashboard/components 
 
 // Tablas dedicadas de funcionalidad compartida
 07.02.00.50. support/workflows
 07.02.00.51. support/workflow/statuses
 07.02.00.52. support/workflow/associations
 07.02.00.53. support/workflow/actions
-
-07.02.11.03. support/activities 
-07.02.11.04. support/discussions 
-07.02.11.05. support/subscribers 
-07.02.11.06. support/attachments 
-07.02.11.07. support/versions
 
 // Tablas de funcionalidad especifica
 07.02.10.01. support/slas
@@ -40,10 +51,4 @@ Here is an example of a database.md file for the LesliSupport engine (code **07.
 07.02.11.05. support/ticket/subscribers 
 07.02.11.06. support/ticket/attachments 
 07.02.11.07. support/ticket/versions
-
-07.02.11.01. support/tickets
-07.02.11.04. support/ticket/discussions 
-07.02.11.06. support/ticket/attachments 
-07.02.11.05. support/ticket/subscribers 
-07.02.11.02. support/ticket/actions 
 ```

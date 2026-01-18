@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2025, Lesli Technologies, S. A.
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,43 +33,12 @@ Building a better future, one line of code at a time.
 module Lesli
     module ResponderInterface
 
-        # Meta-programming to define flash setter methods dynamically
-        # success("Everything worked!")
-        # warning("This is a warning.")
-        # danger("Oops, there was an error.")
-        # info("Just an informational message.")
-        [:info, :success, :warning, :danger].each do |type|
-            define_method(type) do |message|
-                flash[type] = message
-            end
-
-            define_method("stream_notification_#{type}") do |message|
-                send(type, message)
-
-                # Return the stream object so you can call: 
-                # render turbo_stream: stream_notification_success("Done!")
-                turbo_stream.update(
-                    "application-lesli-notifications",
-                    partial: "lesli/partials/application-lesli-notifications"
-                )
-            end
-        end
-
-        # render a template with js code to redirect to a new page
-        def stream_redirection(path)
-            turbo_stream.update(
-                "application-lesli-notifications",
-                partial: "lesli/partials/turbo/redirection",
-                locals: { redirect_path: path }
-            )
-        end 
-
-        # responde with standard turbo stream
-        def respond_with_stream(*streams)
-            render(turbo_stream: streams)
-        end 
-
-
+        # Standard json structure for paginated data,
+        # this is compatible for json, html and turbo responses
+        # NOTE: LesliView::Element::Table require this structure
+        #       to work properly
+        # IMPORTANT: It is strictly necessary to use the pagination methods
+        #            to make this work properly
         # Usage example
         # tasks = Task
         # .joins(:detail)
@@ -77,9 +46,6 @@ module Lesli
         # .per(query[:pagination][:perPage])
         #
         # respond_with_pagination(tasks)
-        #
-        # IMPORTANT: It is strictly necessary to use the pagination methods
-        #            to make this work properly
         def respond_as_pagination(payload)
             {
                 pagination: {
@@ -92,33 +58,52 @@ module Lesli
             }
         end
 
-
-        # Success message response for http
-        def respond_with_json(payload = nil)
-            respond_with_json_success(payload)
-        end
-
-        # Success message response for http
-        def respond_with_json_success(payload = nil)
-            respond_with_http(200, payload)
-        end
-
-        # Respond with an standard http message
-        def respond_with_http(status, payload)
-            unless payload.nil?
-                return render(:status => status, content_type: "application/json", json: payload.to_json)
+        # General response builder
+        # Support for: turbo, json and html
+        # Usage:
+        # respond_with(
+        #     turbo: (
+        #         stream_notification_success('ticket creado de forma exitosass')
+        #         stream_notification_warning('ticket creado de forma exitosass')
+        #     ),
+        #     json: {
+        #         message: "it works"
+        #     },
+        #     html: 'lesli/abouts/up'
+        # )
+        def respond_for(turbo:nil, json:nil, html:nil)
+            respond_to do |format|
+                format.html { render(html) }
+                format.json { respond_with_json(json) }
+                format.turbo_stream { render(turbo_stream: turbo) }
             end
-            render(:status => status, content_type: "application/json", json: "")
         end
 
+        # General error for not found resources
+        # Usage:
+        # def set_ticket
+        #     @ticket = TicketService.new(current_user, query).find(params[:id])
+        #     return respond_with_not_found unless @ticket.found?
+        # end
+        def respond_with_not_found message=nil
+            @message = message || I18n.t("core.shared.messages_danger_not_found")
+            respond_to do |format|
+                format.json { respond_with_json_not_found(@message) }
+                format.html { render('lesli/errors/not_found', status: :not_found) }
+                format.turbo_stream { render('lesli/errors/not_found', status: :not_found) }
+            end
+        end
 
-        # Global response 
+        # General error for unauthorized request
+        # Usage:
+        #   This method is automatically triggered by the 
+        #   LesliShield authentication interface, however
+        #   you can use it anywhere by just invoking this method
         def respond_with_unauthorized(detail = {})
 
             @error_object = {
                 error_role: nil,
-                error_detail: nil,
-                error_message: I18n.t("core.shared.view_text_unauthorized_request")
+                error_detail: nil
             }
 
             # If dev or test, show a clear description about the auth error
@@ -130,83 +115,88 @@ module Lesli
             end
 
             respond_to do |format|
-                format.json{ render(status: :unauthorized, json: @error_object) }
-                format.html{ render('lesli/errors/unauthorized', status: :unauthorized) }
-
-                # format.xlsx do
-                #   if Rails.env.production?
-                #     redirect_to "/401" # Or a specific Excel error download if applicable
-                #   else
-                #     # For development, you might still want a JSON response for debugging
-                #     render status: :unauthorized, json: error_object.to_json
-                #   end
-                # end
+                format.json { respond_with_json_unauthorized(@error_object) }
+                format.html { render('lesli/errors/unauthorized', status: :unauthorized) }
+                format.turbo_stream { render('lesli/errors/unauthorized', status: :unauthorized) }
             end
         end
 
-=begin
-        # Success message response for turbo
-        def respond_with_notification_success(message)
-            success(message)
-            respond_with_stream(
-                "application-lesli-notifications",
-                "lesli/partials/application-lesli-notifications"
-            )
-        end 
-
-        # Error message response for turbo
-        def respond_with_notification_danger(message)
-            danger(message)
-            respond_with_stream(
-                "application-lesli-notifications",
-                "lesli/partials/application-lesli-notifications"
-            )
-        end 
-
-        # responde with standard turbo stream
-        # def respond_with_stream(id, partial, locals={})
-        #     # render(turbo_stream: turbo_stream.update(
-        #     #     id, partial: partial, locals: locals
-        #     # ))
-        # end 
-
-
-        def respond_as_successful(payload)
-            payload
-        end
-
-        def respond_with_pagination(payload)
-            respond_with_http(200, respond_as_pagination(payload))
-        end
-
-        # JSON not found response
-        def respond_with_not_found message=nil
-
-            @message = message || I18n.t("core.shared.messages_danger_not_found")
-            respond_to do |format|
-                format.json{ respond_with_http(404, { message: @message }) }
-                format.html{ render('lesli/errors/not_found', status: :not_found) }
-            end
-        end
-
-        # JSON failure response due users has to perform an action
-        # example: respond_with_action({ :redirect => "telephone_confirmation" })
+        # General method to respond with and order for an action
+        # This method exists just for compatibility poruposes,
+        # a refactor is needed for this method
         def respond_with_action(action, message = "Action Required")
             respond_with_http(490, { :message => message, :action => action })
         end
 
-        # JSON failure response
-        def respond_with_error(message = "", details = [])
-            # Message should be a String
-            message = "" unless message.instance_of?(String)
 
-            # TODO:
-            #   check if active error and then:
-            #       message = error message to sentence
-            #       details = error array of messages
-            #   check another types of errors and parse respond according
-            respond_with_http(400, { :message => message, :details => details })
+        # ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~
+        # Auxiliar methods for responders
+        # ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~
+
+
+        # Meta-programming to define flash setter methods dynamically
+        # stream_notification_success("Everything worked!")
+        # stream_notification_warning("This is a warning.")
+        # stream_notification_danger("Oops, there was an error.")
+        # stream_notification_info("Just an informational message.")
+        [:info, :success, :warning, :danger].each do |type|
+            define_method(type) do |message|
+                flash[type] = message
+            end
+            
+            define_method("stream_notification_#{type}") do |message|
+                flash[type] = message
+
+                # Return the stream object so you can call: 
+                # render turbo_stream: stream_notification_success("Done!")
+                turbo_stream.update(
+                    "application-lesli-notifications",
+                    partial: "lesli/partials/application-lesli-notifications"
+                )
+            end
         end
-=end
+
+        # Stream a render for a partial that includes javascript code to 
+        # force redirections even when working with turbo streams
+        def stream_redirection(path)
+            turbo_stream.update(
+                "application-lesli-notifications",
+                partial: "lesli/partials/turbo/redirection",
+                locals: { redirect_path: path }
+            )
+        end 
+
+        # Just a simple json success response for JSON
+        def respond_with_json(payload = nil)
+            respond_with_http(200, payload)
+        end
+
+        # Just a simple json not found response for JSON
+        def respond_with_json_not_found(message = nil)
+            respond_with_http(404, {
+                :status => 404,
+                :error => 'Not Found',
+                :message => message 
+            })
+        end
+
+        # Just a simple json unauthorized response for JSON
+        def respond_with_json_unauthorized(details)
+            respond_with_http(401, {
+                :status => 401,
+                :title => 'Unauthorized',
+                :message => I18n.t("core.shared.view_text_unauthorized_request"),
+                :details => details
+            })
+        end
+
+        # Just a simple http response for JSON
+        def respond_with_http(status, payload)
+            render(
+                :status => status, 
+                :content_type => 'application/json', 
+                :json => payload.nil? ? "" : payload.to_json
+            )
+        end
     end
 end

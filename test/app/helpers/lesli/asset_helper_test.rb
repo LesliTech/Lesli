@@ -2,7 +2,7 @@
 require Lesli::Engine.root.join("lib/test/lesli")
 
 module Lesli
-    class AssetsHelperTest < LesliViewTester
+    class AssetHelperTest < LesliViewTester
 
         test "returns application stylesheet by default" do
             def lesli_engine(key)

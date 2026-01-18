@@ -69,6 +69,7 @@ module Lesli
         has_many :sessions
         has_many :settings
         has_many :requests, class_name: "LesliAudit::UserRequest"
+        has_many :journals, class_name: "LesliAudit::UserJournal"
         has_many :logs, class_name: "LesliAudit::UserLog"
 
         

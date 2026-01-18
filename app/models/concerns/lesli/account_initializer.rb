@@ -37,31 +37,28 @@ module Lesli
         # initialize minimum resources needed for the account
         def initialize_account
 
-            
-
-            # create default roles for the new account
+            # platform role for owners
             owner = self.roles
             .create_with({ permission_level: 2147483647 })
             .find_or_create_by(:name => "owner")
 
-
-            # platform administrator role
+            # platform role for administrators
             admin = self.roles
             .create_with({ permission_level: 100000})
             .find_or_create_by(name: "admin")
 
-
-            # access only to user profile
-            limited = self.roles
+            # platform role for guests
+            guest = self.roles
             .create_with({ permission_level: 10, path_default: "/administration/profile" })
-            .find_or_create_by(name: "limited")
+            .find_or_create_by(name: "guest")
 
 
             # Add base privileges to roles
-            Lesli::RoleOperator.new(owner).add_owner_actions
-            Lesli::RoleOperator.new(admin).add_owner_actions
-            Lesli::RoleOperator.new(limited).add_profile_actions
-
+            if defined?(LesliShield)
+                LesliShield::RoleService.new(owner).add_owner_actions
+                LesliShield::RoleService.new(admin).add_owner_actions
+                LesliShield::RoleService.new(guest).add_guest_actions
+            end
         end
 
 

@@ -41,6 +41,10 @@ module Lesli
             # renders the welcome page 
         end 
 
+        def up 
+            # renders the health check page
+        end
+
         # GET /status
         def show
             respond_to do |format|

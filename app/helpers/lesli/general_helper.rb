@@ -51,13 +51,13 @@ module Lesli
 
         # return a string with a css class to identify the body
         # example: builder engine-controller action
-        def application_body_class
+        def lesli_application_body_class
             [lesli_instance_code, controller_path.sub("_","-").split("/"), action_name].join(" ")
         end
 
         # build the text for the html document title
         # this helper works only for rails pages, for vue apps the title must be handled with JS
-        def website_title
+        def lesli_website_title
             # Use instance variable if set, otherwise construct a dynamic title
             title = @application_html_title || controller_path.delete_prefix("lesli_")
 
@@ -71,7 +71,7 @@ module Lesli
         end
 
         # build description using custom data from controller or engine gem description
-        def website_meta_description
+        def lesli_website_meta_description
             # if want to get description from gem you can use:
             # Gem::Specification.find_by_name(engine_name).description
             # Gem::Specification.find_by_name(engine_name).summary

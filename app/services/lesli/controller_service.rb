@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    class ControllerOperator < Lesli::ApplicationLesliService
+    class ControllerService < Lesli::ApplicationLesliService
 
         DEVISE_CONTROLLERS = [
             "users/registrations",
@@ -43,7 +43,7 @@ module Lesli
         def initialize 
         end
 
-        "Scan new routes added and create role privileges"
+        # Scan new routes added and create role privileges
         def build
 
             # get all the engines, controllers and actions

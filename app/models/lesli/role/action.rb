@@ -42,32 +42,9 @@ module Lesli
         belongs_to :system_controller_action, class_name: "SystemController::Action", foreign_key: "action_id"
 
         def synchronize_privileges
-            Lesli::RoleOperator.new(self.role, self).synchronize
-        end
-
-        def self.index current_user, query, role
-
-            #role.descriptors
-            Descriptor
-            .joins(:privileges)
-            .left_joins(:role_descriptors)
-            .joins(%(
-                inner join system_controller_actions  
-                on system_controller_actions.id = descriptor_privileges.system_controller_action_id
-            )).joins(%(
-                inner join system_controllers  
-                on system_controllers.id = system_controller_actions.system_controller_id
-            ))
-            .select(
-                "coalesce(role_descriptors.descriptor_id, descriptors.id) as id", 
-                "descriptors.name as name", 
-                "system_controllers.reference as reference", 
-                "system_controllers.route as controller", 
-                #"descriptors.category as action", 
-                "system_controller_actions.name as action", 
-                "system_controllers.engine as engine", 
-                "case when role_descriptors.descriptor_id is null then false else true end as active"
-            )
+            if defined?(LesliShield)
+                LesliShield::RoleService.new(self.role, self).synchronize
+            end
         end
     end
 end
