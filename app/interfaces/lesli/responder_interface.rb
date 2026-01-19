@@ -60,18 +60,19 @@ module Lesli
 
         # General response builder
         # Support for: turbo, json and html
+        # Note: Turbo respond support single stream or array of streams
         # Usage:
         # respond_with(
-        #     turbo: (
+        #     turbo: [
         #         stream_notification_success('ticket creado de forma exitosass')
         #         stream_notification_warning('ticket creado de forma exitosass')
-        #     ),
+        #     ],
         #     json: {
         #         message: "it works"
         #     },
         #     html: 'lesli/abouts/up'
         # )
-        def respond_for(turbo:nil, json:nil, html:nil)
+        def respond_with_lesli(turbo:nil, json:nil, html:nil)
             respond_to do |format|
                 format.html { render(html) }
                 format.json { respond_with_json(json) }
