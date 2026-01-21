@@ -1,5 +1,2 @@
 ---
-:en:
-  lesli:
-    users/sessions:
-      message_invalid_credentials: Invalid credentials
+:en: {}

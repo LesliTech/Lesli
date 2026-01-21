@@ -1,5 +1,2 @@
 ---
-:es:
-  lesli:
-    users/sessions:
-      message_invalid_credentials: Credenciales no validas
+:es: {}

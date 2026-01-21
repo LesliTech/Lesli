@@ -1,5 +1,2 @@
 ---
-:it:
-  lesli:
-    users/sessions:
-      message_invalid_credentials: ":lesli.users/sessions.message_invalid_credentials:"
+:it: {}
