@@ -378,9 +378,9 @@
 
 ## Fonts
 
-We use Domine for headings and Roboto for body text.
+We use Domine for headings and Source Sans 3 for body text.
 
 <br />
 
 <h3 style="font-weight:100;font-size:4rem;" class="has-text-centered">Lesli Title Font</h3>
-<p style="font-weight:100;font-size:3rem;" class="has-text-centered">Lesli body font</p>
+<p style="font-weight:400;font-size:3rem;" class="has-text-centered">Lesli body font</p>
