@@ -1,5 +1,5 @@
 module Lesli
-    class Role::ActionService < Lesli::ApplicationLesliService 
+    class RoleActionService < Lesli::ApplicationLesliService 
 
         def find id
             #super(current_user.account.users.joins(:detail).find_by(id: id))

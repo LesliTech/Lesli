@@ -53,6 +53,12 @@ class CreateLesliRoles < ActiveRecord::Migration[7.0]
             # role hierarchy
             t.integer   :permission_level, default: 10
 
+            # last privileges deploy (sync)
+            t.datetime  :deployed_at
+
+            # last privileges update (actions)
+            t.datetime  :modified_at
+
             # soft-delete 
             t.datetime  :deleted_at, index: true
 
