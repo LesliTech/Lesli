@@ -52,9 +52,7 @@ module Lesli
         # @description Return a paginated array of users, used mostly in frontend views
         def index 
 
-            current_user.account.roles.where.not(
-                :name => ["owner"]
-            ).joins("
+            users_subquery = <<-SQL
                 left join (
                     select
                         count(1) users,
@@ -66,7 +64,9 @@ module Lesli
                     where lesli_user_roles.deleted_at is null
                     group by (role_id)
                 ) users on users.role_id = lesli_roles.id
-            ").joins(%(
+            SQL
+
+            actions_subquery = <<-SQL
                 left join (
                     select
                         count(1) actions,
@@ -74,7 +74,13 @@ module Lesli
                     from lesli_role_actions
                     group by role_id
                 ) actions on actions.role_id = lesli_roles.id
-            )).where("lesli_roles.permission_level <= ?", current_user.max_level_permission)
+            SQL
+
+            current_user.account.roles
+            .where.not(:name => ['owner'])
+            .where("lesli_roles.permission_level <= ?", current_user.max_level_permission)
+            .joins(users_subquery)
+            .joins(actions_subquery)
             .select(
                 :id, 
                 :name, 
