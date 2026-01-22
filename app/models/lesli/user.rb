@@ -54,6 +54,9 @@ module Lesli
         );
         #:omniauthable, omniauth_providers: [:google_oauth2, :facebook]
 
+        # enum statuses: {
+        #     :true => 'active'
+        # }
 
         # users belongs to an account only... 
         belongs_to :account, optional: true

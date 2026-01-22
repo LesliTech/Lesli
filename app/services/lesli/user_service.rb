@@ -34,7 +34,6 @@ module Lesli
     class UserService < Lesli::ApplicationLesliService
 
         def find id
-            #super(current_user.account.users.joins(:detail).find_by(id: id))
             super(current_user.account.users.find_by(id: id))
         end
 
@@ -89,40 +88,36 @@ module Lesli
         # TODO: Implement pg_search
         def index params
 
-            # sql string to join to user_roles and get all the roles assigned to a user
-            sql_string_for_user_roles = "left join (
-                select
-                    ur.user_id, string_agg(r.\"name\", ', ') rolenames
-                from lesli_user_roles ur
-                join lesli_roles r
-                    on r.id = ur.role_id
-                where ur.deleted_at is null
-                group by ur.user_id
-            ) roles on roles.user_id = lesli_users.id"
+            # Build user full name
+            fullname_sql = "TRIM(CONCAT(lesli_users.first_name, ' ', lesli_users.last_name))"
 
-            # sql string to joing to user_sessions and get all the active sessions of a user
-            sql_string_for_user_sessions = "left join (
-                select
-                    max(last_used_at) as last_action_performed_at,
-                    user_id
-                from lesli_user_sessions us
-                where us.deleted_at is null
-                group by(us.user_id)
-            ) sessions on sessions.user_id = lesli_users.id"
+            # Build user status
+            status_sql = "case when lesli_users.active is true then 'active' else 'inactive' end"
+
+            # Get all the roles assigned to the user
+            roles_subquery = <<-SQL
+                LEFT JOIN (
+                    SELECT ur.user_id, string_agg(r.name, ', ' ORDER BY r.name) as rolenames
+                    FROM lesli_user_roles ur
+                    JOIN lesli_roles r ON r.id = ur.role_id
+                    WHERE ur.deleted_at IS NULL
+                    GROUP BY ur.user_id
+                ) roles ON roles.user_id = lesli_users.id
+            SQL
 
             current_user.account.users
-            .joins(sql_string_for_user_roles)
-            .joins(sql_string_for_user_sessions)
-            .page(query[:pagination][:page])
-            .per(query[:pagination][:perPage])
+            .joins(roles_subquery)
             .select(
                 :id,
-                "CONCAT(COALESCE(lesli_users.first_name, ''), ' ', COALESCE(lesli_users.last_name, '')) as fullname",
                 :email,
                 :active,
-                :rolenames,
+                "#{status_sql} AS status",
+                "#{fullname_sql} AS fullname",
+                "COALESCE(roles.rolenames, '') AS rolenames",
                 Date2.new.date_time.db_column("current_sign_in_at")
             )
+            .page(query.dig(:pagination, :page))
+            .per(query.dig(:pagination, :perPage))
         end
 
         # Creates a query that selects all user information from several tables if CloudLock is present
