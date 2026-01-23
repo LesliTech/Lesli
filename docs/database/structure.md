@@ -17,7 +17,6 @@ Lesli core database
 00.00.00.06 lesli/system_controller/actions
 
 00.00.00.10 lesli/user/roles
-00.00.00.11 lesli/user/sessions
 00.00.00.12 lesli/role/actions
 00.00.00.13 lesli/role/privileges
 ```
@@ -28,9 +27,7 @@ LesliSupport database
 07.02.00.01. support/account  
 
 // Tablas de servicio
-07.02.00.10. support/settings 
 07.02.00.20. support/catalogs 
-07.02.00.21. support/catalog/items
 
 // Tablas dedicadas de funcionalidad compartida
 07.02.00.50. support/workflows
