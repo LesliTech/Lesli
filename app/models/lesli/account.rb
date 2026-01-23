@@ -39,10 +39,6 @@ module Lesli
         belongs_to :user, optional: true
 
 
-        has_one :detail, inverse_of: :account, autosave: true, dependent: :destroy
-        accepts_nested_attributes_for :detail, update_only: true
-
-
         # account resources
         has_many :users
         has_many :roles
