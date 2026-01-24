@@ -125,7 +125,7 @@ namespace :lesli do
         L2.msg("Prepare the Lesli database")
 
         # scan rails routes to build the controllers index
-        Rake::Task['lesli:controllers:build'].invoke
+        Rake::Task['lesli:resources:build'].invoke
 
         Lesli::Account.all.each do |account|
             account.initialize_account

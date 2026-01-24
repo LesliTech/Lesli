@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2025, Lesli Technologies, S. A.
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,15 +30,34 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class CreateLesliSystemControllers < ActiveRecord::Migration[7.2]
-    def change
-        create_table :lesli_system_controllers do |t|
-            t.string :name
-            t.string :route
-            t.string :engine
-            t.string :reference
-            t.datetime :deleted_at, index: true
-            t.timestamps
+module Lesli 
+    class ResourcesController < ApplicationLesliController
+        before_action :set_system_controller, only: [:show, :update, :destroy]
+
+        # GET /system_controllers
+        def index
+            respond_to do |format|
+                format.html {}
+                format.json do
+                    respond_with_successful(Lesli::SystemController.index())
+                end
+            end
+        end
+
+        def options 
+            respond_to do |format|
+                format.html {}
+                format.json do
+                    respond_with_successful(SystemController.options(current_user, @query))
+                end
+            end
+        end 
+
+        private
+
+        # Only allow a list of trusted parameters through.
+        def system_controller_params
+            []
         end
     end
 end

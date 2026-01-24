@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2023, Lesli Technologies, S. A.
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    class ControllerService < Lesli::ApplicationLesliService
+    class ResourceService < Lesli::ApplicationLesliService
 
         DEVISE_CONTROLLERS = [
             "users/registrations",
@@ -70,15 +70,12 @@ module Lesli
 
                     name = reference.sub('::',' ')
 
-                    controller = Lesli::SystemController.create_with({
+                    controller = Lesli::Resource.create_with({
                         name: name,
                         :engine => engine,
-                        :reference => reference
+                        :reference => reference,
+                        :actions => controller_actions
                     }).find_or_create_by!(route: controller_route)
-                    
-                    controller_actions.each do |action_name|
-                        controller.actions.find_or_create_by!(name: action_name) 
-                    end
                 end
             end
         end
