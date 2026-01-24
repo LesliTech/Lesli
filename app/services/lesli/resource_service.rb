@@ -60,22 +60,27 @@ module Lesli
                     #   cloud_bell/notifications converts to CloudBell::Notifications
                     # sometimes we need a second split to deal with third level deep of controllers
                     # Example: "Account::Currency::ExchangeRatesController" from "account/currency/exchange_rates"
-                    reference = controller_route
-                    .split('/')                     # split the controller path by namespace
-                    .collect(&:capitalize)          # uppercase the first letter to match the class name convention of Rails
-                    .join("::")                     # join by ruby class separator for namespaces
-                    .split('_')                     # work with compound words like "exchange_rates"
-                    .collect { |x| x[0] = x[0].upcase; x } # convert ['exchange', 'rates'] to ['Exchange', 'Rates']
-                    .join('')                       # joins everything in a single string
+                    identifier = controller_route
+                    .camelize
+                    .gsub('/', '::')
 
-                    name = reference.sub('::',' ')
+                    name = identifier.demodulize.humanize
 
-                    controller = Lesli::Resource.create_with({
-                        name: name,
-                        :engine => engine,
-                        :reference => reference,
-                        :actions => controller_actions
-                    }).find_or_create_by!(route: controller_route)
+                    controller = Lesli::Resource.find_or_initialize_by(route: controller_route)
+                    controller.assign_attributes(
+                        label: name,
+                        engine: engine,
+                        identifier: identifier
+                    )
+                    controller.save!
+
+                    controller_actions.each do |action_name|
+                        controller.children.find_or_create_by!(
+                            action: action_name,
+                            identifier: action_name,
+                            label: action_name.humanize
+                        )
+                    end
                 end
             end
         end

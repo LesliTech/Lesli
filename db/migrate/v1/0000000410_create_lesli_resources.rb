@@ -33,13 +33,15 @@ Building a better future, one line of code at a time.
 class CreateLesliResources < ActiveRecord::Migration[7.2]
     def change
         create_table :lesli_resources do |t|
-            t.string :name
+            t.string :identifier   # LesliDashboard::Dashboards | index
+            t.string :label        # Dashboard | View dashboard
+            t.string :engine       # LesliDashboard
+            t.string :action       # index, show, create (nil for parents)
             t.string :route
-            t.string :engine
-            t.string :reference
-            t.json   :actions
             t.datetime :deleted_at, index: true
             t.timestamps
         end
+
+        add_reference(:lesli_resources, :parent, foreign_key: { to_table: :lesli_resources })
     end
 end

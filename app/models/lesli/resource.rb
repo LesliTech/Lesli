@@ -33,6 +33,12 @@ Building a better future, one line of code at a time.
 module Lesli
     class Resource < ApplicationLesliRecord
 
+        belongs_to :parent, class_name: "Lesli::Resource", optional: true
+        has_many   :children, class_name: "Lesli::Resource", foreign_key: :parent_id
+
+        scope :controllers, -> { where(parent_id: nil) }
+        scope :actions,     -> { where.not(parent_id: nil) }
+
         def self.index matrix:false
 
             # get a matrix of controllers and actions
