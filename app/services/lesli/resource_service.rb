@@ -43,6 +43,71 @@ module Lesli
         def initialize 
         end
 
+        def index matrix:false
+
+            # get a matrix of controllers and actions
+            c = Resource.actions.joins(:parent).select(
+                "parents_lesli_resources.engine as engine",
+                "parents_lesli_resources.route as route",
+                "parents_lesli_resources.identifier as controller",
+                "parents_lesli_resources.label as controller_name",
+                "parents_lesli_resources.id as controller_id",
+                "lesli_resources.action as action",
+                "lesli_resources.id as action_id",
+                "case lesli_resources.action
+                    when 'index'   then 1
+                    when 'show'    then 2
+                    when 'new'     then 3
+                    when 'edit'    then 4
+                    when 'create'  then 5
+                    when 'update'  then 6
+                    when 'destroy' then 7
+                    when 'options' then 8
+                    else 9
+                end as importance
+                "
+            )
+            .where("parents_lesli_resources.deleted_at is NULL")
+            .order("importance DESC")
+    
+            return c unless matrix
+    
+            cc = {}
+    
+            # convert the matrix to a hash of engines with controllers and available actions as values
+            # example:
+            #   my_engine: { my_controller: [ my list of actions ]}
+            c.each do |c|
+
+                engine = c[:engine]
+                controller = c[:controller]
+    
+                # create a uniq container for every action that belongs to a specific controller
+                if cc[engine].blank?
+                    cc[engine] = {}
+                end
+
+                # create a uniq container for every action that belongs to a specific controller
+                if cc[engine][controller].blank?
+                    cc[engine][controller] = { 
+                        id: c[:controller_id], 
+                        name: c[:controller_name], 
+                        route: c[:route], 
+                        actions: []
+                    } 
+                end
+
+                # push every action to his specic controller
+                cc[engine][controller][:actions].push({ 
+                    id: c[:action_id], 
+                    action: c[:action]
+                })
+            end
+    
+            return cc
+    
+        end
+
         # Scan new routes added and create role privileges
         def build
 
