@@ -39,7 +39,7 @@ module Lesli
             self.logs.create!({
                 engine: payload[:engine],
                 action: payload[:action],
-                operation: :user_creation,
+                operation: payload[:operation],
                 #subject: payload[:subject],
                 description: payload[:description],
                 session_id: payload[:session_id],

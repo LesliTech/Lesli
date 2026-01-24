@@ -98,7 +98,7 @@ module Lesli
             roles_subquery = <<-SQL
                 LEFT JOIN (
                     SELECT ur.user_id, string_agg(r.name, ', ' ORDER BY r.name) as rolenames
-                    FROM lesli_user_roles ur
+                    FROM lesli_shield_user_roles ur
                     JOIN lesli_roles r ON r.id = ur.role_id
                     WHERE ur.deleted_at IS NULL
                     GROUP BY ur.user_id

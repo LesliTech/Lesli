@@ -40,7 +40,6 @@ require(Lesli::Engine.root.join("lib/migrate/items/subscriber_structure"))
 require(Lesli::Engine.root.join("lib/migrate/items/version_structure"))
 
 require(Lesli::Engine.root.join("lib/migrate/shared/account_structure"))
-require(Lesli::Engine.root.join("lib/migrate/shared/setting_structure"))
 require(Lesli::Engine.root.join("lib/migrate/shared/catalog_structure"))
 
 
@@ -54,5 +53,4 @@ ActiveRecord::Migration.include(MigrationHelpers::Items::SubscriberStructure)
 ActiveRecord::Migration.include(MigrationHelpers::Items::VersionStructure)
 
 ActiveRecord::Migration.include(MigrationHelpers::Shared::AccountStructure)
-ActiveRecord::Migration.include(MigrationHelpers::Shared::SettingStructure)
 ActiveRecord::Migration.include(MigrationHelpers::Shared::CatalogStructure)

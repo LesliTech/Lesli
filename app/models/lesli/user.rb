@@ -78,9 +78,9 @@ module Lesli
         
         # users can have many roles and too many privileges through the roles
         # lesliroles is a shortcut to Lesli::Roles
-        has_many :roles 
+        has_many :roles, class_name: "LesliShield::User::Role"
         has_many :lesliroles, through: :roles, source: :role, class_name: "Lesli::Role"
-        has_many :privileges, through: :lesliroles, class_name: "Lesli::Role::Privilege"
+        has_many :privileges, through: :lesliroles
 
 
         # callbacks

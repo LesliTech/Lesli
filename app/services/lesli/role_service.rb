@@ -57,11 +57,11 @@ module Lesli
                     select
                         count(1) users,
                         role_id
-                    from lesli_user_roles
+                    from lesli_shield_user_roles
                     inner join lesli_users as u
-                        on u.id = lesli_user_roles.user_id
+                        on u.id = lesli_shield_user_roles.user_id
                         and u.deleted_at is null
-                    where lesli_user_roles.deleted_at is null
+                    where lesli_shield_user_roles.deleted_at is null
                     group by (role_id)
                 ) users on users.role_id = lesli_roles.id
             SQL
@@ -71,7 +71,7 @@ module Lesli
                     select
                         count(1) actions,
                         role_id
-                    from lesli_role_actions
+                    from lesli_shield_role_actions
                     group by role_id
                 ) actions on actions.role_id = lesli_roles.id
             SQL

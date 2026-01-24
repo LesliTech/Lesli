@@ -55,9 +55,9 @@ module Lesli
 
             # Add base privileges to roles
             if defined?(LesliShield)
-                LesliShield::RoleService.new(owner).add_owner_actions
-                LesliShield::RoleService.new(admin).add_owner_actions
-                LesliShield::RoleService.new(guest).add_guest_actions
+                LesliShield::RoleActionService.new(nil).add_owner_actions(owner)
+                LesliShield::RoleActionService.new(nil).add_owner_actions(admin)
+                LesliShield::RoleActionService.new(nil).add_guest_actions(guest)
             end
         end
 

@@ -57,7 +57,7 @@ module Lesli
         end
 
         def log payload
-            payload[:engine] = controller_path
+            payload[:engine] ||= self.class.module_parent
             payload[:action] = action_name
             payload[:session_id] = session[:user_session_id]
             current_user.log(payload)

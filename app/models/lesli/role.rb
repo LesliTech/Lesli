@@ -36,9 +36,9 @@ module Lesli
 
         # Role resources
         #has_many :activities
-        has_many :privileges, dependent: :delete_all
-        has_many :actions, dependent: :delete_all
-        
+        has_many :actions, dependent: :delete_all, class_name: 'LesliShield::Role::Action'
+        has_many :privileges, dependent: :delete_all, class_name: 'LesliShield::Role::Privilege'
+
 
         # validations
         validates :name, presence: :true

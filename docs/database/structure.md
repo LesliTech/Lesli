@@ -13,12 +13,8 @@ Lesli core database
 00.00.00.01 lesli/account
 00.00.00.02 lesli/users
 00.00.00.03 lesli/roles
-00.00.00.05 lesli/system_controllers
+00.00.00.04 lesli/system_controllers
 00.00.00.06 lesli/system_controller/actions
-
-00.00.00.10 lesli/user/roles
-00.00.00.12 lesli/role/actions
-00.00.00.13 lesli/role/privileges
 ```
 
 LesliSupport database
