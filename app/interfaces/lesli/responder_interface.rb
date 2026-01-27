@@ -46,7 +46,7 @@ module Lesli
         # .per(query[:pagination][:perPage])
         #
         # respond_with_pagination(tasks)
-        def respond_as_pagination(payload)
+        def respond_with_pagination(payload)
             {
                 pagination: {
                     page: payload.current_page,
@@ -87,7 +87,7 @@ module Lesli
         #     return respond_with_not_found unless @ticket.found?
         # end
         def respond_with_not_found message=nil
-            @message = message || I18n.t("core.shared.messages_danger_not_found")
+            @message = message || I18n.t("lesli.shared.message_error_resource_not_found")
             respond_to do |format|
                 format.json { respond_with_json_not_found(@message) }
                 format.html { render('lesli/errors/not_found', status: :not_found) }
@@ -100,7 +100,7 @@ module Lesli
         #   This method is automatically triggered by the 
         #   LesliShield authentication interface, however
         #   you can use it anywhere by just invoking this method
-        def respond_with_unauthorized(detail = {})
+        def respond_with_unauthorized(details = {})
 
             @error_object = {
                 error_role: nil,
@@ -109,7 +109,7 @@ module Lesli
 
             # If dev or test, show a clear description about the auth error
             unless Rails.env.production?
-                @error_object[:error_detail] = detail unless detail.empty?
+                @error_object[:error_details] = details unless details.empty?
                 if current_user.present?
                     @error_object[:error_role] = "(#{current_user.lesliroles.map(&:name).join(', ')})"
                 end
@@ -120,13 +120,6 @@ module Lesli
                 format.html { render('lesli/errors/unauthorized', status: :unauthorized) }
                 format.turbo_stream { render('lesli/errors/unauthorized', status: :unauthorized) }
             end
-        end
-
-        # General method to respond with and order for an action
-        # This method exists just for compatibility poruposes,
-        # a refactor is needed for this method
-        def respond_with_action(action, message = "Action Required")
-            respond_with_http(490, { :message => message, :action => action })
         end
 
 
@@ -198,6 +191,13 @@ module Lesli
                 :content_type => 'application/json', 
                 :json => payload.nil? ? "" : payload.to_json
             )
+        end
+
+        # General method to respond with and order for an action
+        # This method exists just for compatibility poruposes,
+        # a refactor is needed for this method
+        def respond_with_action(action, message = "Action Required")
+            respond_with_http(490, { :message => message, :action => action })
         end
     end
 end
