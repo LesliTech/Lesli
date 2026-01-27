@@ -32,6 +32,23 @@ Building a better future, one line of code at a time.
 
 module Lesli
     module SystemHelper
+
+        # build a url path to change locales
+        def language_url(locale)
+            "/lesli/language?locale=#{locale}"
+        end
+
+        # return flag code according to locale code
+        def language_flag(locale)
+            locale = "gb" if locale.to_s == "en"
+            locale
+        end
+
+        # return the name of the language
+        def language_name(locale)
+            Lesli.config.locales.dig(locale) || "undefined"
+        end
+
         # return the engine code of the controller that is handling the http request
         def lesli_controller
             controller_path.split("/")[0]

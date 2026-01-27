@@ -31,7 +31,47 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    module AssetHelper
+    module HtmlHelper
+
+        # Prints link tags to add favicon to websites
+        def lesli_favicon
+            icon_path = image_url("lesli/brand/favicon.svg")
+            safe_join([
+                tag.link(href: icon_path, rel: "alternate icon"),
+                tag.link(href: icon_path, rel: "icon", type: "image/svg+xml"),
+                tag.link(href: icon_path, rel: "mask-icon", color: "#ff8a01")
+            ])
+        end
+
+        # build the text for the html document title
+        # this helper works only for rails pages, for vue apps the title must be handled with JS
+        def lesli_website_title
+            # Use instance variable if set, otherwise construct a dynamic title
+            title = @application_html_title || controller_path.delete_prefix("lesli_")
+
+            # Append action name unless it's "index"
+            title += "/#{action_name}" unless action_name == "index"
+
+            # Append company name if present
+            title += " · #{Lesli.config.company.dig(:name)}"
+
+            title
+        end
+
+        # build description using custom data from controller or engine gem description
+        def lesli_website_meta_description
+            # if want to get description from gem you can use:
+            # Gem::Specification.find_by_name(engine_name).description
+            # Gem::Specification.find_by_name(engine_name).summary
+            @application_html_description || ""
+        end
+
+        # return a string with a css class to identify the body
+        # example: builder engine-controller action
+        def lesli_application_body_class
+            [lesli_instance_code, controller_path.sub("_","-").split("/"), action_name].join(" ")
+        end
+
         # Return a string path to load the template stylesheet
         # by default we always return the latest version of the template
         #
@@ -61,20 +101,20 @@ module Lesli
             "#{engine_code}/#{stylesheet}"
         end
 
-        def lesli_favicon
-            icon_path = image_url("lesli/brand/favicon.svg")
-            safe_join([
-                tag.link(href: icon_path, rel: "alternate icon"),
-                tag.link(href: icon_path, rel: "icon", type: "image/svg+xml"),
-                tag.link(href: icon_path, rel: "mask-icon", color: "#ff8a01")
-            ])
-        end
-
         # print a custom icon for lesli
         def lesli_svg(name)
             content_tag("svg", width: "64px", height: "64px") do
                 "<use xlink:href='##{name}'></use>".html_safe
             end
+        end
+
+        # Prints objects as JSON code
+        def dd object
+            content_tag(:pre) do 
+                content_tag(:code) do
+                    h JSON.pretty_generate(object.as_json)
+                end 
+            end 
         end
     end
 end
