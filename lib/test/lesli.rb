@@ -44,7 +44,7 @@ end
 
 # Test for views (html)
 class LesliViewTester < ActionView::TestCase
-    include Lesli::AssetHelper
+    include Lesli::HtmlHelper
     include Lesli::SystemHelper
 end
 
