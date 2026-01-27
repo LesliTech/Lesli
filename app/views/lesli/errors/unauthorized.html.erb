@@ -25,11 +25,10 @@
                 </span>
             </div>
 
-            <h2 class="mb-4">401 Unauthorized</h2>
+            <h2 class="mb-4">401 <%= I18n.t("lesli.shared.message_error_unauthorized") %></h2>
 
             <p>
-                We could not validate your privileges. 
-                Please ask the administrator to send you an invite to see this content.
+                <%= I18n.t("lesli.shared.message_error_unauthorized_credentials") %>
             </p>
 
             <div class="box mt-6">

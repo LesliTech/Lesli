@@ -1,2 +1,8 @@
 ---
-:it: {}
+:it:
+  lesli:
+    shared:
+      message_error_not_found: ":lesli.shared.message_error_not_found:"
+      message_error_resource_not_found: ":lesli.shared.message_error_resource_not_found:"
+      message_error_unauthorized: ":lesli.shared.message_error_unauthorized:"
+      message_error_unauthorized_credentials: ":lesli.shared.message_error_unauthorized_credentials:"

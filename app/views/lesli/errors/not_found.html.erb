@@ -21,7 +21,7 @@
                 <%= render(LesliView::Elements::Empty.new(text:nil)) %>
             </div>
 
-            <h2 class="mb-4">404 Not found</h2>
+            <h2 class="mb-4">404 <%= I18n.t("lesli.shared.message_error_not_found") %></h2>
 
             <p>
                 <%= @message %>
