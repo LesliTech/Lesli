@@ -41,22 +41,17 @@ module Lesli
                     user_id: current_user.id
                 })
 
-                discussion_saved = discussion.save
-                respond_to do |format|
-                    format.html 
-                    #format.turbo_stream
-                    format.turbo_stream do 
-                        if discussion_saved
-                            respond_with_stream(
-                                stream_notification_success("Comment created"),
-                                turbo_stream.update("#{@discussion_parent_object}-discussions") do 
-                                    LesliView::Items::Discussions.new(@parent_resource, public_send(@discussion_path_string, @parent_resource)).render_in(view_context)
-                                end
-                            )
-                        else 
-                            respond_with_stream(stream_notification_danger(discussion.errors.full_messages))
+                if discussion.save
+                    respond_with_lesli(:turbo => [
+                        stream_notification_success("Comment created"),
+                        turbo_stream.update("#{@discussion_parent_object}-discussions") do 
+                            LesliView::Items::Discussions.new(@parent_resource, public_send(@discussion_path_string, @parent_resource)).render_in(view_context)
                         end
-                    end
+                    ])
+                else
+                    respond_with_lesli(
+                        :turbo => stream_notification_danger(discussion.errors.full_messages)
+                    )
                 end
             end
 
