@@ -30,11 +30,31 @@ Building a better future, one line of code at a time.
 // · 
 %>
 
-<div id="application-lesli-turbo-scripts"></div>
 
-<%= javascript_importmap_tags %>
-<%= javascript_include_tag(lesli_stylesheet_path(:lesli_assets, 'application'), :defer => "defer") %>
-<%= yield(:application_lesli_javascript) %>
+<% protected_controllers = ["confirmations"] %>
+
+<% # Get an specific site tracking id or use the development default %>
+<% tracking_id = Rails.application.credentials.dig(:providers, :google, :tag_manager) || ENV["PROVIDERS_GOOGLE_TAG_MANAGER"] %>
+
+<% # check if analytics is enabled in the settings file %>
+<% enable_analytics = Lesli.config.security[:enable_analytics] %>
+
+<% if Rails.env.production? && enable_analytics && tracking_id %>
+
+    <% unless protected_controllers.include?(controller_name) %>
+
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=<%= tracking_id %>"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '<%= tracking_id %>');
+        </script>
+    <% end %>
+<% end %>
+
+
 
 <%#
 <script src="https://js.honeybadger.io/v3.2/honeybadger.min.js" type="text/javascript"></script>
@@ -45,5 +65,4 @@ Honeybadger.configure({
     environment: "<%= Rails.env % >",
     reportData: <%= Rails.env.production? % >
 })
-</script>
 %>

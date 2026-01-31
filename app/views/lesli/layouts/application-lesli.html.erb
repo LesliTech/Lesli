@@ -33,9 +33,10 @@ Building a better future, one line of code at a time.
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%= render(partial: "lesli/partials/application-head") %>
-    <%= render(partial: "lesli/partials/application-lesli-css") %>
+    <%= render(partial: "lesli/partials/application-lesli-head") %>
     <%= render(partial: "lesli/partials/application-lesli-data") %>
+    <%= render(partial: "lesli/partials/application-lesli-assets") %>
+    <%= render(partial: "lesli/partials/application-lesli-analytics") %>
 </head>
 <body class="<%= lesli_application_body_class() %>">
     <%= render(partial: "lesli/partials/application-lesli-header") %>
@@ -44,8 +45,8 @@ Building a better future, one line of code at a time.
         <%= render(partial: "lesli/partials/application-lesli-sidebar") %>
         <%= render(partial: "lesli/partials/application-lesli-content") %>
     </main>
-    <%= render(partial: "lesli_assets/partials/application-lesli-icons-engines") %>
-    <%= render(partial: "lesli/partials/application-lesli-javascript") %>
-    <%= render(partial: "lesli/partials/application-analytics") %>
+    <div id="lesli-icons" data-turbo-permanent>
+        <%= render(partial: "lesli_assets/partials/application-lesli-icons-engines") %>
+    </div>
 </body>
 </html>

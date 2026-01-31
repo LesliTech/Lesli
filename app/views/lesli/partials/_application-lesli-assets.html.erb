@@ -39,7 +39,7 @@ Building a better future, one line of code at a time.
 %>
 
 
-<%# Defining color palette %> 
+<%# Defining color palette from users preferences from the database %> 
 <style>
 :root {
     <% @colors.each_pair do |key, value| %>
@@ -49,6 +49,10 @@ Building a better future, one line of code at a time.
 </style>
 
 
-<%# Loading stylesheets %> 
-<%= stylesheet_link_tag(lesli_stylesheet_path(:lesli_assets, 'templates/application'), media: "all") %>
+<%# Loading stylesheets from engines %> 
+<%= stylesheet_link_tag(lesli_stylesheet_path(:lesli_assets), media: "all") %>
 <%= stylesheet_link_tag(lesli_stylesheet_path(), media: "all") %>
+
+<%# Loading javascripts from engines %> 
+<%= javascript_include_tag(lesli_stylesheet_path(:lesli_assets, 'application'), :defer => "defer") %>
+<%= yield(:application_lesli_javascript) %>
