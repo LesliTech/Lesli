@@ -35,7 +35,7 @@ Building a better future, one line of code at a time.
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%= render(partial: "lesli/partials/application-head") %>
+    <%= render(partial: "lesli/partials/application-lesli-head") %>
     <%= stylesheet_link_tag(lesli_stylesheet_path(:lesli_shield, public_app_controller), media: "all") %>
     <%# Disable back button in browser after Logout using JavaScript %>
     <% if flash[:logout] == true %>
@@ -49,6 +49,6 @@ Building a better future, one line of code at a time.
 </head>
 <body class="<%= lesli_application_body_class() %>">
     <%= yield %>
-    <%= render(partial: "lesli/partials/application-analytics") %>
+    <%= render(partial: "lesli/partials/application-lesli-analytics") %>
 </body>
 </html>
