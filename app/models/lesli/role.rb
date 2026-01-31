@@ -39,7 +39,6 @@ module Lesli
         has_many :actions, dependent: :delete_all, class_name: 'LesliShield::Role::Action'
         has_many :privileges, dependent: :delete_all, class_name: 'LesliShield::Role::Privilege'
 
-
         # validations
         validates :name, presence: :true
         validates :permission_level, presence: :true
@@ -68,20 +67,6 @@ module Lesli
             role_code = I18n.transliterate(role_code) + id.to_s 
 
             self.update_attribute("code", role_code)
-        end
-
-        # @return [void]
-        # @param current_user [::User] The user that deleted the role
-        # @param [Role] The role that was deleted
-        # @description Creates an activity for this role indicating that someone deleted it
-        # Example
-        #   role = Role.find(1)
-        #   Role.log_activity_destroy(User.find(1), role)
-        def self.log_activity_destroy(current_user, role)
-            role.activities.create(
-                user_creator: current_user,
-                category: "action_destroy"
-            )
         end
     end
 end
