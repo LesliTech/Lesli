@@ -243,7 +243,7 @@ module Lesli
         # SECURITY & PRIVACY
 
         # 08.01 Shield engine
-        def navigation_engine_shield(title: "Shield", subtitle: "Authentication & Authorization")
+        def navigation_engine_shield(title: "Shield", subtitle: "Users & Security Management")
             return unless defined? LesliShield
             navigation_engine_item(title, subtitle, "shield", lesli_shield.root_path, controller_path.include?("lesli_shield"))
         end
