@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2025, Lesli Technologies, S. A.
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,10 +32,10 @@ Building a better future, one line of code at a time.
 
 module Lesli
     class User < ApplicationLesliRecord
-        include Lesli::UserLogs
-        include Lesli::UserSecurity
         include Lesli::UserExtensions
+        include LesliShield::UserSecurity if defined?(LesliShield)
 
+        # user required configuration
         validates(:email, 
             format: { with: URI::MailTo::EMAIL_REGEXP },
             presence: true, 
@@ -52,11 +52,6 @@ module Lesli
             :confirmable,
             :trackable
         );
-        #:omniauthable, omniauth_providers: [:google_oauth2, :facebook]
-
-        # enum statuses: {
-        #     :true => 'active'
-        # }
 
         # users belongs to an account only... 
         belongs_to :account, optional: true
@@ -83,57 +78,40 @@ module Lesli
         has_many :privileges, through: :lesliroles
 
 
-        # callbacks
-        before_create :before_create_user
-        after_create :after_create_user
-        #after_update :update_associated_services
-
-
         # allow save duplicated users to execute callbacks
         def save(*args)
             super()
             rescue ActiveRecord::RecordNotUnique => error
         end
 
-        private 
 
-        # @return [void]
-        # @description Before creating a user we make sure there is no capitalized email
-        def before_create_user
-            self.email = self.email.downcase
-        end
+        #
+        def log(
+            engine:nil, # must be MyEngine
+            source:nil, # must be self.class
+            action:nil, # must be action_name
+            operation:nil,   # two word action description
+            description:nil, # human readable description
+            session_id:nil,  # must come from server session
+            subject:nil # resource related to the log
+        )
 
+            return unless defined?(LesliAudit)
 
-        def after_create_user
-            self.log(operation: :user_creation, description: 'User created')
-            after_confirmation
-            after_account_assignation
-        end
+            self.logs.create!({
+                engine: engine,
+                source: source,
+                action: action,
 
+                operation: operation,
+                description: description,
+                session_id: session_id,
 
-        def after_account_assignation
-            return unless self.account
+                subject_type: subject&.class&.name,
+                subject_id: subject&.id,
 
-            #Courier::One::Firebase::User.sync_user(self)
-            # Lesli::Courier.new(:lesli_calendar).from(:calendar_service, self).create({
-            #     name: "Personal Calendar", 
-            #     default: true
-            # })
-        end
-
-
-        # Initialize user settings and dependencies needed
-        def after_confirmation
-            return unless self.confirmed?
-
-            self.log(operation: :user_creation, description:'User confirmed')
-
-            # create an alias based on user name defined in user extensions
-            self.set_alias
-
-            # Minimum security settings required
-            #self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
-            #self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
+                account: self&.account&.audit
+            })
         end
     end
 end

@@ -56,11 +56,12 @@ module Lesli
             respond_with_error("Missing params")
         end
 
-        def log payload
-            payload[:engine] ||= self.class.module_parent
+        def log(payload)
+            payload[:engine] = self.class.module_parent
+            payload[:source] = self.class.name
             payload[:action] = action_name
             payload[:session_id] = session[:user_session_id]
-            current_user.log(payload)
+            current_user.log(**payload)
         end
     end
 end
