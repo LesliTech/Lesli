@@ -36,14 +36,6 @@ module Lesli
     module UserExtensions
         extend ActiveSupport::Concern
 
-        # Set the user alias based on the full_name.
-        def set_alias
-            if self.alias.blank?
-                self.alias = full_name_initials() 
-                self.save
-            end
-        end
-
         # Returns the user's full name if available, or their email as a fallback.
         def full_name
             if first_name.present?

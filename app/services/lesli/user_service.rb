@@ -132,6 +132,12 @@ module Lesli
             # })
 
             if resource.update(params)
+
+                # Set the user alias based on the full_name.
+                if resource.alias.empty?
+                    resource.update(alias: resource.full_name_initials())
+                end
+
                 # new_attributes = resource.detail.attributes.merge({
                 #     active: resource.active
                 # })
