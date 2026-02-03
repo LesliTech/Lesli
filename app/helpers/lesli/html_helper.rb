@@ -92,7 +92,7 @@ module Lesli
             return "#{engine}/#{stylesheet}" if engine.present?
 
             # Get current engine information
-            engine_code = controller_path.split("/").first #lesli_engine(:code)
+            engine_code = lesli_engine(:code)
 
             # Rails main host app stylesheets
             return 'application' if engine_code == 'root'

@@ -84,6 +84,12 @@ module Lesli
 
         # SALES & MARKETING
 
+        # 02.02 Contacts engine
+        def navigation_engine_contacts(title: "Contacts", subtitle: "Customer Relationship Management")
+            return unless defined? LesliContacts
+            navigation_engine_item(title,subtitle,"contacts",lesli_contacts.root_path,controller_path.include?("lesli_contacts"))
+        end
+
         # 02.04 House engine
         def navigation_engine_house(title: "House", subtitle: "cloud_house/house-logo.svg")
             return unless defined? CloudHouse

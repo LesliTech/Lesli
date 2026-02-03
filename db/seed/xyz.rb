@@ -48,7 +48,7 @@ def create_account_user email, rolename, firstname, lastname, password
         user.save!
 
         if(defined?(LesliShield))
-            user.roles.create!({ role: Lesli::Role.find_by(:name => rolename) })
+            user.user_roles.create!({ role: Lesli::Role.find_by(:name => rolename) })
         end
 
         user

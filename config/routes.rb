@@ -38,9 +38,6 @@ Lesli::Engine.routes.draw do
     resource :about, only: [:show]
 
     resources :users, only: [] do
-        collection do
-            get :list
-        end
     end
 
     resources :roles, only: [] do 
