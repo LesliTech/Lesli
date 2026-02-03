@@ -82,35 +82,5 @@ module Lesli
             super()
             rescue ActiveRecord::RecordNotUnique => error
         end
-
-
-        #
-        def log(
-            engine:nil, # must be MyEngine
-            source:nil, # must be self.class
-            action:nil, # must be action_name
-            operation:nil,   # two word action description
-            description:nil, # human readable description
-            session_id:nil,  # must come from server session
-            subject:nil # resource related to the log
-            )
-
-            return unless defined?(LesliAudit)
-
-            self.logs.create!({
-                engine: engine,
-                source: source,
-                action: action,
-
-                operation: operation,
-                description: description,
-                session_id: session_id,
-
-                subject_type: subject&.class&.name,
-                subject_id: subject&.id,
-
-                account: self&.account&.audit
-            })
-        end
     end
 end

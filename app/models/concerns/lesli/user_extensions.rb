@@ -75,71 +75,33 @@ module Lesli
             self.roles.pluck(:name).join(', ')
         end
 
+        # Register a audit log for the current user
+        def log(
+            engine:nil, # must be MyEngine
+            source:nil, # must be self.class
+            action:nil, # must be action_name
+            operation:nil,   # two word action description
+            description:nil, # human readable description
+            session_id:nil,  # must come from server session
+            subject:nil # resource related to the log
+            )
 
+            return unless defined?(LesliAudit)
 
-        
-        # Returns MFA settings configured by the user
-        def mfa_settings
-            mfa_enabled = self.settings.create_with(:value => false).find_or_create_by(:name => "mfa_enabled")
-            mfa_method = self.settings.create_with(:value => :email).find_or_create_by(:name => "mfa_method")
-            {
-                :enabled => mfa_enabled.nil? ? false : mfa_enabled.value == 't',
-                :method => mfa_method.nil? ? nil : mfa_method.value.to_sym
-            }
-        end
+            self.logs.create!({
+                engine: engine,
+                source: source,
+                action: action,
 
-        # @return [void]
-        # @description Register a new notification for the current user
-        # @param subject String Short notification description
-        # @param body String Long notification description
-        # @param url String Link to notified object
-        # @param category String Kind of notification: info, warning, danger, success.
-        def notification subject, body:nil, url:nil, category:"info"
-            Courier::Bell::Notification.new(self, subject, body:body, url:url, category:category)
-        end
+                operation: operation,
+                description: description,
+                session_id: session_id,
 
-        # @return [void]
-        # @description Register a new notification for the current user
-        # @param subject String Short notification description
-        # @param body String Long notification description
-        # @param url String Link to notified object
-        # @param category String Kind of notification: info, warning, danger, success.
-        def notifications quantity=5, category:"info"
-            query = {
-                :pagination => {
-                    :perPage => quantity,
-                    :page => 1
-                }
-            }
-            Lesli::Courier.new(:lesli_bell, []).from(:notification_service, self, query).call(:index)
-        end
+                subject_type: subject&.class&.name,
+                subject_id: subject&.id,
 
-        # @return [CloudDriver::Calendar]
-        # @description Return the default calendar of the user if source_code is not provided.
-        # If source_code is provided the method return the specified source calendar.
-        def calendar source_code: :lesli
-            return Courier::Driver::Calendar.get_user_calendar(self, source_code: source_code, default: true) if source_code == :lesli
-            Courier::Driver::Calendar.get_user_calendar(self, source_code: source_code)
-        end
-
-        def update_associated_services
-            if saved_change_to_first_name? || saved_change_to_last_name? || saved_change_to_telephone?
-
-                # defined in user extensions
-                self.set_alias
-
-                return 
-                if defined? CloudOne
-
-                    data = {
-                        full_name: self.user.full_name,
-                        telephone: self.telephone,
-                    }
-
-                    CloudOne::Firebase::User.update_data(self.user, data)
-
-                end
-            end
+                account: self&.account&.audit
+            })
         end
     end
 end
