@@ -71,11 +71,10 @@ module Lesli
         has_many :logs, class_name: 'LesliAudit::UserLog'
 
         
-        # users can have many roles and too many privileges through the roles
-        # lesliroles is a shortcut to Lesli::Roles
-        has_many :roles, class_name: "LesliShield::User::Role"
-        has_many :lesliroles, through: :roles, source: :role, class_name: "Lesli::Role"
-        has_many :privileges, through: :lesliroles
+        # Users can have many roles and too many privileges through the roles
+        has_many :user_roles, class_name: "LesliShield::User::Role"
+        has_many :roles,       through: :user_roles, source: :role
+        has_many :privileges,  through: :roles
 
 
         # allow save duplicated users to execute callbacks
@@ -94,7 +93,7 @@ module Lesli
             description:nil, # human readable description
             session_id:nil,  # must come from server session
             subject:nil # resource related to the log
-        )
+            )
 
             return unless defined?(LesliAudit)
 

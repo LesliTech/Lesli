@@ -62,6 +62,7 @@ module Lesli
                 mount LesliSupport::Engine => "/support" if defined?(LesliSupport)
                 mount LesliSecurity::Engine => "/security" if defined?(LesliSecurity)
                 mount LesliCalendar::Engine => "/calendar" if defined?(LesliCalendar)
+                mount LesliContacts::Engine => "/contacts" if defined?(LesliContacts)
                 mount LesliDashboard::Engine => "/dashboard" if defined?(LesliDashboard)
             end
         end

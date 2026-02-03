@@ -111,7 +111,7 @@ module Lesli
             unless Rails.env.production?
                 @error_object[:error_details] = details unless details.empty?
                 if current_user.present?
-                    @error_object[:error_role] = "(#{current_user.lesliroles.map(&:name).join(', ')})"
+                    @error_object[:error_role] = "(#{current_user.roles.map(&:name).join(', ')})"
                 end
             end
 
