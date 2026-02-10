@@ -119,6 +119,7 @@ Lesli.configure do |config|
 
     # Audit configuration
     config.audit = {
+        prefix: 'LA',
         enable_logs: true,
         enable_journals: true,
         enable_analytics: true
@@ -130,6 +131,9 @@ Lesli.configure do |config|
         templates: "lesli_mailer/emails/lesli"
     }
 
+    config.support = {
+        prefix: 'LS'
+    }
 
     # Control redirection paths after login.
     config.path_after_login = "/"

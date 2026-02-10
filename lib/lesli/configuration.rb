@@ -32,7 +32,7 @@ Building a better future, one line of code at a time.
 
 module Lesli
     class Configuration
-        attr_accessor :demo, :company, :instance, :locales, :datetime, :security, :theme, :layout, :path_after_login, :mailer, :audit
+        attr_accessor :demo, :company, :instance, :locales, :datetime, :security, :theme, :layout, :path_after_login, :mailer, :audit, :support
 
         def initialize
             @demo = false

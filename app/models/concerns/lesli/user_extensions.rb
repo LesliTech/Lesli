@@ -36,6 +36,14 @@ module Lesli
     module UserExtensions
         extend ActiveSupport::Concern
 
+        def name
+            if first_name.present?
+                first_name
+            else
+                email
+            end
+        end
+
         # Returns the user's full name if available, or their email as a fallback.
         def full_name
             if first_name.present?
