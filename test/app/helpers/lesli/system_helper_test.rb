@@ -2,7 +2,7 @@
 require Lesli::Engine.root.join("lib/test/lesli")
 
 module Lesli
-    class SystemHelperTest < LesliHelperTester
+    class SystemHelperTest < LesliViewTester
 
         # Stubbing the controller_path which Rails helpers expect to find in the view context
         attr_accessor :controller_path

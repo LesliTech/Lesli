@@ -42,15 +42,8 @@ class LesliIntegrationTester < ActionDispatch::IntegrationTest
 end
 
 
-# Test for views (html)
+# Test for views & helpers(html)
 class LesliViewTester < ActionView::TestCase
-    include Lesli::HtmlHelper
-    include Lesli::SystemHelper
-end
-
-
-# Test for views (html)
-class LesliHelperTester < ActiveSupport::TestCase
     include Lesli::HtmlHelper
     include Lesli::SystemHelper
 end

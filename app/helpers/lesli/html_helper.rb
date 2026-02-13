@@ -112,7 +112,7 @@ module Lesli
         def dd object
             content_tag(:pre) do 
                 content_tag(:code) do
-                    h JSON.pretty_generate(object.as_json)
+                    ERB::Util.html_escape JSON.pretty_generate(object.as_json)
                 end 
             end 
         end
