@@ -49,6 +49,13 @@ class LesliViewTester < ActionView::TestCase
 end
 
 
+# Test for views (html)
+class LesliHelperTester < ActiveSupport::TestCase
+    include Lesli::HtmlHelper
+    include Lesli::SystemHelper
+end
+
+
 L2.br(2)
 
 # Notify to user...
