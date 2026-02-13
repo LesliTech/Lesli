@@ -34,13 +34,17 @@ module Lesli
     module Items
         class Activity < ApplicationRecord
             self.abstract_class = true
-            default_scope { 
-                select(
-                    :title, 
-                    :created_at,
-                    LesliDate::Formatter.new.date_time.db_column('created_at')
-                ) 
+
+            # activity is for user
+            # system is for jobs
+            enum activity_type: {
+                activity: "activity",
+                system: "system"
             }
+
+            # if needed should be defined 
+            # by the user at resource level
+            enum activity_code: { }
         end
     end
 end

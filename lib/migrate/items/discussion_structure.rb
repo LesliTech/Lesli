@@ -38,7 +38,7 @@ module MigrationHelpers
                 table_name, foreign_key = table_name_for_item(resources, :discussions)
     
                 create_table table_name do |t|
-                    t.string :message
+                    t.text :message
                     t.timestamps
                 end
 

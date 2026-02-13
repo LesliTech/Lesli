@@ -30,33 +30,9 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-module MigrationHelpers
+module Lesli
     module Items
-        module ActivityStructure
-            def create_table_lesli_item_activities_10(resources)
-
-                table_name, foreign_key = table_name_for_item(resources, :activities)
-    
-                create_table table_name do |t|
-
-                    # Contenido
-                    t.string :description
-
-                    # Tipo principal del registro
-                    t.string :activity_type, null: false, default: :activity
-
-                    # Subtipo para actividades
-                    t.string :activity_code
-
-                    # Metadatos opcionales (JSON)
-                    t.json :metadata, default: {}
-
-                    t.timestamps
-                end
-
-                add_reference(table_name, :user, foreign_key: { to_table: :lesli_users }) unless resources == :lesli_users
-                add_reference(table_name, foreign_key, foreign_key: { to_table: resources })
-            end
+        class ActivitiesController < ApplicationLesliController
         end
     end
 end
