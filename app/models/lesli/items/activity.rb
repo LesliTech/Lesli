@@ -37,7 +37,7 @@ module Lesli
 
             # activity is for user
             # system is for jobs
-            enum activity_type: {
+            enum :activity_type, {
                 activity: "activity",
                 system: "system"
             }
