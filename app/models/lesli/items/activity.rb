@@ -44,7 +44,7 @@ module Lesli
 
             # if needed should be defined 
             # by the user at resource level
-            enum activity_code: { }
+            # enum activity_code: { }
         end
     end
 end
