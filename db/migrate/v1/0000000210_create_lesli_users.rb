@@ -34,6 +34,9 @@ class CreateLesliUsers < ActiveRecord::Migration[7.2]
     def change
         create_table :lesli_users do |t|
 
+            # User identity
+            t.string    :uid, null:false
+
             # Hard-lock strategy
             t.boolean   :active, default: true, null: false
 
@@ -91,6 +94,7 @@ class CreateLesliUsers < ActiveRecord::Migration[7.2]
         add_reference(:lesli_users, :account, foreign_key: { to_table: :lesli_accounts })
         add_reference(:lesli_accounts, :user, foreign_key: { to_table: :lesli_users })
 
+        add_index(:lesli_users, :uid,                unique: true)
         add_index(:lesli_users, :email,                unique: true)
         add_index(:lesli_users, :unlock_token,         unique: true)
         add_index(:lesli_users, :confirmation_token,   unique: true)

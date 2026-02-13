@@ -34,5 +34,19 @@ module Lesli
     class ApplicationLesliRecord < ActiveRecord::Base
         self.abstract_class = true
         acts_as_paranoid
+
+        CHARSET = "ABCDEFGHJKLMNPQRSTUVWXYZ"
+
+        def generate_resource_uid(prefix:'Lesli', length:3)
+
+            year  = Time.current.year % 100
+            month = Time.current.month
+            period = "#{year}#{month}"
+            letters = Array.new(length) { CHARSET.chars.sample }.join
+
+            return "#{letters}" unless period
+            return "#{period}-#{letters}" unless prefix
+            return "#{prefix}-#{period}-#{letters}"
+        end
     end
 end

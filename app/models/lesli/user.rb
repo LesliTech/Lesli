@@ -82,5 +82,22 @@ module Lesli
             super()
             rescue ActiveRecord::RecordNotUnique => error
         end
+
+        before_create :before_create_user
+
+        private
+
+        def before_create_user
+            self.uid ||= loop do
+                candidate = generate_resource_uid(prefix:'LID')
+                break candidate unless self.account.users.exists?(uid: candidate)
+            end
+        end
+
+        def generate_resource_uid(prefix:'Lesli')
+            charset = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ"
+            letters = Array.new(4) { charset.chars.sample }.join
+            return "#{prefix}-#{letters}"
+        end
     end
 end
