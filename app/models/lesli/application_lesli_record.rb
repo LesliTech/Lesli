@@ -37,7 +37,7 @@ module Lesli
 
         CHARSET = "ABCDEFGHJKLMNPQRSTUVWXYZ"
 
-        def generate_resource_uid(prefix:'Lesli', length:3)
+        def generate_resource_uid(prefix:'Lesli', length:4)
 
             year  = Time.current.year % 100
             month = Time.current.month

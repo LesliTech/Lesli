@@ -90,7 +90,7 @@ module Lesli
         def before_create_user
             self.uid ||= loop do
                 candidate = generate_resource_uid(prefix:'LID')
-                break candidate unless self.account.users.exists?(uid: candidate)
+                break candidate unless self.account&.users&.exists?(uid: candidate)
             end
         end
 
