@@ -71,8 +71,8 @@ module Lesli
                 turbo_stream.update("#{@action_parent_object}-actions") do 
                     LesliView::Items::Actions.new(
                         @parent_resource, 
-                        public_send(@action_path_string, @parent_resource),
-                        ->(action) {
+                        path_to_create:public_send(@action_path_string, @parent_resource),
+                        path_to_update:->(action) {
                             public_send(@action_update_path_string, @parent_resource, action)
                         }
                     ).render_in(view_context)
