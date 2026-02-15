@@ -28,6 +28,25 @@ module Lesli
             assert_equal [:lesli_shield_tokens, :lesli_shield_accounts], result
         end
 
+        # table_name_for_item
+        test "table_name_for_gem_item returns correct table name and foreign key" do
+            # Simulate the engine path by mocking caller_locations
+            @helper.fake_locations = [build_loc("/home/app/gems/lesli_shield/app/models/foo.rb")]
+
+            result = @helper.table_name_for_item(:users, :profile)
+
+            assert_equal [:user_profile, "user"], result
+        end
+
+        # table_name_for_item
+        test "table_name_for_local_item returns correct table name and foreign key" do
+            # Simulate the engine path by mocking caller_locations
+            @helper.fake_locations = [build_loc("/home/app/engines/LesliShield/app/models/foo.rb")]
+
+            result = @helper.table_name_for_item(:users, :profile)
+
+            assert_equal [:user_profile, "user"], result
+        end
 
         # table_name_for_item
         test "table_name_for_item returns correct table name and foreign key" do
