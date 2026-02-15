@@ -104,7 +104,7 @@ module Lesli
 
             @error_object = {
                 error_role: nil,
-                error_detail: nil
+                error_details: nil
             }
 
             # If dev or test, show a clear description about the auth error
@@ -176,8 +176,8 @@ module Lesli
 
         # Just a simple json unauthorized response for JSON
         def respond_with_json_unauthorized(details)
-            respond_with_http(401, {
-                :status => 401,
+            respond_with_http(403, {
+                :status => 403,
                 :title => 'Unauthorized',
                 :message => I18n.t("core.shared.view_text_unauthorized_request"),
                 :details => details

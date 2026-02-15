@@ -1,20 +1,20 @@
 <style>
-.error-401 .material-symbols {
+.error-403 .material-symbols {
     font-size: 8rem;
     color: #7a0000;
 }
-.error-401 h2 {
+.error-403 h2 {
     font-size: 2rem;
     color: #7a0000;
 }
 
-.error-401 p {
+.error-403 p {
     font-size: 1.4rem;
     font-weight: 300;
 }
 </style>
 <%= render(LesliView::Layout::Container.new("accounts")) do %>
-    <section class="hero is-medium error-401">
+    <section class="hero is-medium error-403">
         <div class="hero-body has-text-centered">
 
             <div class="mb-6">
@@ -25,7 +25,7 @@
                 </span>
             </div>
 
-            <h2 class="mb-4">401 <%= I18n.t("lesli.shared.message_error_unauthorized") %></h2>
+            <h2 class="mb-4">403 <%= I18n.t("lesli.shared.message_error_unauthorized") %></h2>
 
             <p>
                 <%= I18n.t("lesli.shared.message_error_unauthorized_credentials") %>
@@ -33,10 +33,9 @@
 
             <div class="box mt-6">
                 <ul>
-                    <!--li><%= @error_object[:error_message] %></li-->
                     <li>
-                        <%= @error_object.dig(:error_detail, :controller) %>
-                        (<%= @error_object.dig(:error_detail, :action) %>)
+                        <%= @error_object.dig(:error_details, :controller) %>
+                        (<%= @error_object.dig(:error_details, :action) %>)
                     </li>
                     <li><%= @error_object[:error_role] %></li>
                 </ul>
