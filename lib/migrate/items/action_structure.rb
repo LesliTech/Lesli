@@ -38,7 +38,8 @@ module MigrationHelpers
                 table_name, foreign_key = table_name_for_item(resources, :actions)
 
                 create_table table_name do |t|
-                    t.string :title
+                    t.string  :title, null: false
+                    t.boolean :done, default: false, null: false
                     t.datetime :deleted_at, index: true
                     t.timestamps
                 end
