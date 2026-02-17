@@ -89,7 +89,7 @@ Gem::Specification.new do |spec|
     # · Tools used to add Rails functionality
 
     # Flexible authentication solution for Rails with Warden
-    spec.add_dependency("devise", "~> 4.9")
+    spec.add_dependency("devise", "~> 5.0")
 
 
     # · Tools used to build the Lesli Framework
