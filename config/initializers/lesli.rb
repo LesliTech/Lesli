@@ -128,7 +128,7 @@ Lesli.configure do |config|
 
     # Specify default paths for email templates.
     config.mailer = {
-        templates: "lesli_mailer/emails/lesli"
+        templates: "lesli_assets/emails"
     }
 
     config.support = {
