@@ -107,8 +107,7 @@ rails s --environment=development
 RAILS_SERVE_STATIC_FILES=true rails s --environment=production 
 ```
 
-<br />
-
+---
 
 ### Demo
 
@@ -151,7 +150,9 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 <div align="center" class="has-text-centered">
     <img width="200" alt="Lesli logo" src="https://cdn.lesli.tech/lesli/brand/app-logo.svg" />
-    <h4 align="center" class="mt-0">The Open-Source SaaS Development Framework for Ruby on Rails.</h4>
+    <h3 align="center" class="mt-0">
+        The Open-Source SaaS Development Framework for Ruby on Rails.
+    </h3>
 </div>
 
 <br />
