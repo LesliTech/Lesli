@@ -31,58 +31,46 @@ Building a better future, one line of code at a time.
 =end
 
 # ·
-module Lesli 
-    module Router 
-
-        def self.login path=""
-
-            # Load dedicated mounting routes for devise from the LesliShield engine
-            LesliShield::Router.mount_login_at(path) if defined?(LesliShield);
-
-            # Load generic yet standard routes if LesliShield is not installed
-            if !defined?(LesliShield) && defined?(Devise)
-                Rails.application.routes.draw do
-                    devise_for(:users, class_name: "Lesli::User", module: :devise) 
-                end
+module Lesli
+    module Router
+        def self.login(router, path = "")
+            # Prefer LesliShield’s dedicated routes if installed
+            if defined?(LesliShield)
+                # Make LesliShield::Router accept router too (recommended)
+                LesliShield::Router.mount_login_at(router, path)
+            elsif defined?(Devise)
+                router.devise_for :users, class_name: "Lesli::User", module: :devise
             end
         end
 
-        def self.mount
-            self.login
-            Rails.application.routes.draw do
-                root to: "lesli/abouts#welcome", as: :welcome
-                mount Lesli::Engine => "/lesli" if defined?(Lesli)
-                mount LesliBell::Engine => "/bell" if defined?(LesliBell)
-                mount LesliAdmin::Engine => "/admin" if defined?(LesliAdmin)
-                mount LesliAudit::Engine => "/audit" if defined?(LesliAudit)
-                mount LesliBabel::Engine => "/babel" if defined?(LesliBabel)
-                mount LesliMailer::Engine => "/mailer" if defined?(LesliMailer)
-                mount LesliShield::Engine => "/shield" if defined?(LesliShield)
-                mount LesliPapers::Engine => "/papers" if defined?(LesliPapers)
-                mount LesliSupport::Engine => "/support" if defined?(LesliSupport)
-                mount LesliSecurity::Engine => "/security" if defined?(LesliSecurity)
-                mount LesliCalendar::Engine => "/calendar" if defined?(LesliCalendar)
-                mount LesliContacts::Engine => "/contacts" if defined?(LesliContacts)
-                mount LesliDashboard::Engine => "/dashboard" if defined?(LesliDashboard)
-            end
+        def self.mount(router, path = "")
+            login(router, path)
+
+            router.root to: "lesli/abouts#welcome", as: :welcome
+
+            router.mount Lesli::Engine => "/lesli" if defined?(Lesli)
+            router.mount LesliBell::Engine => "/bell" if defined?(LesliBell)
+            router.mount LesliAdmin::Engine => "/admin" if defined?(LesliAdmin)
+            router.mount LesliAudit::Engine => "/audit" if defined?(LesliAudit)
+            router.mount LesliBabel::Engine => "/babel" if defined?(LesliBabel)
+            router.mount LesliMailer::Engine => "/mailer" if defined?(LesliMailer)
+            router.mount LesliShield::Engine => "/shield" if defined?(LesliShield)
+            router.mount LesliPapers::Engine => "/papers" if defined?(LesliPapers)
+            router.mount LesliSupport::Engine => "/support" if defined?(LesliSupport)
+            router.mount LesliSecurity::Engine => "/security" if defined?(LesliSecurity)
+            router.mount LesliCalendar::Engine => "/calendar" if defined?(LesliCalendar)
+            router.mount LesliContacts::Engine => "/contacts" if defined?(LesliContacts)
+            router.mount LesliDashboard::Engine => "/dashboard" if defined?(LesliDashboard)
         end
 
-        def self.mount_routes_for lesli_engine
-            lesli_engine::Engine.routes.draw do
+        # Shared default routes for any Lesli engine
+        def self.mount_lesli_engine_routes(router)
+            router.root to: "dashboards#show"
 
-                # Dashboard alias
-                root to: "dashboards#show"
+            router.resource :dashboard, only: %i[show edit]
 
-                # Dashboard management
-                resource :dashboard, only: [:show, :edit]
-
-                # 
-                get "up" => "/rails/health#show"
-            end
+            # Optional: health check inside engine scope (pick a consistent path)
+            router.get "up", to: "/rails/health#show"
         end
-
-        def self.mount_dashboard_for lesli_engine
-            self.mount_routes_for(lesli_engine)
-        end
-    end 
+    end
 end
