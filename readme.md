@@ -1,22 +1,22 @@
-<div align="center" class="documentation-header">
+<div align="center">
     <img width="150" alt="Lesli logo" src="./app/assets/images/lesli/lesli-logo.svg" />
-    <h3 align="center">Ruby on Rails SaaS Development Framework.</h3>
+    <h3 align="center">The Open-Source SaaS Development Framework for Ruby on Rails.</h3>
 </div>
 
 <br />
 <hr/>
 
-<div align="center" class="documentation-statics">
-    <a target="blank" href="https://github.com/LesliTech/Lesli/actions">
+<div align="center">
+    <a target="_blank" href="https://github.com/LesliTech/Lesli/actions">
         <img alt="Tests passing" src="https://img.shields.io/badge/Tests-passing-green?style=for-the-badge&logo=github">
     </a>
-    <a target="blank" href="https://rubygems.org/gems/lesli">
+    <a target="_blank" href="https://rubygems.org/gems/lesli">
         <img alt="Gem Version" src="https://img.shields.io/gem/v/lesli?style=for-the-badge&logo=ruby">
     </a>
-    <a target="blank" href="https://codecov.io/github/LesliTech/Lesli"> 
+    <a target="_blank" href="https://codecov.io/github/LesliTech/Lesli">
         <img alt="Codecov" src="https://img.shields.io/codecov/c/github/LesliTech/Lesli?style=for-the-badge&logo=codecov">
     </a>
-    <a target="blank" href="https://sonarcloud.io/project/overview?id=LesliTech_Lesli"> 
+    <a target="_blank" href="https://sonarcloud.io/project/overview?id=LesliTech_Lesli">
         <img alt="Sonar Quality Gate" src="https://img.shields.io/sonar/quality_gate/LesliTech_Lesli?server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge&logo=sonarqubecloud&label=Quality">
     </a>
 </div>
@@ -25,87 +25,80 @@
 <br />
 
 <div align="center">
-    <img 
-        style="width:100%;max-width:800px;border-radius:6px;" 
+    <img
+        style="width:100%;max-width:800px;border-radius:6px;"
         alt="Lesli screenshot" src="./docs/images/screenshot.png" />
 </div>
 
+---
 
-### Introduction 
+## Introduction
 
-Lesli is a SaaS development framework designed to build highly scalable, secure and customizable software products.
+Lesli is an open-source SaaS development framework built to create scalable, secure, and modular software products.
 
-Built-on top of Ruby on Rails, Postgres, Hotwire, Bulma, SASS and many more awesome open-source libraries, packages, gems and tools.
+Built on top of **Ruby on Rails, PostgreSQL, Hotwire, and modern frontend tooling**, Lesli provides the infrastructure, architecture, and reusable components needed to build production-ready SaaS platforms faster.
 
-Lesli is completely open source and comes with features and tools that can save you years of development effort, additionally, our pre-built modules can seamlessly extend Lesli's functionality, allowing you to build your own SaaS in a matter of minutes.
+Lesli is not a starter kit, admin panel, or boilerplate.
 
-<br />
-<hr />
-<p align="center" class="has-text-centered">
-    Lesli is currently in alpha, but we're excited about the promising improvements coming soon!
-</p>
-<hr />
-<br />
-<br />
+It is a **modular foundation** that allows you to build applications using independent engines, shared infrastructure, and proven SaaS patterns.
 
-Lesli is officially released and will be supported as of version 5.1
+With Lesli, you focus on features — not infrastructure.
 
-<br />
+---
 
-> Lesli goes beyond being just a starter-kit, template, admin panel or dashboard. Lesli is a Ruby on Rails gem that you can use to build modules (a.k.a. engines) and standard Rails applications leveraging its robust set of built-in features, generators, components, and industry standards. With Lesli, you have the flexibility to extend existing functionalities or develop fully customized software tailored to your specific needs.
+## Why Lesli?
 
+- Modular architecture powered by standard Rails engines  
+- Flexible authentication, detailed privileges, and access control  
+- System auditing with activities and version tracking  
+- Attachments that can be added to any resource  
+- Full-text search across modules and records  
+- Multi-language support for both core and custom modules  
+- Designed for long-term SaaS scalability and maintainability  
 
-<br />
+---
 
+## Quick Start
 
-### Quick start
+```bash
+# Create a new app using the Lesli template
+rails new LesliDemo -m lesli_demo.rb --skip-bundle
+```
+
+### Manual installation
 
 ```shell
-# Add Lesli engine
+# Add Lesli
 bundle add lesli
-```
 
-```shell
-# Add Lesli to your app
+# Install Lesli
 rails generate lesli:install
-```
-```shell
-# Setup database for development
-rake lesli:db:dev
-```
-```shell
-# Start your app
+
+# Setup database
+rake lesli:db:reset
+
+# Start server
 rails server
 ```
-
-
-<br />
-
-
 
 ### Development 
 
 ```shell
 # clone the lesli repo inside your engine folder: RailsApp/engines
 git clone https://github.com/LesliTech/Lesli.git
-```
-```ruby
+
 # Load Lesli as a Gem
 gem "lesli", path: "engines/Lesli"
-```
-```shell
+
 # Install the necessary Gems to run Lesli
 bundle install
-```
-```shell
+
 # Generate Lesli initializer
 rails generate lesli:install
-```
-```shell
+
 # Hard reset Database for development:
 rake lesli:db:reset 
-```
-```shell
+
 # Run default Rails server
 rails s 
 rails s --binding=0.0.0.0
@@ -123,12 +116,12 @@ RAILS_SERVE_STATIC_FILES=true rails s --environment=production
 * [docker demo](https://github.com/LesliTech/lesli-docker-demo)
 
 
-### Lesli Documentation
+### Documentation
 * [website](https://www.lesli.dev/)
 * [documentation](https://www.lesli.dev/lesli/)
 
 
-### Get in touch with Lesli
+### Connect with Lesli
 
 * [X: @LesliTech](https://x.com/LesliTech)
 * [Email: hello@lesli.tech](hello@lesli.tech)
@@ -137,7 +130,7 @@ RAILS_SERVE_STATIC_FILES=true rails s --environment=production
 
 ### License
 -------
-Copyright (c) 2025, Lesli Technologies, S. A.
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -158,7 +151,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 <div align="center" class="has-text-centered">
     <img width="200" alt="Lesli logo" src="https://cdn.lesli.tech/lesli/brand/app-logo.svg" />
-    <h4 align="center" class="mt-0">Ruby on Rails SaaS Development Framework.</h4>
+    <h4 align="center" class="mt-0">The Open-Source SaaS Development Framework for Ruby on Rails.</h4>
 </div>
 
 <br />

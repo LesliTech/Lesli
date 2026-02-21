@@ -181,6 +181,7 @@ body.lesli.apps.show .engines a svg {
 }
 body.lesli.apps.show .engines a p {
   font-size: 14;
+  font-family: "OpenSans";
 }
 body.lesli.apps.show .engines a span {
   font-weight: 600;
