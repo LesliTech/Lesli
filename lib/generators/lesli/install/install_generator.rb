@@ -38,7 +38,7 @@ module Lesli
             desc "Adds Lesli route and initializer"
 
             def add_route_to_routes_file
-                route "Lesli::Routing.mount"
+                route "Lesli::Router.mount(self)"
             end
 
             def create_initializer_file
