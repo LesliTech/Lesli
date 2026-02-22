@@ -45,12 +45,14 @@ require "color_pound_spec_reporter"
 
 
 # Load dummy app for unit testing
-#unless ENV["LESLI_INTEGRATION_TEST"]
-    require_relative "../../test/dummy/config/environment"
+# This is necessary when testing individual engines
+# This should not be loaded when testing from the main rails app
+unless ENV["LESLI_INTEGRATION_TEST"]
+    require_relative "../../test/xyz/config/environment"
 
     # IMPORTANT: set migration paths BEFORE test_help / schema maintenance
     ActiveRecord::Migrator.migrations_paths = [
-        Lesli::Engine.root.join("test/dummy/db/migrate").to_s,
+        Lesli::Engine.root.join("test/xyz/db/migrate").to_s,
         Lesli::Engine.root.join("db/migrate").to_s
     ]
 
@@ -58,7 +60,7 @@ require "color_pound_spec_reporter"
 
     # Force Rails to re-check schema using your migration paths
     ActiveRecord::Migration.maintain_test_schema!
-#end
+end
 
 
 
