@@ -34,7 +34,7 @@
 
 ## Introduction
 
-Lesli is an open-source SaaS development framework built to create scalable, secure, and modular software products.
+Lesli is an open-source framework built to create scalable, secure, and modular software products.
 
 Built on top of **Ruby on Rails, PostgreSQL, Hotwire, and modern frontend tooling**, Lesli provides the infrastructure, architecture, and reusable components needed to build production-ready SaaS platforms faster.
 
