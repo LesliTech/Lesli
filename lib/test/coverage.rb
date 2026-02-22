@@ -56,9 +56,8 @@ if ENV["COVERAGE"]
 
         # remove to track files in these folders
         add_filter "/app/assets"
-        add_filter "/app/controllers"
-        add_filter "/app/helpers"
-        add_filter "/app/interfaces"
+        add_filter "/app/controllers/items"
+        add_filter "/app/controllers/shared"
         add_filter "/app/jobs"
         add_filter "/app/lib"
         add_filter "/app/mailers"
@@ -66,7 +65,10 @@ if ENV["COVERAGE"]
         add_filter "/app/views"
         add_filter "/config"
         add_filter "/db"
-        add_filter "/lib"
+        add_filter "/lib/generators"
+        add_filter "/lib/scss"
+        add_filter "/lib/task"
+        add_filter "/lib/test"
 
         add_filter "/docs"
         add_filter "/test"
