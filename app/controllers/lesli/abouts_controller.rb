@@ -50,7 +50,7 @@ module Lesli
             respond_to do |format|
                 format.html {}
                 format.json do
-                    lesli_engines = LesliSystem.engines.map do |engine, engine_info|
+                    lesli_engines = ::LesliSystem.engines.map do |engine, engine_info|
                         {
                             :name => engine_info[:name],
                             :code => engine_info[:code],

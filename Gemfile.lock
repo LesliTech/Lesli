@@ -374,6 +374,7 @@ DEPENDENCIES
   brakeman
   color_pound_spec_reporter
   lesli!
+  lesli_system
   letter_opener
   minitest (~> 5.0)
   minitest-reporters
