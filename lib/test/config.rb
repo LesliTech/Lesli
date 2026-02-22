@@ -43,62 +43,101 @@ MiniTest = Minitest unless defined?(MiniTest)
 require "minitest/reporters"
 require "color_pound_spec_reporter"
 
+if ENV["COVERAGE"]
+    # Load code coverage tools
+    require "simplecov"
+    require "simplecov-console"
+    require "simplecov-cobertura"
 
-# Load code coverage tools
-require "simplecov"
-require "simplecov-console"
-require "simplecov-cobertura"
-
-
-# Add console stats and html generator
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-    SimpleCov::Formatter::CoberturaFormatter,
-    SimpleCov::Formatter::Console
-])
-
-
-# limit the number of missing lines
-SimpleCov::Formatter::Console.missing_len = 10
+    # Add console stats and html generator
+    SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+        SimpleCov::Formatter::CoberturaFormatter,
+        SimpleCov::Formatter::Console
+    ])
 
 
-# configure the files to track and ignore
-SimpleCov.start do 
+    # limit the number of missing lines
+    SimpleCov::Formatter::Console.missing_len = 10
 
-    # remove to track files in these folders
-    add_filter "/test"
-    add_filter "/spec"
-    add_filter "/vendor"
 
-    add_group "Controllers", "app/controllers"
-    add_group "Helpers", "app/helpers"
-    add_group "Models", "app/models"
-    add_group "Jobs", "app/jobs"
-    add_group "Services", "app/services"
-    add_group "Operators", "app/operators"
-    add_group "Validators", "app/validators"
+    # configure the files to track and ignore
+    SimpleCov.start do 
+
+        # remove to track files in these folders
+        add_filter "/app/assets"
+        add_filter "/app/controllers"
+        add_filter "/app/helpers"
+        add_filter "/app/interfaces"
+        add_filter "/app/jobs"
+        add_filter "/app/lib"
+        add_filter "/app/mailers"
+        add_filter "/app/models/concerns"
+        add_filter "/app/services"
+        add_filter "/app/views"
+        add_filter "/config"
+        add_filter "/db"
+        add_filter "/lib"
+
+        add_filter "/docs"
+        add_filter "/test"
+        add_filter "/spec"
+        add_filter "/vendor"
+
+        add_group "Controllers", "app/controllers"
+        add_group "Helpers", "app/helpers"
+        add_group "Models", "app/models"
+        add_group "Jobs", "app/jobs"
+        add_group "Services", "app/services"
+        add_group "Operators", "app/operators"
+        add_group "Validators", "app/validators"
+    end
+
+
+    # Minimum expected coverage percentage
+    SimpleCov.minimum_coverage 40
 end
-
-
-# Minimum expected coverage percentage
-SimpleCov.minimum_coverage 40
-
 
 # Load dummy app for unit testing
 # Run tests across all the engines: LESLI_INTEGRATION_TEST=true rails test
 # Run tests for the current engine: rails test
-unless ENV["LESLI_INTEGRATION_TEST"]
+# unless ENV["LESLI_INTEGRATION_TEST"]
+#     require_relative "../../test/dummy/config/environment"
+#     ActiveRecord::Migrator.migrations_paths = [ File.expand_path("../test/dummy/db/migrate", __dir__) ]
+#     ActiveRecord::Migrator.migrations_paths << File.expand_path("../db/migrate", __dir__)
+#     require "rails/test_help"
+# end
+
+
+# Load dummy app for unit testing
+#unless ENV["LESLI_INTEGRATION_TEST"]
     require_relative "../../test/dummy/config/environment"
-    ActiveRecord::Migrator.migrations_paths = [ File.expand_path("../test/dummy/db/migrate", __dir__) ]
-    ActiveRecord::Migrator.migrations_paths << File.expand_path("../db/migrate", __dir__)
+
+    # IMPORTANT: set migration paths BEFORE test_help / schema maintenance
+    ActiveRecord::Migrator.migrations_paths = [
+        Lesli::Engine.root.join("test/dummy/db/migrate").to_s,
+        Lesli::Engine.root.join("db/migrate").to_s
+    ]
+
     require "rails/test_help"
-end
+
+    # Force Rails to re-check schema using your migration paths
+    ActiveRecord::Migration.maintain_test_schema!
+#end
+
 
 
 # Load fixtures from the engine
 if ActiveSupport::TestCase.respond_to?(:fixture_paths=)
-    ActiveSupport::TestCase.fixture_paths = [ File.expand_path("fixtures", __dir__) ]
+    ActiveSupport::TestCase.fixture_paths = [ Lesli::Engine.root.join("test", "fixtures").to_s ]
     ActionDispatch::IntegrationTest.fixture_paths = ActiveSupport::TestCase.fixture_paths
-    ActiveSupport::TestCase.file_fixture_path = File.expand_path("fixtures", __dir__) + "/files"
+    ActiveSupport::TestCase.file_fixture_path = Lesli::Engine.root.join("test", "fixtures", "files").to_s
+
+    # IMPORTANT: attach fixture sets to namespaced models BEFORE loading fixtures
+    ActiveSupport::TestCase.set_fixture_class(
+        lesli_users:    "Lesli::User",
+        lesli_accounts: "Lesli::Account"
+    )
+
     ActiveSupport::TestCase.fixtures :all
 end
 

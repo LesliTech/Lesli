@@ -40,3 +40,4 @@ lesli*.gem
 /test/dummy/tmp/
 /coverage/
 /brakeman/
+/testold/

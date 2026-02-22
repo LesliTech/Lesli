@@ -1,0 +1,18 @@
+
+# test/fixtures/lesli_accounts.yml
+
+one:
+  status: "active"
+  name: "Lesli Demo Account"
+  email: "account-one@example.com"
+  region: "america"
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>
+
+two:
+  status: "active"
+  name: "Second Account"
+  email: "account-two@example.com"
+  region: "america"
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>

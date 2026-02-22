@@ -1,0 +1,23 @@
+# test/fixtures/lesli_users.yml
+
+one:
+  uid: "USR-0001"
+  active: true
+  email: "one@example.com"
+  encrypted_password: "<%= Devise::Encryptor.digest(Lesli::User, 'password123') %>"
+  first_name: "Luis"
+  last_name: "Donis"
+  sign_in_count: 0
+  account: one
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>
+
+two:
+  uid: "USR-0002"
+  active: true
+  email: "two@example.com"
+  encrypted_password: "<%= Devise::Encryptor.digest(Lesli::User, 'password123') %>"
+  sign_in_count: 0
+  account: two
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>

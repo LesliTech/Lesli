@@ -95,13 +95,13 @@ Gem::Specification.new do |spec|
     # · Tools used to build the Lesli Framework
 
     # Datetime formatter and SQL-safe utilities for Rails, part of the LesliSystem
-    spec.add_dependency("lesli_date", "~> 0.1")
+    spec.add_dependency("lesli_date", "~> 1.0.0")
 
     # Reusable View Components for The Lesli Framework 
     spec.add_dependency("lesli_view", "~> 1.0.0")
 
     # Reusable View Components for The Lesli Framework 
-    spec.add_dependency("lesli_assets", "~> 1.0")
+    spec.add_dependency("lesli_assets", "~> 1.0.0")
 
     # Core System Utilities for The Lesli Framework.
     spec.add_dependency("lesli_system", "~> 1.0.0")

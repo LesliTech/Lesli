@@ -49,6 +49,10 @@ class LesliViewTester < ActionView::TestCase
 end
 
 
+class LesliModelTester < ActiveSupport::TestCase
+end
+
+
 L2.br(2)
 
 # Notify to user...

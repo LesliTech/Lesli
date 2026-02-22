@@ -64,6 +64,7 @@ module Lesli
         has_one :dashboard, class_name: "LesliDashboard::Account"
         
 
+        validates :status, presence: true
 
         # account statuses
         enum :status, {

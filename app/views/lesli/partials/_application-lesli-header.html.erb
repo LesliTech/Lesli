@@ -56,6 +56,18 @@ Building a better future, one line of code at a time.
                 </button>
             </div>
             <div class="navbar-menu" :class="{ 'is-active': navActive }">
+                <div class="navbar-start is-flex is-flex-grow-1 is-justify-content-center">
+                    <%# ["favorite","sentiment_excited","person_pin_circle","manage_accounts"].each do |icon| %>
+                    <% [].each do |icon| %>
+                        <div class="navbar-item">
+                            <a data-turbo-frame="_top" href="/babel/labels" class="icon py-4 px-5">
+                                <span class="material-symbols-outlined">
+                                    <%= icon %>
+                                </span>
+                            </a>
+                        </div>
+                    <% end %>
+                </div>
                 <div class="navbar-end is-flex is-justify-content-center">
 
                     <!-- notifications -->
