@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2025, Lesli Technologies, S. A.
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,70 +42,6 @@ MiniTest = Minitest unless defined?(MiniTest)
 # Load test frameworks
 require "minitest/reporters"
 require "color_pound_spec_reporter"
-
-if ENV["COVERAGE"]
-    # Load code coverage tools
-    require "simplecov"
-    require "simplecov-console"
-    require "simplecov-cobertura"
-
-    # Add console stats and html generator
-    SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-        SimpleCov::Formatter::CoberturaFormatter,
-        SimpleCov::Formatter::Console
-    ])
-
-
-    # limit the number of missing lines
-    SimpleCov::Formatter::Console.missing_len = 10
-
-
-    # configure the files to track and ignore
-    SimpleCov.start do 
-
-        # remove to track files in these folders
-        add_filter "/app/assets"
-        add_filter "/app/controllers"
-        add_filter "/app/helpers"
-        add_filter "/app/interfaces"
-        add_filter "/app/jobs"
-        add_filter "/app/lib"
-        add_filter "/app/mailers"
-        add_filter "/app/models/concerns"
-        add_filter "/app/services"
-        add_filter "/app/views"
-        add_filter "/config"
-        add_filter "/db"
-        add_filter "/lib"
-
-        add_filter "/docs"
-        add_filter "/test"
-        add_filter "/spec"
-        add_filter "/vendor"
-
-        add_group "Controllers", "app/controllers"
-        add_group "Helpers", "app/helpers"
-        add_group "Models", "app/models"
-        add_group "Jobs", "app/jobs"
-        add_group "Services", "app/services"
-        add_group "Operators", "app/operators"
-        add_group "Validators", "app/validators"
-    end
-
-
-    # Minimum expected coverage percentage
-    SimpleCov.minimum_coverage 40
-end
-
-# Load dummy app for unit testing
-# Run tests across all the engines: LESLI_INTEGRATION_TEST=true rails test
-# Run tests for the current engine: rails test
-# unless ENV["LESLI_INTEGRATION_TEST"]
-#     require_relative "../../test/dummy/config/environment"
-#     ActiveRecord::Migrator.migrations_paths = [ File.expand_path("../test/dummy/db/migrate", __dir__) ]
-#     ActiveRecord::Migrator.migrations_paths << File.expand_path("../db/migrate", __dir__)
-#     require "rails/test_help"
-# end
 
 
 # Load dummy app for unit testing

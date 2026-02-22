@@ -91,10 +91,6 @@ class LesliUserTest < LesliModelTester
         user.save
 
         #assert_nil user.uid
-        pp "-------"
-        pp user.save
-        pp user.errors
-        pp "-------"
         #assert user.save, "Expected user to save"
         #assert user.uid.present?, "Expected uid to be generated"
         #assert_match(/\ALID/, user.uid) # loose check; tighten if you know full format

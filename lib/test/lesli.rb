@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2025, Lesli Technologies, S. A.
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ Building a better future, one line of code at a time.
 
 # Load test configuration and test helper modules
 require Lesli::Engine.root.join("lib/test/config")
+require Lesli::Engine.root.join("lib/test/coverage")
 require Lesli::Engine.root.join("lib/test/helpers/response_integration_helper")
 
 
@@ -49,7 +50,9 @@ class LesliViewTester < ActionView::TestCase
 end
 
 
+# Model tester
 class LesliModelTester < ActiveSupport::TestCase
+    include ActiveSupport::Testing::TimeHelpers
 end
 
 
