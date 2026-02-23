@@ -1,7 +1,8 @@
-require Lesli::Engine.root.join("lib/test/lesli")
+
+require "test_helper"
 
 module Lesli
-    class NavigationHelperTest < LesliViewTester
+    class NavigationHelperTest < LesliTesting::ViewTester
 
         attr_accessor :controller_path, :action_name, :lookup_context
 

@@ -31,10 +31,10 @@ Building a better future, one line of code at a time.
 =end
 
 #
-require Lesli::Engine.root.join("lib/test/lesli")
+require "test_helper"
 
 #
-class AccountLogsTest < LesliModelTester
+class AccountLogsTest < LesliTesting::ModelTester
     # A tiny class that includes the concern.
     class FakeAccount
         include Lesli::AccountLogs

@@ -1,6 +1,6 @@
-require Lesli::Engine.root.join("lib/test/lesli")
+require "test_helper"
 
-class AccountInitializerTest < LesliModelTester
+class AccountInitializerTest < LesliTesting::ModelTester
     # --- Test doubles ---
 
     class CapturingRoles

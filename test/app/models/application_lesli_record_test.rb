@@ -1,6 +1,6 @@
-require Lesli::Engine.root.join("lib/test/lesli")
+require "test_helper"
 
-class ApplicationLesliRecordTest < LesliModelTester
+class ApplicationLesliRecordTest < LesliTesting::ModelTester
 
     TestRecord = Class.new(Lesli::ApplicationLesliRecord) do
         self.table_name = "lesli_users" # any existing table; we won't persist

@@ -66,7 +66,7 @@ module Lesli
 
             
             # register assets manifest
-            config.assets.precompile += %w[lesli_manifest.js]
+            #config.assets.precompile += %w[lesli_manifest.js]
 
             # register engine migrations path
             unless app.root.to_s.match root.to_s

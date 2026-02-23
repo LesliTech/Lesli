@@ -1,6 +1,7 @@
-require Lesli::Engine.root.join("lib/test/lesli")
 
-class UserExtensionsTest < LesliModelTester
+require "test_helper"
+
+class UserExtensionsTest < LesliTesting::ModelTester
     # --- Test doubles ---------------------------------------------------------
 
     Setting = Struct.new(:name, :value)

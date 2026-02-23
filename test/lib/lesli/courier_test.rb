@@ -1,5 +1,5 @@
 
-require Lesli::Engine.root.join("lib/test/lesli") 
+require "test_helper"
 
 module LesliCourierTestModule
     class CourierTestService

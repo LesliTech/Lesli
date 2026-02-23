@@ -1,4 +1,18 @@
 PATH
+  remote: ../../gems/LesliTesting
+  specs:
+    lesli_testing (0.1.0)
+      brakeman
+      color_pound_spec_reporter
+      letter_opener
+      minitest (~> 5.0)
+      minitest-reporters
+      propshaft
+      simplecov (= 0.22.0)
+      simplecov-cobertura
+      simplecov-console (= 0.9.4)
+
+PATH
   remote: .
   specs:
     lesli (5.0.23)
@@ -98,7 +112,6 @@ GEM
     addressable (2.8.8)
       public_suffix (>= 2.0.2, < 8.0)
     ansi (1.5.0)
-    ast (2.4.3)
     base64 (0.3.0)
     bcrypt (3.1.21)
     bigdecimal (4.0.1)
@@ -153,7 +166,6 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
-    language_server-protocol (3.17.0.5)
     launchy (3.1.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
@@ -165,7 +177,6 @@ GEM
       view_component (~> 4.1)
     letter_opener (1.10.0)
       launchy (>= 2.2, < 4)
-    lint_roller (1.1.0)
     logger (1.7.0)
     loofah (2.25.0)
       crass (~> 1.0.2)
@@ -194,27 +205,9 @@ GEM
     net-smtp (0.5.1)
       net-protocol
     nio4r (2.7.5)
-    nokogiri (1.19.1-aarch64-linux-gnu)
-      racc (~> 1.4)
-    nokogiri (1.19.1-aarch64-linux-musl)
-      racc (~> 1.4)
-    nokogiri (1.19.1-arm-linux-gnu)
-      racc (~> 1.4)
-    nokogiri (1.19.1-arm-linux-musl)
-      racc (~> 1.4)
-    nokogiri (1.19.1-arm64-darwin)
-      racc (~> 1.4)
     nokogiri (1.19.1-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.19.1-x86_64-linux-gnu)
-      racc (~> 1.4)
-    nokogiri (1.19.1-x86_64-linux-musl)
-      racc (~> 1.4)
     orm_adapter (0.5.0)
-    parallel (1.27.0)
-    parser (3.3.10.2)
-      ast (~> 2.4.1)
-      racc
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
@@ -268,47 +261,17 @@ GEM
       thor (~> 1.0, >= 1.2.2)
       tsort (>= 0.2)
       zeitwerk (~> 2.6)
-    rainbow (3.1.1)
     rake (13.3.1)
     rdoc (7.2.0)
       erb
       psych (>= 4.0.0)
       tsort
-    regexp_parser (2.11.3)
     reline (0.6.3)
       io-console (~> 0.5)
     responders (3.2.0)
       actionpack (>= 7.0)
       railties (>= 7.0)
     rexml (3.4.4)
-    rubocop (1.84.2)
-      json (~> 2.3)
-      language_server-protocol (~> 3.17.0.2)
-      lint_roller (~> 1.1.0)
-      parallel (~> 1.10)
-      parser (>= 3.3.0.2)
-      rainbow (>= 2.2.2, < 4.0)
-      regexp_parser (>= 2.9.3, < 3.0)
-      rubocop-ast (>= 1.49.0, < 2.0)
-      ruby-progressbar (~> 1.7)
-      unicode-display_width (>= 2.4.0, < 4.0)
-    rubocop-ast (1.49.0)
-      parser (>= 3.3.7.2)
-      prism (~> 1.7)
-    rubocop-performance (1.26.1)
-      lint_roller (~> 1.1)
-      rubocop (>= 1.75.0, < 2.0)
-      rubocop-ast (>= 1.47.1, < 2.0)
-    rubocop-rails (2.34.3)
-      activesupport (>= 4.2.0)
-      lint_roller (~> 1.1)
-      rack (>= 1.1)
-      rubocop (>= 1.75.0, < 2.0)
-      rubocop-ast (>= 1.44.0, < 2.0)
-    rubocop-rails-omakase (1.1.0)
-      rubocop (>= 1.72)
-      rubocop-performance (>= 1.24)
-      rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
     securerandom (0.4.1)
     simplecov (0.22.0)
@@ -324,14 +287,7 @@ GEM
       terminal-table
     simplecov-html (0.13.2)
     simplecov_json_formatter (0.1.4)
-    sqlite3 (2.9.0-aarch64-linux-gnu)
-    sqlite3 (2.9.0-aarch64-linux-musl)
-    sqlite3 (2.9.0-arm-linux-gnu)
-    sqlite3 (2.9.0-arm-linux-musl)
-    sqlite3 (2.9.0-arm64-darwin)
     sqlite3 (2.9.0-x86_64-darwin)
-    sqlite3 (2.9.0-x86_64-linux-gnu)
-    sqlite3 (2.9.0-x86_64-linux-musl)
     stringio (3.2.0)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
@@ -361,29 +317,12 @@ GEM
     zeitwerk (2.7.5)
 
 PLATFORMS
-  aarch64-linux-gnu
-  aarch64-linux-musl
-  arm-linux-gnu
-  arm-linux-musl
-  arm64-darwin
   x86_64-darwin
-  x86_64-linux-gnu
-  x86_64-linux-musl
 
 DEPENDENCIES
-  brakeman
-  color_pound_spec_reporter
   lesli!
-  lesli_system
-  letter_opener
-  minitest (~> 5.0)
-  minitest-reporters
-  propshaft
+  lesli_testing!
   puma
-  rubocop-rails-omakase
-  simplecov (= 0.22.0)
-  simplecov-cobertura
-  simplecov-console (= 0.9.4)
   sqlite3
 
 BUNDLED WITH

@@ -1,7 +1,7 @@
 # test/models/lesli_account_test.rb
-require Lesli::Engine.root.join("lib/test/lesli")
+require "test_helper"
 
-class LesliAccountTest < LesliModelTester
+class LesliAccountTest < LesliTesting::ModelTester
   fixtures :lesli_accounts
   set_fixture_class lesli_accounts: "Lesli::Account" # adjust if different
 

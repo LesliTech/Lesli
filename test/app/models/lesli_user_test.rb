@@ -1,7 +1,7 @@
 # test/models/lesli_user_test.rb
-require Lesli::Engine.root.join("lib/test/lesli")
+require "test_helper"
 
-class LesliUserTest < LesliModelTester
+class LesliUserTest < LesliTesting::ModelTester
     fixtures :lesli_users, :lesli_accounts
 
     set_fixture_class lesli_users: "Lesli::User",

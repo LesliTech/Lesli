@@ -1,4 +1,4 @@
-require Lesli::Engine.root.join("lib/test/lesli")
+require "test_helper"
 
 module Lesli
     class ResponderInterfaceTest < ActiveSupport::TestCase

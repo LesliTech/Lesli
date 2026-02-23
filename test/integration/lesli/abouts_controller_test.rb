@@ -1,8 +1,8 @@
 
-require Lesli::Engine.root.join("lib/test/lesli")
+require "test_helper"
 
 module Lesli
-    class AboutsControllerTest < LesliIntegrationTester
+    class AboutsControllerTest < LesliTesting::IntegrationTester
         
         test "should return the list of lesli engines as json" do
 

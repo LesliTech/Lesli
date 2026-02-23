@@ -39,46 +39,6 @@ gem "puma"
 
 gem "sqlite3"
 
-gem "propshaft"
+#gem "propshaft"
 
-
-# Gems to work with Lesli in development mode
-
-
-# Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
-gem "rubocop-rails-omakase", require: false
-
-# Create customizable MiniTest output formats. 
-# https://github.com/minitest-reporters/minitest-reporters
-gem "minitest-reporters"
-
-# Beautiful Minitest Color Reporter 
-# https://github.com/danielpclark/color_pound_spec_reporter
-gem "color_pound_spec_reporter"
-
-# Code coverage
-# https://github.com/simplecov-ruby/simplecov
-gem "simplecov", "0.22.0", require: false
-
-# Code coverage stats in the console
-# https://github.com/chetan/simplecov-console
-gem "simplecov-console", "0.9.4", require: false
-
-# Produces Cobertura XML formatted output from SimpleCov
-# https://github.com/jessebs/simplecov-cobertura
-gem "simplecov-cobertura", require: false
-
-# Brakeman detects security vulnerabilities in Ruby on Rails applications via static analysis.
-# https://github.com/presidentbeef/brakeman
-gem "brakeman"
-
-# Until a patch for Rails 8.1.2 (or higher) is released specifically addressing the Minitest 6 boot sequence, the most stable way to run your tests is:
-#     Keep Minitest at ~> 5.0 in your Gemfile.
-#     Use the standard command: bin/rails test.
-gem "minitest", "~> 5.0"
-
-gem "letter_opener"
-# Start debugger with binding.b [https://github.com/ruby/debug]
-# gem "debug", ">= 1.0.0"
-
-gem "lesli_system"
+gem "lesli_testing", path: "../../gems/LesliTesting"
