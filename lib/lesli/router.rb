@@ -67,7 +67,15 @@ module Lesli
         def self.mount_lesli_engine_routes(router)
             router.root to: "dashboards#show"
 
+            # Load dashboard resources
             router.resource :dashboard, only: %i[show edit]
+
+            # Load Lesli items
+            router.namespace :items do
+
+                # Load item tasks
+                router.resources :tasks, only: %i[index update create]
+            end
 
             # Optional: health check inside engine scope (pick a consistent path)
             router.get "up", to: "/rails/health#show"

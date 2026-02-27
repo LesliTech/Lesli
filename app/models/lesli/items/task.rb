@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2025, Lesli Technologies, S. A.
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,23 +30,13 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-module MigrationHelpers
+module Lesli
     module Items
-        module ActionStructure
-            def create_table_lesli_item_actions_10(resources)
-
-                table_name, foreign_key = table_name_for_item(resources, :actions)
-
-                create_table table_name do |t|
-                    t.string  :title, null: false
-                    t.boolean :done, default: false, null: false
-                    t.datetime :deleted_at, index: true
-                    t.timestamps
-                end
-
-                add_reference(table_name, :user, foreign_key: { to_table: :lesli_users })
-                add_reference(table_name, foreign_key, foreign_key: { to_table: resources })
-            end
+        class Task < ApplicationRecord
+            self.abstract_class = true
+            belongs_to :user, class_name: "Lesli::User"
+            belongs_to :account, class_name: "Lesli::Account"
+            belongs_to :taskable, polymorphic: true
         end
     end
 end

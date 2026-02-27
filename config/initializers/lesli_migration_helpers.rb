@@ -32,7 +32,7 @@ Building a better future, one line of code at a time.
 
 require(Lesli::Engine.root.join("lib/migrate/common"))
 
-require(Lesli::Engine.root.join("lib/migrate/items/action_structure"))
+require(Lesli::Engine.root.join("lib/migrate/items/task_structure"))
 require(Lesli::Engine.root.join("lib/migrate/items/activity_structure"))
 require(Lesli::Engine.root.join("lib/migrate/items/attachment_structure"))
 require(Lesli::Engine.root.join("lib/migrate/items/discussion_structure"))
@@ -45,7 +45,7 @@ require(Lesli::Engine.root.join("lib/migrate/shared/catalog_structure"))
 
 ActiveRecord::Migration.include(MigrationHelpers::Common)
 
-ActiveRecord::Migration.include(MigrationHelpers::Items::ActionStructure)
+ActiveRecord::Migration.include(MigrationHelpers::Items::TaskStructure)
 ActiveRecord::Migration.include(MigrationHelpers::Items::ActivityStructure)
 ActiveRecord::Migration.include(MigrationHelpers::Items::AttachmentStructure)
 ActiveRecord::Migration.include(MigrationHelpers::Items::DiscussionStructure)

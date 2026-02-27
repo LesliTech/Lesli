@@ -1,8 +1,0 @@
-[{
-    "name": "custom_field_value",
-    "type": "text"
-},{
-    "name": "deleted_at",
-    "type": "datetime",
-    "index": true
-}]
