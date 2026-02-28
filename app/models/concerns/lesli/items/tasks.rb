@@ -42,6 +42,11 @@ module Lesli
 
             class_methods do
 
+                # This acts as our allowlist flag
+                def is_lesli_taskable?
+                    true
+                end
+
                 # Automatically sets the associations to the
                 # engine model that is implementing the task items
                 def lesli_tasks_setup(use: nil, as: :taskable, association_name: :tasks)

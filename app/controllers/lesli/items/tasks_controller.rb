@@ -86,14 +86,22 @@ module Lesli
             # return the task class including the engine where the tasks are running
             def task_class = self.class.module_parent.const_get("Task")
 
+            # validate we invoke only models that implements Lesli::Item::Tasks concern
+            def validate_taskable taskable
+
+                # 1. Attempt to resolve the class safely
+                klass = type.safe_constantize
+
+                # 2. VALIDATION: Check if the class is allowed to be taskable
+                # We check if the class exists AND if it includes your specific taskable trait
+                unless klass && klass.respond_to?(:is_lesli_taskable?) && klass.is_lesli_taskable?
+                    render json: { error: "Unauthorized taskable type" }, status: :forbidden and return
+                end
+
+                klass
+            end
+
             def set_task
-                pp "-------"
-                pp "-------"
-                pp "-------"
-                pp task_class
-                pp "-------"
-                pp "-------"
-                pp "-------"
                 @task = task_class.where(account: current_user.account).find(params[:id])
             end
 
@@ -104,7 +112,10 @@ module Lesli
                 id   = params[:taskable_id].presence
                 return if type.blank? || id.blank?
 
-                @taskable = type.constantize.where(account: current_user.account).find(id)
+                taskable = validate_taskable(type)
+
+                # 3. Execution: Now it is safe to query
+                @taskable = klass.where(account: current_user.account).find_by(id: id)
             end
 
             def task_params
