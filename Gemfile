@@ -39,6 +39,4 @@ gem "puma"
 
 gem "sqlite3"
 
-#gem "propshaft"
-
 gem "lesli_testing"
