@@ -41,4 +41,4 @@ gem "sqlite3"
 
 #gem "propshaft"
 
-gem "lesli_testing", path: "../../gems/LesliTesting"
+gem "lesli_testing"

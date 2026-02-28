@@ -33,10 +33,10 @@
 .DS_Store
 lesli*.gem
 
-/test/xyz/db/*.sqlite3
-/test/xyz/db/*.sqlite3-*
-/test/xyz/log/*.log
-/test/xyz/storage/
-/test/xyz/tmp/
+/test/dummy/db/*.sqlite3
+/test/dummy/db/*.sqlite3-*
+/test/dummy/log/*.log
+/test/dummy/storage/
+/test/dummy/tmp/
 /coverage/
 /brakeman/

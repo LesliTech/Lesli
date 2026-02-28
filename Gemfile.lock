@@ -1,18 +1,4 @@
 PATH
-  remote: ../../gems/LesliTesting
-  specs:
-    lesli_testing (0.1.0)
-      brakeman
-      color_pound_spec_reporter
-      letter_opener
-      minitest (~> 5.0)
-      minitest-reporters
-      propshaft
-      simplecov (= 0.22.0)
-      simplecov-cobertura
-      simplecov-console (= 0.9.4)
-
-PATH
   remote: .
   specs:
     lesli (5.0.23)
@@ -173,6 +159,16 @@ GEM
     lesli_assets (1.0.7)
     lesli_date (1.0.0)
     lesli_system (1.0.6)
+    lesli_testing (0.1.0)
+      brakeman
+      color_pound_spec_reporter
+      letter_opener
+      minitest (~> 5.0)
+      minitest-reporters
+      propshaft
+      simplecov (= 0.22.0)
+      simplecov-cobertura
+      simplecov-console (= 0.9.4)
     lesli_view (1.0.7)
       view_component (~> 4.1)
     letter_opener (1.10.0)
@@ -321,7 +317,7 @@ PLATFORMS
 
 DEPENDENCIES
   lesli!
-  lesli_testing!
+  lesli_testing
   puma
   sqlite3
 
