@@ -90,7 +90,7 @@ module Lesli
             def validate_taskable taskable
 
                 # 1. Attempt to resolve the class safely
-                klass = type.safe_constantize
+                klass = taskable.safe_constantize
 
                 # 2. VALIDATION: Check if the class is allowed to be taskable
                 # We check if the class exists AND if it includes your specific taskable trait
@@ -115,7 +115,7 @@ module Lesli
                 taskable = validate_taskable(type)
 
                 # 3. Execution: Now it is safe to query
-                @taskable = klass.where(account: current_user.account).find_by(id: id)
+                @taskable = taskable.where(account: current_user.account).find_by(id: id)
             end
 
             def task_params
