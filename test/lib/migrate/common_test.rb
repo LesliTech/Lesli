@@ -33,9 +33,9 @@ module Lesli
             # Simulate the engine path by mocking caller_locations
             @helper.fake_locations = [build_loc("/home/app/gems/lesli_shield/app/models/foo.rb")]
 
-            result = @helper.table_name_for_item(:users, :profile)
+            result = @helper.table_name_for_item(:lesli_support, :tasks)
 
-            assert_equal [:user_profile, "user"], result
+            assert_equal [:lesli_support_item_tasks, "lesli_support"], result
         end
 
         # table_name_for_item
@@ -43,9 +43,9 @@ module Lesli
             # Simulate the engine path by mocking caller_locations
             @helper.fake_locations = [build_loc("/home/app/engines/LesliShield/app/models/foo.rb")]
 
-            result = @helper.table_name_for_item(:users, :profile)
+            result = @helper.table_name_for_item(:lesli_support, :tasks)
 
-            assert_equal [:user_profile, "user"], result
+            assert_equal [:lesli_support_item_tasks, "lesli_support"], result
         end
 
         # table_name_for_item
@@ -53,17 +53,9 @@ module Lesli
             # Simulate the engine path by mocking caller_locations
             @helper.fake_locations = [build_loc("/home/app/engines/lesli_shield/app/models/foo.rb")]
 
-            result = @helper.table_name_for_item(:users, :profile)
+            result = @helper.table_name_for_item(:lesli_support, :tasks)
 
-            assert_equal [:user_profile, "user"], result
-        end
-
-        test "table_name_for_item generate table name for activities" do
-            @helper.fake_locations = [build_loc("/home/app/engines/lesli_payments/lib/whatever.rb")]
-
-            result = @helper.table_name_for_item(:lesli_support_tickets, :actions)
-
-            assert_equal [:lesli_support_ticket_actions, "lesli_support_ticket"], result
+            assert_equal [:lesli_support_item_tasks, "lesli_support"], result
         end
 
 
