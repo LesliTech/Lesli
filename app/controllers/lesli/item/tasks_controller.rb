@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    module Items
+    module Item
         class TasksController < ApplicationLesliController
             before_action :set_task, only: %i[show update]
             before_action :set_taskable, only: %i[index create]
@@ -57,7 +57,7 @@ module Lesli
                     respond_with_lesli(:turbo => [
                         stream_notification_success("Task created"),
                         turbo_stream.prepend("#{scope_key}-lesli-items-tasks-list") do
-                            LesliView::Items::Task.new(task, scope_key).render_in(view_context)
+                            LesliView::Item::Task.new(task, scope_key).render_in(view_context)
                         end
                     ])
                 else
@@ -73,7 +73,7 @@ module Lesli
                 respond_with_lesli(:turbo => [
                     stream_notification_success("Task updated #{@taskable}"),
                     turbo_stream.replace(helpers.dom_id(@task, scope_key)) do 
-                        LesliView::Items::Task.new(@task, scope_key).render_in(view_context)
+                        LesliView::Item::Task.new(@task, scope_key).render_in(view_context)
                     end
                 ])
             end

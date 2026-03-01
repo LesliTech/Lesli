@@ -33,10 +33,10 @@ Building a better future, one line of code at a time.
 module MigrationHelpers
     module Items
         module ActivityStructure
-            def create_table_lesli_item_activities_10(resources)
+            def create_table_lesli_item_activities_10(engine)
 
-                table_name, foreign_key = table_name_for_item(resources, :activities)
-    
+                table_name, foreign_key = table_name_for_item(engine, :activities)
+
                 create_table table_name do |t|
 
                     # Contenido
@@ -51,11 +51,17 @@ module MigrationHelpers
                     # Metadatos opcionales (JSON)
                     t.json :metadata, default: {}
 
+                    # Polymorphic target
+                    t.string  :subject_type, null: false
+                    t.bigint  :subject_id,   null: false
+
                     t.timestamps
+                    t.datetime :deleted_at, index: true
                 end
 
-                add_reference(table_name, :user, foreign_key: { to_table: :lesli_users }) unless resources == :lesli_users
-                add_reference(table_name, foreign_key, foreign_key: { to_table: resources })
+                add_reference(table_name, :user, foreign_key: { to_table: :lesli_users }) 
+                add_reference(table_name, :account, foreign_key: { to_table: "#{engine}_accounts".to_sym })
+                add_index(table_name, [:account_id, :subject_type, :subject_id], name: "#{table_name}_activities_type_id")
             end
         end
     end

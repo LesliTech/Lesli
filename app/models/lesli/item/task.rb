@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    module Items
+    module Item
         class Task < ApplicationRecord
             self.abstract_class = true
             belongs_to :user, class_name: "Lesli::User"

@@ -33,9 +33,9 @@ Building a better future, one line of code at a time.
 module MigrationHelpers
     module Items
         module TaskStructure
-            def create_table_lesli_item_tasks_10(resources)
+            def create_table_lesli_item_tasks_10(engine)
 
-                table_name, foreign_key = table_name_for_item(resources, :tasks)
+                table_name, foreign_key = table_name_for_item(engine, :tasks)
 
                 create_table table_name do |t|
                     t.string  :title, null: false
@@ -50,8 +50,8 @@ module MigrationHelpers
                 end
 
                 add_reference(table_name, :user, foreign_key: { to_table: :lesli_users })
-                add_reference(table_name, :account, foreign_key: { to_table: :lesli_support_accounts })
-                add_index(table_name, [:account_id, :taskable_type, :taskable_id], name: "#{table_name}_taskable_type_id")
+                add_reference(table_name, :account, foreign_key: { to_table: "#{engine}_accounts".to_sym })
+                add_index(table_name, [:account_id, :taskable_type, :taskable_id], name: "#{table_name}_taskable_type_id".to_sym)
             end
         end
     end

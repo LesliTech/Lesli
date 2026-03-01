@@ -71,7 +71,7 @@ module Lesli
             router.resource :dashboard, only: %i[show edit]
 
             # Load Lesli items
-            router.namespace :items do
+            router.namespace :item do
 
                 # Load item tasks
                 router.resources :tasks, only: %i[index update create]
