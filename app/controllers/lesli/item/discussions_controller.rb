@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2025, Lesli Technologies, S. A.
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -31,21 +31,33 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    module Items
+    module Item
         class DiscussionsController < ApplicationLesliController
-            before_action :set_discussion, only: [:create]
+            before_action :set_discussion, only: %i[show update]
+            before_action :set_discussable, only: %i[index create]
 
-            def create 
-                discussion = @parent_resource.discussions.new({
-                    message: discussion_params[:message],
-                    user_id: current_user.id
-                })
+            def index
+                @discussions = discussion_class
+                    .where(account: current_user.account)
+                    .order(created_at: :desc)
+                respond_with_lesli(json: @discussions)
+            end
+
+            def show
+            end
+
+            def create
+                discussion = discussion_class.new(discussion_params)
+
+                discussion.user = current_user
+                discussion.account = current_user.account
+                discussion.discussable = @discussable if @discussable
 
                 if discussion.save
                     respond_with_lesli(:turbo => [
-                        stream_notification_success("Comment created"),
-                        turbo_stream.update("#{@discussion_parent_object}-discussions") do 
-                            LesliView::Items::Discussions.new(@parent_resource, public_send(@discussion_path_string, @parent_resource)).render_in(view_context)
+                        stream_notification_success("Discussion created"),
+                        turbo_stream.prepend("#{scope_key}-lesli-items-discussions-list") do
+                            LesliView::Item::Discussion.new(discussion).render_in(view_context)
                         end
                     ])
                 else
@@ -55,38 +67,59 @@ module Lesli
                 end
             end
 
-            private 
+            def update
+                @discussion.done = true
+                @discussion.save
+                respond_with_lesli(:turbo => [
+                    stream_notification_success("Discussion updated #{@discussable}"),
+                    turbo_stream.replace(helpers.dom_id(@discussion, scope_key)) do 
+                        LesliView::Item::Discussion.new(@discussion, scope_key).render_in(view_context)
+                    end
+                ])
+            end
+
+            private
+
+            # return a key to identify the engine where the tasks are running
+            def scope_key = ActiveSupport::Inflector.underscore(discussion_class.name).tr("/", "_")
+
+            # return the discussion class including the engine where the tasks are running
+            def discussion_class = self.class.module_parent.const_get("Discussion")
+
+            # validate we invoke only models that implements Lesli::Item::Discussions concern
+            def validate_discussable discussable
+
+                # 1. Attempt to resolve the class safely
+                klass = discussable.safe_constantize
+
+                # 2. VALIDATION: Check if the class is allowed to be discussable
+                # We check if the class exists AND if it includes your specific discussable trait
+                unless klass && klass.respond_to?(:is_lesli_taskable?) && klass.is_lesli_commentable?
+                    render json: { error: "Unauthorized discussable type" }, status: :forbidden and return
+                end
+
+                klass
+            end
 
             def set_discussion
+                @discussion = discussion_class.where(account: current_user.account).find(params[:id])
+            end
 
-                # Get the item model class, example: LesliSupport::Ticket::Discussion
-                @discussion_model = self.class.name.gsub("Controller","").singularize.constantize
+            # Permite filtrar/crear para un actionable específico:
+            # params: actionable_type=LesliSupport::Ticket&actionable_id=123
+            def set_discussable
+                type = params[:discussable_type].presence
+                id   = params[:discussable_id].presence
+                return if type.blank? || id.blank?
 
-                # Get the parent model class, example: LesliSupport::Ticket
-                @discussion_model_parent = @discussion_model.reflect_on_association(:item).klass
+                discussable = validate_discussable(type)
 
-                # Get the row owner name, example: from LesliSupport::Ticket gets ticket
-                @discussion_parent_object = "#{@discussion_model_parent.name.demodulize.underscore}"
-
-                # Get the parent associations id, example: ticket_id
-                @discussion_model_parent_id = "#{@discussion_parent_object}_id"
-
-                # Get the local path method, example: ticket_discussions_path
-                @discussion_path_string = "#{@discussion_parent_object}_discussions_path"
-
-                # Get the parent resource
-                @parent_resource = @discussion_model_parent.find_by_id(
-                    params[@discussion_model_parent_id.to_sym]
-                )
+                # 3. Execution: Now it is safe to query
+                @discussable = discussable.where(account: current_user.account).find_by(id: id)
             end
 
             def discussion_params
-                # Get the params key, example: ticket_discussion
-                discussion_model_param_key = @discussion_model.model_name.param_key
-                params.require(discussion_model_param_key.to_sym).permit(
-                    :message,
-                    @discussion_model_parent_id
-                )
+                params.require(scope_key.to_sym).permit(:message)
             end
         end
     end

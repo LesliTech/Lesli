@@ -1,15 +1,10 @@
 module Lesli
-    module Items
+    module Item
         class Discussion < ApplicationRecord
             self.abstract_class = true
-            default_scope { 
-                select(
-                    :id, 
-                    :message, 
-                    :created_at,
-                    LesliDate::Formatter.new.date_time.db_column('created_at')
-                ).order(created_at: :desc)
-            }
+            belongs_to :user, class_name: "Lesli::User"
+            belongs_to :account, class_name: "Lesli::Account"
+            belongs_to :discussable, polymorphic: true
         end
     end
 end

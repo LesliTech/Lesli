@@ -75,6 +75,9 @@ module Lesli
 
                 # Load item tasks
                 router.resources :tasks, only: %i[index update create]
+
+                # Load item discussions
+                router.resources :discussions, only: %i[index update create]
             end
 
             # Optional: health check inside engine scope (pick a consistent path)
