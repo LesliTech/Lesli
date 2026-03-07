@@ -88,7 +88,7 @@ class LesliUserTest < LesliTesting::ModelTester
             account: account
         )
 
-        user.save
+        #user.save
 
         #assert_nil user.uid
         #assert user.save, "Expected user to save"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_24_235818) do
+ActiveRecord::Schema[8.1].define(version: 410) do
   create_table "lesli_accounts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "deleted_at"
