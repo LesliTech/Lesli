@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    module Items
+    module Item
         class ActivitiesController < ApplicationLesliController
         end
     end
