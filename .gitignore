@@ -30,13 +30,27 @@
 
 # See https://help.github.com/articles/ignoring-files for more about ignoring files.
 
-.DS_Store
-lesli*.gem
 
+# Rails development files
+/.bundle/
+/doc/
+/log/*.log
+/pkg/
+/tmp/
 /test/dummy/db/*.sqlite3
 /test/dummy/db/*.sqlite3-*
 /test/dummy/log/*.log
 /test/dummy/storage/
 /test/dummy/tmp/
-/coverage/
-/brakeman/
+
+
+# Development dependencies, packages, gems and tools
+.bundle
+.DS_Store
+.ruby-version
+brakeman.html
+coverage
+
+
+# Ignore Lesli gems
+lesli*.gem
