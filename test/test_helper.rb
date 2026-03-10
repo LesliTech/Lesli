@@ -19,5 +19,5 @@ end
 
 
 # Lesli helpers
-require "lesli_testing"
-LesliTesting.init(Lesli::Engine)
+require "lesli_testing/loader"
+LesliTesting.load(Lesli::Engine)
