@@ -40,10 +40,10 @@ Gem::Specification.new do |spec|
     spec.authors     = ["The Lesli Development Team"]
     spec.email       = ["hello@lesli.tech"]
     spec.homepage    = "https://www.lesli.dev/"
-    spec.summary     = "Ruby on Rails SaaS Development Framework."
+    spec.summary     = "A modular framework for building business software with Ruby on Rails."
     spec.description = <<~DESC
-        Lesli is a SaaS development framework designed to build highly scalable, 
-        secure and customizable software products.
+        Lesli is a Ruby on Rails framework that provides modular architecture
+        and reusable engines for building scalable business software.
     DESC
 
     # Prevent pushing this gem to RubyGems.org. To allow pushes either set the "allowed_push_host"
