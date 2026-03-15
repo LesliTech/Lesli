@@ -1,43 +1,44 @@
 # Lesli
 
-**Lesli** is a **SaaS Development Framework** designed to help you build highly scalable, secure, and customizable software products with ease.
+**Lesli** is an open-source Ruby on Rails framework for building scalable, secure, and customizable SaaS applications.
 
-It’s built on top of industry-proven technologies like **Ruby on Rails**, **PostgreSQL**, **Hotwire**, **Bulma**, **SASS**, **AlpineJS** and many other fantastic open-source libraries, gems, and tools.
+Built on proven technologies such as **Ruby on Rails**, **PostgreSQL**, **Hotwire**, **Bulma**, **Sass**, and **Alpine.js**, Lesli gives you a strong foundation for developing serious software products without starting from scratch.
 
-Lesli provides a robust set of built-in features and a standard process for extending its capabilities through modules, making it easy to create your own custom components when needed.
+More than a starter kit or boilerplate, Lesli is a modular framework that helps you build applications through reusable engines, built-in components, generators, and shared conventions. You can use it to extend existing functionality, integrate ready-made modules, or develop fully customized solutions on top of a stable core.
 
-> Lesli goes beyond being just a starter kit or boilerplate. It’s a Ruby on Rails-based core gem that enables you to build modular applications (a.k.a. engines) by leveraging its built-in features, generators, components, and industry best practices. With Lesli, you can easily extend existing functionality or develop fully customized solutions tailored to your specific needs.
-
-
-<br/>
+---
 
 ## Why Lesli?
 
-Lesli is **fully open source** and comes packed with tools and features that can save you months of development time. Thanks to its modular architecture, you can seamlessly extend Lesli’s functionality by adding pre-built modules — allowing you to get your SaaS product up and running in minutes.
+Lesli is fully open source and designed to save development teams months of work. Its modular architecture allows you to start with a solid foundation and expand your application by adding production-ready modules as your product grows.
 
-Lesli is published under the **GNU General Public License version 3 (GPLv3)**. This means you’re free to use, copy, redistribute, and/or modify Lesli, as long as you comply with the terms of the GPL.
+Instead of rebuilding common SaaS capabilities from scratch, you can focus on delivering the features that make your product different.
 
+Lesli is published under the **GNU General Public License v3 (GPLv3)**. You are free to use, modify, and redistribute it under the terms of that license.
 
-<br/>
+---
 
-## How Does It Work?
+## How It Works
 
-**Lesli was built with modularity and extensibility at its core.** 
-Need task management? Just install the Tasks module. 
-Want an event calendar? There’s a module for that too. 
-Looking to add a comment system to your blog? Simply inherit from the base controller. 
+Lesli is built around modularity and extensibility.
 
-There are several ways to take advantage of Lesli’s features:
+Need task management? Install the corresponding module. Want a calendar? Add the calendar module. Need custom business logic? Extend Lesli’s controllers, models, and services to adapt the framework to your application.
 
-- **Install official modules** directly through gems.
-- **Extend existing functionality** by inheriting from Lesli controllers and models.
-- **Integrate specific features** into your app via service objects.
-- **Leverage Lesli as an API-first backend** for your web or mobile applications.
+There are several ways to work with Lesli:
+
+* Install official modules through gems
+* Extend existing functionality through inheritance
+* Integrate specific features through services and shared components
+* Use Lesli as an API-first backend for web or mobile applications
 
 <img alt="Lesli architecture" src="../images/lesli.excalidraw.svg" />
 
-<br/>
+---
 
-## Ruby on Rails
+## Why Ruby on Rails?
 
-By using Rails as its foundation, Lesli benefits from Rails’ mature ecosystem, conventions, and built-in features. Rails simplifies common tasks such as routing, database management, and user authentication, allowing developers to focus on building the core functionalities of their SaaS applications more efficiently.
+Lesli is built on Ruby on Rails to take advantage of one of the most mature and productive web application ecosystems available.
+
+Rails provides strong conventions, a powerful ORM, routing, background jobs, testing tools, and a large open-source community. By building on top of Rails, Lesli inherits these strengths while adding a modular architecture and a growing ecosystem of SaaS-oriented capabilities.
+
+This allows development teams to move faster, keep their codebases organized, and scale their applications with confidence.

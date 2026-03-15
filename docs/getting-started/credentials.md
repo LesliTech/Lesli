@@ -1,13 +1,18 @@
-# Rails Credentials 
+# Rails Credentials
 
-Lesli uses **Rails Credentials** to securely manage sensitive configuration values across environments. This ensures credentials such as API keys, database passwords, and third-party service tokens remain encrypted and safe.
+Lesli uses **Rails Credentials** to manage sensitive configuration values securely across environments.
 
+This includes secrets such as database credentials, API keys, service tokens, and integration settings required by Lesli modules and third-party providers.
 
-## Managing Rails Credentials
+By storing this information in encrypted credentials files, you can keep sensitive values out of your source code while still making them available to your application at runtime.
 
-To edit credentials for a specific environment, use the following commands:
+---
 
-**Ubuntu / Linux Desktop**
+## Editing Rails Credentials
+
+To edit credentials for a specific environment, run one of the following commands.
+
+### Ubuntu / Linux Desktop
 
 ```shell
 EDITOR="code --wait" rails credentials:edit --environment development
@@ -16,7 +21,7 @@ EDITOR="code --wait" rails credentials:edit --environment test
 EDITOR="code --wait" rails credentials:edit
 ```
 
-**macOS / Ubuntu Server**
+### macOS / Ubuntu Server
 
 ```shell
 EDITOR="nano" rails credentials:edit --environment development
@@ -25,128 +30,132 @@ EDITOR="nano" rails credentials:edit --environment test
 EDITOR="nano" rails credentials:edit
 ```
 
-> These commands will open the encrypted credentials file in your chosen editor.s
+These commands open the encrypted credentials file in your selected editor.
 
+---
 
-## Credentials Structure for Lesli
+## Recommended Credentials Structure
 
-Some Lesli modules (engines) require specific credentials to integrate with third-party services like AWS, Google, Firebase, Honeybadger, and others. Below is a suggested structure for organizing your credentials.
+Some Lesli modules require credentials for internal services or third-party integrations such as AWS, Google, Firebase, and Honeybadger.
 
-```yml
-# Identify your Lesli installation across environments
+The following structure is recommended for organizing credentials in a Lesli-based application:
+
+```yaml
+# Identify the current Lesli installation
 implementation: "lesli-localhost"
 
-# Database credentials (standard Ruby)
+# Database credentials
 db:
-    database: ""
-    username: ""
-    password: ""
-    host: ""   # Optional
-    port: ""   # Optional
+  database: ""
+  username: ""
+  password: ""
+  host: ""
+  port: ""
 
 # Internal Lesli services
 services:
-    jwt:
-        # Used by LesliDispatcher to sign JWTs
-        secret: "your-secret-json-web-token-key" 
+  jwt:
+    secret: "your-secret-json-web-token-key"
 
-# Third-party integration keys
+# Third-party providers
 providers:
+  aws_s3:
+    region: eu-central-1
+    bucket: ""
+    access_key_id: ""
+    secret_access_key: ""
 
-    # AWS Simple Storage Service (S3)
-    aws_s3: 
-        region: eu-central-1
-        bucket: ""
-        access_key_id: ""
-        secret_access_key: ""
+  aws_ses:
+    region: eu-central-1
+    access_key_id: ""
+    secret_access_key: ""
 
-    # AWS Simple Email Service (SES)
-    aws_ses: 
-        region: eu-central-1
-        access_key_id: ""
-        secret_access_key: ""
+  aws_sns:
+    region: eu-central-1
+    access_key_id: ""
+    secret_access_key: ""
 
-    # AWS Simple Notification Service (SNS)
-    aws_sns: 
-        region: eu-central-1
-        access_key_id: ""
-        secret_access_key: ""
+  google:
+    client_id: ""
+    client_secret: ""
+    maps_sdk_token: ""
+    tag_manager: ""
 
-    # Google Cloud integrations
-    google:
-        client_id: ""
-        client_secret: ""
-        maps_sdk_token: ""
-        tag_manager: ""
+  firebase:
+    api_key: ""
+    admin_sdk_private_key: ""
+    web: ""
 
-    # Firebase credentials (backend & frontend)
-    firebase:
-        api_key: ""
-        admin_sdk_private_key:
-        web:
-
-    # Honeybadger error tracking
-    honey_badger:
-        api_key: ""
-        personal_token: ""
+  honey_badger:
+    api_key: ""
+    personal_token: ""
 
 # Rails secret key base
 secret_key_base: "your-secret-key-base"
 ```
 
+This structure is only a recommendation. You may organize credentials differently depending on your application and which Lesli modules you use.
+
+---
+
 ## Overriding Credentials with Environment Variables
 
-Most credentials stored in your Rails encrypted credentials file can be **overridden using environment variables**. This is useful for configuring secrets per environment (development, staging, production) without modifying your encrypted files.
+Most credentials can also be overridden with environment variables. This is useful when deploying to staging or production, working with Docker, or configuring CI/CD pipelines.
 
-### Environment Variable Format
+### Naming Convention
 
-Use the following naming convention (all **uppercase**):
+Use the following format:
 
-`LESLI\_{SECTION}\_{GROUP}\_{KEY}` 
+```text
+LESLI_<SECTION>_<GROUP>_<KEY>
+```
 
 Where:
 
-- **LESLI** is the fixed prefix. 
-- **SECTION** matches the top-level namespace in your credentials (e.g., `PROVIDERS`, `SERVICES`). 
-- **GROUP** is the specific integration or category within the section (e.g., `HONEY_BADGER`, `AWS_S3`). 
-- **KEY** is the specific credential key (e.g., `API_KEY`, `ACCESS_KEY_ID`). 
-
+* `LESLI` is the fixed prefix
+* `SECTION` is the top-level namespace in your credentials file
+* `GROUP` is the integration or category inside that section
+* `KEY` is the specific credential field
 
 ### Example
 
-If your credentials file includes:
+If your credentials file contains:
 
 ```yaml
 providers:
-    honey_badger:
-        api_key: "my-api-key"
+  honey_badger:
+    api_key: "my-api-key"
 ```
 
-You can override this at runtime by setting the following environment variable:
+You can override it with:
 
 ```shell
 LESLI_PROVIDERS_HONEY_BADGER_API_KEY="my-super-secret-api-key"
 ```
 
-Why Use ENV Variables?
+### Why Use Environment Variables?
 
-- Easily configure secrets per environment (development, staging, production).
-- Keep sensitive information out of version control.
-- Useful for Docker, CI/CD pipelines, and cloud-hosted environments.
+* Configure secrets differently per environment
+* Keep sensitive values out of the repository
+* Simplify cloud and container-based deployments
+* Integrate cleanly with CI/CD workflows
 
+---
 
-## Database 
+## Database Configuration
 
-Open the database configuration file
+Open your database configuration file:
 
+```text
+config/database.yml
 ```
-RailsApp/config/database.yml
-```
 
-Add PostgreSQL as the main database (Currently Lesli is compatible only with PostgreSQL and SQLite)
+Lesli currently supports **PostgreSQL** and **SQLite**.
 
-```yml
-default:
+The following example shows a PostgreSQL configuration using values stored in Rails Credentials:
+
+```yaml
+default: &default
   adapter: postgresql
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
@@ -165,9 +174,11 @@ test:
 
 production:
   <<: *default
-  port: <%= Rails.application.credentials.dig(:db, :port) %>
   host: <%= Rails.application.credentials.dig(:db, :host) %>
+  port: <%= Rails.application.credentials.dig(:db, :port) %>
   database: <%= Rails.application.credentials.dig(:db, :database) %>
   username: <%= Rails.application.credentials.dig(:db, :username) %>
   password: <%= Rails.application.credentials.dig(:db, :password) %>
 ```
+
+This approach keeps database connection details encrypted and centralized inside Rails Credentials.

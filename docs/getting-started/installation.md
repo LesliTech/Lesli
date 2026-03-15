@@ -1,64 +1,73 @@
-
 # Installation
 
-Lesli is a Ruby on Rails gem designed to integrate seamlessly into your application. It keeps its code, database, and assets fully isolated, ensuring it won’t interfere with your main app. This isolation allows you to extend functionality without adding complexity or risking conflicts within your core codebase.
+Lesli is a modular Ruby on Rails framework distributed as a gem. It integrates into your application while keeping its code, database migrations, and assets isolated from your main app. This design allows you to extend your system with new capabilities without increasing complexity or risking conflicts in your core codebase.
 
+> **Requirements:**  
+> - Ruby **3.2.x**  
+> - Rails **8.0.x**  
+> - Node.js **20.x** (required for LesliAssets)  
 
-> **Before You Start:** Make sure you have **Ruby 3.2.x**, **Rails 8.0.x** and NodeJS 20.x (to work with LesliAssets) installed on your system.
+---
 
+## 1. Create a New Rails Application
 
-## Create a New Rails Application
-
-To get started, generate a fresh Ruby on Rails app. This will serve as the base for integrating Lesli.
+Start by generating a fresh Rails application that will host Lesli.
 
 ```bash
 rails new LesliApp
+cd LesliApp
 ```
 
+---
 
-### Install the Lesli Core
+## 2. Install the Lesli Core
+
+Add the Lesli gem to your project:
 
 ```bash
 bundle add lesli
 ```
 
-> Or clone the repository for [development](https://www.lesli.dev/engines/lesli/getting-started/development/)
+If you plan to contribute or develop Lesli locally, you can instead clone the repository. See the development guide for details.
 
-
-Check that Lesli is correctly installed and accessible by running:
+Verify the installation:
 
 ```bash
 rake lesli:status
 ```
 
->This will output the current status of the Lesli framework and confirm that it's properly wired into your application.
+This command prints the current status of the Lesli framework and confirms that it is correctly loaded in your application.
 
+---
 
-### Set Up Lesli
+## 3. Run the Installation Generator
 
-After installing the gem, run the Lesli installation generator to configure the required files and routes:
+Initialize Lesli in your Rails application:
 
 ```bash
 rails generate lesli:install
 ```
 
-This command will:
+This generator will:
 
-- Generate a new initializer file at config/initializers/lesli.rb where you can customize core Lesli settings and behaviors.
-- Mount all Lesli engine routes by injecting the following into your config/routes.rb file:
+* Create the Lesli configuration file:
+  `config/initializers/lesli.rb`
+
+* Mount the Lesli routing layer inside `config/routes.rb`:
 
 ```ruby
 Rails.application.routes.draw do
-    Lesli::Routing.mount
+  Lesli::Router.mount(self)
 end
 ```
 
-Also is going to create a lesli.rb initializer file to customize the Lesli options
+The initializer allows you to configure global Lesli behavior and framework options.
 
+---
 
-Lesli provides a convenient Rake task to set up a fully functional database for development and demo purposes.
+## 4. Prepare the Database
 
-Run the following command:
+Lesli provides a task that prepares a complete development environment.
 
 ```bash
 rake lesli:db:dev
@@ -66,65 +75,71 @@ rake lesli:db:dev
 
 This task will:
 
-- Run all database migrations 
-- Build privileges (if LesliSecurity is installed) 
-- Import translation files (if LesliBabel is installed) 
-- Seed demo users and sample data for every installed engine 
-- Output a summary with the current application status 
-- You can restart your database to start with a new fresh database 
-
-<br>
-
-To reset your environment and start from a clean state, run:
-
-```bash
-rake lesli:db:reset 
-```
->This command will drop, create, migrate, and re-seed the database using the same logic as lesli:db:dev, Useful when testing or debugging your development setup.
-
-
-Start the default Rails development server:
-
-```shell
-rails s 
-rails s --binding=0.0.0.0
-rails s --environment=test
-rails s --environment=development
-RAILS_SERVE_STATIC_FILES=true rails s --environment=production 
-```
-
-Using your favorite web browser, navigate to: <a href="http://127.0.0.1:3000/login" target="_blank">http://127.0.0.1:3000/login</a>
-
-<lesli-browser host="http://localhost:3000/" url="">
-    <img src="../images/screenshot-welcome.png">
-</lesli-browser>
-
-You should now see the Lesli welcome page 🎉
+* Run all database migrations
+* Build privileges (if **LesliSecurity** is installed)
+* Import translations (if **LesliBabel** is installed)
+* Seed demo users and sample data for installed engines
+* Output a summary of the current system status
 
 ---
 
-### Recommendations
+## 5. Reset the Database (Optional)
 
-To improve your local development experience with Lesli, consider the following:
+If you need to reset your environment during development:
 
-- **Use `letter_opener` for Local Email Preview**
+```bash
+rake lesli:db:reset
+```
 
-<br>
+This command drops, recreates, migrates, and reseeds the database using the same logic as `lesli:db:dev`.
 
-Install the `letter_opener` gem in your `Gemfile` under the development group:
+---
+
+## 6. Start the Rails Server
+
+Run the development server:
+
+```bash
+rails s
+```
+
+Additional examples:
+
+```bash
+rails s --binding=0.0.0.0
+rails s --environment=test
+rails s --environment=development
+RAILS_SERVE_STATIC_FILES=true rails s --environment=production
+```
+
+Open your browser and visit:
+
+[http://127.0.0.1:3000/login](http://127.0.0.1:3000/login)
+
+You should now see the Lesli welcome page.
+
+---
+
+# Development Recommendations
+
+## Local Email Preview
+
+For development environments it is recommended to preview emails locally instead of sending them.
+
+Install the `letter_opener` gem:
 
 ```ruby
 group :development do
-    gem 'letter_opener'
+  gem "letter_opener"
 end
 ```
 
-Then configure your config/environments/development.rb:
+Configure `config/environments/development.rb`:
 
 ```ruby
 config.action_mailer.delivery_method = :letter_opener
 config.action_mailer.perform_deliveries = true
-config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 ```
 
-This allows you to preview emails in your browser instead of sending them during development.
+Emails generated by your application will automatically open in your browser.

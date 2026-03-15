@@ -1,74 +1,98 @@
 # Lesli Ecosystem
 
-Lesli is designed to be **modular**. It uses standard **Ruby on Rails engines** (we call them modules) to extend and customize functionality, making it easy to build powerful, tailored applications on top of the Lesli framework.
+Lesli is built as a modular platform.
 
-The Lesli team maintains several **production-ready engines**, most of which are open source. These modules cover a wide range of common use cases and can be seamlessly integrated into your application to accelerate development.
+Instead of concentrating all functionality in a single codebase, Lesli extends through **Ruby on Rails engines**. These engines, also referred to as modules, allow you to add new capabilities, organize domains more clearly, and grow your application without turning it into a monolith.
 
+The Lesli team maintains a growing ecosystem of production-ready modules, most of them open source, designed to accelerate the development of real SaaS products.
 
-<br/>
+---
+
+## Why the Ecosystem Matters
+
+The ecosystem is one of Lesli’s biggest strengths.
+
+It allows development teams to:
+
+* Add features without rebuilding common SaaS functionality from scratch
+* Keep domains isolated through independent modules
+* Reuse shared infrastructure and conventions across products
+* Extend the platform with custom engines when product-specific functionality is needed
+
+In practice, this means you can start with the Lesli core and expand your application as your product evolves.
+
+---
 
 ## Collections
 
-A **Collection** is a group of modules organized by category or business industry. Collections help you quickly identify modules relevant to specific areas of your SaaS application.
+To make the ecosystem easier to navigate, modules are grouped into **collections**. A collection represents a category of functionality or a business domain commonly found in SaaS applications.
 
-### Available Collections:
+### Available Collections
 
-1. **Administration**  
-2. **Sales & Marketing**  
-3. **Productivity & Teamwork**  
-4. **Finance**  
-5. **Analytics**  
-6. **Intelligence**  
-7. **IT & Help Desk**  
-8. **Security & Privacy**  
+1. **Administration**
+2. **Sales and Marketing**
+3. **Productivity and Teamwork**
+4. **Finance**
+5. **Analytics**
+6. **Intelligence**
+7. **IT and Help Desk**
+8. **Security and Privacy**
 9. **Integrations**
 
+Collections make it easier to identify which modules may be relevant to your application, team, or industry.
 
-<br/>
+---
 
-## Modules
+## Official Modules
 
-Currently, we have **45 modules planned** for development. Out of these, **9 modules are fully developed and production-ready.**
+Lesli currently has **45 modules planned**, with **9 production-ready modules** already available.
 
-| Code  | Module        | Description                                        |
-|-------|---------------|----------------------------------------------------|
-| 0101  | **LesliAdmin**   | Lesli administration area                        |
-| 0301  | **LesliCalendar** | Unified calendar app                            |
-| 0305  | **LesliLetter**   | Notes & notebooks                                |
-| 0306  | **LesliDashboard**| Smart business assistant                        |
-| 0308  | **LesliBell**     | Notification system                              |
-| 0502  | **LesliAudit**    | System analytics                                 |
-| 0702  | **LesliSupport**  | Support ticket system                            |
-| 0801  | **LesliShield**   | Authentication & authorization module for Lesli  |
-| 0901  | **LesliBabel**    | Translation management                           |
+| Code | Module             | Description                                             |
+| ---- | ------------------ | ------------------------------------------------------- |
+| 0101 | **LesliAdmin**     | Administration area for managing core platform settings |
+| 0301 | **LesliCalendar**  | Unified calendar application                            |
+| 0305 | **LesliLetter**    | Notes and notebooks                                     |
+| 0306 | **LesliDashboard** | Dashboards and business insights                        |
+| 0308 | **LesliBell**      | Notifications and alerts                                |
+| 0502 | **LesliAudit**     | System analytics and activity tracking                  |
+| 0702 | **LesliSupport**   | Support ticket management                               |
+| 0801 | **LesliShield**    | Authentication, authorization, roles, and privileges    |
+| 0901 | **LesliBabel**     | Translation management                                  |
 
-> You can also create your own custom modules. We will cover this process later in the documentation.
+You are not limited to official modules. Lesli also allows you to create and integrate your own custom engines when your application requires domain-specific functionality.
 
-## Lesli Ecosystem Diagram (Overview)
+---
 
+## How the Ecosystem Fits Together
+
+At the center of the ecosystem is the **Lesli core**, which provides the shared framework layer, utilities, generators, and conventions.
+
+On top of that foundation, official modules and custom modules can be mounted into your host Rails application through the Rails engine architecture. This creates a flexible model where shared infrastructure stays centralized, while features remain modular and easier to evolve.
+
+```text
+Lesli Core
+├── Shared conventions
+├── Utilities
+├── Generators
+└── Framework services
+
+Official Modules
+├── Authentication and security
+├── Dashboards and reporting
+├── Collaboration and productivity
+└── Business capabilities
+
+Your Custom Modules
+└── Product-specific domains and features
+
+Host Rails Application
+└── Integrates core and modules into one SaaS product
 ```
-+--------------------------------------------------+
-|                     Lesli                        |
-|        (Core Gem: Utilities, Generators)         |
-+--------------------------------------------------+
-                     /       \
-                    /         \
-         +----------------+  +------------------+
-         |Official Modules|  |   Your Modules   |
-         | (Rails Engines)|  | (Custom Engines) |
-         +----------------+  +------------------+
-                   |                    |
-                   |                    |
-     +-------------------------------------------+
-     |         Integrated via Rails Engine       |
-     +-------------------------------------------+
-                   |
-        +----------------------------+
-        |Your SaaS Application (Host)|
-        +----------------------------+
-                   |
-          +------------------+
-          |  PostgreSQL / DB |
-          +------------------+
 
-```
+---
+
+## Summary
+
+The Lesli ecosystem is designed to help teams move faster by combining a shared Rails foundation with a growing library of reusable modules.
+
+It gives you the flexibility to adopt only what you need, extend the platform where necessary, and continue building on a structure that stays organized as your product grows.
