@@ -1,6 +1,8 @@
 # Configure Rails Environment
 ENV["RAILS_ENV"] = "test"
 
+# Lesli helpers
+require "lesli_testing/loader"
 
 # Loading dummy app
 require_relative "../test/dummy/config/environment"
@@ -18,6 +20,5 @@ if ActiveSupport::TestCase.respond_to?(:fixture_paths=)
 end
 
 
-# Lesli helpers
-require "lesli_testing/loader"
+
 LesliTesting.load(Lesli::Engine)
