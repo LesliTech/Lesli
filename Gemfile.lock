@@ -1,4 +1,17 @@
 PATH
+  remote: ../../gems/LesliTesting
+  specs:
+    lesli_testing (1.0.0)
+      brakeman
+      color_pound_spec_reporter
+      letter_opener
+      minitest (~> 5.0)
+      minitest-reporters
+      simplecov (= 0.22.0)
+      simplecov-cobertura
+      simplecov-console (= 0.9.4)
+
+PATH
   remote: .
   specs:
     lesli (5.0.24)
@@ -164,16 +177,6 @@ GEM
     lesli_assets (1.0.7)
     lesli_date (1.0.0)
     lesli_system (1.0.6)
-    lesli_testing (1.0.0)
-      brakeman
-      color_pound_spec_reporter
-      letter_opener
-      minitest (~> 5.0)
-      minitest-reporters
-      propshaft
-      simplecov (= 0.22.0)
-      simplecov-cobertura
-      simplecov-console (= 0.9.4)
     lesli_view (1.0.7)
       view_component (~> 4.1)
     letter_opener (1.10.0)
@@ -388,7 +391,7 @@ PLATFORMS
 
 DEPENDENCIES
   lesli!
-  lesli_testing
+  lesli_testing!
   propshaft
   puma
   rubocop-rails-omakase
@@ -445,7 +448,7 @@ CHECKSUMS
   lesli_assets (1.0.7) sha256=242ad449e53d46237122535ff50b2eecab045b110a1636410d8f28b9243331a6
   lesli_date (1.0.0) sha256=f65e056e49e3e065f6c817f8d2f9c81a2d4562d7a10b8362c1195539a758eaf1
   lesli_system (1.0.6) sha256=c6a25837a29d8a2f9dd4b7e5b78c6e9d047177d2c152b85683bc58130bf9c12b
-  lesli_testing (1.0.0) sha256=eb422076cd3358de961c9797f35eb783229c7cf93e93dd298dca301fb415052f
+  lesli_testing (1.0.0)
   lesli_view (1.0.7) sha256=6a3c309b5397bc9d71614338fccbbe2e8a7e55bd97718adca47c298d2a8f7195
   letter_opener (1.10.0) sha256=2ff33f2e3b5c3c26d1959be54b395c086ca6d44826e8bf41a14ff96fdf1bdbb2
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87

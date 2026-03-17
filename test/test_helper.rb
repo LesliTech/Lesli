@@ -4,6 +4,9 @@ ENV["RAILS_ENV"] = "test"
 # Lesli helpers
 require "lesli_testing/loader"
 
+# Start Lesli testing coverage
+LesliTesting.start_coverage!(Lesli::Engine)
+
 # Loading dummy app
 require_relative "../test/dummy/config/environment"
 ActiveRecord::Migrator.migrations_paths = [ File.expand_path("../test/dummy/db/migrate", __dir__) ]
@@ -19,6 +22,5 @@ if ActiveSupport::TestCase.respond_to?(:fixture_paths=)
     ActiveSupport::TestCase.fixtures :all
 end
 
-
-
-LesliTesting.load(Lesli::Engine)
+# Load Lesli testing defaults
+LesliTesting.configure_tests!(Lesli::Engine)
