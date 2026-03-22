@@ -43,4 +43,6 @@ gem "propshaft"
 
 gem "rubocop-rails-omakase", require: false
 
-gem "lesli_testing"
+gem "lesli_testing", path: "../../gems/LesliTesting"
+
+#gem "termline", path: "../../gems/Termline"

@@ -36,7 +36,7 @@ require "kaminari"
 
 # · Tools used to build the Lesli Framework
 require "L2"
-#require "useragent"
+require "termline"
 require "acts_as_paranoid"
 
 # The hole Lesli ecosystem depends on current_user, so we

@@ -109,6 +109,9 @@ Gem::Specification.new do |spec|
     # Message utilities for the Ruby console.
     spec.add_dependency("L2", "~> 0.6")
 
+    # Human-friendly terminal logs for the Lesli Platform
+    spec.add_dependency("termline", "~> 0.1")
+
 
     # Simple greetings message
     spec.post_install_message = "Greetings from LesliTech  ❤️  Docs are available at https://www.lesli.dev/"
