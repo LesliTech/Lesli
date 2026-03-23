@@ -1,15 +1,4 @@
 PATH
-  remote: ../../gems/LesliTesting
-  specs:
-    lesli_testing (1.1.0)
-      brakeman (~> 8.0.0)
-      letter_opener (~> 1.10.0)
-      minitest (~> 6.0.0)
-      simplecov (~> 0.22.0)
-      simplecov-cobertura (~> 3.1.0)
-      simplecov-console (~> 0.9.0)
-
-PATH
   remote: .
   specs:
     lesli (5.0.24)
@@ -23,7 +12,7 @@ PATH
       lesli_system (~> 1.0.0)
       lesli_view (~> 1.0.0)
       rails (~> 8.1)
-      termline (~> 0.1)
+      termline (~> 1.0.0)
       turbo-rails (~> 2.0)
 
 GEM
@@ -171,6 +160,13 @@ GEM
     lesli_assets (1.0.7)
     lesli_date (1.0.0)
     lesli_system (1.0.6)
+    lesli_testing (1.2.0)
+      brakeman (~> 8.0.0)
+      letter_opener (~> 1.10.0)
+      minitest (~> 6.0.0)
+      simplecov (~> 0.22.0)
+      simplecov-cobertura (~> 3.1.0)
+      simplecov-console (~> 0.9.0)
     lesli_view (1.0.7)
       view_component (~> 4.1)
     letter_opener (1.10.0)
@@ -345,7 +341,7 @@ GEM
     stringio (3.2.0)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
-    termline (0.1.0)
+    termline (1.0.0)
     thor (1.5.0)
     timeout (0.6.1)
     tsort (0.2.0)
@@ -383,7 +379,7 @@ PLATFORMS
 
 DEPENDENCIES
   lesli!
-  lesli_testing!
+  lesli_testing
   propshaft
   puma
   rubocop-rails-omakase
@@ -439,7 +435,7 @@ CHECKSUMS
   lesli_assets (1.0.7) sha256=242ad449e53d46237122535ff50b2eecab045b110a1636410d8f28b9243331a6
   lesli_date (1.0.0) sha256=f65e056e49e3e065f6c817f8d2f9c81a2d4562d7a10b8362c1195539a758eaf1
   lesli_system (1.0.6) sha256=c6a25837a29d8a2f9dd4b7e5b78c6e9d047177d2c152b85683bc58130bf9c12b
-  lesli_testing (1.1.0)
+  lesli_testing (1.2.0) sha256=912a83f135af2c81a4654439f440217c389fcea9920dd8c0c28916b0318b940d
   lesli_view (1.0.7) sha256=6a3c309b5397bc9d71614338fccbbe2e8a7e55bd97718adca47c298d2a8f7195
   letter_opener (1.10.0) sha256=2ff33f2e3b5c3c26d1959be54b395c086ca6d44826e8bf41a14ff96fdf1bdbb2
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
@@ -511,7 +507,7 @@ CHECKSUMS
   sqlite3 (2.9.2-x86_64-linux-musl) sha256=e8dd906a613f13b60f6d47ae9dda376384d9de1ab3f7e3f2fdf2fd18a871a2d7
   stringio (3.2.0) sha256=c37cb2e58b4ffbd33fe5cd948c05934af997b36e0b6ca6fdf43afa234cf222e1
   terminal-table (4.0.0) sha256=f504793203f8251b2ea7c7068333053f0beeea26093ec9962e62ea79f94301d2
-  termline (0.1.0) sha256=16a337abf784197f30fbc3a541375a1cb0a9ebfebf0a67c571ea63cbc443d930
+  termline (1.0.0) sha256=185f68ba45499800e2399bbcdc1600d8481565ba904b01623bc20a5fe24663d7
   thor (1.5.0) sha256=e3a9e55fe857e44859ce104a84675ab6e8cd59c650a49106a05f55f136425e73
   timeout (0.6.1) sha256=78f57368a7e7bbadec56971f78a3f5ecbcfb59b7fcbb0a3ed6ddc08a5094accb
   tsort (0.2.0) sha256=9650a793f6859a43b6641671278f79cfead60ac714148aabe4e3f0060480089f

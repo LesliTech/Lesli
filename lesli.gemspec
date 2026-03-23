@@ -110,7 +110,7 @@ Gem::Specification.new do |spec|
     spec.add_dependency("L2", "~> 0.6")
 
     # Human-friendly terminal logs for the Lesli Platform
-    spec.add_dependency("termline", "~> 0.1")
+    spec.add_dependency("termline", "~> 1.0.0")
 
 
     # Simple greetings message
