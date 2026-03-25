@@ -48,7 +48,7 @@ require "lesli_view"
 require "lesli_assets"
 require "lesli_system"
 
-require "importmap-rails"
+#require "importmap-rails"
 require "turbo-rails"
 
 module Lesli
@@ -56,7 +56,7 @@ module Lesli
         isolate_namespace Lesli
 
         initializer "lesli.importmap", before: "importmap" do |app|
-            app.config.importmap.paths << Engine.root.join("config/importmap.rb")
+            #app.config.importmap.paths << Engine.root.join("config/importmap.rb")
         end
 
         initializer :lesli do |app|

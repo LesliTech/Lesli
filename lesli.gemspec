@@ -73,9 +73,6 @@ Gem::Specification.new do |spec|
     # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
     spec.add_dependency("turbo-rails", "~> 2.0")
 
-    # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-    spec.add_dependency("importmap-rails", "~> 2.2")
-
 
     # · Tools used to extend Rails functionality
 
@@ -110,7 +107,7 @@ Gem::Specification.new do |spec|
     spec.add_dependency("L2", "~> 0.6")
 
     # Human-friendly terminal logs for the Lesli Platform
-    spec.add_dependency("termline", "~> 1.0.0")
+    spec.add_dependency("termline", "~> 1.1.0")
 
 
     # Simple greetings message
