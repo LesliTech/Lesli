@@ -48,25 +48,13 @@ require "lesli_view"
 require "lesli_assets"
 require "lesli_system"
 
-#require "importmap-rails"
 require "turbo-rails"
 
 module Lesli
     class Engine < ::Rails::Engine
         isolate_namespace Lesli
 
-        initializer "lesli.importmap", before: "importmap" do |app|
-            #app.config.importmap.paths << Engine.root.join("config/importmap.rb")
-        end
-
         initializer :lesli do |app|
-
-
-            # Lesli standard engine configuration
-
-            
-            # register assets manifest
-            #config.assets.precompile += %w[lesli_manifest.js]
 
             # register engine migrations path
             unless app.root.to_s.match root.to_s
@@ -75,19 +63,9 @@ module Lesli
                 end
             end
 
-
-            # Lesli Framework configuration
-
-
             # Default languages
             config.i18n.default_locale = :en
             config.i18n.available_locales = [:en]
-
-            # Force to not use digest, 
-            # if this is not false Rails will fingerprint the assets by default 
-            # and precompile will be needed, so, donot digest if not production
-            #config.assets.digest = false unless Rails.env.production?
-
 
             # Lesli Framework Mailer configuration
 
