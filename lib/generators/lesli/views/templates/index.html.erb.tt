@@ -1,0 +1,17 @@
+<%% columns = [
+    {
+        label: "ID",
+        field: "id"
+    }
+] %>
+
+<%%= render(LesliView::Layout::Container.new("<%= engine_domain_name %> - <%= resource_collection_name %>")) do %>
+    <%%= render(LesliView::Components::Header.new("<%= resource_collection_name.humanize %>", new_path: new_<%= resource_name %>_path)) %>
+    <%%= render(LesliView::Components::Toolbar.new) %>
+
+    <%%= render(LesliView::Elements::Table.new(
+        columns: columns,
+        records: <%= resource_collection_instance %>.dig(:records),
+        link: -> (<%= resource_name %>) { <%= resource_name %>_path(<%= resource_name %>.id) }
+    )) %>
+<%% end %>

@@ -1,0 +1,22 @@
+<%%= form_with(model: <%= resource_instance %>, builder: LesliView::Forms::Builder) do |form| %>
+    <%%= form.fieldset do %>
+        <% form_attributes.each do |attribute| -%>
+            <% if attribute == "description" -%>
+                <%%= form.field_control_textarea(:<%= attribute %>, label: false) %>
+            <% else -%>
+                <%%= form.field_control(:<%= attribute %>) %>
+            <% end -%>
+        <% end -%>
+
+        <% if select_attributes.any? -%>
+            <div class="columns">
+                <% select_attributes.each do |attribute| -%>
+                    <div class="column">
+                        <%%= form.field_control_select(:<%= attribute %>, []) %>
+                    </div>
+                <% end -%>
+            </div>
+        <% end -%>
+        <%%= form.field_control_submit %>
+    <%% end %>
+<%% end %>

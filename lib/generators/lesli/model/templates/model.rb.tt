@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+module <%= engine_namespace %>
+    class <%= resource_class_name %> < ApplicationRecord
+        belongs_to :account
+
+        # Optional user relations
+        # belongs_to :owner, class_name: "Lesli::User"
+        # belongs_to :user, class_name: "Lesli::User"
+
+        # Optional item concerns
+        # include Lesli::Item::Tasks
+        # include Lesli::Item::Activities
+        # include Lesli::Item::Discussions
+    end
+end

@@ -1,0 +1,22 @@
+<%%= render(LesliView::Layout::Container.new("<%= engine_domain_name %>-<%= resource_collection_name %>")) do %>
+
+    <%%= render(LesliView::Components::Header.new("<%= resource_class_name %>")) %>
+
+    <%%= render(LesliView::Components::Tabs.new(active_tab: "<%= resource_name %>-information")) do |tabs| %>
+        <%% tabs.with_tab(id:"<%= resource_name %>-information", title:"Information", icon:"info") do %>
+            <%%= render("form") %>
+        <%% end %>
+
+        <%% tabs.with_tab(id:"<%= resource_name %>-discussions", title:"Discussions", icon:"forum") do %>
+            <%%= render(LesliView::Items::Discussions.new(<%= resource_instance %>)) %>
+        <%% end %>
+
+        <%% tabs.with_tab(id:"<%= resource_name %>-tasks", title:"Tasks", icon:"checklist") do %>
+            <%%= render(LesliView::Item::Tasks.new(<%= resource_instance %>)) %>
+        <%% end %>
+
+        <%% tabs.with_tab(id:"<%= resource_name %>-activities", title:"Activities", icon:"search_activity") do %>
+            <%%= render(LesliView::Items::Activities.new(<%= resource_instance %>)) %>
+        <%% end %>
+    <%% end %>
+<%% end %>
