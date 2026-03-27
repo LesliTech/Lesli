@@ -1,0 +1,44 @@
+# frozen_string_literal: true
+
+module <%= engine_namespace %>
+  class <%= service_class_name %> < Lesli::ApplicationLesliService
+
+    def find(id: nil, uid: nil)
+      scope = current_user.account.<%= engine_domain_name %>.<%= resource_collection_name %>
+
+      # Build the search hash using only present values.
+      params = { id: id, uid: uid }.compact
+
+      # Only perform the lookup when at least one filter is present.
+      super(scope.find_by(params)) if params.any?
+    end
+
+    def index
+      current_user.account.<%= engine_domain_name %>.<%= resource_collection_name %>.order(id: :desc)
+    end
+
+    def create(<%= params_method_name %>)
+      <%= resource_name %> = current_user.account.<%= engine_domain_name %>.<%= resource_collection_name %>.new(<%= params_method_name %>)
+
+      if <%= resource_name %>.save
+        self.resource = <%= resource_name %>
+      else
+        self.error(<%= resource_name %>.errors.full_messages.to_sentence)
+      end
+
+      self
+    end
+
+    def show
+      self.resource
+    end
+
+    def update(params)
+      self.resource.update(params)
+    end
+
+    def destroy
+      self.resource.destroy
+    end
+  end
+end

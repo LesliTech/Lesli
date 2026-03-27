@@ -1,0 +1,86 @@
+# frozen_string_literal: true
+
+module <%= engine_namespace %>
+  class <%= controller_class_name %>Controller < ApplicationController
+    before_action :<%= set_resource_method_name %>, only: [:show, :edit, :update, :destroy]
+
+    def index
+      <%= resource_collection_instance %> = respond_with_pagination(
+        <%= service_class_name %>.new(current_user, query).index
+      )
+    end
+
+    def show
+      <%= resource_instance %> = <%= resource_instance %>.show
+    end
+
+    def new
+      <%= resource_instance %> = <%= resource_class_name %>.new
+    end
+
+    def edit
+    end
+
+    def create
+      <%= resource_name %> = <%= service_class_name %>.new(current_user, query).create(<%= params_method_name %>)
+
+      <%= resource_instance %> = <%= resource_name %>.result
+
+      if <%= resource_name %>.successful?
+        success("<%= resource_name %> creado de forma exitosa")
+
+        respond_with_lesli(
+          turbo: stream_redirection(<%= resource_name %>_path(<%= resource_instance %>.id))
+        )
+      else
+        respond_with_lesli(
+          turbo: <%= resource_name %>.errors_as_sentence
+        )
+      end
+    end
+
+    def update
+      if <%= resource_instance %>.update(<%= params_method_name %>)
+        respond_with_lesli(
+          turbo: stream_notification_success("<%= resource_class_name %> updated successfully")
+        )
+      else
+        respond_with_lesli(
+          turbo: stream_notification_danger(<%= resource_instance %>.errors)
+        )
+      end
+    end
+
+    def destroy
+      return respond_with_not_found unless <%= resource_instance %>
+      return respond_with_unauthorized unless <%= resource_instance %>.is_editable_by?(current_user)
+
+      <%= resource_name %>_destroy_response = <%= service_class_name %>.destroy(current_user, <%= resource_instance %>)
+
+      if <%= resource_name %>_destroy_response.successful?
+        respond_with_successful
+      else
+        respond_with_error(<%= resource_name %>_destroy_response.payload.errors.full_messages.to_sentence)
+      end
+    end
+
+    private
+
+    def <%= set_resource_method_name %>
+      <%= resource_instance %> = <%= service_class_name %>.new(current_user, query).find(id: params[:id])
+      return respond_with_not_found unless <%= resource_instance %>.found?
+    end
+
+    def <%= params_method_name %>
+      params.require(:<%= resource_name %>).permit(
+<% if permitted_attributes.any? -%>
+<% permitted_attributes.each_with_index do |attribute, index| -%>
+        :<%= attribute %><%= "," unless index == permitted_attributes.length - 1 %>
+<% end -%>
+<% else -%>
+        # Add permitted attributes here
+<% end -%>
+      )
+    end
+  end
+end
