@@ -35,7 +35,7 @@ module Lesli
 
         # Prints link tags to add favicon to websites
         def lesli_favicon
-            icon_path = image_url("lesli/brand/favicon.svg")
+            icon_path = image_url("lesli_assets/brand/favicon.svg")
             safe_join([
                 tag.link(href: icon_path, rel: "alternate icon"),
                 tag.link(href: icon_path, rel: "icon", type: "image/svg+xml"),

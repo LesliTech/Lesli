@@ -45,7 +45,7 @@ module Lesli
         def customization_instance_logo(tag: false, logo: "app-logo", variant: "light", mode: "web",
                                         options: { alt: "Logo" })
             # loading logo from builder assets
-            logo_path = "#{lesli_instance_code}/brand/#{logo}.svg"
+            logo_path = "lesli_assets/brand/#{logo}.svg"
 
             # load favicon as PNG for better compatibility between web browsers
             #logo_path = "#{lesli_instance_code}/brand/#{logo}.png" if logo == "favicon"

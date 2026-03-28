@@ -62,7 +62,7 @@ Gem::Specification.new do |spec|
 
 
     # Ruby version
-    spec.required_ruby_version = ">= 3.2"
+    spec.required_ruby_version = ">= 3.0", "< 4.0"
 
 
     # · RAILS: gem, dependencies and tools
@@ -71,7 +71,7 @@ Gem::Specification.new do |spec|
     spec.add_dependency("rails", "~> 8.1")
 
     # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-    spec.add_dependency("turbo-rails", "~> 2.0")
+    spec.add_dependency("turbo-rails", "~> 2.0.0")
 
 
     # · Tools used to extend Rails functionality
@@ -86,29 +86,28 @@ Gem::Specification.new do |spec|
     # · Tools used to add Rails functionality
 
     # Flexible authentication solution for Rails with Warden
-    spec.add_dependency("devise", "~> 5.0")
+    spec.add_dependency("devise", "~> 5.0.0")
 
 
     # · Tools used to build the Lesli Framework
 
     # Datetime formatter and SQL-safe utilities for Rails, part of the LesliSystem
-    spec.add_dependency("lesli_date", "~> 1.0.0")
+    spec.add_dependency("lesli_date", "~> 1.1.0")
 
     # Reusable View Components for The Lesli Framework 
-    spec.add_dependency("lesli_view", "~> 1.0.0")
+    spec.add_dependency("lesli_view", "~> 1.1.0")
 
     # Reusable View Components for The Lesli Framework 
-    spec.add_dependency("lesli_assets", "~> 1.0.0")
+    spec.add_dependency("lesli_assets", "~> 1.1.0")
 
     # Core System Utilities for The Lesli Framework.
-    spec.add_dependency("lesli_system", "~> 1.0.0")
-
-    # Message utilities for the Ruby console.
-    spec.add_dependency("L2", "~> 0.6")
+    spec.add_dependency("lesli_system", "~> 1.1.0")
 
     # Human-friendly terminal logs for the Lesli Platform
     spec.add_dependency("termline", "~> 1.1.0")
 
+    # Message utilities for the Ruby console.
+    spec.add_dependency("L2", "~> 0.6") # compatibility
 
     # Simple greetings message
     spec.post_install_message = "Greetings from LesliTech  ❤️  Docs are available at https://www.lesli.dev/"
