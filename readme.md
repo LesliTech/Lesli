@@ -122,9 +122,9 @@ RAILS_SERVE_STATIC_FILES=true rails s --environment=production
 
 ### Connect with Lesli
 
-* [X: @LesliTech](https://x.com/LesliTech)
-* [Email: hello@lesli.tech](hello@lesli.tech)
-* [Website: https://www.lesli.tech](https://www.lesli.tech)
+* [@LesliTech](https://x.com/LesliTech)
+* [hello@lesli.tech](hello@lesli.tech)
+* [https://www.lesli.tech](https://www.lesli.tech)
 
 
 ### License

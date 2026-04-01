@@ -1,0 +1,4 @@
+# test/dummy/Gemfile
+source "https://rubygems.org"
+
+gemspec path: "../../"

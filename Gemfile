@@ -43,12 +43,4 @@ gem "propshaft"
 
 gem "rubocop-rails-omakase", require: false
 
-gem "lesli_testing", path: "../../gems/LesliTesting"
-
-gem "lesli_date", path: "../../gems/LesliDate"
-
-gem "lesli_view", path: "../../gems/LesliView"
-
-gem "lesli_assets", path: "../../gems/LesliAssets"
-
-gem "lesli_system", path: "../../gems/LesliSystem"
+gem "lesli_testing"

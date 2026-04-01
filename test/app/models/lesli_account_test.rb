@@ -1,49 +1,51 @@
 # test/models/lesli_account_test.rb
 require "test_helper"
 
-class LesliAccountTest < LesliTesting::ModelTester
-  fixtures :lesli_accounts
-  set_fixture_class lesli_accounts: "Lesli::Account" # adjust if different
+module Lesli
+    class AccountTest < LesliTesting::ModelTester
+        fixtures :lesli_accounts
+        set_fixture_class lesli_accounts: "Lesli::Account" 
 
-  test "fixture is valid" do
-    assert lesli_accounts(:one).valid?
-  end
+        test "fixture is valid" do
+            assert lesli_accounts(:one).valid?
+        end
 
-  # --- Presence validations (recommended) ---
-  test "requires status" do
-    account = lesli_accounts(:one).dup
-    account.status = nil
-    assert_not account.valid?
-    assert_includes account.errors[:status], "can't be blank"
-  end
+        # --- Presence validations (recommended) ---
+        test "requires status" do
+            account = lesli_accounts(:one).dup
+            account.status = nil
+            assert_not account.valid?
+            assert_includes account.errors[:status], "can't be blank"
+        end
 
-  test "requires email (db constraint)" do
-  account = lesli_accounts(:one).dup
-  account.email = nil
+        test "requires email (db constraint)" do
+        account = lesli_accounts(:one).dup
+        account.email = nil
 
-  assert_raises(ActiveRecord::NotNullViolation) do
-    account.save!(validate: false)
-  end
-end
+        assert_raises(ActiveRecord::NotNullViolation) do
+            account.save!(validate: false)
+        end
+        end
 
-  test "email is unique (db index)" do
-    account = lesli_accounts(:one).dup
-    account.status = "active"
-    account.name = "Unique Name"
+        test "email is unique (db index)" do
+            account = lesli_accounts(:one).dup
+            account.status = "active"
+            account.name = "Unique Name"
 
-    # Hit the DB unique index directly (even if you don't have validates_uniqueness_of)
-    assert_raises ActiveRecord::RecordNotUnique do
-      account.save!(validate: false)
+            # Hit the DB unique index directly (even if you don't have validates_uniqueness_of)
+            assert_raises ActiveRecord::RecordNotUnique do
+            account.save!(validate: false)
+            end
+        end
+
+        test "region defaults to america" do
+            account = Lesli::Account.new(
+            status: "active",
+            email: "new-account@example.com"
+            # region omitted on purpose
+            )
+
+            assert_equal "america", account.region
+        end
     end
-  end
-
-  test "region defaults to america" do
-    account = Lesli::Account.new(
-      status: "active",
-      email: "new-account@example.com"
-      # region omitted on purpose
-    )
-
-    assert_equal "america", account.region
-  end
 end
