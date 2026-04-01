@@ -35,7 +35,7 @@ module MigrationHelpers
         module AttachmentStructure
             def create_table_lesli_item_attachments_10(resources)
 
-                table_name, foreign_key = table_name_for_item(resources, :attachments)
+                table_name, foreign_key = table_name_for_items(resources, :attachments)
 
                 create_table table_name do |t|
                     t.string :name

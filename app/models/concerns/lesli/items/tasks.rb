@@ -31,35 +31,35 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    module Item
-        module Discussions
+    module Items
+        module Tasks
             extend ActiveSupport::Concern
 
             included do
-                class_attribute :lesli_discussions_class, instance_accessor: false
-                lesli_discussions_setup
+                class_attribute :lesli_tasks_class, instance_accessor: false
+                lesli_tasks_setup
             end
 
             class_methods do
 
                 # This acts as our allowlist flag
-                def is_lesli_commentable?
+                def is_lesli_taskable?
                     true
                 end
 
                 # Automatically sets the associations to the
                 # engine model that is implementing the task items
-                def lesli_discussions_setup(use: nil, as: :discussable, association_name: :discussions)
+                def lesli_tasks_setup(use: nil, as: :taskable, association_name: :tasks)
                     klass = if use
                         use.to_s.constantize
                     else
-                        "#{name.deconstantize}::Item::Discussion".constantize
+                        "#{name.deconstantize}::Items::Task".constantize
                     end
 
-                    self.lesli_discussions_class = klass
+                    self.lesli_tasks_class = klass
 
                     # ✅ Auto-fix table name (works even when engine defines table_name_prefix)
-                    expected_table = lesli_expected_discussions_table_name_for(klass)
+                    expected_table = lesli_expected_task_table_name_for(klass)
 
                     if klass.table_name != expected_table
                         klass.table_name = expected_table
@@ -75,6 +75,9 @@ module Lesli
                         as: as,
                         class_name: klass.name,
                         dependent: :destroy)
+                rescue NameError
+                    raise NameError,
+                    "Task class not found for #{name}. Expected #{name.deconstantize}::Task or pass `use:`"
                 end
 
                 private
@@ -82,9 +85,9 @@ module Lesli
                 # Build: "lesli_support_item_activities" from "LesliSupport::Item::Activity"
                 #
                 # We DO NOT rely on ActiveRecord's table_name_prefix, because that’s what breaks your case.
-                def lesli_expected_discussions_table_name_for(klass)
-                    parts = klass.name.split("::").map(&:underscore) # ["lesli_support", "item", "discussion"]
-                    "#{parts.join('_').pluralize}"                   # "lesli_support_item_discussions"
+                def lesli_expected_task_table_name_for(klass)
+                    parts = klass.name.split("::").map(&:underscore) # ["lesli_support", "item", "task"]
+                    "#{parts.join('_').pluralize}"                   # "lesli_support_item_tasks"
                 end
             end
         end

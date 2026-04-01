@@ -35,7 +35,7 @@ module MigrationHelpers
         module ActivityStructure
             def create_table_lesli_item_activities_10(engine)
 
-                table_name, foreign_key = table_name_for_item(engine, :activities)
+                table_name, foreign_key = table_name_for_items(engine, :activities)
 
                 create_table table_name do |t|
 

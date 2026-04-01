@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2026, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -31,12 +31,8 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    module Item
-        class Activity < ApplicationRecord
-            self.abstract_class = true
-            belongs_to :user, class_name: "Lesli::User"
-            belongs_to :account, class_name: "Lesli::Account"
-            belongs_to :subject, polymorphic: true
+    module Items
+        class ActivitiesController < ApplicationLesliController
         end
     end
 end

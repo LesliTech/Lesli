@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    module Item
+    module Items
         class DiscussionsController < ApplicationLesliController
             before_action :set_discussion, only: %i[show update]
             before_action :set_discussable, only: %i[index create]
@@ -57,7 +57,7 @@ module Lesli
                     respond_with_lesli(:turbo => [
                         stream_notification_success("Discussion created"),
                         turbo_stream.prepend("#{scope_key}-lesli-items-discussions-list") do
-                            LesliView::Item::Discussion.new(discussion).render_in(view_context)
+                            LesliView::Items::Discussion.new(discussion).render_in(view_context)
                         end
                     ])
                 else
@@ -73,7 +73,7 @@ module Lesli
                 respond_with_lesli(:turbo => [
                     stream_notification_success("Discussion updated #{@discussable}"),
                     turbo_stream.replace(helpers.dom_id(@discussion, scope_key)) do 
-                        LesliView::Item::Discussion.new(@discussion, scope_key).render_in(view_context)
+                        LesliView::Items::Discussion.new(@discussion, scope_key).render_in(view_context)
                     end
                 ])
             end

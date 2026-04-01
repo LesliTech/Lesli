@@ -1,5 +1,5 @@
 module Lesli
-    module Item
+    module Items
         class Discussion < ApplicationRecord
             self.abstract_class = true
             belongs_to :user, class_name: "Lesli::User"

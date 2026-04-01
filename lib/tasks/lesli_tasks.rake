@@ -32,31 +32,6 @@ Building a better future, one line of code at a time.
 
 # · 
 namespace :lesli do 
-    namespace :babel do 
-
-        desc "Scan and register labels"
-        task :scan => :environment do |task, args|
-            Rake::Task['lesli_babel:scan'].invoke
-        end 
-
-        desc "Import local translations into LesliBabel"
-        task :import => :environment do |task, args|
-            Rake::Task['lesli_babel:import'].invoke
-        end 
-
-        desc "Export translations to json files"
-        task :export => :environment do |task, args|
-            Rake::Task['lesli_babel:export'].invoke
-        end 
-    end
-
-    namespace :shield do 
-
-        desc "Syncing privileges for all the available roles"
-        task :privileges => :environment do |task, args|
-            Rake::Task['lesli_shield:privileges'].invoke
-        end 
-    end
 
     desc "Lesli module status"
     task :status => :environment do |task, args|
@@ -88,18 +63,18 @@ namespace :lesli do
         end
 
         # print pretty instance information 
-        L2.br(2)
+        Termline.br(2)
 
         # core information
-        L2.msg(instance)
-        L2.br()
+        Termline.m(instance)
+        Termline.br()
 
         # print list of engines
-        L2.table(engines)
-        L2.br(2)
+        Termline.table(engines)
+        Termline.br(2)
 
-        L2.m "Environment: " + Rails.env
-        L2.br(2)
+        Termline.info "Environment: " + Rails.env
+        Termline.br(2)
 
     end
 end

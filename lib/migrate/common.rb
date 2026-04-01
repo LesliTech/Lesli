@@ -40,12 +40,12 @@ module MigrationHelpers
             return [table_name, table_name_account]
         end
 
-        def table_name_for_item(resources, item)
+        def table_name_for_items(resources, item)
 
             engine = infer_engine_from_namespace
 
             resource = resources.to_s.singularize
-            table_name = "#{resource}_item_#{item}".to_sym
+            table_name = "#{resource}_items_#{item}".to_sym
             foreign_key = resource.sub("#{engine}_","")
 
             return [table_name, foreign_key]

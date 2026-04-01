@@ -31,35 +31,30 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    module Item
-        module Tasks
+    module Items
+        module Activities
             extend ActiveSupport::Concern
-
+            
             included do
-                class_attribute :lesli_tasks_class, instance_accessor: false
-                lesli_tasks_setup
+                class_attribute :lesli_activities_class, instance_accessor: false
+                lesli_activities_setup
             end
 
             class_methods do
 
-                # This acts as our allowlist flag
-                def is_lesli_taskable?
-                    true
-                end
-
                 # Automatically sets the associations to the
                 # engine model that is implementing the task items
-                def lesli_tasks_setup(use: nil, as: :taskable, association_name: :tasks)
+                def lesli_activities_setup(use: nil, as: :subject, association_name: :activities)
                     klass = if use
                         use.to_s.constantize
                     else
-                        "#{name.deconstantize}::Item::Task".constantize
+                        "#{name.deconstantize}::Items::Activity".constantize
                     end
 
-                    self.lesli_tasks_class = klass
+                    self.lesli_activities_class = klass
 
                     # ✅ Auto-fix table name (works even when engine defines table_name_prefix)
-                    expected_table = lesli_expected_task_table_name_for(klass)
+                    expected_table = lesli_expected_activity_table_name_for(klass)
 
                     if klass.table_name != expected_table
                         klass.table_name = expected_table
@@ -68,16 +63,18 @@ module Lesli
                     # Set associations
                     # Example:
                     # class LesliSupport::Ticket 
-                    #     has_many :lesli_support_tasks
+                    #     has_many :activities, class_name: "LesliSupport::Items::Activity"
                     # end
                     has_many(association_name,
                         -> { where(deleted_at: nil).order(created_at: :desc) },
                         as: as,
                         class_name: klass.name,
-                        dependent: :destroy)
-                rescue NameError
-                    raise NameError,
-                    "Task class not found for #{name}. Expected #{name.deconstantize}::Task or pass `use:`"
+                        dependent: :destroy
+                    )
+
+                    # rescue NameError
+                    #     raise NameError,
+                    #     "Task class not found for #{name}. Expected #{name.deconstantize}::Activity or pass `use:`"
                 end
 
                 private
@@ -85,10 +82,24 @@ module Lesli
                 # Build: "lesli_support_item_activities" from "LesliSupport::Item::Activity"
                 #
                 # We DO NOT rely on ActiveRecord's table_name_prefix, because that’s what breaks your case.
-                def lesli_expected_task_table_name_for(klass)
-                    parts = klass.name.split("::").map(&:underscore) # ["lesli_support", "item", "task"]
-                    "#{parts.join('_').pluralize}"                   # "lesli_support_item_tasks"
+                def lesli_expected_activity_table_name_for(klass)
+                    parts = klass.name.split("::").map(&:underscore) # ["lesli_support", "item", "activity"]
+                    "#{parts.join('_').pluralize}"                   # "lesli_support_item_activities"
                 end
+            end
+
+            def after_save_activities
+                L2.warn "You need to define your activity methods in your model"
+            end
+            
+            def activities_create **resource
+                self.activities.create(
+                    subject_type: self.class.name,
+                    subject_id: self.id,
+                    user_id:self.user_id,
+                    account_id:self.account_id,
+                    **resource
+                )
             end
         end
     end

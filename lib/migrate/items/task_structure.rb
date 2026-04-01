@@ -35,7 +35,7 @@ module MigrationHelpers
         module TaskStructure
             def create_table_lesli_item_tasks_10(engine)
 
-                table_name, foreign_key = table_name_for_item(engine, :tasks)
+                table_name, foreign_key = table_name_for_items(engine, :tasks)
 
                 create_table table_name do |t|
                     t.string  :title, null: false

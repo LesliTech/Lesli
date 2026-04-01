@@ -85,12 +85,12 @@ namespace :lesli do
         L2.m("Drop the Lesli database (development only)")
 
         Rake::Task['db:drop'].invoke
-        L2.info("Databases deleted")
+        Termline.info("Databases deleted")
 
         schema_file = Rails.root.join('db', 'schema.rb')
         if File.exist?(schema_file)
             File.delete(schema_file)
-            L2.info("Schema.rb file deleted")
+            Termline.info("Schema.rb file deleted")
         end
     end
 
@@ -98,7 +98,7 @@ namespace :lesli do
     def create
 
         # print a message to let the users show the action running
-        L2.m("Create the Lesli database")
+        Termline.info("Create the Lesli database")
 
         Rake::Task['db:create'].invoke
     end
@@ -142,15 +142,15 @@ namespace :lesli do
         end
 
         # scan rails routes to build the controllers index
-        Rake::Task['lesli:shield:privileges'].invoke if defined?(LesliShield)
+        Rake::Task['lesli_shield:privileges'].invoke if defined?(LesliShield)
 
         if defined?(LesliBabel)
 
             # scan rails routes to build the base of translations
-            Rake::Task['lesli:babel:scan'].invoke 
+            Rake::Task['lesli_babel:scan'].invoke 
 
             # import local translations into LesliBabel
-            Rake::Task['lesli:babel:import'].invoke 
+            Rake::Task['lesli_babel:import'].invoke 
         end
     end 
 

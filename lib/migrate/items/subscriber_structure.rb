@@ -35,7 +35,7 @@ module MigrationHelpers
         module SubscriberStructure
             def create_table_lesli_item_subscribers_10(resources)
 
-                table_name, foreign_key = table_name_for_item(resources, :subscribers)
+                table_name, foreign_key = table_name_for_items(resources, :subscribers)
 
                 create_table table_name do |t|
                     t.timestamps

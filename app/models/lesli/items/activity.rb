@@ -31,12 +31,12 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    module Item
-        class Task < ApplicationRecord
+    module Items
+        class Activity < ApplicationRecord
             self.abstract_class = true
             belongs_to :user, class_name: "Lesli::User"
             belongs_to :account, class_name: "Lesli::Account"
-            belongs_to :taskable, polymorphic: true
+            belongs_to :subject, polymorphic: true
         end
     end
 end

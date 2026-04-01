@@ -35,7 +35,7 @@ module MigrationHelpers
         module DiscussionStructure
             def create_table_lesli_item_discussions_10(engine)
 
-                table_name, foreign_key = table_name_for_item(engine, :discussions)
+                table_name, foreign_key = table_name_for_items(engine, :discussions)
     
                 create_table table_name do |t|
                     t.text :message

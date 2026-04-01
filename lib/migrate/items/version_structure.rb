@@ -35,7 +35,7 @@ module MigrationHelpers
         module VersionStructure
             def create_table_lesli_item_versions_10(resources)
 
-                table_name, foreign_key = table_name_for_item(resources, :versions)
+                table_name, foreign_key = table_name_for_items(resources, :versions)
 
                 create_table table_name do |t|
                     t.string :column_name
