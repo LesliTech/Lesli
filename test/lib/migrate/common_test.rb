@@ -28,34 +28,34 @@ module Lesli
             assert_equal [:lesli_shield_tokens, :lesli_shield_accounts], result
         end
 
-        # table_name_for_item
+        # table_name_for_items
         test "table_name_for_gem_item returns correct table name and foreign key" do
             # Simulate the engine path by mocking caller_locations
             @helper.fake_locations = [build_loc("/home/app/gems/lesli_shield/app/models/foo.rb")]
 
-            result = @helper.table_name_for_item(:lesli_support, :tasks)
+            result = @helper.table_name_for_items(:lesli_support, :tasks)
 
-            assert_equal [:lesli_support_item_tasks, "lesli_support"], result
+            assert_equal [:lesli_support_items_tasks, "lesli_support"], result
         end
 
-        # table_name_for_item
+        # table_name_for_items
         test "table_name_for_local_item returns correct table name and foreign key" do
             # Simulate the engine path by mocking caller_locations
             @helper.fake_locations = [build_loc("/home/app/engines/LesliShield/app/models/foo.rb")]
 
-            result = @helper.table_name_for_item(:lesli_support, :tasks)
+            result = @helper.table_name_for_items(:lesli_support, :tasks)
 
-            assert_equal [:lesli_support_item_tasks, "lesli_support"], result
+            assert_equal [:lesli_support_items_tasks, "lesli_support"], result
         end
 
-        # table_name_for_item
-        test "table_name_for_item returns correct table name and foreign key" do
+        # table_name_for_items
+        test "table_name_for_items returns correct table name and foreign key" do
             # Simulate the engine path by mocking caller_locations
             @helper.fake_locations = [build_loc("/home/app/engines/lesli_shield/app/models/foo.rb")]
 
-            result = @helper.table_name_for_item(:lesli_support, :tasks)
+            result = @helper.table_name_for_items(:lesli_support, :tasks)
 
-            assert_equal [:lesli_support_item_tasks, "lesli_support"], result
+            assert_equal [:lesli_support_items_tasks, "lesli_support"], result
         end
 
 

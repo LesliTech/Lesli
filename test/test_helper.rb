@@ -1,14 +1,17 @@
 # Configure Rails Environment
 ENV["RAILS_ENV"] = "test"
 
-require "lesli_system"
 
-# Lesli helpers
+# load lesli testing tools
 require "lesli_testing/loader"
 
 
-# Start Lesli testing coverage
-LesliTesting.configure(Lesli::Engine, { :min_coverage => 10 })
+# register engine for testing
+LesliTesting.configure(Lesli::Engine)
+
+
+# initialize coverage
+LesliTesting.configure_coverage({ :min_coverage => 10 })
 
 
 # Loading dummy app
@@ -18,14 +21,5 @@ ActiveRecord::Migrator.migrations_paths << File.expand_path("../db/migrate", __d
 require "rails/test_help"
 
 
-# Load fixtures from the engine
-if ActiveSupport::TestCase.respond_to?(:fixture_paths=)
-    ActiveSupport::TestCase.fixture_paths = [ File.expand_path("fixtures", __dir__) ]
-    ActionDispatch::IntegrationTest.fixture_paths = ActiveSupport::TestCase.fixture_paths
-    ActiveSupport::TestCase.file_fixture_path = File.expand_path("fixtures", __dir__) + "/files"
-    ActiveSupport::TestCase.fixtures :all
-end
-
-
-# Load Lesli testing defaults
-LesliTesting.configure_tests()
+# configure tests
+LesliTesting.configure_engine()
