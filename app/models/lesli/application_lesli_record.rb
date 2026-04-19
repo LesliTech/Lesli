@@ -37,7 +37,7 @@ module Lesli
 
         CHARSET = "ABCDEFGHJKLMNPQRSTUVWXYZ"
 
-        def generate_resource_uid(prefix:nil, length:4)
+        def generate_resource_uid(prefix:nil, length:3)
 
             year  = Time.current.year % 100
             month = Time.current.month
@@ -46,7 +46,7 @@ module Lesli
 
             return "#{letters}" unless period
             return "#{period}-#{letters}" unless prefix
-            return "#{prefix}-#{period}-#{letters}"
+            return "#{prefix}#{period}-#{letters}"
         end
     end
 end
