@@ -4,18 +4,11 @@
 
 # Files and Directories to Skip
 skip_files:
-  - "tmp/**/*"          # Skip temporary files
-  - "vendor/**/*"       # Skip vendor folder
-  - "node_modules/**/*" # Skip global node_modules
-  - "engines/Lesli/node_modules/"
-  - "engines/Lesli/app/items/*"
-  - "engines/Lesli/app/models/lesli/cloud_object/"
-  - "enginesdev/"
 
 # Warnings to Ignore (List Warning Codes)
 ignore_warnings:
-  - "SQLi"              # Example: Ignore false-positive SQL injection warnings
-  - "WeakHash"          # Ignore warnings about weak hashing if you're using MD5 intentionally
+#   - "SQLi"              # Example: Ignore false-positive SQL injection warnings
+#   - "WeakHash"          # Ignore warnings about weak hashing if you're using MD5 intentionally
 
 # Additional Checks
 checks_to_run:
@@ -25,10 +18,6 @@ checks_to_run:
   - "SQLInjection"
   - "FileAccess"
   - "UnmaintainedDependency"
-
-# Additional Paths to Search for Code
-additional_libs_path:
-  - "engines/Lesli/app/lib"
 
 # Confidence Levels to Report
 min_confidence: 2       # 0 (all warnings), 1 (medium), 2 (high)

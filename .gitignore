@@ -1,6 +1,6 @@
 # Lesli
 #
-# Copyright (c) 2023, Lesli Technologies, S. A.
+# Copyright (c) 2026, Lesli Technologies, S. A.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 #
 # Lesli · Ruby on Rails SaaS Development Framework.
 #
-# Made with ♥ by https://www.lesli.tech
+# Made with ♥ by LesliTech
 # Building a better future, one line of code at a time.
 #
 # @contact  hello@lesli.tech
@@ -26,9 +26,6 @@
 #
 # // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 # // · 
-
-
-# See https://help.github.com/articles/ignoring-files for more about ignoring files.
 
 
 # Rails development files
@@ -44,13 +41,14 @@
 /test/dummy/tmp/
 
 
+# Test folders
+coverage
+brakeman
+
 # Development dependencies, packages, gems and tools
 .bundle
 .DS_Store
 .ruby-version
-brakeman.html
-coverage
-
 
 # Ignore Lesli gems
 *.gem

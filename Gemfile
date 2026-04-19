@@ -44,3 +44,5 @@ gem "propshaft"
 gem "rubocop-rails-omakase", require: false
 
 gem "lesli_testing"
+
+gem "brakeman"
