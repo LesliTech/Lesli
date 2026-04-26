@@ -50,11 +50,10 @@ Building a better future, one line of code at a time.
 
 
 <%# Loading stylesheets from engines %> 
-<%#= stylesheet_link_tag(lesli_stylesheet_path(:lesli_assets, 'tailwind'), media: "all") %>
-<%= stylesheet_link_tag(lesli_stylesheet_path(:lesli_assets), media: "all") %>
-<%= stylesheet_link_tag(lesli_stylesheet_path(), media: "all") %>
+<%= stylesheet_link_tag(lesli_asset_path(:lesli_assets), media: "all") %>
+<%= stylesheet_link_tag(lesli_asset_path(), media: "all") %>
 
 
 <%# Loading javascripts from engines %> 
-<%= javascript_include_tag(lesli_stylesheet_path(:lesli_assets, 'application'), :defer => "defer") %>
+<%= javascript_include_tag(lesli_asset_path(:lesli_assets, 'application'), :defer => "defer") %>
 <%= yield(:application_lesli_javascript) %>
