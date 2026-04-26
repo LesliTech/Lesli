@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    lesli (5.1.0)
+    lesli (5.1.1)
       L2 (~> 0.6)
       acts_as_paranoid (~> 0.11.0)
       devise (~> 5.0.0)
@@ -408,7 +408,7 @@ CHECKSUMS
   kaminari-activerecord (1.2.2) sha256=0dd3a67bab356a356f36b3b7236bcb81cef313095365befe8e98057dd2472430
   kaminari-core (1.2.2) sha256=3bd26fec7370645af40ca73b9426a448d09b8a8ba7afa9ba3c3e0d39cdbb83ff
   language_server-protocol (3.17.0.5) sha256=fd1e39a51a28bf3eec959379985a72e296e9f9acfce46f6a79d31ca8760803cc
-  lesli (5.1.0)
+  lesli (5.1.1)
   lesli_assets (1.1.0) sha256=76fb4a44a9dab63832362a3fc706a77e6a2dbf017d6100e8850f2e76ff93b6e7
   lesli_date (1.1.0) sha256=b53efc47dbc5ce29882ce585acfa62a30e56f94268e353e4ec5cfce9f9cea9e1
   lesli_system (1.1.0) sha256=6064fd7b7272b3d66a4fed17e70e2a6ed6e33b8902dc80ea29e9df2396d785eb

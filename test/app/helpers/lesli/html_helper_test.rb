@@ -107,7 +107,7 @@ module Lesli
         # end
 
         test "lesli_stylesheet_path returns explicit engine stylesheet" do
-            assert_equal "lesli/application", lesli_stylesheet_path(:lesli, "application")
+            assert_equal "lesli/application", lesli_asset_path(:lesli, "application")
         end
 
         test "lesli_svg renders svg with use tag" do
