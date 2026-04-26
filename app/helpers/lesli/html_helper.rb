@@ -86,7 +86,7 @@ module Lesli
         # Specific stylesheet from gem
         # lesli_stylesheet_path(:lesli_assets, 'templates/application')
         # /assets/lesli_assets/templates/application.css
-        def lesli_stylesheet_path(engine = nil, stylesheet = 'application')
+        def lesli_asset_path(engine = nil, stylesheet = 'application')
 
             # Stylesheets from specific engine
             return "#{engine}/#{stylesheet}" if engine.present?
