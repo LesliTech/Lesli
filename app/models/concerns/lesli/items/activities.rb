@@ -89,7 +89,7 @@ module Lesli
             end
 
             def after_save_activities
-                L2.warn "You need to define your activity methods in your model"
+                Termline.warn "You need to define your activity methods in your model"
             end
             
             def activities_create **resource

@@ -50,5 +50,5 @@ account = Lesli::Account.find_or_create_by(email: company[:email]) do |account|
 end
 
 # print some separators so will be easy to find these messages later
-L2.br(3);
-L2.success("Account #{ account.name } <#{ account.email }> successfully created!")
+Termline.br(3);
+Termline.success("Account #{ account.name } <#{ account.email }> successfully created!")

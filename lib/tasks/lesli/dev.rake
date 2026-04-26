@@ -43,7 +43,7 @@ namespace :lesli do
     # Seed database (development only)
     def welcome
 
-        L2.br(4)
+        Termline.br(4)
 
         # print the lesli gems
         Rake::Task['lesli:status'].invoke 

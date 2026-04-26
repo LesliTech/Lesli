@@ -82,7 +82,7 @@ namespace :lesli do
         return if Rails.env.production?
 
         # print a message to let the users show the action running
-        L2.m("Drop the Lesli database (development only)")
+        Termline.m("Drop the Lesli database (development only)")
 
         Rake::Task['db:drop'].invoke
         Termline.info("Databases deleted")
@@ -107,7 +107,7 @@ namespace :lesli do
     def migrate
 
         # print a message to let the users show the action running
-        L2.msg("Migrate the Lesli database")
+        Termline.msg("Migrate the Lesli database")
 
         Rake::Task['db:migrate'].invoke
     end
@@ -115,7 +115,7 @@ namespace :lesli do
     def seed
 
         # print a message to let the users show the action running
-        L2.msg("Seed the Lesli database")
+        Termline.msg("Seed the Lesli database")
 
         # load Lesli* gems seeders
         LesliSystem.engines.each do |engine, data|
@@ -125,13 +125,13 @@ namespace :lesli do
 
         # load main app seeders
         Rake::Task['db:seed'].invoke
-        L2.info("Root: Seeds executed")
+        Termline.info("Root: Seeds executed")
     end
 
     def prepare 
 
         # print a message to let the users show the action running
-        L2.msg("Prepare the Lesli database")
+        Termline.msg("Prepare the Lesli database")
 
         # scan rails routes to build the controllers index
         Rake::Task['lesli:resources:build'].invoke

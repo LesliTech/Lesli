@@ -43,7 +43,7 @@ namespace :lesli do
     # Initialize model data for new installed engines
     def engine_install
 
-        L2.msg("Initialize model data for new installed engines")
+        Termline.msg("Initialize model data for new installed engines")
 
         # scan rails routes to build the controllers index
         Rake::Task['lesli:controllers:build'].invoke

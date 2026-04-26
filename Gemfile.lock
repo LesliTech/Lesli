@@ -2,7 +2,6 @@ PATH
   remote: .
   specs:
     lesli (5.1.1)
-      L2 (~> 0.6)
       acts_as_paranoid (~> 0.11.0)
       devise (~> 5.0.0)
       kaminari (~> 1.2.2)
@@ -17,7 +16,6 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    L2 (0.6.5)
     action_text-trix (2.1.18)
       railties
     actioncable (8.1.3)
@@ -368,7 +366,6 @@ DEPENDENCIES
   sqlite3
 
 CHECKSUMS
-  L2 (0.6.5) sha256=02fc24c5f728b483de51e4d4c685901834e3087ac9889c6f39e8231cf53ddc7d
   action_text-trix (2.1.18) sha256=3fdb83f8bff4145d098be283cdd47ac41caf5110bfa6df4695ed7127d7fb3642
   actioncable (8.1.3) sha256=e5bc7f75e44e6a22de29c4f43176927c3a9ce4824464b74ed18d8226e75a80f0
   actionmailbox (8.1.3) sha256=df7da474eaa0e70df4ed5a6fef66eb3b3b0f2dbf7f14518deee8d77f1b4aae59
@@ -387,7 +384,7 @@ CHECKSUMS
   base64 (0.3.0) sha256=27337aeabad6ffae05c265c450490628ef3ebd4b67be58257393227588f5a97b
   bcrypt (3.1.22) sha256=1f0072e88c2d705d94aff7f2c5cb02eb3f1ec4b8368671e19112527489f29032
   bigdecimal (4.1.1) sha256=1c09efab961da45203c8316b0cdaec0ff391dfadb952dd459584b63ebf8054ca
-  brakeman (8.0.4)
+  brakeman (8.0.4) sha256=7bf921fa9638544835df9aa7b3e720a9a72c0267f34f92135955edd80d4dcf6f
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
   concurrent-ruby (1.3.6) sha256=6b56837e1e7e5292f9864f34b69c5a2cbc75c0cf5338f1ce9903d10fa762d5ab
   connection_pool (3.0.2) sha256=33fff5ba71a12d2aa26cb72b1db8bba2a1a01823559fb01d29eb74c286e62e0a

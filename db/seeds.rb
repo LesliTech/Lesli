@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 =end
 
 
-L2.info("Loading seeds for: Lesli #{Lesli::VERSION}")
+Termline.info("Loading seeds for: Lesli #{Lesli::VERSION}")
 
 
 # including tools for seeders

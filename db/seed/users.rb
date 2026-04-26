@@ -70,7 +70,7 @@ userguest = create_account_user(emailguest, "guest", "Guest", account[:company_n
 
 
 # print the owner user credentials, so we can save those credentials
-L2.success(
+Termline.success(
     "Owner user created successfully with email: #{emailowner} and password: #{passowner}",
     "Admin user created successfully with email: #{emailadmin} and password: #{passadmin}",
     "Admin user created successfully with email: #{emailguest} and password: #{passguest}"
@@ -78,4 +78,4 @@ L2.success(
 
 
 # print some separators so will be easy to find these messages later
-L2.br(2);
+Termline.br(2);
