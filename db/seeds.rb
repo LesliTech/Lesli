@@ -30,8 +30,7 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-
-Termline.info("Loading seeds for: Lesli #{Lesli::VERSION}")
+Termline.info("Loading seeds for: Lesli #{Lesli::VERSION}(#{Lesli::BUILD})")
 
 
 # including tools for seeders

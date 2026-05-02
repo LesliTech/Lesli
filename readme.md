@@ -148,8 +148,8 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 <br />
 <br />
 
-<div align="center" class="has-text-centered">
-    <img width="200" alt="Lesli logo" src="https://cdn.lesli.tech/lesli/brand/app-logo.svg" />
+<div align="center" class="has-text-centered">>
+    <img width="80" alt="Lesli logo" src="https://cdn.lesli.tech/lesli/brand/app-icon.svg" />
     <h3 align="center" class="mt-0">
         The Open-Source SaaS Development Framework for Ruby on Rails.
     </h3>

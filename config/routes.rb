@@ -37,15 +37,6 @@ Lesli::Engine.routes.draw do
 
     resource :about, only: [:show]
 
-    resources :users, only: [] do
-    end
-
-    resources :roles, only: [] do 
-        collection do
-            get :list
-        end
-    end
-
     resources :resources, only: [:index]
 
     get :language, to: "apps#language"

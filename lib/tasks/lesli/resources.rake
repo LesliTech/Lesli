@@ -36,8 +36,8 @@ namespace :lesli do
 
         desc "Scan new routes added and create role privileges"
         task build: :environment do
-            Termline.info("Lesli: Registering engines, controllers and actions")
             Lesli::ResourceService.new.build
+            Termline.success("Lesli: Registering engines, controllers and actions")
         end
     end
 end

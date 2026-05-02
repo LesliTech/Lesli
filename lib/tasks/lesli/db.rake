@@ -115,7 +115,7 @@ namespace :lesli do
     def seed
 
         # print a message to let the users show the action running
-        Termline.msg("Seed the Lesli database")
+        Termline.info("Seed the Lesli database")
 
         # load Lesli* gems seeders
         LesliSystem.engines.each do |engine, data|
@@ -125,13 +125,14 @@ namespace :lesli do
 
         # load main app seeders
         Rake::Task['db:seed'].invoke
-        Termline.info("Root: Seeds executed")
+        Termline.info("Loading seeds for: Main app")
+        Termline.br(2)
     end
 
     def prepare 
 
         # print a message to let the users show the action running
-        Termline.msg("Prepare the Lesli database")
+        Termline.info("Prepare the Lesli database")
 
         # scan rails routes to build the controllers index
         Rake::Task['lesli:resources:build'].invoke
