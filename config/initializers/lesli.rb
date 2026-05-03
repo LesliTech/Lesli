@@ -45,7 +45,7 @@ Lesli.configure do |config|
     config.company = {
         name: "Lesli",
         email: "hello@lesli.tech",
-        tagline: "The Open SaaS Development Platform."
+        tagline: "The Open-Source SaaS Development Framework for Ruby on Rails."
     }
 
 
@@ -86,12 +86,12 @@ Lesli.configure do |config|
 
     # Customize the color palette and layout.
     config.theme = {
-        color_primary: "#193d8d",
+        color_primary: "#245F93",
         color_sidebar: "#ffffff",
         color_header: "transparent",
         color_footer: "transparent",
         color_background: "#eef2f6",
-        color_sidebar_hover: "#dee7ec"
+        color_sidebar_hover: "#E3EEF6"
     }
 
 
