@@ -52,19 +52,19 @@ Lesli.configure do |config|
     # List of supported languages (requires `LesliBabel`).
     config.locales = {
         :en => "English",       # English
-        :de => "Deutsch",       # Deutsch/German
-        :pl => "Polski",        # Polski/Polish/Poland
-        :nl => "Dutch",         # Dutch/Nederlands/Netherlands
         :es => "Español",       # Español/Spanish
-        :uk => "украї́нська",    # украї́нська/Ukrainian
-        :sr => "Српски",        # Српски/Srpski/Serbian
-        :it => "Italiano",      # Italiano/Italian
-        :hr => "Hrvatski",      # Hrvatski/Croatian
-        :fr => "Français",      # French
-        :pt => "Português",     # Portuguese
-        :tr => "Türkçe",        # Turkish
-        :ro => "Română",        # Romanian
-        :bg => "български"      # Bulgarian
+        # :de => "Deutsch",       # Deutsch/German
+        # :pl => "Polski",        # Polski/Polish/Poland
+        # :nl => "Dutch",         # Dutch/Nederlands/Netherlands
+        # :uk => "украї́нська",    # украї́нська/Ukrainian
+        # :sr => "Српски",        # Српски/Srpski/Serbian
+        # :it => "Italiano",      # Italiano/Italian
+        # :hr => "Hrvatski",      # Hrvatski/Croatian
+        # :fr => "Français",      # French
+        # :pt => "Português",     # Portuguese
+        # :tr => "Türkçe",        # Turkish
+        # :ro => "Română",        # Romanian
+        # :bg => "български"      # Bulgarian
     }
 
 
@@ -117,7 +117,6 @@ Lesli.configure do |config|
 
     # Shield module configuration
     config.shield = {
-        login_title: "Welcome to Lesli",
         path_after_login: defined?(LesliDashboard) ? "/dashboard" : "/",
         default_role: "guest"
     }
