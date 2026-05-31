@@ -49,25 +49,6 @@ Lesli.configure do |config|
     }
 
 
-    # List of supported languages (requires `LesliBabel`).
-    config.locales = {
-        :en => "English",       # English
-        :es => "Español",       # Español/Spanish
-        # :de => "Deutsch",       # Deutsch/German
-        # :pl => "Polski",        # Polski/Polish/Poland
-        # :nl => "Dutch",         # Dutch/Nederlands/Netherlands
-        # :uk => "украї́нська",    # украї́нська/Ukrainian
-        # :sr => "Српски",        # Српски/Srpski/Serbian
-        # :it => "Italiano",      # Italiano/Italian
-        # :hr => "Hrvatski",      # Hrvatski/Croatian
-        # :fr => "Français",      # French
-        # :pt => "Português",     # Portuguese
-        # :tr => "Türkçe",        # Turkish
-        # :ro => "Română",        # Romanian
-        # :bg => "български"      # Bulgarian
-    }
-
-
     # Define time zone, week start day, and custom date/time formats.
     config.datetime = {
         :time_zone => "America/Guatemala",
@@ -113,6 +94,25 @@ Lesli.configure do |config|
         enable_login_link: true,
         allow_multiaccount: true,
         allow_registration: true
+    }
+
+    config.babel = {
+        locales: {
+            :en => "English",       # English
+            :es => "Español",       # Español/Spanish
+            # :de => "Deutsch",       # Deutsch/German
+            # :pl => "Polski",        # Polski/Polish/Poland
+            # :nl => "Dutch",         # Dutch/Nederlands/Netherlands
+            # :uk => "украї́нська",    # украї́нська/Ukrainian
+            # :sr => "Српски",        # Српски/Srpski/Serbian
+            # :it => "Italiano",      # Italiano/Italian
+            # :hr => "Hrvatski",      # Hrvatski/Croatian
+            # :fr => "Français",      # French
+            # :pt => "Português",     # Portuguese
+            # :tr => "Türkçe",        # Turkish
+            # :ro => "Română",        # Romanian
+            # :bg => "български"      # Bulgarian
+        }
     }
 
     # Shield module configuration

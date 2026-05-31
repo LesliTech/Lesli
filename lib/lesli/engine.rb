@@ -62,9 +62,6 @@ module Lesli
                 end
             end
 
-            # Default languages
-            config.i18n.default_locale = :en
-            config.i18n.available_locales = [:en]
 
             # Lesli Framework Mailer configuration
 

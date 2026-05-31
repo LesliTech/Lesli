@@ -46,7 +46,7 @@ module Lesli
 
         # return the name of the language
         def language_name(locale)
-            Lesli.config.locales.dig(locale) || "undefined"
+            Lesli.config.babel.dig(:locales, locale) || "undefined"
         end
 
         # return the engine code of the controller that is handling the http request

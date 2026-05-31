@@ -32,7 +32,19 @@ Building a better future, one line of code at a time.
 
 module Lesli
     class Configuration
-        attr_accessor :demo, :company, :instance, :locales, :datetime, :security, :theme, :layout, :path_after_login, :mailer, :audit, :support, :shield
+        attr_accessor :demo
+        attr_accessor :company
+        attr_accessor :instance
+        attr_accessor :datetime
+        attr_accessor :security
+        attr_accessor :theme
+        attr_accessor :layout
+
+        attr_accessor :mailer
+        attr_accessor :audit
+        attr_accessor :support
+        attr_accessor :shield
+        attr_accessor :babel
 
         def initialize
             @demo = false
