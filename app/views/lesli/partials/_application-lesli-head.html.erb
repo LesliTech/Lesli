@@ -33,27 +33,36 @@ Building a better future, one line of code at a time.
 <%# the charset attribute specifies the character encoding for the HTML document. %>
 <meta charset="utf-8">
 
+
 <%# this gives the browser instructions on how to control the page's dimensions and scaling. %>
 <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
+
 <%# defines the title of the document. %>
 <title><%= lesli_website_title %></title>
+
 
 <%# rails standard meta tags %>
 <%= csrf_meta_tags %>
 <%= lesli_favicon %>
 
+
+<%# enable turbo %>
+<meta name="turbo-prefetch" content="false">
+<meta name="view-transition" content="same-origin" />
+
+
+<%# Load custom head tags %>
+<%= yield :head %>
+
+
+
+
 <%# provide a short description of the page %>
 <meta name="description" content="<%#= website_meta_description %>">
-
 
 <% appstore_app_id = Rails.application.credentials.dig(:providers, :apple, :app_id) %>
 <% if appstore_app_id %>
     <meta name="apple-itunes-app" content="app-id=<%= appstore_app_id %>">
 <% end %>
-
-
-<%# enable turbo %>
-<meta name="turbo-prefetch" content="false">
-<meta name="view-transition" content="same-origin" />

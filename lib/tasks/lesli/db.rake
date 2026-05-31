@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2025, Lesli Technologies, S. A.
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,41 +34,41 @@ Building a better future, one line of code at a time.
 namespace :lesli do 
     namespace :db do
 
-        desc "Drop, create, migrate, seed & prepare the Lesli database (development only)"
+        desc "Drop, create, migrate, seed & setup the Lesli database (development only)"
         task :reset => :environment do |task, args|
             drop()
             create()
             migrate()
             seed()
-            prepare()
+            setup()
             status()
         end
 
-        desc "Create, migrate, seed & prepare the Lesli database (development only)"
+        desc "Create, migrate, seed & setup the Lesli database (development only)"
         task :dev => :environment do |task, args|
             create()
             migrate()
             seed()
-            prepare()
+            setup()
             status()
         end
 
-        desc "Migrate, prepare && user the Lesli database"
+        desc "Migrate, setup && user the Lesli database"
         task :deploy => :environment do |task, args|
             create()
             migrate()
-            prepare()
+            setup()
             status()
         end
 
-        desc "Migrate & prepare the Lesli database"
-        task :setup => :environment do |task, args|
+        desc "Migrate & setup the Lesli database"
+        task :upgrade => :environment do |task, args|
             migrate()
-            prepare()
+            setup()
             status()
         end
 
-        desc "Seed & prepare Lesli database"
+        desc "Seed & setup Lesli database"
         task :seed => :environment do |task, args|
             seed()
             status()
@@ -107,8 +107,8 @@ namespace :lesli do
     def migrate
 
         # print a message to let the users show the action running
-        Termline.msg("Migrate the Lesli database")
-
+        Termline.br
+        Termline.info("Apply database migrations")
         Rake::Task['db:migrate'].invoke
     end
 
@@ -129,10 +129,10 @@ namespace :lesli do
         Termline.br(2)
     end
 
-    def prepare 
+    def setup 
 
         # print a message to let the users show the action running
-        Termline.info("Prepare the Lesli database")
+        Termline.info("Setup the Lesli database")
 
         # scan rails routes to build the controllers index
         Rake::Task['lesli:resources:build'].invoke

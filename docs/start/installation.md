@@ -75,6 +75,7 @@ rake lesli:db:dev
 
 This task will:
 
+* Create the database (if not exists)
 * Run all database migrations
 * Build privileges (if **LesliSecurity** is installed)
 * Import translations (if **LesliBabel** is installed)

@@ -51,14 +51,6 @@ class CreateLesliUsers < ActiveRecord::Migration[7.2]
             t.string    :email,              null: false, default: ""
             t.string    :encrypted_password, null: false, default: ""
 
-            # Recoverable
-            t.string    :reset_password_token
-            t.datetime  :reset_password_sent_at
-
-            # Password and access management
-            t.datetime  :password_expiration_at
-            t.datetime  :locked_until
-
             # Rememberable
             t.datetime  :remember_created_at
 
@@ -68,6 +60,19 @@ class CreateLesliUsers < ActiveRecord::Migration[7.2]
             t.datetime  :last_sign_in_at
             t.string    :current_sign_in_ip
             t.string    :last_sign_in_ip
+
+            # Lockable
+            t.datetime  :locked_at
+            t.datetime  :locked_until
+            t.string    :unlock_token # Only if unlock strategy is :email or :both
+
+            # Recoverable
+            t.string    :reset_password_token
+            t.datetime  :reset_password_sent_at
+
+            # Password and access management
+            t.datetime  :password_expiration_at
+            t.integer   :failed_attempts, default: 0, null: false # Only if lock strategy is :failed_attempts            
 
             # Confirmable
             t.string    :unconfirmed_email # Only if using reconfirmable
@@ -80,11 +85,6 @@ class CreateLesliUsers < ActiveRecord::Migration[7.2]
             t.string    :telephone_confirmation_token
             t.datetime  :telephone_confirmation_sent_at
             t.datetime  :telephone_confirmed_at
-
-            # Lockable
-            t.integer   :failed_attempts, default: 0, null: false # Only if lock strategy is :failed_attempts
-            t.string    :unlock_token # Only if unlock strategy is :email or :both
-            t.datetime  :locked_at
 
             # Acts as paranoid
             t.datetime  :deleted_at, index: true
@@ -99,5 +99,14 @@ class CreateLesliUsers < ActiveRecord::Migration[7.2]
         add_index(:lesli_users, :unlock_token,         unique: true)
         add_index(:lesli_users, :confirmation_token,   unique: true)
         add_index(:lesli_users, :reset_password_token, unique: true)
+
+        add_index :lesli_users, [:account_id, :active]
+        add_index :lesli_users, [:account_id, :locked_at]
+        add_index :lesli_users, [:account_id, :locked_until]
+        add_index :lesli_users, [:account_id, :confirmed_at]
+        add_index :lesli_users, [:account_id, :last_sign_in_at]
+        add_index :lesli_users, [:account_id, :created_at]
+        add_index :lesli_users, [:account_id, :deleted_at]
+
     end
 end

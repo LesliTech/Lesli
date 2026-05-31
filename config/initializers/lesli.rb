@@ -98,7 +98,6 @@ Lesli.configure do |config|
     #
     config.layout = {
         tasks: true,
-        babel: false,
         profile: true,
         notifications: true
     }
@@ -116,8 +115,15 @@ Lesli.configure do |config|
         allow_registration: true
     }
 
+    # Shield module configuration
+    config.shield = {
+        login_title: "Welcome to Lesli",
+        path_after_login: defined?(LesliDashboard) ? "/dashboard" : "/",
+        default_role: "guest"
+    }
 
-    # Audit configuration
+
+    # Audit module configuration
     config.audit = {
         prefix: 'LA',
         enable_logs: true,
@@ -126,16 +132,14 @@ Lesli.configure do |config|
     }
 
 
-    # Specify default paths for email templates.
+    # Mailer module configuration
     config.mailer = {
         templates: "lesli_assets/emails"
     }
 
+
+    # Support module configuration
     config.support = {
         prefix: 'LS'
     }
-
-    # Control redirection paths after login.
-    config.path_after_login = "/"
-    config.path_after_login = "/dashboard" if defined?(LesliDashboard)
 end

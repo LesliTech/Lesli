@@ -29,84 +29,114 @@ Lesli provides sensible defaults, so in most cases you only need to change the s
 ```ruby
 Lesli.configure do |config|
 
-  # Enable or disable demo mode.
-  config.demo = false
+# Enable or disable demo mode.
+config.demo = false
 
-  # Installation identifier.
-  config.instance = "Lesli"
 
-  # Organization details displayed throughout the system.
-  config.company = {
+# Installation identifier
+config.instance = "Lesli"
+
+
+# Provides organization details displayed throughout the system.
+config.company = {
     name: "Lesli",
     email: "hello@lesli.tech",
-    tagline: "The Open SaaS Development Platform."
-  }
+    tagline: "The Open-Source SaaS Development Framework for Ruby on Rails."
+}
 
-  # Supported languages (requires LesliBabel).
-  config.locales = {
-    en: "English",
-    de: "Deutsch",
-    pl: "Polski",
-    nl: "Dutch",
-    es: "Español",
-    it: "Italiano",
-    fr: "Français",
-    pt: "Português"
-  }
 
-  # Date and time settings.
-  config.datetime = {
-    time_zone: "America/Guatemala",
-    start_week_on: "monday",
-    formats: {
-      date: "%d/%m/%Y",
-      time: "%H:%M",
-      date_time: "%d/%m/%Y %H:%M",
-      date_words: "%A, %B %d, %Y",
-      date_time_words: "%A, %B %d, %Y, %H:%M",
-      date_time_words_pm: "%A, %B %d, %Y, %I:%M %p",
-      date_time_words_day: "%A, %B %d, %Y, %H:%M"
+# List of supported languages (requires `LesliBabel`).
+config.locales = {
+    :en => "English",       # English
+    :de => "Deutsch",       # Deutsch/German
+    :pl => "Polski",        # Polski/Polish/Poland
+    :nl => "Dutch",         # Dutch/Nederlands/Netherlands
+    :es => "Español",       # Español/Spanish
+    :uk => "украї́нська",    # украї́нська/Ukrainian
+    :sr => "Српски",        # Српски/Srpski/Serbian
+    :it => "Italiano",      # Italiano/Italian
+    :hr => "Hrvatski",      # Hrvatski/Croatian
+    :fr => "Français",      # French
+    :pt => "Português",     # Portuguese
+    :tr => "Türkçe",        # Turkish
+    :ro => "Română",        # Romanian
+    :bg => "български"      # Bulgarian
+}
+
+
+# Define time zone, week start day, and custom date/time formats.
+config.datetime = {
+    :time_zone => "America/Guatemala",
+    :start_week_on => "monday",
+    :formats => {
+        :date => "%d/%m/%Y",
+        :time => "%H:%M",
+        :date_time => "%d/%m/%Y %H:%M",
+        :date_words => "%A, %B %d, %Y",
+        :date_time_words => "%A, %B %d, %Y, %H:%M", 
+        :date_time_words_pm => "%A, %B %d, %Y, %I:%M %p", 
+        :date_time_words_day => "%A, %B %d, %Y, %H:%M", 
     }
-  }
+}
 
-  # Security settings.
-  config.security = {
-    password: "Test123!",
-    enable_debug: false,
-    enable_becoming: false,
-    enable_analytics: true,
-    enable_login_otp: true,
-    enable_login_link: true,
-    allow_multiaccount: true,
-    allow_registration: true
-  }
 
-  # Theme colors.
-  config.theme = {
-    color_primary: "#193d8d",
+# Customize the color palette and layout.
+config.theme = {
+    color_primary: "#245F93",
     color_sidebar: "#ffffff",
     color_header: "transparent",
     color_footer: "transparent",
     color_background: "#eef2f6",
-    color_sidebar_hover: "#dee7ec"
-  }
+    color_sidebar_hover: "#E3EEF6"
+}
 
-  # Layout options.
-  config.layout = {
+
+#
+config.layout = {
     tasks: true,
-    babel: false,
     profile: true,
     notifications: true
-  }
+}
 
-  # Default mailer template path.
-  config.mailer = {
-    templates: "lesli_mailer/emails/lesli"
-  }
 
-  # Redirect path after login.
-  config.path_after_login = "/"
-  config.path_after_login = "/dashboard" if defined?(LesliDashboard)
+# Customize system-wide security behavior.
+config.security = {
+    # Default password for non-production environments
+    password: "Test123!", 
+    enable_debug: false,
+    enable_becoming: false,
+    enable_login_otp: true,
+    enable_login_link: true,
+    allow_multiaccount: true,
+    allow_registration: true
+}
+
+# Shield module configuration
+config.shield = {
+    login_title: "Welcome to Lesli",
+    path_after_login: defined?(LesliDashboard) ? "/dashboard" : "/"
+}
+
+
+# Audit module configuration
+config.audit = {
+    prefix: 'LA',
+    enable_logs: true,
+    enable_journals: true,
+    enable_analytics: true
+}
+
+
+# Mailer module configuration
+config.mailer = {
+    templates: "lesli_assets/emails"
+}
+
+
+# Support module configuration
+config.support = {
+    prefix: 'LS'
+}
 end
 ```
 

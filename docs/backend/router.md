@@ -1,5 +1,5 @@
 # Rails router
-The Rails router is defined in the ´config/routes.rb´ file of your Rails application. This file contains a set of routing rules that determine how URLs should be processed by the application. 
+The Rails router is defined in the `config/routes.rb` file of your Rails application. This file contains a set of routing rules that determine how URLs should be processed by the application. 
 
 Each route specifies an HTTP verb (e.g., GET, POST, PUT, DELETE) and a URL pattern (or path) along with the controller and action that should handle the request. 
 
@@ -47,7 +47,7 @@ Lesli comes with a helper router class so you dont need to load Lesli engines ma
 
 ```ruby
 Rails.application.routes.draw do
-    Lesli::Router.mount
+    Lesli::Router.mount(self)
 end
 ```
 
@@ -62,7 +62,7 @@ Lesli comes with its own implementation of devise through the `LesliShield` engi
 Rails.application.routes.draw do
 
     # Load dedicated mounting routes for devise from the LesliShield engine
-    LesliShield::Router.mount_login_at()
+    LesliShield::Router.mount_login_at(self)
 end
 ```
 
@@ -80,7 +80,7 @@ You can customize the path using the helper:
 
 ```ruby
 Rails.application.routes.draw do
-    LesliShield::Router.mount_login_at("my-users")
+    LesliShield::Router.mount_login_at(self,"my-users")
 end
 ```
 
