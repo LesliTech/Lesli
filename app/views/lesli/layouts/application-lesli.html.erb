@@ -37,6 +37,9 @@ Building a better future, one line of code at a time.
     <%= render(partial: "lesli/partials/application-lesli-data") %>
     <%= render(partial: "lesli/partials/application-lesli-assets") %>
     <%= render(partial: "lesli/partials/application-lesli-analytics") %>
+    <% if content_for?(:head) %>
+        <%= yield :head %>
+    <% end %>
 </head>
 <body class="<%= lesli_application_body_class() %>">
     <%= render(partial: "lesli/partials/application-lesli-header") %>

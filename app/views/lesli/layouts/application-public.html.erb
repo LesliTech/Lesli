@@ -35,10 +35,9 @@ Building a better future, one line of code at a time.
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <%= render(partial: "lesli/partials/application-lesli-head") %>
     <% if content_for?(:head) %>
         <%= yield :head %>
-    <% else %>
-        <%= render(partial: "lesli/partials/application-lesli-head") %>
     <% end %>
 </head>
 <body class="<%= lesli_application_body_class() %>">
