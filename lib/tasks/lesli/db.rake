@@ -34,41 +34,24 @@ Building a better future, one line of code at a time.
 namespace :lesli do 
     namespace :db do
 
-        desc "Drop, create, migrate, seed & setup the Lesli database (development only)"
-        task :reset => :environment do |task, args|
+        desc "Drop, create, migrate, seed & configure the Lesli database (development only)"
+        task :rebuild => :environment do |task, args|
             drop()
             create()
             migrate()
             seed()
-            setup()
+            configure()
             status()
         end
 
-        desc "Create, migrate, seed & setup the Lesli database (development only)"
-        task :dev => :environment do |task, args|
-            create()
-            migrate()
-            seed()
-            setup()
+        desc "Migrate, configure && user the Lesli database"
+        task :prepare => :environment do |task, args|
+            prepare()
+            configure()
             status()
         end
 
-        desc "Migrate, setup && user the Lesli database"
-        task :deploy => :environment do |task, args|
-            create()
-            migrate()
-            setup()
-            status()
-        end
-
-        desc "Migrate & setup the Lesli database"
-        task :upgrade => :environment do |task, args|
-            migrate()
-            setup()
-            status()
-        end
-
-        desc "Seed & setup Lesli database"
+        desc "Seed & configure Lesli database"
         task :seed => :environment do |task, args|
             seed()
             status()
@@ -79,7 +62,7 @@ namespace :lesli do
     def drop
 
         # do not execute this task if we are at production level
-        return if Rails.env.production?
+        raise "Cannot drop database in production" if Rails.env.production?
 
         # print a message to let the users show the action running
         Termline.m("Drop the Lesli database (development only)")
@@ -112,6 +95,15 @@ namespace :lesli do
         Rake::Task['db:migrate'].invoke
     end
 
+    # Create the Lesli database (development only)
+    def prepare
+
+        # print a message to let the users show the action running
+        Termline.info("Prepare the Lesli database")
+
+        Rake::Task['db:prepare'].invoke
+    end
+
     def seed
 
         # print a message to let the users show the action running
@@ -129,7 +121,7 @@ namespace :lesli do
         Termline.br(2)
     end
 
-    def setup 
+    def configure 
 
         # print a message to let the users show the action running
         Termline.info("Setup the Lesli database")
@@ -137,7 +129,7 @@ namespace :lesli do
         # scan rails routes to build the controllers index
         Rake::Task['lesli:resources:build'].invoke
 
-        Lesli::Account.all.each do |account|
+        Lesli::Account.find_each do |account|
             account.initialize_account
             account.initialize_engines
         end
