@@ -1,9 +1,8 @@
-/*! tailwindcss v4.3.1 | MIT License | https://tailwindcss.com */
-/*!
-
+@charset "UTF-8";
+/*
 Lesli
 
-Copyright (c) 2026, Lesli Technologies, S. A.
+Copyright (c) 2025, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,23 +29,3 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
-@layer theme, utilities;
-@layer theme {
-  :root, :host {
-    --spacing: 0.25rem;
-  }
-}
-@layer utilities {
-  .grid {
-    display: grid;
-  }
-  .\[grid-template-columns\:repeat\(auto-fit\,minmax\(260px\,318px\)\)\] {
-    grid-template-columns: repeat(auto-fit,minmax(260px,318px));
-  }
-  .justify-center {
-    justify-content: center;
-  }
-  .gap-6 {
-    gap: calc(var(--spacing) * 6);
-  }
-}

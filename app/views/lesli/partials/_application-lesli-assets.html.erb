@@ -50,9 +50,9 @@ Building a better future, one line of code at a time.
 
 
 <%# Loading stylesheets from engines %> 
-<%#= stylesheet_link_tag(lesli_asset_path(:lesli_assets, 'application'), media: "all") %>
 <%= stylesheet_link_tag(lesli_asset_path(:lesli_assets, 'application.tailwind'), media: "all") %>
-<%= stylesheet_link_tag(lesli_asset_path(), media: "all") %>
+<%= stylesheet_link_tag(lesli_asset_path(:lesli_assets, 'view.tailwind'), media: "all") %>
+<%= stylesheet_link_tag(lesli_asset_path(nil,'application.tailwind'), media: "all") %>
 
 
 <%# Loading javascripts from engines %> 

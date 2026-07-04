@@ -346,7 +346,7 @@ module Lesli
                     content_tag(:div, class: "px-2") do
                         safe_join([
                             content_tag(:span, title, class: "block text-[20px] font-semibold leading-6 text-[var(--lesli-color-primary)]"),
-                            content_tag(:p, subtitle, class: "mt-2 text-[14px] font-normal leading-5 text-[var(--lesli-color-primary)]/80")
+                            content_tag(:p, subtitle, class: "font-[OpenSans] mt-2 text-[16px] font-normal leading-5 text-[var(--lesli-color-primary)]/80")
                         ])
                     end
                 ])
