@@ -315,18 +315,41 @@ module Lesli
         private
 
         # build a html link for an engine path
-        def navigation_engine_item(title, subtitle, icon, path, is_active)
-            # get hidden modules if there are modules to hide
+        def navigation_engine_item(title, subtitle, icon, path, is_active = false)
             modules_hidden = [] # Rails.application.config.lesli.dig(:modules_hidden) || []
 
-            # stop rendering module navigation if need to hide the module
             return nil if modules_hidden.include?(path)
 
-            # render module navigation item :)
-            content_tag(:a, id: path.gsub("/",""), href: path, class: is_active ? "is-active" : nil, data: { turbo: false }) do
-                lesli_svg("engine-#{icon}") << content_tag(:div) do
-                    content_tag(:span, title) << content_tag(:p, subtitle)
-                end
+            card_classes = class_names(
+                "group",
+                "flex min-h-[220px] w-full flex-col items-center justify-center",
+                "rounded-xl border bg-white px-5 py-8 text-center",
+                "shadow-[0_8px_24px_rgba(15,23,42,0.10)]",
+                "transition-all duration-200 ease-in-out",
+                "hover:-translate-y-0.5 hover:border-[var(--lesli-color-primary)] hover:shadow-[0_14px_32px_rgba(15,23,42,0.14)]",
+                "focus:outline-none focus:ring-4 focus:ring-[var(--lesli-color-primary)]/15",
+                is_active ? "is-active border-[var(--lesli-color-primary)] bg-[#F0F4FF]" : "border-white"
+            )
+
+            content_tag(:a, id: path.gsub("/", ""), href: path, class: card_classes, data: { turbo: false }) do
+                safe_join([
+                    content_tag(:div, class: [
+                        "mb-5 flex h-16 w-16 items-center justify-center",
+                        "[&_svg]:h-20 [&_svg]:w-20",
+                        "[&_svg]:fill-[var(--lesli-color-primary)]",
+                        "[&_svg_path]:fill-[var(--lesli-color-primary)]",
+                        "transition-transform duration-200 group-hover:scale-105"
+                    ].join(" ")) do
+                        lesli_svg("engine-#{icon}")
+                    end,
+
+                    content_tag(:div, class: "px-2") do
+                        safe_join([
+                            content_tag(:span, title, class: "block text-[20px] font-semibold leading-6 text-[var(--lesli-color-primary)]"),
+                            content_tag(:p, subtitle, class: "mt-2 text-[14px] font-normal leading-5 text-[var(--lesli-color-primary)]/80")
+                        ])
+                    end
+                ])
             end
         end
     end

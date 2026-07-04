@@ -28,9 +28,11 @@ document.addEventListener('turbo:load', () => {
 
 <%= render(LesliView::Layout::Container.new("lesli-apps", dashboard: false)) do %>
     <%= render("lesli_dashboard/dashboards/shared/header") if defined?(LesliDashboard) %>
-    <section class="columns is-multiline is-mobile is-centered engines">
-        <% @navigation_engines.each do |engine| %>
-            <%= public_send("navigation_engine_#{engine}") %>
-        <% end %>
+    <section class="lesli-engines">
+        <div class="grid justify-center gap-6 [grid-template-columns:repeat(auto-fit,minmax(260px,318px))]">
+            <% @navigation_engines.each do |engine| %>
+                <%= public_send("navigation_engine_#{engine}") %>
+            <% end %>
+        </div>
     </section>
 <% end %>
