@@ -48,23 +48,32 @@ module Lesli
 
         # Prints a html link inside a list item
         def navigation_item(path, label, icon = nil, reload: false)
-            content_tag(:li, { class: "navbar-item"}) do
+            content_tag(:li) do
                 navigation_link(path, label, icon, reload:reload)
             end
         end
 
         def navigation_link(path, label, icon = nil, reload: false)
+            active = current_page?(path)
 
-            #content_tag(html_element, html_options) do
-            link_to path, data: { turbo_frame: '_top' } do
-                # print a simple menu item (without icon)
-                concat content_tag(:span, label, class: "text iconless") unless icon
+            item_class = class_names(
+                "group flex items-center gap-4 rounded-2xl px-4 py-3 text-base font-medium transition focus:outline-none focus:ring-2 focus:ring-sky-500/30",
+                "lg:gap-2 lg:rounded-xl lg:px-4 lg:py-2 lg:text-md",
+                active ? "bg-sky-50 text-sky-700" : "text-slate-600 hover:bg-slate-50 hover:text-slate-950 lg:text-slate-500"
+            )
 
-                # print a full menu item if icon was requested
+            icon_class = class_names(
+                icon,
+                "text-[24px] leading-none transition lg:text-[18px]",
+                active ? "text-sky-600" : "text-slate-500 group-hover:text-slate-900"
+            )
+
+            link_to(path, { class: item_class }, data: { turbo_frame: "_top" }) do
                 if icon
-                    concat content_tag(:span, nil, class: icon)
-                    concat content_tag(:span, label, class: "text")
+                    concat content_tag(:i, nil, class: icon_class)
                 end
+
+                concat content_tag(:span, label)
             end
         end
 

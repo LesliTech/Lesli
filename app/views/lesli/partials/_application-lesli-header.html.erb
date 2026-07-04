@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2025, Lesli Technologies, S. A.
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,89 +33,102 @@ Building a better future, one line of code at a time.
 <%# Get the navigation partial for every engine %>
 <% engine_navigation_partial = navigation_partial %>
 
-<header class="lesli-application-header">
-    <div class="container" x-data="{ navActive: false }">
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <a 
-                    class="navbar-item p-0"
-                    href="<%= defined?(LesliDashboard) ? '/dashboard' : '/' %>">
-                    <%= customization_instance_logo_tag(logo: "app-logo", options: { alt: "Lesli app logo" }) %>
-                </a>
-                <button
-                    class="navbar-burger"
-                    type="button"
-                    aria-label="menu"
-                    aria-expanded="false"
-                    @click="navActive = !navActive"
-                    :class="{ 'is-active': navActive }">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </button>
+<%
+    dashboard_path = defined?(LesliDashboard) ? "/dashboard" : "/"
+    notifications_count = @lesli&.dig(:notifications).to_i
+
+    header_action_class = "relative flex h-10 w-10 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-sky-500/30"
+    logout_action_class = "relative flex h-10 w-10 items-center justify-center rounded-xl text-slate-500 transition hover:bg-red-50 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500/20"
+
+    search_path = "#"
+    profile_path = lesli.apps_path
+%>
+
+<header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white">
+    <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+
+        <!-- Logo -->
+        <%= link_to dashboard_path,
+            class: "flex items-center",
+            aria: { label: "Lesli Dashboard" },
+            data: { turbo_frame: "_top" } do %>
+
+            <div class="flex items-center [&_img]:h-12 [&_img]:w-auto">
+                <%= customization_instance_logo_tag(
+                    logo: "app-logo",
+                    options: { alt: "Lesli app logo" }
+                ) %>
             </div>
-            <div class="navbar-menu" :class="{ 'is-active': navActive }">
-                <div class="navbar-start is-flex is-flex-grow-1 is-justify-content-center">
-                    <%# ["favorite","sentiment_excited","person_pin_circle","manage_accounts"].each do |icon| %>
-                    <% [].each do |icon| %>
-                        <div class="navbar-item">
-                            <a data-turbo-frame="_top" href="/babel/labels" class="icon py-4 px-5">
-                                <span class="material-symbols-outlined">
-                                    <%= icon %>
-                                </span>
-                            </a>
-                        </div>
+        <% end %>
+
+        <!-- Actions -->
+        <nav class="flex items-center gap-2" aria-label="Application actions">
+
+            <!-- Search -->
+            <%= link_to search_path,
+                class: header_action_class,
+                aria: { label: "Search" },
+                data: { turbo_frame: "_top" } do %>
+                <i class="ri-search-line text-[24px] leading-none"></i>
+            <% end %>
+
+            <!-- Notifications -->
+            <% if defined?(LesliBell) %>
+                <%= link_to lesli_bell.notifications_path,
+                    class: header_action_class,
+                    aria: { label: "Notifications" },
+                    data: { turbo_frame: "_top" } do %>
+
+                    <% if notifications_count > 0 %>
+                        <i class="ri-notification-3-fill text-[24px] leading-none text-sky-600"></i>
+                        <span class="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-sky-500 ring-2 ring-white"></span>
+                    <% else %>
+                        <i class="ri-notification-3-line text-[24px] leading-none"></i>
                     <% end %>
-                </div>
-                <div class="navbar-end is-flex is-justify-content-center">
+                <% end %>
+            <% end %>
 
-                    <!-- notifications -->
-                    <div class="navbar-item">
-                        <% if defined?(LesliBell) %>
-                            <%= link_to(
-                                lesli_bell.notifications_path, 
-                                :class => "header-indicator",
-                                :data => { turbo_frame: '_top' }) do %>
-                                <% if @lesli[:notifications] > 0 %>
-                                    <span class="ri-notification-3-fill has-text-primary"></span>
-                                <% else %>
-                                    <span class="ri-notification-3-line"></span>
-                                <% end %>
-                            <% end %>
-                        <% end %>
-                    </div>
+            <!-- App Selector -->
+            <%= link_to lesli.apps_path,
+                class: header_action_class,
+                aria: { label: "Applications" },
+                data: { turbo_frame: "_top" } do %>
+                <i class="ri-apps-2-line text-[24px] leading-none"></i>
+            <% end %>
 
-                    <!-- app selector -->
-                    <div class="navbar-item">
-                        <%= navigation_link(lesli.apps_path, nil, "ri-apps-2-line") %>
-                    </div>
+            <!-- User / Profile -->
+            <%= link_to profile_path,
+                class: header_action_class,
+                aria: { label: "Go to profile" },
+                title: "profile",
+                data: { turbo_frame: "_top" } do %>
+                <i class="ri-user-smile-line text-[24px] leading-none"></i>
+            <% end %>
 
-                    <!-- user profile -->
-                    <div class="navbar-item">
-                        <%= navigation_link(lesli.apps_path, nil, "ri-user-smile-line") %>
-                    </div>
+            <!-- Logout -->
+            <% if defined?(LesliShield) %>
+                <%= link_to main_app.destroy_user_session_path,
+                    class: logout_action_class,
+                    aria: { label: "Logout" },
+                    data: {
+                        turbo_frame: "_top",
+                        turbo_method: :delete
+                    } do %>
+                    <i class="ri-logout-circle-r-line text-[24px] leading-none"></i>
+                <% end %>
+            <% end %>
 
-                    <!-- logout from session -->
-                    <div class="navbar-item">
-                        <%= navigation_link(main_app.destroy_user_session_path, nil, "ri-logout-circle-r-line") if defined?(LesliShield) %>
-                    </div>
-                </div>
-                <div class="navbar-end is-hidden-desktop">
-                    <%= render(engine_navigation_partial) if engine_navigation_partial %>
-                </div>
-            </div>
         </nav>
     </div>
 </header>
 
 <%# Build the engine navigation %>
 <% if engine_navigation_partial %>
-    <nav class="navbar lesli-application-navigation is-hidden-touch">
-        <div class="navbar-menu">
-            <div class="navbar-start is-flex-grow-1 is-justify-content-center">
+    <nav class="hidden border-b border-slate-200/80 bg-white sm:block lg:block" aria-label="Module navigation">
+        <div class="mx-auto flex h-14 max-w-7xl items-center justify-center px-4 sm:px-6 lg:px-8">
+            <ul class="flex items-center gap-1">
                 <%= render(engine_navigation_partial) %>
-            </div>
+            </ul>
         </div>
     </nav>
 <% end %>
