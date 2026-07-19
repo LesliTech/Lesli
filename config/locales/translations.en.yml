@@ -1,6 +1,15 @@
 ---
 :en:
   lesli:
+    header:
+      applications: Applications
+      dashboard: Lesli Dashboard
+      logout: Logout
+      notifications: Notifications
+      notifications_unread:
+        one: "%{count} unread notification"
+        other: "%{count} unread notifications"
+      profile: Profile
     shared:
       message_error_not_found: Not found
       message_error_resource_not_found: The resource you are looking for was not found.

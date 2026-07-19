@@ -37,15 +37,32 @@ Building a better future, one line of code at a time.
 
     header_action_class = "relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500/40"
     logout_action_class = "relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-slate-500 transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/30"
+
+    dashboard_label = I18n.t("lesli.header.dashboard", default: "Lesli Dashboard")
+    notifications_label = if notifications_count.positive?
+        I18n.t("lesli.header.notifications_unread", count: notifications_count, default: "%{count} unread notifications")
+    else
+        I18n.t("lesli.header.notifications", default: "Notifications")
+    end
+    applications_label = I18n.t("lesli.header.applications", default: "Applications")
+    profile_label = I18n.t("lesli.header.profile", default: "Profile")
+    logout_label = I18n.t("lesli.header.logout", default: "Logout")
+
+    action_class = ->(path) {
+        class_names(
+            header_action_class,
+            current_page?(path) && "bg-sky-50 text-sky-700"
+        )
+    }
 %>
 
 <header class="border-b border-slate-200/80 bg-white">
-    <div class="mx-auto flex h-20 max-w-7xl items-center justify-between">
+    <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 
         <!-- Logo -->
         <%= link_to dashboard_path,
             class: "flex items-center",
-            aria: { label: "Lesli Dashboard" },
+            aria: { label: dashboard_label },
             data: { turbo_frame: "_top" } do %>
 
             <div class="flex items-center [&_img]:h-12 [&_img]:w-auto">
@@ -61,16 +78,18 @@ Building a better future, one line of code at a time.
 
             <% if defined?(LesliBell) %>
                 <%= link_to lesli_bell.notifications_path,
-                    class: header_action_class,
-                    aria: { label: "Notifications" },
-                    title: "Notifications",
+                    class: action_class.call(lesli_bell.notifications_path),
+                    aria: {
+                        label: notifications_label,
+                        current: current_page?(lesli_bell.notifications_path) ? "page" : nil
+                    },
+                    title: notifications_label,
                     data: { turbo_frame: "_top" } do %>
 
                     <i class="<%= notifications_count.positive? ? 'ri-notification-3-fill text-sky-600' : 'ri-notification-3-line' %> text-[24px] leading-none" aria-hidden="true"></i>
 
                     <% if notifications_count.positive? %>
-                        <span class="absolute -right-0 -top-0 flex min-h-4 min-w-4 items-center justify-center rounded-full bg-sky-600 px-1 text-[9px] font-semibold leading-none text-white ring-2 ring-white">
-                            <span class="sr-only">Unread notifications:</span>
+                        <span class="absolute -right-0 -top-0 flex min-h-4 min-w-4 items-center justify-center rounded-full bg-sky-600 px-1 text-[9px] font-semibold leading-none text-white ring-2 ring-white" aria-hidden="true">
                             <%= notifications_count > 99 ? "99+" : notifications_count %>
                         </span>
                     <% end %>
@@ -78,18 +97,24 @@ Building a better future, one line of code at a time.
             <% end %>
 
             <%= link_to lesli.apps_path,
-                class: header_action_class,
-                aria: { label: "Applications" },
-                title: "Applications",
+                class: action_class.call(lesli.apps_path),
+                aria: {
+                    label: applications_label,
+                    current: current_page?(lesli.apps_path) ? "page" : nil
+                },
+                title: applications_label,
                 data: { turbo_frame: "_top" } do %>
                 <i class="ri-apps-2-line text-[24px] leading-none" aria-hidden="true"></i>
             <% end %>
 
             <% if defined?(LesliAdmin) %>
                 <%= link_to lesli_admin.profile_path,
-                    class: header_action_class,
-                    aria: { label: "Profile" },
-                    title: "Profile",
+                    class: action_class.call(lesli_admin.profile_path),
+                    aria: {
+                        label: profile_label,
+                        current: current_page?(lesli_admin.profile_path) ? "page" : nil
+                    },
+                    title: profile_label,
                     data: { turbo_frame: "_top" } do %>
                     <i class="ri-user-smile-line text-[24px] leading-none" aria-hidden="true"></i>
                 <% end %>
@@ -98,8 +123,8 @@ Building a better future, one line of code at a time.
             <% if defined?(LesliShield) %>
                 <%= link_to main_app.destroy_user_session_path,
                     class: logout_action_class,
-                    aria: { label: "Logout" },
-                    title: "Logout" do %>
+                    aria: { label: logout_label },
+                    title: logout_label do %>
                     <i class="ri-logout-circle-r-line text-[24px] leading-none" aria-hidden="true"></i>
                 <% end %>
             <% end %>

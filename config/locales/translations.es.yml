@@ -1,6 +1,15 @@
 ---
 :es:
   lesli:
+    header:
+      applications: Aplicaciones
+      dashboard: Panel de Lesli
+      logout: Cerrar sesión
+      notifications: Notificaciones
+      notifications_unread:
+        one: "%{count} notificación sin leer"
+        other: "%{count} notificaciones sin leer"
+      profile: Perfil
     shared:
       message_error_not_found: ":lesli.shared.message_error_not_found:"
       message_error_resource_not_found: El recurso que estás buscando no fue encontrado
