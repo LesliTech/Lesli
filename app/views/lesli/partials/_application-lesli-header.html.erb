@@ -30,21 +30,16 @@ Building a better future, one line of code at a time.
 // · 
 %>
 
-<%# Get the navigation partial for every engine %>
-<% engine_navigation_partial = navigation_partial %>
-
 <%
-    dashboard_path = defined?(LesliDashboard) ? "/dashboard" : "/"
+    engine_navigation_partial = navigation_partial
+    dashboard_path = defined?(LesliDashboard) ? lesli_dashboard.root_path : "/"
     notifications_count = @lesli&.dig(:notifications).to_i
 
     header_action_class = "relative flex h-10 w-10 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-sky-500/30"
     logout_action_class = "relative flex h-10 w-10 items-center justify-center rounded-xl text-slate-500 transition hover:bg-red-50 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500/20"
-
-    search_path = "#"
-    profile_path = lesli.apps_path
 %>
 
-<header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white">
+<header class="border-b border-slate-200/80 bg-white">
     <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 
         <!-- Logo -->
@@ -61,60 +56,52 @@ Building a better future, one line of code at a time.
             </div>
         <% end %>
 
-        <!-- Actions -->
+        <%# Application actions %>
         <nav class="flex items-center gap-2" aria-label="Application actions">
 
-            <!-- Search -->
-            <%= link_to search_path,
-                class: header_action_class,
-                aria: { label: "Search" },
-                data: { turbo_frame: "_top" } do %>
-                <i class="ri-search-line text-[24px] leading-none"></i>
-            <% end %>
-
-            <!-- Notifications -->
             <% if defined?(LesliBell) %>
                 <%= link_to lesli_bell.notifications_path,
                     class: header_action_class,
-                    aria: { label: "Notifications" },
+                    aria: { label: notifications_count.positive? ? "Notifications (#{notifications_count} unread)" : "Notifications" },
+                    title: "Notifications",
                     data: { turbo_frame: "_top" } do %>
 
-                    <% if notifications_count > 0 %>
-                        <i class="ri-notification-3-fill text-[24px] leading-none text-sky-600"></i>
-                        <span class="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-sky-500 ring-2 ring-white"></span>
-                    <% else %>
-                        <i class="ri-notification-3-line text-[24px] leading-none"></i>
+                    <i class="<%= notifications_count.positive? ? 'ri-notification-3-fill text-sky-600' : 'ri-notification-3-line' %> text-[24px] leading-none" aria-hidden="true"></i>
+
+                    <% if notifications_count.positive? %>
+                        <span class="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-sky-500 ring-2 ring-white" aria-hidden="true"></span>
                     <% end %>
                 <% end %>
             <% end %>
 
-            <!-- App Selector -->
             <%= link_to lesli.apps_path,
                 class: header_action_class,
                 aria: { label: "Applications" },
+                title: "Applications",
                 data: { turbo_frame: "_top" } do %>
-                <i class="ri-apps-2-line text-[24px] leading-none"></i>
+                <i class="ri-apps-2-line text-[24px] leading-none" aria-hidden="true"></i>
             <% end %>
 
-            <!-- User / Profile -->
-            <%= link_to profile_path,
-                class: header_action_class,
-                aria: { label: "Go to profile" },
-                title: "profile",
-                data: { turbo_frame: "_top" } do %>
-                <i class="ri-user-smile-line text-[24px] leading-none"></i>
+            <% if defined?(LesliAdmin) %>
+                <%= link_to lesli_admin.profile_path,
+                    class: header_action_class,
+                    aria: { label: "Profile" },
+                    title: "Profile",
+                    data: { turbo_frame: "_top" } do %>
+                    <i class="ri-user-smile-line text-[24px] leading-none" aria-hidden="true"></i>
+                <% end %>
             <% end %>
 
-            <!-- Logout -->
             <% if defined?(LesliShield) %>
                 <%= link_to main_app.destroy_user_session_path,
                     class: logout_action_class,
                     aria: { label: "Logout" },
+                    title: "Logout",
                     data: {
                         turbo_frame: "_top",
                         turbo_method: :delete
                     } do %>
-                    <i class="ri-logout-circle-r-line text-[24px] leading-none"></i>
+                    <i class="ri-logout-circle-r-line text-[24px] leading-none" aria-hidden="true"></i>
                 <% end %>
             <% end %>
 
@@ -124,9 +111,9 @@ Building a better future, one line of code at a time.
 
 <%# Build the engine navigation %>
 <% if engine_navigation_partial %>
-    <nav class="hidden border-b border-slate-200/80 bg-white sm:block lg:block" aria-label="Module navigation">
-        <div class="mx-auto flex h-14 max-w-7xl items-center justify-center px-4 sm:px-6 lg:px-8">
-            <ul class="flex items-center gap-1">
+    <nav class="border-b border-slate-200/80 bg-white" aria-label="Module navigation">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" style="overflow-x: auto;">
+            <ul class="flex h-14 items-center gap-1" style="width: max-content; margin-inline: auto;">
                 <%= render(engine_navigation_partial) %>
             </ul>
         </div>

@@ -99,7 +99,7 @@ module Lesli
             engine_code = lesli_engine(:code)
 
             # Rails main host app stylesheets
-            return 'application' if engine_code == 'root'
+            return stylesheet if engine_code == 'root'
 
             # Rails engines stylesheets
             "#{engine_code}/#{stylesheet}"
