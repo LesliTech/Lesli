@@ -1,7 +1,11 @@
 <div align="center">
-    <img width="150" alt="Lesli logo" src="./app/assets/images/lesli/lesli-logo.svg" />
-    <h1 align="center">Lesli</h1>
-    <h3 align="center">The Open-Source SaaS Development Framework for Ruby on Rails.</h3>
+    <h1 align="center">
+        <img
+            width="150"
+            alt="Lesli"
+            src="./app/assets/images/lesli/lesli-logo.svg" />
+    </h1>
+    <h3>The Open-Source SaaS Development Framework for Ruby on Rails.</h3>
 </div>
 
 <br />
@@ -32,7 +36,7 @@
         src="./docs/images/screenshot.png" />
 </div>
 
----
+<br />
 
 ## Introduction
 
@@ -43,6 +47,8 @@ Built on **Ruby on Rails, Hotwire, and Tailwind CSS**, with support for **SQLite
 Lesli is not a starter kit, admin panel, or boilerplate. It is a **modular foundation** that allows you to build applications using independent engines, shared infrastructure, and proven SaaS patterns.
 
 With Lesli, you focus on features—not infrastructure.
+
+<br />
 
 ## Why Lesli?
 
@@ -56,10 +62,14 @@ Lesli core and its official engines provide:
 - Multi-language support for both core and custom modules
 - An architecture designed for long-term SaaS scalability and maintainability
 
+<br />
+
 ## Try Lesli
 
 - [Try the online demo](https://demo.lesli.dev/)
 - [Run the Docker demo](https://github.com/LesliTech/lesli-docker-demo)
+
+<br />
 
 ## Quick Start
 
@@ -114,6 +124,8 @@ bin/rails server
 
 Then visit [http://127.0.0.1:3000/login](http://127.0.0.1:3000/login).
 
+<br />
+
 ## Development
 
 ### Development template
@@ -161,6 +173,8 @@ bin/rails server --binding=0.0.0.0
 bin/rails server --environment=development
 ```
 
+<br />
+
 ## Documentation
 
 - [Lesli website](https://www.lesli.dev/)
@@ -168,11 +182,15 @@ bin/rails server --environment=development
 - [Contribution guide](./docs/contributing/github.md)
 - [Releases and changelog](https://github.com/LesliTech/Lesli/releases)
 
+<br />
+
 ## Community
 
 - [X: @LesliTech](https://x.com/LesliTech)
 - [hello@lesli.tech](mailto:hello@lesli.tech)
 - [https://www.lesli.tech](https://www.lesli.tech)
+
+<br />
 
 ## License
 
@@ -194,6 +212,9 @@ along with this program. If not, see [https://www.gnu.org/licenses/](https://www
 The complete license text is available in the [license file](./license).
 
 ---
+
+<br />
+<br />
 
 <div align="center">
     <img width="80" alt="Lesli icon" src="https://cdn.lesli.tech/lesli/brand/app-icon.svg" />
