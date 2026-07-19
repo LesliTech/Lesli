@@ -1,38 +1,34 @@
 <script>
-document.addEventListener('turbo:load', () => {
-    const stored = localStorage.getItem('engineData')
-    const data = stored ? JSON.parse(stored) : { engines: [] }
+if (window.lesliFilterNavigationEngines) {
+    document.removeEventListener('turbo:load', window.lesliFilterNavigationEngines)
+}
 
-    data.engines.forEach(id => {
+window.lesliFilterNavigationEngines = function() {
+    let data = { engines: [] }
+
+    try {
+        const stored = localStorage.getItem('engineData')
+        data = stored ? JSON.parse(stored) : data
+    } catch (error) {
+        console.warn('Unable to read the engine navigation preferences.', error)
+    }
+
+    const hiddenEngines = Array.isArray(data.engines) ? data.engines : []
+
+    hiddenEngines.forEach(id => {
         const el = document.getElementById(id.replace("lesli"))
-        if (el) el.style.display = 'none'
+        if (el) el.hidden = true
     })
-})
+}
+
+document.addEventListener('turbo:load', window.lesliFilterNavigationEngines)
 </script>
-<%
-@navigation_engines = [
-    :dashboard, 
-    :admin, 
-    :mailer,
-    :bell, 
-    :contacts,
-    :calendar, 
-    :papers,
-    :support,
-    :shield, 
-    :security,
-    :audit,
-    :babel
-]
-%>
 
 <%= render(LesliView::Layout::Container.new("lesli-apps", dashboard: false)) do %>
     <%= render("lesli_dashboard/dashboards/shared/header") if defined?(LesliDashboard) %>
-    <section class="lesli-engines">
-        <div class="grid justify-center gap-6 [grid-template-columns:repeat(auto-fit,minmax(260px,318px))]">
-            <% @navigation_engines.each do |engine| %>
-                <%= public_send("navigation_engine_#{engine}") %>
-            <% end %>
+    <section class="lesli-engines py-6 sm:py-8">
+        <div class="grid justify-center gap-5 sm:gap-6 [grid-template-columns:repeat(auto-fit,minmax(260px,318px))]">
+            <%= navigation_engines %>
         </div>
     </section>
 <% end %>

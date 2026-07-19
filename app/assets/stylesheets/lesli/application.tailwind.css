@@ -40,13 +40,29 @@ Building a better future, one line of code at a time.
   .grid {
     display: grid;
   }
+  .hidden {
+    display: none;
+  }
   .\[grid-template-columns\:repeat\(auto-fit\,minmax\(260px\,318px\)\)\] {
     grid-template-columns: repeat(auto-fit,minmax(260px,318px));
   }
   .justify-center {
     justify-content: center;
   }
-  .gap-6 {
-    gap: calc(var(--spacing) * 6);
+  .gap-5 {
+    gap: calc(var(--spacing) * 5);
+  }
+  .py-6 {
+    padding-block: calc(var(--spacing) * 6);
+  }
+  .sm\:gap-6 {
+    @media (width >= 40rem) {
+      gap: calc(var(--spacing) * 6);
+    }
+  }
+  .sm\:py-8 {
+    @media (width >= 40rem) {
+      padding-block: calc(var(--spacing) * 8);
+    }
   }
 }

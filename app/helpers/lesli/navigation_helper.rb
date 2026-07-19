@@ -33,6 +33,22 @@ Building a better future, one line of code at a time.
 module Lesli
     module NavigationHelper
 
+        # Applications are rendered in this order on the engine selector page.
+        NAVIGATION_ENGINES = %i[
+            dashboard
+            admin
+            mailer
+            bell
+            contacts
+            calendar
+            papers
+            support
+            shield
+            security
+            audit
+            babel
+        ].freeze
+
         def navigation_partial
             engine = lesli_engine[:code]
             path = engine == "root" ? "partials/navigation" : "#{engine}/partials/navigation"
@@ -75,6 +91,15 @@ module Lesli
 
                 concat content_tag(:span, label)
             end
+        end
+
+        # Render the cards for installed engines while preserving their display order.
+        def navigation_engines
+            cards = NAVIGATION_ENGINES.filter_map do |engine|
+                public_send("navigation_engine_#{engine}")
+            end
+
+            safe_join(cards)
         end
 
         # ADMINISTRATION
@@ -321,34 +346,43 @@ module Lesli
             return nil if modules_hidden.include?(path)
 
             card_classes = class_names(
-                "group",
-                "flex min-h-[220px] w-full flex-col items-center justify-center",
-                "rounded-xl border bg-white px-5 py-8 text-center",
-                "shadow-[0_8px_24px_rgba(15,23,42,0.10)]",
-                "transition-all duration-200 ease-in-out",
-                "hover:-translate-y-0.5 hover:border-[var(--lesli-color-primary)] hover:shadow-[0_14px_32px_rgba(15,23,42,0.14)]",
-                "focus:outline-none focus:ring-4 focus:ring-[var(--lesli-color-primary)]/15",
-                is_active ? "is-active border-[var(--lesli-color-primary)] bg-[#F0F4FF]" : "border-white"
+                "group relative overflow-hidden",
+                "flex min-h-[210px] w-full flex-col items-center justify-center",
+                "rounded-2xl border bg-white px-6 py-8 text-center shadow-sm",
+                "transition-all duration-200 ease-out",
+                "hover:-translate-y-0.5 hover:border-[var(--lesli-color-primary)] hover:shadow-lg",
+                "focus:outline-none focus-visible:ring-4 focus-visible:ring-[var(--lesli-color-primary)]/15",
+                is_active ? "is-active border-[var(--lesli-color-primary)] bg-sky-50" : "border-slate-200"
             )
 
             content_tag(:a, id: path.gsub("/", ""), href: path, class: card_classes, data: { turbo: false }) do
                 safe_join([
                     content_tag(:div, class: [
-                        "mb-5 flex h-16 w-16 items-center justify-center",
-                        "[&_svg]:h-20 [&_svg]:w-20",
+                        "mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-sky-50",
+                        "ring-1 ring-sky-100 transition-all duration-200",
+                        "group-hover:scale-105 group-hover:bg-sky-100",
+                        "[&_svg]:h-12 [&_svg]:w-12",
                         "[&_svg]:fill-[var(--lesli-color-primary)]",
-                        "[&_svg_path]:fill-[var(--lesli-color-primary)]",
-                        "transition-transform duration-200 group-hover:scale-105"
+                        "[&_svg_path]:fill-[var(--lesli-color-primary)]"
                     ].join(" ")) do
                         lesli_svg("engine-#{icon}")
                     end,
 
                     content_tag(:div, class: "px-2") do
                         safe_join([
-                            content_tag(:span, title, class: "block text-[20px] font-semibold leading-6 text-[var(--lesli-color-primary)]"),
-                            content_tag(:p, subtitle, class: "font-[OpenSans] mt-2 text-[16px] font-normal leading-5 text-[var(--lesli-color-primary)]/80")
+                            content_tag(:span, title, class: "block text-xl font-semibold leading-6 tracking-tight text-[var(--lesli-color-primary)]"),
+                            content_tag(:p, subtitle, class: "mt-2 font-[OpenSans] text-sm font-normal leading-5 text-slate-500")
                         ])
-                    end
+                    end,
+
+                    content_tag(:span, "arrow_forward", {
+                        class: class_names(
+                            "material-symbols absolute right-5 top-5 text-lg text-[var(--lesli-color-primary)]",
+                            "transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100",
+                            is_active ? "opacity-100" : "opacity-0"
+                        ),
+                        aria: { hidden: true }
+                    })
                 ])
             end
         end
