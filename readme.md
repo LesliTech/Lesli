@@ -171,6 +171,7 @@ For additional server configurations, use the standard Rails server options:
 ```shell
 bin/rails server --binding=0.0.0.0
 bin/rails server --environment=development
+RAILS_SERVE_STATIC_FILES=true rails s --environment=production 
 ```
 
 <br />
