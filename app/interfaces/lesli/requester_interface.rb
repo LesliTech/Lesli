@@ -36,7 +36,7 @@ module Lesli
         # Set the user language based on user_settings, session configuration or instance default locale
         def set_locale
             # get saved language in session, browser language or the default in config
-            # the session param is setted in settings controller through "get :language, to: "settings#language""
+            # the session param is setted in settings controller through "get :language, to: "settings#language"
             locale = session[:locale] || I18n.default_locale
 
             # get user's preferred language
