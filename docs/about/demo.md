@@ -41,7 +41,7 @@ bundle add lesli
 rails generate lesli:install
 
 # Prepare the development database
-rake lesli:db:reset
+rake lesli:db:rebuild
 
 # Start the application
 rails server

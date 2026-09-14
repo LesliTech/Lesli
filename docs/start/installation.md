@@ -89,7 +89,7 @@ This task will:
 If you need to reset your environment during development:
 
 ```bash
-rake lesli:db:reset
+rake lesli:db:rebuild
 ```
 
 This command drops, recreates, migrates, and reseeds the database using the same logic as `lesli:db:dev`.

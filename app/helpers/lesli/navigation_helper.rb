@@ -358,9 +358,9 @@ module Lesli
             content_tag(:a, id: path.gsub("/", ""), href: path, class: card_classes, data: { turbo: false }) do
                 safe_join([
                     content_tag(:div, class: [
-                        "mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-sky-50",
-                        "ring-1 ring-sky-100 transition-all duration-200",
-                        "group-hover:scale-105 group-hover:bg-sky-100",
+                        "mb-5 flex h-16 w-16 items-center justify-center",
+                        "transition-all duration-200",
+                        "group-hover:scale-105",
                         "[&_svg]:h-12 [&_svg]:w-12",
                         "[&_svg]:fill-[var(--lesli-color-primary)]",
                         "[&_svg_path]:fill-[var(--lesli-color-primary)]"

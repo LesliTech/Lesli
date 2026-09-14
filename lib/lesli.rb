@@ -1,3 +1,5 @@
+require "rails-i18n"
+
 require "lesli/configuration"
 require "lesli/version"
 require "lesli/courier"

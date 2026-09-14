@@ -84,8 +84,7 @@ Your Rails App
 | -------------- | -------------------------------------------- |
 | Backend        | Ruby on Rails                                |
 | Database       | PostgreSQL / SQLite                          |
-| Frontend       | Hotwire, Alpine.js, Bulma                    |
-| Styling        | Sass                                         |
+| Frontend       | Hotwire, Alpine.js, Tailwind                 |
 | Authentication | Devise-based integration through LesliShield |
 
 ---

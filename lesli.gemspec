@@ -70,6 +70,9 @@ Gem::Specification.new do |spec|
     # Rails framework
     spec.add_dependency("rails", "~> 8.1")
 
+    # A set of common locale data and translations to internationalize and/or localize your Rails applications.
+    spec.add_dependency("rails-i18n", "~> 8.1")
+
     # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
     spec.add_dependency("turbo-rails", "~> 2.0.0")
 
