@@ -33,7 +33,7 @@ Building a better future, one line of code at a time.
 <% protected_controllers = ["confirmations"] %>
 
 <% # Get an specific site tracking id or use the development default %>
-<% tracking_id = Rails.application.credentials.dig(:providers, :google, :tag_manager) || ENV["PROVIDERS_GOOGLE_TAG_MANAGER"] %>
+<% tracking_id = Rails.application.credentials.dig(:providers, :google, :tag_manager) || ENV["CREDENTIALS_PROVIDERS_GOOGLE_TAG_MANAGER"] %>
 
 <% # check if analytics is enabled in the settings file %>
 <% if Rails.env.production? && tracking_id %>
