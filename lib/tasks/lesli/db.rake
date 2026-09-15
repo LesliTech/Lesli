@@ -37,12 +37,12 @@ namespace :lesli do
         desc "Drop, create, migrate, seed & configure the Lesli database (development only)"
         task :rebuild => :environment do |task, args|
             drop()
-            create()
-            migrate()
+            prepare()
             seed()
             configure()
             status()
         end
+
 
         desc "Migrate, configure && user the Lesli database"
         task :prepare => :environment do |task, args|
@@ -75,24 +75,6 @@ namespace :lesli do
             File.delete(schema_file)
             Termline.info("Schema.rb file deleted")
         end
-    end
-
-    # Create the Lesli database (development only)
-    def create
-
-        # print a message to let the users show the action running
-        Termline.info("Create the Lesli database")
-
-        Rake::Task['db:create'].invoke
-    end
-
-    # Migrate the Lesli database 
-    def migrate
-
-        # print a message to let the users show the action running
-        Termline.br
-        Termline.info("Apply database migrations")
-        Rake::Task['db:migrate'].invoke
     end
 
     # Create the Lesli database (development only)
