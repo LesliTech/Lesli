@@ -67,20 +67,26 @@ The initializer allows you to configure global Lesli behavior and framework opti
 
 ## 4. Prepare the Database
 
-Lesli provides a task that prepares a complete development environment.
+Prepare the database and configure Lesli for every existing account:
 
 ```bash
-rake lesli:db:dev
+bin/rails lesli:db:prepare
 ```
 
 This task will:
 
-* Create the database (if not exists)
-* Run all database migrations
-* Build privileges (if **LesliSecurity** is installed)
-* Import translations (if **LesliBabel** is installed)
-* Seed demo users and sample data for installed engines
-* Output a summary of the current system status
+* Run Rails `db:prepare`, which creates the database when needed and runs pending migrations
+* Rebuild the Lesli controller and action index from the application routes
+* Initialize core data and installed engines for every existing account
+* Build privileges when **LesliShield** is installed
+* Scan and import translations when **LesliBabel** is installed
+* Print the current Lesli system status
+
+This command does not run database seeders. To load seed data separately, run:
+
+```bash
+bin/rails lesli:db:seed
+```
 
 ---
 
@@ -89,10 +95,13 @@ This task will:
 If you need to reset your environment during development:
 
 ```bash
-rake lesli:db:rebuild
+bin/rails lesli:db:rebuild
 ```
 
-This command drops, recreates, migrates, and reseeds the database using the same logic as `lesli:db:dev`.
+This command drops the database, deletes `db/schema.rb` when present, prepares the database, loads seed data, configures every account, and prints the system status.
+
+> **Warning**
+> `lesli:db:rebuild` permanently replaces the current database data. The task raises an error and stops when Rails is running in the production environment.
 
 ---
 

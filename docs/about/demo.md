@@ -40,8 +40,8 @@ bundle add lesli
 # Install Lesli into your app
 rails generate lesli:install
 
-# Prepare the development database
-rake lesli:db:rebuild
+# Rebuild and seed the development database
+bin/rails lesli:db:rebuild
 
 # Start the application
 rails server
