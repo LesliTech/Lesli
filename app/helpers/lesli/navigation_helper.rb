@@ -337,6 +337,16 @@ module Lesli
                                    controller_path.include?("cloud_development"))
         end
 
+        def application_dashboard_path
+            if defined?(LesliDashboard) && respond_to?(:lesli_dashboard)
+                lesli_dashboard.root_path
+            elsif main_app.respond_to?(:root_path)
+                main_app.root_path
+            else
+                "/"
+            end
+        end
+
         private
 
         # build a html link for an engine path

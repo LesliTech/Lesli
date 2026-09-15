@@ -32,8 +32,8 @@ Building a better future, one line of code at a time.
 
 <%
     engine_navigation_partial = navigation_partial
-    dashboard_path = defined?(LesliDashboard) ? lesli_dashboard.root_path : main_app.root_path
     notifications_count = @lesli&.dig(:notifications).to_i
+    dashboard_path = application_dashboard_path
 
     header_action_class = "relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500/40"
     logout_action_class = "relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-slate-500 transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/30"
