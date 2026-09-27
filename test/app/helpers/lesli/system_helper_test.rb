@@ -28,22 +28,22 @@ module Lesli
         end
 
         test "language_name returns the correct language" do
-            original = Lesli.config.locales
-            Lesli.config.locales = { en: "English", es: "Español" }
+            original = Lesli.config.babel.dig(:locales)
+            Lesli.config.babel[:locales] = { en: "English", es: "Español" }
 
             assert_equal "English", language_name(:en)
             assert_equal "Español", language_name(:es)
         ensure
-            Lesli.config.locales = original
+            Lesli.config.babel[:locales] = original
         end
 
         test "language_name returns undefined for missing locale" do
-            original = Lesli.config.locales
-            Lesli.config.locales = { en: "English" }
+            original = Lesli.config.babel.dig(:locales)
+            Lesli.config.babel[:locales] = { en: "English" }
 
             assert_equal "undefined", language_name(:fr)
         ensure
-            Lesli.config.locales = original
+            Lesli.config.babel[:locales] = original
         end
 
         test "lesli_controller returns the first segment of the path" do

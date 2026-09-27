@@ -1,7 +1,18 @@
 PATH
+  remote: ../../gems/LesliTesting
+  specs:
+    lesli_testing (1.3.1)
+      minitest (~> 6.0.0)
+      simplecov (~> 0.22.0)
+      simplecov-cobertura (~> 3.1.0)
+      simplecov-console (~> 0.9.0)
+      simplecov-html (~> 0.13.2)
+      termline (~> 1.1.0)
+
+PATH
   remote: .
   specs:
-    lesli (5.1.9)
+    lesli (5.1.10)
       acts_as_paranoid (~> 0.11.0)
       devise (~> 5.0.0)
       kaminari (~> 1.2.2)
@@ -143,13 +154,6 @@ GEM
     lesli_assets (1.1.1)
     lesli_date (1.1.0)
     lesli_system (1.1.0)
-    lesli_testing (1.3.1)
-      minitest (~> 6.0.0)
-      simplecov (~> 0.22.0)
-      simplecov-cobertura (~> 3.1.0)
-      simplecov-console (~> 0.9.0)
-      simplecov-html (~> 0.13.2)
-      termline (~> 1.1.0)
     lesli_view (1.1.2)
       lexxy (~> 0.9.9.beta)
       view_component (~> 4.8.0)
@@ -364,7 +368,7 @@ PLATFORMS
 DEPENDENCIES
   brakeman
   lesli!
-  lesli_testing
+  lesli_testing!
   propshaft
   puma
   rubocop-rails-omakase
@@ -410,11 +414,11 @@ CHECKSUMS
   kaminari-activerecord (1.2.2) sha256=0dd3a67bab356a356f36b3b7236bcb81cef313095365befe8e98057dd2472430
   kaminari-core (1.2.2) sha256=3bd26fec7370645af40ca73b9426a448d09b8a8ba7afa9ba3c3e0d39cdbb83ff
   language_server-protocol (3.17.0.6) sha256=5ef2c0c138f8267e1bc631d3328347d354f96724b0af22f2c79516120443b7f0
-  lesli (5.1.9)
+  lesli (5.1.10)
   lesli_assets (1.1.1) sha256=9e14eb59875fe98e2f3e1e0cff49fd03a9e3f7e1b1f3a769b95d61c21eba2ed4
   lesli_date (1.1.0) sha256=b53efc47dbc5ce29882ce585acfa62a30e56f94268e353e4ec5cfce9f9cea9e1
   lesli_system (1.1.0) sha256=6064fd7b7272b3d66a4fed17e70e2a6ed6e33b8902dc80ea29e9df2396d785eb
-  lesli_testing (1.3.1) sha256=f0b4e9d7a7bb4b937c13f97b083fe8412776d6a89db6343ff83e6c0c14b5f875
+  lesli_testing (1.3.1)
   lesli_view (1.1.2) sha256=6a5599684e578d22704bd51c47a8b3eb2f0a027a2ca7b09a841f4a297b8c16e1
   lexxy (0.9.32) sha256=f4139804085bd87749fed1eab5f4c3b490105f480d5de8c2712ca3b8cd34c47c
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87

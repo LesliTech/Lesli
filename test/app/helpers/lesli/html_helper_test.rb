@@ -50,7 +50,7 @@ module Lesli
             original = Lesli.config.company
             Lesli.config.company = { name: "Lesli Inc" }
 
-            @application_html_title = "Custom Title"
+            @application_html_title = "Custom Title · Lesli Inc"
             @action_name = "index"
 
             title = lesli_website_title
