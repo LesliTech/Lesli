@@ -1,137 +1,433 @@
-<style>
-html, body, * {
-    box-sizing: border-box;
-}
+<% content_for :head do %>
+    <style>
+        :root {
+            --welcome-primary: var(--lesli-color-primary-500, #245f93);
+            --welcome-primary-light: var(--lesli-color-primary-400, #4f83ae);
+            --welcome-primary-dark: var(--lesli-color-primary-900, #123553);
+            --welcome-primary-soft: var(--lesli-color-primary-100, #e3eef6);
+            --welcome-ink: var(--lesli-color-neutral-900, #1f2933);
+            --welcome-muted: var(--lesli-color-neutral-600, #566270);
+            --welcome-border: var(--lesli-color-neutral-200, #e5eaf0);
+        }
 
-html, body {
-    margin: 0;
-    padding: 0;
-}
+        html,
+        body {
+            min-height: 100%;
+            margin: 0;
+        }
 
-.page-welcome {
-    display: flex;   
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    height: 100vh;
-    padding-bottom: 4rem;
-    background-size: 115px 115px;
-    background-color: #ffffff;
-    background-position: 0 0,55px 55px;
-    background-image:  
-        radial-gradient(#0C2856 1px, transparent 2px), 
-        radial-gradient(#0C2856 1px, #ffffff 2px);
-        animation: rotateBackground 10s linear infinite;
-}
+        .welcome-page,
+        .welcome-page * {
+            box-sizing: border-box;
+        }
 
-.page-welcome svg {
-    width: 320px;
-    background-color: white;
-}
+        .welcome-page {
+            position: relative;
+            isolation: isolate;
+            display: grid;
+            min-height: 100vh;
+            min-height: 100svh;
+            place-items: center;
+            overflow: hidden;
+            padding: clamp(1rem, 2vw, 2rem) clamp(1.25rem, 4vw, 3.5rem);
+            color: var(--welcome-ink);
+            background:
+                radial-gradient(circle at 15% 15%, rgba(79, 131, 174, .17), transparent 30rem),
+                radial-gradient(circle at 85% 80%, rgba(36, 95, 147, .12), transparent 28rem),
+                linear-gradient(145deg, #fbfdff 0%, #f4f8fb 100%);
+            font-family: "OpenSans", "Segoe UI", sans-serif;
+        }
 
-.page-welcome h1 {
-    font-size: 4rem;
-    max-width: 960px;
-    font-weight: 900;
-    text-align: center;
-    line-height: 1.1;
-    margin: 0px auto 2rem;
-    letter-spacing: -.5px;
-    background-color: white;
-    color: #333;
-}
+        .welcome-page::before {
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+            background-image: radial-gradient(rgba(36, 95, 147, .32) 1px, transparent 1.25px);
+            background-size: 56px 56px;
+            content: "";
+            -webkit-mask-image: linear-gradient(115deg, #000 0%, transparent 72%);
+            mask-image: linear-gradient(115deg, #000 0%, transparent 72%);
+            pointer-events: none;
+        }
 
-.page-welcome h1 span {
-    background: -webkit-linear-gradient(0deg, #4C83EA, #0C2856);
-    background-clip: border-box;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
+        .welcome-hero {
+            display: grid;
+            width: min(100%, 74rem);
+            grid-template-columns: minmax(0, 1.25fr) minmax(17rem, .75fr);
+            align-items: center;
+            gap: clamp(2rem, 6vw, 5rem);
+            padding: clamp(2rem, 4vw, 3.5rem);
+            border: 1px solid rgba(255, 255, 255, .86);
+            border-radius: clamp(1.5rem, 3vw, 2.5rem);
+            background: rgba(255, 255, 255, .76);
+            box-shadow: 0 28px 80px rgba(18, 53, 83, .12);
+            -webkit-backdrop-filter: blur(18px);
+            backdrop-filter: blur(18px);
+        }
 
-.page-welcome a {
-    font-size: 1.4rem;
-    font-family: "OpenSans", "Ubuntu", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    background-color: white;
-    color: #276AD6;
-    display: flex;
-    align-items: center;
-}
+        .welcome-content {
+            min-width: 0;
+        }
 
-.page-welcome .buttons {
-    margin-bottom: 2rem;
-}
+        .welcome-brand {
+            display: inline-flex;
+            align-items: center;
+        }
 
-.page-welcome .buttons a {
-    border: none;
-    display: inline-block;
-    text-decoration: none;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px -1px rgba(10, 22, 50, .24);
+        .welcome-brand img {
+            width: clamp(9rem, 15vw, 12rem);
+            height: auto;
+        }
 
-    margin: 0;
-    color: #ffffff;
-    padding: 14px 40px;
-    text-align: center;
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 28px;
-}
+        .welcome-kicker {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            margin: clamp(1.5rem, 3vw, 2rem) 0 0;
+            color: var(--welcome-primary);
+            font-size: .78rem;
+            font-weight: 800;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+        }
 
-.page-welcome .buttons a.doc {
-    background: #276AD6;
-}
+        .welcome-kicker::before {
+            width: .55rem;
+            height: .55rem;
+            border-radius: 50%;
+            background: var(--welcome-primary-light);
+            box-shadow: 0 0 0 5px rgba(79, 131, 174, .12);
+            content: "";
+        }
 
-.page-welcome .buttons a.start {
-    background: #5F6C7D;
-}
+        .welcome-title {
+            max-width: 12ch;
+            margin: 1rem 0 0;
+            font-family: "Domine", Georgia, serif;
+            font-size: clamp(2.65rem, 5vw, 4.6rem);
+            font-weight: 650;
+            letter-spacing: -.05em;
+            line-height: 1.03;
+            text-wrap: balance;
+        }
 
-@media only screen and (max-width: 600px) { 
-    .page-welcome .page-welcome svg {
-        width: 250px;
-    }
+        .welcome-title span {
+            color: var(--welcome-primary);
+            background: linear-gradient(100deg, var(--welcome-primary-light), var(--welcome-primary-dark));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    .page-welcome .page-welcome h1 {
-        padding: 0 1rem;
-        font-size: 2.7rem;
-    }
+        .welcome-summary {
+            max-width: 37rem;
+            margin: 1.25rem 0 0;
+            color: var(--welcome-muted);
+            font-size: clamp(1rem, 1.8vw, 1.16rem);
+            line-height: 1.7;
+        }
 
-    .page-welcome .buttons a {
-        padding: 14px 20px;
-    }
-}
+        .welcome-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .75rem;
+            margin-top: 1.75rem;
+        }
 
-@keyframes rotateBackground {
-    to {
-        background-position: 115px 115px, 170px 170px;
-    }
-}
-</style>
+        .welcome-button {
+            display: inline-flex;
+            min-height: 3.2rem;
+            align-items: center;
+            justify-content: center;
+            gap: .55rem;
+            padding: .8rem 1.45rem;
+            border: 1px solid transparent;
+            border-radius: .8rem;
+            font-size: .94rem;
+            font-weight: 700;
+            line-height: 1;
+            text-decoration: none;
+            transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+        }
 
-<section class="page-welcome">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="#276AD6" data-name="Layer 1" viewBox="0 0 716.56 292.44">
-        <path d="M214.181 204.066v40.883H105.328V59.095h42.48v144.97zM294.859 213.088c10.885 0 20.18-4.242 25.49-10.09l31.86 18.324c-13.014 18.051-32.656 27.346-57.916 27.346-45.404 0-73.546-30.535-73.546-70.092s28.756-70.099 70.685-70.099c38.762 0 67.44 30.005 67.44 70.099a77.279 77.279 0 0 1-1.59 15.93h-94.256c5.045 13.802 17.256 18.582 31.833 18.582zm24.422-48.321c-4.243-15.4-16.196-20.975-28.142-20.975-15.134 0-25.224 7.438-28.936 20.975zM476.476 205.126c0 30.528-26.515 43.542-55.222 43.542-26.515 0-46.751-10.09-57.085-31.596l34.519-19.649c3.447 10.09 10.885 15.665 22.566 15.665 9.56 0 14.332-2.917 14.332-8.227 0-14.604-65.312-6.908-65.312-52.836 0-28.943 24.423-43.548 52.04-43.548 21.506 0 40.625 9.56 51.776 28.414L440.1 155.207c-3.72-6.9-9.022-11.68-17.786-11.68-6.901 0-11.165 2.658-11.165 7.43.014 15.136 65.326 5.046 65.326 54.17zM493.725 51.134h39.823v193.815h-39.823zM560.091 112.196h39.83V244.95h-39.83z" class="cls-1"/>
-        <circle cx="580.006" cy="69.932" r="25.322" class="cls-1"/>
-    </svg>
-    <h1>
-        The Open Source Ruby on Rails <span>SaaS Development Framework</span>
-    </h1>
-    <div class="buttons">
-        <a class="doc" target="blank" href="https://www.lesli.dev/lesli/">
-            Documentation
-        </a>
-        <a class="start" target="blank" href="https://www.lesli.dev/start/">
-            Getting started
-        </a>
-    </div>
-    <% unless defined?(LesliShield) %>
-        <%= link_to("Apps", "/lesli/apps") unless defined?(LesliDashboard) %>
-    <% end %>
-    <% if defined?(LesliShield) %>
-        <%= link_to("Apps", "/lesli/apps") if user_signed_in? && !defined?(LesliDashboard) %>
-        <%= link_to("Dashboard", "/dashboard") if user_signed_in? && defined?(LesliDashboard) %>
-        <%= link_to("Logout", "/logout") if user_signed_in? %>
-        <%= link_to("Login", "/login") unless user_signed_in? %>
-    <% end %>
-</section>
+        .welcome-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .welcome-button:focus-visible,
+        .welcome-access a:focus-visible {
+            outline: 3px solid rgba(36, 95, 147, .28);
+            outline-offset: 3px;
+        }
+
+        .welcome-button--primary {
+            color: #fff;
+            background: var(--welcome-primary);
+            box-shadow: 0 10px 24px rgba(36, 95, 147, .22);
+        }
+
+        .welcome-button--primary:hover {
+            background: var(--welcome-primary-dark);
+            box-shadow: 0 14px 30px rgba(36, 95, 147, .26);
+        }
+
+        .welcome-button--secondary {
+            border-color: var(--welcome-border);
+            color: var(--welcome-primary-dark);
+            background: rgba(255, 255, 255, .82);
+        }
+
+        .welcome-button--secondary:hover {
+            border-color: var(--welcome-primary-soft);
+            background: var(--welcome-primary-soft);
+        }
+
+        .welcome-access {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem 1.25rem;
+            margin-top: 1.35rem;
+            font-size: .86rem;
+        }
+
+        .welcome-access a {
+            color: var(--welcome-muted);
+            font-weight: 700;
+            text-underline-offset: .22em;
+        }
+
+        .welcome-visual {
+            position: relative;
+            display: grid;
+            min-height: 22rem;
+            place-items: center;
+        }
+
+        .welcome-visual::before {
+            position: absolute;
+            width: min(100%, 20rem);
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: linear-gradient(145deg, rgba(79, 131, 174, .2), rgba(227, 238, 246, .45));
+            content: "";
+            filter: blur(2px);
+        }
+
+        .welcome-blueprint {
+            position: relative;
+            width: min(100%, 18rem);
+            padding: 1rem;
+            border: 1px solid rgba(36, 95, 147, .12);
+            border-radius: 1.35rem;
+            background: rgba(255, 255, 255, .88);
+            box-shadow: 0 24px 48px rgba(18, 53, 83, .15);
+            transform: rotate(2deg);
+        }
+
+        .welcome-blueprint::before {
+            position: absolute;
+            z-index: -1;
+            inset: 1.2rem -1rem -1.2rem 1rem;
+            border: 1px solid rgba(36, 95, 147, .1);
+            border-radius: 1.35rem;
+            background: rgba(227, 238, 246, .7);
+            content: "";
+            transform: rotate(-6deg);
+        }
+
+        .welcome-blueprint__bar {
+            display: flex;
+            gap: .35rem;
+            padding-bottom: .85rem;
+            border-bottom: 1px solid var(--welcome-border);
+        }
+
+        .welcome-blueprint__bar span {
+            width: .48rem;
+            height: .48rem;
+            border-radius: 50%;
+            background: var(--welcome-primary-soft);
+        }
+
+        .welcome-blueprint__bar span:first-child {
+            background: var(--welcome-primary-light);
+        }
+
+        .welcome-blueprint__body {
+            display: grid;
+            grid-template-columns: 3.5rem 1fr;
+            gap: .85rem;
+            padding-top: 1rem;
+        }
+
+        .welcome-blueprint__rail,
+        .welcome-blueprint__block,
+        .welcome-blueprint__line {
+            border-radius: .55rem;
+            background: var(--welcome-primary-soft);
+        }
+
+        .welcome-blueprint__rail {
+            min-height: 13rem;
+            opacity: .75;
+        }
+
+        .welcome-blueprint__canvas {
+            display: grid;
+            gap: .7rem;
+        }
+
+        .welcome-blueprint__line {
+            width: 54%;
+            height: .65rem;
+            margin-top: .2rem;
+            background: rgba(36, 95, 147, .22);
+        }
+
+        .welcome-blueprint__block {
+            min-height: 4.25rem;
+            background: linear-gradient(135deg, rgba(79, 131, 174, .2), rgba(227, 238, 246, .72));
+        }
+
+        .welcome-blueprint__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .7rem;
+        }
+
+        .welcome-blueprint__grid .welcome-blueprint__block {
+            min-height: 6.35rem;
+        }
+
+        @media (max-width: 900px) {
+            .welcome-page {
+                overflow: auto;
+            }
+
+            .welcome-hero {
+                max-width: 42rem;
+                grid-template-columns: 1fr;
+                gap: 2.25rem;
+            }
+
+            .welcome-content {
+                text-align: center;
+            }
+
+            .welcome-brand,
+            .welcome-kicker,
+            .welcome-actions,
+            .welcome-access {
+                justify-content: center;
+            }
+
+            .welcome-title,
+            .welcome-summary {
+                margin-right: auto;
+                margin-left: auto;
+            }
+
+            .welcome-visual {
+                min-height: 18rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .welcome-hero {
+                padding: 2rem 1.35rem;
+            }
+
+            .welcome-title {
+                font-size: clamp(2.35rem, 12vw, 3.25rem);
+            }
+
+            .welcome-actions {
+                display: grid;
+                width: min(100%, 22rem);
+                grid-template-columns: 1fr;
+                margin-right: auto;
+                margin-left: auto;
+            }
+
+            .welcome-button {
+                width: 100%;
+            }
+
+            .welcome-visual {
+                display: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .welcome-button {
+                transition: none;
+            }
+
+            .welcome-button:hover {
+                transform: none;
+            }
+        }
+    </style>
+<% end %>
+
+<main class="welcome-page">
+    <section class="welcome-hero" aria-labelledby="welcome-title">
+        <div class="welcome-content">
+            <div class="welcome-brand">
+                <%= customization_instance_logo_tag(
+                    logo: "app-logo",
+                    options: { alt: "Lesli", width: 192, height: 79 }
+                ) %>
+            </div>
+
+            <p class="welcome-kicker">Open-source SaaS framework</p>
+            <h1 class="welcome-title" id="welcome-title">
+                Build better business software <span>with Rails.</span>
+            </h1>
+            <p class="welcome-summary">
+                A modular foundation for turning ambitious ideas into scalable, production-ready applications.
+            </p>
+
+            <div class="welcome-actions" aria-label="Learn about Lesli">
+                <a class="welcome-button welcome-button--primary" href="https://www.lesli.dev/engines/lesli/start/" target="_blank" rel="noopener noreferrer">
+                    Build with Lesli
+                    <span aria-hidden="true">→</span>
+                </a>
+                <a class="welcome-button welcome-button--secondary" href="https://www.lesli.dev/lesli/" target="_blank" rel="noopener noreferrer">
+                    Read the docs
+                </a>
+            </div>
+
+            <nav class="welcome-access" aria-label="Application access">
+                <% unless defined?(LesliShield) %>
+                    <%= link_to("Open applications", "/apps") unless defined?(LesliDashboard) %>
+                <% end %>
+                <% if defined?(LesliShield) %>
+                    <%= link_to("Open applications", "/apps") if user_signed_in? && !defined?(LesliDashboard) %>
+                    <%= link_to("Open dashboard", "/dashboard") if user_signed_in? && defined?(LesliDashboard) %>
+                    <%= link_to("Log out", "/logout") if user_signed_in? %>
+                    <%= link_to("Log in", "/login") unless user_signed_in? %>
+                <% end %>
+            </nav>
+        </div>
+
+        <div class="welcome-visual" aria-hidden="true">
+            <div class="welcome-blueprint">
+                <div class="welcome-blueprint__bar">
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="welcome-blueprint__body">
+                    <div class="welcome-blueprint__rail"></div>
+                    <div class="welcome-blueprint__canvas">
+                        <div class="welcome-blueprint__line"></div>
+                        <div class="welcome-blueprint__block"></div>
+                        <div class="welcome-blueprint__grid">
+                            <div class="welcome-blueprint__block"></div>
+                            <div class="welcome-blueprint__block"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
