@@ -1,1 +1,157 @@
-# JavaScript
+# JavaScript with Turbo and Alpine.js
+
+Lesli uses JavaScript as progressive enhancement for server-rendered Rails views. Turbo handles navigation, frames, and stream updates; Alpine.js handles small local interactions. Larger reusable interface patterns should normally be implemented in LesliView rather than rebuilt independently in each engine.
+
+The authenticated application layout loads `lesli_assets/application.js` with `defer`. That shared bundle provides:
+
+| Library | Use |
+| --- | --- |
+| Turbo | Navigation, frames, streams, and page lifecycle events |
+| Alpine.js | Local declarative state and interactions |
+| Lexxy | Rich-text editing support |
+| Day.js | Date parsing and formatting |
+| Chart.js and `LesliChart` | Chart rendering used by LesliView |
+| `lesli-js` debug utility | Consistent browser diagnostics |
+
+The bundle exposes `Alpine`, `dayjs`, `ChartJs`, `LesliChart`, and `debug` on `window` for framework views and separately compiled feature bundles. Alpine starts automatically; do not call `Alpine.start()` again.
+
+---
+
+## Prefer Alpine for Local Interaction
+
+Use Alpine when the state belongs to one component and does not require a server round trip:
+
+```erb
+<div x-data="{ open: false }">
+  <button
+    type="button"
+    class="rounded-lg bg-primary px-4 py-2 text-white"
+    @click="open = !open"
+    :aria-expanded="open.toString()">
+    Filters
+  </button>
+
+  <div x-cloak x-show="open" class="mt-3 rounded-xl border border-neutral-200 p-4">
+    <%= render "filters" %>
+  </div>
+</div>
+```
+
+`x-cloak` is defined by the shared stylesheet, so Alpine-controlled content remains hidden until Alpine initializes.
+
+Use Turbo instead when an interaction navigates, submits a form, or replaces server-rendered content. Use ordinary HTML whenever neither tool adds meaningful value.
+
+---
+
+## Write Turbo-Safe Initialization
+
+Turbo navigation does not perform a full page reload. Initialize page behavior on `turbo:load`, and make the setup safe to run again.
+
+If an inline page script registers a global listener, remove the previous listener before adding the new one:
+
+```javascript
+if (window.initializeTicketFilters) {
+  document.removeEventListener("turbo:load", window.initializeTicketFilters)
+}
+
+window.initializeTicketFilters = function () {
+  document.querySelectorAll("[data-ticket-filter]").forEach((element) => {
+    if (element.dataset.initialized === "true") return
+
+    element.dataset.initialized = "true"
+    // Attach feature behavior here.
+  })
+}
+
+document.addEventListener("turbo:load", window.initializeTicketFilters)
+```
+
+Use `turbo:before-cache` when a third-party library must be destroyed or temporary DOM state must be removed before Turbo caches the page.
+
+Avoid `DOMContentLoaded` for page-specific code: it runs only after the initial full document load, not after later Turbo visits.
+
+---
+
+## Add a Page-Specific Bundle
+
+The authenticated layout provides `application_lesli_javascript` for an additional compiled asset:
+
+```erb
+<% content_for :application_lesli_javascript do %>
+  <%= javascript_include_tag "my_engine/tickets", defer: true %>
+<% end %>
+```
+
+The asset must already be part of the Rails asset pipeline. Keep the shared application bundle small: add code to it only when every authenticated page needs that code or when it provides a framework-level dependency.
+
+For a single, short behavior, Alpine markup is usually clearer than creating another bundle.
+
+---
+
+## Turbo Frames and Streams
+
+Use stable DOM identifiers for content that Turbo Streams will replace. Lesli reserves `application-lesli-notifications` for the shared flash target.
+
+The controller response helpers can update that target:
+
+```ruby
+respond_with_lesli(
+  turbo: stream_notification_success("Ticket saved"),
+  json: { status: "ok" }
+)
+```
+
+When a link inside a frame should navigate the complete page, target `_top`:
+
+```erb
+<%= link_to "Open ticket", ticket_path(ticket), data: { turbo_frame: "_top" } %>
+```
+
+See [Controller Interfaces](/engines/lesli/backend/interfaces) for the response and notification helpers.
+
+---
+
+## Charts
+
+Prefer the LesliView chart components. They serialize configuration safely, wait for the shared bundle, and render again after Turbo navigation.
+
+If a custom integration must call the wrapper directly, wait until `window.LesliChart` is available and provide a stable container ID. Do not leave an old canvas or chart instance attached when Turbo renders the page again.
+
+See the [LesliView chart documentation](/gems/view/charts/general) for the component API.
+
+---
+
+## Change the Shared Bundle
+
+The source for the framework bundle lives in:
+
+```text
+gems/LesliAssets/source/js/application.js
+```
+
+Build it from `gems/LesliAssets`:
+
+```shell
+make build.js
+```
+
+For development or production output, use:
+
+```shell
+make watch.js
+make prod.js
+```
+
+Do not edit files under `gems/LesliAssets/app/assets/javascripts`; they are generated by esbuild.
+
+---
+
+## JavaScript Conventions
+
+* Keep server state and authorization on the server; browser state is an interface concern.
+* Make initialization idempotent because Turbo can visit the same page repeatedly.
+* Scope DOM queries to the component when possible.
+* Use `data-*` attributes for JavaScript hooks instead of presentation classes.
+* Remove global listeners and destroy third-party instances when they are no longer needed.
+* Do not add a dependency to the shared bundle for behavior used by only one feature.
+* Preserve native links, buttons, and forms so keyboard behavior and progressive enhancement remain intact.
