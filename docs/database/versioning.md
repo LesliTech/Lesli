@@ -1,159 +1,205 @@
-# Database versioning
+# Migration Versioning
 
-Lesli is designed to integrate with multiple modules (standard Rails Engines). To prevent naming collisions and maintain a well-structured and organized database schema, we present the following guide for working with the Lesli database structure.
+Rails normally prefixes migration files with timestamps. Lesli packages replace that timestamp with a stable ten-digit code so migrations from many engines remain unique, ordered, and attributable to their owner.
 
-Working with Ruby on Rails migrations in the proposed way can have several benefits:
+```text
+CC EE NN TT VV
+│  │  │  │  └─ Migration version
+│  │  │  └──── Table number
+│  │  └─────── Feature namespace
+│  └────────── Engine number
+└───────────── Collection number
+```
 
-1. **Consistency**: By following a structured naming convention and versioning standard, developers ensure consistency across migrations within the project.
+Each segment contains exactly two decimal digits.
 
-2. **Clarity**: The naming convention provides clear information about the purpose and version of each migration, making it easier for developers to understand and manage database changes.
+| Segment | Meaning | Example |
+| --- | --- | --- |
+| `CC` | Business collection shared by related engines | `07` for IT and help desk |
+| `EE` | Engine within the collection | `02` for LesliSupport |
+| `NN` | Feature namespace within the engine | `11` for tickets |
+| `TT` | Stable table number inside the namespace | `01` for the tickets table |
+| `VV` | Migration revision for that table or structure | `10` for version 1.0 |
 
-3. **Maintainability**: Organizing migrations into version-specific folders and following consistent naming conventions can improve the maintainability of the database schema over time, especially in larger projects with frequent updates.
+The [Lesli Ecosystem](/engines/lesli/about/ecosystem) is the source for collection and engine codes. Allocate namespace and table numbers inside the owning engine without reusing an existing code.
 
-4. **Collaboration**: Standardized migration practices make it easier for multiple developers to collaborate on the same project, as everyone follows the same conventions and understands the structure of migrations.
+---
 
-5. **Scalability**: As the project grows and evolves, having a structured approach to migrations can help manage complexity and ensure that database changes remain manageable and organized.
+## Read a Migration Name
 
+Consider the LesliSupport migration:
 
-## Working with Rails migrations
-A rails migration file name must containt a number as a prefix that helps rails identify which migrations should be executed and in which order. We take advantage on this feature by replacing the default rails numeration (timestamp) with our custom numbering system. The prefix number of each table must be a 8-digit decimal number that adheres to the format CC.EE.NN.TT.VV, where:
+```text
+0702110110_create_lesli_support_tickets.rb
+```
 
-**— CC** is a 2-digit number that represents a the collection of the table. Engines that work within the same area have the same collection number. For Example **LesliCalendar** (our Unified calendar app) and **LesliLetter** (Notes & Notebooks) are both under the **03** collection. There is a detailed list of all collections in the [Ecosystem section.](/engines/lesli/about/ecosystem). 
+Its formatted code is `07.02.11.01.10`:
 
-**— EE** is a 2-digit number that identifies a specific engine within a collection. In our previous example, LesliCalendar is **03.01** and LesliLetter is **03.05** There is a detailed list of all engines (implemented or not) in the [Ecosystem section.](/engines/lesli/about/ecosystem).  
+| Digits | Meaning |
+| --- | --- |
+| `07` | IT and help-desk collection |
+| `02` | LesliSupport engine |
+| `11` | Tickets namespace |
+| `01` | Tickets table |
+| `10` | First migration revision, version 1.0 |
 
-**— NN** is a 2-digit number that identifies a namespace within the engine. Namespaces must be unique within the engine, but 2 different engines can (and will in some cases) have the same namespace. For example, the table **lesli\_letter\_notes** and all its child tables are all within the **03.05.11** namespace.
+Lesli Core reserves collection and engine code `00.00`. Its accounts migration is therefore:
 
-**— TT** is a 2-digit number that identifies a specific table within the namespace. For example, the table **lesli\_letter\_notes** has the code **03.05.11.01** while the table **lesli\_letter\_notes\_activities** has the code **03.05.11.04**.
+```text
+0000000110_create_lesli_accounts.rb
+```
 
-**— VV** is a 2-digit number that identifies the version of the migration, this number correspond to the folder version inside the migration folder.
+---
 
-**Summary:**
-<br /> **CC:** Collection of engines 
-<br /> **EE:** Engine identification number 
-<br /> **NN:** Engine feature namespace
-<br /> **TT:** Engine feature table number
-<br /> **VV:** Engine feature table version 
+## Migration Revisions
 
+Keep `CC`, `EE`, `NN`, and `TT` stable for the lifetime of a table. Advance only `VV` when a later migration changes that table.
 
-### Migration example 
-For this example we are going to use the **0702110110_create_lesli_support_tickets.rb** migration of the [LesliSupport](/engines/support/) engine.
+| Schema release | Migration prefix | Purpose |
+| --- | --- | --- |
+| 1.0 | `0702110110` | Create `lesli_support_tickets` |
+| 1.1 | `0702110111` | Add a ticket column or index |
+| 1.2 | `0702110112` | Apply another compatible change |
+| 2.0 | `0702110120` | Apply the table's version 2.0 change |
 
-**07:** Collection of engines 
-<br /> **02:** Engine identification number 
-<br /> **11:** Engine feature namespace
-<br /> **01:** Engine feature table number
-<br /> **10:** Engine feature table version 
+The two-digit `VV` value identifies the migration revision; Rails still stores the complete ten-digit prefix in `schema_migrations` and decides whether it has run.
 
-So the final code is **07.02.11.01.10.**
-
-## Database versioning
-Each stable version of the engines should include its own database structure; the Lesli database versioning 
-system is completely different from Rails migration versioning.
-
-Every database change (version) should reside in its own folder, named after the current working version of the system, and the migration file within should be suffixed with the same version we are currently working on.
-
-You can check the [Lesli Ecosystem](/engines/lesli/about/ecosystem) for reference about the engine codes.
-
-
-### Database versioning example
-| version           |   migration name
-|-                  |-
-| version **1.0**   |   07021101**10**\_create\_lesli\_support\_tickets.rb  (base migration)
-| version **1.1**   |   07021101**11**\_alter\_lesli\_support\_tickets.rb   (add a new field)
-| version **1.2**   |   07021101**12**\_alter\_lesli\_support\_tickets.rb   (add a new field)
-| version **2.0**   |   07021101**20**\_alter\_lesli\_support\_tickets.rb   (change field from string to integer)
-
-### Database versioning standard for new tables
-The correct migration name to create a table is **create\_table\_name**.
-
-Example:
-Assuming we've following migrations defined and we want to create new table **(tickets)**.
-
-**1.** Create migration using the scaffold generator
+Every migration version must be globally unique across the complete application. Before choosing a prefix, search all local packages:
 
 ```shell
-  rails generate scaffold tickets
+find engines gems -path "*/db/migrate/*" -type f | sort
 ```
 
-**3.** Rename the migration with a standard name.
+---
 
+## Directory Layout
+
+Keep versioned migrations below the package's `db/migrate` directory:
+
+```text
+my_engine/
+└── db/
+    └── migrate/
+        ├── v1/
+        │   ├── 0702110110_create_lesli_support_tickets.rb
+        │   └── 0702110111_add_importance_to_lesli_support_tickets.rb
+        └── v2/
+            └── 0702110120_change_lesli_support_ticket_importance.rb
 ```
-  from 20211029165345_create_lesli_support_tickets.rb 
-  to /v1.1/0702110510_create_lesli_support_tickets.rb
+
+Use `v1`, `v2`, and so on for new packages. Some existing engines use folders such as `v1.0`; Rails discovers both forms recursively, so do not rename a published migration solely to normalize its folder.
+
+The folder organizes a package release. The filename prefix remains the identifier Rails records.
+
+---
+
+## Create a Migration
+
+Generate the migration with Rails or the Lesli scaffold, then assign its Lesli prefix before running it:
+
+```shell
+bin/rails generate migration CreateLesliSupportTickets
 ```
 
-This is how our migration structure should look like for our new table:
+Move the generated file into the current version folder and replace its timestamp:
+
+```text
+20261002143000_create_lesli_support_tickets.rb
+    ↓
+db/migrate/v1/0702110110_create_lesli_support_tickets.rb
 ```
-rails_engine/
-    db/
-        migrate/
-            v1.0/
-                0702110110_create_lesli_support_tickets.rb
+
+Use `create_<table>` for the first migration. For later changes, name the operation precisely:
+
+```text
+0702110111_add_importance_to_lesli_support_tickets.rb
+0702110112_add_account_uid_index_to_lesli_support_tickets.rb
+0702110120_change_lesli_support_ticket_importance.rb
 ```
 
-
-
-### Database versioning standard to modify existing tables
-For any change on the table the correct migration name is **alter\_table\_name\_action**.
-
-Actions:
-- Add column
-- Rename column
-- Remove column
-- Change column type
-
-**Example:**
-
-Assuming we have the following database definition.
+Preserve the migration API version generated for the supported Rails version:
 
 ```ruby
-class CreateTickets < ActiveRecord::Migration[6.0]
-    def change
-        create_table :tickets do |t|
-            t.string    :name
-            t.string    :description
-            t.boolean   :active
-
-            t.timestamps
-        end
-    end
+class AddImportanceToLesliSupportTickets < ActiveRecord::Migration[8.1]
+  def change
+    add_column :lesli_support_tickets, :importance, :string
+  end
 end
 ```
 
-**1.** Add a new column to the table.
+Use `up` and `down` when Rails cannot infer a safe reversal.
+
+---
+
+## Never Rewrite Published History
+
+Do not rename, renumber, move, or edit a migration after it has been released or applied in a shared environment. Rails tracks the numeric prefix, so changing it can make an existing migration appear new and run it twice.
+
+Some existing packages still contain timestamp-prefixed legacy migrations. Leave published legacy files unchanged and use the ten-digit Lesli format for new migrations.
+
+If a released schema needs correction:
+
+1. Keep the original migration unchanged.
+2. Create a new migration with the same table code and the next available `VV` value.
+3. Make the new change reversible when practical.
+4. Test migration from the previous released schema and from an empty database.
+
+Only renumber a generated timestamp before the migration has been shared or executed outside your disposable local database.
+
+---
+
+## Dependency Order
+
+Migration order must satisfy foreign keys:
+
+1. Lesli Core identity tables
+2. An engine's account and shared lookup tables
+3. Domain tables that reference those identities
+4. Join, item, and history tables that reference domain records
+
+The numeric prefix controls global ordering, not the folder name. A migration in `v2` with a lower numeric prefix will still sort before a higher-prefix migration in `v1`.
+
+Avoid depending on an optional engine unless that dependency is declared by the gem. A migration that references `lesli_shield_*` cannot run in an installation where LesliShield is absent.
+
+---
+
+## Verify Migrations
+
+Run migrations through the host Rails application, because it assembles the paths for all installed engines:
 
 ```shell
-  rails generate migration alter_tickets
+bin/rails db:migrate
+bin/rails db:migrate:status
 ```
 
-**2.** Rename the migration with a standard name.
+For a new migration, verify both directions when it is reversible:
 
-```
-  20211029165321_alter_tickets.rb ——> /v1.1/0702110111_create_lesli_support_tickets.rb
-```
-
-**3.** Add a new column.
-
-```ruby
-class AlterTickets < ActiveRecord::Migration[6.0]
-    def change
-        add_column :tickets, :importance, :string
-    end
-end
+```shell
+bin/rails db:migrate
+bin/rails db:rollback STEP=1
+bin/rails db:migrate
 ```
 
-> [!IMPORTANT]
-> Note that the migration code is the same as the original migration that creates the table, with the small difference that this new migration increase the version number.
+Then prepare a clean test database and run the relevant test suite:
 
-So now of migration structure should look like:
+```shell
+RAILS_ENV=test bin/rails db:prepare
+bin/rails test
+```
 
-```
-rails_engine/
-    db/
-        migrate/
-            v1.0/
-                0702110110_create_lesli_support_tickets.rb
-            v1.1/
-                0702110111_alter_lesli_support_tickets.rb
-```
+Review the generated `db/schema.rb` as part of the change. It should contain only the intended tables, columns, indexes, and foreign keys.
+
+---
+
+## Migration Checklist
+
+* Confirm the collection and engine codes in the ecosystem registry.
+* Confirm the namespace and table code are unused in the package.
+* Confirm the full ten-digit migration version is globally unique.
+* Rename a generated timestamp before running or sharing the migration.
+* Use the owning engine's table prefix.
+* Add explicit foreign keys and query-driven indexes.
+* Keep account scoping and soft-deletion behavior consistent with the model.
+* Add a new migration instead of editing released history.
+* Verify migrate, rollback when supported, clean database setup, and tests.
+* Update the package's table-code registry when it maintains one.

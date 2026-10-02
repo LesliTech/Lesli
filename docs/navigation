@@ -2,7 +2,7 @@
 <%= navigation_for_folder("engines", "lesli", "start", order:["installation", "development", "configuration", "credentials"]) %>
 <%= navigation_for_folder("engines", "lesli", "backend", order:["router","controllers","interfaces","services","courier","models","mailers"]) %>
 <%= navigation_for_folder("engines", "lesli", "frontend", order:["views", "styles", "javascript"]) %>
-<%= navigation_for_folder("engines", "lesli", "database", order:["structure", "versioning"]) %>
+<%= navigation_for_folder("engines", "lesli", "database", order:["structure", "versioning", "seeders"]) %>
 <%#= navigation_for_folder("engines", "lesli", "generators", order:[]) %>
 <%#= navigation_for_folder("engines", "lesli", "deployment", order:[]) %>
 <%= navigation_for_folder("engines", "lesli", "contributing", order:["github", "commits", "pull-requests", "versioning"]) %>

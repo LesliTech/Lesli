@@ -1,9 +1,16 @@
 
-<p align="center">
-    <h1 align="center">Lesli core database.</h1>
-</p>
+# Lesli Core Database Registry
 
-# 00.10. Lesli Database
+This registry records stable table codes owned by Lesli Core. Tables provided by optional engines belong in the registry and migrations of those engines.
+
+```text
+00.00.00.01  lesli_accounts
+00.00.00.02  lesli_users
+00.00.00.03  lesli_roles
+00.00.00.04  lesli_resources
+```
+
+The executable source of truth is `db/migrate`. See the [database architecture](database/structure.md) and [migration versioning](database/versioning.md) guides for ownership and filename conventions.
 
 ```plaintext
 

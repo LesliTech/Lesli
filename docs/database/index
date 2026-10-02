@@ -1,1 +1,10 @@
+---
+title: "Lesli Database Development"
+description: "Understand Lesli's shared database architecture, migration numbering, reusable migration helpers, and seed workflows."
+---
+
+<!--
+This file is a replica of the main documentation file for this section
+-->
+
 <%= partial("structure") %>
