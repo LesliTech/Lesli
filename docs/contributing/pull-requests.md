@@ -1,86 +1,137 @@
-# Pull requests
+# Pull Requests
 
-### Pull requests are for humans
-Remember to review other people's code just ike you would like to your code be reviewed.
+A pull request should make one change easy to understand, verify, and maintain. Open it against `master`, keep its scope focused, and explain the result rather than listing filenames.
 
-**Be kind:** Any improvement or change you think can be made in the reviewing code, try to write a message (or review) with touch, care and empathy.
+Use a draft pull request when the direction would benefit from early feedback but the branch is not ready to merge.
 
-**Be clear:** Make it easy for the developer understand your feedback, avoid any workaround and write down only your comments/suggestions of the code you are reviewing.
+---
 
-**Be specific:** Write as many messages as needed and select directly the line of code where your suggestion starts. Try to avoid general feedback, not try to cover so much in a single sentence.
+## Before Opening a Pull Request
 
-### Give clear suggestions and recommendations
-Do not write that code needs to be fixed or can be improved without giving suggestions or recommendations on what to fix or how to fix it, also, a brief explanation is always welcome.
+* Review the complete diff and remove unrelated changes.
+* Rebase or otherwise update the branch against `origin/master`.
+* Run the relevant tests locally and record the exact commands.
+* Add regression coverage for a bug fix and behavioral coverage for a feature.
+* Run Brakeman when the change touches requests, parameters, authentication, authorization, rendering, files, or SQL.
+* Update public documentation, examples, and configuration references when behavior changes.
+* Verify migrations from the previous schema and from a clean database.
+* Rebuild generated assets when their source changes and the package tracks the output.
+* Confirm the branch contains no credentials, local databases, logs, or reports.
 
+The full test suite is the default expectation for core changes:
 
-### Always assume good intent
-Code may not be written how you would write it. Let’s say that more clearly: code is rarely written the same way by two different people. After all, code is a craft, not a task on an assembly line.
-
-Tap into a sense of curiosity and appreciation while reviewing – curiosity to understand what the reviewer had in mind and gratitude for what the developer did or tried to do.
-
-
-### Clarify the action and the level of importance. 
-If you are making an optional suggestion, for example, a “nit” that isn't necessary before the code is approved for production, say so clearly. 
-
-If you wonder why the person made a particular choice, but it doesn’t affect whether the code should make it to production, say so clearly. 
-
-If you are confident that the code needs to be fixed before it is ready for production, say so clearly. 
-
-
-### Don't forget that all feedback can include praise.
-It is not necessary to say that the key benefit of doing code reviews is to make the code better and fix issues. 
-But that's only half of it. On the flip side, code reviews present an excellent opportunity to thank you and appreciate your colleagues' work. 
-If someone has written particularly elegant or maintainable code or has made a great decision about using a library, let them know!
-
-
-## What to review 
-The code review is always up to the point of view of the developer that is reviewing, and there are no specif or hard rules about what the developers have to check to aprove or deny a pull request.
-
-Here are some suggestions about we can review: 
-
-**Documentation:** license at the begining of every code file, brief description for every method.
-**Use of correct responders:** like respond_with_successful or respond_with_pagination.
-**Inherit from the correct CloudObjects:** ApplicationLesliResponder, ApplicationLesliRecord, etc.
-**Use of the correct tools for an specific tasks:** Date2 for date parsing, etc.
-
-
-## What a pull requests must include
-- Complete set of tests for the controller, model or api that the pull requests is about.
-- Clear and brief list of changes. (Use the description of the PR)
-
-
-## Pull Request Structure
-Before merging any commit into master, it is necessary a review from at least one developer other than the one who did the commit. The only exception to this rule are the compiled assets for production, which can be merged immediately and even commited and pushed directly into master. 
-
-If there is at least one small change in the code, a pull request has to be made. 
-
-More than one requirement can be included into a single pull request. However, these card *must* be related in a meaningful way; if they are not, two or more pull requests must be created. In order to ensure that every pull request contains all the information available of the changes, bug fixes and new features, the next structure has to be followed:
-
-__Title:__
-
-```
-Title: "[add|remove|fix|improve|etc.]: Brief description of changes included in this pull request"
+```shell
+bundle exec rake
 ```
 
-__Description:__ 
+If a check cannot be run locally, say why in the pull request instead of omitting it silently.
 
+---
+
+## Title and Description
+
+Write a concise, outcome-focused title. Conventional Commit style works well:
+
+```text
+fix(navigation): preserve active state after Turbo visits
 ```
-Changelog:
 
-- Added x feature to y view
-- Removed x button from z view
-- Fixed n controller action to accept several params
-- etc.
+The description should answer:
+
+1. What problem or opportunity does this address?
+2. What changed and why was this approach selected?
+3. How was it verified?
+4. Does it affect compatibility, configuration, migrations, or deployment?
+
+A useful template is:
+
+```markdown
+## Summary
+
+- Explain the user-visible or developer-visible result.
+- Mention the important implementation decision.
+
+## Verification
+
+- `bundle exec rake`
+- `bundle exec brakeman --config-file config/brakeman.yml`
+- Manual scenario tested, when relevant
+
+## Compatibility
+
+- No breaking changes
+- Migration, configuration, or upgrade notes when applicable
+
+## Visual changes
+
+- Screenshot or recording for affected interfaces
+
+Closes #123
 ```
 
-## Merge process 
-Once the requirement is completed developers must check a few steps before send a pull request:
+Omit empty sections, but never hide a known limitation or upgrade requirement.
 
-- Run linters and fix any warning or error.
-- Run code static analysis tools, fix any issue related to your code :)
-- Add documentation about changes or new code/files
-- Execute the complete test suite 
+---
 
-When everything is ready developer can send a pull request using the Github web interface or the Git cli.
-Github automatically checks for conflicts between branches, if there are no conflicts user can create the pull request and assign team members to review and authorize to merge the branch with master.
-If github detects any merge conflict developer must work with a team member to fix conflics and complete the merge process.
+## Continuous Integration
+
+Every pull request triggers the Lesli test workflow. Its jobs currently run in this order:
+
+1. Brakeman security analysis
+2. Minitest engine suite
+3. LesliBuilder integration verification
+
+All required jobs should pass before merge. A failing check must be fixed or explicitly identified as an unrelated infrastructure failure; rerunning a job without understanding the failure is not a resolution.
+
+Changes that affect another engine or shared gem should also be tested in that package or in a representative host application.
+
+---
+
+## What Reviewers Check
+
+Review is not limited to syntax. Consider:
+
+* Correctness for normal, empty, invalid, and unauthorized states
+* Tests that prove behavior rather than mirror implementation
+* Authentication, authorization, data exposure, and injection risks
+* Backward compatibility of Ruby APIs, routes, configuration, views, and database schema
+* Clear ownership between Lesli Core, shared gems, engines, and the host application
+* Query behavior, indexes, account scoping, and migration safety
+* Accessible, responsive, and Turbo-safe frontend behavior
+* Documentation and upgrade guidance for public changes
+* Whether generated files correspond to reviewed source changes
+
+Not every pull request needs every category. Review the risks introduced by the actual change.
+
+---
+
+## Write Actionable Feedback
+
+Assume good intent and discuss the code, not the author. Keep comments specific and explain the consequence of a requested change.
+
+Label the intent when it might be ambiguous:
+
+* **Blocking:** must be resolved before merge
+* **Suggestion:** a recommended improvement that is not required
+* **Question:** asks for context or confirms an assumption
+* **Nit:** optional polish with no behavior impact
+
+Attach comments to the smallest useful line range. When possible, suggest a concrete direction without requiring the author to copy one exact implementation.
+
+Authors should resolve comments only after addressing them or recording the agreed outcome. Reviewers should re-check changed code rather than assuming the first revision still represents the branch.
+
+---
+
+## Merge Expectations
+
+A pull request is ready to merge when:
+
+* Its scope and behavior are understood.
+* Required CI checks pass.
+* Blocking review feedback is resolved.
+* Tests and documentation are proportionate to the change.
+* Migration and release implications are documented.
+
+Compiled assets are not exempt from review. When generated output is tracked, review it together with the source and build command that produced it.
+
+Maintainers choose the merge strategy and release timing. Contributors should not bump `Lesli::VERSION` unless the pull request is specifically preparing a release.

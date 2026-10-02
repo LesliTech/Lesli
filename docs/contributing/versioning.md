@@ -1,45 +1,119 @@
-# Software Release
-Every release of the platform should contain an unique version number, this number is calculated by an automatic action in github. Developers only need to carefully analyze to properly upgrade major, minor or patch version.
+# Releases and Versioning
 
-## Semantic Versioning 2.0.0
-Following the semantic versioning spec helps other developers who depend on your code understand the extent of changes in a given version, and adjust their own code if necessary.
+Lesli follows [Semantic Versioning 2.0.0](https://semver.org/). The public gem version communicates compatibility to applications and engines that depend on Lesli.
 
-| Code status   | Stage         | Rule              | Example 
-|-              |-              |-                  |-
-| First release | New product   | Start with 1.0.0  | 1.0.0
-| Backward compatible bug fixes | Patch release     | Increment the third digit | 1.0.1
-| Backward compatible new features | Minor release  | Increment the middle digit and reset last digit to zero | 1.1.0
-| Changes that break backward compatibility | Major release | Increment the first digit and reset middle and last digits to zero | 2.0.0
+```text
+MAJOR.MINOR.PATCH
+  5  .  1  . 10
+```
 
-### Version number example
-v1.0.0 
-v1.1.0
-v1.1.2
+| Release | Use | Example |
+| --- | --- | --- |
+| Patch | Backward-compatible bug fix or internal correction | `5.1.10` → `5.1.11` |
+| Minor | Backward-compatible capability or meaningful public enhancement | `5.1.10` → `5.2.0` |
+| Major | Intentional backward-incompatible change | `5.1.10` → `6.0.0` |
 
-### Version number structure
-To calculate a new version jut increase the number in the section required. 
+Database changes do not automatically require a particular segment. An additive, backward-compatible migration can ship in a minor or patch release depending on the behavior it supports; a destructive or incompatible schema contract requires a major release or a staged compatibility plan.
 
-|number     |description    |
-|---        |---            |
-| _v1_      | general platform version |
-| _00_      | database changes  |
-| _00_      | any other requirment (rails, vue, minor changes/small bug fiexes) | 
+---
 
-### Build number example
-This build timestamp is created automatically during the compilation process executed by the github actions. 
-210730.1825 
-210731.1255 
-210731.2208 
+## Version Sources
 
-### Create a new version
-All the new version for Core, Builders and Modules are created automatically through github actions, all you need to do es send a PR to the production branch from master or test and github will execute the necessary actions to test, compile, tag and versioning the software.  
+The gem version and build identifier live in:
 
-If minor version upgrade is necessary, the last commit must include the tag "#minor"
-If major version upgrade is necessary, the last commit must include the tag "#major"
+```ruby
+# lib/lesli/version.rb
+module Lesli
+  VERSION = "5.1.10"
+  BUILD = "1790534691"
+end
+```
 
-You can modify the README.md file of the engine, the reflect the current version and ad the #minor text to the commit 
+`lesli.gemspec` reads `Lesli::VERSION` as the package version. `BUILD` is a separate internal build identifier and is not a fourth Semantic Versioning segment.
 
-## Changelog
-Today there is no automatic way to generate a changelong based on github commits/pull requests, so changelong must be created manually adding a friendly and general (but undestandable) description of changes released with the version.
+Applications declare compatible ranges in Bundler, for example:
 
-This changelong must be part of the release email notification.
+```ruby
+gem "lesli", "~> 5.1"
+```
+
+Do not edit `VERSION` in an ordinary feature or bug-fix pull request unless a maintainer has asked that branch to prepare a release. Centralizing the bump avoids conflicts between concurrent contributions.
+
+---
+
+## Identify Compatibility Impact
+
+A change may be breaking when it removes or changes an established contract, including:
+
+* Ruby classes, methods, arguments, or return shapes
+* Routes, controller responses, or status codes
+* Configuration keys or defaults
+* Database columns, constraints, or migration assumptions
+* View partial paths, helper names, CSS hooks, or JavaScript globals
+* Supported Rails, Ruby, or dependency versions
+
+Deprecate before removing when practical. Document the replacement, emit a useful warning, and keep both paths available for an appropriate transition period.
+
+A large internal refactor is not a major release when public behavior remains compatible. Conversely, a one-line removal can require a major release when consumers depend on it.
+
+---
+
+## Prepare a Release
+
+Releases are maintainer-owned. The repository's GitHub Actions workflow verifies changes but does not currently publish the gem or infer a release from `#minor` or `#major` commit text.
+
+A release branch or pull request should:
+
+1. Select the next version from the compatibility impact.
+2. Update `Lesli::VERSION` and the build identifier using the current release tooling.
+3. Confirm dependency constraints and packaged files.
+4. Run tests, security analysis, and integration checks.
+5. Build the gem locally.
+6. Prepare human-readable release notes and upgrade instructions.
+
+```shell
+bundle exec rake
+bundle exec brakeman --config-file config/brakeman.yml
+bundle exec rake build
+```
+
+Inspect the built package under `pkg/` before publishing. It should include the intended `app`, `config`, `db`, and `lib` files plus the license, Rakefile, and README selected by the gemspec.
+
+Bundler exposes a maintainer release task:
+
+```shell
+bundle exec rake release
+```
+
+That task creates the `vVERSION` Git tag, pushes the tag, builds the gem, and publishes it to RubyGems. It requires release credentials and push access; do not run it for verification or from an unapproved branch.
+
+---
+
+## Release Notes
+
+The gemspec points consumers to GitHub Releases as the changelog. Release notes should be written for people upgrading an application, not as a raw commit list.
+
+Include:
+
+* Important features and fixes
+* Security changes and their impact
+* Breaking changes and replacements
+* Required migrations or deployment ordering
+* New or renamed configuration
+* Dependency and platform requirement changes
+* Known limitations or follow-up work
+
+Link the pull requests or issues that provide useful detail. Omit maintenance noise that does not affect consumers.
+
+---
+
+## Release Checklist
+
+* The version matches the documented compatibility impact.
+* `lib/lesli/version.rb` and the built gem report the same version.
+* Tests, Brakeman, and LesliBuilder integration pass.
+* The gem builds and contains the intended files.
+* Database changes include safe migration and rollback guidance.
+* Public changes have documentation and upgrade notes.
+* The Git tag uses `vMAJOR.MINOR.PATCH` and points to the reviewed release commit.
+* GitHub Release notes are published with the gem release.

@@ -1,24 +1,142 @@
-# Git management
-Lesli uses git and github to build versions of all software products.
+# Contribution Workflow
 
-## Git branching
-To avoid conflicts between requirements developers must create a git branch to code the current requirement they are working on.  
+Lesli is developed as a Ruby on Rails engine in the wider LesliBuilder workspace. The `master` branch is the repository's integration branch; make each change on a short-lived branch and send a pull request back to `master`.
 
-In this case a Trello card, Github issue, Lesli or any other id is equal to a requirement, developers can push all the needed commits to complete the feature required to their current working branch. 
+Stable releases are identified by versioned gems, Git tags, and GitHub Releases. The repository does not use separate `test` and `production` branches as part of its current contribution workflow.
 
-A requirement can be: a new functionality, bug fixes and improvements.
+---
 
-### Branching system
-**Features**: Every requirement must be developed on his own branch.
-**Version**: Contains a set of requirements planned to be released within a specific version.
-**Master**: Main development branch, all features branches send PR to this branch. This branch has the latest features.
-**Test**: Branch for testing and QA (this branch is a previous step for production), only version and/or master can send PR to this branch.
-**Production**: Stable branch for production environment, only the test branch can send PR to this branch.
-**Hotfix**: Branch forked from production created to fix only on bugs or important changes that needs to be fixed urgently for production.
+## Choose the Correct Repository
 
-## Maintenance branches
-As a good practice we keep a branch with the source code for every major and minor version for all our gem-like engines, including builder engines and the core itself.
+Start by locating the package that owns the behavior:
 
-Every repository should contain dedicated branches for every released version, for example: cloud_babel v1.0.0 belongs to the branch version-1.0.0; The goal of this approach is to continue supporting older versions of our software. providing an easy way to access to the source code of the different implementations of The Lesli Platform core, engines and builders.
+| Change | Repository |
+| --- | --- |
+| Framework controllers, models, layouts, generators, or database conventions | Lesli Core |
+| Reusable Rails interface component or form builder | LesliView |
+| Shared styles, icons, JavaScript dependencies, or compiled frontend assets | LesliAssets |
+| Testing configuration, reporting, or coverage behavior | LesliTesting |
+| A business capability owned by an engine | That engine's repository |
+| Website presentation or generated documentation output | `lesli.dev` |
 
-This branch must be created manually just before a Git tag is created for #major or #minor version.
+Documentation source belongs beside the package it describes. The website copies those source files during its documentation build, so change the package documentation rather than editing generated website pages.
+
+---
+
+## Set Up Lesli Core
+
+Clone the repository and install its development dependencies:
+
+```shell
+git clone https://github.com/LesliTech/Lesli.git
+cd Lesli
+bundle install
+```
+
+Lesli's tests boot the Rails application under `test/dummy`. Run the suite before making changes to confirm the local environment works:
+
+```shell
+bundle exec rake
+```
+
+For cross-package development, use the complete LesliBuilder layout and local `path` dependencies. See [Installing Lesli for Development](/engines/lesli/start/development) for the recommended workspace structure.
+
+---
+
+## Create a Branch
+
+Update the integration branch, then create a focused branch:
+
+```shell
+git switch master
+git pull --ff-only
+git switch -c fix/navigation-active-state
+```
+
+Useful branch prefixes include:
+
+```text
+feature/account-invitations
+fix/navigation-active-state
+docs/database-migrations
+refactor/response-interface
+```
+
+The exact prefix is not enforced. Prefer a short name that explains the result of the work. Include an issue identifier when one exists, but do not make an internal project-management ID a requirement for outside contributors.
+
+Keep unrelated work on separate branches. A focused branch is easier to test, review, revert, and release.
+
+---
+
+## Make the Change
+
+Before editing, identify the existing convention and its tests. Lesli is modular, so a small-looking core change may affect several engines or the host application.
+
+While working:
+
+* Keep domain behavior in the engine that owns it.
+* Preserve public APIs unless the change intentionally introduces a documented breaking release.
+* Add or update tests with behavioral changes.
+* Update package documentation when behavior, configuration, or public APIs change.
+* Edit source assets, not generated output, unless the package intentionally tracks both.
+* Follow `.editorconfig`: UTF-8, LF line endings, final newlines, and four-space indentation for project source files.
+* Do not include local databases, logs, coverage reports, credentials, or temporary files.
+
+For database changes, follow [Migration Versioning](/engines/lesli/database/versioning). For frontend changes, follow the [Frontend Development](/engines/lesli/frontend/) conventions.
+
+---
+
+## Run Local Checks
+
+Run the complete engine test suite:
+
+```shell
+bundle exec rake
+```
+
+Run one test file while iterating:
+
+```shell
+bundle exec ruby -Itest test/app/models/lesli_account_test.rb
+```
+
+Enable LesliTesting coverage explicitly:
+
+```shell
+COVERAGE=true bundle exec rake
+```
+
+Run the repository's Brakeman configuration for security-sensitive changes:
+
+```shell
+bundle exec brakeman --config-file config/brakeman.yml
+```
+
+Verify that the gem can be packaged when dependencies or packaged files change:
+
+```shell
+bundle exec rake build
+```
+
+The pull-request workflow runs Brakeman, Minitest, and a LesliBuilder integration job in sequence. Local checks shorten feedback, but GitHub Actions remains the final verification for the submitted branch.
+
+---
+
+## Keep the Branch Current
+
+Refresh a long-running branch before requesting final review:
+
+```shell
+git fetch origin
+git rebase origin/master
+```
+
+Resolve conflicts deliberately and rerun affected checks. Do not rewrite a branch another contributor is using without coordinating with them.
+
+After the branch is ready, push it and open a pull request targeting `master`:
+
+```shell
+git push --set-upstream origin fix/navigation-active-state
+```
+
+See [Pull Requests](/engines/lesli/contributing/pull-requests) for the submission and review checklist.
