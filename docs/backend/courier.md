@@ -1,91 +1,85 @@
-# Lesli::Courier
+# Courier
 
-The `Lesli::Courier` module is a dynamic service caller designed to streamline interactions with service classes within a Ruby on Rails application. By enabling dynamic resolution of modules, services, and methods, `Lesli::Courier` simplifies complex service calls into a clean and fluent interface.
-
-## Why Use Lesli::Courier?
-
-1. **Dynamic Module and Service Resolution:** Avoid hardcoding module and service names, making the codebase more flexible and easier to maintain.
-2. **Fluent Interface:** Create service calls with a readable, chainable syntax.
-3. **Error Handling:** Optional support for handling undefined modules, services, or methods gracefully.
-4. **Improved Readability:** Reduce boilerplate code and make service interactions more concise.
-
-<br />
-
-## How It Works
-
-The `Lesli::Courier` module dynamically:
-
-1. Resolves the module name (e.g., `:lesli_test` becomes `LesliTest`).
-2. Identifies the service class within the module (e.g., `:ticket_service` becomes `TicketService`).
-3. Calls the specified method on the service class, optionally passing arguments.
-
-<br />
-
-## Key Methods
-
-### initialize(module_name, on\_error = nil)
-- **Purpose:** Sets the module name to resolve and an optional error handler.
-- **Parameters:**
-  - `module_name` (Symbol/String): The module to resolve.
-  - `on_error` (Object, optional): A fallback value to return if an error occurs (normally if the module is not installed or a method is not defined in the required engine).
-- **Example:**
+`Lesli::Courier` resolves an installed module and service at runtime, constructs the service, and calls one of its public methods. It is useful when the caller can operate without an optional engine.
 
 ```ruby
-    Lesli::Courier.new(:lesli_test)
+result = Lesli::Courier
+  .new(:lesli_support, [])
+  .from(:ticket_service, current_user, query)
+  .call(:index)
 ```
 
-### from(service_name)
-- **Purpose:** Specifies the service class within the module.
-- **Parameters:** 
-    - service_name (Symbol/String): The name of the service class.
-- **Example:**
+This resolves `LesliSupport::TicketService`, initializes it with `current_user` and `query`, and calls `index`. If resolution or execution fails, the example returns the fallback value `[]`.
+
+---
+
+## Call Sequence
+
+### Select a module and fallback
 
 ```ruby
-    Lesli::Courier.new(:lesli_test).from(:ticket_service)
+courier = Lesli::Courier.new(:lesli_support, nil)
 ```
 
-### call(method_name, *args)
+The module name is camelized, so `:lesli_support` resolves to `LesliSupport`. The second argument is the value returned when the call fails; it defaults to `nil`.
 
-- **Purpose:** Specifies the method to be called on the service class and triggers the call.
-- **Parameters:** 
-    - **method_name:** (Symbol/String): The method to call.
-    - **args:** List of arguments to be sent to the specific method
-- **Example:** 
+### Select and initialize a service
 
 ```ruby
-    Lesli::Courier.new(:lesli_test).from(:ticket_service).call(:index, params)
+courier.from(:ticket_service, current_user, query)
 ```
 
-### Error Handling
+The service name is camelized and resolved inside the selected module. Additional arguments passed to `from` become constructor arguments.
 
-If any part of the process fails (e.g., the module, service class, or method is not found), Lesli::Courier will return the value specified in the on_error parameter (if provided). Otherwise, it will raise an error.
-
-
-## Usage Examples
-
-### Basic Usage
+### Call a public method
 
 ```ruby
-# Call the `index_with_deadline` method on the `TicketService` class within the `LesliTest` module
-Lesli::Courier.new(:lesli_test)
-              .from(:ticket_service)
-              .call(:index_with_deadline)
+courier.call(:index, params)
 ```
 
-### Passing Arguments
+Arguments passed to `call` are forwarded to the service method as positional arguments.
+
+Courier does not currently forward Ruby keyword arguments. A target method called through Courier should accept positional arguments or an options hash:
 
 ```ruby
-# Call the `index` method on the `TicketService` class, passing arguments
-Lesli::Courier.new(:lesli_test)
-              .from(:ticket_service)
-              .call(:index, current_user, query)
+def find(options = {})
+  # Read options[:id] or options[:uid].
+end
+
+courier.call(:find, { id: params[:id] })
 ```
 
-### Custom Error Handling
+Call the service directly when its public API requires keyword arguments.
+
+---
+
+## Fallback Behavior
+
+Courier rescues errors raised while resolving the module, resolving or constructing the service, and executing the method. It returns the exact fallback passed to the constructor:
 
 ```ruby
-# Return a custom error object if the service or method is not found
-Lesli::Courier.new(:lesli_test, []).from(:ticket_service).call(:non_existent_method)
+Lesli::Courier.new(:missing_engine, false)
+  .from(:ticket_service)
+  .call(:index)
+# => false
+
+Lesli::Courier.new(:missing_engine, [])
+  .from(:ticket_service)
+  .call(:index)
+# => []
+
+Lesli::Courier.new(:missing_engine)
+  .from(:ticket_service)
+  .call(:index)
+# => nil
 ```
 
-> Note: In the event of an error, Lesli::Courier will always return false instead of raising an exception.
+Courier does not re-raise execution errors. This makes a fallback convenient for optional integrations, but it can also hide defects raised inside an installed service. Call the service directly when failures must remain visible, or choose a fallback that the caller can distinguish from a successful result.
+
+---
+
+## Safety
+
+Module, service, and method names are dynamically resolved. Use names selected by application code; do not pass raw request parameters into Courier.
+
+Courier checks that the target object responds to the method before calling it. Authorization and account scoping remain the responsibility of the service being invoked.

@@ -1,121 +1,136 @@
-# Rails router
-The Rails router is defined in the `config/routes.rb` file of your Rails application. This file contains a set of routing rules that determine how URLs should be processed by the application. 
+# Backend Routing
 
-Each route specifies an HTTP verb (e.g., GET, POST, PUT, DELETE) and a URL pattern (or path) along with the controller and action that should handle the request. 
+Lesli engines use standard Rails routes. The host application can mount every installed engine explicitly, or use `Lesli::Router` to mount the framework's known engines at their default paths.
 
-The Rails router takes care of parsing the incoming URLs, matching them against the defined routes in the config/routes.rb file, and dispatching the request to the appropriate controller and action, based on the HTTP verb and URL pattern. 
-
-By configuring routes in the config/routes.rb file, you can define how different parts of your application respond to user requests and create the structure of your web application.
-
-Lesli uses a standard and well structure pattern to load routes to make engines functionality available
-
-
-## Mounting Lesli engines
-
-You can mount Lesli engines just as any other Rails engine, just have in mind that the Lesli core gem is always required.
-
-```ruby
-
-# Your Rails_App/config/routes.rb
-
-Rails.application.routes.draw do
-
-    # loading a welcome page from the core :)
-    root to: "lesli/abouts#welcome", as: :welcome
-
-    # Lesli core gem is required
-    mount Lesli::Engine => "/lesli"
-
-    # Mount Rails engines
-    mount LesliBell::Engine => "/bell"
-    mount LesliAdmin::Engine => "/admin"
-    mount LesliAudit::Engine => "/audit"
-    mount LesliBabel::Engine => "/babel"
-    mount LesliMailer::Engine => "/mailer"
-    mount LesliShield::Engine => "/shield"
-    mount LesliPapers::Engine => "/papers"
-    mount LesliSupport::Engine => "/support"
-    mount LesliSecurity::Engine => "/security"
-    mount LesliCalendar::Engine => "/calendar"
-    mount LesliDashboard::Engine => "/dashboard"
-end
-```
-
-Lesli comes with a helper router class so you dont need to load Lesli engines manually, this helper is going to search for installed Lesli engines and is going to mount them automatically. 
-
-> IMPORTANT: By default this helper is going to used pre-defined route paths to mount the Lesli engines, if you want/need to use different path you must mount every engine manually. 
+The installation generator adds the router helper to `config/routes.rb`:
 
 ```ruby
 Rails.application.routes.draw do
-    Lesli::Router.mount(self)
+  Lesli::Router.mount(self)
 end
 ```
 
-## Mounting Devise 
+The helper defines the host application's root route. Use manual mounting if the host already owns `/` or needs a different root controller.
 
-Lesli comes with its own implementation of devise through the `LesliShield` engine, the recommended way to mount this engine and devise is using the short cut `Lesli::Router.mount`, however you can customize the engine loading it manually
+---
 
+## Automatic Engine Mounting
 
-**Mount engine manually**
+`Lesli::Router.mount(self)` adds the Lesli welcome route, authentication routes, and a fixed mount point for each recognized engine whose constant is loaded.
+
+| Engine | Default path |
+| ------ | ------------ |
+| Lesli Core | `/lesli` |
+| LesliBell | `/bell` |
+| LesliAdmin | `/admin` |
+| LesliAudit | `/audit` |
+| LesliBabel | `/babel` |
+| LesliMailer | `/mailer` |
+| LesliShield | `/shield` |
+| LesliPapers | `/papers` |
+| LesliSupport | `/support` |
+| LesliSecurity | `/security` |
+| LesliCalendar | `/calendar` |
+| LesliContacts | `/contacts` |
+| LesliDashboard | `/dashboard` |
+
+The helper checks whether each engine constant is defined before mounting it. Installing or requiring an engine is still the application's responsibility.
+
+The second argument to `mount` changes the authentication prefix only; it does not change the engine paths in the table:
 
 ```ruby
 Rails.application.routes.draw do
-
-    # Load dedicated mounting routes for devise from the LesliShield engine
-    LesliShield::Router.mount_login_at(self)
+  Lesli::Router.mount(self, "account")
 end
 ```
 
-By default this short cut is going to mount the login paths at root level, example:
+With LesliShield installed, this places the sign-in route at `/account/login` while the engine mount points remain unchanged.
 
-```
-https://demo.lesli.dev/login
-https://demo.lesli.dev/logout
-https://demo.lesli.dev/register
-https://demo.lesli.dev/password
-https://demo.lesli.dev/confirmation
-```
+---
 
-You can customize the path using the helper:
+## Manual Engine Mounting
+
+Mount engines manually when the application needs different URL prefixes or only a selected set of engines:
 
 ```ruby
 Rails.application.routes.draw do
-    LesliShield::Router.mount_login_at(self,"my-users")
+  root to: "lesli/abouts#welcome", as: :welcome
+
+  mount Lesli::Engine => "/framework"
+  mount LesliSupport::Engine => "/help-desk"
+  mount LesliCalendar::Engine => "/schedule"
 end
 ```
 
-Result:
-
-```
-https://demo.lesli.dev/my-users/login
-https://demo.lesli.dev/my-users/logout
-https://demo.lesli.dev/my-users/register
-https://demo.lesli.dev/my-users/password
-https://demo.lesli.dev/my-users/confirmation
-```
-
-**Mounting Devise manually**
-
-It is possible to mount Devise manually if you need full control over the implementation, at low level Lesli works as standard Rails engines, so you can override all the defaults or you can just avoid using the wrapper helpers to have full access to all Rails/Ruby gems and tools used to build Lesli.
+Only reference constants for gems that the application has installed. If an engine is optional, guard the mount:
 
 ```ruby
-# mount devise manually
+mount LesliAudit::Engine => "/audit" if defined?(LesliAudit)
+```
+
+Do not call `Lesli::Router.mount(self)` in the same route set when manually mounting the same engines, or Rails will receive duplicate routes.
+
+---
+
+## Authentication Routes
+
+`Lesli::Router.login(self, path)` mounts authentication separately from the engine list:
+
+```ruby
 Rails.application.routes.draw do
-    devise_for :users, class_name: "Lesli::User", module: :devise,
-    :path => "",
-    :path_names => {
-        :sign_in  => "login",
-        :sign_out => "logout",
-        :sign_up  => "register",
-        :password => "password",
-        :confirmation => "confirmation"
-    },
-    :controllers => {
-        :registrations => "users/registrations",
-        :confirmations => "users/confirmations",
-        :passwords => "users/passwords",
-        :sessions => "users/sessions"
-    }
+  Lesli::Router.login(self, "account")
 end
 ```
 
+When LesliShield is installed, the helper delegates to `LesliShield::Router.mount_login_at` and provides these path names below the selected prefix:
+
+* `login`
+* `logout`
+* `register`
+* `password`
+* `confirmation`
+
+You can call the LesliShield helper directly when you are mounting the rest of the application manually:
+
+```ruby
+Rails.application.routes.draw do
+  LesliShield::Router.mount_login_at(self, "account")
+end
+```
+
+Without LesliShield, Lesli falls back to the standard Devise route declaration for `Lesli::User`; that fallback uses Devise's default path names.
+
+---
+
+## Shared Engine Routes
+
+An engine can opt into Lesli's common dashboard, item, and health routes:
+
+```ruby
+MyEngine::Engine.routes.draw do
+  Lesli::Router.mount_lesli_engine_routes(self)
+end
+```
+
+The helper declares:
+
+* The engine root and singleton `dashboard` routes
+* `items/tasks` routes for `index`, `create`, and `update`
+* `items/discussions` routes for `index`, `create`, and `update`
+* An `up` health-check route
+
+Use this helper only when the engine provides the corresponding dashboard and item controllers.
+
+---
+
+## Inspect Routes
+
+Use the Rails route inspector to verify the final route set:
+
+```shell
+bin/rails routes
+bin/rails routes -g login
+bin/rails routes -g support
+```
+
+Route output is the source of truth when host routes, Lesli helpers, and mounted engines are combined.
