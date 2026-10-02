@@ -2,7 +2,7 @@
 
 **Lesli** is an open-source Ruby on Rails framework for building scalable, secure, and customizable SaaS applications.
 
-Built on proven technologies such as **Ruby on Rails**, **PostgreSQL**, **Hotwire**, **Bulma**, **Sass**, and **Alpine.js**, Lesli gives you a strong foundation for developing serious software products without starting from scratch.
+Built on **Ruby on Rails**, **Hotwire**, **Tailwind CSS**, and **Alpine.js**, with support for **SQLite** and **PostgreSQL**, Lesli gives you a strong foundation for developing serious software products without starting from scratch.
 
 More than a starter kit or boilerplate, Lesli is a modular framework that helps you build applications through reusable engines, built-in components, generators, and shared conventions. You can use it to extend existing functionality, integrate ready-made modules, or develop fully customized solutions on top of a stable core.
 

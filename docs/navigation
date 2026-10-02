@@ -1,4 +1,4 @@
-<%= navigation_for_folder("engines", "lesli", "about", order:["lesli", "architecture", "ecosystem", "demo"]) %>
+<%= navigation_for_folder("engines", "lesli", "about", order:["lesli", "architecture", "features", "ecosystem", "demo"]) %>
 <%= navigation_for_folder("engines", "lesli", "start", order:["installation", "development", "configuration", "credentials"]) %>
 <%= navigation_for_folder("engines", "lesli", "backend", order:["router","controllers","services","courier","models","mailers"]) %>
 <%= navigation_for_folder("engines", "lesli", "frontend", order:["layouts","partials","helpers"]) %>

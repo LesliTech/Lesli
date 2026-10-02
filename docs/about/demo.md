@@ -22,10 +22,15 @@ Try Lesli instantly through the public demo instance:
 If you want to explore Lesli inside a fresh Rails application, you can generate a demo app with a Rails template:
 
 ```shell
-rails new LesliDemo -m lesli_demo.rb --skip-bundle
+rails new LesliDemo \
+  --skip-bundle \
+  -m https://raw.githubusercontent.com/LesliTech/Lesli/master/templates/template-dev.rb
 ```
 
 This option is useful if you want a lightweight local environment for testing or learning how Lesli fits into a standard Rails application.
+
+> **Development only**
+> The template clones the mutable `master` branch of each Lesli repository. Use released gems for production applications.
 
 ---
 
@@ -38,13 +43,14 @@ If you prefer to install Lesli step by step, you can add it to your Rails applic
 bundle add lesli
 
 # Install Lesli into your app
-rails generate lesli:install
+bin/rails generate lesli:install
 
-# Rebuild and seed the development database
-bin/rails lesli:db:rebuild
+# Prepare and seed the development database
+bin/rails lesli:db:prepare
+bin/rails lesli:db:seed
 
 # Start the application
-rails server
+bin/rails server
 ```
 
 This approach is recommended if you want to understand the installation process in detail.
@@ -76,13 +82,15 @@ Once the application is running, open the following URL in your browser:
 
 [http://127.0.0.1:3000](http://127.0.0.1:3000)
 
-The demo environment includes default users with different roles and permissions. To explore the full platform, use the owner account:
+Seeded environments include default users with different roles and permissions. To explore all installed modules, use the owner account:
 
-**Username:** [hello@lesli.tech](mailto:hello@lesli.tech)
-**Password:** Test123!
+| Credential | Value |
+| ---------- | ----- |
+| Username | [hello@lesli.tech](mailto:hello@lesli.tech) |
+| Password | `Test123!` |
 
 <lesli-browser host="http://localhost:3000/" url="login">
     <img src="/images/engines/shield/screenshot-login.png">
 </lesli-browser>
 
-> The Docker demo and Rails template include official Lesli modules and sample data for evaluation and testing.
+> The Docker demo and Rails template include Lesli modules and sample data for evaluation and testing.

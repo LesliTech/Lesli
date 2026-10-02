@@ -47,17 +47,17 @@ Collections make it easier to identify which modules may be relevant to your app
 
 Lesli currently has **45 modules planned**, with **9 production-ready modules** already available.
 
-| Code | Module             | Description                                             |
-| ---- | ------------------ | ------------------------------------------------------- |
-| 0101 | **LesliAdmin**     | Administration area for managing core platform settings |
-| 0301 | **LesliCalendar**  | Unified calendar application                            |
-| 0305 | **LesliLetter**    | Notes and notebooks                                     |
-| 0306 | **LesliDashboard** | Dashboards and business insights                        |
-| 0308 | **LesliBell**      | Notifications and alerts                                |
-| 0502 | **LesliAudit**     | System analytics and activity tracking                  |
-| 0702 | **LesliSupport**   | Support ticket management                               |
-| 0801 | **LesliShield**    | Authentication, authorization, roles, and privileges    |
-| 0901 | **LesliBabel**     | Translation management                                  |
+| Code | Module | Description |
+| ---- | ------ | ----------- |
+| 0101 | [**LesliAdmin**](/engines/admin/) | Administration area for managing core platform settings |
+| 0301 | [**LesliCalendar**](/engines/calendar/) | Unified calendar application |
+| 0305 | **LesliLetter** | Notes and notebooks |
+| 0306 | [**LesliDashboard**](/engines/dashboard/) | Dashboards and business insights |
+| 0308 | [**LesliBell**](/engines/bell/) | Notifications and alerts |
+| 0502 | [**LesliAudit**](/engines/audit/) | System analytics and activity tracking |
+| 0702 | [**LesliSupport**](/engines/support/) | Support ticket management |
+| 0801 | [**LesliShield**](/engines/shield/) | Authentication, authorization, roles, and privileges |
+| 0901 | [**LesliBabel**](/engines/babel/) | Translation management |
 
 You are not limited to official modules. Lesli also allows you to create and integrate your own custom engines when your application requires domain-specific functionality.
 
