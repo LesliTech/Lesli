@@ -1,6 +1,6 @@
 ---
-title: "Get Started with Lesli -- Install a Full SaaS Backend in Minutes"
-description: "Install Lesli in your Rails app in under 5 minutes. Step-by-step guide: add the gem, run the generator, launch your SaaS backend. Ruby 3.2+, Rails 8.0+."
+title: "Get Started with Lesli -- Installation and Configuration"
+description: "Install Lesli in a Rails 8.1 application, prepare the database, configure the framework, and start the development server."
 ---
 
 <!--

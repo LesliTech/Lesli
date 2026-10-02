@@ -2,10 +2,12 @@
 
 Lesli is a modular Ruby on Rails framework distributed as a gem. It integrates into your application while keeping its code, database migrations, and assets isolated from your main app. This design allows you to extend your system with new capabilities without increasing complexity or risking conflicts in your core codebase.
 
-> **Requirements:**  
-> - Ruby **3.2.x**  
-> - Rails **8.0.x**  
-> - Node.js **20.x** (required for LesliAssets)  
+> **Requirements**
+> * Ruby **3.2 or newer**
+> * Rails **8.1**
+> * SQLite, included with a default Rails application, or PostgreSQL
+
+Node.js 20.x is optional and is only needed when developing or rebuilding frontend assets from source. Released Lesli gems include compiled assets.
 
 ---
 
@@ -28,12 +30,12 @@ Add the Lesli gem to your project:
 bundle add lesli
 ```
 
-If you plan to contribute or develop Lesli locally, you can instead clone the repository. See the development guide for details.
+If you plan to contribute or develop Lesli locally, you can instead clone the repository. See the [development installation guide](/engines/lesli/start/development/) for details.
 
 Verify the installation:
 
-```bash
-rake lesli:status
+```shell
+bin/rails lesli:status
 ```
 
 This command prints the current status of the Lesli framework and confirms that it is correctly loaded in your application.
@@ -44,14 +46,13 @@ This command prints the current status of the Lesli framework and confirms that 
 
 Initialize Lesli in your Rails application:
 
-```bash
-rails generate lesli:install
+```shell
+bin/rails generate lesli:install
 ```
 
 This generator will:
 
-* Create the Lesli configuration file:
-  `config/initializers/lesli.rb`
+* Create `config/initializers/lesli.rb`
 
 * Mount the Lesli routing layer inside `config/routes.rb`:
 
@@ -69,7 +70,7 @@ The initializer allows you to configure global Lesli behavior and framework opti
 
 Prepare the database and configure Lesli for every existing account:
 
-```bash
+```shell
 bin/rails lesli:db:prepare
 ```
 
@@ -84,7 +85,7 @@ This task will:
 
 This command does not run database seeders. To load seed data separately, run:
 
-```bash
+```shell
 bin/rails lesli:db:seed
 ```
 
@@ -94,7 +95,7 @@ bin/rails lesli:db:seed
 
 If you need to reset your environment during development:
 
-```bash
+```shell
 bin/rails lesli:db:rebuild
 ```
 
@@ -109,39 +110,36 @@ This command drops the database, deletes `db/schema.rb` when present, prepares t
 
 Run the development server:
 
-```bash
-rails s
+```shell
+bin/rails server
 ```
 
 Additional examples:
 
-```bash
-rails s --binding=0.0.0.0
-rails s --environment=test
-rails s --environment=development
-RAILS_SERVE_STATIC_FILES=true rails s --environment=production
+```shell
+bin/rails server --binding=0.0.0.0
+bin/rails server --port=4000
+bin/rails server --environment=development
 ```
 
 Open your browser and visit:
 
 [http://127.0.0.1:3000/login](http://127.0.0.1:3000/login)
 
-You should now see the Lesli welcome page.
+You should now see the Lesli sign-in page.
 
 ---
 
-# Development Recommendations
+## Development Recommendations
 
-## Local Email Preview
+### Local Email Preview
 
 For development environments it is recommended to preview emails locally instead of sending them.
 
-Install the `letter_opener` gem:
+Add the `letter_opener` gem to the development group:
 
-```ruby
-group :development do
-  gem "letter_opener"
-end
+```shell
+bundle add letter_opener --group development
 ```
 
 Configure `config/environments/development.rb`:

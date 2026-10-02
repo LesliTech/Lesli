@@ -15,10 +15,10 @@ This setup is recommended if you want to:
 
 ## Development Setup
 
-For local development, Lesli and its engines should live inside an `engines/` directory at the root of your Rails application.
+The standard Lesli development workspace keeps Lesli and its engines inside an `engines/` directory at the root of the host Rails application. Using this convention keeps local Gemfile paths and framework tooling consistent.
 
 > **Important**
-> This directory structure is required for Lesli to detect and load its components correctly during development and runtime.
+> The repositories still need to be declared in your `Gemfile`. Their directory location alone does not load them into the application.
 
 ### Recommended Directory Structure
 
@@ -30,8 +30,8 @@ Main Rails App/
 ├── db/
 ├── engines/
 │   ├── Lesli/
-│   ├── lesli_shield/
-│   ├── lesli_dashboard/
+│   ├── LesliShield/
+│   ├── LesliDashboard/
 │   └── ...
 ├── lib/
 ├── log/
@@ -49,7 +49,8 @@ Main Rails App/
 From the root of your Rails application, clone the Lesli core repository into the `engines/` directory:
 
 ```bash
-git clone git@github.com:LesliTech/Lesli.git engines/Lesli
+mkdir -p engines
+git clone https://github.com/LesliTech/Lesli.git engines/Lesli
 ```
 
 ---
@@ -72,24 +73,25 @@ bundle install
 
 ## Complete the Standard Installation
 
-Once Lesli is loaded from source, continue with the regular installation process:
+Once Lesli is loaded from source, initialize it and start the host application:
 
-* Run the Lesli installer
-* Prepare the database
-* Run Lesli development tasks
-* Start the Rails server
+```shell
+bin/rails generate lesli:install
+bin/rails lesli:db:prepare
+bin/rails server
+```
 
 See the main installation guide for the remaining steps:
 
-[Standard Installation Guide](https://www.lesli.dev/engines/lesli/getting-started/installation/)
+[Standard Installation Guide](/engines/lesli/start/installation/)
 
 ---
 
 ## Summary
 
-The only difference between a standard installation and a development installation is how the `lesli` gem is loaded.
+For core development, the main difference from a standard installation is how the `lesli` gem is loaded.
 
 * **Standard installation** uses the published gem
 * **Development installation** uses a local clone of the framework source code
 
-After that, the rest of the setup is the same.
+The rest of the installation flow is the same. If you also need to modify a Lesli engine or supporting gem, clone that repository into `engines/` or `gems/` and add its local path to the host application's `Gemfile`.
