@@ -1,229 +1,213 @@
-# Lesli Initializer
+# Lesli Configuration
 
-This guide explains the configuration options available in `config/initializers/lesli.rb`.
+Lesli applications override framework settings in `config/initializers/lesli.rb`. The Lesli gem provides the default values, and the installation generator creates a small application initializer for settings that differ in the host application.
 
-Use this file to customize the core behavior of your Lesli-based application, including system identity, localization, date and time formats, security settings, theme options, layout features, and mailer paths.
+Keep secrets out of this file. Store passwords, tokens, and provider keys in [Rails credentials](/engines/lesli/start/credentials/) or in environment variables read explicitly by your application.
 
 ---
 
 ## Generate the Initializer
 
-If you have not already generated the Lesli initializer, run:
+Run the installation generator if the application does not already have a Lesli initializer:
 
 ```shell
-rails generate lesli:install
+bin/rails generate lesli:install
 ```
 
-This command creates the base Lesli configuration file:
-
-```text
-config/initializers/lesli.rb
-```
-
-Lesli provides sensible defaults, so in most cases you only need to change the settings relevant to your application.
-
----
-
-## Full Configuration Example
+The generator creates `config/initializers/lesli.rb` with a minimal configuration block:
 
 ```ruby
 Lesli.configure do |config|
+  config.demo = false
+end
+```
 
-# Enable or disable demo mode.
-config.demo = false
+You only need to add settings that your application overrides.
 
+---
 
-# Installation identifier
-config.instance = "Lesli"
+## Configuration Areas
 
+| Setting | Purpose | Provider |
+| ------- | ------- | -------- |
+| `demo` | Enables demo-specific seed and interface behavior | Lesli Core |
+| `instance` and `company` | Identifies the installation and organization | Lesli Core |
+| `datetime` | Defines the time zone, week start, and display formats | Lesli Core and LesliDate |
+| `theme` and `layout` | Defines shared visual and layout preferences | Lesli Core and presentation packages |
+| `security` | Defines registration, account, and development-password behavior | Lesli Core and LesliShield |
+| `babel` | Defines available application locales | LesliBabel |
+| `shield` | Defines the post-login path and default role | LesliShield |
+| `audit` | Enables audit logs, journals, and analytics | LesliAudit |
+| `mailer` | Defines the shared email-template path | Lesli Core |
+| `support` | Defines support ticket settings | LesliSupport |
 
-# Provides organization details displayed throughout the system.
-config.company = {
-    name: "Lesli",
-    email: "hello@lesli.tech",
-    tagline: "The Open-Source SaaS Development Framework for Ruby on Rails."
-}
+Settings for optional engines have an effect only when the corresponding engine is installed.
 
+---
 
-# List of supported languages (requires `LesliBabel`).
-config.locales = {
-    :en => "English",       # English
-    :de => "Deutsch",       # Deutsch/German
-    :pl => "Polski",        # Polski/Polish/Poland
-    :nl => "Dutch",         # Dutch/Nederlands/Netherlands
-    :es => "Español",       # Español/Spanish
-    :uk => "украї́нська",    # украї́нська/Ukrainian
-    :sr => "Српски",        # Српски/Srpski/Serbian
-    :it => "Italiano",      # Italiano/Italian
-    :hr => "Hrvatski",      # Hrvatski/Croatian
-    :fr => "Français",      # French
-    :pt => "Português",     # Portuguese
-    :tr => "Türkçe",        # Turkish
-    :ro => "Română",        # Romanian
-    :bg => "български"      # Bulgarian
-}
+## Core Identity
 
+Use `config.instance` and `config.company` to identify the installation. Company information is also used when Lesli seeds the initial account.
 
-# Define time zone, week start day, and custom date/time formats.
-config.datetime = {
-    :time_zone => "America/Guatemala",
-    :start_week_on => "monday",
-    :formats => {
-        :date => "%d/%m/%Y",
-        :time => "%H:%M",
-        :date_time => "%d/%m/%Y %H:%M",
-        :date_words => "%A, %B %d, %Y",
-        :date_time_words => "%A, %B %d, %Y, %H:%M", 
-        :date_time_words_pm => "%A, %B %d, %Y, %I:%M %p", 
-        :date_time_words_day => "%A, %B %d, %Y, %H:%M", 
+```ruby
+Lesli.configure do |config|
+  config.instance = "Acme Cloud"
+  config.company = config.company.merge(
+    name: "Acme",
+    email: "hello@example.com",
+    tagline: "Tools for distributed teams"
+  )
+end
+```
+
+Set `config.demo` to `true` only for disposable evaluation environments. Demo mode exposes predefined sign-in details and changes seed behavior.
+
+---
+
+## Date and Time
+
+Use `config.datetime` for the application time zone, first day of the week, and shared date formats:
+
+```ruby
+Lesli.configure do |config|
+  config.datetime = config.datetime.merge(
+    time_zone: "America/Guatemala",
+    start_week_on: "monday",
+    formats: config.datetime.fetch(:formats).merge(
+      date: "%d/%m/%Y",
+      time: "%H:%M",
+      date_time: "%d/%m/%Y %H:%M"
+    )
+  )
+end
+```
+
+Format values use Ruby `strftime` directives.
+
+---
+
+## Localization
+
+LesliBabel reads supported languages from `config.babel[:locales]`. The first locale becomes the Rails default locale when LesliBabel initializes.
+
+```ruby
+Lesli.configure do |config|
+  config.babel = config.babel.merge(
+    locales: {
+      en: "English",
+      es: "Español"
     }
-}
+  )
+end
+```
 
+This setting requires LesliBabel. There is no top-level `config.locales` setting.
 
-# Customize the color palette and layout.
-config.theme = {
+---
+
+## Security and Authentication
+
+The core `security` settings control the development password and the registration behavior used by LesliShield:
+
+```ruby
+Lesli.configure do |config|
+  config.security = config.security.merge(
+    password: "DevelopmentOnly123!",
+    allow_multiaccount: false,
+    allow_registration: false
+  )
+end
+```
+
+The configured password is used by seed and demo workflows. Do not use a shared development password in production.
+
+LesliShield-specific settings belong under `config.shield`:
+
+```ruby
+Lesli.configure do |config|
+  config.shield = config.shield.merge(
+    path_after_login: "/dashboard",
+    default_role: "guest"
+  )
+end
+```
+
+Use `config.shield[:path_after_login]`; `config.path_after_login` is not a supported setting.
+
+---
+
+## Theme and Layout
+
+Use the shared theme and layout hashes to override only the values your installed presentation packages consume:
+
+```ruby
+Lesli.configure do |config|
+  config.theme = config.theme.merge(
     color_primary: "#245F93",
-    color_sidebar: "#ffffff",
-    color_header: "transparent",
-    color_footer: "transparent",
-    color_background: "#eef2f6",
-    color_sidebar_hover: "#E3EEF6"
-}
+    color_background: "#EEF2F6"
+  )
 
-
-#
-config.layout = {
+  config.layout = config.layout.merge(
     tasks: true,
     profile: true,
     notifications: true
-}
-
-
-# Customize system-wide security behavior.
-config.security = {
-    # Default password for non-production environments
-    password: "Test123!", 
-    enable_debug: false,
-    enable_becoming: false,
-    enable_login_otp: true,
-    enable_login_link: true,
-    allow_multiaccount: true,
-    allow_registration: true
-}
-
-# Shield module configuration
-config.shield = {
-    login_title: "Welcome to Lesli",
-    path_after_login: defined?(LesliDashboard) ? "/dashboard" : "/"
-}
-
-
-# Audit module configuration
-config.audit = {
-    prefix: 'LA',
-    enable_logs: true,
-    enable_journals: true,
-    enable_analytics: true
-}
-
-
-# Mailer module configuration
-config.mailer = {
-    templates: "lesli_assets/emails"
-}
-
-
-# Support module configuration
-config.support = {
-    prefix: 'LS'
-}
+  )
 end
 ```
 
 ---
 
-## Common Configuration Areas
+## Optional Engine Settings
 
-### Demo Mode
-
-Use `config.demo` to enable or disable demo-specific behavior.
-
-```ruby
-config.demo = false
-```
-
-### Instance and Company Information
-
-Use `config.instance` and `config.company` to define how your application is identified across the platform.
-
-```ruby
-config.instance = "Lesli"
-config.company = {
-  name: "Lesli",
-  email: "hello@lesli.tech",
-  tagline: "The Open SaaS Development Platform."
-}
-```
-
-### Localization
-
-Use `config.locales` to define the languages available in your application. This requires **LesliBabel**.
-
-### Date and Time
-
-Use `config.datetime` to control the application time zone, the first day of the week, and the date and time formats used across the interface.
-
-### Security
-
-Use `config.security` to define system-wide security behavior, including registration, login options, development passwords, and debugging features.
-
-### Theme
-
-Use `config.theme` to customize the visual appearance of the platform.
-
-### Layout
-
-Use `config.layout` to enable or disable selected layout features such as notifications, profile access, task shortcuts, or translation tools.
-
-### Mailer
-
-Use `config.mailer` to define the default path for email templates.
-
-### Redirect After Login
-
-Use `config.path_after_login` to control the default destination after authentication.
-
----
-
-## Overriding Only What You Need
-
-You do not need to redefine the full configuration file. You can override only the values relevant to your application.
+Configure optional engines in their matching namespace:
 
 ```ruby
 Lesli.configure do |config|
-  config.demo = true
-  config.security[:allow_multiaccount] = false
+  config.audit = config.audit.merge(
+    enable_logs: true,
+    enable_journals: true,
+    enable_analytics: true
+  )
+
+  config.support = config.support.merge(prefix: "LS")
+  config.mailer = config.mailer.merge(templates: "lesli_assets/emails")
 end
 ```
 
-This keeps your initializer smaller and easier to maintain.
+Refer to each engine's documentation before changing engine-specific keys.
 
 ---
 
-## Environment Variable Overrides
+## Preserve Default Hash Values
 
-Some settings can also be overridden with environment variables.
+Assigning a new hash replaces the entire existing setting. Use `merge` when you only want to override selected keys:
 
-Use the following format:
-
-```text
-LESLI_<SECTION>_<KEY>
+```ruby
+Lesli.configure do |config|
+  config.security = config.security.merge(allow_registration: false)
+end
 ```
 
-Example:
+This preserves other defaults supplied by the framework.
 
-```text
-LESLI_SECURITY_ENABLE_DEBUG=false
+---
+
+## Environment Variables
+
+Lesli does not automatically translate variables named `LESLI_<SECTION>_<KEY>` into configuration values. Read environment variables explicitly in the initializer when an application needs deployment-specific behavior:
+
+```ruby
+Lesli.configure do |config|
+  boolean = ActiveModel::Type::Boolean.new
+
+  config.demo = boolean.cast(ENV.fetch("LESLI_DEMO", config.demo))
+
+  if ENV.key?("LESLI_ALLOW_REGISTRATION")
+    config.security = config.security.merge(
+      allow_registration: boolean.cast(ENV["LESLI_ALLOW_REGISTRATION"])
+    )
+  end
+end
 ```
 
-This is useful for deployment environments where configuration should not be stored directly in source code.
+Use Rails credentials or a deployment secret manager for sensitive values rather than committing them to the initializer.

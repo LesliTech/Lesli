@@ -1,184 +1,132 @@
 # Rails Credentials
 
-Lesli uses **Rails Credentials** to manage sensitive configuration values securely across environments.
+Use Rails encrypted credentials for secrets that the application or an installed Lesli module needs at runtime. Typical examples include provider keys, service tokens, and production database credentials.
 
-This includes secrets such as database credentials, API keys, service tokens, and integration settings required by Lesli modules and third-party providers.
-
-By storing this information in encrypted credentials files, you can keep sensitive values out of your source code while still making them available to your application at runtime.
+Do not put secrets in `config/initializers/lesli.rb` or commit unencrypted secret files to the repository.
 
 ---
 
-## Editing Rails Credentials
+## Edit Credentials
 
-To edit credentials for a specific environment, run one of the following commands.
-
-### Ubuntu / Linux Desktop
+Edit the shared credentials file with your preferred editor:
 
 ```shell
-EDITOR="code --wait" rails credentials:edit --environment development
-EDITOR="code --wait" rails credentials:edit --environment production
-EDITOR="code --wait" rails credentials:edit --environment test
-EDITOR="code --wait" rails credentials:edit
+EDITOR="code --wait" bin/rails credentials:edit
 ```
 
-### macOS / Ubuntu Server
+For an environment-specific file, include the environment name:
 
 ```shell
-EDITOR="nano" rails credentials:edit --environment development
-EDITOR="nano" rails credentials:edit --environment production
-EDITOR="nano" rails credentials:edit --environment test
-EDITOR="nano" rails credentials:edit
+EDITOR="code --wait" bin/rails credentials:edit --environment development
+EDITOR="code --wait" bin/rails credentials:edit --environment test
+EDITOR="code --wait" bin/rails credentials:edit --environment production
 ```
 
-These commands open the encrypted credentials file in your selected editor.
+For a terminal editor, replace `code --wait` with a command such as `nano`:
+
+```shell
+EDITOR="nano" bin/rails credentials:edit --environment production
+```
+
+Rails stores shared credentials in `config/credentials.yml.enc`. Environment-specific commands create files under `config/credentials/` with matching key files. An environment-specific credentials file replaces the shared file for that environment; Rails does not merge the two files.
+
+Keep production decryption keys outside source control and provide them through the deployment platform, commonly with `RAILS_MASTER_KEY`.
 
 ---
 
-## Recommended Credentials Structure
+## Suggested Structure
 
-Some Lesli modules require credentials for internal services or third-party integrations such as AWS, Google, Firebase, and Honeybadger.
-
-The following structure is recommended for organizing credentials in a Lesli-based application:
+Only define entries required by the application and its installed modules. The following example includes values read by the current Lesli core interface and a reusable PostgreSQL section:
 
 ```yaml
-# Identify the current Lesli installation
-implementation: "lesli-localhost"
-
-# Database credentials
 db:
-  database: ""
-  username: ""
-  password: ""
-  host: ""
-  port: ""
+  host: "localhost"
+  port: 5432
+  username: "lesli"
+  password: "replace-me"
+  databases:
+    development: "lesli_development"
+    test: "lesli_test"
+    production: "lesli_production"
 
-# Internal Lesli services
-services:
-  jwt:
-    secret: "your-secret-json-web-token-key"
-
-# Third-party providers
 providers:
-  aws_s3:
-    region: eu-central-1
-    bucket: ""
-    access_key_id: ""
-    secret_access_key: ""
-
-  aws_ses:
-    region: eu-central-1
-    access_key_id: ""
-    secret_access_key: ""
-
-  aws_sns:
-    region: eu-central-1
-    access_key_id: ""
-    secret_access_key: ""
+  apple:
+    app_id: ""
 
   google:
-    client_id: ""
-    client_secret: ""
-    maps_sdk_token: ""
     tag_manager: ""
 
-  firebase:
-    api_key: ""
-    admin_sdk_private_key: ""
-    web: ""
-
   honey_badger:
     api_key: ""
-    personal_token: ""
 
-# Rails secret key base
-secret_key_base: "your-secret-key-base"
+secret_key_base: "replace-with-a-generated-secret"
 ```
 
-This structure is only a recommendation. You may organize credentials differently depending on your application and which Lesli modules you use.
-
----
-
-## Overriding Credentials with Environment Variables
-
-Most credentials can also be overridden with environment variables. This is useful when deploying to staging or production, working with Docker, or configuring CI/CD pipelines.
-
-### Naming Convention
-
-Use the following format:
-
-```text
-LESLI_<SECTION>_<GROUP>_<KEY>
-```
-
-Where:
-
-* `LESLI` is the fixed prefix
-* `SECTION` is the top-level namespace in your credentials file
-* `GROUP` is the integration or category inside that section
-* `KEY` is the specific credential field
-
-### Example
-
-If your credentials file contains:
-
-```yaml
-providers:
-  honey_badger:
-    api_key: "my-api-key"
-```
-
-You can override it with:
+Generate secret values instead of copying the placeholders. Rails can generate a suitable random value with:
 
 ```shell
-LESLI_PROVIDERS_HONEY_BADGER_API_KEY="my-super-secret-api-key"
+bin/rails secret
 ```
 
-### Why Use Environment Variables?
-
-* Configure secrets differently per environment
-* Keep sensitive values out of the repository
-* Simplify cloud and container-based deployments
-* Integrate cleanly with CI/CD workflows
+Provider settings are optional. Omit integrations the application does not use.
 
 ---
 
-## Database Configuration
+## Environment Variables
 
-Open your database configuration file:
+Lesli does not automatically convert variables named `LESLI_<SECTION>_<GROUP>_<KEY>` into Rails credentials. Applications must read environment variables explicitly where they are consumed.
 
-```text
-config/database.yml
+For example, `config/database.yml` can prefer an environment variable and fall back to encrypted credentials:
+
+```yaml
+password: <%= ENV.fetch("DB_PASSWORD") { Rails.application.credentials.dig(:db, :password) } %>
 ```
 
-Lesli currently supports **PostgreSQL** and **SQLite**.
+Rails also supports the standard `DATABASE_URL` environment variable for database deployments. Use the configuration mechanism required by the hosting platform, and avoid duplicating the same secret across multiple stores.
 
-The following example shows a PostgreSQL configuration using values stored in Rails Credentials:
+---
+
+## PostgreSQL Configuration
+
+New Rails applications use SQLite by default and do not need database credentials for local development. For PostgreSQL, add the `pg` gem and configure `config/database.yml` with distinct database names for development, test, and production:
 
 ```yaml
 default: &default
   adapter: postgresql
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+  host: <%= ENV.fetch("DB_HOST") { Rails.application.credentials.dig(:db, :host) } %>
+  port: <%= ENV.fetch("DB_PORT") { Rails.application.credentials.dig(:db, :port) } %>
+  username: <%= ENV.fetch("DB_USERNAME") { Rails.application.credentials.dig(:db, :username) } %>
+  password: <%= ENV.fetch("DB_PASSWORD") { Rails.application.credentials.dig(:db, :password) } %>
 
 development:
   <<: *default
-  database: <%= Rails.application.credentials.dig(:db, :database) %>
-  username: <%= Rails.application.credentials.dig(:db, :username) %>
-  password: <%= Rails.application.credentials.dig(:db, :password) %>
+  database: <%= Rails.application.credentials.dig(:db, :databases, :development) %>
 
 test:
   <<: *default
-  database: <%= Rails.application.credentials.dig(:db, :database) %>
-  username: <%= Rails.application.credentials.dig(:db, :username) %>
-  password: <%= Rails.application.credentials.dig(:db, :password) %>
+  database: <%= Rails.application.credentials.dig(:db, :databases, :test) %>
 
 production:
   <<: *default
-  host: <%= Rails.application.credentials.dig(:db, :host) %>
-  port: <%= Rails.application.credentials.dig(:db, :port) %>
-  database: <%= Rails.application.credentials.dig(:db, :database) %>
-  username: <%= Rails.application.credentials.dig(:db, :username) %>
-  password: <%= Rails.application.credentials.dig(:db, :password) %>
+  database: <%= Rails.application.credentials.dig(:db, :databases, :production) %>
 ```
 
-This approach keeps database connection details encrypted and centralized inside Rails Credentials.
+Add the PostgreSQL adapter if it is not already present:
+
+```shell
+bundle add pg
+```
+
+Never point the test environment at the development or production database.
+
+---
+
+## Operational Guidance
+
+* Commit encrypted `.yml.enc` files only when the team intends to share them.
+* Never commit `config/master.key` or files under `config/credentials/*.key`.
+* Use different credentials and encryption keys for development, test, staging, and production.
+* Rotate a credential immediately if its plaintext value appears in source control, logs, screenshots, or support messages.
+* Restart application processes after changing credentials so the new values are loaded.
