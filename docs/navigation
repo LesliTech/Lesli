@@ -5,4 +5,4 @@
 <%= navigation_for_folder("engines", "lesli", "database", order:["structure", "versioning", "seeders"]) %>
 <%#= navigation_for_folder("engines", "lesli", "generators", order:[]) %>
 <%#= navigation_for_folder("engines", "lesli", "deployment", order:[]) %>
-<%= navigation_for_folder("engines", "lesli", "contributing", order:["github", "engines", "commits", "pull-requests", "versioning"]) %>
+<%= navigation_for_folder("engines", "lesli", "contributing", order:["github", "engines", "gems", "commits", "pull-requests", "versioning"]) %>
