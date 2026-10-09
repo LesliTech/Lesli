@@ -33,7 +33,6 @@ Building a better future, one line of code at a time.
 module Lesli
     class User < ApplicationLesliRecord
         include Lesli::UserExtensions
-        include LesliShield::UserSecurity if defined?(LesliShield)
 
         # user required configuration
         validates(:email, 
