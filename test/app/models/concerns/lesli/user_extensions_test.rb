@@ -81,6 +81,10 @@ module Lesli
         # ActiveSupport's `present?` / `blank?` helpers are available in Rails tests.
         end
 
+        class FakeUserWithoutLogs
+            include Lesli::UserExtensions
+        end
+
         # --- Tests: name / full_name / initials -----------------------------------
 
         test "name returns first_name when present" do
@@ -213,6 +217,17 @@ module Lesli
             assert_equal 99, payload[:subject_id]
 
             assert_equal :audit_assoc, payload[:account]
+        ensure
+            Object.send(:remove_const, :LesliAudit) if Object.const_defined?(:LesliAudit)
+        end
+
+        test "log does nothing when LesliAudit is defined without a logs association" do
+            Object.const_set(:LesliAudit, Module.new) unless Object.const_defined?(:LesliAudit)
+
+            assert_nil FakeUserWithoutLogs.new.log(
+                operation: "session_creation_failed",
+                description: "user_locked"
+            )
         ensure
             Object.send(:remove_const, :LesliAudit) if Object.const_defined?(:LesliAudit)
         end

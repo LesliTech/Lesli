@@ -66,9 +66,6 @@ module Lesli
         has_many :tokens
         has_many :settings
         has_many :sessions, class_name: 'LesliShield::User::Session'
-        has_many :requests, class_name: 'LesliAudit::UserRequest'
-        has_many :journals, class_name: 'LesliAudit::UserJournal'
-        has_many :logs, class_name: 'LesliAudit::UserLog'
 
         
         # Users can have many roles and too many privileges through the roles

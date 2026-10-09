@@ -30,4 +30,37 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
-@layer theme{:root,:host{--spacing:.25rem}}@layer utilities{.grid{display:grid}.hidden{display:none}.\[grid-template-columns\:repeat\(auto-fit\,minmax\(260px\,318px\)\)\]{grid-template-columns:repeat(auto-fit,minmax(260px,318px))}.justify-center{justify-content:center}.gap-5{gap:calc(var(--spacing) * 5)}.py-6{padding-block:calc(var(--spacing) * 6)}@media (min-width:40rem){.sm\:gap-6{gap:calc(var(--spacing) * 6)}.sm\:py-8{padding-block:calc(var(--spacing) * 8)}}}
+@layer theme, utilities;
+@layer theme {
+  :root, :host {
+    --spacing: 0.25rem;
+  }
+}
+@layer utilities {
+  .grid {
+    display: grid;
+  }
+  .hidden {
+    display: none;
+  }
+  .\[grid-template-columns\:repeat\(auto-fit\,minmax\(260px\,318px\)\)\] {
+    grid-template-columns: repeat(auto-fit,minmax(260px,318px));
+  }
+  .justify-center {
+    justify-content: center;
+  }
+  .gap-5 {
+    gap: calc(var(--spacing) * 5);
+  }
+  .py-6 {
+    padding-block: calc(var(--spacing) * 6);
+  }
+  @media (width >= 40rem) {
+    .sm\:gap-6 {
+      gap: calc(var(--spacing) * 6);
+    }
+    .sm\:py-8 {
+      padding-block: calc(var(--spacing) * 8);
+    }
+  }
+}
