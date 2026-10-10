@@ -7,6 +7,13 @@ module Lesli
             self.table_name = "lesli_users" # any existing table; we won't persist
         end
 
+        test "rails and lesli base records remain independent abstract classes" do
+            assert Lesli::ApplicationRecord.abstract_class?
+            assert Lesli::ApplicationLesliRecord.abstract_class?
+            assert_equal ActiveRecord::Base, Lesli::ApplicationRecord.superclass
+            assert_equal ActiveRecord::Base, Lesli::ApplicationLesliRecord.superclass
+        end
+
         test "generate_resource_uid returns prefix-YYM-LETTERS with default args" do
             travel_to(Time.zone.local(2026, 2, 22, 12, 0, 0)) do
                 uid = TestRecord.new.generate_resource_uid(prefix: "LID", length: 4)
