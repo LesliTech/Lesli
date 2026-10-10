@@ -148,5 +148,22 @@ module Lesli
             
             self
         end
+
+        def sessions
+            resource.sessions
+        end
+
+        def roles 
+            resource.roles
+        end
+
+        def logs
+            return [] unless defined?(LesliAudit)
+            resource.logs
+            .order(id: :desc)
+            .select(:id, :operation, :description, Date2.new.db_column('created_at', as:'date'))
+            .limit(7)
+            .as_json
+        end 
     end
 end

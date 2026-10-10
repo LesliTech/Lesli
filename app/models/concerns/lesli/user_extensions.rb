@@ -94,7 +94,7 @@ module Lesli
             subject:nil # resource related to the log
             )
 
-            return unless defined?(LesliAudit)
+            return unless defined?(LesliAudit) && respond_to?(:logs)
 
             self.logs.create!({
                 engine: engine,

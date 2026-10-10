@@ -224,7 +224,10 @@ module Lesli
         test "log does nothing when LesliAudit is defined without a logs association" do
             Object.const_set(:LesliAudit, Module.new) unless Object.const_defined?(:LesliAudit)
 
-            assert_nil FakeUserWithoutLogs.new.log(
+            user = FakeUserWithoutLogs.new
+
+            refute_respond_to user, :logs
+            assert_nil user.log(
                 operation: "session_creation_failed",
                 description: "user_locked"
             )
