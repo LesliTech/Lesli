@@ -1,153 +1,95 @@
-# Installation
+# Getting Started
 
-Lesli is a modular Ruby on Rails framework distributed as a gem. It integrates into your application while keeping its code, database migrations, and assets isolated from your main app. This design allows you to extend your system with new capabilities without increasing complexity or risking conflicts in your core codebase.
+Add Lesli to a Rails application, prepare its database, and confirm the shared framework is running. Start with **Lesli Core**; add only the Engines your product needs.
 
-> **Requirements**
-> * Ruby **3.2 or newer**
-> * Rails **8.1**
-> * SQLite, included with a default Rails application, or PostgreSQL
+## Requirements
 
-Node.js 20.x is optional and is only needed when developing or rebuilding frontend assets from source. Released Lesli gems include compiled assets.
+* Ruby **3.2 or newer**
+* Rails **8.1**
+* SQLite, included with a default Rails application, or PostgreSQL
 
----
+Node.js 20.x is optional. You only need it when developing or rebuilding frontend assets from source; released Lesli gems include compiled assets.
 
-## 1. Create a New Rails Application
+## Installation
 
-Start by generating a fresh Rails application that will host Lesli.
+### 1. Create a Rails Application
 
-```bash
-rails new LesliApp
-cd LesliApp
+Create a new host application, or continue from an existing Rails 8.1 application:
+
+```shell
+rails new my_app
+cd my_app
 ```
 
----
+### 2. Install Lesli Core
 
-## 2. Install the Lesli Core
+Add the core framework and run its installation generator:
 
-Add the Lesli gem to your project:
-
-```bash
+```shell
 bundle add lesli
-```
-
-If you plan to contribute or develop Lesli locally, you can instead clone the repository. See the [development installation guide](/engines/lesli/start/development/) for details.
-
-Verify the installation:
-
-```shell
-bin/rails lesli:status
-```
-
-This command prints the current status of the Lesli framework and confirms that it is correctly loaded in your application.
-
----
-
-## 3. Run the Installation Generator
-
-Initialize Lesli in your Rails application:
-
-```shell
 bin/rails generate lesli:install
 ```
 
-This generator will:
+The generator makes two changes to the host application:
 
-* Create `config/initializers/lesli.rb`
+* Creates `config/initializers/lesli.rb` for framework configuration.
+* Adds `Lesli::Router.mount(self)` to `config/routes.rb`.
 
-* Mount the Lesli routing layer inside `config/routes.rb`:
-
-```ruby
-Rails.application.routes.draw do
-  Lesli::Router.mount(self)
-end
-```
-
-The initializer allows you to configure global Lesli behavior and framework options.
-
----
-
-## 4. Prepare the Database
-
-Prepare the database and configure Lesli for every existing account:
+Prepare the database and Lesli resources:
 
 ```shell
 bin/rails lesli:db:prepare
 ```
 
-This task will:
+This command runs Rails `db:prepare`, builds the controller and action index from the application routes, initializes installed Engines for existing accounts, runs setup tasks for supported Engines, and prints the Lesli system status. It does **not** load seed data.
 
-* Run Rails `db:prepare`, which creates the database when needed and runs pending migrations
-* Rebuild the Lesli controller and action index from the application routes
-* Initialize core data and installed engines for every existing account
-* Build privileges when **LesliShield** is installed
-* Scan and import translations when **LesliBabel** is installed
-* Print the current Lesli system status
-
-This command does not run database seeders. To load seed data separately, run:
+To confirm which Lesli components are loaded at any time, run:
 
 ```shell
-bin/rails lesli:db:seed
+bin/rails lesli:status
 ```
 
----
+### 3. Add Optional Engines
 
-## 5. Reset the Database (Optional)
+Lesli Core does not install every Lesli feature. Engines are separate gems that add capabilities such as authentication and authorization, dashboards, notifications, translations, or support workflows. Install only the Engines your application needs.
 
-If you need to reset your environment during development:
+For example, add **LesliShield** for its dedicated login experience, roles, and privileges:
 
 ```shell
-bin/rails lesli:db:rebuild
+bundle add lesli_shield
+bin/rails lesli:db:prepare
 ```
 
-This command drops the database, deletes `db/schema.rb` when present, prepares the database, loads seed data, configures every account, and prints the system status.
+The shared Lesli router mounts installed Engines automatically. Run `lesli:db:prepare` after adding an Engine so its database and per-account setup can be applied. Each Engine may have additional requirements, so follow its installation page in the [Engine catalog](/engines/).
 
-> **Warning**
-> `lesli:db:rebuild` permanently replaces the current database data. The task raises an error and stops when Rails is running in the production environment.
+## Your First Application
 
----
-
-## 6. Start the Rails Server
-
-Run the development server:
+Start Rails:
 
 ```shell
 bin/rails server
 ```
 
-Additional examples:
+Open [http://127.0.0.1:3000](http://127.0.0.1:3000). With Lesli Core installed, the application root displays the Lesli welcome screen. You should also have:
+
+* A Lesli initializer at `config/initializers/lesli.rb`.
+* The shared Lesli router mounted in `config/routes.rb`.
+* A prepared database and a status report listing the installed Lesli components.
+
+Engine-specific screens are available only after installing their Engines. For example, `/login` is provided by LesliShield; it is not the default Core landing page.
+
+Seed data is optional and separate from database preparation. When an installed Engine instructs you to load its seeds, run:
 
 ```shell
-bin/rails server --binding=0.0.0.0
-bin/rails server --port=4000
-bin/rails server --environment=development
+bin/rails lesli:db:seed
 ```
 
-Open your browser and visit:
+## What's Next?
 
-[http://127.0.0.1:3000/login](http://127.0.0.1:3000/login)
+* Understand how the host application, Core, Engines, and shared resources fit together in the [architecture overview](/engines/lesli/about/architecture/).
+* Choose optional capabilities from the [Engine catalog](/engines/).
+* Explore reusable libraries and development tools in the [Gem catalog](/gems/).
+* Review [Lesli configuration](/engines/lesli/start/configuration/) before customizing framework behavior.
+* Try the complete product in the [online demo and demo guide](/engines/lesli/about/demo/).
 
-You should now see the Lesli sign-in page.
-
----
-
-## Development Recommendations
-
-### Local Email Preview
-
-For development environments it is recommended to preview emails locally instead of sending them.
-
-Add the `letter_opener` gem to the development group:
-
-```shell
-bundle add letter_opener --group development
-```
-
-Configure `config/environments/development.rb`:
-
-```ruby
-config.action_mailer.delivery_method = :letter_opener
-config.action_mailer.perform_deliveries = true
-config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
-```
-
-Emails generated by your application will automatically open in your browser.
+For local framework development or contributions, use the [development installation guide](/engines/lesli/start/development/).
