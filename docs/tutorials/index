@@ -1,0 +1,10 @@
+---
+title: "Build Your First SaaS with Lesli"
+description: "Build a project management feature with Rails 8, Lesli services, the shared application shell, and LesliView components."
+---
+
+<!--
+This file is a replica of the main documentation file for this section
+-->
+
+<%= partial("first-saas") %>

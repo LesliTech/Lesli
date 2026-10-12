@@ -86,6 +86,7 @@ bin/rails lesli:db:seed
 
 ## What's Next?
 
+* Build a complete host-application feature in [Build Your First SaaS with Lesli](/engines/lesli/tutorials/first-saas/).
 * Understand how the host application, Core, Engines, and shared resources fit together in the [architecture overview](/engines/lesli/about/architecture/).
 * Choose optional capabilities from the [Engine catalog](/engines/).
 * Explore reusable libraries and development tools in the [Gem catalog](/gems/).
