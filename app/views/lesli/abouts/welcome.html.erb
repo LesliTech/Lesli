@@ -52,18 +52,18 @@
 
         .welcome-hero {
             width: min(100%, 62rem);
+            text-align: center;
+        }
+
+        .welcome-content {
+            min-width: 0;
             padding: clamp(2.5rem, 5vw, 3.5rem) clamp(1.5rem, 7vw, 6rem);
             border: 1px solid rgba(255, 255, 255, .86);
             border-radius: clamp(1.5rem, 3vw, 2.5rem);
             background: rgba(255, 255, 255, .76);
             box-shadow: 0 28px 80px rgba(18, 53, 83, .12);
-            text-align: center;
             -webkit-backdrop-filter: blur(18px);
             backdrop-filter: blur(18px);
-        }
-
-        .welcome-content {
-            min-width: 0;
         }
 
         .welcome-brand {
@@ -193,8 +193,13 @@
 
         .welcome-access a {
             color: var(--welcome-muted);
-            font-weight: 700;
+            font-weight: 600;
+            text-decoration: none;
             text-underline-offset: .22em;
+        }
+
+        .welcome-access a:hover {
+            text-decoration: underline;
         }
 
         @media (max-width: 900px) {
@@ -204,7 +209,7 @@
         }
 
         @media (max-width: 640px) {
-            .welcome-hero {
+            .welcome-content {
                 padding: 2rem 1.35rem;
             }
 
@@ -252,7 +257,7 @@
                 Build better business software <span>with Rails.</span>
             </h1>
             <p class="welcome-summary">
-                A modular foundation for turning ambitious ideas into scalable, production-ready applications.
+                Your Lesli application is ready. Start building with modular Rails architecture, reusable components, and the tools your product needs.
             </p>
 
             <div class="welcome-actions" aria-label="Learn about Lesli">
@@ -264,18 +269,18 @@
                     Read the docs
                 </a>
             </div>
-
-            <nav class="welcome-access" aria-label="Application access">
-                <% unless defined?(LesliShield) %>
-                    <%= link_to("Open applications", "/apps") unless defined?(LesliDashboard) %>
-                <% end %>
-                <% if defined?(LesliShield) %>
-                    <%= link_to("Open applications", "/apps") if user_signed_in? && !defined?(LesliDashboard) %>
-                    <%= link_to("Open dashboard", "/dashboard") if user_signed_in? && defined?(LesliDashboard) %>
-                    <%= link_to("Log out", "/logout") if user_signed_in? %>
-                    <%= link_to("Log in", "/login") unless user_signed_in? %>
-                <% end %>
-            </nav>
         </div>
+
+        <nav class="welcome-access" aria-label="Application access">
+            <% unless defined?(LesliShield) %>
+                <%= link_to("Open applications", "/apps") unless defined?(LesliDashboard) %>
+            <% end %>
+            <% if defined?(LesliShield) %>
+                <%= link_to("Open applications", "/apps") if user_signed_in? && !defined?(LesliDashboard) %>
+                <%= link_to("Open dashboard", "/dashboard") if user_signed_in? && defined?(LesliDashboard) %>
+                <%= link_to("Log out", "/logout") if user_signed_in? %>
+                <%= link_to("Log in", "/login") unless user_signed_in? %>
+            <% end %>
+        </nav>
     </section>
 </main>
