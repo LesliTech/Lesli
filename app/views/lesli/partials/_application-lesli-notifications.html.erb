@@ -32,10 +32,27 @@ Building a better future, one line of code at a time.
 =end
 %>
 
-<section id="application-lesli-notifications" class="application-lesli-notifications">
+<%
+notification_classes = {
+    "info" => "border-info-300 bg-info-50 text-info-900",
+    "notice" => "border-success-300 bg-success-50 text-success-900",
+    "success" => "border-success-300 bg-success-50 text-success-900",
+    "warning" => "border-warning-300 bg-warning-50 text-warning-900",
+    "alert" => "border-danger-300 bg-danger-50 text-danger-900",
+    "danger" => "border-danger-300 bg-danger-50 text-danger-900",
+    "error" => "border-danger-300 bg-danger-50 text-danger-900",
+    "default" => "border-neutral-300 bg-neutral-50 text-neutral-900"
+}.freeze
+%>
+
+<section
+    id="application-lesli-notifications"
+    class="fixed inset-x-0 z-[999] mx-auto w-[90%] max-w-[600px]"
+    aria-live="polite"
+    aria-atomic="true">
     <% if flash.any? %>
         <% flash.each do |type, message| %>
-            <div class="notification is-<%= type %> is-light my-1 has-text-centered">
+            <div class="animate-lesli-notification my-1 break-words rounded-lg border-2 px-4 py-3 text-center text-sm font-medium shadow-sm <%= notification_classes.fetch(type.to_s, notification_classes["default"]) %>">
                 <%= message %>
             </div>
         <% end %>
