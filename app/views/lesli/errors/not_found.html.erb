@@ -1,32 +1,18 @@
-<style>
-.error-404 .material-symbols {
-    font-size: 8rem;
-    color: rgb(190,190,190);
-}
-.error-404 h2 {
-    font-size: 2rem;
-    color: #3d211b;
-}
-
-.error-404 p {
-    font-size: 1.4rem;
-    font-weight: 300;
-}
-</style>
 <%= render(LesliView::Layout::Container.new("accounts")) do %>
-    <section class="hero is-medium error-404">
-        <div class="hero-body has-text-centered">
+    <section class="px-4 py-24 sm:px-6 sm:py-36" aria-labelledby="not-found-title">
+        <div class="mx-auto max-w-2xl text-center">
 
-            <div class="mb-6">
+            <div class="mb-6" aria-hidden="true">
                 <%= render(LesliView::Elements::Empty.new(text:nil)) %>
             </div>
 
-            <h2 class="mb-4">404 <%= I18n.t("lesli.shared.message_error_not_found") %></h2>
+            <h2 id="not-found-title" class="mb-4 text-[2rem] font-semibold leading-tight text-[#3d211b]">
+                404 <%= I18n.t("lesli.shared.message_error_not_found") %>
+            </h2>
 
-            <p>
+            <p class="text-[1.4rem] font-light leading-relaxed text-neutral-700">
                 <%= @message %>
             </p>
         </div>
     </section>
 <% end %>
-
