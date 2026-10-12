@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2025, Lesli Technologies, S. A.
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -111,6 +111,11 @@ Gem::Specification.new do |spec|
 
 
     # Simple greetings message
-    spec.post_install_message = "Greetings from LesliTech  ❤️  Docs are available at https://www.lesli.dev/"
+    spec.post_install_message = <<~MESSAGE
+
+    Welcome to Lesli! 💙 
+    Documentation: https://www.lesli.dev/
+
+    MESSAGE
 
 end
