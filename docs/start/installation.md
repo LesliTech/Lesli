@@ -35,19 +35,23 @@ The generator makes two changes to the host application:
 * Creates `config/initializers/lesli.rb` for framework configuration.
 * Adds `Lesli::Router.mount(self)` to `config/routes.rb`.
 
+See [Install Lesli Core](/engines/lesli/start/cli-commands/#install-lesli-core) for the generator's options and overwrite behavior.
+
 Prepare the database and Lesli resources:
 
 ```shell
 bin/rails lesli:db:prepare
 ```
 
-This command runs Rails `db:prepare`, builds the controller and action index from the application routes, initializes installed Engines for existing accounts, runs setup tasks for supported Engines, and prints the Lesli system status. It does **not** load seed data.
+This command runs Rails `db:prepare`, builds the controller and action index from the application routes, initializes installed Engines for existing accounts, runs setup tasks for supported Engines, and prints the Lesli system status. It does **not** load seed data. See [Prepare and Configure](/engines/lesli/start/cli-commands/#prepare-and-configure) for its complete sequence and production considerations.
 
 To confirm which Lesli components are loaded at any time, run:
 
 ```shell
 bin/rails lesli:status
 ```
+
+The [status command reference](/engines/lesli/start/cli-commands/#show-lesli-status) describes the component information included in this report.
 
 ### 3. Add Optional Engines
 
@@ -84,6 +88,8 @@ Seed data is optional and separate from database preparation. When an installed 
 bin/rails lesli:db:seed
 ```
 
+Review [Load Seed Data](/engines/lesli/start/cli-commands/#load-seed-data) before running seeds against persistent environments.
+
 ## What's Next?
 
 * Build a complete host-application feature in [Build Your First SaaS with Lesli](/engines/lesli/tutorials/first-saas/).
@@ -91,6 +97,7 @@ bin/rails lesli:db:seed
 * Choose optional capabilities from the [Engine catalog](/engines/).
 * Explore reusable libraries and development tools in the [Gem catalog](/gems/).
 * Review [Lesli configuration](/engines/lesli/start/configuration/) before customizing framework behavior.
+* Use the [CLI command reference](/engines/lesli/start/cli-commands/) for Core tasks, generators, side effects, and environment restrictions.
 * Try the complete product in the [online demo and demo guide](/engines/lesli/about/demo/).
 
 For local framework development or contributions, use the [development installation guide](/engines/lesli/start/development/).

@@ -1,5 +1,5 @@
 <%= navigation_for_folder("engines", "lesli", "about", order:["lesli", "architecture", "features", "ecosystem", "demo"]) %>
-<%= navigation_for_folder("engines", "lesli", "start", order:["installation", "development", "configuration", "credentials"]) %>
+<%= navigation_for_folder("engines", "lesli", "start", order:["installation", "cli-commands", "development", "configuration", "credentials"]) %>
 <ul>
     <li><h3><%= link_to("Tutorials", "/engines/lesli/tutorials") %></h3></li>
     <li><%= link_to("Build Your First SaaS", "/engines/lesli/tutorials/first-saas") %></li>
