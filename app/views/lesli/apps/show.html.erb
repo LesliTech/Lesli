@@ -27,7 +27,7 @@ document.addEventListener('turbo:load', window.lesliFilterNavigationEngines)
 <%= render(LesliView::Layout::Container.new("lesli-apps", dashboard: false)) do %>
     <%= render("lesli_dashboard/dashboards/shared/header") if defined?(LesliDashboard) %>
     <section class="lesli-engines py-6 sm:py-8">
-        <div class="grid justify-center gap-5 sm:gap-6 [grid-template-columns:repeat(auto-fit,minmax(260px,318px))]">
+        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
             <%= navigation_engines %>
         </div>
     </section>
