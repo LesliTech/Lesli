@@ -129,12 +129,14 @@ Passing an ordinary, unpaginated Active Record relation raises an error because 
 The shared controller provides:
 
 * `respond_with_not_found(message = nil)` for HTML, JSON, and Turbo Stream 404 responses
-* `respond_with_unauthorized(details = {})` for access-control responses
+* `respond_with_forbidden(details = {})` for authorization failures after a user has authenticated
 * `info`, `success`, `warning`, and `danger` for flash messages
 * `stream_notification_info`, `stream_notification_success`, `stream_notification_warning`, and `stream_notification_danger` for Turbo Stream notifications
 * `stream_redirection(path)` for redirects initiated from a Turbo Stream response
 
-Avoid returning authorization details in production. The built-in unauthorized responder suppresses its diagnostic details when Rails runs in production.
+Authorization failures return HTTP 403. `respond_with_unauthorized` remains available as a backwards-compatible alias, but new code should use `respond_with_forbidden`. Authentication failures are separate: an unauthenticated browser request is handled by LesliShield's authentication interface and redirected to login.
+
+Avoid returning authorization details in production. The built-in forbidden responder suppresses its diagnostic details when Rails runs in production.
 
 ---
 

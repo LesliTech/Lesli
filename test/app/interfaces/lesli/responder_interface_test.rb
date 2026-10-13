@@ -9,6 +9,7 @@ module Lesli
 
             # Mock the `render` method to capture its arguments
             attr_reader :render_args
+            attr_accessor :response_format
 
             def render(*args)
                 @render_args = args
@@ -19,6 +20,15 @@ module Lesli
 
             def initialize
                 @flash = {}
+                @response_format = :html
+            end
+
+            def respond_to
+                yield MockFormat.new(response_format)
+            end
+
+            def current_user
+                nil
             end
 
             # Corrected: Create a proper mock for `turbo_stream`
@@ -32,6 +42,18 @@ module Lesli
             def update(*args)
                 # Return a mock representation of the turbo_stream.update call
                 { "update_call" => { target: args[0], content: args[1] } }
+            end
+        end
+
+        class MockFormat
+            def initialize(response_format)
+                @response_format = response_format
+            end
+
+            [:html, :json, :turbo_stream].each do |format|
+                define_method(format) do |&block|
+                    block.call if @response_format == format
+                end
             end
         end
 
@@ -90,6 +112,24 @@ module Lesli
             assert_equal status, render_options[:status]
             assert_equal "application/json", render_options[:content_type]
             assert_equal "", render_options[:json]
+        end
+
+        [:html, :turbo_stream].each do |format|
+            test "respond_with_forbidden renders #{format} with forbidden status" do
+                @controller.response_format = format
+
+                @controller.respond_with_forbidden
+
+                assert_equal "lesli/errors/unauthorized", @controller.render_args.first
+                assert_equal :forbidden, @controller.render_args.second[:status]
+            end
+        end
+
+        test "respond_with_unauthorized remains an alias for respond_with_forbidden" do
+            @controller.respond_with_unauthorized
+
+            assert_equal "lesli/errors/unauthorized", @controller.render_args.first
+            assert_equal :forbidden, @controller.render_args.second[:status]
         end
     end
 end

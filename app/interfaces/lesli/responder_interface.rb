@@ -95,12 +95,13 @@ module Lesli
             end
         end
 
-        # General error for unauthorized request
-        # Usage:
-        #   This method is automatically triggered by the 
-        #   LesliShield authentication interface, however
-        #   you can use it anywhere by just invoking this method
-        def respond_with_unauthorized(details = {})
+        # Respond with HTTP 403 when an authenticated user does not have the
+        # privileges required to perform the requested action.
+        #
+        # This method is used by LesliShield's authorization interface after
+        # authentication has succeeded. `respond_with_unauthorized` remains
+        # available as a backwards-compatible alias for existing engines.
+        def respond_with_forbidden(details = {})
 
             @error_object = {
                 error_role: nil,
@@ -117,10 +118,12 @@ module Lesli
 
             respond_to do |format|
                 format.json { respond_with_json_unauthorized(@error_object) }
-                format.html { render('lesli/errors/unauthorized', status: :unauthorized) }
-                format.turbo_stream { render('lesli/errors/unauthorized', status: :unauthorized) }
+                format.html { render('lesli/errors/unauthorized', status: :forbidden) }
+                format.turbo_stream { render('lesli/errors/unauthorized', status: :forbidden) }
             end
         end
+
+        alias_method :respond_with_unauthorized, :respond_with_forbidden
 
 
         # ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~   ~·~

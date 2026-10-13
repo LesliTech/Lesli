@@ -40,13 +40,16 @@ The interface converts pagination values to integers but does not enforce minimu
 | `respond_with_lesli` | Selects an HTML, JSON, or Turbo Stream response |
 | `respond_with_pagination` | Wraps a Kaminari collection with pagination metadata |
 | `respond_with_not_found` | Renders the shared 404 response |
-| `respond_with_unauthorized` | Renders the shared access-control response |
+| `respond_with_forbidden` | Renders the shared HTTP 403 response when an authenticated user lacks privileges |
+| `respond_with_unauthorized` | Backwards-compatible alias for `respond_with_forbidden` |
 | `respond_with_json` | Renders a JSON payload with HTTP 200 |
 | `respond_with_json_not_found` | Renders the standard JSON 404 body |
 | `respond_with_json_unauthorized` | Renders the standard JSON 403 body |
 | `respond_with_http` | Renders a JSON payload with an explicit status |
 
 `respond_with_action` returns the framework's legacy HTTP 490 action response. Use it only for clients that already implement that compatibility contract.
+
+Use `respond_with_forbidden` for authorization failures. It returns HTTP 403 for HTML, JSON, and Turbo Stream requests. A missing or invalid authenticated session belongs to the authentication flow instead; navigational requests are redirected to login by LesliShield. The older `respond_with_unauthorized` name is retained as an alias so existing engines continue to work.
 
 ### Flash and Turbo helpers
 
