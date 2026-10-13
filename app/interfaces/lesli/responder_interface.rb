@@ -58,25 +58,37 @@ module Lesli
             }
         end
 
-        # General response builder
-        # Support for: turbo, json and html
-        # Note: Turbo respond support single stream or array of streams
-        # Usage:
-        # respond_with(
-        #     turbo: [
-        #         stream_notification_success('ticket creado de forma exitosass')
-        #         stream_notification_warning('ticket creado de forma exitosass')
-        #     ],
-        #     json: {
-        #         message: "it works"
-        #     },
-        #     html: 'lesli/abouts/up'
-        # )
-        def respond_with_lesli(turbo:nil, json:nil, html:nil)
+        # Build a response for HTML, JSON, or Turbo Stream requests.
+        #
+        # `html` is passed to `render`. When omitted, Rails renders the current
+        # action's template. Use `redirect` for HTML redirects instead of
+        # invoking `redirect_to` before calling this method. `status` applies to
+        # rendered responses; redirects use `redirect_status`.
+        def respond_with_lesli(
+            turbo: nil,
+            json: nil,
+            html: nil,
+            redirect: nil,
+            status: :ok,
+            redirect_status: :see_other
+        )
+            if html && redirect
+                raise ArgumentError, "Use either html: or redirect:, not both"
+            end
+
             respond_to do |format|
-                format.html { render(html) }
-                format.json { respond_with_json(json) }
-                format.turbo_stream { render(turbo_stream: turbo) }
+                format.html do
+                    if redirect
+                        redirect_to(redirect, status: redirect_status)
+                    elsif html
+                        render(html, status: status)
+                    else
+                        render(status: status)
+                    end
+                end
+
+                format.json { respond_with_http(status, json) }
+                format.turbo_stream { render(turbo_stream: turbo, status: status) }
             end
         end
 

@@ -49,6 +49,95 @@ The interface converts pagination values to integers but does not enforce minimu
 
 `respond_with_action` returns the framework's legacy HTTP 490 action response. Use it only for clients that already implement that compatibility contract.
 
+`respond_with_lesli` accepts `html:`, `json:`, `turbo:`, `redirect:`, `status:`, and `redirect_status:`. Use `html:` to render a template and `redirect:` to redirect an HTML request; providing both raises `ArgumentError`. If neither is provided, Rails renders the current action template. `status:` defaults to `:ok`, while `redirect_status:` defaults to `:see_other`.
+
+### Response examples
+
+Render an explicit HTML template, return a JSON payload, or execute multiple Turbo Stream actions from the same controller action:
+
+```ruby
+respond_with_lesli(
+  turbo: [
+    stream_notification_success("Ticket created successfully"),
+    turbo_stream.prepend(
+      "tickets",
+      partial: "lesli_support/tickets/ticket",
+      locals: { ticket: ticket }
+    )
+  ],
+  json: {
+    message: "Ticket created successfully",
+    ticket: ticket
+  },
+  html: "lesli_support/tickets/show",
+  status: :created
+)
+```
+
+When the HTML response should use the current action template, omit `html:`. This is useful for index actions that also expose JSON:
+
+```ruby
+def index
+  @tickets = respond_with_pagination(
+    TicketService.new(current_user, query).index
+  )
+
+  respond_with_lesli(json: @tickets)
+end
+```
+
+Use `redirect:` for a successful HTML form submission. The HTML response redirects with HTTP 303 by default, while `status:` applies to JSON and Turbo Stream rendering:
+
+```ruby
+success("Ticket created successfully")
+
+respond_with_lesli(
+  redirect: ticket_path(ticket),
+  json: {
+    message: "Ticket created successfully",
+    ticket: ticket
+  },
+  turbo: stream_redirection(ticket_path(ticket)),
+  status: :created
+)
+```
+
+Render validation errors with HTTP 422 in every rendered format:
+
+```ruby
+respond_with_lesli(
+  html: "lesli_support/tickets/new",
+  json: {
+    message: "Ticket could not be created",
+    errors: ticket.errors
+  },
+  turbo: stream_notification_danger(
+    ticket.errors.full_messages.to_sentence
+  ),
+  status: :unprocessable_entity
+)
+```
+
+An action can support only JSON and Turbo Stream while leaving ordinary HTML rendering to Rails:
+
+```ruby
+respond_with_lesli(
+  json: { message: "Translation deployed successfully" },
+  turbo: stream_notification_success(
+    "Translation deployed successfully"
+  )
+)
+```
+
+Override the default redirect status only when the HTTP workflow requires it:
+
+```ruby
+respond_with_lesli(
+  redirect: ticket_path(ticket),
+  redirect_status: :temporary_redirect
+)
+```
+
 Use `respond_with_forbidden` for authorization failures. It returns HTTP 403 for HTML, JSON, and Turbo Stream requests. A missing or invalid authenticated session belongs to the authentication flow instead; navigational requests are redirected to login by LesliShield. The older `respond_with_unauthorized` name is retained as an alias so existing engines continue to work.
 
 ### Flash and Turbo helpers

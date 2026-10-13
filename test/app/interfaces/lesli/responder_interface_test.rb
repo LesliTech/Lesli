@@ -9,10 +9,15 @@ module Lesli
 
             # Mock the `render` method to capture its arguments
             attr_reader :render_args
+            attr_reader :redirect_args
             attr_accessor :response_format
 
             def render(*args)
                 @render_args = args
+            end
+
+            def redirect_to(*args)
+                @redirect_args = args
             end
 
             # Mock the `flash` method
@@ -90,6 +95,77 @@ module Lesli
             assert_equal 200, render_options[:status]
             assert_equal "application/json", render_options[:content_type]
             assert_equal payload.to_json, render_options[:json]
+        end
+
+        test "respond_with_lesli renders an explicit html template and status" do
+            @controller.respond_with_lesli(
+                html: "lesli/examples/show",
+                status: :created
+            )
+
+            assert_equal "lesli/examples/show", @controller.render_args.first
+            assert_equal :created, @controller.render_args.second[:status]
+        end
+
+        test "respond_with_lesli renders the current html template when html is omitted" do
+            @controller.respond_with_lesli(json: { status: "ok" })
+
+            assert_equal({ status: :ok }, @controller.render_args.first)
+        end
+
+        test "respond_with_lesli redirects html with see other by default" do
+            @controller.respond_with_lesli(redirect: "/examples/1")
+
+            assert_equal "/examples/1", @controller.redirect_args.first
+            assert_equal :see_other, @controller.redirect_args.second[:status]
+            assert_nil @controller.render_args
+        end
+
+        test "respond_with_lesli supports a custom redirect status" do
+            @controller.respond_with_lesli(
+                redirect: "/examples/1",
+                redirect_status: :temporary_redirect
+            )
+
+            assert_equal :temporary_redirect, @controller.redirect_args.second[:status]
+        end
+
+        test "respond_with_lesli rejects html and redirect together" do
+            error = assert_raises(ArgumentError) do
+                @controller.respond_with_lesli(
+                    html: "lesli/examples/show",
+                    redirect: "/examples/1"
+                )
+            end
+
+            assert_equal "Use either html: or redirect:, not both", error.message
+        end
+
+        test "respond_with_lesli applies status to json responses" do
+            @controller.response_format = :json
+
+            @controller.respond_with_lesli(
+                json: { id: 1 },
+                status: :created
+            )
+
+            render_options = @controller.render_args.first
+            assert_equal :created, render_options[:status]
+            assert_equal({ id: 1 }.to_json, render_options[:json])
+        end
+
+        test "respond_with_lesli applies status to turbo stream responses" do
+            @controller.response_format = :turbo_stream
+            stream = { action: "update" }
+
+            @controller.respond_with_lesli(
+                turbo: stream,
+                status: :unprocessable_entity
+            )
+
+            render_options = @controller.render_args.first
+            assert_equal stream, render_options[:turbo_stream]
+            assert_equal :unprocessable_entity, render_options[:status]
         end
 
         test "respond_with_http renders with correct status and payload" do
