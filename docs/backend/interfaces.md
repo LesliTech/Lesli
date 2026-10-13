@@ -47,6 +47,8 @@ The interface converts pagination values to integers but does not enforce minimu
 | `respond_with_json_unauthorized` | Renders the standard JSON 403 body |
 | `respond_with_http` | Renders a JSON payload with an explicit status |
 
+`respond_with_http` passes non-null payloads directly to Rails for JSON serialization. When the payload is `nil`, it returns a headers-only response with the requested status.
+
 `respond_with_action` returns the framework's legacy HTTP 490 action response. Use it only for clients that already implement that compatibility contract.
 
 `respond_with_lesli` accepts `html:`, `json:`, `turbo:`, `redirect:`, `status:`, and `redirect_status:`. Use `html:` to render a template and `redirect:` to redirect an HTML request; providing both raises `ArgumentError`. If neither is provided, Rails renders the current action template. `status:` defaults to `:ok`, while `redirect_status:` defaults to `:see_other`.

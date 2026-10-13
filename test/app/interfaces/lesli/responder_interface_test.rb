@@ -10,6 +10,7 @@ module Lesli
             # Mock the `render` method to capture its arguments
             attr_reader :render_args
             attr_reader :redirect_args
+            attr_reader :head_status
             attr_accessor :response_format
 
             def render(*args)
@@ -18,6 +19,10 @@ module Lesli
 
             def redirect_to(*args)
                 @redirect_args = args
+            end
+
+            def head(status)
+                @head_status = status
             end
 
             # Mock the `flash` method
@@ -92,9 +97,8 @@ module Lesli
             @controller.respond_with_json(payload)
 
             render_options = @controller.render_args.first
-            assert_equal 200, render_options[:status]
-            assert_equal "application/json", render_options[:content_type]
-            assert_equal payload.to_json, render_options[:json]
+            assert_equal :ok, render_options[:status]
+            assert_equal payload, render_options[:json]
         end
 
         test "respond_with_lesli renders an explicit html template and status" do
@@ -151,7 +155,7 @@ module Lesli
 
             render_options = @controller.render_args.first
             assert_equal :created, render_options[:status]
-            assert_equal({ id: 1 }.to_json, render_options[:json])
+            assert_equal({ id: 1 }, render_options[:json])
         end
 
         test "respond_with_lesli applies status to turbo stream responses" do
@@ -176,18 +180,15 @@ module Lesli
 
             render_options = @controller.render_args.first
             assert_equal status, render_options[:status]
-            assert_equal "application/json", render_options[:content_type]
-            assert_equal payload.to_json, render_options[:json]
+            assert_equal payload, render_options[:json]
         end
 
         test "respond_with_http handles nil payload" do
             status = 204
             @controller.respond_with_http(status, nil)
 
-            render_options = @controller.render_args.first
-            assert_equal status, render_options[:status]
-            assert_equal "application/json", render_options[:content_type]
-            assert_equal "", render_options[:json]
+            assert_equal status, @controller.head_status
+            assert_nil @controller.render_args
         end
 
         [:html, :turbo_stream].each do |format|

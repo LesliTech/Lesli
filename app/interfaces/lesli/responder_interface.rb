@@ -177,7 +177,7 @@ module Lesli
 
         # Just a simple json success response for JSON
         def respond_with_json(payload = nil)
-            respond_with_http(200, payload)
+            respond_with_http(:ok, payload)
         end
 
         # Just a simple json not found response for JSON
@@ -200,12 +200,10 @@ module Lesli
         end
 
         # Just a simple http response for JSON
-        def respond_with_http(status, payload)
-            render(
-                :status => status, 
-                :content_type => 'application/json', 
-                :json => payload.nil? ? "" : payload.to_json
-            )
+        def respond_with_http(status, payload = nil)
+            return head(status) if payload.nil?
+
+            render(:status => status, :json => payload)
         end
 
         # General method to respond with and order for an action
