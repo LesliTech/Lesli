@@ -191,6 +191,23 @@ module Lesli
             assert_nil @controller.render_args
         end
 
+        test "respond_with_action returns the Lesli action-required response" do
+            @controller.respond_with_action(
+                "redirect_to_login",
+                "Authentication required"
+            )
+
+            render_options = @controller.render_args.first
+            assert_equal Lesli::ResponderInterface::ACTION_REQUIRED_STATUS, render_options[:status]
+            assert_equal(
+                {
+                    message: "Authentication required",
+                    action: "redirect_to_login"
+                },
+                render_options[:json]
+            )
+        end
+
         [:html, :turbo_stream].each do |format|
             test "respond_with_forbidden renders #{format} with forbidden status" do
                 @controller.response_format = format

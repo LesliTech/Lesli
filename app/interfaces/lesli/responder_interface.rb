@@ -33,6 +33,10 @@ Building a better future, one line of code at a time.
 module Lesli
     module ResponderInterface
 
+        # Lesli-specific response status used to tell JSON clients that they
+        # must execute the action included in the response body.
+        ACTION_REQUIRED_STATUS = 490
+
         # Standard json structure for paginated data,
         # this is compatible for json, html and turbo responses
         # NOTE: LesliView::Element::Table require this structure
@@ -206,11 +210,14 @@ module Lesli
             render(:status => status, :json => payload)
         end
 
-        # General method to respond with and order for an action
-        # This method exists just for compatibility poruposes,
-        # a refactor is needed for this method
+        # Tell a JSON client to execute an action before it can continue.
+        # Clients using the Lesli API must handle ACTION_REQUIRED_STATUS and
+        # dispatch the action included in the response body.
         def respond_with_action(action, message = "Action Required")
-            respond_with_http(490, { :message => message, :action => action })
+            respond_with_http(
+                ACTION_REQUIRED_STATUS,
+                { :message => message, :action => action }
+            )
         end
     end
 end

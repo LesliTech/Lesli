@@ -49,7 +49,29 @@ The interface converts pagination values to integers but does not enforce minimu
 
 `respond_with_http` passes non-null payloads directly to Rails for JSON serialization. When the payload is `nil`, it returns a headers-only response with the requested status.
 
-`respond_with_action` returns the framework's legacy HTTP 490 action response. Use it only for clients that already implement that compatibility contract.
+### Action-required responses
+
+`respond_with_action` implements the Lesli action-required protocol for JSON clients. It returns the Lesli-specific HTTP status `490` and a body containing the action the client must execute:
+
+```ruby
+respond_with_action(
+  "redirect_to_login",
+  "Authentication required"
+)
+```
+
+```json
+{
+  "message": "Authentication required",
+  "action": "redirect_to_login"
+}
+```
+
+Clients that consume this response must detect status `490` and dispatch the value of `action`. A centralized HTTP interceptor is recommended so every endpoint follows the same behavior.
+
+Use this response when the original request cannot continue until the client performs an action. When the request completed successfully and the action is only a suggested next step, return a normal success status and include the action in the JSON payload instead.
+
+Status `490` is part of the Lesli API contract, not a standard HTTP status. Do not use it in place of standard authentication, authorization, missing-resource, or validation responses such as `401`, `403`, `404`, or `422`.
 
 `respond_with_lesli` accepts `html:`, `json:`, `turbo:`, `redirect:`, `status:`, and `redirect_status:`. Use `html:` to render a template and `redirect:` to redirect an HTML request; providing both raises `ArgumentError`. If neither is provided, Rails renders the current action template. `status:` defaults to `:ok`, while `redirect_status:` defaults to `:see_other`.
 
