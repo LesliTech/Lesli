@@ -162,7 +162,7 @@ module Lesli
 
                 # Return the stream object so you can call: 
                 # render turbo_stream: stream_notification_success("Done!")
-                turbo_stream.update(
+                turbo_stream.replace(
                     "application-lesli-notifications",
                     partial: "lesli/partials/application-lesli-notifications"
                 )

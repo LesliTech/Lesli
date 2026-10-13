@@ -37,24 +37,6 @@ module Lesli
             link_to(body, url, class: "link", data: { turbo_frame: '_top' })
         end
 
-        # Meta-programming to define flash setter methods dynamically
-        # success("Everything worked!")
-        # danger("Oops, there was an error.")
-        # info("Just an informational message.")
-        # warning("This is a warning.")
-        [:info, :success, :warning, :danger].each do |flash_type|
-            define_method(flash_type) do |message|
-                flash[flash_type] = message
-            end
-        end
-
-        def stream_notification_success(message)
-            success(message)
-            turbo_stream.replace("application-lesli-notifications") do
-                render("lesli/partials/application-lesli-notifications")
-            end
-        end
-
         def render_form_stream(partial_path, locals = {})
 
             # Detect the current engine's namespace

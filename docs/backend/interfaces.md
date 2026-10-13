@@ -166,7 +166,7 @@ Use `respond_with_forbidden` for authorization failures. It returns HTTP 403 for
 
 ### Flash and Turbo helpers
 
-The responder defines flash setters for `info`, `success`, `warning`, and `danger`. Each level also has a `stream_notification_<level>` variant that updates the shared notification target.
+The responder defines flash setters for `info`, `success`, `warning`, and `danger`. Each level also has a `stream_notification_<level>` variant that replaces the shared notification target.
 
 ```ruby
 success("Ticket saved")

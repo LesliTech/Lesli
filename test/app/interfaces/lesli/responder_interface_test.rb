@@ -47,11 +47,15 @@ module Lesli
             end
         end
 
-        # Define a mock TurboStream class that responds to `update`
+        # Define a mock TurboStream class for the supported stream operations
         class MockTurboStream
             def update(*args)
                 # Return a mock representation of the turbo_stream.update call
                 { "update_call" => { target: args[0], content: args[1] } }
+            end
+
+            def replace(*args)
+                { "replace_call" => { target: args[0], content: args[1] } }
             end
         end
 
@@ -78,17 +82,25 @@ module Lesli
             end
         end
 
-        ## Testing respond_with_success_stream
+        [:info, :success, :warning, :danger].each do |flash_type|
+            define_method("test_stream_notification_#{flash_type} sets flash and replaces the notification target") do
+                message = "Test message"
 
-        test "stream_notification_success sets flash and renders turbo stream" do
-            message = "Success!"
-            stream =["update_call", {:target=>"application-lesli-notifications", :content=>{:partial=>"lesli/partials/application-lesli-notifications", :locals=>{}}}]
+                stream = @controller.send("stream_notification_#{flash_type}", message)
 
-            @controller.stream_notification_success(message)
-
-            # Assert that the flash was set correctly
-            assert_equal({ success: message }, @controller.flash)
-
+                assert_equal({ flash_type => message }, @controller.flash)
+                assert_equal(
+                    {
+                        "replace_call" => {
+                            target: "application-lesli-notifications",
+                            content: {
+                                partial: "lesli/partials/application-lesli-notifications"
+                            }
+                        }
+                    },
+                    stream
+                )
+            end
         end
 
         test "respond_with_json renders with status 200" do
