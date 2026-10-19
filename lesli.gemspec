@@ -86,12 +86,6 @@ Gem::Specification.new do |spec|
     spec.add_dependency("kaminari", "~> 1.2.2")
 
 
-    # · Tools used to add Rails functionality
-
-    # Flexible authentication solution for Rails with Warden
-    spec.add_dependency("devise", "~> 5.0.0")
-
-
     # · Tools used to build the Lesli Framework
 
     # Datetime formatter and SQL-safe utilities for Rails, part of the LesliSystem

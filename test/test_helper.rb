@@ -2,6 +2,10 @@
 ENV["RAILS_ENV"] = "test"
 
 
+# Load the engine explicitly before LesliTesting inspects Lesli::Engine.
+require "lesli"
+
+
 # load lesli testing tools
 require "lesli_testing"
 

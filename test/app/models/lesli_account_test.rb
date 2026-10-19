@@ -10,6 +10,14 @@ module Lesli
             assert lesli_accounts(:one).valid?
         end
 
+        test "declares its LesliAudit account association" do
+            audit = Lesli::Account.reflect_on_association(:audit)
+
+            assert_equal "LesliAudit::Account", audit.class_name
+            assert_equal :account_id, audit.options[:foreign_key]
+            assert_equal :account, audit.options[:inverse_of]
+        end
+
         # --- Presence validations (recommended) ---
         test "requires status" do
             account = lesli_accounts(:one).dup

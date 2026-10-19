@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2025, Lesli Technologies, S. A.
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,28 +27,28 @@ Building a better future, one line of code at a time.
 @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 %>
 
-<% public_app_controller = controller_path.split('/')[1] || controller_path %>
+<% public_app_controller = controller_path.split("/")[1] || controller_path %>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <%= render(partial: "lesli/partials/application-lesli-head") %>
-    <%= stylesheet_link_tag(lesli_asset_path(:lesli_assets, 'public.tailwind'), media: "all") %>
-    <%= stylesheet_link_tag(lesli_asset_path(:lesli_shield, public_app_controller.concat(".tailwind")), media: "all") %>
-    <%# Disable back button in browser after Logout using JavaScript %>
+    <%= stylesheet_link_tag(lesli_asset_path(:lesli_assets, "public.tailwind"), media: "all") %>
+    <%= stylesheet_link_tag(lesli_asset_path(:lesli_shield, "#{public_app_controller}.tailwind"), media: "all") %>
+    <%# Prevent browser history from reopening an authenticated page after logout. %>
     <% if flash[:logout] == true %>
         <script>
             history.pushState(null, null, null, null, null);
-            window.addEventListener('popstate', function () {
+            window.addEventListener("popstate", function () {
                 history.pushState(null, null, null, null, null);
             });
         </script>
     <% end %>
 </head>
-<body class="<%= lesli_application_body_class() %>">
+<body class="<%= lesli_application_body_class %>">
     <%= yield %>
     <%= render(partial: "lesli/partials/application-lesli-analytics") %>
 </body>

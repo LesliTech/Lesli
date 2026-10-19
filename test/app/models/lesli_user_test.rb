@@ -12,6 +12,36 @@ module Lesli
             assert lesli_users(:one).valid?
         end
 
+        test "declares the security associations used by the platform" do
+            sessions = Lesli::User.reflect_on_association(:sessions)
+            user_roles = Lesli::User.reflect_on_association(:user_roles)
+            roles = Lesli::User.reflect_on_association(:roles)
+            privileges = Lesli::User.reflect_on_association(:privileges)
+
+            assert_equal "LesliShield::User::Session", sessions.class_name
+            assert_equal "LesliShield::User::Role", user_roles.class_name
+            assert_equal :user_roles, roles.options[:through]
+            assert_equal :role, roles.options[:source]
+            assert_equal :roles, privileges.options[:through]
+        end
+
+        test "declares the audit associations used by the platform" do
+            requests = Lesli::User.reflect_on_association(:requests)
+            journals = Lesli::User.reflect_on_association(:journals)
+            logs = Lesli::User.reflect_on_association(:logs)
+            account_logs = Lesli::User.reflect_on_association(:account_logs)
+
+            assert_equal "LesliAudit::UserRequest", requests.class_name
+            assert_equal "LesliAudit::UserJournal", journals.class_name
+            assert_equal "LesliAudit::UserLog", logs.class_name
+            assert_equal "LesliAudit::AccountLog", account_logs.class_name
+
+            [requests, journals, logs, account_logs].each do |association|
+                assert_equal :user_id, association.options[:foreign_key]
+                assert_equal :user, association.options[:inverse_of]
+            end
+        end
+
         test "requires uid" do
             user = lesli_users(:one).dup
             user.uid = nil
@@ -23,14 +53,6 @@ module Lesli
             user.email = ""
             assert_not user.valid?
             assert_includes user.errors[:email], "can't be blank"
-        end
-
-        test "requires encrypted_password" do
-            user = lesli_users(:one).dup
-            user.encrypted_password = ""
-
-            assert_equal user.valid?, false
-            assert_includes user.errors[:password], "can't be blank"
         end
 
         test "uid is unique" do
@@ -75,8 +97,8 @@ module Lesli
                 result = dup.save
             end
 
-            # Because rescue returns nil by default
-            assert_equal false, result
+            # The rescue branch returns nil instead of propagating the error.
+            assert_nil result
         end
 
         test "generates uid after create when uid is nil" do
@@ -85,12 +107,9 @@ module Lesli
             user = Lesli::User.new(
                 uid: nil,
                 email: "new-user@example.com",
-                password: "password123",
-                password_confirmation: "password123",
+                encrypted_password: "provided-by-authentication-engine",
                 account: account
             )
-
-            user.skip_confirmation!
 
             assert_nil user.uid
             assert user.save, "Expected user to save"

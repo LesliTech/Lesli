@@ -38,10 +38,6 @@ require "kaminari"
 require "termline"
 require "acts_as_paranoid"
 
-# The hole Lesli ecosystem depends on current_user, so we
-# include the dependency in the core
-require "devise"
-
 require "lesli_date"
 require "lesli_view"
 require "lesli_assets"

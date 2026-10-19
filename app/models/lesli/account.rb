@@ -49,9 +49,8 @@ module Lesli
 
         # third-party engines associations
         has_one :bell, class_name: "LesliBell::Account"
-        has_one :help, class_name: "LesliHelp::Account"
         has_one :admin, class_name: "LesliAdmin::Account"
-        has_one :guard, class_name: "LesliGuard::Account"
+        has_one :audit, class_name: "LesliAudit::Account", foreign_key: :account_id, inverse_of: :account
         has_one :shield, class_name: "LesliShield::Account"
         has_one :letter, class_name: "LesliLetter::Account"
         has_one :papers, class_name: "LesliPapers::Account"
@@ -59,9 +58,7 @@ module Lesli
         has_one :contacts, class_name: "LesliContacts::Account"
         has_one :calendar, class_name: "LesliCalendar::Account"
         has_one :dashboard, class_name: "LesliDashboard::Account"
-        
 
-        validates :status, presence: true
 
         # account statuses
         enum :status, {
@@ -80,6 +77,7 @@ module Lesli
 
         # required a name for the lesli account
         validates :name, :presence => true
+        validates :status, presence: true
 
 
         # initializers for new accounts

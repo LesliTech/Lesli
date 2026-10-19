@@ -41,17 +41,6 @@ module Lesli
             uniqueness: true
         );
 
-        # devise implementation
-        devise( 
-            :database_authenticatable,
-            :registerable,
-            :rememberable,
-            :recoverable,
-            :validatable,
-            :confirmable,
-            :trackable
-        );
-
         # users belongs to an account only... 
         belongs_to :account, optional: true
 
@@ -64,14 +53,22 @@ module Lesli
         # users data extensions
         has_many :tokens
         has_many :settings
-        has_many :sessions, class_name: 'LesliShield::User::Session'
 
-        
-        # Users can have many roles and too many privileges through the roles
+        # Authentication and authorization records are implemented by
+        # LesliShield. These associations remain explicit here because they
+        # are part of the public API used throughout the platform.
+        has_many :sessions, class_name: "LesliShield::User::Session"
         has_many :user_roles, class_name: "LesliShield::User::Role"
         has_many :roles,       through: :user_roles, source: :role
         has_many :privileges,  through: :roles
 
+        # Audit records are implemented by LesliAudit. The associations are
+        # declared here because requests, journals, and logs form part of the
+        # user API consumed by the platform.
+        has_many :requests, class_name: "LesliAudit::UserRequest", foreign_key: :user_id, inverse_of: :user
+        has_many :journals, class_name: "LesliAudit::UserJournal", foreign_key: :user_id, inverse_of: :user
+        has_many :logs, class_name: "LesliAudit::UserLog", foreign_key: :user_id, inverse_of: :user
+        has_many :account_logs, class_name: "LesliAudit::AccountLog", foreign_key: :user_id, inverse_of: :user
 
         # allow save duplicated users to execute callbacks
         def save(*args)

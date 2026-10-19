@@ -4,7 +4,7 @@ one:
   uid: "USR-0001"
   active: true
   email: "one@example.com"
-  encrypted_password: "<%= Devise::Encryptor.digest(Lesli::User, 'password123') %>"
+  encrypted_password: "provided-by-authentication-engine"
   first_name: "Luis"
   last_name: "Donis"
   sign_in_count: 0
@@ -16,7 +16,7 @@ two:
   uid: "USR-0002"
   active: true
   email: "two@example.com"
-  encrypted_password: "<%= Devise::Encryptor.digest(Lesli::User, 'password123') %>"
+  encrypted_password: "provided-by-authentication-engine"
   sign_in_count: 0
   account: two
   created_at: <%= Time.current %>

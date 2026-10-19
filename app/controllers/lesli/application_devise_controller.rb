@@ -1,8 +1,12 @@
+# frozen_string_literal: true
+
 =begin
 
 Lesli
 
-Copyright (c) 2025, Lesli Technologies, S. A.
+Lesli
+
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -31,17 +35,17 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
+    # Shared parent for authentication controllers rendered with the public
+    # Lesli application shell. LesliShield configures Devise to use this class.
     class ApplicationDeviseController < ApplicationController
         include Lesli::ResponderInterface
         include Lesli::RequesterInterface
         include LesliAudit::LoggerInterface if defined?(LesliAudit)
-        
+
         layout "lesli/layouts/application-devise"
 
-        #before_action :set_locale_public
-
         def initialize
-            @lesli = { 
+            @lesli = {
                 company: {
                     name: Lesli.config.company[:name]
                 }
