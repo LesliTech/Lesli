@@ -37,7 +37,7 @@ You only need to add settings that your application overrides.
 | `security` | Defines registration, account, and development-password behavior | Lesli Core and LesliShield |
 | `babel` | Defines available application locales | LesliBabel |
 | `shield` | Defines the post-login path and default role | LesliShield |
-| `audit` | Enables audit logs, journals, and analytics | LesliAudit |
+| `audit` | Controls audit writes and data-retention periods | LesliAudit |
 | `mailer` | Defines the shared email-template path | Lesli Core |
 | `support` | Defines support ticket settings | LesliSupport |
 
@@ -166,7 +166,10 @@ Lesli.configure do |config|
   config.audit = config.audit.merge(
     enable_logs: true,
     enable_journals: true,
-    enable_analytics: true
+    enable_analytics: true,
+    journal_retention_days: 90,
+    analytics_retention_days: 400,
+    audit_retention_days: nil
   )
 
   config.support = config.support.merge(prefix: "LS")
@@ -175,6 +178,9 @@ end
 ```
 
 Refer to each engine's documentation before changing engine-specific keys.
+Audit retention values are positive integers measured in days. A `nil` value
+disables cleanup for that data class; activity events default to `nil` so the
+host must opt into their deletion explicitly.
 
 ---
 

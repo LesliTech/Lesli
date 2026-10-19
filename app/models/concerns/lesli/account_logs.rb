@@ -35,25 +35,14 @@ module Lesli
         extend ActiveSupport::Concern
 
         def log operation, description=nil, user:nil
-            return unless defined?(LesliAudit)
-            log_anonimous(operation, description) unless self.audit
-            log_account(operation, description) if self.audit
-        end
+            return unless defined?(LesliAudit::ActivityAudit)
 
-        private 
-
-        def log_anonimous operation, description
-            LesliAudit::AccountLog.create({
+            LesliAudit::ActivityAudit.record_account!(
+                account: self,
+                actor: user,
                 operation: operation,
                 description: description
-            })
-        end
-
-        def log_account operation, description
-            self.logs.create!({
-                operation: operation,
-                description: description
-            })
+            )
         end
     end
 end

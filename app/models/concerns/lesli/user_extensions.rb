@@ -94,22 +94,18 @@ module Lesli
             subject:nil # resource related to the log
             )
 
-            return unless defined?(LesliAudit) && respond_to?(:logs)
+            return unless defined?(LesliAudit::ActivityAudit)
 
-            self.logs.create!({
+            LesliAudit::ActivityAudit.record_user!(
+                user: self,
                 engine: engine,
                 source: source,
                 action: action,
-
                 operation: operation,
                 description: description,
                 session_id: session_id,
-
-                subject_type: subject&.class&.name,
-                subject_id: subject&.id,
-
-                account: self&.account&.audit
-            })
+                subject: subject
+            )
         end
     end
 end

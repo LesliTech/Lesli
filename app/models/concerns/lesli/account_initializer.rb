@@ -64,6 +64,7 @@ module Lesli
 
         # initialize engines for new accounts
         def initialize_engines
+            initialized_engines = []
 
             LesliSystem.engines.each do |engine, data|
 
@@ -72,6 +73,13 @@ module Lesli
                 # Create an associated account if the attribute is blank
                 engine.constantize::Account.find_or_create_by!(account: self)
 
+                initialized_engines << engine
+            end
+
+            # Emit initialization events only after every engine account exists.
+            # In particular, this makes the result independent from the position
+            # of LesliAudit in the engine registry.
+            initialized_engines.each do |engine|
                 self.log(:account_initialization, "Engine: #{engine} initialized successfully")
             end
         end      

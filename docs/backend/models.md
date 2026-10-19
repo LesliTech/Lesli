@@ -81,6 +81,60 @@ An `account_id` submitted by a client must not decide ownership. Derive the acco
 
 ---
 
+## Optional Engine Associations
+
+Optional-engine associations are owned by the engine and should not be added
+to Lesli Core. New and updated engines must use concerns to extend core models
+such as `Lesli::Account` and `Lesli::User`; legacy direct declarations should
+be migrated to this pattern. This keeps Core loadable when an engine is not
+installed and keeps the association next to the models and tables it exposes.
+
+Define the account extension inside the engine:
+
+```ruby
+module MyEngine
+  module AccountAssociations
+    extend ActiveSupport::Concern
+
+    included do
+      has_one :my_engine,
+        class_name: "MyEngine::Account",
+        foreign_key: :account_id,
+        inverse_of: :account
+    end
+  end
+end
+```
+
+Install it from the engine's reload-safe preparation block:
+
+```ruby
+config.to_prepare do
+  unless Lesli::Account < MyEngine::AccountAssociations
+    Lesli::Account.include(MyEngine::AccountAssociations)
+  end
+end
+```
+
+Use the same pattern with a separate concern when the engine extends
+`Lesli::User`. Always make `class_name`, `foreign_key`, and `inverse_of`
+explicit at this boundary.
+
+Do not add a direct association from the core account to an engine child table
+when that table's `account_id` references the engine account. For example, if
+`my_engine_tickets.account_id` references `my_engine_accounts.id`, query it
+through the engine account:
+
+```ruby
+current_user.account.my_engine.tickets
+```
+
+A direct `current_user.account.tickets` association would compare a
+`lesli_accounts.id` with a `my_engine_accounts.id`. Those independent IDs can
+coincide and expose records belonging to another account.
+
+---
+
 ## Item Concerns
 
 Lesli provides concerns for resources that support tasks, discussions, or activities:

@@ -45,14 +45,11 @@ module Lesli
         has_many :settings
         has_many :locations
         has_many :currencies
-        has_many :requests, class_name: "LesliAudit::AccountRequest"
-        has_many :logs, class_name: "LesliAudit::AccountLog"
 
 
         # third-party engines associations
         has_one :bell, class_name: "LesliBell::Account"
         has_one :help, class_name: "LesliHelp::Account"
-        has_one :audit, class_name: "LesliAudit::Account"
         has_one :admin, class_name: "LesliAdmin::Account"
         has_one :guard, class_name: "LesliGuard::Account"
         has_one :shield, class_name: "LesliShield::Account"

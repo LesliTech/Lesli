@@ -81,10 +81,6 @@ module Lesli
         # ActiveSupport's `present?` / `blank?` helpers are available in Rails tests.
         end
 
-        class FakeUserWithoutLogs
-            include Lesli::UserExtensions
-        end
-
         # --- Tests: name / full_name / initials -----------------------------------
 
         test "name returns first_name when present" do
@@ -181,19 +177,24 @@ module Lesli
         end
 
         test "log writes to user logs when LesliAudit is defined and includes subject/account info" do
-            # Define LesliAudit constant to enable logging
-            Object.const_set(:LesliAudit, Module.new) unless Object.const_defined?(:LesliAudit)
+            audit = Module.new
+            activity_audit = Class.new do
+                class << self
+                    attr_reader :calls
 
-            logs = CapturingLogs.new
+                    def record_user!(**attributes)
+                        (@calls ||= []) << attributes
+                        :event
+                    end
+                end
+            end
+            audit.const_set(:ActivityAudit, activity_audit)
+            Object.const_set(:LesliAudit, audit)
+
             subject = Struct.new(:id).new(99)
-            def subject.class = Struct.new(:name).new("Some::Thing") 
+            u = FakeUser.new
 
-            u = FakeUser.new(
-                logs: logs,
-                account: FakeAccountAudit.new
-            )
-
-            u.log(
+            result = u.log(
                 engine: "MyEngine",
                 source: "UsersController",
                 action: "create",
@@ -203,30 +204,26 @@ module Lesli
                 subject: subject
             )
 
-            assert_equal 1, logs.created.length
-            payload = logs.created.first
+            assert_equal :event, result
+            payload = LesliAudit::ActivityAudit.calls.first
 
+            assert_same u, payload[:user]
             assert_equal "MyEngine", payload[:engine]
             assert_equal "UsersController", payload[:source]
             assert_equal "create", payload[:action]
             assert_equal "user create", payload[:operation]
             assert_equal "Created user", payload[:description]
             assert_equal 777, payload[:session_id]
-
-            assert_equal "Some::Thing", payload[:subject_type]
-            assert_equal 99, payload[:subject_id]
-
-            assert_equal :audit_assoc, payload[:account]
+            assert_same subject, payload[:subject]
         ensure
             Object.send(:remove_const, :LesliAudit) if Object.const_defined?(:LesliAudit)
         end
 
-        test "log does nothing when LesliAudit is defined without a logs association" do
+        test "log does nothing when LesliAudit is defined without the activity service" do
             Object.const_set(:LesliAudit, Module.new) unless Object.const_defined?(:LesliAudit)
 
-            user = FakeUserWithoutLogs.new
+            user = FakeUser.new
 
-            refute_respond_to user, :logs
             assert_nil user.log(
                 operation: "session_creation_failed",
                 description: "user_locked"
