@@ -39,17 +39,17 @@ module Lesli
 
             # platform role for owners
             owner = self.roles
-            .create_with({ permission_level: 2147483647 })
+            .create_with({ permission_level: 2147483647, active: true })
             .find_or_create_by(:name => "owner")
 
             # platform role for administrators
             admin = self.roles
-            .create_with({ permission_level: 100000})
+            .create_with({ permission_level: 100000, active: true })
             .find_or_create_by(name: "admin")
 
             # platform role for guests
             guest = self.roles
-            .create_with({ permission_level: 10, path_default: "/administration/profile" })
+            .create_with({ permission_level: 10, active: true , path_default: "/administration/profile" })
             .find_or_create_by(name: "guest")
 
 
