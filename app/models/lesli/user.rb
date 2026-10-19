@@ -70,12 +70,6 @@ module Lesli
         has_many :logs, class_name: "LesliAudit::UserLog", foreign_key: :user_id, inverse_of: :user
         has_many :account_logs, class_name: "LesliAudit::AccountLog", foreign_key: :user_id, inverse_of: :user
 
-        # allow save duplicated users to execute callbacks
-        def save(*args)
-            super()
-            rescue ActiveRecord::RecordNotUnique => error
-        end
-
         before_create :before_create_user
 
         private
@@ -83,7 +77,7 @@ module Lesli
         def before_create_user
             self.uid ||= loop do
                 candidate = generate_resource_uid(prefix:'LID')
-                break candidate unless self.account&.users&.exists?(uid: candidate)
+                break candidate unless self.class.exists?(uid: candidate)
             end
         end
 

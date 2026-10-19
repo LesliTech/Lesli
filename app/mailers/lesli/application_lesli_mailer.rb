@@ -34,7 +34,12 @@ module Lesli
     class ApplicationLesliMailer < ActionMailer::Base
 
         # Set a dynamic template according to the engine that is sending the email
-        default(template_path: Lesli.config.mailer.dig(:templates))
+        default(
+            template_path: (Lesli.config.mailer || {}).fetch(
+                :templates,
+                "lesli_assets/emails"
+            )
+        )
 
         #after_action :log_mail_requests
 
@@ -48,9 +53,16 @@ module Lesli
         end
 
         def build_url(path, params = {})
-            default_url = Rails.application.config.action_mailer.default_url_options
+            default_url = mailer_url_options
             host = default_url[:host].to_s.sub(/\Ahttps?:\/\//, "")
-            scheme = default_url[:protocol]&.delete(":") || "http"
+            scheme = default_url[:protocol].presence&.to_s&.delete(":") || "http"
+
+            if host.blank?
+                raise ArgumentError, <<~MESSAGE.squish
+                    Action Mailer requires default_url_options[:host] to build
+                    absolute links in Lesli emails
+                MESSAGE
+            end
 
             URI::Generic.build(
                 scheme: scheme,
@@ -63,17 +75,30 @@ module Lesli
 
         protected
 
-        def email(params={}, user:nil, to:, subject:, template_name:) 
+        def email(
+            params = {},
+            user: nil,
+            to:,
+            subject:,
+            template_name:,
+            **headers
+        )
 
             @params = @params.merge(params)
 
             build_app_from_params(params)
 
             mail(
-                to: to, 
+                to: to,
                 subject: subject,
+                **headers,
                 template_name: template_name
             )
+        end
+
+        def mailer_url_options
+            options = Rails.application.config.action_mailer.default_url_options
+            (options || {}).to_h.symbolize_keys
         end
 
 
@@ -88,11 +113,12 @@ module Lesli
                 tag_line: "",
             }
 
-            return if params[:user].blank? || params[:user].class.name != "Lesli::User"
+            account = params[:user]&.account
+            return if account.blank?
 
             @app[:company] = {
-                id: params[:user].account.id,
-                name: params[:user].account.name,
+                id: account.id,
+                name: account.name,
                 #tag_line: params[:user].account.company_tag_line,
             }
         end

@@ -81,7 +81,7 @@ module Lesli
             assert_equal true, user.active
         end
 
-        test "save rescues RecordNotUnique and does not raise" do
+        test "save does not hide database uniqueness violations" do
             existing = lesli_users(:one)
 
             dup = Lesli::User.new(
@@ -91,17 +91,12 @@ module Lesli
                 account_id: existing.account_id
             )
 
-            # It should not raise:
-            result = nil
-            assert_nothing_raised do
-                result = dup.save
+            assert_raises ActiveRecord::RecordNotUnique do
+                dup.save(validate: false)
             end
-
-            # The rescue branch returns nil instead of propagating the error.
-            assert_nil result
         end
 
-        test "generates uid after create when uid is nil" do
+        test "generates uid before creating a user when uid is nil" do
             account = lesli_accounts(:one)
 
             user = Lesli::User.new(
@@ -112,8 +107,22 @@ module Lesli
             )
 
             assert_nil user.uid
-            assert user.save, "Expected user to save"
+            assert user.save(validate: false), "Expected user to save"
             assert user.uid.present?, "Expected uid to be generated"
+        end
+
+        test "generates uid against the global unique index without an account" do
+            existing_uid = lesli_users(:one).uid
+            generated_uids = [existing_uid, "LID-UNIQUE"]
+            user = Lesli::User.new
+
+            user.define_singleton_method(:generate_resource_uid) do |**|
+                generated_uids.shift
+            end
+
+            user.send(:before_create_user)
+
+            assert_equal "LID-UNIQUE", user.uid
         end
     end
 end
