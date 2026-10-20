@@ -66,9 +66,8 @@ namespace :lesli do
         Termline.br(2)
 
         # core information
-        Termline.info(instance, tag:'Instance:', time:false)
-        Termline.info(Rails.env, tag:'Environment:', time:false)
-        Termline.br()
+        Termline.details(Instance: instance, Environment: Rails.env, icon: :info)
+        Termline.br(2)
 
         # print list of engines
         Termline.table(engines)

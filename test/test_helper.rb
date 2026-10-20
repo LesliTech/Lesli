@@ -1,33 +1,16 @@
-# Configure Rails Environment
-ENV["RAILS_ENV"] = "test"
+# Configure the Rails test environment before booting the dummy application.
+ENV["RAILS_ENV"] ||= "test"
 
 
-# Load the engine explicitly before LesliTesting inspects Lesli::Engine.
-require "lesli"
-
-
-# load lesli testing tools
+# Start coverage before loading Lesli or the dummy Rails application.
 require "lesli_testing"
 
 
-# register engine for testing
-LesliTesting.engine("Lesli", {
-    :coverage_min_coverage => 10,
-    :coverage_profile => "engine"
-})
+# Register the engine profile. LesliTesting resolves Lesli::Engine after Rails
+# boots and configures its fixtures and migration paths through load hooks.
+LesliTesting.engine("Lesli", coverage_min_coverage: 10)
 
 
-# Loading dummy app
-require_relative "../test/dummy/config/environment"
-ActiveRecord::Migrator.migrations_paths = [ File.expand_path("../test/dummy/db/migrate", __dir__) ]
-ActiveRecord::Migrator.migrations_paths << File.expand_path("../db/migrate", __dir__)
+# Boot the dummy application only after LesliTesting has selected its profile.
+require_relative "dummy/config/environment"
 require "rails/test_help"
-
-
-# Load fixtures from the engine
-if ActiveSupport::TestCase.respond_to?(:fixture_paths=)
-    ActiveSupport::TestCase.fixture_paths = [ File.expand_path("fixtures", __dir__) ]
-    ActionDispatch::IntegrationTest.fixture_paths = ActiveSupport::TestCase.fixture_paths
-    ActiveSupport::TestCase.file_fixture_path = File.expand_path("fixtures", __dir__) + "/files"
-    ActiveSupport::TestCase.fixtures :all
-end

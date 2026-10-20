@@ -1,0 +1,35 @@
+# Lesli
+#
+# Copyright (c) 2026, Lesli Technologies, S. A.
+# Licensed under GPL-3.0-or-later.
+#
+# Test, scan, build, and integrate the Lesli engine through LesliActions.
+
+name: "Lesli CI"
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: "Test and integrate Rails engine"
+    uses: LesliTech/LesliActions/.github/workflows/lesli-ci-engine.yaml@master
+    with:
+      ruby-version: "3.3.5"
+      module-directory: "engines"
+      security-path: "."
+      run-security: true
+      run-integration: true
+      run-integration-new: false
+      builder-ref: "master"
+      lesli-ref: "master"
+      actions-ref: "master"
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
