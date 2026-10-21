@@ -53,13 +53,6 @@ module Lesli
 
                     self.lesli_activities_class = klass
 
-                    # ✅ Auto-fix table name (works even when engine defines table_name_prefix)
-                    expected_table = lesli_expected_activity_table_name_for(klass)
-
-                    if klass.table_name != expected_table
-                        klass.table_name = expected_table
-                    end
-
                     # Set associations
                     # Example:
                     # class LesliSupport::Ticket 
@@ -71,20 +64,6 @@ module Lesli
                         class_name: klass.name,
                         dependent: :destroy
                     )
-
-                    # rescue NameError
-                    #     raise NameError,
-                    #     "Task class not found for #{name}. Expected #{name.deconstantize}::Activity or pass `use:`"
-                end
-
-                private
-
-                # Build: "lesli_support_item_activities" from "LesliSupport::Item::Activity"
-                #
-                # We DO NOT rely on ActiveRecord's table_name_prefix, because that’s what breaks your case.
-                def lesli_expected_activity_table_name_for(klass)
-                    parts = klass.name.split("::").map(&:underscore) # ["lesli_support", "item", "activity"]
-                    "#{parts.join('_').pluralize}"                   # "lesli_support_item_activities"
                 end
             end
 
@@ -93,11 +72,11 @@ module Lesli
             end
             
             def activities_create **resource
-                self.activities.create(
+                activities.create(
                     subject_type: self.class.name,
-                    subject_id: self.id,
-                    user_id:self.user_id,
-                    account_id:self.account_id,
+                    subject_id: id,
+                    user_id: user_id,
+                    account_id: account_id,
                     **resource
                 )
             end

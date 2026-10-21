@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2025, Lesli Technologies, S. A.
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ module MigrationHelpers
         module ActivityStructure
             def create_table_lesli_item_activities_10(engine)
 
-                table_name, foreign_key = table_name_for_items(engine, :activities)
+                table_name, = table_name_for_items(engine, :activities)
 
                 create_table table_name do |t|
 
@@ -43,13 +43,13 @@ module MigrationHelpers
                     t.string :description
 
                     # Tipo principal del registro
-                    t.string :activity_type, null: false, default: :activity
+                    t.string :activity_type, null: false, default: "activity"
 
                     # Subtipo para actividades
-                    t.string :activity_code
+                    t.string :activity_code, null: false
 
                     # Metadatos opcionales (JSON)
-                    t.json :metadata, default: {}
+                    t.json :metadata, null: false, default: {}
 
                     # Polymorphic target
                     t.string  :subject_type, null: false
@@ -59,9 +59,9 @@ module MigrationHelpers
                     t.datetime :deleted_at, index: true
                 end
 
-                add_reference(table_name, :user, foreign_key: { to_table: :lesli_users }) 
-                add_reference(table_name, :account, foreign_key: { to_table: "#{engine}_accounts".to_sym })
-                add_index(table_name, [:account_id, :subject_type, :subject_id], name: "#{table_name}_activities_type_id")
+                add_reference(table_name, :user, null: false, foreign_key: { to_table: :lesli_users })
+                add_reference(table_name, :account, null: false, foreign_key: { to_table: "#{engine}_accounts".to_sym })
+                add_index(table_name, [:account_id, :subject_type, :subject_id, :created_at], name: "#{table_name}_timeline")
             end
         end
     end

@@ -110,7 +110,7 @@ Lesli includes migration helpers for schema repeated across engines. They are mi
 | `create_table_lesli_shared_account_10(engine)` | The engine's account table and its reference to `lesli_accounts` |
 | `create_table_lesli_shared_catalogs_10(engine)` | Engine catalog and catalog-item tables |
 | `create_table_lesli_item_tasks_10(engine)` | Account-scoped polymorphic tasks |
-| `create_table_lesli_item_activities_10(engine)` | Account-scoped polymorphic activities |
+| `create_table_lesli_item_activities_10(engine)` | Engine-account-scoped polymorphic activities |
 | `create_table_lesli_item_discussions_10(engine)` | Account-scoped polymorphic discussions |
 | `create_table_lesli_item_attachments_10(engine)` | Account-scoped polymorphic attachment metadata |
 | `create_table_lesli_item_subscribers_10(resource)` | Subscribers for a specific resource table |

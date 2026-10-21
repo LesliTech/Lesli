@@ -160,6 +160,30 @@ By default, each concern expects a matching namespaced model:
 
 The corresponding item tables and polymorphic columns must also exist. If an engine uses different classes or association names, call the concern's setup method with its `use`, `as`, or `association_name` options.
 
+Activity records follow a shared ownership contract:
+
+* `subject` is the resource affected by the event.
+* `actor` is the `Lesli::User` who performed the event and is stored in
+  `user_id`.
+* `account` is the account record owned by the engine. The abstract activity
+  model deliberately does not assume an account class.
+* `activity_code` is a semantic snake-case event name such as
+  `priority_changed`, not a database column name such as `priority_id`.
+
+Every concrete activity model must declare its table explicitly:
+
+```ruby
+module MyEngine
+  module Items
+    class Activity < Lesli::Items::Activity
+      self.table_name = "my_engine_items_activities"
+
+      belongs_to :account, class_name: "MyEngine::Account"
+    end
+  end
+end
+```
+
 Attachment models inherit from `Lesli::Items::Attachment` and use Active
 Storage for the file body and technical metadata. The engine table stores the
 Lesli account, uploader, polymorphic resource, label, and category:

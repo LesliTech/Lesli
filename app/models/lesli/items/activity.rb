@@ -34,9 +34,32 @@ module Lesli
     module Items
         class Activity < ApplicationRecord
             self.abstract_class = true
-            belongs_to :user, class_name: "Lesli::User"
-            belongs_to :account, class_name: "Lesli::Account"
+
+            # Activity ownership contract:
+            # - subject is the resource affected by the event.
+            # - actor is the Lesli user who performed the event. The existing
+            #   user_id column is kept as the foreign key.
+            # - account is declared by the concrete engine model.
+            # - activity_code is a semantic event name, not a column name.
+            belongs_to :actor, class_name: "Lesli::User", foreign_key: :user_id
             belongs_to :subject, polymorphic: true
+
+            validate :metadata_is_an_object
+            validates :activity_type, presence: true
+            validates :activity_code,
+                presence: true,
+                format: {
+                    with: /\A[a-z][a-z0-9_]*\z/,
+                    message: "must be a semantic snake_case event name"
+                }
+
+            private
+
+            def metadata_is_an_object
+                return if metadata.is_a?(Hash)
+
+                errors.add(:metadata, "must be a JSON object")
+            end
         end
     end
 end
