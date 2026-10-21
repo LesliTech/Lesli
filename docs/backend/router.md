@@ -121,6 +121,18 @@ The helper declares:
 
 Use this helper only when the engine provides the corresponding dashboard and item controllers.
 
+Attachment routes are opt-in because the engine must also provide its concrete
+attachment model and migration:
+
+```ruby
+MyEngine::Engine.routes.draw do
+  Lesli::Router.mount_lesli_engine_routes(self, attachments: true)
+end
+```
+
+This adds `items/attachments` routes for `index`, `create`, `show`, and
+`destroy`.
+
 ---
 
 ## Inspect Routes

@@ -112,7 +112,7 @@ Lesli includes migration helpers for schema repeated across engines. They are mi
 | `create_table_lesli_item_tasks_10(engine)` | Account-scoped polymorphic tasks |
 | `create_table_lesli_item_activities_10(engine)` | Account-scoped polymorphic activities |
 | `create_table_lesli_item_discussions_10(engine)` | Account-scoped polymorphic discussions |
-| `create_table_lesli_item_attachments_10(resource)` | Attachments for a specific resource table |
+| `create_table_lesli_item_attachments_10(engine)` | Account-scoped polymorphic attachment metadata |
 | `create_table_lesli_item_subscribers_10(resource)` | Subscribers for a specific resource table |
 | `create_table_lesli_item_versions_10(resource)` | Field-change history for a specific resource table |
 
@@ -125,9 +125,14 @@ class CreateLesliSupportAccounts < ActiveRecord::Migration[7.0]
     create_table_lesli_item_tasks_10(:lesli_support)
     create_table_lesli_item_activities_10(:lesli_support)
     create_table_lesli_item_discussions_10(:lesli_support)
+    create_table_lesli_item_attachments_10(:lesli_support)
   end
 end
 ```
+
+The attachment helper creates only the Lesli domain table. Its file data is
+stored through the host application's shared Active Storage tables, which must
+be installed separately with `bin/rails active_storage:install`.
 
 Use a shared helper only when its complete schema and behavior fit the feature. A domain table with different lifecycle or ownership requirements should use a normal Rails migration.
 

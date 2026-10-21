@@ -1,6 +1,23 @@
 ---
 :es:
   lesli:
+    items:
+      attachments:
+        add: Agregar archivo
+        category: Categoría
+        choose_file: Seleccionar archivo
+        created: Archivo subido exitosamente
+        deleted: Archivo eliminado exitosamente
+        download: Descargar
+        empty: Todavía no se han adjuntado archivos.
+        label: Etiqueta
+        remove: Eliminar
+        confirm_remove: ¿Eliminar este archivo?
+        uploading: Subiendo...
+        errors:
+          required: debe ser adjuntado
+          too_large: debe ser menor de %{size}
+          unsupported_type: tiene un tipo de archivo no permitido
     header:
       applications: Aplicaciones
       dashboard: Panel de Lesli

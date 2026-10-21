@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2025, Lesli Technologies, S. A.
+Copyright (c) 2026, Lesli Technologies, S. A.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,29 +33,24 @@ Building a better future, one line of code at a time.
 module MigrationHelpers
     module Items
         module AttachmentStructure
-            def create_table_lesli_item_attachments_10(resources)
+            def create_table_lesli_item_attachments_10(engine)
 
-                table_name, foreign_key = table_name_for_items(resources, :attachments)
+                table_name, = table_name_for_items(engine, :attachments)
 
                 create_table table_name do |t|
-                    t.string :name
+                    t.string :label
                     t.string :category
-                    t.decimal :size_mb
 
-                    t.string :attachment
-                    t.string :attachment_remote # like S3
-                    t.string :attachment_public
-                    
-                    t.boolean  :public
-                    t.string   :public_url
-                    t.datetime :public_url_expiration_at
+                    t.string :attachable_type, null: false
+                    t.bigint :attachable_id, null: false
 
                     t.datetime :deleted_at, index: true
                     t.timestamps
                 end
 
                 add_reference(table_name, :user, foreign_key: { to_table: :lesli_users })
-                add_reference(table_name, foreign_key, foreign_key: { to_table: resources })
+                add_reference(table_name, :account, foreign_key: { to_table: :lesli_accounts })
+                add_index(table_name, [:account_id, :attachable_type, :attachable_id], name: "#{table_name}_attachable_type_id".to_sym)
             end
         end
     end

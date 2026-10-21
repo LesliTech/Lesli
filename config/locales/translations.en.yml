@@ -1,6 +1,23 @@
 ---
 :en:
   lesli:
+    items:
+      attachments:
+        add: Add file
+        category: Category
+        choose_file: Choose a file
+        created: File uploaded successfully
+        deleted: File removed successfully
+        download: Download
+        empty: No files have been attached yet.
+        label: Label
+        remove: Remove
+        confirm_remove: Remove this file?
+        uploading: Uploading...
+        errors:
+          required: must be attached
+          too_large: must be smaller than %{size}
+          unsupported_type: has an unsupported file type
     header:
       applications: Applications
       dashboard: Lesli Dashboard

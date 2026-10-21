@@ -78,6 +78,9 @@ module Lesli
 
                 # Load item discussions
                 router.resources :discussions, only: %i[index update create]
+
+                # Load attachments
+                router.resources :attachments, only: %i[index show create destroy]
             end
 
             # Optional: health check inside engine scope (pick a consistent path)

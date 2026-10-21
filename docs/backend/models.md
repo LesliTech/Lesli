@@ -137,7 +137,8 @@ coincide and expose records belonging to another account.
 
 ## Item Concerns
 
-Lesli provides concerns for resources that support tasks, discussions, or activities:
+Lesli provides concerns for resources that support tasks, discussions,
+activities, or file attachments:
 
 ```ruby
 module MyEngine
@@ -145,6 +146,7 @@ module MyEngine
     include Lesli::Items::Tasks
     include Lesli::Items::Discussions
     include Lesli::Items::Activities
+    include Lesli::Items::Attachments
   end
 end
 ```
@@ -154,7 +156,33 @@ By default, each concern expects a matching namespaced model:
 * `MyEngine::Items::Task`
 * `MyEngine::Items::Discussion`
 * `MyEngine::Items::Activity`
+* `MyEngine::Items::Attachment`
 
 The corresponding item tables and polymorphic columns must also exist. If an engine uses different classes or association names, call the concern's setup method with its `use`, `as`, or `association_name` options.
+
+Attachment models inherit from `Lesli::Items::Attachment` and use Active
+Storage for the file body and technical metadata. The engine table stores the
+Lesli account, uploader, polymorphic resource, label, and category:
+
+```ruby
+module MyEngine
+  module Items
+    class Attachment < Lesli::Items::Attachment
+      self.table_name = "my_engine_items_attachments"
+    end
+  end
+end
+```
+
+Install Active Storage once in the host application, not once per engine:
+
+```shell
+bin/rails active_storage:install
+bin/rails db:migrate
+```
+
+An engine resource whose `account` points to an engine-specific account must
+override `lesli_item_account` and return its owning `Lesli::Account`. This is
+used to enforce tenant ownership when files are uploaded or downloaded.
 
 Include only the concerns for which the engine provides the required models and migrations; missing item classes cause model loading to fail.
