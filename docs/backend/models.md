@@ -184,6 +184,32 @@ module MyEngine
 end
 ```
 
+Record activities through the parent resource. The association assigns the
+polymorphic subject, and the method returns the persisted activity:
+
+```ruby
+activity = ticket.record_activity!(
+  actor: current_user,
+  code: :priority_changed,
+  description: "Ticket priority changed",
+  metadata: {
+    from: previous_priority_id,
+    to: ticket.priority_id
+  }
+)
+```
+
+`record_activity!` uses the account returned by `lesli_item_account` and raises
+`ActiveRecord::RecordInvalid` when the actor, account, subject, code, type, or
+metadata is invalid. Engine resources normally return their direct engine
+account:
+
+```ruby
+def lesli_item_account
+  account
+end
+```
+
 Attachment models inherit from `Lesli::Items::Attachment` and use Active
 Storage for the file body and technical metadata. The engine table stores the
 Lesli account, uploader, polymorphic resource, label, and category:

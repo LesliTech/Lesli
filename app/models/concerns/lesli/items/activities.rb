@@ -70,15 +70,26 @@ module Lesli
             def after_save_activities
                 Termline.warn "You need to define your activity methods in your model"
             end
-            
-            def activities_create **resource
-                activities.create(
-                    subject_type: self.class.name,
-                    subject_id: id,
-                    user_id: user_id,
-                    account_id: account_id,
-                    **resource
+
+            def record_activity!(
+                actor:,
+                code:,
+                description: nil,
+                metadata: {},
+                activity_type: :activity
+            )
+                activities.create!(
+                    actor: actor,
+                    account: lesli_item_account,
+                    activity_code: code,
+                    activity_type: activity_type,
+                    description: description,
+                    metadata: metadata
                 )
+            end
+
+            def lesli_item_account
+                account
             end
         end
     end
