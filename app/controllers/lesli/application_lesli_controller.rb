@@ -40,6 +40,10 @@ module Lesli
         include LesliShield::AuthenticationInterface if defined?(LesliShield)
         include LesliShield::AuthorizationInterface if defined?(LesliShield)
 
+        # Controllers from isolated engines inherit this controller, but Rails
+        # does not automatically expose Lesli's helpers to their views.
+        helper Lesli::Engine.helpers
+
         protect_from_forgery with: :exception
 
         before_action :set_locale 

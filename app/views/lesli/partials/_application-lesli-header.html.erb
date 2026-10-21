@@ -107,20 +107,16 @@ Building a better future, one line of code at a time.
                 <i class="ri-apps-2-line text-[24px] leading-none" aria-hidden="true"></i>
             <% end %>
 
-            <% if defined?(LesliAdmin) %>
-                <%= link_to lesli_admin.profile_path,
-                    class: action_class.call(lesli_admin.profile_path),
-                    aria: {
-                        label: profile_label,
-                        current: current_page?(lesli_admin.profile_path) ? "page" : nil
-                    },
+            <% if defined?(LesliShield) %>
+
+                <%= link_to lesli_shield.profile_path,
+                    class: header_action_class,
+                    aria: { label: profile_label },
                     title: profile_label,
                     data: { turbo_frame: "_top" } do %>
                     <i class="ri-user-smile-line text-[24px] leading-none" aria-hidden="true"></i>
                 <% end %>
-            <% end %>
 
-            <% if defined?(LesliShield) %>
                 <%= link_to main_app.destroy_user_session_path,
                     class: logout_action_class,
                     aria: { label: logout_label },
