@@ -57,13 +57,15 @@ module Lesli
         end
 
         setup do
+            @original_constants = {}
+
             # Build fake engine constants with ::Account
             # Example engines: "LesliSupport" and "LesliSales"
             stub_engine("LesliSupport")
             stub_engine("LesliSales")
 
             # Stub LesliSystem.engines
-            stub_const(:LesliSystem, Module.new) unless Object.const_defined?(:LesliSystem)
+            replace_constant("LesliSystem", Module.new)
             LesliSystem.define_singleton_method(:engines) do
                 {
                     "Lesli" => {},
@@ -76,24 +78,38 @@ module Lesli
         end
 
         teardown do
-            # cleanup fake engines
-            remove_engine("LesliSupport")
-            remove_engine("LesliSales")
+            CapturingEngineAccount.reset!
 
-            Object.send(:remove_const, :LesliSystem) if Object.const_defined?(:LesliSystem)
-            Object.send(:remove_const, :LesliShield) if Object.const_defined?(:LesliShield)
+            restore_constant("LesliSales")
+            restore_constant("LesliSupport")
+            restore_constant("LesliSystem")
         end
 
         # --- Helpers to create/remove engine constants ---
         def stub_engine(name)
             mod = Module.new
             mod.const_set(:Account, CapturingEngineAccount)
-            Object.const_set(name.to_sym, mod)
+            replace_constant(name, mod)
         end
 
-        def remove_engine(name)
-            Object.send(:remove_const, name.to_sym) if Object.const_defined?(name.to_sym)
-            CapturingEngineAccount.reset!
+        def replace_constant(name, value)
+            name = name.to_sym
+
+            if Object.const_defined?(name, false)
+                @original_constants[name] = Object.const_get(name, false)
+                Object.send(:remove_const, name)
+            end
+
+            Object.const_set(name, value)
+        end
+
+        def restore_constant(name)
+            name = name.to_sym
+            Object.send(:remove_const, name) if Object.const_defined?(name, false)
+
+            if @original_constants.key?(name)
+                Object.const_set(name, @original_constants.fetch(name))
+            end
         end
 
         # --- Tests for initialize_account ---

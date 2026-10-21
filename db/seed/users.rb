@@ -64,17 +64,9 @@ end
 
 
 # create the owner user for the account, 
-userowner = create_account_user(emailowner, "owner", "Owner", account[:company_name], passowner)
-useradmin = create_account_user(emailadmin, "admin", "Admin", account[:company_name], passadmin)
-userguest = create_account_user(emailguest, "guest", "Guest", account[:company_name], passguest)
-
-
-# print the owner user credentials, so we can save those credentials
-Termline.success(
-    "Owner user created successfully with email: #{emailowner} and password: #{passowner}",
-    "Admin user created successfully with email: #{emailadmin} and password: #{passadmin}",
-    "Admin user created successfully with email: #{emailguest} and password: #{passguest}"
-)
+create_account_user(emailowner, "owner", "Owner", account[:company_name], passowner)
+create_account_user(emailadmin, "admin", "Admin", account[:company_name], passadmin)
+create_account_user(emailguest, "guest", "Guest", account[:company_name], passguest)
 
 
 # print some separators so will be easy to find these messages later

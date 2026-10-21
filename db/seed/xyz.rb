@@ -35,22 +35,32 @@ def create_account_user email, rolename, firstname, lastname, password
     account = Lesli::Account.find_by(email: Lesli.config.company.dig(:email))
 
     # create development users if email is not registered yet
-    Lesli::User.find_or_create_by(email: email) do |user|
-        user.account = account
+    user = Lesli::User.find_or_initialize_by(email: email)
+
+    # Basic user account information
+    user.account = account
+    user.first_name = firstname
+    user.last_name = lastname
+
+    lesli_shield_credentials = false
+
+    # Create devise credentials if LesliShield is present
+    if user.respond_to?(:password=) && user.encrypted_password.blank?
         user.password = password
         user.password_confirmation = password
+        user.skip_confirmation!
+        lesli_shield_credentials = true
+    end
 
-        # confirm user through device
-        user.confirm unless user.confirmed?
+    user.save!
 
-        user.first_name = firstname
-        user.last_name = lastname
-        user.save!
+    # Create Lesli roles if LesliShield is present
+    if defined?(LesliShield)
+        role = Lesli::Role.find_by!(name: rolename)
+        user.user_roles.find_or_create_by!(role: role)
+    end
 
-        if(defined?(LesliShield))
-            user.user_roles.create!({ role: Lesli::Role.find_by(:name => rolename) })
-        end
-
-        user
+    if lesli_shield_credentials
+        Termline.success("#{rolename.capitalize} user created successfully with email: #{email} and password: #{password}")
     end
 end
