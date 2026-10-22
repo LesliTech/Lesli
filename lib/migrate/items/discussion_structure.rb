@@ -35,21 +35,21 @@ module MigrationHelpers
         module DiscussionStructure
             def create_table_lesli_item_discussions_10(engine)
 
-                table_name, foreign_key = table_name_for_items(engine, :discussions)
+                table_name, = table_name_for_items(engine, :discussions)
     
                 create_table table_name do |t|
-                    t.text :message
+                    t.text :message, null: false
 
                     # Polymorphic target
                     t.string  :discussable_type, null: false
                     t.bigint  :discussable_id,   null: false
 
                     t.timestamps
-                    t.datetime :deleted_at, index: true
                 end
 
                 add_reference(table_name, :user, null: false, foreign_key: { to_table: :lesli_users })
                 add_reference(table_name, :account, null: false, foreign_key: { to_table: "#{engine}_accounts".to_sym })
+                add_index(table_name, [:account_id, :discussable_type, :discussable_id], name: "#{table_name}_discussable_type_id".to_sym)
             end
         end
     end

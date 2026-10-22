@@ -48,8 +48,7 @@ module Lesli
                     true
                 end
 
-                # Automatically sets the associations to the
-                # engine model that is implementing the task items
+                # Resolve the concrete discussion model for the engine.
                 def lesli_discussions_setup(use: nil, as: :discussable, association_name: :discussions)
                     klass = if use
                         use.to_s.constantize
@@ -66,13 +65,8 @@ module Lesli
                         klass.table_name = expected_table
                     end
 
-                    # Set associations
-                    # Example:
-                    # class LesliSupport::Ticket 
-                    #     has_many :lesli_support_tasks
-                    # end
                     has_many(association_name,
-                        -> { where(deleted_at: nil).order(created_at: :desc) },
+                        -> { order(created_at: :desc, id: :desc) },
                         as: as,
                         class_name: klass.name,
                         dependent: :destroy)
@@ -80,12 +74,13 @@ module Lesli
 
                 private
 
-                # Build: "lesli_support_item_activities" from "LesliSupport::Item::Activity"
+                # Build: "lesli_support_items_discussions" from
+                # "LesliSupport::Items::Discussion"
                 #
                 # We DO NOT rely on ActiveRecord's table_name_prefix, because that’s what breaks your case.
                 def lesli_expected_discussions_table_name_for(klass)
-                    parts = klass.name.split("::").map(&:underscore) # ["lesli_support", "item", "discussion"]
-                    "#{parts.join('_').pluralize}"                   # "lesli_support_item_discussions"
+                    parts = klass.name.split("::").map(&:underscore)
+                    "#{parts.join('_').pluralize}"
                 end
             end
         end

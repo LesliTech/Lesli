@@ -47,7 +47,7 @@ module Lesli
             def create
                 discussion = @discussable.discussions.new(discussion_params)
 
-                discussion.user = current_user
+                discussion.author = current_user
                 discussion.account = @discussable.lesli_item_account
 
                 if discussion.save
