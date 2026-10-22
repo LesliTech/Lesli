@@ -39,9 +39,10 @@ module Lesli
         end
 
         test "engine account tables enforce one workspace per core account" do
-            assert_not_empty engine_account_tables
+            account_tables = engine_account_tables
+            skip_without_engine_account_tables(account_tables)
 
-            engine_account_tables.each do |table_name|
+            account_tables.each do |table_name|
                 index = database_connection
                     .indexes(table_name)
                     .find { |candidate| candidate.columns == ["account_id"] }
@@ -52,9 +53,10 @@ module Lesli
         end
 
         test "engine resources reference their local account table" do
-            assert_not_empty engine_account_tables
+            account_tables = engine_account_tables
+            skip_without_engine_account_tables(account_tables)
 
-            engine_account_tables.each do |account_table|
+            account_tables.each do |account_table|
                 engine_resource_tables(account_table).each do |resource_table|
                     foreign_key = account_foreign_key(resource_table)
 
@@ -128,6 +130,12 @@ module Lesli
 
         def database_connection
             ActiveRecord::Base.connection
+        end
+
+        def skip_without_engine_account_tables(account_tables)
+            return if account_tables.any?
+
+            skip "No optional engine account tables are installed"
         end
     end
 end
