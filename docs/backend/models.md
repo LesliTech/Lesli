@@ -232,6 +232,28 @@ non-blank plain text. Messages are escaped when rendered and preserve line
 breaks without interpreting HTML. Discussion tables do not include
 `deleted_at` because the first version does not expose editing or deletion.
 
+Create comments through the discussable resource. The concern assigns the
+polymorphic resource and engine account, raises when the comment is invalid,
+and returns the persisted comment:
+
+```ruby
+comment = ticket.add_comment!(
+  author: current_user,
+  message: "Follow up with the customer"
+)
+```
+
+When an engine configures a different association name,
+`lesli_discussions_setup` stores both the concrete class and association used by
+`add_comment!`:
+
+```ruby
+lesli_discussions_setup(
+  use: "MyEngine::Items::Discussion",
+  association_name: :comments
+)
+```
+
 Tasks require only a non-blank title as domain data. Their account comes from
 the parent resource through `lesli_item_account`, and their user is always a
 Core `Lesli::User`. Tasks do not use soft deletion, so their tables must not

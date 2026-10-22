@@ -38,6 +38,9 @@ module Lesli
 
             included do
                 class_attribute :lesli_discussions_class, instance_accessor: false
+                class_attribute :lesli_discussions_association_name,
+                    instance_accessor: false,
+                    default: :discussions
                 lesli_discussions_setup
             end
 
@@ -57,6 +60,7 @@ module Lesli
                     end
 
                     self.lesli_discussions_class = klass
+                    self.lesli_discussions_association_name = association_name.to_sym
 
                     # ✅ Auto-fix table name (works even when engine defines table_name_prefix)
                     expected_table = lesli_expected_discussions_table_name_for(klass)
@@ -82,6 +86,20 @@ module Lesli
                     parts = klass.name.split("::").map(&:underscore)
                     "#{parts.join('_').pluralize}"
                 end
+            end
+
+            def add_comment!(author:, message:)
+                discussion_association.create!(
+                    author: author,
+                    account: lesli_item_account,
+                    message: message
+                )
+            end
+
+            private
+
+            def discussion_association
+                public_send(self.class.lesli_discussions_association_name)
             end
         end
     end
