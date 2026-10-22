@@ -49,7 +49,7 @@ Set `@application_html_title` and `@application_html_description` when a page ne
 4. Optional sidebar and the page content
 5. A Turbo-permanent SVG icon library
 
-The shared asset partial loads the global LesliAssets stylesheet, the LesliView stylesheet, the current engine's `application.tailwind` stylesheet, and the shared JavaScript bundle.
+The shared asset partial loads the global LesliAssets stylesheet, the LesliView stylesheet, the current engine's `application` stylesheet, and the shared JavaScript bundle.
 
 ### Public and authentication pages
 

@@ -306,7 +306,7 @@ The controllers use standard Rails strong parameters and redirects. Persistence 
 
 ## 5. Build the User Interface
 
-Lesli Core already depends on LesliView and LesliAssets. The shared application layout expects a host stylesheet at `app/assets/stylesheets/application.tailwind.css`. Create it with the styles used by this tutorial:
+Lesli Core already depends on LesliView and LesliAssets. The shared application layout expects a host stylesheet at `app/assets/stylesheets/application.css`. Create it with the styles used by this tutorial:
 
 ```css
 /* Host application styles loaded by the Lesli application layout. */
@@ -553,7 +553,7 @@ bin/rails test
 
 ### Troubleshooting
 
-* **The Lesli layout reports a missing `application.tailwind` asset:** confirm that `app/assets/stylesheets/application.tailwind.css` exists.
+* **The Lesli layout reports a missing `application` asset:** confirm that `app/assets/stylesheets/application.css` exists.
 * **A Lesli resource generator references `ENGINE_ROOT`:** use the Rails model and controller commands shown above. The Lesli resource generators currently target Engine repositories.
 * **A route is missing or shadowed:** run `bin/rails routes` and confirm both `Lesli::Router.mount(self)` and the `resources :projects` block are present.
 * **A migration was edited after it already ran:** create a corrective Rails migration, or roll back that migration in development before running `bin/rails lesli:db:prepare` again.

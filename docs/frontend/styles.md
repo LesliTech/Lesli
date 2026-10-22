@@ -5,9 +5,9 @@ Lesli uses Tailwind CSS for framework and engine interfaces. LesliAssets owns th
 The source files and generated Rails assets are intentionally separate:
 
 ```text
-source/tailwind/application.tailwind.css
+source/tailwind/application.css
         ↓ build
-app/assets/stylesheets/<package_name>/application.tailwind.css
+app/assets/stylesheets/<package_name>/application.css
 ```
 
 Edit files under `source/tailwind`. Files under `app/assets/stylesheets` are generated output and will be replaced by the next build.
@@ -20,9 +20,9 @@ The authenticated Lesli layout loads three stylesheets in order:
 
 | Stylesheet | Responsibility |
 | --- | --- |
-| `lesli_assets/application.tailwind` | Base theme, design tokens, fonts, icons, and application-shell utilities |
-| `lesli_view/view.tailwind` | Utilities and component styles provided by LesliView |
-| `<current_engine>/application.tailwind` | Utilities and rules used by the current engine |
+| `lesli_assets/application` | Base theme, design tokens, fonts, icons, and application-shell utilities |
+| `lesli_view/view` | Utilities and component styles provided by LesliView |
+| `<current_engine>/application` | Utilities and rules used by the current engine |
 
 Because the engine stylesheet loads last, use it for feature-specific presentation. Changes that should affect every engine belong in LesliAssets; reusable component styles belong with the corresponding LesliView component.
 
@@ -30,7 +30,7 @@ Because the engine stylesheet loads last, use it for feature-specific presentati
 
 ## Create an Engine Entrypoint
 
-Place the entrypoint at `source/tailwind/application.tailwind.css` in the engine:
+Place the entrypoint at `source/tailwind/application.css` in the engine:
 
 ```css
 @layer theme, components, utilities;
@@ -63,7 +63,7 @@ STATUS_CLASSES = {
 
 ## Build Stylesheets
 
-The LesliAssets builder discovers every `*.tailwind.css` file below a `source/tailwind` directory in the workspace and compiles each one into its package's Rails asset directory.
+The LesliAssets builder discovers every `.css` file placed directly inside a `source/tailwind` directory in the workspace. It compiles each one into its package's Rails asset directory. Keep imported partials in subdirectories such as `settings`, `fonts`, or `components` so the builder does not compile them independently.
 
 From `gems/LesliAssets`, run:
 
@@ -83,10 +83,11 @@ Build minified production assets with:
 make prod.tailwind
 ```
 
-The builder excludes dependency, temporary, version-control, and generated asset directories. If a new entrypoint is not discovered, verify both parts of its name and location:
+The builder excludes dependency, temporary, version-control, and generated asset directories. If a new entrypoint is not discovered, verify that it is a CSS file placed directly in the entrypoint directory:
 
 ```text
-<package>/source/tailwind/<name>.tailwind.css
+<package>/source/tailwind/application.css
+<package>/source/tailwind/<specialized-name>.css
 ```
 
 ---
