@@ -5,6 +5,9 @@
       activities:
         empty: Todavía no se ha registrado actividad.
         unknown_actor: Usuario desconocido
+      discussions:
+        created: Comentario agregado exitosamente
+        invalid: No se pudo agregar el comentario
       tasks:
         add: Agregar tarea
         complete_action: Marcar tarea como completada

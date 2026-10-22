@@ -116,7 +116,7 @@ The helper declares:
 
 * The engine root and singleton `dashboard` routes
 * `items/tasks` routes for `create` and `update`
-* `items/discussions` routes for `index`, `create`, and `update`
+* An `items/discussions` route for `create`
 * An `up` health-check route
 
 Use this helper only when the engine provides the corresponding dashboard and item controllers.

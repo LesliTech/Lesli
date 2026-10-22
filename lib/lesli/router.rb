@@ -77,7 +77,7 @@ module Lesli
                 router.resources :tasks, only: %i[update create]
 
                 # Load item discussions
-                router.resources :discussions, only: %i[index update create]
+                router.resources :discussions, only: :create
 
                 # Load attachments
                 router.resources :attachments, only: %i[index show create destroy]

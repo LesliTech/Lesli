@@ -33,79 +33,45 @@ Building a better future, one line of code at a time.
 module Lesli
     module Items
         class DiscussionsController < ApplicationLesliController
-            before_action :set_discussion, only: %i[show update]
-            before_action :set_discussable, only: %i[index create]
-
-            def index
-                @discussions = @discussable.discussions
-                respond_with_lesli(json: @discussions)
-            end
-
-            def show
-            end
+            before_action :set_discussable, only: :create
 
             def create
-                discussion = @discussable.discussions.new(discussion_params)
+                comment = @discussable.add_comment!(
+                    author: current_user,
+                    message: discussion_params[:message]
+                )
 
-                discussion.author = current_user
-                discussion.account = @discussable.lesli_item_account
-
-                if discussion.save
-                    respond_with_lesli(:turbo => [
-                        stream_notification_success("Discussion created"),
-                        turbo_stream.prepend("#{scope_key}-lesli-items-discussions-list") do
-                            LesliView::Items::Discussion.new(discussion).render_in(view_context)
-                        end
-                    ])
-                else
-                    respond_with_lesli(
-                        :turbo => stream_notification_danger(discussion.errors.full_messages)
-                    )
-                end
-            end
-
-            def update
-                @discussion.done = true
-                @discussion.save
-                respond_with_lesli(:turbo => [
-                    stream_notification_success("Discussion updated"),
-                    turbo_stream.replace(helpers.dom_id(@discussion, scope_key)) do 
-                        LesliView::Items::Discussion.new(@discussion, scope_key).render_in(view_context)
-                    end
-                ])
+                message = I18n.t("lesli.items.discussions.created")
+                respond_with_lesli(
+                    turbo: [
+                        stream_notification_success(message),
+                        comment_stream(comment)
+                    ],
+                    json: {
+                        message: message,
+                        comment: comment_payload(comment)
+                    },
+                    status: :created
+                )
+            rescue ActiveRecord::RecordInvalid => error
+                respond_with_comment_errors(error.record)
             end
 
             private
 
-            # return a key to identify the engine where the tasks are running
-            def scope_key = ActiveSupport::Inflector.underscore(discussion_class.name).tr("/", "_")
-
-            # return the discussion class including the engine where the tasks are running
-            def discussion_class = self.class.module_parent.const_get("Discussion")
-
-            # validate we invoke only models that implements Lesli::Item::Discussions concern
-            def validate_discussable(discussable)
-                klass = discussable.safe_constantize
+            def discussable_class
+                klass = params.require(:discussable_type).safe_constantize
 
                 return klass if klass&.respond_to?(:is_lesli_commentable?) &&
                     klass.is_lesli_commentable?
 
-                raise ActiveRecord::RecordNotFound,
-                    "Unauthorized discussable type"
+                raise ActiveRecord::RecordNotFound
             end
 
-            def set_discussion
-                @discussion = discussion_class.find(params[:id])
-                ensure_discussable_access!(@discussion.discussable)
-            end
-
-            # Permite filtrar/crear para un actionable específico:
-            # params: actionable_type=LesliSupport::Ticket&actionable_id=123
             def set_discussable
-                type = params.require(:discussable_type)
-                id = params.require(:discussable_id)
-
-                @discussable = validate_discussable(type).find(id)
+                @discussable = discussable_class.find(
+                    params.require(:discussable_id)
+                )
                 ensure_discussable_access!(@discussable)
             end
 
@@ -116,8 +82,55 @@ module Lesli
                 raise ActiveRecord::RecordNotFound unless allowed
             end
 
+            def discussion_class
+                @discussable.class.lesli_discussions_class
+            end
+
+            def scope_key
+                ActiveSupport::Inflector
+                    .underscore(discussion_class.name)
+                    .tr("/", "_")
+            end
+
             def discussion_params
                 params.require(scope_key.to_sym).permit(:message)
+            end
+
+            def comment_stream(comment)
+                turbo_stream.prepend(
+                    "#{scope_key}-lesli-items-discussions-list"
+                ) do
+                    LesliView::Items::Discussion
+                        .new(comment)
+                        .render_in(view_context)
+                end
+            end
+
+            def comment_payload(comment)
+                {
+                    id: comment.id,
+                    message: comment.message,
+                    discussable_type: comment.discussable_type,
+                    discussable_id: comment.discussable_id,
+                    author: {
+                        id: comment.user_id,
+                        name: comment.author.name
+                    },
+                    created_at: comment.created_at,
+                    updated_at: comment.updated_at
+                }
+            end
+
+            def respond_with_comment_errors(comment)
+                message = I18n.t("lesli.items.discussions.invalid")
+                respond_with_lesli(
+                    turbo: stream_notification_danger(message),
+                    json: {
+                        message: message,
+                        errors: comment.errors
+                    },
+                    status: :unprocessable_content
+                )
             end
         end
     end
