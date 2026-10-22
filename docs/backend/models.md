@@ -306,6 +306,13 @@ bin/rails active_storage:install
 bin/rails db:migrate
 ```
 
+This standard Rails generator creates the shared `active_storage_blobs`,
+`active_storage_attachments`, and `active_storage_variant_records` tables.
+Lesli's item migration helper creates only the engine's domain table, and
+`lesli:db:prepare` does not generate the Active Storage migration. Skip the
+generator when the host application already has those tables or an equivalent
+pending migration.
+
 The shared item concerns obtain ownership from `lesli_item_account`, which
 returns the parent resource's direct account by default. Access checks unwrap
 that engine account to its owning `Lesli::Account` when comparing it with the
