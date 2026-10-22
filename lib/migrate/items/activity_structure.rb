@@ -61,7 +61,7 @@ module MigrationHelpers
 
                 add_reference(table_name, :user, null: false, foreign_key: { to_table: :lesli_users })
                 add_reference(table_name, :account, null: false, foreign_key: { to_table: "#{engine}_accounts".to_sym })
-                add_index(table_name, [:account_id, :subject_type, :subject_id, :created_at], name: "#{table_name}_timeline")
+                add_index(table_name, [:subject_type, :subject_id, :deleted_at, :created_at, :id], name: "#{table_name}_timeline")
             end
         end
     end

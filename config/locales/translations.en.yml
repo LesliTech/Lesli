@@ -2,6 +2,9 @@
 :en:
   lesli:
     items:
+      activities:
+        empty: No activities have been recorded yet.
+        unknown_actor: Unknown user
       attachments:
         add: Add file
         category: Category

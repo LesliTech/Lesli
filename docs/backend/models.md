@@ -160,6 +160,16 @@ By default, each concern expects a matching namespaced model:
 
 The corresponding item tables and polymorphic columns must also exist. If an engine uses different classes or association names, call the concern's setup method with its `use`, `as`, or `association_name` options.
 
+When `association_name` is customized, `record_activity!` writes through that
+configured association:
+
+```ruby
+lesli_activities_setup(
+  use: "MyEngine::Items::Activity",
+  association_name: :activity_history
+)
+```
+
 Activity records follow a shared ownership contract:
 
 * `subject` is the resource affected by the event.
@@ -209,6 +219,11 @@ def lesli_item_account
   account
 end
 ```
+
+Activities provide an operational timeline for a resource. They are removed
+with their subject and should not be used as a substitute for an immutable
+audit log. Use LesliAudit when records must survive resource deletion or meet
+audit-retention requirements.
 
 Attachment models inherit from `Lesli::Items::Attachment` and use Active
 Storage for the file body and technical metadata. The engine table stores the

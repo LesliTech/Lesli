@@ -2,6 +2,9 @@
 :es:
   lesli:
     items:
+      activities:
+        empty: Todavía no se ha registrado actividad.
+        unknown_actor: Usuario desconocido
       attachments:
         add: Agregar archivo
         category: Categoría

@@ -37,6 +37,9 @@ module Lesli
             
             included do
                 class_attribute :lesli_activities_class, instance_accessor: false
+                class_attribute :lesli_activities_association_name,
+                    instance_accessor: false,
+                    default: :activities
                 lesli_activities_setup
             end
 
@@ -52,6 +55,7 @@ module Lesli
                     end
 
                     self.lesli_activities_class = klass
+                    self.lesli_activities_association_name = association_name.to_sym
 
                     # Set associations
                     # Example:
@@ -59,16 +63,15 @@ module Lesli
                     #     has_many :activities, class_name: "LesliSupport::Items::Activity"
                     # end
                     has_many(association_name,
-                        -> { where(deleted_at: nil).order(created_at: :desc) },
+                        -> {
+                            where(deleted_at: nil)
+                                .order(created_at: :desc, id: :desc)
+                        },
                         as: as,
                         class_name: klass.name,
                         dependent: :destroy
                     )
                 end
-            end
-
-            def after_save_activities
-                Termline.warn "You need to define your activity methods in your model"
             end
 
             def record_activity!(
@@ -78,7 +81,7 @@ module Lesli
                 metadata: {},
                 activity_type: :activity
             )
-                activities.create!(
+                activity_association.create!(
                     actor: actor,
                     account: lesli_item_account,
                     activity_code: code,
@@ -90,6 +93,12 @@ module Lesli
 
             def lesli_item_account
                 account
+            end
+
+            private
+
+            def activity_association
+                public_send(self.class.lesli_activities_association_name)
             end
         end
     end
