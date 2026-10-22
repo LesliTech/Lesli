@@ -68,16 +68,16 @@ Gem::Specification.new do |spec|
 
 
     # Ruby version
-    spec.required_ruby_version = ">= 3.0", "< 4.0"
+    spec.required_ruby_version = ">= 3.3", "< 4.0"
 
 
     # · RAILS: gem, dependencies and tools
 
     # Rails framework
-    spec.add_dependency("rails", "~> 8.1")
+    spec.add_dependency("rails", "~> 8.1.0")
 
     # A set of common locale data and translations to internationalize and/or localize your Rails applications.
-    spec.add_dependency("rails-i18n", "~> 8.1")
+    spec.add_dependency("rails-i18n", "~> 8.1.0")
 
     # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
     spec.add_dependency("turbo-rails", "~> 2.0.0")
