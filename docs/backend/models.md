@@ -225,6 +225,12 @@ Task, discussion, activity, and attachment records belong to the same engine
 account as their parent resource. Their abstract Core models deliberately do
 not select an account class; every concrete engine item declares it.
 
+Tasks require only a non-blank title as domain data. Their account comes from
+the parent resource through `lesli_item_account`, and their user is always a
+Core `Lesli::User`. Tasks do not use soft deletion, so their tables must not
+include `deleted_at`. The shared routes expose index, create, and completion
+updates; there is no individual task deletion operation.
+
 Attachment models inherit from `Lesli::Items::Attachment` and use Active
 Storage for the file body and technical metadata. The engine table stores the
 engine account, Core uploader, polymorphic resource, label, and category:

@@ -34,8 +34,11 @@ module Lesli
     module Items
         class Task < ApplicationRecord
             self.abstract_class = true
+
             belongs_to :user, class_name: "Lesli::User"
             belongs_to :taskable, polymorphic: true
+
+            validates :title, presence: true
         end
     end
 end

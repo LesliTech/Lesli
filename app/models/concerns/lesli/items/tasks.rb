@@ -72,23 +72,24 @@ module Lesli
                     #     has_many :lesli_support_tasks
                     # end
                     has_many(association_name,
-                        -> { where(deleted_at: nil).order(created_at: :desc) },
+                        -> { order(created_at: :desc) },
                         as: as,
                         class_name: klass.name,
                         dependent: :destroy)
                 rescue NameError
                     raise NameError,
-                    "Task class not found for #{name}. Expected #{name.deconstantize}::Task or pass `use:`"
+                    "Task class not found for #{name}. Expected #{name.deconstantize}::Items::Task or pass `use:`"
                 end
 
                 private
 
-                # Build: "lesli_support_item_activities" from "LesliSupport::Item::Activity"
+                # Build "lesli_support_items_tasks" from
+                # "LesliSupport::Items::Task".
                 #
-                # We DO NOT rely on ActiveRecord's table_name_prefix, because that’s what breaks your case.
+                # Do not rely on Active Record's table_name_prefix here.
                 def lesli_expected_task_table_name_for(klass)
-                    parts = klass.name.split("::").map(&:underscore) # ["lesli_support", "item", "task"]
-                    "#{parts.join('_').pluralize}"                   # "lesli_support_item_tasks"
+                    parts = klass.name.split("::").map(&:underscore)
+                    parts.join("_").pluralize
                 end
             end
         end

@@ -46,7 +46,6 @@ module MigrationHelpers
                     t.bigint  :taskable_id,   null: false
 
                     t.timestamps
-                    t.datetime :deleted_at, index: true
                 end
 
                 add_reference(table_name, :user, null: false, foreign_key: { to_table: :lesli_users })
