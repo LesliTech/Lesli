@@ -94,13 +94,16 @@ module Lesli
             end
 
             def taskable_class
-                klass = params.require(:taskable_type).safe_constantize
-
-                return klass if klass&.respond_to?(:is_lesli_taskable?) &&
-                    klass.is_lesli_taskable?
-
-                raise ActiveRecord::RecordNotFound,
+                allowed_taskable_classes.find do |klass|
+                    klass.name == params.require(:taskable_type)
+                end || raise(
+                    ActiveRecord::RecordNotFound,
                     "Unauthorized taskable type"
+                )
+            end
+
+            def allowed_taskable_classes
+                []
             end
 
             def set_task

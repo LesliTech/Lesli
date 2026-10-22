@@ -123,15 +123,16 @@ module Lesli
             end
 
             def attachable_class
-                klass = params[:attachable_type].to_s.safe_constantize
+                allowed_attachable_classes.find do |klass|
+                    klass.name == params.require(:attachable_type)
+                end || raise(
+                    ActiveRecord::RecordNotFound,
+                    "Unauthorized attachable type"
+                )
+            end
 
-                unless klass&.respond_to?(:is_lesli_attachable?) &&
-                    klass.is_lesli_attachable?
-                    raise ActiveRecord::RecordNotFound,
-                        "Unauthorized attachable type"
-                end
-
-                klass
+            def allowed_attachable_classes
+                []
             end
 
             def set_attachable

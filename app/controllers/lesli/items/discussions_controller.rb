@@ -61,12 +61,16 @@ module Lesli
             private
 
             def discussable_class
-                klass = params.require(:discussable_type).safe_constantize
+                allowed_discussable_classes.find do |klass|
+                    klass.name == params.require(:discussable_type)
+                end || raise(
+                    ActiveRecord::RecordNotFound,
+                    "Unauthorized discussable type"
+                )
+            end
 
-                return klass if klass&.respond_to?(:is_lesli_commentable?) &&
-                    klass.is_lesli_commentable?
-
-                raise ActiveRecord::RecordNotFound
+            def allowed_discussable_classes
+                []
             end
 
             def set_discussable
