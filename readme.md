@@ -75,7 +75,7 @@ Lesli core and its official engines provide:
 
 ### Requirements
 
-- Ruby 3.2 or newer
+- Ruby 3.3 or newer
 - Rails 8.1
 - SQLite, included in the default Rails application
 

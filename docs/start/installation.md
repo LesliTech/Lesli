@@ -4,7 +4,7 @@ Add Lesli to a Rails application, prepare its database, and confirm the shared f
 
 ## Requirements
 
-* Ruby **3.2 or newer**
+* Ruby **3.3 or newer**
 * Rails **8.1**
 * SQLite, included with a default Rails application, or PostgreSQL
 

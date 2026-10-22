@@ -55,15 +55,20 @@ Gem::Specification.new do |spec|
     spec.metadata["source_code_uri"]    = "https://github.com/LesliTech/Lesli"
     spec.metadata["bug_tracker_uri"]    = "https://github.com/LesliTech/Lesli/issues"
     spec.metadata["documentation_uri"]  = "https://www.lesli.dev/lesli/"
+    spec.metadata["rubygems_mfa_required"] = "true"
 
     spec.files = Dir.chdir(File.expand_path(__dir__)) do
         Dir[
             "{app,config,db,lib}/**/*",
+
+            # Shared Core fixtures used by LesliTesting when downstream engines
+            # run their tests against the published Lesli gem.
             "test/fixtures/**/*",
+
             "license",
             "Rakefile",
             "readme.md"
-        ]
+        ].reject { |path| path == "config/brakeman.yml" }
     end
 
 
@@ -100,7 +105,7 @@ Gem::Specification.new do |spec|
     # Reusable View Components for The Lesli Framework 
     spec.add_dependency("lesli_view", "~> 1.1.0")
 
-    # Reusable View Components for The Lesli Framework 
+    # Shared frontend assets for the Lesli Framework
     spec.add_dependency("lesli_assets", "~> 1.1.0")
 
     # Core System Utilities for The Lesli Framework.
