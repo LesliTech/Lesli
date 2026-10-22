@@ -31,17 +31,17 @@ Building a better future, one line of code at a time.
 =end
 
 
-
 # get the account information
-account = Lesli::Account.first
+account = Lesli::Account.find_by!(email: Lesli.config.company.fetch(:email))
 
 
-# try to extract the domain name from the main email address
-email_domain = account[:email].scan(/.*@(\S+)/)&.first&.first
+# extract the domain name from the main email address
+email_domain = account.email.to_s.split("@", 2).second
+raise ArgumentError, "The account email must include a domain" if email_domain.blank?
 
 
 # get the emails for the initial accounts
-emailowner = account[:email]
+emailowner = account.email
 emailadmin = "admin@#{email_domain}"
 emailguest = "guest@#{email_domain}"
 
@@ -64,9 +64,9 @@ end
 
 
 # create the owner user for the account, 
-create_account_user(emailowner, "owner", "Owner", account[:company_name], passowner)
-create_account_user(emailadmin, "admin", "Admin", account[:company_name], passadmin)
-create_account_user(emailguest, "guest", "Guest", account[:company_name], passguest)
+create_account_user(account: account, email: emailowner, role_name: "owner", first_name: "Owner", last_name: account.name, password: passowner)
+create_account_user(account: account, email: emailadmin, role_name: "admin", first_name: "Admin", last_name: account.name, password: passadmin)
+create_account_user(account: account, email: emailguest, role_name: "guest", first_name: "Guest", last_name: account.name, password: passguest)
 
 
 # print some separators so will be easy to find these messages later

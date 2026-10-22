@@ -4,17 +4,24 @@ load Lesli::Engine.root.join("db", "seed", "xyz.rb")
 
 module Lesli
     class UserSeederTest < ActiveSupport::TestCase
+        setup do
+            if Lesli::User.new.respond_to?(:password=)
+                skip "LesliShield is loaded; its seeder contract is tested separately"
+            end
+        end
+
         test "creates users without an authentication engine" do
             with_seed_account do |account|
                 email = "core-seed-#{SecureRandom.hex(4)}@example.com"
 
                 assert_difference -> { Lesli::User.count }, 1 do
                     create_account_user(
-                        email,
-                        "owner",
-                        "Core",
-                        "User",
-                        "NotUsed123!"
+                        account: account,
+                        email: email,
+                        role_name: "owner",
+                        first_name: "Core",
+                        last_name: "User",
+                        password: "NotUsed123!"
                     )
                 end
 
@@ -29,24 +36,26 @@ module Lesli
         end
 
         test "does not duplicate an existing core user" do
-            with_seed_account do
+            with_seed_account do |account|
                 email = "existing-core-seed-#{SecureRandom.hex(4)}@example.com"
 
                 create_account_user(
-                    email,
-                    "owner",
-                    "Core",
-                    "User",
-                    "NotUsed123!"
+                    account: account,
+                    email: email,
+                    role_name: "owner",
+                    first_name: "Core",
+                    last_name: "User",
+                    password: "NotUsed123!"
                 )
 
                 assert_no_difference -> { Lesli::User.count } do
                     create_account_user(
-                        email,
-                        "owner",
-                        "Updated",
-                        "User",
-                        "StillNotUsed123!"
+                        account: account,
+                        email: email,
+                        role_name: "owner",
+                        first_name: "Updated",
+                        last_name: "User",
+                        password: "StillNotUsed123!"
                     )
                 end
 

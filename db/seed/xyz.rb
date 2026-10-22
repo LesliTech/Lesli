@@ -30,37 +30,48 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-def create_account_user email, rolename, firstname, lastname, password
-
-    account = Lesli::Account.find_by(email: Lesli.config.company.dig(:email))
-
-    # create development users if email is not registered yet
+def create_account_user(account:, email:, role_name:, first_name:, last_name:, password: nil)
     user = Lesli::User.find_or_initialize_by(email: email)
+    authentication_enabled =
+        user.respond_to?(:password=) &&
+        user.respond_to?(:password_confirmation=)
+    credentials_created = false
 
-    # Basic user account information
-    user.account = account
-    user.first_name = firstname
-    user.last_name = lastname
+    Lesli::User.transaction do
+        user.assign_attributes(
+            account: account,
+            first_name: first_name,
+            last_name: last_name
+        )
 
-    lesli_shield_credentials = false
+        # LesliShield installs Devise directly on the Core user model. Checking
+        # the model capability keeps this seeder independent from Devise and
+        # allows Lesli Core to seed users without an authentication engine.
+        if authentication_enabled && user.encrypted_password.blank?
+            raise ArgumentError, "A password is required when authentication is enabled" if password.blank?
 
-    # Create devise credentials if LesliShield is present
-    if user.respond_to?(:password=) && user.encrypted_password.blank?
-        user.password = password
-        user.password_confirmation = password
-        user.skip_confirmation!
-        lesli_shield_credentials = true
+            user.password = password
+            user.password_confirmation = password
+            user.skip_confirmation! if user.respond_to?(:skip_confirmation!)
+            credentials_created = true
+        end
+
+        user.save!
+
+        # Role assignments are owned by LesliShield and should only be created
+        # when its concrete join model is available.
+        if authentication_enabled && defined?(LesliShield::User::Role)
+            role = account.roles.find_by!(name: role_name)
+            user.user_roles.find_or_create_by!(role: role)
+        end
     end
 
-    user.save!
-
-    # Create Lesli roles if LesliShield is present
-    if defined?(LesliShield)
-        role = Lesli::Role.find_by!(name: rolename)
-        user.user_roles.find_or_create_by!(role: role)
+    if credentials_created
+        Termline.success(
+            "#{role_name.capitalize} user created successfully with " \
+            "email: #{email} and password: #{password}"
+        )
     end
 
-    if lesli_shield_credentials
-        Termline.success("#{rolename.capitalize} user created successfully with email: #{email} and password: #{password}")
-    end
+    user
 end
