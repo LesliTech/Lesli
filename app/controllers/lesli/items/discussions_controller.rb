@@ -40,12 +40,13 @@ module Lesli
                     author: current_user,
                     message: discussion_params[:message]
                 )
+                refresh_discussions
 
                 message = I18n.t("lesli.items.discussions.created")
                 respond_with_lesli(
                     turbo: [
                         stream_notification_success(message),
-                        comment_stream(comment)
+                        discussions_stream
                     ],
                     json: {
                         message: message,
@@ -96,12 +97,19 @@ module Lesli
                 params.require(scope_key.to_sym).permit(:message)
             end
 
-            def comment_stream(comment)
-                turbo_stream.prepend(
-                    "#{scope_key}-lesli-items-discussions-list"
+            def refresh_discussions
+                association_name =
+                    @discussable.class.lesli_discussions_association_name
+
+                @discussable.public_send(association_name).reset
+            end
+
+            def discussions_stream(comment: nil)
+                turbo_stream.replace(
+                    helpers.dom_id(@discussable, :discussions)
                 ) do
-                    LesliView::Items::Discussion
-                        .new(comment)
+                    LesliView::Items::Discussions
+                        .new(@discussable, comment: comment)
                         .render_in(view_context)
                 end
             end
@@ -122,9 +130,13 @@ module Lesli
             end
 
             def respond_with_comment_errors(comment)
+                refresh_discussions
                 message = I18n.t("lesli.items.discussions.invalid")
                 respond_with_lesli(
-                    turbo: stream_notification_danger(message),
+                    turbo: [
+                        stream_notification_danger(message),
+                        discussions_stream(comment: comment)
+                    ],
                     json: {
                         message: message,
                         errors: comment.errors

@@ -6,8 +6,11 @@
         empty: No activities have been recorded yet.
         unknown_actor: Unknown user
       discussions:
+        add: Add comment
         created: Comment added successfully
+        empty: No comments have been added yet.
         invalid: Comment could not be added
+        unknown_author: Unknown user
       tasks:
         add: Add task
         complete_action: Mark task as complete
