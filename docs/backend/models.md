@@ -230,7 +230,8 @@ the parent resource through `lesli_item_account`, and their user is always a
 Core `Lesli::User`. Tasks do not use soft deletion, so their tables must not
 include `deleted_at`. The shared routes expose task creation and completion;
 there are no individual show, index, or deletion operations. The parent
-resource supplies the task collection when its page is rendered.
+resource supplies the task collection when its page is rendered. Completion is
+reversible: the update endpoint toggles a task between completed and pending.
 
 Create a task through the taskable resource. The concern assigns the
 polymorphic resource and engine account automatically, raises when the task is

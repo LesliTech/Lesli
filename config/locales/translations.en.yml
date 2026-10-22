@@ -7,8 +7,12 @@
         unknown_actor: Unknown user
       tasks:
         add: Add task
+        complete_action: Mark task as complete
+        completed: Task completed successfully
         created: Task created successfully
-        updated: Task completed successfully
+        empty: No tasks have been added yet.
+        reopen_action: Mark task as incomplete
+        reopened: Task reopened successfully
       attachments:
         add: Add file
         category: Category

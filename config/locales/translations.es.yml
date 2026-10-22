@@ -7,8 +7,12 @@
         unknown_actor: Usuario desconocido
       tasks:
         add: Agregar tarea
+        complete_action: Marcar tarea como completada
+        completed: Tarea completada exitosamente
         created: Tarea creada exitosamente
-        updated: Tarea completada exitosamente
+        empty: Todavía no se han agregado tareas.
+        reopen_action: Marcar tarea como pendiente
+        reopened: Tarea reabierta exitosamente
       attachments:
         add: Agregar archivo
         category: Categoría

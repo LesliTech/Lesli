@@ -41,14 +41,13 @@ module Lesli
                     creator: current_user,
                     title: task_params[:title]
                 )
+                refresh_tasks
 
                 message = I18n.t("lesli.items.tasks.created")
                 respond_with_lesli(
                     turbo: [
                         stream_notification_success(message),
-                        turbo_stream.prepend(tasks_list_id) do
-                            render_task(task)
-                        end
+                        tasks_stream
                     ],
                     json: {
                         message: message,
@@ -61,9 +60,9 @@ module Lesli
             end
 
             def update
-                @task.update!(done: true)
+                @task.update!(done: !@task.done?)
 
-                message = I18n.t("lesli.items.tasks.updated")
+                message = task_status_message
                 respond_with_lesli(
                     turbo: [
                         stream_notification_success(message),
@@ -127,10 +126,6 @@ module Lesli
                 params.require(scope_key.to_sym).permit(:title)
             end
 
-            def tasks_list_id
-                "#{scope_key}-lesli-items-tasks-list"
-            end
-
             def render_task(task)
                 LesliView::Items::Task
                     .new(task, scope_key)
@@ -153,11 +148,42 @@ module Lesli
                 }
             end
 
+            def refresh_tasks
+                association_name =
+                    @taskable.class.lesli_tasks_association_name
+
+                @taskable.public_send(association_name).reset
+            end
+
+            def task_status_message
+                status = @task.done? ? :completed : :reopened
+                I18n.t("lesli.items.tasks.#{status}")
+            end
+
+            def tasks_stream(task: nil)
+                turbo_stream.replace(
+                    helpers.dom_id(@taskable, :tasks)
+                ) do
+                    LesliView::Items::Tasks
+                        .new(@taskable, task: task)
+                        .render_in(view_context)
+                end
+            end
+
             def respond_with_task_errors(task)
-                respond_with_lesli(
-                    turbo: stream_notification_danger(
+                turbo = [
+                    stream_notification_danger(
                         task.errors.full_messages.to_sentence
-                    ),
+                    )
+                ]
+
+                if task.new_record?
+                    refresh_tasks
+                    turbo << tasks_stream(task: task)
+                end
+
+                respond_with_lesli(
+                    turbo: turbo,
                     json: { errors: task.errors },
                     status: :unprocessable_content
                 )
