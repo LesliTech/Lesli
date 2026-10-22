@@ -115,7 +115,7 @@ end
 The helper declares:
 
 * The engine root and singleton `dashboard` routes
-* `items/tasks` routes for `index`, `create`, and `update`
+* `items/tasks` routes for `create` and `update`
 * `items/discussions` routes for `index`, `create`, and `update`
 * An `up` health-check route
 

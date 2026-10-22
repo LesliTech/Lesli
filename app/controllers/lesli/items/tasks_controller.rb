@@ -33,16 +33,8 @@ Building a better future, one line of code at a time.
 module Lesli
     module Items
         class TasksController < ApplicationLesliController
-            before_action :set_task, only: %i[show update]
-            before_action :set_taskable, only: %i[index create]
-
-            def index
-                @tasks = @taskable.tasks
-                respond_with_lesli(json: @tasks)
-            end
-
-            def show
-            end
+            before_action :set_taskable, only: :create
+            before_action :set_task, only: :update
 
             def create
                 task = @taskable.add_task!(
@@ -50,42 +42,60 @@ module Lesli
                     title: task_params[:title]
                 )
 
-                respond_with_lesli(:turbo => [
-                    stream_notification_success("Task created"),
-                    turbo_stream.prepend("#{scope_key}-lesli-items-tasks-list") do
-                        LesliView::Items::Task.new(task, scope_key).render_in(view_context)
-                    end
-                ])
-            rescue ActiveRecord::RecordInvalid => error
+                message = I18n.t("lesli.items.tasks.created")
                 respond_with_lesli(
-                    :turbo => stream_notification_danger(
-                        error.record.errors.full_messages
-                    )
+                    turbo: [
+                        stream_notification_success(message),
+                        turbo_stream.prepend(tasks_list_id) do
+                            render_task(task)
+                        end
+                    ],
+                    json: {
+                        message: message,
+                        task: task_payload(task)
+                    },
+                    status: :created
                 )
+            rescue ActiveRecord::RecordInvalid => error
+                respond_with_task_errors(error.record)
             end
 
             def update
-                @task.done = true
-                @task.save
-                respond_with_lesli(:turbo => [
-                    stream_notification_success("Task updated"),
-                    turbo_stream.replace(helpers.dom_id(@task, scope_key)) do 
-                        LesliView::Items::Task.new(@task, scope_key).render_in(view_context)
-                    end
-                ])
+                @task.update!(done: true)
+
+                message = I18n.t("lesli.items.tasks.updated")
+                respond_with_lesli(
+                    turbo: [
+                        stream_notification_success(message),
+                        turbo_stream.replace(
+                            helpers.dom_id(@task, scope_key)
+                        ) do
+                            render_task(@task)
+                        end
+                    ],
+                    json: {
+                        message: message,
+                        task: task_payload(@task)
+                    }
+                )
+            rescue ActiveRecord::RecordInvalid => error
+                respond_with_task_errors(error.record)
             end
 
             private
 
-            # return a key to identify the engine where the tasks are running
-            def scope_key = ActiveSupport::Inflector.underscore(task_class.name).tr("/", "_")
+            def scope_key
+                ActiveSupport::Inflector
+                    .underscore(task_class.name)
+                    .tr("/", "_")
+            end
 
-            # return the task class including the engine where the tasks are running
-            def task_class = self.class.module_parent.const_get("Task")
+            def task_class
+                self.class.module_parent.const_get("Task")
+            end
 
-            # validate we invoke only models that implements Lesli::Item::Tasks concern
-            def validate_taskable(taskable)
-                klass = taskable.safe_constantize
+            def taskable_class
+                klass = params.require(:taskable_type).safe_constantize
 
                 return klass if klass&.respond_to?(:is_lesli_taskable?) &&
                     klass.is_lesli_taskable?
@@ -99,13 +109,10 @@ module Lesli
                 ensure_taskable_access!(@task.taskable)
             end
 
-            # Permite filtrar/crear para un actionable específico:
-            # params: actionable_type=LesliSupport::Ticket&actionable_id=123
             def set_taskable
-                type = params.require(:taskable_type)
-                id = params.require(:taskable_id)
-
-                @taskable = validate_taskable(type).find(id)
+                @taskable = taskable_class.find(
+                    params.require(:taskable_id)
+                )
                 ensure_taskable_access!(@taskable)
             end
 
@@ -118,6 +125,42 @@ module Lesli
 
             def task_params
                 params.require(scope_key.to_sym).permit(:title)
+            end
+
+            def tasks_list_id
+                "#{scope_key}-lesli-items-tasks-list"
+            end
+
+            def render_task(task)
+                LesliView::Items::Task
+                    .new(task, scope_key)
+                    .render_in(view_context)
+            end
+
+            def task_payload(task)
+                {
+                    id: task.id,
+                    title: task.title,
+                    done: task.done?,
+                    taskable_type: task.taskable_type,
+                    taskable_id: task.taskable_id,
+                    creator: {
+                        id: task.user_id,
+                        name: task.user.name
+                    },
+                    created_at: task.created_at,
+                    updated_at: task.updated_at
+                }
+            end
+
+            def respond_with_task_errors(task)
+                respond_with_lesli(
+                    turbo: stream_notification_danger(
+                        task.errors.full_messages.to_sentence
+                    ),
+                    json: { errors: task.errors },
+                    status: :unprocessable_content
+                )
             end
         end
     end

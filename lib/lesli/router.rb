@@ -74,7 +74,7 @@ module Lesli
             router.namespace :items do
 
                 # Load item tasks
-                router.resources :tasks, only: %i[index update create]
+                router.resources :tasks, only: %i[update create]
 
                 # Load item discussions
                 router.resources :discussions, only: %i[index update create]

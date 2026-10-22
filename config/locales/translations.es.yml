@@ -5,6 +5,10 @@
       activities:
         empty: Todavía no se ha registrado actividad.
         unknown_actor: Usuario desconocido
+      tasks:
+        add: Agregar tarea
+        created: Tarea creada exitosamente
+        updated: Tarea completada exitosamente
       attachments:
         add: Agregar archivo
         category: Categoría

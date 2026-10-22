@@ -5,6 +5,10 @@
       activities:
         empty: No activities have been recorded yet.
         unknown_actor: Unknown user
+      tasks:
+        add: Add task
+        created: Task created successfully
+        updated: Task completed successfully
       attachments:
         add: Add file
         category: Category

@@ -228,8 +228,9 @@ not select an account class; every concrete engine item declares it.
 Tasks require only a non-blank title as domain data. Their account comes from
 the parent resource through `lesli_item_account`, and their user is always a
 Core `Lesli::User`. Tasks do not use soft deletion, so their tables must not
-include `deleted_at`. The shared routes expose index, create, and completion
-updates; there is no individual task deletion operation.
+include `deleted_at`. The shared routes expose task creation and completion;
+there are no individual show, index, or deletion operations. The parent
+resource supplies the task collection when its page is rendered.
 
 Create a task through the taskable resource. The concern assigns the
 polymorphic resource and engine account automatically, raises when the task is
