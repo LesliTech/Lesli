@@ -228,8 +228,9 @@ not select an account class; every concrete engine item declares it.
 A discussion is one linear comment, not a reply or a thread. Its `author` is a
 Core `Lesli::User` stored in `user_id`, its `account` belongs to the engine, its
 `discussable` is the polymorphic parent resource, and its `message` must contain
-visible text. Discussion tables do not include `deleted_at` because the first
-version does not expose editing or deletion.
+non-blank plain text. Messages are escaped when rendered and preserve line
+breaks without interpreting HTML. Discussion tables do not include
+`deleted_at` because the first version does not expose editing or deletion.
 
 Tasks require only a non-blank title as domain data. Their account comes from
 the parent resource through `lesli_item_account`, and their user is always a
