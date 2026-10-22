@@ -48,8 +48,8 @@ module MigrationHelpers
                     t.datetime :deleted_at, index: true
                 end
 
-                add_reference(table_name, :user, foreign_key: { to_table: :lesli_users })
-                add_reference(table_name, :account, foreign_key: { to_table: "#{engine}_accounts".to_sym })
+                add_reference(table_name, :user, null: false, foreign_key: { to_table: :lesli_users })
+                add_reference(table_name, :account, null: false, foreign_key: { to_table: "#{engine}_accounts".to_sym })
             end
         end
     end

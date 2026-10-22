@@ -34,6 +34,7 @@ module Lesli
     module Items
         module Tasks
             extend ActiveSupport::Concern
+            include Lesli::Items::Ownership
 
             included do
                 class_attribute :lesli_tasks_class, instance_accessor: false

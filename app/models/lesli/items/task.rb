@@ -35,7 +35,6 @@ module Lesli
         class Task < ApplicationRecord
             self.abstract_class = true
             belongs_to :user, class_name: "Lesli::User"
-            belongs_to :account, class_name: "Lesli::Account"
             belongs_to :taskable, polymorphic: true
         end
     end

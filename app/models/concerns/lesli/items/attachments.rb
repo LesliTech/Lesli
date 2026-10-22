@@ -34,6 +34,7 @@ module Lesli
     module Items
         module Attachments
             extend ActiveSupport::Concern
+            include Lesli::Items::Ownership
 
             included do
                 class_attribute :lesli_attachments_class, instance_accessor: false
@@ -82,16 +83,6 @@ module Lesli
                 end
             end
 
-            # Resources that belong directly to Lesli::Account can use this
-            # implementation. Engine resources whose account is an engine account
-            # must override it and return the owning Lesli::Account.
-            def lesli_item_account
-                account
-            end
-
-            def lesli_item_accessible_by?(user)
-                user.present? && lesli_item_account == user.account
-            end
         end
     end
 end

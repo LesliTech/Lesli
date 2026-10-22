@@ -37,9 +37,7 @@ module Lesli
             before_action :set_taskable, only: %i[index create]
 
             def index
-                @tasks = task_class
-                    .where(account: current_user.account)
-                    .order(created_at: :desc)
+                @tasks = @taskable.tasks
                 respond_with_lesli(json: @tasks)
             end
 
@@ -47,11 +45,10 @@ module Lesli
             end
 
             def create
-                task = task_class.new(task_params)
+                task = @taskable.tasks.new(task_params)
 
                 task.user = current_user
-                task.account = current_user.account
-                task.taskable = @taskable if @taskable
+                task.account = @taskable.lesli_item_account
 
                 if task.save
                     respond_with_lesli(:turbo => [
@@ -71,7 +68,7 @@ module Lesli
                 @task.done = true
                 @task.save
                 respond_with_lesli(:turbo => [
-                    stream_notification_success("Task updated #{@taskable}"),
+                    stream_notification_success("Task updated"),
                     turbo_stream.replace(helpers.dom_id(@task, scope_key)) do 
                         LesliView::Items::Task.new(@task, scope_key).render_in(view_context)
                     end
@@ -87,35 +84,36 @@ module Lesli
             def task_class = self.class.module_parent.const_get("Task")
 
             # validate we invoke only models that implements Lesli::Item::Tasks concern
-            def validate_taskable taskable
-
-                # 1. Attempt to resolve the class safely
+            def validate_taskable(taskable)
                 klass = taskable.safe_constantize
 
-                # 2. VALIDATION: Check if the class is allowed to be taskable
-                # We check if the class exists AND if it includes your specific taskable trait
-                unless klass && klass.respond_to?(:is_lesli_taskable?) && klass.is_lesli_taskable?
-                    render json: { error: "Unauthorized taskable type" }, status: :forbidden and return
-                end
+                return klass if klass&.respond_to?(:is_lesli_taskable?) &&
+                    klass.is_lesli_taskable?
 
-                klass
+                raise ActiveRecord::RecordNotFound,
+                    "Unauthorized taskable type"
             end
 
             def set_task
-                @task = task_class.where(account: current_user.account).find(params[:id])
+                @task = task_class.find(params[:id])
+                ensure_taskable_access!(@task.taskable)
             end
 
             # Permite filtrar/crear para un actionable específico:
             # params: actionable_type=LesliSupport::Ticket&actionable_id=123
             def set_taskable
-                type = params[:taskable_type].presence
-                id   = params[:taskable_id].presence
-                return if type.blank? || id.blank?
+                type = params.require(:taskable_type)
+                id = params.require(:taskable_id)
 
-                taskable = validate_taskable(type)
+                @taskable = validate_taskable(type).find(id)
+                ensure_taskable_access!(@taskable)
+            end
 
-                # 3. Execution: Now it is safe to query
-                @taskable = taskable.where(account: current_user.account).find_by(id: id)
+            def ensure_taskable_access!(taskable)
+                allowed = taskable.respond_to?(:lesli_item_accessible_by?) &&
+                    taskable.lesli_item_accessible_by?(current_user)
+
+                raise ActiveRecord::RecordNotFound unless allowed
             end
 
             def task_params

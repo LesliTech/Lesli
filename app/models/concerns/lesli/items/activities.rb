@@ -34,6 +34,7 @@ module Lesli
     module Items
         module Activities
             extend ActiveSupport::Concern
+            include Lesli::Items::Ownership
             
             included do
                 class_attribute :lesli_activities_class, instance_accessor: false
@@ -89,10 +90,6 @@ module Lesli
                     description: description,
                     metadata: metadata
                 )
-            end
-
-            def lesli_item_account
-                account
             end
 
             private

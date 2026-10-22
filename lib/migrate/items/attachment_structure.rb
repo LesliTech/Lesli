@@ -48,8 +48,8 @@ module MigrationHelpers
                     t.timestamps
                 end
 
-                add_reference(table_name, :user, foreign_key: { to_table: :lesli_users })
-                add_reference(table_name, :account, foreign_key: { to_table: :lesli_accounts })
+                add_reference(table_name, :user, null: false, foreign_key: { to_table: :lesli_users })
+                add_reference(table_name, :account, null: false, foreign_key: { to_table: "#{engine}_accounts".to_sym })
                 add_index(table_name, [:account_id, :attachable_type, :attachable_id], name: "#{table_name}_attachable_type_id".to_sym)
             end
         end

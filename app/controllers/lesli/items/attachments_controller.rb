@@ -59,7 +59,7 @@ module Lesli
             def create
                 attachment = @attachable.attachments.build(attachment_params)
                 attachment.user = current_user
-                attachment.account = current_user.account
+                attachment.account = @attachable.lesli_item_account
 
                 if attachment.save
                     refresh_attachments
@@ -142,7 +142,6 @@ module Lesli
             def set_attachment
                 @attachment = attachment_class
                     .with_attached_file
-                    .where(account: current_user.account)
                     .find(params[:id])
                 ensure_attachable_access!(@attachment.attachable)
             end

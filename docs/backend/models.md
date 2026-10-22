@@ -106,6 +106,22 @@ module MyEngine
 end
 ```
 
+The engine account is a one-to-one workspace for the Core account. Its
+`account_id` must have a unique database index, and the model should mirror
+that constraint:
+
+```ruby
+module MyEngine
+  class Account < ApplicationRecord
+    belongs_to :account,
+      class_name: "Lesli::Account",
+      inverse_of: :my_engine
+
+    validates :account_id, uniqueness: true
+  end
+end
+```
+
 Install it from the engine's reload-safe preparation block:
 
 ```ruby
@@ -225,15 +241,21 @@ with their subject and should not be used as a substitute for an immutable
 audit log. Use LesliAudit when records must survive resource deletion or meet
 audit-retention requirements.
 
+Task, discussion, activity, and attachment records belong to the same engine
+account as their parent resource. Their abstract Core models deliberately do
+not select an account class; every concrete engine item declares it.
+
 Attachment models inherit from `Lesli::Items::Attachment` and use Active
 Storage for the file body and technical metadata. The engine table stores the
-Lesli account, uploader, polymorphic resource, label, and category:
+engine account, Core uploader, polymorphic resource, label, and category:
 
 ```ruby
 module MyEngine
   module Items
     class Attachment < Lesli::Items::Attachment
       self.table_name = "my_engine_items_attachments"
+
+      belongs_to :account, class_name: "MyEngine::Account"
     end
   end
 end
@@ -246,8 +268,10 @@ bin/rails active_storage:install
 bin/rails db:migrate
 ```
 
-An engine resource whose `account` points to an engine-specific account must
-override `lesli_item_account` and return its owning `Lesli::Account`. This is
-used to enforce tenant ownership when files are uploaded or downloaded.
+The shared item concerns obtain ownership from `lesli_item_account`, which
+returns the parent resource's direct account by default. Access checks unwrap
+that engine account to its owning `Lesli::Account` when comparing it with the
+authenticated user. Override these methods only when a resource uses a
+different ownership model.
 
 Include only the concerns for which the engine provides the required models and migrations; missing item classes cause model loading to fail.

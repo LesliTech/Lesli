@@ -61,7 +61,6 @@ module Lesli
                 default: DEFAULT_CONTENT_TYPES
 
             belongs_to :user, class_name: "Lesli::User"
-            belongs_to :account, class_name: "Lesli::Account"
             belongs_to :attachable, polymorphic: true
 
             has_one_attached :file

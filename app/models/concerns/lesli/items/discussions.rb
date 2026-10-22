@@ -34,6 +34,7 @@ module Lesli
     module Items
         module Discussions
             extend ActiveSupport::Concern
+            include Lesli::Items::Ownership
 
             included do
                 class_attribute :lesli_discussions_class, instance_accessor: false

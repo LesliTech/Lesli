@@ -14,7 +14,8 @@ module MigrationHelpers
                     t.timestamps 
                 end
     
-                add_reference(table_name, :account, null: false, foreign_key: { to_table: :lesli_accounts }, index: true)
+                add_reference(table_name, :account, null: false, foreign_key: { to_table: :lesli_accounts }, index: { unique: true }
+                )
             end
         end
     end

@@ -37,9 +37,7 @@ module Lesli
             before_action :set_discussable, only: %i[index create]
 
             def index
-                @discussions = discussion_class
-                    .where(account: current_user.account)
-                    .order(created_at: :desc)
+                @discussions = @discussable.discussions
                 respond_with_lesli(json: @discussions)
             end
 
@@ -47,11 +45,10 @@ module Lesli
             end
 
             def create
-                discussion = discussion_class.new(discussion_params)
+                discussion = @discussable.discussions.new(discussion_params)
 
                 discussion.user = current_user
-                discussion.account = current_user.account
-                discussion.discussable = @discussable if @discussable
+                discussion.account = @discussable.lesli_item_account
 
                 if discussion.save
                     respond_with_lesli(:turbo => [
@@ -71,7 +68,7 @@ module Lesli
                 @discussion.done = true
                 @discussion.save
                 respond_with_lesli(:turbo => [
-                    stream_notification_success("Discussion updated #{@discussable}"),
+                    stream_notification_success("Discussion updated"),
                     turbo_stream.replace(helpers.dom_id(@discussion, scope_key)) do 
                         LesliView::Items::Discussion.new(@discussion, scope_key).render_in(view_context)
                     end
@@ -87,35 +84,36 @@ module Lesli
             def discussion_class = self.class.module_parent.const_get("Discussion")
 
             # validate we invoke only models that implements Lesli::Item::Discussions concern
-            def validate_discussable discussable
-
-                # 1. Attempt to resolve the class safely
+            def validate_discussable(discussable)
                 klass = discussable.safe_constantize
 
-                # 2. VALIDATION: Check if the class is allowed to be discussable
-                # We check if the class exists AND if it includes your specific discussable trait
-                unless klass && klass.respond_to?(:is_lesli_taskable?) && klass.is_lesli_commentable?
-                    render json: { error: "Unauthorized discussable type" }, status: :forbidden and return
-                end
+                return klass if klass&.respond_to?(:is_lesli_commentable?) &&
+                    klass.is_lesli_commentable?
 
-                klass
+                raise ActiveRecord::RecordNotFound,
+                    "Unauthorized discussable type"
             end
 
             def set_discussion
-                @discussion = discussion_class.where(account: current_user.account).find(params[:id])
+                @discussion = discussion_class.find(params[:id])
+                ensure_discussable_access!(@discussion.discussable)
             end
 
             # Permite filtrar/crear para un actionable específico:
             # params: actionable_type=LesliSupport::Ticket&actionable_id=123
             def set_discussable
-                type = params[:discussable_type].presence
-                id   = params[:discussable_id].presence
-                return if type.blank? || id.blank?
+                type = params.require(:discussable_type)
+                id = params.require(:discussable_id)
 
-                discussable = validate_discussable(type)
+                @discussable = validate_discussable(type).find(id)
+                ensure_discussable_access!(@discussable)
+            end
 
-                # 3. Execution: Now it is safe to query
-                @discussable = discussable.where(account: current_user.account).find_by(id: id)
+            def ensure_discussable_access!(discussable)
+                allowed = discussable.respond_to?(:lesli_item_accessible_by?) &&
+                    discussable.lesli_item_accessible_by?(current_user)
+
+                raise ActiveRecord::RecordNotFound unless allowed
             end
 
             def discussion_params

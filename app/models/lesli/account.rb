@@ -48,16 +48,17 @@ module Lesli
 
 
         # third-party engines associations
-        has_one :bell, class_name: "LesliBell::Account"
-        has_one :admin, class_name: "LesliAdmin::Account"
+        has_one :bell, class_name: "LesliBell::Account", foreign_key: :account_id, inverse_of: :account
+        has_one :admin, class_name: "LesliAdmin::Account", foreign_key: :account_id, inverse_of: :account
         has_one :audit, class_name: "LesliAudit::Account", foreign_key: :account_id, inverse_of: :account
-        has_one :shield, class_name: "LesliShield::Account"
+        has_one :shield, class_name: "LesliShield::Account", foreign_key: :account_id, inverse_of: :account
         has_one :letter, class_name: "LesliLetter::Account"
         has_one :papers, class_name: "LesliPapers::Account"
-        has_one :support, class_name: "LesliSupport::Account"
-        has_one :contacts, class_name: "LesliContacts::Account"
-        has_one :calendar, class_name: "LesliCalendar::Account"
-        has_one :dashboard, class_name: "LesliDashboard::Account"
+        has_one :mailer, class_name: "LesliMailer::Account", foreign_key: :account_id, inverse_of: :account
+        has_one :support, class_name: "LesliSupport::Account", foreign_key: :account_id, inverse_of: :account
+        has_one :contacts, class_name: "LesliContacts::Account", foreign_key: :account_id, inverse_of: :account
+        has_one :calendar, class_name: "LesliCalendar::Account", foreign_key: :account_id, inverse_of: :account
+        has_one :dashboard, class_name: "LesliDashboard::Account", foreign_key: :account_id, inverse_of: :account
 
 
         # account statuses
