@@ -3,18 +3,6 @@ require "test_helper"
 
 module Lesli
     class AccountTest < LesliTesting::ModelTester
-        ENGINE_ACCOUNT_CLASS_NAMES = %w[
-            LesliAdmin::Account
-            LesliAudit::Account
-            LesliBell::Account
-            LesliCalendar::Account
-            LesliContacts::Account
-            LesliDashboard::Account
-            LesliMailer::Account
-            LesliShield::Account
-            LesliSupport::Account
-        ].freeze
-
         fixtures :lesli_accounts
         set_fixture_class lesli_accounts: "Lesli::Account" 
 
@@ -51,38 +39,31 @@ module Lesli
         end
 
         test "engine account tables enforce one workspace per core account" do
-            engine_account_models.each do |model|
-                index = ActiveRecord::Base.connection
-                    .indexes(model.table_name)
+            assert_not_empty engine_account_tables
+
+            engine_account_tables.each do |table_name|
+                index = database_connection
+                    .indexes(table_name)
                     .find { |candidate| candidate.columns == ["account_id"] }
 
-                assert_not_nil index, model.name
-                assert index.unique, model.name
+                assert_not_nil index, table_name
+                assert index.unique, table_name
             end
         end
 
-        test "account associations match their database foreign keys" do
-            connection = ActiveRecord::Base.connection
+        test "engine resources reference their local account table" do
+            assert_not_empty engine_account_tables
 
-            loaded_application_models.each do |model|
-                reflection = model.reflect_on_association(:account)
-                next unless reflection
-                next unless connection.data_source_exists?(model.table_name)
+            engine_account_tables.each do |account_table|
+                engine_resource_tables(account_table).each do |resource_table|
+                    foreign_key = account_foreign_key(resource_table)
 
-                foreign_key = connection.foreign_keys(model.table_name).find do |candidate|
-                    candidate.options[:column].to_s == reflection.foreign_key.to_s
+                    assert_not_nil foreign_key, resource_table
+                    assert_equal account_table, foreign_key.to_table, resource_table
                 end
-                next unless foreign_key
-
-                assert_equal(
-                    reflection.klass.table_name,
-                    foreign_key.to_table,
-                    model.name
-                )
             end
         end
 
-        # --- Presence validations (recommended) ---
         test "requires status" do
             account = lesli_accounts(:one).dup
             account.status = nil
@@ -91,12 +72,12 @@ module Lesli
         end
 
         test "requires email (db constraint)" do
-        account = lesli_accounts(:one).dup
-        account.email = nil
+            account = lesli_accounts(:one).dup
+            account.email = nil
 
-        assert_raises(ActiveRecord::NotNullViolation) do
-            account.save!(validate: false)
-        end
+            assert_raises(ActiveRecord::NotNullViolation) do
+                account.save!(validate: false)
+            end
         end
 
         test "email is unique (db index)" do
@@ -104,17 +85,15 @@ module Lesli
             account.status = "active"
             account.name = "Unique Name"
 
-            # Hit the DB unique index directly (even if you don't have validates_uniqueness_of)
             assert_raises ActiveRecord::RecordNotUnique do
-            account.save!(validate: false)
+                account.save!(validate: false)
             end
         end
 
         test "region defaults to america" do
             account = Lesli::Account.new(
-            status: "active",
-            email: "new-account@example.com"
-            # region omitted on purpose
+                status: "active",
+                email: "new-account@example.com"
             )
 
             assert_equal "america", account.region
@@ -122,24 +101,33 @@ module Lesli
 
         private
 
-        def engine_account_models
-            ENGINE_ACCOUNT_CLASS_NAMES.filter_map do |class_name|
-                model = class_name.safe_constantize
-                next unless application_model?(model)
-                next unless ActiveRecord::Base.connection.data_source_exists?(
-                    model.table_name
-                )
+        def engine_account_tables
+            database_connection.tables.select do |table_name|
+                next false unless table_name.end_with?("_accounts")
+                next false if table_name == Lesli::Account.table_name
 
-                model
+                account_foreign_key(table_name)&.to_table == Lesli::Account.table_name
             end
         end
 
-        def loaded_application_models
-            ApplicationRecord.descendants.reject(&:abstract_class?)
+        def engine_resource_tables(account_table)
+            table_prefix = account_table.delete_suffix("_accounts")
+
+            database_connection.tables.select do |table_name|
+                table_name.start_with?("#{table_prefix}_") &&
+                    table_name != account_table &&
+                    database_connection.column_exists?(table_name, :account_id)
+            end
         end
 
-        def application_model?(model)
-            model.is_a?(Class) && model < ApplicationRecord
+        def account_foreign_key(table_name)
+            database_connection.foreign_keys(table_name).find do |foreign_key|
+                foreign_key.options[:column].to_s == "account_id"
+            end
+        end
+
+        def database_connection
+            ActiveRecord::Base.connection
         end
     end
 end

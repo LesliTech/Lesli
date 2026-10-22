@@ -41,11 +41,11 @@ account = Lesli::Account.find_or_create_by(email: company[:email]) do |account|
     account.status = 'active'
     account.save!
 
-    # account.detail.company_name = company[:name]
-    # account.detail.public_email = company[:email]
-    # account.detail.company_tagline = company[:tag_line] || ""
+    # account.admin.detail.company_name = company[:name]
+    # account.admin.detail.public_email = company[:email]
+    # account.admin.detail.company_tagline = company[:tag_line] || ""
     # #account.registered!
-    # account.detail.save!
+    # account.admin.detail.save!
 
 end
 

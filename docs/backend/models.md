@@ -67,48 +67,38 @@ add_index :my_engine_tickets, :uid, unique: true
 
 ## Account Ownership
 
-Most engine resources belong to a Lesli account. Keep the association explicit and query through the current account in services:
+Core resources belong directly to `Lesli::Account`. Resources owned by an
+engine belong to that engine's account, while user references continue to use
+`Lesli::User`:
 
 ```ruby
-belongs_to :account, class_name: "Lesli::Account"
+belongs_to :account, class_name: "MyEngine::Account"
+belongs_to :user, class_name: "Lesli::User"
 ```
 
 ```ruby
 current_user.account.my_engine.tickets.find_by(id: params[:id])
 ```
 
-An `account_id` submitted by a client must not decide ownership. Derive the account from the authenticated user.
+An `account_id` submitted by a client must not decide ownership. Derive the
+engine account from the authenticated user's Core account.
 
 ---
 
-## Optional Engine Associations
+## Engine Account Associations
 
-Optional-engine associations are owned by the engine and should not be added
-to Lesli Core. New and updated engines must use concerns to extend core models
-such as `Lesli::Account` and `Lesli::User`; legacy direct declarations should
-be migrated to this pattern. This keeps Core loadable when an engine is not
-installed and keeps the association next to the models and tables it exposes.
-
-Define the account extension inside the engine:
+Lesli Core exposes one association for each supported engine workspace:
 
 ```ruby
-module MyEngine
-  module AccountAssociations
-    extend ActiveSupport::Concern
-
-    included do
-      has_one :my_engine,
-        class_name: "MyEngine::Account",
-        foreign_key: :account_id,
-        inverse_of: :account
-    end
-  end
-end
+has_one :my_engine,
+  class_name: "MyEngine::Account",
+  foreign_key: :account_id,
+  inverse_of: :account
 ```
 
-The engine account is a one-to-one workspace for the Core account. Its
-`account_id` must have a unique database index, and the model should mirror
-that constraint:
+The matching engine model owns the inverse association. An engine account is a
+one-to-one workspace for the Core account, so its `account_id` must have a
+unique database index and the model must mirror that constraint:
 
 ```ruby
 module MyEngine
@@ -122,19 +112,9 @@ module MyEngine
 end
 ```
 
-Install it from the engine's reload-safe preparation block:
-
-```ruby
-config.to_prepare do
-  unless Lesli::Account < MyEngine::AccountAssociations
-    Lesli::Account.include(MyEngine::AccountAssociations)
-  end
-end
-```
-
-Use the same pattern with a separate concern when the engine extends
-`Lesli::User`. Always make `class_name`, `foreign_key`, and `inverse_of`
-explicit at this boundary.
+Only initialize this workspace when the engine is installed. Keep
+`class_name`, `foreign_key`, and `inverse_of` explicit at the Core/engine
+boundary, and keep all user ownership on `Lesli::User`.
 
 Do not add a direct association from the core account to an engine child table
 when that table's `account_id` references the engine account. For example, if
