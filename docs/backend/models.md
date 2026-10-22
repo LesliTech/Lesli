@@ -231,6 +231,27 @@ Core `Lesli::User`. Tasks do not use soft deletion, so their tables must not
 include `deleted_at`. The shared routes expose index, create, and completion
 updates; there is no individual task deletion operation.
 
+Create a task through the taskable resource. The concern assigns the
+polymorphic resource and engine account automatically, raises when the task is
+invalid, and returns the persisted task:
+
+```ruby
+task = ticket.add_task!(
+  creator: current_user,
+  title: "Follow up with customer"
+)
+```
+
+If an engine uses a different association name, `lesli_tasks_setup` stores it
+and `add_task!` continues to use the configured association:
+
+```ruby
+lesli_tasks_setup(
+  use: "MyEngine::Items::Task",
+  association_name: :task_list
+)
+```
+
 Attachment models inherit from `Lesli::Items::Attachment` and use Active
 Storage for the file body and technical metadata. The engine table stores the
 engine account, Core uploader, polymorphic resource, label, and category:

@@ -38,6 +38,9 @@ module Lesli
 
             included do
                 class_attribute :lesli_tasks_class, instance_accessor: false
+                class_attribute :lesli_tasks_association_name,
+                    instance_accessor: false,
+                    default: :tasks
                 lesli_tasks_setup
             end
 
@@ -58,6 +61,7 @@ module Lesli
                     end
 
                     self.lesli_tasks_class = klass
+                    self.lesli_tasks_association_name = association_name.to_sym
 
                     # ✅ Auto-fix table name (works even when engine defines table_name_prefix)
                     expected_table = lesli_expected_task_table_name_for(klass)
@@ -91,6 +95,20 @@ module Lesli
                     parts = klass.name.split("::").map(&:underscore)
                     parts.join("_").pluralize
                 end
+            end
+
+            def add_task!(creator:, title:)
+                task_association.create!(
+                    user: creator,
+                    account: lesli_item_account,
+                    title: title
+                )
+            end
+
+            private
+
+            def task_association
+                public_send(self.class.lesli_tasks_association_name)
             end
         end
     end

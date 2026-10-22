@@ -45,23 +45,23 @@ module Lesli
             end
 
             def create
-                task = @taskable.tasks.new(task_params)
+                task = @taskable.add_task!(
+                    creator: current_user,
+                    title: task_params[:title]
+                )
 
-                task.user = current_user
-                task.account = @taskable.lesli_item_account
-
-                if task.save
-                    respond_with_lesli(:turbo => [
-                        stream_notification_success("Task created"),
-                        turbo_stream.prepend("#{scope_key}-lesli-items-tasks-list") do
-                            LesliView::Items::Task.new(task, scope_key).render_in(view_context)
-                        end
-                    ])
-                else
-                    respond_with_lesli(
-                        :turbo => stream_notification_danger(task.errors.full_messages)
+                respond_with_lesli(:turbo => [
+                    stream_notification_success("Task created"),
+                    turbo_stream.prepend("#{scope_key}-lesli-items-tasks-list") do
+                        LesliView::Items::Task.new(task, scope_key).render_in(view_context)
+                    end
+                ])
+            rescue ActiveRecord::RecordInvalid => error
+                respond_with_lesli(
+                    :turbo => stream_notification_danger(
+                        error.record.errors.full_messages
                     )
-                end
+                )
             end
 
             def update
