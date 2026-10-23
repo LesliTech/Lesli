@@ -23,6 +23,7 @@ jobs:
     uses: LesliTech/LesliActions/.github/workflows/lesli-ci-engine.yaml@master
     with:
       ruby-version: "3.3.5"
+      rails-version: "8.1.4"
       module-directory: "engines"
       security-path: "."
       run-security: true
