@@ -133,6 +133,9 @@ coincide and expose records belonging to another account.
 
 ## Item Concerns
 
+The complete public contract, customization options, security allowlists, and
+storage requirements are documented in [Record Items](/engines/lesli/backend/items/).
+
 Lesli provides concerns for resources that support tasks, discussions,
 activities, or file attachments:
 

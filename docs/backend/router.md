@@ -36,6 +36,11 @@ The helper defines the host application's root route. Use manual mounting if the
 
 The helper checks whether each engine constant is defined before mounting it. Installing or requiring an engine is still the application's responsibility.
 
+This table describes every engine name recognized by the router, not the
+official production bundle. LesliMailer, LesliPapers, LesliSecurity, and
+LesliContacts remain optional or experimental; the current official stack is
+listed in the [ecosystem overview](/engines/lesli/about/ecosystem/).
+
 The second argument to `mount` changes the authentication prefix only; it does not change the engine paths in the table:
 
 ```ruby

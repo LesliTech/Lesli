@@ -37,8 +37,8 @@ Building a better future, one line of code at a time.
 <head>
     <%= render(partial: "lesli/partials/application-lesli-head") %>
     <%= yield :head %>
-    <%= stylesheet_link_tag(lesli_asset_path(:lesli_assets, "public.tailwind"), media: "all") %>
-    <%= stylesheet_link_tag(lesli_asset_path(:lesli_shield, "#{public_app_controller}.tailwind"), media: "all") %>
+    <%= stylesheet_link_tag(lesli_asset_path(:lesli_assets, "public"), media: "all") %>
+    <%= stylesheet_link_tag(lesli_asset_path(:lesli_shield, public_app_controller), media: "all") %>
     <%# Prevent browser history from reopening an authenticated page after logout. %>
     <% if flash[:logout] == true %>
         <script>

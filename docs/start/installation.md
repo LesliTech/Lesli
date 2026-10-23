@@ -4,7 +4,7 @@ Add Lesli to a Rails application, prepare its database, and confirm the shared f
 
 ## Requirements
 
-* Ruby **3.3 or newer**
+* Ruby **3.3 or newer**; the release workflow and official Builder use 3.3.5
 * Rails **8.1**
 * SQLite, included with a default Rails application, or PostgreSQL
 
@@ -98,6 +98,7 @@ Review [Load Seed Data](/engines/lesli/start/cli-commands/#load-seed-data) befor
 * Explore reusable libraries and development tools in the [Gem catalog](/gems/).
 * Review [Lesli configuration](/engines/lesli/start/configuration/) before customizing framework behavior.
 * Use the [CLI command reference](/engines/lesli/start/cli-commands/) for Core tasks, generators, side effects, and environment restrictions.
+* Before updating an existing application, review the [upgrade guide](/engines/lesli/start/upgrading/).
 * Try the complete product in the [online demo and demo guide](/engines/lesli/about/demo/).
 
 For local framework development or contributions, use the [development installation guide](/engines/lesli/start/development/).

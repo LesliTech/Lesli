@@ -1,10 +1,10 @@
 <%= navigation_for_folder("engines", "lesli", "about", order:["lesli", "architecture", "features", "ecosystem", "demo"]) %>
-<%= navigation_for_folder("engines", "lesli", "start", order:["installation", "cli-commands", "development", "configuration", "credentials"]) %>
+<%= navigation_for_folder("engines", "lesli", "start", order:["installation", "cli-commands", "development", "configuration", "credentials", "upgrading"]) %>
 <ul>
     <li><h3><%= link_to("Tutorials", "/engines/lesli/tutorials") %></h3></li>
     <li><%= link_to("Build Your First SaaS", "/engines/lesli/tutorials/first-saas") %></li>
 </ul>
-<%= navigation_for_folder("engines", "lesli", "backend", order:["router","controllers","interfaces","services","courier","models","mailers"]) %>
+<%= navigation_for_folder("engines", "lesli", "backend", order:["router","controllers","interfaces","services","courier","models","items","mailers"]) %>
 <%= navigation_for_folder("engines", "lesli", "frontend", order:["views", "styles", "javascript"]) %>
 <%= navigation_for_folder("engines", "lesli", "database", order:["structure", "versioning", "seeders"]) %>
 <%#= navigation_for_folder("engines", "lesli", "generators", order:[]) %>

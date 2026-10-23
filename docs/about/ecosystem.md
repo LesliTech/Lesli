@@ -45,13 +45,14 @@ Collections make it easier to identify which modules may be relevant to your app
 
 ## Official Modules
 
-Lesli currently has **45 modules planned**, with **9 production-ready modules** already available.
+The production stack currently includes **Lesli Core and eight official
+engines**. Other modules may be planned or developed experimentally, but they
+are not part of this release until they appear in the official package list.
 
 | Code | Module | Description |
 | ---- | ------ | ----------- |
 | 0101 | [**LesliAdmin**](/engines/admin/) | Administration area for managing core platform settings |
 | 0301 | [**LesliCalendar**](/engines/calendar/) | Unified calendar application |
-| 0305 | **LesliLetter** | Notes and notebooks |
 | 0306 | [**LesliDashboard**](/engines/dashboard/) | Dashboards and business insights |
 | 0308 | [**LesliBell**](/engines/bell/) | Notifications and alerts |
 | 0502 | [**LesliAudit**](/engines/audit/) | System analytics and activity tracking |
@@ -60,6 +61,12 @@ Lesli currently has **45 modules planned**, with **9 production-ready modules** 
 | 0901 | [**LesliBabel**](/engines/babel/) | Translation management |
 
 You are not limited to official modules. Lesli also allows you to create and integrate your own custom engines when your application requires domain-specific functionality.
+
+The runtime libraries maintained as part of the official stack are
+LesliAssets, LesliDate, LesliSystem, LesliView, and Termline. LesliTesting is
+the shared development and test package; it is not loaded by production
+applications. LesliMailer and LesliContacts are currently experimental and are
+not included in the production stack.
 
 ---
 
