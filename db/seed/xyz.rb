@@ -32,9 +32,7 @@ Building a better future, one line of code at a time.
 
 def create_account_user(account:, email:, role_name:, first_name:, last_name:, password: nil)
     user = Lesli::User.find_or_initialize_by(email: email)
-    authentication_enabled =
-        user.respond_to?(:password=) &&
-        user.respond_to?(:password_confirmation=)
+    authentication_enabled = user.respond_to?(:password=) && user.respond_to?(:password_confirmation=)
     credentials_created = false
 
     Lesli::User.transaction do

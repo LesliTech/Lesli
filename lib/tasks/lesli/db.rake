@@ -43,15 +43,22 @@ namespace :lesli do
             status()
         end
 
+        desc "Create, migrate, seed & configure the Lesli database"
+        task :build => :environment do |task, args|
+            prepare()
+            seed()
+            configure()
+            status()
+        end
 
-        desc "Migrate, configure && user the Lesli database"
+        desc "Migrate and configure the Lesli database"
         task :prepare => :environment do |task, args|
             prepare()
             configure()
             status()
         end
 
-        desc "Seed & configure Lesli database"
+        desc "Seed the Lesli database"
         task :seed => :environment do |task, args|
             seed()
             status()
