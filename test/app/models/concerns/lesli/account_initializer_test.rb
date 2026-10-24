@@ -2,6 +2,9 @@ require "test_helper"
 
 module Lesli
     class AccountInitializerTest < LesliTesting::ModelTester
+        fixtures :lesli_accounts
+        set_fixture_class lesli_accounts: "Lesli::Account"
+
         # --- Test doubles ---
 
         class CapturingRoles
@@ -178,6 +181,21 @@ module Lesli
         #   end
 
         # --- Tests for initialize_engines ---
+
+        test "initialize_account does not duplicate core roles" do
+            account = lesli_accounts(:one)
+            account.roles.delete_all
+
+            assert_difference -> { account.roles.count }, 3 do
+                account.initialize_account
+            end
+
+            assert_no_difference -> { account.roles.count } do
+                account.initialize_account
+            end
+
+            assert_equal %w[admin guest owner], account.roles.order(:name).pluck(:name)
+        end
 
         test "initialize_engines creates Engine::Account for each non-skipped engine and logs initialization" do
             account = FakeAccount.new
