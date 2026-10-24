@@ -11,6 +11,7 @@ Run database tasks through the host Rails application:
 | Command | Behavior |
 | --- | --- |
 | `bin/rails lesli:db:prepare` | Runs Rails `db:prepare`, configures Lesli for every account, and prints system status |
+| `bin/rails lesli:db:build` | Prepares the schema, loads engine and host seeds, configures Lesli, and prints status without dropping the database |
 | `bin/rails lesli:db:seed` | Loads engine and host seeds, configures Lesli accounts and installed modules, and prints status |
 | `bin/rails lesli:db:rebuild` | Drops and recreates the database, seeds it, configures accounts, and prints status |
 | `bin/rails db:migrate:status` | Shows the migration state assembled from the host and installed engines |
@@ -29,6 +30,16 @@ The configuration phase also:
 * Scans and imports translations when LesliBabel is installed
 
 These operations are designed to be repeatable. Existing engine accounts are reused, and account-initialization activities are recorded only when a new engine account is created.
+
+### Non-destructive build
+
+`lesli:db:build` combines database preparation, seed loading, Lesli configuration, and the status report:
+
+```shell
+bin/rails lesli:db:build
+```
+
+Unlike `lesli:db:rebuild`, it does not drop the database and can run in any Rails environment. Use it when a new or existing environment needs both migrations and required seed records. The task is only as safe and repeatable as the loaded seeders, so review them and back up persistent data before using it in production.
 
 ### Destructive rebuild
 

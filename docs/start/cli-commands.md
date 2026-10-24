@@ -13,6 +13,7 @@ Commands under `lesli:` are provided by Lesli Core. Commands such as `server`, `
 | `bin/rails generate lesli:install` | Mounts Lesli and creates its initializer | Yes: routes and initializer |
 | `bin/rails lesli:install:migrations` | Copies Lesli Core migrations into the host application | Yes: migration files |
 | `bin/rails lesli:db:prepare` | Prepares the database and configures installed Lesli modules | Yes: schema and records |
+| `bin/rails lesli:db:build` | Prepares, seeds, and configures the database without dropping it | Yes: schema and application data |
 | `bin/rails lesli:db:seed` | Loads seeds and configures installed Lesli modules | Yes: application data |
 | `bin/rails lesli:db:rebuild` | Replaces and rebuilds the current database | **Destructive** |
 | `bin/rails lesli:resources:build` | Registers controllers and actions from the current routes | Yes: Lesli resource records |
@@ -101,6 +102,26 @@ It performs these operations:
 6. Prints `lesli:status`.
 
 The task does not load seed data, including when Rails creates a new database. Lesli preserves the standard Rails database preparation flow while temporarily disabling Rails' automatic seed loader. Run it after installing Lesli, adding an engine, or deploying schema and route changes. It has no production guard and writes schema and application records, so review migrations and use the application's normal deployment safeguards.
+
+### Build the Database
+
+```shell
+bin/rails lesli:db:build
+```
+
+**Purpose:** Prepares a complete Lesli database without dropping existing data.
+
+It performs these operations:
+
+1. Invokes the same schema preparation used by `lesli:db:prepare`.
+2. Loads seeds from installed Lesli engines and the host application.
+3. Builds the resource index and initializes accounts and installed engines.
+4. Synchronizes LesliShield privileges and LesliBabel translations when those engines are loaded.
+5. Prints `lesli:status`.
+
+Use this command to initialize a new environment or update an existing database when both migrations and seed data must be applied. Unlike `lesli:db:rebuild`, it does not drop the database and is not restricted to development or test.
+
+The command is non-destructive at the database level, but its seeders can still create or update application records. Review every active seed file and use the application's normal backup and deployment safeguards before running it against persistent production data.
 
 ### Load Seed Data
 

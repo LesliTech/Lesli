@@ -113,6 +113,8 @@ bin/rails lesli:db:prepare
 bin/rails lesli:status
 ```
 
+Use `bin/rails lesli:db:build` when the environment also needs the engine and host application seed data. It prepares, seeds, and configures the database without dropping existing data.
+
 > [!WARNING]
 > `bin/rails lesli:db:rebuild` drops the database, rebuilds it from the migrations currently provided by the host and installed engines, regenerates the schema, loads seeds, configures Lesli accounts, and prints the system status. It runs only in the Rails development and test environments; use it only when you intentionally want to replace disposable data.
 
