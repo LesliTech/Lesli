@@ -36,8 +36,7 @@ namespace :lesli do
 
         desc "Drop, create, migrate, seed & configure the Lesli database (development and test only)"
         task :rebuild => :environment do |task, args|
-            drop()
-            prepare()
+            reset()
             seed()
             configure()
             status()
@@ -66,8 +65,8 @@ namespace :lesli do
         end
     end
 
-    # Drop the Lesli database (development and test only)
-    def drop
+    # Rebuild the Lesli database from the currently available migrations.
+    def reset
 
         # This task is intentionally available only for disposable local and
         # automated-test databases.
@@ -76,16 +75,10 @@ namespace :lesli do
         end
 
         # print a message to let the users show the action running
-        Termline.m("Drop the Lesli database (development and test only)")
+        Termline.m("Rebuild the Lesli database from migrations (development and test only)")
 
-        Rake::Task['db:drop'].invoke
-        Termline.info("Databases deleted")
-
-        schema_file = Rails.root.join('db', 'schema.rb')
-        if File.exist?(schema_file)
-            File.delete(schema_file)
-            Termline.info("Schema.rb file deleted")
-        end
+        Rake::Task['db:migrate:reset'].invoke
+        Termline.info("Databases rebuilt from the available migrations")
     end
 
     # Create the Lesli database (development only)

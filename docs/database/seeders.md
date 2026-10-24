@@ -30,7 +30,9 @@ The configuration phase also:
 
 ### Destructive rebuild
 
-`lesli:db:rebuild` permanently deletes the current database data and removes `db/schema.rb` before rebuilding it.
+`lesli:db:rebuild` permanently deletes the current database data and invokes Rails `db:migrate:reset`. Rails recreates the database from the migrations currently available from the host and installed engines, then regenerates the configured `db/schema.rb` or `db/structure.sql` file.
+
+If an engine is removed and its migrations were supplied only by that engine, its tables are excluded from the rebuilt database and schema. Migrations copied into the host application's `db/migrate` directory remain active even after removing the engine.
 
 ```shell
 bin/rails lesli:db:rebuild

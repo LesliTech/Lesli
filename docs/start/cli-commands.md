@@ -128,12 +128,14 @@ bin/rails lesli:db:rebuild
 
 It performs these operations:
 
-1. Invokes Rails `db:drop`.
-2. Deletes `db/schema.rb` when that file exists.
-3. Invokes Rails `db:prepare`.
+1. Invokes Rails `db:migrate:reset` to drop and recreate the database.
+2. Runs the migrations currently available from the host and installed engines.
+3. Regenerates the host application's configured schema file.
 4. Loads Lesli engine and host-application seeds.
 5. Builds resources and initializes accounts and installed engines.
 6. Prints the status report.
+
+The task does not manually delete versioned schema files. Rails regenerates `db/schema.rb` or `db/structure.sql` from the migrations that remain available. Therefore, removing an engine also removes its tables from the rebuilt schema when its migrations are supplied only by that engine. Migrations previously copied into the host application's `db/migrate` directory remain available and will still run.
 
 The task runs only in the Rails development and test environments. It raises an error in staging, production, and custom environments. This guard cannot detect a development or test configuration connected to the wrong database, so verify the active database before running it.
 
