@@ -33,55 +33,87 @@ Building a better future, one line of code at a time.
 module Lesli
     class Courier
 
-        # Store the module_name (e.g., :lesli_support as LesliSupport)
-        def initialize(module_name, on_error=nil)
+        # Configure the optional engine and its error behavior.
+        #
+        # module_name: engine module name as a String or Symbol.
+        # fallback: value returned when the engine is unavailable or an error is handled.
+        # fallback_on_error: return the fallback instead of raising execution errors.
+        def initialize(module_name, fallback=nil, fallback_on_error: false)
             @module_name = module_name.to_s.camelize
-            @on_error = on_error
+            @fallback = fallback
+            @fallback_on_error = fallback_on_error
         end
 
-        # Dynamically determine the class to call (e.g., :ticket_service as TicketService)
-        def from(service_name, *args)
-            @service_params = args
+        # Select the class to instantiate (e.g., :ticket_service as TicketService),
+        # store its constructor arguments, and return self to keep the call chainable.
+        #
+        # service_name: class name as a String or Symbol.
+        # *args: positional arguments passed to the class constructor.
+        # **kwargs: keyword arguments passed to the class constructor.
+        def from(service_name, *args, **kwargs)
+            @service_args = args
+            @service_kwargs = kwargs
             @service_name = service_name.to_s.camelize
             self
         end
 
-        # Store the method name to call on the service (e.g., :index_with_deadline)
-        def call(method_name, *args)
-            @method_params = args 
+        # Select and execute a public method on the configured class instance.
+        #
+        # method_name: method name as a String or Symbol.
+        # *args: positional arguments passed to the method.
+        # **kwargs: keyword arguments passed to the method.
+        # Returns the value returned by the invoked method.
+        def call(method_name, *args, **kwargs)
+            @method_args = args
+            @method_kwargs = kwargs
             @method_name = method_name
-            self.execute
+            execute
         end
 
-        private 
+        private
 
-        # Execute the final call to the service, either with or without params
+        # The engine is always optional. Errors from an installed engine remain
+        # visible unless the caller explicitly enables fallback_on_error.
         def execute
+            # Resolve the configured engine name as a top-level Ruby module.
+            engine_module = resolve_constant(Object, @module_name)
 
-            module_name = "#{@module_name}"
+            # Return the configured fallback when the optional engine is not installed.
+            return fallback unless engine_module
 
-            # Look up the module and class dynamically
-            raise unless Object.const_defined?(module_name)
+            # Resolve the configured class directly inside the engine module.
+            service_class = engine_module.const_get(@service_name, false)
 
-            module_service_name = "#{@module_name}::#{@service_name}"
+            # Instantiate the class with the arguments previously stored by `from`.
+            service = service_class.new(*@service_args, **@service_kwargs)
 
-            raise unless Object.const_defined?(module_service_name)
+            # Invoke the public method configured by `call` and return its result.
+            service.public_send(@method_name, *@method_args, **@method_kwargs)
+        rescue StandardError => error
+            # Re-raise by default so integration and implementation errors remain visible.
+            raise unless @fallback_on_error
 
-            # Create a reference of the module service object
-            module_service_class = module_service_name.constantize
-            
-            # Instantiate the service class with or without arguments
-            module_service_instance = module_service_class.new(*@service_params.to_a) 
+            # Record handled errors without interrupting the caller's execution.
+            Rails.error.report(
+                error,
+                handled: true,
+                context: {
+                    module_name: @module_name,
+                    service_name: @service_name,
+                    method_name: @method_name
+                }
+            )
 
-            # Check if the method is defined on the service instance
-            raise unless module_service_instance.respond_to?(@method_name)
+            # Allow optional integrations to fail without breaking the calling feature.
+            fallback
+        end
 
-            # Dynamically call the method on the service instance
-            module_service_instance.send(@method_name, *@method_params)
+        attr_reader :fallback
 
-        rescue => e
-           ## pp e add a debug message
-           return @on_error
+        def resolve_constant(namespace, constant_name)
+            return unless namespace.const_defined?(constant_name, false)
+
+            namespace.const_get(constant_name, false)
         end
     end
 end

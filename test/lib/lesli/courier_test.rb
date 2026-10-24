@@ -14,6 +14,36 @@ module LesliCourierTestModule
                 "Processing ticket without params"
             end
         end
+
+        def fail_during_execution
+            raise "Service execution failed"
+        end
+
+        private
+
+        def private_method
+            "Not public"
+        end
+    end
+
+    class CourierKeywordService
+        def initialize(value:, suffix:)
+            @value = value
+            @suffix = suffix
+        end
+
+        def format(prefix:)
+            "#{prefix} #{@value}#{@suffix}"
+        end
+    end
+end
+
+class LesliCourierTestErrorReporter
+    attr_reader :error, :options
+
+    def report(error, **options)
+        @error = error
+        @options = options
     end
 end
 
@@ -60,16 +90,73 @@ module Lesli
             assert_equal "Module not found", result
         end
 
-        # Invalid service class
-        test "returns error when service class does not exist" do
-            result = @courier_with_invalid_service.call(:lesli_courier_test_method)
-            assert_equal "Service not found", result
+        # An installed module has a defined contract. Programming errors must remain visible.
+        test "raises when service class does not exist in an installed module" do
+            assert_raises(NameError) do
+                @courier_with_invalid_service.call(:lesli_courier_test_method)
+            end
         end
 
         # Invalid method
-        test "returns generic error when method does not exist" do
-            result = @courier_without_params.call(:non_existent_method)
-            assert_equal "Error occurred", result
+        test "raises when method does not exist in an installed service" do
+            assert_raises(NoMethodError) do
+                @courier_without_params.call(:non_existent_method)
+            end
         end
+
+        test "raises when method is not public" do
+            assert_raises(NoMethodError) do
+                @courier_without_params.call(:private_method)
+            end
+        end
+
+        test "forwards keyword arguments to the constructor and method" do
+            result = Lesli::Courier
+                .new(:lesli_courier_test_module)
+                .from(:courier_keyword_service, value: "ticket", suffix: "!")
+                .call(:format, prefix: "Created")
+
+            assert_equal "Created ticket!", result
+        end
+
+        test "does not hide errors raised by an installed service" do
+            error = assert_raises(RuntimeError) do
+                @courier_without_params.call(:fail_during_execution)
+            end
+
+            assert_equal "Service execution failed", error.message
+        end
+
+        test "reports errors and returns fallback when fallback_on_error is enabled" do
+            reporter = LesliCourierTestErrorReporter.new
+            courier = Lesli::Courier
+                .new(
+                    :lesli_courier_test_module,
+                    "Integration unavailable",
+                    fallback_on_error: true
+                )
+                .from(:courier_test_service)
+
+            Rails.error.subscribe(reporter)
+
+            begin
+                result = courier.call(:fail_during_execution)
+            ensure
+                Rails.error.unsubscribe(reporter)
+            end
+
+            assert_equal "Integration unavailable", result
+            assert_equal "Service execution failed", reporter.error.message
+            assert_equal true, reporter.options[:handled]
+            assert_equal(
+                {
+                    module_name: "LesliCourierTestModule",
+                    service_name: "CourierTestService",
+                    method_name: :fail_during_execution
+                },
+                reporter.options[:context]
+            )
+        end
+
     end
 end
