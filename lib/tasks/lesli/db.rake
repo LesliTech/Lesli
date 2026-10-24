@@ -91,7 +91,20 @@ namespace :lesli do
         # print a message to let the users show the action running
         Termline.info("Prepare the Lesli database")
 
+        # Rails db:prepare loads the host application's seeds when it creates a
+        # new database. Temporarily replace the seed loader so this Lesli step
+        # prepares the database without loading application seeds.
+        database_tasks = ActiveRecord::Tasks::DatabaseTasks
+        original_seed_loader = database_tasks.seed_loader
+        seedless_loader = Object.new
+        def seedless_loader.load_seed
+            # Intentionally skip the host application's seeds.
+        end
+
+        database_tasks.seed_loader = seedless_loader
         Rake::Task['db:prepare'].invoke
+    ensure
+        database_tasks.seed_loader = original_seed_loader if database_tasks
     end
 
     def seed

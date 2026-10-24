@@ -100,7 +100,7 @@ It performs these operations:
 5. Scans and imports translations when LesliBabel is loaded.
 6. Prints `lesli:status`.
 
-The task does not load seed data. Run it after installing Lesli, adding an engine, or deploying schema and route changes. It has no production guard and writes schema and application records, so review migrations and use the application's normal deployment safeguards.
+The task does not load seed data, including when Rails creates a new database. Lesli preserves the standard Rails database preparation flow while temporarily disabling Rails' automatic seed loader. Run it after installing Lesli, adding an engine, or deploying schema and route changes. It has no production guard and writes schema and application records, so review migrations and use the application's normal deployment safeguards.
 
 ### Load Seed Data
 

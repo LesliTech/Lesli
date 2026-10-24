@@ -15,7 +15,7 @@ Run database tasks through the host Rails application:
 | `bin/rails lesli:db:rebuild` | Drops and recreates the database, seeds it, configures accounts, and prints status |
 | `bin/rails db:migrate:status` | Shows the migration state assembled from the host and installed engines |
 
-`lesli:db:prepare` does not load seed data. This makes it suitable for applying schema changes and initializing installed engines without creating demo records.
+`lesli:db:prepare` does not load seed data, even when Rails creates a new database. This makes it suitable for applying schema changes and initializing installed engines without creating demo records. Lesli temporarily disables the Rails seed loader while preserving the rest of the standard `db:prepare` behavior.
 
 ```shell
 bin/rails lesli:db:prepare
