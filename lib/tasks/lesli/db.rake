@@ -30,124 +30,30 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-# · 
-namespace :lesli do 
+# ·
+require "lesli/database_tasks"
+
+namespace :lesli do
     namespace :db do
 
         desc "Drop, create, migrate, seed & configure the Lesli database (development and test only)"
-        task :rebuild => :environment do |task, args|
-            reset()
-            seed()
-            configure()
-            status()
+        task rebuild: :environment do
+            Lesli::DatabaseTasks.new.rebuild
         end
 
         desc "Create, migrate, seed & configure the Lesli database"
-        task :build => :environment do |task, args|
-            prepare()
-            seed()
-            configure()
-            status()
+        task build: :environment do
+            Lesli::DatabaseTasks.new.build
         end
 
         desc "Migrate and configure the Lesli database"
-        task :prepare => :environment do |task, args|
-            prepare()
-            configure()
-            status()
+        task prepare: :environment do
+            Lesli::DatabaseTasks.new.prepare
         end
 
         desc "Seed and configure the Lesli database"
-        task :seed => :environment do |task, args|
-            seed()
-            configure()
-            status()
+        task seed: :environment do
+            Lesli::DatabaseTasks.new.seed
         end
-    end
-
-    # Rebuild the Lesli database from the currently available migrations.
-    def reset
-
-        # This task is intentionally available only for disposable local and
-        # automated-test databases.
-        unless Rails.env.development? || Rails.env.test?
-            raise "lesli:db:rebuild can only run in development or test"
-        end
-
-        # print a message to let the users show the action running
-        Termline.m("Rebuild the Lesli database from migrations (development and test only)")
-
-        Rake::Task['db:migrate:reset'].invoke
-        Termline.info("Databases rebuilt from the available migrations")
-    end
-
-    # Create the Lesli database (development only)
-    def prepare
-
-        # print a message to let the users show the action running
-        Termline.info("Prepare the Lesli database")
-
-        # Rails db:prepare loads the host application's seeds when it creates a
-        # new database. Temporarily replace the seed loader so this Lesli step
-        # prepares the database without loading application seeds.
-        database_tasks = ActiveRecord::Tasks::DatabaseTasks
-        original_seed_loader = database_tasks.seed_loader
-        seedless_loader = Object.new
-        def seedless_loader.load_seed
-            # Intentionally skip the host application's seeds.
-        end
-
-        database_tasks.seed_loader = seedless_loader
-        Rake::Task['db:prepare'].invoke
-    ensure
-        database_tasks.seed_loader = original_seed_loader if database_tasks
-    end
-
-    def seed
-
-        # print a message to let the users show the action running
-        Termline.info("Seed the Lesli database")
-
-        # load Lesli* gems seeders
-        LesliSystem.engines.each do |engine, data|
-            next if engine == "Root"
-            engine.constantize::Engine.load_seed
-        end
-
-        # load main app seeders
-        Rake::Task['db:seed'].invoke
-        Termline.info("Loading seeds for: Main app")
-        Termline.br(2)
-    end
-
-    def configure 
-
-        # print a message to let the users show the action running
-        Termline.info("Setup the Lesli database")
-
-        # scan rails routes to build the controllers index
-        Rake::Task['lesli:resources:build'].invoke
-
-        Lesli::Account.find_each do |account|
-            account.initialize_account
-            account.initialize_engines
-        end
-
-        # scan rails routes to build the controllers index
-        Rake::Task['lesli_shield:privileges'].invoke if defined?(LesliShield)
-
-        if defined?(LesliBabel)
-
-            # scan rails routes to build the base of translations
-            Rake::Task['lesli_babel:scan'].invoke 
-
-            # import local translations into LesliBabel
-            Rake::Task['lesli_babel:import'].invoke 
-        end
-    end 
-
-    def status 
-        # print the lesli status
-        Rake::Task['lesli:status'].invoke 
     end
 end
