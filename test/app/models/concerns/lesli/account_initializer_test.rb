@@ -45,19 +45,34 @@ module Lesli
 
             # Fake Engine Account model that captures find_or_create_by!
         class CapturingEngineAccount
+            Record = Struct.new(:previously_new_record?)
+
             @calls = []
+            @creation_results = []
+
             class << self
-                attr_reader :calls
-                def reset! = @calls.clear
+                attr_reader :calls, :creation_results
+
+                def reset!
+                    @calls.clear
+                    @creation_results.clear
+                end
+
+                def create_records!(*results)
+                    @creation_results.concat(results)
+                end
+
                 def find_or_create_by!(account:)
                     @calls << account
-                    true
+                    Record.new(@creation_results.shift || false)
                 end
             end
         end
 
         setup do
             @original_constants = {}
+            CapturingEngineAccount.reset!
+            CapturingEngineAccount.create_records!(true, true)
 
             # Build fake engine constants with ::Account
             # Example engines: "LesliSupport" and "LesliSales"
@@ -183,6 +198,16 @@ module Lesli
             refute log_descriptions.any? { |d| d.include?("Engine: Lesli initialized") }
             refute log_descriptions.any? { |d| d.include?("Engine: Root initialized") }
             refute log_descriptions.any? { |d| d.include?("Engine: LesliBabel initialized") }
+        end
+
+        test "initialize_engines does not duplicate initialization logs for existing engine accounts" do
+            account = FakeAccount.new
+
+            account.initialize_engines
+            account.initialize_engines
+
+            assert_equal 4, CapturingEngineAccount.calls.length
+            assert_equal 2, account.log_calls.length
         end
     end
 end

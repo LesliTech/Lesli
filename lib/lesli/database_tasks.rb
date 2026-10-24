@@ -109,19 +109,32 @@ module Lesli
         def configure_database
             Termline.info("Setup the Lesli database")
 
-            Rake::Task["lesli:resources:build"].invoke
+            build_resources
+            initialize_accounts
+            synchronize_privileges
+            synchronize_translations
+        end
 
+        def build_resources
+            Rake::Task["lesli:resources:build"].invoke
+        end
+
+        def initialize_accounts
             Lesli::Account.find_each do |account|
                 account.initialize_account
                 account.initialize_engines
             end
+        end
 
+        def synchronize_privileges
             Rake::Task["lesli_shield:privileges"].invoke if defined?(::LesliShield)
+        end
 
-            if defined?(::LesliBabel)
-                Rake::Task["lesli_babel:scan"].invoke
-                Rake::Task["lesli_babel:import"].invoke
-            end
+        def synchronize_translations
+            return unless defined?(::LesliBabel)
+
+            Rake::Task["lesli_babel:scan"].invoke
+            Rake::Task["lesli_babel:import"].invoke
         end
 
         def print_status

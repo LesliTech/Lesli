@@ -28,6 +28,8 @@ The configuration phase also:
 * Builds privileges when LesliShield is installed
 * Scans and imports translations when LesliBabel is installed
 
+These operations are designed to be repeatable. Existing engine accounts are reused, and account-initialization activities are recorded only when a new engine account is created.
+
 ### Destructive rebuild
 
 `lesli:db:rebuild` permanently deletes the current database data and invokes Rails `db:migrate:reset`. Rails recreates the database from the migrations currently available from the host and installed engines, then regenerates the configured `db/schema.rb` or `db/structure.sql` file.

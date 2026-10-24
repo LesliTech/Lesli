@@ -66,14 +66,16 @@ module Lesli
         def initialize_engines
             initialized_engines = []
 
-            LesliSystem.engines.each do |engine, data|
+            LesliSystem.engines.each_key do |engine|
 
                 next if ["Lesli", "LesliBabel", "Root"].include?(engine)
 
-                # Create an associated account if the attribute is blank
-                engine.constantize::Account.find_or_create_by!(account: self)
+                # Create the engine account only when it does not exist.
+                engine_account = engine.constantize::Account.find_or_create_by!(account: self)
 
-                initialized_engines << engine
+                # Configuration runs repeatedly, but the initialization event
+                # belongs only to the first creation of the engine account.
+                initialized_engines << engine if engine_account.previously_new_record?
             end
 
             # Emit initialization events only after every engine account exists.
