@@ -101,8 +101,8 @@ module Lesli
                 engine.constantize::Engine.load_seed
             end
 
-            Rake::Task["db:seed"].invoke
             Termline.info("Loading seeds for: Main app")
+            Rake::Task["db:seed"].invoke
             Termline.br(2)
         end
 
