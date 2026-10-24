@@ -36,7 +36,7 @@ The configuration phase also:
 bin/rails lesli:db:rebuild
 ```
 
-The task refuses to drop the database in production. Use it only for a disposable development environment and verify the active Rails environment before running it.
+The task runs only in the Rails development and test environments and refuses to run in staging, production, or custom environments. Use it only with disposable data and verify the active database before running it.
 
 ---
 

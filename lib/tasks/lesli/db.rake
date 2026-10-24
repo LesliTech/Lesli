@@ -34,7 +34,7 @@ Building a better future, one line of code at a time.
 namespace :lesli do 
     namespace :db do
 
-        desc "Drop, create, migrate, seed & configure the Lesli database (development only)"
+        desc "Drop, create, migrate, seed & configure the Lesli database (development and test only)"
         task :rebuild => :environment do |task, args|
             drop()
             prepare()
@@ -66,14 +66,17 @@ namespace :lesli do
         end
     end
 
-    # Drop the Lesli database (development only)
+    # Drop the Lesli database (development and test only)
     def drop
 
-        # do not execute this task if we are at production level
-        raise "Cannot drop database in production" if Rails.env.production?
+        # This task is intentionally available only for disposable local and
+        # automated-test databases.
+        unless Rails.env.development? || Rails.env.test?
+            raise "lesli:db:rebuild can only run in development or test"
+        end
 
         # print a message to let the users show the action running
-        Termline.m("Drop the Lesli database (development only)")
+        Termline.m("Drop the Lesli database (development and test only)")
 
         Rake::Task['db:drop'].invoke
         Termline.info("Databases deleted")

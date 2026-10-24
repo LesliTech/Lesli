@@ -135,7 +135,7 @@ It performs these operations:
 5. Builds resources and initializes accounts and installed engines.
 6. Prints the status report.
 
-The task raises an error when `Rails.env.production?` is true. That guard does not protect a database reached through a misconfigured development or test environment; verify the active database before running it.
+The task runs only in the Rails development and test environments. It raises an error in staging, production, and custom environments. This guard cannot detect a development or test configuration connected to the wrong database, so verify the active database before running it.
 
 ### Build the Resource Index
 

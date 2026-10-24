@@ -114,7 +114,7 @@ bin/rails lesli:status
 ```
 
 > [!WARNING]
-> `bin/rails lesli:db:rebuild` drops the database, deletes `db/schema.rb`, prepares and seeds the database, configures Lesli accounts, and prints the system status. It is blocked in production; use it only when you intentionally want to replace the current development data.
+> `bin/rails lesli:db:rebuild` drops the database, deletes `db/schema.rb`, prepares and seeds the database, configures Lesli accounts, and prints the system status. It runs only in the Rails development and test environments; use it only when you intentionally want to replace disposable data.
 
 ### Start the server
 
