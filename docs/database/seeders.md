@@ -11,7 +11,7 @@ Run database tasks through the host Rails application:
 | Command | Behavior |
 | --- | --- |
 | `bin/rails lesli:db:prepare` | Runs Rails `db:prepare`, configures Lesli for every account, and prints system status |
-| `bin/rails lesli:db:seed` | Loads seed files for installed Lesli engines, then the host application's seeds, and prints status |
+| `bin/rails lesli:db:seed` | Loads engine and host seeds, configures Lesli accounts and installed modules, and prints status |
 | `bin/rails lesli:db:rebuild` | Drops and recreates the database, seeds it, configures accounts, and prints status |
 | `bin/rails db:migrate:status` | Shows the migration state assembled from the host and installed engines |
 
@@ -47,9 +47,11 @@ The task refuses to drop the database in production. Use it only for a disposabl
 1. Reads installed engines from `LesliSystem.engines`.
 2. Calls `Engine.load_seed` for each installed Lesli engine, excluding the host application's `Root` entry.
 3. Invokes the host application's standard `db:seed` task.
-4. Prints Lesli system status.
+4. Rebuilds resources and initializes every Lesli account and its installed engines.
+5. Synchronizes privileges and translations when LesliShield or LesliBabel are installed.
+6. Prints Lesli system status.
 
-Lesli Core is an engine and loads its own `db/seeds.rb` through the same process. Its seed files create the initial account and users from `Lesli.config.company` and `Lesli.config.security`.
+Lesli Core is an engine and loads its own `db/seeds.rb` through the same process. Its seed files create the initial account and users from `Lesli.config.company` and `Lesli.config.security`. The configuration phase runs afterward so newly seeded accounts receive their roles, engine accounts, and privileges.
 
 The final set of seed files depends on which engine constants are loaded. Installing an engine does not guarantee useful seed data; its `db/seeds.rb` decides what to create for the active environment.
 
@@ -183,4 +185,4 @@ bin/rails lesli:db:seed
 
 The second run should succeed without changing record counts unexpectedly. Also test the environments or demo-mode branches the engine supports.
 
-After installing a new engine, run `lesli:db:prepare` before its seeds so its migrations and per-account initialization are complete.
+After installing a new engine, run `lesli:db:prepare` before its seeds so its migrations are applied. The subsequent `lesli:db:seed` execution configures existing and newly seeded accounts.

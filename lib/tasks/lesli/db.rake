@@ -58,9 +58,10 @@ namespace :lesli do
             status()
         end
 
-        desc "Seed the Lesli database"
+        desc "Seed and configure the Lesli database"
         task :seed => :environment do |task, args|
             seed()
+            configure()
             status()
         end
     end

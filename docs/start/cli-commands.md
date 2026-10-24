@@ -13,7 +13,7 @@ Commands under `lesli:` are provided by Lesli Core. Commands such as `server`, `
 | `bin/rails generate lesli:install` | Mounts Lesli and creates its initializer | Yes: routes and initializer |
 | `bin/rails lesli:install:migrations` | Copies Lesli Core migrations into the host application | Yes: migration files |
 | `bin/rails lesli:db:prepare` | Prepares the database and configures installed Lesli modules | Yes: schema and records |
-| `bin/rails lesli:db:seed` | Loads engine and host-application seeds | Yes: application data |
+| `bin/rails lesli:db:seed` | Loads seeds and configures installed Lesli modules | Yes: application data |
 | `bin/rails lesli:db:rebuild` | Replaces and rebuilds the current database | **Destructive** |
 | `bin/rails lesli:resources:build` | Registers controllers and actions from the current routes | Yes: Lesli resource records |
 | `bin/rails lesli:status` | Prints the environment and installed Lesli components | No |
@@ -108,9 +108,11 @@ The task does not load seed data. Run it after installing Lesli, adding an engin
 bin/rails lesli:db:seed
 ```
 
-**Purpose:** Loads seed files for each installed Lesli engine and then invokes the host application's Rails `db:seed` task.
+**Purpose:** Loads seed files for each installed Lesli engine, invokes the host application's Rails `db:seed` task, and configures Lesli accounts and installed modules.
 
-**Side effects:** Creates or updates whatever records the installed engines and host application define in their seed files, then prints `lesli:status`. There is no production restriction. Review every active seed file before running this command against persistent data; Core seed output may include initial user credentials.
+After loading seeds, the task rebuilds the resource index, initializes every Lesli account and its installed engines, synchronizes LesliShield privileges when available, and scans and imports LesliBabel translations when available. This ensures accounts created by seeders are ready to use.
+
+**Side effects:** Creates or updates seed and configuration records, then prints `lesli:status`. There is no production restriction. Review every active seed file before running this command against persistent data; Core seed output may include initial user credentials.
 
 See [Database Tasks and Seeders](/engines/lesli/database/seeders/) for seed order, idempotency, and production guidance.
 
