@@ -9,8 +9,9 @@ module <%= engine_namespace %>
       # Build the search hash using only present values.
       params = { id: id, uid: uid }.compact
 
-      # Only perform the lookup when at least one filter is present.
-      super(scope.find_by(params)) if params.any?
+      # An empty search must not return the first record in the account.
+      resource = scope.find_by(params) if params.any?
+      super(resource)
     end
 
     def index
@@ -19,10 +20,9 @@ module <%= engine_namespace %>
 
     def create(<%= params_method_name %>)
       <%= resource_name %> = current_user.account.<%= engine_domain_name %>.<%= resource_collection_name %>.new(<%= params_method_name %>)
+      self.resource = <%= resource_name %>
 
-      if <%= resource_name %>.save
-        self.resource = <%= resource_name %>
-      else
+      unless <%= resource_name %>.save
         self.error(<%= resource_name %>.errors.full_messages.to_sentence)
       end
 
@@ -34,11 +34,19 @@ module <%= engine_namespace %>
     end
 
     def update(params)
-      self.resource.update(params)
+      unless resource.update(params)
+        error(resource.errors.full_messages.to_sentence)
+      end
+
+      self
     end
 
     def destroy
-      self.resource.destroy
+      unless resource.destroy
+        error(resource.errors.full_messages.to_sentence)
+      end
+
+      self
     end
   end
 end

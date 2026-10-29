@@ -17,7 +17,7 @@ Initialize a service with the current user and the normalized controller query:
 service = MyEngine::TicketService.new(current_user, query)
 ```
 
-The base class stores `current_user`, `query`, a result resource, and a list of failures for the lifetime of the service instance.
+The base class stores `current_user`, `query`, a result resource, and a list of errors for the lifetime of the service instance.
 
 ## CRUD Contract
 
@@ -35,6 +35,88 @@ Keep custom actions such as `close!`, `assign!`, imports, or notifications out
 of the service. Implement them in the resource operator. A service may invoke
 an operator when additional domain work is an inseparable part of a CRUD
 operation.
+
+### Complete CRUD Example
+
+The base class intentionally does not provide empty CRUD methods. Implement
+the operations supported by the resource in its concrete service:
+
+```ruby
+module MyEngine
+    class TicketService < Lesli::ApplicationLesliService
+        def find(id:)
+            super(tickets.find_by(id: id))
+        end
+
+        def index
+            tickets
+                .order(id: :desc)
+                .page(query.dig(:pagination, :page))
+                .per(query.dig(:pagination, :perPage))
+        end
+
+        def show
+            resource
+        end
+
+        def create(attributes)
+            self.resource = tickets.new(attributes)
+
+            unless resource.save
+                error(resource.errors.full_messages.to_sentence)
+            end
+
+            self
+        end
+
+        def update(attributes)
+            unless resource.update(attributes)
+                error(resource.errors.full_messages.to_sentence)
+            end
+
+            self
+        end
+
+        def destroy
+            unless resource.destroy
+                error(resource.errors.full_messages.to_sentence)
+            end
+
+            self
+        end
+
+        private
+
+        def tickets
+            current_user.account.my_engine.tickets
+        end
+    end
+end
+```
+
+The return values are part of the service contract:
+
+| Method | Expected return value |
+| ------ | --------------------- |
+| `find` | The service object, with the record available through `result` |
+| `index` | An Active Record relation or collection |
+| `show` | The stored record or a detailed query result |
+| `create` | The service object |
+| `update` | The service object |
+| `destroy` | The service object |
+
+Assign the new record to `resource` before calling `save`. When validation
+fails, the controller can retrieve the invalid record through `result` and
+render the form without losing its values.
+
+`list` is not part of CRUD. Add it only when the resource needs a lightweight,
+usually unpaginated collection for selectors or options:
+
+```ruby
+def list
+    tickets.order(:subject).select(:id, :subject)
+end
+```
 
 ---
 
@@ -102,12 +184,10 @@ Mutation methods should return `self` so callers can inspect `successful?`, `res
 
 ```ruby
 def create(attributes)
-  ticket = current_user.account.my_engine.tickets.new(attributes)
+  self.resource = current_user.account.my_engine.tickets.new(attributes)
 
-  if ticket.save
-    self.resource = ticket
-  else
-    error(ticket.errors.full_messages.to_sentence)
+  unless resource.save
+    error(resource.errors.full_messages.to_sentence)
   end
 
   self
@@ -118,17 +198,21 @@ The base class provides:
 
 | Method | Purpose |
 | ------ | ------- |
-| `successful?` | Returns `true` when no failures have been registered |
-| `error(message)` | Appends a failure message |
-| `errors` | Returns all registered failures |
-| `errors_as_sentence` | Joins failures into one sentence |
+| `successful?` | Returns `true` when no errors have been registered |
+| `error(message)` | Appends an error message |
+| `errors` | Returns all registered errors |
+| `errors_as_sentence` | Joins errors into one sentence |
 | `result` | Returns the stored resource |
 | `found?` | Reports whether a stored resource is present |
 
-The base implementations of `list`, `index`, `show`, `update`, and `delete`
-are extension points and do not perform database operations. New resource
-services should expose `destroy` to match Rails controllers and Active Record;
-implement only the methods the resource needs.
+The base class does not implement CRUD methods. Each resource service exposes
+only the operations it supports and uses `destroy` to match Rails controllers
+and Active Record. Calling an operation that was not implemented raises Ruby's
+normal `NoMethodError` instead of silently returning `nil`.
+
+Use one service instance for one controller operation. Query methods return
+their data directly; mutation methods return `self` so controllers can inspect
+the standard result and error contract.
 
 ---
 

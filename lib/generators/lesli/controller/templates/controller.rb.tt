@@ -11,7 +11,7 @@ module <%= engine_namespace %>
     end
 
     def show
-      <%= resource_instance %> = <%= resource_instance %>.show
+      <%= resource_instance %> = <%= resource_instance %>_service.show
     end
 
     def new
@@ -40,13 +40,16 @@ module <%= engine_namespace %>
     end
 
     def update
-      if <%= resource_instance %>.update(<%= params_method_name %>)
+      <%= resource_name %> = <%= resource_instance %>_service.update(<%= params_method_name %>)
+      <%= resource_instance %> = <%= resource_name %>.result
+
+      if <%= resource_name %>.successful?
         respond_with_lesli(
           turbo: stream_notification_success("<%= resource_class_name %> updated successfully")
         )
       else
         respond_with_lesli(
-          turbo: stream_notification_danger(<%= resource_instance %>.errors)
+          turbo: stream_notification_danger(<%= resource_name %>.errors_as_sentence)
         )
       end
     end
@@ -55,20 +58,22 @@ module <%= engine_namespace %>
       return respond_with_not_found unless <%= resource_instance %>
       return respond_with_unauthorized unless <%= resource_instance %>.is_editable_by?(current_user)
 
-      <%= resource_name %>_destroy_response = <%= service_class_name %>.destroy(current_user, <%= resource_instance %>)
+      <%= resource_name %>_destroy_response = <%= resource_instance %>_service.destroy
 
       if <%= resource_name %>_destroy_response.successful?
         respond_with_successful
       else
-        respond_with_error(<%= resource_name %>_destroy_response.payload.errors.full_messages.to_sentence)
+        respond_with_error(<%= resource_name %>_destroy_response.errors_as_sentence)
       end
     end
 
     private
 
     def <%= set_resource_method_name %>
-      <%= resource_instance %> = <%= service_class_name %>.new(current_user, query).find(id: params[:id])
-      return respond_with_not_found unless <%= resource_instance %>.found?
+      <%= resource_instance %>_service = <%= service_class_name %>.new(current_user, query).find(id: params[:id])
+      return respond_with_not_found unless <%= resource_instance %>_service.found?
+
+      <%= resource_instance %> = <%= resource_instance %>_service.result
     end
 
     def <%= params_method_name %>
