@@ -128,8 +128,8 @@ Lesli.configure do |config|
         enable_logs: true,
         enable_journals: true,
         enable_analytics: true,
-        journal_retention_days: 90,
         analytics_retention_days: 400,
+        traffic_retention_days: 400,
         audit_retention_days: nil
     }
 

@@ -16,6 +16,11 @@ end
 
 Use `Lesli::ApplicationController` instead for public pages that do not need the authenticated engine lifecycle.
 
+Controllers are HTTP adapters. Delegate resource CRUD to services and named
+business actions to operators. The complete responsibility and dependency
+rules are documented in
+[Application Architecture](/engines/lesli/backend/architecture/).
+
 ---
 
 ## Controller Lifecycle
@@ -96,6 +101,33 @@ end
 `status:` applies to HTML, JSON, and Turbo Stream renders and defaults to `:ok`. HTML redirects use `redirect_status: :see_other` by default. Only provide formats the action is expected to serve; the responder selects the payload matching the request format.
 
 See [Controller Interfaces](/engines/lesli/backend/interfaces/) for complete examples covering multiple Turbo Stream actions, redirects, JSON payloads, default HTML rendering, and validation errors.
+
+---
+
+## Custom Business Actions
+
+Use an operator for a controller action that does not represent CRUD. Resolve
+the resource through its account-scoped service before invoking the operator:
+
+```ruby
+def close
+  service = TicketService.new(current_user, query).find(id: params[:id])
+  return respond_with_not_found unless service.found?
+
+  ticket = TicketOperator.new(
+    ticket: service.result,
+    actor: current_user
+  ).close!
+
+  respond_with_lesli(
+    turbo: stream_notification_success("Ticket closed"),
+    json: ticket
+  )
+end
+```
+
+The controller selects the response. The operator owns the close workflow and
+must not render, redirect, or construct Turbo Streams.
 
 ---
 

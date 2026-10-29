@@ -22,6 +22,17 @@ module MyEngine
 end
 ```
 
+## Model Responsibilities
+
+Models define associations, persistence invariants, validations, small scopes,
+and behavior local to the record. Rules that must hold regardless of whether a
+record is changed by a controller, job, console, or operator belong in the
+model.
+
+Use callbacks only to preserve the model's own persistence lifecycle. Put
+multi-model workflows, processing, notifications, and optional-engine
+integration in an operator so execution remains explicit.
+
 ---
 
 ## Soft Deletion

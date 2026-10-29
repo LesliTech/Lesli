@@ -1,10 +1,10 @@
 ---
 title: "Lesli Backend Development"
-description: "Build routes, controllers, services, models, and mailers with the shared Lesli backend conventions."
+description: "Structure Rails applications with Lesli controllers, services, operators, models, routes, and mailers."
 ---
 
 <!--
 This file is a replica of the main documentation file for this section
 -->
 
-<%= partial("router") %>
+<%= partial("architecture") %>

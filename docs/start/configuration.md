@@ -167,8 +167,8 @@ Lesli.configure do |config|
     enable_logs: true,
     enable_journals: true,
     enable_analytics: true,
-    journal_retention_days: 90,
     analytics_retention_days: 400,
+    traffic_retention_days: 400,
     audit_retention_days: nil
   )
 
@@ -178,9 +178,12 @@ end
 ```
 
 Refer to each engine's documentation before changing engine-specific keys.
-Audit retention values are positive integers measured in days. A `nil` value
-disables cleanup for that data class; activity events default to `nil` so the
-host must opt into their deletion explicitly.
+Audit retention values are positive integers measured in days. Authenticated
+application usage uses `analytics_retention_days`, imported provider traffic
+uses `traffic_retention_days`, and activity events use
+`audit_retention_days`. A `nil` value disables cleanup for that data class;
+activity events default to `nil` so the host must opt into their deletion
+explicitly.
 
 ---
 

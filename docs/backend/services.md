@@ -1,6 +1,8 @@
 # Services
 
-Lesli service objects keep account-scoped queries and business operations outside controllers. Framework services inherit from `Lesli::ApplicationLesliService`.
+Lesli service objects implement account-scoped CRUD outside controllers.
+Framework services inherit from `Lesli::ApplicationLesliService`. Business
+actions that are not CRUD belong in [Operators](/engines/lesli/backend/operators/).
 
 ```ruby
 module MyEngine
@@ -16,6 +18,23 @@ service = MyEngine::TicketService.new(current_user, query)
 ```
 
 The base class stores `current_user`, `query`, a result resource, and a list of failures for the lifetime of the service instance.
+
+## CRUD Contract
+
+One service represents one resource and follows the Rails resource lifecycle:
+
+```ruby
+TicketService#index
+TicketService#show
+TicketService#create
+TicketService#update
+TicketService#destroy
+```
+
+Keep custom actions such as `close!`, `assign!`, imports, or notifications out
+of the service. Implement them in the resource operator. A service may invoke
+an operator when additional domain work is an inseparable part of a CRUD
+operation.
 
 ---
 
@@ -106,7 +125,37 @@ The base class provides:
 | `result` | Returns the stored resource |
 | `found?` | Reports whether a stored resource is present |
 
-The base implementations of `list`, `index`, `show`, `update`, and `delete` are extension points and do not perform database operations. Implement the methods the service needs.
+The base implementations of `list`, `index`, `show`, `update`, and `delete`
+are extension points and do not perform database operations. New resource
+services should expose `destroy` to match Rails controllers and Active Record;
+implement only the methods the resource needs.
+
+---
+
+## Operator Coordination
+
+Services may use an operator while coordinating a CRUD transaction:
+
+```ruby
+def destroy
+  Ticket.transaction do
+    TicketOperator.new(
+      ticket: resource,
+      actor: current_user
+    ).cancel_pending_tasks!
+
+    resource.destroy!
+  end
+
+  self
+rescue ActiveRecord::RecordInvalid => exception
+  error(exception.record.errors.full_messages.to_sentence)
+  self
+end
+```
+
+The service owns this transaction because it coordinates the complete destroy
+operation. Operators must not call back into the resource service.
 
 ---
 
@@ -147,4 +196,7 @@ def create
 end
 ```
 
-Keep HTTP rendering in controllers and business failures in services.
+Keep HTTP rendering in controllers, CRUD failures in services, and non-CRUD
+business behavior in operators. See the
+[application architecture](/engines/lesli/backend/architecture/) for the full
+dependency contract.

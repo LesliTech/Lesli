@@ -4,7 +4,7 @@
     <li><h3><%= link_to("Tutorials", "/engines/lesli/tutorials") %></h3></li>
     <li><%= link_to("Build Your First SaaS", "/engines/lesli/tutorials/first-saas") %></li>
 </ul>
-<%= navigation_for_folder("engines", "lesli", "backend", order:["router","controllers","interfaces","services","courier","models","items","mailers"]) %>
+<%= navigation_for_folder("engines", "lesli", "backend", order:["architecture","router","controllers","interfaces","services","operators","courier","models","items","mailers"]) %>
 <%= navigation_for_folder("engines", "lesli", "frontend", order:["views", "styles", "javascript"]) %>
 <%= navigation_for_folder("engines", "lesli", "database", order:["structure", "versioning", "seeders"]) %>
 <%#= navigation_for_folder("engines", "lesli", "generators", order:[]) %>

@@ -156,25 +156,41 @@ class TaskService < Lesli::ApplicationLesliService
     @project = project
   end
 
+  def find(id:)
+    super(@project.tasks.find_by(id: id))
+  end
+
   def create(attributes)
     self.resource = @project.tasks.new(attributes)
     error(resource.errors.full_messages.to_sentence) unless resource.save
     self
   end
-
-  def complete(id:)
-    self.resource = @project.tasks.find_by(id: id)
-
-    unless resource
-      error("Task not found")
-      return self
-    end
-
-    error(resource.errors.full_messages.to_sentence) unless resource.update(completed: true)
-    self
-  end
 end
 ```
+
+Task completion is a state transition rather than CRUD. Create
+`app/operators/task_operator.rb`:
+
+```ruby
+class TaskOperator
+  def initialize(task:)
+    @task = task
+  end
+
+  def complete!
+    task.update!(completed: true)
+    task
+  end
+
+  private
+
+  attr_reader :task
+end
+```
+
+Services and operators are deliberately separate: `TaskService` owns scoped
+resource lookup and creation, while `TaskOperator` owns the named business
+transition.
 
 ### Add routes
 
@@ -185,7 +201,9 @@ Rails.application.routes.draw do
   Lesli::Router.mount(self)
 
   resources :projects do
-    resources :tasks, only: [:create, :update]
+    resources :tasks, only: [:create] do
+      patch :complete, on: :member
+    end
   end
 end
 ```
@@ -269,6 +287,7 @@ Replace `app/controllers/tasks_controller.rb` with:
 ```ruby
 class TasksController < ApplicationController
   before_action :set_project
+  before_action :set_task, only: :complete
 
   def create
     service = TaskService.new(@project).create(task_params)
@@ -280,14 +299,11 @@ class TasksController < ApplicationController
     end
   end
 
-  def update
-    service = TaskService.new(@project).complete(id: params[:id])
-
-    if service.successful?
-      redirect_to project_path(@project), notice: "Task completed."
-    else
-      redirect_to project_path(@project), alert: service.errors_as_sentence
-    end
+  def complete
+    TaskOperator.new(task: @task).complete!
+    redirect_to project_path(@project), notice: "Task completed."
+  rescue ActiveRecord::RecordInvalid => exception
+    redirect_to project_path(@project), alert: exception.record.errors.full_messages.to_sentence
   end
 
   private
@@ -296,13 +312,22 @@ class TasksController < ApplicationController
     @project = Project.find(params[:project_id])
   end
 
+  def set_task
+    service = TaskService.new(@project).find(id: params[:id])
+    return redirect_to(project_path(@project), alert: "Task not found.") unless service.found?
+
+    @task = service.result
+  end
+
   def task_params
     params.require(:task).permit(:title)
   end
 end
 ```
 
-The controllers use standard Rails strong parameters and redirects. Persistence and failure collection live in the service objects.
+The controllers use standard Rails strong parameters and redirects. CRUD and
+failure collection live in service objects, while the named completion
+transition lives in an operator.
 
 ## 5. Build the User Interface
 
@@ -477,7 +502,7 @@ Create `app/views/projects/show.html.erb`:
             <% unless task.completed? %>
               <%= render LesliView::Elements::Button.new(
                 "Mark complete",
-                url: project_task_path(@project, task),
+                url: complete_project_task_path(@project, task),
                 method: :patch,
                 icon: "check",
                 success: true,
@@ -495,7 +520,8 @@ Create `app/views/projects/show.html.erb`:
 <% end %>
 ```
 
-The nested form associates each task with the current project. The update action exposes one intentional transition: incomplete to complete.
+The nested form associates each task with the current project. The `complete`
+action exposes one intentional transition: incomplete to complete.
 
 ## 7. Run and Verify
 
@@ -564,7 +590,9 @@ You now have a host-application feature that combines ordinary Rails resources w
 
 Continue with:
 
-* [Architecture](/engines/lesli/about/architecture/) for the relationship between the host application, Core, Engines, and Gems.
+* [Application Architecture](/engines/lesli/backend/architecture/) for the Model, Controller, Service, and Operator responsibilities.
+* [Operators](/engines/lesli/backend/operators/) for reusable non-CRUD business actions.
+* [Framework Architecture](/engines/lesli/about/architecture/) for the relationship between the host application, Core, Engines, and Gems.
 * [Engines](/engines/) to add optional product capabilities.
 * [Gems](/gems/) for reusable libraries and development tools.
 * [LesliShield](/engines/shield/) when the application needs authentication, roles, and privileges.
