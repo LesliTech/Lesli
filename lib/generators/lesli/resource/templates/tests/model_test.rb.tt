@@ -1,0 +1,24 @@
+require "test_helper"
+
+module <%= engine_namespace %>
+    class <%= resource_class_name %>Test < ActiveSupport::TestCase
+        test "inherits from the shared Lesli record" do
+            assert_operator <%= resource_class_name %>, :<, Lesli::ApplicationLesliRecord
+        end
+
+        test "belongs to the local engine account" do
+            account = <%= resource_class_name %>.reflect_on_association(:account)
+
+            assert_equal :belongs_to, account&.macro
+            assert_equal "<%= engine_namespace %>::Account", account&.class_name
+        end
+<% if selected_items.any? -%>
+
+        test "includes the configured shared items" do
+<% selected_items.each do |item| -%>
+            assert_includes <%= resource_class_name %>.ancestors, Lesli::Items::<%= item.camelize %>
+<% end -%>
+        end
+<% end -%>
+    end
+end

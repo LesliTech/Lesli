@@ -1,0 +1,28 @@
+# frozen_string_literal: true
+
+class <%= migration_class_name %> < ActiveRecord::Migration[8.1]
+    def change
+        create_table :<%= table_name %> do |t|
+<% database_attributes.each do |attribute| -%>
+<% if attribute.reference? -%>
+            t.references :<%= attribute.name %><%= attribute.inject_options %>
+<% elsif attribute.password_digest? -%>
+            t.string :password_digest<%= attribute.inject_options %>
+<% elsif attribute.token? -%>
+            t.string :<%= attribute.column_name %><%= attribute.inject_options %>
+<% else -%>
+            t.<%= attribute.type %> :<%= attribute.column_name %><%= attribute.inject_options %>
+<% end -%>
+<% end -%>
+            t.datetime :deleted_at, index: true
+            t.timestamps
+        end
+
+        add_reference(
+            :<%= table_name %>,
+            :account,
+            null: false,
+            foreign_key: { to_table: :<%= account_table_name %> }
+        )
+    end
+end

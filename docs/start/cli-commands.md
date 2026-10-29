@@ -11,6 +11,7 @@ Commands under `lesli:` are provided by Lesli Core. Commands such as `server`, `
 | Command | Purpose | Changes files or data? |
 | ------- | ------- | ---------------------- |
 | `bin/rails generate lesli:install` | Mounts Lesli and creates its initializer | Yes: routes and initializer |
+| `bin/rails generate lesli NAME [field:type ...]` | Generates a complete engine resource | Yes: resource files, routes, and Account association |
 | `bin/rails lesli:install:migrations` | Copies Lesli Core migrations into the host application | Yes: migration files |
 | `bin/rails lesli:db:prepare` | Prepares the database and configures installed Lesli modules | Yes: schema and records |
 | `bin/rails lesli:db:build` | Prepares, seeds, and configures the database without dropping it | Yes: schema and application data |
@@ -198,75 +199,75 @@ Despite the `dev` namespace, the implementation does not enforce a development-o
 
 ## Generators
 
-### Supported Context
+### Generate a Complete Resource
 
-`lesli:install` is the host-application generator. The resource generators below are development tools for a Rails engine repository whose `bin/rails` defines `ENGINE_ROOT`, as a generated Rails engine does. They derive the Ruby namespace and destination paths from that engine root.
-
-Do not run the resource generators from a conventional host Rails application: a standard application does not define `ENGINE_ROOT`, and the generators cannot determine their destination.
-
-Each resource generator requires `NAME` and accepts zero or more Rails-style attributes:
-
-```text
-NAME [field:type field:type]
-```
-
-Singular and plural names are normalized. For example, `tickets` generates a singular `Ticket` model and service plus a plural `TicketsController` and views directory.
-
-The resource generators expose the same Rails runtime options listed for `lesli:install`. Because generated files are starting points, use `--pretend` first and review every generated file before committing it.
-
-### Model
+Run the generator from the engine that will own the resource:
 
 ```shell
-bin/rails generate lesli:model tickets
+bin/rails generate lesli ticket subject:string description:text
 ```
 
-Creates `app/models/<engine_name>/ticket.rb` with the engine namespace, its `ApplicationRecord` base, and a `belongs_to :account` association. It does not create a migration. Although the shared generator signature accepts attributes, the model template does not add columns or validations from them.
+The command creates the complete Lesli resource structure:
 
-### Controller
+* An account-scoped model and versioned migration.
+* A CRUD service and controller.
+* An operator for non-CRUD domain operations.
+* Index, show, new, edit, and form views.
+* English locale entries.
+* Model, service, operator, and controller tests.
+* A `has_many` association on the engine's local `Account` model.
+* A REST resource entry in the engine routes.
+
+The generator derives the namespace, paths, local account table, and migration prefix from the current engine. It requires the engine to have an `Account` model, a routes file, and a versioned account migration. Singular and plural resource names are normalized, so `ticket` and `tickets` both generate a `Ticket` model and `TicketsController`.
+
+Use `--pretend` before writing files:
 
 ```shell
-bin/rails generate lesli:controller tickets subject:string description:text
+bin/rails generate lesli ticket subject:string description:text --pretend
 ```
 
-Creates `app/controllers/<engine_name>/tickets_controller.rb` with Lesli-style CRUD actions and service integration. Attribute names are added to the generated strong-parameter allowlist. Review authorization, response handling, messages, and route helpers before using the controller in an application.
-
-### Service
+Remove the generated structure with the matching Rails destroy command:
 
 ```shell
-bin/rails generate lesli:service tickets
+bin/rails destroy lesli ticket
 ```
 
-Creates `app/services/<engine_name>/ticket_service.rb` with account-scoped `find`, `index`, `create`, `show`, `update`, and `destroy` methods. The accepted attribute list does not change the service template.
+Review generated files before committing them. The generator establishes the Lesli conventions and CRUD baseline, but product-specific validations, authorization rules, operator methods, and interface details still belong to the engine.
 
-### Views
+#### Attributes
+
+Attributes use the standard Rails generator syntax:
 
 ```shell
-bin/rails generate lesli:views tickets subject:string description:text owner_id:integer
+bin/rails generate lesli ticket \
+    subject:string \
+    description:text \
+    owner:references \
+    due_at:datetime
 ```
 
-Creates these files under `app/views/<engine_name>/tickets/`:
+Reference attributes create an optional model association, a database reference, and the corresponding `<name>_id` strong parameter. Active Storage attachment attributes and rich-text attributes use the Rails generator attribute types supported by the installed Rails version.
 
-```text
-_form.html.erb
-index.html.erb
-new.html.erb
-show.html.erb
-```
+#### Options
 
-Regular attributes become generic form controls, `description` becomes a textarea, and names ending in `_id` become selects with empty option collections that the application must populate. The generated views depend on LesliView components and require product-specific table columns, associations, labels, authorization, and empty or error states.
+| Option | Behavior |
+| ------ | -------- |
+| `--skip-operator` | Does not create the operator or its test |
+| `--skip-views` | Generates an API-oriented resource without HTML views |
+| `--skip-tests` | Does not create generated tests |
+| `--items=activities attachments discussions tasks` | Enables selected Lesli Item concerns and view components |
+| `--migration-namespace=NN` | Uses the requested two-digit feature namespace instead of allocating the next available one |
+| `--engine-root=PATH` | Targets an engine other than the current engine |
+| `--engine-namespace=NAME` | Overrides the Ruby namespace derived from the target directory |
 
-### Scaffold
+The `--items` values are optional and must be selected explicitly. Attachments require the host application to have the Active Storage tables and storage service configured; see [Items](/engines/lesli/backend/items/).
+
+`lesli:resource` and `lesli:scaffold` are aliases for the same complete generator. Prefer the shorter public command:
 
 ```shell
-bin/rails generate lesli:scaffold tickets
+bin/rails generate lesli ticket
 ```
 
-The scaffold invokes the model, controller, service, and views generators, then invokes Rails' Active Record migration and resource-route generators. It can therefore create multiple Ruby and ERB files, a migration, and a `resources :tickets` route.
+### Specialized Generators
 
-The Rails help output advertises `field:type` attributes for this generator. In the current Rails 8.1 implementation, however, parsed attribute objects are forwarded directly to the child generators and fail before generation completes. Until that forwarding is corrected, do not use the attribute form of `lesli:scaffold`; invoke the specialized generators and Rails migration and route generators separately.
-
-Use `--pretend` to inspect the complete scaffold operation before allowing it to write files:
-
-```shell
-bin/rails generate lesli:scaffold tickets --pretend
-```
+Lesli also keeps the lower-level `lesli:model`, `lesli:controller`, `lesli:service`, and `lesli:views` generators for focused maintenance work. They create only their named layer and do not provide the complete resource contract, migration, routes, Account association, operator, locales, or full test set. Prefer the complete generator for new resources.

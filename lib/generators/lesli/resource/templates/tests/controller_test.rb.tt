@@ -1,0 +1,14 @@
+require "test_helper"
+
+module <%= engine_namespace %>
+    class <%= controller_class_name %>ControllerTest < ActiveSupport::TestCase
+        test "defines the complete resource routes" do
+            route_names = <%= engine_namespace %>::Engine.routes.routes.filter_map(&:name)
+
+            assert_includes route_names, "<%= resource_collection_name %>"
+            assert_includes route_names, "<%= resource_name %>"
+            assert_includes route_names, "new_<%= resource_name %>"
+            assert_includes route_names, "edit_<%= resource_name %>"
+        end
+    end
+end

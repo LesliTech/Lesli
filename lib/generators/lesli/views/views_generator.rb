@@ -54,7 +54,7 @@ module Lesli
             # Example:
             #   app/views/lesli_support/tickets
             def views_directory
-                File.join(ENGINE_ROOT, "app/views", engine_name, resource_collection_name)
+                engine_root.join("app/views", engine_name, resource_collection_name)
             end
 
             # Returns only scalar-like attributes that can be rendered

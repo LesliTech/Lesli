@@ -1,0 +1,99 @@
+# frozen_string_literal: true
+
+module <%= engine_namespace %>
+    class <%= controller_class_name %>Controller < ApplicationController
+        before_action :<%= set_resource_method_name %>, only: %i[show edit update destroy]
+
+        def index
+            <%= resource_collection_instance %> = respond_with_pagination(
+                <%= service_class_name %>.new(current_user, query).index
+            )
+        end
+
+        def show
+            <%= resource_instance %> = <%= resource_instance %>_service.show
+        end
+
+        def new
+            <%= resource_instance %> = <%= resource_class_name %>.new
+        end
+
+        def edit
+        end
+
+        def create
+            service = <%= service_class_name %>.new(current_user, query).create(<%= params_method_name %>)
+            <%= resource_instance %> = service.result
+
+            if service.successful?
+                respond_with_lesli(
+                    turbo: stream_redirection(<%= resource_name %>_path(<%= resource_instance %>)),
+                    json: <%= resource_instance %>,
+                    redirect: <%= resource_name %>_path(<%= resource_instance %>)
+                )
+            else
+                respond_with_lesli(
+                    turbo: stream_notification_danger(service.errors_as_sentence),
+                    json: { errors: service.errors },
+                    html: :new,
+                    status: :unprocessable_entity
+                )
+            end
+        end
+
+        def update
+            service = <%= resource_instance %>_service.update(<%= params_method_name %>)
+            <%= resource_instance %> = service.result
+
+            if service.successful?
+                respond_with_lesli(
+                    turbo: stream_notification_success(t(".<%= resource_name %>_updated")),
+                    json: <%= resource_instance %>,
+                    redirect: <%= resource_name %>_path(<%= resource_instance %>)
+                )
+            else
+                respond_with_lesli(
+                    turbo: stream_notification_danger(service.errors_as_sentence),
+                    json: { errors: service.errors },
+                    html: :edit,
+                    status: :unprocessable_entity
+                )
+            end
+        end
+
+        def destroy
+            service = <%= resource_instance %>_service.destroy
+
+            if service.successful?
+                respond_with_lesli(
+                    turbo: stream_redirection(<%= resource_collection_name %>_path),
+                    json: nil,
+                    redirect: <%= resource_collection_name %>_path
+                )
+            else
+                respond_with_lesli(
+                    turbo: stream_notification_danger(service.errors_as_sentence),
+                    json: { errors: service.errors },
+                    status: :unprocessable_entity
+                )
+            end
+        end
+
+        private
+
+        def <%= set_resource_method_name %>
+            <%= resource_instance %>_service = <%= service_class_name %>.new(current_user, query).find(id: params[:id])
+            return respond_with_not_found unless <%= resource_instance %>_service.found?
+
+            <%= resource_instance %> = <%= resource_instance %>_service.result
+        end
+
+        def <%= params_method_name %>
+            params.require(:<%= resource_name %>).permit(
+<% permitted_attributes.each_with_index do |attribute, index| -%>
+                :<%= attribute %><%= "," unless index == permitted_attributes.length - 1 %>
+<% end -%>
+            )
+        end
+    end
+end

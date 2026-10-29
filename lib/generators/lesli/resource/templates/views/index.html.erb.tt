@@ -1,0 +1,22 @@
+<%% columns = [
+<% if index_attributes.empty? -%>
+    { label: "ID", field: "id" }
+<% else -%>
+<% index_attributes.each_with_index do |attribute, index| -%>
+    { label: "<%= attribute.human_name %>", field: "<%= attribute.column_name %>" }<%= "," unless index == index_attributes.length - 1 %>
+<% end -%>
+<% end -%>
+] %>
+
+<%%= render(LesliView::Layout::Container.new("<%= engine_domain_name %>-<%= resource_collection_name %>")) do %>
+    <%%= render(LesliView::Components::Header.new(
+        t("<%= engine_name %>.<%= resource_collection_name %>.index.title"),
+        new_path: new_<%= resource_name %>_path
+    )) %>
+    <%%= render(LesliView::Components::Toolbar.new) %>
+    <%%= render(LesliView::Elements::Table.new(
+        columns: columns,
+        records: <%= resource_collection_instance %>.dig(:records),
+        link: -> (<%= resource_name %>) { <%= resource_name %>_path(<%= resource_name %>) }
+    )) %>
+<%% end %>

@@ -1,0 +1,38 @@
+# frozen_string_literal: true
+
+module <%= engine_namespace %>
+    class <%= resource_class_name %> < Lesli::ApplicationLesliRecord
+        belongs_to :account, class_name: "<%= engine_namespace %>::Account"
+<% attributes.select(&:reference?).each do |attribute| -%>
+        belongs_to :<%= attribute.name %>, optional: true
+<% end -%>
+<% attributes.select(&:rich_text?).each do |attribute| -%>
+        has_rich_text :<%= attribute.name %>
+<% end -%>
+<% attributes.select(&:attachment?).each do |attribute| -%>
+        has_one_attached :<%= attribute.name %>
+<% end -%>
+<% attributes.select(&:attachments?).each do |attribute| -%>
+        has_many_attached :<%= attribute.name %>
+<% end -%>
+<% if selected_items.any? -%>
+
+        # Shared resource items
+<% selected_items.each do |item| -%>
+        include Lesli::Items::<%= item.camelize %>
+<% end -%>
+
+        def lesli_item_account
+            account
+        end
+
+        def lesli_item_accessible_by?(user)
+<% if engine_namespace == "Lesli" -%>
+            user.present? && account == user.account
+<% else -%>
+            user.present? && account.account == user.account
+<% end -%>
+        end
+<% end -%>
+    end
+end

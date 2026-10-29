@@ -1,0 +1,17 @@
+<%%= form_with(model: <%= resource_instance %>, builder: LesliView::Forms::Builder) do |form| %>
+    <%%= form.fieldset do %>
+<% form_attributes.each do |attribute| -%>
+<% if attribute.rich_text? -%>
+        <%%= form.field_control_textarea_rich(:<%= attribute.name %>, label: false) %>
+<% elsif attribute.type == :text -%>
+        <%%= form.field_control_textarea(:<%= attribute.name %>, label: false) %>
+<% elsif attribute.reference? -%>
+        <%%= form.field_control_select(:<%= attribute.column_name %>, []) %>
+<% elsif !attribute.attachment? && !attribute.attachments? -%>
+        <%%= form.field_control(:<%= attribute.column_name %>) %>
+<% end -%>
+<% end -%>
+
+        <%%= form.field_control_submit %>
+    <%% end %>
+<%% end %>

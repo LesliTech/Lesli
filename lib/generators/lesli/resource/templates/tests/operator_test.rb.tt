@@ -1,0 +1,15 @@
+require "test_helper"
+
+module <%= engine_namespace %>
+    class <%= operator_class_name %>Test < ActiveSupport::TestCase
+        test "is a plain Ruby resource operator" do
+            operator = <%= operator_class_name %>.new(
+                <%= resource_name %>: Object.new,
+                actor: Object.new
+            )
+
+            assert_instance_of <%= operator_class_name %>, operator
+            refute_operator <%= operator_class_name %>, :<, Lesli::ApplicationLesliService
+        end
+    end
+end

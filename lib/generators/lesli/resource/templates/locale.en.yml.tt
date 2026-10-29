@@ -1,0 +1,13 @@
+en:
+    <%= engine_name %>:
+        <%= resource_collection_name %>:
+            index:
+                title: "<%= resource_collection_name.humanize %>"
+            show:
+                title: "<%= resource_class_name %>"
+            new:
+                title: "New <%= resource_class_name %>"
+            edit:
+                title: "Edit <%= resource_class_name %>"
+            update:
+                <%= resource_name %>_updated: "<%= resource_class_name %> updated successfully"

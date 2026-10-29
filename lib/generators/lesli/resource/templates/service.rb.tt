@@ -1,0 +1,52 @@
+# frozen_string_literal: true
+
+module <%= engine_namespace %>
+    class <%= service_class_name %> < Lesli::ApplicationLesliService
+        def find(id:)
+            super(resources.find_by(id: id))
+        end
+
+        def index
+            resources
+                .order(id: :desc)
+                .page(query.dig(:pagination, :page))
+                .per(query.dig(:pagination, :perPage))
+        end
+
+        def show
+            resource
+        end
+
+        def create(attributes)
+            self.resource = resources.new(attributes)
+
+            unless resource.save
+                error(resource.errors.full_messages.to_sentence)
+            end
+
+            self
+        end
+
+        def update(attributes)
+            unless resource.update(attributes)
+                error(resource.errors.full_messages.to_sentence)
+            end
+
+            self
+        end
+
+        def destroy
+            unless resource.destroy
+                error(resource.errors.full_messages.to_sentence)
+            end
+
+            self
+        end
+
+        private
+
+        def resources
+            <%= account_resource_scope %>
+        end
+    end
+end

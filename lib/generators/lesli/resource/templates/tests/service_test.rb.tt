@@ -1,0 +1,17 @@
+require "test_helper"
+
+module <%= engine_namespace %>
+    class <%= service_class_name %>Test < ActiveSupport::TestCase
+        test "inherits from the Lesli service contract" do
+            assert_operator <%= service_class_name %>, :<, Lesli::ApplicationLesliService
+        end
+
+        test "implements the complete resource CRUD contract" do
+            operations = %i[find index show create update destroy]
+
+            operations.each do |operation|
+                assert_includes <%= service_class_name %>.instance_methods(false), operation
+            end
+        end
+    end
+end

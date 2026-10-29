@@ -15,8 +15,24 @@ module Lesli
         #
         # This avoids duplicating the same helper methods in every generator.
         class BaseGenerator < Rails::Generators::NamedBase
+            class_option :engine_root,
+                type: :string,
+                desc: "Target Rails engine root"
+
+            class_option :engine_namespace,
+                type: :string,
+                desc: "Target Rails engine Ruby namespace"
 
             private
+
+            def engine_root
+                configured_root = options[:engine_root]
+                configured_root = ENGINE_ROOT if configured_root.blank? && defined?(ENGINE_ROOT)
+
+                raise Thor::Error, "Lesli generators must run inside a Rails engine or receive --engine-root" if configured_root.blank?
+
+                Pathname.new(configured_root).expand_path
+            end
 
             # Returns the current engine folder name in snake_case.
             #
@@ -25,7 +41,7 @@ module Lesli
             #   "/code/my_engine"     -> "my_engine"
             #   "/code/store"         -> "store"
             def engine_name
-                File.basename(ENGINE_ROOT.to_s).underscore
+                engine_root.basename.to_s.underscore
             end
 
             # Returns the current engine Ruby namespace in CamelCase.
@@ -35,7 +51,7 @@ module Lesli
             #   "my_engine"     -> "MyEngine"
             #   "store"         -> "Store"
             def engine_namespace
-                engine_name.camelize
+                options[:engine_namespace].presence || engine_name.camelize
             end
 
             # Returns the domain name derived from the engine namespace.
@@ -161,11 +177,33 @@ module Lesli
             def permitted_attributes
                 return [] unless respond_to?(:attributes)
 
-                attributes.map(&:name)
+                attributes.map(&:column_name)
             end
 
             def namespaced_model_name
                 "#{engine_namespace}::#{resource_class_name}"
+            end
+
+            def table_name
+                "#{engine_name}_#{resource_collection_name}"
+            end
+
+            def account_table_name
+                "#{engine_name}_accounts"
+            end
+
+            def account_model_path
+                engine_root.join("app/models", engine_name, "account.rb")
+            end
+
+            def routes_path
+                engine_root.join("config/routes.rb")
+            end
+
+            def account_resource_scope
+                return "current_user.account.#{resource_collection_name}" if engine_namespace == "Lesli"
+
+                "current_user.account.#{engine_domain_name}.#{resource_collection_name}"
             end
         end
     end

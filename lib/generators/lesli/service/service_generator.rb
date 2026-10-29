@@ -25,7 +25,7 @@ module Lesli
             #   app/services/my_engine
             #   app/services/store
             def service_directory
-                File.join(ENGINE_ROOT, "app/services", engine_name)
+                engine_root.join("app/services", engine_name)
             end
 
             # Returns the final service file path.

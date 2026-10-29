@@ -25,7 +25,7 @@ module Lesli
       #   app/controllers/my_engine
       #   app/controllers/store
       def controller_directory
-        File.join(ENGINE_ROOT, "app/controllers", engine_name)
+        engine_root.join("app/controllers", engine_name)
       end
 
       # Returns the final controller file path.

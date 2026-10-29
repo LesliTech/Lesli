@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+module <%= engine_namespace %>
+    # Add explicit non-CRUD operations for <%= resource_class_name %> here.
+    class <%= operator_class_name %>
+        def initialize(<%= resource_name %>:, actor:)
+            @<%= resource_name %> = <%= resource_name %>
+            @actor = actor
+        end
+
+        private
+
+        attr_reader :<%= resource_name %>, :actor
+    end
+end

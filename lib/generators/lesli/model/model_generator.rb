@@ -29,7 +29,7 @@ module Lesli
             # Example:
             #   app/models/lesli_support
             def model_directory
-                File.join(ENGINE_ROOT, "app/models", engine_name)
+                engine_root.join("app/models", engine_name)
             end
 
             # Returns the final path of the generated model file.

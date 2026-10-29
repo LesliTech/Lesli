@@ -159,7 +159,9 @@ app/views/my_engine/tickets/
 
 The generated files are scaffolding, not a finished product. Replace generic select options, choose meaningful table columns, add empty and error states, and verify labels and actions before shipping the feature.
 
-`lesli:scaffold` invokes this view generator together with the model, controller, service, migration, and route generators.
+For a new resource, prefer `bin/rails generate lesli tickets ...`. The complete
+generator creates these views together with the model, migration, service,
+operator, controller, locale entries, routes, account association, and tests.
 
 ---
 

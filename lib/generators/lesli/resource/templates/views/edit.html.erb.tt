@@ -1,0 +1,4 @@
+<%%= render(LesliView::Layout::Container.new("edit-<%= resource_name %>")) do %>
+    <%%= render(LesliView::Components::Header.new(t("<%= engine_name %>.<%= resource_collection_name %>.edit.title"))) %>
+    <%%= render("form") %>
+<%% end %>
