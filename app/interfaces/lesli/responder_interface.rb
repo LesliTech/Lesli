@@ -32,6 +32,7 @@ Building a better future, one line of code at a time.
 
 module Lesli
     module ResponderInterface
+        NATIVE_TURBO_REDIRECTS = true
 
         # Lesli-specific response status used to tell JSON clients that they
         # must execute the action included in the response body.
@@ -65,9 +66,9 @@ module Lesli
         # Build a response for HTML, JSON, or Turbo Stream requests.
         #
         # `html` is passed to `render`. When omitted, Rails renders the current
-        # action's template. Use `redirect` for HTML redirects instead of
-        # invoking `redirect_to` before calling this method. `status` applies to
-        # rendered responses; redirects use `redirect_status`.
+        # action's template. Use `redirect` for HTML and Turbo redirects instead
+        # of invoking `redirect_to` before calling this method. `status` applies
+        # to rendered responses; redirects use `redirect_status`.
         def respond_with_lesli(
             turbo: nil,
             json: nil,
@@ -92,7 +93,13 @@ module Lesli
                 end
 
                 format.json { respond_with_http(status, json) }
-                format.turbo_stream { render(turbo_stream: turbo, status: status) }
+                format.turbo_stream do
+                    if redirect && turbo.nil?
+                        redirect_to(redirect, status: redirect_status)
+                    else
+                        render(turbo_stream: turbo, status: status)
+                    end
+                end
             end
         end
 
