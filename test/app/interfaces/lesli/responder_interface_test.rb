@@ -146,6 +146,32 @@ module Lesli
             assert_equal :temporary_redirect, @controller.redirect_args.second[:status]
         end
 
+        test "respond_with_lesli redirects turbo with see other by default" do
+            @controller.response_format = :turbo_stream
+
+            @controller.respond_with_lesli(redirect: "/examples/1")
+
+            assert_equal "/examples/1", @controller.redirect_args.first
+            assert_equal :see_other, @controller.redirect_args.second[:status]
+            assert_nil @controller.render_args
+        end
+
+        test "respond_with_lesli preserves an explicit turbo stream response" do
+            @controller.response_format = :turbo_stream
+            stream = { action: "replace" }
+
+            @controller.respond_with_lesli(
+                turbo: stream,
+                redirect: "/examples/1",
+                status: :unprocessable_entity
+            )
+
+            render_options = @controller.render_args.first
+            assert_equal stream, render_options[:turbo_stream]
+            assert_equal :unprocessable_entity, render_options[:status]
+            assert_nil @controller.redirect_args
+        end
+
         test "respond_with_lesli rejects html and redirect together" do
             error = assert_raises(ArgumentError) do
                 @controller.respond_with_lesli(

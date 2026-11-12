@@ -118,7 +118,11 @@ Lesli.configure do |config|
     # Shield module configuration
     config.shield = {
         path_after_login: defined?(LesliDashboard) ? "/dashboard" : "/",
-        default_role: "guest"
+        default_role: "guest",
+
+        # Invitations verify ownership of the recipient's email address. The
+        # invited user does not exist until the signed link is accepted.
+        invitation_expiration: 7.days
     }
 
 

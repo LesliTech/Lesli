@@ -73,7 +73,7 @@ Use this response when the original request cannot continue until the client per
 
 Status `490` is part of the Lesli API contract, not a standard HTTP status. Do not use it in place of standard authentication, authorization, missing-resource, or validation responses such as `401`, `403`, `404`, or `422`.
 
-`respond_with_lesli` accepts `html:`, `json:`, `turbo:`, `redirect:`, `status:`, and `redirect_status:`. Use `html:` to render a template and `redirect:` to redirect an HTML request; providing both raises `ArgumentError`. If neither is provided, Rails renders the current action template. `status:` defaults to `:ok`, while `redirect_status:` defaults to `:see_other`.
+`respond_with_lesli` accepts `html:`, `json:`, `turbo:`, `redirect:`, `status:`, and `redirect_status:`. Use `html:` to render a template and `redirect:` to redirect HTML and Turbo requests; providing `html:` and `redirect:` together raises `ArgumentError`. When both `turbo:` and `redirect:` are present, the explicit Turbo Stream response takes precedence. If neither rendering option nor redirect is provided, Rails renders the current action template. `status:` defaults to `:ok`, while `redirect_status:` defaults to `:see_other`.
 
 ### Response examples
 
@@ -110,7 +110,7 @@ def index
 end
 ```
 
-Use `redirect:` for a successful HTML form submission. The HTML response redirects with HTTP 303 by default, while `status:` applies to JSON and Turbo Stream rendering:
+Use `redirect:` for a successful HTML or Turbo form submission. Both navigational formats redirect with HTTP 303 by default. JSON continues to use `status:` and the payload supplied through `json:`:
 
 ```ruby
 success("Ticket created successfully")
@@ -121,7 +121,6 @@ respond_with_lesli(
     message: "Ticket created successfully",
     ticket: ticket
   },
-  turbo: stream_redirection(ticket_path(ticket)),
   status: :created
 )
 ```
@@ -177,11 +176,11 @@ respond_with_lesli(
 )
 ```
 
-`stream_redirection(path)` renders the shared redirection partial into the notification target. Use it inside a Turbo Stream response:
+`stream_redirection(path)` remains available for responses that explicitly need a Turbo Stream action. For ordinary redirects after a mutation, prefer the native `redirect:` option so Turbo receives an HTTP 303 and does not cache an executable redirect fragment:
 
 ```ruby
 respond_with_lesli(
-  turbo: stream_redirection(ticket_path(ticket))
+    redirect: ticket_path(ticket)
 )
 ```
 

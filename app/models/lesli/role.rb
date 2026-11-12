@@ -40,8 +40,20 @@ module Lesli
         has_many :privileges, dependent: :delete_all, class_name: 'LesliShield::Role::Privilege'
 
         # validations
-        validates :name, presence: :true
-        validates :permission_level, presence: :true
+        validates :name,
+            presence: true,
+            uniqueness: {
+                scope: :account_id,
+                case_sensitive: false,
+                conditions: -> { where(deleted_at: nil) }
+            }
+        validates :permission_level,
+            presence: true,
+            numericality: {
+                only_integer: true,
+                greater_than_or_equal_to: 0
+            }
+        validates :active, inclusion: { in: [true, false] }
 
         # initializers for new roles
         after_create :after_create_role
