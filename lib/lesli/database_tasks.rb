@@ -107,7 +107,7 @@ module Lesli
         end
 
         def configure_database
-            Termline.info("Setup the Lesli database")
+            Termline.info("Configure the Lesli database")
 
             build_resources
             initialize_accounts
