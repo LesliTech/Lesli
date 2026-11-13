@@ -1,0 +1,28 @@
+<% if @lesli_announcements.present? %>
+    <section id="application-lesli-announcements" class="mx-auto mt-6 w-full max-w-7xl space-y-3 px-4 sm:px-6 lg:px-8"
+        aria-label="<%= t('lesli.announcements.title') %>">
+        <% @lesli_announcements.each do |announcement| %>
+            <% style = announcement_style(announcement.category) %>
+            <div id="announcement-<%= announcement.id %>"
+                class="flex items-start gap-3 rounded-lg border-2 p-4 shadow-sm <%= style.fetch(:classes) %>">
+                <span class="material-symbols shrink-0" aria-hidden="true"><%= style.fetch(:icon) %></span>
+                <div class="min-w-0 flex-1">
+                    <span class="sr-only"><%= t("lesli.announcements.categories.#{announcement.category}", default: t('lesli.announcements.categories.info')) %></span>
+                    <p id="announcement-<%= announcement.id %>-message" class="whitespace-pre-wrap break-words font-medium"><%= announcement.message %></p>
+                    <% if announcement.url.present? %>
+                        <%= link_to t('lesli.announcements.open_link'), announcement.url,
+                            class: "mt-2 inline-block rounded underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2",
+                            data: { turbo_frame: "_top" } %>
+                    <% end %>
+                </div>
+                <% if announcement.can_be_closed? %>
+                    <%= button_to lesli_bell.dismiss_announcement_path(announcement), method: :post,
+                        class: "inline-flex h-10 w-10 shrink-0 items-center justify-center rounded hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2",
+                        aria: { label: t('lesli.announcements.dismiss'), describedby: "announcement-#{announcement.id}-message" } do %>
+                        <span class="material-symbols" aria-hidden="true">close</span>
+                    <% end %>
+                <% end %>
+            </div>
+        <% end %>
+    </section>
+<% end %>

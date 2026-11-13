@@ -51,6 +51,7 @@ module Lesli
         before_action :authorize_request if defined?(LesliShield)
         before_action :set_customizer
         before_action :set_requester
+        before_action :load_announcements
         after_action  :log_requests if defined?(LesliAudit)
 
         layout "lesli/layouts/application-lesli"
@@ -66,6 +67,23 @@ module Lesli
             payload[:action] = action_name
             payload[:session_id] = session[:user_session_id]
             current_user.log(**payload)
+        end
+
+        private
+
+        def load_announcements
+            @lesli_announcements = []
+            @lesli_announcements_enabled = false
+            return unless request.format.html? && !turbo_frame_request?
+            return unless respond_to?(:current_user, true) && current_user
+
+            announcements = Lesli::Courier.new(:LesliBell)
+                .from(:announcement_service, current_user)
+                .call(:list, path: request.path)
+            return unless announcements
+
+            @lesli_announcements_enabled = true
+            @lesli_announcements = announcements.to_a
         end
     end
 end

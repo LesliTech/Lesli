@@ -38,4 +38,9 @@ Building a better future, one line of code at a time.
 
 <%# enable turbo %>
 <meta name="turbo-prefetch" content="false">
+<%# Reload page-specific banners on history navigation instead of restoring
+    announcements that another request may have dismissed or expired. %>
+<% if @lesli_announcements_enabled %>
+    <meta name="turbo-cache-control" content="no-cache">
+<% end %>
 <meta name="view-transition" content="same-origin" />

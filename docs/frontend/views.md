@@ -46,8 +46,11 @@ Set `@application_html_title` and `@application_html_description` when a page ne
 1. Document metadata, runtime data, Turbo settings, shared assets, and analytics
 2. Application header and optional engine navigation
 3. Flash notification target
-4. Optional sidebar and the page content
-5. A Turbo-permanent SVG icon library
+4. Persistent announcement banners, when LesliBell and an authenticated user are available
+5. Optional sidebar and the page content
+6. A Turbo-permanent SVG icon library
+
+Announcements appear above the main content without covering it. The controller selects visible records for the current path; the partial renders escaped, multiline text and optional link and dismissal controls. Full-page Turbo navigation refreshes banners, while frame requests leave them unchanged. These authenticated pages disable Turbo snapshot caching to avoid restoring stale banners on history navigation. See [Announcements](/engines/bell/announcements/overview) for the visibility and dismissal contract.
 
 The shared asset partial loads the global LesliAssets stylesheet, the LesliView stylesheet, the current engine's `application` stylesheet, and the shared JavaScript bundle.
 

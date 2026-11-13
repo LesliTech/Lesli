@@ -1,6 +1,15 @@
 ---
 en:
   lesli:
+    announcements:
+      title: "Announcements"
+      open_link: "View details"
+      dismiss: "Dismiss announcement"
+      categories:
+        info: "Information"
+        success: "Success"
+        warning: "Warning"
+        danger: "Important notice"
     abouts: {}
     apps: {}
     header:
