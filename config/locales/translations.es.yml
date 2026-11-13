@@ -1,51 +1,45 @@
 ---
-:es:
+es:
   lesli:
-    items:
-      activities:
-        empty: Todavía no se ha registrado actividad.
-        unknown_actor: Usuario desconocido
-      discussions:
-        add: Agregar comentario
-        created: Comentario agregado exitosamente
-        empty: Todavía no se han agregado comentarios.
-        invalid: No se pudo agregar el comentario
-        unknown_author: Usuario desconocido
-      tasks:
-        add: Agregar tarea
-        complete_action: Marcar tarea como completada
-        completed: Tarea completada exitosamente
-        created: Tarea creada exitosamente
-        empty: Todavía no se han agregado tareas.
-        reopen_action: Marcar tarea como pendiente
-        reopened: Tarea reabierta exitosamente
-      attachments:
-        add: Agregar archivo
-        category: Categoría
-        choose_file: Seleccionar archivo
-        created: Archivo subido exitosamente
-        deleted: Archivo eliminado exitosamente
-        download: Descargar
-        empty: Todavía no se han adjuntado archivos.
-        label: Etiqueta
-        remove: Eliminar
-        confirm_remove: ¿Eliminar este archivo?
-        uploading: Subiendo...
-        errors:
-          required: debe ser adjuntado
-          too_large: debe ser menor de %{size}
-          unsupported_type: tiene un tipo de archivo no permitido
     header:
-      applications: Aplicaciones
-      dashboard: Panel de Lesli
-      logout: Cerrar sesión
-      notifications: Notificaciones
-      notifications_unread:
-        one: "%{count} notificación sin leer"
-        other: "%{count} notificaciones sin leer"
-      profile: Perfil
+      applications: "Aplicaciones"
+      dashboard: "Panel de Lesli"
+      logout: "Cerrar sesión"
+      notifications: "Notificaciones"
+      notifications_unread_one: "%{count} notificación sin leer"
+      notifications_unread_other: "%{count} notificaciones sin leer"
+      profile: "Perfil"
+    items:
+      activities_empty: "Todavía no se ha registrado actividad."
+      activities_unknown_actor: "Usuario desconocido"
+      attachments_add: "Agregar archivo"
+      attachments_category: "Categoría"
+      attachments_choose_file: "Seleccionar archivo"
+      attachments_confirm_remove: "¿Eliminar este archivo?"
+      attachments_created: "Archivo subido exitosamente"
+      attachments_deleted: "Archivo eliminado exitosamente"
+      attachments_download: "Descargar"
+      attachments_empty: "Todavía no se han adjuntado archivos."
+      attachments_errors_required: "debe ser adjuntado"
+      attachments_errors_too_large: "debe ser menor de %{size}"
+      attachments_errors_unsupported_type: "tiene un tipo de archivo no permitido"
+      attachments_label: "Etiqueta"
+      attachments_remove: "Eliminar"
+      attachments_uploading: "Subiendo..."
+      discussions_add: "Agregar comentario"
+      discussions_created: "Comentario agregado exitosamente"
+      discussions_empty: "Todavía no se han agregado comentarios."
+      discussions_invalid: "No se pudo agregar el comentario"
+      discussions_unknown_author: "Usuario desconocido"
+      tasks_add: "Agregar tarea"
+      tasks_complete_action: "Marcar tarea como completada"
+      tasks_completed: "Tarea completada exitosamente"
+      tasks_created: "Tarea creada exitosamente"
+      tasks_empty: "Todavía no se han agregado tareas."
+      tasks_reopen_action: "Marcar tarea como pendiente"
+      tasks_reopened: "Tarea reabierta exitosamente"
     shared:
       message_error_not_found: ":lesli.shared.message_error_not_found:"
-      message_error_resource_not_found: El recurso que estás buscando no fue encontrado
-      message_error_unauthorized: No autorizado
+      message_error_resource_not_found: "El recurso que estás buscando no fue encontrado"
+      message_error_unauthorized: "No autorizado"
       message_error_unauthorized_credentials: ":lesli.shared.message_error_unauthorized_credentials:"

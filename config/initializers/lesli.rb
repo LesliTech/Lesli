@@ -97,6 +97,7 @@ Lesli.configure do |config|
     }
 
     config.babel = {
+        allow_web_deploy: true,
         locales: {
             :en => "English",       # English
             :es => "Español",       # Español/Spanish

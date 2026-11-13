@@ -1,52 +1,45 @@
 ---
-:en:
+en:
   lesli:
-    items:
-      activities:
-        empty: No activities have been recorded yet.
-        unknown_actor: Unknown user
-      discussions:
-        add: Add comment
-        created: Comment added successfully
-        empty: No comments have been added yet.
-        invalid: Comment could not be added
-        unknown_author: Unknown user
-      tasks:
-        add: Add task
-        complete_action: Mark task as complete
-        completed: Task completed successfully
-        created: Task created successfully
-        empty: No tasks have been added yet.
-        reopen_action: Mark task as incomplete
-        reopened: Task reopened successfully
-      attachments:
-        add: Add file
-        category: Category
-        choose_file: Choose a file
-        created: File uploaded successfully
-        deleted: File removed successfully
-        download: Download
-        empty: No files have been attached yet.
-        label: Label
-        remove: Remove
-        confirm_remove: Remove this file?
-        uploading: Uploading...
-        errors:
-          required: must be attached
-          too_large: must be smaller than %{size}
-          unsupported_type: has an unsupported file type
     header:
-      applications: Applications
-      dashboard: Lesli Dashboard
-      logout: Logout
-      notifications: Notifications
-      notifications_unread:
-        one: "%{count} unread notification"
-        other: "%{count} unread notifications"
-      profile: Profile
+      applications: "Applications"
+      dashboard: "Lesli Dashboard"
+      logout: "Logout"
+      notifications: "Notifications"
+      notifications_unread_one: "%{count} unread notification"
+      notifications_unread_other: "%{count} unread notifications"
+      profile: "Profile"
+    items:
+      activities_empty: "No activities have been recorded yet."
+      activities_unknown_actor: "Unknown user"
+      attachments_add: "Add file"
+      attachments_category: "Category"
+      attachments_choose_file: "Choose a file"
+      attachments_confirm_remove: "Remove this file?"
+      attachments_created: "File uploaded successfully"
+      attachments_deleted: "File removed successfully"
+      attachments_download: "Download"
+      attachments_empty: "No files have been attached yet."
+      attachments_errors_required: "must be attached"
+      attachments_errors_too_large: "must be smaller than %{size}"
+      attachments_errors_unsupported_type: "has an unsupported file type"
+      attachments_label: "Label"
+      attachments_remove: "Remove"
+      attachments_uploading: "Uploading..."
+      discussions_add: "Add comment"
+      discussions_created: "Comment added successfully"
+      discussions_empty: "No comments have been added yet."
+      discussions_invalid: "Comment could not be added"
+      discussions_unknown_author: "Unknown user"
+      tasks_add: "Add task"
+      tasks_complete_action: "Mark task as complete"
+      tasks_completed: "Task completed successfully"
+      tasks_created: "Task created successfully"
+      tasks_empty: "No tasks have been added yet."
+      tasks_reopen_action: "Mark task as incomplete"
+      tasks_reopened: "Task reopened successfully"
     shared:
-      message_error_not_found: Not found
-      message_error_resource_not_found: The resource you are looking for was not found.
-      message_error_unauthorized: Unauthorized
-      message_error_unauthorized_credentials: 'We could not validate your privileges.
-        Please ask the administrator to send you an invite to see this content. '
+      message_error_not_found: "Not found"
+      message_error_resource_not_found: "The resource you are looking for was not found."
+      message_error_unauthorized: "Unauthorized"
+      message_error_unauthorized_credentials: "We could not validate your privileges. Please ask the administrator to send you an invite to see this content. "

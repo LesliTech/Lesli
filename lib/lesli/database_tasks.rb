@@ -134,7 +134,7 @@ module Lesli
             return unless defined?(::LesliBabel)
 
             Rake::Task["lesli_babel:scan"].invoke
-            Rake::Task["lesli_babel:import"].invoke
+            Rake::Task["lesli_babel:import"].invoke(true)
         end
 
         def print_status

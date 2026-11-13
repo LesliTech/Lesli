@@ -43,7 +43,7 @@ module Lesli
                 )
                 refresh_tasks
 
-                message = I18n.t("lesli.items.tasks.created")
+                message = I18n.t("lesli.items.tasks_created")
                 respond_with_lesli(
                     turbo: [
                         stream_notification_success(message),
@@ -160,7 +160,7 @@ module Lesli
 
             def task_status_message
                 status = @task.done? ? :completed : :reopened
-                I18n.t("lesli.items.tasks.#{status}")
+                I18n.t("lesli.items.tasks_#{status}")
             end
 
             def tasks_stream(task: nil)

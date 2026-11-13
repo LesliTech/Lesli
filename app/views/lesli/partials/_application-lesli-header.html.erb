@@ -40,7 +40,8 @@ Building a better future, one line of code at a time.
 
     dashboard_label = I18n.t("lesli.header.dashboard", default: "Lesli Dashboard")
     notifications_label = if notifications_count.positive?
-        I18n.t("lesli.header.notifications_unread", count: notifications_count, default: "%{count} unread notifications")
+        plural = notifications_count == 1 ? "one" : "other"
+        I18n.t("lesli.header.notifications_unread_#{plural}", count: notifications_count, default: "%{count} unread notifications")
     else
         I18n.t("lesli.header.notifications", default: "Notifications")
     end

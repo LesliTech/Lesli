@@ -42,7 +42,7 @@ module Lesli
                 )
                 refresh_discussions
 
-                message = I18n.t("lesli.items.discussions.created")
+                message = I18n.t("lesli.items.discussions_created")
                 respond_with_lesli(
                     turbo: [
                         stream_notification_success(message),
@@ -135,7 +135,7 @@ module Lesli
 
             def respond_with_comment_errors(comment)
                 refresh_discussions
-                message = I18n.t("lesli.items.discussions.invalid")
+                message = I18n.t("lesli.items.discussions_invalid")
                 respond_with_lesli(
                     turbo: [
                         stream_notification_danger(message),

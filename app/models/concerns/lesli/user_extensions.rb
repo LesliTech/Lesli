@@ -91,7 +91,8 @@ module Lesli
             operation:nil,   # two word action description
             description:nil, # human readable description
             session_id:nil,  # must come from server session
-            subject:nil # resource related to the log
+            subject:nil, # resource related to the log
+            details:{} # explicit domain data, never raw request parameters
             )
 
             return unless defined?(LesliAudit::ActivityAudit)
@@ -104,7 +105,8 @@ module Lesli
                 operation: operation,
                 description: description,
                 session_id: session_id,
-                subject: subject
+                subject: subject,
+                details: details
             )
         end
     end

@@ -82,7 +82,7 @@ module Lesli
 
                 errors.add(
                     :file,
-                    I18n.t("lesli.items.attachments.errors.required")
+                    I18n.t("lesli.items.attachments_errors_required")
                 )
             end
 
@@ -93,7 +93,7 @@ module Lesli
                 errors.add(
                     :file,
                     I18n.t(
-                        "lesli.items.attachments.errors.too_large",
+                        "lesli.items.attachments_errors_too_large",
                         size: ActiveSupport::NumberHelper.number_to_human_size(
                             self.class.lesli_attachment_max_file_size
                         )
@@ -109,7 +109,7 @@ module Lesli
 
                 errors.add(
                     :file,
-                    I18n.t("lesli.items.attachments.errors.unsupported_type")
+                    I18n.t("lesli.items.attachments_errors_unsupported_type")
                 )
             end
         end

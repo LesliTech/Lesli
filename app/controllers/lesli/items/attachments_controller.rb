@@ -66,7 +66,7 @@ module Lesli
                     respond_with_lesli(
                         turbo: [
                             stream_notification_success(
-                                I18n.t("lesli.items.attachments.created")
+                                I18n.t("lesli.items.attachments_created")
                             ),
                             attachments_stream
                         ],
@@ -97,11 +97,11 @@ module Lesli
                     respond_with_lesli(
                         turbo: [
                             stream_notification_success(
-                                I18n.t("lesli.items.attachments.deleted")
+                                I18n.t("lesli.items.attachments_deleted")
                             ),
                             attachments_stream
                         ],
-                        json: { message: I18n.t("lesli.items.attachments.deleted") },
+                        json: { message: I18n.t("lesli.items.attachments_deleted") },
                         redirect: return_path
                     )
                 else

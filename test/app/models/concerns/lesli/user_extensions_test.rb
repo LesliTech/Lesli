@@ -3,6 +3,17 @@ require "test_helper"
 
 module Lesli
     class UserExtensionsTest < LesliTesting::ModelTester
+        # Logging tests replace the optional engine with test doubles. Restore
+        # it afterward so they can run beside real LesliAudit integration tests.
+        setup do
+            @original_audit_module = Object.const_get(:LesliAudit) if Object.const_defined?(:LesliAudit)
+        end
+
+        teardown do
+            Object.send(:remove_const, :LesliAudit) if Object.const_defined?(:LesliAudit)
+            Object.const_set(:LesliAudit, @original_audit_module) if @original_audit_module
+        end
+
         # --- Test doubles ---------------------------------------------------------
 
         Setting = Struct.new(:name, :value)
@@ -189,6 +200,7 @@ module Lesli
                 end
             end
             audit.const_set(:ActivityAudit, activity_audit)
+            Object.send(:remove_const, :LesliAudit) if Object.const_defined?(:LesliAudit)
             Object.const_set(:LesliAudit, audit)
 
             subject = Struct.new(:id).new(99)
@@ -201,7 +213,8 @@ module Lesli
                 operation: "user create",
                 description: "Created user",
                 session_id: 777,
-                subject: subject
+                subject: subject,
+                details: { role_id: 42 }
             )
 
             assert_equal :event, result
@@ -215,12 +228,12 @@ module Lesli
             assert_equal "Created user", payload[:description]
             assert_equal 777, payload[:session_id]
             assert_same subject, payload[:subject]
-        ensure
-            Object.send(:remove_const, :LesliAudit) if Object.const_defined?(:LesliAudit)
+            assert_equal({ role_id: 42 }, payload[:details])
         end
 
         test "log does nothing when LesliAudit is defined without the activity service" do
-            Object.const_set(:LesliAudit, Module.new) unless Object.const_defined?(:LesliAudit)
+            Object.send(:remove_const, :LesliAudit) if Object.const_defined?(:LesliAudit)
+            Object.const_set(:LesliAudit, Module.new)
 
             user = FakeUser.new
 
@@ -228,8 +241,6 @@ module Lesli
                 operation: "session_creation_failed",
                 description: "user_locked"
             )
-        ensure
-            Object.send(:remove_const, :LesliAudit) if Object.const_defined?(:LesliAudit)
         end
     end
 end
