@@ -75,7 +75,7 @@ module Lesli
             item_class = class_names(
                 "group flex items-center gap-4 rounded-2xl px-4 py-3 text-base font-medium transition focus:outline-none focus:ring-2 focus:ring-sky-500/30",
                 "lg:gap-2 lg:rounded-xl lg:px-4 lg:py-2 lg:text-md",
-                active ? "bg-sky-50 text-sky-700" : "text-slate-600 hover:bg-slate-50 hover:text-slate-950 lg:text-slate-500"
+                active ? "text-sky-700" : "text-slate-600 hover:bg-slate-50 hover:text-slate-950 lg:text-slate-500"
             )
 
             icon_class = class_names(
