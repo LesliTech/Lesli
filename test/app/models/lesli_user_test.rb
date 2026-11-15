@@ -12,6 +12,51 @@ module Lesli
             assert lesli_users(:one).valid?
         end
 
+        test "time zone is optional and has no database default" do
+            column = Lesli::User.columns_hash.fetch("time_zone")
+            assert column.null
+            assert_nil column.default
+            assert_nil Lesli::User.new.time_zone
+            user = lesli_users(:one)
+            user.update!(time_zone: nil)
+            assert_nil user.reload.time_zone
+        end
+
+        test "accepts IANA time zones and rejects unknown zones and Rails display names" do
+            user = lesli_users(:one)
+            ["America/Guatemala", "Europe/Berlin", "UTC"].each do |zone|
+                user.update!(time_zone: zone)
+                assert_equal zone, user.reload.time_zone
+            end
+            ["Invalid/Timezone", "", "+02:00", "Eastern Time (US & Canada)"].each do |zone|
+                user.time_zone = zone
+                assert_not user.valid?
+                assert user.errors.added?(:time_zone, :inclusion, value: zone)
+            end
+        end
+
+        test "effective time zone uses the profile then global configuration then Rails configuration" do
+            previous_datetime = Lesli.config.datetime
+            previous_rails_zone = Rails.application.config.time_zone
+            Lesli.config.datetime = { time_zone: "America/Guatemala" }
+            Rails.application.config.time_zone = "UTC"
+            user = lesli_users(:one)
+            user.time_zone = "Europe/Berlin"
+            assert_equal "Europe/Berlin", user.effective_time_zone.name
+
+            user.time_zone = nil
+            assert_equal "America/Guatemala", user.effective_time_zone.name
+            Lesli.config.datetime = nil
+            Time.use_zone("Asia/Tokyo") do
+                assert_equal "UTC", user.effective_time_zone.name
+            end
+            assert_nil user.time_zone
+            assert_equal :utc, ActiveRecord.default_timezone
+        ensure
+            Lesli.config.datetime = previous_datetime
+            Rails.application.config.time_zone = previous_rails_zone
+        end
+
         test "declares the security associations used by the platform" do
             sessions = Lesli::User.reflect_on_association(:sessions)
             user_roles = Lesli::User.reflect_on_association(:user_roles)

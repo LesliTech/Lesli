@@ -46,6 +46,7 @@ module Lesli
 
         protect_from_forgery with: :exception
 
+        around_action :use_session_timezone
         before_action :set_locale 
         before_action :authenticate_request if defined?(LesliShield)
         before_action :authorize_request if defined?(LesliShield)
@@ -70,6 +71,13 @@ module Lesli
         end
 
         private
+
+        def use_session_timezone(&action)
+            # Scope the login timezone to this request, including services and views.
+            zone = Time.find_zone(session[:time_zone]) ||
+                Time.find_zone!(Lesli.config.datetime&.dig(:time_zone)) || Time.zone
+            Time.use_zone(zone, &action)
+        end
 
         def load_announcements
             @lesli_announcements = []

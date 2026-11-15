@@ -84,6 +84,23 @@ end
 
 Format values use Ruby `strftime` directives.
 
+### Timezone policy
+
+Store timestamps representing instants in UTC. For browser-aware interfaces,
+interpret user input and display dates in the browser's timezone, using
+`config.datetime[:time_zone]` as the global fallback. The configured zone controls
+interpretation and presentation; it does not change UTC database storage.
+The server's operating-system timezone is not the user's display preference.
+
+LesliCalendar implements this browser-based policy. LesliDate uses the global
+configured zone unless a zone is explicitly supplied; setting `config.datetime`
+alone does not automatically enable browser detection in every engine.
+
+A saved timezone preference per user is deferred. For now, travelers follow their
+device's configured timezone. Changing that zone changes the displayed hour,
+not the stored instant. Calendar dates without a time, such as birthdays, should
+remain `date` values rather than being converted to UTC timestamps.
+
 ---
 
 ## Localization

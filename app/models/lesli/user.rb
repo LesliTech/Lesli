@@ -34,6 +34,8 @@ module Lesli
     class User < ApplicationLesliRecord
         include Lesli::UserExtensions
 
+        validates :time_zone, inclusion: { in: TZInfo::Timezone.all_identifiers }, allow_nil: true
+
         # user required configuration
         validates(:email, 
             format: { with: URI::MailTo::EMAIL_REGEXP },
@@ -71,6 +73,11 @@ module Lesli
         has_many :account_logs, class_name: "LesliAudit::AccountLog", foreign_key: :user_id, inverse_of: :user
 
         before_create :before_create_user
+
+        # Resolve the display zone without storing the fallback as a user preference.
+        def effective_time_zone
+            Time.find_zone!(time_zone || Lesli.config.datetime&.dig(:time_zone).presence || Rails.application.config.time_zone)
+        end
 
         private
 

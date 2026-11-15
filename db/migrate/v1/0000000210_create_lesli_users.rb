@@ -46,6 +46,7 @@ class CreateLesliUsers < ActiveRecord::Migration[7.2]
             t.string    :salutation
             t.string    :first_name
             t.string    :last_name
+            t.string    :time_zone
 
             # Authenticable
             t.string    :email,              null: false, default: ""
