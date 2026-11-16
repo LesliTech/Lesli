@@ -21,7 +21,7 @@ module Lesli
         end
 
         test "Core renders an empty banner area without LesliBell" do
-            @controller.define_singleton_method(:current_user) { Object.new }
+            @controller.define_singleton_method(:current_user) { Lesli::User.new }
             bell = Object.send(:remove_const, :LesliBell) if Object.const_defined?(:LesliBell)
             get :show
             assert_response :success

@@ -126,6 +126,7 @@ module Lesli
         end
 
         def update params
+            params[:time_zone] = params[:time_zone].presence if params.key?(:time_zone)
 
             # old_attributes = resource.detail.attributes.merge({
             #     active: resource.active

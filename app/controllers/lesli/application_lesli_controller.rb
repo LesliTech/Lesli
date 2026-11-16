@@ -46,7 +46,7 @@ module Lesli
 
         protect_from_forgery with: :exception
 
-        around_action :use_session_timezone
+        around_action :use_user_timezone
         before_action :set_locale 
         before_action :authenticate_request if defined?(LesliShield)
         before_action :authorize_request if defined?(LesliShield)
@@ -72,10 +72,11 @@ module Lesli
 
         private
 
-        def use_session_timezone(&action)
-            # Scope the login timezone to this request, including services and views.
-            zone = Time.find_zone(session[:time_zone]) ||
-                Time.find_zone!(Lesli.config.datetime&.dig(:time_zone)) || Time.zone
+        def use_user_timezone(&action)
+            # Keep the profile zone scoped to this request, including services and views.
+            user = current_user if respond_to?(:current_user, true)
+            zone = user ? user.effective_time_zone :
+                Time.find_zone!(Lesli.config.datetime&.dig(:time_zone).presence || Rails.application.config.time_zone)
             Time.use_zone(zone, &action)
         end
 

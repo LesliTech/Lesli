@@ -86,20 +86,21 @@ Format values use Ruby `strftime` directives.
 
 ### Timezone policy
 
-Store timestamps representing instants in UTC. For browser-aware interfaces,
-interpret user input and display dates in the browser's timezone, using
-`config.datetime[:time_zone]` as the global fallback. The configured zone controls
-interpretation and presentation; it does not change UTC database storage.
-The server's operating-system timezone is not the user's display preference.
+Store timestamps representing instants in UTC. Core applies the authenticated
+user's `time_zone` profile preference during each request. When unset, it uses
+`config.datetime[:time_zone]`, then the Rails application timezone.
 
-LesliCalendar implements this browser-based policy. LesliDate uses the global
-configured zone unless a zone is explicitly supplied; setting `config.datetime`
-alone does not automatically enable browser detection in every engine.
+LesliDate, Date2, Calendar forms, Agenda and FullCalendar use this active zone.
+An explicit LesliDate `zone:` argument still takes precedence. Login does not
+capture the browser timezone; there is no timezone cookie, session setting or
+reload-based detection. Users change their preference in their profile.
+Jobs and mailers must explicitly apply the recipient's zone with
+`Time.use_zone(user.effective_time_zone)` because they do not run inside this
+HTTP callback. See [Jobs and emails](/gems/date/about/configuration#jobs-and-emails)
+for examples, including queued delivery.
 
-A saved timezone preference per user is deferred. For now, travelers follow their
-device's configured timezone. Changing that zone changes the displayed hour,
-not the stored instant. Calendar dates without a time, such as birthdays, should
-remain `date` values rather than being converted to UTC timestamps.
+Changing the display zone does not change stored instants. Calendar dates such
+as birthdays remain `date` values rather than UTC timestamps.
 
 ---
 
