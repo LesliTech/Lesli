@@ -74,6 +74,18 @@ module Lesli
             assert_select "time", text: "15.01.2027 16:00"
         end
 
+        test "successive requests do not share a user's timezone" do
+            Time.use_zone("UTC") do
+                { "Europe/Berlin" => "16:00", "America/Guatemala" => "09:00", nil => "09:00" }.each do |zone, hour|
+                    user = Lesli::User.new(time_zone: zone)
+                    @controller.define_singleton_method(:current_user) { user }
+                    get :show
+                    assert_equal "15.01.2027 #{hour}", response.parsed_body.fetch("date")
+                    assert_equal "UTC", Time.zone.name
+                end
+            end
+        end
+
         test "works without a current_user method" do
             @controller.singleton_class.undef_method(:current_user) if @controller.respond_to?(:current_user, true)
             get :show

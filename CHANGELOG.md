@@ -2,6 +2,8 @@
 
 ## 5.1.13 (unreleased)
 
+- Add optional profile timezones and request-scoped timezone resolution; use the initializer for users without a preference. See the upgrade guide for existing databases.
+
 - Establish Ruby 3.3.5 and Rails 8.1 as the tested release baseline.
 - Make Tailwind CSS the official styling pipeline and remove Sass/Bulma support.
 - Finalize the Activity, Task, Discussion, and Attachment Item contracts,

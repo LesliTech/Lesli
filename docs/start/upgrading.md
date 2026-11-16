@@ -168,3 +168,45 @@ bin/rails test:system
 
 When the host supports PostgreSQL in production, repeat its integration suite
 against PostgreSQL rather than relying only on SQLite.
+
+## Profile Timezones
+
+`lesli_users.time_zone` is an optional string containing an IANA identifier, with
+no database default. Existing users with `NULL` use the Lesli initializer's
+`datetime[:time_zone]`, then the Rails application timezone. Login does not
+initialize or overwrite this preference. Users can choose a zone in their
+profile; authorized administrators can edit it for users in their account.
+
+The original Core users migration and dummy schemas now include this column.
+Updating code does not rerun a migration already applied to an existing database.
+For a disposable development database, rebuild it. For a database whose records
+must be preserved, add a host migration before running the updated application:
+
+```ruby
+class AddTimeZoneToLesliUsers < ActiveRecord::Migration[8.1]
+    def change
+        add_column :lesli_users, :time_zone, :string
+    end
+end
+```
+
+Add this migration only when the column is absent. No timestamp backfill or
+conversion is needed: stored UTC instants, invitations and responses remain
+unchanged. Historical rows are displayed using the selected zone's offset for
+the event date, including daylight saving.
+
+Legacy browser-detected timezone cookies and session values are ignored. Browser
+location and device settings no longer choose the display zone. Existing users
+may therefore see different local hours until they select their preferred zone;
+this is a presentation change, not an event reschedule.
+
+Core scopes the zone to each request. LesliDate and Date2 now respect the active
+Rails zone, while an explicit `zone:` still wins. Jobs and mailers must apply
+`Time.use_zone(recipient.effective_time_zone)` when producing recipient-specific
+content; see [configuration](/gems/date/about/configuration#jobs-and-emails).
+FullCalendar assets must be rebuilt/deployed together with Calendar views so
+the browser receives the server-selected IANA zone.
+
+LesliDate's SQLite SQL-formatting helpers still support fixed-offset zones only;
+use Ruby formatting for zones with daylight-saving transitions, or PostgreSQL
+for SQL timezone conversion. See [database formatting](/gems/date/api/database).
