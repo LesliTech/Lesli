@@ -32,14 +32,9 @@ Building a better future, one line of code at a time.
 
 module Lesli
     class RolesController < ApplicationLesliController
-        before_action :set_role, only: []
 
         def list
-            respond_to do |format|
-                format.json { 
-                    respond_with_successful(RoleService.new(current_user, query).list(params)) 
-                }
-            end
+            respond_with_lesli(json: RoleService.new(current_user, query).list)
         end
     end
 end

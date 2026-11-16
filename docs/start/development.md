@@ -95,3 +95,17 @@ For core development, the main difference from a standard installation is how th
 * **Development installation** uses a local clone of the framework source code
 
 The rest of the installation flow is the same. If you also need to modify a Lesli engine or supporting gem, clone that repository into `engines/` or `gems/` and add its local path to the host application's `Gemfile`.
+
+## Testing Core with LesliDate Changes
+
+When running Core's own test suite inside the standard LesliBuilder workspace,
+its Gemfile uses `../../gems/LesliDate` if that checkout exists. Run
+`bundle install` from `engines/Lesli` after changing the dependency source,
+then run `bundle exec rake test`.
+
+This keeps development tests aligned with the formatter implementation that
+respects the active profile time zone. A standalone checkout without that
+folder uses the published dependency instead. The formatter fix must be
+released in LesliDate before standalone installations or CI using only
+published gems can rely on this behavior; a passing local suite does not
+verify the published package.

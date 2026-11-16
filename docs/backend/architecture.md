@@ -26,7 +26,7 @@ controller action, job, or task may invoke an operator directly.
 | --- | --- |
 | Model | Associations, persistence invariants, validations, small scopes, and local callbacks |
 | Controller | Authentication, authorization, parameters, HTTP formats, redirects, and status codes |
-| Service | Account-scoped `index`, `show`, `create`, `update`, and `destroy` operations |
+| Service | Account-scoped `index`, `list`, `show`, `create`, `update`, and `destroy` operations |
 | Operator | Named non-CRUD operations such as `close!`, `reopen!`, `assign!`, or `notify_owner!` |
 
 ### Models
@@ -44,19 +44,27 @@ Streams, redirect, or depend on `ActionController::Parameters`.
 
 ### Services
 
-One resource service exposes its CRUD lifecycle:
+A resource service exposes CRUD operations and lightweight selector reads:
 
 ```ruby
 TicketService#index
+TicketService#list
 TicketService#show
 TicketService#create
 TicketService#update
 TicketService#destroy
 ```
 
+`list` belongs in the service: it returns selector options, usually `id` and
+`name`, while `index` provides the administrative listing. Both are reads, so
+neither needs an operator.
+
 Services own account-scoped lookup, persistence, and the standard Lesli result
 contract. They may coordinate an operator when a CRUD action needs additional
-work. See [Services](/engines/lesli/backend/services/).
+work. `find` and the inherited result/error helpers support that contract; they
+are not additional business operations. Private helpers may keep the CRUD
+implementation readable. Do not add public workflow methods to the service.
+See [Services](/engines/lesli/backend/services/).
 
 ### Operators
 
@@ -122,6 +130,26 @@ app/
 └── services/my_engine/ticket_service.rb
 ```
 
-Start with one service and one operator per resource. Split an operator only
-when an operation becomes independently complex or no longer shares the same
-resource and collaborators.
+Create a service for resource CRUD. Add an operator only when the resource
+needs a non-CRUD operation; an empty operator is unnecessary. Split an operator
+only when an operation becomes independently complex or no longer shares the
+same resource and collaborators.
+
+## Choosing the Right Layer
+
+| Requirement | Location |
+| --- | --- |
+| Require a user's email on every save | Model validation |
+| List, show, create, update, or delete a user | `UserService` CRUD method |
+| Validate a dataset before importing it | `UserOperator#validate` |
+| Import users, close a ticket, or send a notification | Named operator method |
+| Permit input fields or choose an HTTP status | Controller |
+
+Classify an operation by its purpose, not by the SQL it executes. An operator
+may read or update records: closing a ticket is still a business operation,
+even when its implementation uses `update!`. An ordinary edit of a resource's
+attributes belongs in the service's `update` method.
+
+These are the standards for new and revised code. Existing services may still
+expose non-CRUD methods; move those operations to operators when updating their
+consumers. This documentation does not change existing runtime APIs.

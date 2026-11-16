@@ -121,8 +121,9 @@ module Lesli
 
         def initialize_accounts
             Lesli::Account.find_each do |account|
-                account.initialize_account
-                account.initialize_engines
+                operator = Lesli::AccountOperator.new(account: account)
+                operator.initialize_roles!
+                operator.initialize_engines!
             end
         end
 

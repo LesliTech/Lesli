@@ -9,11 +9,12 @@ module Lesli
             super(current_user.account.roles.find_by(id: id))
         end
 
-        def list(_params = nil)
+        # Return the roles available to the current user for selection.
+        def list
             current_user.account.roles
                 .where(permission_level: ..current_user.max_level_permission)
                 .order(permission_level: :desc, name: :asc)
-                .select(:id, :name, :permission_level)
+                .select(:id, :name)
         end
     end
 end

@@ -32,139 +32,58 @@ Building a better future, one line of code at a time.
 
 module Lesli
     class UserService < Lesli::ApplicationLesliService
-
-        def find id
+        def find(id)
             super(current_user.account.users.find_by(id: id))
         end
 
-
-        # Return a list of users that belongs to the account of the current_user
-        # this list is meant to be used in selectors, autocomplets, etc
-        def list params=nil
-            users = current_user.account.users
-
-            if params[:role].present?
-                # add simple quotes to the roles so the sql can manage the query
-                roles = params[:role].split(",").map { |role| "'#{role}'" }.join(", ")
-                # users = users.joins("
-                #     inner join (
-                #         select
-                #             ur.users_id, string_agg(r.\"name\", ', ') role_names
-                #         from user_roles ur
-                #         join roles r
-                #             on r.id = ur.role_id 
-                #             and r.name in ( #{ roles } )
-                #         where ur.deleted_at is null
-                #         group by ur.users_id
-                #     ) roles on roles.users_id = users.id
-                # ")
-
-                users = users.joins("
-                    inner join (
-                        select
-                            ur.users_id, string_agg(r.\"name\", ', ') role_names
-                        from user_roles ur
-                        join roles r
-                            on r.id = ur.role_id 
-                            and r.name in (:roles)
-                        where ur.deleted_at is null
-                        group by ur.users_id
-                    ) roles on roles.users_id = users.id
-                ")
-                .where('r.name IN (:roles)', roles: roles)
-
+        # Return only the identifier and display name needed by selectors.
+        # This read is account-scoped and intentionally not paginated.
+        def list(role: nil)
+            users = current_user.account.users.order(:first_name, :last_name, :id)
+            if role.present?
+                users = if defined?(LesliShield)
+                    users.joins(:roles).where(lesli_roles: { name: role.split(",").map(&:strip) }).distinct
+                else
+                    users.none
+                end
             end
 
-            users.order(name: :asc).select(
-                :id,
-                :email,
-                "CONCAT_WS(' ', first_name, last_name) as name",
-                "COALESCE(NULLIF(alias,''), email) as alias"
-            ).as_json
+            users.select(:id, :first_name, :last_name, :email).map do |user|
+                { "id" => user.id, "name" => user.full_name }
+            end
         end
 
-        # @return [Array] Paginated index of users.
-        # @description Return a paginated array of users, used mostly in frontend views
-        # TODO: Implement pg_search
-        def index params
-
-            # Build user full name
-            fullname_sql = "TRIM(CONCAT(lesli_users.first_name, ' ', lesli_users.last_name))"
-
-            # Build user status
-            status_sql = "case when lesli_users.active is true then 'active' else 'inactive' end"
-
-            # Get all the roles assigned to the user
-            roles_subquery = <<-SQL
-                LEFT JOIN (
-                    SELECT ur.user_id, string_agg(r.name, ', ' ORDER BY r.name) as rolenames
-                    FROM lesli_shield_user_roles ur
-                    JOIN lesli_roles r ON r.id = ur.role_id
-                    WHERE ur.deleted_at IS NULL
-                    GROUP BY ur.user_id
-                ) roles ON roles.user_id = lesli_users.id
-            SQL
-
-            current_user.account.users
-            .joins(roles_subquery)
-            .select(
-                :id,
-                :email,
-                :active,
-                "#{status_sql} AS status",
-                "#{fullname_sql} AS fullname",
-                "COALESCE(roles.rolenames, '') AS rolenames",
+        def index
+            users = current_user.account.users.order(:first_name, :last_name, :id)
+            users = users.select(
+                "lesli_users.*",
+                "TRIM(CONCAT(COALESCE(first_name, ''), ' ', COALESCE(last_name, ''))) AS fullname",
+                "CASE WHEN active THEN 'active' ELSE 'inactive' END AS status",
+                "'' AS rolenames",
                 Date2.new.date_time.db_column("current_sign_in_at")
-            )
-            .page(query.dig(:pagination, :page))
-            .per(query.dig(:pagination, :perPage))
+            ).page(query.dig(:pagination, :page)).per(query.dig(:pagination, :perPage))
+
+            # Preload role names instead of using database-specific string aggregation.
+            if defined?(LesliShield)
+                users = users.preload(:roles)
+                users.each { |user| user[:rolenames] = user.roles.map(&:name).join(", ") }
+            end
+
+            users
         end
 
-        # Creates a query that selects all user information from several tables if CloudLock is present
         def show
             resource
         end
 
-        def update params
-            params[:time_zone] = params[:time_zone].presence if params.key?(:time_zone)
+        def update(attributes)
+            attributes = attributes.to_h.symbolize_keys
+            attributes[:time_zone] = attributes[:time_zone].presence if attributes.key?(:time_zone)
+            resource.assign_attributes(attributes)
+            resource.alias = resource.full_name_initials if resource.alias.blank?
 
-            # old_attributes = resource.detail.attributes.merge({
-            #     active: resource.active
-            # })
-
-            if resource.update(params)
-
-                # Set the user alias based on the full_name.
-                if resource.alias.empty?
-                    resource.update(alias: resource.full_name_initials())
-                end
-
-                # new_attributes = resource.detail.attributes.merge({
-                #     active: resource.active
-                # })
-                #resource.log_activity_update(current_user, resource, old_attributes, new_attributes)
-            else
-                self.error(resource.errors.full_messages.to_sentence)
-            end
-            
-            self
+            error(resource.errors.full_messages.to_sentence) unless resource.save
+            response(resource)
         end
-
-        def sessions
-            resource.sessions
-        end
-
-        def roles 
-            resource.roles
-        end
-
-        def logs
-            return [] unless defined?(LesliAudit)
-            resource.logs
-            .order(id: :desc)
-            .select(:id, :operation, :description, Date2.new.db_column('created_at', as:'date'))
-            .limit(7)
-            .as_json
-        end 
     end
 end

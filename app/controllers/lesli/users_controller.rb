@@ -35,11 +35,7 @@ module Lesli
 
         # GET /users/list
         def list
-            respond_to do |format|
-                format.json { 
-                    respond_with_successful(UserService.new(current_user, query).list(params)) 
-                }
-            end
+            respond_with_lesli(json: UserService.new(current_user, query).list(role: params[:role]))
         end
     end
 end

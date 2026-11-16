@@ -6,9 +6,9 @@ An engine can expose its own namespaced base class:
 
 ```ruby
 module MyEngine
-  class ApplicationRecord < Lesli::ApplicationLesliRecord
-    self.abstract_class = true
-  end
+    class ApplicationRecord < Lesli::ApplicationLesliRecord
+        self.abstract_class = true
+    end
 end
 ```
 
@@ -16,9 +16,9 @@ Resource models then inherit from the engine base:
 
 ```ruby
 module MyEngine
-  class Ticket < ApplicationRecord
-    belongs_to :account, class_name: "Lesli::Account"
-  end
+    class Ticket < ApplicationRecord
+        belongs_to :account, class_name: "MyEngine::Account"
+    end
 end
 ```
 
@@ -33,6 +33,14 @@ Use callbacks only to preserve the model's own persistence lifecycle. Put
 multi-model workflows, processing, notifications, and optional-engine
 integration in an operator so execution remains explicit.
 
+For example, `validates :email, presence: true` belongs in `User`: every saved
+user must satisfy that rule. Checking a batch of imported user data belongs in
+`UserOperator#validate`. The operator may reuse model validations, but must not
+replace them or make record integrity depend on one entry point.
+
+A concern groups reusable model behavior; it is not a substitute for an
+operator that coordinates a business workflow.
+
 ---
 
 ## Soft Deletion
@@ -41,10 +49,10 @@ Models that inherit from `Lesli::ApplicationLesliRecord` use `acts_as_paranoid`.
 
 ```ruby
 create_table :my_engine_tickets do |t|
-  t.references :account, null: false, foreign_key: { to_table: :lesli_accounts }
-  t.string :subject, null: false
-  t.datetime :deleted_at
-  t.timestamps
+    t.references :account, null: false, foreign_key: { to_table: :my_engine_accounts }
+    t.string :subject, null: false
+    t.datetime :deleted_at
+    t.timestamps
 end
 
 add_index :my_engine_tickets, :deleted_at
@@ -62,7 +70,7 @@ Do not add `acts_as_paranoid` again in every model when the engine base already 
 
 ```ruby
 before_create do
-  self.uid ||= generate_resource_uid(prefix: "TKT", length: 6)
+    self.uid ||= generate_resource_uid(prefix: "TKT", length: 6)
 end
 ```
 
@@ -102,9 +110,9 @@ Lesli Core exposes one association for each supported engine workspace:
 
 ```ruby
 has_one :my_engine,
-  class_name: "MyEngine::Account",
-  foreign_key: :account_id,
-  inverse_of: :account
+    class_name: "MyEngine::Account",
+    foreign_key: :account_id,
+    inverse_of: :account
 ```
 
 The matching engine model owns the inverse association. An engine account is a
@@ -113,13 +121,13 @@ unique database index and the model must mirror that constraint:
 
 ```ruby
 module MyEngine
-  class Account < ApplicationRecord
-    belongs_to :account,
-      class_name: "Lesli::Account",
-      inverse_of: :my_engine
+    class Account < ApplicationRecord
+        belongs_to :account,
+            class_name: "Lesli::Account",
+            inverse_of: :my_engine
 
-    validates :account_id, uniqueness: true
-  end
+        validates :account_id, uniqueness: true
+    end
 end
 ```
 
@@ -152,12 +160,12 @@ activities, or file attachments:
 
 ```ruby
 module MyEngine
-  class Ticket < ApplicationRecord
-    include Lesli::Items::Tasks
-    include Lesli::Items::Discussions
-    include Lesli::Items::Activities
-    include Lesli::Items::Attachments
-  end
+    class Ticket < ApplicationRecord
+        include Lesli::Items::Tasks
+        include Lesli::Items::Discussions
+        include Lesli::Items::Activities
+        include Lesli::Items::Attachments
+    end
 end
 ```
 
@@ -175,8 +183,8 @@ configured association:
 
 ```ruby
 lesli_activities_setup(
-  use: "MyEngine::Items::Activity",
-  association_name: :activity_history
+    use: "MyEngine::Items::Activity",
+    association_name: :activity_history
 )
 ```
 
@@ -194,13 +202,13 @@ Every concrete activity model must declare its table explicitly:
 
 ```ruby
 module MyEngine
-  module Items
-    class Activity < Lesli::Items::Activity
-      self.table_name = "my_engine_items_activities"
+    module Items
+        class Activity < Lesli::Items::Activity
+            self.table_name = "my_engine_items_activities"
 
-      belongs_to :account, class_name: "MyEngine::Account"
+            belongs_to :account, class_name: "MyEngine::Account"
+        end
     end
-  end
 end
 ```
 
@@ -209,13 +217,13 @@ polymorphic subject, and the method returns the persisted activity:
 
 ```ruby
 activity = ticket.record_activity!(
-  actor: current_user,
-  code: :priority_changed,
-  description: "Ticket priority changed",
-  metadata: {
-    from: previous_priority_id,
-    to: ticket.priority_id
-  }
+    actor: current_user,
+    code: :priority_changed,
+    description: "Ticket priority changed",
+    metadata: {
+        from: previous_priority_id,
+        to: ticket.priority_id
+    }
 )
 ```
 
@@ -226,7 +234,7 @@ account:
 
 ```ruby
 def lesli_item_account
-  account
+    account
 end
 ```
 
@@ -252,8 +260,8 @@ and returns the persisted comment:
 
 ```ruby
 comment = ticket.add_comment!(
-  author: current_user,
-  message: "Follow up with the customer"
+    author: current_user,
+    message: "Follow up with the customer"
 )
 ```
 
@@ -263,8 +271,8 @@ When an engine configures a different association name,
 
 ```ruby
 lesli_discussions_setup(
-  use: "MyEngine::Items::Discussion",
-  association_name: :comments
+    use: "MyEngine::Items::Discussion",
+    association_name: :comments
 )
 ```
 
@@ -282,8 +290,8 @@ invalid, and returns the persisted task:
 
 ```ruby
 task = ticket.add_task!(
-  creator: current_user,
-  title: "Follow up with customer"
+    creator: current_user,
+    title: "Follow up with customer"
 )
 ```
 
@@ -292,8 +300,8 @@ and `add_task!` continues to use the configured association:
 
 ```ruby
 lesli_tasks_setup(
-  use: "MyEngine::Items::Task",
-  association_name: :task_list
+    use: "MyEngine::Items::Task",
+    association_name: :task_list
 )
 ```
 
@@ -303,13 +311,13 @@ engine account, Core uploader, polymorphic resource, label, and category:
 
 ```ruby
 module MyEngine
-  module Items
-    class Attachment < Lesli::Items::Attachment
-      self.table_name = "my_engine_items_attachments"
+    module Items
+        class Attachment < Lesli::Items::Attachment
+            self.table_name = "my_engine_items_attachments"
 
-      belongs_to :account, class_name: "MyEngine::Account"
+            belongs_to :account, class_name: "MyEngine::Account"
+        end
     end
-  end
 end
 ```
 

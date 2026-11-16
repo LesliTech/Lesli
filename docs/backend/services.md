@@ -6,8 +6,8 @@ actions that are not CRUD belong in [Operators](/engines/lesli/backend/operators
 
 ```ruby
 module MyEngine
-  class TicketService < Lesli::ApplicationLesliService
-  end
+    class TicketService < Lesli::ApplicationLesliService
+    end
 end
 ```
 
@@ -19,12 +19,13 @@ service = MyEngine::TicketService.new(current_user, query)
 
 The base class stores `current_user`, `query`, a result resource, and a list of errors for the lifetime of the service instance.
 
-## CRUD Contract
+## CRUD and Selector Contract
 
 One service represents one resource and follows the Rails resource lifecycle:
 
 ```ruby
 TicketService#index
+TicketService#list
 TicketService#show
 TicketService#create
 TicketService#update
@@ -100,6 +101,7 @@ The return values are part of the service contract:
 | ------ | --------------------- |
 | `find` | The service object, with the record available through `result` |
 | `index` | An Active Record relation or collection |
+| `list` | A lightweight collection of selector options, usually `id` and `name` |
 | `show` | The stored record or a detailed query result |
 | `create` | The service object |
 | `update` | The service object |
@@ -109,14 +111,37 @@ Assign the new record to `resource` before calling `save`. When validation
 fails, the controller can retrieve the invalid record through `result` and
 render the form without losing its values.
 
-`list` is not part of CRUD. Add it only when the resource needs a lightweight,
-usually unpaginated collection for selectors or options:
+### Selector Lists
+
+`list` belongs in the resource service. It is a read operation for selection
+components, not a business workflow and not an operator responsibility.
+Implement it whenever a resource needs selector options:
+
+* `index`: administrative listing, normally paginated and containing table data.
+* `list`: lightweight selector options, normally only `id` and `name`, without pagination.
+* `show`: the detail of one resource.
+
+Keep account scoping and access restrictions in `list`, and select only the
+columns needed to build the options. Explicit filters are appropriate; an
+`options: true` switch on `index` is unnecessary.
 
 ```ruby
 def list
-    tickets.order(:subject).select(:id, :subject)
+    current_user.account.my_engine.tickets.order(:subject, :id)
+        .select(:id, "subject AS name")
 end
 ```
+
+Do not add business workflows such as `validate`, `import`, or `notify` to the
+service. Those belong in an operator.
+
+`find` is the existing lookup helper used before `show`, `update`, and
+`destroy`, not an additional business action. The same exception applies to
+inherited result, error, and cache helpers. Private methods may organize CRUD
+implementation without expanding the service's public business API.
+
+Rails `new` and `edit` prepare forms; they do not require matching service
+methods or empty placeholders.
 
 ---
 
@@ -126,10 +151,10 @@ Build queries through the current user's account association. This preserves the
 
 ```ruby
 def index
-  current_user.account.my_engine.tickets
-    .order(id: :desc)
-    .page(query.dig(:pagination, :page))
-    .per(query.dig(:pagination, :perPage))
+    current_user.account.my_engine.tickets
+        .order(id: :desc)
+        .page(query.dig(:pagination, :page))
+        .per(query.dig(:pagination, :perPage))
 end
 ```
 
@@ -139,16 +164,16 @@ Request ordering values must be allowlisted before they reach `order`:
 
 ```ruby
 def index
-  allowed_columns = %w[id subject created_at]
-  allowed_directions = %w[asc desc]
+    allowed_columns = %w[id subject created_at]
+    allowed_directions = %w[asc desc]
 
-  column = query.dig(:order, :by).to_s
-  direction = query.dig(:order, :dir).to_s.downcase
+    column = query.dig(:order, :by).to_s
+    direction = query.dig(:order, :dir).to_s.downcase
 
-  column = "id" unless allowed_columns.include?(column)
-  direction = "desc" unless allowed_directions.include?(direction)
+    column = "id" unless allowed_columns.include?(column)
+    direction = "desc" unless allowed_directions.include?(direction)
 
-  current_user.account.my_engine.tickets.order(column => direction)
+    current_user.account.my_engine.tickets.order(column => direction)
 end
 ```
 
@@ -160,8 +185,8 @@ The base `find` method accepts a resource, stores it, and returns the service ob
 
 ```ruby
 def find(id:)
-  ticket = current_user.account.my_engine.tickets.find_by(id: id)
-  super(ticket)
+    ticket = current_user.account.my_engine.tickets.find_by(id: id)
+    super(ticket)
 end
 ```
 
@@ -180,17 +205,17 @@ return respond_with_not_found unless ticket.found?
 
 ## Mutations and Failures
 
-Mutation methods should return `self` so callers can inspect `successful?`, `result`, and `errors`:
+Mutation methods should return `self` (or `response(resource)`) so callers can inspect `successful?`, `result`, and `errors`:
 
 ```ruby
 def create(attributes)
-  self.resource = current_user.account.my_engine.tickets.new(attributes)
+    self.resource = current_user.account.my_engine.tickets.new(attributes)
 
-  unless resource.save
-    error(resource.errors.full_messages.to_sentence)
-  end
+    unless resource.save
+        error(resource.errors.full_messages.to_sentence)
+    end
 
-  self
+    self
 end
 ```
 
@@ -203,12 +228,17 @@ The base class provides:
 | `errors` | Returns all registered errors |
 | `errors_as_sentence` | Joins errors into one sentence |
 | `result` | Returns the stored resource |
+| `response(resource)` | Protected helper that stores a result and returns `self` |
 | `found?` | Reports whether a stored resource is present |
 
 The base class does not implement CRUD methods. Each resource service exposes
 only the operations it supports and uses `destroy` to match Rails controllers
 and Active Record. Calling an operation that was not implemented raises Ruby's
 normal `NoMethodError` instead of silently returning `nil`.
+
+A service object is truthy even when it contains errors. Always inspect
+`successful?` after a mutation; do not use `if service.update(attributes)`.
+Keep the invalid record and its model errors available through `result`.
 
 Use one service instance for one controller operation. Query methods return
 their data directly; mutation methods return `self` so controllers can inspect
@@ -222,19 +252,19 @@ Services may use an operator while coordinating a CRUD transaction:
 
 ```ruby
 def destroy
-  Ticket.transaction do
-    TicketOperator.new(
-      ticket: resource,
-      actor: current_user
-    ).cancel_pending_tasks!
+    Ticket.transaction do
+        TicketOperator.new(
+            ticket: resource,
+            actor: current_user
+        ).cancel_pending_tasks!
 
-    resource.destroy!
-  end
+        resource.destroy!
+    end
 
-  self
-rescue ActiveRecord::RecordInvalid => exception
-  error(exception.record.errors.full_messages.to_sentence)
-  self
+    self
+rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotDestroyed => exception
+    error(exception.record.errors.full_messages.to_sentence)
+    self
 end
 ```
 
@@ -264,19 +294,24 @@ A typical controller keeps orchestration at the boundary and delegates persisten
 
 ```ruby
 def create
-  ticket = TicketService.new(current_user, query).create(ticket_params)
+    ticket = TicketService.new(current_user, query).create(ticket_params)
 
-  if ticket.successful?
-    respond_with_lesli(
-      turbo: stream_redirection(ticket_path(ticket.result)),
-      json: ticket.result
-    )
-  else
-    respond_with_lesli(
-      turbo: stream_notification_danger(ticket.errors_as_sentence),
-      json: { errors: ticket.errors }
-    )
-  end
+    if ticket.successful?
+        respond_with_lesli(
+            turbo: stream_redirection(ticket_path(ticket.result)),
+            json: ticket.result,
+            redirect: ticket_path(ticket.result)
+        )
+    else
+        @ticket = ticket.result
+
+        respond_with_lesli(
+            turbo: stream_notification_danger(ticket.errors_as_sentence),
+            json: { errors: ticket.errors },
+            html: "my_engine/tickets/new",
+            status: :unprocessable_entity
+        )
+    end
 end
 ```
 
@@ -284,3 +319,27 @@ Keep HTTP rendering in controllers, CRUD failures in services, and non-CRUD
 business behavior in operators. See the
 [application architecture](/engines/lesli/backend/architecture/) for the full
 dependency contract.
+
+## Core Read APIs
+
+Core exposes separate administrative and selector reads:
+
+```ruby
+users = Lesli::UserService.new(current_user, query).index
+options = Lesli::UserService.new(current_user).list
+reviewers = Lesli::UserService.new(current_user).list(role: "reviewer")
+roles = Lesli::RoleService.new(current_user).list
+```
+
+The user `index` returns a paginated relation. User `list` returns an unpaginated
+array with `id` and `name` string keys, using the email as the display name when
+no first name is available. Its optional comma-separated role filter uses
+Shield associations and returns no matches when Shield is absent.
+
+Role `list` returns a relation selecting only `id` and `name`. It requires
+Shield's permission context and restricts results to the current account and
+permission level.
+
+The redundant `UserService#sessions`, `#roles`, and `#logs` methods were removed;
+read those associations from the scoped record returned by `show`.
+Optional-engine associations require their owning engine to be installed.

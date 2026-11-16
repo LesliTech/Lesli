@@ -6,17 +6,23 @@ Define one application controller inside the engine namespace, then inherit reso
 
 ```ruby
 module MyEngine
-  class ApplicationController < Lesli::ApplicationLesliController
-  end
+    class ApplicationController < Lesli::ApplicationLesliController
+    end
 
-  class TicketsController < ApplicationController
-  end
+    class TicketsController < ApplicationController
+    end
 end
 ```
 
 Use `Lesli::ApplicationController` instead for public pages that do not need the authenticated engine lifecycle.
 
-Controllers are HTTP adapters. Delegate resource CRUD to services and named
+Controllers are HTTP adapters. Each CRUD action calls the corresponding
+resource service operation: `index`, `show`, `create`, `update`, or `destroy`.
+Selector endpoints call the service's `list` method for lightweight `id`/`name`
+options. Use `find` before operations on an existing record. `new` and `edit` prepare
+forms, and do not require placeholder service methods.
+
+Keep persistence calls and business workflows out of controller actions. Delegate resource CRUD to services and named
 business actions to operators. The complete responsibility and dependency
 rules are documented in
 [Application Architecture](/engines/lesli/backend/architecture/).
@@ -45,15 +51,15 @@ The requester interface exposes normalized request options through the `query` r
 
 ```ruby
 {
-  search: params[:search],
-  pagination: {
-    perPage: params[:perPage]&.to_i || 12,
-    page: params[:page]&.to_i || 1
-  },
-  order: {
-    by: params[:orderBy] || "id",
-    dir: params[:order] || "desc"
-  }
+    search: params[:search],
+    pagination: {
+        perPage: params[:perPage]&.to_i || 12,
+        page: params[:page]&.to_i || 1
+    },
+    order: {
+        by: params[:orderBy] || "id",
+        dir: params[:order] || "desc"
+    }
 }
 ```
 
@@ -61,8 +67,8 @@ Pass this hash into service objects instead of repeating pagination and ordering
 
 ```ruby
 def index
-  scope = TicketService.new(current_user, query).index
-  @tickets = respond_with_pagination(scope)
+    scope = TicketService.new(current_user, query).index
+    @tickets = respond_with_pagination(scope)
 end
 ```
 
@@ -76,23 +82,26 @@ Use `respond_with_lesli` when an action supports HTML, JSON, or Turbo Stream req
 
 ```ruby
 def update
-  ticket = TicketService.new(current_user, query).find(id: params[:id])
-  return respond_with_not_found unless ticket.found?
+    ticket = TicketService.new(current_user, query).find(id: params[:id])
+    return respond_with_not_found unless ticket.found?
 
-  if ticket.update(ticket_params)
-    respond_with_lesli(
-      turbo: stream_notification_success("Ticket updated"),
-      json: ticket.result,
-      redirect: ticket_path(ticket.result)
-    )
-  else
-    respond_with_lesli(
-      turbo: stream_notification_danger(ticket.errors_as_sentence),
-      json: { errors: ticket.errors },
-      html: "my_engine/tickets/edit",
-      status: :unprocessable_entity
-    )
-  end
+    ticket.update(ticket_params)
+    @ticket = ticket.result
+
+    if ticket.successful?
+        respond_with_lesli(
+            turbo: stream_notification_success("Ticket updated"),
+            json: ticket.result,
+            redirect: ticket_path(ticket.result)
+        )
+    else
+        respond_with_lesli(
+            turbo: stream_notification_danger(ticket.errors_as_sentence),
+            json: { errors: ticket.errors },
+            html: "my_engine/tickets/edit",
+            status: :unprocessable_entity
+        )
+    end
 end
 ```
 
@@ -111,18 +120,18 @@ the resource through its account-scoped service before invoking the operator:
 
 ```ruby
 def close
-  service = TicketService.new(current_user, query).find(id: params[:id])
-  return respond_with_not_found unless service.found?
+    service = TicketService.new(current_user, query).find(id: params[:id])
+    return respond_with_not_found unless service.found?
 
-  ticket = TicketOperator.new(
-    ticket: service.result,
-    actor: current_user
-  ).close!
+    ticket = TicketOperator.new(
+        ticket: service.result,
+        actor: current_user
+    ).close!
 
-  respond_with_lesli(
-    turbo: stream_notification_success("Ticket closed"),
-    json: ticket
-  )
+    respond_with_lesli(
+        turbo: stream_notification_success("Ticket closed"),
+        json: ticket
+    )
 end
 ```
 
@@ -137,9 +146,9 @@ must not render, redirect, or construct Turbo Streams.
 
 ```ruby
 records = Ticket
-  .order(id: :desc)
-  .page(query[:pagination][:page])
-  .per(query[:pagination][:perPage])
+    .order(id: :desc)
+    .page(query[:pagination][:page])
+    .per(query[:pagination][:perPage])
 
 payload = respond_with_pagination(records)
 ```
@@ -148,13 +157,13 @@ The returned hash has this shape:
 
 ```ruby
 {
-  pagination: {
-    page: 1,
-    pages: 4,
-    total: 42,
-    results: 12
-  },
-  records: records
+    pagination: {
+        page: 1,
+        pages: 4,
+        total: 42,
+        results: 12
+    },
+    records: records
 }
 ```
 
@@ -186,7 +195,7 @@ Use standard Rails strong parameters at the controller boundary:
 private
 
 def ticket_params
-  params.require(:ticket).permit(:subject, :description, :priority_id)
+    params.require(:ticket).permit(:subject, :description, :priority_id)
 end
 ```
 

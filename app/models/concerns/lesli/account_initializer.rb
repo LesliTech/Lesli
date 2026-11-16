@@ -34,56 +34,14 @@ module Lesli
     module AccountInitializer
         extend ActiveSupport::Concern
 
-        # initialize minimum resources needed for the account
+        # Keep automatic account provisioning for every creation path,
+        # including seeders and console usage.
         def initialize_account
-
-            # platform role for owners
-            owner = self.roles
-            .create_with({ permission_level: 2147483647, active: true })
-            .find_or_create_by(:name => "owner")
-
-            # platform role for administrators
-            admin = self.roles
-            .create_with({ permission_level: 100000, active: true })
-            .find_or_create_by(name: "admin")
-
-            # platform role for guests
-            guest = self.roles
-            .create_with({ permission_level: 10, active: true , path_default: "/administration/profile" })
-            .find_or_create_by(name: "guest")
-
-
-            # Add base privileges to roles
-            if defined?(LesliShield)
-                LesliShield::RoleActionService.new(nil).add_owner_actions(owner)
-                LesliShield::RoleActionService.new(nil).add_owner_actions(admin)
-                LesliShield::RoleActionService.new(nil).add_guest_actions(guest)
-            end
+            AccountOperator.new(account: self).initialize_roles!
         end
 
-
-        # initialize engines for new accounts
         def initialize_engines
-            initialized_engines = []
-
-            LesliSystem.engines.each_key do |engine|
-
-                next if ["Lesli", "LesliBabel", "Root"].include?(engine)
-
-                # Create the engine account only when it does not exist.
-                engine_account = engine.constantize::Account.find_or_create_by!(account: self)
-
-                # Configuration runs repeatedly, but the initialization event
-                # belongs only to the first creation of the engine account.
-                initialized_engines << engine if engine_account.previously_new_record?
-            end
-
-            # Emit initialization events only after every engine account exists.
-            # In particular, this makes the result independent from the position
-            # of LesliAudit in the engine registry.
-            initialized_engines.each do |engine|
-                self.log(:account_initialization, "Engine: #{engine} initialized successfully")
-            end
-        end      
+            AccountOperator.new(account: self).initialize_engines!
+        end
     end
 end
