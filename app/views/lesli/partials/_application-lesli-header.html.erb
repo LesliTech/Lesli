@@ -58,7 +58,7 @@ Building a better future, one line of code at a time.
 %>
 
 <header class="border-b border-slate-200/80 bg-white">
-    <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <div class="lesli-shell-container flex h-20 items-center justify-between">
 
         <!-- Logo -->
         <%= link_to dashboard_path,
@@ -133,7 +133,7 @@ Building a better future, one line of code at a time.
 <%# Build the engine navigation %>
 <% if engine_navigation_partial %>
     <nav class="border-b border-slate-200/80 bg-white" aria-label="Module navigation">
-        <div class="mx-auto max-w-7xl overflow-x-auto px-4 sm:px-6 lg:px-8">
+        <div class="lesli-shell-container overflow-x-auto">
             <ul class="flex min-h-14 w-max min-w-full items-center justify-start gap-1 py-2 sm:justify-center">
                 <%= render(engine_navigation_partial) %>
             </ul>

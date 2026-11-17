@@ -1,5 +1,5 @@
 <% if @lesli_announcements.present? %>
-    <section id="application-lesli-announcements" class="mx-auto mt-6 w-full max-w-7xl space-y-3 px-4 sm:px-6 lg:px-8"
+    <section id="application-lesli-announcements" class="lesli-shell-container mt-6 space-y-3"
         aria-label="<%= t('lesli.announcements.title') %>">
         <% @lesli_announcements.each do |announcement| %>
             <% style = announcement_style(announcement.category) %>
