@@ -33,7 +33,8 @@ Building a better future, one line of code at a time.
 @layer theme, utilities;
 
 
-@import "tailwindcss/theme.css" layer(theme);
+/* Theme values are loaded once by LesliAssets. */
+@reference "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css" layer(utilities) source(none);
 
 

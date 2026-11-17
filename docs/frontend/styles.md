@@ -45,9 +45,15 @@ visits; a Turbo Frame response does not load the page's head assets.
 The shared dashboard view adds its stylesheet when embedded in another engine.
 Inside LesliDashboard, the main layout already includes it.
 
-LesliView retains its runtime theme variables because its stylesheet can also be
-used in a Rails host without Core or LesliAssets. This intentional overlap keeps
-the component library self-contained.
+LesliAssets defines both the global Lesli palette and the complete Tailwind theme.
+Its `application` and `public` stylesheets use `theme(static)` so variables needed
+only by another package are still available. Load the appropriate shared sheet
+before any engine or LesliView stylesheet; the two shared sheets serve different
+layouts and do not need to be loaded together.
+
+Engines and LesliView use `@reference` to compile against the theme without
+emitting its variables again. Tailwind's internal `--tw-*` properties remain in
+each compiled stylesheet because they implement the utilities themselves.
 
 ---
 
@@ -58,7 +64,8 @@ Place the entrypoint at `source/tailwind/application.css` in the engine:
 ```css
 @layer theme, components, utilities;
 
-@import "tailwindcss/theme.css" layer(theme);
+@reference "tailwindcss/theme.css";
+@reference "../../../../gems/LesliAssets/source/tailwind/settings/theme.css";
 @import "tailwindcss/utilities.css" layer(utilities) source(none);
 
 @source "../../app/views/my_engine/**/*.html.erb";
@@ -72,6 +79,10 @@ Place the entrypoint at `source/tailwind/application.css` in the engine:
 ```
 
 `source(none)` disables automatic source detection. Every file containing Tailwind classes must therefore be covered by an `@source` rule. Include Ruby helpers and ViewComponent classes when they construct complete utility class names.
+
+The shared-theme reference above assumes the standard Builder directory layout.
+Adjust its path for a different source checkout. Do not import the Tailwind theme
+with `@import` in an engine: that would emit another copy of the global variables.
 
 Tailwind cannot discover fragments such as `"bg-#{color}-500"`. Map application states to complete class strings instead:
 
