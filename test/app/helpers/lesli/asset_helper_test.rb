@@ -3,6 +3,33 @@ require "test_helper"
 
 module Lesli
     class AssetHelperTest < LesliTesting::ViewTester
+        helper Lesli::HtmlHelper
+
+        test "tracks shared and engine styles separately without an empty theme" do
+            def view.lesli_engine(key)
+                "lesli"
+            end
+            @lesli = {}
+
+            render partial: "lesli/partials/application-lesli-assets"
+
+            assert_select 'link[rel="stylesheet"][data-turbo-track="reload"]', count: 2
+            assert_select 'link[rel="stylesheet"][data-turbo-track="dynamic"][href*="lesli/application"]', count: 1
+            assert_select "style", count: 0
+        end
+
+        test "renders account theme variables as dynamic styles" do
+            def view.lesli_engine(key)
+                "lesli"
+            end
+            @lesli = { customization: { colors: { lesli_theme_color_primary: "#123456" } } }
+
+            render partial: "lesli/partials/application-lesli-assets"
+
+            assert_select 'style[data-turbo-track="dynamic"]', count: 1 do |styles|
+                assert_includes styles.first.text, "--lesli-theme-color-primary: #123456;"
+            end
+        end
 
         test "returns application stylesheet by default" do
             def lesli_engine(key)

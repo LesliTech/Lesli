@@ -31,28 +31,25 @@ Building a better future, one line of code at a time.
 %>
 
 
-<%
-# Defining color customization 
-# colors will be override with the ones defined in the database if custom colors exists
-# if there is no custom colors defined, the var() function will return the lesli colors
-@colors = @lesli.dig(:customization, :colors) || {}
-%>
+<% colors = @lesli.dig(:customization, :colors) || {} %>
 
 
-<%# Defining color palette from users preferences from the database %> 
-<style>
-:root {
-    <% @colors.each_pair do |key, value| %>
-    <%= "--#{ key.to_s.gsub('_','-') }: #{ value.to_s };" if value %>
-    <% end %>
-}
-</style>
+<%# Override --lesli-theme-* variables; the shared stylesheet provides defaults. %>
+<% if colors.present? %>
+    <style data-turbo-track="dynamic">
+        :root {
+            <% colors.each_pair do |key, value| %>
+            <%= "--#{key.to_s.tr('_', '-')}: #{value};" if value %>
+            <% end %>
+        }
+    </style>
+<% end %>
 
 
-<%# Loading stylesheets from engines %> 
-<%= stylesheet_link_tag(lesli_asset_path(:lesli_assets, 'application'), media: "all") %>
-<%= stylesheet_link_tag(lesli_asset_path(:lesli_view, 'view'), media: "all") %>
-<%= stylesheet_link_tag(lesli_asset_path(), media: "all") %>
+<%# Shared assets reload after a deploy; engine styles leave with their pages. %>
+<%= stylesheet_link_tag(lesli_asset_path(:lesli_assets, 'application'), media: "all", "data-turbo-track": "reload") %>
+<%= stylesheet_link_tag(lesli_asset_path(:lesli_view, 'view'), media: "all", "data-turbo-track": "reload") %>
+<%= stylesheet_link_tag(lesli_asset_path(), media: "all", "data-turbo-track": "dynamic") %>
 
 
 <%# Loading javascripts from engines %> 

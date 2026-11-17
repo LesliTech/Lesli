@@ -18,13 +18,36 @@ Edit files under `source/tailwind`. Files under `app/assets/stylesheets` are gen
 
 The authenticated Lesli layout loads three stylesheets in order:
 
-| Stylesheet | Responsibility |
-| --- | --- |
-| `lesli_assets/application` | Base theme, design tokens, fonts, icons, and application-shell utilities |
-| `lesli_view/view` | Utilities and component styles provided by LesliView |
-| `<current_engine>/application` | Utilities and rules used by the current engine |
+| Stylesheet | Responsibility | Turbo tracking |
+| --- | --- | --- |
+| `lesli_assets/application` | Base theme, design tokens, fonts, icons, and application-shell utilities | `reload` |
+| `lesli_view/view` | Utilities and component styles provided by LesliView | `reload` |
+| `<current_engine>/application` | Utilities and rules used by the current engine | `dynamic` |
 
 Because the engine stylesheet loads last, use it for feature-specific presentation. Changes that should affect every engine belong in LesliAssets; reusable component styles belong with the corresponding LesliView component.
+
+Shared styles use `data-turbo-track="reload"` so Turbo reloads the document when
+their fingerprinted URLs change after a deployment. Engine styles use `dynamic`
+so Turbo removes them when they are absent from the next page.
+
+Load page-specific styles through `content_for :head`, also with `dynamic`:
+
+```erb
+<% content_for :head do %>
+    <%= stylesheet_link_tag "my_engine/calendar", media: "all", "data-turbo-track": "dynamic" %>
+<% end %>
+```
+
+Do not mark a page-specific stylesheet as `reload`: adding or removing it would
+force a full reload during Turbo Drive navigation. Head updates apply to full-page
+visits; a Turbo Frame response does not load the page's head assets.
+
+The shared dashboard view adds its stylesheet when embedded in another engine.
+Inside LesliDashboard, the main layout already includes it.
+
+LesliView retains its runtime theme variables because its stylesheet can also be
+used in a Rails host without Core or LesliAssets. This intentional overlap keeps
+the component library self-contained.
 
 ---
 
@@ -114,6 +137,23 @@ There are two forms of the primary color:
 Use the numbered palette when the interface must retain a stable design-system color. Use unnumbered `primary` when a surface or action should follow account customization.
 
 When the controller supplies customization colors in `@lesli`, the application layout exposes them as CSS custom properties. Tailwind's theme maps runtime-aware utilities such as `bg-primary`, `bg-background`, `bg-header`, and `text-foreground` to those properties.
+
+Use the `lesli_theme_*` keys consumed by the shared stylesheet's fallback variables:
+
+```ruby
+@lesli[:customization] = {
+    colors: {
+        lesli_theme_color_primary: "#276AD6",
+        lesli_theme_color_background: "#F8FAFC"
+    }
+}
+```
+
+The layout converts underscores to hyphens, producing variables such as
+`--lesli-theme-color-primary`. It emits no style block when the colors hash is
+empty. The block uses `dynamic` tracking so a previous page's customization is
+removed when it changes or is no longer supplied. The built-in customization
+loader is not currently active; a host must supply these values explicitly.
 
 See the [Lesli color system](/gems/assets/theme/colors), [semantic colors](/gems/assets/theme/semantics), and [brand guide](/gems/assets/theme/brand) before introducing a new color.
 

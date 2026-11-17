@@ -76,19 +76,19 @@ module Lesli
             [lesli_instance_code, controller_path.sub("_","-").split("/"), action_name].join(" ")
         end
 
-        # Return a string path to load the template stylesheet
-        # by default we always return the latest version of the template
+        # Return the logical asset path for the current engine or an explicit package.
+        # Rails asset helpers resolve the fingerprinted URL.
         #
         # stylesheet from main App
-        # lesli_stylesheet_path()               
+        # lesli_asset_path()
         # /assets/application.css
         #
         # Specific stylesheet from Engine
-        # lesli_stylesheet_path(:lesli, 'application') 
+        # lesli_asset_path(:lesli, 'application')
         # /assets/lesli/application.css
         #
         # Specific stylesheet from gem
-        # lesli_stylesheet_path(:lesli_assets, 'templates/application')
+        # lesli_asset_path(:lesli_assets, 'templates/application')
         # /assets/lesli_assets/templates/application.css
         def lesli_asset_path(engine = nil, stylesheet = 'application')
 
