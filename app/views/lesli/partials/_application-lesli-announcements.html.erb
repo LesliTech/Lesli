@@ -1,28 +1,18 @@
-<% if @lesli_announcements.present? %>
-    <section id="application-lesli-announcements" class="lesli-shell-container mt-6 space-y-3"
-        aria-label="<%= t('lesli.announcements.title') %>">
-        <% @lesli_announcements.each do |announcement| %>
-            <% style = announcement_style(announcement.category) %>
-            <div id="announcement-<%= announcement.id %>"
-                class="flex items-center gap-3 rounded-lg border-2 p-4 shadow-sm <%= style.fetch(:classes) %>">
-                <span class="material-symbols shrink-0" aria-hidden="true"><%= style.fetch(:icon) %></span>
-                <div class="min-w-0 flex-1">
-                    <span class="sr-only"><%= t("lesli.announcements.categories.#{announcement.category}", default: t('lesli.announcements.categories.info')) %></span>
-                    <p id="announcement-<%= announcement.id %>-message" class="whitespace-pre-wrap break-words font-medium"><%= announcement.message %></p>
-                    <% if announcement.url.present? %>
-                        <%= link_to t('lesli.announcements.open_link'), announcement.url,
-                            class: "mt-2 inline-block rounded underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2",
-                            data: { turbo_frame: "_top" } %>
-                    <% end %>
-                </div>
-                <% if announcement.can_be_closed? %>
-                    <%= button_to lesli_bell.dismiss_announcement_path(announcement), method: :post,
-                        class: "inline-flex h-10 w-10 shrink-0 items-center justify-center rounded hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2",
-                        aria: { label: t('lesli.announcements.dismiss'), describedby: "announcement-#{announcement.id}-message" } do %>
-                        <span class="material-symbols" aria-hidden="true">close</span>
-                    <% end %>
-                <% end %>
-            </div>
-        <% end %>
-    </section>
-<% end %>
+<%
+    announcements = Array(@lesli_announcements).map do |announcement|
+        {
+            id: announcement.id,
+            category: announcement.category,
+            category_label: t("lesli.announcements.categories.#{announcement.category}", default: t("lesli.announcements.categories.info")),
+            message: announcement.message,
+            url: announcement.url,
+            dismiss_url: announcement.can_be_closed? ? lesli_bell.dismiss_announcement_path(announcement) : nil
+        }
+    end
+%>
+<%= render LesliView::Partials::Announcements.new(
+    announcements: announcements,
+    label: t("lesli.announcements.title"),
+    link_label: t("lesli.announcements.open_link"),
+    dismiss_label: t("lesli.announcements.dismiss")
+) %>

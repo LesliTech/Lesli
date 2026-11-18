@@ -1,18 +1,11 @@
 <%= render(LesliView::Layout::Container.new("accounts")) do %>
-    <section class="px-4 py-24 sm:px-6 sm:py-36" aria-labelledby="not-found-title">
-        <div class="mx-auto max-w-2xl text-center">
-
-            <div class="mb-6" aria-hidden="true">
-                <%= render(LesliView::Elements::Empty.new(text:nil)) %>
-            </div>
-
-            <h2 id="not-found-title" class="mb-4 text-[2rem] font-semibold leading-tight text-[#3d211b]">
-                404 <%= I18n.t("lesli.shared.message_error_not_found") %>
-            </h2>
-
-            <p class="text-[1.4rem] font-light leading-relaxed text-neutral-700">
-                <%= @message %>
-            </p>
-        </div>
-    </section>
+    <%= render LesliView::Partials::Error.new(
+        id: "not-found",
+        title: "404 #{I18n.t('lesli.shared.message_error_not_found')}",
+        message: @message
+    ) do |error| %>
+        <% error.with_illustration do %>
+            <%= render LesliView::Elements::Empty.new(text: nil) %>
+        <% end %>
+    <% end %>
 <% end %>

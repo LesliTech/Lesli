@@ -177,3 +177,33 @@ operator, controller, locale entries, routes, account association, and tests.
 * Use Rails path helpers instead of hard-coded engine URLs.
 * Keep view partials local to their feature until more than one engine needs them.
 * Add page-specific behavior progressively; the rendered page should remain understandable without JavaScript.
+
+## Shared application partials
+
+Core's application header, announcements and notifications partials delegate their
+presentation to `LesliView::Partials::Header`, `Announcements` and `Notifications`.
+
+Core retains optional-engine detection, navigation lookup, account branding,
+notification counts, announcement loading through Courier and route generation.
+It passes plain display data and slots to LesliView. Core also owns reading and
+discarding Rails flash; the visual component never consumes it.
+
+The existing Core partial paths remain available to layouts and responders.
+Keep `application-lesli-notifications`, `application-lesli-announcements` and
+`announcement-<id>` unchanged when customizing these partials: Turbo responses
+and LesliBell's dismissal action depend on these targets.
+
+The three components' styles compile in LesliView. LesliAssets still supplies
+the shared theme; other Core-specific styles and integrations remain in Core.
+Publish the updated Core, LesliView and LesliAssets packages together.
+
+## Error pages
+
+Core renders 403 and 404 pages with `LesliView::Partials::Error` inside
+the existing `Layout::Container`. The views supply translated titles, messages
+and illustrations. The 403 view owns `@error_object` and supplies its details;
+the 404 view passes `@message` and reuses `Elements::Empty` as its illustration.
+
+The Error partial only renders presentation. Controllers and responders retain HTTP
+statuses, authorization decisions and error data. Existing title IDs and the
+`accounts` Turbo frame remain unchanged. Welcome remains a separate Core page.

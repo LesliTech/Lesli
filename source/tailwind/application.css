@@ -34,8 +34,13 @@ Building a better future, one line of code at a time.
 
 
 /* Theme values are loaded once by LesliAssets. */
-@reference "tailwindcss/theme.css";
-@import "tailwindcss/utilities.css" layer(utilities) source(none);
+@import "tailwindcss/theme.css" theme(reference) prefix(lesli);
+@import "tailwindcss/utilities.css" layer(utilities) prefix(lesli) source(none);
 
 
 @source "../../app/views/lesli/apps/show.html.erb";
+
+@reference "../../../../gems/LesliAssets/source/tailwind/settings/shared-theme.css";
+
+@source "../../app/views/lesli";
+@source "../../app/helpers";

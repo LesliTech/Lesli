@@ -33,110 +33,54 @@ Building a better future, one line of code at a time.
 <%
     engine_navigation_partial = navigation_partial
     notifications_count = @lesli&.dig(:notifications).to_i
-    dashboard_path = application_dashboard_path
+    actions = []
 
-    header_action_class = "relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500/40"
-    logout_action_class = "relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-slate-500 transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/30"
-
-    dashboard_label = I18n.t("lesli.header.dashboard", default: "Lesli Dashboard")
-    notifications_label = if notifications_count.positive?
-        plural = notifications_count == 1 ? "one" : "other"
-        I18n.t("lesli.header.notifications_unread_#{plural}", count: notifications_count, default: "%{count} unread notifications")
-    else
-        I18n.t("lesli.header.notifications", default: "Notifications")
+    if defined?(LesliBell)
+        path = lesli_bell.notifications_path
+        label = if notifications_count.positive?
+            plural = notifications_count == 1 ? "one" : "other"
+            t("lesli.header.notifications_unread_#{plural}", count: notifications_count, default: "%{count} unread notifications")
+        else
+            t("lesli.header.notifications", default: "Notifications")
+        end
+        actions << {
+            url: path, label: label, active: current_page?(path),
+            icon: notifications_count.positive? ? "ri-notification-3-fill" : "ri-notification-3-line",
+            highlighted: notifications_count.positive?, count: notifications_count,
+            data: { turbo_frame: "_top" }
+        }
     end
-    applications_label = I18n.t("lesli.header.applications", default: "Applications")
-    profile_label = I18n.t("lesli.header.profile", default: "Profile")
-    logout_label = I18n.t("lesli.header.logout", default: "Logout")
 
-    action_class = ->(path) {
-        class_names(
-            header_action_class,
-            current_page?(path) && "text-sky-700"
-        )
+    actions << {
+        url: lesli.apps_path, label: t("lesli.header.applications", default: "Applications"),
+        icon: "ri-apps-2-line", active: current_page?(lesli.apps_path),
+        data: { turbo_frame: "_top" }
     }
+
+    if defined?(LesliShield)
+        actions << {
+            url: lesli_shield.profile_path, label: t("lesli.header.profile", default: "Profile"),
+            icon: "ri-user-smile-line", data: { turbo_frame: "_top" }
+        }
+        actions << {
+            url: main_app.destroy_user_session_path, label: t("lesli.header.logout", default: "Logout"),
+            icon: "ri-logout-circle-r-line", danger: true
+        }
+    end
 %>
-
-<header class="border-b border-slate-200/80 bg-white">
-    <div class="lesli-shell-container flex h-20 items-center justify-between">
-
-        <!-- Logo -->
-        <%= link_to dashboard_path,
-            class: "flex items-center",
-            aria: { label: dashboard_label },
-            data: { turbo_frame: "_top" } do %>
-
-            <div class="flex items-center [&_img]:h-12 [&_img]:w-auto">
-                <%= customization_instance_logo_tag(
-                    logo: "app-logo",
-                    options: { alt: "Lesli app logo" }
-                ) %>
-            </div>
+<%= render LesliView::Partials::Header.new(
+    home_url: application_dashboard_path,
+    home_label: t("lesli.header.dashboard", default: "Lesli Dashboard"),
+    actions: actions,
+    actions_label: t("lesli.header.actions", default: "Application actions"),
+    navigation_label: t("lesli.header.navigation", default: "Module navigation")
+) do |header| %>
+    <% header.with_logo do %>
+        <%= customization_instance_logo_tag(logo: "app-logo", options: { alt: "Lesli app logo" }) %>
+    <% end %>
+    <% if engine_navigation_partial %>
+        <% header.with_navigation do %>
+            <%= render(engine_navigation_partial) %>
         <% end %>
-
-        <%# Application actions %>
-        <nav class="flex items-center gap-2" aria-label="Application actions">
-
-            <% if defined?(LesliBell) %>
-                <%= link_to lesli_bell.notifications_path,
-                    class: action_class.call(lesli_bell.notifications_path),
-                    aria: {
-                        label: notifications_label,
-                        current: current_page?(lesli_bell.notifications_path) ? "page" : nil
-                    },
-                    title: notifications_label,
-                    data: { turbo_frame: "_top" } do %>
-
-                    <i class="<%= notifications_count.positive? ? 'ri-notification-3-fill text-sky-600' : 'ri-notification-3-line' %> text-[24px] leading-none" aria-hidden="true"></i>
-
-                    <% if notifications_count.positive? %>
-                        <span class="absolute -right-0 -top-0 flex min-h-4 min-w-4 items-center justify-center rounded-full bg-sky-600 px-1 text-[9px] font-semibold leading-none text-white ring-2 ring-white" aria-hidden="true">
-                            <%= notifications_count > 99 ? "99+" : notifications_count %>
-                        </span>
-                    <% end %>
-                <% end %>
-            <% end %>
-
-            <%= link_to lesli.apps_path,
-                class: action_class.call(lesli.apps_path),
-                aria: {
-                    label: applications_label,
-                    current: current_page?(lesli.apps_path) ? "page" : nil
-                },
-                title: applications_label,
-                data: { turbo_frame: "_top" } do %>
-                <i class="ri-apps-2-line text-[24px] leading-none" aria-hidden="true"></i>
-            <% end %>
-
-            <% if defined?(LesliShield) %>
-
-                <%= link_to lesli_shield.profile_path,
-                    class: header_action_class,
-                    aria: { label: profile_label },
-                    title: profile_label,
-                    data: { turbo_frame: "_top" } do %>
-                    <i class="ri-user-smile-line text-[24px] leading-none" aria-hidden="true"></i>
-                <% end %>
-
-                <%= link_to main_app.destroy_user_session_path,
-                    class: logout_action_class,
-                    aria: { label: logout_label },
-                    title: logout_label do %>
-                    <i class="ri-logout-circle-r-line text-[24px] leading-none" aria-hidden="true"></i>
-                <% end %>
-            <% end %>
-
-        </nav>
-    </div>
-</header>
-
-<%# Build the engine navigation %>
-<% if engine_navigation_partial %>
-    <nav class="border-b border-slate-200/80 bg-white" aria-label="Module navigation">
-        <div class="lesli-shell-container overflow-x-auto">
-            <ul class="flex min-h-14 w-max min-w-full items-center justify-start gap-1 py-2 sm:justify-center">
-                <%= render(engine_navigation_partial) %>
-            </ul>
-        </div>
-    </nav>
+    <% end %>
 <% end %>

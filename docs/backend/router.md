@@ -119,7 +119,7 @@ end
 
 The helper declares:
 
-* The engine root and singleton `dashboard` routes
+* The engine root and singleton `leslidashboard` routes
 * `items/tasks` routes for `create` and `update`
 * An `items/discussions` route for `create`
 * An `up` health-check route

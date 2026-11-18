@@ -1,30 +1,21 @@
 <%= render(LesliView::Layout::Container.new("accounts")) do %>
-    <section class="px-4 py-24 sm:px-6 sm:py-36" aria-labelledby="unauthorized-title">
-        <div class="mx-auto max-w-2xl text-center">
-
-            <div class="mb-6" aria-hidden="true">
-                <span class="material-symbols !text-[8rem] leading-none text-danger-800">
-                    shield_lock
-                </span>
-            </div>
-
-            <h2 id="unauthorized-title" class="mb-4 text-[2rem] font-semibold leading-tight text-danger-800">
-                403 <%= I18n.t("lesli.shared.message_error_unauthorized") %>
-            </h2>
-
-            <p class="text-[1.4rem] font-light leading-relaxed text-neutral-700">
-                <%= I18n.t("lesli.shared.message_error_unauthorized_credentials") %>
-            </p>
-
-            <div class="mx-auto mt-6 max-w-xl rounded-lg border border-neutral-200 bg-white p-5 text-sm text-neutral-600 shadow-sm">
-                <ul class="space-y-1">
-                    <li>
-                        <%= @error_object.dig(:error_details, :controller) %>
-                        (<%= @error_object.dig(:error_details, :action) %>)
-                    </li>
-                    <li><%= @error_object[:error_role] %></li>
-                </ul>
-            </div>
-        </div>
-    </section>
+    <%= render LesliView::Partials::Error.new(
+        id: "unauthorized",
+        title: "403 #{I18n.t('lesli.shared.message_error_unauthorized')}",
+        message: I18n.t("lesli.shared.message_error_unauthorized_credentials"),
+        tone: :danger
+    ) do |error| %>
+        <% error.with_illustration do %>
+            <span class="material-symbols lesli-error-icon">shield_lock</span>
+        <% end %>
+        <% error.with_details do %>
+            <ul>
+                <li>
+                    <%= @error_object.dig(:error_details, :controller) %>
+                    (<%= @error_object.dig(:error_details, :action) %>)
+                </li>
+                <li><%= @error_object[:error_role] %></li>
+            </ul>
+        <% end %>
+    <% end %>
 <% end %>
