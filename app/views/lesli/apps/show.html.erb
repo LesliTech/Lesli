@@ -25,9 +25,9 @@ document.addEventListener('turbo:load', window.lesliFilterNavigationEngines)
 </script>
 
 <%= render(LesliView::Layout::Container.new("lesli-apps", dashboard: false)) do %>
-    <%= render("lesli_dashboard/dashboards/shared/header") if defined?(LesliDashboard) %>
-    <section class="lesli-engines lesli:py-6 lesli:sm:py-8">
-        <div class="lesli:grid lesli:grid-cols-1 lesli:gap-5 lesli:sm:grid-cols-2 lesli:sm:gap-6 lesli:lg:grid-cols-4">
+    <%= render("lesli_dashboard/shared/header") if defined?(LesliDashboard) %>
+    <section class="lesli-engines py-6 sm:py-8">
+        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
             <%= navigation_engines %>
         </div>
     </section>

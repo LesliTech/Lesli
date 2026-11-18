@@ -73,15 +73,15 @@ module Lesli
             active = current_page?(path)
 
             item_class = class_names(
-                "lesliassets:group lesliassets:flex lesliassets:items-center lesliassets:gap-4 lesliassets:rounded-2xl lesliassets:px-4 lesliassets:py-3 lesliassets:text-base lesliassets:font-medium lesliassets:transition lesliassets:focus:outline-none lesliassets:focus:ring-2 lesliassets:focus:ring-sky-500/30",
-                "lesliassets:lg:gap-2 lesliassets:lg:rounded-xl lesliassets:lg:px-4 lesliassets:lg:py-2 lg:text-md",
-                active ? "lesliassets:text-sky-700" : "lesliassets:text-slate-600 lesliassets:hover:bg-slate-50 lesliassets:hover:text-slate-950 lesliassets:lg:text-slate-500"
+                "group flex items-center gap-4 rounded-2xl px-4 py-3 text-base font-medium transition focus:outline-none focus:ring-2 focus:ring-sky-500/30",
+                "lg:gap-2 lg:rounded-xl lg:px-4 lg:py-2 lg:text-md",
+                active ? "text-sky-700" : "text-slate-600 hover:bg-slate-50 hover:text-slate-950 lg:text-slate-500"
             )
 
             icon_class = class_names(
                 icon,
-                "lesliassets:text-[24px] lesliassets:leading-none lesliassets:transition lesliassets:lg:text-[18px]",
-                active ? "lesliassets:text-sky-600" : "lesliassets:text-slate-500 lesliassets:group-hover:text-slate-900"
+                "text-[24px] leading-none transition lg:text-[18px]",
+                active ? "text-sky-600" : "text-slate-500 group-hover:text-slate-900"
             )
 
             link_to(path, { class: item_class }, data: { turbo_frame: "_top" }) do
@@ -356,40 +356,40 @@ module Lesli
             return nil if modules_hidden.include?(path)
 
             card_classes = class_names(
-                "lesliassets:group lesliassets:relative lesliassets:overflow-hidden",
-                "lesliassets:flex lesliassets:min-h-[210px] lesliassets:w-full lesliassets:flex-col lesliassets:items-center lesliassets:justify-center",
-                "lesliassets:rounded-2xl lesliassets:border lesliassets:bg-white lesliassets:px-6 lesliassets:py-8 lesliassets:text-center lesliassets:shadow-sm",
-                "lesliassets:transition-all lesliassets:duration-200 lesliassets:ease-out",
-                "lesliassets:hover:-translate-y-0.5 lesliassets:hover:border-[var(--lesli-color-primary)] lesliassets:hover:shadow-lg",
-                "lesliassets:focus:outline-none lesliassets:focus-visible:ring-4 lesliassets:focus-visible:ring-[var(--lesli-color-primary)]/15",
-                is_active ? "is-active lesliassets:border-[var(--lesli-color-primary)] lesliassets:bg-sky-50" : "lesliassets:border-slate-200"
+                "group relative overflow-hidden",
+                "flex min-h-[210px] w-full flex-col items-center justify-center",
+                "rounded-2xl border bg-white px-6 py-8 text-center shadow-sm",
+                "transition-all duration-200 ease-out",
+                "hover:-translate-y-0.5 hover:border-[var(--lesli-color-primary)] hover:shadow-lg",
+                "focus:outline-none focus-visible:ring-4 focus-visible:ring-[var(--lesli-color-primary)]/15",
+                is_active ? "is-active border-[var(--lesli-color-primary)] bg-sky-50" : "border-slate-200"
             )
 
             content_tag(:a, id: path.gsub("/", ""), href: path, class: card_classes, data: { turbo: false }) do
                 safe_join([
                     content_tag(:div, class: [
-                        "lesliassets:mb-5 lesliassets:flex lesliassets:h-16 lesliassets:w-16 lesliassets:items-center lesliassets:justify-center",
-                        "lesliassets:transition-all lesliassets:duration-200",
-                        "lesliassets:group-hover:scale-105",
-                        "lesliassets:[&_svg]:h-12 lesliassets:[&_svg]:w-12",
-                        "lesliassets:[&_svg]:fill-[var(--lesli-color-primary)]",
-                        "lesliassets:[&_svg_path]:fill-[var(--lesli-color-primary)]"
+                        "mb-5 flex h-16 w-16 items-center justify-center",
+                        "transition-all duration-200",
+                        "group-hover:scale-105",
+                        "[&_svg]:h-12 [&_svg]:w-12",
+                        "[&_svg]:fill-[var(--lesli-color-primary)]",
+                        "[&_svg_path]:fill-[var(--lesli-color-primary)]"
                     ].join(" ")) do
                         lesli_svg("engine-#{icon}")
                     end,
 
-                    content_tag(:div, class: "lesliassets:px-2") do
+                    content_tag(:div, class: "px-2") do
                         safe_join([
-                            content_tag(:span, title, class: "lesliassets:block lesliassets:text-xl lesliassets:font-semibold lesliassets:leading-6 lesliassets:tracking-tight lesliassets:text-[var(--lesli-color-primary)]"),
-                            content_tag(:p, subtitle, class: "lesliassets:mt-2 lesliassets:font-[OpenSans] lesliassets:text-sm lesliassets:font-normal lesliassets:leading-5 lesliassets:text-slate-500")
+                            content_tag(:span, title, class: "block text-xl font-semibold leading-6 tracking-tight text-[var(--lesli-color-primary)]"),
+                            content_tag(:p, subtitle, class: "mt-2 font-[OpenSans] text-sm font-normal leading-5 text-slate-500")
                         ])
                     end,
 
                     content_tag(:span, "arrow_forward", {
                         class: class_names(
-                            "material-symbols lesliassets:absolute lesliassets:right-5 lesliassets:top-5 lesliassets:text-lg lesliassets:text-[var(--lesli-color-primary)]",
-                            "lesliassets:transition-all lesliassets:duration-200 lesliassets:group-hover:translate-x-0.5 lesliassets:group-hover:opacity-100",
-                            is_active ? "lesliassets:opacity-100" : "lesliassets:opacity-0"
+                            "material-symbols absolute right-5 top-5 text-lg text-[var(--lesli-color-primary)]",
+                            "transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100",
+                            is_active ? "opacity-100" : "opacity-0"
                         ),
                         aria: { hidden: true }
                     })

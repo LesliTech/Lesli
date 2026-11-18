@@ -10,7 +10,9 @@ source/tailwind/application.css
 app/assets/stylesheets/<package_name>/application.css
 ```
 
-Edit files under `source/tailwind`. Files under `app/assets/stylesheets` are generated output and will be replaced by the next build.
+Edit engine sources under `source/tailwind`. LesliView component styles live beside
+their templates under `lib/lesli_view` and are imported by its Tailwind entrypoint.
+Files under `app/assets/stylesheets` are generated output.
 
 ---
 
@@ -21,8 +23,12 @@ The authenticated Lesli layout loads three stylesheets in order:
 | Stylesheet | Responsibility | Turbo tracking |
 | --- | --- | --- |
 | `lesli_assets/application` | Base theme, design tokens, fonts, icons, and application-shell utilities | `reload` |
-| `lesli_view/view` | Utilities and component styles provided by LesliView | `reload` |
+| `lesli_view/view` | Reusable component, partial and layout styles | `reload` |
 | `<current_engine>/application` | Utilities and rules used by the current engine | `dynamic` |
+
+LesliAssets compiles its global configuration and shared application utilities
+into `lesli_assets/application.css`. Its source entrypoint contains the shared
+`@source` declarations; no separate utility asset is required.
 
 Because the engine stylesheet loads last, use it for feature-specific presentation. Changes that should affect every engine belong in LesliAssets; reusable component styles belong with the corresponding LesliView component.
 
@@ -57,6 +63,31 @@ each compiled stylesheet because they implement the utilities themselves.
 
 ---
 
+## Utility and Component Classes
+
+Core, every engine and LesliAssets use standard Tailwind classes without package
+prefixes:
+
+```erb
+<div class="flex flex-col gap-4 sm:flex-row">
+    <%= render LesliView::Elements::Button.new("Continue", url: next_path) %>
+</div>
+```
+
+LesliView owns named presentation classes such as `lesli-button` and
+`lesli-error`. Preserve these names. Its CSS uses unprefixed `@apply` internally,
+but does not publish global utility selectors.
+
+Each package compiles independently against LesliAssets' global configuration.
+Repeated utilities between engine bundles are accepted; global theme definitions
+remain centralized. Content passed into a LesliView slot belongs to the caller,
+so its utility classes must be included in that engine's source discovery.
+
+The documentation website continues using Bulma. This application styling
+convention does not require converting website examples or layouts.
+
+---
+
 ## Create an Engine Entrypoint
 
 Place the entrypoint at `source/tailwind/application.css` in the engine:
@@ -64,25 +95,27 @@ Place the entrypoint at `source/tailwind/application.css` in the engine:
 ```css
 @layer theme, components, utilities;
 
-@reference "tailwindcss/theme.css";
+@import "tailwindcss/theme.css" theme(reference);
 @reference "../../../../gems/LesliAssets/source/tailwind/settings/theme.css";
+@reference "../../../../gems/LesliAssets/source/tailwind/settings/shared-theme.css";
 @import "tailwindcss/utilities.css" layer(utilities) source(none);
 
 @source "../../app/views/my_engine/**/*.html.erb";
 @source "../../app/helpers/my_engine/**/*.rb";
 
 @layer components {
-  .ticket-status {
-    @apply inline-flex rounded-full px-2.5 py-1 text-sm font-medium;
-  }
+    .ticket-status {
+        @apply inline-flex rounded-full px-2.5 py-1 text-sm font-medium;
+    }
 }
 ```
 
 `source(none)` disables automatic source detection. Every file containing Tailwind classes must therefore be covered by an `@source` rule. Include Ruby helpers and ViewComponent classes when they construct complete utility class names.
 
 The shared-theme reference above assumes the standard Builder directory layout.
-Adjust its path for a different source checkout. Do not import the Tailwind theme
-with `@import` in an engine: that would emit another copy of the global variables.
+Adjust the reference paths for a different source checkout. Keep `theme(reference)`
+on the Tailwind theme import so the engine does not emit another copy of the
+global variables.
 
 Tailwind cannot discover fragments such as `"bg-#{color}-500"`. Map application states to complete class strings instead:
 
