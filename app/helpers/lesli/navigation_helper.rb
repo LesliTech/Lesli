@@ -73,15 +73,15 @@ module Lesli
             active = current_page?(path)
 
             item_class = class_names(
-                "group flex items-center gap-4 rounded-2xl px-4 py-3 text-base font-medium transition focus:outline-none focus:ring-2 focus:ring-sky-500/30",
+                "group flex items-center gap-4 rounded-2xl px-4 py-3 text-base font-medium transition focus:outline-none focus:ring-2 focus:ring-primary/30",
                 "lg:gap-2 lg:rounded-xl lg:px-4 lg:py-2 lg:text-md",
-                active ? "text-sky-700" : "text-slate-600 hover:bg-slate-50 hover:text-slate-950 lg:text-slate-500"
+                active ? "text-primary-strong" : "text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 lg:text-neutral-500"
             )
 
             icon_class = class_names(
                 icon,
                 "text-[24px] leading-none transition lg:text-[18px]",
-                active ? "text-sky-600" : "text-slate-500 group-hover:text-slate-900"
+                active ? "text-primary" : "text-neutral-500 group-hover:text-neutral-900"
             )
 
             link_to(path, { class: item_class }, data: { turbo_frame: "_top" }) do
@@ -362,7 +362,7 @@ module Lesli
                 "transition-all duration-200 ease-out",
                 "hover:-translate-y-0.5 hover:border-[var(--lesli-color-primary)] hover:shadow-lg",
                 "focus:outline-none focus-visible:ring-4 focus-visible:ring-[var(--lesli-color-primary)]/15",
-                is_active ? "is-active border-[var(--lesli-color-primary)] bg-sky-50" : "border-slate-200"
+                is_active ? "is-active border-[var(--lesli-color-primary)] bg-primary-soft" : "border-neutral-200"
             )
 
             content_tag(:a, id: path.gsub("/", ""), href: path, class: card_classes, data: { turbo: false }) do
@@ -381,7 +381,7 @@ module Lesli
                     content_tag(:div, class: "px-2") do
                         safe_join([
                             content_tag(:span, title, class: "block text-xl font-semibold leading-6 tracking-tight text-[var(--lesli-color-primary)]"),
-                            content_tag(:p, subtitle, class: "mt-2 font-[OpenSans] text-sm font-normal leading-5 text-slate-500")
+                            content_tag(:p, subtitle, class: "mt-2 font-[OpenSans] text-sm font-normal leading-5 text-neutral-500")
                         ])
                     end,
 

@@ -97,7 +97,6 @@ Place the entrypoint at `source/tailwind/application.css` in the engine:
 
 @import "tailwindcss/theme.css" theme(reference);
 @reference "../../../../gems/LesliAssets/source/tailwind/settings/theme.css";
-@reference "../../../../gems/LesliAssets/source/tailwind/settings/shared-theme.css";
 @import "tailwindcss/utilities.css" layer(utilities) source(none);
 
 @source "../../app/views/my_engine/**/*.html.erb";
@@ -164,7 +163,7 @@ The builder excludes dependency, temporary, version-control, and generated asset
 Prefer a token that describes the role of a color instead of copying a hexadecimal value.
 
 ```erb
-<button class="bg-primary text-white hover:bg-primary-600">
+<button class="bg-primary text-white hover:bg-primary-700">
   Save changes
 </button>
 
@@ -193,11 +192,15 @@ Use the `lesli_theme_*` keys consumed by the shared stylesheet's fallback variab
 }
 ```
 
+Without an override, the interface primary resolves to Lesli Primary 700
+(`--lesli-color-primary-700`, `#194A99`). The brand remains Primary 500 (`#276AD6`). Account overrides change unnumbered
+`primary`, without redefining the numbered brand palette.
+
 The layout converts underscores to hyphens, producing variables such as
 `--lesli-theme-color-primary`. It emits no style block when the colors hash is
 empty. The block uses `dynamic` tracking so a previous page's customization is
-removed when it changes or is no longer supplied. The built-in customization
-loader is not currently active; a host must supply these values explicitly.
+removed when it changes or is no longer supplied. Core loads the account-wide primary color from LesliAdmin settings on HTML
+and PDF requests. Other custom properties can still be supplied by the host.
 
 See the [Lesli color system](/gems/assets/theme/colors), [semantic colors](/gems/assets/theme/semantics), and [brand guide](/gems/assets/theme/brand) before introducing a new color.
 
@@ -213,3 +216,24 @@ See the [Lesli color system](/gems/assets/theme/colors), [semantic colors](/gems
 * Prefer utilities for local presentation and component classes for a repeated, named pattern.
 
 Do not use arbitrary values to recreate a token that already exists. A small amount of repetition in a template is preferable to a global class whose name does not describe a reusable interface concept.
+
+### Saving an account primary color
+
+When LesliAdmin is installed, store the preference in the account's local
+administration settings (not in user-specific settings):
+
+```ruby
+setting = account.admin.settings.find_or_initialize_by(
+    name: "lesli_theme_color_primary",
+    user_id: nil
+)
+setting.update!(value: "#7C3AED")
+```
+
+Core applies this preference on subsequent authenticated page requests. Three-
+and six-digit hexadecimal colors are supported. A missing administration
+workspace, a missing or blank setting, or an invalid color emits no override;
+LesliAssets then uses the interface default, Primary 700 (`#194A99`). Core also works without
+LesliAdmin or an authenticated user. No database default or CSS rebuild is needed.
+Set the value to `nil` to return to the default color. Account administrators can also use the Appearance tab at `/admin/settings`
+to select a color or restore the interface default.
