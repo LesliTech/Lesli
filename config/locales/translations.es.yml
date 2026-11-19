@@ -5,11 +5,10 @@ es:
       title: "Anuncios"
       open_link: "Ver detalles"
       dismiss: "Cerrar anuncio"
-      categories:
-        info: "Información"
-        success: "Éxito"
-        warning: "Advertencia"
-        danger: "Aviso importante"
+      categories_info: "Información"
+      categories_success: "Éxito"
+      categories_warning: "Advertencia"
+      categories_danger: "Aviso importante"
     abouts: {}
     apps: {}
     header:

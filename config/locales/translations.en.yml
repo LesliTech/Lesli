@@ -5,11 +5,10 @@ en:
       title: "Announcements"
       open_link: "View details"
       dismiss: "Dismiss announcement"
-      categories:
-        info: "Information"
-        success: "Success"
-        warning: "Warning"
-        danger: "Important notice"
+      categories_info: "Information"
+      categories_success: "Success"
+      categories_warning: "Warning"
+      categories_danger: "Important notice"
     abouts: {}
     apps: {}
     header:

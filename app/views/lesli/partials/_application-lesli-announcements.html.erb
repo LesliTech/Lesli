@@ -3,7 +3,7 @@
         {
             id: announcement.id,
             category: announcement.category,
-            category_label: t("lesli.announcements.categories.#{announcement.category}", default: t("lesli.announcements.categories.info")),
+            category_label: t("lesli.announcements.categories_#{announcement.category}", default: t("lesli.announcements.categories_info")),
             message: announcement.message,
             url: announcement.url,
             dismiss_url: announcement.can_be_closed? ? lesli_bell.dismiss_announcement_path(announcement) : nil
