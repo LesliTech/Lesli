@@ -48,6 +48,12 @@ class CreateLesliUsers < ActiveRecord::Migration[7.2]
             t.string    :last_name
             t.string    :time_zone
 
+            # Legal acceptance, recorded by registration flows that require it.
+            # Nullable fields allow users created without an acceptance record.
+            t.datetime  :terms_accepted_at
+            t.string    :terms_version
+            t.string    :privacy_version
+
             # Authenticable
             t.string    :email,              null: false, default: ""
             t.string    :encrypted_password, null: false, default: ""

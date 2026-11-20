@@ -12,6 +12,15 @@ module Lesli
             assert lesli_users(:one).valid?
         end
 
+        test "legal acceptance fields are optional and have no database defaults" do
+            %w[terms_accepted_at terms_version privacy_version].each do |name|
+                column = Lesli::User.columns_hash.fetch(name)
+                assert column.null
+                assert_nil column.default
+                assert_nil Lesli::User.new.public_send(name)
+            end
+        end
+
         test "time zone is optional and has no database default" do
             column = Lesli::User.columns_hash.fetch("time_zone")
             assert column.null

@@ -121,6 +121,14 @@ Lesli.configure do |config|
         path_after_login: defined?(LesliDashboard) ? "/dashboard" : "/",
         default_role: "guest",
 
+        # Optional legal acceptance for public registration. The host owns the
+        # documents and must provide both URLs and versions when enabled.
+        require_terms_acceptance: false,
+        terms_url: nil,
+        terms_version: nil,
+        privacy_url: nil,
+        privacy_version: nil,
+
         # Invitations verify ownership of the recipient's email address. The
         # invited user does not exist until the signed link is accepted.
         invitation_expiration: 7.days

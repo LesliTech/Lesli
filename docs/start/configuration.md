@@ -152,6 +152,39 @@ end
 
 Use `config.shield[:path_after_login]`; `config.path_after_login` is not a supported setting.
 
+### Registration terms
+
+Legal acceptance is optional and disabled by default. The host can enable it
+without replacing LesliShield's registration form:
+
+```ruby
+Lesli.configure do |config|
+    config.shield.merge!(
+        require_terms_acceptance: true,
+        terms_url: "/terms",
+        terms_version: "2026-11-20.1",
+        privacy_url: "/privacy",
+        privacy_version: "2026-11-20.1"
+    )
+end
+```
+
+The host owns the publicly accessible pages and supplies both URLs and versions.
+Shield displays an unchecked required checkbox, validates acceptance on the
+server, and records `terms_accepted_at`, `terms_version` and `privacy_version`.
+Forms with outdated versions require review and confirmation again. Recording
+the privacy notice version does not authorize advertising or unrelated uses.
+
+This applies only to public signup. Existing users, seeders, administrative
+creation and invitations retain their current behavior. Disabling the setting
+hides the notice and records no acceptance. It does not disable registration.
+The optional configuration has no effect when LesliShield is absent.
+
+New Core databases include the nullable columns. Existing databases need those
+columns added before enabling acceptance; editing the original migration does
+not update a database that already ran it. Hosts retain responsibility for
+document versions, eligibility wording and any future reacceptance policy.
+
 ---
 
 ## Theme and Layout
