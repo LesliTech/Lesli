@@ -87,7 +87,7 @@ Format values use Ruby `strftime` directives.
 ### Timezone policy
 
 Store timestamps representing instants in UTC. Resolve the display timezone with
-`current_user.effective_time_zone`: the profile preference, then
+`current_user.effective_timezone`: the profile preference, then
 `config.datetime[:time_zone]`, then the Rails application timezone.
 Core does not change `Time.zone` during requests.
 

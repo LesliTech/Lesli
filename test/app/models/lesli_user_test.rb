@@ -73,13 +73,13 @@ module Lesli
             Rails.application.config.time_zone = "UTC"
             user = lesli_users(:one)
             user.time_zone = "Europe/Berlin"
-            assert_equal "Europe/Berlin", user.effective_time_zone.name
+            assert_equal "Europe/Berlin", user.effective_timezone.name
 
             user.time_zone = nil
-            assert_equal "America/Guatemala", user.effective_time_zone.name
+            assert_equal "America/Guatemala", user.effective_timezone.name
             Lesli.config.datetime = nil
             Time.use_zone("Asia/Tokyo") do
-                assert_equal "UTC", user.effective_time_zone.name
+                assert_equal "UTC", user.effective_timezone.name
             end
             assert_nil user.time_zone
             assert_equal :utc, ActiveRecord.default_timezone
