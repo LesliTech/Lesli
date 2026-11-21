@@ -67,8 +67,7 @@ Building a better future, one line of code at a time.
         }
     end
 
-    # Personal actions remain available whenever Shield is installed.
-    if defined?(LesliShield)
+    if defined?(LesliShield) && navigation_allowed?("lesli_shield/profiles", :show)
         actions << {
             url: lesli_shield.profile_path,
             label: t("lesli.header.profile", default: "Profile"),
@@ -76,6 +75,10 @@ Building a better future, one line of code at a time.
             data: { turbo_frame: "_top" }
         }
 
+    end
+
+    # Signing out does not require a role privilege.
+    if defined?(LesliShield)
         actions << {
             url: main_app.destroy_user_session_path,
             label: t("lesli.header.logout", default: "Logout"),

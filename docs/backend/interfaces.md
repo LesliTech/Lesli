@@ -7,8 +7,7 @@
 | `Lesli::RequesterInterface` | Locale selection and normalized query parameters |
 | `Lesli::ResponderInterface` | Pagination, HTML, JSON, Turbo Stream, errors, and notifications |
 | `Lesli::CustomizationInterface` | Hook for account-specific interface customization |
-| `LesliShield::AuthenticationInterface` | Authentication when LesliShield is installed |
-| `LesliShield::AuthorizationInterface` | Authorization when LesliShield is installed |
+| `LesliShield::SecurityInterface` | Authentication, authorization, and request-scoped privileges when LesliShield is installed |
 | `LesliAudit::LoggerInterface` | Request logging when LesliAudit is installed |
 
 Applications normally receive these interfaces by inheriting from `Lesli::ApplicationLesliController`; they do not need to include them individually.
