@@ -58,6 +58,10 @@ module Lesli
             I18n.locale = locale
         end
 
+        def set_timezone
+            LesliDate.time_zone = current_user.effective_timezone
+        end
+
         # Set default query params for:
         def set_requester
             @query = {

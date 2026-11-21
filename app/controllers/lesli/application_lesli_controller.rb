@@ -50,6 +50,7 @@ module Lesli
         before_action :authorize_request if defined?(LesliShield)
         before_action :set_customizer
         before_action :set_requester
+        before_action :set_timezone
         before_action :set_locale 
         before_action :load_notifications
         before_action :load_announcements

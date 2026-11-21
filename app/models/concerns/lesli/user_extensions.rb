@@ -69,7 +69,7 @@ module Lesli
         end
 
         # Resolve the display zone without storing the fallback as a user preference.
-        def effective_time_zone
+        def effective_timezone
             Time.find_zone!(time_zone || Lesli.config.datetime&.dig(:time_zone).presence || Rails.application.config.time_zone)
         end
 

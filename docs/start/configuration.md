@@ -91,14 +91,15 @@ Store timestamps representing instants in UTC. Resolve the display timezone with
 `config.datetime[:time_zone]`, then the Rails application timezone.
 Core does not change `Time.zone` during requests.
 
-Pass the resolved zone explicitly to LesliDate or Date2:
+Core assigns `LesliDate.time_zone` once per request. Formatters then use it automatically:
 
 ```ruby
-Date2.new(record.created_at, zone: current_user.effective_time_zone).date_time.to_s
+Date2.new(record.created_at).date_time.to_s
 ```
 
-Without `zone:`, LesliDate uses its global configuration, then Rails' active
-zone, then UTC. Calendar explicitly uses the profile zone for forms, Agenda,
+An explicit `zone:` overrides the request context. Without either, LesliDate
+uses its global configuration, then Rails' active zone, then UTC. Rails clears
+the context between requests through `ActiveSupport::CurrentAttributes`. Calendar explicitly uses the profile zone for forms, Agenda,
 FullCalendar and interpreting local event input. Login does not capture the
 browser timezone; there is no timezone cookie or session setting.
 Jobs and mailers also pass the recipient's zone explicitly when formatting.

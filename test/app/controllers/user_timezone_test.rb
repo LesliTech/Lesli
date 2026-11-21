@@ -4,7 +4,7 @@ module Lesli
     class UserTimezoneTest < ActionController::TestCase
         class DateService < Lesli::ApplicationLesliService
             def show
-                response(Date2.new("2027-01-15 15:00:00", zone: current_user&.effective_time_zone).date_time.to_s)
+                response(Date2.new("2027-01-15 15:00:00").date_time.to_s)
             end
         end
 
@@ -14,17 +14,15 @@ module Lesli
             skip_after_action :log_requests, raise: false
 
             def show
-                user = current_user if respond_to?(:current_user, true)
                 render json: {
-                    date: LesliDate::Formatter.new("2027-01-15 15:00:00", zone: user&.effective_time_zone).date_time.to_s,
+                    date: LesliDate::Formatter.new("2027-01-15 15:00:00").date_time.to_s,
                     rails_zone: Time.zone.name
                 }
             end
 
             def detail
-                @zone = current_user.effective_time_zone
                 @date = DateService.new(current_user).show.result
-                render inline: '<p><%= @date %></p><time><%= Date2.new("2027-01-15 15:00:00", zone: @zone).date_time.to_s %></time>', layout: false
+                render inline: '<p><%= @date %></p><time><%= Date2.new("2027-01-15 15:00:00").date_time.to_s %></time>', layout: false
             end
 
             def failure
@@ -47,9 +45,10 @@ module Lesli
 
         teardown do
             Lesli.config.datetime = @previous_datetime
+            LesliDate.time_zone = nil
         end
 
-        test "explicit profile formatting does not change the Rails zone" do
+        test "profile context formats dates without changing the Rails zone" do
             user = Lesli::User.new(time_zone: "Europe/Berlin")
             @controller.define_singleton_method(:current_user) { user }
             Time.use_zone("UTC") do
