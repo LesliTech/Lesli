@@ -62,8 +62,17 @@ module Lesli
             end
         end
 
+        # Screen permissions also control navigation. Without Shield, Core
+        # keeps the navigation available to the host application's own policy.
+        def navigation_allowed?(controller, action = :index)
+            return true unless defined?(LesliShield)
+
+            current_user&.has_privileges_for?(controller.to_s, action.to_s) || false
+        end
+
         # Prints a html link inside a list item
-        def navigation_item(path, label, icon = nil, reload: false)
+        def navigation_item(path, label, icon = nil, reload: false, access: nil)
+            return if access && !navigation_allowed?(*access)
             content_tag(:li) do
                 navigation_link(path, label, icon, reload:reload)
             end

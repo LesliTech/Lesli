@@ -74,11 +74,6 @@ module Lesli
 
         before_create :before_create_user
 
-        # Resolve the display zone without storing the fallback as a user preference.
-        def effective_time_zone
-            Time.find_zone!(time_zone || Lesli.config.datetime&.dig(:time_zone).presence || Rails.application.config.time_zone)
-        end
-
         private
 
         def before_create_user

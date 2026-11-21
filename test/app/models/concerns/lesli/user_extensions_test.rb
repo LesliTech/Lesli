@@ -134,29 +134,6 @@ module Lesli
             assert_equal "LD", u.full_name_initials
         end
 
-        # --- Tests: locale ---------------------------------------------------------
-
-        test "locale returns existing setting as symbol when present" do
-            settings = CapturingSettings.new(existing: Setting.new("locale", "es"))
-            u = FakeUser.new(settings: settings)
-
-            assert_equal :es, u.locale
-            assert_empty settings.created_with
-            assert_empty settings.find_or_create_by_calls
-        end
-
-        test "locale creates setting when missing and returns it" do
-            I18n.with_locale(:en) do
-                settings = CapturingSettings.new(existing: nil)
-                u = FakeUser.new(settings: settings)
-
-                assert_equal :en, u.locale
-
-                assert_equal [{ value: :en }], settings.created_with
-                assert_equal [{ name: "locale", attrs: { value: :en } }], settings.find_or_create_by_calls
-            end
-        end
-
         # --- Tests: role_names -----------------------------------------------------
 
         test "role_names joins role names with comma" do

@@ -63,24 +63,19 @@ module Lesli
             initials
         end
 
-        # Returns the local configuration for the user,
-        # if there is no locale the default local of the platform will be returned
-        def locale
-            user_locale = self.settings.find_by(name: "locale")
-
-            # return the desire locale by the user
-            return user_locale.value.to_sym if user_locale
-
-            # create a desire locale if the record does not exist 
-            self.settings.create_with(:value => I18n.locale).find_or_create_by(:name => "locale")
-
-            # reevaluate
-            self.locale()
-        end
-
         # Return a string with the names of all the roles assigned to the user
         def role_names 
             self.roles.pluck(:name).join(', ')
+        end
+
+        # Resolve the display zone without storing the fallback as a user preference.
+        def effective_time_zone
+            Time.find_zone!(time_zone || Lesli.config.datetime&.dig(:time_zone).presence || Rails.application.config.time_zone)
+        end
+
+        # A missing preference follows the application's configured default.
+        def effective_locale
+            locale.presence || I18n.default_locale.to_s
         end
 
         # Register a audit log for the current user

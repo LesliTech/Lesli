@@ -60,7 +60,7 @@ module Lesli
                 "TRIM(CONCAT(COALESCE(first_name, ''), ' ', COALESCE(last_name, ''))) AS fullname",
                 "CASE WHEN active THEN 'active' ELSE 'inactive' END AS status",
                 "'' AS rolenames",
-                Date2.new.date_time.db_column("current_sign_in_at")
+                Date2.new(zone: current_user.effective_time_zone).date_time.db_column("current_sign_in_at")
             ).page(query.dig(:pagination, :page)).per(query.dig(:pagination, :perPage))
 
             # Preload role names instead of using database-specific string aggregation.

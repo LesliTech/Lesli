@@ -37,8 +37,7 @@ module Lesli
         include Lesli::ResponderInterface
         include Lesli::CustomizationInterface
         include LesliAudit::LoggerInterface if defined?(LesliAudit)
-        include LesliShield::AuthenticationInterface if defined?(LesliShield)
-        include LesliShield::AuthorizationInterface if defined?(LesliShield)
+        include LesliShield::SecurityInterface if defined?(LesliShield)
 
         # Controllers from isolated engines inherit this controller, but Rails
         # does not automatically expose Lesli's helpers to their views.
@@ -46,14 +45,15 @@ module Lesli
 
         protect_from_forgery with: :exception
 
-        around_action :use_user_timezone
-        before_action :set_locale 
+        around_action :set_privileges if defined?(LesliShield)
         before_action :authenticate_request if defined?(LesliShield)
         before_action :authorize_request if defined?(LesliShield)
         before_action :set_customizer
         before_action :set_requester
+        before_action :set_locale 
+        before_action :load_notifications
         before_action :load_announcements
-        after_action  :log_requests if defined?(LesliAudit)
+        after_action :log_requests if defined?(LesliAudit)
 
         layout "lesli/layouts/application-lesli"
 
@@ -72,12 +72,14 @@ module Lesli
 
         private
 
-        def use_user_timezone(&action)
-            # Keep the profile zone scoped to this request, including services and views.
-            user = current_user if respond_to?(:current_user, true)
-            zone = user ? user.effective_time_zone :
-                Time.find_zone!(Lesli.config.datetime&.dig(:time_zone).presence || Rails.application.config.time_zone)
-            Time.use_zone(zone, &action)
+        def load_notifications
+            @lesli[:notifications] = 0
+            return unless request.format.html? && !turbo_frame_request?
+            return unless respond_to?(:current_user, true) && current_user
+
+            @lesli[:notifications] = Lesli::Courier.new(:lesli_bell, 0)
+                .from(:notification_service, current_user)
+                .call(:count)
         end
 
         def load_announcements

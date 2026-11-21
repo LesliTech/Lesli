@@ -16,8 +16,7 @@ en:
       dashboard: "Lesli Dashboard"
       logout: "Logout"
       notifications: "Notifications"
-      notifications_unread_one: "%{count} unread notification"
-      notifications_unread_other: "%{count} unread notifications"
+      notifications_unread_notifications: "%{count} unread notifications"
       profile: "Profile"
     items:
       activities_empty: "No activities have been recorded yet."

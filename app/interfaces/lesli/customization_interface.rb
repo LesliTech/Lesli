@@ -7,9 +7,9 @@ module Lesli
             return unless request.format.html? || request.format.pdf?
             return unless defined?(LesliAdmin) && respond_to?(:current_user, true) && current_user
 
-            color = current_user.account.admin&.settings
-                &.where(name: "lesli_theme_color_primary", user_id: nil)
-                &.pick(:value)
+            color = Lesli::Courier.new(:lesli_admin)
+                .from(:theme_operator, current_user)
+                .call(:primary_color)
 
             # Only emit a hex color. Missing or invalid settings keep the CSS fallback.
             return unless color.to_s.match?(/\A#(?:\h{3}|\h{6})\z/)

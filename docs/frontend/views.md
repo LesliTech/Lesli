@@ -207,3 +207,20 @@ the 404 view passes `@message` and reuses `Elements::Empty` as its illustration.
 The Error partial only renders presentation. Controllers and responders retain HTTP
 statuses, authorization decisions and error data. Existing title IDs and the
 `accounts` Turbo frame remain unchanged. Welcome remains a separate Core page.
+
+## Permission-aware navigation
+
+Pass the destination's controller and action explicitly when rendering engine
+navigation. With LesliShield, unavailable screens are omitted and permission
+checks reuse the current request's privileges. Without Shield, links remain
+available to the host application's authorization policy.
+
+```erb
+<%= navigation_item(lesli_support.tickets_path, "Tickets", "ri-todo-line",
+    access: ["lesli_support/tickets", :index]) %>
+```
+
+For other presentation elements, use
+`navigation_allowed?("lesli_support/tickets", :index)`. These helpers control
+visibility only; controllers must still authorize requests. Links without
+`access:` remain unconditional.

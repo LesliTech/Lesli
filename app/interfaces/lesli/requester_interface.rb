@@ -46,7 +46,7 @@ module Lesli
             #       if user is not authenticated; For some scenarios we need to have control of the behavior
             #       for not authenticated user requests, thats why here we go deeper and check if user is
             #       authenticated checking the warden storage
-            # locale = current_user.locale if warden.authenticated?
+            locale = current_user.effective_locale if warden.authenticated?
 
             # language defined in the http header request
             locale = request.headers["Require-Language"] unless request.headers["Require-Language"].blank?

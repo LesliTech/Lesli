@@ -46,6 +46,8 @@ class CreateLesliUsers < ActiveRecord::Migration[7.2]
             t.string    :salutation
             t.string    :first_name
             t.string    :last_name
+
+            t.string    :locale
             t.string    :time_zone
 
             # Legal acceptance, recorded by registration flows that require it.

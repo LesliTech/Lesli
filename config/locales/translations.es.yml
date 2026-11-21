@@ -16,8 +16,7 @@ es:
       dashboard: "Panel de Lesli"
       logout: "Cerrar sesión"
       notifications: "Notificaciones"
-      notifications_unread_one: "%{count} notificación sin leer"
-      notifications_unread_other: "%{count} notificaciones sin leer"
+      notifications_unread_notifications: "%{count} notificaciones sin leer"
       profile: "Perfil"
     items:
       activities_empty: "Todavía no se ha registrado actividad."

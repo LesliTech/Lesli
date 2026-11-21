@@ -32,38 +32,53 @@ Building a better future, one line of code at a time.
 
 <%
     engine_navigation_partial = navigation_partial
-    notifications_count = @lesli&.dig(:notifications).to_i
     actions = []
 
-    if defined?(LesliBell)
+    # Notifications use the count already prepared by the controller.
+    if defined?(LesliBell) && navigation_allowed?("lesli_bell/notifications", :index)
+        count = @lesli&.dig(:notifications).to_i
+        unread = count.positive?
         path = lesli_bell.notifications_path
-        label = if notifications_count.positive?
-            plural = notifications_count == 1 ? "one" : "other"
-            t("lesli.header.notifications_unread_#{plural}", count: notifications_count, default: "%{count} unread notifications")
+
+        label = if unread
+            t("lesli.header.notifications_unread_notifications", count: count)
         else
             t("lesli.header.notifications", default: "Notifications")
         end
+
         actions << {
-            url: path, label: label, active: current_page?(path),
-            icon: notifications_count.positive? ? "ri-notification-3-fill" : "ri-notification-3-line",
-            highlighted: notifications_count.positive?, count: notifications_count,
+            url: path,
+            label: label,
+            icon: unread ? "ri-notification-3-fill" : "ri-notification-3-line",
+            active: current_page?(path),
+            highlighted: unread,
+            count: count,
             data: { turbo_frame: "_top" }
         }
     end
 
-    actions << {
-        url: lesli.apps_path, label: t("lesli.header.applications", default: "Applications"),
-        icon: "ri-apps-2-line", active: current_page?(lesli.apps_path),
-        data: { turbo_frame: "_top" }
-    }
+    if navigation_allowed?("lesli/apps", :show)
+        actions << {
+            url: lesli.apps_path,
+            label: t("lesli.header.applications", default: "Applications"),
+            icon: "ri-apps-2-line",
+            active: current_page?(lesli.apps_path),
+            data: { turbo_frame: "_top" }
+        }
+    end
 
+    # Personal actions remain available whenever Shield is installed.
     if defined?(LesliShield)
         actions << {
-            url: lesli_shield.profile_path, label: t("lesli.header.profile", default: "Profile"),
-            icon: "ri-user-smile-line", data: { turbo_frame: "_top" }
+            url: lesli_shield.profile_path,
+            label: t("lesli.header.profile", default: "Profile"),
+            icon: "ri-user-smile-line",
+            data: { turbo_frame: "_top" }
         }
+
         actions << {
-            url: main_app.destroy_user_session_path, label: t("lesli.header.logout", default: "Logout"),
+            url: main_app.destroy_user_session_path,
+            label: t("lesli.header.logout", default: "Logout"),
             icon: "ri-logout-circle-r-line"
         }
     end

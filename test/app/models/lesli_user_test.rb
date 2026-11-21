@@ -8,6 +8,28 @@ module Lesli
         set_fixture_class lesli_users: "Lesli::User",
                         lesli_accounts: "Lesli::Account" 
         
+        test "effective locale follows the configured default without saving a preference" do
+            previous_locale = I18n.default_locale
+            user = Lesli::User.new
+
+            I18n.default_locale = :es
+            I18n.with_locale(:en) do
+                assert_equal "es", user.effective_locale
+            end
+            I18n.default_locale = :en
+            assert_equal "en", user.effective_locale
+            assert_nil user.locale
+        ensure
+            I18n.default_locale = previous_locale
+        end
+
+        test "effective locale preserves an explicitly provided preference" do
+            user = Lesli::User.new(locale: "es")
+
+            assert_equal "es", user.effective_locale
+            assert_equal "es", user.locale
+        end
+
         test "fixture is valid" do
             assert lesli_users(:one).valid?
         end

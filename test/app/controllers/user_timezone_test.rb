@@ -4,7 +4,7 @@ module Lesli
     class UserTimezoneTest < ActionController::TestCase
         class DateService < Lesli::ApplicationLesliService
             def show
-                response(Date2.new("2027-01-15 15:00:00").date_time.to_s)
+                response(Date2.new("2027-01-15 15:00:00", zone: current_user&.effective_time_zone).date_time.to_s)
             end
         end
 
@@ -14,12 +14,17 @@ module Lesli
             skip_after_action :log_requests, raise: false
 
             def show
-                render json: { date: LesliDate::Formatter.new("2027-01-15 15:00:00").date_time.to_s }
+                user = current_user if respond_to?(:current_user, true)
+                render json: {
+                    date: LesliDate::Formatter.new("2027-01-15 15:00:00", zone: user&.effective_time_zone).date_time.to_s,
+                    rails_zone: Time.zone.name
+                }
             end
 
             def detail
-                @date = DateService.new(nil).show.result
-                render inline: '<p><%= @date %></p><time><%= Date2.new("2027-01-15 15:00:00").date_time.to_s %></time>', layout: false
+                @zone = current_user.effective_time_zone
+                @date = DateService.new(current_user).show.result
+                render inline: '<p><%= @date %></p><time><%= Date2.new("2027-01-15 15:00:00", zone: @zone).date_time.to_s %></time>', layout: false
             end
 
             def failure
@@ -44,13 +49,14 @@ module Lesli
             Lesli.config.datetime = @previous_datetime
         end
 
-        test "date formatting uses the profile zone and restores the previous zone" do
+        test "explicit profile formatting does not change the Rails zone" do
             user = Lesli::User.new(time_zone: "Europe/Berlin")
             @controller.define_singleton_method(:current_user) { user }
             Time.use_zone("UTC") do
                 get :show
                 assert_response :success
                 assert_equal "15.01.2027 16:00", response.parsed_body.fetch("date")
+                assert_equal "UTC", response.parsed_body.fetch("rails_zone")
                 assert_equal "UTC", Time.zone.name
             end
         end
