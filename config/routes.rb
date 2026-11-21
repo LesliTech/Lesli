@@ -35,8 +35,6 @@ Lesli::Engine.routes.draw do
   
     resource :apps, only: [:show]
 
-    resource :about, only: [:show]
-
     resources :resources, only: [:index]
 
     get :language, to: "apps#language"

@@ -31,38 +31,11 @@ Building a better future, one line of code at a time.
 =end
 
 module Lesli
-    class AboutsController < ApplicationLesliController
+    class AboutsController < ApplicationController
         layout "lesli/layouts/application-public", only: [:welcome]
-
-        skip_before_action :authenticate_request, only: [:welcome] if defined?(LesliShield)
-        skip_before_action :authorize_request, only: [:welcome] if defined?(LesliShield)
 
         def welcome 
             # renders the welcome page 
         end 
-
-        def up 
-            # renders the health check page
-        end
-
-        # GET /status
-        def show
-            respond_to do |format|
-                format.html {}
-                format.json do
-                    lesli_engines = ::LesliSystem.engines.map do |engine, engine_info|
-                        {
-                            :name => engine_info[:name],
-                            :code => engine_info[:code],
-                            :path => engine_info[:path],
-                            :build => engine_info[:build],
-                            :version => engine_info[:version],
-                            :description => engine_info[:description]
-                        }
-                    end
-                    respond_with_json(lesli_engines) 
-                end
-            end
-        end
     end
 end
